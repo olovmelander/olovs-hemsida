@@ -1,0 +1,1673 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "checkedAt": "2026-09-09T07:23:05.850957+00:00",
+  "resolutionMetres": 1,
+  "sourceResolutionMetres": 0.16,
+  "sourceItems": [
+    "o65850_6750_25_mr25",
+    "o65850_6775_25_mr25"
+  ],
+  "sourceCaptureYears": [
+    2025
+  ],
+  "use": "Per-feature RGBI statistics for reviewing existing 2019 surface candidates; no geometry automatically approved or moved.",
+  "rasterExported": false,
+  "state": "acquired-and-measured",
+  "features": [
+    {
+      "id": "way/143587536",
+      "kind": "fairway",
+      "hole": 10,
+      "pixels": 11107,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        73.126,
+        91.839,
+        75.337,
+        136.415
+      ],
+      "medianNDVI": 0.3244,
+      "vegetationFractionNDVI025": 0.8652
+    },
+    {
+      "id": "way/143587585",
+      "kind": "green",
+      "hole": 9,
+      "pixels": 326,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        81.785,
+        99.138,
+        80.684,
+        135.267
+      ],
+      "medianNDVI": 0.2394,
+      "vegetationFractionNDVI025": 0.3988
+    },
+    {
+      "id": "way/143591630",
+      "kind": "tee",
+      "hole": null,
+      "pixels": 375,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        52.421,
+        71.728,
+        64.168,
+        128.925
+      ],
+      "medianNDVI": 0.4556,
+      "vegetationFractionNDVI025": 0.9893
+    },
+    {
+      "id": "way/143591667",
+      "kind": "green",
+      "hole": 2,
+      "pixels": 424,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        83.684,
+        101.153,
+        82.052,
+        133.649
+      ],
+      "medianNDVI": 0.2258,
+      "vegetationFractionNDVI025": 0.2358
+    },
+    {
+      "id": "way/221832565",
+      "kind": "tee",
+      "hole": 3,
+      "pixels": 139,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        75.396,
+        90.086,
+        73.928,
+        127.036
+      ],
+      "medianNDVI": 0.2547,
+      "vegetationFractionNDVI025": 0.5827
+    },
+    {
+      "id": "way/221832567",
+      "kind": "tee",
+      "hole": 3,
+      "pixels": 198,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        77.232,
+        93.131,
+        75.354,
+        128.167
+      ],
+      "medianNDVI": 0.25,
+      "vegetationFractionNDVI025": 0.4848
+    },
+    {
+      "id": "way/221832578",
+      "kind": "tee",
+      "hole": 3,
+      "pixels": 164,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        74.866,
+        91.841,
+        73.128,
+        132.982
+      ],
+      "medianNDVI": 0.2812,
+      "vegetationFractionNDVI025": 0.8049
+    },
+    {
+      "id": "way/221846967",
+      "kind": "green",
+      "hole": 13,
+      "pixels": 546,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        78.842,
+        97.165,
+        79.342,
+        135.652
+      ],
+      "medianNDVI": 0.2582,
+      "vegetationFractionNDVI025": 0.6099
+    },
+    {
+      "id": "way/221846970",
+      "kind": "bunker",
+      "hole": 6,
+      "pixels": 26,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        145.077,
+        143.923,
+        129.654,
+        138.192
+      ],
+      "medianNDVI": -0.0632,
+      "vegetationFractionNDVI025": 0.1154
+    },
+    {
+      "id": "way/221846980",
+      "kind": "bunker",
+      "hole": 1,
+      "pixels": 49,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        162.041,
+        158.918,
+        146.816,
+        134.939
+      ],
+      "medianNDVI": -0.1392,
+      "vegetationFractionNDVI025": 0.0204
+    },
+    {
+      "id": "way/221846981",
+      "kind": "green",
+      "hole": null,
+      "pixels": 719,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        81.156,
+        97.567,
+        81.651,
+        129.139
+      ],
+      "medianNDVI": 0.2178,
+      "vegetationFractionNDVI025": 0.2058
+    },
+    {
+      "id": "way/296422967",
+      "kind": "green",
+      "hole": null,
+      "pixels": 655,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        82.101,
+        96.626,
+        80.502,
+        125.585
+      ],
+      "medianNDVI": 0.2057,
+      "vegetationFractionNDVI025": 0.0885
+    },
+    {
+      "id": "way/296422971",
+      "kind": "green",
+      "hole": 5,
+      "pixels": 497,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        80.833,
+        98.097,
+        80.08,
+        134.708
+      ],
+      "medianNDVI": 0.2465,
+      "vegetationFractionNDVI025": 0.4507
+    },
+    {
+      "id": "way/296422974",
+      "kind": "green",
+      "hole": 8,
+      "pixels": 355,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        85.279,
+        101.256,
+        83.2,
+        134.825
+      ],
+      "medianNDVI": 0.2279,
+      "vegetationFractionNDVI025": 0.1662
+    },
+    {
+      "id": "way/296422978",
+      "kind": "tee",
+      "hole": 8,
+      "pixels": 109,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        42.67,
+        56.22,
+        57.33,
+        68.275
+      ],
+      "medianNDVI": 0.2245,
+      "vegetationFractionNDVI025": 0.2477
+    },
+    {
+      "id": "way/296422981",
+      "kind": "tee",
+      "hole": 17,
+      "pixels": 220,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        95.845,
+        105.282,
+        92.264,
+        124.227
+      ],
+      "medianNDVI": 0.1409,
+      "vegetationFractionNDVI025": 0.0773
+    },
+    {
+      "id": "way/296422990",
+      "kind": "green",
+      "hole": 4,
+      "pixels": 412,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        81.794,
+        98.107,
+        80.051,
+        131.898
+      ],
+      "medianNDVI": 0.2308,
+      "vegetationFractionNDVI025": 0.2233
+    },
+    {
+      "id": "way/296422996",
+      "kind": "bunker",
+      "hole": null,
+      "pixels": 47,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        174.915,
+        170.489,
+        157.34,
+        141.66
+      ],
+      "medianNDVI": -0.1329,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "way/296422999",
+      "kind": "tee",
+      "hole": 8,
+      "pixels": 132,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        56.455,
+        70.129,
+        63.47,
+        93.371
+      ],
+      "medianNDVI": 0.2441,
+      "vegetationFractionNDVI025": 0.4697
+    },
+    {
+      "id": "way/296423006",
+      "kind": "fairway",
+      "hole": 18,
+      "pixels": 4977,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        73.078,
+        94.866,
+        76.91,
+        140.146
+      ],
+      "medianNDVI": 0.3148,
+      "vegetationFractionNDVI025": 0.9894
+    },
+    {
+      "id": "way/296423010",
+      "kind": "green",
+      "hole": 18,
+      "pixels": 740,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        80.028,
+        98.512,
+        79.814,
+        137.609
+      ],
+      "medianNDVI": 0.2582,
+      "vegetationFractionNDVI025": 0.6351
+    },
+    {
+      "id": "way/331796609",
+      "kind": "tee",
+      "hole": 16,
+      "pixels": 219,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        80.662,
+        93.196,
+        77.128,
+        127.233
+      ],
+      "medianNDVI": 0.2293,
+      "vegetationFractionNDVI025": 0.2785
+    },
+    {
+      "id": "way/331796623",
+      "kind": "bunker",
+      "hole": 15,
+      "pixels": 67,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        76.254,
+        96.104,
+        77.478,
+        136.642
+      ],
+      "medianNDVI": 0.283,
+      "vegetationFractionNDVI025": 0.9851
+    },
+    {
+      "id": "way/331796626",
+      "kind": "tee",
+      "hole": 7,
+      "pixels": 92,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        80.598,
+        95.022,
+        75.304,
+        130.098
+      ],
+      "medianNDVI": 0.2334,
+      "vegetationFractionNDVI025": 0.2391
+    },
+    {
+      "id": "way/331796631",
+      "kind": "fairway",
+      "hole": 15,
+      "pixels": 5254,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        72.488,
+        93.059,
+        76.24,
+        136.139
+      ],
+      "medianNDVI": 0.3052,
+      "vegetationFractionNDVI025": 0.9878
+    },
+    {
+      "id": "way/331796643",
+      "kind": "green",
+      "hole": 15,
+      "pixels": 710,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        73.966,
+        90.761,
+        75.772,
+        126.861
+      ],
+      "medianNDVI": 0.2596,
+      "vegetationFractionNDVI025": 0.5479
+    },
+    {
+      "id": "way/331796648",
+      "kind": "tee",
+      "hole": 16,
+      "pixels": 87,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        48.828,
+        62.115,
+        60.356,
+        80.161
+      ],
+      "medianNDVI": 0.24,
+      "vegetationFractionNDVI025": 0.3908
+    },
+    {
+      "id": "way/331796654",
+      "kind": "tee",
+      "hole": 7,
+      "pixels": 310,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        77.765,
+        91.626,
+        73.681,
+        124.497
+      ],
+      "medianNDVI": 0.2381,
+      "vegetationFractionNDVI025": 0.3323
+    },
+    {
+      "id": "way/331796671",
+      "kind": "tee",
+      "hole": 16,
+      "pixels": 98,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        54.755,
+        69.561,
+        63.122,
+        91.898
+      ],
+      "medianNDVI": 0.255,
+      "vegetationFractionNDVI025": 0.5408
+    },
+    {
+      "id": "way/427426704",
+      "kind": "tee",
+      "hole": 15,
+      "pixels": 148,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        70.297,
+        85.135,
+        71.818,
+        114.203
+      ],
+      "medianNDVI": 0.2474,
+      "vegetationFractionNDVI025": 0.473
+    },
+    {
+      "id": "way/427426720",
+      "kind": "tee",
+      "hole": 15,
+      "pixels": 254,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        74.15,
+        92.697,
+        74.091,
+        134.134
+      ],
+      "medianNDVI": 0.2817,
+      "vegetationFractionNDVI025": 0.9528
+    },
+    {
+      "id": "way/427426728",
+      "kind": "tee",
+      "hole": 15,
+      "pixels": 98,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        77.796,
+        93.041,
+        76.816,
+        132.306
+      ],
+      "medianNDVI": 0.2554,
+      "vegetationFractionNDVI025": 0.5612
+    },
+    {
+      "id": "way/427426787",
+      "kind": "bunker",
+      "hole": 18,
+      "pixels": 56,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        180.268,
+        175.071,
+        162.946,
+        143.268
+      ],
+      "medianNDVI": -0.1345,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "way/427426789",
+      "kind": "bunker",
+      "hole": null,
+      "pixels": 58,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        105.621,
+        102.914,
+        89.914,
+        123.017
+      ],
+      "medianNDVI": 0.0581,
+      "vegetationFractionNDVI025": 0.0172
+    },
+    {
+      "id": "way/427426800",
+      "kind": "bunker",
+      "hole": 16,
+      "pixels": 51,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        152.569,
+        149.412,
+        137.588,
+        124.765
+      ],
+      "medianNDVI": -0.1364,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "way/427426819",
+      "kind": "fairway",
+      "hole": 14,
+      "pixels": 3159,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        70.3,
+        90.429,
+        73.759,
+        135.532
+      ],
+      "medianNDVI": 0.3268,
+      "vegetationFractionNDVI025": 0.9234
+    },
+    {
+      "id": "way/427426821",
+      "kind": "tee",
+      "hole": 18,
+      "pixels": 77,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        75.052,
+        87.169,
+        72.948,
+        117.506
+      ],
+      "medianNDVI": 0.2264,
+      "vegetationFractionNDVI025": 0.2468
+    },
+    {
+      "id": "way/427426825",
+      "kind": "green",
+      "hole": 16,
+      "pixels": 563,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        77.167,
+        96.387,
+        77.574,
+        137.222
+      ],
+      "medianNDVI": 0.2752,
+      "vegetationFractionNDVI025": 0.7478
+    },
+    {
+      "id": "way/427426836",
+      "kind": "tee",
+      "hole": 18,
+      "pixels": 148,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        78.98,
+        94.236,
+        75.365,
+        132.5
+      ],
+      "medianNDVI": 0.2451,
+      "vegetationFractionNDVI025": 0.4527
+    },
+    {
+      "id": "way/427426842",
+      "kind": "bunker",
+      "hole": null,
+      "pixels": 46,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        79.696,
+        90.413,
+        77.826,
+        132.043
+      ],
+      "medianNDVI": 0.2549,
+      "vegetationFractionNDVI025": 0.5652
+    },
+    {
+      "id": "way/427426867",
+      "kind": "green",
+      "hole": 17,
+      "pixels": 779,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        79.855,
+        96.796,
+        78.424,
+        136.383
+      ],
+      "medianNDVI": 0.2636,
+      "vegetationFractionNDVI025": 0.6123
+    },
+    {
+      "id": "way/427426869",
+      "kind": "fairway",
+      "hole": 17,
+      "pixels": 11024,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        73.42,
+        90.903,
+        75.071,
+        133.675
+      ],
+      "medianNDVI": 0.3173,
+      "vegetationFractionNDVI025": 0.849
+    },
+    {
+      "id": "way/427426882",
+      "kind": "bunker",
+      "hole": 16,
+      "pixels": 21,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        167.476,
+        161.905,
+        150.0,
+        136.429
+      ],
+      "medianNDVI": -0.1289,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "way/427429853",
+      "kind": "green",
+      "hole": 11,
+      "pixels": 560,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        84.477,
+        101.588,
+        83.227,
+        136.589
+      ],
+      "medianNDVI": 0.243,
+      "vegetationFractionNDVI025": 0.3982
+    },
+    {
+      "id": "way/1530686621",
+      "kind": "tee",
+      "hole": 9,
+      "pixels": 89,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        83.157,
+        99.652,
+        78.978,
+        134.09
+      ],
+      "medianNDVI": 0.2329,
+      "vegetationFractionNDVI025": 0.191
+    },
+    {
+      "id": "way/1530686622",
+      "kind": "tee",
+      "hole": 9,
+      "pixels": 140,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        68.707,
+        82.45,
+        71.6,
+        106.571
+      ],
+      "medianNDVI": 0.2082,
+      "vegetationFractionNDVI025": 0.3
+    },
+    {
+      "id": "way/1530687906",
+      "kind": "bunker",
+      "hole": 17,
+      "pixels": 54,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        167.963,
+        164.204,
+        151.815,
+        134.333
+      ],
+      "medianNDVI": -0.1411,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "way/1530687907",
+      "kind": "bunker",
+      "hole": 17,
+      "pixels": 36,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        148.083,
+        146.778,
+        131.944,
+        136.861
+      ],
+      "medianNDVI": -0.0968,
+      "vegetationFractionNDVI025": 0.1389
+    },
+    {
+      "id": "lidingo-fairway-05-a-ortho2019",
+      "kind": "fairway",
+      "hole": 5,
+      "pixels": 3370,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        73.512,
+        93.743,
+        77.339,
+        137.871
+      ],
+      "medianNDVI": 0.3271,
+      "vegetationFractionNDVI025": 0.9095
+    },
+    {
+      "id": "lidingo-bunker-01-ne-ortho2019",
+      "kind": "bunker",
+      "hole": 1,
+      "pixels": 49,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        179.796,
+        174.327,
+        162.469,
+        139.163
+      ],
+      "medianNDVI": -0.1394,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-01-sw-ortho2019",
+      "kind": "bunker",
+      "hole": 1,
+      "pixels": 36,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        149.639,
+        148.722,
+        136.778,
+        132.972
+      ],
+      "medianNDVI": -0.1186,
+      "vegetationFractionNDVI025": 0.0833
+    },
+    {
+      "id": "lidingo-bunker-02-sw-ortho2019",
+      "kind": "bunker",
+      "hole": 2,
+      "pixels": 48,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        162.271,
+        158.396,
+        146.042,
+        134.958
+      ],
+      "medianNDVI": -0.1361,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-03-e-ortho2019",
+      "kind": "bunker",
+      "hole": 3,
+      "pixels": 23,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        170.304,
+        164.826,
+        151.826,
+        142.826
+      ],
+      "medianNDVI": -0.1182,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-07-ne-ortho2019",
+      "kind": "bunker",
+      "hole": 7,
+      "pixels": 51,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        184.922,
+        180.941,
+        169.922,
+        149.608
+      ],
+      "medianNDVI": -0.1233,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-07-se-ortho2019",
+      "kind": "bunker",
+      "hole": 7,
+      "pixels": 38,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        180.474,
+        176.053,
+        164.211,
+        149.868
+      ],
+      "medianNDVI": -0.1208,
+      "vegetationFractionNDVI025": 0.0263
+    },
+    {
+      "id": "lidingo-bunker-08-w-ortho2019",
+      "kind": "bunker",
+      "hole": 8,
+      "pixels": 43,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        180.814,
+        176.07,
+        164.721,
+        141.209
+      ],
+      "medianNDVI": -0.1304,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-08-s-ortho2019",
+      "kind": "bunker",
+      "hole": 8,
+      "pixels": 41,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        166.366,
+        162.927,
+        150.902,
+        137.829
+      ],
+      "medianNDVI": -0.1254,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-08-se-ortho2019",
+      "kind": "bunker",
+      "hole": 8,
+      "pixels": 23,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        166.348,
+        163.261,
+        152.783,
+        135.739
+      ],
+      "medianNDVI": -0.1262,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-09-s-ortho2019",
+      "kind": "bunker",
+      "hole": 9,
+      "pixels": 45,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        173.178,
+        169.867,
+        158.511,
+        139.978
+      ],
+      "medianNDVI": -0.1326,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-10-e-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "pixels": 39,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        167.308,
+        162.513,
+        149.538,
+        136.231
+      ],
+      "medianNDVI": -0.1242,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-11-e-ortho2019",
+      "kind": "bunker",
+      "hole": 11,
+      "pixels": 42,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        161.643,
+        160.929,
+        148.81,
+        139.119
+      ],
+      "medianNDVI": -0.123,
+      "vegetationFractionNDVI025": 0.0238
+    },
+    {
+      "id": "lidingo-bunker-11-sw-ortho2019",
+      "kind": "bunker",
+      "hole": 11,
+      "pixels": 53,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        167.132,
+        163.264,
+        152.774,
+        134.943
+      ],
+      "medianNDVI": -0.1346,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-11-s-ortho2019",
+      "kind": "bunker",
+      "hole": 11,
+      "pixels": 30,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        191.1,
+        187.0,
+        178.3,
+        149.767
+      ],
+      "medianNDVI": -0.1277,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-12-w-ortho2019",
+      "kind": "bunker",
+      "hole": 12,
+      "pixels": 31,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        159.0,
+        155.548,
+        145.677,
+        128.452
+      ],
+      "medianNDVI": -0.1325,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-16-w-ortho2019",
+      "kind": "bunker",
+      "hole": 16,
+      "pixels": 42,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        60.405,
+        78.571,
+        67.857,
+        130.643
+      ],
+      "medianNDVI": 0.3716,
+      "vegetationFractionNDVI025": 1.0
+    },
+    {
+      "id": "lidingo-fairway-02-a-ortho2019",
+      "kind": "fairway",
+      "hole": 2,
+      "pixels": 8987,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        66.286,
+        86.142,
+        70.832,
+        131.359
+      ],
+      "medianNDVI": 0.3333,
+      "vegetationFractionNDVI025": 0.9683
+    },
+    {
+      "id": "lidingo-fairway-04-a-ortho2019",
+      "kind": "fairway",
+      "hole": 4,
+      "pixels": 5161,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        77.82,
+        93.934,
+        78.385,
+        137.565
+      ],
+      "medianNDVI": 0.3116,
+      "vegetationFractionNDVI025": 0.7704
+    },
+    {
+      "id": "lidingo-fairway-07-a-ortho2019",
+      "kind": "fairway",
+      "hole": 7,
+      "pixels": 1357,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        69.35,
+        90.705,
+        74.035,
+        140.668
+      ],
+      "medianNDVI": 0.346,
+      "vegetationFractionNDVI025": 0.9794
+    },
+    {
+      "id": "lidingo-fairway-07-b-ortho2019",
+      "kind": "fairway",
+      "hole": 7,
+      "pixels": 6106,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        70.056,
+        89.02,
+        74.245,
+        135.299
+      ],
+      "medianNDVI": 0.3365,
+      "vegetationFractionNDVI025": 0.8908
+    },
+    {
+      "id": "lidingo-fairway-08-a-ortho2019",
+      "kind": "fairway",
+      "hole": 8,
+      "pixels": 5432,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        72.285,
+        91.007,
+        76.185,
+        134.973
+      ],
+      "medianNDVI": 0.3271,
+      "vegetationFractionNDVI025": 0.8505
+    },
+    {
+      "id": "lidingo-tee-01-a-ortho2019",
+      "kind": "tee",
+      "hole": 1,
+      "pixels": 217,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        87.525,
+        101.06,
+        81.986,
+        132.968
+      ],
+      "medianNDVI": 0.2056,
+      "vegetationFractionNDVI025": 0.1106
+    },
+    {
+      "id": "lidingo-tee-02-a-ortho2019",
+      "kind": "tee",
+      "hole": 2,
+      "pixels": 135,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        68.667,
+        87.378,
+        74.726,
+        138.378
+      ],
+      "medianNDVI": 0.3429,
+      "vegetationFractionNDVI025": 1.0
+    },
+    {
+      "id": "lidingo-tee-04-a-ortho2019",
+      "kind": "tee",
+      "hole": 4,
+      "pixels": 97,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        74.175,
+        89.031,
+        71.711,
+        125.897
+      ],
+      "medianNDVI": 0.2673,
+      "vegetationFractionNDVI025": 0.6804
+    },
+    {
+      "id": "lidingo-tee-05-a-ortho2019",
+      "kind": "tee",
+      "hole": 5,
+      "pixels": 123,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        49.089,
+        63.691,
+        62.195,
+        77.138
+      ],
+      "medianNDVI": 0.1806,
+      "vegetationFractionNDVI025": 0.2114
+    },
+    {
+      "id": "lidingo-tee-06-a-ortho2019",
+      "kind": "tee",
+      "hole": 6,
+      "pixels": 186,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        75.602,
+        89.425,
+        74.435,
+        130.645
+      ],
+      "medianNDVI": 0.2662,
+      "vegetationFractionNDVI025": 0.5753
+    },
+    {
+      "id": "lidingo-tee-10-a-ortho2019",
+      "kind": "tee",
+      "hole": 10,
+      "pixels": 92,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        56.837,
+        69.391,
+        65.326,
+        93.837
+      ],
+      "medianNDVI": 0.25,
+      "vegetationFractionNDVI025": 0.4674
+    },
+    {
+      "id": "lidingo-tee-11-a-ortho2019",
+      "kind": "tee",
+      "hole": 11,
+      "pixels": 266,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        73.357,
+        88.695,
+        73.414,
+        120.53
+      ],
+      "medianNDVI": 0.2488,
+      "vegetationFractionNDVI025": 0.4774
+    },
+    {
+      "id": "lidingo-tee-12-a-ortho2019",
+      "kind": "tee",
+      "hole": 12,
+      "pixels": 168,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        82.405,
+        99.655,
+        78.417,
+        140.685
+      ],
+      "medianNDVI": 0.262,
+      "vegetationFractionNDVI025": 0.619
+    },
+    {
+      "id": "lidingo-tee-13-a-ortho2019",
+      "kind": "tee",
+      "hole": 13,
+      "pixels": 130,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        73.162,
+        89.831,
+        73.338,
+        131.038
+      ],
+      "medianNDVI": 0.2732,
+      "vegetationFractionNDVI025": 0.7615
+    },
+    {
+      "id": "lidingo-tee-14-a-ortho2019",
+      "kind": "tee",
+      "hole": 14,
+      "pixels": 128,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        78.164,
+        94.945,
+        74.977,
+        131.977
+      ],
+      "medianNDVI": 0.266,
+      "vegetationFractionNDVI025": 0.6562
+    },
+    {
+      "id": "lidingo-green-10-ortho2019",
+      "kind": "green",
+      "hole": 10,
+      "pixels": 626,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        86.495,
+        103.42,
+        83.581,
+        142.327
+      ],
+      "medianNDVI": 0.2328,
+      "vegetationFractionNDVI025": 0.2907
+    },
+    {
+      "id": "lidingo-green-01-ortho2019",
+      "kind": "green",
+      "hole": 1,
+      "pixels": 568,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        82.604,
+        99.424,
+        80.905,
+        133.38
+      ],
+      "medianNDVI": 0.2315,
+      "vegetationFractionNDVI025": 0.2465
+    },
+    {
+      "id": "lidingo-green-03-ortho2019",
+      "kind": "green",
+      "hole": 3,
+      "pixels": 399,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        76.491,
+        94.155,
+        76.967,
+        136.469
+      ],
+      "medianNDVI": 0.271,
+      "vegetationFractionNDVI025": 0.8471
+    },
+    {
+      "id": "lidingo-green-06-ortho2019",
+      "kind": "green",
+      "hole": 6,
+      "pixels": 536,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        84.989,
+        102.39,
+        83.328,
+        134.584
+      ],
+      "medianNDVI": 0.2232,
+      "vegetationFractionNDVI025": 0.1754
+    },
+    {
+      "id": "lidingo-green-07-ortho2019",
+      "kind": "green",
+      "hole": 7,
+      "pixels": 412,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        80.068,
+        97.066,
+        79.684,
+        135.354
+      ],
+      "medianNDVI": 0.2547,
+      "vegetationFractionNDVI025": 0.551
+    },
+    {
+      "id": "lidingo-green-12-ortho2019",
+      "kind": "green",
+      "hole": 12,
+      "pixels": 325,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        78.763,
+        95.735,
+        78.646,
+        132.834
+      ],
+      "medianNDVI": 0.2571,
+      "vegetationFractionNDVI025": 0.6
+    },
+    {
+      "id": "lidingo-green-14-ortho2019",
+      "kind": "green",
+      "hole": 14,
+      "pixels": 391,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        77.532,
+        96.655,
+        79.036,
+        135.55
+      ],
+      "medianNDVI": 0.267,
+      "vegetationFractionNDVI025": 0.7852
+    },
+    {
+      "id": "lidingo-fairway-12-ortho2019",
+      "kind": "fairway",
+      "hole": 12,
+      "pixels": 13008,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        72.631,
+        89.599,
+        74.99,
+        128.621
+      ],
+      "medianNDVI": 0.3065,
+      "vegetationFractionNDVI025": 0.7246
+    },
+    {
+      "id": "lidingo-fairway-13-ortho2019",
+      "kind": "fairway",
+      "hole": 13,
+      "pixels": 2941,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        72.732,
+        90.282,
+        75.466,
+        133.668
+      ],
+      "medianNDVI": 0.3239,
+      "vegetationFractionNDVI025": 0.7875
+    },
+    {
+      "id": "lidingo-bunker-10-near-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "pixels": 76,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        123.25,
+        127.684,
+        113.592,
+        128.934
+      ],
+      "medianNDVI": 0.0212,
+      "vegetationFractionNDVI025": 0.1579
+    },
+    {
+      "id": "lidingo-tee-02-b-ortho2019",
+      "kind": "tee",
+      "hole": 2,
+      "pixels": 93,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        65.591,
+        83.925,
+        67.538,
+        130.021
+      ],
+      "medianNDVI": 0.3234,
+      "vegetationFractionNDVI025": 1.0
+    },
+    {
+      "id": "lidingo-tee-02-c-ortho2019",
+      "kind": "tee",
+      "hole": 2,
+      "pixels": 156,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        75.699,
+        89.109,
+        75.244,
+        126.244
+      ],
+      "medianNDVI": 0.2433,
+      "vegetationFractionNDVI025": 0.4551
+    },
+    {
+      "id": "lidingo-tee-04-b-ortho2019",
+      "kind": "tee",
+      "hole": 4,
+      "pixels": 287,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        77.467,
+        89.798,
+        76.892,
+        118.589
+      ],
+      "medianNDVI": 0.2488,
+      "vegetationFractionNDVI025": 0.4843
+    },
+    {
+      "id": "lidingo-tee-04-c-ortho2019",
+      "kind": "tee",
+      "hole": 4,
+      "pixels": 90,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        73.311,
+        87.267,
+        73.033,
+        125.011
+      ],
+      "medianNDVI": 0.2585,
+      "vegetationFractionNDVI025": 0.6222
+    },
+    {
+      "id": "lidingo-tee-10-b-ortho2019",
+      "kind": "tee",
+      "hole": 10,
+      "pixels": 181,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        63.387,
+        77.11,
+        68.674,
+        106.088
+      ],
+      "medianNDVI": 0.2512,
+      "vegetationFractionNDVI025": 0.5083
+    },
+    {
+      "id": "lidingo-tee-10-c-ortho2019",
+      "kind": "tee",
+      "hole": 10,
+      "pixels": 328,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        77.04,
+        93.902,
+        74.302,
+        130.598
+      ],
+      "medianNDVI": 0.2585,
+      "vegetationFractionNDVI025": 0.6524
+    },
+    {
+      "id": "lidingo-tee-17-b-ortho2019",
+      "kind": "tee",
+      "hole": 17,
+      "pixels": 183,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        81.601,
+        98.803,
+        77.984,
+        135.852
+      ],
+      "medianNDVI": 0.25,
+      "vegetationFractionNDVI025": 0.4973
+    },
+    {
+      "id": "lidingo-tee-17-c-ortho2019",
+      "kind": "tee",
+      "hole": 17,
+      "pixels": 187,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        75.005,
+        93.043,
+        74.059,
+        138.701
+      ],
+      "medianNDVI": 0.2963,
+      "vegetationFractionNDVI025": 0.9679
+    },
+    {
+      "id": "lidingo-bunker-04-west-ortho2019",
+      "kind": "bunker",
+      "hole": 4,
+      "pixels": 25,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        176.08,
+        170.76,
+        157.72,
+        139.52
+      ],
+      "medianNDVI": -0.1304,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-04-east-ortho2019",
+      "kind": "bunker",
+      "hole": 4,
+      "pixels": 52,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        154.904,
+        151.269,
+        139.038,
+        143.865
+      ],
+      "medianNDVI": -0.0588,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-05-green-ortho2019",
+      "kind": "bunker",
+      "hole": 5,
+      "pixels": 53,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        180.585,
+        176.057,
+        163.736,
+        143.755
+      ],
+      "medianNDVI": -0.1304,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-05-fairway-ortho2019",
+      "kind": "bunker",
+      "hole": 5,
+      "pixels": 67,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        136.328,
+        136.537,
+        123.821,
+        130.045
+      ],
+      "medianNDVI": -0.0741,
+      "vegetationFractionNDVI025": 0.0746
+    },
+    {
+      "id": "lidingo-bunker-07-approach-n-ortho2019",
+      "kind": "bunker",
+      "hole": 7,
+      "pixels": 42,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        182.143,
+        179.071,
+        169.429,
+        148.429
+      ],
+      "medianNDVI": -0.1226,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-07-approach-s-ortho2019",
+      "kind": "bunker",
+      "hole": 7,
+      "pixels": 43,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        187.419,
+        183.279,
+        173.349,
+        151.209
+      ],
+      "medianNDVI": -0.123,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-10-mid-n-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "pixels": 51,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        177.941,
+        173.804,
+        162.706,
+        143.843
+      ],
+      "medianNDVI": -0.1213,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-10-mid-c-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "pixels": 32,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        190.375,
+        186.031,
+        176.031,
+        152.281
+      ],
+      "medianNDVI": -0.1211,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-10-mid-s-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "pixels": 16,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        101.25,
+        99.625,
+        85.875,
+        121.25
+      ],
+      "medianNDVI": 0.0918,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-12-approach-ortho2019",
+      "kind": "bunker",
+      "hole": 12,
+      "pixels": 38,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        167.184,
+        165.0,
+        155.132,
+        130.684
+      ],
+      "medianNDVI": -0.1404,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-14-n-ortho2019",
+      "kind": "bunker",
+      "hole": 14,
+      "pixels": 42,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        172.762,
+        168.81,
+        157.024,
+        138.738
+      ],
+      "medianNDVI": -0.1279,
+      "vegetationFractionNDVI025": 0.0
+    },
+    {
+      "id": "lidingo-bunker-14-s-ortho2019",
+      "kind": "bunker",
+      "hole": 14,
+      "pixels": 22,
+      "validFraction": 1.0,
+      "meanRGBI": [
+        166.591,
+        162.864,
+        151.136,
+        130.5
+      ],
+      "medianNDVI": -0.1424,
+      "vegetationFractionNDVI025": 0.0
+    }
+  ],
+  "limitations": [
+    "Spectral statistics flag review candidates; shadows, irrigation and seasonal mowing prevent automatic boundary approval.",
+    "Source capture year is 2025; present-day tee marker and pin positions remain unknown."
+  ]
+}
