@@ -9,6 +9,7 @@ on:
       - '.github/workflows/visby-orthophoto.yml'
       - 'visbybuild/mapping/lm-ortho-plan.mjs'
       - 'visbybuild/mapping/lm_ortho.py'
+      - 'visbybuild/mapping/lm_review_export.py'
       - 'geo_data/course-v2/visby/acquisition/RUN-orthophoto'
 
 permissions:
@@ -34,8 +35,8 @@ jobs:
         run: |
           node --test visbybuild/mapping/lm-ortho-plan.node-test.mjs
           python -m unittest discover -s visbybuild/mapping -p test_lm_ortho.py -k ReaderTests
-      - name: Plan all tee and priority surface windows
-        run: node visbybuild/mapping/lm-ortho-plan.mjs
+      - name: Plan all surfaces and the complete discovery area
+        run: node visbybuild/mapping/lm-ortho-plan.mjs --full-course
       - name: Verify actual orthophoto bytes
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
@@ -43,7 +44,7 @@ jobs:
           LANTMATERIET_BEARER_TOKEN: ${{ secrets.LANTMATERIET_BEARER_TOKEN }}
         run: python visbybuild/mapping/lm_ortho.py --plan visbybuild/cache/lm-ortho/plan.json --probe-only
       - name: Install the bounded raster reader
-        run: python -m pip install rasterio==1.4.3 numpy==2.3.5
+        run: python -m pip install rasterio==1.4.3 numpy==2.3.5 Pillow==11.3.0
       - name: Verify source-to-crop coordinate alignment
         run: python -m unittest discover -s visbybuild/mapping -p test_lm_ortho.py
       - name: Read georeferenced RGBI windows
@@ -52,6 +53,15 @@ jobs:
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
           LANTMATERIET_BEARER_TOKEN: ${{ secrets.LANTMATERIET_BEARER_TOKEN }}
         run: python visbybuild/mapping/lm_ortho.py --plan visbybuild/cache/lm-ortho/plan.json
+      - name: Export registered source images for visual review
+        run: python visbybuild/mapping/lm_review_export.py
+      - name: Retain access-controlled visual review images
+        uses: actions/upload-artifact@v4
+        with:
+          name: visby-orthophoto-pixels-${{ github.run_number }}
+          path: visbybuild/cache/lm-review/
+          if-no-files-found: error
+          retention-days: 3
       - name: Retain access evidence and metadata only
         if: always()
         uses: actions/upload-artifact@v4
@@ -79,4 +89,4 @@ jobs:
           fi
       - name: Remove raw image windows
         if: always()
-        run: rm -rf visbybuild/cache/lm-ortho
+        run: rm -rf visbybuild/cache/lm-ortho visbybuild/cache/lm-review

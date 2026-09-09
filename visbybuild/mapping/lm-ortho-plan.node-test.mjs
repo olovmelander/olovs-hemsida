@@ -36,3 +36,19 @@ test('discovery and frame mismatches fail before any source download', () => {
   assert.throws(() => nativeWindow([[0, 0]], discovery), /coverage/);
   assert.throws(() => nativeWindow([[NaN, 1]], discovery), /finite/);
 });
+
+test('complete review covers every green and tiles the AOI without gaps or overlap', () => {
+  const plan = buildOrthoReviewPlan(model, discovery, { fullCourse:true });
+  assert.equal(plan.windows.filter(w => /-green$/.test(w.id)).length, 18);
+  assert.equal(new Set(plan.windows.map(w => w.id)).size, plan.windows.length);
+  const tiles = plan.windows.filter(w => w.priority === 'context');
+  const area = b => (b[2]-b[0]) * (b[3]-b[1]);
+  const total = tiles.reduce((sum, w) => sum + area(w.boundsEpsg3006), 0);
+  assert.ok(total / area(discovery.aoi.bboxEpsg3006) > 0.999);
+  for (let i=0; i<tiles.length; i++) for (let j=i+1; j<tiles.length; j++) {
+    const a=tiles[i].boundsEpsg3006, b=tiles[j].boundsEpsg3006;
+    assert.ok(Math.min(a[2],b[2])-Math.max(a[0],b[0]) < 1e-6 || Math.min(a[3],b[3])-Math.max(a[1],b[1]) < 1e-6);
+  }
+  assert.ok(plan.windows.every(w => w.width*w.height <= 16e6));
+  assert.ok(plan.summary.totalMegapixels < 370);
+});

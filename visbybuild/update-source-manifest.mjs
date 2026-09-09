@@ -65,18 +65,18 @@ if (has(orthoEvidencePath) && has(orthoPlanPath)) {
       source.acquiredAt = null;
       source.checksumReason = 'Only bounded image windows acquired; their individual SHA-256 hashes and exact pixel grids are retained in the acquisition evidence. Complete source TIFF not downloaded or hashed.';
       const validity = Math.min(...acquisition.windows.filter(w => w.sources.some(s => s.id === image.id)).map(w => w.validFraction));
-      source.notes = `Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for tee and priority surface review; minimum valid-pixel fraction ${validity.toFixed(4)}. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; no source imagery redistributed.`;
+      source.notes = `Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for course and environment review; minimum valid-pixel fraction ${validity.toFixed(4)}. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; source imagery is not committed or shipped in the app.`;
     } else {
-      source.notes = 'Authenticated TIFF header and pinned source size verified on 2026-09-09. This image does not intersect the selected 22 review windows, so no image window was acquired from it. No source imagery redistributed.';
+      source.notes = `Authenticated TIFF header and pinned source size verified on 2026-09-09. This image does not intersect the selected ${plan.windows.length} review windows, so no image window was acquired from it. No source imagery redistributed.`;
     }
   }
   artifact('authenticated-ortho-review-plan', 'acquisition', orthoPlanPath, imageSources,
     'Native-grid review windows for all 108 tee references and priority greens/facilities; extents are not accepted feature boundaries.');
   artifact('authenticated-ortho-acquisition', 'acquisition', orthoEvidencePath, imageSources,
-    'Live authenticated byte access, 22 cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository.');
+    `Live authenticated byte access, ${plan.windows.length} cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository.`);
   const blocker = m.blockers.find(b => b.id === 'current-ortho-access');
   if (blocker) {
-    blocker.description = 'Authenticated 2026 imagery access is verified and 22 review windows acquired. Interpretation of current playing boundaries, independent registration and applicable derivative terms remain unresolved.';
+    blocker.description = `Authenticated 2026 imagery access is verified and ${plan.windows.length} review windows acquired. Interpretation of current playing boundaries, independent registration and applicable derivative terms remain unresolved.`;
     blocker.exitGate = 'Review the acquired current pixels and source-specific terms before adopting revised playing geometry; byte access is no longer the blocker.';
   }
 }
