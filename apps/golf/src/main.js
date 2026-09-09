@@ -54,6 +54,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
+import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
@@ -4482,6 +4483,7 @@ const TREE_LOD = {
     return (x, z) => { const i = Math.floor((x - x0) / cell), j = Math.floor((z - z0) / cell); return i < 0 || j < 0 || i >= nx || j >= nz ? 0 : grid[j * nx + i]; };
   })();
   const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
+  const boundsScratch = new THREE.Box3(), boundsCentre = new THREE.Vector3();
   for (let s = 0; s < 3; s++) {
     const T = trees[s], W = treeWhy[s];
     const n = T.length / 6;
@@ -4494,6 +4496,8 @@ const TREE_LOD = {
     const treeH = new Float32Array(n), treeCY = new Float32Array(n);
     /* which course zone each tree stands in (0 beyond, 1 A, 2 B, 3 C): in zone mode it IS the tier, in screen mode the floor */
     const zone = new Uint8Array(n);
+    const templateBox = treeTemplateBounds([hero[s].crown, hero[s].trunk,
+      SPECIES[s].crown, SPECIES[s].trunk, decimated[s].crown, decimated[s].trunk]);
     for (let k = 0; k < n; k++) {
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
       const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
@@ -4510,8 +4514,8 @@ const TREE_LOD = {
       imp.set([pos.x, pos.y, pos.z, T[k * 6 + 4], sxz, sy * varied], k * 6);
       const c = cell(pos.x, pos.z);
       c.lists[s].push(k);
-      if (pos.y < c.y0) c.y0 = pos.y;
-      if (pos.y + 14 * sy * varied > c.y1) c.y1 = pos.y + 14 * sy * varied;
+      includeTreeBounds(c.box, templateBox, TREE_LOD.atlases[s], mtx, pos, sxz, sy * varied,
+        boundsScratch, boundsCentre);
     }
     if (!n) { TREE_LOD.tiers.push(null); continue; }
     const spec = SPECIES[s], deci = decimated[s];
@@ -4558,11 +4562,7 @@ const TREE_LOD = {
     stats.trees += n;
   }
   for (const c of TREE_LOD.cells) {
-    if (!Number.isFinite(c.y0)) { c.y0 = 0; c.y1 = 20; }
-    /* dilated by a crown's reach, so a tree straddling the cell edge is not
-       culled while its crown is still in frame */
-    c.box.min.set(c.x0 - 8, c.y0 - 2, c.z0 - 8);
-    c.box.max.set(c.x1 + 8, c.y1 + 2, c.z1 + 8);
+    c.y0 = c.box.min.y; c.y1 = c.box.max.y;
     c.lists = c.lists.map(l => Int32Array.from(l));
   }
   TREE_LOD.stats.cells = TREE_LOD.cells.length;

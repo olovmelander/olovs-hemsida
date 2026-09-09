@@ -1,0 +1,144 @@
+{
+  "ref": "81fbd2c",
+  "materialSha256": "cbafbd44a7bdf58a37311c2294c7ff6929858c36f00bb944e5dbf52ae1cd6beb",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "backends": [
+    {
+      "backend": "webgl2",
+      "samples": 4,
+      "pairs": [
+        {
+          "name": "repeat-identical-view",
+          "changedPixels": 0,
+          "occupiedPixels": 2250,
+          "changedFraction": 0,
+          "meanAbsolute": 0
+        },
+        {
+          "name": "old-polar-boundary",
+          "changedPixels": 1274,
+          "occupiedPixels": 2743,
+          "changedFraction": 0.46445497630331756,
+          "meanAbsolute": 1.8321533203125
+        },
+        {
+          "name": "across-zenith",
+          "changedPixels": 296,
+          "occupiedPixels": 2550,
+          "changedFraction": 0.11607843137254902,
+          "meanAbsolute": 0.385650634765625
+        },
+        {
+          "name": "atlas-frame-boundary",
+          "changedPixels": 0,
+          "occupiedPixels": 2964,
+          "changedFraction": 0,
+          "meanAbsolute": 0
+        },
+        {
+          "name": "lit-with-fade-attributes",
+          "changedPixels": 2377,
+          "occupiedPixels": 3892,
+          "changedFraction": 0.6107399794450155,
+          "meanAbsolute": 9.080408732096354
+        },
+        {
+          "name": "lit-midfade",
+          "changedPixels": 1195,
+          "occupiedPixels": 1950,
+          "changedFraction": 0.6128205128205129,
+          "meanAbsolute": 4.5644378662109375
+        }
+      ],
+      "edges": [
+        {
+          "coverage": false,
+          "meanArea": 16.36683006535948,
+          "relativeAreaRange": 0.06373483751809524
+        },
+        {
+          "coverage": true,
+          "meanArea": 11.42859477124183,
+          "relativeAreaRange": 0.2531203980384029
+        }
+      ],
+      "whiteCorners": true,
+      "fadeAreas": [
+        2933.057516339931,
+        1468.4901960784305,
+        1464.5673202614382
+      ],
+      "fadeRelativeError": 2.1240765557570192e-14,
+      "errors": []
+    },
+    {
+      "backend": "webgpu",
+      "samples": 4,
+      "pairs": [
+        {
+          "name": "repeat-identical-view",
+          "changedPixels": 0,
+          "occupiedPixels": 2250,
+          "changedFraction": 0,
+          "meanAbsolute": 0
+        },
+        {
+          "name": "old-polar-boundary",
+          "changedPixels": 1274,
+          "occupiedPixels": 2743,
+          "changedFraction": 0.46445497630331756,
+          "meanAbsolute": 1.8321533203125
+        },
+        {
+          "name": "across-zenith",
+          "changedPixels": 296,
+          "occupiedPixels": 2550,
+          "changedFraction": 0.11607843137254902,
+          "meanAbsolute": 0.385650634765625
+        },
+        {
+          "name": "atlas-frame-boundary",
+          "changedPixels": 0,
+          "occupiedPixels": 2964,
+          "changedFraction": 0,
+          "meanAbsolute": 0.0000152587890625
+        },
+        {
+          "name": "lit-with-fade-attributes",
+          "changedPixels": 2377,
+          "occupiedPixels": 3892,
+          "changedFraction": 0.6107399794450155,
+          "meanAbsolute": 9.080408732096354
+        },
+        {
+          "name": "lit-midfade",
+          "changedPixels": 1195,
+          "occupiedPixels": 1950,
+          "changedFraction": 0.6128205128205129,
+          "meanAbsolute": 4.5644378662109375
+        }
+      ],
+      "edges": [
+        {
+          "coverage": false,
+          "meanArea": 16.366748366013077,
+          "relativeAreaRange": 0.06373515566892438
+        },
+        {
+          "coverage": true,
+          "meanArea": 66.88790849673205,
+          "relativeAreaRange": 0.17225188956257906
+        }
+      ],
+      "whiteCorners": true,
+      "fadeAreas": [
+        2933.0575163398885,
+        1468.4901960784412,
+        1464.5673202614453
+      ],
+      "fadeRelativeError": 7.752104218091424e-16,
+      "errors": []
+    }
+  ]
+}
