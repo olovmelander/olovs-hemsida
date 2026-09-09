@@ -24,6 +24,7 @@ import { chromium } from 'playwright-core';
 const HELP = `Usage: node tools/v2-graphics-review.mjs (--base URL | --root BUILT_DIR) --out DIR [options]
   --course puttom        --backend webgl2|webgpu  --q lo|hi  --graphics default|0|1
   --views short|1:tee:noon,14:green:golden       --bark
+  Visby coastal cameras: visby-coast (overview), visby-coast-low (shallow angle)
   --width 960 --height 600 --dpr 1 --timeout 600 --chrome PATH
   --compare /path/to/previous/report.json
   --terrain-stride 1|2  (override the terrain quality request on either backend)
@@ -67,7 +68,7 @@ function optionsFrom(argv) {
   const specs = o.views === 'short' ? ['1:tee:noon', '1:green:noon', '1:top:noon', '1:tee:golden'] : o.views.split(',');
   o.views = specs.map(spec => {
     const [h, cam, preset, extra] = spec.split(':');
-    if (extra || !/^\d+$/.test(h) || +h < 1 || !['tee', 'green', 'top', 'orbit'].includes(cam)
+    if (extra || !/^\d+$/.test(h) || +h < 1 || !['tee', 'green', 'top', 'orbit', 'visby-coast', 'visby-coast-low'].includes(cam)
       || !['noon', 'golden', 'mist', 'dawn', 'host'].includes(preset)) throw new Error(`Invalid view: ${spec}`);
     return { id: `h${h}_${cam}_${preset}`, hole: +h, cam, preset };
   });
@@ -160,7 +161,7 @@ async function stateAt(page) {
   return page.evaluate(() => {
     const V = window.V3D;
     return { backend: V.stats.backend, quality: V.quality(), renderer: V.rendererInfo(),
-      camera: V.camInfo(), lens: V.cameraInfo(), treeLod: V.treeLodPx(), tiers: V.treeTiers(),
+      camera: V.camInfo(), lens: V.cameraInfo(), coastalWater: V.coastalWater?.(), treeLod: V.treeLodPx(), tiers: V.treeTiers(),
       terrain: V.v2Terrain().adapter, plan: V.v2Plan(),
       // Identity/byte sums describe uploaded terrain data, not shader output.
       terrainInventory: V.v2WorldInventory().map(t => ({ tileId: t.tileId, identity: t.identity,
@@ -264,7 +265,11 @@ async function main(o) {
       await page.evaluate(v => {
         const V = window.V3D;
         if (!V.HOLES.some(h => h.n === v.hole)) throw new Error(`Hole ${v.hole} unavailable`);
-        V.setPreset(v.preset); V.goHole(v.hole, true, true); V.setCam(v.cam === 'bark' ? 'tee' : v.cam, true);
+        V.setPreset(v.preset); V.goHole(v.hole, true, true); V.setCam(v.cam === 'bark' || v.cam.startsWith('visby-coast') ? 'tee' : v.cam, true);
+        if (v.cam.startsWith('visby-coast')) {
+          if (V.course().slug !== 'visby') throw new Error('Visby coastal poses require the Visby course');
+          V.placeCamera(v.cam === 'visby-coast' ? [1500, 1600, -1900] : [500, 180, -1400], [-500, 5, 300]);
+        }
         if (v.cam === 'bark') {
           const tee = V.HOLES[0].line[0];
           const tree = window.__v2GraphicsTrees.filter(t => t[5] === 1 && t[7] === 'A')
@@ -290,7 +295,8 @@ async function main(o) {
       if (!same(contract, captureContract(after)) || after.terrain.stream.loadingTiles !== 0
         || after.terrain.stream.failedTiles !== 0 || !same(before.terrainInventory, after.terrainInventory)) throw new Error(`Scene/quality changed while capturing ${view.id}`);
       report.views.push({ ...view, file: filename, imageSha256: sha256(bytes), visibleTerrainTileIds, before, after });
-      console.log(`  ${filename}: ${before.renderer.drawCalls} draws, ${before.renderer.triangles} triangles, buffer ${contract.buffer.join('x')}`);
+      fs.writeFileSync(path.join(o.out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
+      console.log(`  ${filename}: ${before.renderer.drawCalls} draws, ${before.renderer.triangles} triangles, buffer ${contract.buffer.join('x')}, near ${before.lens.near}, reversed depth ${before.lens.reversedDepth}`);
     }
     report.passed = report.errors.length === 0 && report.views.length === o.views.length;
     if (o.compare) {
