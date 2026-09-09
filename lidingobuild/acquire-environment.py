@@ -73,9 +73,11 @@ def acquire_water():
                         original = mod.decode_gpkg(blob)
                         if not original.is_valid or not original.has_z:
                             raise ValueError(f'{item_id}/{fid}: invalid source topology')
+                        if not original.intersects(WORLD) or CORE.covers(original):
+                            continue
                         zs = mod.heights(original)
                         if max(zs) - min(zs) > 1e-7:
-                            raise ValueError('Non-flat source water')
+                            raise ValueError(f'{item_id}/{fid}: non-flat water, RH2000 range {min(zs)}..{max(zs)}; classification {classification}')
                         clipped = original.intersection(WORLD).difference(CORE)
                         for part, poly in enumerate(polygons(clipped)):
                             if poly.area < 1:
@@ -162,5 +164,5 @@ def audit_ortho():
 
 if __name__ == '__main__':
     OUT.mkdir(parents=True, exist_ok=True)
-    acquire_water()
     audit_ortho()
+    acquire_water()
