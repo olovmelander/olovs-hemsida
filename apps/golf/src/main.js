@@ -56,10 +56,13 @@ import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engi
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
+import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
+import { createRenderResolution, requestedRenderResolution } from './engine/render-resolution.mjs';
 import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildCoastalWater } from './engine/coastal-water.mjs';
+import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
@@ -1252,8 +1255,10 @@ try {
   renderer = mkRenderer(true);
   await renderer.init();
 }
-renderer.setPixelRatio(LOWQ ? 1 : Math.min(devicePixelRatio, 2));
-renderer.setSize(innerWidth, innerHeight);
+const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
+  adaptive: GRAPHICS_POLISH && !DET && !QUALITY_LOCK,
+  requested: requestedRenderResolution(location.search),
+  width: innerWidth, height: innerHeight, devicePixelRatio });
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.20;
 renderer.shadowMap.enabled = true;
@@ -1270,6 +1275,10 @@ let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.0, 14000);
+const COASTAL_DEPTH_ENABLED = !IS_GPU && M.infra.terrainPlacement === 'measured-only' && M.water.some(w => w.isSea);
+const COASTAL_TERRAIN_CEILING = V2_SELECTION.graph
+  ? V2_SELECTION.graph.ground.bounds.maxHeightRH2000 - V2_SELECTION.graph.ground.frame.origin.heightRH2000
+  : NaN;
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.055;
@@ -2251,6 +2260,7 @@ if (V2_WORLD) {
    fillGroundTintTextures falls back to the compatibility DEM outside the
    frontier's own sampler. */
 const GROUND_TINT = TERRAIN_PREVIEW.ready ? createGroundTintTextures() : null;
+const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER) : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Low WebGL2 requests reduced terrain. Ring grounds retain every native
      course vertex and simplify surrounding levels with rebuilt morphs.
@@ -2259,15 +2269,15 @@ if (TERRAIN_PREVIEW.ready) {
   const renderStride = ['1', '2'].includes(requestedTerrainStride)
     ? Number(requestedTerrainStride) : !IS_GPU && LOWQ ? 2 : 1;
   const prepareStarted = performance.now();
+  const decorateGround = createV2GroundMaterialDecorator({
+    atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
+    graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF,
+    debugMode: surfaceDebugMode, tint: GROUND_TINT,
+  });
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
     renderStride,
-    decorateMaterial: createV2GroundMaterialDecorator({
-      atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
-      graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF,
-      debugMode: surfaceDebugMode,
-      tint: GROUND_TINT,
-    }),
+    decorateMaterial: COASTAL_TERRAIN_MASK ? COASTAL_TERRAIN_MASK.wrap(decorateGround) : decorateGround,
     legacySurfaceAtlas: TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas'
       ? groundAtlas
       : null,
@@ -4743,7 +4753,7 @@ function updateTreeTiers() {
   let changed = drainTreeFades();
   TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
   TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem, camera.reversedDepth ?? false);
-  const viewportH = renderer.domElement.height || innerHeight;
+  const viewportH = renderResolution.detailHeight();
   const Kpx = viewportH / (2 * Math.tan(camera.fov * 0.5 * Math.PI / 180));
   const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
   const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
@@ -5773,19 +5783,22 @@ if (M.infra.objectPlacement === 'mapped-only') {
   stats.measuredRoofBuildings = 0;
   stats.measuredRoofTriangles = 0;
   stats.genericRoofBuildings = 0;
+  stats.clubhouseDetails = [];
   for (const b of M.infra.buildings) {
     if (b.ring.length < 3) continue;
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
     if (b.roofSurface) {
       const geometry = measuredRoofGeometry(b.roofSurface, terrainH);
-      // Roof shade follows the dark roof observation. Facade material remains
-      // a neutral rendering approximation; no borrowed clubhouse windows,
-      // overhangs, balconies, eave height or extra roof above the source TIN.
-      const wall = L(0xc5c0b4), roof = L(0x3c4141);
+      // Keep the measured roof intact. A course module may add separately
+      // documented facade appearance; generic roof/decorations stay bypassed.
+      const look = SCENERY?.buildingLooks?.[b.id];
+      const wall = L(look?.wall ?? 0xc5c0b4), roof = L(look?.roof ?? 0x3c4141);
       for (const [a, c, d] of geometry.triangles) tri(a, c, d, roof);
       for (const [a, c, d, e] of geometry.walls) quad(a, c, d, e, wall);
       stats.measuredRoofBuildings++;
       stats.measuredRoofTriangles += geometry.triangles.length;
+      const details = SCENERY?.decorateMeasuredBuilding?.({ building:b, terrainH, tri, quad, L });
+      if (details) stats.clubhouseDetails.push(details);
       continue;
     }
     const [cx, cz] = centroidOf(b.ring);
@@ -9445,7 +9458,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  renderResolution.resize(innerWidth, innerHeight, devicePixelRatio, performance.now());
   captureReadbackTarget?.setSize(innerWidth, innerHeight);
 });
 
@@ -9456,11 +9469,15 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
 let FRAME_NO = 0, TIER_FRAME = 0;   /* the frame the tree tiers last changed on */
 const FRAME_MS = new Float32Array(120);   /* the last frames' intervals, for the harness (V3D.frameTimes) */
 function updateFrameVisibility(now, dt) {
+  const near = coastalCameraNear({ enabled: COASTAL_DEPTH_ENABLED && terrainV2.kind === 'graph' && terrainV2.active,
+    cameraHeight: camera.position.y, terrainCeiling: COASTAL_TERRAIN_CEILING,
+    focusDistance: camera.position.distanceTo(controls.target) });
+  if (camera.near !== near) { camera.near = near; camera.updateProjectionMatrix(); }
   /* the world graph streams by screen-space error against the real camera */
   if (terrainV2.kind === 'graph' && terrainV2.active) {
     /* The graph adapter refreshes camera matrices before its frustum test;
        tree visibility below consumes that same pose, without a second sync. */
-    terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
+    terrainV2.update({ camera, viewportHeightPixels: renderResolution.detailHeight(), activeHoleNumber: hole });
   } else if (GRAPHICS_POLISH) camera.updateMatrixWorld(true);
   /* the crossfade clock: real time, a fixed 1/60 under det, or whatever the harness set */
   if (!TREE_LOD.clockDriven) TREE_LOD.fadeClock += DET ? 1 / 60 : dt;
@@ -9475,6 +9492,8 @@ function updateFrameVisibility(now, dt) {
 
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
+  renderResolution.sample(now - last, now,
+    BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked);
   /* Morph state remains current before the ground clamp samples terrain. */
   terrainV2.tick(now);
   if (!GRAPHICS_POLISH) updateFrameVisibility(now, dt);
@@ -9750,6 +9769,7 @@ window.V3D = {
            measuredRoofBuildings: stats.measuredRoofBuildings | 0,
            measuredRoofTriangles: stats.measuredRoofTriangles | 0,
            genericRoofBuildings: stats.genericRoofBuildings | 0,
+           clubhouseDetails: stats.clubhouseDetails || [],
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
@@ -9913,6 +9933,7 @@ window.V3D = {
     depthTest: waterMat.depthTest, polygonOffset: waterMat.polygonOffset,
     depthFunc: waterMat.depthFunc,
     polygonOffsetFactor: waterMat.polygonOffsetFactor, polygonOffsetUnits: waterMat.polygonOffsetUnits,
+    terrainMaskBytes: COASTAL_TERRAIN_MASK?.bytes ?? 0,
   } : null,
   cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */
@@ -10039,6 +10060,7 @@ window.V3D = {
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
   quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, qualityLocked: QUALITY_LOCK,
                     graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF, pixelRatio: renderer.getPixelRatio(),
+                    resolution: renderResolution.snapshot(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   /* GPU milliseconds since the previous resolve, summed over every render
@@ -10249,8 +10271,7 @@ if (!LOWQ && !QUALITY_LOCK) setTimeout(() => {
         if (!DET && qualityParam !== 'hi') {
           try { localStorage.setItem('banvy-quality', 'lo'); } catch {}
         }
-        renderer.setPixelRatio(1);
-        renderer.setSize(innerWidth, innerHeight);
+        renderResolution.performanceFallback(performance.now());
         if (renderer.__bloomNode) renderer.__bloomNode.strength.value = 0;
         const sp = new URLSearchParams(location.search);
         sp.set('q', 'lo');

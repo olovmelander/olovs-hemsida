@@ -38,6 +38,7 @@ const REGISTRY = {
   puttom: () => import('./puttom.js'),
   johannesberg: () => import('./johannesberg.js'),
   ribbingsfors: () => import('./ribbingsfors.js'),
+  lidingo: () => import('./lidingo.js'),
   /* Visby carries a clubhouse spec, a species rule and one landmark: the 1936
      concrete tower of Skansudde fyr, which stands twenty metres from the 1st
      tee -- the first thing the app shows -- and is too small for OSM to have

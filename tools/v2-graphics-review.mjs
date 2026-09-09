@@ -24,10 +24,12 @@ import { chromium } from 'playwright-core';
 const HELP = `Usage: node tools/v2-graphics-review.mjs (--base URL | --root BUILT_DIR) --out DIR [options]
   --course puttom        --backend webgl2|webgpu  --q lo|hi  --graphics default|0|1
   --views short|1:tee:noon,14:green:golden       --bark
+  Visby coastal cameras: visby-coast (overview), visby-coast-low (shallow angle)
   --width 960 --height 600 --dpr 1 --timeout 600 --chrome PATH
   --compare /path/to/previous/report.json
   --surface-relief 0|1  (v2 material pilot; turf/sand close-up views supported)
   --terrain-stride 1|2  (override the terrain quality request on either backend)
+  --resolution 1|1.25|1.5|2  (fixed screen sharpness; geometry quality stays separate)
   --base-path /olovs-hemsida/  (path prefix for --root's internal server)
   --auto-fallback  (WebGL2 via automatic WebGPU fallback, including its depth mode)
 Software screenshots and mapping/count checks only; no hardware FPS claim.`;
@@ -36,7 +38,7 @@ function optionsFrom(argv) {
   const o = { course: 'puttom', backend: 'webgl2', q: 'lo', graphics: '1', views: 'short',
     width: 960, height: 600, dpr: 1, timeout: 600, bark: false, autoFallback: false, 'surface-relief': '0' };
   const allowed = new Set(['base', 'root', 'base-path', 'out', 'course', 'backend', 'q', 'graphics', 'views',
-    'width', 'height', 'dpr', 'timeout', 'chrome', 'compare', 'terrain-stride', 'surface-relief']);
+    'width', 'height', 'dpr', 'timeout', 'chrome', 'compare', 'terrain-stride', 'resolution', 'surface-relief']);
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--bark') { o.bark = true; continue; }
     if (argv[i] === '--auto-fallback') { o.autoFallback = true; continue; }
@@ -51,6 +53,7 @@ function optionsFrom(argv) {
   if (!/^[a-z0-9-]+$/.test(o.course)) throw new Error('Invalid --course');
   if (!['0', '1'].includes(o['surface-relief'])) throw new Error('Invalid --surface-relief');
   if (o['terrain-stride'] !== undefined && !['1', '2'].includes(o['terrain-stride'])) throw new Error('Invalid --terrain-stride');
+  if (o.resolution !== undefined && !['1', '1.25', '1.5', '2'].includes(o.resolution)) throw new Error('Invalid --resolution');
   for (const [key, values] of [['backend', ['webgl2', 'webgpu']], ['q', ['lo', 'hi']], ['graphics', ['default', '0', '1']]]) {
     if (!values.includes(o[key])) throw new Error(`Invalid --${key}`);
   }
@@ -69,7 +72,7 @@ function optionsFrom(argv) {
   const specs = o.views === 'short' ? ['1:tee:noon', '1:green:noon', '1:top:noon', '1:tee:golden'] : o.views.split(',');
   o.views = specs.map(spec => {
     const [h, cam, preset, extra] = spec.split(':');
-    if (extra || !/^\d+$/.test(h) || +h < 1 || !['tee', 'green', 'top', 'orbit', 'turf', 'sand'].includes(cam)
+    if (extra || !/^\d+$/.test(h) || +h < 1 || !['tee', 'green', 'top', 'orbit', 'turf', 'sand', 'visby-coast', 'visby-coast-low'].includes(cam)
       || !['noon', 'golden', 'mist', 'dawn', 'host'].includes(preset)) throw new Error(`Invalid view: ${spec}`);
     return { id: `h${h}_${cam}_${preset}`, hole: +h, cam, preset };
   });
@@ -162,7 +165,7 @@ async function stateAt(page) {
   return page.evaluate(() => {
     const V = window.V3D;
     return { backend: V.stats.backend, quality: V.quality(), renderer: V.rendererInfo(),
-      camera: V.camInfo(), lens: V.cameraInfo(), treeLod: V.treeLodPx(), tiers: V.treeTiers(),
+      camera: V.camInfo(), lens: V.cameraInfo(), coastalWater: V.coastalWater?.(), treeLod: V.treeLodPx(), tiers: V.treeTiers(),
       terrain: V.v2Terrain().adapter, plan: V.v2Plan(),
       // Identity/byte sums describe uploaded terrain data, not shader output.
       terrainInventory: V.v2WorldInventory().map(t => ({ tileId: t.tileId, identity: t.identity,
@@ -200,6 +203,7 @@ async function main(o) {
   const url = new URL(local?.base || o.base);
   url.searchParams.set('surfaceRelief', o['surface-relief']);
   if (o['terrain-stride']) url.searchParams.set('terrainStride', o['terrain-stride']);
+  if (o.resolution) url.searchParams.set('resolution', o.resolution);
   for (const [key, value] of Object.entries({ bana: o.course, v2: 'require', det: '1', q: o.q,
     qualitylock: '1', ren: '1', gl: o.backend === 'webgl2' && !o.autoFallback ? '1' : '0', lodmode: 'zone' })) url.searchParams.set(key, value);
   if (o.graphics === 'default') url.searchParams.delete('graphics');
@@ -212,7 +216,8 @@ async function main(o) {
     executionAdapter: 'swiftshader-software', performanceEvidence: false,
     note: 'Software captures verify correctness only. Compare real-hardware median/p95/p99 frame times separately.',
     request: { course: o.course, backend: o.backend, autoFallback: o.autoFallback,
-      q: o.q, terrainStride: o['terrain-stride'] ?? null, viewport: [o.width, o.height], dpr: o.dpr, views: o.views },
+      q: o.q, terrainStride: o['terrain-stride'] ?? null, resolution: o.resolution ?? null,
+      viewport: [o.width, o.height], dpr: o.dpr, views: o.views },
     errors: [], warnings: [], views: [], passed: false };
   let browser;
   try {
@@ -261,7 +266,9 @@ async function main(o) {
     if (report.boot.quality.qualityLocked === false) throw new Error('Requested quality lock is not active');
     report.fingerprint = await fingerprint(page);
     console.log('  Scene booted; data fingerprints recorded');
-    const expectedDpr = o.q === 'lo' ? 1 : Math.min(o.dpr, 2);
+    const lowMax = [1, 1.25, 1.5].filter(r => r === 1 || (r <= o.dpr && o.width * o.height * r * r <= 1_000_000)).at(-1);
+    const expectedDpr = o.resolution ? Math.min(Number(o.resolution), o.q === 'lo' ? lowMax : Math.min(o.dpr, 2))
+      : o.q === 'lo' ? 1 : Math.min(o.dpr, 2);
     const expectedBuffer = [Math.floor(o.width * expectedDpr), Math.floor(o.height * expectedDpr)];
     let firstContract;
     for (const view of o.views) {
@@ -269,7 +276,8 @@ async function main(o) {
       await page.evaluate(v => {
         const V = window.V3D;
         if (!V.HOLES.some(h => h.n === v.hole)) throw new Error(`Hole ${v.hole} unavailable`);
-        V.setPreset(v.preset); V.goHole(v.hole, true, true); V.setCam(['bark', 'turf', 'sand'].includes(v.cam) ? 'tee' : v.cam, true);
+        V.setPreset(v.preset); V.goHole(v.hole, true, true);
+        V.setCam(['bark', 'turf', 'sand'].includes(v.cam) || v.cam.startsWith('visby-coast') ? 'tee' : v.cam, true);
         if (v.cam === 'turf' || v.cam === 'sand') {
           const hole = V.HOLES.find(h => h.n === v.hole);
           const ring = v.cam === 'turf' ? hole.green.ring : hole.bunkers[0]?.ring;
@@ -291,6 +299,10 @@ async function main(o) {
           if (!best) throw new Error('Close-up surface has no interior');
           const { x, z } = best;
           V.placeCamera([x, V.probeH(x, z + 3) + 1.8, z + 3], [x, V.probeH(x, z) + 0.05, z]);
+        }
+        if (v.cam.startsWith('visby-coast')) {
+          if (V.course().slug !== 'visby') throw new Error('Visby coastal poses require the Visby course');
+          V.placeCamera(v.cam === 'visby-coast' ? [1500, 1600, -1900] : [500, 180, -1400], [-500, 5, 300]);
         }
         if (v.cam === 'bark') {
           const tee = V.HOLES[0].line[0];
@@ -317,7 +329,8 @@ async function main(o) {
       if (!same(contract, captureContract(after)) || after.terrain.stream.loadingTiles !== 0
         || after.terrain.stream.failedTiles !== 0 || !same(before.terrainInventory, after.terrainInventory)) throw new Error(`Scene/quality changed while capturing ${view.id}`);
       report.views.push({ ...view, file: filename, imageSha256: sha256(bytes), visibleTerrainTileIds, before, after });
-      console.log(`  ${filename}: ${before.renderer.drawCalls} draws, ${before.renderer.triangles} triangles, buffer ${contract.buffer.join('x')}`);
+      fs.writeFileSync(path.join(o.out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
+      console.log(`  ${filename}: ${before.renderer.drawCalls} draws, ${before.renderer.triangles} triangles, buffer ${contract.buffer.join('x')}, near ${before.lens.near}, reversed depth ${before.lens.reversedDepth}`);
     }
     report.passed = report.errors.length === 0 && report.views.length === o.views.length;
     if (o.compare) {

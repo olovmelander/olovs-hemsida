@@ -7,6 +7,10 @@ implementation plan; it does not change rendering, geography or MCP settings.
 
 ## 1. Recommended direction
 
+**9 September follow-up:** after terrain optimization and the Visby water fix,
+the [mobile clarity pass](v2-mobile-render-clarity.md) separates screen resolution
+from terrain/tree quality and tests a bounded adaptive sharpness policy.
+
 Aim for believable Swedish golf landscapes with clear playing surfaces, good
 nearby silhouettes and restrained materials. The biggest gains will come from
 better surface response, more convincing trees and a few recognizable buildings,

@@ -68,7 +68,11 @@ Render the supplied roof triangles directly. Walls may descend from the supplied
 supported segments to the source DTM for visualization. Skip generic building
 roofs and decorations for these instances. Do not assign a roof-top height to
 the existing `h` wall/eave field or add a gable above the measured surface.
-Eaves, foundation levels, materials, windows and roof styles remain unverified.
+Eaves, foundation levels, materials, windows and roof styles remain unverified
+as measurements. A separate [public-photo appearance layer](../../docs/courses/lidingo-clubhouse-appearance.md)
+adds estimated facade details to the three clubhouse-area buildings without
+changing the retained roof triangles or footprints. Those visual estimates are
+not new laser/orthophoto mapping evidence.
 
 ## Rebuild
 
