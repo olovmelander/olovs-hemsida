@@ -12,7 +12,10 @@ const read = p => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const terrain = ['terrain-lm-636-68', 'terrain-lm-637-68'];
 const water = ['water-breaks-lm-636-68', 'water-breaks-lm-637-68'];
 const laser = ['laser-lm-24e002-636-68', 'laser-lm-24e002-637-68'];
-const surfaces = ['visby-municipal-ortho-2022', 'visby-osm-2026-09-07', 'club-banguide'];
+const orthoReviewPath = 'visbybuild/mapping/orthophoto-review-2026.json';
+const orthoReview = has(orthoReviewPath) ? read(orthoReviewPath) : null;
+const orthoSources = orthoReview ? [...new Set(Object.values(orthoReview.sources).flatMap(s => s.sourceIds))] : [];
+const surfaces = ['visby-municipal-ortho-2022', 'visby-osm-2026-09-07', 'club-banguide', ...orthoSources];
 const lineage = [...terrain, ...water, ...surfaces, 'club-scorecard'];
 if (has('visbybuild/course-model.json')) {
   const model = read('visbybuild/course-model.json');
@@ -40,6 +43,47 @@ function artifact(id, kind, p, derivedFrom, notes, use = 'discovery-evidence') {
   if (i < 0) m.artifacts.push(value); else m.artifacts[i] = value;
 }
 const base = 'geo_data/course-v2/visby/';
+const orthoEvidencePath = base + 'reference/lm-ortho-acquisition-2026-09-09.json';
+const orthoPlanPath = base + 'reference/lm-ortho-plan-2026-09-09.json';
+if (has(orthoEvidencePath) && has(orthoPlanPath)) {
+  const acquisition = read(orthoEvidencePath), plan = read(orthoPlanPath);
+  if (acquisition.groundId !== 'visby' || acquisition.state !== 'acquired-for-review' ||
+      !acquisition.access?.authorized || acquisition.planSha256 !== sha256File(path.join(ROOT, orthoPlanPath)) ||
+      acquisition.windows.length !== plan.windows.length) throw new Error('Visby orthophoto evidence is incomplete or unbound');
+  const sameIds = (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
+  if (!sameIds(acquisition.windows.map(w => w.id), plan.windows.map(w => w.id)) ||
+      !sameIds(acquisition.access.assets.map(s => s.id), plan.sources.map(s => s.id))) throw new Error('Visby orthophoto evidence inventory differs from its plan');
+  const used = new Set(acquisition.windows.flatMap(w => w.sources.map(s => s.id)));
+  const imageSources = [];
+  for (const image of plan.sources) {
+    const id = 'imagery-lm-' + image.id.replaceAll('_', '-');
+    const source = m.sources.find(s => s.id === id);
+    if (!source || source.sourceUri !== image.href) throw new Error('Visby image source identity changed');
+    imageSources.push(id);
+    if (used.has(image.id)) {
+      // The source record denotes the complete TIFF, which has no provider
+      // checksum. Bounded crops are acquired artifacts with their own hashes;
+      // never put a crop hash in the complete-source checksum field.
+      source.lifecycle = 'planned';
+      source.acquiredAt = null;
+      source.checksumReason = 'Only bounded image windows acquired; their individual SHA-256 hashes and exact pixel grids are retained in the acquisition evidence. Complete source TIFF not downloaded or hashed.';
+      const validity = Math.min(...acquisition.windows.filter(w => w.sources.some(s => s.id === image.id)).map(w => w.validFraction));
+      source.notes = `Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for course and environment review; minimum valid-pixel fraction ${validity.toFixed(4)}. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; source imagery is not committed or shipped in the app.`;
+    } else {
+      source.notes = `Authenticated TIFF header and pinned source size verified on 2026-09-09. This image does not intersect the selected ${plan.windows.length} review windows, so no image window was acquired from it. No source imagery redistributed.`;
+    }
+  }
+  artifact('authenticated-ortho-review-plan', 'acquisition', orthoPlanPath, imageSources,
+    'Native-grid review windows for all 108 tee references and priority greens/facilities; extents are not accepted feature boundaries.');
+  artifact('authenticated-ortho-acquisition', 'acquisition', orthoEvidencePath, imageSources,
+    `Live authenticated byte access, ${plan.windows.length} cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository.`);
+  const blocker = m.blockers.find(b => b.id === 'current-ortho-access');
+  if (blocker) {
+    blocker.description = `Authenticated 2026 imagery access is verified and ${plan.windows.length} review windows acquired. A dated playing-boundary pass is adopted with CC BY 4.0 attribution; remaining boundaries and independent registration still need review.`;
+    blocker.exitGate = 'Complete the remaining boundary inventory and independent registration checks; byte access and the reviewed derivative terms are documented.';
+  }
+}
+
 artifact('source-route-crosswalk', 'routing', 'visbybuild/mapping/route-reference.json', surfaces, 'All 18 main-course identities matched against guide and 2022 image; explicit pixels and source associations; independent review pending.');
 artifact('playing-surface-pixel-traces', 'surface', 'visbybuild/mapping/surface-traces-2022.json', surfaces, 'Reproducible source-pixel polygons and sand seeds; interpretation uncertainty separate from unknown registration accuracy.');
 artifact('playing-surface-candidates', 'surface', 'visbybuild/mapping/playing-surfaces.geojson', surfaces, 'Observed provisional surface polygons; OSM ring lineage and image trace methods retained per feature. Production rights and contemporary verification remain unresolved.');
@@ -47,6 +91,8 @@ artifact('playing-surface-review', 'control', 'visbybuild/mapping/playing-surfac
 artifact('practice-surface-candidate', 'surface', 'visbybuild/mapping/practice-surfaces.geojson', surfaces, 'Observed range field excludes measured height cells that may be range structures, retaining visible boundary trees.');
 artifact('practice-surface-review', 'control', base+'vegetation/practice-surface-evidence.json', surfaces, 'Source pixel vertices, retained image hash and independent overlay review of range footprint.');
 artifact('canonical-routing-candidate', 'composite', 'visbybuild/mapping/geometry.json', surfaces, 'EPSG:3006 main-course authoring geometry; cardinal tee lengths do not determine source coordinates.');
+artifact('orthophoto-boundary-review-2026', 'control', orthoReviewPath, [...orthoSources, 'club-banguide'], '2026-04-10 native image pixels: two greens, three hole-3 tee outlines, the southern hole-3 fairway and 64 bunker contours. Per-feature source hashes and uncertainty retained; 19 net additional sand areas. CC BY 4.0 derivative attribution retained. Independent registration and remaining boundaries are pending.');
+artifact('orthophoto-building-roof-colours-2026', 'control', 'visbybuild/mapping/building-roof-review-2026.json', orthoSources, 'Sixteen daylight roof-colour families replace the generic rendering palette. No wall colours, building dimensions or roof geometry inferred.');
 artifact('clubhouse-and-first-tee-review', 'control', 'visbybuild/mapping/facilities-review.json', ['visby-municipal-ortho-2022', 'club-banguide'], 'Source image registration and pixel boundaries for a clubhouse practice green and two additional first-hole platforms. Numbered platform groups checked against the retained Caddee plan; tee 59 corrected to the rear platform. Daily marker positions remain unverified.');
 artifact('expanded-tee-platform-review', 'control', 'visbybuild/mapping/tee-platform-review.json', ['visby-municipal-ortho-2022', 'club-banguide'], 'All 18 tee windows inspected; 27 additional physical platforms on 12 holes. Hole 9 numbered platform groups checked against the retained Caddee plan; tee 41 corrected to the front roadside platform. Other numeric associations and daily positions remain unverified.');
 artifact('range-environment-surface-review', 'control', 'visbybuild/mapping/environment-surfaces-review.json', surfaces, 'Registered mowing boundaries for the short-game green and neighbouring nine-course green beside the range. Schematic guide corroborates identity only; no new playable routing or equipment inferred.');

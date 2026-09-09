@@ -1,0 +1,2045 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "scope": "retained-source-to-served-pack geometry audit; current census and positional accuracy not established",
+  "geometryAudit": "passed",
+  "failures": [],
+  "inputs": [
+    {
+      "path": "lidingobuild/course-model.json",
+      "sha256": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12"
+    },
+    {
+      "path": "lidingobuild/mapping/playing-surfaces.geojson",
+      "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29"
+    },
+    {
+      "path": "lidingobuild/mapping/facilities.geojson",
+      "sha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7"
+    },
+    {
+      "path": "lidingobuild/mapping/surface-refinements-2019.json",
+      "sha256": "e067e561d8fc3da3bc38f86cc021df05795030ad438bd17952990f202c27e083"
+    },
+    {
+      "path": "lidingobuild/mapping/building-roof-meshes.json",
+      "sha256": "b4fba5a233fc72f168ceb0fd337f5aa43ed860c736c46afe6763e8447c10bd9a"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/vegetation/stand-evidence.json",
+      "sha256": "8ecd4b09d7f3d434833e5bb6da8aa7181476a169ea56d10f305afe48f1d2f8f4"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/acquisition/ortho-2025-surface-audit.json",
+      "sha256": "ca260879030c1b9638c40f89c6cdb23e3e35dec0568c47e39229d76443fb5350"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/acquisition/environment-water.json",
+      "sha256": "b74bfdf145fe49be3e76dc046148e49d8d3d35ca0249427f3406f4059331ae00"
+    },
+    {
+      "path": "apps/golf/public/courses/lidingo/pack.bin",
+      "sha256": "846e291417f7dcf44a906400c1b505c07b2cb338ab2173fd2f80bed79ec60873"
+    },
+    {
+      "path": "apps/golf/public/grounds/lidingo/ground-v2-e15525f22076a76bedf6c1575906843ac93001df703e97e3f41e7d914ef325a0.json",
+      "sha256": "e15525f22076a76bedf6c1575906843ac93001df703e97e3f41e7d914ef325a0"
+    }
+  ],
+  "coordinateFrame": {
+    "horizontalCrs": "EPSG:3006",
+    "localOrigin": [
+      677700.5,
+      6586399.5
+    ]
+  },
+  "playingSurfaces": {
+    "counts": {
+      "fairway": 13,
+      "green": 20,
+      "tee": 37,
+      "bunker": 40
+    },
+    "total": 110,
+    "evidence": {
+      "supplementary-map-outline": 48,
+      "orthophoto-2019": 62
+    },
+    "unassigned": [
+      {
+        "id": "way/143591630",
+        "hole": null,
+        "kind": "tee",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "observedYear": null,
+        "sourceTimestamp": "2011-12-31T15:52:15Z",
+        "runtimeOwners": [
+          "scenery-tees-0"
+        ],
+        "currentBoundaryVerified": false
+      },
+      {
+        "id": "way/221846981",
+        "hole": null,
+        "kind": "green",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "observedYear": null,
+        "sourceTimestamp": "2013-05-17T14:52:08Z",
+        "runtimeOwners": [
+          "lidingo-south-practice-green-osm"
+        ],
+        "currentBoundaryVerified": false
+      },
+      {
+        "id": "way/296422967",
+        "hole": null,
+        "kind": "green",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "observedYear": null,
+        "sourceTimestamp": "2014-08-07T09:57:16Z",
+        "runtimeOwners": [
+          "lidingo-clubhouse-practice-green-osm"
+        ],
+        "currentBoundaryVerified": false
+      },
+      {
+        "id": "way/296422996",
+        "hole": null,
+        "kind": "bunker",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "observedYear": null,
+        "sourceTimestamp": "2026-06-18T19:46:39Z",
+        "runtimeOwners": [
+          "scenery-bunkers-0"
+        ],
+        "currentBoundaryVerified": false
+      },
+      {
+        "id": "way/427426789",
+        "hole": null,
+        "kind": "bunker",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "observedYear": null,
+        "sourceTimestamp": "2016-06-26T16:05:40Z",
+        "runtimeOwners": [
+          "scenery-bunkers-1"
+        ],
+        "currentBoundaryVerified": false
+      },
+      {
+        "id": "way/427426842",
+        "hole": null,
+        "kind": "bunker",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "observedYear": null,
+        "sourceTimestamp": "2016-06-26T16:05:42Z",
+        "runtimeOwners": [
+          "scenery-bunkers-2"
+        ],
+        "currentBoundaryVerified": false
+      }
+    ],
+    "currentCompleteness": "not-verified"
+  },
+  "facilities": {
+    "total": 14,
+    "physicalOwnership": "one owner per adopted polygon; internal islands preserved"
+  },
+  "holes": [
+    {
+      "hole": 1,
+      "par": 3,
+      "green": 1,
+      "tee": 1,
+      "fairway": 0,
+      "bunker": 3,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 4
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [
+        {
+          "kind": "tee",
+          "status": "additional-forward-platform-not-adopted",
+          "reason": "No complete separate forward-platform boundary could be followed confidently in the inspected2019 crop."
+        }
+      ],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 2,
+      "par": 5,
+      "green": 1,
+      "tee": 3,
+      "fairway": 1,
+      "bunker": 1,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 5
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 3,
+      "par": 3,
+      "green": 1,
+      "tee": 3,
+      "fairway": 0,
+      "bunker": 1,
+      "sourceEvidence": {
+        "supplementary-map-outline": 3,
+        "orthophoto-2019": 2
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 4,
+      "par": 4,
+      "green": 1,
+      "tee": 3,
+      "fairway": 1,
+      "bunker": 2,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 6
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 5,
+      "par": 4,
+      "green": 1,
+      "tee": 1,
+      "fairway": 1,
+      "bunker": 2,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 4
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 6,
+      "par": 3,
+      "green": 1,
+      "tee": 1,
+      "fairway": 0,
+      "bunker": 1,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 2
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 7,
+      "par": 4,
+      "green": 1,
+      "tee": 2,
+      "fairway": 2,
+      "bunker": 4,
+      "sourceEvidence": {
+        "supplementary-map-outline": 2,
+        "orthophoto-2019": 7
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 8,
+      "par": 4,
+      "green": 1,
+      "tee": 2,
+      "fairway": 1,
+      "bunker": 3,
+      "sourceEvidence": {
+        "supplementary-map-outline": 3,
+        "orthophoto-2019": 4
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 9,
+      "par": 3,
+      "green": 1,
+      "tee": 2,
+      "fairway": 0,
+      "bunker": 1,
+      "sourceEvidence": {
+        "supplementary-map-outline": 3,
+        "orthophoto-2019": 1
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 10,
+      "par": 5,
+      "green": 1,
+      "tee": 3,
+      "fairway": 1,
+      "bunker": 5,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 9
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 11,
+      "par": 3,
+      "green": 1,
+      "tee": 1,
+      "fairway": 0,
+      "bunker": 3,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 4
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 12,
+      "par": 5,
+      "green": 1,
+      "tee": 1,
+      "fairway": 1,
+      "bunker": 2,
+      "sourceEvidence": {
+        "orthophoto-2019": 5
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 13,
+      "par": 4,
+      "green": 1,
+      "tee": 1,
+      "fairway": 1,
+      "bunker": 0,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 2
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [
+        {
+          "kind": "fairway",
+          "status": "western-fragment-rejected-after-overlay",
+          "reason": "The candidate approach fragment included indistinct rough below the maintained strip. It was rejected after overlay inspection; the original central fairway patch remains. Newer mowing cannot silently replace2019 geometry."
+        },
+        {
+          "kind": "bunker",
+          "status": "2025-reported-change-unmapped",
+          "reason": "The club reports a new left greenside bunker in2025. Its2019 absence cannot establish a current ring; no geometry taken from an ungeoreferenced guide or undated differently licensed image."
+        }
+      ],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 14,
+      "par": 4,
+      "green": 1,
+      "tee": 1,
+      "fairway": 1,
+      "bunker": 2,
+      "sourceEvidence": {
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 4
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 15,
+      "par": 4,
+      "green": 1,
+      "tee": 3,
+      "fairway": 1,
+      "bunker": 1,
+      "sourceEvidence": {
+        "supplementary-map-outline": 6
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 16,
+      "par": 3,
+      "green": 1,
+      "tee": 3,
+      "fairway": 0,
+      "bunker": 3,
+      "sourceEvidence": {
+        "supplementary-map-outline": 6,
+        "orthophoto-2019": 1
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 17,
+      "par": 5,
+      "green": 1,
+      "tee": 3,
+      "fairway": 1,
+      "bunker": 2,
+      "sourceEvidence": {
+        "supplementary-map-outline": 5,
+        "orthophoto-2019": 2
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    },
+    {
+      "hole": 18,
+      "par": 4,
+      "green": 1,
+      "tee": 2,
+      "fairway": 1,
+      "bunker": 1,
+      "sourceEvidence": {
+        "supplementary-map-outline": 5
+      },
+      "runtimeGeometryPreserved": true,
+      "currentCompleteness": "not-verified",
+      "knownReviewIssues": [
+        {
+          "kind": "bunker",
+          "status": "ambiguous-bare-soil-patch-not-adopted",
+          "reason": "Bare soil and a depression north of the retained approach bunker could be altered landscaping or an older bunker; current guide depicts a mound. No sand polygon invented for this ambiguous patch."
+        }
+      ],
+      "reviewRequired": [
+        "Current outlines and all additional/missing playing surfaces",
+        "Trees over/along play, woodland edges and nearby buildings",
+        "Independent horizontal alignment checks"
+      ]
+    }
+  ],
+  "environment": {
+    "terrain": {
+      "bounds": {
+        "maxEasting": 685892.5,
+        "maxHeightRH2000": 72.72464752197266,
+        "maxNorthing": 6594591.5,
+        "minEasting": 669508.5,
+        "minHeightRH2000": -10.156801223754883,
+        "minNorthing": 6578207.5
+      },
+      "tileCount": 277,
+      "nativeOneMetreBounds": {
+        "minEasting": 676676.5,
+        "minNorthing": 6585375.5,
+        "maxEasting": 678724.5,
+        "maxNorthing": 6587423.5
+      }
+    },
+    "context": {
+      "bounds": {
+        "minEasting": 675718.0813985348,
+        "minNorthing": 6584708.630453711,
+        "maxEasting": 679514.2891059865,
+        "maxNorthing": 6587724.65323102
+      },
+      "sourceFeatures": 1020,
+      "unmodeledLeisureFeatures": [
+        {
+          "id": "way/6245000",
+          "kind": "pitch",
+          "name": null
+        },
+        {
+          "id": "way/18776743",
+          "kind": "pitch",
+          "name": null
+        },
+        {
+          "id": "way/26408119",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/27065727",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/27283700",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/27469978",
+          "kind": "park",
+          "name": "Krokusparken"
+        },
+        {
+          "id": "way/32259891",
+          "kind": "pitch",
+          "name": "Sticklinge Stars Training Camp"
+        },
+        {
+          "id": "way/32260068",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/32426893",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/32426925",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/32809543",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/37704046",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/61669426",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/98484968",
+          "kind": "playground",
+          "name": "Kaninparken"
+        },
+        {
+          "id": "way/561222633",
+          "kind": "park",
+          "name": null
+        },
+        {
+          "id": "way/1076497760",
+          "kind": "pitch",
+          "name": null
+        },
+        {
+          "id": "way/1222971189",
+          "kind": "playground",
+          "name": null
+        },
+        {
+          "id": "way/1222971190",
+          "kind": "playground",
+          "name": null
+        },
+        {
+          "id": "way/1308599495",
+          "kind": "playground",
+          "name": "Källängsparken"
+        }
+      ],
+      "note": "Context coverage is smaller than the terrain world. Park boundaries alone do not establish vegetation or equipment."
+    },
+    "buildings": {
+      "footprints": 562,
+      "measuredRoofCount": 5,
+      "sourceEpoch": "2021-03-23",
+      "roofs": [
+        {
+          "id": "way/32262176",
+          "coverageFraction": 0.922768,
+          "state": "machine-reviewed-partial-measured-roof-candidate"
+        },
+        {
+          "id": "way/32262169",
+          "coverageFraction": 1,
+          "state": "machine-reviewed-measured-roof-candidate"
+        },
+        {
+          "id": "way/32262183",
+          "coverageFraction": 0.897463,
+          "state": "machine-reviewed-partial-measured-roof-candidate"
+        },
+        {
+          "id": "way/26408210",
+          "coverageFraction": 0.998441,
+          "state": "machine-reviewed-measured-roof-candidate"
+        },
+        {
+          "id": "way/26408211",
+          "coverageFraction": 0.999154,
+          "state": "machine-reviewed-measured-roof-candidate"
+        }
+      ],
+      "limitation": "Other heights are generic or unverified map tags; current footprints and architectural detail remain unverified."
+    },
+    "vegetation": {
+      "boundaryCounts": {
+        "wood": 18,
+        "scrub": 1,
+        "wetland": 8
+      },
+      "measuredStandTileCount": 64,
+      "capturedAt": "2021-03-23",
+      "individualObjectRecords": 0,
+      "limitation": "Measured canopy cells do not establish exact individual stems, crowns or species. No new laser campaign was acquired by this audit."
+    },
+    "water": {
+      "courseComponents": 7,
+      "surroundingComponents": 144,
+      "surroundingInteriorRings": 180,
+      "worldBoundsEpsg3006": [
+        669508.5,
+        6578207.5,
+        685892.5,
+        6594591.5
+      ],
+      "renderer": "separate checksummed surrounding-water meshes; course pack polygons preserved",
+      "limitation": "Source coverage now reaches the 16 km world bounds. Browser visual verification remains pending; no bathymetry or present-day water level is claimed."
+    }
+  },
+  "newOrthophoto": {
+    "accessState": "acquired-and-measured",
+    "measuredFeatures": 110,
+    "geometryVerificationFromImagery": false,
+    "boundaryVerification": "per-hole visual source review pending; acquired spectral statistics are separate evidence"
+  },
+  "surfaceRecords": [
+    {
+      "id": "way/143587536",
+      "hole": 10,
+      "kind": "fairway",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2011-12-31T15:36:35Z",
+      "runtimeOwners": [
+        "hole-10-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/143587585",
+      "hole": 9,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2011-12-31T15:36:43Z",
+      "runtimeOwners": [
+        "hole-9-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/143591630",
+      "hole": null,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2011-12-31T15:52:15Z",
+      "runtimeOwners": [
+        "scenery-tees-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/143591667",
+      "hole": 2,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2011-12-31T15:52:24Z",
+      "runtimeOwners": [
+        "hole-2-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/221832565",
+      "hole": 3,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2013-05-17T13:50:08Z",
+      "runtimeOwners": [
+        "hole-3-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/221832567",
+      "hole": 3,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2013-05-17T13:50:08Z",
+      "runtimeOwners": [
+        "hole-3-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/221832578",
+      "hole": 3,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2013-05-17T13:50:09Z",
+      "runtimeOwners": [
+        "hole-3-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/221846967",
+      "hole": 13,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2013-05-17T14:52:07Z",
+      "runtimeOwners": [
+        "hole-13-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/221846970",
+      "hole": 6,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2013-05-17T14:52:08Z",
+      "runtimeOwners": [
+        "hole-6-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/221846980",
+      "hole": 1,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2025-01-13T17:07:08Z",
+      "runtimeOwners": [
+        "hole-1-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/221846981",
+      "hole": null,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2013-05-17T14:52:08Z",
+      "runtimeOwners": [
+        "lidingo-south-practice-green-osm"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296422967",
+      "hole": null,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:16Z",
+      "runtimeOwners": [
+        "lidingo-clubhouse-practice-green-osm"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296422971",
+      "hole": 5,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:16Z",
+      "runtimeOwners": [
+        "hole-5-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296422974",
+      "hole": 8,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:16Z",
+      "runtimeOwners": [
+        "hole-8-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296422978",
+      "hole": 8,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:16Z",
+      "runtimeOwners": [
+        "hole-8-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296422981",
+      "hole": 17,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:16Z",
+      "runtimeOwners": [
+        "hole-17-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296422990",
+      "hole": 4,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:16Z",
+      "runtimeOwners": [
+        "hole-4-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296422996",
+      "hole": null,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2026-06-18T19:46:39Z",
+      "runtimeOwners": [
+        "scenery-bunkers-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296422999",
+      "hole": 8,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:17Z",
+      "runtimeOwners": [
+        "hole-8-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296423006",
+      "hole": 18,
+      "kind": "fairway",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:17Z",
+      "runtimeOwners": [
+        "hole-18-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/296423010",
+      "hole": 18,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2014-08-07T09:57:17Z",
+      "runtimeOwners": [
+        "hole-18-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/331796609",
+      "hole": 16,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2015-03-08T10:08:15Z",
+      "runtimeOwners": [
+        "hole-16-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/331796623",
+      "hole": 15,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2015-03-08T10:08:16Z",
+      "runtimeOwners": [
+        "hole-15-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/331796626",
+      "hole": 7,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2015-03-08T10:08:16Z",
+      "runtimeOwners": [
+        "hole-7-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/331796631",
+      "hole": 15,
+      "kind": "fairway",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:58Z",
+      "runtimeOwners": [
+        "hole-15-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/331796643",
+      "hole": 15,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2015-03-08T10:08:17Z",
+      "runtimeOwners": [
+        "hole-15-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/331796648",
+      "hole": 16,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2015-03-08T10:08:18Z",
+      "runtimeOwners": [
+        "hole-16-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/331796654",
+      "hole": 7,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2015-03-08T10:08:19Z",
+      "runtimeOwners": [
+        "hole-7-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/331796671",
+      "hole": 16,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2015-03-08T10:08:20Z",
+      "runtimeOwners": [
+        "hole-16-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426704",
+      "hole": 15,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:36Z",
+      "runtimeOwners": [
+        "hole-15-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426720",
+      "hole": 15,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:37Z",
+      "runtimeOwners": [
+        "hole-15-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426728",
+      "hole": 15,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:37Z",
+      "runtimeOwners": [
+        "hole-15-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426787",
+      "hole": 18,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2026-06-18T19:46:39Z",
+      "runtimeOwners": [
+        "hole-18-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426789",
+      "hole": null,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:40Z",
+      "runtimeOwners": [
+        "scenery-bunkers-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426800",
+      "hole": 16,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2026-06-18T19:46:39Z",
+      "runtimeOwners": [
+        "hole-16-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426819",
+      "hole": 14,
+      "kind": "fairway",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:41Z",
+      "runtimeOwners": [
+        "hole-14-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426821",
+      "hole": 18,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:41Z",
+      "runtimeOwners": [
+        "hole-18-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426825",
+      "hole": 16,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:41Z",
+      "runtimeOwners": [
+        "hole-16-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426836",
+      "hole": 18,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:42Z",
+      "runtimeOwners": [
+        "hole-18-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426842",
+      "hole": null,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:42Z",
+      "runtimeOwners": [
+        "scenery-bunkers-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426867",
+      "hole": 17,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:43Z",
+      "runtimeOwners": [
+        "hole-17-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426869",
+      "hole": 17,
+      "kind": "fairway",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:05:43Z",
+      "runtimeOwners": [
+        "hole-17-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427426882",
+      "hole": 16,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2026-06-18T19:46:39Z",
+      "runtimeOwners": [
+        "hole-16-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/427429853",
+      "hole": 11,
+      "kind": "green",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2016-06-26T16:10:05Z",
+      "runtimeOwners": [
+        "hole-11-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/1530686621",
+      "hole": 9,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2026-06-18T19:39:02Z",
+      "runtimeOwners": [
+        "hole-9-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/1530686622",
+      "hole": 9,
+      "kind": "tee",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2026-06-18T19:39:02Z",
+      "runtimeOwners": [
+        "hole-9-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/1530687906",
+      "hole": 17,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2026-06-18T19:46:39Z",
+      "runtimeOwners": [
+        "hole-17-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "way/1530687907",
+      "hole": 17,
+      "kind": "bunker",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedYear": null,
+      "sourceTimestamp": "2026-06-18T19:46:39Z",
+      "runtimeOwners": [
+        "hole-17-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-fairway-05-a-ortho2019",
+      "hole": 5,
+      "kind": "fairway",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-5-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-01-ne-ortho2019",
+      "hole": 1,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-1-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-01-sw-ortho2019",
+      "hole": 1,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-1-bunker-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-02-sw-ortho2019",
+      "hole": 2,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-03-e-ortho2019",
+      "hole": 3,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-3-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-07-ne-ortho2019",
+      "hole": 7,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-07-se-ortho2019",
+      "hole": 7,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-08-w-ortho2019",
+      "hole": 8,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-8-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-08-s-ortho2019",
+      "hole": 8,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-8-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-08-se-ortho2019",
+      "hole": 8,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-8-bunker-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-09-s-ortho2019",
+      "hole": 9,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-9-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-10-e-ortho2019",
+      "hole": 10,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-11-e-ortho2019",
+      "hole": 11,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-11-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-11-sw-ortho2019",
+      "hole": 11,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-11-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-11-s-ortho2019",
+      "hole": 11,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-11-bunker-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-12-w-ortho2019",
+      "hole": 12,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-12-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-16-w-ortho2019",
+      "hole": 16,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-16-bunker-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-fairway-02-a-ortho2019",
+      "hole": 2,
+      "kind": "fairway",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-fairway-04-a-ortho2019",
+      "hole": 4,
+      "kind": "fairway",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-fairway-07-a-ortho2019",
+      "hole": 7,
+      "kind": "fairway",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-fairway-07-b-ortho2019",
+      "hole": 7,
+      "kind": "fairway",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-fairway-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-fairway-08-a-ortho2019",
+      "hole": 8,
+      "kind": "fairway",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-8-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-01-a-ortho2019",
+      "hole": 1,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-1-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-02-a-ortho2019",
+      "hole": 2,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-04-a-ortho2019",
+      "hole": 4,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-05-a-ortho2019",
+      "hole": 5,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-5-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-06-a-ortho2019",
+      "hole": 6,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-6-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-10-a-ortho2019",
+      "hole": 10,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-11-a-ortho2019",
+      "hole": 11,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-11-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-12-a-ortho2019",
+      "hole": 12,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-12-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-13-a-ortho2019",
+      "hole": 13,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-13-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-14-a-ortho2019",
+      "hole": 14,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-14-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-green-10-ortho2019",
+      "hole": 10,
+      "kind": "green",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-green-01-ortho2019",
+      "hole": 1,
+      "kind": "green",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-1-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-green-03-ortho2019",
+      "hole": 3,
+      "kind": "green",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-3-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-green-06-ortho2019",
+      "hole": 6,
+      "kind": "green",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-6-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-green-07-ortho2019",
+      "hole": 7,
+      "kind": "green",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-green-12-ortho2019",
+      "hole": 12,
+      "kind": "green",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-12-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-green-14-ortho2019",
+      "hole": 14,
+      "kind": "green",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-14-green"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-fairway-12-ortho2019",
+      "hole": 12,
+      "kind": "fairway",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-12-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-fairway-13-ortho2019",
+      "hole": 13,
+      "kind": "fairway",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-13-fairway-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-10-near-ortho2019",
+      "hole": 10,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-02-b-ortho2019",
+      "hole": 2,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-02-c-ortho2019",
+      "hole": 2,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-04-b-ortho2019",
+      "hole": 4,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-04-c-ortho2019",
+      "hole": 4,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-10-b-ortho2019",
+      "hole": 10,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-10-c-ortho2019",
+      "hole": 10,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-17-b-ortho2019",
+      "hole": 17,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-17-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-17-c-ortho2019",
+      "hole": 17,
+      "kind": "tee",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-17-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-04-west-ortho2019",
+      "hole": 4,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-04-east-ortho2019",
+      "hole": 4,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-05-green-ortho2019",
+      "hole": 5,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-5-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-05-fairway-ortho2019",
+      "hole": 5,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-5-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-07-approach-n-ortho2019",
+      "hole": 7,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-bunker-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-07-approach-s-ortho2019",
+      "hole": 7,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-bunker-3"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-10-mid-n-ortho2019",
+      "hole": 10,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-bunker-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-10-mid-c-ortho2019",
+      "hole": 10,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-bunker-3"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-10-mid-s-ortho2019",
+      "hole": 10,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-bunker-4"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-12-approach-ortho2019",
+      "hole": 12,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-12-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-14-n-ortho2019",
+      "hole": 14,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-14-bunker-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-bunker-14-s-ortho2019",
+      "hole": 14,
+      "kind": "bunker",
+      "sourceId": "imagery-municipal-2019",
+      "observedYear": 2019,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-14-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    }
+  ]
+}

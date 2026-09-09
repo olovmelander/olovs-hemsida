@@ -7,7 +7,7 @@ imports for the imagery. Same conventions as the Node tool: local metres in,
 PNG under cache/crops/, a labelled metre grid, `--plain` for a bare frame
 because an overlay hides the pixels it is meant to help you read.
 
-  python3 visbybuild/mapping/ortho_crop.py <name> <cx> <cz> <size> [--gotland]
+  python3 visbybuild/mapping/ortho_crop.py <name> <cx> <cz> <size> [--gotland | --lm-download]
                                            [--plain] [--metres N] [--marks "x,z,label;..."]
 """
 import json
@@ -66,6 +66,9 @@ def draw(name, cx, cz, size, layer='lm016', metres=None, plain=False, marks=()):
     os.makedirs(OUT, exist_ok=True)
     path = os.path.join(OUT, f'{name}{"-plain" if plain else ""}.png')
     frame.save(path)
+    if layer == 'lm-download':
+        with open(path + '.json', 'w') as handle:
+            json.dump(dict(layer=layer, affine=aff, rawImageRedistributed=False), handle, indent=2)
     print(f'{path} {frame.size[0]}x{frame.size[1]}px, {aff["metres"]} m/px, {layer}')
     return path
 
@@ -75,7 +78,9 @@ if __name__ == '__main__':
     has = lambda flag: f'--{flag}' in argv
     def value(flag, fallback=None):
         return argv[argv.index(f'--{flag}') + 1] if f'--{flag}' in argv else fallback
-    flags = {'--gotland', '--plain'}
+    flags = {'--gotland', '--plain', '--lm-download'}
+    if has('gotland') and has('lm-download'):
+        raise SystemExit('Select one image source')
     skip = set()
     for flag in ('metres', 'marks'):
         if f'--{flag}' in argv:
@@ -90,5 +95,5 @@ if __name__ == '__main__':
         if piece.strip():
             parts = piece.split(',')
             marks.append((float(parts[0]), float(parts[1]), parts[2] if len(parts) > 2 else ''))
-    draw(name, cx, cz, size, 'gotland' if has('gotland') else 'lm016',
+    draw(name, cx, cz, size, 'lm-download' if has('lm-download') else 'gotland' if has('gotland') else 'lm016',
          float(value('metres')) if value('metres') else None, has('plain'), marks)

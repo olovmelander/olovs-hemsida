@@ -1,3 +1,5 @@
+import roofReview from '../../../../../visbybuild/mapping/building-roof-review-2026.json';
+
 /* Visby GK / Kronholmen — the things about this place that are not data.
 
    Everything here comes from photographs or from the orthophoto, and each line
@@ -81,6 +83,8 @@ export const clubhouse = {
    and 530655633 stands 9 m from it against 530655632's 17 m). If a captioned
    club photograph ever settles it, check that before anything else. */
 export const buildingLooks = {
+  // Source-reviewed roof families; aerial colours do not specify facades.
+  ...Object.fromEntries(Object.entries(roofReview.buildings).map(([id, value]) => [id, { roof: Number.parseInt(value.roof, 16) }])),
   'way/530655632': { wall: 0x8f4a41, roof: 0x2b2d30 },   /* 1892 bostadshuset, 117 m2 */
   'way/530655633': { wall: 0xe9e7e0, roof: 0x2b2d30 },   /* 1890 Fyrhuset, 82 m2 */
 };

@@ -1,5 +1,14 @@
 # Visby / Kronholmen geospatial evidence
 
+**2026-09-09 access update:** all four national RGBI image assets now pass
+actual TIFF byte-range checks using the repository account. All 22 tee and
+priority surface windows were acquired with 100% valid pixels. See the
+[retained acquisition evidence](lm-ortho-acquisition-2026-09-09.json),
+[exact review plan](lm-ortho-plan-2026-09-09.json), and
+[download/tracing instructions](../../../../visbybuild/mapping/lantmateriet-2026.md).
+The earlier acquisition table below records the September 7 investigation;
+its orthophoto 403 result is historical. Geometry interpretation remains open.
+
 Acquired and checked 2026-09-07 following the [v2 runbook](../../../../docs/v2-course-runbook.md).
 This is source intake for the shared 27-hole property; only the main `visby`
 course slug is registered in this discovery. A nine-hole route needs its own

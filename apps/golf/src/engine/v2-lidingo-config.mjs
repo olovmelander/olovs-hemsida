@@ -5,6 +5,13 @@ export const LIDINGO_V2_CONFIG = Object.freeze({
   label: 'Lidingö GK · Lantmäteriet 1 m · Preliminära spelytor',
   frameFingerprint: '8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6',
   expectedBoundsEpsg5845: Object.freeze({
+    minEasting: 669508.5, minNorthing: 6578207.5, maxEasting: 685892.5, maxNorthing: 6594591.5,
+  }),
+  ringGraph: Object.freeze({
+    levels: 7, tiles: 277, rootSpanMetres: 16384,
+    tilesByLod: Object.freeze([64, 64, 64, 64, 16, 4, 1]),
+  }),
+  expectedFrontierBoundsEpsg5845: Object.freeze({
     minEasting: 676676.5, minNorthing: 6585375.5, maxEasting: 678724.5, maxNorthing: 6587423.5,
   }),
   canonicalOrigin: Object.freeze({ easting: 677700.5, northing: 6586399.5, heightRH2000: -0.05 }),

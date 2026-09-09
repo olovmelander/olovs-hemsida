@@ -226,6 +226,13 @@ const [b0, b1, MODEL, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), modelPromise, terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
+// Only Lidingö's ready world requests this measured context. Loading overlaps
+// terrain/vegetation preparation; the optional layer has a bounded wait.
+const LIDINGO_WATER_LOADING = CMETA.slug === 'lidingo' && TERRAIN_PREVIEW.ready
+  ? import('./engine/lidingo-environment-water.mjs').then(async mod => ({ mod,
+    data: await mod.loadLidingoEnvironmentWater({ baseUrl: new URL(import.meta.env.BASE_URL, location.href).href }),
+  })).catch(error => ({ error }))
+  : null;
 /* Improved graphics are the default on ready v2 terrain. Keep graphics=0 as
    the explicit comparison override; course data and quality policy are shared. */
 const GRAPHICS_POLISH = TERRAIN_PREVIEW.ready === true && new URLSearchParams(location.search).get('graphics') !== '0';
@@ -3324,6 +3331,45 @@ for (const w of M.water) {
   scene.add(m);
   WATER_MESHES.push(m);
   stats.draws++;
+}
+
+if (LIDINGO_WATER_LOADING) {
+  const context = await LIDINGO_WATER_LOADING;
+  if (context.error) {
+    stats.environmentWater = { state: 'unavailable', reason: String(context.error) };
+    if (new URLSearchParams(location.search).get('v2') === 'require') throw context.error;
+    console.warn('Lidingö surrounding water unavailable', context.error);
+  } else {
+    const batches = await context.mod.buildLidingoWaterBatches(context.data, async () => {
+      if (shouldYieldWork()) await yieldWork();
+    });
+    let vertices = 0, triangles = 0;
+    for (const batch of batches) {
+      const count = batch.positions.length / 3, g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(batch.positions, 3));
+      // The DTM does not measure underwater depth. A distant water colour is
+      // used without inferred bathymetry or foam along artificial crop edges.
+      g.setAttribute('aShore', new THREE.Float32BufferAttribute(new Float32Array(count).fill(40), 1));
+      g.setAttribute('aFoam', new THREE.Float32BufferAttribute(new Float32Array(count), 1));
+      g.setAttribute('aDepth', new THREE.Float32BufferAttribute(new Float32Array(count), 1));
+      g.setIndex(batch.indices);
+      g.computeBoundingSphere();
+      const mesh = new THREE.Mesh(g, waterMat);
+      mesh.name = `lidingo-source-water-${batch.sourceItemId}`;
+      mesh.position.y = 0.06;
+      mesh.renderOrder = 6;
+      mesh.userData.tag = 'water';
+      mesh.userData.sourceFeatureIds = batch.features;
+      scene.add(mesh);
+      WATER_MESHES.push(mesh);
+      vertices += count; triangles += batch.indices.length / 3;
+      stats.draws++;
+    }
+    stats.verts += vertices; stats.tris += triangles;
+    stats.environmentWater = { state: 'source-geometry-loaded', features: context.data.features.length,
+      interiorRings: batches.reduce((n, b) => n + b.interiorRings, 0), batches: batches.length,
+      vertices, triangles, sourceHeightsPreserved: true, displayLiftMetres: 0.06 };
+  }
 }
 
 /* THE WATER THE GROUND FOUND. The extract's rings stop at its bounding box

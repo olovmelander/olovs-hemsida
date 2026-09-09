@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "captureDate": "2026-04-10",
+  "attribution": "Ortofoto Nedladdning \u00a9Lantm\u00e4teriet, CC BY 4.0; RGB extracts converted to JPEG for review.",
+  "sources": {
+    "range-practice": {
+      "id": "range-practice",
+      "file": "range-practice.jpg",
+      "sha256": "44ac06193310deae5f24dd05141dcf21990256c89fb595a51395f122cd9f29f9",
+      "sourceRasterSha256": "b96dad8de008250566cb4aa094835c514c49a725393696e6189388ea8bbd21fd",
+      "boundsEpsg3006": [
+        687370.24,
+        6370779.68,
+        687635.36,
+        6371199.84
+      ],
+      "geoTransform": [
+        687370.24,
+        0.16,
+        0.0,
+        6371199.84,
+        0.0,
+        -0.16
+      ],
+      "width": 1657,
+      "height": 2626,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "validFraction": 1.0,
+      "extentEpsg3006": [
+        687370.24,
+        6370779.68,
+        687635.36,
+        6371199.84
+      ],
+      "imageSize": [
+        1657,
+        2626
+      ],
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "pixelConvention": "native pixel edges from top left; no preview coordinates",
+      "interpretationUncertaintyMetres": 1,
+      "registrationAccuracy": "not independently measured"
+    },
+    "context-2-3": {
+      "id": "context-2-3",
+      "file": "context-2-3.jpg",
+      "sha256": "22410a6c494caa51fec475de5fd81a9823f62a800c45846227030c2579030faf",
+      "sourceRasterSha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+      "boundsEpsg3006": [
+        687811.84,
+        6370867.04,
+        688323.84,
+        6371379.04
+      ],
+      "geoTransform": [
+        687811.84,
+        0.16,
+        0.0,
+        6371379.04,
+        0.0,
+        -0.16
+      ],
+      "width": 3200,
+      "height": 3200,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "validFraction": 1.0,
+      "extentEpsg3006": [
+        687811.84,
+        6370867.04,
+        688323.84,
+        6371379.04
+      ],
+      "imageSize": [
+        3200,
+        3200
+      ],
+      "sourceIds": [
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "pixelConvention": "native pixel edges from top left; no preview coordinates",
+      "interpretationUncertaintyMetres": 1,
+      "registrationAccuracy": "not independently measured"
+    },
+    "clubhouse-finish": {
+      "id": "clubhouse-finish",
+      "file": "clubhouse-finish.jpg",
+      "sha256": "d953be790f1bf650842dd503ecb837b1fab65f89312a89d4872da6f4f85db063",
+      "sourceRasterSha256": "27bdf32eb5688464d91c7cb4021579b0ea24be52578b5be91567e8c35f53b4cf",
+      "boundsEpsg3006": [
+        687097.12,
+        6370605.28,
+        687401.44,
+        6370904.32
+      ],
+      "geoTransform": [
+        687097.12,
+        0.16,
+        0.0,
+        6370904.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1902,
+      "height": 1869,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "validFraction": 1.0,
+      "extentEpsg3006": [
+        687097.12,
+        6370605.28,
+        687401.44,
+        6370904.32
+      ],
+      "imageSize": [
+        1902,
+        1869
+      ],
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26"
+      ],
+      "pixelConvention": "native pixel edges from top left; no preview coordinates",
+      "interpretationUncertaintyMetres": 1,
+      "registrationAccuracy": "not independently measured"
+    },
+    "context-2-4": {
+      "id": "context-2-4",
+      "file": "context-2-4.jpg",
+      "sha256": "ba2b098b11daededbc37bc0fb3c30699c8dcd15683af0d0f34706c83a7baf728",
+      "sourceRasterSha256": "f375207790c6ae2ba4764a5cf040bf76e28243cc2e78fef70556b3105332a808",
+      "boundsEpsg3006": [
+        688323.84,
+        6370867.04,
+        688808.32,
+        6371379.04
+      ],
+      "geoTransform": [
+        688323.84,
+        0.16,
+        0.0,
+        6371379.04,
+        0.0,
+        -0.16
+      ],
+      "width": 3028,
+      "height": 3200,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "validFraction": 1.0,
+      "extentEpsg3006": [
+        688323.84,
+        6370867.04,
+        688808.32,
+        6371379.04
+      ],
+      "imageSize": [
+        3028,
+        3200
+      ],
+      "sourceIds": [
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "pixelConvention": "native pixel edges from top left; no preview coordinates",
+      "interpretationUncertaintyMetres": 1,
+      "registrationAccuracy": "not independently measured"
+    },
+    "context-1-4": {
+      "id": "context-1-4",
+      "file": "context-1-4.jpg",
+      "sha256": "fe091693081201e1ff689a4502fe8d7a5ce59dc6a75ac6558c8c6757ce66dcbd",
+      "sourceRasterSha256": "aba1d3e2efcc8d5a39d4fb3c147e739966a2c4d6a9b6a3131b953c668d462676",
+      "boundsEpsg3006": [
+        688323.84,
+        6371379.04,
+        688808.32,
+        6371891.04
+      ],
+      "geoTransform": [
+        688323.84,
+        0.16,
+        0.0,
+        6371891.04,
+        0.0,
+        -0.16
+      ],
+      "width": 3028,
+      "height": 3200,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "validFraction": 1.0,
+      "extentEpsg3006": [
+        688323.84,
+        6371379.04,
+        688808.32,
+        6371891.04
+      ],
+      "imageSize": [
+        3028,
+        3200
+      ],
+      "sourceIds": [
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "pixelConvention": "native pixel edges from top left; no preview coordinates",
+      "interpretationUncertaintyMetres": 1,
+      "registrationAccuracy": "not independently measured"
+    },
+    "context-3-4": {
+      "id": "context-3-4",
+      "file": "context-3-4.jpg",
+      "sha256": "fbcdb78279adf6945c3f3025e0f45b853c0c39552443ab50581f7805d6120bba",
+      "sourceRasterSha256": "1638106240f9c93912f679e8f45508ab8b48f99e4e395a3026a474fc6500561c",
+      "boundsEpsg3006": [
+        688323.84,
+        6370355.04,
+        688808.32,
+        6370867.04
+      ],
+      "geoTransform": [
+        688323.84,
+        0.16,
+        0.0,
+        6370867.04,
+        0.0,
+        -0.16
+      ],
+      "width": 3028,
+      "height": 3200,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "validFraction": 1.0,
+      "extentEpsg3006": [
+        688323.84,
+        6370355.04,
+        688808.32,
+        6370867.04
+      ],
+      "imageSize": [
+        3028,
+        3200
+      ],
+      "sourceIds": [
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "pixelConvention": "native pixel edges from top left; no preview coordinates",
+      "interpretationUncertaintyMetres": 1,
+      "registrationAccuracy": "not independently measured"
+    },
+    "context-4-4": {
+      "id": "context-4-4",
+      "file": "context-4-4.jpg",
+      "sha256": "2d4e9c7d6be2af2b4df3b3785c94e98e4e608b7ad54d92f7d69736035befe6c9",
+      "sourceRasterSha256": "a4d7af3878efb9bbca33f41ecbeb5a7e2a4a26e6acae2b6e0ef192804e868720",
+      "boundsEpsg3006": [
+        688323.84,
+        6369843.04,
+        688808.32,
+        6370355.04
+      ],
+      "geoTransform": [
+        688323.84,
+        0.16,
+        0.0,
+        6370355.04,
+        0.0,
+        -0.16
+      ],
+      "width": 3028,
+      "height": 3200,
+      "sources": [
+        {
+          "id": "o63675_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:28:07Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "validFraction": 1.0,
+      "extentEpsg3006": [
+        688323.84,
+        6369843.04,
+        688808.32,
+        6370355.04
+      ],
+      "imageSize": [
+        3028,
+        3200
+      ],
+      "sourceIds": [
+        "imagery-lm-o63675-6875-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "pixelConvention": "native pixel edges from top left; no preview coordinates",
+      "interpretationUncertaintyMetres": 1,
+      "registrationAccuracy": "not independently measured"
+    }
+  },
+  "buildings": {
+    "way/530655627": {
+      "roof": "b8b9b4",
+      "sourceKey": "range-practice",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/530655628": {
+      "roof": "3e4243",
+      "sourceKey": "context-2-3",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/530655629": {
+      "roof": "343b40",
+      "sourceKey": "clubhouse-finish",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/530655630": {
+      "roof": "3c4143",
+      "sourceKey": "clubhouse-finish",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/549809883": {
+      "roof": "343a3e",
+      "sourceKey": "context-2-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/597491147": {
+      "roof": "3f3c39",
+      "sourceKey": "context-1-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/597491148": {
+      "roof": "747b7c",
+      "sourceKey": "context-1-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/597491149": {
+      "roof": "77695f",
+      "sourceKey": "context-1-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/597491150": {
+      "roof": "343a3c",
+      "sourceKey": "context-1-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/1309534308": {
+      "roof": "3c4144",
+      "sourceKey": "context-2-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/1309534309": {
+      "roof": "33393c",
+      "sourceKey": "context-2-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/1309534310": {
+      "roof": "a75f53",
+      "sourceKey": "context-2-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/1309542505": {
+      "roof": "a36255",
+      "sourceKey": "context-3-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/1309542509": {
+      "roof": "777e7e",
+      "sourceKey": "context-3-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/1309542518": {
+      "roof": "78817e",
+      "sourceKey": "context-4-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    },
+    "way/1309945202": {
+      "roof": "b7bbb7",
+      "sourceKey": "context-3-4",
+      "observation": "Daylight roof-colour family from the 2026 source overlay. Rendering approximation, not calibrated reflectance."
+    }
+  },
+  "limits": "Only roof colour changes. Facades, walls, dimensions and roof geometry are not inferred from aerial colour."
+}

@@ -1,0 +1,673 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-09",
+  "review": {
+    "path": "visbybuild/mapping/orthophoto-review-2026.json",
+    "sha256": "941925d6a95098a0376bc46aaa0b733273ad54900ded3d8b9159aaa9b04fa5f3"
+  },
+  "inputGround": {
+    "bytes": 500364,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "98c29c691ccf425008e62758c3710203064e6016f133eb09801c186f5a9b76f5",
+    "url": "grounds/visby/ground-v2-98c29c691ccf425008e62758c3710203064e6016f133eb09801c186f5a9b76f5.json"
+  },
+  "reviewedAreas": 70,
+  "individualCrownsPreserved": 3040,
+  "method": "Add the excluded flag to measured stand cells within a cell half diagonal of the reviewed 2026 playing polygons. All canopy measurements, crown objects and terrain bytes are preserved.",
+  "changes": [
+    {
+      "tileId": "l0/6/4",
+      "previous": {
+        "bytes": 4326,
+        "decodedBytes": 16384,
+        "decodedSha256": "5071af816ee85a3138e86666a98bc192823fe65a1bf72ea4647c62df893fd5be",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "6ab26695f47f17933f347ea6df2a4d41c2d42b7e0cf19ec77c627385aef50521",
+        "url": "grounds/visby/stands/6ab26695f47f17933f347ea6df2a4d41c2d42b7e0cf19ec77c627385aef50521.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/9b19347205e91f0e0d745ab8ba2a0171d0235363f15087f754de123f09b9ece4.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 4337,
+        "sha256": "9b19347205e91f0e0d745ab8ba2a0171d0235363f15087f754de123f09b9ece4",
+        "decodedBytes": 16384,
+        "decodedSha256": "e33c5b1f09a81fa345f2a56edd92052977ede790ba264319c6fab7ee66f54375",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 59,
+      "eligibleCanopyCellsRemoved": 1
+    },
+    {
+      "tileId": "l0/7/4",
+      "previous": {
+        "bytes": 2073,
+        "decodedBytes": 16384,
+        "decodedSha256": "8123b7c8840fff0da6447dd602173db50ea4a330adbc615804bf1b7f900576e3",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "e8f41e2a48688c5763e52f1e5810be65e02769a93ad796479f7df885e4c622e3",
+        "url": "grounds/visby/stands/e8f41e2a48688c5763e52f1e5810be65e02769a93ad796479f7df885e4c622e3.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/37e6c8dafb9c3953048e37391d7a99cdf9ea23d3ce8e8ea9c10a905f162454ed.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 2069,
+        "sha256": "37e6c8dafb9c3953048e37391d7a99cdf9ea23d3ce8e8ea9c10a905f162454ed",
+        "decodedBytes": 16384,
+        "decodedSha256": "24b7c30c99ea7122fb220b0767b954f19cd5d1333296398a59f127ba9a2483fa",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 36,
+      "eligibleCanopyCellsRemoved": 2
+    },
+    {
+      "tileId": "l0/6/5",
+      "previous": {
+        "bytes": 4482,
+        "decodedBytes": 16384,
+        "decodedSha256": "e8172ab728e8327aef6ddfa9e6f1d023d7f379a18dc142648e3d9f65aeb07cec",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "ffbdebaf86d01792fc9e3d73293591bdc3cb0f2ce0aa95de8232c881985766e2",
+        "url": "grounds/visby/stands/ffbdebaf86d01792fc9e3d73293591bdc3cb0f2ce0aa95de8232c881985766e2.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/cb959b2b52af29e251a52d81266be1231cb1e6e1582afed569f5fb2683c005ec.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 4487,
+        "sha256": "cb959b2b52af29e251a52d81266be1231cb1e6e1582afed569f5fb2683c005ec",
+        "decodedBytes": 16384,
+        "decodedSha256": "09959bcf40b8b8c3da23e3901e7dd4706333300db78c309fc7038d016d33c55a",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 95,
+      "eligibleCanopyCellsRemoved": 1
+    },
+    {
+      "tileId": "l0/7/5",
+      "previous": {
+        "bytes": 2441,
+        "decodedBytes": 16384,
+        "decodedSha256": "36b869be115967221874519790f9e6dd017e5ed18109dc04164577e5c0609c0c",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "39652b169070c8c853bdf3f6969a5065450f87794f2065479140c7fac1ff0abe",
+        "url": "grounds/visby/stands/39652b169070c8c853bdf3f6969a5065450f87794f2065479140c7fac1ff0abe.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/b09308708550a47f049a3d4b33b93e47c451e56236da5577f61bd9ac78083286.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 2440,
+        "sha256": "b09308708550a47f049a3d4b33b93e47c451e56236da5577f61bd9ac78083286",
+        "decodedBytes": 16384,
+        "decodedSha256": "9751ea4d1d335570113bff177f80aefcc430498b9a5fc68cbf31b8c7fa3ff282",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 7,
+      "eligibleCanopyCellsRemoved": 0
+    },
+    {
+      "tileId": "l0/6/6",
+      "previous": {
+        "bytes": 4148,
+        "decodedBytes": 16384,
+        "decodedSha256": "f04038299e4d7183d16d81c18ac00e30681c1507f44c521b1b64385bf6e94b39",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "5a127975faf1a4636c9761f9325660507118829ccda0aae0219563dab6ea9da9",
+        "url": "grounds/visby/stands/5a127975faf1a4636c9761f9325660507118829ccda0aae0219563dab6ea9da9.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/23fb824a148c24bf716b6046117d4564902a497fdb98ce76f016684f62d7e1c9.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 4178,
+        "sha256": "23fb824a148c24bf716b6046117d4564902a497fdb98ce76f016684f62d7e1c9",
+        "decodedBytes": 16384,
+        "decodedSha256": "322994b70cb1044345f613134b65e0a7af1df61bc770309ca2f47fbf0ce99687",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 173,
+      "eligibleCanopyCellsRemoved": 14
+    },
+    {
+      "tileId": "l0/7/6",
+      "previous": {
+        "bytes": 3708,
+        "decodedBytes": 16384,
+        "decodedSha256": "8929fecfbe265d67c3c5ee1cd18038929d5f5e2e3c823c42ee8f24030de63ee6",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "54bec72eeeaec46e11d80090c17475493cfef2112b94179e7ccb11f721da7a94",
+        "url": "grounds/visby/stands/54bec72eeeaec46e11d80090c17475493cfef2112b94179e7ccb11f721da7a94.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/a62e6d57d9f9fc5750ed2bfdc66651249c9be42dbde6f0efc919acf6b9d2fca6.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 3731,
+        "sha256": "a62e6d57d9f9fc5750ed2bfdc66651249c9be42dbde6f0efc919acf6b9d2fca6",
+        "decodedBytes": 16384,
+        "decodedSha256": "8f35f737d615c2d5a19b1fd7f05f2355febf8ff8b4c0e83da19feeb48a28badd",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 67,
+      "eligibleCanopyCellsRemoved": 3
+    },
+    {
+      "tileId": "l0/8/6",
+      "previous": {
+        "bytes": 5684,
+        "decodedBytes": 16384,
+        "decodedSha256": "5c7c74e610ebbdf59358d6331bd5b4b523c377578f3e6e8ee24b3dce8cac9b35",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "e3e19efab97ac47255acb83bbc3eb5f8bbd748b9217f5a84f5f730df0beb27ef",
+        "url": "grounds/visby/stands/e3e19efab97ac47255acb83bbc3eb5f8bbd748b9217f5a84f5f730df0beb27ef.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/0b94a7b53b2c653baa72018df402c1a0c315f2f18dc143bae9a8e962247b026e.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 5700,
+        "sha256": "0b94a7b53b2c653baa72018df402c1a0c315f2f18dc143bae9a8e962247b026e",
+        "decodedBytes": 16384,
+        "decodedSha256": "5c72b56d29a8bc2559bf8ed58b275d91203aae5e53ca344e23dedd25eb4343c6",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 61,
+      "eligibleCanopyCellsRemoved": 0
+    },
+    {
+      "tileId": "l0/9/6",
+      "previous": {
+        "bytes": 4647,
+        "decodedBytes": 16384,
+        "decodedSha256": "2e5159d1ae80778116444142f2cc7926e59398b8414b899f91c5b17c8d0909da",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "ffa3bddc5244b8d6fe68068b9c10ac149ee29b5f53dd64327070c6417e68c6ff",
+        "url": "grounds/visby/stands/ffa3bddc5244b8d6fe68068b9c10ac149ee29b5f53dd64327070c6417e68c6ff.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/339e3fc5382b444ee9e55ff7910d1343df301f509537d496902b32b334c60f1a.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 4649,
+        "sha256": "339e3fc5382b444ee9e55ff7910d1343df301f509537d496902b32b334c60f1a",
+        "decodedBytes": 16384,
+        "decodedSha256": "3b58fcce18c2ac3c5857e3ffc973e6c5611850dfea1c141736f21c851853fb02",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 6,
+      "eligibleCanopyCellsRemoved": 0
+    },
+    {
+      "tileId": "l0/6/7",
+      "previous": {
+        "bytes": 3698,
+        "decodedBytes": 16384,
+        "decodedSha256": "59f52d03dda605cf03b6731c311eed89b1a066ea642cc9e54f314c17ca1d75c9",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "56cc3c36dc52a488e9413491a20caf7902787ee23fc5ff3e680340697e16ca31",
+        "url": "grounds/visby/stands/56cc3c36dc52a488e9413491a20caf7902787ee23fc5ff3e680340697e16ca31.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/77558bb7c308bc66d75607c9d229d45588ede2bb834a2336de11fc6e4649f721.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 3716,
+        "sha256": "77558bb7c308bc66d75607c9d229d45588ede2bb834a2336de11fc6e4649f721",
+        "decodedBytes": 16384,
+        "decodedSha256": "d7f0aa8e57f6dfcbfe7ab06dd854be496051f009d2cf691518c31becc0ffe192",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 61,
+      "eligibleCanopyCellsRemoved": 13
+    },
+    {
+      "tileId": "l0/8/7",
+      "previous": {
+        "bytes": 7402,
+        "decodedBytes": 16384,
+        "decodedSha256": "e4a9432bf9ad0dc01bae4e5be90b311e48ab90bd71dd936f2b2462217d0b4ea3",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "55070392d7ec9edb594ba320912c8eb12f4bc42caea2906e9c0e0dc0962a4b76",
+        "url": "grounds/visby/stands/55070392d7ec9edb594ba320912c8eb12f4bc42caea2906e9c0e0dc0962a4b76.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/8f0b26e590f7829533de50c17d55fbca4fafcf729ccebbc8a6dea68282ad9114.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 7420,
+        "sha256": "8f0b26e590f7829533de50c17d55fbca4fafcf729ccebbc8a6dea68282ad9114",
+        "decodedBytes": 16384,
+        "decodedSha256": "a4fae6e55dacca22e646b2d09fb82479c3fd6f7a636291d7bd7bb34c60cd6a70",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 61,
+      "eligibleCanopyCellsRemoved": 8
+    },
+    {
+      "tileId": "l0/9/7",
+      "previous": {
+        "bytes": 4450,
+        "decodedBytes": 16384,
+        "decodedSha256": "4faa8c0112758c08614cc232a9b97e9f3d14e9e88727dc8c45552b1fa89e18ea",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "8543b4cb2cfbed0ad2e15a3b88592cb33f7a265b3609f143e1b0393e386fc1b6",
+        "url": "grounds/visby/stands/8543b4cb2cfbed0ad2e15a3b88592cb33f7a265b3609f143e1b0393e386fc1b6.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/b2ddff8bfeaf0f55e77d3f13dbde55142d764780f4c7aec80415cdfddf63399c.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 4488,
+        "sha256": "b2ddff8bfeaf0f55e77d3f13dbde55142d764780f4c7aec80415cdfddf63399c",
+        "decodedBytes": 16384,
+        "decodedSha256": "6e3d5446f7e94cb6a06c8f3ffab0f15160aecfc727a33788244bd90291d3d361",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 66,
+      "eligibleCanopyCellsRemoved": 0
+    },
+    {
+      "tileId": "l0/10/7",
+      "previous": {
+        "bytes": 4001,
+        "decodedBytes": 16384,
+        "decodedSha256": "8762dadf4a0c337117678546f697ce8ddee24787bb29925e53664c45eb3b69e8",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "b3c7068b416cc83daf1163275c6f434e70b3a0bdf045391f75a66fc627cdc6de",
+        "url": "grounds/visby/stands/b3c7068b416cc83daf1163275c6f434e70b3a0bdf045391f75a66fc627cdc6de.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/02a986fdf1a395309742bc37d61c2fd6ae304a99187ee0a9c71a1b3ea3010acd.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 4053,
+        "sha256": "02a986fdf1a395309742bc37d61c2fd6ae304a99187ee0a9c71a1b3ea3010acd",
+        "decodedBytes": 16384,
+        "decodedSha256": "7a5b4e672487f2291ec3862691296de7f3beb893f9e90b279a3cb5d0af9624d2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 76,
+      "eligibleCanopyCellsRemoved": 0
+    },
+    {
+      "tileId": "l0/5/8",
+      "previous": {
+        "bytes": 2549,
+        "decodedBytes": 16384,
+        "decodedSha256": "960b1bb15e4db259cdcddf286d64ad73d825c4ee31e7bb8b176f1ef66300675a",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "a905c3a42884fc7f22891abc1b425c9167e964b77690a50b2f6e305c4ab0212e",
+        "url": "grounds/visby/stands/a905c3a42884fc7f22891abc1b425c9167e964b77690a50b2f6e305c4ab0212e.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/ab378dca9f9d7d760ae68804454f7917d20cceb6c360668c766819dff5a7f817.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 2554,
+        "sha256": "ab378dca9f9d7d760ae68804454f7917d20cceb6c360668c766819dff5a7f817",
+        "decodedBytes": 16384,
+        "decodedSha256": "a530ea0cc4a316b737ab2b0b0a9bd1b72ad6a3dd95188f796a867fe8d4664326",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 51,
+      "eligibleCanopyCellsRemoved": 8
+    },
+    {
+      "tileId": "l0/6/8",
+      "previous": {
+        "bytes": 4358,
+        "decodedBytes": 16384,
+        "decodedSha256": "2a88875d5c1dca95d77142fe3c3573508ccb48ee8163d5cdd4fcb65b56d936fd",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "153f5eca79ba215e7f63349368dc29a59c2d70ae3b45b73b30074b5c99b61f83",
+        "url": "grounds/visby/stands/153f5eca79ba215e7f63349368dc29a59c2d70ae3b45b73b30074b5c99b61f83.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/86e1e864df88e8f7e5872d2a461ab2cace45199a25ae94ae72b5d3de278df593.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 4370,
+        "sha256": "86e1e864df88e8f7e5872d2a461ab2cace45199a25ae94ae72b5d3de278df593",
+        "decodedBytes": 16384,
+        "decodedSha256": "1e6ef6d912a9d8ab9f3f8f339387d629faa8b48478bf29e450a5d03a1c03446a",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 27,
+      "eligibleCanopyCellsRemoved": 2
+    },
+    {
+      "tileId": "l0/7/8",
+      "previous": {
+        "bytes": 3335,
+        "decodedBytes": 16384,
+        "decodedSha256": "ebb9b02189e8272c7438c4450442dbab3dbb16cb773dc60a86f6564f6e9ac654",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "5725678b2c74b07cf4da7bc90e8ff078a96f78c561adc790b428e31ae2b90552",
+        "url": "grounds/visby/stands/5725678b2c74b07cf4da7bc90e8ff078a96f78c561adc790b428e31ae2b90552.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/1d9c83d7d99496525b435e0f2a55e3d7c9cefa249707f2f936982fa404dddd0f.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 3377,
+        "sha256": "1d9c83d7d99496525b435e0f2a55e3d7c9cefa249707f2f936982fa404dddd0f",
+        "decodedBytes": 16384,
+        "decodedSha256": "1c99ac18be1f9ff927d3cc1c6aeeb7a65468e1d753fb0f8eb57ad3e27694857e",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 107,
+      "eligibleCanopyCellsRemoved": 5
+    },
+    {
+      "tileId": "l0/8/8",
+      "previous": {
+        "bytes": 4455,
+        "decodedBytes": 16384,
+        "decodedSha256": "06ff01e5f02ba52809bddaabb920a6d3e867f323ca256d60e4d2aac816c9a1a6",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "a42fca6a6bf756d7197b3fe18482ec3346e8f992648cae804cfc0b58c78dd74e",
+        "url": "grounds/visby/stands/a42fca6a6bf756d7197b3fe18482ec3346e8f992648cae804cfc0b58c78dd74e.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/6d1a8d9fef7a8be676fc6d2b1664d4e1cdb18081f9f3695038df5249fa03949f.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 4477,
+        "sha256": "6d1a8d9fef7a8be676fc6d2b1664d4e1cdb18081f9f3695038df5249fa03949f",
+        "decodedBytes": 16384,
+        "decodedSha256": "0ca9ee69bcc1e4ee2f6c7e65d8857f389f469f487c33d44b9bb5e9a5373959f1",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 52,
+      "eligibleCanopyCellsRemoved": 7
+    },
+    {
+      "tileId": "l0/9/8",
+      "previous": {
+        "bytes": 6740,
+        "decodedBytes": 16384,
+        "decodedSha256": "6c77e3d345c9136189fa65201b951b61cf45b8e06f6096784dfa4e911ddae93b",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "1656947f08a23a4bc92dffc95b247fd941b5d6b65fe8765f46861179295d2853",
+        "url": "grounds/visby/stands/1656947f08a23a4bc92dffc95b247fd941b5d6b65fe8765f46861179295d2853.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/391edb27dbbec3eae01fdbc2dc337b77255c7f6891507f72f28de50368e3ee72.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 6747,
+        "sha256": "391edb27dbbec3eae01fdbc2dc337b77255c7f6891507f72f28de50368e3ee72",
+        "decodedBytes": 16384,
+        "decodedSha256": "96ba01040085c9dd426c1d7b72324d575d694461b5386c40382d40e29362c0df",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 20,
+      "eligibleCanopyCellsRemoved": 0
+    },
+    {
+      "tileId": "l0/10/8",
+      "previous": {
+        "bytes": 1788,
+        "decodedBytes": 16384,
+        "decodedSha256": "017089f0abe93726317bbdb92584f44189d738479b1cd72af5db2b86e185b04e",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "4be854aefb4a9b0908954d3d9d802808fc802d46b0d397059bd50e6d01b6d215",
+        "url": "grounds/visby/stands/4be854aefb4a9b0908954d3d9d802808fc802d46b0d397059bd50e6d01b6d215.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/b03c4e2ea0d3c8e16c0ba7d622501838215d76e7c5a47242aa1429321ccd2b4c.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 1803,
+        "sha256": "b03c4e2ea0d3c8e16c0ba7d622501838215d76e7c5a47242aa1429321ccd2b4c",
+        "decodedBytes": 16384,
+        "decodedSha256": "7898fd57ef80376eb6deb5f422c1cfdc6f68ed46bf97ac29acf48c6ebfac262f",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 34,
+      "eligibleCanopyCellsRemoved": 4
+    },
+    {
+      "tileId": "l0/6/9",
+      "previous": {
+        "bytes": 1975,
+        "decodedBytes": 16384,
+        "decodedSha256": "e8c7a7a83633452c2ffb5bf4b73a15b47e56c2fcdfa1f462fab6b104e6d8985e",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "f357d4cfe0782c3cca6a2c9e8e00ea9ff22e7b6a6a1cedb99fd371d49167b19e",
+        "url": "grounds/visby/stands/f357d4cfe0782c3cca6a2c9e8e00ea9ff22e7b6a6a1cedb99fd371d49167b19e.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/49047829208e659ce25b18c27f428c8717f1882ce462f04d32c3b39874a255f0.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 1975,
+        "sha256": "49047829208e659ce25b18c27f428c8717f1882ce462f04d32c3b39874a255f0",
+        "decodedBytes": 16384,
+        "decodedSha256": "db131f17de7505a25c517ac004d592b8d6ebe995eb3526c77f19542a153aac5d",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 25,
+      "eligibleCanopyCellsRemoved": 2
+    },
+    {
+      "tileId": "l0/8/9",
+      "previous": {
+        "bytes": 1639,
+        "decodedBytes": 16384,
+        "decodedSha256": "5988f399dde429d2f9f6deba93d3ef3dedaeedd7e2956e48aaee55c7a0760923",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "31692ed21c116d89bfbf5045afebe4ff51fa391781e403891720a1016d94ada6",
+        "url": "grounds/visby/stands/31692ed21c116d89bfbf5045afebe4ff51fa391781e403891720a1016d94ada6.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/63dc41b1dc9422ae4d550a088e405004466e877a477cbec892224832a44ba3f6.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 1651,
+        "sha256": "63dc41b1dc9422ae4d550a088e405004466e877a477cbec892224832a44ba3f6",
+        "decodedBytes": 16384,
+        "decodedSha256": "49ccb46734ef978d007622ace6faaf5d755193eaede2e002c19b124da7861a5d",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 25,
+      "eligibleCanopyCellsRemoved": 0
+    },
+    {
+      "tileId": "l0/9/9",
+      "previous": {
+        "bytes": 1458,
+        "decodedBytes": 16384,
+        "decodedSha256": "eb7237f7f929a67248fae05303e8721ee3273fe1b8ce290d6f1c8bcd5d634dd2",
+        "kind": "stands",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ],
+        "sha256": "12256458f0c629ce85a0403fee2ae33870bd3e2d4cde0ce1b7984079b0ad81bd",
+        "url": "grounds/visby/stands/12256458f0c629ce85a0403fee2ae33870bd3e2d4cde0ce1b7984079b0ad81bd.bvch"
+      },
+      "updated": {
+        "kind": "stands",
+        "url": "grounds/visby/stands/16959cfa8d253d715d0503e3ebb69d923e1f4d750e960848aa2e84098128c380.bvch",
+        "mediaType": "application/vnd.banvy.chunk-v2",
+        "bytes": 1456,
+        "sha256": "16959cfa8d253d715d0503e3ebb69d923e1f4d750e960848aa2e84098128c380",
+        "decodedBytes": 16384,
+        "decodedSha256": "5f32744429f3bc7275ff3c3a0c636f147a476bb6ed4ac9826cb8ff281fbb2305",
+        "requiredFeatures": [
+          "chunk-envelope-v2",
+          "stand-field-u8-v1"
+        ]
+      },
+      "excludedCellsAdded": 14,
+      "eligibleCanopyCellsRemoved": 1
+    }
+  ],
+  "excludedCellsAdded": 1123,
+  "eligibleCanopyCellsRemoved": 71
+}

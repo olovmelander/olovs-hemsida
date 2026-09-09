@@ -85,6 +85,12 @@ export async function prepareRoutingRebind({ repoRoot = DEFAULT_ROOT, publicDir 
   const frame = migrated.source.localFrame;
   if (frame?.originWgs84?.latitude !== model.origin?.lat || frame?.originWgs84?.longitude !== model.origin?.lon ||
       frame?.metresPerLatitude !== model.mPerLat || frame?.metresPerLongitude !== model.mPerLon) throw new Error('migration and model legacy frames differ');
+  const projectedFrame = frame.projectedOriginEpsg3006;
+  if (projectedFrame && (frame.frame !== model.frame ||
+      projectedFrame.easting !== ground.frame.origin.easting || projectedFrame.northing !== ground.frame.origin.northing ||
+      !equal(projectedFrame.axisMapping, { worldX: ground.frame.axisMapping.worldX, worldZ: ground.frame.axisMapping.worldZ }))) {
+    throw new Error('projected authoring frame differs from the published ground');
+  }
   const sourceHoles = migrated.geometry?.holes || migrated.holes;
   if (!Array.isArray(sourceHoles) || sourceHoles.length !== previousCourse.holes.length || model.holes?.length !== sourceHoles.length) throw new Error('hole count changed; this tool refreshes existing course routing only');
 
@@ -105,7 +111,8 @@ export async function prepareRoutingRebind({ repoRoot = DEFAULT_ROOT, publicDir 
     for (let k = 0; k < local.line.length; k++) {
       if (!finitePoint(local.line[k])) throw new Error(`hole ${hole.n}: invalid local routing point`);
       const [x, z] = local.line[k];
-      const projected = I.latLonToSweref99Tm(model.origin.lat - z / model.mPerLat, model.origin.lon + x / model.mPerLon);
+      const projected = projectedFrame ? [projectedFrame.easting + x, projectedFrame.northing - z]
+        : I.latLonToSweref99Tm(model.origin.lat - z / model.mPerLat, model.origin.lon + x / model.mPerLon);
       if (Math.hypot(projected[0] - hole.line[k][0], projected[1] - hole.line[k][1]) > 0.005) throw new Error(`hole ${hole.n}: migration point ${k} disagrees with the current model projection`);
     }
     return { number: hole.n, par: published.par, strokeIndex: published.strokeIndex, strokeIndexStatus: published.strokeIndexStatus, accuracyTier: published.accuracyTier, line: hole.line.map(point => point.slice(0, 2)) };

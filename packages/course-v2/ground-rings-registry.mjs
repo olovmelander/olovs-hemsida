@@ -14,6 +14,7 @@ import { PUTTOM_GROUND_RINGS } from './puttom-ground-rings.mjs';
 import { UPSALA_GROUND_RINGS } from './upsala-ground-rings.mjs';
 import { VECKEFJARDEN_GROUND_RINGS } from './veckefjarden-ground-rings.mjs';
 import { VISBY_GROUND_RINGS } from './visby-ground-rings.mjs';
+import { LIDINGO_GROUND_RINGS } from './lidingo-ground-rings.mjs';
 
 export const GROUND_RINGS = Object.freeze({
   angso: ANGSO_GROUND_RINGS,
@@ -22,6 +23,7 @@ export const GROUND_RINGS = Object.freeze({
   upsala: UPSALA_GROUND_RINGS,
   veckefjarden: VECKEFJARDEN_GROUND_RINGS,
   visby: VISBY_GROUND_RINGS,
+  lidingo: LIDINGO_GROUND_RINGS,
 });
 
 export function ringSpecFor(groundId) {

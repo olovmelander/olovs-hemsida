@@ -1,0 +1,1455 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "kind": "authenticated-orthophoto-review-plan",
+  "collection": "orto-f2-2026",
+  "horizontalCrs": "EPSG:3006",
+  "resolutionMetres": 0.16,
+  "frame": {
+    "easting": 687748.5,
+    "northing": 6370951.5,
+    "heightRH2000": 0.1,
+    "latitude": 57.44236399463288,
+    "longitude": 18.12847826436399,
+    "text": "local metres from EPSG:3006; east +x, north -z; origin E687748.5 N6370951.5; heights RH 2000"
+  },
+  "captureRange": {
+    "first": "2026-04-10T08:17:00Z",
+    "last": "2026-04-10T08:48:20Z"
+  },
+  "pixelConvention": "bounds are pixel edges; centre E=minE+(column+0.5)*resolution, N=maxN-(row+0.5)*resolution",
+  "modelSha256": "beb0c4721e098c902f22305716da8cdf842616b054c7a91ba71051080dbd82e0",
+  "sources": [
+    {
+      "id": "o63675_6850_25_mr26",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2026_F2/o63675_6850_25_mr26.tif",
+      "boundsEpsg3006": [
+        685000,
+        6367500,
+        687500,
+        6370000
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2026-04-10T08:17:08Z",
+      "bytes": 462081600
+    },
+    {
+      "id": "o63675_6875_25_mr26",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2026_F2/o63675_6875_25_mr26.tif",
+      "boundsEpsg3006": [
+        687500,
+        6367500,
+        690000,
+        6370000
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2026-04-10T08:28:07Z",
+      "bytes": 556655599
+    },
+    {
+      "id": "o63700_6850_25_mr26",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2026_F2/o63700_6850_25_mr26.tif",
+      "boundsEpsg3006": [
+        685000,
+        6370000,
+        687500,
+        6372500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2026-04-10T08:17:31Z",
+      "bytes": 484806474
+    },
+    {
+      "id": "o63700_6875_25_mr26",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2026_F2/o63700_6875_25_mr26.tif",
+      "boundsEpsg3006": [
+        687500,
+        6370000,
+        690000,
+        6372500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2026-04-10T08:27:42Z",
+      "bytes": 661223450
+    }
+  ],
+  "windows": [
+    {
+      "id": "hole-12-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 12,
+      "unresolvedTees": [
+        "63",
+        "59",
+        "55",
+        "51",
+        "46",
+        "41"
+      ],
+      "mappedPlatforms": 0,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687892.64,
+        6370584.64,
+        688192.8,
+        6370884.8
+      ],
+      "width": 1876,
+      "height": 1876,
+      "megapixels": 3.519,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-03-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 3,
+      "unresolvedTees": [
+        "59",
+        "55",
+        "51",
+        "46",
+        "41"
+      ],
+      "mappedPlatforms": 1,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687327.2,
+        6371249.6,
+        687459.68,
+        6371491.68
+      ],
+      "width": 828,
+      "height": 1513,
+      "megapixels": 1.253,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-09-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 9,
+      "unresolvedTees": [],
+      "mappedPlatforms": 4,
+      "priority": "check",
+      "boundsEpsg3006": [
+        687344,
+        6370880.48,
+        687532.32,
+        6371094.4
+      ],
+      "width": 1177,
+      "height": 1337,
+      "megapixels": 1.574,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-01-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 1,
+      "unresolvedTees": [],
+      "mappedPlatforms": 3,
+      "priority": "check",
+      "boundsEpsg3006": [
+        687117.12,
+        6370721.92,
+        687224.8,
+        6370884.32
+      ],
+      "width": 673,
+      "height": 1015,
+      "megapixels": 0.683,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-02-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 2,
+      "unresolvedTees": [],
+      "mappedPlatforms": 4,
+      "priority": "check",
+      "boundsEpsg3006": [
+        687164.16,
+        6370844.48,
+        687335.84,
+        6371029.92
+      ],
+      "width": 1073,
+      "height": 1159,
+      "megapixels": 1.244,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-04-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 4,
+      "unresolvedTees": [
+        "41"
+      ],
+      "mappedPlatforms": 3,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687566.72,
+        6371691.2,
+        687742.4,
+        6371840.8
+      ],
+      "width": 1098,
+      "height": 935,
+      "megapixels": 1.027,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-05-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 5,
+      "unresolvedTees": [],
+      "mappedPlatforms": 4,
+      "priority": "check",
+      "boundsEpsg3006": [
+        687296.32,
+        6371739.2,
+        687401.92,
+        6371914.88
+      ],
+      "width": 660,
+      "height": 1098,
+      "megapixels": 0.725,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-06-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 6,
+      "unresolvedTees": [
+        "41"
+      ],
+      "mappedPlatforms": 3,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687313.28,
+        6371500.32,
+        687435.84,
+        6371707.36
+      ],
+      "width": 766,
+      "height": 1294,
+      "megapixels": 0.991,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-07-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 7,
+      "unresolvedTees": [
+        "41"
+      ],
+      "mappedPlatforms": 2,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687331.2,
+        6371227.2,
+        687520.64,
+        6371352.48
+      ],
+      "width": 1184,
+      "height": 783,
+      "megapixels": 0.927,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-08-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 8,
+      "unresolvedTees": [],
+      "mappedPlatforms": 4,
+      "priority": "check",
+      "boundsEpsg3006": [
+        687476.64,
+        6371142.4,
+        687645.28,
+        6371398.88
+      ],
+      "width": 1054,
+      "height": 1603,
+      "megapixels": 1.69,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-10-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 10,
+      "unresolvedTees": [
+        "59",
+        "55",
+        "51",
+        "46",
+        "41"
+      ],
+      "mappedPlatforms": 1,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687311.2,
+        6370719.68,
+        687512.64,
+        6370831.2
+      ],
+      "width": 1259,
+      "height": 697,
+      "megapixels": 0.878,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-11-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 11,
+      "unresolvedTees": [
+        "51",
+        "46",
+        "41"
+      ],
+      "mappedPlatforms": 2,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687770.72,
+        6370517.6,
+        687971.2,
+        6370685.12
+      ],
+      "width": 1253,
+      "height": 1047,
+      "megapixels": 1.312,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-13-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 13,
+      "unresolvedTees": [
+        "59",
+        "55",
+        "51",
+        "46",
+        "41"
+      ],
+      "mappedPlatforms": 1,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687957.6,
+        6370828.16,
+        688145.44,
+        6370977.28
+      ],
+      "width": 1174,
+      "height": 932,
+      "megapixels": 1.094,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-14-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 14,
+      "unresolvedTees": [
+        "59",
+        "55",
+        "51",
+        "46",
+        "41"
+      ],
+      "mappedPlatforms": 1,
+      "priority": "high",
+      "boundsEpsg3006": [
+        688086.72,
+        6370962.24,
+        688231.84,
+        6371095.84
+      ],
+      "width": 907,
+      "height": 835,
+      "megapixels": 0.757,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-15-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 15,
+      "unresolvedTees": [
+        "55",
+        "51",
+        "46",
+        "41"
+      ],
+      "mappedPlatforms": 2,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687895.04,
+        6371129.6,
+        688106.4,
+        6371275.2
+      ],
+      "width": 1321,
+      "height": 910,
+      "megapixels": 1.202,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-16-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 16,
+      "unresolvedTees": [],
+      "mappedPlatforms": 4,
+      "priority": "check",
+      "boundsEpsg3006": [
+        687708.16,
+        6371096.64,
+        687872.16,
+        6371279.84
+      ],
+      "width": 1025,
+      "height": 1145,
+      "megapixels": 1.174,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-17-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 17,
+      "unresolvedTees": [
+        "41"
+      ],
+      "mappedPlatforms": 4,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687816.8,
+        6370640.32,
+        687958.4,
+        6370816.32
+      ],
+      "width": 885,
+      "height": 1100,
+      "megapixels": 0.974,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-18-tees",
+      "purpose": "physical platforms and numbered tee associations",
+      "hole": 18,
+      "unresolvedTees": [
+        "51",
+        "46",
+        "41"
+      ],
+      "mappedPlatforms": 3,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687574.24,
+        6370545.12,
+        687820.32,
+        6370729.92
+      ],
+      "width": 1538,
+      "height": 1155,
+      "megapixels": 1.776,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-09-green",
+      "purpose": "putting surface versus approach complex",
+      "hole": 9,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687141.12,
+        6370725.12,
+        687318.88,
+        6370931.84
+      ],
+      "width": 1111,
+      "height": 1292,
+      "megapixels": 1.435,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-03-green",
+      "purpose": "post-2022 rebuilt green and surrounds",
+      "hole": 3,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687400.64,
+        6371486.24,
+        687632.32,
+        6371798.4
+      ],
+      "width": 1448,
+      "height": 1951,
+      "megapixels": 2.825,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-01-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 1,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687110.72,
+        6370856.16,
+        687237.76,
+        6370988.64
+      ],
+      "width": 794,
+      "height": 828,
+      "megapixels": 0.657,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-02-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 2,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687291.68,
+        6371059.2,
+        687430.88,
+        6371299.52
+      ],
+      "width": 870,
+      "height": 1502,
+      "megapixels": 1.307,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-04-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 4,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687348.64,
+        6371780.64,
+        687579.84,
+        6371965.28
+      ],
+      "width": 1445,
+      "height": 1154,
+      "megapixels": 1.668,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-05-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 5,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687280.16,
+        6371632.8,
+        687407.84,
+        6371783.84
+      ],
+      "width": 798,
+      "height": 944,
+      "megapixels": 0.753,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-06-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 6,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687252.64,
+        6371220.32,
+        687388.16,
+        6371574.88
+      ],
+      "width": 847,
+      "height": 2216,
+      "megapixels": 1.877,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-07-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 7,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687481.12,
+        6371265.6,
+        687620.32,
+        6371400.32
+      ],
+      "width": 870,
+      "height": 842,
+      "megapixels": 0.733,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-08-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 8,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687308.8,
+        6370957.92,
+        687476.8,
+        6371128.32
+      ],
+      "width": 1050,
+      "height": 1065,
+      "megapixels": 1.118,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-10-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 10,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687547.68,
+        6370627.36,
+        687798.56,
+        6370795.36
+      ],
+      "width": 1568,
+      "height": 1050,
+      "megapixels": 1.646,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-11-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 11,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687964.16,
+        6370594.56,
+        688158.08,
+        6370728.32
+      ],
+      "width": 1212,
+      "height": 836,
+      "megapixels": 1.013,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-12-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 12,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687905.28,
+        6370762.72,
+        688021.12,
+        6370972.48
+      ],
+      "width": 724,
+      "height": 1311,
+      "megapixels": 0.949,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-13-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 13,
+      "priority": "high",
+      "boundsEpsg3006": [
+        688197.12,
+        6370827.68,
+        688352.16,
+        6370956.8
+      ],
+      "width": 969,
+      "height": 807,
+      "megapixels": 0.782,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-14-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 14,
+      "priority": "high",
+      "boundsEpsg3006": [
+        688012.16,
+        6371020.64,
+        688136.8,
+        6371163.36
+      ],
+      "width": 779,
+      "height": 892,
+      "megapixels": 0.695,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-15-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 15,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687717.6,
+        6371212.64,
+        687946.88,
+        6371379.36
+      ],
+      "width": 1433,
+      "height": 1042,
+      "megapixels": 1.493,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-16-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 16,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687859.2,
+        6370731.2,
+        687987.36,
+        6371118.4
+      ],
+      "width": 801,
+      "height": 2420,
+      "megapixels": 1.938,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-17-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 17,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687745.12,
+        6370545.6,
+        687899.84,
+        6370685.28
+      ],
+      "width": 967,
+      "height": 873,
+      "megapixels": 0.844,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "hole-18-green",
+      "purpose": "current putting surface, collar and bunkers",
+      "hole": 18,
+      "priority": "high",
+      "boundsEpsg3006": [
+        687244.16,
+        6370616.16,
+        687413.76,
+        6370748.8
+      ],
+      "width": 1060,
+      "height": 829,
+      "megapixels": 0.879,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "range-practice",
+      "purpose": "range boundary, practice greens and visible facilities",
+      "priority": "high",
+      "boundsEpsg3006": [
+        687370.24,
+        6370779.68,
+        687635.36,
+        6371199.84
+      ],
+      "width": 1657,
+      "height": 2626,
+      "megapixels": 4.351,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "clubhouse-finish",
+      "purpose": "clubhouse, putting green, finish and coastal access",
+      "priority": "check",
+      "boundsEpsg3006": [
+        687097.12,
+        6370605.28,
+        687401.44,
+        6370904.32
+      ],
+      "width": 1902,
+      "height": 1869,
+      "megapixels": 3.555,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-0-0",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 0,
+      "col": 0,
+      "boundsEpsg3006": [
+        686275.84,
+        6371891.04,
+        686787.84,
+        6372403.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-0-1",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 0,
+      "col": 1,
+      "boundsEpsg3006": [
+        686787.84,
+        6371891.04,
+        687299.84,
+        6372403.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-0-2",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 0,
+      "col": 2,
+      "boundsEpsg3006": [
+        687299.84,
+        6371891.04,
+        687811.84,
+        6372403.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-0-3",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 0,
+      "col": 3,
+      "boundsEpsg3006": [
+        687811.84,
+        6371891.04,
+        688323.84,
+        6372403.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-0-4",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 0,
+      "col": 4,
+      "boundsEpsg3006": [
+        688323.84,
+        6371891.04,
+        688808.32,
+        6372403.04
+      ],
+      "width": 3028,
+      "height": 3200,
+      "megapixels": 9.69,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-1-0",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 1,
+      "col": 0,
+      "boundsEpsg3006": [
+        686275.84,
+        6371379.04,
+        686787.84,
+        6371891.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-1-1",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 1,
+      "col": 1,
+      "boundsEpsg3006": [
+        686787.84,
+        6371379.04,
+        687299.84,
+        6371891.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-1-2",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 1,
+      "col": 2,
+      "boundsEpsg3006": [
+        687299.84,
+        6371379.04,
+        687811.84,
+        6371891.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-1-3",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 1,
+      "col": 3,
+      "boundsEpsg3006": [
+        687811.84,
+        6371379.04,
+        688323.84,
+        6371891.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-1-4",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 1,
+      "col": 4,
+      "boundsEpsg3006": [
+        688323.84,
+        6371379.04,
+        688808.32,
+        6371891.04
+      ],
+      "width": 3028,
+      "height": 3200,
+      "megapixels": 9.69,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-2-0",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 2,
+      "col": 0,
+      "boundsEpsg3006": [
+        686275.84,
+        6370867.04,
+        686787.84,
+        6371379.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-2-1",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 2,
+      "col": 1,
+      "boundsEpsg3006": [
+        686787.84,
+        6370867.04,
+        687299.84,
+        6371379.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-2-2",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 2,
+      "col": 2,
+      "boundsEpsg3006": [
+        687299.84,
+        6370867.04,
+        687811.84,
+        6371379.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-2-3",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 2,
+      "col": 3,
+      "boundsEpsg3006": [
+        687811.84,
+        6370867.04,
+        688323.84,
+        6371379.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-2-4",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 2,
+      "col": 4,
+      "boundsEpsg3006": [
+        688323.84,
+        6370867.04,
+        688808.32,
+        6371379.04
+      ],
+      "width": 3028,
+      "height": 3200,
+      "megapixels": 9.69,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-3-0",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 3,
+      "col": 0,
+      "boundsEpsg3006": [
+        686275.84,
+        6370355.04,
+        686787.84,
+        6370867.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-3-1",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 3,
+      "col": 1,
+      "boundsEpsg3006": [
+        686787.84,
+        6370355.04,
+        687299.84,
+        6370867.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-3-2",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 3,
+      "col": 2,
+      "boundsEpsg3006": [
+        687299.84,
+        6370355.04,
+        687811.84,
+        6370867.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-3-3",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 3,
+      "col": 3,
+      "boundsEpsg3006": [
+        687811.84,
+        6370355.04,
+        688323.84,
+        6370867.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-3-4",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 3,
+      "col": 4,
+      "boundsEpsg3006": [
+        688323.84,
+        6370355.04,
+        688808.32,
+        6370867.04
+      ],
+      "width": 3028,
+      "height": 3200,
+      "megapixels": 9.69,
+      "sourceIds": [
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-4-0",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 4,
+      "col": 0,
+      "boundsEpsg3006": [
+        686275.84,
+        6369843.04,
+        686787.84,
+        6370355.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63675_6850_25_mr26",
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-4-1",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 4,
+      "col": 1,
+      "boundsEpsg3006": [
+        686787.84,
+        6369843.04,
+        687299.84,
+        6370355.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63675_6850_25_mr26",
+        "o63700_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-4-2",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 4,
+      "col": 2,
+      "boundsEpsg3006": [
+        687299.84,
+        6369843.04,
+        687811.84,
+        6370355.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63675_6850_25_mr26",
+        "o63675_6875_25_mr26",
+        "o63700_6850_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-4-3",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 4,
+      "col": 3,
+      "boundsEpsg3006": [
+        687811.84,
+        6369843.04,
+        688323.84,
+        6370355.04
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o63675_6875_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-4-4",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 4,
+      "col": 4,
+      "boundsEpsg3006": [
+        688323.84,
+        6369843.04,
+        688808.32,
+        6370355.04
+      ],
+      "width": 3028,
+      "height": 3200,
+      "megapixels": 9.69,
+      "sourceIds": [
+        "o63675_6875_25_mr26",
+        "o63700_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-5-0",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 5,
+      "col": 0,
+      "boundsEpsg3006": [
+        686275.84,
+        6369400.16,
+        686787.84,
+        6369843.04
+      ],
+      "width": 3200,
+      "height": 2768,
+      "megapixels": 8.858,
+      "sourceIds": [
+        "o63675_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-5-1",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 5,
+      "col": 1,
+      "boundsEpsg3006": [
+        686787.84,
+        6369400.16,
+        687299.84,
+        6369843.04
+      ],
+      "width": 3200,
+      "height": 2768,
+      "megapixels": 8.858,
+      "sourceIds": [
+        "o63675_6850_25_mr26"
+      ]
+    },
+    {
+      "id": "context-5-2",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 5,
+      "col": 2,
+      "boundsEpsg3006": [
+        687299.84,
+        6369400.16,
+        687811.84,
+        6369843.04
+      ],
+      "width": 3200,
+      "height": 2768,
+      "megapixels": 8.858,
+      "sourceIds": [
+        "o63675_6850_25_mr26",
+        "o63675_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-5-3",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 5,
+      "col": 3,
+      "boundsEpsg3006": [
+        687811.84,
+        6369400.16,
+        688323.84,
+        6369843.04
+      ],
+      "width": 3200,
+      "height": 2768,
+      "megapixels": 8.858,
+      "sourceIds": [
+        "o63675_6875_25_mr26"
+      ]
+    },
+    {
+      "id": "context-5-4",
+      "purpose": "complete AOI: playing surfaces, trees, woodland, buildings and access",
+      "priority": "context",
+      "row": 5,
+      "col": 4,
+      "boundsEpsg3006": [
+        688323.84,
+        6369400.16,
+        688808.32,
+        6369843.04
+      ],
+      "width": 3028,
+      "height": 2768,
+      "megapixels": 8.382,
+      "sourceIds": [
+        "o63675_6875_25_mr26"
+      ]
+    }
+  ],
+  "summary": {
+    "windows": 68,
+    "fullCourse": true,
+    "contextWindows": 30,
+    "teeReferences": 108,
+    "unresolvedTeeReferences": 40,
+    "totalMegapixels": 350.382
+  },
+  "limitations": [
+    "Review extents do not establish a feature boundary or numbered tee identity.",
+    "The April flight and 2024 terrain/laser are different epochs.",
+    "Raw imagery stays in the ignored cache; this plan changes no runtime geometry."
+  ]
+}
