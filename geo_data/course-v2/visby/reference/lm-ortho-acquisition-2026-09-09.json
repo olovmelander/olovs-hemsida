@@ -1,0 +1,1433 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "kind": "authenticated-orthophoto-acquisition",
+  "observedAt": "2026-09-09T06:40:21.787160+00:00",
+  "sourceCommit": "7f892cbd29bd917ce36d0e3c114662395c3afa6e",
+  "planSha256": "76ec4c1efd2f4bcaa1cb29ffc7896bd753e0ddbb0b069c50afb27f23e6cba801",
+  "collection": "orto-f2-2026",
+  "selectedWindows": [
+    "hole-12-tees",
+    "hole-03-tees",
+    "hole-09-tees",
+    "hole-01-tees",
+    "hole-02-tees",
+    "hole-04-tees",
+    "hole-05-tees",
+    "hole-06-tees",
+    "hole-07-tees",
+    "hole-08-tees",
+    "hole-10-tees",
+    "hole-11-tees",
+    "hole-13-tees",
+    "hole-14-tees",
+    "hole-15-tees",
+    "hole-16-tees",
+    "hole-17-tees",
+    "hole-18-tees",
+    "hole-09-green",
+    "hole-03-green",
+    "range-practice",
+    "clubhouse-finish"
+  ],
+  "state": "acquired-for-review",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o63675_6850_25_mr26",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o63675_6875_25_mr26",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o63700_6850_25_mr26",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o63700_6875_25_mr26",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "hole-12-tees",
+      "requestSha256": "a9e70c8fa7c0a95d0d7142638445b7d2bba7ea3915bcfc747fc5a6db65551b24",
+      "sha256": "e34c8be7f91f57c7cb4e8578adcf4a76f8159a95c14a82c9fcd74ffde6254034",
+      "bytes": 9889078,
+      "rasterFile": "hole-12-tees.tif",
+      "boundsEpsg3006": [
+        687892.64,
+        6370584.64,
+        688192.8,
+        6370884.8
+      ],
+      "width": 1876,
+      "height": 1876,
+      "geoTransform": [
+        687892.64,
+        0.16,
+        0.0,
+        6370884.8,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:31.094872+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16.0,
+          "maximum": 236.0,
+          "mean": 88.32093956428639,
+          "standardDeviation": 38.59212969347857
+        },
+        {
+          "band": 2,
+          "minimum": 31.0,
+          "maximum": 235.0,
+          "mean": 96.45215828033152,
+          "standardDeviation": 32.641775448962456
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 227.0,
+          "mean": 89.38593119916713,
+          "standardDeviation": 24.519941692653557
+        },
+        {
+          "band": 4,
+          "minimum": 17.0,
+          "maximum": 245.0,
+          "mean": 122.12855290256,
+          "standardDeviation": 42.03226547168411
+        }
+      ]
+    },
+    {
+      "id": "hole-03-tees",
+      "requestSha256": "194ec1fe16a6386179e64344fde22de9f2c86f6ee3db7675b18f216e1a6bd2a1",
+      "sha256": "177f7f4c4301b98935e41425ce4bb465b18541d4645e9e2234ed87079a21794a",
+      "bytes": 3737513,
+      "rasterFile": "hole-03-tees.tif",
+      "boundsEpsg3006": [
+        687327.2,
+        6371249.6,
+        687459.6799999999,
+        6371491.68
+      ],
+      "width": 828,
+      "height": 1513,
+      "geoTransform": [
+        687327.2,
+        0.16,
+        0.0,
+        6371491.68,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:32.650807+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 21.0,
+          "maximum": 248.0,
+          "mean": 108.64041271939487,
+          "standardDeviation": 44.79397594377827
+        },
+        {
+          "band": 2,
+          "minimum": 37.0,
+          "maximum": 249.0,
+          "mean": 112.36704119850187,
+          "standardDeviation": 38.005072156602004
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 245.0,
+          "mean": 102.39226462446238,
+          "standardDeviation": 30.10961794546069
+        },
+        {
+          "band": 4,
+          "minimum": 26.0,
+          "maximum": 236.0,
+          "mean": 140.30820090615632,
+          "standardDeviation": 45.33913216019909
+        }
+      ]
+    },
+    {
+      "id": "hole-09-tees",
+      "requestSha256": "e27f7bd26f9fb2464f0268d5400d99aea02a1e8126d5bff8f9b2bc2e74ff7495",
+      "sha256": "9732070b99ed7950edbac390d541fa300786ef0e220c41489f9cff81867f7e9f",
+      "bytes": 4371655,
+      "rasterFile": "hole-09-tees.tif",
+      "boundsEpsg3006": [
+        687344.0,
+        6370880.48,
+        687532.32,
+        6371094.4
+      ],
+      "width": 1177,
+      "height": 1337,
+      "geoTransform": [
+        687344.0,
+        0.16,
+        0.0,
+        6371094.4,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:34.210873+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 26.0,
+          "maximum": 238.0,
+          "mean": 120.0909421351267,
+          "standardDeviation": 25.41254591531016
+        },
+        {
+          "band": 2,
+          "minimum": 43.0,
+          "maximum": 239.0,
+          "mean": 125.64254036319407,
+          "standardDeviation": 22.185520600838515
+        },
+        {
+          "band": 3,
+          "minimum": 51.0,
+          "maximum": 231.0,
+          "mean": 109.71658101647826,
+          "standardDeviation": 19.408393880685814
+        },
+        {
+          "band": 4,
+          "minimum": 31.0,
+          "maximum": 244.0,
+          "mean": 163.3558252189656,
+          "standardDeviation": 25.63869471142052
+        }
+      ]
+    },
+    {
+      "id": "hole-01-tees",
+      "requestSha256": "fb8d6e1237ceeb65eb84b862557ad66ea7535a0a78cb27ba36292feae423608d",
+      "sha256": "f9c4bba47dd0cd861dbac76397840dcdb9375908d263cca7452867fc2cfff515",
+      "bytes": 2030662,
+      "rasterFile": "hole-01-tees.tif",
+      "boundsEpsg3006": [
+        687117.12,
+        6370721.92,
+        687224.8,
+        6370884.32
+      ],
+      "width": 673,
+      "height": 1015,
+      "geoTransform": [
+        687117.12,
+        0.16,
+        0.0,
+        6370884.32,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:35.470076+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 23.0,
+          "maximum": 255.0,
+          "mean": 109.56012414085889,
+          "standardDeviation": 33.64758102751371
+        },
+        {
+          "band": 2,
+          "minimum": 39.0,
+          "maximum": 255.0,
+          "mean": 113.79241393949597,
+          "standardDeviation": 29.291717922584972
+        },
+        {
+          "band": 3,
+          "minimum": 49.0,
+          "maximum": 255.0,
+          "mean": 102.65712821789063,
+          "standardDeviation": 24.863306565953977
+        },
+        {
+          "band": 4,
+          "minimum": 20.0,
+          "maximum": 255.0,
+          "mean": 139.59040104231477,
+          "standardDeviation": 38.032323729841046
+        }
+      ]
+    },
+    {
+      "id": "hole-02-tees",
+      "requestSha256": "2c39b09f8fb4206cb1dec870062253b29ea3db2c797f2c550c30acadbb89c025",
+      "sha256": "1d1b0ef0970184bad4bd8412b7b4e7dca8f2f3bd44a50db49474d33b37a76534",
+      "bytes": 3509811,
+      "rasterFile": "hole-02-tees.tif",
+      "boundsEpsg3006": [
+        687164.16,
+        6370844.4799999995,
+        687335.8400000001,
+        6371029.92
+      ],
+      "width": 1073,
+      "height": 1159,
+      "geoTransform": [
+        687164.16,
+        0.16,
+        0.0,
+        6371029.92,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:36.739444+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 22.0,
+          "maximum": 242.0,
+          "mean": 101.39057194113575,
+          "standardDeviation": 40.793493340455925
+        },
+        {
+          "band": 2,
+          "minimum": 37.0,
+          "maximum": 244.0,
+          "mean": 107.43546072030794,
+          "standardDeviation": 35.28947386268121
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 238.0,
+          "mean": 98.77105950674128,
+          "standardDeviation": 27.40069855029244
+        },
+        {
+          "band": 4,
+          "minimum": 12.0,
+          "maximum": 239.0,
+          "mean": 124.76814138228556,
+          "standardDeviation": 52.55333694689206
+        }
+      ]
+    },
+    {
+      "id": "hole-04-tees",
+      "requestSha256": "ac386128afd5dba566fdbf4b796e61094dddb614ed58e77dfced41e7e075c14c",
+      "sha256": "87f18e70226daa9a4e7a6ded35a637fce097b06bc25f5bec47c35d797928b931",
+      "bytes": 2746919,
+      "rasterFile": "hole-04-tees.tif",
+      "boundsEpsg3006": [
+        687566.72,
+        6371691.2,
+        687742.4,
+        6371840.8
+      ],
+      "width": 1098,
+      "height": 935,
+      "geoTransform": [
+        687566.72,
+        0.16,
+        0.0,
+        6371840.8,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:37.876591+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 28.0,
+          "maximum": 239.0,
+          "mean": 136.74416878524883,
+          "standardDeviation": 31.748920462953407
+        },
+        {
+          "band": 2,
+          "minimum": 44.0,
+          "maximum": 239.0,
+          "mean": 134.00878310589013,
+          "standardDeviation": 26.085343090454213
+        },
+        {
+          "band": 3,
+          "minimum": 50.0,
+          "maximum": 232.0,
+          "mean": 119.9862287289481,
+          "standardDeviation": 21.440459569430555
+        },
+        {
+          "band": 4,
+          "minimum": 25.0,
+          "maximum": 252.0,
+          "mean": 152.18665828974412,
+          "standardDeviation": 31.33377734426166
+        }
+      ]
+    },
+    {
+      "id": "hole-05-tees",
+      "requestSha256": "785e8aad85541ad4b00421740208af05bc1b3cbc0676f07b5a2b29f98cbba443",
+      "sha256": "9cbc901a7426b2c10644f1a1b4d2266875ff675dde82831a6ed4079905790e5e",
+      "bytes": 2272171,
+      "rasterFile": "hole-05-tees.tif",
+      "boundsEpsg3006": [
+        687296.32,
+        6371739.2,
+        687401.9199999999,
+        6371914.88
+      ],
+      "width": 660,
+      "height": 1098,
+      "geoTransform": [
+        687296.32,
+        0.16,
+        0.0,
+        6371914.88,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:38.807108+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 21.0,
+          "maximum": 242.0,
+          "mean": 96.03549980681129,
+          "standardDeviation": 44.233147900662956
+        },
+        {
+          "band": 2,
+          "minimum": 36.0,
+          "maximum": 244.0,
+          "mean": 100.79241182314952,
+          "standardDeviation": 37.609205718742444
+        },
+        {
+          "band": 3,
+          "minimum": 39.0,
+          "maximum": 237.0,
+          "mean": 95.33374592923774,
+          "standardDeviation": 30.144065676539665
+        },
+        {
+          "band": 4,
+          "minimum": 14.0,
+          "maximum": 236.0,
+          "mean": 113.61155682508142,
+          "standardDeviation": 47.88760710381976
+        }
+      ]
+    },
+    {
+      "id": "hole-06-tees",
+      "requestSha256": "d7e3dad261efeaa3598b93c997e3eef12c26c3a1a309e7fe47cbc37e78e2c94f",
+      "sha256": "4181f591916f29ed87c7dc1d7d125ac37fb6655993e691d869af47302357fa27",
+      "bytes": 2964958,
+      "rasterFile": "hole-06-tees.tif",
+      "boundsEpsg3006": [
+        687313.28,
+        6371500.32,
+        687435.8400000001,
+        6371707.36
+      ],
+      "width": 766,
+      "height": 1294,
+      "geoTransform": [
+        687313.28,
+        0.16,
+        0.0,
+        6371707.36,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:39.797378+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20.0,
+          "maximum": 241.0,
+          "mean": 102.47321439380794,
+          "standardDeviation": 43.39522141187185
+        },
+        {
+          "band": 2,
+          "minimum": 37.0,
+          "maximum": 244.0,
+          "mean": 106.7341142691111,
+          "standardDeviation": 36.33788069901033
+        },
+        {
+          "band": 3,
+          "minimum": 45.0,
+          "maximum": 236.0,
+          "mean": 97.7377189761139,
+          "standardDeviation": 27.89620438858969
+        },
+        {
+          "band": 4,
+          "minimum": 18.0,
+          "maximum": 237.0,
+          "mean": 135.78763503779243,
+          "standardDeviation": 44.82112231447562
+        }
+      ]
+    },
+    {
+      "id": "hole-07-tees",
+      "requestSha256": "94096b3269b59f4db76c01e233435241d21decec20298d6560c87910c16da2a6",
+      "sha256": "99d7a7fb6e3421e172b500b2e0907fa4f0ccb8ec7d1369f4db141264040b281d",
+      "bytes": 2800617,
+      "rasterFile": "hole-07-tees.tif",
+      "boundsEpsg3006": [
+        687331.2,
+        6371227.2,
+        687520.6399999999,
+        6371352.48
+      ],
+      "width": 1184,
+      "height": 783,
+      "geoTransform": [
+        687331.2,
+        0.16,
+        0.0,
+        6371352.48,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:41.392362+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 21.0,
+          "maximum": 244.0,
+          "mean": 86.4635227900314,
+          "standardDeviation": 41.573196034553796
+        },
+        {
+          "band": 2,
+          "minimum": 35.0,
+          "maximum": 245.0,
+          "mean": 94.28817826447137,
+          "standardDeviation": 36.25550805847971
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 239.0,
+          "mean": 88.32594340029685,
+          "standardDeviation": 28.003101138183997
+        },
+        {
+          "band": 4,
+          "minimum": 26.0,
+          "maximum": 248.0,
+          "mean": 124.28258970177073,
+          "standardDeviation": 47.11217348838378
+        }
+      ]
+    },
+    {
+      "id": "hole-08-tees",
+      "requestSha256": "50caf48dd6a22a0b0eab7910bbf3a24baa2ac1bb5920dfa5cbfc861c4fe27047",
+      "sha256": "668c4abe8996f9ddf1d6bf63596c32ce4813f9bffcb0ed771d65284568d5d9e5",
+      "bytes": 4620892,
+      "rasterFile": "hole-08-tees.tif",
+      "boundsEpsg3006": [
+        687476.64,
+        6371142.399999999,
+        687645.28,
+        6371398.88
+      ],
+      "width": 1054,
+      "height": 1603,
+      "geoTransform": [
+        687476.64,
+        0.16,
+        0.0,
+        6371398.88,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:42.833170+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15.0,
+          "maximum": 242.0,
+          "mean": 95.73506328859196,
+          "standardDeviation": 45.566509167509835
+        },
+        {
+          "band": 2,
+          "minimum": 33.0,
+          "maximum": 245.0,
+          "mean": 102.26838730984717,
+          "standardDeviation": 39.16392399367737
+        },
+        {
+          "band": 3,
+          "minimum": 44.0,
+          "maximum": 238.0,
+          "mean": 95.92961311866625,
+          "standardDeviation": 31.365428226535567
+        },
+        {
+          "band": 4,
+          "minimum": 14.0,
+          "maximum": 255.0,
+          "mean": 116.26904250924204,
+          "standardDeviation": 55.6828971607708
+        }
+      ]
+    },
+    {
+      "id": "hole-10-tees",
+      "requestSha256": "7b258ff1f11dde08d8e01d5cfd198e2e56e797dea091839b012ac958438419db",
+      "sha256": "b1a1c2a0523db729ae7ce708c050bef3b6d0610fcbbfe252851d97eb4556ac53",
+      "bytes": 2661908,
+      "rasterFile": "hole-10-tees.tif",
+      "boundsEpsg3006": [
+        687311.2,
+        6370719.680000001,
+        687512.6399999999,
+        6370831.2
+      ],
+      "width": 1259,
+      "height": 697,
+      "geoTransform": [
+        687311.2,
+        0.16,
+        0.0,
+        6370831.2,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:44.288912+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 255.0,
+          "mean": 85.42712840575119,
+          "standardDeviation": 40.55798540449434
+        },
+        {
+          "band": 2,
+          "minimum": 38.0,
+          "maximum": 255.0,
+          "mean": 94.56246502940664,
+          "standardDeviation": 34.93090157418675
+        },
+        {
+          "band": 3,
+          "minimum": 47.0,
+          "maximum": 255.0,
+          "mean": 90.02788986727414,
+          "standardDeviation": 28.542890830843007
+        },
+        {
+          "band": 4,
+          "minimum": 17.0,
+          "maximum": 255.0,
+          "mean": 112.9252566599394,
+          "standardDeviation": 42.62547543232675
+        }
+      ]
+    },
+    {
+      "id": "hole-11-tees",
+      "requestSha256": "e26bb530e397ed87ef072ba960024625a55bc0aefda5bf4ec2426ca48e637338",
+      "sha256": "7629456cce9fc5e58f2897043e36b141f7b44f5dd7df04cbebf9a1c93adc394f",
+      "bytes": 3411536,
+      "rasterFile": "hole-11-tees.tif",
+      "boundsEpsg3006": [
+        687770.72,
+        6370517.600000001,
+        687971.2,
+        6370685.12
+      ],
+      "width": 1253,
+      "height": 1047,
+      "geoTransform": [
+        687770.72,
+        0.16,
+        0.0,
+        6370685.12,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:45.487108+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 25.0,
+          "maximum": 238.0,
+          "mean": 112.9999679851451,
+          "standardDeviation": 41.77685272972853
+        },
+        {
+          "band": 2,
+          "minimum": 40.0,
+          "maximum": 241.0,
+          "mean": 115.75139779143237,
+          "standardDeviation": 36.12276291928071
+        },
+        {
+          "band": 3,
+          "minimum": 46.0,
+          "maximum": 237.0,
+          "mean": 106.79721562233448,
+          "standardDeviation": 28.90732450687069
+        },
+        {
+          "band": 4,
+          "minimum": 13.0,
+          "maximum": 242.0,
+          "mean": 121.19201442802793,
+          "standardDeviation": 47.562423658261174
+        }
+      ]
+    },
+    {
+      "id": "hole-13-tees",
+      "requestSha256": "ba19eb654a882f376fa84e871d67ffb75f94bf470b1c220d7d6a43534f6f6989",
+      "sha256": "51b080e875a94b2a2ed70a6f71b7f790ab811475e41a98ba7fdbabf2971ce9f5",
+      "bytes": 3178182,
+      "rasterFile": "hole-13-tees.tif",
+      "boundsEpsg3006": [
+        687957.6,
+        6370828.16,
+        688145.44,
+        6370977.28
+      ],
+      "width": 1174,
+      "height": 932,
+      "geoTransform": [
+        687957.6,
+        0.16,
+        0.0,
+        6370977.28,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:46.804390+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 18.0,
+          "maximum": 247.0,
+          "mean": 67.27232289739784,
+          "standardDeviation": 32.67562200045173
+        },
+        {
+          "band": 2,
+          "minimum": 33.0,
+          "maximum": 249.0,
+          "mean": 79.06303785159135,
+          "standardDeviation": 28.471724718773384
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 247.0,
+          "mean": 75.8705856870243,
+          "standardDeviation": 19.713274390428904
+        },
+        {
+          "band": 4,
+          "minimum": 24.0,
+          "maximum": 237.0,
+          "mean": 107.91861578843468,
+          "standardDeviation": 43.41293040929556
+        }
+      ]
+    },
+    {
+      "id": "hole-14-tees",
+      "requestSha256": "b690b429aba03a297f6897749151c008697b5080739d609c064e7d5d9515d7dc",
+      "sha256": "303927acfd0b62be6fd0fc8c61e46ce0c95cd93ed020d740a76d8c33914a7bdf",
+      "bytes": 2255907,
+      "rasterFile": "hole-14-tees.tif",
+      "boundsEpsg3006": [
+        688086.72,
+        6370962.24,
+        688231.84,
+        6371095.84
+      ],
+      "width": 907,
+      "height": 835,
+      "geoTransform": [
+        688086.72,
+        0.16,
+        0.0,
+        6371095.84,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:47.731341+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 18.0,
+          "maximum": 227.0,
+          "mean": 94.31582436010008,
+          "standardDeviation": 43.39484638943016
+        },
+        {
+          "band": 2,
+          "minimum": 34.0,
+          "maximum": 229.0,
+          "mean": 100.85913289187887,
+          "standardDeviation": 37.82300982143157
+        },
+        {
+          "band": 3,
+          "minimum": 41.0,
+          "maximum": 220.0,
+          "mean": 94.81054209112095,
+          "standardDeviation": 30.72174434670867
+        },
+        {
+          "band": 4,
+          "minimum": 21.0,
+          "maximum": 226.0,
+          "mean": 117.90071235698393,
+          "standardDeviation": 41.568418113702776
+        }
+      ]
+    },
+    {
+      "id": "hole-15-tees",
+      "requestSha256": "3b724ba37cc7630ed7327c289d9fff0586eb8ab8d5cfce7476513b1b7ae93b06",
+      "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+      "bytes": 3560631,
+      "rasterFile": "hole-15-tees.tif",
+      "boundsEpsg3006": [
+        687895.04,
+        6371129.600000001,
+        688106.4,
+        6371275.2
+      ],
+      "width": 1321,
+      "height": 910,
+      "geoTransform": [
+        687895.04,
+        0.16,
+        0.0,
+        6371275.2,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:49.378784+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 21.0,
+          "maximum": 239.0,
+          "mean": 105.80704178486162,
+          "standardDeviation": 37.8411044391608
+        },
+        {
+          "band": 2,
+          "minimum": 37.0,
+          "maximum": 242.0,
+          "mean": 110.91519494888155,
+          "standardDeviation": 31.949927621628454
+        },
+        {
+          "band": 3,
+          "minimum": 44.0,
+          "maximum": 236.0,
+          "mean": 100.985451414596,
+          "standardDeviation": 26.0903298234401
+        },
+        {
+          "band": 4,
+          "minimum": 29.0,
+          "maximum": 248.0,
+          "mean": 137.6201254460906,
+          "standardDeviation": 37.204846901641574
+        }
+      ]
+    },
+    {
+      "id": "hole-16-tees",
+      "requestSha256": "afbd80eb07036e7d6c4525f2edbc7f9edc2caa9150eba0762f125c2ac4e3b29b",
+      "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+      "bytes": 3525226,
+      "rasterFile": "hole-16-tees.tif",
+      "boundsEpsg3006": [
+        687708.16,
+        6371096.64,
+        687872.16,
+        6371279.84
+      ],
+      "width": 1025,
+      "height": 1145,
+      "geoTransform": [
+        687708.16,
+        0.16,
+        0.0,
+        6371279.84,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:50.676551+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 224.0,
+          "mean": 73.67079688997764,
+          "standardDeviation": 34.08687533008314
+        },
+        {
+          "band": 2,
+          "minimum": 35.0,
+          "maximum": 225.0,
+          "mean": 84.0121086377676,
+          "standardDeviation": 29.084971894331726
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 215.0,
+          "mean": 80.80290211950154,
+          "standardDeviation": 20.74754662687889
+        },
+        {
+          "band": 4,
+          "minimum": 25.0,
+          "maximum": 237.0,
+          "mean": 112.15704079241665,
+          "standardDeviation": 41.6505211063594
+        }
+      ]
+    },
+    {
+      "id": "hole-17-tees",
+      "requestSha256": "66fe8332d72d54851cdb71f55e56cde15b99f33ff3370a15f9ad042e4fff4789",
+      "sha256": "8dcc0159eb2cb7384a3f80ad45e7006f8e62ec5427a80acad90a0c927cd67a92",
+      "bytes": 2527086,
+      "rasterFile": "hole-17-tees.tif",
+      "boundsEpsg3006": [
+        687816.8,
+        6370640.32,
+        687958.4,
+        6370816.32
+      ],
+      "width": 885,
+      "height": 1100,
+      "geoTransform": [
+        687816.8,
+        0.16,
+        0.0,
+        6370816.32,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:51.848509+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 238.0,
+          "mean": 87.65535387776066,
+          "standardDeviation": 48.612698979278164
+        },
+        {
+          "band": 2,
+          "minimum": 36.0,
+          "maximum": 241.0,
+          "mean": 94.20548125321007,
+          "standardDeviation": 41.72389702927737
+        },
+        {
+          "band": 3,
+          "minimum": 42.0,
+          "maximum": 237.0,
+          "mean": 89.99121520287622,
+          "standardDeviation": 33.00593485834102
+        },
+        {
+          "band": 4,
+          "minimum": 17.0,
+          "maximum": 217.0,
+          "mean": 96.61933949666152,
+          "standardDeviation": 56.59772237659458
+        }
+      ]
+    },
+    {
+      "id": "hole-18-tees",
+      "requestSha256": "96ce07d41c2367a33ad5f70134b1bdb8ebb09ae9c50e2fb1236c185c9dd06da5",
+      "sha256": "d864ce6ee50df1973f3228ecf4494eb6d3647c7e803023e83f64de86e9b022a7",
+      "bytes": 4458533,
+      "rasterFile": "hole-18-tees.tif",
+      "boundsEpsg3006": [
+        687574.24,
+        6370545.12,
+        687820.32,
+        6370729.92
+      ],
+      "width": 1538,
+      "height": 1155,
+      "geoTransform": [
+        687574.24,
+        0.16,
+        0.0,
+        6370729.92,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:53.438551+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 23.0,
+          "maximum": 248.0,
+          "mean": 99.41999786083011,
+          "standardDeviation": 40.70246414023714
+        },
+        {
+          "band": 2,
+          "minimum": 39.0,
+          "maximum": 255.0,
+          "mean": 108.88923209430362,
+          "standardDeviation": 34.00876515801394
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 255.0,
+          "mean": 100.30814348200565,
+          "standardDeviation": 27.80755745634976
+        },
+        {
+          "band": 4,
+          "minimum": 11.0,
+          "maximum": 230.0,
+          "mean": 96.86529084266405,
+          "standardDeviation": 63.64205076709017
+        }
+      ]
+    },
+    {
+      "id": "hole-09-green",
+      "requestSha256": "73a948cade7e47b2d4b829d82b0738db176f1d4a5f1609f038c121573206cdd9",
+      "sha256": "d6453e93808abb6489ec8ba578413ffb7d4e0ae9e9584ed0d3d67c83b6a49098",
+      "bytes": 4203635,
+      "rasterFile": "hole-09-green.tif",
+      "boundsEpsg3006": [
+        687141.12,
+        6370725.12,
+        687318.88,
+        6370931.84
+      ],
+      "width": 1111,
+      "height": 1292,
+      "geoTransform": [
+        687141.12,
+        0.16,
+        0.0,
+        6370931.84,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:54.712475+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 23.0,
+          "maximum": 255.0,
+          "mean": 106.92804922907152,
+          "standardDeviation": 39.725729179766674
+        },
+        {
+          "band": 2,
+          "minimum": 39.0,
+          "maximum": 255.0,
+          "mean": 113.80681226017339,
+          "standardDeviation": 36.18992711617457
+        },
+        {
+          "band": 3,
+          "minimum": 48.0,
+          "maximum": 255.0,
+          "mean": 104.43652345110672,
+          "standardDeviation": 32.16500129437379
+        },
+        {
+          "band": 4,
+          "minimum": 18.0,
+          "maximum": 255.0,
+          "mean": 135.24950536849352,
+          "standardDeviation": 43.138976193970564
+        }
+      ]
+    },
+    {
+      "id": "hole-03-green",
+      "requestSha256": "f775b78610f3457f88e6fc1ef4404a8acc5bebc10d43631f140248d263f5e4cc",
+      "sha256": "c6eb362224660fcec128c19a755deb289c5faa194b043f9ae06a1f53c4c92c70",
+      "bytes": 7949198,
+      "rasterFile": "hole-03-green.tif",
+      "boundsEpsg3006": [
+        687400.64,
+        6371486.24,
+        687632.3200000001,
+        6371798.4
+      ],
+      "width": 1448,
+      "height": 1951,
+      "geoTransform": [
+        687400.64,
+        0.16,
+        0.0,
+        6371798.4,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:40:58.383278+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 18.0,
+          "maximum": 250.0,
+          "mean": 109.265395136649,
+          "standardDeviation": 43.89899144165773
+        },
+        {
+          "band": 2,
+          "minimum": 34.0,
+          "maximum": 254.0,
+          "mean": 112.23517830493499,
+          "standardDeviation": 36.81471472053651
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 255.0,
+          "mean": 102.2773836055175,
+          "standardDeviation": 28.01006851233276
+        },
+        {
+          "band": 4,
+          "minimum": 15.0,
+          "maximum": 252.0,
+          "mean": 137.92532339273527,
+          "standardDeviation": 44.23858905844666
+        }
+      ]
+    },
+    {
+      "id": "range-practice",
+      "requestSha256": "0cfa591b9e15f06adccfd8c6f1dc2b7385429d75194da9e310013fbcc8e4f516",
+      "sha256": "b96dad8de008250566cb4aa094835c514c49a725393696e6189388ea8bbd21fd",
+      "bytes": 12003702,
+      "rasterFile": "range-practice.tif",
+      "boundsEpsg3006": [
+        687370.24,
+        6370779.68,
+        687635.36,
+        6371199.84
+      ],
+      "width": 1657,
+      "height": 2626,
+      "geoTransform": [
+        687370.24,
+        0.16,
+        0.0,
+        6371199.84,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:41:02.182505+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15.0,
+          "maximum": 255.0,
+          "mean": 106.43600598628174,
+          "standardDeviation": 38.24751152269537
+        },
+        {
+          "band": 2,
+          "minimum": 33.0,
+          "maximum": 255.0,
+          "mean": 113.3480650070485,
+          "standardDeviation": 33.55766988811904
+        },
+        {
+          "band": 3,
+          "minimum": 41.0,
+          "maximum": 255.0,
+          "mean": 101.78439503576188,
+          "standardDeviation": 26.804772532779914
+        },
+        {
+          "band": 4,
+          "minimum": 15.0,
+          "maximum": 255.0,
+          "mean": 142.7656336684223,
+          "standardDeviation": 44.718435021742295
+        }
+      ]
+    },
+    {
+      "id": "clubhouse-finish",
+      "requestSha256": "ccccedc29e93d6d1927febdbb40f4cad0404a29f95e42e50d171390400456393",
+      "sha256": "27bdf32eb5688464d91c7cb4021579b0ea24be52578b5be91567e8c35f53b4cf",
+      "bytes": 9701659,
+      "rasterFile": "clubhouse-finish.tif",
+      "boundsEpsg3006": [
+        687097.12,
+        6370605.28,
+        687401.44,
+        6370904.32
+      ],
+      "width": 1902,
+      "height": 1869,
+      "geoTransform": [
+        687097.12,
+        0.16,
+        0.0,
+        6370904.32,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T06:41:06.546451+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 255.0,
+          "mean": 90.82745711618927,
+          "standardDeviation": 46.58207600606906
+        },
+        {
+          "band": 2,
+          "minimum": 35.0,
+          "maximum": 255.0,
+          "mean": 99.58106304703618,
+          "standardDeviation": 40.811448487978716
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 255.0,
+          "mean": 94.2571428008815,
+          "standardDeviation": 34.115886698984745
+        },
+        {
+          "band": 4,
+          "minimum": 11.0,
+          "maximum": 255.0,
+          "mean": 104.80850772946616,
+          "standardDeviation": 59.06300449080052
+        }
+      ]
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false
+}
