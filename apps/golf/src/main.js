@@ -71,7 +71,7 @@ import { createV2GroundMaterialDecorator, makeGround } from './engine/material.j
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
-import { configureWaterRenderPasses } from './engine/water-render-policy.mjs';
+import { configureWaterRenderPasses, configureWaterDepth, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
 import { waterShoreDistance } from './engine/water-shore.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
@@ -3196,15 +3196,9 @@ const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 function makeWater({ mask = null, showBed = true } = {}) {
   const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
   configureWaterRenderPasses(m, { mask });
-  /* A sheet sits a quarter-metre over a bed the DTM draws at the water's own
-     surface, and three kilometres out a 24-bit depth buffer cannot tell the
-     two apart: the lake flickered. A depth bias toward the camera settles it
-     without moving the sheet. */
-  m.polygonOffset = true;
-  // A slope-scaled bias grows without bound at grazing camera angles on a
-  // low coast. Keep only the small constant separation for measured sheets.
-  m.polygonOffsetFactor = M.infra.terrainPlacement === 'measured-only' ? 0 : DEPTH_SIGN * 1;
-  m.polygonOffsetUnits = DEPTH_SIGN * 2;
+  configureWaterDepth(m, {
+    measuredOnly: M.infra.terrainPlacement === 'measured-only', depthSign: DEPTH_SIGN,
+  });
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
   const wp = positionWorld.xz;
@@ -3296,8 +3290,8 @@ function makeWater({ mask = null, showBed = true } = {}) {
   m.opacityNode = opacity;
   return m;
 }
-// makeWater already applies the backend's DEPTH_SIGN to its visual depth bias;
-// overriding it with a fixed sign would push WebGPU water below its DTM.
+// Measured coastlines use physical clearance and normal depth testing. The
+// same material is used by mapped water and the connected ocean extension.
 const waterMat = makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only' });
 
 for (const w of M.water) {
@@ -3330,7 +3324,7 @@ for (const w of M.water) {
   const m = new THREE.Mesh(g, waterMat);
   // Display clearance above laser-flattened water. Source levels/DTM stay
   // unchanged; this 6 cm lift is confined to the exact water polygon.
-  if (M.infra.terrainPlacement === 'measured-only') m.position.y = 0.06;
+  if (M.infra.terrainPlacement === 'measured-only') m.position.y = MEASURED_WATER_CLEARANCE_METRES;
   m.renderOrder = 6;
   m.userData.tag = 'water';
   m.userData.water = w;
@@ -9909,7 +9903,10 @@ window.V3D = {
   coastalWater: () => COASTAL_WATER ? {
     bounds: COASTAL_WATER.bounds, sourceBounds: COASTAL_WATER.sourceBounds,
     spacingMetres: COASTAL_WATER.spacing, cells: COASTAL_WATER.cells, quads: COASTAL_WATER.quads,
-    sourceSheetDisplayLiftMetres: 0.06, extensionDisplayLiftMetres: VISTA_SEA_BAND + 0.01,
+    sourceSheetDisplayLiftMetres: MEASURED_WATER_CLEARANCE_METRES, extensionDisplayLiftMetres: VISTA_SEA_BAND + 0.01,
+    depthTest: waterMat.depthTest, polygonOffset: waterMat.polygonOffset,
+    depthFunc: waterMat.depthFunc,
+    polygonOffsetFactor: waterMat.polygonOffsetFactor, polygonOffsetUnits: waterMat.polygonOffsetUnits,
   } : null,
   cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */
