@@ -57,6 +57,7 @@ import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impo
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
+import { createRenderResolution, requestedRenderResolution } from './engine/render-resolution.mjs';
 import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
@@ -1250,8 +1251,10 @@ try {
   renderer = mkRenderer(true);
   await renderer.init();
 }
-renderer.setPixelRatio(LOWQ ? 1 : Math.min(devicePixelRatio, 2));
-renderer.setSize(innerWidth, innerHeight);
+const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
+  adaptive: GRAPHICS_POLISH && !DET && !QUALITY_LOCK,
+  requested: requestedRenderResolution(location.search),
+  width: innerWidth, height: innerHeight, devicePixelRatio });
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.20;
 renderer.shadowMap.enabled = true;
@@ -4745,7 +4748,7 @@ function updateTreeTiers() {
   let changed = drainTreeFades();
   TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
   TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem, camera.reversedDepth ?? false);
-  const viewportH = renderer.domElement.height || innerHeight;
+  const viewportH = renderResolution.detailHeight();
   const Kpx = viewportH / (2 * Math.tan(camera.fov * 0.5 * Math.PI / 180));
   const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
   const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
@@ -9450,7 +9453,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  renderResolution.resize(innerWidth, innerHeight, devicePixelRatio, performance.now());
   captureReadbackTarget?.setSize(innerWidth, innerHeight);
 });
 
@@ -9469,7 +9472,7 @@ function updateFrameVisibility(now, dt) {
   if (terrainV2.kind === 'graph' && terrainV2.active) {
     /* The graph adapter refreshes camera matrices before its frustum test;
        tree visibility below consumes that same pose, without a second sync. */
-    terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
+    terrainV2.update({ camera, viewportHeightPixels: renderResolution.detailHeight(), activeHoleNumber: hole });
   } else if (GRAPHICS_POLISH) camera.updateMatrixWorld(true);
   /* the crossfade clock: real time, a fixed 1/60 under det, or whatever the harness set */
   if (!TREE_LOD.clockDriven) TREE_LOD.fadeClock += DET ? 1 / 60 : dt;
@@ -9484,6 +9487,8 @@ function updateFrameVisibility(now, dt) {
 
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
+  renderResolution.sample(now - last, now,
+    BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked);
   /* Morph state remains current before the ground clamp samples terrain. */
   terrainV2.tick(now);
   if (!GRAPHICS_POLISH) updateFrameVisibility(now, dt);
@@ -10050,6 +10055,7 @@ window.V3D = {
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
   quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, qualityLocked: QUALITY_LOCK,
                     graphicsPolish: GRAPHICS_POLISH, pixelRatio: renderer.getPixelRatio(),
+                    resolution: renderResolution.snapshot(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   /* GPU milliseconds since the previous resolve, summed over every render
@@ -10260,8 +10266,7 @@ if (!LOWQ && !QUALITY_LOCK) setTimeout(() => {
         if (!DET && qualityParam !== 'hi') {
           try { localStorage.setItem('banvy-quality', 'lo'); } catch {}
         }
-        renderer.setPixelRatio(1);
-        renderer.setSize(innerWidth, innerHeight);
+        renderResolution.performanceFallback(performance.now());
         if (renderer.__bloomNode) renderer.__bloomNode.strength.value = 0;
         const sp = new URLSearchParams(location.search);
         sp.set('q', 'lo');

@@ -68,6 +68,8 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     GRAPHICS_POLISH: polish, camera, controls, innerHeight: 900, hole: 1,
     coastalCameraNear, COASTAL_DEPTH_ENABLED: false, COASTAL_TERRAIN_CEILING: 58.06,
     performance: { now: () => now }, last: 0, acc: 0, frames: 0, fps: 0,
+    BOOT_PERF: { doneAtMs: 1 }, document: { hidden: false },
+    renderResolution: { detailHeight: () => 240, sample() {} },
     FRAME_NO: 0, TIER_FRAME: 0, FRAME_MS: new Float32Array(120), DET: false,
     TREE_LOD: { clockDriven: false, fadeClock: 0, fadeS: 0.3, queue: [], qHead: 0 },
     treeFadeClock: { value: 0 }, treeFadeDuration: { value: 0 },
@@ -111,6 +113,26 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
 }
 
 describe('application camera frame ordering', () => {
+  it('samples resolution before visibility and keeps the geometry budget when the buffer grows', () => {
+    const f = fixture();
+    const samples = [];
+    f.context.renderResolution.sample = (interval, now, eligible) => {
+      samples.push({ interval, now, eligible });
+      f.context.renderer.domElement.height = 360;
+    };
+    f.step(16);
+    expect(samples).toEqual([{ interval: 16, now: 16, eligible: true }]);
+    expect(f.observed.terrain[0].bufferHeight).toBe(240);
+    f.context.BOOT_PERF.doneAtMs = 0;
+    f.step(16);
+    f.context.BOOT_PERF.doneAtMs = 1;
+    f.context.document.hidden = true;
+    f.step(16);
+    f.context.document.hidden = false;
+    f.context.captureRenderLocked = true;
+    f.step(16);
+    expect(samples.slice(1).every(s => !s.eligible)).toBe(true);
+  });
   it('uses the coastal projection for both visibility and drawing, restoring near immediately on descent', () => {
     const f = fixture();
     f.context.COASTAL_DEPTH_ENABLED = true;
