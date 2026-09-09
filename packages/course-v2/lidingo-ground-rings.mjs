@@ -31,7 +31,9 @@ export const LIDINGO_GROUND_RINGS = Object.freeze({
   ]),
   // The retained 8 km vista measures 0.05–67.07 m RH2000. This wider
   // plausibility band allows the expanded Stockholm/Täby surroundings.
+  // Acquisition 34319473678 measured -10.157..72.725 m on LOD3;
+  // retain those source depressions rather than clamping them to sea level.
   // No sea fill: missing samples must be investigated, never painted as water.
-  coverageGate: Object.freeze({ minimumHeightRH2000: -5,
+  coverageGate: Object.freeze({ minimumHeightRH2000: -20,
     maximumHeightRH2000: 150, requireEverySampleFinite: true }),
 });
