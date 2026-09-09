@@ -2,6 +2,7 @@ import * as THREE from 'three/webgpu';
 import { Fn, attribute, positionLocal, vec3 } from 'three/tsl';
 import { TerrainTileBatchSet } from './v2-terrain-batch.mjs';
 import { loadTerrainPreview } from './v2-terrain-preview-loader.mjs';
+import { createGroundReliefFixture } from './ground-surface-relief-fixture.mjs';
 import { createTerrainRenderView, terrainRenderStride } from '../../../../packages/course-v2/runtime/terrain-render-quality.mjs';
 
 const SIZE = 65;
@@ -102,6 +103,9 @@ function flatDiagnosticMaterial() {
 async function main() {
   const params = new URLSearchParams(location.search);
   const previewParameter = params.get('preview');
+  const materialProof = params.get('materialProof') === '1';
+  const surfaceRelief = params.get('surfaceRelief') || 'off';
+  const materialFixture = materialProof ? createGroundReliefFixture(surfaceRelief) : null;
   const renderStride = terrainRenderStride(Number(params.get('terrainStride') ?? 1));
   const loaded = previewParameter
     ? { ...(await loadTerrainPreview(sameOriginPreviewUrl(previewParameter))), synthetic: false }
@@ -118,7 +122,8 @@ async function main() {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xb9cbbb);
   scene.fog = new THREE.FogExp2(0xb9cbbb, loaded.synthetic ? 0.00125 : 0.00075);
-  const view = loaded.descriptor.camera;
+  const view = materialProof ? { position: [0, heightAt(0, 5) + 3.8, 5],
+    target: [0, heightAt(0, 0), 0], fovDegrees: 62, nearMetres: 0.1, farMetres: 3000 } : loaded.descriptor.camera;
   const camera = new THREE.PerspectiveCamera(
     view.fovDegrees, innerWidth / innerHeight, view.nearMetres, view.farMetres,
   );
@@ -132,6 +137,7 @@ async function main() {
 
   const terrain = new TerrainTileBatchSet({
     maximumTiles: loaded.resources.length,
+    decorateMaterial: materialFixture?.decorateMaterial,
     morphDurationMilliseconds: 0,
     compactCapacity: renderStride > 1,
     allowMixedDimensions: renderStride > 1,
@@ -247,7 +253,7 @@ async function main() {
   } : null;
   window.V3D = {
     stats: {
-      ...terrain.stats(), backend, synthetic: loaded.synthetic,
+      ...terrain.stats(), backend, synthetic: loaded.synthetic, materialProof, surfaceRelief,
       provisional: Boolean(loaded.descriptor.provisional),
       actualDrawCalls: renderInfo.calls ?? null,
       actualTriangles: renderInfo.triangles ?? null,
@@ -296,6 +302,7 @@ async function main() {
 
   addEventListener('pagehide', () => {
     readbackTarget?.dispose();
+    for (const texture of materialFixture?.textures || []) texture.dispose();
     for (const material of diagnosticMaterials) material.dispose();
     diagnosticCanary?.geometry.dispose();
     diagnosticCanary?.material.dispose();

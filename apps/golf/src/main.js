@@ -1212,6 +1212,9 @@ const phoneDevice = !DET
   && Math.min(window.screen?.width ?? Infinity, window.screen?.height ?? Infinity) <= 768;
 const LOWQ = qualityParam === 'lo'
   || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice || phoneDevice));
+/* Opt-in v2 material pilot. Low quality builds only the coarse relief band. */
+const SURFACE_RELIEF = GRAPHICS_POLISH && new URLSearchParams(location.search).get('surfaceRelief') === '1'
+  ? (LOWQ ? 'low' : 'high') : 'off';
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
 let autoQualityDone = LOWQ || QUALITY_LOCK;   /* no pending verdict in a fixed-quality visit */
@@ -2260,7 +2263,7 @@ if (TERRAIN_PREVIEW.ready) {
     renderStride,
     decorateMaterial: createV2GroundMaterialDecorator({
       atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
-      graphicsPolish: GRAPHICS_POLISH,
+      graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF,
       debugMode: surfaceDebugMode,
       tint: GROUND_TINT,
     }),
@@ -10034,7 +10037,7 @@ window.V3D = {
   /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
   quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, qualityLocked: QUALITY_LOCK,
-                    graphicsPolish: GRAPHICS_POLISH, pixelRatio: renderer.getPixelRatio(),
+                    graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   /* GPU milliseconds since the previous resolve, summed over every render

@@ -3,6 +3,7 @@ import * as THREE from 'three/webgpu';
 import { vec3 } from 'three/tsl';
 import { createV2GroundMaterialDecorator } from './material.js';
 import { SURFACE } from './surface.js';
+import { groundReliefTier } from './ground-surface-relief.mjs';
 
 const C = Object.fromEntries([
   'rough', 'forest', 'heath', 'semi', 'fair', 'fringe', 'green', 'tee',
@@ -62,6 +63,38 @@ describe.each(['class-sdf-v1', 'pair-sdf-v1'])('%s graphics polish', representat
       material.dispose();
     }
     for (const tex of owned) tex.dispose();
+  });
+
+  it('keeps terrain geometry and texture ownership stable across the relief tiers', () => {
+    const { atlas, DETAIL } = resources(representation);
+    const owned = new Set([DETAIL, atlas.texF, atlas.texID, ...atlas.texSdf]);
+    for (const surfaceRelief of ['off', 'low', 'high']) for (const debugMode of ['off', 'weights']) {
+      const material = new THREE.MeshStandardNodeMaterial();
+      const normal = vec3(0.2, 0.9, 0.3), position = vec3(1, 2, 3);
+      material.normalNode = normal;
+      material.positionNode = position;
+      const decorate = createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE,
+        graphicsPolish: true, surfaceRelief, debugMode });
+      decorate(material);
+      const enabled = surfaceRelief !== 'off' && debugMode === 'off';
+      expect(material.normalNode === normal).toBe(!enabled);
+      expect(material.positionNode).toBe(position);
+      expect(material.userData.surfaceRelief).toBe(debugMode === 'off' ? surfaceRelief : 'off');
+      expect(decorate.v2SurfaceAuthority).toBe(atlas);
+      expect(textureSamples([material.colorNode], DETAIL).size).toBe(debugMode === 'off' ? 4 : 0);
+      expect(material.userData.terrainPreviewTextures.length).toBe(representation === 'class-sdf-v1' ? 0 : debugMode === 'off' ? 1 : 2);
+      for (const tex of material.userData.terrainPreviewTextures) owned.add(tex);
+      material.dispose();
+    }
+    const normal = vec3(0, 1, 0), disabled = new THREE.MeshStandardNodeMaterial();
+    disabled.normalNode = normal;
+    createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, graphicsPolish: false, surfaceRelief: 'high' })(disabled);
+    expect(disabled.normalNode).toBe(normal);
+    expect(disabled.userData.surfaceRelief).toBe('off');
+    for (const tex of disabled.userData.terrainPreviewTextures) owned.add(tex);
+    disabled.dispose();
+    for (const tex of owned) tex.dispose();
+    for (const invalid of ['ultra', true, 1, null]) expect(() => groundReliefTier(invalid)).toThrow(/tier/);
   });
 
   it('keeps classification diagnostics independent of the appearance option', () => {
