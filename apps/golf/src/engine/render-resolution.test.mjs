@@ -5,8 +5,9 @@ function fixture(options = {}) {
   let now = 0, pixelRatio = 1;
   const calls = [], size = [0, 0];
   const renderer = {
+    domElement: { style: {} },
     setPixelRatio(r) { pixelRatio = r; calls.push(['ratio', r]); },
-    setSize(w, h) { size[0] = w; size[1] = h; calls.push(['size', w, h]); },
+    setDrawingBufferSize(w, h, r) { size[0] = w; size[1] = h; pixelRatio = r; calls.push(['size', w, h, r]); },
   };
   const controller = createRenderResolution({ renderer, lowQuality: true, adaptive: true,
     width: 390, height: 844, devicePixelRatio: 3, ...options });
@@ -93,6 +94,14 @@ describe('independent render resolution', () => {
     expect(f.ratio()).toBe(1);
     f.run(25_000);
     expect(f.ratio()).toBe(1);
+  });
+  it('applies fixed-ratio size changes without an intermediate oversized buffer', () => {
+    const f = fixture({ width: 1920, height: 1080, requested: 1.5 });
+    expect(f.ratio()).toBe(1);
+    f.resize(390, 844);
+    expect(f.calls).toEqual([['size', 1920, 1080, 1], ['size', 390, 844, 1.5]]);
+    f.resize(1920, 1080);
+    expect(f.calls.at(-1)).toEqual(['size', 1920, 1080, 1]);
   });
   it('keeps high quality and disabled adaptation at their existing resolution', () => {
     const high = fixture({ lowQuality: false }), locked = fixture({ adaptive: false });

@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-09",
+  "passed": true,
+  "executionAdapter": "Chromium 153 / SwiftShader",
+  "performanceEvidence": false,
+  "baseCommit": "6a2cb05b6eddad10c2907284534717a1e770bb82",
+  "fullCourseCaptureCommit": "5654204fee2d535f2ea74eb7e3cbf9cf9749f63b",
+  "fullCourseCaptureTree": "399ee930c3d3748dbc5482583bd4a0afc16d7d56",
+  "finalProofResolutionSourceSha256": "32c0d2693247c3f452cdfcf1cb27a6970f43eafe0539cfd1e89b4868ca7aee69",
+  "followUp": "Final proofs include atomic initial sizing/resize; the full-course capture pair predates that follow-up and does not resize its viewport.",
+  "fullCourse": {
+    "course": "visby",
+    "backend": "webgl2",
+    "autoFallback": true,
+    "cssViewport": [
+      400,
+      300
+    ],
+    "displayDpr": 2,
+    "beforeBuffer": [
+      400,
+      300
+    ],
+    "afterBuffer": [
+      600,
+      450
+    ],
+    "invariants": {
+      "model": true,
+      "routing": true,
+      "georeferencing": true,
+      "treeInstances": true,
+      "treePositions": true,
+      "vistaPoints": true,
+      "tintNear": true,
+      "tintFar": true,
+      "surfaceSource": true,
+      "vegetationSource": true,
+      "counts": true,
+      "treeExportPrecision": true,
+      "backend": true,
+      "camera": true,
+      "lens": true,
+      "coastalWater": true,
+      "terrainInventory": true,
+      "treeLod": true,
+      "lowq": true,
+      "lowfx": true,
+      "graphicsPolish": true,
+      "qualityLocked": true,
+      "bloom": true,
+      "detailPixelRatio": true,
+      "drawCalls": true,
+      "triangles": true,
+      "frameCalls": true
+    },
+    "drawCalls": 120,
+    "triangles": 7362040,
+    "rendererAccountedBytesBefore": 234973682,
+    "rendererAccountedBytesAfter": 236773682,
+    "memoryNote": "Three renderer counters, not complete browser/GPU memory.",
+    "visualObservation": "Clearer tree silhouettes, path edges and distant detail; broad open-sea breakup remains absent in this view. Coarse surfaces and low-tier tree shapes remain visible."
+  },
+  "syntheticProofs": {
+    "webgl2": {
+      "passed": true,
+      "simulatedFrameInputs": "simulated 60 FPS then 20 FPS; synthetic scene",
+      "views": [
+        {
+          "mode": "reference",
+          "resolution": {
+            "mode": "fixed",
+            "requested": 2,
+            "pixelRatio": 2,
+            "detailPixelRatio": 2,
+            "maximumPixelRatio": 2,
+            "drawingBuffer": [
+              960,
+              640
+            ],
+            "extraPixelBudget": null,
+            "changes": 0,
+            "reason": "initial",
+            "frameP90Ms": null
+          },
+          "detailHeight": 640,
+          "buffer": [
+            960,
+            640
+          ],
+          "triangles": 1055,
+          "draws": 63,
+          "meanAbsoluteErrorToDpr2": 0,
+          "baselinePixelsRestored": true
+        },
+        {
+          "mode": "baseline",
+          "resolution": {
+            "mode": "adaptive",
+            "requested": null,
+            "pixelRatio": 1,
+            "detailPixelRatio": 1,
+            "maximumPixelRatio": 1.5,
+            "drawingBuffer": [
+              480,
+              320
+            ],
+            "extraPixelBudget": 1000000,
+            "changes": 0,
+            "reason": "initial",
+            "frameP90Ms": null
+          },
+          "detailHeight": 320,
+          "buffer": [
+            480,
+            320
+          ],
+          "triangles": 1055,
+          "draws": 63,
+          "meanAbsoluteErrorToDpr2": 1.3490287272135417,
+          "baselinePixelsRestored": true
+        },
+        {
+          "mode": "boosted",
+          "resolution": {
+            "mode": "adaptive",
+            "requested": null,
+            "pixelRatio": 1.5,
+            "detailPixelRatio": 1,
+            "maximumPixelRatio": 1.5,
+            "drawingBuffer": [
+              720,
+              480
+            ],
+            "extraPixelBudget": 1000000,
+            "changes": 2,
+            "reason": "sustained-headroom",
+            "frameP90Ms": 16.666666666666668
+          },
+          "detailHeight": 320,
+          "buffer": [
+            720,
+            480
+          ],
+          "triangles": 1055,
+          "draws": 63,
+          "meanAbsoluteErrorToDpr2": 0.763875732421875,
+          "baselinePixelsRestored": false
+        },
+        {
+          "mode": "recovered",
+          "resolution": {
+            "mode": "adaptive",
+            "requested": null,
+            "pixelRatio": 1,
+            "detailPixelRatio": 1,
+            "maximumPixelRatio": 1.5,
+            "drawingBuffer": [
+              480,
+              320
+            ],
+            "extraPixelBudget": 1000000,
+            "changes": 4,
+            "reason": "sustained-slow-frames",
+            "frameP90Ms": 50
+          },
+          "detailHeight": 320,
+          "buffer": [
+            480,
+            320
+          ],
+          "triangles": 1055,
+          "draws": 63,
+          "meanAbsoluteErrorToDpr2": 1.3490287272135417,
+          "baselinePixelsRestored": true
+        }
+      ]
+    },
+    "webgpu": {
+      "passed": true,
+      "simulatedFrameInputs": "simulated 60 FPS then 20 FPS; synthetic scene",
+      "views": [
+        {
+          "mode": "reference",
+          "resolution": {
+            "mode": "fixed",
+            "requested": 2,
+            "pixelRatio": 2,
+            "detailPixelRatio": 2,
+            "maximumPixelRatio": 2,
+            "drawingBuffer": [
+              960,
+              640
+            ],
+            "extraPixelBudget": null,
+            "changes": 0,
+            "reason": "initial",
+            "frameP90Ms": null
+          },
+          "detailHeight": 640,
+          "buffer": [
+            960,
+            640
+          ],
+          "triangles": 1055,
+          "draws": 63,
+          "meanAbsoluteErrorToDpr2": 0,
+          "baselinePixelsRestored": true
+        },
+        {
+          "mode": "baseline",
+          "resolution": {
+            "mode": "adaptive",
+            "requested": null,
+            "pixelRatio": 1,
+            "detailPixelRatio": 1,
+            "maximumPixelRatio": 1.5,
+            "drawingBuffer": [
+              480,
+              320
+            ],
+            "extraPixelBudget": 1000000,
+            "changes": 0,
+            "reason": "initial",
+            "frameP90Ms": null
+          },
+          "detailHeight": 320,
+          "buffer": [
+            480,
+            320
+          ],
+          "triangles": 1055,
+          "draws": 63,
+          "meanAbsoluteErrorToDpr2": 1.353348388671875,
+          "baselinePixelsRestored": true
+        },
+        {
+          "mode": "boosted",
+          "resolution": {
+            "mode": "adaptive",
+            "requested": null,
+            "pixelRatio": 1.5,
+            "detailPixelRatio": 1,
+            "maximumPixelRatio": 1.5,
+            "drawingBuffer": [
+              720,
+              480
+            ],
+            "extraPixelBudget": 1000000,
+            "changes": 2,
+            "reason": "sustained-headroom",
+            "frameP90Ms": 16.666666666666668
+          },
+          "detailHeight": 320,
+          "buffer": [
+            720,
+            480
+          ],
+          "triangles": 1055,
+          "draws": 63,
+          "meanAbsoluteErrorToDpr2": 0.778931884765625,
+          "baselinePixelsRestored": false
+        },
+        {
+          "mode": "recovered",
+          "resolution": {
+            "mode": "adaptive",
+            "requested": null,
+            "pixelRatio": 1,
+            "detailPixelRatio": 1,
+            "maximumPixelRatio": 1.5,
+            "drawingBuffer": [
+              480,
+              320
+            ],
+            "extraPixelBudget": 1000000,
+            "changes": 4,
+            "reason": "sustained-slow-frames",
+            "frameP90Ms": 50
+          },
+          "detailHeight": 320,
+          "buffer": [
+            480,
+            320
+          ],
+          "triangles": 1055,
+          "draws": 63,
+          "meanAbsoluteErrorToDpr2": 1.353348388671875,
+          "baselinePixelsRestored": true
+        }
+      ]
+    }
+  },
+  "limits": [
+    "No physical phone or older-desktop FPS/thermal measurement.",
+    "No default resolution increase on a device without measured headroom.",
+    "Higher resolution increases output pixel work and render-target memory.",
+    "This does not change coarse source boundaries, tree meshes or material shaders.",
+    "The conservative coastal shoreline collar remains."
+  ],
+  "files": {
+    "proof-webgl2/baseline.png": "badd4e9caed85f863e17e1240c5d638d009f65291a9b6760243699a13d209293",
+    "proof-webgl2/boosted.png": "c88f9cb8d7fe1c154ba9d07415b97744aedb292d58929074ad4f71dbbec1807a",
+    "proof-webgl2/recovered.png": "badd4e9caed85f863e17e1240c5d638d009f65291a9b6760243699a13d209293",
+    "proof-webgl2/reference.png": "c9d5985659665186de7ec3a47a6ebfd0358d112f9288be5e97ea082ecfe3826b",
+    "proof-webgl2/report.json": "c9ffb3755af538a07bb174defb99a6ee51273a2a92e36ab302aeb0375f72143f",
+    "proof-webgpu/baseline.png": "02c51eb5ef1909fec084c1297a416ffed4fa42bf4c03a11962049010b6da0f83",
+    "proof-webgpu/boosted.png": "2a2c46fb7762e3704d11f570215e9cc05433c10f6cf42a0e3412ea0228f30aee",
+    "proof-webgpu/recovered.png": "02c51eb5ef1909fec084c1297a416ffed4fa42bf4c03a11962049010b6da0f83",
+    "proof-webgpu/reference.png": "715abc8aebd2dae00a64a1b90fb74ed5ca7ffac8485c11faaf372281d94eb1e4",
+    "proof-webgpu/report.json": "c73efb68ab16d802f28c33688da2fc7fc08c2064948be0a602ac2c483fce3d72",
+    "visby-after/h1_visby-coast-low_golden.png": "7798a40a1b984f2b55591b0d17780f6ed5fcfcde6c955a5a8e490f8d8643ffc3",
+    "visby-after/report.json": "64ae28c9b38e8f5cde5cf7c513b6ec8b7430eafedb2c04fcff803733e8e5f21f",
+    "visby-before/h1_visby-coast-low_golden.png": "9536167a5b029db1d6569799672c9fde2350895f967050a1c4043b84fd8afcdf",
+    "visby-before/report.json": "b65af40cd84b4cb49d67ee9a9d549d05a1a983eefba6a7b7038150272b64cdf0"
+  }
+}

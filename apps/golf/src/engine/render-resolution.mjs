@@ -33,6 +33,13 @@ export function createRenderResolution({ renderer, lowQuality, adaptive = false,
     const cap = lowQuality || fallback ? levels.at(-1) : Math.min(nativeRatio, 2);
     return Math.min(fixed, cap);
   }
+  function sizeCanvas() {
+    // Apply viewport and ratio together: rotating/resizing a fixed-sharpness
+    // view must not briefly combine the old large size with the new ratio.
+    renderer.setDrawingBufferSize(w, h, ratio);
+    renderer.domElement.style.width = w + 'px';
+    renderer.domElement.style.height = h + 'px';
+  }
   function apply(next, why, now = 0) {
     if (next === ratio) return false;
     ratio = next; reason = why; changes++;
@@ -44,8 +51,7 @@ export function createRenderResolution({ renderer, lowQuality, adaptive = false,
   }
   configure(width, height, devicePixelRatio);
   ratio = initialRatio();
-  renderer.setPixelRatio(ratio);
-  renderer.setSize(w, h);
+  sizeCanvas();
 
   return {
     // Both terrain error and optional screen-space tree LOD use this budget,
@@ -59,8 +65,9 @@ export function createRenderResolution({ renderer, lowQuality, adaptive = false,
       changes, reason, frameP90Ms: lastP90 }),
     resize(nextWidth, nextHeight, nextNative, now = 0) {
       configure(nextWidth, nextHeight, nextNative);
-      apply(initialRatio(), 'resize', now);
-      renderer.setSize(w, h);
+      const next = initialRatio();
+      if (next !== ratio) { ratio = next; reason = 'resize'; changes++; }
+      sizeCanvas();
       resetWindow(); settleUntil = now + 1500;
     },
     performanceFallback(now = 0) {
