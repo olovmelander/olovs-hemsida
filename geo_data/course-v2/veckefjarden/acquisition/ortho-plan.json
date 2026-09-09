@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "groundId": "veckefjarden",
+  "kind": "authenticated-orthophoto-review-plan",
+  "collection": "orto-u2-2024",
+  "discoveryObservedAt": "2026-09-09T16:51:44.353Z",
+  "horizontalCrs": "EPSG:3006",
+  "resolutionMetres": 0.16,
+  "requestedBoundsEpsg3006": [
+    682885,
+    7021978,
+    684934,
+    7024027
+  ],
+  "boundsEpsg3006": [
+    682884.96,
+    7021977.92,
+    684934.08,
+    7024027.04
+  ],
+  "width": 12807,
+  "height": 12807,
+  "nativeGridAnchor": [
+    680000,
+    7022500
+  ],
+  "pixelConvention": "Bounds are pixel edges. Centre E=minE+(column+0.5)*resolution; N=maxN-(row+0.5)*resolution.",
+  "resampling": "none: output pixels match the source image lattice",
+  "sources": [
+    {
+      "id": "o70200_6825_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70200_6825_25_mr24.tif",
+      "boundsEpsg3006": [
+        682500,
+        7020000,
+        685000,
+        7022500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-06-27T14:17:34Z",
+      "bytes": 715587037
+    },
+    {
+      "id": "o70225_6825_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6825_25_mr24.tif",
+      "boundsEpsg3006": [
+        682500,
+        7022500,
+        685000,
+        7025000
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-06-27T14:17:49Z",
+      "bytes": 704111303
+    }
+  ],
+  "windows": [
+    {
+      "id": "context-0-0",
+      "row": 0,
+      "col": 0,
+      "boundsEpsg3006": [
+        682884.96,
+        7023387.04,
+        683524.96,
+        7024027.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-0-1",
+      "row": 0,
+      "col": 1,
+      "boundsEpsg3006": [
+        683524.96,
+        7023387.04,
+        684164.96,
+        7024027.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-0-2",
+      "row": 0,
+      "col": 2,
+      "boundsEpsg3006": [
+        684164.96,
+        7023387.04,
+        684804.96,
+        7024027.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-0-3",
+      "row": 0,
+      "col": 3,
+      "boundsEpsg3006": [
+        684804.96,
+        7023387.04,
+        684934.08,
+        7024027.04
+      ],
+      "width": 807,
+      "height": 4000,
+      "sourceIds": [
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-1-0",
+      "row": 1,
+      "col": 0,
+      "boundsEpsg3006": [
+        682884.96,
+        7022747.04,
+        683524.96,
+        7023387.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-1-1",
+      "row": 1,
+      "col": 1,
+      "boundsEpsg3006": [
+        683524.96,
+        7022747.04,
+        684164.96,
+        7023387.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-1-2",
+      "row": 1,
+      "col": 2,
+      "boundsEpsg3006": [
+        684164.96,
+        7022747.04,
+        684804.96,
+        7023387.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-1-3",
+      "row": 1,
+      "col": 3,
+      "boundsEpsg3006": [
+        684804.96,
+        7022747.04,
+        684934.08,
+        7023387.04
+      ],
+      "width": 807,
+      "height": 4000,
+      "sourceIds": [
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-2-0",
+      "row": 2,
+      "col": 0,
+      "boundsEpsg3006": [
+        682884.96,
+        7022107.04,
+        683524.96,
+        7022747.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70200_6825_25_mr24",
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-2-1",
+      "row": 2,
+      "col": 1,
+      "boundsEpsg3006": [
+        683524.96,
+        7022107.04,
+        684164.96,
+        7022747.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70200_6825_25_mr24",
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-2-2",
+      "row": 2,
+      "col": 2,
+      "boundsEpsg3006": [
+        684164.96,
+        7022107.04,
+        684804.96,
+        7022747.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "sourceIds": [
+        "o70200_6825_25_mr24",
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-2-3",
+      "row": 2,
+      "col": 3,
+      "boundsEpsg3006": [
+        684804.96,
+        7022107.04,
+        684934.08,
+        7022747.04
+      ],
+      "width": 807,
+      "height": 4000,
+      "sourceIds": [
+        "o70200_6825_25_mr24",
+        "o70225_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-3-0",
+      "row": 3,
+      "col": 0,
+      "boundsEpsg3006": [
+        682884.96,
+        7021977.92,
+        683524.96,
+        7022107.04
+      ],
+      "width": 4000,
+      "height": 807,
+      "sourceIds": [
+        "o70200_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-3-1",
+      "row": 3,
+      "col": 1,
+      "boundsEpsg3006": [
+        683524.96,
+        7021977.92,
+        684164.96,
+        7022107.04
+      ],
+      "width": 4000,
+      "height": 807,
+      "sourceIds": [
+        "o70200_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-3-2",
+      "row": 3,
+      "col": 2,
+      "boundsEpsg3006": [
+        684164.96,
+        7021977.92,
+        684804.96,
+        7022107.04
+      ],
+      "width": 4000,
+      "height": 807,
+      "sourceIds": [
+        "o70200_6825_25_mr24"
+      ]
+    },
+    {
+      "id": "context-3-3",
+      "row": 3,
+      "col": 3,
+      "boundsEpsg3006": [
+        684804.96,
+        7021977.92,
+        684934.08,
+        7022107.04
+      ],
+      "width": 807,
+      "height": 807,
+      "sourceIds": [
+        "o70200_6825_25_mr24"
+      ]
+    }
+  ],
+  "summary": {
+    "windows": 16,
+    "megapixels": 164.019
+  },
+  "limitations": [
+    "This is the newest available June 2024 flight, not a 2026 capture.",
+    "Pixel resolution does not establish absolute horizontal accuracy.",
+    "Source rasters and review overlays remain in the ignored local cache."
+  ]
+}

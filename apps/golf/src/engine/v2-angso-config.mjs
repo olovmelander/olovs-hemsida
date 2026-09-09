@@ -73,8 +73,9 @@ export const ANGSO_V2_CONFIG = Object.freeze({
      may download before the first frame. Columns 4-11 and rows 2-13 -- eight
      tiles by twelve, 2,048 x 3,072 m -- are 96 tiles and 6,453,395 bytes,
      76.9% of that budget, measured from the published manifest rather than
-     estimated. They keep 577 m of metre ground east and west of the played
-     geometry and 452 m north and south, which is where the Mälaren shore,
+     estimated. After the 2026-09-09 orthophoto review they keep at least 586 m
+     east and west and 453.859 m north and south of the played geometry,
+     which is where the Mälaren shore,
      the reserve edge and the near scenery are.
 
      Beyond this rectangle the ground is not missing: the streaming ring

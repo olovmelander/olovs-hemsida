@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "validatedAt": "2026-09-09T17:23:25.643Z",
+  "passed": true,
+  "scope": "Post-refresh production browser validation of both Upsala routings and the accepted 2025 orthophoto surface updates.",
+  "execution": {
+    "adapter": "hardware ANGLE D3D11",
+    "backend": "WebGL2",
+    "viewport": [
+      1280,
+      900
+    ],
+    "quality": "lo",
+    "graphics": 1,
+    "performanceEvidence": false,
+    "serialBrowserExecution": true
+  },
+  "productionBuild": {
+    "command": "npm --prefix apps/golf run build",
+    "exitCode": 0,
+    "log": "upsalabuild/cache/lm-app-build-2026-09-09.log",
+    "note": "Build completed; Vite retained its chunk-size warning."
+  },
+  "gpk1": {
+    "command": "BANVY_GPU=1 node tools/check-app.mjs http://127.0.0.1:8636 --only=upsala,upsala-mellanbanan",
+    "passed": true,
+    "log": "upsalabuild/cache/lm-check-app-2026-09-09.log",
+    "logSha256": "be2e88cbd5c05ac2902fff5971956d5d81f0ee9a660b7b30c20ed3ac8cbf1a27",
+    "pageErrors": 0,
+    "courses": [
+      {
+        "slug": "upsala",
+        "cardValues": 144,
+        "physicalTeePlatforms": 54
+      },
+      {
+        "slug": "upsala-mellanbanan",
+        "cardValues": 63,
+        "physicalTeePlatforms": 24
+      }
+    ],
+    "checks": [
+      "Current pack integrity and course identity",
+      "Exact card and HUD tee values",
+      "Green and bunker interior atlas probes",
+      "Physical tee-platform turf and water/submersion checks",
+      "No v2 vegetation loaded on the GPK1 opt-out path"
+    ]
+  },
+  "requiredV2": {
+    "harness": "upsalabuild/cache/lm-browser-review-2026-09-09.mjs",
+    "fullReport": "upsalabuild/cache/lm-browser-review-2026-09-09/report.json",
+    "fullReportSha256": "458057925275562b61602e2c93dba7c5d5702bd18c07b8494f206e7c50f34745",
+    "courses": [
+      {
+        "slug": "upsala",
+        "packSha256": "efac25fe4b9c7bd9033bb39b178c96a039290a4b4598b6ec6a45059d1bffcbb4",
+        "currentPublicDistAndHttpPackHashesAgree": true,
+        "ready": true,
+        "status": "ready",
+        "requestMode": "require",
+        "surfaceRepresentation": "legacy-ground-atlas",
+        "bridge": {
+          "translateX": 313.2290000000503,
+          "translateY": 13.28,
+          "translateZ": -31.109000000171363,
+          "rotationRadians": 0.03765963859374325,
+          "scaleX": 0.9976592116269429,
+          "scaleZ": 0.9993565072654643
+        },
+        "renderer": {
+          "status": "ready",
+          "kind": "graph",
+          "meshResolutionMetres": 1,
+          "levels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "tiles": 277,
+          "drawCalls": 2,
+          "triangles": 135168
+        },
+        "ringChecks": [
+          {
+            "id": "upsala-stora-01-w452928633-lm2025-review-20260909",
+            "sourceId": "w452928633",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-02-w438983953-lm2025-review-20260909",
+            "sourceId": "w438983953",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-03-w438986830-lm2025-review-20260909",
+            "sourceId": "w438986830",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-07-w438981594-lm2025-review-20260909",
+            "sourceId": "w438981594",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-07-w438982463-lm2025-review-20260909",
+            "sourceId": "w438982463",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-bunker-10-w438983239-lm-2025-review",
+            "sourceId": "w438983239",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-bunker-11-w438982475-lm-2025-review",
+            "sourceId": "w438982475",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-green-14-w452926950-lm-2025-review",
+            "sourceId": "w452926950",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-bunker-14-w438979692-lm-2025-review",
+            "sourceId": "w438979692",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-green-15-w452926952-lm-2025-review",
+            "sourceId": "w452926952",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          },
+          {
+            "id": "upsala-stora-green-18-w452926951-lm-2025-review",
+            "sourceId": "w452926951",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          }
+        ],
+        "h3Neck": {
+          "point": [
+            415.418,
+            201.294
+          ],
+          "ground": {
+            "inBounds": true,
+            "surface": 6,
+            "primary": 6,
+            "secondary": 0,
+            "sdf": 3.3284270763397217,
+            "hole": 3,
+            "dLine": 16.05552864074707
+          },
+          "probe": {
+            "h": 23.96,
+            "slope": 0.183,
+            "tintNear": [
+              104,
+              155,
+              67
+            ],
+            "tintFar": [
+              104,
+              153,
+              67
+            ],
+            "flat": false,
+            "water": false,
+            "rings": [],
+            "landuse": [],
+            "cover": 2
+          }
+        },
+        "errors": [],
+        "captures": [
+          {
+            "hole": 3,
+            "path": "upsalabuild/cache/lm-browser-review-2026-09-09/upsala-h3-required-v2.png",
+            "sha256": "a9a63142cc0e1b80b4d9a7220de195df96fc9ac25af744f05838dbd14be81987",
+            "camera": {
+              "pos": [
+                429.8,
+                105.2,
+                224.2
+              ],
+              "look": [
+                429.8,
+                23.2,
+                194.2
+              ],
+              "mode": "green"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                429.80000000000007,
+                105.20241771987008,
+                224.20000000000002
+              ]
+            },
+            "visibleTerrainTiles": 7,
+            "failedTerrainTiles": 0,
+            "loadingTerrainTiles": 0
+          },
+          {
+            "hole": 14,
+            "path": "upsalabuild/cache/lm-browser-review-2026-09-09/upsala-h14-required-v2.png",
+            "sha256": "36a539563dc36e2dc6d6c2b1f58283b2027733c1b3e2d46eaf2edc50bac24029",
+            "camera": {
+              "pos": [
+                -114.5,
+                106.4,
+                -320.3
+              ],
+              "look": [
+                -114.5,
+                24.4,
+                -350.3
+              ],
+              "mode": "green"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                -114.5,
+                106.43021855249032,
+                -320.3
+              ]
+            },
+            "visibleTerrainTiles": 9,
+            "failedTerrainTiles": 0,
+            "loadingTerrainTiles": 0
+          }
+        ]
+      },
+      {
+        "slug": "upsala-mellanbanan",
+        "packSha256": "89a3aec237b6c5f663479c670f4a0954ee1cfe6e075242d72878dbe9ead215c0",
+        "currentPublicDistAndHttpPackHashesAgree": true,
+        "ready": true,
+        "status": "ready",
+        "requestMode": "require",
+        "surfaceRepresentation": "legacy-ground-atlas",
+        "bridge": {
+          "translateX": 313.2290000000503,
+          "translateY": 13.28,
+          "translateZ": -31.109000000171363,
+          "rotationRadians": 0.03765963859374325,
+          "scaleX": 0.9976592116269429,
+          "scaleZ": 0.9993565072654643
+        },
+        "renderer": {
+          "status": "ready",
+          "kind": "graph",
+          "meshResolutionMetres": 1,
+          "levels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "tiles": 277,
+          "drawCalls": 2,
+          "triangles": 33792
+        },
+        "ringChecks": [
+          {
+            "id": "upsala-mellan-h6-green-lm-direct-2025-2026-09-09",
+            "sourceId": "w221192642",
+            "exactRing": true,
+            "retiredSplitMissing": true
+          }
+        ],
+        "errors": [],
+        "captures": [
+          {
+            "hole": 6,
+            "path": "upsalabuild/cache/lm-browser-review-2026-09-09/upsala-mellanbanan-h6-required-v2.png",
+            "sha256": "1b110d8de50fd8fa728487e0981f833ca9ab82b0af61751606dfbe71aafce8bb",
+            "camera": {
+              "pos": [
+                400.9,
+                108.4,
+                384.3
+              ],
+              "look": [
+                400.9,
+                26.4,
+                354.3
+              ],
+              "mode": "green"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                400.9,
+                108.44072803021771,
+                384.3
+              ]
+            },
+            "visibleTerrainTiles": 7,
+            "failedTerrainTiles": 0,
+            "loadingTerrainTiles": 0
+          }
+        ]
+      }
+    ]
+  },
+  "visualReview": {
+    "inspected": true,
+    "observations": [
+      "Stora H3 shows the connected three-lobed west bunker with sand through the former artificial grass gap; the runtime atlas probe at local [415.418,201.294] returns sand class 6.",
+      "Stora H14 shows the updated putting footprint and northern sand boundary. The ordinary Spellinje control was switched off for the final capture so its persistent label did not obscure the green.",
+      "Mellanbanan H6 shows the corrected putting footprint with the larger surrounding apron excluded from the putting surface."
+    ],
+    "limitations": [
+      "The accepted source rings survive exactly in the runtime model; visible atlas edges remain rasterized.",
+      "These captures prove runtime behavior and geometry placement, not absolute survey accuracy or performance."
+    ]
+  }
+}

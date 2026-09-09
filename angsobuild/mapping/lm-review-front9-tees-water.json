@@ -1,0 +1,2686 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "reviewedAt": "2026-09-09",
+  "method": "Manual visible physical tee-pad and open-water-edge review in native 0.16m Lantmateriet imagery; exact native pixel-edge rings.",
+  "sources": {
+    "angso-01-hole": {
+      "id": "angso-01-hole",
+      "rasterFile": "angso-01-hole.tif",
+      "rgbFile": "angso-01-hole.png",
+      "sha256": "f2f4d850216cf11d5ca99915f5d09e42d67e9113b0926300cd5f8ca15f58d30c",
+      "rgbSha256": "774861ddc2eb2259ae8b0d91641ba015f03edf495bee397fde91bca78c86bceb",
+      "requestSha256": "38bf4df994e23b754eb9e0b7e5bf2cf9cf0570860fbe93799aada8b289b337cf",
+      "bytes": 10038477,
+      "boundsEpsg3006": [
+        605500.96,
+        6604664.960000001,
+        605694.88,
+        6605156.48
+      ],
+      "geoTransform": [
+        605500.96,
+        0.16,
+        0.0,
+        6605156.48,
+        0.0,
+        -0.16
+      ],
+      "width": 1212,
+      "height": 3072,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:15.121214+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66025_6050_25_mr25",
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-02-hole": {
+      "id": "angso-02-hole",
+      "rasterFile": "angso-02-hole.tif",
+      "rgbFile": "angso-02-hole.png",
+      "sha256": "d29a6f7a0e1dfc03f3c9dc14455d2081e00d0ba8c012bd2d87f333047b922e78",
+      "rgbSha256": "3ed488f83dd1572cdfafa4ab73b1a64175f38ce9f7d7e6c94168cc19f60a9fbc",
+      "requestSha256": "7f02cfdcaab9d4801c9ec0d2abc554942fdb5f38056659057322c45028a36a5b",
+      "bytes": 8878715,
+      "boundsEpsg3006": [
+        605495.36,
+        6604588.16,
+        605965.12,
+        6604767.68
+      ],
+      "geoTransform": [
+        605495.36,
+        0.16,
+        0.0,
+        6604767.68,
+        0.0,
+        -0.16
+      ],
+      "width": 2936,
+      "height": 1122,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:16.849476+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66025_6050_25_mr25"
+      ]
+    },
+    "angso-03-hole": {
+      "id": "angso-03-hole",
+      "rasterFile": "angso-03-hole.tif",
+      "rgbFile": "angso-03-hole.png",
+      "sha256": "6b8f34a245b19fe957cf37d314adaf456a15a9439318f50580110d3698f37ad0",
+      "rgbSha256": "67cf517dfcd563e82df07cb993927dd18dd3dfc30a678d79b9d149252806f87e",
+      "requestSha256": "c7654e143324998d0eb6839f063071fa46d1577403db35e23664e650323d2d22",
+      "bytes": 5908239,
+      "boundsEpsg3006": [
+        605658.56,
+        6604707.04,
+        605941.92,
+        6604909.92
+      ],
+      "geoTransform": [
+        605658.56,
+        0.16,
+        0.0,
+        6604909.92,
+        0.0,
+        -0.16
+      ],
+      "width": 1771,
+      "height": 1268,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:18.009977+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66025_6050_25_mr25"
+      ]
+    },
+    "angso-04-hole": {
+      "id": "angso-04-hole",
+      "rasterFile": "angso-04-hole.tif",
+      "rgbFile": "angso-04-hole.png",
+      "sha256": "4d326544b9a30215d3b09059b5d0cd989cc07c052e67d9fad480b510f6910ea4",
+      "rgbSha256": "9089600ccee9dd86890d618e26a9b3a88173df63851cdc5c611c16208d805e25",
+      "requestSha256": "1c94b4cc594acf5e81407d452e9dc135bdb98c10fded65bbb2f5cbcdb1c04e0f",
+      "bytes": 10288679,
+      "boundsEpsg3006": [
+        605677.28,
+        6604844.4799999995,
+        605883.8400000001,
+        6605319.52
+      ],
+      "geoTransform": [
+        605677.28,
+        0.16,
+        0.0,
+        6605319.52,
+        0.0,
+        -0.16
+      ],
+      "width": 1291,
+      "height": 2969,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:20.083874+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66025_6050_25_mr25",
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-05-hole": {
+      "id": "angso-05-hole",
+      "rasterFile": "angso-05-hole.tif",
+      "rgbFile": "angso-05-hole.png",
+      "sha256": "afe290152d1dd78edfa8c474e92a5439234c2c4e9e9cb0f83c32d2d7f0e7b4ae",
+      "rgbSha256": "d3ad2bd3d0321d4f1fb1df41e9079ae27b4f0e8225c0d0afcc5de655c5a1297d",
+      "requestSha256": "a5e136b1bb63c5ce136f964b6f03e022638464b294b142bfdbf3998a1ff5c661",
+      "bytes": 16255033,
+      "boundsEpsg3006": [
+        605813.28,
+        6604774.88,
+        606122.24,
+        6605312.16
+      ],
+      "geoTransform": [
+        605813.28,
+        0.16,
+        0.0,
+        6605312.16,
+        0.0,
+        -0.16
+      ],
+      "width": 1931,
+      "height": 3358,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:23.278601+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66025_6050_25_mr25",
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-06-hole": {
+      "id": "angso-06-hole",
+      "rasterFile": "angso-06-hole.tif",
+      "rgbFile": "angso-06-hole.png",
+      "sha256": "db364ef6712cac85af1d122238b0a3c8a6fe2a125204ba0af60ca86b73f06d02",
+      "rgbSha256": "b425ffc94b2870aa500d36f29a5efb7ab49a982dac3bc415e22d401b0dfa3796",
+      "requestSha256": "b670148b0a2e3806997a8c05874960caece1f324494a3bb5019877c68785bb32",
+      "bytes": 10520667,
+      "boundsEpsg3006": [
+        605896.96,
+        6604817.44,
+        606163.0399999999,
+        6605221.28
+      ],
+      "geoTransform": [
+        605896.96,
+        0.16,
+        0.0,
+        6605221.28,
+        0.0,
+        -0.16
+      ],
+      "width": 1663,
+      "height": 2524,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:25.294698+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66025_6050_25_mr25",
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-07-hole": {
+      "id": "angso-07-hole",
+      "rasterFile": "angso-07-hole.tif",
+      "rgbFile": "angso-07-hole.png",
+      "sha256": "63eb37690e42d320e24d28db14c2195196661e35838463c48ec7d0c1755d16ea",
+      "rgbSha256": "4b43c2a26ccdad8da937a3dffa6546d54f139a8ad147ec7c776c3d2f0bdc2b69",
+      "requestSha256": "0277fe6b2676da4e9ff0ea30d2a6d47e69149b98ce3e70dd71993ce8573dfa37",
+      "bytes": 14990685,
+      "boundsEpsg3006": [
+        605824.64,
+        6605139.36,
+        606086.08,
+        6605767.04
+      ],
+      "geoTransform": [
+        605824.64,
+        0.16,
+        0.0,
+        6605767.04,
+        0.0,
+        -0.16
+      ],
+      "width": 1634,
+      "height": 3923,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:28.754326+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-08-hole": {
+      "id": "angso-08-hole",
+      "rasterFile": "angso-08-hole.tif",
+      "rgbFile": "angso-08-hole.png",
+      "sha256": "72ee10ad43c00ea66c1d241f548bdeee4792ba5ff048a818e7244724d3aaaf12",
+      "rgbSha256": "1b24c6e09f9c38e12c1e0df56902b5cd627ba01a87404c77bdc3aa3a518682d8",
+      "requestSha256": "23c764c4cea383d2dd711c376d723246ca2c54c2febc34806d2fdb8a4c5db59f",
+      "bytes": 8913297,
+      "boundsEpsg3006": [
+        605685.12,
+        6605401.76,
+        605858.88,
+        6605882.88
+      ],
+      "geoTransform": [
+        605685.12,
+        0.16,
+        0.0,
+        6605882.88,
+        0.0,
+        -0.16
+      ],
+      "width": 1086,
+      "height": 3007,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:30.445687+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-09-hole": {
+      "id": "angso-09-hole",
+      "rasterFile": "angso-09-hole.tif",
+      "rgbFile": "angso-09-hole.png",
+      "sha256": "29e8334c859a62f610638daeaeadc03f9e74f1f0468f24b2bf8db8277be7293e",
+      "rgbSha256": "2498e80fc0b0d460119abf6333dbd8b3c9d86464e1307804f49630cf760ab9f1",
+      "requestSha256": "b8175409945aa4364b2f922684bee008b98e935afed4b1588b2969ed2a76332e",
+      "bytes": 4829789,
+      "boundsEpsg3006": [
+        605586.56,
+        6605177.76,
+        605756.64,
+        6605442.56
+      ],
+      "geoTransform": [
+        605586.56,
+        0.16,
+        0.0,
+        6605442.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1063,
+      "height": 1655,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:31.273920+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-15-hole": {
+      "id": "angso-15-hole",
+      "rasterFile": "angso-15-hole.tif",
+      "rgbFile": "angso-15-hole.png",
+      "sha256": "6990edf675ff0325a156d4547a5a377bdd0787a4918aa38545688b29729a46c6",
+      "rgbSha256": "321f26c030de5d9d77a54b21222276da4ca347f5d4a710ffb6d0ef3909fdb934",
+      "requestSha256": "0273e03ff4de12254aa4e76336657b0f278b75e6535aab34822315540f01fc3e",
+      "bytes": 6366363,
+      "boundsEpsg3006": [
+        605197.76,
+        6606272.8,
+        605497.12,
+        6606474.88
+      ],
+      "geoTransform": [
+        605197.76,
+        0.16,
+        0.0,
+        6606474.88,
+        0.0,
+        -0.16
+      ],
+      "width": 1871,
+      "height": 1263,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:44.484235+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-17-hole": {
+      "id": "angso-17-hole",
+      "rasterFile": "angso-17-hole.tif",
+      "rgbFile": "angso-17-hole.png",
+      "sha256": "32e132fc798390af68cdd998c960103fe8f71997f6f9703d05c700f907782514",
+      "rgbSha256": "b1c30a2bdf35025782bc1bd5d5c53fc68d719d786df6dac32ee2820c8739f8ab",
+      "requestSha256": "40968ecef20ca32f9e711bb06680b81c33c8c43a8cec2921f8aa198f7e1a916e",
+      "bytes": 9883115,
+      "boundsEpsg3006": [
+        605317.12,
+        6605686.24,
+        605498.24,
+        6606175.36
+      ],
+      "geoTransform": [
+        605317.12,
+        0.16,
+        0.0,
+        6606175.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1132,
+      "height": 3057,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:48.109529+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-18-hole": {
+      "id": "angso-18-hole",
+      "rasterFile": "angso-18-hole.tif",
+      "rgbFile": "angso-18-hole.png",
+      "sha256": "05ae5768e81b61c5d008fe0d21797f628c0fc3cfb30e8b62bf91dc114fd535e8",
+      "rgbSha256": "b8587e0c653561c029ef6c6120d1d4be8883e19f525f20f07e892b0741f67c42",
+      "requestSha256": "29d90ce4977dcd91e85a1bb074fb9a9ad9be293ee17c1af748de00e08c527c25",
+      "bytes": 15791769,
+      "boundsEpsg3006": [
+        605246.72,
+        6605030.720000001,
+        605484.1599999999,
+        6605631.36
+      ],
+      "geoTransform": [
+        605246.72,
+        0.16,
+        0.0,
+        6605631.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1484,
+      "height": 3754,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:50.766588+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    }
+  },
+  "holes": [
+    {
+      "n": 1,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-01-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-01-physical-tee-01",
+            "sourceKey": "angso-01-hole",
+            "ringPixels": [
+              [
+                1082,
+                281
+              ],
+              [
+                1108,
+                283
+              ],
+              [
+                1128,
+                294
+              ],
+              [
+                1134,
+                315
+              ],
+              [
+                1128,
+                337
+              ],
+              [
+                1119,
+                353
+              ],
+              [
+                1099,
+                368
+              ],
+              [
+                1073,
+                373
+              ],
+              [
+                1057,
+                359
+              ],
+              [
+                1054,
+                337
+              ],
+              [
+                1065,
+                306
+              ],
+              [
+                1082,
+                281
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-01-physical-tee-02",
+            "sourceKey": "angso-01-hole",
+            "ringPixels": [
+              [
+                931,
+                540
+              ],
+              [
+                959,
+                548
+              ],
+              [
+                965,
+                571
+              ],
+              [
+                960,
+                611
+              ],
+              [
+                947,
+                650
+              ],
+              [
+                938,
+                668
+              ],
+              [
+                916,
+                668
+              ],
+              [
+                914,
+                641
+              ],
+              [
+                922,
+                600
+              ],
+              [
+                931,
+                540
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-01-physical-tee-03",
+            "sourceKey": "angso-01-hole",
+            "ringPixels": [
+              [
+                916,
+                1009
+              ],
+              [
+                947,
+                1018
+              ],
+              [
+                947,
+                1049
+              ],
+              [
+                937,
+                1076
+              ],
+              [
+                924,
+                1092
+              ],
+              [
+                900,
+                1088
+              ],
+              [
+                892,
+                1074
+              ],
+              [
+                898,
+                1043
+              ],
+              [
+                916,
+                1009
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    },
+    {
+      "n": 2,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-02-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-02-physical-tee-01",
+            "sourceKey": "angso-02-hole",
+            "ringPixels": [
+              [
+                338,
+                677
+              ],
+              [
+                360,
+                673
+              ],
+              [
+                413,
+                673
+              ],
+              [
+                459,
+                669
+              ],
+              [
+                503,
+                669
+              ],
+              [
+                504,
+                696
+              ],
+              [
+                459,
+                702
+              ],
+              [
+                411,
+                706
+              ],
+              [
+                367,
+                708
+              ],
+              [
+                342,
+                703
+              ],
+              [
+                338,
+                677
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-02-physical-tee-02",
+            "sourceKey": "angso-02-hole",
+            "ringPixels": [
+              [
+                935,
+                641
+              ],
+              [
+                967,
+                641
+              ],
+              [
+                998,
+                647
+              ],
+              [
+                1006,
+                657
+              ],
+              [
+                1001,
+                672
+              ],
+              [
+                972,
+                676
+              ],
+              [
+                939,
+                671
+              ],
+              [
+                924,
+                663
+              ],
+              [
+                926,
+                648
+              ],
+              [
+                935,
+                641
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    },
+    {
+      "n": 3,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-03-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-03-physical-tee-01",
+            "sourceKey": "angso-03-hole",
+            "ringPixels": [
+              [
+                1053,
+                719
+              ],
+              [
+                1069,
+                715
+              ],
+              [
+                1097,
+                723
+              ],
+              [
+                1127,
+                738
+              ],
+              [
+                1134,
+                751
+              ],
+              [
+                1124,
+                769
+              ],
+              [
+                1101,
+                767
+              ],
+              [
+                1073,
+                754
+              ],
+              [
+                1053,
+                744
+              ],
+              [
+                1053,
+                719
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-03-physical-tee-02",
+            "sourceKey": "angso-03-hole",
+            "ringPixels": [
+              [
+                1308,
+                857
+              ],
+              [
+                1336,
+                853
+              ],
+              [
+                1381,
+                863
+              ],
+              [
+                1431,
+                878
+              ],
+              [
+                1458,
+                892
+              ],
+              [
+                1459,
+                922
+              ],
+              [
+                1447,
+                944
+              ],
+              [
+                1419,
+                949
+              ],
+              [
+                1381,
+                937
+              ],
+              [
+                1350,
+                916
+              ],
+              [
+                1329,
+                889
+              ],
+              [
+                1308,
+                857
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    },
+    {
+      "n": 4,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-04-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-04-physical-tee-01",
+            "sourceKey": "angso-04-hole",
+            "ringPixels": [
+              [
+                654,
+                1934
+              ],
+              [
+                676,
+                1940
+              ],
+              [
+                678,
+                1963
+              ],
+              [
+                666,
+                1996
+              ],
+              [
+                653,
+                2010
+              ],
+              [
+                629,
+                2002
+              ],
+              [
+                631,
+                1978
+              ],
+              [
+                642,
+                1948
+              ],
+              [
+                654,
+                1934
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-04-physical-tee-02",
+            "sourceKey": "angso-04-hole",
+            "ringPixels": [
+              [
+                446,
+                2367
+              ],
+              [
+                473,
+                2375
+              ],
+              [
+                476,
+                2399
+              ],
+              [
+                461,
+                2443
+              ],
+              [
+                445,
+                2480
+              ],
+              [
+                431,
+                2514
+              ],
+              [
+                418,
+                2553
+              ],
+              [
+                404,
+                2585
+              ],
+              [
+                394,
+                2610
+              ],
+              [
+                374,
+                2625
+              ],
+              [
+                361,
+                2618
+              ],
+              [
+                371,
+                2596
+              ],
+              [
+                391,
+                2579
+              ],
+              [
+                403,
+                2558
+              ],
+              [
+                411,
+                2524
+              ],
+              [
+                422,
+                2488
+              ],
+              [
+                429,
+                2454
+              ],
+              [
+                434,
+                2409
+              ],
+              [
+                446,
+                2367
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    },
+    {
+      "n": 5,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-05-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-05-physical-tee-01",
+            "sourceKey": "angso-05-hole",
+            "ringPixels": [
+              [
+                529,
+                284
+              ],
+              [
+                550,
+                282
+              ],
+              [
+                560,
+                293
+              ],
+              [
+                560,
+                327
+              ],
+              [
+                549,
+                343
+              ],
+              [
+                528,
+                342
+              ],
+              [
+                520,
+                328
+              ],
+              [
+                521,
+                300
+              ],
+              [
+                529,
+                284
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-05-physical-tee-02",
+            "sourceKey": "angso-05-hole",
+            "ringPixels": [
+              [
+                528,
+                436
+              ],
+              [
+                548,
+                432
+              ],
+              [
+                566,
+                440
+              ],
+              [
+                568,
+                474
+              ],
+              [
+                564,
+                518
+              ],
+              [
+                568,
+                558
+              ],
+              [
+                564,
+                596
+              ],
+              [
+                546,
+                607
+              ],
+              [
+                523,
+                601
+              ],
+              [
+                515,
+                584
+              ],
+              [
+                514,
+                544
+              ],
+              [
+                517,
+                500
+              ],
+              [
+                517,
+                456
+              ],
+              [
+                528,
+                436
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-05-physical-tee-03",
+            "sourceKey": "angso-05-hole",
+            "ringPixels": [
+              [
+                536,
+                852
+              ],
+              [
+                564,
+                852
+              ],
+              [
+                576,
+                863
+              ],
+              [
+                574,
+                893
+              ],
+              [
+                566,
+                922
+              ],
+              [
+                543,
+                932
+              ],
+              [
+                527,
+                919
+              ],
+              [
+                525,
+                887
+              ],
+              [
+                536,
+                852
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    },
+    {
+      "n": 6,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-06-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-06-physical-tee-01",
+            "sourceKey": "angso-06-hole",
+            "ringPixels": [
+              [
+                1032,
+                1847
+              ],
+              [
+                1051,
+                1843
+              ],
+              [
+                1071,
+                1860
+              ],
+              [
+                1082,
+                1885
+              ],
+              [
+                1077,
+                1904
+              ],
+              [
+                1060,
+                1911
+              ],
+              [
+                1043,
+                1894
+              ],
+              [
+                1032,
+                1871
+              ],
+              [
+                1032,
+                1847
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-06-physical-tee-02",
+            "sourceKey": "angso-06-hole",
+            "ringPixels": [
+              [
+                1182,
+                2001
+              ],
+              [
+                1199,
+                1992
+              ],
+              [
+                1224,
+                2012
+              ],
+              [
+                1233,
+                2031
+              ],
+              [
+                1223,
+                2048
+              ],
+              [
+                1204,
+                2046
+              ],
+              [
+                1182,
+                2027
+              ],
+              [
+                1174,
+                2014
+              ],
+              [
+                1182,
+                2001
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-06-physical-tee-03",
+            "sourceKey": "angso-06-hole",
+            "ringPixels": [
+              [
+                1241,
+                2116
+              ],
+              [
+                1263,
+                2111
+              ],
+              [
+                1283,
+                2125
+              ],
+              [
+                1289,
+                2142
+              ],
+              [
+                1278,
+                2160
+              ],
+              [
+                1258,
+                2162
+              ],
+              [
+                1240,
+                2147
+              ],
+              [
+                1233,
+                2131
+              ],
+              [
+                1241,
+                2116
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    },
+    {
+      "n": 7,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-07-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-07-physical-tee-01",
+            "sourceKey": "angso-07-hole",
+            "ringPixels": [
+              [
+                695,
+                3185
+              ],
+              [
+                712,
+                3189
+              ],
+              [
+                725,
+                3207
+              ],
+              [
+                735,
+                3229
+              ],
+              [
+                733,
+                3244
+              ],
+              [
+                719,
+                3252
+              ],
+              [
+                705,
+                3243
+              ],
+              [
+                694,
+                3221
+              ],
+              [
+                688,
+                3201
+              ],
+              [
+                695,
+                3185
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-07-physical-tee-02",
+            "sourceKey": "angso-07-hole",
+            "ringPixels": [
+              [
+                1179,
+                3397
+              ],
+              [
+                1196,
+                3398
+              ],
+              [
+                1214,
+                3416
+              ],
+              [
+                1228,
+                3434
+              ],
+              [
+                1222,
+                3450
+              ],
+              [
+                1206,
+                3453
+              ],
+              [
+                1187,
+                3442
+              ],
+              [
+                1168,
+                3423
+              ],
+              [
+                1166,
+                3410
+              ],
+              [
+                1179,
+                3397
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-07-physical-tee-03",
+            "sourceKey": "angso-07-hole",
+            "ringPixels": [
+              [
+                1256,
+                3526
+              ],
+              [
+                1276,
+                3529
+              ],
+              [
+                1291,
+                3546
+              ],
+              [
+                1298,
+                3570
+              ],
+              [
+                1286,
+                3586
+              ],
+              [
+                1269,
+                3588
+              ],
+              [
+                1254,
+                3574
+              ],
+              [
+                1248,
+                3550
+              ],
+              [
+                1256,
+                3526
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    },
+    {
+      "n": 8,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-08-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-08-physical-tee-01",
+            "sourceKey": "angso-08-hole",
+            "ringPixels": [
+              [
+                707,
+                641
+              ],
+              [
+                728,
+                646
+              ],
+              [
+                747,
+                661
+              ],
+              [
+                746,
+                678
+              ],
+              [
+                730,
+                687
+              ],
+              [
+                711,
+                683
+              ],
+              [
+                698,
+                674
+              ],
+              [
+                696,
+                656
+              ],
+              [
+                707,
+                641
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-08-physical-tee-02",
+            "sourceKey": "angso-08-hole",
+            "ringPixels": [
+              [
+                745,
+                710
+              ],
+              [
+                765,
+                714
+              ],
+              [
+                775,
+                730
+              ],
+              [
+                772,
+                747
+              ],
+              [
+                756,
+                756
+              ],
+              [
+                741,
+                748
+              ],
+              [
+                731,
+                733
+              ],
+              [
+                734,
+                719
+              ],
+              [
+                745,
+                710
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-08-physical-tee-03",
+            "sourceKey": "angso-08-hole",
+            "ringPixels": [
+              [
+                768,
+                923
+              ],
+              [
+                790,
+                926
+              ],
+              [
+                801,
+                942
+              ],
+              [
+                798,
+                964
+              ],
+              [
+                789,
+                983
+              ],
+              [
+                773,
+                991
+              ],
+              [
+                759,
+                982
+              ],
+              [
+                757,
+                963
+              ],
+              [
+                761,
+                941
+              ],
+              [
+                768,
+                923
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    },
+    {
+      "n": 9,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-09-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-09-physical-tee-01",
+            "sourceKey": "angso-09-hole",
+            "ringPixels": [
+              [
+                626,
+                458
+              ],
+              [
+                649,
+                463
+              ],
+              [
+                666,
+                476
+              ],
+              [
+                665,
+                502
+              ],
+              [
+                658,
+                534
+              ],
+              [
+                650,
+                562
+              ],
+              [
+                636,
+                576
+              ],
+              [
+                616,
+                575
+              ],
+              [
+                603,
+                558
+              ],
+              [
+                606,
+                530
+              ],
+              [
+                614,
+                501
+              ],
+              [
+                626,
+                458
+              ]
+            ]
+          },
+          {
+            "id": "lm-angso-09-physical-tee-02",
+            "sourceKey": "angso-09-hole",
+            "ringPixels": [
+              [
+                559,
+                634
+              ],
+              [
+                584,
+                644
+              ],
+              [
+                587,
+                665
+              ],
+              [
+                578,
+                695
+              ],
+              [
+                568,
+                716
+              ],
+              [
+                549,
+                710
+              ],
+              [
+                543,
+                692
+              ],
+              [
+                548,
+                665
+              ],
+              [
+                559,
+                634
+              ]
+            ]
+          }
+        ],
+        "identityStatus": "unverified-colour-association"
+      }
+    }
+  ],
+  "water": [
+    {
+      "id": "lm-angso-water-t1",
+      "sourceKey": "angso-02-hole",
+      "ringPixels": [
+        [
+          2335,
+          105
+        ],
+        [
+          2365,
+          103
+        ],
+        [
+          2399,
+          111
+        ],
+        [
+          2427,
+          126
+        ],
+        [
+          2463,
+          135
+        ],
+        [
+          2495,
+          156
+        ],
+        [
+          2523,
+          173
+        ],
+        [
+          2551,
+          166
+        ],
+        [
+          2563,
+          158
+        ],
+        [
+          2593,
+          165
+        ],
+        [
+          2610,
+          183
+        ],
+        [
+          2613,
+          215
+        ],
+        [
+          2598,
+          246
+        ],
+        [
+          2572,
+          266
+        ],
+        [
+          2553,
+          281
+        ],
+        [
+          2531,
+          292
+        ],
+        [
+          2501,
+          299
+        ],
+        [
+          2469,
+          300
+        ],
+        [
+          2445,
+          293
+        ],
+        [
+          2424,
+          270
+        ],
+        [
+          2407,
+          245
+        ],
+        [
+          2382,
+          232
+        ],
+        [
+          2353,
+          212
+        ],
+        [
+          2329,
+          197
+        ],
+        [
+          2319,
+          174
+        ],
+        [
+          2317,
+          147
+        ],
+        [
+          2325,
+          120
+        ],
+        [
+          2335,
+          105
+        ]
+      ],
+      "replaceId": "t1"
+    },
+    {
+      "id": "lm-angso-water-t2",
+      "sourceKey": "angso-05-hole",
+      "ringPixels": [
+        [
+          1352,
+          1388
+        ],
+        [
+          1375,
+          1386
+        ],
+        [
+          1396,
+          1395
+        ],
+        [
+          1410,
+          1408
+        ],
+        [
+          1404,
+          1425
+        ],
+        [
+          1384,
+          1439
+        ],
+        [
+          1369,
+          1451
+        ],
+        [
+          1360,
+          1467
+        ],
+        [
+          1357,
+          1492
+        ],
+        [
+          1358,
+          1519
+        ],
+        [
+          1361,
+          1547
+        ],
+        [
+          1372,
+          1570
+        ],
+        [
+          1387,
+          1591
+        ],
+        [
+          1382,
+          1608
+        ],
+        [
+          1366,
+          1619
+        ],
+        [
+          1339,
+          1634
+        ],
+        [
+          1314,
+          1652
+        ],
+        [
+          1285,
+          1666
+        ],
+        [
+          1259,
+          1673
+        ],
+        [
+          1228,
+          1676
+        ],
+        [
+          1202,
+          1672
+        ],
+        [
+          1184,
+          1665
+        ],
+        [
+          1175,
+          1655
+        ],
+        [
+          1177,
+          1637
+        ],
+        [
+          1192,
+          1626
+        ],
+        [
+          1214,
+          1624
+        ],
+        [
+          1242,
+          1626
+        ],
+        [
+          1262,
+          1620
+        ],
+        [
+          1283,
+          1609
+        ],
+        [
+          1297,
+          1593
+        ],
+        [
+          1304,
+          1569
+        ],
+        [
+          1307,
+          1540
+        ],
+        [
+          1306,
+          1502
+        ],
+        [
+          1309,
+          1465
+        ],
+        [
+          1317,
+          1437
+        ],
+        [
+          1328,
+          1413
+        ],
+        [
+          1340,
+          1395
+        ],
+        [
+          1352,
+          1388
+        ]
+      ],
+      "replaceId": "t2"
+    },
+    {
+      "id": "lm-angso-water-t3",
+      "sourceKey": "angso-15-hole",
+      "ringPixels": [
+        [
+          662,
+          727
+        ],
+        [
+          684,
+          729
+        ],
+        [
+          707,
+          740
+        ],
+        [
+          734,
+          749
+        ],
+        [
+          762,
+          746
+        ],
+        [
+          785,
+          734
+        ],
+        [
+          810,
+          716
+        ],
+        [
+          835,
+          703
+        ],
+        [
+          863,
+          695
+        ],
+        [
+          887,
+          696
+        ],
+        [
+          906,
+          710
+        ],
+        [
+          917,
+          733
+        ],
+        [
+          920,
+          757
+        ],
+        [
+          915,
+          783
+        ],
+        [
+          901,
+          808
+        ],
+        [
+          884,
+          831
+        ],
+        [
+          864,
+          848
+        ],
+        [
+          849,
+          871
+        ],
+        [
+          837,
+          896
+        ],
+        [
+          831,
+          927
+        ],
+        [
+          832,
+          961
+        ],
+        [
+          831,
+          994
+        ],
+        [
+          823,
+          1024
+        ],
+        [
+          812,
+          1045
+        ],
+        [
+          791,
+          1057
+        ],
+        [
+          764,
+          1064
+        ],
+        [
+          736,
+          1067
+        ],
+        [
+          707,
+          1062
+        ],
+        [
+          681,
+          1052
+        ],
+        [
+          659,
+          1037
+        ],
+        [
+          643,
+          1013
+        ],
+        [
+          635,
+          985
+        ],
+        [
+          634,
+          959
+        ],
+        [
+          647,
+          930
+        ],
+        [
+          661,
+          900
+        ],
+        [
+          666,
+          872
+        ],
+        [
+          664,
+          846
+        ],
+        [
+          651,
+          821
+        ],
+        [
+          635,
+          799
+        ],
+        [
+          628,
+          777
+        ],
+        [
+          627,
+          757
+        ],
+        [
+          636,
+          739
+        ],
+        [
+          662,
+          727
+        ]
+      ],
+      "replaceId": "t3"
+    },
+    {
+      "id": "lm-angso-water-t4",
+      "sourceKey": "angso-17-hole",
+      "ringPixels": [
+        [
+          658,
+          2399
+        ],
+        [
+          685,
+          2393
+        ],
+        [
+          710,
+          2407
+        ],
+        [
+          732,
+          2428
+        ],
+        [
+          755,
+          2442
+        ],
+        [
+          769,
+          2464
+        ],
+        [
+          771,
+          2491
+        ],
+        [
+          773,
+          2516
+        ],
+        [
+          759,
+          2537
+        ],
+        [
+          744,
+          2551
+        ],
+        [
+          735,
+          2572
+        ],
+        [
+          717,
+          2567
+        ],
+        [
+          703,
+          2556
+        ],
+        [
+          680,
+          2548
+        ],
+        [
+          660,
+          2534
+        ],
+        [
+          647,
+          2515
+        ],
+        [
+          641,
+          2489
+        ],
+        [
+          641,
+          2459
+        ],
+        [
+          643,
+          2430
+        ],
+        [
+          658,
+          2399
+        ]
+      ],
+      "replaceId": "t4"
+    },
+    {
+      "id": "lm-angso-water-t5",
+      "sourceKey": "angso-17-hole",
+      "ringPixels": [
+        [
+          596,
+          2244
+        ],
+        [
+          616,
+          2243
+        ],
+        [
+          637,
+          2251
+        ],
+        [
+          653,
+          2269
+        ],
+        [
+          666,
+          2291
+        ],
+        [
+          673,
+          2315
+        ],
+        [
+          665,
+          2339
+        ],
+        [
+          647,
+          2356
+        ],
+        [
+          623,
+          2368
+        ],
+        [
+          601,
+          2373
+        ],
+        [
+          580,
+          2362
+        ],
+        [
+          567,
+          2345
+        ],
+        [
+          560,
+          2322
+        ],
+        [
+          559,
+          2297
+        ],
+        [
+          568,
+          2270
+        ],
+        [
+          581,
+          2253
+        ],
+        [
+          596,
+          2244
+        ]
+      ],
+      "replaceId": "t5"
+    },
+    {
+      "id": "lm-angso-water-t6",
+      "sourceKey": "angso-17-hole",
+      "ringPixels": [
+        [
+          587,
+          477
+        ],
+        [
+          604,
+          485
+        ],
+        [
+          618,
+          505
+        ],
+        [
+          621,
+          533
+        ],
+        [
+          620,
+          566
+        ],
+        [
+          620,
+          599
+        ],
+        [
+          623,
+          629
+        ],
+        [
+          625,
+          660
+        ],
+        [
+          617,
+          687
+        ],
+        [
+          603,
+          706
+        ],
+        [
+          584,
+          713
+        ],
+        [
+          568,
+          704
+        ],
+        [
+          564,
+          685
+        ],
+        [
+          563,
+          652
+        ],
+        [
+          564,
+          622
+        ],
+        [
+          569,
+          593
+        ],
+        [
+          574,
+          565
+        ],
+        [
+          571,
+          539
+        ],
+        [
+          568,
+          513
+        ],
+        [
+          574,
+          493
+        ],
+        [
+          587,
+          477
+        ]
+      ],
+      "replaceId": "t6",
+      "note": "Accepted visible open-water edge; historic ring includes woodland/reeds whose wetness is not established by this image."
+    },
+    {
+      "id": "lm-angso-water-t7",
+      "sourceKey": "angso-18-hole",
+      "ringPixels": [
+        [
+          924,
+          1857
+        ],
+        [
+          940,
+          1862
+        ],
+        [
+          958,
+          1879
+        ],
+        [
+          969,
+          1899
+        ],
+        [
+          978,
+          1921
+        ],
+        [
+          981,
+          1943
+        ],
+        [
+          975,
+          1966
+        ],
+        [
+          962,
+          1984
+        ],
+        [
+          949,
+          1989
+        ],
+        [
+          935,
+          1982
+        ],
+        [
+          923,
+          1975
+        ],
+        [
+          922,
+          1955
+        ],
+        [
+          925,
+          1936
+        ],
+        [
+          920,
+          1913
+        ],
+        [
+          915,
+          1896
+        ],
+        [
+          912,
+          1875
+        ],
+        [
+          924,
+          1857
+        ]
+      ],
+      "replaceId": "t7",
+      "note": "Accepted visible open-water edge; historic ring includes woodland/reeds whose wetness is not established by this image."
+    },
+    {
+      "id": "lm-angso-water-t8",
+      "sourceKey": "angso-18-hole",
+      "ringPixels": [
+        [
+          1010,
+          2043
+        ],
+        [
+          1024,
+          2046
+        ],
+        [
+          1032,
+          2061
+        ],
+        [
+          1032,
+          2086
+        ],
+        [
+          1028,
+          2114
+        ],
+        [
+          1030,
+          2137
+        ],
+        [
+          1040,
+          2158
+        ],
+        [
+          1057,
+          2174
+        ],
+        [
+          1067,
+          2191
+        ],
+        [
+          1066,
+          2210
+        ],
+        [
+          1055,
+          2222
+        ],
+        [
+          1033,
+          2222
+        ],
+        [
+          1015,
+          2214
+        ],
+        [
+          1001,
+          2201
+        ],
+        [
+          994,
+          2181
+        ],
+        [
+          989,
+          2157
+        ],
+        [
+          984,
+          2135
+        ],
+        [
+          982,
+          2109
+        ],
+        [
+          986,
+          2082
+        ],
+        [
+          993,
+          2060
+        ],
+        [
+          1010,
+          2043
+        ]
+      ],
+      "replaceId": "t8",
+      "note": "Accepted visible open-water edge; historic ring includes woodland/reeds whose wetness is not established by this image."
+    }
+  ],
+  "limitations": [
+    "Tee colours and official marker locations cannot be established from these photographs; all colour associations remain unverified.",
+    "The 2025-04-24 wet edge is seasonal and does not determine hazard markings or water level.",
+    "Tee surfaces under tree shadows (especially holes 7 and 8) have locally uncertain edges; short occlusions are interpolated between visible turf edges.",
+    "Contiguous mown tee surfaces are single polygons where physical subdivision is not visible.",
+    "Surrounding lakes, remote ponds, streams and canopy were not re-traced in this review."
+  ]
+}

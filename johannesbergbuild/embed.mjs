@@ -4,7 +4,7 @@
    anchors is rewritten, and the patcher refuses unless each anchor matches
    exactly once.
 
-   Usage: node nvgkbuild/embed.mjs [in.html] [out.html]                        */
+   Usage: node johannesbergbuild/embed.mjs [in.html] [out.html]                */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,7 +25,12 @@ const vec = {
     line: h.line, lineLen: h.lineLen, pin: h.pin,
     green: { ring: h.green.ring, c: h.green.c },
     fairway: { rings: h.fairway.rings },
-    tees: { pads: h.tees.pads.map(p => ({ ring: p.ring })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })) },
+    tees: {
+      ...(h.tees.inferPads === false ? { inferPads: false } : {}),
+      ...(h.tees.status ? { status: h.tees.status } : {}),
+      pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}) })),
+      marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.displayC !== undefined ? { displayC: m.displayC } : {}) })),
+    },
     bunkers: h.bunkers.map(b => ({ ring: b.ring })),
     elev: h.elev, tiers: h.tiers,
     name: h.name, note: h.note, shape: h.shape,

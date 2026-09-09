@@ -1,0 +1,518 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "course": "johannesberg-estate",
+  "kind": "orthophoto-estate-feature-review",
+  "observedOn": "2026-09-09",
+  "frame": {
+    "origin": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "mPerLat": 111320,
+    "mPerLon": 56118.16
+  },
+  "features": [
+    {
+      "id": "estate-practice-green",
+      "kind": "practice-green",
+      "status": "accepted",
+      "action": "replace",
+      "modelPath": "/scenery/practiceGreens/0",
+      "targetPaths": [
+        "/scenery/practiceGreens/0",
+        "/scenery/greens/0"
+      ],
+      "closed": true,
+      "originalRingSha256": "30cdab04b6ed10ff534c441e045f65247fef7cdc061c6858796ab6fb403fcd1e",
+      "ring": [
+        [
+          -164.12,
+          -816.19
+        ],
+        [
+          -163.53,
+          -818.4
+        ],
+        [
+          -161.08,
+          -819.57
+        ],
+        [
+          -158.38,
+          -819.12
+        ],
+        [
+          -154.79,
+          -817.34
+        ],
+        [
+          -150.35,
+          -813.45
+        ],
+        [
+          -146.76,
+          -808.15
+        ],
+        [
+          -143.37,
+          -802.23
+        ],
+        [
+          -139.97,
+          -796.62
+        ],
+        [
+          -137.2,
+          -791.04
+        ],
+        [
+          -136.56,
+          -787.65
+        ],
+        [
+          -137.8,
+          -785.15
+        ],
+        [
+          -140.28,
+          -783.35
+        ],
+        [
+          -143.98,
+          -783.05
+        ],
+        [
+          -147.25,
+          -784.65
+        ],
+        [
+          -150.5,
+          -787.04
+        ],
+        [
+          -153.36,
+          -790.54
+        ],
+        [
+          -155.58,
+          -794.33
+        ],
+        [
+          -156.85,
+          -797.91
+        ],
+        [
+          -156.99,
+          -801.6
+        ],
+        [
+          -158.44,
+          -804.71
+        ],
+        [
+          -160.83,
+          -808.19
+        ],
+        [
+          -163.06,
+          -811.66
+        ]
+      ],
+      "pixelRing": [
+        [
+          955,
+          1082
+        ],
+        [
+          958,
+          1068
+        ],
+        [
+          973,
+          1060
+        ],
+        [
+          990,
+          1062
+        ],
+        [
+          1013,
+          1072
+        ],
+        [
+          1042,
+          1095
+        ],
+        [
+          1066,
+          1127
+        ],
+        [
+          1089,
+          1163
+        ],
+        [
+          1112,
+          1197
+        ],
+        [
+          1131,
+          1231
+        ],
+        [
+          1136,
+          1252
+        ],
+        [
+          1129,
+          1268
+        ],
+        [
+          1114,
+          1280
+        ],
+        [
+          1091,
+          1283
+        ],
+        [
+          1070,
+          1274
+        ],
+        [
+          1049,
+          1260
+        ],
+        [
+          1030,
+          1239
+        ],
+        [
+          1015,
+          1216
+        ],
+        [
+          1006,
+          1194
+        ],
+        [
+          1004,
+          1171
+        ],
+        [
+          994,
+          1152
+        ],
+        [
+          978,
+          1131
+        ],
+        [
+          963,
+          1110
+        ]
+      ],
+      "sourceWindow": "estate-club-practice",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/estate-club-practice.png",
+            "sha256": "78783bf6c27672b71bbc0557f0d56be571b9cf0a480e89156709c5dfc6aa6074"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Trace the lighter maintained putting surface inside the darker collar; the outer raised oval, rocky inset, bank and surrounding path are excluded. Both duplicate practice-green arrays must change atomically."
+      }
+    },
+    {
+      "id": "estate-range-shelter",
+      "kind": "building",
+      "status": "accepted",
+      "action": "replace",
+      "modelPath": "/infra/buildings/306/ring",
+      "targetPaths": [
+        "/infra/buildings/306/ring"
+      ],
+      "closed": true,
+      "originalRingSha256": "8d6bd7a894e0aaf09a30e63c1d433bd4b12c54c6d856b5c05eb7ce2c21826f7a",
+      "ring": [
+        [
+          -201.29,
+          -890.81
+        ],
+        [
+          -197.17,
+          -889.97
+        ],
+        [
+          -197.49,
+          -886.62
+        ],
+        [
+          -201.61,
+          -887.46
+        ]
+      ],
+      "pixelRing": [
+        [
+          700,
+          627
+        ],
+        [
+          726,
+          631
+        ],
+        [
+          725,
+          652
+        ],
+        [
+          699,
+          648
+        ]
+      ],
+      "sourceWindow": "estate-club-practice",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/estate-club-practice.png",
+            "sha256": "78783bf6c27672b71bbc0557f0d56be571b9cf0a480e89156709c5dfc6aa6074"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "The visible small range shelter roof stands southeast of the old traced rectangle. Trace the bright roof perimeter, not its much larger northwest shadow; low-building footprint uncertainty includes roof overhang/parallax."
+      }
+    },
+    {
+      "id": "estate-club-range-path",
+      "kind": "path",
+      "status": "accepted",
+      "action": "replace",
+      "modelPath": "/infra/paths/8/line",
+      "targetPaths": [
+        "/infra/paths/8/line"
+      ],
+      "closed": false,
+      "originalRingSha256": "f665408889dd11255d08685af8110617fa65ab4f0aa3a490cf7809b17aab87ed",
+      "line": [
+        [
+          -196.5,
+          -851.0
+        ],
+        [
+          -197.97,
+          -860.08
+        ],
+        [
+          -199.75,
+          -869.61
+        ],
+        [
+          -201.19,
+          -879.6
+        ],
+        [
+          -202.25,
+          -887.33
+        ],
+        [
+          -202.61,
+          -893.27
+        ]
+      ],
+      "pixelPoints": [
+        [
+          741.9,
+          874.3
+        ],
+        [
+          730,
+          818
+        ],
+        [
+          716,
+          759
+        ],
+        [
+          704,
+          697
+        ],
+        [
+          695,
+          649
+        ],
+        [
+          691,
+          612
+        ]
+      ],
+      "sourceWindow": "estate-club-practice",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/estate-club-practice.png",
+            "sha256": "78783bf6c27672b71bbc0557f0d56be571b9cf0a480e89156709c5dfc6aa6074"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 0.8,
+        "note": "Replace the old diagonal across lawn with the visible surfaced walkway along the range mats. The south endpoint joins the existing OSM clubhouse path at its unchanged mapped junction; the north end approaches the shelter."
+      }
+    },
+    {
+      "id": "estate-pond-causeway-path",
+      "kind": "path",
+      "status": "accepted",
+      "action": "replace",
+      "modelPath": "/infra/paths/4/line",
+      "targetPaths": [
+        "/infra/paths/4/line"
+      ],
+      "closed": false,
+      "originalRingSha256": "17f4646107ab90e870a35109f1a3fce6f7f28275f947175ec55835551bcbc1ab",
+      "line": [
+        [
+          -264.36,
+          -589.09
+        ],
+        [
+          -265.37,
+          -581.46
+        ],
+        [
+          -266.21,
+          -573.98
+        ],
+        [
+          -266.84,
+          -567.44
+        ],
+        [
+          -270.06,
+          -563.76
+        ],
+        [
+          -274.64,
+          -561.42
+        ]
+      ],
+      "pixelPoints": [
+        [
+          665,
+          985
+        ],
+        [
+          661,
+          1033
+        ],
+        [
+          658,
+          1080
+        ],
+        [
+          656,
+          1121
+        ],
+        [
+          637,
+          1145
+        ],
+        [
+          609,
+          1161
+        ]
+      ],
+      "sourceWindow": "estate-ponds-north",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/estate-ponds-north.png",
+            "sha256": "04a55167ff98459e0589095de27794286161ea6d7b7012ea75b8de388482771c"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.5,
+        "note": "The old traced causeway line is on mown fairway east of the ponds. The visible narrow crossing is the strip between the western pond and the reed-covered pond arm, continuing into the short grass south of the crossing. Trace that visible corridor; its partly grassy ends carry greater uncertainty."
+      }
+    }
+  ],
+  "observations": [
+    {
+      "category": "water",
+      "status": "reviewed-retained",
+      "featureIds": [
+        "w539915580",
+        "w539915583",
+        "w539915581",
+        "w539915582",
+        "w539915584",
+        "w539915585",
+        "w539915586",
+        "w539915578",
+        "trace-pond-18-north"
+      ],
+      "note": "All nine near-play water outlines checked against native pond panels and whole-estate context. They track the physical pond/reed margins to roughly 1–3 m at most visible edges. Preserve the inherited bank outline and measured water level; a single June waterline or floating vegetation is not a replacement bank survey. The north end of trace-pond-18-north differs by several metres inside a graded/reedy shore, so retained pending bank-versus-seasonal-water interpretation."
+    },
+    {
+      "category": "buildings",
+      "status": "reviewed-retained-except-listed-shelter",
+      "featureIds": [
+        "w296165896",
+        "w296165891",
+        "w296165892",
+        "w296165893",
+        "w296165894",
+        "w296165897",
+        "w296165898",
+        "w296165899",
+        "w296165901",
+        "w296165904",
+        "w296165905",
+        "w296165906",
+        "w378922988"
+      ],
+      "note": "Clubhouse, manor and immediate estate buildings occupy the mapped footprints. Roof overhang and orthophoto building displacement prevent defensible sub-metre footprint corrections from these pixels alone; no bulk shift is justified. The independently traced small range shelter is the clear exception."
+    },
+    {
+      "category": "practice-ground",
+      "status": "reviewed-retained-except-listed-putting-green",
+      "note": "The driving-range mown outline, western hut, practice bunker, mats and westward hitting direction are visible in the native range panel. Range boundary broadly follows mowing; retain it. Mat row has hidden sections under tree crown/shadow, so the existing pitch/count and net absence are retained rather than inferred from incomplete slots."
+    },
+    {
+      "category": "paths-and-parking",
+      "status": "reviewed-retained-except-listed-paths",
+      "note": "Whole-estate context confirms farm-road and playing-corridor connections; the clubhouse OSM path follows the visible fork. Main forecourt, clubhouse car park and apron occupy the correct hardstands, but exact parking-versus-road separation is not a visible ground boundary everywhere. Retain these semantic polygons. Only the two clearly misplaced traced path lines are changed."
+    },
+    {
+      "category": "trees",
+      "status": "reviewed-no-tree-movement",
+      "note": "2025 leaf-on imagery shows real woods east of holes 4–9 and mixed deciduous groups around the manor, water and nine. Leaf-off 2021 canopy under-represents broadleaf crown spread; expanding or shifting individual measured stems from crown shadows would be unsupported. Mature canopy remains around the two southern/eastern clearfell contexts, with low regeneration and open gaps that cannot establish new stem positions. Published crown/stand conflicts with accepted surfaces have a separate source-pinned audit; no vegetation mutations are part of this estate ledger."
+    },
+    {
+      "category": "distant-context",
+      "status": "outside-new-imagery-review",
+      "featureIds": [
+        "w70458518",
+        "w70458530",
+        "w378331608"
+      ],
+      "note": "Uttran, Hävsjön and Rotsjön, plus outlying buildings/roads beyond the bounded estate orthophoto, were not reviewed in this intake."
+    }
+  ],
+  "limitations": [
+    "Source imagery is 2025-06-14, not a survey of conditions in September 2026.",
+    "Native pixel spacing is 0.16 m; recorded interpretation uncertainty is larger.",
+    "Height, water levels and measured tree positions are not changed."
+  ]
+}

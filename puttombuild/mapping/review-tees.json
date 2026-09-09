@@ -1,0 +1,2195 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "reviewedAt": "2026-09-09",
+  "reviewMethod": "AI-assisted visual tracing of maintained tee surfaces or isolated tee mats on native 0.16m 2024 RGB orthophotos; platform identity checked against fresh official club LiveCaddie plans. Short cast-shadow crossings are accepted only where perimeter corners remain visible; canopy-obscured boundaries remain unresolved. No survey accuracy claim.",
+  "cameraReferenceMeaning": "Virtual tee-view anchors inside identified physical platforms; not a survey of movable daily tee markers. Scorecard lengths remain display metadata.",
+  "sources": {
+    "hole-02-tees": {
+      "id": "hole-02-tees",
+      "requestSha256": "cfde1222ea34d2798e6a306fc9b06f5821b065b2313f0488bca9040ee4f2f890",
+      "sha256": "4d03148a81212a19ab5927a67e342a575bcadc622dd7deccc5a0fc45e8253b08",
+      "bytes": 4045164,
+      "rasterFile": "hole-02-tees.tif",
+      "boundsEpsg3006": [
+        697180.16,
+        7025482.88,
+        697410.7200000001,
+        7025630.72
+      ],
+      "width": 1441,
+      "height": 924,
+      "geoTransform": [
+        697180.16,
+        0.16,
+        0.0,
+        7025630.72,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:48:57.323624+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 228.0,
+          "mean": 72.43644835386681,
+          "standardDeviation": 27.415389176207835
+        },
+        {
+          "band": 2,
+          "minimum": 35.0,
+          "maximum": 222.0,
+          "mean": 93.61361833863569,
+          "standardDeviation": 26.318774777398094
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 208.0,
+          "mean": 83.74428457270234,
+          "standardDeviation": 16.469509982009104
+        },
+        {
+          "band": 4,
+          "minimum": 22.0,
+          "maximum": 255.0,
+          "mean": 153.63599412384977,
+          "standardDeviation": 47.903527536155714
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    "hole-04-tees": {
+      "id": "hole-04-tees",
+      "requestSha256": "5853ab361f2d6584420932ca189c46e89638252ecc52aff393a12b1ce546f129",
+      "sha256": "9d2217d2330a596fde6b95c22b4073fd537387ac1b2caa047ba142715bf8d214",
+      "bytes": 5516573,
+      "rasterFile": "hole-04-tees.tif",
+      "boundsEpsg3006": [
+        696942.72,
+        7025407.52,
+        697215.0399999999,
+        7025592.0
+      ],
+      "width": 1702,
+      "height": 1153,
+      "geoTransform": [
+        696942.72,
+        0.16,
+        0.0,
+        7025592.0,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:00.024409+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 17.0,
+          "maximum": 250.0,
+          "mean": 75.66433602424779,
+          "standardDeviation": 21.274818537340476
+        },
+        {
+          "band": 2,
+          "minimum": 29.0,
+          "maximum": 250.0,
+          "mean": 96.8651425851735,
+          "standardDeviation": 20.66213396831826
+        },
+        {
+          "band": 3,
+          "minimum": 39.0,
+          "maximum": 246.0,
+          "mean": 85.31858239324585,
+          "standardDeviation": 12.181579094032616
+        },
+        {
+          "band": 4,
+          "minimum": 5.0,
+          "maximum": 255.0,
+          "mean": 154.57587624579216,
+          "standardDeviation": 41.72894247501539
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    "hole-05-tees": {
+      "id": "hole-05-tees",
+      "requestSha256": "72aee7f9b575ff60c9ba1f99ff4f51d279a3f528d2421857151a252cd6b27182",
+      "sha256": "aea89f860b401c347620bb93a8b9f26fd63c80604aaf48a120af8283fd20da73",
+      "bytes": 3243990,
+      "rasterFile": "hole-05-tees.tif",
+      "boundsEpsg3006": [
+        697495.2,
+        7025216.8,
+        697675.2,
+        7025374.56
+      ],
+      "width": 1125,
+      "height": 986,
+      "geoTransform": [
+        697495.2,
+        0.16,
+        0.0,
+        7025374.56,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:01.458588+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 23.0,
+          "maximum": 255.0,
+          "mean": 89.82971196754563,
+          "standardDeviation": 34.765920273862946
+        },
+        {
+          "band": 2,
+          "minimum": 40.0,
+          "maximum": 255.0,
+          "mean": 108.119107505071,
+          "standardDeviation": 27.969571339355685
+        },
+        {
+          "band": 3,
+          "minimum": 42.0,
+          "maximum": 255.0,
+          "mean": 96.56329682217715,
+          "standardDeviation": 24.315222919667107
+        },
+        {
+          "band": 4,
+          "minimum": 13.0,
+          "maximum": 255.0,
+          "mean": 154.28317151228308,
+          "standardDeviation": 42.253147138984
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-06-tees": {
+      "id": "hole-06-tees",
+      "requestSha256": "d824a38f39e79d3d21b6cdb4184969f689990e7c9524893a07b5974ce93f7f6e",
+      "sha256": "9868920c04dd5e52277ca4cbf23c6f5c99260f4bd38e0462c5dce5da8daf8b89",
+      "bytes": 5034767,
+      "rasterFile": "hole-06-tees.tif",
+      "boundsEpsg3006": [
+        697610.4,
+        7025288.64,
+        697818.88,
+        7025489.12
+      ],
+      "width": 1303,
+      "height": 1253,
+      "geoTransform": [
+        697610.4,
+        0.16,
+        0.0,
+        7025489.12,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:02.797646+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 17.0,
+          "maximum": 240.0,
+          "mean": 65.46962470424013,
+          "standardDeviation": 32.89223877662421
+        },
+        {
+          "band": 2,
+          "minimum": 30.0,
+          "maximum": 233.0,
+          "mean": 84.38851039929342,
+          "standardDeviation": 31.161342793420705
+        },
+        {
+          "band": 3,
+          "minimum": 37.0,
+          "maximum": 225.0,
+          "mean": 79.72407649117176,
+          "standardDeviation": 19.159931504725343
+        },
+        {
+          "band": 4,
+          "minimum": 17.0,
+          "maximum": 255.0,
+          "mean": 132.2730766191838,
+          "standardDeviation": 52.1118113687539
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-07-tees": {
+      "id": "hole-07-tees",
+      "requestSha256": "ea68677dd47661f09fb0b1a72bd30aaffaf8c096b3d43623f614cd28a868955c",
+      "sha256": "f6eea44a9e66d35eea723268efe3c6b322de7c4abf6329d3610e9000ef1c0c8f",
+      "bytes": 6234756,
+      "rasterFile": "hole-07-tees.tif",
+      "boundsEpsg3006": [
+        697869.28,
+        7024968.32,
+        698046.72,
+        7025262.88
+      ],
+      "width": 1109,
+      "height": 1841,
+      "geoTransform": [
+        697869.28,
+        0.16,
+        0.0,
+        7025262.88,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:04.815491+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16.0,
+          "maximum": 247.0,
+          "mean": 71.65975777660336,
+          "standardDeviation": 32.01136596841172
+        },
+        {
+          "band": 2,
+          "minimum": 29.0,
+          "maximum": 248.0,
+          "mean": 90.44925940492803,
+          "standardDeviation": 31.153912287601347
+        },
+        {
+          "band": 3,
+          "minimum": 39.0,
+          "maximum": 237.0,
+          "mean": 82.22606896612527,
+          "standardDeviation": 18.358596927020017
+        },
+        {
+          "band": 4,
+          "minimum": 18.0,
+          "maximum": 255.0,
+          "mean": 139.23756397339628,
+          "standardDeviation": 54.77404698235189
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-09-tees": {
+      "id": "hole-09-tees",
+      "requestSha256": "18e751f1e761f7ad9660aa1c3e7b8ac152f0b4d23de3137574f7cca2b6b738e2",
+      "sha256": "2758250c792f5ec030511ba2ff1d04252a8ac4295c6c5328c778c33b294b427f",
+      "bytes": 5301342,
+      "rasterFile": "hole-09-tees.tif",
+      "boundsEpsg3006": [
+        697685.12,
+        7025147.2,
+        697977.44,
+        7025300.16
+      ],
+      "width": 1827,
+      "height": 956,
+      "geoTransform": [
+        697685.12,
+        0.16,
+        0.0,
+        7025300.16,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:08.595195+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 247.0,
+          "mean": 72.18065947102161,
+          "standardDeviation": 30.15492582352877
+        },
+        {
+          "band": 2,
+          "minimum": 34.0,
+          "maximum": 248.0,
+          "mean": 92.90785875741149,
+          "standardDeviation": 28.504348611593276
+        },
+        {
+          "band": 3,
+          "minimum": 37.0,
+          "maximum": 237.0,
+          "mean": 83.64481350179662,
+          "standardDeviation": 17.043380555936565
+        },
+        {
+          "band": 4,
+          "minimum": 27.0,
+          "maximum": 255.0,
+          "mean": 157.4546825511333,
+          "standardDeviation": 41.878941092416625
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-10-tees": {
+      "id": "hole-10-tees",
+      "requestSha256": "5d0e59b541649b085c6356e1ef74d96d58cb3325c868620b0da418262034ac3b",
+      "sha256": "276a48225105d5f955ad0370497a3c879f0e1a69bbb27d4fb381b28228c0fb8f",
+      "bytes": 4951742,
+      "rasterFile": "hole-10-tees.tif",
+      "boundsEpsg3006": [
+        697323.2,
+        7025094.88,
+        697616.6399999999,
+        7025248.32
+      ],
+      "width": 1834,
+      "height": 959,
+      "geoTransform": [
+        697323.2,
+        0.16,
+        0.0,
+        7025248.32,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:10.313939+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 255.0,
+          "mean": 83.42492975348048,
+          "standardDeviation": 28.35900899369676
+        },
+        {
+          "band": 2,
+          "minimum": 34.0,
+          "maximum": 255.0,
+          "mean": 105.116215205088,
+          "standardDeviation": 24.67766807038324
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 252.0,
+          "mean": 91.9013563747224,
+          "standardDeviation": 19.36205817978224
+        },
+        {
+          "band": 4,
+          "minimum": 17.0,
+          "maximum": 255.0,
+          "mean": 156.45207316781952,
+          "standardDeviation": 41.804176913625795
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-11-tees": {
+      "id": "hole-11-tees",
+      "requestSha256": "3bb68a31177577ad244d5872ea6094c766bc962bca261d490f81bf80a2f91805",
+      "sha256": "1bcb33dd53a05d86f611cc6179caf6a1b104049dd39066ede3741d1a4b657046",
+      "bytes": 4235263,
+      "rasterFile": "hole-11-tees.tif",
+      "boundsEpsg3006": [
+        697696.64,
+        7024920.8,
+        697837.4400000001,
+        7025165.76
+      ],
+      "width": 880,
+      "height": 1531,
+      "geoTransform": [
+        697696.64,
+        0.16,
+        0.0,
+        7025165.76,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:11.613676+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 21.0,
+          "maximum": 222.0,
+          "mean": 77.74144498545218,
+          "standardDeviation": 26.90904016784991
+        },
+        {
+          "band": 2,
+          "minimum": 36.0,
+          "maximum": 220.0,
+          "mean": 98.18218558874176,
+          "standardDeviation": 24.881319728464522
+        },
+        {
+          "band": 3,
+          "minimum": 41.0,
+          "maximum": 210.0,
+          "mean": 86.12999599192447,
+          "standardDeviation": 14.976093892851253
+        },
+        {
+          "band": 4,
+          "minimum": 30.0,
+          "maximum": 255.0,
+          "mean": 162.9561761474972,
+          "standardDeviation": 39.243076949518816
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-12-tees": {
+      "id": "hole-12-tees",
+      "requestSha256": "71efa16fb55e5249c0b2f021bd79bca641216389c7ffd0e0777b75805b7f4cfc",
+      "sha256": "5efddb907cae1027bfc05035369d2c8a3c9a14cf1b8aaee8ac7b9b6ef6e1c185",
+      "bytes": 3759161,
+      "rasterFile": "hole-12-tees.tif",
+      "boundsEpsg3006": [
+        697632.8,
+        7024554.24,
+        697800.9600000001,
+        7024754.24
+      ],
+      "width": 1051,
+      "height": 1250,
+      "geoTransform": [
+        697632.8,
+        0.16,
+        0.0,
+        7024754.24,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:13.072882+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 17.0,
+          "maximum": 226.0,
+          "mean": 52.52827326355852,
+          "standardDeviation": 28.353943750689066
+        },
+        {
+          "band": 2,
+          "minimum": 27.0,
+          "maximum": 213.0,
+          "mean": 71.24312997145576,
+          "standardDeviation": 29.772245050594695
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 194.0,
+          "mean": 71.61202359657469,
+          "standardDeviation": 16.818607539345404
+        },
+        {
+          "band": 4,
+          "minimum": 3.0,
+          "maximum": 251.0,
+          "mean": 99.96456327307327,
+          "standardDeviation": 69.80904992459392
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ]
+    },
+    "hole-13-tees": {
+      "id": "hole-13-tees",
+      "requestSha256": "5b36dbf351fcb3ea7ba47c355ce3d2511b3a2363141accb0888515713af6c8ba",
+      "sha256": "a7352cac72d5d60a64deb6a7ab30f5e4e5f73d729214210c7b30a256a87eb40c",
+      "bytes": 5422326,
+      "rasterFile": "hole-13-tees.tif",
+      "boundsEpsg3006": [
+        697592.16,
+        7024732.8,
+        697764.9600000001,
+        7025030.24
+      ],
+      "width": 1080,
+      "height": 1859,
+      "geoTransform": [
+        697592.16,
+        0.16,
+        0.0,
+        7025030.24,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:15.093579+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16.0,
+          "maximum": 217.0,
+          "mean": 57.7101054927978,
+          "standardDeviation": 32.46348454595421
+        },
+        {
+          "band": 2,
+          "minimum": 27.0,
+          "maximum": 220.0,
+          "mean": 76.23525491602415,
+          "standardDeviation": 33.50997587507808
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 203.0,
+          "mean": 74.83588747434901,
+          "standardDeviation": 17.96411816061327
+        },
+        {
+          "band": 4,
+          "minimum": 3.0,
+          "maximum": 255.0,
+          "mean": 106.85815004084235,
+          "standardDeviation": 78.25316047878357
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-16-tees": {
+      "id": "hole-16-tees",
+      "requestSha256": "f71402c99749761d9505bc9b9001a9a3cfe9724c3cf21961f8c02762d1b4c50c",
+      "sha256": "a7d8a6d85ca92053d161a551995e921ec9768e63850653784d55cb0e484f0ff3",
+      "bytes": 3483442,
+      "rasterFile": "hole-16-tees.tif",
+      "boundsEpsg3006": [
+        697353.92,
+        7024353.12,
+        697552.0,
+        7024524.0
+      ],
+      "width": 1238,
+      "height": 1068,
+      "geoTransform": [
+        697353.92,
+        0.16,
+        0.0,
+        7024524.0,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:19.977801+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 14.0,
+          "maximum": 248.0,
+          "mean": 51.43312050365154,
+          "standardDeviation": 22.238847650235538
+        },
+        {
+          "band": 2,
+          "minimum": 22.0,
+          "maximum": 252.0,
+          "mean": 70.76843918849418,
+          "standardDeviation": 24.56264777989517
+        },
+        {
+          "band": 3,
+          "minimum": 39.0,
+          "maximum": 248.0,
+          "mean": 72.35130662600666,
+          "standardDeviation": 13.112702303789458
+        },
+        {
+          "band": 4,
+          "minimum": 3.0,
+          "maximum": 255.0,
+          "mean": 97.929447036116,
+          "standardDeviation": 61.725092013408364
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ]
+    },
+    "hole-18-tees": {
+      "id": "hole-18-tees",
+      "requestSha256": "b1d73659dfc8f2b9a270219dd7cb420b7d30cd1b199e3575bb58adbca9d7414e",
+      "sha256": "becf3c40533fb926c44189a55497640be1fcc9c7e5a718c67e8eb772d1b80b0c",
+      "bytes": 5653746,
+      "rasterFile": "hole-18-tees.tif",
+      "boundsEpsg3006": [
+        697217.76,
+        7024750.72,
+        697417.76,
+        7025000.8
+      ],
+      "width": 1250,
+      "height": 1563,
+      "geoTransform": [
+        697217.76,
+        0.16,
+        0.0,
+        7025000.8,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:23.043178+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 245.0,
+          "mean": 61.351984133077416,
+          "standardDeviation": 20.723065718842474
+        },
+        {
+          "band": 2,
+          "minimum": 34.0,
+          "maximum": 252.0,
+          "mean": 83.48779475367883,
+          "standardDeviation": 21.257099705373015
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 242.0,
+          "mean": 77.8831836212412,
+          "standardDeviation": 12.540126478781591
+        },
+        {
+          "band": 4,
+          "minimum": 18.0,
+          "maximum": 255.0,
+          "mean": 136.19725041586693,
+          "standardDeviation": 40.66721830507556
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70250_6950_25_mr24"
+      ]
+    },
+    "hole-08-tees": {
+      "id": "hole-08-tees",
+      "requestSha256": "6e291fdc54820f8e02c8f8d57eee9e049d6bc39703c73f0d92b27b44d4bf4672",
+      "sha256": "3b485b0797d0418377954b812bdcec1b55c4aecb58e556db3f27671f87299568",
+      "bytes": 5862934,
+      "rasterFile": "hole-08-tees.tif",
+      "boundsEpsg3006": [
+        697730.56,
+        7024794.72,
+        697920.16,
+        7025052.16
+      ],
+      "width": 1185,
+      "height": 1609,
+      "geoTransform": [
+        697730.56,
+        0.16,
+        0.0,
+        7025052.16,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:06.868832+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20.0,
+          "maximum": 218.0,
+          "mean": 82.13657983966769,
+          "standardDeviation": 28.12284581147114
+        },
+        {
+          "band": 2,
+          "minimum": 35.0,
+          "maximum": 220.0,
+          "mean": 100.63878342550998,
+          "standardDeviation": 25.520413710639215
+        },
+        {
+          "band": 3,
+          "minimum": 41.0,
+          "maximum": 210.0,
+          "mean": 87.49809379204002,
+          "standardDeviation": 15.596724117306723
+        },
+        {
+          "band": 4,
+          "minimum": 29.0,
+          "maximum": 255.0,
+          "mean": 155.60578234771185,
+          "standardDeviation": 44.207238423271534
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    }
+  },
+  "numberedPlatformSources": {
+    "livecaddie-658-hole-2-file-711183": {
+      "n": 2,
+      "id": "livecaddie-658-hole-2-file-711183",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711183&width=702&height=1053",
+      "sha256": "ef42c7da372b62adfd81e8205393af86cff68406ec4c749ceb95e5b36ab0c3d5",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-5-file-711186": {
+      "n": 5,
+      "id": "livecaddie-658-hole-5-file-711186",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711186&width=702&height=1053",
+      "sha256": "14aaac60a8f3169a9b255fcd32421e49615fcd356566d103e195faf83c1ea4dd",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-7-file-711188": {
+      "n": 7,
+      "id": "livecaddie-658-hole-7-file-711188",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711188&width=702&height=1053",
+      "sha256": "a90e6d56904e5d5b56d590c2361360fdcc39468c68b6c971bb96872bbaf17650",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-10-file-711191": {
+      "n": 10,
+      "id": "livecaddie-658-hole-10-file-711191",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711191&width=702&height=1053",
+      "sha256": "b24482abfa4fa080cdd221af62ebfaf82c54cf3d4c6b12c48ba75840469ea559",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-12-file-711193": {
+      "n": 12,
+      "id": "livecaddie-658-hole-12-file-711193",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711193&width=702&height=1053",
+      "sha256": "76f3f5feec6d030350eaabcd8ba34177eaaab5bf9912a39c72b3ce7c637789a8",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-13-file-711194": {
+      "n": 13,
+      "id": "livecaddie-658-hole-13-file-711194",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711194&width=702&height=1053",
+      "sha256": "1f2667f919f937b6f11afc720cba8cbdce66aad1549e2bfea083be829df9f7a3",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-18-file-711199": {
+      "n": 18,
+      "id": "livecaddie-658-hole-18-file-711199",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711199&width=702&height=1053",
+      "sha256": "01b38f671f8e51bf927a0326a13e4c870d8ac1a39045355e65d391ff6f7f203d",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-8-file-711189": {
+      "n": 8,
+      "id": "livecaddie-658-hole-8-file-711189",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711189&width=702&height=1053",
+      "sha256": "f931e5ea4590abccd4f7c54415c37ee290a4c113d20e03735744cfcb401afe0a",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-9-file-711190": {
+      "n": 9,
+      "id": "livecaddie-658-hole-9-file-711190",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711190&width=702&height=1053",
+      "sha256": "4112c6cb51cf225a227da31587845d2931aff4c2b8a51541c34d45f5fda4e1a9",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-11-file-711192": {
+      "n": 11,
+      "id": "livecaddie-658-hole-11-file-711192",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711192&width=702&height=1053",
+      "sha256": "99aa3ff612e491d29be550e6a3eea21616f96fa91ac660745fc1d2b0b74fe225",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-6-file-711187": {
+      "n": 6,
+      "id": "livecaddie-658-hole-6-file-711187",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711187&width=702&height=1053",
+      "sha256": "abfe737fc67cba673bc4153af798522b2c06892b95a4938d8b6b2840ac35009c",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    },
+    "livecaddie-658-hole-4-file-711185": {
+      "n": 4,
+      "id": "livecaddie-658-hole-4-file-711185",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711185&width=702&height=1053",
+      "sha256": "ef522f27fb37a600543d8fced95e3b287361a8f95e67e5406aade289c6fd6e41",
+      "clubEmbedUrl": "https://puttom.se/banguide",
+      "retrievedAt": "2026-09-09",
+      "use": "platform identity only; no geometric positions derived from diagram"
+    }
+  },
+  "holes": [
+    {
+      "n": 2,
+      "tees": [
+        {
+          "id": "h02-tee-pad-00-lm2024",
+          "sourceKey": "hole-02-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              733,
+              428
+            ],
+            [
+              1016,
+              480
+            ],
+            [
+              1012,
+              531
+            ],
+            [
+              718,
+              481
+            ],
+            [
+              733,
+              428
+            ]
+          ],
+          "reviewNotes": "Visible elongated platform retraced. Club plan confirms 61/57 on back platform; 61 camera moved inside observed rear end. Forward 41 remains an unlocated grass reference.",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              993,
+              513
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-2-file-711183"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "tees": [
+        {
+          "id": "h04-tee-pad-01-lm2024",
+          "sourceKey": "hole-04-tees",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              453,
+              472
+            ],
+            [
+              486,
+              487
+            ],
+            [
+              519,
+              473
+            ],
+            [
+              552,
+              438
+            ],
+            [
+              585,
+              420
+            ],
+            [
+              635,
+              454
+            ],
+            [
+              617,
+              487
+            ],
+            [
+              592,
+              525
+            ],
+            [
+              576,
+              555
+            ],
+            [
+              545,
+              547
+            ],
+            [
+              514,
+              534
+            ],
+            [
+              485,
+              516
+            ],
+            [
+              453,
+              472
+            ]
+          ],
+          "reviewNotes": "Clearly visible L-shaped back platform retraced; shadowed eastern platform and scorecard reference associations retained without approval."
+        }
+      ],
+      "cameraReferences": [
+        {
+          "id": "h04-tee-48-lm2024-visible-anchor",
+          "sourceKey": "hole-04-tees",
+          "teeKey": "tee-48",
+          "pointPixels": [
+            982,
+            502
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-4-file-711185",
+          "geometryBasis": "visible-interior-anchor",
+          "existingPadIndex": 0,
+          "reviewNotes": "The club plan identifies 48 on the separate pond-side platform. A visible marker pair at approximately [986,490] and [979,514] brackets maintained tee interior; place the virtual viewpoint between them. The trapezoid perimeter is partly in shadow and remains unreviewed."
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "tees": [
+        {
+          "id": "h05-tee-pad-00-lm2024",
+          "sourceKey": "hole-05-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              632,
+              486
+            ],
+            [
+              717,
+              458
+            ],
+            [
+              730,
+              497
+            ],
+            [
+              646,
+              524
+            ],
+            [
+              632,
+              486
+            ]
+          ],
+          "reviewNotes": "Both visible platforms retraced. Club plan locates 48/41 on the separate forward-right platform; both virtual references moved there.",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              686,
+              492
+            ],
+            "tee-41": [
+              686,
+              492
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-5-file-711186"
+        },
+        {
+          "id": "h05-tee-pad-01-lm2024",
+          "sourceKey": "hole-05-tees",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              380,
+              551
+            ],
+            [
+              512,
+              495
+            ],
+            [
+              529,
+              556
+            ],
+            [
+              407,
+              602
+            ],
+            [
+              380,
+              551
+            ]
+          ],
+          "reviewNotes": "The club plan confirms 61/57 on the same rear rectangular platform, separate from the forward 48/41 platform. The 57 reference moves into the visible rear rectangle; 61 has not been individually reviewed in this update.",
+          "cameraReferencesPixels": {
+            "tee-57": [
+              500,
+              536
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-5-file-711186"
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "tees": [
+        {
+          "id": "h06-tee-pad-00-lm2024",
+          "sourceKey": "hole-06-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              416,
+              500
+            ],
+            [
+              433,
+              497
+            ],
+            [
+              474,
+              507
+            ],
+            [
+              525,
+              522
+            ],
+            [
+              579,
+              543
+            ],
+            [
+              632,
+              570
+            ],
+            [
+              687,
+              600
+            ],
+            [
+              736,
+              629
+            ],
+            [
+              788,
+              661
+            ],
+            [
+              782,
+              682
+            ],
+            [
+              762,
+              699
+            ],
+            [
+              733,
+              686
+            ],
+            [
+              690,
+              658
+            ],
+            [
+              638,
+              629
+            ],
+            [
+              589,
+              599
+            ],
+            [
+              559,
+              585
+            ],
+            [
+              522,
+              573
+            ],
+            [
+              485,
+              561
+            ],
+            [
+              450,
+              548
+            ],
+            [
+              427,
+              536
+            ],
+            [
+              415,
+              520
+            ],
+            [
+              416,
+              500
+            ]
+          ],
+          "reviewNotes": "The club plan identifies 48 toward the southeast/front of the long diagonal platform. The camera is placed inside that observed portion. The other numbered references on or beyond this platform remain provisional.",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              730,
+              651
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-6-file-711187"
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "tees": [
+        {
+          "id": "h07-tee-pad-01-lm2024",
+          "sourceKey": "hole-07-tees",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              623,
+              812
+            ],
+            [
+              644,
+              808
+            ],
+            [
+              676,
+              821
+            ],
+            [
+              669,
+              853
+            ],
+            [
+              656,
+              901
+            ],
+            [
+              605,
+              889
+            ],
+            [
+              601,
+              875
+            ],
+            [
+              610,
+              838
+            ],
+            [
+              623,
+              812
+            ]
+          ],
+          "reviewNotes": "Clear forward platform retraced. Club plan confirms its 48 identity; camera moved from rough into observed platform. Back platform remains shadowed.",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              638,
+              846
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-7-file-711188"
+        }
+      ],
+      "cameraReferences": [
+        {
+          "id": "h07-tee-61-lm2024-visible-anchor",
+          "sourceKey": "hole-07-tees",
+          "teeKey": "tee-61",
+          "pointPixels": [
+            671.0,
+            435.618
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-7-file-711188",
+          "geometryBasis": "visible-interior-anchor",
+          "existingPadIndex": 0,
+          "reviewNotes": "The shared rear 61/57 station is unambiguous in the club plan. The existing 61 viewpoint lies in visibly maintained grass above the broad cast-shadow band; retain it. The perimeter below that band remains unreviewed."
+        },
+        {
+          "id": "h07-tee-57-lm2024-visible-anchor",
+          "sourceKey": "hole-07-tees",
+          "teeKey": "tee-57",
+          "pointPixels": [
+            673,
+            445
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-7-file-711188",
+          "geometryBasis": "visible-interior-anchor",
+          "existingPadIndex": 0,
+          "reviewNotes": "The shared rear 61/57 platform is identified by the club plan and access-path layout. Place 57 in visible maintained interior immediately forward of 61, above the cast-shadow band; do not infer the obscured perimeter."
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "tees": [
+        {
+          "id": "h08-tee-pad-00-lm2024",
+          "sourceKey": "hole-08-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              543,
+              709
+            ],
+            [
+              589,
+              722
+            ],
+            [
+              571,
+              789
+            ],
+            [
+              529,
+              778
+            ],
+            [
+              543,
+              709
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-48": [
+              555,
+              763
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-8-file-711189",
+          "reviewNotes": "Forward 48 platform lies west of the path, as in the club plan. Its rectangular mowing corners remain visible through a cast-tree-shadow band; camera moved from path-side rough into the visible southern interior. Shared rear 61/57 remains substantially shadowed; 41 is a fairway-grass reference whose exact daily position is not visible."
+        }
+      ],
+      "cameraReferences": [
+        {
+          "id": "h08-tee-61-lm2024-visible-anchor",
+          "sourceKey": "hole-08-tees",
+          "teeKey": "tee-61",
+          "pointPixels": [
+            463,
+            1136
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-8-file-711189",
+          "geometryBasis": "visible-interior-anchor",
+          "existingPadIndex": 1,
+          "reviewNotes": "The club plan pairs rear 61/57 left of the path. Move the 61 viewpoint from the wooded edge into the visible maintained interior; use the rear of the observed clear area and leave the shadowed platform perimeter unchanged."
+        },
+        {
+          "id": "h08-tee-57-lm2024-visible-anchor",
+          "sourceKey": "hole-08-tees",
+          "teeKey": "tee-57",
+          "pointPixels": [
+            475,
+            1126
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-8-file-711189",
+          "geometryBasis": "visible-interior-anchor",
+          "existingPadIndex": 1,
+          "reviewNotes": "The same distinct rear platform is identified as 61/57 by the club plan. Place 57 in its visible northern maintained interior, forward of the 61 viewpoint; the old polygon is not certified by this point observation."
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "tees": [
+        {
+          "id": "h09-tee-pad-00-lm2024",
+          "sourceKey": "hole-09-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              892,
+              472
+            ],
+            [
+              944,
+              479
+            ],
+            [
+              926,
+              546
+            ],
+            [
+              881,
+              538
+            ],
+            [
+              892,
+              472
+            ]
+          ],
+          "reviewNotes": "Club plan identifies the separate forward 48 pad, middle 57 pad and rear 61 pad beside the bending path. Their visible footprints are traced and the virtual references placed within them. The 41 area contains two bare/reworked rectangular footprints; current diagram alone does not uniquely establish their 2024 identity, so 41 remains unresolved.",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              908,
+              511
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190"
+        },
+        {
+          "id": "h09-tee-pad-01-lm2024",
+          "sourceKey": "hole-09-tees",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              1216,
+              487
+            ],
+            [
+              1253,
+              490
+            ],
+            [
+              1305,
+              499
+            ],
+            [
+              1340,
+              508
+            ],
+            [
+              1354,
+              520
+            ],
+            [
+              1354,
+              551
+            ],
+            [
+              1307,
+              550
+            ],
+            [
+              1258,
+              540
+            ],
+            [
+              1210,
+              530
+            ],
+            [
+              1216,
+              487
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-57": [
+              1277.042,
+              516.627
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190",
+          "reviewNotes": "The middle elongated 57 platform is visibly separate from the rear 61 platform where the path bends. The existing 57 reference is retained within the retraced footprint; the current club plan confirms this numbered association."
+        },
+        {
+          "id": "h09-tee-pad-02-lm2024",
+          "sourceKey": "hole-09-tees",
+          "ringPixels": [
+            [
+              1394,
+              514
+            ],
+            [
+              1453,
+              527
+            ],
+            [
+              1448,
+              584
+            ],
+            [
+              1381,
+              570
+            ],
+            [
+              1394,
+              514
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-61": [
+              1420.061,
+              534.769
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190",
+          "reviewNotes": "A distinct rear maintained platform is visible east of the mapped 57 platform beside the bend in the access path. Club plan assigns 61 to this rear platform. Its existing virtual reference lies within the newly traced footprint; no card-distance fitting is used."
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "tees": [
+        {
+          "id": "h10-tee-pad-00-lm2024",
+          "sourceKey": "hole-10-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              669,
+              428
+            ],
+            [
+              847,
+              433
+            ],
+            [
+              846,
+              472
+            ],
+            [
+              667,
+              461
+            ],
+            [
+              669,
+              428
+            ]
+          ],
+          "reviewNotes": "Club plan distinguishes rear 61, elongated 57, and separate forward 48 platforms. The 57 reference was just north of its visible footprint and is moved into the same platform. Forward 41 is an unmarked grass/fairway reference and remains provisional.",
+          "cameraReferencesPixels": {
+            "tee-57": [
+              800.854,
+              450
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-10-file-711191"
+        },
+        {
+          "id": "h10-tee-pad-01-lm2024",
+          "sourceKey": "hole-10-tees",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              526,
+              445
+            ],
+            [
+              561,
+              434
+            ],
+            [
+              612,
+              555
+            ],
+            [
+              560,
+              572
+            ],
+            [
+              526,
+              445
+            ]
+          ],
+          "reviewNotes": "Both visible platforms retraced. Club plan distinguishes rear 61 from 57 platform; 61 moved from clubhouse side of road to observed rear platform east of road.",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              545,
+              485
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-10-file-711191"
+        },
+        {
+          "id": "h10-tee-pad-02-lm2024",
+          "sourceKey": "hole-10-tees",
+          "ringPixels": [
+            [
+              965,
+              433
+            ],
+            [
+              1065,
+              442
+            ],
+            [
+              1060,
+              482
+            ],
+            [
+              962,
+              475
+            ],
+            [
+              965,
+              433
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-48": [
+              1019.952,
+              455
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-10-file-711191",
+          "reviewNotes": "The separate rectangular forward platform is clearly visible immediately south of the fairway-side bunker and north of the path. Club plan identifies it as 48. Its camera moves slightly south from the rough-facing edge into the maintained surface."
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "tees": [
+        {
+          "id": "h11-tee-pad-00-lm2024",
+          "sourceKey": "hole-11-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              456,
+              787
+            ],
+            [
+              475,
+              786
+            ],
+            [
+              490,
+              800
+            ],
+            [
+              492,
+              815
+            ],
+            [
+              487,
+              834
+            ],
+            [
+              476,
+              870
+            ],
+            [
+              470,
+              903
+            ],
+            [
+              470,
+              928
+            ],
+            [
+              460,
+              944
+            ],
+            [
+              442,
+              946
+            ],
+            [
+              424,
+              935
+            ],
+            [
+              415,
+              921
+            ],
+            [
+              419,
+              896
+            ],
+            [
+              432,
+              855
+            ],
+            [
+              442,
+              818
+            ],
+            [
+              445,
+              799
+            ],
+            [
+              456,
+              787
+            ]
+          ],
+          "reviewNotes": "Club plan confirms 57 on the isolated elongated platform; the existing camera is retained inside it. Shared 48/41 uses a separate square platform farther toward the fairway, now traced. Rear 61 is not independently established: existing point lies on the neighbouring hole approach and the diagram-indicated area beside that green is partly obscured.",
+          "cameraReferencesPixels": {
+            "tee-57": [
+              436.277,
+              874.681
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-11-file-711192"
+        },
+        {
+          "id": "h11-tee-pad-01-lm2024",
+          "sourceKey": "hole-11-tees",
+          "ringPixels": [
+            [
+              500,
+              1190
+            ],
+            [
+              536,
+              1198
+            ],
+            [
+              529,
+              1245
+            ],
+            [
+              490,
+              1238
+            ],
+            [
+              500,
+              1190
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-48": [
+              513,
+              1217
+            ],
+            "tee-41": [
+              513,
+              1217
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-11-file-711192",
+          "reviewNotes": "A clear square maintained platform lies between the 57 platform and fairway start. Current club plan explicitly pairs 48/41 on that square. Both virtual camera anchors move from the shadow/rough west of it to the visible platform interior."
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "tees": [
+        {
+          "id": "h12-tee-pad-01-lm2024",
+          "sourceKey": "hole-12-tees",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              443,
+              778
+            ],
+            [
+              545,
+              749
+            ],
+            [
+              566,
+              795
+            ],
+            [
+              563,
+              822
+            ],
+            [
+              549,
+              836
+            ],
+            [
+              513,
+              845
+            ],
+            [
+              485,
+              837
+            ],
+            [
+              460,
+              822
+            ],
+            [
+              449,
+              809
+            ],
+            [
+              443,
+              778
+            ]
+          ],
+          "reviewNotes": "Clear shared 61/57 rear platform retraced; both references moved inside it with 61 south of 57. Club plan confirms platform identity. 48 partly shadowed; 41 tiny shore reference remains unresolved.",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              510,
+              824
+            ],
+            "tee-57": [
+              478,
+              796
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-12-file-711193"
+        },
+        {
+          "id": "h12-tee-pad-02-lm2024",
+          "sourceKey": "hole-12-tees",
+          "ringPixels": [
+            [
+              635,
+              426
+            ],
+            [
+              643,
+              435
+            ],
+            [
+              634,
+              443
+            ],
+            [
+              626,
+              435
+            ],
+            [
+              635,
+              426
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-41": [
+              635,
+              435
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-12-file-711193",
+          "reviewNotes": "Small bordered tee mat immediately beside the lakeside path is clearly visible. Current club plan locates 41 at this same isolated path-side station. The traced footprint is the visible mat itself, not an invented surrounding turf platform; the virtual camera moves onto its centre. The larger 48 surface remains partly shadowed and provisional."
+        }
+      ],
+      "cameraReferences": [
+        {
+          "id": "h12-tee-48-lm2024-visible-anchor",
+          "sourceKey": "hole-12-tees",
+          "teeKey": "tee-48",
+          "pointPixels": [
+            451,
+            701
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-12-file-711193",
+          "geometryBasis": "visible-interior-anchor",
+          "existingPadIndex": 0,
+          "reviewNotes": "Club plan identifies 48 on the separate shoreward platform directly ahead of the shared 61/57 platform. Move the viewpoint into the visible maintained strip; the larger perimeter partly under shadow remains unreviewed."
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "tees": [
+        {
+          "id": "h13-tee-pad-01-lm2024",
+          "sourceKey": "hole-13-tees",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              635,
+              915
+            ],
+            [
+              678,
+              908
+            ],
+            [
+              689,
+              946
+            ],
+            [
+              652,
+              980
+            ],
+            [
+              641,
+              981
+            ],
+            [
+              635,
+              915
+            ]
+          ],
+          "reviewNotes": "Separate forward platform retraced; club plan confirms 48 to right of shore path and camera moved there. Rear shared platform shadowed.",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              660,
+              940
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-13-file-711194"
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "tees": [
+        {
+          "id": "h16-tee-pad-00-lm2024",
+          "sourceKey": "hole-16-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              689,
+              477
+            ],
+            [
+              814,
+              413
+            ],
+            [
+              838,
+              444
+            ],
+            [
+              713,
+              512
+            ],
+            [
+              689,
+              477
+            ]
+          ],
+          "reviewNotes": "Visible elongated shore platform retraced; existing 61/57 references retained. Forward grass references not independently localized."
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "tees": [
+        {
+          "id": "h18-tee-pad-00-lm2024",
+          "sourceKey": "hole-18-tees",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              691,
+              985
+            ],
+            [
+              723,
+              994
+            ],
+            [
+              724,
+              1011
+            ],
+            [
+              708,
+              1071
+            ],
+            [
+              671,
+              1059
+            ],
+            [
+              691,
+              985
+            ]
+          ],
+          "reviewNotes": "Both clear platforms retraced. Club plan confirms separate right 48 platform and shared rear 61/57. 48 moved about 27m to its platform and 61 moved within shared rear platform.",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              696,
+              1021
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-18-file-711199"
+        },
+        {
+          "id": "h18-tee-pad-01-lm2024",
+          "sourceKey": "hole-18-tees",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              416,
+              1125
+            ],
+            [
+              460,
+              1058
+            ],
+            [
+              507,
+              1082
+            ],
+            [
+              463,
+              1155
+            ],
+            [
+              416,
+              1125
+            ]
+          ],
+          "reviewNotes": "Both clear platforms retraced. Club plan confirms separate right 48 platform and shared rear 61/57. 48 moved about 27m to its platform and 61 moved within shared rear platform.",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              450,
+              1128
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-18-file-711199"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Visible mowing boundaries and isolated tee mats are traced; substantially shadowed/canopy-obscured platform boundaries remain provisional.",
+    "2024 photograph and current club diagram may represent different course states.",
+    "All eighteen windows inspected; no claim that all seventy-two tee references are aligned."
+  ],
+  "teeReviewAudit": [
+    {
+      "n": 1,
+      "status": "unresolved-imagery-visibility",
+      "notes": "Long tee corridor partly obscured by shadows beside range; retain previous boundaries and references pending dedicated tracing."
+    },
+    {
+      "n": 2,
+      "status": "partially-traced",
+      "notes": "Visible elongated platform retraced. Club plan confirms 61/57 on back platform; 61 camera moved inside observed rear end. Forward 41 remains an unlocated grass reference."
+    },
+    {
+      "n": 3,
+      "status": "unresolved-imagery-visibility",
+      "notes": "Both mapped platforms partly obscured by canopy/shadow; no boundary or numbered reference promoted."
+    },
+    {
+      "n": 4,
+      "status": "partially-traced",
+      "notes": "Clearly visible L-shaped back platform retraced; shadowed eastern platform and scorecard reference associations retained without approval. The club plan identifies 48 on the separate pond-side platform. A visible marker pair at approximately [986,490] and [979,514] brackets maintained tee interior; place the virtual viewpoint between them. The trapezoid perimeter is partly in shadow and remains unreviewed."
+    },
+    {
+      "n": 5,
+      "status": "partially-traced",
+      "notes": "The club plan confirms 61/57 on the same rear rectangular platform, separate from the forward 48/41 platform. The 57 reference moves into the visible rear rectangle; 61 has not been individually reviewed in this update."
+    },
+    {
+      "n": 6,
+      "status": "partially-traced",
+      "notes": "The club plan identifies 48 toward the southeast/front of the long diagonal platform. The camera is placed inside that observed portion. The other numbered references on or beyond this platform remain provisional."
+    },
+    {
+      "n": 7,
+      "status": "partially-traced",
+      "notes": "Clear forward platform retraced. Club plan confirms its 48 identity; camera moved from rough into observed platform. Back platform remains shadowed. The shared rear 61/57 station is unambiguous in the club plan. The existing 61 viewpoint lies in visibly maintained grass above the broad cast-shadow band; retain it. The perimeter below that band remains unreviewed. The shared rear 61/57 platform is identified by the club plan and access-path layout. Place 57 in visible maintained interior immediately forward of 61, above the cast-shadow band; do not infer the obscured perimeter."
+    },
+    {
+      "n": 8,
+      "status": "partially-traced",
+      "notes": "Forward 48 platform lies west of the path, as in the club plan. Its rectangular mowing corners remain visible through a cast-tree-shadow band; camera moved from path-side rough into the visible southern interior. Shared rear 61/57 remains substantially shadowed; 41 is a fairway-grass reference whose exact daily position is not visible. The club plan pairs rear 61/57 left of the path. Move the 61 viewpoint from the wooded edge into the visible maintained interior; use the rear of the observed clear area and leave the shadowed platform perimeter unchanged. The same distinct rear platform is identified as 61/57 by the club plan. Place 57 in its visible northern maintained interior, forward of the 61 viewpoint; the old polygon is not certified by this point observation."
+    },
+    {
+      "n": 9,
+      "status": "partially-traced",
+      "notes": "A distinct rear maintained platform is visible east of the mapped 57 platform beside the bend in the access path. Club plan assigns 61 to this rear platform. Its existing virtual reference lies within the newly traced footprint; no card-distance fitting is used."
+    },
+    {
+      "n": 10,
+      "status": "partially-traced",
+      "notes": "The separate rectangular forward platform is clearly visible immediately south of the fairway-side bunker and north of the path. Club plan identifies it as 48. Its camera moves slightly south from the rough-facing edge into the maintained surface."
+    },
+    {
+      "n": 11,
+      "status": "partially-traced",
+      "notes": "A clear square maintained platform lies between the 57 platform and fairway start. Current club plan explicitly pairs 48/41 on that square. Both virtual camera anchors move from the shadow/rough west of it to the visible platform interior."
+    },
+    {
+      "n": 12,
+      "status": "partially-traced",
+      "notes": "Small bordered tee mat immediately beside the lakeside path is clearly visible. Current club plan locates 41 at this same isolated path-side station. The traced footprint is the visible mat itself, not an invented surrounding turf platform; the virtual camera moves onto its centre. The larger 48 surface remains partly shadowed and provisional. Club plan identifies 48 on the separate shoreward platform directly ahead of the shared 61/57 platform. Move the viewpoint into the visible maintained strip; the larger perimeter partly under shadow remains unreviewed."
+    },
+    {
+      "n": 13,
+      "status": "partially-traced",
+      "notes": "Separate forward platform retraced; club plan confirms 48 to right of shore path and camera moved there. Rear shared platform shadowed."
+    },
+    {
+      "n": 14,
+      "status": "unresolved-imagery-visibility",
+      "notes": "Back platform obscured by tree shadow. Existing 48 shore-slide appears before inlet, where dossier identifies old 48/drop zone, while club plan places 48 beyond inlet. Forward 48/41 require field/reference review; no invented ring."
+    },
+    {
+      "n": 15,
+      "status": "unresolved-imagery-visibility",
+      "notes": "Main platform and shared forward 48/41 area obscured by canopy/shadow. Club plan supplies relative identity, but no defensible visible boundary; retain provisional positions and flag unresolved."
+    },
+    {
+      "n": 16,
+      "status": "partially-traced",
+      "notes": "Visible elongated shore platform retraced; existing 61/57 references retained. Forward grass references not independently localized."
+    },
+    {
+      "n": 17,
+      "status": "unresolved-imagery-visibility",
+      "notes": "Both platforms shadowed and 61/48 associations need closer review; no source boundary promoted."
+    },
+    {
+      "n": 18,
+      "status": "partially-traced",
+      "notes": "Both clear platforms retraced. Club plan confirms separate right 48 platform and shared rear 61/57. 48 moved about 27m to its platform and 61 moved within shared rear platform."
+    }
+  ]
+}

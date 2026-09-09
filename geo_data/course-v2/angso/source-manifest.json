@@ -76,7 +76,7 @@
       ],
       "lifecycle": "planned",
       "use": "candidate",
-      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/collections/orto-o2-2025",
       "localPath": null,
       "bboxWgs84": [
         16.828,
@@ -84,15 +84,15 @@
         16.912,
         59.597
       ],
-      "acquiredAt": null,
-      "capturedAt": null,
+      "acquiredAt": "2026-09-09",
+      "capturedAt": "2025-04-24",
       "checksum": null,
-      "checksumReason": "Not acquired; select the newest suitable leaf-on and leaf-off campaigns.",
+      "checksumReason": "The whole-source lifecycle remains planned: full remote TIFFs were range-read, not hashed in full. All 18 native complete-hole windows and the overview ARE acquired and individually SHA-256 pinned in reference/lm-ortho-acquisition-2026-09-09.json.",
       "replacementSourceId": null,
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Discovery selected campaign orto-o2-2025 at 0.16 m, twelve items covering the AOI completely. NOT acquired: no orthophoto window has been read, so every playing-surface outline on this ground remains a legacy Esri trace. Measurement input for surface, vegetation and object review; never a runtime ground texture."
+      "notes": "Verified 0.16 m RGBI imagery covers every hole; a 0.8 m overview provides context. Mosaic source polygons date every window to 2025-04-24. The accepted review replaces 18 greens, 16 fairway/approach outlines, 50 physical tee platforms, 33 bunkers and eight pond edges. Exact source pixels, capture evidence and uncertainties are retained. Fairway cuts on par-3 holes 12 and 15 remain legacy because spring imagery does not resolve them confidently. Colour identities of tee platforms remain unverified. Imagery is measurement input, never a runtime texture; independent control and absolute positional accuracy are not established."
     },
     {
       "id": "laser-lm-skog",
@@ -319,15 +319,16 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "f32c2c7c72349ee4f826ba4ebffce5608f8ab14c61f80093df7947a8f1c895db",
+      "sha256": "35fdadaed2cb45f0347c277d995f3e71a4af4f1d8f71a5bcf7f8d40e13d69d91",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
-      "notes": "Current composite vectors, routing, elevations and scenery inputs. Horizontal geometry is unchanged since the Terrarium build; every hole elevation, water level and the water floor are re-measured from the 1 m DTM (69 changed leaves, all vertical)."
+      "notes": "Composite compatibility model with explicit Lantmateriet image-reviewed playing boundaries and pond edges. Terrain retains its measured RH 2000 source. Published scorecard values are separate from physical route length; inferred tee references retain uncertainty."
     },
     {
       "id": "legacy-heightfields",
@@ -367,13 +368,14 @@
       "id": "legacy-marking",
       "kind": "composite",
       "path": "angsobuild/marking.json",
-      "sha256": "cc82a6babb02ebd54acac1ff6ca1d85982ab214d34557296a4dbb2767b57973a",
+      "sha256": "76ba4e926ccc7af1fde6b703eb599b1999058b2dcd3ffece2db03a6d8a7fe86e",
       "derivedFrom": [
         "club-guide-legacy",
-        "esri-imagery-legacy"
+        "esri-imagery-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
-      "notes": "Penalty and out-of-bounds stakes placed by rule from Lokala regler 2026 and the hole texts: red round every course pond and along the whole left of the 17th, white at the woodland edge (satellite tree-cover raster) where the club says out of bounds or the boar fence stands, the 5/6 internal stakes as white. Which side and which colour is the club's; where exactly is a stated rule, never a survey."
+      "notes": "Rule-derived penalty/OB stakes regenerated around reviewed pond and fairway geometry. Stake positions remain inferred from club rules and legacy woodland evidence, not surveyed."
     },
     {
       "id": "legacy-tree-cover",
@@ -414,15 +416,16 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
-      "sha256": "6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c",
+      "sha256": "46656d463ea41ace12c8e9ef8b914d18c74f1c84ea66c5d2f233f0fb0b7486ad",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
-      "notes": "Deterministic horizontal conversion of the current model -- unchanged holes, plus the laser-traced Mälaren rings -- to absolute EPSG:3006. Projected with the repository Krüger series because PROJ was unavailable; the driver first reproduced the committed cs2cs migration of the pre-rebuild model (its source verified by hash) to 1.334 mm over all 7,284 coordinates and refuses to write otherwise. Legacy scalar heights remain unapproved."
+      "notes": "Current composite model projected to absolute EPSG:3006 through PROJ/pyproj; horizontal vectors include reviewed orthophoto geometry. Independent canonical-origin control remains outstanding."
     },
     {
       "id": "migration-course-model-epsg3006-cs2cs",
@@ -442,12 +445,13 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/angso/migration/residual-report.json",
-      "sha256": "6fce9e0bd9d34f91ab167cb1bfee783f25c24fe4da55cbb4ef72aa6b403c8ff3",
+      "sha256": "0b53bf4d63ae551c11dfc9c4333b79dca6695d34c8cfe763bd53a20fbe56c717",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
       "notes": "Candidate origin and scoped migration residuals; not an independent control approval."
@@ -508,6 +512,138 @@
       ],
       "use": "discovery-evidence",
       "notes": "COPC header, VLR and hierarchy pages read without point bytes; measured node counts and per-window densities."
+    },
+    {
+      "id": "lm-ortho-catalog-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/reference/lm-ortho-catalog-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated orthophoto catalog evidence, including immutable identifiers, dates, source grids and checksums.",
+      "sha256": "58467453dd584704540e407ea926fabd20aaee8ab8f51a9ced009e12df6fdf92",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-ortho-plan-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/reference/lm-ortho-plan-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated orthophoto plan evidence, including immutable identifiers, dates, source grids and checksums.",
+      "sha256": "fd61ff5f95c8958310258dab624cea1ea21d0c1cbbebe5fe3b9eaaddf364aedd",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-ortho-acquisition-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/reference/lm-ortho-acquisition-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated orthophoto acquisition evidence, including immutable identifiers, dates, source grids and checksums.",
+      "sha256": "eb0c434035137e10f8d508ee5e7e2e5168d00f1fe26cf176e24d6e5cad0ffc7f",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-ortho-capture-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/reference/lm-ortho-capture-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated orthophoto capture evidence, including immutable identifiers, dates, source grids and checksums.",
+      "sha256": "7f4080bdbadf7da0387e025c74dd1f42b5a11e022ed927316ebe5c4d334adfd3",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-ortho-validation-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/reference/lm-ortho-validation-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated orthophoto validation evidence, including immutable identifiers, dates, source grids and checksums.",
+      "sha256": "d1f546b60da31426188639d036f7d5c5dc850293334120157887fc4196d8f374",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-surface-review",
+      "kind": "surface",
+      "path": "angsobuild/mapping/orthophoto-review.json",
+      "use": "migration-only",
+      "notes": "Combined explicit pixel-edge boundary decisions with native image hashes, exact affines, per-part provenance and review limitations.",
+      "sha256": "d1f8f27dbe72135af15a05b87f071dfc8880ad54c3f70dad52c2f82460e1165f",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-review-part-1",
+      "kind": "surface",
+      "path": "angsobuild/mapping/lm-review-front9-surfaces.json",
+      "use": "migration-only",
+      "notes": "Independent feature-class review containing original pixel decisions and interpretation notes.",
+      "sha256": "1b2fd364f5f4eec486df895ef6ddce946eb591acf9bb6b5b8960ee98894c57ab",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-review-part-2",
+      "kind": "surface",
+      "path": "angsobuild/mapping/lm-review-front9-fairways.json",
+      "use": "migration-only",
+      "notes": "Independent feature-class review containing original pixel decisions and interpretation notes.",
+      "sha256": "d6f920d3e2197b652cebcbcf06e458f20c117a7fc44935a7d9920d03c2a4b86c",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-review-part-3",
+      "kind": "surface",
+      "path": "angsobuild/mapping/lm-review-front9-tees-water.json",
+      "use": "migration-only",
+      "notes": "Independent feature-class review containing original pixel decisions and interpretation notes.",
+      "sha256": "9213b61158177d14525368ab47949440b1a620a94152fe5eefddac4f251dc14d",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-review-part-4",
+      "kind": "surface",
+      "path": "angsobuild/mapping/lm-review-back9.json",
+      "use": "migration-only",
+      "notes": "Independent feature-class review containing original pixel decisions and interpretation notes.",
+      "sha256": "ec26886bd950e2bf4edb918c9e1dc60d295a01c630f8f9ddf375653a1983da83",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-review-part-5",
+      "kind": "surface",
+      "path": "angsobuild/mapping/lm-review-back9-tees.json",
+      "use": "migration-only",
+      "notes": "Independent feature-class review containing original pixel decisions and interpretation notes.",
+      "sha256": "5b0ddc7678711f72cf3cfabcd04af1fdc8a870e959d29cee95c5e4bd8382a45d",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-alignment-audit",
+      "kind": "control",
+      "path": "angsobuild/mapping/alignment-report.json",
+      "use": "discovery-evidence",
+      "notes": "Independent PROJ verification of pixel-to-model coordinates, ring topology, reviewed/retained class inventory and explicit unresolved tee references. Numerical transform accuracy is not field survey accuracy.",
+      "sha256": "7a9aed8d7dac5fb1f47de32cc22d7835bcca523af154e5711f3bc8dbbda337f5",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ]
     }
   ],
   "blockers": [
@@ -520,8 +656,8 @@
     {
       "id": "authoritative-assets",
       "severity": "release-blocking",
-      "description": "Lantmäteriet assets and exact product terms have not been acquired.",
-      "exitGate": "Record immutable asset ids, capture/acquisition dates, CRS, checksums and approved licence decisions."
+      "description": "Terrain and all playing-ground orthophoto windows are acquired and verified; full source-file checksums, remaining topography and independent control approval are outstanding.",
+      "exitGate": "Complete remaining source registration and independent controls; image sampling distance must not be presented as surveyed positional accuracy."
     },
     {
       "id": "zone-a-survey",
@@ -532,8 +668,8 @@
     {
       "id": "legacy-imagery-rights",
       "severity": "release-blocking",
-      "description": "Current surface and canopy derivatives depend on unapproved Esri imagery use.",
-      "exitGate": "Re-derive from approved Lantmäteriet/club imagery or record explicit production rights."
+      "description": "Reviewed playing surfaces use Lantmateriet imagery, but retained fairway cuts on holes 12/15, legacy canopy, facilities and other surrounding derivatives still have older Esri/OSM lineage.",
+      "exitGate": "Resolve the remaining retained derivatives from approved sources or explicit production rights."
     }
   ]
 }

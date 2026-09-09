@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import { applyReviewedOrthophoto } from './mapping/reviewed-orthophoto.mjs';
 import { ROOT, readJSON, decodeHF, polyLen, pointInPoly, polyArea } from './lib.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -60,7 +61,16 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     const dev = Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] * 100;
     if (dev > worst) { worst = dev; worstN = h.n; }
   }
-  gate(worst <= 0.5, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}), gate 0.5%`);
+  const unreviewed = vec.holes.filter(h => model.holes.find(m => m.n === h.n)?.lineSrc !== 'lm-orthophoto-reviewed-endpoints');
+  gate(unreviewed.every(h => Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] <= 0.005),
+    `lengths: ${unreviewed.length} retained legacy routes preserve the 0.5% card-distance gate`);
+  const reviewed = vec.holes.filter(h => model.holes.find(m => m.n === h.n)?.lineSrc === 'lm-orthophoto-reviewed-endpoints');
+  if (reviewed.length) gate(reviewed.every(h => {
+    const expected = model.holes.find(m => m.n === h.n);
+    return JSON.stringify(h.line) === JSON.stringify(expected.line) && polyLen(h.line) > 0 &&
+      Number.isFinite(polyLen(h.line)) && Math.abs(h.lineLen - polyLen(h.line)) <= 0.051 &&
+      JSON.stringify(h.line.at(-1)) === JSON.stringify(h.green.c);
+  }), `lengths: ${reviewed.length} reviewed routes retain physical endpoints; card difference up to ${worst.toFixed(3)}% (hole ${worstN}) is metadata`);
 }
 
 /* --- 3: greens ---------------------------------------------------------------- */
@@ -72,7 +82,7 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     if (a < 150) small++;
     if (a > 1200) big++;
   }
-  gate(out === 0, `greens: every surveyed centre inside its traced ring (${out} outside)`);
+  gate(out === 0, `greens: every virtual target inside its retained or reviewed ring (${out} outside)`);
   gate(small === 0 && big === 0, `green areas within 150–1200 m² (${small} small, ${big} large)`);
 }
 
@@ -130,6 +140,35 @@ gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
   gate(GEO.seaLevel === model.seaLevel, `currency: seaLevel ${GEO.seaLevel} matches model`);
 }
 
+/* Re-adopting the checked review must reproduce the committed geometry exactly.
+   Check all embedded surfaces as well as routing; the old centre-only currency
+   check could pass while the page still carried obsolete fairway boundaries. */
+if (model.orthophotoReview) {
+  const review = readJSON(path.join(HERE, 'mapping/orthophoto-review.json'));
+  gate(JSON.stringify(applyReviewedOrthophoto(model, review)) === JSON.stringify(model),
+    'orthophoto: current review reproduces accepted geometry, provenance and provisional tee references');
+  const surfaceShape = h => ({ green: { ring: h.green.ring, c: h.green.c }, fairways: h.fairway.rings,
+    tees: { pads: h.tees.pads.map(p => ({ ring: p.ring, preserveTerrain: p.preserveTerrain })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })),
+      inferPads: h.tees.inferPads, status: h.tees.status }, bunkers: h.bunkers.map(b => b.ring) });
+  gate(vec.holes.every(h => JSON.stringify(surfaceShape(h)) === JSON.stringify(surfaceShape(model.holes.find(m => m.n === h.n)))),
+    'orthophoto: embedded green, fairway, tee and bunker geometry matches the current model');
+  gate(JSON.stringify(vec.water.map(w => [w.ring, w.level])) === JSON.stringify(model.water.map(w => [w.ring, w.level])),
+    'orthophoto: embedded water boundaries retain the current measured levels');
+  gate(vec.infra.preserveMappedBoundaries === true, 'orthophoto: runtime preserves mapped surface boundaries');
+  for (const entry of review.holes ?? []) if (entry.tees) {
+    const hole = model.holes.find(h => h.n === entry.n);
+    gate(hole.tees.inferPads === false && hole.tees.pads.every(p => p.preserveTerrain === true) && hole.tees.marks.every(mark => {
+      const reference = mark.orthophotoReference;
+      if (!reference) return false;
+      if (hole.tees.pads.some(p => pointInPoly(...mark.c, p.ring))) return reference.kind !== 'unresolved-virtual-tee-reference';
+      return reference.kind === 'unresolved-virtual-tee-reference' && reference.selectedPadReviewId === null &&
+        reference.identityStatus === 'unsupported-platform-association' && reference.positionStatus === 'retained-unverified-virtual-reference' &&
+        reference.nearestPadEdgeDistanceMetres >= 10 && reference.distanceMetres === 0 &&
+        JSON.stringify(mark.c) === JSON.stringify(reference.originalPosition);
+    }), `hole ${entry.n}: physical pads retain measured terrain; virtual references are on reviewed pads or explicitly unresolved and retained`);
+  }
+}
+
 /* --- 7: a measured feature came from a calibrated instrument ------------------- */
 /* The bunkers and the tee decks are read off ONE dated satellite capture over
    the laser terrain, and an imagery capture is only an instrument once it has
@@ -139,7 +178,7 @@ gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
    4.5 m and would be refused here; the 2018-10-25 capture the model uses finds
    8 of 9 at 1.3 m. It also fails if a bunker the model calls measured has no
    dish under it after all. */
-try {
+if (model.holes.some(h => h.bunkers.some(b => b.prov !== 'lm-orthophoto'))) try {
   const dtm = JSON.parse(fs.readFileSync(path.join(HERE, 'dtm-features.json'), 'utf8'));
   const hit = (dtm.osmCheck || []).filter(o => o.dist != null);
   const worst = hit.length ? Math.max(...hit.map(o => o.dist)) : Infinity;

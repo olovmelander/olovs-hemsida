@@ -2,7 +2,8 @@
    would make the page state a falsehood about the real course:
 
    1. the card in the page is the club's card — 144 values, exact
-   2. every drawn hole line measures its card length to 0.5%
+   2. source lines match the card to 0.5%; only explicitly reviewed tee starts
+      may change that length, within their recorded movement bound
    3. every green ring contains its GPS-surveyed centre, at a sane area
    4. no green or tee sits at or below the water that surrounds it
    5. the heightfields in the page decode to exactly what geobuild encoded
@@ -55,12 +56,33 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
 
 /* --- 2: drawn lengths --------------------------------------------------------- */
 {
-  let worst = 0, worstN = 0;
+  const reviews = ['front9', 'back9'].map(part => readJSON(path.join(HERE, `mapping/lm-tee-review-${part}-2026-09-09.json`)));
+  const records = new Map(reviews.flatMap(r => r.holes).map(r => [r.hole, r]));
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const distance = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+  let worst = 0, worstN = 0, bad = 0, reviewedStarts = 0;
   for (const h of vec.holes) {
     const dev = Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] * 100;
     if (dev > worst) { worst = dev; worstN = h.n; }
+    const record = records.get(h.n);
+    if (!record || !same(h.t, record.originalDistances)) { bad++; continue; }
+    const sourceDev = Math.abs(polyLen(record.originalLine) - h.t[0]) / h.t[0] * 100;
+    if (sourceDev > 0.5 || !same(h.line.slice(1), record.originalLine.slice(1))) { bad++; continue; }
+    if (same(h.line[0], record.originalLine[0])) continue;
+    // A photographed start may differ from a scorecard-fitted start. Validate
+    // its exact association rather than stretching the rest of the route.
+    const decision = record.referenceDecisions.find(d => d.markIndex === 0);
+    const pad = h.tees.pads[decision?.padIndex];
+    if (decision?.status !== 'align-to-observed-pad' || !pad
+      || !same(pad.ring, decision.originalPadRing)
+      || distance(record.originalMarks[0].c, record.originalLine[0]) > 0.2
+      || !same(h.line[0], h.tees.marks[0].c)
+      || !pointInPoly(...h.line[0], pad.ring)
+      || distance(h.line[0], record.originalMarks[0].c) > decision.maxShiftMetres) bad++;
+    else reviewedStarts++;
   }
-  gate(worst <= 0.5, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}), gate 0.5%`);
+  gate(bad === 0, `lengths: source routes within 0.5%; ${reviewedStarts} bounded reviewed tee starts; ${bad} unsupported changes`);
+  console.log(`      measured card deviation after tee alignment: max ${worst.toFixed(3)}% (hole ${worstN})`);
 }
 
 /* --- 3: greens ---------------------------------------------------------------- */

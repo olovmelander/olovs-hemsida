@@ -11,6 +11,7 @@
    Usage: node geobuild/check3d.mjs [page.html]                                       */
 import fs from 'node:fs';
 import path from 'node:path';
+import { hasReviewedRouteEndpoint, ORTHO_REVIEW_PATH } from './mapping/apply-ortho-review.mjs';
 import {
   ROOT, ORIGIN, readJSON, hyp, polyLen, polyArea, centroid, distToLine, ptSegD,
   pointInPoly, polySD, alongLine, right, bearing, decodeHF, inflateB64, r1, clamp,
@@ -23,6 +24,8 @@ const hf = readJSON(path.join(ROOT, 'geobuild/heightfields.json'));
 const card = readJSON(path.join(ROOT, 'banguide/guide-card.json')).holes;
 const guide = readJSON(path.join(ROOT, 'geobuild/guide-holes.json')).holes;
 const osm = readJSON(path.join(ROOT, 'geobuild/osm-features.json'));
+const orthoReviewFile = path.join(ROOT, ORTHO_REVIEW_PATH);
+const orthoReview = fs.existsSync(orthoReviewFile) ? readJSON(orthoReviewFile) : null;
 
 const fail = [];
 const note = [];
@@ -79,7 +82,12 @@ if (VEC) {
   for (const h of model.holes) {
     const dev = (polyLen(h.line) - h.t[0]) / h.t[0];
     if (Math.abs(dev) > Math.abs(worst)) { worst = dev; worstN = h.n; }
-    if (Math.abs(dev) > 0.005) { over++; F('length', `hole ${h.n} is drawn ${pct(dev)} off its card`); }
+    if (Math.abs(dev) > 0.005) {
+      over++;
+      if (hasReviewedRouteEndpoint(h, orthoReview)) {
+        note.push(`hole ${h.n}: reviewed orthophoto route endpoint, geometric route ${polyLen(h.line).toFixed(1)} m vs card ${h.t[0]} m (${pct(dev)}); printed card unchanged`);
+      } else F('length', `hole ${h.n} is drawn ${pct(dev)} off its card`);
+    }
   }
   note.push(`length worst ${pct(worst)} on hole ${worstN}, ${18 - over}/18 within 0.5%`);
 }
@@ -189,8 +197,8 @@ if (PHF0) {
   note.push(`bunkers: ${model.holes.reduce((a, h) => a + h.bunkers.length, 0)} placed, ${inWater} standing in water`);
   const byProv = {};
   for (const h of model.holes) for (const b of h.bunkers) byProv[b.prov] = (byProv[b.prov] || 0) + 1;
-  const provStr = Object.entries(byProv).map(([k, v]) => `${v} ${k === 'osm' ? 'surveyed' : k === 'dtm' ? 'read off the laser terrain and imagery' : k === 'plan' ? 'off the hole plans' : 'placed from the guide'}`).join(', ');
-  note.push(`provenance: bunkers ${provStr}; ${model.holes.filter(h => h.green.prov === 'osm').length}/18 greens surveyed`);
+  const provStr = Object.entries(byProv).map(([k, v]) => `${v} ${k === 'osm' ? 'surveyed' : k === 'dtm' ? 'read off the laser terrain and imagery' : k === 'plan' ? 'off the hole plans' : k === 'reviewed-lm-orthophoto' ? 'traced from Lantmateriet orthophotos' : 'placed from the guide'}`).join(', ');
+  note.push(`provenance: bunkers ${provStr}; ${model.holes.filter(h => h.green.prov === 'osm').length}/18 greens from OSM, ${model.holes.filter(h => h.green.prov === 'reviewed-lm-orthophoto').length}/18 reviewed against Lantmateriet orthophotos`);
   /* a plan reading or a guide placement survives only where nothing better was read:
      once the terrain derivation exists, a guide-placed bunker is a regression */
   if (byProv.dtm && byProv.guide) F('provenance', `${byProv.guide} guide-placed bunker(s) remain although the terrain derivation ran`);

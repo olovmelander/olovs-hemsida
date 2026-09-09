@@ -1,0 +1,4545 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "course": "johannesberg",
+  "frame": {
+    "origin": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "mPerLat": 111320,
+    "mPerLon": 56118.16
+  },
+  "reviewedOn": "2026-09-09",
+  "features": [
+    {
+      "id": "lm-2025-eighteen-h10-green",
+      "hole": 10,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "f864240aea4f2cfbf36fb5a96bfb21417787353d4b3be0c4c5cbd84e6a138de7",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-10-hole.png",
+            "sha256": "4c83386205405f098d87e41cf1c7f605da1a13bf379f88f36e68c81ee6a8f285"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-hole.png",
+            "sha256": "03d365cef8d912928745ebf51bd01ac9b38bcc8abfc7e4f2804c081c3d501386"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-10-surfaces.png",
+            "sha256": "816ac94f451fae8cd4295150d1c27ae122a2d6c763bafe8458ff3af3d5b64034"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Putting surface follows the inner mowing edge; surrounding collar excluded.",
+        "panelExtent": [
+          679066.0939733473,
+          6624757.704650351,
+          679156.0939733473,
+          6624847.704650351
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "84804d2584cfcc7daddf2c79f2a52f5d5150a8250e3093efe1d3542d32513d7d",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            426.0,
+            347.0
+          ],
+          [
+            452.0,
+            346.0
+          ],
+          [
+            477.0,
+            355.0
+          ],
+          [
+            500.0,
+            375.0
+          ],
+          [
+            519.0,
+            402.0
+          ],
+          [
+            535.0,
+            435.0
+          ],
+          [
+            544.0,
+            468.0
+          ],
+          [
+            556.0,
+            499.0
+          ],
+          [
+            576.0,
+            530.0
+          ],
+          [
+            600.0,
+            565.0
+          ],
+          [
+            614.0,
+            592.0
+          ],
+          [
+            616.0,
+            613.0
+          ],
+          [
+            605.0,
+            635.0
+          ],
+          [
+            583.0,
+            650.0
+          ],
+          [
+            556.0,
+            658.0
+          ],
+          [
+            531.0,
+            656.0
+          ],
+          [
+            506.0,
+            646.0
+          ],
+          [
+            482.0,
+            630.0
+          ],
+          [
+            458.0,
+            605.0
+          ],
+          [
+            431.0,
+            570.0
+          ],
+          [
+            407.0,
+            533.0
+          ],
+          [
+            387.0,
+            497.0
+          ],
+          [
+            370.0,
+            459.0
+          ],
+          [
+            357.0,
+            424.0
+          ],
+          [
+            358.0,
+            397.0
+          ],
+          [
+            375.0,
+            374.0
+          ],
+          [
+            399.0,
+            356.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          -381.38,
+          529.54
+        ],
+        [
+          -379.04,
+          529.56
+        ],
+        [
+          -376.84,
+          530.48
+        ],
+        [
+          -374.86,
+          532.37
+        ],
+        [
+          -373.27,
+          534.88
+        ],
+        [
+          -371.98,
+          537.91
+        ],
+        [
+          -371.32,
+          540.92
+        ],
+        [
+          -370.37,
+          543.75
+        ],
+        [
+          -368.72,
+          546.62
+        ],
+        [
+          -366.71,
+          549.87
+        ],
+        [
+          -365.58,
+          552.36
+        ],
+        [
+          -365.49,
+          554.25
+        ],
+        [
+          -366.57,
+          556.18
+        ],
+        [
+          -368.6,
+          557.43
+        ],
+        [
+          -371.06,
+          558.03
+        ],
+        [
+          -373.29,
+          557.75
+        ],
+        [
+          -375.49,
+          556.74
+        ],
+        [
+          -377.57,
+          555.2
+        ],
+        [
+          -379.62,
+          552.85
+        ],
+        [
+          -381.89,
+          549.59
+        ],
+        [
+          -383.88,
+          546.16
+        ],
+        [
+          -385.52,
+          542.84
+        ],
+        [
+          -386.88,
+          539.36
+        ],
+        [
+          -387.89,
+          536.16
+        ],
+        [
+          -387.69,
+          533.73
+        ],
+        [
+          -386.06,
+          531.74
+        ],
+        [
+          -383.84,
+          530.23
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h10-bunker-0",
+      "hole": 10,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "438f3966cb397156ea60995b733b1a7175da9aac81a3640f1750ae7ac0e077ac",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-10-hole.png",
+            "sha256": "4c83386205405f098d87e41cf1c7f605da1a13bf379f88f36e68c81ee6a8f285"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-hole.png",
+            "sha256": "03d365cef8d912928745ebf51bd01ac9b38bcc8abfc7e4f2804c081c3d501386"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-10-surfaces.png",
+            "sha256": "816ac94f451fae8cd4295150d1c27ae122a2d6c763bafe8458ff3af3d5b64034"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "The old bunker polygon covers established vegetation in the 2025 photograph; no exposed sand remains.",
+        "panelExtent": [
+          679066.0939733473,
+          6624757.704650351,
+          679156.0939733473,
+          6624847.704650351
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "84804d2584cfcc7daddf2c79f2a52f5d5150a8250e3093efe1d3542d32513d7d",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation"
+      },
+      "index": 0,
+      "action": "remove"
+    },
+    {
+      "id": "lm-2025-eighteen-h11-green",
+      "hole": 11,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "c84493a922199e6641e778ae9072690ebff8cc0ace317870efc198bcf561c587",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-hole.png",
+            "sha256": "03d365cef8d912928745ebf51bd01ac9b38bcc8abfc7e4f2804c081c3d501386"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-surfaces.png",
+            "sha256": "6140ca579b7c7561acac0226888fedd864166177871b59e76e028cd04f9b0e08"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Trace the striped putting turf inside its dark collar; the legacy outline sits too far north.",
+        "panelExtent": [
+          679466.8312084004,
+          6624888.602264372,
+          679556.8312084004,
+          6624978.602264372
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "081e35674086e395c1b40103a88edfbc18e9e693e326180a781bab335fad3619",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            349.0,
+            499.0
+          ],
+          [
+            355.0,
+            476.0
+          ],
+          [
+            376.0,
+            455.0
+          ],
+          [
+            405.0,
+            440.0
+          ],
+          [
+            436.0,
+            431.0
+          ],
+          [
+            467.0,
+            431.0
+          ],
+          [
+            502.0,
+            439.0
+          ],
+          [
+            542.0,
+            454.0
+          ],
+          [
+            582.0,
+            476.0
+          ],
+          [
+            617.0,
+            498.0
+          ],
+          [
+            645.0,
+            524.0
+          ],
+          [
+            666.0,
+            552.0
+          ],
+          [
+            674.0,
+            580.0
+          ],
+          [
+            665.0,
+            608.0
+          ],
+          [
+            645.0,
+            633.0
+          ],
+          [
+            620.0,
+            650.0
+          ],
+          [
+            591.0,
+            661.0
+          ],
+          [
+            565.0,
+            662.0
+          ],
+          [
+            535.0,
+            655.0
+          ],
+          [
+            504.0,
+            642.0
+          ],
+          [
+            473.0,
+            626.0
+          ],
+          [
+            444.0,
+            608.0
+          ],
+          [
+            417.0,
+            590.0
+          ],
+          [
+            389.0,
+            568.0
+          ],
+          [
+            367.0,
+            544.0
+          ],
+          [
+            354.0,
+            524.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          16.57,
+          431.46
+        ],
+        [
+          17.2,
+          429.42
+        ],
+        [
+          19.18,
+          427.62
+        ],
+        [
+          21.84,
+          426.4
+        ],
+        [
+          24.66,
+          425.73
+        ],
+        [
+          27.44,
+          425.86
+        ],
+        [
+          30.54,
+          426.73
+        ],
+        [
+          34.06,
+          428.25
+        ],
+        [
+          37.56,
+          430.4
+        ],
+        [
+          40.6,
+          432.53
+        ],
+        [
+          43.0,
+          434.98
+        ],
+        [
+          44.76,
+          437.59
+        ],
+        [
+          45.36,
+          440.14
+        ],
+        [
+          44.43,
+          442.62
+        ],
+        [
+          42.53,
+          444.77
+        ],
+        [
+          40.21,
+          446.19
+        ],
+        [
+          37.56,
+          447.06
+        ],
+        [
+          35.23,
+          447.03
+        ],
+        [
+          32.57,
+          446.27
+        ],
+        [
+          29.85,
+          444.97
+        ],
+        [
+          27.13,
+          443.4
+        ],
+        [
+          24.61,
+          441.66
+        ],
+        [
+          22.27,
+          439.93
+        ],
+        [
+          19.85,
+          437.83
+        ],
+        [
+          17.98,
+          435.58
+        ],
+        [
+          16.91,
+          433.72
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h11-bunker-0",
+      "hole": 11,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "98fb996f6ce0c184e13cffc7b13a1df736572b4e9be8385776e407c4f2e9e12e",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-hole.png",
+            "sha256": "03d365cef8d912928745ebf51bd01ac9b38bcc8abfc7e4f2804c081c3d501386"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-surfaces.png",
+            "sha256": "6140ca579b7c7561acac0226888fedd864166177871b59e76e028cd04f9b0e08"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Visible north bunker sand edge, including the lower-left lobe missed by the old polygon.",
+        "panelExtent": [
+          679466.8312084004,
+          6624888.602264372,
+          679556.8312084004,
+          6624978.602264372
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "081e35674086e395c1b40103a88edfbc18e9e693e326180a781bab335fad3619",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            322.0,
+            369.0
+          ],
+          [
+            327.0,
+            354.0
+          ],
+          [
+            343.0,
+            345.0
+          ],
+          [
+            370.0,
+            339.0
+          ],
+          [
+            407.0,
+            334.0
+          ],
+          [
+            440.0,
+            324.0
+          ],
+          [
+            467.0,
+            313.0
+          ],
+          [
+            484.0,
+            311.0
+          ],
+          [
+            498.0,
+            319.0
+          ],
+          [
+            503.0,
+            335.0
+          ],
+          [
+            501.0,
+            351.0
+          ],
+          [
+            494.0,
+            362.0
+          ],
+          [
+            475.0,
+            369.0
+          ],
+          [
+            447.0,
+            373.0
+          ],
+          [
+            416.0,
+            382.0
+          ],
+          [
+            387.0,
+            394.0
+          ],
+          [
+            359.0,
+            402.0
+          ],
+          [
+            340.0,
+            401.0
+          ],
+          [
+            327.0,
+            390.0
+          ]
+        ]
+      },
+      "index": 0,
+      "ring": [
+        [
+          14.71,
+          419.66
+        ],
+        [
+          15.22,
+          418.34
+        ],
+        [
+          16.69,
+          417.6
+        ],
+        [
+          19.14,
+          417.18
+        ],
+        [
+          22.48,
+          416.89
+        ],
+        [
+          25.48,
+          416.13
+        ],
+        [
+          27.95,
+          415.26
+        ],
+        [
+          29.48,
+          415.15
+        ],
+        [
+          30.7,
+          415.93
+        ],
+        [
+          31.08,
+          417.39
+        ],
+        [
+          30.83,
+          418.82
+        ],
+        [
+          30.16,
+          419.78
+        ],
+        [
+          28.42,
+          420.32
+        ],
+        [
+          25.9,
+          420.56
+        ],
+        [
+          23.08,
+          421.24
+        ],
+        [
+          20.43,
+          422.19
+        ],
+        [
+          17.88,
+          422.79
+        ],
+        [
+          16.18,
+          422.61
+        ],
+        [
+          15.06,
+          421.57
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h11-bunker-1",
+      "hole": 11,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "85ca76d9c744dfcb252545cf396cbdb0718b5ecb712762764afb949726574b2e",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-hole.png",
+            "sha256": "03d365cef8d912928745ebf51bd01ac9b38bcc8abfc7e4f2804c081c3d501386"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-surfaces.png",
+            "sha256": "6140ca579b7c7561acac0226888fedd864166177871b59e76e028cd04f9b0e08"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Trace the connected south bunker sand; its old polygon covered only the east end.",
+        "panelExtent": [
+          679466.8312084004,
+          6624888.602264372,
+          679556.8312084004,
+          6624978.602264372
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "081e35674086e395c1b40103a88edfbc18e9e693e326180a781bab335fad3619",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            319.0,
+            618.0
+          ],
+          [
+            330.0,
+            604.0
+          ],
+          [
+            344.0,
+            603.0
+          ],
+          [
+            361.0,
+            614.0
+          ],
+          [
+            382.0,
+            628.0
+          ],
+          [
+            409.0,
+            637.0
+          ],
+          [
+            440.0,
+            640.0
+          ],
+          [
+            472.0,
+            644.0
+          ],
+          [
+            491.0,
+            653.0
+          ],
+          [
+            505.0,
+            668.0
+          ],
+          [
+            511.0,
+            682.0
+          ],
+          [
+            504.0,
+            690.0
+          ],
+          [
+            485.0,
+            694.0
+          ],
+          [
+            463.0,
+            690.0
+          ],
+          [
+            438.0,
+            682.0
+          ],
+          [
+            413.0,
+            676.0
+          ],
+          [
+            387.0,
+            671.0
+          ],
+          [
+            360.0,
+            668.0
+          ],
+          [
+            339.0,
+            659.0
+          ],
+          [
+            326.0,
+            647.0
+          ],
+          [
+            318.0,
+            633.0
+          ]
+        ]
+      },
+      "index": 1,
+      "ring": [
+        [
+          13.36,
+          442.02
+        ],
+        [
+          14.41,
+          440.81
+        ],
+        [
+          15.67,
+          440.78
+        ],
+        [
+          17.14,
+          441.84
+        ],
+        [
+          18.97,
+          443.19
+        ],
+        [
+          21.35,
+          444.11
+        ],
+        [
+          24.12,
+          444.52
+        ],
+        [
+          26.97,
+          445.01
+        ],
+        [
+          28.63,
+          445.9
+        ],
+        [
+          29.82,
+          447.31
+        ],
+        [
+          30.3,
+          448.6
+        ],
+        [
+          29.64,
+          449.28
+        ],
+        [
+          27.92,
+          449.56
+        ],
+        [
+          25.96,
+          449.11
+        ],
+        [
+          23.75,
+          448.28
+        ],
+        [
+          21.54,
+          447.63
+        ],
+        [
+          19.23,
+          447.07
+        ],
+        [
+          16.82,
+          446.68
+        ],
+        [
+          14.98,
+          445.79
+        ],
+        [
+          13.86,
+          444.65
+        ],
+        [
+          13.21,
+          443.36
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h12-green",
+      "hole": 12,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "2399f62e5035c6ccf55d41bc198a212f93340d21aea1398ddc75caac7eb1b46b",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-07-hole.png",
+            "sha256": "a666b4c8b3b454026a5d6b8a6cc33b4d13aeaa01dba3accf8bd380408d8eaad5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-surfaces.png",
+            "sha256": "c18ea1f6a5135ff62a94e5e1b0e67c2ef42db7ee3236205cb3fc4d6efc27cf87"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 2.0,
+        "note": "Inner putting edge, with about two metres uncertainty under the northern tree shadow. Rough above the green is excluded.",
+        "panelExtent": [
+          679782.8019921915,
+          6624905.639627762,
+          679872.8019921915,
+          6624995.639627762
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "716b96e3112da5ee4a0975a7c65336f7a902644fdf21a9b92dcab75a4906069c",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            401.0,
+            552.0
+          ],
+          [
+            415.0,
+            526.0
+          ],
+          [
+            439.0,
+            506.0
+          ],
+          [
+            467.0,
+            490.0
+          ],
+          [
+            496.0,
+            480.0
+          ],
+          [
+            526.0,
+            476.0
+          ],
+          [
+            553.0,
+            479.0
+          ],
+          [
+            580.0,
+            489.0
+          ],
+          [
+            606.0,
+            507.0
+          ],
+          [
+            630.0,
+            527.0
+          ],
+          [
+            645.0,
+            550.0
+          ],
+          [
+            649.0,
+            576.0
+          ],
+          [
+            639.0,
+            598.0
+          ],
+          [
+            620.0,
+            614.0
+          ],
+          [
+            594.0,
+            628.0
+          ],
+          [
+            563.0,
+            640.0
+          ],
+          [
+            535.0,
+            653.0
+          ],
+          [
+            507.0,
+            666.0
+          ],
+          [
+            479.0,
+            670.0
+          ],
+          [
+            454.0,
+            659.0
+          ],
+          [
+            429.0,
+            641.0
+          ],
+          [
+            411.0,
+            618.0
+          ],
+          [
+            400.0,
+            591.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          336.6,
+          434.64
+        ],
+        [
+          337.97,
+          432.37
+        ],
+        [
+          340.2,
+          430.67
+        ],
+        [
+          342.78,
+          429.36
+        ],
+        [
+          345.43,
+          428.59
+        ],
+        [
+          348.14,
+          428.36
+        ],
+        [
+          350.54,
+          428.74
+        ],
+        [
+          352.92,
+          429.76
+        ],
+        [
+          355.17,
+          431.49
+        ],
+        [
+          357.24,
+          433.39
+        ],
+        [
+          358.48,
+          435.52
+        ],
+        [
+          358.73,
+          437.87
+        ],
+        [
+          357.74,
+          439.81
+        ],
+        [
+          355.97,
+          441.16
+        ],
+        [
+          353.57,
+          442.31
+        ],
+        [
+          350.74,
+          443.25
+        ],
+        [
+          348.18,
+          444.29
+        ],
+        [
+          345.61,
+          445.34
+        ],
+        [
+          343.08,
+          445.58
+        ],
+        [
+          340.89,
+          444.48
+        ],
+        [
+          338.72,
+          442.76
+        ],
+        [
+          337.21,
+          440.61
+        ],
+        [
+          336.34,
+          438.14
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h12-bunker-0",
+      "hole": 12,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "0468caceee30a72ddeb0e8b344b0396ed7283083e380359b9304c8615d3c6635",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-07-hole.png",
+            "sha256": "a666b4c8b3b454026a5d6b8a6cc33b4d13aeaa01dba3accf8bd380408d8eaad5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-surfaces.png",
+            "sha256": "c18ea1f6a5135ff62a94e5e1b0e67c2ef42db7ee3236205cb3fc4d6efc27cf87"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Full visible sand footprint below the old outline; the rock north of the sand is excluded.",
+        "panelExtent": [
+          679782.8019921915,
+          6624905.639627762,
+          679872.8019921915,
+          6624995.639627762
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "716b96e3112da5ee4a0975a7c65336f7a902644fdf21a9b92dcab75a4906069c",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            236.0,
+            610.0
+          ],
+          [
+            243.0,
+            594.0
+          ],
+          [
+            262.0,
+            582.0
+          ],
+          [
+            284.0,
+            578.0
+          ],
+          [
+            309.0,
+            563.0
+          ],
+          [
+            329.0,
+            564.0
+          ],
+          [
+            347.0,
+            579.0
+          ],
+          [
+            357.0,
+            600.0
+          ],
+          [
+            366.0,
+            627.0
+          ],
+          [
+            368.0,
+            649.0
+          ],
+          [
+            358.0,
+            668.0
+          ],
+          [
+            338.0,
+            677.0
+          ],
+          [
+            317.0,
+            677.0
+          ],
+          [
+            291.0,
+            666.0
+          ],
+          [
+            265.0,
+            650.0
+          ],
+          [
+            246.0,
+            633.0
+          ]
+        ]
+      },
+      "index": 0,
+      "ring": [
+        [
+          321.55,
+          439.14
+        ],
+        [
+          322.25,
+          437.73
+        ],
+        [
+          324.01,
+          436.73
+        ],
+        [
+          326.0,
+          436.47
+        ],
+        [
+          328.3,
+          435.23
+        ],
+        [
+          330.09,
+          435.41
+        ],
+        [
+          331.64,
+          436.83
+        ],
+        [
+          332.45,
+          438.76
+        ],
+        [
+          333.14,
+          441.23
+        ],
+        [
+          333.22,
+          443.21
+        ],
+        [
+          332.24,
+          444.88
+        ],
+        [
+          330.41,
+          445.6
+        ],
+        [
+          328.53,
+          445.51
+        ],
+        [
+          326.24,
+          444.41
+        ],
+        [
+          323.98,
+          442.86
+        ],
+        [
+          322.35,
+          441.25
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h13-green",
+      "hole": 13,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "8f9274e4c3a25ef34a92452859654e5d96d70de25560509048d048ffa30027d2",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-06-hole.png",
+            "sha256": "b5a29892c36d00f3013facb73c9a22af22cc2759816b0c3119edffd0cdf6ccf8"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-07-hole.png",
+            "sha256": "a666b4c8b3b454026a5d6b8a6cc33b4d13aeaa01dba3accf8bd380408d8eaad5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-hole.png",
+            "sha256": "e2952c9a8a39c9ed600b7b2f9efa1d01677d3bfdbe42f01871e791f85d710d5f"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-surfaces.png",
+            "sha256": "67311a4cc61a8e85721cc49059daaa8027dda1fd05b81c4e499593023cd3ab56"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-surfaces.png",
+            "sha256": "718e9fdef0e548efc067916537ac1b1922ee4e4e46e2c888b2cbb042ad388d89"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Irregular elongated putting green inside the collar, separate from the approach and western sand.",
+        "panelExtent": [
+          679635.30122361,
+          6625041.903196054,
+          679725.30122361,
+          6625131.903196054
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "ab5e1c76993d7a9f47b997a7f2c8f9752970d5dc208f82b9542fbfa0557e2927",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            447.0,
+            414.0
+          ],
+          [
+            470.0,
+            399.0
+          ],
+          [
+            493.0,
+            396.0
+          ],
+          [
+            518.0,
+            400.0
+          ],
+          [
+            539.0,
+            412.0
+          ],
+          [
+            556.0,
+            433.0
+          ],
+          [
+            563.0,
+            459.0
+          ],
+          [
+            568.0,
+            489.0
+          ],
+          [
+            578.0,
+            516.0
+          ],
+          [
+            588.0,
+            545.0
+          ],
+          [
+            592.0,
+            578.0
+          ],
+          [
+            588.0,
+            611.0
+          ],
+          [
+            576.0,
+            642.0
+          ],
+          [
+            558.0,
+            665.0
+          ],
+          [
+            539.0,
+            672.0
+          ],
+          [
+            520.0,
+            658.0
+          ],
+          [
+            507.0,
+            635.0
+          ],
+          [
+            491.0,
+            609.0
+          ],
+          [
+            469.0,
+            584.0
+          ],
+          [
+            446.0,
+            562.0
+          ],
+          [
+            430.0,
+            539.0
+          ],
+          [
+            418.0,
+            512.0
+          ],
+          [
+            414.0,
+            484.0
+          ],
+          [
+            419.0,
+            457.0
+          ],
+          [
+            429.0,
+            432.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          200.92,
+          279.35
+        ],
+        [
+          203.05,
+          278.1
+        ],
+        [
+          205.12,
+          277.93
+        ],
+        [
+          207.35,
+          278.4
+        ],
+        [
+          209.18,
+          279.56
+        ],
+        [
+          210.61,
+          281.52
+        ],
+        [
+          211.13,
+          283.89
+        ],
+        [
+          211.44,
+          286.61
+        ],
+        [
+          212.22,
+          289.08
+        ],
+        [
+          213.0,
+          291.72
+        ],
+        [
+          213.21,
+          294.7
+        ],
+        [
+          212.71,
+          297.65
+        ],
+        [
+          211.5,
+          300.38
+        ],
+        [
+          209.79,
+          302.37
+        ],
+        [
+          208.05,
+          302.92
+        ],
+        [
+          206.41,
+          301.58
+        ],
+        [
+          205.34,
+          299.46
+        ],
+        [
+          204.02,
+          297.05
+        ],
+        [
+          202.16,
+          294.71
+        ],
+        [
+          200.19,
+          292.64
+        ],
+        [
+          198.85,
+          290.5
+        ],
+        [
+          197.9,
+          288.02
+        ],
+        [
+          197.66,
+          285.49
+        ],
+        [
+          198.22,
+          283.09
+        ],
+        [
+          199.23,
+          280.88
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h13-bunker-0",
+      "hole": 13,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "0680da81779ead7c26b2a0a5dc03d29af0b64027f62240ccc2393a5637ec96f2",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-06-hole.png",
+            "sha256": "b5a29892c36d00f3013facb73c9a22af22cc2759816b0c3119edffd0cdf6ccf8"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-07-hole.png",
+            "sha256": "a666b4c8b3b454026a5d6b8a6cc33b4d13aeaa01dba3accf8bd380408d8eaad5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-hole.png",
+            "sha256": "e2952c9a8a39c9ed600b7b2f9efa1d01677d3bfdbe42f01871e791f85d710d5f"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-surfaces.png",
+            "sha256": "67311a4cc61a8e85721cc49059daaa8027dda1fd05b81c4e499593023cd3ab56"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-surfaces.png",
+            "sha256": "718e9fdef0e548efc067916537ac1b1922ee4e4e46e2c888b2cbb042ad388d89"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "The sand is a narrow curved strip east of the trees, not the legacy wide polygon covering the wooded knoll.",
+        "panelExtent": [
+          679635.30122361,
+          6625041.903196054,
+          679725.30122361,
+          6625131.903196054
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "ab5e1c76993d7a9f47b997a7f2c8f9752970d5dc208f82b9542fbfa0557e2927",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            423.0,
+            615.0
+          ],
+          [
+            432.0,
+            602.0
+          ],
+          [
+            446.0,
+            596.0
+          ],
+          [
+            458.0,
+            600.0
+          ],
+          [
+            466.0,
+            616.0
+          ],
+          [
+            472.0,
+            645.0
+          ],
+          [
+            479.0,
+            670.0
+          ],
+          [
+            489.0,
+            692.0
+          ],
+          [
+            498.0,
+            718.0
+          ],
+          [
+            508.0,
+            748.0
+          ],
+          [
+            518.0,
+            778.0
+          ],
+          [
+            518.0,
+            794.0
+          ],
+          [
+            509.0,
+            806.0
+          ],
+          [
+            490.0,
+            812.0
+          ],
+          [
+            467.0,
+            810.0
+          ],
+          [
+            445.0,
+            810.0
+          ],
+          [
+            430.0,
+            806.0
+          ],
+          [
+            422.0,
+            795.0
+          ],
+          [
+            425.0,
+            779.0
+          ],
+          [
+            436.0,
+            755.0
+          ],
+          [
+            442.0,
+            735.0
+          ],
+          [
+            442.0,
+            715.0
+          ],
+          [
+            434.0,
+            690.0
+          ],
+          [
+            426.0,
+            666.0
+          ],
+          [
+            422.0,
+            640.0
+          ]
+        ]
+      },
+      "index": 0,
+      "ring": [
+        [
+          197.9,
+          297.3
+        ],
+        [
+          198.76,
+          296.17
+        ],
+        [
+          200.04,
+          295.69
+        ],
+        [
+          201.1,
+          296.1
+        ],
+        [
+          201.75,
+          297.57
+        ],
+        [
+          202.16,
+          300.2
+        ],
+        [
+          202.68,
+          302.48
+        ],
+        [
+          203.48,
+          304.5
+        ],
+        [
+          204.18,
+          306.87
+        ],
+        [
+          204.95,
+          309.61
+        ],
+        [
+          205.71,
+          312.35
+        ],
+        [
+          205.64,
+          313.79
+        ],
+        [
+          204.78,
+          314.83
+        ],
+        [
+          203.05,
+          315.28
+        ],
+        [
+          201.0,
+          315.0
+        ],
+        [
+          199.03,
+          314.91
+        ],
+        [
+          197.7,
+          314.48
+        ],
+        [
+          197.03,
+          313.46
+        ],
+        [
+          197.37,
+          312.04
+        ],
+        [
+          198.46,
+          309.93
+        ],
+        [
+          199.08,
+          308.16
+        ],
+        [
+          199.17,
+          306.36
+        ],
+        [
+          198.56,
+          304.08
+        ],
+        [
+          197.95,
+          301.89
+        ],
+        [
+          197.7,
+          299.54
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h14-green",
+      "hole": 14,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "a00526372acc45439ba246267e3a7f897a956a97ccd3d46111094a8e00fdc957",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-hole.png",
+            "sha256": "03d365cef8d912928745ebf51bd01ac9b38bcc8abfc7e4f2804c081c3d501386"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-hole.png",
+            "sha256": "e2952c9a8a39c9ed600b7b2f9efa1d01677d3bfdbe42f01871e791f85d710d5f"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-surfaces.png",
+            "sha256": "f5603097537f00f4662f74ca1dc30caa6157280e3c4faa252c37cd62cc0d8ec5"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Trace the kidney-shaped putting surface inside the mowing collar; bright approach grass is excluded.",
+        "panelExtent": [
+          679297.9742939541,
+          6624966.23819821,
+          679387.9742939541,
+          6625056.23819821
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "30ae7e60578f36f3631c121cd3fad3c204828f4162425ac0d87798d2bf5a5ec4",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            371.0,
+            523.0
+          ],
+          [
+            379.0,
+            495.0
+          ],
+          [
+            394.0,
+            470.0
+          ],
+          [
+            417.0,
+            446.0
+          ],
+          [
+            443.0,
+            427.0
+          ],
+          [
+            468.0,
+            413.0
+          ],
+          [
+            494.0,
+            403.0
+          ],
+          [
+            516.0,
+            404.0
+          ],
+          [
+            542.0,
+            415.0
+          ],
+          [
+            566.0,
+            433.0
+          ],
+          [
+            592.0,
+            456.0
+          ],
+          [
+            613.0,
+            479.0
+          ],
+          [
+            624.0,
+            501.0
+          ],
+          [
+            624.0,
+            520.0
+          ],
+          [
+            609.0,
+            539.0
+          ],
+          [
+            586.0,
+            553.0
+          ],
+          [
+            561.0,
+            567.0
+          ],
+          [
+            537.0,
+            584.0
+          ],
+          [
+            515.0,
+            610.0
+          ],
+          [
+            491.0,
+            632.0
+          ],
+          [
+            469.0,
+            644.0
+          ],
+          [
+            445.0,
+            644.0
+          ],
+          [
+            422.0,
+            634.0
+          ],
+          [
+            400.0,
+            616.0
+          ],
+          [
+            384.0,
+            591.0
+          ],
+          [
+            373.0,
+            561.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          -146.07,
+          348.11
+        ],
+        [
+          -145.23,
+          345.63
+        ],
+        [
+          -143.77,
+          343.45
+        ],
+        [
+          -141.61,
+          341.39
+        ],
+        [
+          -139.2,
+          339.8
+        ],
+        [
+          -136.89,
+          338.65
+        ],
+        [
+          -134.52,
+          337.86
+        ],
+        [
+          -132.55,
+          338.05
+        ],
+        [
+          -130.27,
+          339.15
+        ],
+        [
+          -128.19,
+          340.87
+        ],
+        [
+          -125.96,
+          343.05
+        ],
+        [
+          -124.18,
+          345.2
+        ],
+        [
+          -123.29,
+          347.23
+        ],
+        [
+          -123.37,
+          348.93
+        ],
+        [
+          -124.79,
+          350.57
+        ],
+        [
+          -126.92,
+          351.73
+        ],
+        [
+          -129.22,
+          352.88
+        ],
+        [
+          -131.44,
+          354.31
+        ],
+        [
+          -133.53,
+          356.55
+        ],
+        [
+          -135.78,
+          358.42
+        ],
+        [
+          -137.8,
+          359.4
+        ],
+        [
+          -139.95,
+          359.3
+        ],
+        [
+          -141.97,
+          358.3
+        ],
+        [
+          -143.87,
+          356.59
+        ],
+        [
+          -145.19,
+          354.27
+        ],
+        [
+          -146.05,
+          351.53
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h15-green",
+      "hole": 15,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "4252b09cc4ef47b649ed122da9777d50a17b43a62c57181a114734cbc8cefd3e",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-06-hole.png",
+            "sha256": "b5a29892c36d00f3013facb73c9a22af22cc2759816b0c3119edffd0cdf6ccf8"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-07-hole.png",
+            "sha256": "a666b4c8b3b454026a5d6b8a6cc33b4d13aeaa01dba3accf8bd380408d8eaad5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-hole.png",
+            "sha256": "e2952c9a8a39c9ed600b7b2f9efa1d01677d3bfdbe42f01871e791f85d710d5f"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-surfaces.png",
+            "sha256": "718e9fdef0e548efc067916537ac1b1922ee4e4e46e2c888b2cbb042ad388d89"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Putting surface follows the clear striped turf/collar transition; excludes the long western approach.",
+        "panelExtent": [
+          679606.8903049481,
+          6625133.614063801,
+          679696.8903049481,
+          6625223.614063801
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "e452a48d126fd671b717f0f819edbafff8d20513c3b985b1e3265f29c3a84711",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            411.0,
+            528.0
+          ],
+          [
+            419.0,
+            504.0
+          ],
+          [
+            437.0,
+            482.0
+          ],
+          [
+            464.0,
+            464.0
+          ],
+          [
+            496.0,
+            449.0
+          ],
+          [
+            531.0,
+            435.0
+          ],
+          [
+            565.0,
+            421.0
+          ],
+          [
+            596.0,
+            410.0
+          ],
+          [
+            626.0,
+            407.0
+          ],
+          [
+            653.0,
+            413.0
+          ],
+          [
+            677.0,
+            428.0
+          ],
+          [
+            698.0,
+            450.0
+          ],
+          [
+            716.0,
+            477.0
+          ],
+          [
+            731.0,
+            505.0
+          ],
+          [
+            740.0,
+            530.0
+          ],
+          [
+            735.0,
+            549.0
+          ],
+          [
+            720.0,
+            563.0
+          ],
+          [
+            697.0,
+            573.0
+          ],
+          [
+            669.0,
+            578.0
+          ],
+          [
+            636.0,
+            581.0
+          ],
+          [
+            601.0,
+            586.0
+          ],
+          [
+            563.0,
+            593.0
+          ],
+          [
+            525.0,
+            601.0
+          ],
+          [
+            489.0,
+            610.0
+          ],
+          [
+            463.0,
+            612.0
+          ],
+          [
+            442.0,
+            600.0
+          ],
+          [
+            428.0,
+            578.0
+          ],
+          [
+            417.0,
+            552.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          173.3,
+          196.53
+        ],
+        [
+          174.12,
+          194.41
+        ],
+        [
+          175.83,
+          192.51
+        ],
+        [
+          178.33,
+          191.01
+        ],
+        [
+          181.26,
+          189.8
+        ],
+        [
+          184.46,
+          188.7
+        ],
+        [
+          187.57,
+          187.59
+        ],
+        [
+          190.4,
+          186.73
+        ],
+        [
+          193.1,
+          186.59
+        ],
+        [
+          195.5,
+          187.25
+        ],
+        [
+          197.58,
+          188.7
+        ],
+        [
+          199.37,
+          190.77
+        ],
+        [
+          200.87,
+          193.27
+        ],
+        [
+          202.09,
+          195.85
+        ],
+        [
+          202.79,
+          198.13
+        ],
+        [
+          202.26,
+          199.82
+        ],
+        [
+          200.85,
+          201.01
+        ],
+        [
+          198.75,
+          201.81
+        ],
+        [
+          196.22,
+          202.14
+        ],
+        [
+          193.24,
+          202.26
+        ],
+        [
+          190.08,
+          202.56
+        ],
+        [
+          186.65,
+          203.03
+        ],
+        [
+          183.21,
+          203.58
+        ],
+        [
+          179.94,
+          204.23
+        ],
+        [
+          177.6,
+          204.3
+        ],
+        [
+          175.77,
+          203.13
+        ],
+        [
+          174.61,
+          201.09
+        ],
+        [
+          173.73,
+          198.71
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h15-bunker-0",
+      "hole": 15,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "05b510c9673527e649616c9968298b45157f5a7372f1fe0aec71524db0493af5",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-06-hole.png",
+            "sha256": "b5a29892c36d00f3013facb73c9a22af22cc2759816b0c3119edffd0cdf6ccf8"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-07-hole.png",
+            "sha256": "a666b4c8b3b454026a5d6b8a6cc33b4d13aeaa01dba3accf8bd380408d8eaad5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-hole.png",
+            "sha256": "e2952c9a8a39c9ed600b7b2f9efa1d01677d3bfdbe42f01871e791f85d710d5f"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-surfaces.png",
+            "sha256": "718e9fdef0e548efc067916537ac1b1922ee4e4e46e2c888b2cbb042ad388d89"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Full visible upper bunker with two lobes, substantially larger than the old sand ring.",
+        "panelExtent": [
+          679606.8903049481,
+          6625133.614063801,
+          679696.8903049481,
+          6625223.614063801
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "e452a48d126fd671b717f0f819edbafff8d20513c3b985b1e3265f29c3a84711",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            282.0,
+            360.0
+          ],
+          [
+            295.0,
+            339.0
+          ],
+          [
+            314.0,
+            324.0
+          ],
+          [
+            331.0,
+            319.0
+          ],
+          [
+            347.0,
+            322.0
+          ],
+          [
+            361.0,
+            334.0
+          ],
+          [
+            371.0,
+            353.0
+          ],
+          [
+            388.0,
+            367.0
+          ],
+          [
+            410.0,
+            376.0
+          ],
+          [
+            427.0,
+            389.0
+          ],
+          [
+            438.0,
+            404.0
+          ],
+          [
+            441.0,
+            418.0
+          ],
+          [
+            431.0,
+            433.0
+          ],
+          [
+            410.0,
+            445.0
+          ],
+          [
+            386.0,
+            456.0
+          ],
+          [
+            363.0,
+            467.0
+          ],
+          [
+            348.0,
+            467.0
+          ],
+          [
+            333.0,
+            453.0
+          ],
+          [
+            317.0,
+            434.0
+          ],
+          [
+            300.0,
+            414.0
+          ],
+          [
+            286.0,
+            396.0
+          ],
+          [
+            280.0,
+            379.0
+          ]
+        ]
+      },
+      "index": 0,
+      "ring": [
+        [
+          162.46,
+          180.88
+        ],
+        [
+          163.71,
+          179.05
+        ],
+        [
+          165.48,
+          177.79
+        ],
+        [
+          167.03,
+          177.41
+        ],
+        [
+          168.45,
+          177.75
+        ],
+        [
+          169.65,
+          178.89
+        ],
+        [
+          170.47,
+          180.64
+        ],
+        [
+          171.93,
+          181.97
+        ],
+        [
+          173.87,
+          182.87
+        ],
+        [
+          175.33,
+          184.11
+        ],
+        [
+          176.26,
+          185.51
+        ],
+        [
+          176.46,
+          186.78
+        ],
+        [
+          175.5,
+          188.08
+        ],
+        [
+          173.57,
+          189.07
+        ],
+        [
+          171.37,
+          189.95
+        ],
+        [
+          169.26,
+          190.84
+        ],
+        [
+          167.91,
+          190.78
+        ],
+        [
+          166.63,
+          189.46
+        ],
+        [
+          165.28,
+          187.68
+        ],
+        [
+          163.84,
+          185.81
+        ],
+        [
+          162.66,
+          184.13
+        ],
+        [
+          162.2,
+          182.58
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h15-bunker-1",
+      "hole": 15,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "85d0f5bad67784f17fd6bbd589723256a6160bc72e4138d7723c1f5a3abba98a",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-06-hole.png",
+            "sha256": "b5a29892c36d00f3013facb73c9a22af22cc2759816b0c3119edffd0cdf6ccf8"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-07-hole.png",
+            "sha256": "a666b4c8b3b454026a5d6b8a6cc33b4d13aeaa01dba3accf8bd380408d8eaad5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-hole.png",
+            "sha256": "e2952c9a8a39c9ed600b7b2f9efa1d01677d3bfdbe42f01871e791f85d710d5f"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-surfaces.png",
+            "sha256": "718e9fdef0e548efc067916537ac1b1922ee4e4e46e2c888b2cbb042ad388d89"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Trace the lower bunker to its visible sand margin; legacy ring omitted the south half.",
+        "panelExtent": [
+          679606.8903049481,
+          6625133.614063801,
+          679696.8903049481,
+          6625223.614063801
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "e452a48d126fd671b717f0f819edbafff8d20513c3b985b1e3265f29c3a84711",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            498.0,
+            630.0
+          ],
+          [
+            509.0,
+            623.0
+          ],
+          [
+            531.0,
+            621.0
+          ],
+          [
+            554.0,
+            616.0
+          ],
+          [
+            576.0,
+            606.0
+          ],
+          [
+            590.0,
+            606.0
+          ],
+          [
+            604.0,
+            618.0
+          ],
+          [
+            614.0,
+            640.0
+          ],
+          [
+            622.0,
+            665.0
+          ],
+          [
+            629.0,
+            686.0
+          ],
+          [
+            627.0,
+            705.0
+          ],
+          [
+            615.0,
+            721.0
+          ],
+          [
+            600.0,
+            728.0
+          ],
+          [
+            580.0,
+            727.0
+          ],
+          [
+            558.0,
+            718.0
+          ],
+          [
+            539.0,
+            705.0
+          ],
+          [
+            522.0,
+            690.0
+          ],
+          [
+            508.0,
+            671.0
+          ],
+          [
+            499.0,
+            651.0
+          ]
+        ]
+      },
+      "index": 1,
+      "ring": [
+        [
+          180.66,
+          206.07
+        ],
+        [
+          181.68,
+          205.49
+        ],
+        [
+          183.66,
+          205.4
+        ],
+        [
+          185.74,
+          205.05
+        ],
+        [
+          187.76,
+          204.25
+        ],
+        [
+          189.01,
+          204.31
+        ],
+        [
+          190.22,
+          205.45
+        ],
+        [
+          191.02,
+          207.47
+        ],
+        [
+          191.63,
+          209.75
+        ],
+        [
+          192.16,
+          211.67
+        ],
+        [
+          191.9,
+          213.36
+        ],
+        [
+          190.76,
+          214.75
+        ],
+        [
+          189.38,
+          215.31
+        ],
+        [
+          187.59,
+          215.14
+        ],
+        [
+          185.66,
+          214.23
+        ],
+        [
+          184.01,
+          212.98
+        ],
+        [
+          182.55,
+          211.56
+        ],
+        [
+          181.38,
+          209.79
+        ],
+        [
+          180.66,
+          207.96
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h16-green",
+      "hole": 16,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "39cf6d5ef1e1caaeff6d2bff4c7ccabbd9a1767d8d5429f041e8330d8d6ce9f7",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-surfaces.png",
+            "sha256": "85c4cca0f7edce49a5bc1e21fb68e2e1162aa25095dd10f883e928e77cee3f87"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Actual putting turf begins southeast of the legacy outline, inside the dark fringe.",
+        "panelExtent": [
+          679242.4687255044,
+          6625375.063597566,
+          679332.4687255044,
+          6625465.063597566
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "8a0215d25cefcae2c14a2da506db3af4a85196eda65e9bb0c35ec38a0efdff62",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            424.0,
+            458.0
+          ],
+          [
+            437.0,
+            435.0
+          ],
+          [
+            454.0,
+            420.0
+          ],
+          [
+            475.0,
+            412.0
+          ],
+          [
+            496.0,
+            414.0
+          ],
+          [
+            519.0,
+            425.0
+          ],
+          [
+            539.0,
+            440.0
+          ],
+          [
+            557.0,
+            462.0
+          ],
+          [
+            573.0,
+            488.0
+          ],
+          [
+            588.0,
+            518.0
+          ],
+          [
+            599.0,
+            548.0
+          ],
+          [
+            612.0,
+            579.0
+          ],
+          [
+            620.0,
+            609.0
+          ],
+          [
+            620.0,
+            633.0
+          ],
+          [
+            610.0,
+            653.0
+          ],
+          [
+            592.0,
+            668.0
+          ],
+          [
+            571.0,
+            675.0
+          ],
+          [
+            550.0,
+            670.0
+          ],
+          [
+            525.0,
+            660.0
+          ],
+          [
+            502.0,
+            645.0
+          ],
+          [
+            481.0,
+            625.0
+          ],
+          [
+            465.0,
+            601.0
+          ],
+          [
+            451.0,
+            572.0
+          ],
+          [
+            438.0,
+            541.0
+          ],
+          [
+            429.0,
+            512.0
+          ],
+          [
+            422.0,
+            485.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          -176.73,
+          -68.2
+        ],
+        [
+          -175.47,
+          -70.21
+        ],
+        [
+          -173.88,
+          -71.48
+        ],
+        [
+          -171.96,
+          -72.11
+        ],
+        [
+          -170.09,
+          -71.84
+        ],
+        [
+          -168.07,
+          -70.75
+        ],
+        [
+          -166.34,
+          -69.32
+        ],
+        [
+          -164.82,
+          -67.27
+        ],
+        [
+          -163.5,
+          -64.86
+        ],
+        [
+          -162.29,
+          -62.1
+        ],
+        [
+          -161.43,
+          -59.36
+        ],
+        [
+          -160.4,
+          -56.52
+        ],
+        [
+          -159.81,
+          -53.79
+        ],
+        [
+          -159.91,
+          -51.63
+        ],
+        [
+          -160.9,
+          -49.88
+        ],
+        [
+          -162.57,
+          -48.61
+        ],
+        [
+          -164.49,
+          -48.07
+        ],
+        [
+          -166.35,
+          -48.61
+        ],
+        [
+          -168.55,
+          -49.62
+        ],
+        [
+          -170.55,
+          -51.07
+        ],
+        [
+          -172.34,
+          -52.95
+        ],
+        [
+          -173.67,
+          -55.18
+        ],
+        [
+          -174.8,
+          -57.84
+        ],
+        [
+          -175.84,
+          -60.69
+        ],
+        [
+          -176.52,
+          -63.33
+        ],
+        [
+          -177.03,
+          -65.78
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h16-bunker-0",
+      "hole": 16,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "c26e073ba1885b9a523354004ca06a21c173f91c518c811b01894ce9597585b8",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-surfaces.png",
+            "sha256": "85c4cca0f7edce49a5bc1e21fb68e2e1162aa25095dd10f883e928e77cee3f87"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Visible west bunker around its full lower lobe; no extension into the grass north of the sand.",
+        "panelExtent": [
+          679242.4687255044,
+          6625375.063597566,
+          679332.4687255044,
+          6625465.063597566
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "8a0215d25cefcae2c14a2da506db3af4a85196eda65e9bb0c35ec38a0efdff62",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            311.0,
+            481.0
+          ],
+          [
+            321.0,
+            459.0
+          ],
+          [
+            337.0,
+            443.0
+          ],
+          [
+            352.0,
+            440.0
+          ],
+          [
+            366.0,
+            445.0
+          ],
+          [
+            372.0,
+            462.0
+          ],
+          [
+            373.0,
+            484.0
+          ],
+          [
+            379.0,
+            504.0
+          ],
+          [
+            390.0,
+            526.0
+          ],
+          [
+            401.0,
+            546.0
+          ],
+          [
+            400.0,
+            558.0
+          ],
+          [
+            390.0,
+            565.0
+          ],
+          [
+            373.0,
+            568.0
+          ],
+          [
+            351.0,
+            562.0
+          ],
+          [
+            332.0,
+            550.0
+          ],
+          [
+            318.0,
+            534.0
+          ],
+          [
+            307.0,
+            514.0
+          ],
+          [
+            304.0,
+            497.0
+          ]
+        ]
+      },
+      "index": 0,
+      "ring": [
+        [
+          -186.97,
+          -66.62
+        ],
+        [
+          -185.97,
+          -68.56
+        ],
+        [
+          -184.47,
+          -69.92
+        ],
+        [
+          -183.11,
+          -70.13
+        ],
+        [
+          -181.88,
+          -69.62
+        ],
+        [
+          -181.41,
+          -68.07
+        ],
+        [
+          -181.42,
+          -66.09
+        ],
+        [
+          -180.97,
+          -64.26
+        ],
+        [
+          -180.08,
+          -62.24
+        ],
+        [
+          -179.18,
+          -60.4
+        ],
+        [
+          -179.32,
+          -59.32
+        ],
+        [
+          -180.24,
+          -58.74
+        ],
+        [
+          -181.78,
+          -58.54
+        ],
+        [
+          -183.73,
+          -59.17
+        ],
+        [
+          -185.38,
+          -60.33
+        ],
+        [
+          -186.57,
+          -61.83
+        ],
+        [
+          -187.47,
+          -63.68
+        ],
+        [
+          -187.66,
+          -65.22
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h16-bunker-1",
+      "hole": 16,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "7ddd24f1f3fcd87697169a739d011094c5a13ec5ed14528045651eea110ea769",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-surfaces.png",
+            "sha256": "85c4cca0f7edce49a5bc1e21fb68e2e1162aa25095dd10f883e928e77cee3f87"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Trace the east bunker sand, which lies well south of its old polygon.",
+        "panelExtent": [
+          679242.4687255044,
+          6625375.063597566,
+          679332.4687255044,
+          6625465.063597566
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "8a0215d25cefcae2c14a2da506db3af4a85196eda65e9bb0c35ec38a0efdff62",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            650.0,
+            537.0
+          ],
+          [
+            659.0,
+            523.0
+          ],
+          [
+            674.0,
+            516.0
+          ],
+          [
+            688.0,
+            519.0
+          ],
+          [
+            702.0,
+            530.0
+          ],
+          [
+            714.0,
+            546.0
+          ],
+          [
+            722.0,
+            568.0
+          ],
+          [
+            728.0,
+            590.0
+          ],
+          [
+            735.0,
+            613.0
+          ],
+          [
+            740.0,
+            634.0
+          ],
+          [
+            735.0,
+            651.0
+          ],
+          [
+            723.0,
+            660.0
+          ],
+          [
+            707.0,
+            663.0
+          ],
+          [
+            691.0,
+            657.0
+          ],
+          [
+            680.0,
+            645.0
+          ],
+          [
+            676.0,
+            626.0
+          ],
+          [
+            675.0,
+            606.0
+          ],
+          [
+            670.0,
+            585.0
+          ],
+          [
+            662.0,
+            567.0
+          ],
+          [
+            654.0,
+            552.0
+          ]
+        ]
+      },
+      "index": 1,
+      "ring": [
+        [
+          -156.81,
+          -60.13
+        ],
+        [
+          -155.94,
+          -61.35
+        ],
+        [
+          -154.57,
+          -61.91
+        ],
+        [
+          -153.32,
+          -61.58
+        ],
+        [
+          -152.12,
+          -60.53
+        ],
+        [
+          -151.11,
+          -59.04
+        ],
+        [
+          -150.49,
+          -57.03
+        ],
+        [
+          -150.04,
+          -55.03
+        ],
+        [
+          -149.51,
+          -52.93
+        ],
+        [
+          -149.16,
+          -51.03
+        ],
+        [
+          -149.68,
+          -49.52
+        ],
+        [
+          -150.79,
+          -48.76
+        ],
+        [
+          -152.24,
+          -48.56
+        ],
+        [
+          -153.65,
+          -49.17
+        ],
+        [
+          -154.58,
+          -50.3
+        ],
+        [
+          -154.86,
+          -52.02
+        ],
+        [
+          -154.86,
+          -53.82
+        ],
+        [
+          -155.22,
+          -55.73
+        ],
+        [
+          -155.86,
+          -57.38
+        ],
+        [
+          -156.51,
+          -58.76
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h16-bunker-2",
+      "hole": 16,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "62e482bf7caee4c33c7196a235a848080681a1dce2f52db875b1d2b07f9a8808",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-surfaces.png",
+            "sha256": "85c4cca0f7edce49a5bc1e21fb68e2e1162aa25095dd10f883e928e77cee3f87"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Southern bunker now follows visible sand rather than the grass immediately north.",
+        "panelExtent": [
+          679242.4687255044,
+          6625375.063597566,
+          679332.4687255044,
+          6625465.063597566
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "8a0215d25cefcae2c14a2da506db3af4a85196eda65e9bb0c35ec38a0efdff62",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            530.0,
+            779.0
+          ],
+          [
+            538.0,
+            764.0
+          ],
+          [
+            555.0,
+            752.0
+          ],
+          [
+            573.0,
+            743.0
+          ],
+          [
+            591.0,
+            740.0
+          ],
+          [
+            606.0,
+            747.0
+          ],
+          [
+            616.0,
+            761.0
+          ],
+          [
+            623.0,
+            778.0
+          ],
+          [
+            627.0,
+            795.0
+          ],
+          [
+            621.0,
+            808.0
+          ],
+          [
+            605.0,
+            818.0
+          ],
+          [
+            585.0,
+            822.0
+          ],
+          [
+            565.0,
+            824.0
+          ],
+          [
+            547.0,
+            824.0
+          ],
+          [
+            534.0,
+            816.0
+          ],
+          [
+            528.0,
+            799.0
+          ]
+        ]
+      },
+      "index": 2,
+      "ring": [
+        [
+          -168.61,
+          -38.91
+        ],
+        [
+          -167.83,
+          -40.22
+        ],
+        [
+          -166.26,
+          -41.23
+        ],
+        [
+          -164.6,
+          -41.96
+        ],
+        [
+          -162.98,
+          -42.15
+        ],
+        [
+          -161.66,
+          -41.45
+        ],
+        [
+          -160.82,
+          -40.15
+        ],
+        [
+          -160.27,
+          -38.6
+        ],
+        [
+          -159.98,
+          -37.05
+        ],
+        [
+          -160.58,
+          -35.91
+        ],
+        [
+          -162.06,
+          -35.08
+        ],
+        [
+          -163.87,
+          -34.81
+        ],
+        [
+          -165.67,
+          -34.72
+        ],
+        [
+          -167.28,
+          -34.79
+        ],
+        [
+          -168.41,
+          -35.57
+        ],
+        [
+          -168.88,
+          -37.12
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h17-green",
+      "hole": 17,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "aa0dfa80869bd095bd253286a2730833329c61049e33bb1db1f9c99f20c8ca5a",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-02-hole.png",
+            "sha256": "2de0af5aa486289400cbda0276ce38d99cd9b4f448b30c0004398f6cf052da0f"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-03-hole.png",
+            "sha256": "3ff5550f12f5f71810cee5354bec854683153e79362b753d0b741002281275ef"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-17-hole.png",
+            "sha256": "71373f11e35a5c7229b568a1f1dbcf9b9f67db764516a173994174458fd9fb90"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-18-hole.png",
+            "sha256": "3ebef0d48391d432379fcae48caa3f9194cfa9c8ec7ce24d471e12fa56e7b9f5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-17-surfaces.png",
+            "sha256": "8bae8c5e1a65e83e0b5980aa6027c316d953ec547c88b200d24a5050d40ea780"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Trace the oval putting surface and exclude its mowing collar; legacy northeast corner extended beyond putting turf.",
+        "panelExtent": [
+          679303.9350134134,
+          6625607.666560354,
+          679393.9350134134,
+          6625697.666560354
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "4fe5cb27b39f1d10f012b30e0b58adbb32dd54ff750e72fe3ba0ade9de793084",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            390.0,
+            546.0
+          ],
+          [
+            399.0,
+            518.0
+          ],
+          [
+            416.0,
+            492.0
+          ],
+          [
+            438.0,
+            468.0
+          ],
+          [
+            464.0,
+            448.0
+          ],
+          [
+            491.0,
+            432.0
+          ],
+          [
+            521.0,
+            417.0
+          ],
+          [
+            548.0,
+            409.0
+          ],
+          [
+            574.0,
+            410.0
+          ],
+          [
+            597.0,
+            420.0
+          ],
+          [
+            619.0,
+            438.0
+          ],
+          [
+            638.0,
+            462.0
+          ],
+          [
+            651.0,
+            486.0
+          ],
+          [
+            657.0,
+            510.0
+          ],
+          [
+            649.0,
+            534.0
+          ],
+          [
+            632.0,
+            555.0
+          ],
+          [
+            608.0,
+            577.0
+          ],
+          [
+            581.0,
+            594.0
+          ],
+          [
+            552.0,
+            611.0
+          ],
+          [
+            523.0,
+            628.0
+          ],
+          [
+            497.0,
+            640.0
+          ],
+          [
+            474.0,
+            643.0
+          ],
+          [
+            451.0,
+            635.0
+          ],
+          [
+            428.0,
+            620.0
+          ],
+          [
+            410.0,
+            600.0
+          ],
+          [
+            396.0,
+            575.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          -107.76,
+          -289.64
+        ],
+        [
+          -106.84,
+          -292.12
+        ],
+        [
+          -105.2,
+          -294.38
+        ],
+        [
+          -103.12,
+          -296.44
+        ],
+        [
+          -100.7,
+          -298.13
+        ],
+        [
+          -98.21,
+          -299.45
+        ],
+        [
+          -95.46,
+          -300.66
+        ],
+        [
+          -93.0,
+          -301.27
+        ],
+        [
+          -90.68,
+          -301.06
+        ],
+        [
+          -88.66,
+          -300.07
+        ],
+        [
+          -86.76,
+          -298.35
+        ],
+        [
+          -85.16,
+          -296.12
+        ],
+        [
+          -84.1,
+          -293.9
+        ],
+        [
+          -83.66,
+          -291.72
+        ],
+        [
+          -84.48,
+          -289.6
+        ],
+        [
+          -86.1,
+          -287.79
+        ],
+        [
+          -88.35,
+          -285.92
+        ],
+        [
+          -90.84,
+          -284.51
+        ],
+        [
+          -93.52,
+          -283.1
+        ],
+        [
+          -96.19,
+          -281.7
+        ],
+        [
+          -98.57,
+          -280.74
+        ],
+        [
+          -100.65,
+          -280.57
+        ],
+        [
+          -102.68,
+          -281.39
+        ],
+        [
+          -104.67,
+          -282.83
+        ],
+        [
+          -106.2,
+          -284.71
+        ],
+        [
+          -107.35,
+          -287.01
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h18-green",
+      "hole": 18,
+      "kind": "green",
+      "status": "accepted",
+      "originalRingSha256": "ec54362c28117fa397f1c4a0178d4eec2eab1b2a0cacc052e0b226509f630548",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-01-hole.png",
+            "sha256": "49f1964d4f4046bc2fe43e7f67bceee2e9188640c77d83999a962567e2508389"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-18-hole.png",
+            "sha256": "3ebef0d48391d432379fcae48caa3f9194cfa9c8ec7ce24d471e12fa56e7b9f5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-18-surfaces.png",
+            "sha256": "72c5f4244ed93840ba53e44e81bd1646ac34234fddcb8157410e2c4fb08655d7"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Putting turf inside the collar; the old angular south point is replaced by the rounded visible edge.",
+        "panelExtent": [
+          679200.5428794397,
+          6626079.513833672,
+          679290.5428794397,
+          6626169.513833672
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "1469d846734a3c2e8d7ce9a91d8abde5fbf18186f98b130baea46c302e7bc84e",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            427.0,
+            376.0
+          ],
+          [
+            444.0,
+            356.0
+          ],
+          [
+            464.0,
+            349.0
+          ],
+          [
+            487.0,
+            351.0
+          ],
+          [
+            509.0,
+            362.0
+          ],
+          [
+            529.0,
+            380.0
+          ],
+          [
+            543.0,
+            404.0
+          ],
+          [
+            551.0,
+            432.0
+          ],
+          [
+            557.0,
+            462.0
+          ],
+          [
+            563.0,
+            494.0
+          ],
+          [
+            566.0,
+            524.0
+          ],
+          [
+            565.0,
+            555.0
+          ],
+          [
+            559.0,
+            587.0
+          ],
+          [
+            550.0,
+            616.0
+          ],
+          [
+            536.0,
+            639.0
+          ],
+          [
+            519.0,
+            650.0
+          ],
+          [
+            500.0,
+            653.0
+          ],
+          [
+            482.0,
+            648.0
+          ],
+          [
+            467.0,
+            635.0
+          ],
+          [
+            460.0,
+            617.0
+          ],
+          [
+            457.0,
+            593.0
+          ],
+          [
+            455.0,
+            568.0
+          ],
+          [
+            449.0,
+            544.0
+          ],
+          [
+            438.0,
+            517.0
+          ],
+          [
+            426.0,
+            492.0
+          ],
+          [
+            418.0,
+            467.0
+          ],
+          [
+            414.0,
+            440.0
+          ],
+          [
+            415.0,
+            412.0
+          ],
+          [
+            419.0,
+            391.0
+          ]
+        ]
+      },
+      "ring": [
+        [
+          -184.11,
+          -780.65
+        ],
+        [
+          -182.5,
+          -782.38
+        ],
+        [
+          -180.68,
+          -782.92
+        ],
+        [
+          -178.62,
+          -782.64
+        ],
+        [
+          -176.7,
+          -781.56
+        ],
+        [
+          -174.98,
+          -779.85
+        ],
+        [
+          -173.83,
+          -777.64
+        ],
+        [
+          -173.23,
+          -775.09
+        ],
+        [
+          -172.82,
+          -772.37
+        ],
+        [
+          -172.42,
+          -769.47
+        ],
+        [
+          -172.28,
+          -766.76
+        ],
+        [
+          -172.51,
+          -763.98
+        ],
+        [
+          -173.18,
+          -761.13
+        ],
+        [
+          -174.12,
+          -758.56
+        ],
+        [
+          -175.47,
+          -756.56
+        ],
+        [
+          -177.04,
+          -755.64
+        ],
+        [
+          -178.76,
+          -755.46
+        ],
+        [
+          -180.35,
+          -755.98
+        ],
+        [
+          -181.64,
+          -757.22
+        ],
+        [
+          -182.19,
+          -758.86
+        ],
+        [
+          -182.36,
+          -761.03
+        ],
+        [
+          -182.43,
+          -763.29
+        ],
+        [
+          -182.86,
+          -765.47
+        ],
+        [
+          -183.73,
+          -767.94
+        ],
+        [
+          -184.7,
+          -770.24
+        ],
+        [
+          -185.31,
+          -772.52
+        ],
+        [
+          -185.55,
+          -774.96
+        ],
+        [
+          -185.34,
+          -777.47
+        ],
+        [
+          -184.89,
+          -779.34
+        ]
+      ]
+    },
+    {
+      "id": "lm-2025-eighteen-h18-bunker-0",
+      "hole": 18,
+      "kind": "bunker",
+      "status": "accepted",
+      "originalRingSha256": "88f3e758d7a66403fd179f09ac66d37a5148983b5405eb4eff04ce2304f4222b",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+            "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-01-hole.png",
+            "sha256": "49f1964d4f4046bc2fe43e7f67bceee2e9188640c77d83999a962567e2508389"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-18-hole.png",
+            "sha256": "3ebef0d48391d432379fcae48caa3f9194cfa9c8ec7ce24d471e12fa56e7b9f5"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-18-surfaces.png",
+            "sha256": "72c5f4244ed93840ba53e44e81bd1646ac34234fddcb8157410e2c4fb08655d7"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.0,
+        "note": "Complete connected right bunker sand; old ring ended about five metres too far north.",
+        "panelExtent": [
+          679200.5428794397,
+          6626079.513833672,
+          679290.5428794397,
+          6626169.513833672
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelImageSha256": "1469d846734a3c2e8d7ce9a91d8abde5fbf18186f98b130baea46c302e7bc84e",
+        "source": "Lantmateriet orto-o2-2025 RGBI; manual boundary interpretation",
+        "sourcePixelRing": [
+          [
+            590.0,
+            619.0
+          ],
+          [
+            602.0,
+            596.0
+          ],
+          [
+            613.0,
+            572.0
+          ],
+          [
+            621.0,
+            547.0
+          ],
+          [
+            631.0,
+            526.0
+          ],
+          [
+            645.0,
+            518.0
+          ],
+          [
+            660.0,
+            519.0
+          ],
+          [
+            672.0,
+            529.0
+          ],
+          [
+            677.0,
+            541.0
+          ],
+          [
+            672.0,
+            556.0
+          ],
+          [
+            661.0,
+            576.0
+          ],
+          [
+            650.0,
+            600.0
+          ],
+          [
+            646.0,
+            623.0
+          ],
+          [
+            646.0,
+            644.0
+          ],
+          [
+            645.0,
+            660.0
+          ],
+          [
+            637.0,
+            671.0
+          ],
+          [
+            621.0,
+            676.0
+          ],
+          [
+            604.0,
+            674.0
+          ],
+          [
+            592.0,
+            665.0
+          ],
+          [
+            585.0,
+            651.0
+          ],
+          [
+            584.0,
+            636.0
+          ]
+        ]
+      },
+      "index": 0,
+      "ring": [
+        [
+          -170.54,
+          -758.12
+        ],
+        [
+          -169.37,
+          -760.14
+        ],
+        [
+          -168.28,
+          -762.24
+        ],
+        [
+          -167.45,
+          -764.46
+        ],
+        [
+          -166.46,
+          -766.3
+        ],
+        [
+          -165.17,
+          -766.96
+        ],
+        [
+          -163.83,
+          -766.8
+        ],
+        [
+          -162.8,
+          -765.85
+        ],
+        [
+          -162.4,
+          -764.75
+        ],
+        [
+          -162.91,
+          -763.43
+        ],
+        [
+          -163.99,
+          -761.68
+        ],
+        [
+          -165.08,
+          -759.57
+        ],
+        [
+          -165.54,
+          -757.52
+        ],
+        [
+          -165.63,
+          -755.63
+        ],
+        [
+          -165.79,
+          -754.2
+        ],
+        [
+          -166.55,
+          -753.25
+        ],
+        [
+          -168.01,
+          -752.87
+        ],
+        [
+          -169.52,
+          -753.12
+        ],
+        [
+          -170.56,
+          -753.98
+        ],
+        [
+          -171.13,
+          -755.27
+        ],
+        [
+          -171.15,
+          -756.62
+        ]
+      ]
+    }
+  ],
+  "unresolved": []
+}

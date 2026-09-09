@@ -1,0 +1,1994 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "reviewedAt": "2026-09-09",
+  "reviewMethod": "machine visual interpretation of acquired native 2024-06-27 Lantmateriet RGB orthophoto pixels",
+  "reviewStatus": "machine-reviewed-not-survey-approved",
+  "scope": "Greens 7-12 and clearly visible adjacent bunker sand edges; other surfaces unchanged by this fragment.",
+  "sources": {
+    "hole-07-green": {
+      "id": "hole-07-green",
+      "requestSha256": "3426f2892ddbf79bd69279a26a52212996971f9a7b86377c073308e65d2d7b96",
+      "sha256": "4937bf6d0adff3d308b473fa17d8716220e5af17d92d5357ee8ca50c76cebf41",
+      "bytes": 2912579,
+      "rasterFile": "hole-07-green.tif",
+      "boundsEpsg3006": [
+        697764.16,
+        7024784.4799999995,
+        697914.56,
+        7024942.88
+      ],
+      "width": 940,
+      "height": 990,
+      "geoTransform": [
+        697764.16,
+        0.16,
+        0.0,
+        7024942.88,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:05.593750+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20.0,
+          "maximum": 211.0,
+          "mean": 75.35892864818396,
+          "standardDeviation": 29.54812795213749
+        },
+        {
+          "band": 2,
+          "minimum": 35.0,
+          "maximum": 208.0,
+          "mean": 93.83155813453686,
+          "standardDeviation": 27.223072736807477
+        },
+        {
+          "band": 3,
+          "minimum": 41.0,
+          "maximum": 196.0,
+          "mean": 83.58106168063615,
+          "standardDeviation": 16.510896539107186
+        },
+        {
+          "band": 4,
+          "minimum": 27.0,
+          "maximum": 255.0,
+          "mean": 143.43857511283042,
+          "standardDeviation": 47.2710383519495
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-08-green": {
+      "id": "hole-08-green",
+      "requestSha256": "67bf4a7629c6aa683af4812937fb69ad840584e83d5f18000169bddfbd67c34a",
+      "sha256": "344edea19e5347498763778fc6e0970ceec2f8e676e4e334ab4ef44998b04faa",
+      "bytes": 2804806,
+      "rasterFile": "hole-08-green.tif",
+      "boundsEpsg3006": [
+        697854.4,
+        7025103.84,
+        698000.8,
+        7025262.56
+      ],
+      "width": 915,
+      "height": 992,
+      "geoTransform": [
+        697854.4,
+        0.16,
+        0.0,
+        7025262.56,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:07.554692+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20.0,
+          "maximum": 247.0,
+          "mean": 79.2999118632117,
+          "standardDeviation": 30.840938542934264
+        },
+        {
+          "band": 2,
+          "minimum": 34.0,
+          "maximum": 248.0,
+          "mean": 98.85510862859158,
+          "standardDeviation": 28.37005076752304
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 237.0,
+          "mean": 86.9198087431694,
+          "standardDeviation": 17.468247396519956
+        },
+        {
+          "band": 4,
+          "minimum": 26.0,
+          "maximum": 255.0,
+          "mean": 162.95282478406486,
+          "standardDeviation": 40.70953829231368
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-09-green": {
+      "id": "hole-09-green",
+      "requestSha256": "361356bb39512e84abadd03b3a26c34260c17d81b6e98e2774539fd2db893be7",
+      "sha256": "9640160cb385dd61f15651ee74e7e7219f8643f7d08e35bb94d42070388cb51b",
+      "bytes": 2750991,
+      "rasterFile": "hole-09-green.tif",
+      "boundsEpsg3006": [
+        697349.6,
+        7025122.4,
+        697514.5599999999,
+        7025272.32
+      ],
+      "width": 1031,
+      "height": 937,
+      "geoTransform": [
+        697349.6,
+        0.16,
+        0.0,
+        7025272.32,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:09.373982+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 22.0,
+          "maximum": 255.0,
+          "mean": 89.19278565121573,
+          "standardDeviation": 32.83932270530475
+        },
+        {
+          "band": 2,
+          "minimum": 38.0,
+          "maximum": 255.0,
+          "mean": 108.67075721988682,
+          "standardDeviation": 26.437845438860887
+        },
+        {
+          "band": 3,
+          "minimum": 45.0,
+          "maximum": 255.0,
+          "mean": 96.7518578288634,
+          "standardDeviation": 23.542417679468638
+        },
+        {
+          "band": 4,
+          "minimum": 12.0,
+          "maximum": 255.0,
+          "mean": 148.2394521177541,
+          "standardDeviation": 45.91295950357665
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-10-green": {
+      "id": "hole-10-green",
+      "requestSha256": "71e0e0ab45d4208be7cc0a0f8caca513da19e5be5b3abcfeeb07bb7a36ae69d2",
+      "sha256": "f209a5c95f71d904f9f2369d165b5735ec58cdfaffc0a6986c07130b8745273a",
+      "bytes": 2799996,
+      "rasterFile": "hole-10-green.tif",
+      "boundsEpsg3006": [
+        697723.68,
+        7025009.760000001,
+        697870.2400000001,
+        7025162.4
+      ],
+      "width": 916,
+      "height": 954,
+      "geoTransform": [
+        697723.68,
+        0.16,
+        0.0,
+        7025162.4,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:10.903308+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20.0,
+          "maximum": 222.0,
+          "mean": 71.92200388161086,
+          "standardDeviation": 27.815872899675043
+        },
+        {
+          "band": 2,
+          "minimum": 35.0,
+          "maximum": 216.0,
+          "mean": 92.92305782135435,
+          "standardDeviation": 25.949941159517053
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 200.0,
+          "mean": 83.16168877537008,
+          "standardDeviation": 15.727828604042285
+        },
+        {
+          "band": 4,
+          "minimum": 30.0,
+          "maximum": 255.0,
+          "mean": 163.28085033826773,
+          "standardDeviation": 37.0250298678879
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-11-green": {
+      "id": "hole-11-green",
+      "requestSha256": "de35361e7895e5b95a9dd46ed957a32c2cba7828fc4601f2c45442656a3e6794",
+      "sha256": "b1bf511c86c215280a1630984456cf9bb069a9f38dccd11d5658c87070791fd1",
+      "bytes": 2907455,
+      "rasterFile": "hole-11-green.tif",
+      "boundsEpsg3006": [
+        697660.0,
+        7024640.16,
+        697811.04,
+        7024803.36
+      ],
+      "width": 944,
+      "height": 1020,
+      "geoTransform": [
+        697660.0,
+        0.16,
+        0.0,
+        7024803.36,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:12.293259+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 18.0,
+          "maximum": 226.0,
+          "mean": 61.716333291791294,
+          "standardDeviation": 30.449677005959874
+        },
+        {
+          "band": 2,
+          "minimum": 30.0,
+          "maximum": 213.0,
+          "mean": 81.37535414589564,
+          "standardDeviation": 30.419648558336704
+        },
+        {
+          "band": 3,
+          "minimum": 42.0,
+          "maximum": 194.0,
+          "mean": 76.92496365071452,
+          "standardDeviation": 17.869622504999313
+        },
+        {
+          "band": 4,
+          "minimum": 3.0,
+          "maximum": 251.0,
+          "mean": 124.52224368560984,
+          "standardDeviation": 66.92055436817058
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-12-green": {
+      "id": "hole-12-green",
+      "requestSha256": "50b9797dec1bcc3620d6883474de3a1c4a3a35416ff8ab1f22974486a2190dd3",
+      "sha256": "90a7a77d4faa63bd372cfa031df1b89f05ae9cb1dd220854170ea062be2b42f8",
+      "bytes": 2497720,
+      "rasterFile": "hole-12-green.tif",
+      "boundsEpsg3006": [
+        697605.92,
+        7024659.68,
+        697759.8400000001,
+        7024817.12
+      ],
+      "width": 962,
+      "height": 984,
+      "geoTransform": [
+        697605.92,
+        0.16,
+        0.0,
+        7024817.12,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:13.772975+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 17.0,
+          "maximum": 226.0,
+          "mean": 53.330590909859204,
+          "standardDeviation": 32.295187716409835
+        },
+        {
+          "band": 2,
+          "minimum": 27.0,
+          "maximum": 213.0,
+          "mean": 71.89667634332268,
+          "standardDeviation": 33.40876315245115
+        },
+        {
+          "band": 3,
+          "minimum": 42.0,
+          "maximum": 194.0,
+          "mean": 72.50885266129168,
+          "standardDeviation": 18.58115916038611
+        },
+        {
+          "band": 4,
+          "minimum": 3.0,
+          "maximum": 254.0,
+          "mean": 97.70294567550665,
+          "standardDeviation": 80.69447360429565
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    }
+  },
+  "holes": [
+    {
+      "n": 7,
+      "green": {
+        "id": "h07-green-lm2024",
+        "sourceKey": "hole-07-green",
+        "ringPixels": [
+          [
+            518,
+            405
+          ],
+          [
+            532,
+            412
+          ],
+          [
+            543,
+            429
+          ],
+          [
+            548,
+            449
+          ],
+          [
+            545,
+            470
+          ],
+          [
+            538,
+            493
+          ],
+          [
+            527,
+            516
+          ],
+          [
+            514,
+            542
+          ],
+          [
+            498,
+            564
+          ],
+          [
+            480,
+            578
+          ],
+          [
+            461,
+            585
+          ],
+          [
+            446,
+            581
+          ],
+          [
+            433,
+            569
+          ],
+          [
+            426,
+            553
+          ],
+          [
+            424,
+            535
+          ],
+          [
+            430,
+            515
+          ],
+          [
+            444,
+            494
+          ],
+          [
+            456,
+            474
+          ],
+          [
+            463,
+            455
+          ],
+          [
+            469,
+            437
+          ],
+          [
+            481,
+            422
+          ],
+          [
+            499,
+            411
+          ],
+          [
+            518,
+            405
+          ]
+        ],
+        "referencePixels": [
+          487,
+          501
+        ],
+        "referenceMethod": "Virtual playing target selected inside the traced surface; not a surveyed flag location.",
+        "boundaryConfidence": "medium",
+        "boundaryNote": "Mowing edge visually interpreted at native 0.16 m pixels. Tree shadow obscures short portions; this is not a survey."
+      },
+      "bunkers": [
+        {
+          "id": "h07-bunker-01-lm2024",
+          "sourceKey": "hole-07-green",
+          "ringPixels": [
+            [
+              382,
+              476
+            ],
+            [
+              382,
+              469
+            ],
+            [
+              389,
+              459
+            ],
+            [
+              398,
+              450
+            ],
+            [
+              411,
+              444
+            ],
+            [
+              424,
+              444
+            ],
+            [
+              433,
+              450
+            ],
+            [
+              438,
+              459
+            ],
+            [
+              438,
+              472
+            ],
+            [
+              433,
+              482
+            ],
+            [
+              424,
+              489
+            ],
+            [
+              409,
+              493
+            ],
+            [
+              395,
+              492
+            ],
+            [
+              385,
+              486
+            ],
+            [
+              382,
+              476
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank.",
+          "replaceIndex": 0
+        },
+        {
+          "id": "h07-bunker-02-lm2024",
+          "sourceKey": "hole-07-green",
+          "ringPixels": [
+            [
+              540,
+              302
+            ],
+            [
+              547,
+              310
+            ],
+            [
+              552,
+              323
+            ],
+            [
+              558,
+              339
+            ],
+            [
+              559,
+              351
+            ],
+            [
+              555,
+              359
+            ],
+            [
+              544,
+              365
+            ],
+            [
+              535,
+              362
+            ],
+            [
+              524,
+              355
+            ],
+            [
+              517,
+              346
+            ],
+            [
+              515,
+              335
+            ],
+            [
+              519,
+              324
+            ],
+            [
+              526,
+              316
+            ],
+            [
+              532,
+              307
+            ],
+            [
+              540,
+              302
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank.",
+          "replaceIndex": 1
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "green": {
+        "id": "h08-green-lm2024",
+        "sourceKey": "hole-08-green",
+        "ringPixels": [
+          [
+            469,
+            393
+          ],
+          [
+            490,
+            398
+          ],
+          [
+            507,
+            409
+          ],
+          [
+            518,
+            426
+          ],
+          [
+            527,
+            448
+          ],
+          [
+            532,
+            474
+          ],
+          [
+            534,
+            501
+          ],
+          [
+            529,
+            525
+          ],
+          [
+            517,
+            551
+          ],
+          [
+            501,
+            573
+          ],
+          [
+            483,
+            583
+          ],
+          [
+            466,
+            584
+          ],
+          [
+            449,
+            577
+          ],
+          [
+            437,
+            564
+          ],
+          [
+            430,
+            544
+          ],
+          [
+            428,
+            522
+          ],
+          [
+            428,
+            494
+          ],
+          [
+            425,
+            466
+          ],
+          [
+            425,
+            443
+          ],
+          [
+            431,
+            423
+          ],
+          [
+            441,
+            408
+          ],
+          [
+            454,
+            399
+          ],
+          [
+            469,
+            393
+          ]
+        ],
+        "referencePixels": [
+          478,
+          491
+        ],
+        "referenceMethod": "Virtual playing target selected inside the traced surface; not a surveyed flag location.",
+        "boundaryConfidence": "medium",
+        "boundaryNote": "Mowing edge visually interpreted at native 0.16 m pixels. Tree shadow obscures short portions; this is not a survey."
+      },
+      "bunkers": []
+    },
+    {
+      "n": 9,
+      "green": {
+        "id": "h09-green-lm2024",
+        "sourceKey": "hole-09-green",
+        "ringPixels": [
+          [
+            443,
+            419
+          ],
+          [
+            464,
+            413
+          ],
+          [
+            485,
+            416
+          ],
+          [
+            508,
+            423
+          ],
+          [
+            527,
+            427
+          ],
+          [
+            547,
+            424
+          ],
+          [
+            565,
+            421
+          ],
+          [
+            587,
+            423
+          ],
+          [
+            608,
+            430
+          ],
+          [
+            627,
+            441
+          ],
+          [
+            640,
+            454
+          ],
+          [
+            645,
+            470
+          ],
+          [
+            642,
+            482
+          ],
+          [
+            628,
+            489
+          ],
+          [
+            609,
+            491
+          ],
+          [
+            590,
+            490
+          ],
+          [
+            572,
+            492
+          ],
+          [
+            554,
+            500
+          ],
+          [
+            539,
+            513
+          ],
+          [
+            525,
+            527
+          ],
+          [
+            508,
+            537
+          ],
+          [
+            488,
+            543
+          ],
+          [
+            467,
+            543
+          ],
+          [
+            447,
+            536
+          ],
+          [
+            430,
+            524
+          ],
+          [
+            417,
+            507
+          ],
+          [
+            409,
+            487
+          ],
+          [
+            408,
+            469
+          ],
+          [
+            412,
+            449
+          ],
+          [
+            423,
+            432
+          ],
+          [
+            443,
+            419
+          ]
+        ],
+        "referencePixels": [
+          508,
+          472
+        ],
+        "referenceMethod": "Virtual playing target selected inside the traced surface; not a surveyed flag location.",
+        "boundaryConfidence": "medium-high",
+        "boundaryNote": "Putting-surface mowing edge visually interpreted; fringe and apron excluded."
+      },
+      "bunkers": [
+        {
+          "id": "h09-bunker-01-lm2024",
+          "sourceKey": "hole-09-green",
+          "ringPixels": [
+            [
+              522,
+              384
+            ],
+            [
+              529,
+              380
+            ],
+            [
+              544,
+              378
+            ],
+            [
+              557,
+              375
+            ],
+            [
+              567,
+              371
+            ],
+            [
+              581,
+              369
+            ],
+            [
+              591,
+              370
+            ],
+            [
+              602,
+              375
+            ],
+            [
+              610,
+              383
+            ],
+            [
+              616,
+              392
+            ],
+            [
+              617,
+              400
+            ],
+            [
+              613,
+              404
+            ],
+            [
+              606,
+              403
+            ],
+            [
+              599,
+              398
+            ],
+            [
+              592,
+              393
+            ],
+            [
+              585,
+              391
+            ],
+            [
+              574,
+              392
+            ],
+            [
+              563,
+              397
+            ],
+            [
+              552,
+              402
+            ],
+            [
+              538,
+              403
+            ],
+            [
+              528,
+              402
+            ],
+            [
+              522,
+              396
+            ],
+            [
+              522,
+              384
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank.",
+          "replaceIndex": 0
+        },
+        {
+          "id": "h09-bunker-02-lm2024",
+          "sourceKey": "hole-09-green",
+          "ringPixels": [
+            [
+              562,
+              532
+            ],
+            [
+              566,
+              524
+            ],
+            [
+              575,
+              520
+            ],
+            [
+              589,
+              518
+            ],
+            [
+              603,
+              514
+            ],
+            [
+              611,
+              515
+            ],
+            [
+              617,
+              520
+            ],
+            [
+              618,
+              527
+            ],
+            [
+              614,
+              534
+            ],
+            [
+              604,
+              539
+            ],
+            [
+              590,
+              541
+            ],
+            [
+              576,
+              542
+            ],
+            [
+              565,
+              541
+            ],
+            [
+              561,
+              537
+            ],
+            [
+              562,
+              532
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank."
+        },
+        {
+          "id": "h09-bunker-03-lm2024",
+          "sourceKey": "hole-09-green",
+          "ringPixels": [
+            [
+              837,
+              426
+            ],
+            [
+              846,
+              423
+            ],
+            [
+              855,
+              426
+            ],
+            [
+              864,
+              432
+            ],
+            [
+              870,
+              443
+            ],
+            [
+              877,
+              461
+            ],
+            [
+              883,
+              476
+            ],
+            [
+              893,
+              491
+            ],
+            [
+              901,
+              505
+            ],
+            [
+              901,
+              515
+            ],
+            [
+              895,
+              523
+            ],
+            [
+              884,
+              529
+            ],
+            [
+              871,
+              534
+            ],
+            [
+              861,
+              534
+            ],
+            [
+              857,
+              527
+            ],
+            [
+              855,
+              511
+            ],
+            [
+              855,
+              493
+            ],
+            [
+              852,
+              476
+            ],
+            [
+              846,
+              463
+            ],
+            [
+              838,
+              448
+            ],
+            [
+              833,
+              438
+            ],
+            [
+              832,
+              431
+            ],
+            [
+              837,
+              426
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank."
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "green": {
+        "id": "h10-green-lm2024",
+        "sourceKey": "hole-10-green",
+        "ringPixels": [
+          [
+            417,
+            415
+          ],
+          [
+            434,
+            417
+          ],
+          [
+            458,
+            429
+          ],
+          [
+            480,
+            440
+          ],
+          [
+            499,
+            457
+          ],
+          [
+            514,
+            478
+          ],
+          [
+            524,
+            500
+          ],
+          [
+            527,
+            519
+          ],
+          [
+            522,
+            535
+          ],
+          [
+            511,
+            548
+          ],
+          [
+            496,
+            555
+          ],
+          [
+            477,
+            554
+          ],
+          [
+            458,
+            546
+          ],
+          [
+            443,
+            530
+          ],
+          [
+            434,
+            511
+          ],
+          [
+            424,
+            491
+          ],
+          [
+            410,
+            472
+          ],
+          [
+            399,
+            454
+          ],
+          [
+            396,
+            437
+          ],
+          [
+            403,
+            423
+          ],
+          [
+            417,
+            415
+          ]
+        ],
+        "referencePixels": [
+          465,
+          490
+        ],
+        "referenceMethod": "Virtual playing target selected inside the traced surface; not a surveyed flag location.",
+        "boundaryConfidence": "medium-high",
+        "boundaryNote": "Putting-surface mowing edge visually interpreted; fringe and apron excluded."
+      },
+      "bunkers": [
+        {
+          "id": "h10-bunker-01-lm2024",
+          "sourceKey": "hole-10-green",
+          "ringPixels": [
+            [
+              366,
+              474
+            ],
+            [
+              378,
+              473
+            ],
+            [
+              387,
+              478
+            ],
+            [
+              393,
+              486
+            ],
+            [
+              395,
+              495
+            ],
+            [
+              391,
+              506
+            ],
+            [
+              385,
+              512
+            ],
+            [
+              376,
+              514
+            ],
+            [
+              370,
+              510
+            ],
+            [
+              363,
+              503
+            ],
+            [
+              360,
+              494
+            ],
+            [
+              361,
+              484
+            ],
+            [
+              366,
+              474
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank.",
+          "replaceIndex": 2
+        },
+        {
+          "id": "h10-bunker-02-lm2024",
+          "sourceKey": "hole-10-green",
+          "ringPixels": [
+            [
+              270,
+              426
+            ],
+            [
+              272,
+              420
+            ],
+            [
+              278,
+              417
+            ],
+            [
+              285,
+              419
+            ],
+            [
+              292,
+              430
+            ],
+            [
+              299,
+              438
+            ],
+            [
+              309,
+              443
+            ],
+            [
+              318,
+              451
+            ],
+            [
+              322,
+              460
+            ],
+            [
+              323,
+              467
+            ],
+            [
+              317,
+              475
+            ],
+            [
+              308,
+              480
+            ],
+            [
+              299,
+              481
+            ],
+            [
+              294,
+              476
+            ],
+            [
+              291,
+              465
+            ],
+            [
+              288,
+              454
+            ],
+            [
+              280,
+              446
+            ],
+            [
+              273,
+              438
+            ],
+            [
+              270,
+              426
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank."
+        }
+      ],
+      "removeBunkers": [
+        {
+          "id": "h10-bunker-0-reassigned-to-h09",
+          "sourceKey": "hole-09-green",
+          "ringLegacy": [
+            [
+              -47.4,
+              -196
+            ],
+            [
+              -49.6,
+              -194.1
+            ],
+            [
+              -48.9,
+              -192.6
+            ],
+            [
+              -45.8,
+              -191.9
+            ],
+            [
+              -42,
+              -192.2
+            ],
+            [
+              -40,
+              -194.1
+            ],
+            [
+              -39.8,
+              -195.3
+            ],
+            [
+              -40.8,
+              -196.4
+            ],
+            [
+              -43.3,
+              -196.8
+            ]
+          ]
+        },
+        {
+          "id": "h10-bunker-1-reassigned-to-h09",
+          "sourceKey": "hole-09-green",
+          "ringLegacy": [
+            [
+              1.5,
+              -203.6
+            ],
+            [
+              -0.2,
+              -206.6
+            ],
+            [
+              -2.6,
+              -208.2
+            ],
+            [
+              -5.1,
+              -207.5
+            ],
+            [
+              -5.8,
+              -205.2
+            ],
+            [
+              -3.5,
+              -198.8
+            ],
+            [
+              -2.5,
+              -191.5
+            ],
+            [
+              0,
+              -189.4
+            ],
+            [
+              2.7,
+              -190.2
+            ],
+            [
+              4.6,
+              -192.7
+            ],
+            [
+              5,
+              -194.8
+            ],
+            [
+              2.6,
+              -199.3
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "green": {
+        "id": "h11-green-lm2024",
+        "sourceKey": "hole-11-green",
+        "ringPixels": [
+          [
+            491,
+            421
+          ],
+          [
+            520,
+            422
+          ],
+          [
+            542,
+            434
+          ],
+          [
+            555,
+            451
+          ],
+          [
+            555,
+            470
+          ],
+          [
+            544,
+            487
+          ],
+          [
+            531,
+            504
+          ],
+          [
+            526,
+            525
+          ],
+          [
+            521,
+            551
+          ],
+          [
+            516,
+            578
+          ],
+          [
+            503,
+            597
+          ],
+          [
+            484,
+            608
+          ],
+          [
+            463,
+            611
+          ],
+          [
+            445,
+            603
+          ],
+          [
+            432,
+            589
+          ],
+          [
+            421,
+            569
+          ],
+          [
+            416,
+            546
+          ],
+          [
+            418,
+            524
+          ],
+          [
+            427,
+            504
+          ],
+          [
+            439,
+            484
+          ],
+          [
+            449,
+            464
+          ],
+          [
+            460,
+            442
+          ],
+          [
+            474,
+            427
+          ],
+          [
+            491,
+            421
+          ]
+        ],
+        "referencePixels": [
+          481,
+          521
+        ],
+        "referenceMethod": "Virtual playing target selected inside the traced surface; not a surveyed flag location.",
+        "boundaryConfidence": "medium-high",
+        "boundaryNote": "Putting-surface mowing edge visually interpreted; fringe and apron excluded."
+      },
+      "bunkers": [
+        {
+          "id": "h11-bunker-01-lm2024",
+          "sourceKey": "hole-11-green",
+          "ringPixels": [
+            [
+              405,
+              429
+            ],
+            [
+              412,
+              422
+            ],
+            [
+              423,
+              417
+            ],
+            [
+              436,
+              415
+            ],
+            [
+              441,
+              419
+            ],
+            [
+              443,
+              427
+            ],
+            [
+              441,
+              438
+            ],
+            [
+              436,
+              449
+            ],
+            [
+              431,
+              454
+            ],
+            [
+              421,
+              452
+            ],
+            [
+              412,
+              447
+            ],
+            [
+              406,
+              441
+            ],
+            [
+              404,
+              435
+            ],
+            [
+              405,
+              429
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank.",
+          "replaceIndex": 0
+        },
+        {
+          "id": "h11-bunker-02-lm2024",
+          "sourceKey": "hole-11-green",
+          "ringPixels": [
+            [
+              577,
+              498
+            ],
+            [
+              583,
+              500
+            ],
+            [
+              586,
+              507
+            ],
+            [
+              584,
+              519
+            ],
+            [
+              581,
+              531
+            ],
+            [
+              578,
+              548
+            ],
+            [
+              572,
+              557
+            ],
+            [
+              564,
+              558
+            ],
+            [
+              558,
+              553
+            ],
+            [
+              554,
+              546
+            ],
+            [
+              553,
+              537
+            ],
+            [
+              556,
+              526
+            ],
+            [
+              561,
+              515
+            ],
+            [
+              567,
+              505
+            ],
+            [
+              577,
+              498
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank.",
+          "replaceIndex": 2
+        }
+      ],
+      "removeBunkers": [
+        {
+          "id": "h11-bunker-3-reassigned-to-h10",
+          "sourceKey": "hole-10-green",
+          "ringLegacy": [
+            [
+              273.8,
+              -81.7
+            ],
+            [
+              272.2,
+              -82.2
+            ],
+            [
+              270.9,
+              -81.7
+            ],
+            [
+              270.4,
+              -80
+            ],
+            [
+              272.8,
+              -75.8
+            ],
+            [
+              273.5,
+              -72.7
+            ],
+            [
+              275.3,
+              -71.4
+            ],
+            [
+              277.3,
+              -72.1
+            ],
+            [
+              278.3,
+              -73.6
+            ],
+            [
+              278.3,
+              -75.6
+            ],
+            [
+              275.2,
+              -79.1
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "green": {
+        "id": "h12-green-lm2024",
+        "sourceKey": "hole-12-green",
+        "ringPixels": [
+          [
+            471,
+            415
+          ],
+          [
+            492,
+            420
+          ],
+          [
+            511,
+            432
+          ],
+          [
+            525,
+            449
+          ],
+          [
+            537,
+            474
+          ],
+          [
+            552,
+            499
+          ],
+          [
+            572,
+            529
+          ],
+          [
+            582,
+            549
+          ],
+          [
+            580,
+            568
+          ],
+          [
+            564,
+            580
+          ],
+          [
+            544,
+            585
+          ],
+          [
+            522,
+            581
+          ],
+          [
+            500,
+            569
+          ],
+          [
+            480,
+            555
+          ],
+          [
+            459,
+            539
+          ],
+          [
+            440,
+            519
+          ],
+          [
+            427,
+            496
+          ],
+          [
+            420,
+            474
+          ],
+          [
+            420,
+            453
+          ],
+          [
+            432,
+            433
+          ],
+          [
+            450,
+            420
+          ],
+          [
+            471,
+            415
+          ]
+        ],
+        "referencePixels": [
+          485,
+          479
+        ],
+        "referenceMethod": "Virtual playing target selected inside the traced surface; not a surveyed flag location.",
+        "boundaryConfidence": "medium",
+        "boundaryNote": "Mowing edge visually interpreted at native 0.16 m pixels. Tree shadow obscures short portions; this is not a survey."
+      },
+      "bunkers": [
+        {
+          "id": "h12-bunker-01-lm2024",
+          "sourceKey": "hole-12-green",
+          "ringPixels": [
+            [
+              551,
+              455
+            ],
+            [
+              558,
+              455
+            ],
+            [
+              567,
+              459
+            ],
+            [
+              575,
+              468
+            ],
+            [
+              580,
+              478
+            ],
+            [
+              584,
+              488
+            ],
+            [
+              593,
+              494
+            ],
+            [
+              599,
+              504
+            ],
+            [
+              603,
+              514
+            ],
+            [
+              602,
+              523
+            ],
+            [
+              598,
+              529
+            ],
+            [
+              589,
+              529
+            ],
+            [
+              584,
+              525
+            ],
+            [
+              581,
+              517
+            ],
+            [
+              579,
+              505
+            ],
+            [
+              575,
+              496
+            ],
+            [
+              568,
+              490
+            ],
+            [
+              559,
+              483
+            ],
+            [
+              552,
+              475
+            ],
+            [
+              549,
+              466
+            ],
+            [
+              548,
+              459
+            ],
+            [
+              551,
+              455
+            ]
+          ],
+          "boundaryNote": "Visible sand edge, excluding grass bank.",
+          "replaceIndex": 0
+        }
+      ]
+    }
+  ]
+}

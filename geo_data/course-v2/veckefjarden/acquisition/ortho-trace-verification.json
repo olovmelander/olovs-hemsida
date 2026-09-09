@@ -1,0 +1,1018 @@
+{
+  "schemaVersion": 1,
+  "groundId": "veckefjarden",
+  "verifiedOn": "2026-09-09",
+  "method": "Verify source and reviewed panel bytes; reconstruct EPSG:3006 from pixel-edge affines and compare with forward projection of accepted rounded legacy coordinates.",
+  "positionalSurveyAccuracyClaim": false,
+  "inputs": [
+    {
+      "path": "geobuild/mapping/ortho-reviewed-01-04-tees.json",
+      "sha256": "93c647c35738c0a220d90a34417c1edddd32aa0afadae2054db1bdae73b64cb0"
+    },
+    {
+      "path": "geobuild/mapping/ortho-reviewed-01-06.json",
+      "sha256": "d05b8ba5b244840ce9b322a891e425df75921964e31ae4591e5c77dfbdd0bba8"
+    },
+    {
+      "path": "geobuild/mapping/ortho-reviewed-05-06-tees.json",
+      "sha256": "52113e9a65b14847841f7c5af99eecf0e7750d70515dfc6c52a549f4e372221e"
+    },
+    {
+      "path": "geobuild/mapping/ortho-reviewed-07-12-turf.json",
+      "sha256": "bfa281fddb31a67e06a37feed2ee59e3288cf994b01af937480829847111bad8"
+    },
+    {
+      "path": "geobuild/mapping/ortho-reviewed-07-12.json",
+      "sha256": "d40086da6c29c3c185c113e5a1998e5f9c588cda348958a74b4004c1205f8e26"
+    },
+    {
+      "path": "geobuild/mapping/ortho-reviewed-13-18-turf.json",
+      "sha256": "49914bddbc8c64d443488382c985dbbb3b3f15cf6c0d6ac0f8ce5c2992e05aab"
+    },
+    {
+      "path": "geobuild/mapping/ortho-reviewed-13-18.json",
+      "sha256": "a710bbb85434312c490eb45f1e0d3ec01923ae406a1584ca5f625428b64a5289"
+    }
+  ],
+  "summary": {
+    "featureDocuments": 7,
+    "acceptedFeatures": 82,
+    "tracedVertices": 1369,
+    "retainedHistoricalPads": 1,
+    "sourceFilesVerified": 7,
+    "plainPanelsVerified": 48,
+    "maxRoundtripMetres": 0.007538711936789433,
+    "maxRoundtripPanelPixels": 0.07868132258999011,
+    "minInterpretationUncertaintyMetres": 0.4,
+    "displayPixelMetres": [
+      0.0875,
+      0.5584218717669137
+    ],
+    "issues": 0
+  },
+  "sourceFiles": [
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+      "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-2-2.tif",
+      "sha256": "e235a3eab4b4bc131d0c79138ae3a5138789f3fc9464b629e50a4cdacd01b524"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-2-1.tif",
+      "sha256": "7ade0afbf202e5d05c8f3784fc2f4a9243870ce6a90586774b68bfff0091ab20"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+      "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+      "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-0.tif",
+      "sha256": "d9b13ecaf36a332e6f15b27400778409d384073cad396f6216b9e2be1efa7a30"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-0.tif",
+      "sha256": "56b30e1c08b663705f0427be797f5ea6a5fbc4409a0ce3ba8bc1f01b54bc55b1"
+    }
+  ],
+  "reviewedPanels": [
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h01-back-plain.png",
+      "sha256": "a9166c0e9e1e57780b83bcf38e03df2965090e001fcc9c10518f161460a7af3f"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h01-front-plain.png",
+      "sha256": "5a0e447c37f9b046def2b59ac6ca33d5191195cdffd5f935078fd8bed5ca2d86"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h02-back-plain.png",
+      "sha256": "df8ce518f0b0e84d0a644bf9780709a1654496232bea4d6f7799907e51ff3b21"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h02-front-plain.png",
+      "sha256": "49cc434ee6eef7c52560aa97abdeea3a619a3fdcd0338a1e8bac52aef3c96c9e"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h03-back-plain.png",
+      "sha256": "dba1ac67299bbe5022bb5c7b10031b5a8ce9751d6140af7c812cc48f4306e0d6"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h04-back-plain.png",
+      "sha256": "ac854e339641abaac3b50f8f263a35af02ba35e445fb3edf94721e132c74b579"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-01-06/greens-hole-01-plain.png",
+      "sha256": "06c1996e0779222a7e3caaf0ece581b13f04c8f5ca21d32fbf3b46f3e382646e"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-01-06/greens-hole-02-plain.png",
+      "sha256": "a16f0f0b18bfa356d67bfa03c1f0f1e33b77ead2c9cf034487885b1c4e8f5a76"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-01-06/greens-hole-03-plain.png",
+      "sha256": "09918f2d5aff7f48700f696a3b086bd18b20c0ee177ad02a139943df4b6733b3"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-01-06/greens-hole-04-plain.png",
+      "sha256": "e0e0be33021ecec3533384a7e9965afe20166ea5a82a872ae6dffa81ec56ca05"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-01-06/greens-hole-05-plain.png",
+      "sha256": "b3e8baed88284a44e85205462fe0c877e07aa60c86409bcdc9ee69b4a87ce9bf"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-01-06/greens-hole-06-plain.png",
+      "sha256": "75a094da2e2283637996fc89c9d50245f8de5e9868711130ad1ba85279700444"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h05-back-plain.png",
+      "sha256": "d08ef380d059705bba0538851fe151d051e4d9cecb6443698e11ebe0e3c2ab8c"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h05-front-plain.png",
+      "sha256": "2fe225176bc0ccb9bb155243ec3a92b4bd3199285201703d6dcdc302746edede"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h06-back-plain.png",
+      "sha256": "60e72759d630cff0627d28baadbe01d73aff14d3292b223d9203f6715166e51d"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-tee-focus-after/tees-h06-front-plain.png",
+      "sha256": "5678f87f8924dd61c1ce360b50ba184f454ac365b4d61c19d9d6c1dd50430e8c"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-00-plain.png",
+      "sha256": "5c7f77e39dc852845fdb027b2e0ce805d391ccbc27a48784e8543893607b0ab7"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-01-plain.png",
+      "sha256": "6eeb287f54cee155fba5d1be46029f882b288e619ff8f48833e143b80da34f8a"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-02-plain.png",
+      "sha256": "d3f6dbc36aeec1d695a2528ef233201c4abcda0f9aee86e559ec0b14d0d5e2cc"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-00-plain.png",
+      "sha256": "ee89bcdfed4a76e444c8f14bbda0df6292db7d69364e69021f99d6286ae3ffd8"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-01-plain.png",
+      "sha256": "ff8fa31068bd08d43998ecab26ec64c777a5bb54c970fa2d75eb19390b9f6425"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-00-plain.png",
+      "sha256": "229a6c720bc2f4a2d2e7157d50cc6b12616b0f6833352847aa2040dcdfa1d968"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-01-plain.png",
+      "sha256": "37fdf92e434e9a91a5050e5b5582238806d8c4a71c476934e69486d4f0b39ca5"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-02-plain.png",
+      "sha256": "98d1f6e1b8db38832781260d6ee7a28f8245e6cd2d3220e93c2c21015ef54c1f"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-03-plain.png",
+      "sha256": "21dd2441fdec7e997bc8bb27412cc4884effbc706acb8dd639e506a7e6b34c24"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-01-plain.png",
+      "sha256": "ae73bade1f7a20a810adbbbb357ba5045f3ea6346c9037b0841abaa6668f66d1"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-00-plain.png",
+      "sha256": "22ac446e516936f09430ddda0c03f938994a62bc1097b2552d22989edbc79f34"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-01-plain.png",
+      "sha256": "df1f8496b3d781bd2f188388e5028f984babdde403407c787385cd38cce660e0"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-02-plain.png",
+      "sha256": "b5417ada8c919570f5ffc0ebc95568471be9bfaf52468d54303291752106f54c"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-wide-07-12/h09-fairway-00-wide-plain.png",
+      "sha256": "decfee3863e6e48f96372ab12533c46baa1ced8fc5c03b1b216948cdb7708371"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-wide-07-12/h11-fairway-00-wide-plain.png",
+      "sha256": "6f6a666b6816a92fc7a37de59eb909b73b768d818fc5b58f17063106abebae7b"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/greens-hole-07-plain.png",
+      "sha256": "b996e21da605d4c931a909f48fef34822f1dae54869f0fdd18c40db756a5c89e"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/greens-hole-08-plain.png",
+      "sha256": "83e7c35b48246789c7afd83b16df98536cce3bc916ea823dfaae9a546a28590e"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/greens-hole-09-plain.png",
+      "sha256": "8d42ba0639d33f02d219c462da3f888993e173780ca3b41af08da1b38d6718e9"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/greens-hole-11-plain.png",
+      "sha256": "0e2a64ebf3044427551dea2e7ffdccbd2cbc3c61503bfbc3634d4d827e3c2482"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/greens-hole-12-plain.png",
+      "sha256": "88f396fa48a75f167a00a3943197cb139a88b77faf9525d65a3809e8c5f0e6f0"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/tees-hole-13-plain.png",
+      "sha256": "a18b1ede0b26af41d8179f2b47f2fc5f2b2822373e6ab48848815f9c7b409950"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/tees-hole-15-plain.png",
+      "sha256": "b1e1847eaf80cdff05e2c0c553eb21ab014e8b85d26a5bdae7cffa776bddd484"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/tees-hole-16-plain.png",
+      "sha256": "7345cc3a971f2fc177e210d7a9a7ea67c96bfbfa097341b22c7e6d001f1da9f7"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/tees-hole-17-plain.png",
+      "sha256": "3f9d76410d560a8b72e93cbde41cd81d21abb1c7343398fec64cc631e9ac89d4"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/tees-hole-18-plain.png",
+      "sha256": "952da1d7681b42a5ae6f44560ba9f12023fb4e953b6f2530b9630752867bcfba"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review/holes-hole-13-plain.png",
+      "sha256": "1138944d1f23753ebae0835c4ad4648aff27aa1d5fbf0c338df08eb606b53fe0"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-13-18/greens-hole-13-plain.png",
+      "sha256": "008bd5a67772a01d9b463474b47c1a38dcc11eb120fd0e02d3fe6b345c5f0c23"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-13-18/greens-hole-14-plain.png",
+      "sha256": "4a7fad3f8f4bd4d2ef3f54a654257f8eb8c381d8be9a0ede568af2252cb0e724"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-13-18/greens-hole-15-plain.png",
+      "sha256": "a0d0f89c49fe1bb6778640acc6a13a640acc936e3204043b706027602ec256b0"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-13-18/greens-hole-16-plain.png",
+      "sha256": "c61f9239fdf5f17eeaff37bbe7f577f94a08761d1c5c8d5ec7535ea92eedfcdb"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-13-18/greens-hole-17-plain.png",
+      "sha256": "f436f9cf9a2724de1dee0983d991becaf87ed1edea1af5675d9780a1753be781"
+    },
+    {
+      "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-after-13-18/greens-hole-18-plain.png",
+      "sha256": "e3838ea611907ee1dd9f29ec08b58b8440d03a191579007fdb3c637b72033b28"
+    }
+  ],
+  "features": [
+    {
+      "id": "lm-2024-h01-tee-inventory",
+      "hole": 1,
+      "kind": "tee-set",
+      "parts": 3,
+      "tracedVertices": 24,
+      "maxRoundtripMetres": 0.006533212767919588,
+      "maxRoundtripPanelPixels": 0.05501652857195442
+    },
+    {
+      "id": "lm-2024-h02-tee-inventory",
+      "hole": 2,
+      "kind": "tee-set",
+      "parts": 3,
+      "tracedVertices": 27,
+      "maxRoundtripMetres": 0.005648999518514775,
+      "maxRoundtripPanelPixels": 0.047570522261177056
+    },
+    {
+      "id": "lm-2024-h03-tee-inventory",
+      "hole": 3,
+      "kind": "tee-set",
+      "parts": 1,
+      "tracedVertices": 8,
+      "maxRoundtripMetres": 0.005870562784906618,
+      "maxRoundtripPanelPixels": 0.049436318188687316
+    },
+    {
+      "id": "lm-2024-h04-tee-inventory",
+      "hole": 4,
+      "kind": "tee-set",
+      "parts": 4,
+      "tracedVertices": 39,
+      "maxRoundtripMetres": 0.006667852048694469,
+      "maxRoundtripPanelPixels": 0.05615033304163764
+    },
+    {
+      "id": "lm-2024-h01-green",
+      "hole": 1,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 22,
+      "maxRoundtripMetres": 0.006618230457785744,
+      "maxRoundtripPanelPixels": 0.052945843662285955
+    },
+    {
+      "id": "lm-2024-h02-bunker-02",
+      "hole": 2,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 13,
+      "maxRoundtripMetres": 0.005403016002942482,
+      "maxRoundtripPanelPixels": 0.04322412802353986
+    },
+    {
+      "id": "lm-2024-h03-green",
+      "hole": 3,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 26,
+      "maxRoundtripMetres": 0.006278356509644013,
+      "maxRoundtripPanelPixels": 0.05022685207715211
+    },
+    {
+      "id": "lm-2024-h03-bunker-01",
+      "hole": 3,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 23,
+      "maxRoundtripMetres": 0.006579230809552249,
+      "maxRoundtripPanelPixels": 0.05263384647641799
+    },
+    {
+      "id": "lm-2024-h04-green",
+      "hole": 4,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 31,
+      "maxRoundtripMetres": 0.005917341867057721,
+      "maxRoundtripPanelPixels": 0.04733873493646177
+    },
+    {
+      "id": "lm-2024-h04-bunker-01",
+      "hole": 4,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 32,
+      "maxRoundtripMetres": 0.006301824380314976,
+      "maxRoundtripPanelPixels": 0.05041459504251981
+    },
+    {
+      "id": "lm-2024-h05-green",
+      "hole": 5,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 24,
+      "maxRoundtripMetres": 0.005988653173003206,
+      "maxRoundtripPanelPixels": 0.04790922538402565
+    },
+    {
+      "id": "lm-2024-h05-bunker-01",
+      "hole": 5,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 14,
+      "maxRoundtripMetres": 0.006508899282439341,
+      "maxRoundtripPanelPixels": 0.05207119425951473
+    },
+    {
+      "id": "lm-2024-h05-bunker-02",
+      "hole": 5,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 16,
+      "maxRoundtripMetres": 0.006501281274793447,
+      "maxRoundtripPanelPixels": 0.052010250198347575
+    },
+    {
+      "id": "lm-2024-h06-green",
+      "hole": 6,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 26,
+      "maxRoundtripMetres": 0.00725809866558869,
+      "maxRoundtripPanelPixels": 0.05806478932470952
+    },
+    {
+      "id": "lm-2024-h06-bunker-01",
+      "hole": 6,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 12,
+      "maxRoundtripMetres": 0.005192069164609723,
+      "maxRoundtripPanelPixels": 0.041536553316877785
+    },
+    {
+      "id": "lm-2024-h06-bunker-02",
+      "hole": 6,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 15,
+      "maxRoundtripMetres": 0.006203469452171853,
+      "maxRoundtripPanelPixels": 0.04962775561737483
+    },
+    {
+      "id": "lm-2024-h06-bunker-04",
+      "hole": 6,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 16,
+      "maxRoundtripMetres": 0.005105364344030237,
+      "maxRoundtripPanelPixels": 0.040842914752241895
+    },
+    {
+      "id": "lm-2024-h05-tee-inventory",
+      "hole": 5,
+      "kind": "tee-set",
+      "parts": 2,
+      "tracedVertices": 8,
+      "maxRoundtripMetres": 0.004603410758344133,
+      "maxRoundtripPanelPixels": 0.032723124935853415
+    },
+    {
+      "id": "lm-2024-h06-tee-inventory",
+      "hole": 6,
+      "kind": "tee-set",
+      "parts": 4,
+      "tracedVertices": 20,
+      "maxRoundtripMetres": 0.006177839383383472,
+      "maxRoundtripPanelPixels": 0.04548941218911087
+    },
+    {
+      "id": "lm-2024-h08-tee-1",
+      "hole": 8,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.004753747160145785,
+      "maxRoundtripPanelPixels": 0.05432853897309468
+    },
+    {
+      "id": "lm-2024-h08-tee-2",
+      "hole": 8,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.006290781966938342,
+      "maxRoundtripPanelPixels": 0.07189465105072392
+    },
+    {
+      "id": "lm-2024-h08-tee-3",
+      "hole": 8,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005117907227940566,
+      "maxRoundtripPanelPixels": 0.05849036831932076
+    },
+    {
+      "id": "lm-2024-h09-tee-1",
+      "hole": 9,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.004406559769082631,
+      "maxRoundtripPanelPixels": 0.05036068307523007
+    },
+    {
+      "id": "lm-2024-h09-tee-2",
+      "hole": 9,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 20,
+      "maxRoundtripMetres": 0.005806331718955791,
+      "maxRoundtripPanelPixels": 0.06635807678806618
+    },
+    {
+      "id": "lm-2024-h10-tee-1",
+      "hole": 10,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.0068846157266241334,
+      "maxRoundtripPanelPixels": 0.07868132258999011
+    },
+    {
+      "id": "lm-2024-h10-tee-2",
+      "hole": 10,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 8,
+      "maxRoundtripMetres": 0.006057666408569994,
+      "maxRoundtripPanelPixels": 0.06923047324079994
+    },
+    {
+      "id": "lm-2024-h10-tee-3",
+      "hole": 10,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.004144538449840625,
+      "maxRoundtripPanelPixels": 0.04736615371246429
+    },
+    {
+      "id": "lm-2024-h10-tee-4",
+      "hole": 10,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005381496393628767,
+      "maxRoundtripPanelPixels": 0.06150281592718592
+    },
+    {
+      "id": "lm-2024-h11-tee-2",
+      "hole": 11,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.004308479698180948,
+      "maxRoundtripPanelPixels": 0.04923976797921084
+    },
+    {
+      "id": "lm-2024-h12-tee-1",
+      "hole": 12,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005117837420646229,
+      "maxRoundtripPanelPixels": 0.0584895705216712
+    },
+    {
+      "id": "lm-2024-h12-tee-2",
+      "hole": 12,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.004722602601733469,
+      "maxRoundtripPanelPixels": 0.053972601162668214
+    },
+    {
+      "id": "lm-2024-h12-tee-3",
+      "hole": 12,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005447893089586694,
+      "maxRoundtripPanelPixels": 0.06226163530956222
+    },
+    {
+      "id": "lm-2024-h09-fairway",
+      "hole": 9,
+      "kind": "fairway",
+      "parts": 1,
+      "tracedVertices": 75,
+      "maxRoundtripMetres": 0.0071159418756962505,
+      "maxRoundtripPanelPixels": 0.02643243514502023
+    },
+    {
+      "id": "lm-2024-h11-fairway",
+      "hole": 11,
+      "kind": "fairway",
+      "parts": 1,
+      "tracedVertices": 62,
+      "maxRoundtripMetres": 0.006935873235640311,
+      "maxRoundtripPanelPixels": 0.022946553473672374
+    },
+    {
+      "id": "lm-2024-h07-green",
+      "hole": 7,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 30,
+      "maxRoundtripMetres": 0.006283977611038729,
+      "maxRoundtripPanelPixels": 0.05027182088830983
+    },
+    {
+      "id": "lm-2024-h07-bunker-1",
+      "hole": 7,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 25,
+      "maxRoundtripMetres": 0.006923594939068505,
+      "maxRoundtripPanelPixels": 0.05538875951254804
+    },
+    {
+      "id": "lm-2024-h07-bunker-2",
+      "hole": 7,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 15,
+      "maxRoundtripMetres": 0.0062976270573149775,
+      "maxRoundtripPanelPixels": 0.05038101645851982
+    },
+    {
+      "id": "lm-2024-h08-green",
+      "hole": 8,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 30,
+      "maxRoundtripMetres": 0.007256054461514833,
+      "maxRoundtripPanelPixels": 0.05804843569211866
+    },
+    {
+      "id": "lm-2024-h08-bunker-1",
+      "hole": 8,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 25,
+      "maxRoundtripMetres": 0.0059342992267963374,
+      "maxRoundtripPanelPixels": 0.0474743938143707
+    },
+    {
+      "id": "lm-2024-h09-green",
+      "hole": 9,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 26,
+      "maxRoundtripMetres": 0.0065341234632014375,
+      "maxRoundtripPanelPixels": 0.0522729877056115
+    },
+    {
+      "id": "lm-2024-h09-bunker-1",
+      "hole": 9,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 14,
+      "maxRoundtripMetres": 0.007195541891154418,
+      "maxRoundtripPanelPixels": 0.057564335129235346
+    },
+    {
+      "id": "lm-2024-h09-bunker-3",
+      "hole": 9,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 13,
+      "maxRoundtripMetres": 0.005959987163093971,
+      "maxRoundtripPanelPixels": 0.04767989730475177
+    },
+    {
+      "id": "lm-2024-h11-green",
+      "hole": 11,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 26,
+      "maxRoundtripMetres": 0.007332248416770992,
+      "maxRoundtripPanelPixels": 0.05865798733416794
+    },
+    {
+      "id": "lm-2024-h11-bunker-2",
+      "hole": 11,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 25,
+      "maxRoundtripMetres": 0.005712183174494284,
+      "maxRoundtripPanelPixels": 0.04569746539595427
+    },
+    {
+      "id": "lm-2024-h12-green",
+      "hole": 12,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 26,
+      "maxRoundtripMetres": 0.005986973194103197,
+      "maxRoundtripPanelPixels": 0.04789578555282557
+    },
+    {
+      "id": "lm-2024-h12-bunker-1",
+      "hole": 12,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 15,
+      "maxRoundtripMetres": 0.006147374997411762,
+      "maxRoundtripPanelPixels": 0.0491789999792941
+    },
+    {
+      "id": "lm-2024-h12-bunker-2",
+      "hole": 12,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 30,
+      "maxRoundtripMetres": 0.006535728806107658,
+      "maxRoundtripPanelPixels": 0.052285830448861266
+    },
+    {
+      "id": "lm-2024-h12-bunker-3",
+      "hole": 12,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 23,
+      "maxRoundtripMetres": 0.006590085481484086,
+      "maxRoundtripPanelPixels": 0.05272068385187269
+    },
+    {
+      "id": "lm-2024-h13-bunker-4",
+      "hole": 13,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 15,
+      "maxRoundtripMetres": 0.006147374997411762,
+      "maxRoundtripPanelPixels": 0.0491789999792941
+    },
+    {
+      "id": "lm2024-h13-tee-02",
+      "hole": 13,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.004458021906904156,
+      "maxRoundtripPanelPixels": 0.015147932094674032
+    },
+    {
+      "id": "lm2024-h13-tee-03",
+      "hole": 13,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 7,
+      "maxRoundtripMetres": 0.006196553171982284,
+      "maxRoundtripPanelPixels": 0.02105529506814459
+    },
+    {
+      "id": "lm2024-h13-tee-01",
+      "hole": 13,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.004328944787515937,
+      "maxRoundtripPanelPixels": 0.014709340387333339
+    },
+    {
+      "id": "lm2024-h15-tee-01",
+      "hole": 15,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005086210087494842,
+      "maxRoundtripPanelPixels": 0.03203749589913709
+    },
+    {
+      "id": "lm2024-h16-tee-01",
+      "hole": 16,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005765529277386156,
+      "maxRoundtripPanelPixels": 0.02720936137121818
+    },
+    {
+      "id": "lm2024-h16-tee-02",
+      "hole": 16,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.004510640858722424,
+      "maxRoundtripPanelPixels": 0.02128714489790537
+    },
+    {
+      "id": "lm2024-h16-tee-03",
+      "hole": 16,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 5,
+      "maxRoundtripMetres": 0.006811054843967341,
+      "maxRoundtripPanelPixels": 0.032143528139806914
+    },
+    {
+      "id": "lm2024-h16-tee-04",
+      "hole": 16,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 5,
+      "maxRoundtripMetres": 0.005959427436277668,
+      "maxRoundtripPanelPixels": 0.028124428283635903
+    },
+    {
+      "id": "lm2024-h17-tee-01",
+      "hole": 17,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.006396131158274979,
+      "maxRoundtripPanelPixels": 0.023870361012651727
+    },
+    {
+      "id": "lm2024-h17-tee-02",
+      "hole": 17,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.006270977145060842,
+      "maxRoundtripPanelPixels": 0.023403286244522117
+    },
+    {
+      "id": "lm2024-h17-tee-03",
+      "hole": 17,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005657488232735356,
+      "maxRoundtripPanelPixels": 0.021113745668825977
+    },
+    {
+      "id": "lm2024-h17-tee-04",
+      "hole": 17,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.006907703742507679,
+      "maxRoundtripPanelPixels": 0.025779549859398503
+    },
+    {
+      "id": "lm2024-h18-tee-01",
+      "hole": 18,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005028587610093272,
+      "maxRoundtripPanelPixels": 0.014316150793888005
+    },
+    {
+      "id": "lm2024-h18-tee-02",
+      "hole": 18,
+      "kind": "tee",
+      "parts": 1,
+      "tracedVertices": 4,
+      "maxRoundtripMetres": 0.005127774361928882,
+      "maxRoundtripPanelPixels": 0.014598530779310412
+    },
+    {
+      "id": "lm2024-h13-fairway",
+      "hole": 13,
+      "kind": "fairway",
+      "parts": 1,
+      "tracedVertices": 46,
+      "maxRoundtripMetres": 0.0071143947687629504,
+      "maxRoundtripPanelPixels": 0.012740179295363474
+    },
+    {
+      "id": "lm2024-h13-green",
+      "hole": 13,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 24,
+      "maxRoundtripMetres": 0.00608429925262958,
+      "maxRoundtripPanelPixels": 0.04867439402103664
+    },
+    {
+      "id": "lm2024-h13-bunker-01",
+      "hole": 13,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 14,
+      "maxRoundtripMetres": 0.0065764086826326845,
+      "maxRoundtripPanelPixels": 0.052611269461061476
+    },
+    {
+      "id": "lm2024-h14-green",
+      "hole": 14,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 26,
+      "maxRoundtripMetres": 0.0072325182350909826,
+      "maxRoundtripPanelPixels": 0.05786014588072786
+    },
+    {
+      "id": "lm2024-h14-bunker-01",
+      "hole": 14,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 12,
+      "maxRoundtripMetres": 0.007538711936789433,
+      "maxRoundtripPanelPixels": 0.06030969549431547
+    },
+    {
+      "id": "lm2024-h15-green",
+      "hole": 15,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 26,
+      "maxRoundtripMetres": 0.006770364612857484,
+      "maxRoundtripPanelPixels": 0.05416291690285987
+    },
+    {
+      "id": "lm2024-h15-bunker-01",
+      "hole": 15,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 13,
+      "maxRoundtripMetres": 0.006004770227001653,
+      "maxRoundtripPanelPixels": 0.048038161816013225
+    },
+    {
+      "id": "lm2024-h15-bunker-02",
+      "hole": 15,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 15,
+      "maxRoundtripMetres": 0.0062395608300375585,
+      "maxRoundtripPanelPixels": 0.04991648664030047
+    },
+    {
+      "id": "lm2024-h16-green",
+      "hole": 16,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 27,
+      "maxRoundtripMetres": 0.0066300732184379945,
+      "maxRoundtripPanelPixels": 0.053040585747503956
+    },
+    {
+      "id": "lm2024-h16-bunker-01",
+      "hole": 16,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 18,
+      "maxRoundtripMetres": 0.005818097922303084,
+      "maxRoundtripPanelPixels": 0.04654478337842467
+    },
+    {
+      "id": "lm2024-h16-bunker-02",
+      "hole": 16,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 18,
+      "maxRoundtripMetres": 0.006793958702600502,
+      "maxRoundtripPanelPixels": 0.05435166962080402
+    },
+    {
+      "id": "lm2024-h16-bunker-03",
+      "hole": 16,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 12,
+      "maxRoundtripMetres": 0.005135461136555444,
+      "maxRoundtripPanelPixels": 0.04108368909244355
+    },
+    {
+      "id": "lm2024-h16-bunker-04",
+      "hole": 16,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 12,
+      "maxRoundtripMetres": 0.005882244107196918,
+      "maxRoundtripPanelPixels": 0.047057952857575344
+    },
+    {
+      "id": "lm2024-h16-bunker-05",
+      "hole": 16,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 13,
+      "maxRoundtripMetres": 0.006076554547004692,
+      "maxRoundtripPanelPixels": 0.048612436376037536
+    },
+    {
+      "id": "lm2024-h17-green",
+      "hole": 17,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 24,
+      "maxRoundtripMetres": 0.005978342147997213,
+      "maxRoundtripPanelPixels": 0.0478267371839777
+    },
+    {
+      "id": "lm2024-h17-bunker-01",
+      "hole": 17,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 14,
+      "maxRoundtripMetres": 0.005798575078575632,
+      "maxRoundtripPanelPixels": 0.04638860062860506
+    },
+    {
+      "id": "lm2024-h18-green",
+      "hole": 18,
+      "kind": "green",
+      "parts": 1,
+      "tracedVertices": 26,
+      "maxRoundtripMetres": 0.006344023999323504,
+      "maxRoundtripPanelPixels": 0.05075219199458803
+    },
+    {
+      "id": "lm2024-h18-bunker-03",
+      "hole": 18,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 13,
+      "maxRoundtripMetres": 0.006543379545341972,
+      "maxRoundtripPanelPixels": 0.05234703636273578
+    },
+    {
+      "id": "lm2024-h18-bunker-05",
+      "hole": 18,
+      "kind": "bunker",
+      "parts": 1,
+      "tracedVertices": 12,
+      "maxRoundtripMetres": 0.005135461136555444,
+      "maxRoundtripPanelPixels": 0.04108368909244355
+    }
+  ],
+  "issues": []
+}

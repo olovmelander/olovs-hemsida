@@ -1,0 +1,4111 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "reviewedAt": "2026-09-09",
+  "sources": {
+    "angso-10-hole": {
+      "id": "angso-10-hole",
+      "rasterFile": "angso-10-hole.tif",
+      "rgbFile": "angso-10-hole.png",
+      "sha256": "5723496a9c27ad70bda76b5227f09da16ed76f3ddbfc03e4ea652650321fb949",
+      "rgbSha256": "52d5ade426ff5d7ea18b929b60d53444747c6caf6f30719dbef204bee16aeb9a",
+      "requestSha256": "10f1e9a0b1828f9e7e250b3b2c277d4912ca16f00cb2bf73bdc73277dbc145b0",
+      "bytes": 15181637,
+      "boundsEpsg3006": [
+        605472.96,
+        6605187.52,
+        605701.44,
+        6605820.0
+      ],
+      "geoTransform": [
+        605472.96,
+        0.16,
+        0.0,
+        6605820.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1428,
+      "height": 3953,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:34.059922+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-11-hole": {
+      "id": "angso-11-hole",
+      "rasterFile": "angso-11-hole.tif",
+      "rgbFile": "angso-11-hole.png",
+      "sha256": "5039205b04fa035d47150ba3e2bcc3675feb1d56b351b2f631eda2140b760ab7",
+      "rgbSha256": "8e0c3753158ec90353deac9a51c459f3b7c044d28a2b9fea327abf846a2911bb",
+      "requestSha256": "072458403a066d45b7b241a1432952657d712103cf1535b3f3ff9717643eea1d",
+      "bytes": 9583115,
+      "boundsEpsg3006": [
+        605631.04,
+        6605719.5200000005,
+        605830.4,
+        6606164.48
+      ],
+      "geoTransform": [
+        605631.04,
+        0.16,
+        0.0,
+        6606164.48,
+        0.0,
+        -0.16
+      ],
+      "width": 1246,
+      "height": 2781,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:35.738718+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-12-hole": {
+      "id": "angso-12-hole",
+      "rasterFile": "angso-12-hole.tif",
+      "rgbFile": "angso-12-hole.png",
+      "sha256": "a53997a26de442fd264cacd71176f14a9552e74edd750705726686f2ccb50650",
+      "rgbSha256": "f8610acc4d8b1a78b64a7c46e9bba745be73c4d24d9f7017df9cfb3377e303f1",
+      "requestSha256": "d6414eb935c201179f0d6142c63e80e24579f28823f29be0f552f11e92e43cb9",
+      "bytes": 6337305,
+      "boundsEpsg3006": [
+        605398.24,
+        6606274.239999999,
+        605650.4,
+        6606504.64
+      ],
+      "geoTransform": [
+        605398.24,
+        0.16,
+        0.0,
+        6606504.64,
+        0.0,
+        -0.16
+      ],
+      "width": 1576,
+      "height": 1440,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:36.951256+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-13-hole": {
+      "id": "angso-13-hole",
+      "rasterFile": "angso-13-hole.tif",
+      "rgbFile": "angso-13-hole.png",
+      "sha256": "1f09c6ca329c5b1592144d80eb1645d52d167b162cb720582095bbb048fe73d8",
+      "rgbSha256": "bd2f1397377b16e573699c3a7c8ac1c0892e74234a87679d3737631f6b20b4c6",
+      "requestSha256": "a271cc9a86ab662ffca73c48ac8d77857045f28357e00ce5bea1e4f6d9aceea4",
+      "bytes": 19147087,
+      "boundsEpsg3006": [
+        605215.04,
+        6606390.5600000005,
+        605596.16,
+        6606855.36
+      ],
+      "geoTransform": [
+        605215.04,
+        0.16,
+        0.0,
+        6606855.36,
+        0.0,
+        -0.16
+      ],
+      "width": 2382,
+      "height": 2905,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:41.450097+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-14-hole": {
+      "id": "angso-14-hole",
+      "rasterFile": "angso-14-hole.tif",
+      "rgbFile": "angso-14-hole.png",
+      "sha256": "a1e995633b033c3eaca6884090b298d7baa4e9fdefc15523e16aaa59049aed88",
+      "rgbSha256": "c8cc90db9514350ff5089cf31958fdecab44921b494adf97de8e5d0fbf74da82",
+      "requestSha256": "282742e31d1e8352e7340fb14218212d915f63a738cc8f72cbec642bed6c4ceb",
+      "bytes": 12093139,
+      "boundsEpsg3006": [
+        605168.48,
+        6606399.84,
+        605483.6799999999,
+        6606773.76
+      ],
+      "geoTransform": [
+        605168.48,
+        0.16,
+        0.0,
+        6606773.76,
+        0.0,
+        -0.16
+      ],
+      "width": 1970,
+      "height": 2337,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:43.298741+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-15-hole": {
+      "id": "angso-15-hole",
+      "rasterFile": "angso-15-hole.tif",
+      "rgbFile": "angso-15-hole.png",
+      "sha256": "6990edf675ff0325a156d4547a5a377bdd0787a4918aa38545688b29729a46c6",
+      "rgbSha256": "321f26c030de5d9d77a54b21222276da4ca347f5d4a710ffb6d0ef3909fdb934",
+      "requestSha256": "0273e03ff4de12254aa4e76336657b0f278b75e6535aab34822315540f01fc3e",
+      "bytes": 6366363,
+      "boundsEpsg3006": [
+        605197.76,
+        6606272.8,
+        605497.12,
+        6606474.88
+      ],
+      "geoTransform": [
+        605197.76,
+        0.16,
+        0.0,
+        6606474.88,
+        0.0,
+        -0.16
+      ],
+      "width": 1871,
+      "height": 1263,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:44.484235+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-16-hole": {
+      "id": "angso-16-hole",
+      "rasterFile": "angso-16-hole.tif",
+      "rgbFile": "angso-16-hole.png",
+      "sha256": "1eab03a069012ed99e79f5435091743cf5254bfd8f1059dc75875dbf829b7d1e",
+      "rgbSha256": "8505e6a58f19cd5b7c0f0013c4444ba7568ff3f9058c29a716ccbb3fcf44584a",
+      "requestSha256": "c0a27e42f3dcd5643e7afbdff6716d8695c97f528d1b6c779832c6c0ba42a5e7",
+      "bytes": 10689901,
+      "boundsEpsg3006": [
+        605189.12,
+        6606084.64,
+        605572.0,
+        6606337.76
+      ],
+      "geoTransform": [
+        605189.12,
+        0.16,
+        0.0,
+        6606337.76,
+        0.0,
+        -0.16
+      ],
+      "width": 2393,
+      "height": 1582,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:46.259501+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-17-hole": {
+      "id": "angso-17-hole",
+      "rasterFile": "angso-17-hole.tif",
+      "rgbFile": "angso-17-hole.png",
+      "sha256": "32e132fc798390af68cdd998c960103fe8f71997f6f9703d05c700f907782514",
+      "rgbSha256": "b1c30a2bdf35025782bc1bd5d5c53fc68d719d786df6dac32ee2820c8739f8ab",
+      "requestSha256": "40968ecef20ca32f9e711bb06680b81c33c8c43a8cec2921f8aa198f7e1a916e",
+      "bytes": 9883115,
+      "boundsEpsg3006": [
+        605317.12,
+        6605686.24,
+        605498.24,
+        6606175.36
+      ],
+      "geoTransform": [
+        605317.12,
+        0.16,
+        0.0,
+        6606175.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1132,
+      "height": 3057,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:48.109529+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-18-hole": {
+      "id": "angso-18-hole",
+      "rasterFile": "angso-18-hole.tif",
+      "rgbFile": "angso-18-hole.png",
+      "sha256": "05ae5768e81b61c5d008fe0d21797f628c0fc3cfb30e8b62bf91dc114fd535e8",
+      "rgbSha256": "b8587e0c653561c029ef6c6120d1d4be8883e19f525f20f07e892b0741f67c42",
+      "requestSha256": "29d90ce4977dcd91e85a1bb074fb9a9ad9be293ee17c1af748de00e08c527c25",
+      "bytes": 15791769,
+      "boundsEpsg3006": [
+        605246.72,
+        6605030.720000001,
+        605484.1599999999,
+        6605631.36
+      ],
+      "geoTransform": [
+        605246.72,
+        0.16,
+        0.0,
+        6605631.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1484,
+      "height": 3754,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:50.766588+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    }
+  },
+  "holes": [
+    {
+      "n": 10,
+      "notes": "Putting surface and single visible sand bunker traced at native pixels. Three legacy fairway bunker locations are vegetated or rough in this capture; two additional pale oval patches along the upper-left fairway are visibly vegetated and not accepted as sand. Physical tee inventory is a separate focused review.",
+      "green": {
+        "id": "angso-10-green-01",
+        "sourceKey": "angso-10-hole",
+        "ringPixels": [
+          [
+            1053,
+            342
+          ],
+          [
+            1075,
+            343
+          ],
+          [
+            1095,
+            351
+          ],
+          [
+            1111,
+            367
+          ],
+          [
+            1121,
+            386
+          ],
+          [
+            1124,
+            408
+          ],
+          [
+            1119,
+            428
+          ],
+          [
+            1106,
+            441
+          ],
+          [
+            1086,
+            445
+          ],
+          [
+            1070,
+            455
+          ],
+          [
+            1050,
+            479
+          ],
+          [
+            1029,
+            502
+          ],
+          [
+            1011,
+            519
+          ],
+          [
+            993,
+            526
+          ],
+          [
+            977,
+            522
+          ],
+          [
+            964,
+            510
+          ],
+          [
+            960,
+            493
+          ],
+          [
+            966,
+            473
+          ],
+          [
+            979,
+            447
+          ],
+          [
+            989,
+            419
+          ],
+          [
+            998,
+            390
+          ],
+          [
+            1008,
+            365
+          ],
+          [
+            1026,
+            350
+          ],
+          [
+            1053,
+            342
+          ]
+        ]
+      },
+      "fairways": {
+        "replaceAll": true,
+        "sourceKey": "angso-10-hole",
+        "accepted": [
+          {
+            "id": "angso-10-fairway-01",
+            "sourceKey": "angso-10-hole",
+            "ringPixels": [
+              [
+                933,
+                534
+              ],
+              [
+                981,
+                543
+              ],
+              [
+                1005,
+                570
+              ],
+              [
+                978,
+                621
+              ],
+              [
+                930,
+                690
+              ],
+              [
+                885,
+                765
+              ],
+              [
+                846,
+                849
+              ],
+              [
+                813,
+                945
+              ],
+              [
+                795,
+                1044
+              ],
+              [
+                792,
+                1155
+              ],
+              [
+                801,
+                1266
+              ],
+              [
+                810,
+                1383
+              ],
+              [
+                813,
+                1515
+              ],
+              [
+                831,
+                1644
+              ],
+              [
+                840,
+                1764
+              ],
+              [
+                837,
+                1887
+              ],
+              [
+                834,
+                1998
+              ],
+              [
+                816,
+                2124
+              ],
+              [
+                804,
+                2247
+              ],
+              [
+                780,
+                2376
+              ],
+              [
+                771,
+                2487
+              ],
+              [
+                753,
+                2598
+              ],
+              [
+                741,
+                2700
+              ],
+              [
+                729,
+                2808
+              ],
+              [
+                705,
+                2880
+              ],
+              [
+                672,
+                2919
+              ],
+              [
+                630,
+                2910
+              ],
+              [
+                597,
+                2868
+              ],
+              [
+                588,
+                2805
+              ],
+              [
+                603,
+                2724
+              ],
+              [
+                615,
+                2625
+              ],
+              [
+                612,
+                2538
+              ],
+              [
+                627,
+                2430
+              ],
+              [
+                639,
+                2331
+              ],
+              [
+                636,
+                2232
+              ],
+              [
+                612,
+                2133
+              ],
+              [
+                594,
+                2037
+              ],
+              [
+                576,
+                1932
+              ],
+              [
+                561,
+                1824
+              ],
+              [
+                546,
+                1716
+              ],
+              [
+                525,
+                1611
+              ],
+              [
+                519,
+                1521
+              ],
+              [
+                498,
+                1416
+              ],
+              [
+                489,
+                1314
+              ],
+              [
+                489,
+                1224
+              ],
+              [
+                504,
+                1128
+              ],
+              [
+                525,
+                1035
+              ],
+              [
+                552,
+                957
+              ],
+              [
+                597,
+                867
+              ],
+              [
+                648,
+                786
+              ],
+              [
+                717,
+                711
+              ],
+              [
+                789,
+                645
+              ],
+              [
+                858,
+                594
+              ],
+              [
+                900,
+                567
+              ],
+              [
+                933,
+                534
+              ]
+            ]
+          }
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-10-hole",
+        "accepted": [
+          {
+            "id": "angso-10-bunker-01",
+            "sourceKey": "angso-10-hole",
+            "ringPixels": [
+              [
+                911,
+                455
+              ],
+              [
+                924,
+                460
+              ],
+              [
+                929,
+                471
+              ],
+              [
+                928,
+                484
+              ],
+              [
+                920,
+                497
+              ],
+              [
+                909,
+                510
+              ],
+              [
+                905,
+                523
+              ],
+              [
+                907,
+                538
+              ],
+              [
+                912,
+                550
+              ],
+              [
+                912,
+                562
+              ],
+              [
+                906,
+                572
+              ],
+              [
+                894,
+                577
+              ],
+              [
+                881,
+                587
+              ],
+              [
+                870,
+                594
+              ],
+              [
+                856,
+                595
+              ],
+              [
+                849,
+                589
+              ],
+              [
+                846,
+                580
+              ],
+              [
+                848,
+                568
+              ],
+              [
+                858,
+                550
+              ],
+              [
+                865,
+                537
+              ],
+              [
+                867,
+                525
+              ],
+              [
+                863,
+                515
+              ],
+              [
+                863,
+                504
+              ],
+              [
+                869,
+                490
+              ],
+              [
+                879,
+                476
+              ],
+              [
+                892,
+                462
+              ],
+              [
+                911,
+                455
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "n": 11,
+      "notes": "The elongated putting surface differs substantially from the legacy short northern ring; review uses the visible inner putting-surface edge. Physical tees remain for separate native shadow inspection.",
+      "green": {
+        "id": "angso-11-green-01",
+        "sourceKey": "angso-11-hole",
+        "ringPixels": [
+          [
+            868,
+            355
+          ],
+          [
+            888,
+            356
+          ],
+          [
+            907,
+            365
+          ],
+          [
+            925,
+            382
+          ],
+          [
+            938,
+            401
+          ],
+          [
+            944,
+            425
+          ],
+          [
+            941,
+            446
+          ],
+          [
+            933,
+            466
+          ],
+          [
+            919,
+            482
+          ],
+          [
+            898,
+            504
+          ],
+          [
+            878,
+            528
+          ],
+          [
+            857,
+            547
+          ],
+          [
+            837,
+            562
+          ],
+          [
+            816,
+            572
+          ],
+          [
+            794,
+            575
+          ],
+          [
+            775,
+            568
+          ],
+          [
+            761,
+            557
+          ],
+          [
+            753,
+            541
+          ],
+          [
+            752,
+            526
+          ],
+          [
+            759,
+            503
+          ],
+          [
+            772,
+            483
+          ],
+          [
+            791,
+            461
+          ],
+          [
+            807,
+            437
+          ],
+          [
+            817,
+            406
+          ],
+          [
+            830,
+            380
+          ],
+          [
+            847,
+            363
+          ],
+          [
+            868,
+            355
+          ]
+        ]
+      },
+      "fairways": {
+        "replaceAll": true,
+        "sourceKey": "angso-11-hole",
+        "accepted": [
+          {
+            "id": "angso-11-fairway-01",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                741,
+                531
+              ],
+              [
+                798,
+                534
+              ],
+              [
+                813,
+                567
+              ],
+              [
+                795,
+                621
+              ],
+              [
+                759,
+                696
+              ],
+              [
+                705,
+                771
+              ],
+              [
+                645,
+                834
+              ],
+              [
+                597,
+                903
+              ],
+              [
+                567,
+                987
+              ],
+              [
+                549,
+                1080
+              ],
+              [
+                540,
+                1179
+              ],
+              [
+                528,
+                1272
+              ],
+              [
+                516,
+                1374
+              ],
+              [
+                507,
+                1491
+              ],
+              [
+                498,
+                1602
+              ],
+              [
+                480,
+                1716
+              ],
+              [
+                456,
+                1797
+              ],
+              [
+                438,
+                1821
+              ],
+              [
+                414,
+                1788
+              ],
+              [
+                393,
+                1737
+              ],
+              [
+                372,
+                1656
+              ],
+              [
+                357,
+                1557
+              ],
+              [
+                345,
+                1449
+              ],
+              [
+                339,
+                1344
+              ],
+              [
+                345,
+                1236
+              ],
+              [
+                363,
+                1128
+              ],
+              [
+                396,
+                1020
+              ],
+              [
+                435,
+                930
+              ],
+              [
+                471,
+                840
+              ],
+              [
+                510,
+                762
+              ],
+              [
+                558,
+                696
+              ],
+              [
+                603,
+                642
+              ],
+              [
+                660,
+                585
+              ],
+              [
+                711,
+                543
+              ],
+              [
+                741,
+                531
+              ]
+            ]
+          }
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-11-hole",
+        "accepted": [
+          {
+            "id": "angso-11-bunker-01",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                644,
+                600
+              ],
+              [
+                654,
+                601
+              ],
+              [
+                664,
+                608
+              ],
+              [
+                669,
+                620
+              ],
+              [
+                665,
+                630
+              ],
+              [
+                656,
+                637
+              ],
+              [
+                647,
+                639
+              ],
+              [
+                638,
+                633
+              ],
+              [
+                633,
+                625
+              ],
+              [
+                630,
+                615
+              ],
+              [
+                634,
+                605
+              ],
+              [
+                644,
+                600
+              ]
+            ]
+          },
+          {
+            "id": "angso-11-bunker-02",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                829,
+                615
+              ],
+              [
+                839,
+                614
+              ],
+              [
+                849,
+                621
+              ],
+              [
+                856,
+                633
+              ],
+              [
+                862,
+                648
+              ],
+              [
+                861,
+                660
+              ],
+              [
+                855,
+                669
+              ],
+              [
+                845,
+                673
+              ],
+              [
+                835,
+                668
+              ],
+              [
+                829,
+                656
+              ],
+              [
+                825,
+                642
+              ],
+              [
+                822,
+                629
+              ],
+              [
+                824,
+                620
+              ],
+              [
+                829,
+                615
+              ]
+            ]
+          },
+          {
+            "id": "angso-11-bunker-03",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                581,
+                731
+              ],
+              [
+                591,
+                732
+              ],
+              [
+                601,
+                739
+              ],
+              [
+                605,
+                748
+              ],
+              [
+                601,
+                756
+              ],
+              [
+                593,
+                762
+              ],
+              [
+                582,
+                762
+              ],
+              [
+                572,
+                759
+              ],
+              [
+                567,
+                753
+              ],
+              [
+                569,
+                743
+              ],
+              [
+                574,
+                737
+              ],
+              [
+                581,
+                731
+              ]
+            ]
+          },
+          {
+            "id": "angso-11-bunker-04",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                475,
+                794
+              ],
+              [
+                482,
+                796
+              ],
+              [
+                489,
+                803
+              ],
+              [
+                493,
+                812
+              ],
+              [
+                489,
+                820
+              ],
+              [
+                482,
+                824
+              ],
+              [
+                474,
+                824
+              ],
+              [
+                466,
+                820
+              ],
+              [
+                463,
+                811
+              ],
+              [
+                464,
+                802
+              ],
+              [
+                469,
+                797
+              ],
+              [
+                475,
+                794
+              ]
+            ]
+          },
+          {
+            "id": "angso-11-bunker-05",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                658,
+                900
+              ],
+              [
+                668,
+                902
+              ],
+              [
+                678,
+                908
+              ],
+              [
+                685,
+                915
+              ],
+              [
+                685,
+                925
+              ],
+              [
+                677,
+                930
+              ],
+              [
+                667,
+                929
+              ],
+              [
+                658,
+                923
+              ],
+              [
+                651,
+                918
+              ],
+              [
+                646,
+                911
+              ],
+              [
+                647,
+                904
+              ],
+              [
+                658,
+                900
+              ]
+            ]
+          },
+          {
+            "id": "angso-11-bunker-06",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                505,
+                1061
+              ],
+              [
+                516,
+                1062
+              ],
+              [
+                526,
+                1069
+              ],
+              [
+                531,
+                1079
+              ],
+              [
+                529,
+                1089
+              ],
+              [
+                522,
+                1097
+              ],
+              [
+                514,
+                1099
+              ],
+              [
+                506,
+                1093
+              ],
+              [
+                499,
+                1087
+              ],
+              [
+                493,
+                1076
+              ],
+              [
+                494,
+                1068
+              ],
+              [
+                499,
+                1063
+              ],
+              [
+                505,
+                1061
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "n": 12,
+      "notes": "Native putting surface and bunker edges traced. Par-three approach mowing and physical tee surfaces require separate clear delineation.",
+      "green": {
+        "id": "angso-12-green-01",
+        "sourceKey": "angso-12-hole",
+        "ringPixels": [
+          [
+            387,
+            334
+          ],
+          [
+            407,
+            336
+          ],
+          [
+            427,
+            343
+          ],
+          [
+            443,
+            358
+          ],
+          [
+            459,
+            379
+          ],
+          [
+            478,
+            399
+          ],
+          [
+            500,
+            421
+          ],
+          [
+            518,
+            442
+          ],
+          [
+            529,
+            462
+          ],
+          [
+            532,
+            475
+          ],
+          [
+            525,
+            485
+          ],
+          [
+            513,
+            490
+          ],
+          [
+            491,
+            491
+          ],
+          [
+            470,
+            487
+          ],
+          [
+            450,
+            479
+          ],
+          [
+            433,
+            468
+          ],
+          [
+            419,
+            465
+          ],
+          [
+            405,
+            470
+          ],
+          [
+            388,
+            482
+          ],
+          [
+            369,
+            491
+          ],
+          [
+            346,
+            493
+          ],
+          [
+            326,
+            488
+          ],
+          [
+            312,
+            476
+          ],
+          [
+            303,
+            459
+          ],
+          [
+            300,
+            441
+          ],
+          [
+            304,
+            418
+          ],
+          [
+            311,
+            395
+          ],
+          [
+            322,
+            375
+          ],
+          [
+            338,
+            356
+          ],
+          [
+            357,
+            342
+          ],
+          [
+            373,
+            336
+          ],
+          [
+            387,
+            334
+          ]
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-12-hole",
+        "accepted": [
+          {
+            "id": "angso-12-bunker-01",
+            "sourceKey": "angso-12-hole",
+            "ringPixels": [
+              [
+                463,
+                502
+              ],
+              [
+                480,
+                507
+              ],
+              [
+                494,
+                512
+              ],
+              [
+                508,
+                512
+              ],
+              [
+                518,
+                515
+              ],
+              [
+                524,
+                523
+              ],
+              [
+                525,
+                532
+              ],
+              [
+                519,
+                541
+              ],
+              [
+                505,
+                548
+              ],
+              [
+                487,
+                553
+              ],
+              [
+                471,
+                552
+              ],
+              [
+                456,
+                546
+              ],
+              [
+                446,
+                537
+              ],
+              [
+                441,
+                527
+              ],
+              [
+                443,
+                516
+              ],
+              [
+                450,
+                506
+              ],
+              [
+                463,
+                502
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "n": 13,
+      "notes": "Three sand bunkers absent from the baseline model are visible and traced near the approach/green. Fairway is traced to its actual curved mowing edge, including the rounded southern landing edge.",
+      "green": {
+        "id": "angso-13-green-01",
+        "sourceKey": "angso-13-hole",
+        "ringPixels": [
+          [
+            515,
+            327
+          ],
+          [
+            530,
+            329
+          ],
+          [
+            541,
+            337
+          ],
+          [
+            547,
+            350
+          ],
+          [
+            547,
+            367
+          ],
+          [
+            537,
+            387
+          ],
+          [
+            525,
+            411
+          ],
+          [
+            520,
+            432
+          ],
+          [
+            519,
+            462
+          ],
+          [
+            519,
+            484
+          ],
+          [
+            513,
+            504
+          ],
+          [
+            504,
+            515
+          ],
+          [
+            493,
+            519
+          ],
+          [
+            480,
+            519
+          ],
+          [
+            461,
+            512
+          ],
+          [
+            443,
+            502
+          ],
+          [
+            425,
+            496
+          ],
+          [
+            407,
+            487
+          ],
+          [
+            392,
+            475
+          ],
+          [
+            379,
+            457
+          ],
+          [
+            374,
+            440
+          ],
+          [
+            377,
+            423
+          ],
+          [
+            387,
+            406
+          ],
+          [
+            401,
+            390
+          ],
+          [
+            415,
+            376
+          ],
+          [
+            433,
+            363
+          ],
+          [
+            457,
+            352
+          ],
+          [
+            482,
+            342
+          ],
+          [
+            502,
+            332
+          ],
+          [
+            515,
+            327
+          ]
+        ]
+      },
+      "fairways": {
+        "replaceAll": true,
+        "sourceKey": "angso-13-hole",
+        "accepted": [
+          {
+            "id": "angso-13-fairway-01",
+            "sourceKey": "angso-13-hole",
+            "ringPixels": [
+              [
+                639,
+                639
+              ],
+              [
+                696,
+                654
+              ],
+              [
+                750,
+                687
+              ],
+              [
+                810,
+                744
+              ],
+              [
+                867,
+                825
+              ],
+              [
+                936,
+                918
+              ],
+              [
+                1002,
+                993
+              ],
+              [
+                1071,
+                1059
+              ],
+              [
+                1137,
+                1143
+              ],
+              [
+                1200,
+                1239
+              ],
+              [
+                1263,
+                1341
+              ],
+              [
+                1335,
+                1440
+              ],
+              [
+                1395,
+                1536
+              ],
+              [
+                1446,
+                1635
+              ],
+              [
+                1491,
+                1710
+              ],
+              [
+                1518,
+                1749
+              ],
+              [
+                1551,
+                1776
+              ],
+              [
+                1578,
+                1815
+              ],
+              [
+                1590,
+                1860
+              ],
+              [
+                1581,
+                1899
+              ],
+              [
+                1554,
+                1914
+              ],
+              [
+                1515,
+                1899
+              ],
+              [
+                1485,
+                1860
+              ],
+              [
+                1452,
+                1797
+              ],
+              [
+                1422,
+                1731
+              ],
+              [
+                1377,
+                1659
+              ],
+              [
+                1326,
+                1590
+              ],
+              [
+                1278,
+                1521
+              ],
+              [
+                1239,
+                1446
+              ],
+              [
+                1200,
+                1371
+              ],
+              [
+                1149,
+                1311
+              ],
+              [
+                1089,
+                1242
+              ],
+              [
+                1032,
+                1176
+              ],
+              [
+                984,
+                1110
+              ],
+              [
+                936,
+                1041
+              ],
+              [
+                882,
+                978
+              ],
+              [
+                822,
+                924
+              ],
+              [
+                765,
+                864
+              ],
+              [
+                717,
+                807
+              ],
+              [
+                678,
+                750
+              ],
+              [
+                642,
+                714
+              ],
+              [
+                621,
+                672
+              ],
+              [
+                639,
+                639
+              ]
+            ]
+          }
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-13-hole",
+        "accepted": [
+          {
+            "id": "angso-13-bunker-01",
+            "sourceKey": "angso-13-hole",
+            "ringPixels": [
+              [
+                404,
+                524
+              ],
+              [
+                418,
+                524
+              ],
+              [
+                430,
+                534
+              ],
+              [
+                439,
+                541
+              ],
+              [
+                452,
+                548
+              ],
+              [
+                462,
+                558
+              ],
+              [
+                464,
+                571
+              ],
+              [
+                457,
+                581
+              ],
+              [
+                444,
+                585
+              ],
+              [
+                432,
+                588
+              ],
+              [
+                417,
+                597
+              ],
+              [
+                404,
+                600
+              ],
+              [
+                394,
+                596
+              ],
+              [
+                391,
+                587
+              ],
+              [
+                393,
+                574
+              ],
+              [
+                396,
+                561
+              ],
+              [
+                395,
+                548
+              ],
+              [
+                395,
+                533
+              ],
+              [
+                404,
+                524
+              ]
+            ]
+          },
+          {
+            "id": "angso-13-bunker-02",
+            "sourceKey": "angso-13-hole",
+            "ringPixels": [
+              [
+                575,
+                689
+              ],
+              [
+                585,
+                691
+              ],
+              [
+                591,
+                700
+              ],
+              [
+                591,
+                716
+              ],
+              [
+                590,
+                729
+              ],
+              [
+                584,
+                737
+              ],
+              [
+                573,
+                738
+              ],
+              [
+                564,
+                734
+              ],
+              [
+                559,
+                725
+              ],
+              [
+                559,
+                712
+              ],
+              [
+                563,
+                697
+              ],
+              [
+                575,
+                689
+              ]
+            ]
+          },
+          {
+            "id": "angso-13-bunker-03",
+            "sourceKey": "angso-13-hole",
+            "ringPixels": [
+              [
+                751,
+                612
+              ],
+              [
+                761,
+                615
+              ],
+              [
+                769,
+                622
+              ],
+              [
+                774,
+                631
+              ],
+              [
+                773,
+                641
+              ],
+              [
+                766,
+                648
+              ],
+              [
+                754,
+                648
+              ],
+              [
+                740,
+                645
+              ],
+              [
+                731,
+                639
+              ],
+              [
+                727,
+                631
+              ],
+              [
+                731,
+                621
+              ],
+              [
+                742,
+                614
+              ],
+              [
+                751,
+                612
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "n": 14,
+      "notes": "Single green-side sand bunker visible. Legacy western fairway bunker location is vegetated rough in April 2025. Fairway follows the curved mowing boundary rather than the legacy right-angle outline.",
+      "green": {
+        "id": "angso-14-green-01",
+        "sourceKey": "angso-14-hole",
+        "ringPixels": [
+          [
+            1548,
+            1862
+          ],
+          [
+            1571,
+            1861
+          ],
+          [
+            1596,
+            1868
+          ],
+          [
+            1618,
+            1882
+          ],
+          [
+            1633,
+            1902
+          ],
+          [
+            1640,
+            1923
+          ],
+          [
+            1634,
+            1944
+          ],
+          [
+            1622,
+            1961
+          ],
+          [
+            1615,
+            1977
+          ],
+          [
+            1608,
+            2001
+          ],
+          [
+            1598,
+            2019
+          ],
+          [
+            1581,
+            2032
+          ],
+          [
+            1561,
+            2034
+          ],
+          [
+            1543,
+            2029
+          ],
+          [
+            1528,
+            2018
+          ],
+          [
+            1515,
+            2002
+          ],
+          [
+            1507,
+            1985
+          ],
+          [
+            1503,
+            1970
+          ],
+          [
+            1495,
+            1953
+          ],
+          [
+            1493,
+            1935
+          ],
+          [
+            1497,
+            1915
+          ],
+          [
+            1508,
+            1894
+          ],
+          [
+            1524,
+            1878
+          ],
+          [
+            1539,
+            1868
+          ],
+          [
+            1548,
+            1862
+          ]
+        ]
+      },
+      "fairways": {
+        "replaceAll": true,
+        "sourceKey": "angso-14-hole",
+        "accepted": [
+          {
+            "id": "angso-14-fairway-01",
+            "sourceKey": "angso-14-hole",
+            "ringPixels": [
+              [
+                651,
+                1302
+              ],
+              [
+                693,
+                1311
+              ],
+              [
+                726,
+                1347
+              ],
+              [
+                753,
+                1407
+              ],
+              [
+                771,
+                1473
+              ],
+              [
+                777,
+                1536
+              ],
+              [
+                783,
+                1599
+              ],
+              [
+                807,
+                1650
+              ],
+              [
+                858,
+                1689
+              ],
+              [
+                927,
+                1713
+              ],
+              [
+                1011,
+                1737
+              ],
+              [
+                1095,
+                1755
+              ],
+              [
+                1173,
+                1770
+              ],
+              [
+                1248,
+                1785
+              ],
+              [
+                1323,
+                1803
+              ],
+              [
+                1383,
+                1824
+              ],
+              [
+                1437,
+                1848
+              ],
+              [
+                1461,
+                1875
+              ],
+              [
+                1449,
+                1905
+              ],
+              [
+                1413,
+                1920
+              ],
+              [
+                1359,
+                1920
+              ],
+              [
+                1290,
+                1905
+              ],
+              [
+                1218,
+                1887
+              ],
+              [
+                1134,
+                1863
+              ],
+              [
+                1050,
+                1848
+              ],
+              [
+                966,
+                1833
+              ],
+              [
+                888,
+                1815
+              ],
+              [
+                804,
+                1791
+              ],
+              [
+                741,
+                1761
+              ],
+              [
+                690,
+                1716
+              ],
+              [
+                657,
+                1659
+              ],
+              [
+                633,
+                1593
+              ],
+              [
+                621,
+                1518
+              ],
+              [
+                615,
+                1440
+              ],
+              [
+                618,
+                1374
+              ],
+              [
+                627,
+                1326
+              ],
+              [
+                651,
+                1302
+              ]
+            ]
+          }
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-14-hole",
+        "accepted": [
+          {
+            "id": "angso-14-bunker-01",
+            "sourceKey": "angso-14-hole",
+            "ringPixels": [
+              [
+                1434,
+                1940
+              ],
+              [
+                1445,
+                1943
+              ],
+              [
+                1455,
+                1954
+              ],
+              [
+                1463,
+                1966
+              ],
+              [
+                1477,
+                1979
+              ],
+              [
+                1490,
+                1990
+              ],
+              [
+                1494,
+                2001
+              ],
+              [
+                1489,
+                2011
+              ],
+              [
+                1481,
+                2017
+              ],
+              [
+                1470,
+                2021
+              ],
+              [
+                1458,
+                2019
+              ],
+              [
+                1445,
+                2012
+              ],
+              [
+                1433,
+                2003
+              ],
+              [
+                1424,
+                1992
+              ],
+              [
+                1418,
+                1981
+              ],
+              [
+                1418,
+                1965
+              ],
+              [
+                1421,
+                1951
+              ],
+              [
+                1427,
+                1943
+              ],
+              [
+                1434,
+                1940
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "n": 15,
+      "notes": "Putting surface and the sand bunker north of it traced at native pixels. Legacy second bunker west of the green is vegetated rough. Par-three fairway retained where mowing class is not confidently separable in this spring capture.",
+      "green": {
+        "id": "angso-15-green-01",
+        "sourceKey": "angso-15-hole",
+        "ringPixels": [
+          [
+            527,
+            802
+          ],
+          [
+            549,
+            804
+          ],
+          [
+            570,
+            811
+          ],
+          [
+            591,
+            822
+          ],
+          [
+            609,
+            835
+          ],
+          [
+            626,
+            850
+          ],
+          [
+            636,
+            867
+          ],
+          [
+            640,
+            882
+          ],
+          [
+            634,
+            901
+          ],
+          [
+            622,
+            922
+          ],
+          [
+            607,
+            946
+          ],
+          [
+            592,
+            967
+          ],
+          [
+            575,
+            982
+          ],
+          [
+            557,
+            993
+          ],
+          [
+            541,
+            998
+          ],
+          [
+            526,
+            994
+          ],
+          [
+            516,
+            984
+          ],
+          [
+            513,
+            969
+          ],
+          [
+            515,
+            950
+          ],
+          [
+            520,
+            932
+          ],
+          [
+            521,
+            917
+          ],
+          [
+            516,
+            901
+          ],
+          [
+            506,
+            884
+          ],
+          [
+            494,
+            869
+          ],
+          [
+            485,
+            852
+          ],
+          [
+            483,
+            836
+          ],
+          [
+            490,
+            817
+          ],
+          [
+            506,
+            807
+          ],
+          [
+            527,
+            802
+          ]
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-15-hole",
+        "accepted": [
+          {
+            "id": "angso-15-bunker-01",
+            "sourceKey": "angso-15-hole",
+            "ringPixels": [
+              [
+                528,
+                733
+              ],
+              [
+                540,
+                734
+              ],
+              [
+                551,
+                741
+              ],
+              [
+                558,
+                751
+              ],
+              [
+                560,
+                760
+              ],
+              [
+                555,
+                766
+              ],
+              [
+                547,
+                766
+              ],
+              [
+                538,
+                763
+              ],
+              [
+                525,
+                764
+              ],
+              [
+                511,
+                765
+              ],
+              [
+                502,
+                761
+              ],
+              [
+                499,
+                755
+              ],
+              [
+                503,
+                746
+              ],
+              [
+                514,
+                738
+              ],
+              [
+                528,
+                733
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "n": 16,
+      "notes": "Both green-side sand bunkers and elongated southern putting surface traced at native pixels. The legacy narrow fairway across physical tee pads is omitted from replacement fairways; tee inventory is separate.",
+      "green": {
+        "id": "angso-16-green-01",
+        "sourceKey": "angso-16-hole",
+        "ringPixels": [
+          [
+            1994,
+            1184
+          ],
+          [
+            2015,
+            1188
+          ],
+          [
+            2036,
+            1199
+          ],
+          [
+            2052,
+            1215
+          ],
+          [
+            2066,
+            1237
+          ],
+          [
+            2071,
+            1256
+          ],
+          [
+            2069,
+            1276
+          ],
+          [
+            2061,
+            1295
+          ],
+          [
+            2047,
+            1315
+          ],
+          [
+            2030,
+            1330
+          ],
+          [
+            2011,
+            1338
+          ],
+          [
+            1991,
+            1338
+          ],
+          [
+            1975,
+            1328
+          ],
+          [
+            1960,
+            1311
+          ],
+          [
+            1947,
+            1293
+          ],
+          [
+            1937,
+            1276
+          ],
+          [
+            1927,
+            1258
+          ],
+          [
+            1920,
+            1241
+          ],
+          [
+            1922,
+            1224
+          ],
+          [
+            1932,
+            1208
+          ],
+          [
+            1949,
+            1195
+          ],
+          [
+            1970,
+            1186
+          ],
+          [
+            1994,
+            1184
+          ]
+        ]
+      },
+      "fairways": {
+        "replaceAll": true,
+        "sourceKey": "angso-16-hole",
+        "accepted": [
+          {
+            "id": "angso-16-fairway-01",
+            "sourceKey": "angso-16-hole",
+            "ringPixels": [
+              [
+                1332,
+                396
+              ],
+              [
+                1389,
+                402
+              ],
+              [
+                1446,
+                411
+              ],
+              [
+                1521,
+                414
+              ],
+              [
+                1590,
+                426
+              ],
+              [
+                1644,
+                447
+              ],
+              [
+                1686,
+                480
+              ],
+              [
+                1725,
+                540
+              ],
+              [
+                1764,
+                621
+              ],
+              [
+                1800,
+                702
+              ],
+              [
+                1842,
+                789
+              ],
+              [
+                1887,
+                879
+              ],
+              [
+                1923,
+                957
+              ],
+              [
+                1944,
+                1023
+              ],
+              [
+                1947,
+                1071
+              ],
+              [
+                1932,
+                1113
+              ],
+              [
+                1914,
+                1140
+              ],
+              [
+                1890,
+                1143
+              ],
+              [
+                1878,
+                1107
+              ],
+              [
+                1866,
+                1050
+              ],
+              [
+                1854,
+                996
+              ],
+              [
+                1833,
+                936
+              ],
+              [
+                1806,
+                876
+              ],
+              [
+                1770,
+                810
+              ],
+              [
+                1737,
+                741
+              ],
+              [
+                1701,
+                672
+              ],
+              [
+                1662,
+                615
+              ],
+              [
+                1617,
+                573
+              ],
+              [
+                1560,
+                543
+              ],
+              [
+                1494,
+                528
+              ],
+              [
+                1428,
+                522
+              ],
+              [
+                1359,
+                519
+              ],
+              [
+                1311,
+                522
+              ],
+              [
+                1284,
+                504
+              ],
+              [
+                1269,
+                474
+              ],
+              [
+                1275,
+                435
+              ],
+              [
+                1296,
+                408
+              ],
+              [
+                1332,
+                396
+              ]
+            ]
+          }
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-16-hole",
+        "accepted": [
+          {
+            "id": "angso-16-bunker-01",
+            "sourceKey": "angso-16-hole",
+            "ringPixels": [
+              [
+                1898,
+                1148
+              ],
+              [
+                1912,
+                1149
+              ],
+              [
+                1921,
+                1157
+              ],
+              [
+                1919,
+                1169
+              ],
+              [
+                1910,
+                1181
+              ],
+              [
+                1903,
+                1195
+              ],
+              [
+                1892,
+                1207
+              ],
+              [
+                1880,
+                1216
+              ],
+              [
+                1868,
+                1219
+              ],
+              [
+                1859,
+                1213
+              ],
+              [
+                1855,
+                1202
+              ],
+              [
+                1857,
+                1190
+              ],
+              [
+                1863,
+                1181
+              ],
+              [
+                1875,
+                1169
+              ],
+              [
+                1885,
+                1158
+              ],
+              [
+                1898,
+                1148
+              ]
+            ]
+          },
+          {
+            "id": "angso-16-bunker-02",
+            "sourceKey": "angso-16-hole",
+            "ringPixels": [
+              [
+                2012,
+                1035
+              ],
+              [
+                2022,
+                1037
+              ],
+              [
+                2030,
+                1045
+              ],
+              [
+                2032,
+                1054
+              ],
+              [
+                2027,
+                1063
+              ],
+              [
+                2017,
+                1069
+              ],
+              [
+                2008,
+                1077
+              ],
+              [
+                2005,
+                1088
+              ],
+              [
+                2006,
+                1100
+              ],
+              [
+                2012,
+                1113
+              ],
+              [
+                2016,
+                1125
+              ],
+              [
+                2012,
+                1135
+              ],
+              [
+                2001,
+                1140
+              ],
+              [
+                1990,
+                1138
+              ],
+              [
+                1982,
+                1129
+              ],
+              [
+                1977,
+                1118
+              ],
+              [
+                1979,
+                1104
+              ],
+              [
+                1985,
+                1088
+              ],
+              [
+                1990,
+                1072
+              ],
+              [
+                1994,
+                1055
+              ],
+              [
+                2001,
+                1042
+              ],
+              [
+                2012,
+                1035
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "n": 17,
+      "notes": "One sand bunker south of the green is visible. Other legacy sand polygons lie on vegetated ground or pond margins and are not accepted as sand in this capture. Fairway edges in cast shadows have lower visual certainty than open sections; no ground-wide correction applied.",
+      "green": {
+        "id": "angso-17-green-01",
+        "sourceKey": "angso-17-hole",
+        "ringPixels": [
+          [
+            576,
+            2522
+          ],
+          [
+            595,
+            2525
+          ],
+          [
+            612,
+            2533
+          ],
+          [
+            628,
+            2550
+          ],
+          [
+            638,
+            2569
+          ],
+          [
+            647,
+            2591
+          ],
+          [
+            662,
+            2612
+          ],
+          [
+            677,
+            2629
+          ],
+          [
+            687,
+            2649
+          ],
+          [
+            687,
+            2665
+          ],
+          [
+            679,
+            2681
+          ],
+          [
+            666,
+            2693
+          ],
+          [
+            646,
+            2702
+          ],
+          [
+            625,
+            2704
+          ],
+          [
+            605,
+            2698
+          ],
+          [
+            587,
+            2688
+          ],
+          [
+            571,
+            2674
+          ],
+          [
+            557,
+            2657
+          ],
+          [
+            550,
+            2639
+          ],
+          [
+            546,
+            2618
+          ],
+          [
+            537,
+            2600
+          ],
+          [
+            526,
+            2584
+          ],
+          [
+            519,
+            2570
+          ],
+          [
+            520,
+            2556
+          ],
+          [
+            529,
+            2542
+          ],
+          [
+            543,
+            2531
+          ],
+          [
+            559,
+            2524
+          ],
+          [
+            576,
+            2522
+          ]
+        ]
+      },
+      "fairways": {
+        "replaceAll": true,
+        "sourceKey": "angso-17-hole",
+        "accepted": [
+          {
+            "id": "angso-17-fairway-01",
+            "sourceKey": "angso-17-hole",
+            "ringPixels": [
+              [
+                492,
+                1041
+              ],
+              [
+                528,
+                1056
+              ],
+              [
+                555,
+                1110
+              ],
+              [
+                579,
+                1167
+              ],
+              [
+                591,
+                1233
+              ],
+              [
+                570,
+                1296
+              ],
+              [
+                552,
+                1353
+              ],
+              [
+                546,
+                1440
+              ],
+              [
+                549,
+                1533
+              ],
+              [
+                555,
+                1632
+              ],
+              [
+                555,
+                1713
+              ],
+              [
+                549,
+                1806
+              ],
+              [
+                537,
+                1899
+              ],
+              [
+                537,
+                1971
+              ],
+              [
+                552,
+                2061
+              ],
+              [
+                576,
+                2139
+              ],
+              [
+                597,
+                2214
+              ],
+              [
+                576,
+                2253
+              ],
+              [
+                555,
+                2286
+              ],
+              [
+                558,
+                2325
+              ],
+              [
+                579,
+                2364
+              ],
+              [
+                606,
+                2406
+              ],
+              [
+                615,
+                2442
+              ],
+              [
+                594,
+                2484
+              ],
+              [
+                561,
+                2511
+              ],
+              [
+                528,
+                2517
+              ],
+              [
+                489,
+                2496
+              ],
+              [
+                450,
+                2454
+              ],
+              [
+                417,
+                2397
+              ],
+              [
+                393,
+                2340
+              ],
+              [
+                369,
+                2283
+              ],
+              [
+                348,
+                2226
+              ],
+              [
+                333,
+                2163
+              ],
+              [
+                336,
+                2103
+              ],
+              [
+                351,
+                2034
+              ],
+              [
+                363,
+                1953
+              ],
+              [
+                375,
+                1872
+              ],
+              [
+                384,
+                1785
+              ],
+              [
+                390,
+                1689
+              ],
+              [
+                393,
+                1599
+              ],
+              [
+                396,
+                1515
+              ],
+              [
+                408,
+                1431
+              ],
+              [
+                420,
+                1350
+              ],
+              [
+                417,
+                1278
+              ],
+              [
+                423,
+                1212
+              ],
+              [
+                441,
+                1143
+              ],
+              [
+                459,
+                1086
+              ],
+              [
+                492,
+                1041
+              ]
+            ]
+          }
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-17-hole",
+        "accepted": [
+          {
+            "id": "angso-17-bunker-01",
+            "sourceKey": "angso-17-hole",
+            "ringPixels": [
+              [
+                630,
+                2721
+              ],
+              [
+                642,
+                2723
+              ],
+              [
+                652,
+                2729
+              ],
+              [
+                659,
+                2737
+              ],
+              [
+                660,
+                2745
+              ],
+              [
+                655,
+                2753
+              ],
+              [
+                645,
+                2758
+              ],
+              [
+                632,
+                2760
+              ],
+              [
+                620,
+                2758
+              ],
+              [
+                609,
+                2752
+              ],
+              [
+                603,
+                2744
+              ],
+              [
+                602,
+                2736
+              ],
+              [
+                607,
+                2728
+              ],
+              [
+                617,
+                2723
+              ],
+              [
+                630,
+                2721
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "n": 18,
+      "notes": "Putting surface traced at native pixels. Fairway follows the visible mowing corridor around the two ponds and ends before the green approach, preserving water elevations in separate source review.",
+      "green": {
+        "id": "angso-18-green-01",
+        "sourceKey": "angso-18-hole",
+        "ringPixels": [
+          [
+            992,
+            3233
+          ],
+          [
+            1007,
+            3233
+          ],
+          [
+            1021,
+            3241
+          ],
+          [
+            1032,
+            3257
+          ],
+          [
+            1037,
+            3279
+          ],
+          [
+            1036,
+            3302
+          ],
+          [
+            1032,
+            3327
+          ],
+          [
+            1032,
+            3353
+          ],
+          [
+            1037,
+            3377
+          ],
+          [
+            1043,
+            3404
+          ],
+          [
+            1044,
+            3424
+          ],
+          [
+            1038,
+            3445
+          ],
+          [
+            1026,
+            3461
+          ],
+          [
+            1011,
+            3471
+          ],
+          [
+            994,
+            3475
+          ],
+          [
+            977,
+            3472
+          ],
+          [
+            961,
+            3463
+          ],
+          [
+            949,
+            3447
+          ],
+          [
+            942,
+            3428
+          ],
+          [
+            939,
+            3405
+          ],
+          [
+            940,
+            3382
+          ],
+          [
+            944,
+            3357
+          ],
+          [
+            949,
+            3330
+          ],
+          [
+            950,
+            3305
+          ],
+          [
+            949,
+            3284
+          ],
+          [
+            952,
+            3263
+          ],
+          [
+            963,
+            3246
+          ],
+          [
+            977,
+            3237
+          ],
+          [
+            992,
+            3233
+          ]
+        ]
+      },
+      "fairways": {
+        "replaceAll": true,
+        "sourceKey": "angso-18-hole",
+        "accepted": [
+          {
+            "id": "angso-18-fairway-01",
+            "sourceKey": "angso-18-hole",
+            "ringPixels": [
+              [
+                927,
+                1374
+              ],
+              [
+                963,
+                1380
+              ],
+              [
+                999,
+                1404
+              ],
+              [
+                1029,
+                1449
+              ],
+              [
+                1053,
+                1512
+              ],
+              [
+                1071,
+                1581
+              ],
+              [
+                1101,
+                1677
+              ],
+              [
+                1128,
+                1767
+              ],
+              [
+                1128,
+                1848
+              ],
+              [
+                1107,
+                1932
+              ],
+              [
+                1074,
+                1995
+              ],
+              [
+                1032,
+                2046
+              ],
+              [
+                996,
+                2091
+              ],
+              [
+                978,
+                2142
+              ],
+              [
+                978,
+                2226
+              ],
+              [
+                990,
+                2316
+              ],
+              [
+                1005,
+                2424
+              ],
+              [
+                1020,
+                2532
+              ],
+              [
+                1032,
+                2637
+              ],
+              [
+                1038,
+                2733
+              ],
+              [
+                1032,
+                2820
+              ],
+              [
+                1023,
+                2904
+              ],
+              [
+                1032,
+                2982
+              ],
+              [
+                1017,
+                3045
+              ],
+              [
+                990,
+                3087
+              ],
+              [
+                951,
+                3111
+              ],
+              [
+                903,
+                3114
+              ],
+              [
+                858,
+                3096
+              ],
+              [
+                822,
+                3066
+              ],
+              [
+                804,
+                3021
+              ],
+              [
+                798,
+                2970
+              ],
+              [
+                813,
+                2901
+              ],
+              [
+                840,
+                2835
+              ],
+              [
+                864,
+                2775
+              ],
+              [
+                876,
+                2715
+              ],
+              [
+                876,
+                2658
+              ],
+              [
+                861,
+                2595
+              ],
+              [
+                846,
+                2538
+              ],
+              [
+                828,
+                2481
+              ],
+              [
+                816,
+                2421
+              ],
+              [
+                810,
+                2358
+              ],
+              [
+                816,
+                2295
+              ],
+              [
+                834,
+                2232
+              ],
+              [
+                858,
+                2175
+              ],
+              [
+                885,
+                2124
+              ],
+              [
+                906,
+                2076
+              ],
+              [
+                930,
+                2031
+              ],
+              [
+                963,
+                1986
+              ],
+              [
+                987,
+                1938
+              ],
+              [
+                993,
+                1887
+              ],
+              [
+                984,
+                1830
+              ],
+              [
+                963,
+                1770
+              ],
+              [
+                939,
+                1713
+              ],
+              [
+                918,
+                1650
+              ],
+              [
+                900,
+                1584
+              ],
+              [
+                888,
+                1521
+              ],
+              [
+                888,
+                1458
+              ],
+              [
+                900,
+                1401
+              ],
+              [
+                927,
+                1374
+              ]
+            ]
+          }
+        ]
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-18-hole",
+        "accepted": [
+          {
+            "id": "angso-18-bunker-01",
+            "sourceKey": "angso-18-hole",
+            "ringPixels": [
+              [
+                818,
+                2174
+              ],
+              [
+                830,
+                2177
+              ],
+              [
+                842,
+                2187
+              ],
+              [
+                849,
+                2197
+              ],
+              [
+                850,
+                2211
+              ],
+              [
+                846,
+                2222
+              ],
+              [
+                837,
+                2235
+              ],
+              [
+                833,
+                2248
+              ],
+              [
+                835,
+                2263
+              ],
+              [
+                834,
+                2278
+              ],
+              [
+                829,
+                2295
+              ],
+              [
+                828,
+                2312
+              ],
+              [
+                822,
+                2326
+              ],
+              [
+                815,
+                2331
+              ],
+              [
+                805,
+                2329
+              ],
+              [
+                797,
+                2321
+              ],
+              [
+                791,
+                2309
+              ],
+              [
+                791,
+                2294
+              ],
+              [
+                795,
+                2274
+              ],
+              [
+                797,
+                2255
+              ],
+              [
+                792,
+                2242
+              ],
+              [
+                789,
+                2232
+              ],
+              [
+                791,
+                2220
+              ],
+              [
+                798,
+                2206
+              ],
+              [
+                803,
+                2193
+              ],
+              [
+                803,
+                2183
+              ],
+              [
+                808,
+                2177
+              ],
+              [
+                818,
+                2174
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "water": [],
+  "method": "Manual orthophoto edge tracing; native-pixel zooms for greens and sand, exactly three-native-pixel scaled display for fairway context. Existing rings used only for feature location. No fitted translation, rotation or scale.",
+  "limitations": [
+    "April 2025 orthophoto depicts capture-date mowing and sand boundaries, not a live survey.",
+    "Image ground sample distance is not absolute horizontal accuracy.",
+    "Omitted categories retain existing geometry and must not be represented as reviewed."
+  ]
+}

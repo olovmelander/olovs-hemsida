@@ -26,7 +26,8 @@
     "course-v2:puttom-surface-preflight": "node packages/course-v2/puttom-authoritative-surface-preflight.mjs",
     "check:lidingo-browser": "node lidingobuild/check-runtime.mjs",
     "check:visby-runtime": "node visbybuild/check-runtime.mjs",
-    "check:lidingo-mapping": "node lidingobuild/mapping/audit-completeness.mjs --check"
+    "check:lidingo-mapping": "node lidingobuild/mapping/audit-completeness.mjs --check",
+    "check:puttom-mapping": "node --test puttombuild/mapping/lm-ortho-plan.node-test.mjs puttombuild/mapping/reviewed-orthophoto.node-test.mjs puttombuild/mapping/audit-alignment.node-test.mjs && node puttombuild/mapping/audit-alignment.mjs --check && node puttombuild/check3d.mjs"
   },
   "devDependencies": {
     "ajv": "8.20.0",

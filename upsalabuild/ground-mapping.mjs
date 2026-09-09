@@ -14,6 +14,9 @@ import { applyReviewedStoraPar3Sahara } from '../tools/apply-reviewed-stora-par3
 import { mergeMellanTeeReview20260907 } from '../tools/apply-mellan-tee-review-2026-09-07.mjs';
 import { applyUpsalaPracticePath } from '../tools/apply-upsala-practice-path.mjs';
 import { applyMunicipalObjects20260907 } from '../tools/apply-upsala-municipal-objects.mjs';
+import { applyUpsalaLmSurfaces } from '../tools/apply-upsala-lm-surfaces.mjs';
+import { applyUpsalaLmMellan } from '../tools/apply-upsala-lm-mellan.mjs';
+import { applyUpsalaLmTeeReferences } from '../tools/apply-upsala-lm-tee-references.mjs';
 
 const read = name => JSON.parse(fs.readFileSync(new URL(`mapping/${name}`, import.meta.url)));
 const surfaceEvidence = p => ({ source: p.source, sourceProductYear: p.sourceProductYear ?? p.observedYear, sourceSha256: p.sourceSha256 ?? p.sourceFiles?.[0]?.sha256, sourceHorizontalAccuracyM: p.sourceHorizontalAccuracyM ?? p.sourceAbsoluteHorizontalAccuracyMetres ?? null, uncertaintyM: p.uncertaintyM ?? p.boundaryInterpretationUncertaintyMetres, acceptance: p.acceptance, note: p.note, latestVisualCrossCheckYear: p.latestVisualCrossCheckYear });
@@ -107,6 +110,9 @@ export function applyGroundMapping(model) {
   applyMunicipalObjects20260907(model, read('municipal-objects-2026-09-07.json'));
   retireReviewedBunker(model);
   applySharedMellanSurfaces(model);
+  applyUpsalaLmSurfaces(model, ['front9', 'back9'].map(part => read(`lm-review-${part}-2026-09-09.json`)));
+  applyUpsalaLmMellan(model, read('lm-review-mellan-2026-09-09.json'));
+  applyUpsalaLmTeeReferences(model, ['front9', 'back9'].map(part => read(`lm-tee-review-${part}-2026-09-09.json`)));
   model.scenery.woodlandContext = compactWoodlandContext(read('woodland-leaf-type-context.json'));
   model.infra.objectPlacement = 'mapped-only';
   model.infra.preserveMappedBoundaries = true;
@@ -122,7 +128,7 @@ export function applyGroundMapping(model) {
     }
   })(model, 'model');
   assert.deepEqual(leaked, [], 'source-frame coordinates reached the local model; the migration would convert them as local metres');
-  model.mappingRevision = 'upsala-reviewed-2026-09-v5-survey-and-surfaces';
+  model.mappingRevision = 'upsala-reviewed-2026-09-v7-orthophoto-tee-references';
   return model;
 }
 

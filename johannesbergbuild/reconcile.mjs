@@ -27,6 +27,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { applyEstateReview } from './mapping/apply-estate-review.mjs';
+import { applyOrthoReview, legacyHeightfieldSampler } from './mapping/apply-ortho-review.mjs';
+import { sceneryRingHashes } from './mapping/scenery-ownership.mjs';
 import {
   ORIGIN, M_PER_LAT, M_PER_LON,
   polyLen, polyArea, centroid, pointInPoly, distToLine,
@@ -364,7 +367,7 @@ const nineScenery = nine ? {
 } : { greens: [], fairways: [], tees: [], bunkers: [] };
 
 /* --- the model ---------------------------------------------------------------- */
-const model = {
+let model = {
   version: 1,
   origin: { lat: ORIGIN.lat, lon: ORIGIN.lon },
   mPerLat: M_PER_LAT, mPerLon: Math.round(M_PER_LON * 100) / 100,
@@ -402,10 +405,24 @@ const model = {
   pois: osm.pois || [],
   scenery: { greens: practiceGreens.concat(nineScenery.greens), practiceGreens, fairways: nineScenery.fairways,
              tees: nineScenery.tees, bunkers: practiceBunkers.concat(nineScenery.bunkers), grass: [],
+             ...(nine ? { ownerRingHashes: { 'johannesberg-9': sceneryRingHashes(nine.holes) } } : {}),
              range: rangeRings,
              ...(tracedRange ? { rangeFacilities: tracedRange } : {}) },
 };
+for (const filename of ['lm-review-front9.json', 'lm-review-back9.json', 'lm-review-back9-turf.json']) {
+  model = applyOrthoReview(model, readJSON(path.join(HERE, 'mapping', filename)),
+    { heightAt: legacyHeightfieldSampler(hf.hf0) });
+}
+model = applyEstateReview(model, readJSON(path.join(HERE, 'mapping/lm-review-estate.json')));
+// Keep report references synchronized, with the original write boundary intact:
+// the historical DTM block below still runs after serialization.
+holes.splice(0, holes.length, ...model.holes);
+model.holes = holes;
 writeJSON(path.join(HERE, 'course-model.json'), model);
+for (const row of report) {
+  const h = holes.find(h => h.n === row.n);
+  Object.assign(row, {lineLen:h.lineLen,lenDev:h.lenDev,area:h.green.area,prov:h.green.prov});
+}
 
 /* --- report ------------------------------------------------------------------- */
 console.log('\nhole par  card  drawn   dev%  slide  green m²  source     conf');
@@ -418,7 +435,9 @@ for (const r of report) {
    registered by construction. It replaces a traced outline only where BOTH sources
    agree at that place, which is why the counts below are a fraction of the traces:
    the rest keep the outline they had and are listed as unconfirmed, never dropped. */
-if (dtm) {
+// These old candidates were historically computed after the write and never
+// serialized. Do not mutate the reviewed model even for diagnostic logging.
+if (dtm && !model.infra.preserveMappedBoundaries) {
   let bk = 0;
   for (const d of dtm.bunkers) {
     const H = holes.find(h => h.n === d.hole); if (!H) continue;
@@ -451,7 +470,7 @@ if (dtm) {
 
 const devs = report.map(r => r.lenDev);
 const osmN = report.filter(r => r.prov.startsWith('osm')).length;
-console.log(`\nlength dev max ${Math.max(...devs).toFixed(2)}%  ·  greens: ${osmN} from OSM, ${18 - osmN} traced`);
+console.log(`\nlength dev max ${Math.max(...devs).toFixed(2)}%  ·  greens: ${holes.filter(h => h.green.prov === 'reviewed-lm-orthophoto').length} reviewed from Lantmateriet orthophotos`);
 console.log(`green areas ${Math.min(...report.map(r => r.area))}–${Math.max(...report.map(r => r.area))} m²`);
 const bkN = holes.reduce((a, h) => a + h.bunkers.length, 0);
 const fwN = holes.reduce((a, h) => a + h.fairway.rings.length, 0);

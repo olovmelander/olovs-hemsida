@@ -77,7 +77,7 @@
       ],
       "lifecycle": "planned",
       "use": "candidate",
-      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/collections/orto-o2-2025",
       "localPath": null,
       "bboxWgs84": [
         18.145,
@@ -85,15 +85,15 @@
         18.24,
         59.758
       ],
-      "acquiredAt": null,
-      "capturedAt": null,
+      "acquiredAt": "2026-09-09",
+      "capturedAt": "2025-06-14",
       "checksum": null,
-      "checksumReason": "Not acquired; select newest suitable leaf-on and leaf-off campaigns.",
+      "checksumReason": "Bounded RGBI windows were acquired and individually hashed; complete remote COGs were range-read, not downloaded and hashed in full. Exact source/grid/PNG/TIFF evidence is registered in the reference acquisition artifacts.",
       "replacementSourceId": null,
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Measurement input for both courses, estate vegetation and objects; never a runtime texture."
+      "notes": "74 authenticated RGBI review windows cover both courses and estate facilities. Native source pixels are 0.16 m; whole-hole context is 0.32 m and the estate overview is 0.8 m. Published mosaic seam metadata dates all acquired pixels to 2025-06-14. Reviewed vector corrections are applied before both compatibility models are written. Raw imagery remains in the ignored local cache. Ground sample distance is not absolute positional accuracy; no independent horizontal controls or daily tee-colour survey are claimed."
     },
     {
       "id": "laser-lm-skog",
@@ -320,15 +320,16 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "johannesbergbuild/course-model.json",
-      "sha256": "9cdec310df0f70a39b86f440fb6397309c7c175b668fba26683148864f392e69",
+      "sha256": "edc5b8dd6be0b0e3c7a91e7bb3fd4acf0d680f0f361af13f755a3cff1c7032a0",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
-      "notes": "Current 18-hole vectors, routing, elevations and scenery inputs."
+      "notes": "Legacy compatibility model with reviewed 2025 Lantmateriet playing-surface geometry. Official card values and unresolved tee-marker assignments remain separate from photographed physical surface boundaries."
     },
     {
       "id": "legacy-heightfields",
@@ -380,7 +381,7 @@
       "id": "legacy-nine-model",
       "kind": "composite",
       "path": "johannesbergbuild/nio.json",
-      "sha256": "5aebe8ba2fc57b9db19984e669c2af9dde844e7567104ff217f1984e5fee2b0c",
+      "sha256": "be1af1416acfcda39f0bf3ec77d04b75085ba9dccb551fc04e9302ab2409de03",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -394,15 +395,16 @@
       "id": "legacy-nine-course-model",
       "kind": "composite",
       "path": "johannesberg9build/course-model.json",
-      "sha256": "f1b767a3ce03ac21c25daf485a8fa4d0f595c948844ad7dc146c53eae082b2b3",
+      "sha256": "4d8f51cbecfd14843e4e91a7af02199a34403de24aa816688318bc7f55359f76",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
-      "notes": "Current generated nine-hole vectors and routing used by the shared-ground application build."
+      "notes": "Legacy compatibility model with reviewed 2025 Lantmateriet playing-surface geometry. Official card values and unresolved tee-marker assignments remain separate from photographed physical surface boundaries."
     },
     {
       "id": "legacy-nine-routes",
@@ -420,7 +422,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json",
-      "sha256": "473dfb98dd4f1f85498252662cf5738b721f86a6897e4a5fecbb93c719df0b20",
+      "sha256": "960f06c033e37f8ec5e103a20e8482ea0f13c3345b605727407eac85281947a4",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -434,7 +436,7 @@
       "id": "migration-nine-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/johannesberg/migration/nine-course-model.epsg3006.json",
-      "sha256": "2e8ac61987e4b680f56ca61b4e7e5318d77ea742bd8fc5fa2ea0ae95a7a412a4",
+      "sha256": "5492a759ae427af24a3458fa350b3aab79df0f0df4a8bb66f84e488db0419ed7",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -448,7 +450,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/johannesberg/migration/residual-report.json",
-      "sha256": "eee7a1781b30caeb839c72fcc4c8dfe6832e9174b295345c87f94979b97a22d1",
+      "sha256": "ce6c068d8373da84fd8e228b298070459d60a5546d6600de0a86d87102c22253",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -551,6 +553,160 @@
       ],
       "use": "discovery-evidence",
       "notes": "Laser 17.6% canopy, CHMv2 27.9%, legacy Esri raster 43.9%. Where the Esri raster claims canopy and the laser does not (106,626 cells) the laser height is median 0.00 m and p90 0.36 m, i.e. open ground the satellite over-detected rather than crowns the leaf-off scan lost."
+    },
+    {
+      "id": "lm-orthophoto-catalog",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/reference/lm-ortho-catalog-2026-09-09.json",
+      "sha256": "74942d705d8c3ff588ed1d0e4c1bf8195cacf0c6a624389adb85c88cd2e75b88",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Live STAC latest complete campaign selection and unchanged source asset identities."
+    },
+    {
+      "id": "lm-orthophoto-plan",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/reference/lm-ortho-plan-2026-09-09.json",
+      "sha256": "0c42d0b08eea7d0e7d7f32c4228974e260f078d11f734c2d65d160f3119f30ac",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned baseline models, review windows, exact source pixel grids and native source identities."
+    },
+    {
+      "id": "lm-orthophoto-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/reference/lm-ortho-acquisition-2026-09-09.json",
+      "sha256": "0c4d03442123221aa62c4caf195543ae26296f63a67b0673374f37c8e9301d21",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Authenticated bounded acquisition; all RGBI window hashes, transforms and coverage."
+    },
+    {
+      "id": "lm-orthophoto-capture",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/reference/lm-ortho-capture-2026-09-09.json",
+      "sha256": "10b413fc76db041506b9adaa503464213e6b7880845c6e6665a77f34842a2ab5",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Per-window mosaic-source intersections; all acquired imagery captured 2025-06-14."
+    },
+    {
+      "id": "lm-orthophoto-validation",
+      "kind": "control",
+      "path": "geo_data/course-v2/johannesberg/reference/lm-ortho-validation-2026-09-09.json",
+      "sha256": "b885b2fdc6846681105832bfb2fa983d20f506ba2414ffc3890fc9860aca1e4f",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Offline hashes, exact PNG/TIFF RGB equality, independent masks, CRS, transforms and worldfile checks."
+    },
+    {
+      "id": "lm-orthophoto-review-front9",
+      "kind": "surface",
+      "path": "johannesbergbuild/mapping/lm-review-front9.json",
+      "sha256": "c294717df62ca25f8bbf576496b73bccfb06030815c67ecbe95b156e32a80c56",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "migration-only",
+      "notes": "Explicit visually reviewed vector boundaries with original-geometry pins, source hashes, capture dates, source-pixel coordinates and interpretation uncertainty. Compatibility geometry; no surveyed canonical-origin claim."
+    },
+    {
+      "id": "lm-orthophoto-review-back9",
+      "kind": "surface",
+      "path": "johannesbergbuild/mapping/lm-review-back9.json",
+      "sha256": "ed4b3b810126ab4cf6a2813ca5de0f4a575bcd63aaf78ce9397bed921a506de0",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "migration-only",
+      "notes": "Explicit visually reviewed vector boundaries with original-geometry pins, source hashes, capture dates, source-pixel coordinates and interpretation uncertainty. Compatibility geometry; no surveyed canonical-origin claim."
+    },
+    {
+      "id": "lm-orthophoto-review-back9-turf",
+      "kind": "surface",
+      "path": "johannesbergbuild/mapping/lm-review-back9-turf.json",
+      "sha256": "1e48af0457699621bc9b375c401a5852b5070a96d6057e42df98f9f84e1e8bf5",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "migration-only",
+      "notes": "Explicit visually reviewed vector boundaries with original-geometry pins, source hashes, capture dates, source-pixel coordinates and interpretation uncertainty. Compatibility geometry; no surveyed canonical-origin claim."
+    },
+    {
+      "id": "lm-orthophoto-review-nine",
+      "kind": "surface",
+      "path": "johannesbergbuild/mapping/lm-review-nine.json",
+      "sha256": "09474acfff42200b76c7d55abd8c6c858cdafe6bc523b9a0052b844c4e632be3",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "migration-only",
+      "notes": "Explicit visually reviewed vector boundaries with original-geometry pins, source hashes, capture dates, source-pixel coordinates and interpretation uncertainty. Compatibility geometry; no surveyed canonical-origin claim."
+    },
+    {
+      "id": "lm-orthophoto-review-estate",
+      "kind": "surface",
+      "path": "johannesbergbuild/mapping/lm-review-estate.json",
+      "sha256": "9356d75ad5b54bd42b7f8de0783d219a68f050d06ba277da163fe5e505c32990",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "migration-only",
+      "notes": "Explicit visually reviewed vector boundaries with original-geometry pins, source hashes, capture dates, source-pixel coordinates and interpretation uncertainty. Compatibility geometry; no surveyed canonical-origin claim."
+    },
+    {
+      "id": "lm-alignment-validation",
+      "kind": "control",
+      "path": "johannesbergbuild/mapping/lm-alignment-validation.json",
+      "sha256": "0c3370a1df6d5da9eafdcd572a96de52067d92df5d60a664106899ffcf3e89c2",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source byte checks, pixel-to-vector round trips, actual generated model identity, valid targets, and exact shared scenery. Mechanical registration only; not independently surveyed absolute accuracy."
+    },
+    {
+      "id": "lm-vegetation-surface-audit",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/johannesberg/reference/lm-vegetation-surface-audit-2026-09-09.json",
+      "sha256": "bc08e37a930c3676841b22133f6f9eae9e1cc11413cd0767595589d1961cd1a9",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Published crown and stand-cell comparison with accepted playing surfaces and dated imagery. Individual measured crowns are retained."
+    },
+    {
+      "id": "lm-stand-exclusion-review",
+      "kind": "canopy",
+      "path": "johannesbergbuild/mapping/lm-review-stand-exclusions.json",
+      "sha256": "193ea3d281f83b935ed4c16d08159e2be650d3fe57c044eaf49c6f2e58cd625b",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Four exact stand cells visibly on clear 2025 turf; source chunk and image hashes pin the exclusion decision."
+    },
+    {
+      "id": "lm-stand-exclusion-publication",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/johannesberg/reference/lm-stand-exclusions-publication-2026-09-09.json",
+      "sha256": "a3bef158a2141943a9ed48dc67ecd1211541670b1b7928c308065cf58e98c687",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exactly four exclusion flag bytes changed across three stand chunks; all tree objects, measurements, terrain, frame and other cells are preserved."
     }
   ],
   "blockers": [
@@ -563,20 +719,20 @@
     {
       "id": "authoritative-assets",
       "severity": "release-blocking",
-      "description": "Lantmateriet 1 m DTM is acquired for both courses on this ground (items 662_67 and 662_68, recorded with checksums, capture dates and CRS). Orthophoto, Laserdata Skog and Topografi 10 are discovered and covered but not yet acquired, and no product terms have been approved for redistribution.",
-      "exitGate": "Acquire the remaining ortho/laser/topography windows and record approved licence decisions for every product actually shipped."
+      "description": "Shared 1 m RH 2000 terrain and 2021 Laserdata Skog are acquired. Authenticated 2025 orthophoto windows have been acquired, checked and used for reviewed playing surfaces and estate corrections. Topografi 10 remains unacquired; the independent canonical-origin gate is unchanged.",
+      "exitGate": "Acquire any remaining required source windows and complete independent controls before claiming a surveyed canonical model. Retain source-specific redistribution terms."
     },
     {
       "id": "nine-hole-routing",
       "severity": "release-blocking",
-      "description": "The real nine-hole routing lacks an independently verified source.",
+      "description": "All nine putting surfaces are now traced from 2025 orthophotos, including large corrections to inherited GPS/laser placeholders. Official tee-colour ownership, canopy-obscured platforms and independent route controls remain unresolved.",
       "exitGate": "Acquire club/field routing evidence and approve all nine tees, centres and greens without invention."
     },
     {
       "id": "legacy-imagery-rights",
       "severity": "release-blocking",
-      "description": "Current surface and canopy derivatives depend on unapproved Esri imagery use.",
-      "exitGate": "Re-derive both courses from approved imagery/survey or record explicit production rights."
+      "description": "Reviewed playing surfaces and estate corrections now use dated Lantmateriet source windows. Some obscured surfaces, surroundings and the legacy fallback canopy remain inherited; the published measured vegetation uses Laserdata Skog.",
+      "exitGate": "Resolve the remaining inherited features with approved imagery or field evidence before treating the complete estate as independently remapped."
     }
   ]
 }

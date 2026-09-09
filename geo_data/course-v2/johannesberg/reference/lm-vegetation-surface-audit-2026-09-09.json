@@ -1,0 +1,1202 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "kind": "published-vegetation-vs-reviewed-surfaces",
+  "state": "conflicts-reviewed-with-exclusion-candidates",
+  "groundManifest": {
+    "bytes": 112059,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "8d1710cf5d92270429a9f74272c45cd55404eec2e8d30857394fa12521be29ed",
+    "url": "grounds/johannesberg/ground-v2-8d1710cf5d92270429a9f74272c45cd55404eec2e8d30857394fa12521be29ed.json"
+  },
+  "reviewInputs": [
+    {
+      "path": "johannesbergbuild/mapping/lm-review-back9-turf.json",
+      "sha256": "1e48af0457699621bc9b375c401a5852b5070a96d6057e42df98f9f84e1e8bf5"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-back9.json",
+      "sha256": "3cdae22c077569b5c9a0e244006bc274667d921a804c291b52f7a090f5069c1d"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-front9.json",
+      "sha256": "283361eedd7d0e92d5861533025564ab01a5d4cefc4111e086a06d64d1429f02"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-nine.json",
+      "sha256": "09474acfff42200b76c7d55abd8c6c858cdafe6bc523b9a0052b844c4e632be3"
+    }
+  ],
+  "individualTreeTotal": 2417,
+  "nonexcludedCanopyStandCellTotal": 76185,
+  "individualTreeCentresInsideReviewedTurf": 0,
+  "standCellSurfaceIntersections": 58,
+  "standCellsMostlyInsideTurf": 7,
+  "intersections": [
+    {
+      "reviewFile": "lm-review-back9-turf.json",
+      "course": "johannesberg",
+      "featureId": "johannesberg-hole-12-tees",
+      "kind": "tees",
+      "hole": 12,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/4/5/14/43",
+          "bounds": [
+            679483.5,
+            6624868.5,
+            679487.5,
+            6624872.5
+          ],
+          "canopyFraction": 1,
+          "meanHeightMetres": 10.75,
+          "p95HeightMetres": 15,
+          "intersectionM2": 0.0303,
+          "cellFraction": 0.0019
+        },
+        {
+          "id": "l0/4/5/15/43",
+          "bounds": [
+            679487.5,
+            6624868.5,
+            679491.5,
+            6624872.5
+          ],
+          "canopyFraction": 0.74902,
+          "meanHeightMetres": 9.75,
+          "p95HeightMetres": 13.25,
+          "intersectionM2": 7.8225,
+          "cellFraction": 0.4889
+        },
+        {
+          "id": "l0/4/5/16/43",
+          "bounds": [
+            679491.5,
+            6624868.5,
+            679495.5,
+            6624872.5
+          ],
+          "canopyFraction": 0.2,
+          "meanHeightMetres": 9.25,
+          "p95HeightMetres": 12,
+          "intersectionM2": 13.7993,
+          "cellFraction": 0.8625
+        },
+        {
+          "id": "l0/4/5/14/42",
+          "bounds": [
+            679483.5,
+            6624872.5,
+            679487.5,
+            6624876.5
+          ],
+          "canopyFraction": 0.18824,
+          "meanHeightMetres": 5.25,
+          "p95HeightMetres": 5.75,
+          "intersectionM2": 0.0212,
+          "cellFraction": 0.0013
+        },
+        {
+          "id": "l0/4/5/15/42",
+          "bounds": [
+            679487.5,
+            6624872.5,
+            679491.5,
+            6624876.5
+          ],
+          "canopyFraction": 0.06667,
+          "meanHeightMetres": 7.25,
+          "p95HeightMetres": 7.25,
+          "intersectionM2": 14.5278,
+          "cellFraction": 0.908
+        },
+        {
+          "id": "l0/4/5/15/41",
+          "bounds": [
+            679487.5,
+            6624876.5,
+            679491.5,
+            6624880.5
+          ],
+          "canopyFraction": 0.21569,
+          "meanHeightMetres": 6.25,
+          "p95HeightMetres": 6.75,
+          "intersectionM2": 2.2352,
+          "cellFraction": 0.1397
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-back9-turf.json",
+      "course": "johannesberg",
+      "featureId": "johannesberg-hole-12-tees",
+      "kind": "tees",
+      "hole": 12,
+      "ringIndex": 1,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/4/5/26/38",
+          "bounds": [
+            679531.5,
+            6624888.5,
+            679535.5,
+            6624892.5
+          ],
+          "canopyFraction": 0.50196,
+          "meanHeightMetres": 6.75,
+          "p95HeightMetres": 11,
+          "intersectionM2": 1.5986,
+          "cellFraction": 0.0999
+        },
+        {
+          "id": "l0/4/5/24/39",
+          "bounds": [
+            679523.5,
+            6624884.5,
+            679527.5,
+            6624888.5
+          ],
+          "canopyFraction": 0.0902,
+          "meanHeightMetres": 3.5,
+          "p95HeightMetres": 3.5,
+          "intersectionM2": 3.1038,
+          "cellFraction": 0.194
+        },
+        {
+          "id": "l0/4/5/25/38",
+          "bounds": [
+            679527.5,
+            6624888.5,
+            679531.5,
+            6624892.5
+          ],
+          "canopyFraction": 0.9098,
+          "meanHeightMetres": 8,
+          "p95HeightMetres": 13.5,
+          "intersectionM2": 0.0137,
+          "cellFraction": 0.0009
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-back9-turf.json",
+      "course": "johannesberg",
+      "featureId": "johannesberg-hole-17-tees",
+      "kind": "tees",
+      "hole": 17,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/3/3/20/7",
+          "bounds": [
+            679251.5,
+            6625524.5,
+            679255.5,
+            6625528.5
+          ],
+          "canopyFraction": 0.25098,
+          "meanHeightMetres": 3,
+          "p95HeightMetres": 5,
+          "intersectionM2": 4.2735,
+          "cellFraction": 0.2671
+        },
+        {
+          "id": "l0/3/3/19/6",
+          "bounds": [
+            679247.5,
+            6625528.5,
+            679251.5,
+            6625532.5
+          ],
+          "canopyFraction": 0.50196,
+          "meanHeightMetres": 3.5,
+          "p95HeightMetres": 4.75,
+          "intersectionM2": 2.9678,
+          "cellFraction": 0.1855
+        },
+        {
+          "id": "l0/3/3/20/5",
+          "bounds": [
+            679251.5,
+            6625532.5,
+            679255.5,
+            6625536.5
+          ],
+          "canopyFraction": 0.12549,
+          "meanHeightMetres": 2.5,
+          "p95HeightMetres": 2.75,
+          "intersectionM2": 15.29,
+          "cellFraction": 0.9556
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-back9-turf.json",
+      "course": "johannesberg",
+      "featureId": "johannesberg-hole-18-tees",
+      "kind": "tees",
+      "hole": 18,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/3/2/28/41",
+          "bounds": [
+            679283.5,
+            6625644.5,
+            679287.5,
+            6625648.5
+          ],
+          "canopyFraction": 0.13333,
+          "meanHeightMetres": 3.5,
+          "p95HeightMetres": 3.75,
+          "intersectionM2": 1.1403,
+          "cellFraction": 0.0713
+        },
+        {
+          "id": "l0/3/2/28/40",
+          "bounds": [
+            679283.5,
+            6625648.5,
+            679287.5,
+            6625652.5
+          ],
+          "canopyFraction": 0.0902,
+          "meanHeightMetres": 6.5,
+          "p95HeightMetres": 6.5,
+          "intersectionM2": 5.2557,
+          "cellFraction": 0.3285
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-front9.json",
+      "course": "johannesberg",
+      "featureId": "johannesberg-hole-02-tees",
+      "kind": "tees",
+      "hole": 2,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/3/1/53/56",
+          "bounds": [
+            679383.5,
+            6625840.5,
+            679387.5,
+            6625844.5
+          ],
+          "canopyFraction": 0.12549,
+          "meanHeightMetres": 3.25,
+          "p95HeightMetres": 4,
+          "intersectionM2": 1.4853,
+          "cellFraction": 0.0928
+        },
+        {
+          "id": "l0/3/1/53/55",
+          "bounds": [
+            679383.5,
+            6625844.5,
+            679387.5,
+            6625848.5
+          ],
+          "canopyFraction": 0.12549,
+          "meanHeightMetres": 3.25,
+          "p95HeightMetres": 4,
+          "intersectionM2": 1.2098,
+          "cellFraction": 0.0756
+        },
+        {
+          "id": "l0/3/1/55/54",
+          "bounds": [
+            679391.5,
+            6625848.5,
+            679395.5,
+            6625852.5
+          ],
+          "canopyFraction": 0.18824,
+          "meanHeightMetres": 3,
+          "p95HeightMetres": 3.25,
+          "intersectionM2": 0.0131,
+          "cellFraction": 0.0008
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-front9.json",
+      "course": "johannesberg",
+      "featureId": "johannesberg-hole-03-tees",
+      "kind": "tees",
+      "hole": 3,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/3/3/55/17",
+          "bounds": [
+            679391.5,
+            6625484.5,
+            679395.5,
+            6625488.5
+          ],
+          "canopyFraction": 0.13333,
+          "meanHeightMetres": 2.25,
+          "p95HeightMetres": 2.25,
+          "intersectionM2": 2.2677,
+          "cellFraction": 0.1417
+        },
+        {
+          "id": "l0/3/3/54/17",
+          "bounds": [
+            679387.5,
+            6625484.5,
+            679391.5,
+            6625488.5
+          ],
+          "canopyFraction": 0.25098,
+          "meanHeightMetres": 2.75,
+          "p95HeightMetres": 3,
+          "intersectionM2": 0.1152,
+          "cellFraction": 0.0072
+        },
+        {
+          "id": "l0/3/3/53/16",
+          "bounds": [
+            679383.5,
+            6625488.5,
+            679387.5,
+            6625492.5
+          ],
+          "canopyFraction": 0.31373,
+          "meanHeightMetres": 3.75,
+          "p95HeightMetres": 4.75,
+          "intersectionM2": 2.9641,
+          "cellFraction": 0.1853
+        },
+        {
+          "id": "l0/3/3/52/15",
+          "bounds": [
+            679379.5,
+            6625492.5,
+            679383.5,
+            6625496.5
+          ],
+          "canopyFraction": 0.12549,
+          "meanHeightMetres": 2.5,
+          "p95HeightMetres": 2.75,
+          "intersectionM2": 1.1513,
+          "cellFraction": 0.072
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-front9.json",
+      "course": "johannesberg",
+      "featureId": "johannesberg-hole-08-tees",
+      "kind": "tees",
+      "hole": 8,
+      "ringIndex": 1,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/5/6/0/32",
+          "bounds": [
+            679683.5,
+            6624656.5,
+            679687.5,
+            6624660.5
+          ],
+          "canopyFraction": 0.13333,
+          "meanHeightMetres": 8,
+          "p95HeightMetres": 8.75,
+          "intersectionM2": 4.8742,
+          "cellFraction": 0.3046
+        },
+        {
+          "id": "l0/5/6/1/32",
+          "bounds": [
+            679687.5,
+            6624656.5,
+            679691.5,
+            6624660.5
+          ],
+          "canopyFraction": 0.06667,
+          "meanHeightMetres": 6.75,
+          "p95HeightMetres": 6.75,
+          "intersectionM2": 0.7131,
+          "cellFraction": 0.0446
+        },
+        {
+          "id": "l0/4/6/63/32",
+          "bounds": [
+            679679.5,
+            6624656.5,
+            679683.5,
+            6624660.5
+          ],
+          "canopyFraction": 0.62353,
+          "meanHeightMetres": 7.75,
+          "p95HeightMetres": 10.25,
+          "intersectionM2": 1.9971,
+          "cellFraction": 0.1248
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-front9.json",
+      "course": "johannesberg",
+      "featureId": "johannesberg-hole-09-tees",
+      "kind": "tees",
+      "hole": 9,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/4/7/22/31",
+          "bounds": [
+            679515.5,
+            6624404.5,
+            679519.5,
+            6624408.5
+          ],
+          "canopyFraction": 0.37647,
+          "meanHeightMetres": 8.25,
+          "p95HeightMetres": 11,
+          "intersectionM2": 2.2815,
+          "cellFraction": 0.1426
+        },
+        {
+          "id": "l0/4/7/21/30",
+          "bounds": [
+            679511.5,
+            6624408.5,
+            679515.5,
+            6624412.5
+          ],
+          "canopyFraction": 0.21569,
+          "meanHeightMetres": 3.5,
+          "p95HeightMetres": 3.5,
+          "intersectionM2": 4.2908,
+          "cellFraction": 0.2682
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-02-green",
+      "kind": "green",
+      "hole": 2,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/1/1/0/30",
+          "bounds": [
+            678659.5,
+            6625944.5,
+            678663.5,
+            6625948.5
+          ],
+          "canopyFraction": 0.06667,
+          "meanHeightMetres": 3.25,
+          "p95HeightMetres": 3.25,
+          "intersectionM2": 0.0387,
+          "cellFraction": 0.0024
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-01-fairway",
+      "kind": "fairway",
+      "hole": 1,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/2/0/6/35",
+          "bounds": [
+            678939.5,
+            6626180.5,
+            678943.5,
+            6626184.5
+          ],
+          "canopyFraction": 0.06275,
+          "meanHeightMetres": 5,
+          "p95HeightMetres": 5,
+          "intersectionM2": 7.6767,
+          "cellFraction": 0.4798
+        },
+        {
+          "id": "l0/1/0/57/47",
+          "bounds": [
+            678887.5,
+            6626132.5,
+            678891.5,
+            6626136.5
+          ],
+          "canopyFraction": 0.07059,
+          "meanHeightMetres": 9.25,
+          "p95HeightMetres": 9.25,
+          "intersectionM2": 0.346,
+          "cellFraction": 0.0216
+        },
+        {
+          "id": "l0/1/0/56/46",
+          "bounds": [
+            678883.5,
+            6626136.5,
+            678887.5,
+            6626140.5
+          ],
+          "canopyFraction": 0.56078,
+          "meanHeightMetres": 9,
+          "p95HeightMetres": 11.5,
+          "intersectionM2": 7.5722,
+          "cellFraction": 0.4733
+        },
+        {
+          "id": "l0/1/0/55/46",
+          "bounds": [
+            678879.5,
+            6626136.5,
+            678883.5,
+            6626140.5
+          ],
+          "canopyFraction": 0.50196,
+          "meanHeightMetres": 8.5,
+          "p95HeightMetres": 10,
+          "intersectionM2": 1.0888,
+          "cellFraction": 0.068
+        },
+        {
+          "id": "l0/2/0/0/37",
+          "bounds": [
+            678915.5,
+            6626172.5,
+            678919.5,
+            6626176.5
+          ],
+          "canopyFraction": 0.07059,
+          "meanHeightMetres": 3.5,
+          "p95HeightMetres": 3.5,
+          "intersectionM2": 16.0,
+          "cellFraction": 1.0
+        },
+        {
+          "id": "l0/1/0/63/37",
+          "bounds": [
+            678911.5,
+            6626172.5,
+            678915.5,
+            6626176.5
+          ],
+          "canopyFraction": 0.12549,
+          "meanHeightMetres": 3.5,
+          "p95HeightMetres": 3.5,
+          "intersectionM2": 16.0,
+          "cellFraction": 1.0
+        },
+        {
+          "id": "l0/1/0/63/36",
+          "bounds": [
+            678911.5,
+            6626176.5,
+            678915.5,
+            6626180.5
+          ],
+          "canopyFraction": 0.91765,
+          "meanHeightMetres": 5.5,
+          "p95HeightMetres": 7.25,
+          "intersectionM2": 3.6022,
+          "cellFraction": 0.2251
+        },
+        {
+          "id": "l0/1/0/62/36",
+          "bounds": [
+            678907.5,
+            6626176.5,
+            678911.5,
+            6626180.5
+          ],
+          "canopyFraction": 0.33333,
+          "meanHeightMetres": 3.25,
+          "p95HeightMetres": 4.75,
+          "intersectionM2": 0.7426,
+          "cellFraction": 0.0464
+        },
+        {
+          "id": "l0/2/0/0/36",
+          "bounds": [
+            678915.5,
+            6626176.5,
+            678919.5,
+            6626180.5
+          ],
+          "canopyFraction": 0.4549,
+          "meanHeightMetres": 6,
+          "p95HeightMetres": 6.75,
+          "intersectionM2": 6.611,
+          "cellFraction": 0.4132
+        },
+        {
+          "id": "l0/2/0/4/35",
+          "bounds": [
+            678931.5,
+            6626180.5,
+            678935.5,
+            6626184.5
+          ],
+          "canopyFraction": 0.06275,
+          "meanHeightMetres": 9,
+          "p95HeightMetres": 9,
+          "intersectionM2": 1.9909,
+          "cellFraction": 0.1244
+        },
+        {
+          "id": "l0/2/0/3/35",
+          "bounds": [
+            678927.5,
+            6626180.5,
+            678931.5,
+            6626184.5
+          ],
+          "canopyFraction": 0.18824,
+          "meanHeightMetres": 10.75,
+          "p95HeightMetres": 12.5,
+          "intersectionM2": 0.0583,
+          "cellFraction": 0.0036
+        },
+        {
+          "id": "l0/1/0/50/35",
+          "bounds": [
+            678859.5,
+            6626180.5,
+            678863.5,
+            6626184.5
+          ],
+          "canopyFraction": 0.06667,
+          "meanHeightMetres": 11.25,
+          "p95HeightMetres": 11.25,
+          "intersectionM2": 0.791,
+          "cellFraction": 0.0494
+        },
+        {
+          "id": "l0/2/0/49/42",
+          "bounds": [
+            679111.5,
+            6626152.5,
+            679115.5,
+            6626156.5
+          ],
+          "canopyFraction": 0.27451,
+          "meanHeightMetres": 8,
+          "p95HeightMetres": 9,
+          "intersectionM2": 0.3639,
+          "cellFraction": 0.0227
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-02-fairway",
+      "kind": "fairway",
+      "hole": 2,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/1/1/0/35",
+          "bounds": [
+            678659.5,
+            6625924.5,
+            678663.5,
+            6625928.5
+          ],
+          "canopyFraction": 0.06667,
+          "meanHeightMetres": 10.25,
+          "p95HeightMetres": 10.25,
+          "intersectionM2": 12.0429,
+          "cellFraction": 0.7527
+        },
+        {
+          "id": "l0/0/1/63/34",
+          "bounds": [
+            678655.5,
+            6625928.5,
+            678659.5,
+            6625932.5
+          ],
+          "canopyFraction": 0.81176,
+          "meanHeightMetres": 10.5,
+          "p95HeightMetres": 12.5,
+          "intersectionM2": 8.0953,
+          "cellFraction": 0.506
+        },
+        {
+          "id": "l0/0/1/63/33",
+          "bounds": [
+            678655.5,
+            6625932.5,
+            678659.5,
+            6625936.5
+          ],
+          "canopyFraction": 0.43922,
+          "meanHeightMetres": 10,
+          "p95HeightMetres": 12,
+          "intersectionM2": 10.9722,
+          "cellFraction": 0.6858
+        },
+        {
+          "id": "l0/0/1/63/32",
+          "bounds": [
+            678655.5,
+            6625936.5,
+            678659.5,
+            6625940.5
+          ],
+          "canopyFraction": 0.06275,
+          "meanHeightMetres": 3.25,
+          "p95HeightMetres": 3.25,
+          "intersectionM2": 9.3591,
+          "cellFraction": 0.5849
+        },
+        {
+          "id": "l0/0/1/63/31",
+          "bounds": [
+            678655.5,
+            6625940.5,
+            678659.5,
+            6625944.5
+          ],
+          "canopyFraction": 0.66667,
+          "meanHeightMetres": 3.25,
+          "p95HeightMetres": 3.5,
+          "intersectionM2": 2.7073,
+          "cellFraction": 0.1692
+        },
+        {
+          "id": "l0/1/1/0/30",
+          "bounds": [
+            678659.5,
+            6625944.5,
+            678663.5,
+            6625948.5
+          ],
+          "canopyFraction": 0.06667,
+          "meanHeightMetres": 3.25,
+          "p95HeightMetres": 3.25,
+          "intersectionM2": 10.6456,
+          "cellFraction": 0.6654
+        },
+        {
+          "id": "l0/1/1/0/29",
+          "bounds": [
+            678659.5,
+            6625948.5,
+            678663.5,
+            6625952.5
+          ],
+          "canopyFraction": 0.33333,
+          "meanHeightMetres": 3.25,
+          "p95HeightMetres": 3.5,
+          "intersectionM2": 2.0947,
+          "cellFraction": 0.1309
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-03-fairway",
+      "kind": "fairway",
+      "hole": 3,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/0/0/62/34",
+          "bounds": [
+            678651.5,
+            6626184.5,
+            678655.5,
+            6626188.5
+          ],
+          "canopyFraction": 0.71373,
+          "meanHeightMetres": 3,
+          "p95HeightMetres": 3.25,
+          "intersectionM2": 0.8802,
+          "cellFraction": 0.055
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-06-fairway",
+      "kind": "fairway",
+      "hole": 6,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/2/1/17/14",
+          "bounds": [
+            678983.5,
+            6626008.5,
+            678987.5,
+            6626012.5
+          ],
+          "canopyFraction": 0.12549,
+          "meanHeightMetres": 2.25,
+          "p95HeightMetres": 2.25,
+          "intersectionM2": 7.277,
+          "cellFraction": 0.4548
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-04-fairway",
+      "kind": "fairway",
+      "hole": 4,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/1/0/25/34",
+          "bounds": [
+            678759.5,
+            6626184.5,
+            678763.5,
+            6626188.5
+          ],
+          "canopyFraction": 0.33333,
+          "meanHeightMetres": 5,
+          "p95HeightMetres": 5.5,
+          "intersectionM2": 6.8164,
+          "cellFraction": 0.426
+        },
+        {
+          "id": "l0/1/0/33/36",
+          "bounds": [
+            678791.5,
+            6626176.5,
+            678795.5,
+            6626180.5
+          ],
+          "canopyFraction": 0.18824,
+          "meanHeightMetres": 7.25,
+          "p95HeightMetres": 7.75,
+          "intersectionM2": 7.9892,
+          "cellFraction": 0.4993
+        },
+        {
+          "id": "l0/1/0/16/31",
+          "bounds": [
+            678723.5,
+            6626196.5,
+            678727.5,
+            6626200.5
+          ],
+          "canopyFraction": 0.06667,
+          "meanHeightMetres": 8,
+          "p95HeightMetres": 8,
+          "intersectionM2": 1.6681,
+          "cellFraction": 0.1043
+        },
+        {
+          "id": "l0/1/0/17/31",
+          "bounds": [
+            678727.5,
+            6626196.5,
+            678731.5,
+            6626200.5
+          ],
+          "canopyFraction": 0.26667,
+          "meanHeightMetres": 5.75,
+          "p95HeightMetres": 7.25,
+          "intersectionM2": 0.0137,
+          "cellFraction": 0.0009
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-07-fairway",
+      "kind": "fairway",
+      "hole": 7,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/1/1/13/37",
+          "bounds": [
+            678711.5,
+            6625916.5,
+            678715.5,
+            6625920.5
+          ],
+          "canopyFraction": 0.12549,
+          "meanHeightMetres": 2.25,
+          "p95HeightMetres": 2.5,
+          "intersectionM2": 0.9843,
+          "cellFraction": 0.0615
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-09-fairway",
+      "kind": "fairway",
+      "hole": 9,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/3/0/2/52",
+          "bounds": [
+            679179.5,
+            6626112.5,
+            679183.5,
+            6626116.5
+          ],
+          "canopyFraction": 0.18824,
+          "meanHeightMetres": 4.5,
+          "p95HeightMetres": 4.75,
+          "intersectionM2": 0.0024,
+          "cellFraction": 0.0001
+        },
+        {
+          "id": "l0/3/0/1/51",
+          "bounds": [
+            679175.5,
+            6626116.5,
+            679179.5,
+            6626120.5
+          ],
+          "canopyFraction": 0.27451,
+          "meanHeightMetres": 4.25,
+          "p95HeightMetres": 4.5,
+          "intersectionM2": 12.9163,
+          "cellFraction": 0.8073
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-02-tees",
+      "kind": "tees",
+      "hole": 2,
+      "ringIndex": 0,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/1/0/38/50",
+          "bounds": [
+            678811.5,
+            6626120.5,
+            678815.5,
+            6626124.5
+          ],
+          "canopyFraction": 0.37647,
+          "meanHeightMetres": 5.75,
+          "p95HeightMetres": 7.5,
+          "intersectionM2": 2.814,
+          "cellFraction": 0.1759
+        }
+      ]
+    },
+    {
+      "reviewFile": "lm-review-nine.json",
+      "course": "johannesberg-9",
+      "featureId": "lm-nine-03-tees",
+      "kind": "tees",
+      "hole": 3,
+      "ringIndex": 1,
+      "trees": [],
+      "stands": [
+        {
+          "id": "l0/0/1/60/32",
+          "bounds": [
+            678643.5,
+            6625936.5,
+            678647.5,
+            6625940.5
+          ],
+          "canopyFraction": 0.06275,
+          "meanHeightMetres": 7.5,
+          "p95HeightMetres": 7.5,
+          "intersectionM2": 0.5897,
+          "cellFraction": 0.0369
+        }
+      ]
+    }
+  ],
+  "visualObservations": [
+    {
+      "standId": "l0/4/5/16/43",
+      "featureId": "johannesberg-hole-12-tees",
+      "boundsEpsg3006": [
+        679491.5,
+        6624868.5,
+        679495.5,
+        6624872.5
+      ],
+      "status": "clear-turf-exclusion-candidate",
+      "sourceFiles": [
+        {
+          "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+          "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+        }
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "note": "The cell is visually clear turf in the dated source. Excluding representative stand planting here is supported; no measured crown is relocated or deleted."
+    },
+    {
+      "standId": "l0/4/5/15/42",
+      "featureId": "johannesberg-hole-12-tees",
+      "boundsEpsg3006": [
+        679487.5,
+        6624872.5,
+        679491.5,
+        6624876.5
+      ],
+      "status": "clear-turf-exclusion-candidate",
+      "sourceFiles": [
+        {
+          "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+          "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+        }
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "note": "The cell is visually clear turf in the dated source. Excluding representative stand planting here is supported; no measured crown is relocated or deleted."
+    },
+    {
+      "standId": "l0/3/3/20/5",
+      "featureId": "johannesberg-hole-17-tees",
+      "boundsEpsg3006": [
+        679251.5,
+        6625532.5,
+        679255.5,
+        6625536.5
+      ],
+      "status": "retained-visible-canopy-or-overhang",
+      "sourceFiles": [
+        {
+          "path": "johannesbergbuild/cache/lm-ortho/eighteen-17-hole.png",
+          "sha256": "71373f11e35a5c7229b568a1f1dbcf9b9f67db764516a173994174458fd9fb90"
+        }
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "note": "The dated source shows a real tree crown/shadow or canopy at the turf boundary. Surface intersection alone is not evidence for removing this canopy."
+    },
+    {
+      "standId": "l0/2/0/0/37",
+      "featureId": "lm-nine-01-fairway",
+      "boundsEpsg3006": [
+        678915.5,
+        6626172.5,
+        678919.5,
+        6626176.5
+      ],
+      "status": "clear-turf-exclusion-candidate",
+      "sourceFiles": [
+        {
+          "path": "johannesbergbuild/cache/lm-ortho/nine-01-hole.png",
+          "sha256": "bbcb8b801ad30b46d6c20049b94bab06223ee44c46b7c63940860fa228eb46eb"
+        }
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "note": "The cell is visually clear turf in the dated source. Excluding representative stand planting here is supported; no measured crown is relocated or deleted."
+    },
+    {
+      "standId": "l0/1/0/63/37",
+      "featureId": "lm-nine-01-fairway",
+      "boundsEpsg3006": [
+        678911.5,
+        6626172.5,
+        678915.5,
+        6626176.5
+      ],
+      "status": "clear-turf-exclusion-candidate",
+      "sourceFiles": [
+        {
+          "path": "johannesbergbuild/cache/lm-ortho/nine-01-hole.png",
+          "sha256": "bbcb8b801ad30b46d6c20049b94bab06223ee44c46b7c63940860fa228eb46eb"
+        }
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "note": "The cell is visually clear turf in the dated source. Excluding representative stand planting here is supported; no measured crown is relocated or deleted."
+    },
+    {
+      "standId": "l0/1/1/0/35",
+      "featureId": "lm-nine-02-fairway",
+      "boundsEpsg3006": [
+        678659.5,
+        6625924.5,
+        678663.5,
+        6625928.5
+      ],
+      "status": "retained-visible-canopy-or-overhang",
+      "sourceFiles": [
+        {
+          "path": "johannesbergbuild/cache/lm-ortho/nine-02-hole.png",
+          "sha256": "def259881e852da20da3233d420d069e8860c5339265a0913a9f34e62892ffec"
+        }
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "note": "The dated source shows a real tree crown/shadow or canopy at the turf boundary. Surface intersection alone is not evidence for removing this canopy."
+    },
+    {
+      "standId": "l0/3/0/1/51",
+      "featureId": "lm-nine-09-fairway",
+      "boundsEpsg3006": [
+        679175.5,
+        6626116.5,
+        679179.5,
+        6626120.5
+      ],
+      "status": "retained-visible-canopy-or-overhang",
+      "sourceFiles": [
+        {
+          "path": "johannesbergbuild/cache/lm-ortho/nine-09-hole.png",
+          "sha256": "00d5d9cd3398dbc73ddafc8e0dbef9b23ac6964a666b7283f92ab45e100b4fb1"
+        }
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "note": "The dated source shows a real tree crown/shadow or canopy at the turf boundary. Surface intersection alone is not evidence for removing this canopy."
+    }
+  ],
+  "limitations": [
+    "A canopy crown or 4m stand cell intersecting a surface does not on its own justify removal.",
+    "This audit reads currently published chunks; final renderer scatter can differ within a stand cell.",
+    "Zero tree-centre conflicts is not a claim that all crown edges avoid turf.",
+    "Only the explicitly listed clear-turf cells are exclusion candidates; this report does not apply them."
+  ]
+}

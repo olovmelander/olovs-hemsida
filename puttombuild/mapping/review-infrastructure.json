@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "reviewedAt": "2026-09-09",
+  "sources": {
+    "hole-01-tees": {
+      "id": "hole-01-tees",
+      "requestSha256": "7b98c5e88790b4f1c3abce33aaf5e6e3cff8e3410fa42dffd13b2b731371c491",
+      "sha256": "938fefcc3138e75f927edc2ec919bdce0801dfb5b5f9aa4a6ea17b36da5597ae",
+      "bytes": 4070129,
+      "rasterFile": "hole-01-tees.tif",
+      "boundsEpsg3006": [
+        697302.88,
+        7025176.96,
+        697470.72,
+        7025385.92
+      ],
+      "width": 1049,
+      "height": 1306,
+      "geoTransform": [
+        697302.88,
+        0.16,
+        0,
+        7025385.92,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:48:56.538682+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 22,
+          "maximum": 255,
+          "mean": 88.71470386001691,
+          "standardDeviation": 36.905882081447466
+        },
+        {
+          "band": 2,
+          "minimum": 39,
+          "maximum": 255,
+          "mean": 104.87365711090706,
+          "standardDeviation": 30.905446019443776
+        },
+        {
+          "band": 3,
+          "minimum": 44,
+          "maximum": 255,
+          "mean": 95.5867208177554,
+          "standardDeviation": 24.05085843229573
+        },
+        {
+          "band": 4,
+          "minimum": 11,
+          "maximum": 255,
+          "mean": 140.6967118104167,
+          "standardDeviation": 49.956463408694376
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-04-green": {
+      "id": "hole-04-green",
+      "horizontalCrs": "EPSG:3006",
+      "rasterFile": "hole-04-green.tif",
+      "sha256": "88c212fc291db710999e195f3d43056d445ed6ecf3a28ea5633093b88c827bea",
+      "requestSha256": "76f235bd5fa292fa20f46ae417f57f7ba40375d372da64f353cd75f7d45789cd",
+      "width": 926,
+      "height": 977,
+      "geoTransform": [
+        697270.4,
+        0.16,
+        0,
+        7025323.2,
+        0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        697270.4,
+        7025166.88,
+        697418.56,
+        7025323.2
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ],
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ]
+    }
+  },
+  "holes": [],
+  "deferredFeatures": [
+    {
+      "kind": "building",
+      "id": "trace-clubhouse-main",
+      "sourceKey": "hole-01-tees",
+      "status": "roof-footprint-ambiguity",
+      "notes": "The existing outline extends approximately 25-40 native pixels (4-6 m) northward into the paved courtyard relative to visible roof edges. Adjacent annex/reception polygons are also offset from visible roofs. Roof overhangs, shadow and relief displacement prevent treating roof edges as verified ground wall footprints; no building geometry adopted."
+    },
+    {
+      "kind": "building",
+      "id": "trace-vinkelhus",
+      "sourceKey": "hole-01-tees",
+      "status": "roof-footprint-ambiguity",
+      "notes": "The existing range L-building outline misses part of the visible roof to the east. A roof outline is not a measured ground footprint; retained pending a defensible footprint source."
+    },
+    {
+      "kind": "path",
+      "status": "unverified",
+      "notes": "Final clubhouse-area inspection did not establish a defensible path correction. Four manual connecting paths retain their previous lineage and are not marked image-verified."
+    }
+  ]
+}

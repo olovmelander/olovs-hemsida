@@ -1,0 +1,6331 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "course": "stora",
+  "courseSlug": "upsala",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "baselineModelSha256": "937f54001cd6f96142b60fdda5e0eaeba28420c2269b981457295caab10956ec",
+  "method": "Direct visual inspection of all nine native RGB overlay windows, with plain detail panels on H13/H15 and archived municipal 2023 cross-check. Explicit platform associations from spatial order; no survey or daily marker claim.",
+  "completeSurvey": false,
+  "sourceCaptureDates": [
+    "2025-06-14"
+  ],
+  "sourceAbsoluteHorizontalAccuracyMetres": null,
+  "sources": [
+    {
+      "id": "stora-10-tees",
+      "rasterFile": "stora-10-tees.tif",
+      "rgbFile": "stora-10-tees.png",
+      "sha256": "59d52f2ed4fb42229156e364c488a12b91e870ddf8d25bfc3407250d51720120",
+      "rgbSha256": "321013e8a8d5d88a0fa3c18a7cf1ea0a8209d2d55590b6162756f1735c9f60b0",
+      "requestSha256": "825257d122ad4e97c1b2d1847d9e4dcc030f6cd7f9202b76b0d2da4276896ffb",
+      "bytes": 2224013,
+      "boundsEpsg3006": [
+        639929.12,
+        6636470.4,
+        640065.28,
+        6636614.08
+      ],
+      "geoTransform": [
+        639929.12,
+        0.16,
+        0.0,
+        6636614.08,
+        0.0,
+        -0.16
+      ],
+      "width": 851,
+      "height": 898,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:03.395372+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-11-tees",
+      "rasterFile": "stora-11-tees.tif",
+      "rgbFile": "stora-11-tees.png",
+      "sha256": "ea7cd06c4f1af1f7a77d4842fa604962b668ef78ad86ddeef01db0bfef6e8015",
+      "rgbSha256": "3ee32c5bfebe315e407e3c28265e6cbfd2a8357a5748d6dc29ae05ef8845a5a9",
+      "requestSha256": "bbc3b5edb95a8d1899511ede1cb155d200de55ec955093eb89026fdca93eec0e",
+      "bytes": 2501973,
+      "boundsEpsg3006": [
+        639933.76,
+        6636641.76,
+        640141.76,
+        6636752.96
+      ],
+      "geoTransform": [
+        639933.76,
+        0.16,
+        0.0,
+        6636752.96,
+        0.0,
+        -0.16
+      ],
+      "width": 1300,
+      "height": 695,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:04.008975+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-12-tees",
+      "rasterFile": "stora-12-tees.tif",
+      "rgbFile": "stora-12-tees.png",
+      "sha256": "ceeaf99a553019989cdc605910328d0eb17909fb46c8d4934da5acefe6321360",
+      "rgbSha256": "3e11e8a293058b9214826252478b82fc9403b2a9bcbdec72d41e4f32cd14cf0b",
+      "requestSha256": "d3a9386e5ffdb3842c61b77c99ee8e1952e1a5f586d39a662218e5435dd5f82b",
+      "bytes": 3801553,
+      "boundsEpsg3006": [
+        639608.64,
+        6636606.24,
+        639842.88,
+        6636766.08
+      ],
+      "geoTransform": [
+        639608.64,
+        0.16,
+        0.0,
+        6636766.08,
+        0.0,
+        -0.16
+      ],
+      "width": 1464,
+      "height": 999,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:04.915216+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-13-tees",
+      "rasterFile": "stora-13-tees.tif",
+      "rgbFile": "stora-13-tees.png",
+      "sha256": "a8ac7712ce6d28db925c8811d9c501c5bfcf12ac669cfe6716b5abc5e5616bf5",
+      "rgbSha256": "aa10d1ed4e57fb1e02196ffd2ef90297fca4caf43e3c55c0fda8fa58defaaeac",
+      "requestSha256": "2f5fea15019d9845ec0fab13247e827501d54860583421db9bc64fb8f3d46222",
+      "bytes": 2606941,
+      "boundsEpsg3006": [
+        639376.48,
+        6636292.0,
+        639556.7999999999,
+        6636435.68
+      ],
+      "geoTransform": [
+        639376.48,
+        0.16,
+        0.0,
+        6636435.68,
+        0.0,
+        -0.16
+      ],
+      "width": 1127,
+      "height": 898,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:05.734848+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-14-tees",
+      "rasterFile": "stora-14-tees.tif",
+      "rgbFile": "stora-14-tees.png",
+      "sha256": "e431150cb8e40029bb1fec97b082da5c0f3a3433de37477125b8a28ef0d633f0",
+      "rgbSha256": "3949f5b60c0da8ba58877de61f5314985ec920f922a1afb312d18329825f2b59",
+      "requestSha256": "b1a29507138f1f02c5cbea7a2582948cb25eef2245d53a26c51c3a4fc000938a",
+      "bytes": 1437221,
+      "boundsEpsg3006": [
+        639649.44,
+        6636521.92,
+        639747.0399999999,
+        6636657.76
+      ],
+      "geoTransform": [
+        639649.44,
+        0.16,
+        0.0,
+        6636657.76,
+        0.0,
+        -0.16
+      ],
+      "width": 610,
+      "height": 849,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:06.110569+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-15-tees",
+      "rasterFile": "stora-15-tees.tif",
+      "rgbFile": "stora-15-tees.png",
+      "sha256": "1d944f6bdee6e04a75201baa44220229dcae576fa07aa2e8713f5c928670dd60",
+      "rgbSha256": "e792833f06a675fba859b41c30e7f68d55925c50e88a37d11a00178110f9e659",
+      "requestSha256": "5a003f7a14d7b2495c82cba82504f4082e77c4989a93acd4dc087fa071d6e578",
+      "bytes": 2985191,
+      "boundsEpsg3006": [
+        639577.28,
+        6636249.920000001,
+        639759.2000000001,
+        6636405.44
+      ],
+      "geoTransform": [
+        639577.28,
+        0.16,
+        0.0,
+        6636405.44,
+        0.0,
+        -0.16
+      ],
+      "width": 1137,
+      "height": 972,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:06.754842+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-16-tees",
+      "rasterFile": "stora-16-tees.tif",
+      "rgbFile": "stora-16-tees.png",
+      "sha256": "a8d7c5f6c8221a6d71873d6e2615c3e132f61ea65bd36d24fe77b14a40a40ec5",
+      "rgbSha256": "8cb3e23749ad80391cd9e5a701424fb4918d69c1e8cdd5291f1fdb68d229b02f",
+      "requestSha256": "197bdb8cb9da4db9217cbb043c72c4f583a19781ac46f89192dcf7f18a44ffc5",
+      "bytes": 3233419,
+      "boundsEpsg3006": [
+        639421.92,
+        6635972.16,
+        639613.6000000001,
+        6636127.36
+      ],
+      "geoTransform": [
+        639421.92,
+        0.16,
+        0.0,
+        6636127.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1198,
+      "height": 970,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:07.518451+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-17-tees",
+      "rasterFile": "stora-17-tees.tif",
+      "rgbFile": "stora-17-tees.png",
+      "sha256": "09b793c1b24e5c822468f2dd871c5c7d91e62e94058ad18ea13c46380114408f",
+      "rgbSha256": "7d25c7a01f5d03c2c166106fe26fcd0247ee601a610fe5f91a84ab60377a3ef0",
+      "requestSha256": "609433d3cc1e35457d1d17356166e069b9f2d0f8513716809309479df936458e",
+      "bytes": 2186645,
+      "boundsEpsg3006": [
+        639619.68,
+        6635596.48,
+        639738.7200000001,
+        6635767.36
+      ],
+      "geoTransform": [
+        639619.68,
+        0.16,
+        0.0,
+        6635767.36,
+        0.0,
+        -0.16
+      ],
+      "width": 744,
+      "height": 1068,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:08.007522+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-18-tees",
+      "rasterFile": "stora-18-tees.tif",
+      "rgbFile": "stora-18-tees.png",
+      "sha256": "bcf74b63f81f7bad56bc34fd747d1788858f2663cc75737355864ac70cfbc53b",
+      "rgbSha256": "852bf9975f5827ac83d4a38caddceca9d8089a11f4d5f74253aa16012209d249",
+      "requestSha256": "381c945ebd2b8a0459d9a51075d288c25c6eeb8bf5a564a0051f61bb918fa2be",
+      "bytes": 2486417,
+      "boundsEpsg3006": [
+        639662.56,
+        6635834.56,
+        639789.4400000001,
+        6636005.92
+      ],
+      "geoTransform": [
+        639662.56,
+        0.16,
+        0.0,
+        6636005.92,
+        0.0,
+        -0.16
+      ],
+      "width": 793,
+      "height": 1071,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:08.558990+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    }
+  ],
+  "holes": [
+    {
+      "hole": 10,
+      "originalMarks": [
+        {
+          "c": [
+            158.1,
+            -391.5
+          ],
+          "b": 43.1,
+          "m": 184
+        },
+        {
+          "c": [
+            173.1,
+            -407.5
+          ],
+          "b": 43.1,
+          "m": 162
+        },
+        {
+          "c": [
+            173.1,
+            -407.5
+          ],
+          "b": 43.1,
+          "m": 162
+        },
+        {
+          "c": [
+            185.4,
+            -420.6
+          ],
+          "b": 43.1,
+          "m": 144
+        },
+        {
+          "c": [
+            208,
+            -444.7
+          ],
+          "b": 43.1,
+          "m": 111
+        },
+        {
+          "c": [
+            208,
+            -444.7
+          ],
+          "b": 43.1,
+          "m": 111
+        }
+      ],
+      "originalLine": [
+        [
+          158.1,
+          -391.5
+        ],
+        [
+          283.9,
+          -525.7
+        ]
+      ],
+      "originalDistances": [
+        184,
+        162,
+        162,
+        144,
+        111,
+        111
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "Four visible platforms agree with the dated outlines. Reference order matches southwest-to-northeast platform order.",
+        "sourceId": "stora-10-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                155.497,
+                -398.264
+              ],
+              [
+                158.295,
+                -399.658
+              ],
+              [
+                161.564,
+                -400.284
+              ],
+              [
+                164.527,
+                -399.422
+              ],
+              [
+                166.455,
+                -397.6
+              ],
+              [
+                167.118,
+                -395.324
+              ],
+              [
+                166.046,
+                -393.365
+              ],
+              [
+                164.235,
+                -391.683
+              ],
+              [
+                161.446,
+                -390.538
+              ],
+              [
+                158.187,
+                -390.161
+              ],
+              [
+                155.492,
+                -391.513
+              ],
+              [
+                154.062,
+                -393.317
+              ],
+              [
+                153.639,
+                -395.334
+              ],
+              [
+                154.203,
+                -397.062
+              ]
+            ],
+            "cx": 160.29172007260698,
+            "cz": -395.2438066562671,
+            "area": 99.9642994999922,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-10-back-southwest-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                170.49,
+                -411.948
+              ],
+              [
+                173.298,
+                -413.592
+              ],
+              [
+                176.28,
+                -413.229
+              ],
+              [
+                178.716,
+                -411.637
+              ],
+              [
+                181.124,
+                -409.296
+              ],
+              [
+                182.516,
+                -406.493
+              ],
+              [
+                182.431,
+                -404.246
+              ],
+              [
+                181.119,
+                -402.546
+              ],
+              [
+                178.829,
+                -401.382
+              ],
+              [
+                176.068,
+                -400.987
+              ],
+              [
+                173.105,
+                -401.849
+              ],
+              [
+                170.918,
+                -403.431
+              ],
+              [
+                169.009,
+                -405.754
+              ],
+              [
+                168.355,
+                -408.278
+              ],
+              [
+                168.929,
+                -410.257
+              ]
+            ],
+            "cx": 175.44452559772944,
+            "cz": -407.13485222891035,
+            "area": 128.9673980000225,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-10-middle-southwest-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                184.007,
+                -426.188
+              ],
+              [
+                185.77,
+                -426.622
+              ],
+              [
+                187.736,
+                -425.797
+              ],
+              [
+                189.176,
+                -424.243
+              ],
+              [
+                189.599,
+                -422.227
+              ],
+              [
+                189.274,
+                -420.239
+              ],
+              [
+                187.972,
+                -418.788
+              ],
+              [
+                186.198,
+                -418.105
+              ],
+              [
+                184.233,
+                -418.929
+              ],
+              [
+                182.535,
+                -420.243
+              ],
+              [
+                182.102,
+                -422.01
+              ],
+              [
+                182.427,
+                -423.998
+              ]
+            ],
+            "cx": 185.87642420914324,
+            "cz": -422.35988806706365,
+            "area": 47.238236499993945,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-10-middle-northeast-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                202.147,
+                -450.504
+              ],
+              [
+                204.437,
+                -451.668
+              ],
+              [
+                206.939,
+                -451.823
+              ],
+              [
+                209.404,
+                -450.98
+              ],
+              [
+                211.092,
+                -449.416
+              ],
+              [
+                211.506,
+                -447.15
+              ],
+              [
+                210.664,
+                -444.682
+              ],
+              [
+                209.103,
+                -442.991
+              ],
+              [
+                206.822,
+                -442.077
+              ],
+              [
+                204.348,
+                -442.671
+              ],
+              [
+                202.401,
+                -443.994
+              ],
+              [
+                200.962,
+                -445.549
+              ],
+              [
+                200.538,
+                -447.565
+              ],
+              [
+                201.103,
+                -449.294
+              ]
+            ],
+            "cx": 206.1047611673854,
+            "cz": -447.13265729968805,
+            "area": 79.86137550001149,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-10-front-northeast-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-10-back-southwest-2025",
+          "originalPadRing": [
+            [
+              155.497,
+              -398.264
+            ],
+            [
+              158.295,
+              -399.658
+            ],
+            [
+              161.564,
+              -400.284
+            ],
+            [
+              164.527,
+              -399.422
+            ],
+            [
+              166.455,
+              -397.6
+            ],
+            [
+              167.118,
+              -395.324
+            ],
+            [
+              166.046,
+              -393.365
+            ],
+            [
+              164.235,
+              -391.683
+            ],
+            [
+              161.446,
+              -390.538
+            ],
+            [
+              158.187,
+              -390.161
+            ],
+            [
+              155.492,
+              -391.513
+            ],
+            [
+              154.062,
+              -393.317
+            ],
+            [
+              153.639,
+              -395.334
+            ],
+            [
+              154.203,
+              -397.062
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-10-middle-southwest-2025",
+          "originalPadRing": [
+            [
+              170.49,
+              -411.948
+            ],
+            [
+              173.298,
+              -413.592
+            ],
+            [
+              176.28,
+              -413.229
+            ],
+            [
+              178.716,
+              -411.637
+            ],
+            [
+              181.124,
+              -409.296
+            ],
+            [
+              182.516,
+              -406.493
+            ],
+            [
+              182.431,
+              -404.246
+            ],
+            [
+              181.119,
+              -402.546
+            ],
+            [
+              178.829,
+              -401.382
+            ],
+            [
+              176.068,
+              -400.987
+            ],
+            [
+              173.105,
+              -401.849
+            ],
+            [
+              170.918,
+              -403.431
+            ],
+            [
+              169.009,
+              -405.754
+            ],
+            [
+              168.355,
+              -408.278
+            ],
+            [
+              168.929,
+              -410.257
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-10-middle-southwest-2025",
+          "originalPadRing": [
+            [
+              170.49,
+              -411.948
+            ],
+            [
+              173.298,
+              -413.592
+            ],
+            [
+              176.28,
+              -413.229
+            ],
+            [
+              178.716,
+              -411.637
+            ],
+            [
+              181.124,
+              -409.296
+            ],
+            [
+              182.516,
+              -406.493
+            ],
+            [
+              182.431,
+              -404.246
+            ],
+            [
+              181.119,
+              -402.546
+            ],
+            [
+              178.829,
+              -401.382
+            ],
+            [
+              176.068,
+              -400.987
+            ],
+            [
+              173.105,
+              -401.849
+            ],
+            [
+              170.918,
+              -403.431
+            ],
+            [
+              169.009,
+              -405.754
+            ],
+            [
+              168.355,
+              -408.278
+            ],
+            [
+              168.929,
+              -410.257
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 2,
+          "padSourceId": "upsala-stora-tee-10-middle-northeast-2025",
+          "originalPadRing": [
+            [
+              184.007,
+              -426.188
+            ],
+            [
+              185.77,
+              -426.622
+            ],
+            [
+              187.736,
+              -425.797
+            ],
+            [
+              189.176,
+              -424.243
+            ],
+            [
+              189.599,
+              -422.227
+            ],
+            [
+              189.274,
+              -420.239
+            ],
+            [
+              187.972,
+              -418.788
+            ],
+            [
+              186.198,
+              -418.105
+            ],
+            [
+              184.233,
+              -418.929
+            ],
+            [
+              182.535,
+              -420.243
+            ],
+            [
+              182.102,
+              -422.01
+            ],
+            [
+              182.427,
+              -423.998
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-10-front-northeast-2025",
+          "originalPadRing": [
+            [
+              202.147,
+              -450.504
+            ],
+            [
+              204.437,
+              -451.668
+            ],
+            [
+              206.939,
+              -451.823
+            ],
+            [
+              209.404,
+              -450.98
+            ],
+            [
+              211.092,
+              -449.416
+            ],
+            [
+              211.506,
+              -447.15
+            ],
+            [
+              210.664,
+              -444.682
+            ],
+            [
+              209.103,
+              -442.991
+            ],
+            [
+              206.822,
+              -442.077
+            ],
+            [
+              204.348,
+              -442.671
+            ],
+            [
+              202.401,
+              -443.994
+            ],
+            [
+              200.962,
+              -445.549
+            ],
+            [
+              200.538,
+              -447.565
+            ],
+            [
+              201.103,
+              -449.294
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 5,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-10-front-northeast-2025",
+          "originalPadRing": [
+            [
+              202.147,
+              -450.504
+            ],
+            [
+              204.437,
+              -451.668
+            ],
+            [
+              206.939,
+              -451.823
+            ],
+            [
+              209.404,
+              -450.98
+            ],
+            [
+              211.092,
+              -449.416
+            ],
+            [
+              211.506,
+              -447.15
+            ],
+            [
+              210.664,
+              -444.682
+            ],
+            [
+              209.103,
+              -442.991
+            ],
+            [
+              206.822,
+              -442.077
+            ],
+            [
+              204.348,
+              -442.671
+            ],
+            [
+              202.401,
+              -443.994
+            ],
+            [
+              200.962,
+              -445.549
+            ],
+            [
+              200.538,
+              -447.565
+            ],
+            [
+              201.103,
+              -449.294
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        }
+      ]
+    },
+    {
+      "hole": 11,
+      "originalMarks": [
+        {
+          "c": [
+            291.4,
+            -576.4
+          ],
+          "b": -96.3,
+          "m": 376
+        },
+        {
+          "c": [
+            278.4,
+            -575
+          ],
+          "b": -96.3,
+          "m": 363
+        },
+        {
+          "c": [
+            268.5,
+            -573.9
+          ],
+          "b": -96.3,
+          "m": 353
+        },
+        {
+          "c": [
+            203.9,
+            -566.7
+          ],
+          "b": -96.3,
+          "m": 288
+        },
+        {
+          "c": [
+            203.9,
+            -566.7
+          ],
+          "b": -96.3,
+          "m": 288
+        },
+        {
+          "c": [
+            164.4,
+            -561.2
+          ],
+          "b": -107.7,
+          "m": 248
+        }
+      ],
+      "originalLine": [
+        [
+          291.4,
+          -576.4
+        ],
+        [
+          170,
+          -563
+        ],
+        [
+          60,
+          -528
+        ],
+        [
+          -25,
+          -511
+        ],
+        [
+          -74.8,
+          -496.8
+        ]
+      ],
+      "originalDistances": [
+        376,
+        363,
+        353,
+        288,
+        288,
+        248
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "Long rear platform and round west platform agree with image; rear south edge is shadowed. Forward 42 reference is on short grass beyond any distinct platform.",
+        "sourceId": "stora-11-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                198.045,
+                -580.168
+              ],
+              [
+                200.058,
+                -580.592
+              ],
+              [
+                201.775,
+                -579.777
+              ],
+              [
+                202.965,
+                -578.232
+              ],
+              [
+                203.388,
+                -576.216
+              ],
+              [
+                203.064,
+                -574.228
+              ],
+              [
+                201.761,
+                -572.777
+              ],
+              [
+                199.978,
+                -571.844
+              ],
+              [
+                198.003,
+                -572.419
+              ],
+              [
+                196.286,
+                -573.234
+              ],
+              [
+                195.345,
+                -574.77
+              ],
+              [
+                195.43,
+                -577.017
+              ],
+              [
+                196.253,
+                -578.986
+              ]
+            ],
+            "cx": 199.3738642053455,
+            "cz": -576.2190167177997,
+            "area": 53.19699750000291,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-11-front-west-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                253.577,
+                -585.389
+              ],
+              [
+                255.944,
+                -586.369
+              ],
+              [
+                263.154,
+                -587.069
+              ],
+              [
+                272.777,
+                -587.385
+              ],
+              [
+                281.43,
+                -587.739
+              ],
+              [
+                286.475,
+                -587.645
+              ],
+              [
+                290.233,
+                -586.92
+              ],
+              [
+                292.114,
+                -585.293
+              ],
+              [
+                293.006,
+                -583.217
+              ],
+              [
+                292.642,
+                -581.287
+              ],
+              [
+                291.428,
+                -579.971
+              ],
+              [
+                288.774,
+                -579.099
+              ],
+              [
+                284.691,
+                -578.962
+              ],
+              [
+                279.747,
+                -579.149
+              ],
+              [
+                274.893,
+                -579.138
+              ],
+              [
+                270.035,
+                -579.03
+              ],
+              [
+                264.979,
+                -578.832
+              ],
+              [
+                260.659,
+                -577.537
+              ],
+              [
+                257.326,
+                -576.691
+              ],
+              [
+                254.616,
+                -576.891
+              ],
+              [
+                252.624,
+                -578.133
+              ],
+              [
+                251.623,
+                -579.921
+              ],
+              [
+                251.804,
+                -582.15
+              ],
+              [
+                252.556,
+                -584.066
+              ]
+            ],
+            "cx": 271.79672151836473,
+            "cz": -582.8067237111421,
+            "area": 340.5255230000039,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+            "imagerySourceId": "uppsala-service-2023-upsala-h11",
+            "observedYear": 2023,
+            "crosscheckYear": 2025,
+            "yearBasis": "municipal archive service name; exact flight date unknown",
+            "captureDate": null,
+            "sourceSha256": "414847f1c019b5d877a2d1a2254c3548d77482ee1d2c976a3d2016a0efbba28b",
+            "boundaryInterpretationUncertaintyMetres": 3,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+          "originalPadRing": [
+            [
+              253.577,
+              -585.389
+            ],
+            [
+              255.944,
+              -586.369
+            ],
+            [
+              263.154,
+              -587.069
+            ],
+            [
+              272.777,
+              -587.385
+            ],
+            [
+              281.43,
+              -587.739
+            ],
+            [
+              286.475,
+              -587.645
+            ],
+            [
+              290.233,
+              -586.92
+            ],
+            [
+              292.114,
+              -585.293
+            ],
+            [
+              293.006,
+              -583.217
+            ],
+            [
+              292.642,
+              -581.287
+            ],
+            [
+              291.428,
+              -579.971
+            ],
+            [
+              288.774,
+              -579.099
+            ],
+            [
+              284.691,
+              -578.962
+            ],
+            [
+              279.747,
+              -579.149
+            ],
+            [
+              274.893,
+              -579.138
+            ],
+            [
+              270.035,
+              -579.03
+            ],
+            [
+              264.979,
+              -578.832
+            ],
+            [
+              260.659,
+              -577.537
+            ],
+            [
+              257.326,
+              -576.691
+            ],
+            [
+              254.616,
+              -576.891
+            ],
+            [
+              252.624,
+              -578.133
+            ],
+            [
+              251.623,
+              -579.921
+            ],
+            [
+              251.804,
+              -582.15
+            ],
+            [
+              252.556,
+              -584.066
+            ]
+          ],
+          "maxShiftMetres": 10,
+          "originalDistanceToPadMetres": 3.384
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+          "originalPadRing": [
+            [
+              253.577,
+              -585.389
+            ],
+            [
+              255.944,
+              -586.369
+            ],
+            [
+              263.154,
+              -587.069
+            ],
+            [
+              272.777,
+              -587.385
+            ],
+            [
+              281.43,
+              -587.739
+            ],
+            [
+              286.475,
+              -587.645
+            ],
+            [
+              290.233,
+              -586.92
+            ],
+            [
+              292.114,
+              -585.293
+            ],
+            [
+              293.006,
+              -583.217
+            ],
+            [
+              292.642,
+              -581.287
+            ],
+            [
+              291.428,
+              -579.971
+            ],
+            [
+              288.774,
+              -579.099
+            ],
+            [
+              284.691,
+              -578.962
+            ],
+            [
+              279.747,
+              -579.149
+            ],
+            [
+              274.893,
+              -579.138
+            ],
+            [
+              270.035,
+              -579.03
+            ],
+            [
+              264.979,
+              -578.832
+            ],
+            [
+              260.659,
+              -577.537
+            ],
+            [
+              257.326,
+              -576.691
+            ],
+            [
+              254.616,
+              -576.891
+            ],
+            [
+              252.624,
+              -578.133
+            ],
+            [
+              251.623,
+              -579.921
+            ],
+            [
+              251.804,
+              -582.15
+            ],
+            [
+              252.556,
+              -584.066
+            ]
+          ],
+          "maxShiftMetres": 11,
+          "originalDistanceToPadMetres": 4.146
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+          "originalPadRing": [
+            [
+              253.577,
+              -585.389
+            ],
+            [
+              255.944,
+              -586.369
+            ],
+            [
+              263.154,
+              -587.069
+            ],
+            [
+              272.777,
+              -587.385
+            ],
+            [
+              281.43,
+              -587.739
+            ],
+            [
+              286.475,
+              -587.645
+            ],
+            [
+              290.233,
+              -586.92
+            ],
+            [
+              292.114,
+              -585.293
+            ],
+            [
+              293.006,
+              -583.217
+            ],
+            [
+              292.642,
+              -581.287
+            ],
+            [
+              291.428,
+              -579.971
+            ],
+            [
+              288.774,
+              -579.099
+            ],
+            [
+              284.691,
+              -578.962
+            ],
+            [
+              279.747,
+              -579.149
+            ],
+            [
+              274.893,
+              -579.138
+            ],
+            [
+              270.035,
+              -579.03
+            ],
+            [
+              264.979,
+              -578.832
+            ],
+            [
+              260.659,
+              -577.537
+            ],
+            [
+              257.326,
+              -576.691
+            ],
+            [
+              254.616,
+              -576.891
+            ],
+            [
+              252.624,
+              -578.133
+            ],
+            [
+              251.623,
+              -579.921
+            ],
+            [
+              251.804,
+              -582.15
+            ],
+            [
+              252.556,
+              -584.066
+            ]
+          ],
+          "maxShiftMetres": 12,
+          "originalDistanceToPadMetres": 5.066
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-11-front-west-2025",
+          "originalPadRing": [
+            [
+              198.045,
+              -580.168
+            ],
+            [
+              200.058,
+              -580.592
+            ],
+            [
+              201.775,
+              -579.777
+            ],
+            [
+              202.965,
+              -578.232
+            ],
+            [
+              203.388,
+              -576.216
+            ],
+            [
+              203.064,
+              -574.228
+            ],
+            [
+              201.761,
+              -572.777
+            ],
+            [
+              199.978,
+              -571.844
+            ],
+            [
+              198.003,
+              -572.419
+            ],
+            [
+              196.286,
+              -573.234
+            ],
+            [
+              195.345,
+              -574.77
+            ],
+            [
+              195.43,
+              -577.017
+            ],
+            [
+              196.253,
+              -578.986
+            ]
+          ],
+          "maxShiftMetres": 13,
+          "originalDistanceToPadMetres": 6.376
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-11-front-west-2025",
+          "originalPadRing": [
+            [
+              198.045,
+              -580.168
+            ],
+            [
+              200.058,
+              -580.592
+            ],
+            [
+              201.775,
+              -579.777
+            ],
+            [
+              202.965,
+              -578.232
+            ],
+            [
+              203.388,
+              -576.216
+            ],
+            [
+              203.064,
+              -574.228
+            ],
+            [
+              201.761,
+              -572.777
+            ],
+            [
+              199.978,
+              -571.844
+            ],
+            [
+              198.003,
+              -572.419
+            ],
+            [
+              196.286,
+              -573.234
+            ],
+            [
+              195.345,
+              -574.77
+            ],
+            [
+              195.43,
+              -577.017
+            ],
+            [
+              196.253,
+              -578.986
+            ]
+          ],
+          "maxShiftMetres": 13,
+          "originalDistanceToPadMetres": 6.376
+        },
+        {
+          "markIndex": 5,
+          "status": "retain",
+          "reason": "Long rear platform and round west platform agree with image; rear south edge is shadowed. Forward 42 reference is on short grass beyond any distinct platform."
+        }
+      ]
+    },
+    {
+      "hole": 12,
+      "originalMarks": [
+        {
+          "c": [
+            -7.9,
+            -598.1
+          ],
+          "b": -108.8,
+          "m": 521
+        },
+        {
+          "c": [
+            -23,
+            -593
+          ],
+          "b": -108.8,
+          "m": 505
+        },
+        {
+          "c": [
+            -70.4,
+            -576.9
+          ],
+          "b": -108.8,
+          "m": 455
+        },
+        {
+          "c": [
+            -131.1,
+            -554.1
+          ],
+          "b": -118.2,
+          "m": 390
+        },
+        {
+          "c": [
+            -131.1,
+            -554.1
+          ],
+          "b": -118.2,
+          "m": 390
+        },
+        {
+          "c": [
+            -161.1,
+            -538
+          ],
+          "b": -118.2,
+          "m": 356
+        }
+      ],
+      "originalLine": [
+        [
+          -7.9,
+          -598.1
+        ],
+        [
+          -120,
+          -560
+        ],
+        [
+          -232,
+          -500
+        ],
+        [
+          -290,
+          -420
+        ],
+        [
+          -340,
+          -345
+        ],
+        [
+          -399.9,
+          -282.5
+        ]
+      ],
+      "originalDistances": [
+        521,
+        505,
+        455,
+        390,
+        390,
+        356
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "Rear elongated, middle round and front round platforms match imagery. Middle south edge under tree shadow. Shortest forward reference has no distinct pad.",
+        "sourceId": "stora-12-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                -30.783,
+                -602.309
+              ],
+              [
+                -29.442,
+                -604.759
+              ],
+              [
+                -25.896,
+                -606.125
+              ],
+              [
+                -20.826,
+                -608.184
+              ],
+              [
+                -14.999,
+                -610.464
+              ],
+              [
+                -10.197,
+                -612.033
+              ],
+              [
+                -7.464,
+                -611.68
+              ],
+              [
+                -5.277,
+                -610.098
+              ],
+              [
+                -4.623,
+                -607.573
+              ],
+              [
+                -5.465,
+                -605.104
+              ],
+              [
+                -8.023,
+                -603.451
+              ],
+              [
+                -13.084,
+                -601.642
+              ],
+              [
+                -18.652,
+                -599.602
+              ],
+              [
+                -23.723,
+                -597.543
+              ],
+              [
+                -27.758,
+                -596.445
+              ],
+              [
+                -30.213,
+                -597.538
+              ],
+              [
+                -31.375,
+                -599.832
+              ]
+            ],
+            "cx": -18.063827938454686,
+            "cz": -604.4162979738853,
+            "area": 226.93816199999628,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-12-back-northeast-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -137.879,
+                -562.346
+              ],
+              [
+                -135.598,
+                -563.26
+              ],
+              [
+                -132.607,
+                -563.147
+              ],
+              [
+                -130.41,
+                -561.814
+              ],
+              [
+                -129.229,
+                -560.019
+              ],
+              [
+                -129.074,
+                -557.513
+              ],
+              [
+                -129.916,
+                -555.045
+              ],
+              [
+                -131.726,
+                -553.363
+              ],
+              [
+                -134.257,
+                -552.459
+              ],
+              [
+                -136.98,
+                -553.061
+              ],
+              [
+                -138.918,
+                -554.634
+              ],
+              [
+                -140.08,
+                -556.928
+              ],
+              [
+                -139.986,
+                -559.425
+              ],
+              [
+                -138.914,
+                -561.385
+              ]
+            ],
+            "cx": -134.55775818723498,
+            "cz": -558.0044551862017,
+            "area": 92.61627400000725,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-12-front-southwest-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -66.253,
+                -576.396
+              ],
+              [
+                -64.296,
+                -578.666
+              ],
+              [
+                -60.98,
+                -579.713
+              ],
+              [
+                -57.726,
+                -579.121
+              ],
+              [
+                -55.693,
+                -577.169
+              ],
+              [
+                -55.097,
+                -574.334
+              ],
+              [
+                -56.372,
+                -571.57
+              ],
+              [
+                -58.788,
+                -569.551
+              ],
+              [
+                -62.104,
+                -568.504
+              ],
+              [
+                -65.098,
+                -569.789
+              ],
+              [
+                -67.122,
+                -571.975
+              ],
+              [
+                -67.501,
+                -574.333
+              ]
+            ],
+            "cx": -61.2402945929997,
+            "cz": -574.2255927839476,
+            "area": 100.21672899999248,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-12-middle-archive-2023",
+            "imagerySourceId": "uppsala-service-2023-stora-tee-12",
+            "observedYear": 2023,
+            "crosscheckYear": 2025,
+            "yearBasis": "municipal archive service name; exact flight date unknown",
+            "captureDate": null,
+            "sourceSha256": "26703ab53b026db36365f9a6cb855122dfd1026839373bb7356567cceb0c4a81",
+            "boundaryInterpretationUncertaintyMetres": 2,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-12-back-northeast-2025",
+          "originalPadRing": [
+            [
+              -30.783,
+              -602.309
+            ],
+            [
+              -29.442,
+              -604.759
+            ],
+            [
+              -25.896,
+              -606.125
+            ],
+            [
+              -20.826,
+              -608.184
+            ],
+            [
+              -14.999,
+              -610.464
+            ],
+            [
+              -10.197,
+              -612.033
+            ],
+            [
+              -7.464,
+              -611.68
+            ],
+            [
+              -5.277,
+              -610.098
+            ],
+            [
+              -4.623,
+              -607.573
+            ],
+            [
+              -5.465,
+              -605.104
+            ],
+            [
+              -8.023,
+              -603.451
+            ],
+            [
+              -13.084,
+              -601.642
+            ],
+            [
+              -18.652,
+              -599.602
+            ],
+            [
+              -23.723,
+              -597.543
+            ],
+            [
+              -27.758,
+              -596.445
+            ],
+            [
+              -30.213,
+              -597.538
+            ],
+            [
+              -31.375,
+              -599.832
+            ]
+          ],
+          "maxShiftMetres": 12,
+          "originalDistanceToPadMetres": 5.08
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-12-back-northeast-2025",
+          "originalPadRing": [
+            [
+              -30.783,
+              -602.309
+            ],
+            [
+              -29.442,
+              -604.759
+            ],
+            [
+              -25.896,
+              -606.125
+            ],
+            [
+              -20.826,
+              -608.184
+            ],
+            [
+              -14.999,
+              -610.464
+            ],
+            [
+              -10.197,
+              -612.033
+            ],
+            [
+              -7.464,
+              -611.68
+            ],
+            [
+              -5.277,
+              -610.098
+            ],
+            [
+              -4.623,
+              -607.573
+            ],
+            [
+              -5.465,
+              -605.104
+            ],
+            [
+              -8.023,
+              -603.451
+            ],
+            [
+              -13.084,
+              -601.642
+            ],
+            [
+              -18.652,
+              -599.602
+            ],
+            [
+              -23.723,
+              -597.543
+            ],
+            [
+              -27.758,
+              -596.445
+            ],
+            [
+              -30.213,
+              -597.538
+            ],
+            [
+              -31.375,
+              -599.832
+            ]
+          ],
+          "maxShiftMetres": 11,
+          "originalDistanceToPadMetres": 4.573
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 2,
+          "padSourceId": "upsala-stora-tee-12-middle-archive-2023",
+          "originalPadRing": [
+            [
+              -66.253,
+              -576.396
+            ],
+            [
+              -64.296,
+              -578.666
+            ],
+            [
+              -60.98,
+              -579.713
+            ],
+            [
+              -57.726,
+              -579.121
+            ],
+            [
+              -55.693,
+              -577.169
+            ],
+            [
+              -55.097,
+              -574.334
+            ],
+            [
+              -56.372,
+              -571.57
+            ],
+            [
+              -58.788,
+              -569.551
+            ],
+            [
+              -62.104,
+              -568.504
+            ],
+            [
+              -65.098,
+              -569.789
+            ],
+            [
+              -67.122,
+              -571.975
+            ],
+            [
+              -67.501,
+              -574.333
+            ]
+          ],
+          "maxShiftMetres": 10,
+          "originalDistanceToPadMetres": 3.809
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-12-front-southwest-2025",
+          "originalPadRing": [
+            [
+              -137.879,
+              -562.346
+            ],
+            [
+              -135.598,
+              -563.26
+            ],
+            [
+              -132.607,
+              -563.147
+            ],
+            [
+              -130.41,
+              -561.814
+            ],
+            [
+              -129.229,
+              -560.019
+            ],
+            [
+              -129.074,
+              -557.513
+            ],
+            [
+              -129.916,
+              -555.045
+            ],
+            [
+              -131.726,
+              -553.363
+            ],
+            [
+              -134.257,
+              -552.459
+            ],
+            [
+              -136.98,
+              -553.061
+            ],
+            [
+              -138.918,
+              -554.634
+            ],
+            [
+              -140.08,
+              -556.928
+            ],
+            [
+              -139.986,
+              -559.425
+            ],
+            [
+              -138.914,
+              -561.385
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-12-front-southwest-2025",
+          "originalPadRing": [
+            [
+              -137.879,
+              -562.346
+            ],
+            [
+              -135.598,
+              -563.26
+            ],
+            [
+              -132.607,
+              -563.147
+            ],
+            [
+              -130.41,
+              -561.814
+            ],
+            [
+              -129.229,
+              -560.019
+            ],
+            [
+              -129.074,
+              -557.513
+            ],
+            [
+              -129.916,
+              -555.045
+            ],
+            [
+              -131.726,
+              -553.363
+            ],
+            [
+              -134.257,
+              -552.459
+            ],
+            [
+              -136.98,
+              -553.061
+            ],
+            [
+              -138.918,
+              -554.634
+            ],
+            [
+              -140.08,
+              -556.928
+            ],
+            [
+              -139.986,
+              -559.425
+            ],
+            [
+              -138.914,
+              -561.385
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 5,
+          "status": "retain",
+          "reason": "Rear elongated, middle round and front round platforms match imagery. Middle south edge under tree shadow. Shortest forward reference has no distinct pad."
+        }
+      ]
+    },
+    {
+      "hole": 13,
+      "originalMarks": [
+        {
+          "c": [
+            -398.3,
+            -239.2
+          ],
+          "b": 61.8,
+          "m": 333
+        },
+        {
+          "c": [
+            -398.3,
+            -239.2
+          ],
+          "b": 61.8,
+          "m": 333
+        },
+        {
+          "c": [
+            -387.7,
+            -244.9
+          ],
+          "b": 61.8,
+          "m": 321
+        },
+        {
+          "c": [
+            -338.3,
+            -271.4
+          ],
+          "b": 59.6,
+          "m": 265
+        },
+        {
+          "c": [
+            -338.3,
+            -271.4
+          ],
+          "b": 59.6,
+          "m": 265
+        },
+        {
+          "c": [
+            -302.1,
+            -292.6
+          ],
+          "b": 59.6,
+          "m": 223
+        }
+      ],
+      "originalLine": [
+        [
+          -398.3,
+          -239.2
+        ],
+        [
+          -340,
+          -270.4
+        ],
+        [
+          -270,
+          -311.4
+        ],
+        [
+          -200,
+          -361.6
+        ],
+        [
+          -170,
+          -390.4
+        ],
+        [
+          -145.4,
+          -443
+        ]
+      ],
+      "originalDistances": [
+        333,
+        333,
+        321,
+        265,
+        265,
+        223
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "Rear oval is supported and matches imagery. Original forward rectangle has only provisional geometry: a rounded platform lies partly northeast under canopy. New image and archived 2023 detail do not establish its complete hidden edge. Retain uncertainty; no reference snap to the unreviewed rectangle. Shortest reference has no distinct pad.",
+        "sourceId": "stora-13-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                -342.1,
+                -276.6
+              ],
+              [
+                -335.8,
+                -265.3
+              ],
+              [
+                -342.7,
+                -261.4
+              ],
+              [
+                -349,
+                -272.7
+              ]
+            ],
+            "cx": -342.4,
+            "cz": -269,
+            "ang": 61,
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -404.127,
+                -239.103
+              ],
+              [
+                -401.042,
+                -241.487
+              ],
+              [
+                -396.96,
+                -243.834
+              ],
+              [
+                -391.853,
+                -246.892
+              ],
+              [
+                -387.79,
+                -248.739
+              ],
+              [
+                -384.781,
+                -249.126
+              ],
+              [
+                -382.565,
+                -248.292
+              ],
+              [
+                -381.135,
+                -246.488
+              ],
+              [
+                -380.712,
+                -244.472
+              ],
+              [
+                -381.535,
+                -242.503
+              ],
+              [
+                -383.594,
+                -240.83
+              ],
+              [
+                -387.168,
+                -238.715
+              ],
+              [
+                -392.007,
+                -236.147
+              ],
+              [
+                -396.338,
+                -233.81
+              ],
+              [
+                -399.376,
+                -232.674
+              ],
+              [
+                -401.36,
+                -232.998
+              ],
+              [
+                -403.04,
+                -234.812
+              ],
+              [
+                -404.211,
+                -236.856
+              ]
+            ],
+            "cx": -392.5120217397136,
+            "cz": -241.06653642578965,
+            "area": 208.3597305000003,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-13-rear-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-13-rear-2025",
+          "originalPadRing": [
+            [
+              -404.127,
+              -239.103
+            ],
+            [
+              -401.042,
+              -241.487
+            ],
+            [
+              -396.96,
+              -243.834
+            ],
+            [
+              -391.853,
+              -246.892
+            ],
+            [
+              -387.79,
+              -248.739
+            ],
+            [
+              -384.781,
+              -249.126
+            ],
+            [
+              -382.565,
+              -248.292
+            ],
+            [
+              -381.135,
+              -246.488
+            ],
+            [
+              -380.712,
+              -244.472
+            ],
+            [
+              -381.535,
+              -242.503
+            ],
+            [
+              -383.594,
+              -240.83
+            ],
+            [
+              -387.168,
+              -238.715
+            ],
+            [
+              -392.007,
+              -236.147
+            ],
+            [
+              -396.338,
+              -233.81
+            ],
+            [
+              -399.376,
+              -232.674
+            ],
+            [
+              -401.36,
+              -232.998
+            ],
+            [
+              -403.04,
+              -234.812
+            ],
+            [
+              -404.211,
+              -236.856
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-13-rear-2025",
+          "originalPadRing": [
+            [
+              -404.127,
+              -239.103
+            ],
+            [
+              -401.042,
+              -241.487
+            ],
+            [
+              -396.96,
+              -243.834
+            ],
+            [
+              -391.853,
+              -246.892
+            ],
+            [
+              -387.79,
+              -248.739
+            ],
+            [
+              -384.781,
+              -249.126
+            ],
+            [
+              -382.565,
+              -248.292
+            ],
+            [
+              -381.135,
+              -246.488
+            ],
+            [
+              -380.712,
+              -244.472
+            ],
+            [
+              -381.535,
+              -242.503
+            ],
+            [
+              -383.594,
+              -240.83
+            ],
+            [
+              -387.168,
+              -238.715
+            ],
+            [
+              -392.007,
+              -236.147
+            ],
+            [
+              -396.338,
+              -233.81
+            ],
+            [
+              -399.376,
+              -232.674
+            ],
+            [
+              -401.36,
+              -232.998
+            ],
+            [
+              -403.04,
+              -234.812
+            ],
+            [
+              -404.211,
+              -236.856
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-13-rear-2025",
+          "originalPadRing": [
+            [
+              -404.127,
+              -239.103
+            ],
+            [
+              -401.042,
+              -241.487
+            ],
+            [
+              -396.96,
+              -243.834
+            ],
+            [
+              -391.853,
+              -246.892
+            ],
+            [
+              -387.79,
+              -248.739
+            ],
+            [
+              -384.781,
+              -249.126
+            ],
+            [
+              -382.565,
+              -248.292
+            ],
+            [
+              -381.135,
+              -246.488
+            ],
+            [
+              -380.712,
+              -244.472
+            ],
+            [
+              -381.535,
+              -242.503
+            ],
+            [
+              -383.594,
+              -240.83
+            ],
+            [
+              -387.168,
+              -238.715
+            ],
+            [
+              -392.007,
+              -236.147
+            ],
+            [
+              -396.338,
+              -233.81
+            ],
+            [
+              -399.376,
+              -232.674
+            ],
+            [
+              -401.36,
+              -232.998
+            ],
+            [
+              -403.04,
+              -234.812
+            ],
+            [
+              -404.211,
+              -236.856
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 3,
+          "status": "retain",
+          "reason": "Rear oval is supported and matches imagery. Original forward rectangle has only provisional geometry: a rounded platform lies partly northeast under canopy. New image and archived 2023 detail do not establish its complete hidden edge. Retain uncertainty; no reference snap to the unreviewed rectangle. Shortest reference has no distinct pad."
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "Rear oval is supported and matches imagery. Original forward rectangle has only provisional geometry: a rounded platform lies partly northeast under canopy. New image and archived 2023 detail do not establish its complete hidden edge. Retain uncertainty; no reference snap to the unreviewed rectangle. Shortest reference has no distinct pad."
+        },
+        {
+          "markIndex": 5,
+          "status": "retain",
+          "reason": "Rear oval is supported and matches imagery. Original forward rectangle has only provisional geometry: a rounded platform lies partly northeast under canopy. New image and archived 2023 detail do not establish its complete hidden edge. Retain uncertainty; no reference snap to the unreviewed rectangle. Shortest reference has no distinct pad."
+        }
+      ]
+    },
+    {
+      "hole": 14,
+      "originalMarks": [
+        {
+          "c": [
+            -116,
+            -503.3
+          ],
+          "b": 179.4,
+          "m": 153
+        },
+        {
+          "c": [
+            -115.9,
+            -493.3
+          ],
+          "b": 179.4,
+          "m": 143
+        },
+        {
+          "c": [
+            -115.8,
+            -485.3
+          ],
+          "b": 179.4,
+          "m": 135
+        },
+        {
+          "c": [
+            -115.8,
+            -485.3
+          ],
+          "b": 179.4,
+          "m": 135
+        },
+        {
+          "c": [
+            -115.5,
+            -454.3
+          ],
+          "b": 179.4,
+          "m": 104
+        },
+        {
+          "c": [
+            -115.5,
+            -454.3
+          ],
+          "b": 179.4,
+          "m": 104
+        }
+      ],
+      "originalLine": [
+        [
+          -116,
+          -503.3
+        ],
+        [
+          -114.5,
+          -350.3
+        ]
+      ],
+      "originalDistances": [
+        153,
+        143,
+        135,
+        135,
+        104,
+        104
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "Long north platform and small south round platform match imagery. Forward references fall just west of the round pad.",
+        "sourceId": "stora-14-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                -120.759,
+                -506.447
+              ],
+              [
+                -118.708,
+                -507.869
+              ],
+              [
+                -116.483,
+                -507.286
+              ],
+              [
+                -114.306,
+                -505.453
+              ],
+              [
+                -112.664,
+                -502.641
+              ],
+              [
+                -111.558,
+                -498.849
+              ],
+              [
+                -110.98,
+                -494.327
+              ],
+              [
+                -110.123,
+                -490.545
+              ],
+              [
+                -109.775,
+                -486.531
+              ],
+              [
+                -110.847,
+                -484.572
+              ],
+              [
+                -113.128,
+                -483.658
+              ],
+              [
+                -115.381,
+                -483.492
+              ],
+              [
+                -117.337,
+                -484.566
+              ],
+              [
+                -118.518,
+                -486.361
+              ],
+              [
+                -118.904,
+                -489.376
+              ],
+              [
+                -119.013,
+                -493.13
+              ],
+              [
+                -119.869,
+                -496.913
+              ],
+              [
+                -120.965,
+                -500.954
+              ],
+              [
+                -121.6,
+                -503.978
+              ]
+            ],
+            "cx": -115.578123443288,
+            "cz": -495.3716247978777,
+            "area": 191.45262999999977,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-14-rear-continuous-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -113.122,
+                -458.623
+              ],
+              [
+                -111.921,
+                -460.349
+              ],
+              [
+                -110.258,
+                -460.918
+              ],
+              [
+                -108.371,
+                -460.721
+              ],
+              [
+                -106.9,
+                -459.527
+              ],
+              [
+                -106.088,
+                -457.599
+              ],
+              [
+                -106.043,
+                -455.447
+              ],
+              [
+                -106.871,
+                -453.58
+              ],
+              [
+                -108.31,
+                -452.243
+              ],
+              [
+                -110.347,
+                -451.814
+              ],
+              [
+                -112.21,
+                -452.643
+              ],
+              [
+                -113.419,
+                -454.08
+              ],
+              [
+                -113.843,
+                -456.247
+              ]
+            ],
+            "cx": -109.8773448919777,
+            "cz": -456.39653207970787,
+            "area": 54.52836899999966,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-14-forward-archive-2023",
+            "imagerySourceId": "uppsala-service-2023-stora-tee-14",
+            "observedYear": 2023,
+            "crosscheckYear": 2025,
+            "yearBasis": "municipal archive service name; exact flight date unknown",
+            "captureDate": null,
+            "sourceSha256": "911912dc8121c496ac0a4a4df9643dd9c901efc71fbf0713ed46a13196338ce1",
+            "boundaryInterpretationUncertaintyMetres": 2,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-14-rear-continuous-2025",
+          "originalPadRing": [
+            [
+              -120.759,
+              -506.447
+            ],
+            [
+              -118.708,
+              -507.869
+            ],
+            [
+              -116.483,
+              -507.286
+            ],
+            [
+              -114.306,
+              -505.453
+            ],
+            [
+              -112.664,
+              -502.641
+            ],
+            [
+              -111.558,
+              -498.849
+            ],
+            [
+              -110.98,
+              -494.327
+            ],
+            [
+              -110.123,
+              -490.545
+            ],
+            [
+              -109.775,
+              -486.531
+            ],
+            [
+              -110.847,
+              -484.572
+            ],
+            [
+              -113.128,
+              -483.658
+            ],
+            [
+              -115.381,
+              -483.492
+            ],
+            [
+              -117.337,
+              -484.566
+            ],
+            [
+              -118.518,
+              -486.361
+            ],
+            [
+              -118.904,
+              -489.376
+            ],
+            [
+              -119.013,
+              -493.13
+            ],
+            [
+              -119.869,
+              -496.913
+            ],
+            [
+              -120.965,
+              -500.954
+            ],
+            [
+              -121.6,
+              -503.978
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-14-rear-continuous-2025",
+          "originalPadRing": [
+            [
+              -120.759,
+              -506.447
+            ],
+            [
+              -118.708,
+              -507.869
+            ],
+            [
+              -116.483,
+              -507.286
+            ],
+            [
+              -114.306,
+              -505.453
+            ],
+            [
+              -112.664,
+              -502.641
+            ],
+            [
+              -111.558,
+              -498.849
+            ],
+            [
+              -110.98,
+              -494.327
+            ],
+            [
+              -110.123,
+              -490.545
+            ],
+            [
+              -109.775,
+              -486.531
+            ],
+            [
+              -110.847,
+              -484.572
+            ],
+            [
+              -113.128,
+              -483.658
+            ],
+            [
+              -115.381,
+              -483.492
+            ],
+            [
+              -117.337,
+              -484.566
+            ],
+            [
+              -118.518,
+              -486.361
+            ],
+            [
+              -118.904,
+              -489.376
+            ],
+            [
+              -119.013,
+              -493.13
+            ],
+            [
+              -119.869,
+              -496.913
+            ],
+            [
+              -120.965,
+              -500.954
+            ],
+            [
+              -121.6,
+              -503.978
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-14-rear-continuous-2025",
+          "originalPadRing": [
+            [
+              -120.759,
+              -506.447
+            ],
+            [
+              -118.708,
+              -507.869
+            ],
+            [
+              -116.483,
+              -507.286
+            ],
+            [
+              -114.306,
+              -505.453
+            ],
+            [
+              -112.664,
+              -502.641
+            ],
+            [
+              -111.558,
+              -498.849
+            ],
+            [
+              -110.98,
+              -494.327
+            ],
+            [
+              -110.123,
+              -490.545
+            ],
+            [
+              -109.775,
+              -486.531
+            ],
+            [
+              -110.847,
+              -484.572
+            ],
+            [
+              -113.128,
+              -483.658
+            ],
+            [
+              -115.381,
+              -483.492
+            ],
+            [
+              -117.337,
+              -484.566
+            ],
+            [
+              -118.518,
+              -486.361
+            ],
+            [
+              -118.904,
+              -489.376
+            ],
+            [
+              -119.013,
+              -493.13
+            ],
+            [
+              -119.869,
+              -496.913
+            ],
+            [
+              -120.965,
+              -500.954
+            ],
+            [
+              -121.6,
+              -503.978
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-14-rear-continuous-2025",
+          "originalPadRing": [
+            [
+              -120.759,
+              -506.447
+            ],
+            [
+              -118.708,
+              -507.869
+            ],
+            [
+              -116.483,
+              -507.286
+            ],
+            [
+              -114.306,
+              -505.453
+            ],
+            [
+              -112.664,
+              -502.641
+            ],
+            [
+              -111.558,
+              -498.849
+            ],
+            [
+              -110.98,
+              -494.327
+            ],
+            [
+              -110.123,
+              -490.545
+            ],
+            [
+              -109.775,
+              -486.531
+            ],
+            [
+              -110.847,
+              -484.572
+            ],
+            [
+              -113.128,
+              -483.658
+            ],
+            [
+              -115.381,
+              -483.492
+            ],
+            [
+              -117.337,
+              -484.566
+            ],
+            [
+              -118.518,
+              -486.361
+            ],
+            [
+              -118.904,
+              -489.376
+            ],
+            [
+              -119.013,
+              -493.13
+            ],
+            [
+              -119.869,
+              -496.913
+            ],
+            [
+              -120.965,
+              -500.954
+            ],
+            [
+              -121.6,
+              -503.978
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-14-forward-archive-2023",
+          "originalPadRing": [
+            [
+              -113.122,
+              -458.623
+            ],
+            [
+              -111.921,
+              -460.349
+            ],
+            [
+              -110.258,
+              -460.918
+            ],
+            [
+              -108.371,
+              -460.721
+            ],
+            [
+              -106.9,
+              -459.527
+            ],
+            [
+              -106.088,
+              -457.599
+            ],
+            [
+              -106.043,
+              -455.447
+            ],
+            [
+              -106.871,
+              -453.58
+            ],
+            [
+              -108.31,
+              -452.243
+            ],
+            [
+              -110.347,
+              -451.814
+            ],
+            [
+              -112.21,
+              -452.643
+            ],
+            [
+              -113.419,
+              -454.08
+            ],
+            [
+              -113.843,
+              -456.247
+            ]
+          ],
+          "maxShiftMetres": 9,
+          "originalDistanceToPadMetres": 2.0
+        },
+        {
+          "markIndex": 5,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-14-forward-archive-2023",
+          "originalPadRing": [
+            [
+              -113.122,
+              -458.623
+            ],
+            [
+              -111.921,
+              -460.349
+            ],
+            [
+              -110.258,
+              -460.918
+            ],
+            [
+              -108.371,
+              -460.721
+            ],
+            [
+              -106.9,
+              -459.527
+            ],
+            [
+              -106.088,
+              -457.599
+            ],
+            [
+              -106.043,
+              -455.447
+            ],
+            [
+              -106.871,
+              -453.58
+            ],
+            [
+              -108.31,
+              -452.243
+            ],
+            [
+              -110.347,
+              -451.814
+            ],
+            [
+              -112.21,
+              -452.643
+            ],
+            [
+              -113.419,
+              -454.08
+            ],
+            [
+              -113.843,
+              -456.247
+            ]
+          ],
+          "maxShiftMetres": 9,
+          "originalDistanceToPadMetres": 2.0
+        }
+      ]
+    },
+    {
+      "hole": 15,
+      "originalMarks": [
+        {
+          "c": [
+            -111.4,
+            -245.5
+          ],
+          "b": -122.9,
+          "m": 337
+        },
+        {
+          "c": [
+            -118.9,
+            -240.6
+          ],
+          "b": -122.9,
+          "m": 328
+        },
+        {
+          "c": [
+            -118.9,
+            -240.6
+          ],
+          "b": -122.9,
+          "m": 328
+        },
+        {
+          "c": [
+            -126.5,
+            -235.7
+          ],
+          "b": -122.9,
+          "m": 319
+        },
+        {
+          "c": [
+            -126.5,
+            -235.7
+          ],
+          "b": -122.9,
+          "m": 319
+        },
+        {
+          "c": [
+            -205.7,
+            -183.3
+          ],
+          "b": -125.4,
+          "m": 224
+        }
+      ],
+      "originalLine": [
+        [
+          -111.3,
+          -245.5
+        ],
+        [
+          -190,
+          -194.5
+        ],
+        [
+          -260,
+          -144.7
+        ],
+        [
+          -320,
+          -93.2
+        ],
+        [
+          -367.7,
+          -31.1
+        ]
+      ],
+      "originalDistances": [
+        337,
+        328,
+        328,
+        319,
+        319,
+        224
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "Lower rounded platform matches visible turf; two reference groups sit near its edge. Upper original rectangle is provisional: northern visible turf and substantial southeast canopy do not establish the complete perimeter. Keep upper reference and footprint uncertain. Shortest reference is much farther along fairway, not on lower platform.",
+        "sourceId": "stora-15-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                -110.3,
+                -237.2
+              ],
+              [
+                -118.5,
+                -249.8
+              ],
+              [
+                -110.1,
+                -255.2
+              ],
+              [
+                -101.9,
+                -242.6
+              ]
+            ],
+            "cx": -110.2,
+            "cz": -246.2,
+            "ang": 237,
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -125.755,
+                -240.337
+              ],
+              [
+                -124.146,
+                -241.631
+              ],
+              [
+                -122.126,
+                -242.804
+              ],
+              [
+                -120.241,
+                -243.15
+              ],
+              [
+                -118.61,
+                -242.255
+              ],
+              [
+                -117.734,
+                -240.66
+              ],
+              [
+                -117.712,
+                -238.471
+              ],
+              [
+                -118.518,
+                -236.418
+              ],
+              [
+                -120.054,
+                -234.288
+              ],
+              [
+                -121.862,
+                -233.211
+              ],
+              [
+                -123.724,
+                -233.489
+              ],
+              [
+                -125.346,
+                -234.592
+              ],
+              [
+                -126.322,
+                -236.296
+              ],
+              [
+                -126.56,
+                -238.284
+              ]
+            ],
+            "cx": -122.02371733908608,
+            "cz": -238.221895128545,
+            "area": 64.43286600000283,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-15-lower-archive-2023",
+            "imagerySourceId": "uppsala-service-2023-stora-tee-15",
+            "observedYear": 2023,
+            "crosscheckYear": 2025,
+            "yearBasis": "municipal archive service name; exact flight date unknown",
+            "captureDate": null,
+            "sourceSha256": "5f6961780fcb433ffa224a297651ca55c9560827c5bb43c77ea39c3cac088932",
+            "boundaryInterpretationUncertaintyMetres": 2.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "retain",
+          "reason": "Lower rounded platform matches visible turf; two reference groups sit near its edge. Upper original rectangle is provisional: northern visible turf and substantial southeast canopy do not establish the complete perimeter. Keep upper reference and footprint uncertain. Shortest reference is much farther along fairway, not on lower platform."
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+          "originalPadRing": [
+            [
+              -125.755,
+              -240.337
+            ],
+            [
+              -124.146,
+              -241.631
+            ],
+            [
+              -122.126,
+              -242.804
+            ],
+            [
+              -120.241,
+              -243.15
+            ],
+            [
+              -118.61,
+              -242.255
+            ],
+            [
+              -117.734,
+              -240.66
+            ],
+            [
+              -117.712,
+              -238.471
+            ],
+            [
+              -118.518,
+              -236.418
+            ],
+            [
+              -120.054,
+              -234.288
+            ],
+            [
+              -121.862,
+              -233.211
+            ],
+            [
+              -123.724,
+              -233.489
+            ],
+            [
+              -125.346,
+              -234.592
+            ],
+            [
+              -126.322,
+              -236.296
+            ],
+            [
+              -126.56,
+              -238.284
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+          "originalPadRing": [
+            [
+              -125.755,
+              -240.337
+            ],
+            [
+              -124.146,
+              -241.631
+            ],
+            [
+              -122.126,
+              -242.804
+            ],
+            [
+              -120.241,
+              -243.15
+            ],
+            [
+              -118.61,
+              -242.255
+            ],
+            [
+              -117.734,
+              -240.66
+            ],
+            [
+              -117.712,
+              -238.471
+            ],
+            [
+              -118.518,
+              -236.418
+            ],
+            [
+              -120.054,
+              -234.288
+            ],
+            [
+              -121.862,
+              -233.211
+            ],
+            [
+              -123.724,
+              -233.489
+            ],
+            [
+              -125.346,
+              -234.592
+            ],
+            [
+              -126.322,
+              -236.296
+            ],
+            [
+              -126.56,
+              -238.284
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+          "originalPadRing": [
+            [
+              -125.755,
+              -240.337
+            ],
+            [
+              -124.146,
+              -241.631
+            ],
+            [
+              -122.126,
+              -242.804
+            ],
+            [
+              -120.241,
+              -243.15
+            ],
+            [
+              -118.61,
+              -242.255
+            ],
+            [
+              -117.734,
+              -240.66
+            ],
+            [
+              -117.712,
+              -238.471
+            ],
+            [
+              -118.518,
+              -236.418
+            ],
+            [
+              -120.054,
+              -234.288
+            ],
+            [
+              -121.862,
+              -233.211
+            ],
+            [
+              -123.724,
+              -233.489
+            ],
+            [
+              -125.346,
+              -234.592
+            ],
+            [
+              -126.322,
+              -236.296
+            ],
+            [
+              -126.56,
+              -238.284
+            ]
+          ],
+          "maxShiftMetres": 7,
+          "originalDistanceToPadMetres": 0.451
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+          "originalPadRing": [
+            [
+              -125.755,
+              -240.337
+            ],
+            [
+              -124.146,
+              -241.631
+            ],
+            [
+              -122.126,
+              -242.804
+            ],
+            [
+              -120.241,
+              -243.15
+            ],
+            [
+              -118.61,
+              -242.255
+            ],
+            [
+              -117.734,
+              -240.66
+            ],
+            [
+              -117.712,
+              -238.471
+            ],
+            [
+              -118.518,
+              -236.418
+            ],
+            [
+              -120.054,
+              -234.288
+            ],
+            [
+              -121.862,
+              -233.211
+            ],
+            [
+              -123.724,
+              -233.489
+            ],
+            [
+              -125.346,
+              -234.592
+            ],
+            [
+              -126.322,
+              -236.296
+            ],
+            [
+              -126.56,
+              -238.284
+            ]
+          ],
+          "maxShiftMetres": 7,
+          "originalDistanceToPadMetres": 0.451
+        },
+        {
+          "markIndex": 5,
+          "status": "retain",
+          "reason": "Lower rounded platform matches visible turf; two reference groups sit near its edge. Upper original rectangle is provisional: northern visible turf and substantial southeast canopy do not establish the complete perimeter. Keep upper reference and footprint uncertain. Shortest reference is much farther along fairway, not on lower platform."
+        }
+      ]
+    },
+    {
+      "hole": 16,
+      "originalMarks": [
+        {
+          "c": [
+            -359.9,
+            17.7
+          ],
+          "b": 125.7,
+          "m": 468
+        },
+        {
+          "c": [
+            -342.8,
+            30
+          ],
+          "b": 125.7,
+          "m": 447
+        },
+        {
+          "c": [
+            -325.8,
+            42.2
+          ],
+          "b": 125.7,
+          "m": 426
+        },
+        {
+          "c": [
+            -325.8,
+            42.2
+          ],
+          "b": 125.7,
+          "m": 426
+        },
+        {
+          "c": [
+            -263.2,
+            87.1
+          ],
+          "b": 125.7,
+          "m": 349
+        },
+        {
+          "c": [
+            -263.2,
+            87.1
+          ],
+          "b": 125.7,
+          "m": 349
+        }
+      ],
+      "originalLine": [
+        [
+          -359.9,
+          17.7
+        ],
+        [
+          -262,
+          88
+        ],
+        [
+          -222,
+          175
+        ],
+        [
+          -214,
+          300
+        ],
+        [
+          -205,
+          385
+        ],
+        [
+          -216.4,
+          424.4
+        ]
+      ],
+      "originalDistances": [
+        468,
+        447,
+        426,
+        426,
+        349,
+        349
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "All four visible platforms match outlines; move off-edge references only to the corresponding platform interior.",
+        "sourceId": "stora-16-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                -366.976,
+                14.811
+              ],
+              [
+                -365.425,
+                13.369
+              ],
+              [
+                -363.68,
+                13.435
+              ],
+              [
+                -361.973,
+                14.499
+              ],
+              [
+                -360.534,
+                16.054
+              ],
+              [
+                -360.599,
+                17.801
+              ],
+              [
+                -361.92,
+                19.752
+              ],
+              [
+                -363.702,
+                20.685
+              ],
+              [
+                -365.678,
+                20.11
+              ],
+              [
+                -367.375,
+                18.796
+              ],
+              [
+                -368.307,
+                17.011
+              ]
+            ],
+            "cx": -364.2713253471439,
+            "cz": 16.987194675724933,
+            "area": 39.69450050000114,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-16-rear-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.25,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -353.347,
+                24.075
+              ],
+              [
+                -351.786,
+                22.383
+              ],
+              [
+                -349.533,
+                22.218
+              ],
+              [
+                -347.078,
+                23.311
+              ],
+              [
+                -344.172,
+                25.67
+              ],
+              [
+                -341.275,
+                28.279
+              ],
+              [
+                -338.627,
+                30.879
+              ],
+              [
+                -337.474,
+                33.423
+              ],
+              [
+                -338.066,
+                35.901
+              ],
+              [
+                -339.858,
+                37.083
+              ],
+              [
+                -342.36,
+                37.239
+              ],
+              [
+                -345.064,
+                36.137
+              ],
+              [
+                -348.22,
+                33.768
+              ],
+              [
+                -350.868,
+                31.169
+              ],
+              [
+                -352.758,
+                28.347
+              ],
+              [
+                -353.911,
+                25.804
+              ]
+            ],
+            "cx": -345.74400458705816,
+            "cz": 29.90152393002119,
+            "area": 140.6760559999998,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-16-middle-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.25,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -332.207,
+                39.372
+              ],
+              [
+                -329.917,
+                38.208
+              ],
+              [
+                -327.683,
+                38.542
+              ],
+              [
+                -325.994,
+                40.106
+              ],
+              [
+                -325.331,
+                42.381
+              ],
+              [
+                -326.172,
+                44.849
+              ],
+              [
+                -327.973,
+                46.281
+              ],
+              [
+                -330.226,
+                46.447
+              ],
+              [
+                -332.182,
+                45.373
+              ],
+              [
+                -333.612,
+                43.569
+              ],
+              [
+                -333.528,
+                41.322
+              ]
+            ],
+            "cx": -329.4851043754677,
+            "cz": 42.36495593071284,
+            "area": 51.40902649999862,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-16-front-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.25,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -268.288,
+                85.282
+              ],
+              [
+                -266.746,
+                84.09
+              ],
+              [
+                -264.762,
+                84.414
+              ],
+              [
+                -262.556,
+                85.497
+              ],
+              [
+                -260.628,
+                87.32
+              ],
+              [
+                -259.706,
+                89.355
+              ],
+              [
+                -260.778,
+                91.315
+              ],
+              [
+                -262.56,
+                92.248
+              ],
+              [
+                -264.793,
+                91.914
+              ],
+              [
+                -266.74,
+                90.59
+              ],
+              [
+                -268.41,
+                88.527
+              ],
+              [
+                -269.092,
+                86.751
+              ]
+            ],
+            "cx": -264.4250928523226,
+            "cz": 88.19725580677333,
+            "area": 50.65712100000019,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-16-forward-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-16-rear-2025",
+          "originalPadRing": [
+            [
+              -366.976,
+              14.811
+            ],
+            [
+              -365.425,
+              13.369
+            ],
+            [
+              -363.68,
+              13.435
+            ],
+            [
+              -361.973,
+              14.499
+            ],
+            [
+              -360.534,
+              16.054
+            ],
+            [
+              -360.599,
+              17.801
+            ],
+            [
+              -361.92,
+              19.752
+            ],
+            [
+              -363.702,
+              20.685
+            ],
+            [
+              -365.678,
+              20.11
+            ],
+            [
+              -367.375,
+              18.796
+            ],
+            [
+              -368.307,
+              17.011
+            ]
+          ],
+          "maxShiftMetres": 7,
+          "originalDistanceToPadMetres": 0.695
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-16-middle-2025",
+          "originalPadRing": [
+            [
+              -353.347,
+              24.075
+            ],
+            [
+              -351.786,
+              22.383
+            ],
+            [
+              -349.533,
+              22.218
+            ],
+            [
+              -347.078,
+              23.311
+            ],
+            [
+              -344.172,
+              25.67
+            ],
+            [
+              -341.275,
+              28.279
+            ],
+            [
+              -338.627,
+              30.879
+            ],
+            [
+              -337.474,
+              33.423
+            ],
+            [
+              -338.066,
+              35.901
+            ],
+            [
+              -339.858,
+              37.083
+            ],
+            [
+              -342.36,
+              37.239
+            ],
+            [
+              -345.064,
+              36.137
+            ],
+            [
+              -348.22,
+              33.768
+            ],
+            [
+              -350.868,
+              31.169
+            ],
+            [
+              -352.758,
+              28.347
+            ],
+            [
+              -353.911,
+              25.804
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 2,
+          "padSourceId": "upsala-stora-tee-16-front-2025",
+          "originalPadRing": [
+            [
+              -332.207,
+              39.372
+            ],
+            [
+              -329.917,
+              38.208
+            ],
+            [
+              -327.683,
+              38.542
+            ],
+            [
+              -325.994,
+              40.106
+            ],
+            [
+              -325.331,
+              42.381
+            ],
+            [
+              -326.172,
+              44.849
+            ],
+            [
+              -327.973,
+              46.281
+            ],
+            [
+              -330.226,
+              46.447
+            ],
+            [
+              -332.182,
+              45.373
+            ],
+            [
+              -333.612,
+              43.569
+            ],
+            [
+              -333.528,
+              41.322
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 2,
+          "padSourceId": "upsala-stora-tee-16-front-2025",
+          "originalPadRing": [
+            [
+              -332.207,
+              39.372
+            ],
+            [
+              -329.917,
+              38.208
+            ],
+            [
+              -327.683,
+              38.542
+            ],
+            [
+              -325.994,
+              40.106
+            ],
+            [
+              -325.331,
+              42.381
+            ],
+            [
+              -326.172,
+              44.849
+            ],
+            [
+              -327.973,
+              46.281
+            ],
+            [
+              -330.226,
+              46.447
+            ],
+            [
+              -332.182,
+              45.373
+            ],
+            [
+              -333.612,
+              43.569
+            ],
+            [
+              -333.528,
+              41.322
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-16-forward-2025",
+          "originalPadRing": [
+            [
+              -268.288,
+              85.282
+            ],
+            [
+              -266.746,
+              84.09
+            ],
+            [
+              -264.762,
+              84.414
+            ],
+            [
+              -262.556,
+              85.497
+            ],
+            [
+              -260.628,
+              87.32
+            ],
+            [
+              -259.706,
+              89.355
+            ],
+            [
+              -260.778,
+              91.315
+            ],
+            [
+              -262.56,
+              92.248
+            ],
+            [
+              -264.793,
+              91.914
+            ],
+            [
+              -266.74,
+              90.59
+            ],
+            [
+              -268.41,
+              88.527
+            ],
+            [
+              -269.092,
+              86.751
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 5,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-16-forward-2025",
+          "originalPadRing": [
+            [
+              -268.288,
+              85.282
+            ],
+            [
+              -266.746,
+              84.09
+            ],
+            [
+              -264.762,
+              84.414
+            ],
+            [
+              -262.556,
+              85.497
+            ],
+            [
+              -260.628,
+              87.32
+            ],
+            [
+              -259.706,
+              89.355
+            ],
+            [
+              -260.778,
+              91.315
+            ],
+            [
+              -262.56,
+              92.248
+            ],
+            [
+              -264.793,
+              91.914
+            ],
+            [
+              -266.74,
+              90.59
+            ],
+            [
+              -268.41,
+              88.527
+            ],
+            [
+              -269.092,
+              86.751
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        }
+      ]
+    },
+    {
+      "hole": 17,
+      "originalMarks": [
+        {
+          "c": [
+            -183,
+            468.1
+          ],
+          "b": 26,
+          "m": 270
+        },
+        {
+          "c": [
+            -177.7,
+            457.3
+          ],
+          "b": 26,
+          "m": 258
+        },
+        {
+          "c": [
+            -167.2,
+            435.7
+          ],
+          "b": 26,
+          "m": 234
+        },
+        {
+          "c": [
+            -167.2,
+            435.7
+          ],
+          "b": 26,
+          "m": 234
+        },
+        {
+          "c": [
+            -146.2,
+            392.6
+          ],
+          "b": 26,
+          "m": 186
+        },
+        {
+          "c": [
+            -146.2,
+            392.6
+          ],
+          "b": 26,
+          "m": 186
+        }
+      ],
+      "originalLine": [
+        [
+          -183,
+          468.1
+        ],
+        [
+          -140,
+          380
+        ],
+        [
+          -105,
+          305
+        ],
+        [
+          -57.5,
+          229.5
+        ]
+      ],
+      "originalDistances": [
+        270,
+        258,
+        234,
+        234,
+        186,
+        186
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "Three platforms match imagery; forward refs are east of the round front platform, toward the path.",
+        "sourceId": "stora-17-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                -187.378,
+                462.854
+              ],
+              [
+                -185.225,
+                458.685
+              ],
+              [
+                -182.813,
+                454.276
+              ],
+              [
+                -180.402,
+                449.867
+              ],
+              [
+                -178.554,
+                447.186
+              ],
+              [
+                -176.542,
+                446.762
+              ],
+              [
+                -173.847,
+                448.114
+              ],
+              [
+                -170.923,
+                449.974
+              ],
+              [
+                -168.994,
+                451.797
+              ],
+              [
+                -168.322,
+                453.822
+              ],
+              [
+                -169.191,
+                457.04
+              ],
+              [
+                -171.086,
+                460.968
+              ],
+              [
+                -173.719,
+                464.619
+              ],
+              [
+                -177.339,
+                467.983
+              ],
+              [
+                -180.423,
+                470.367
+              ],
+              [
+                -183.192,
+                471.013
+              ],
+              [
+                -185.647,
+                469.92
+              ],
+              [
+                -187.067,
+                467.867
+              ],
+              [
+                -187.721,
+                465.342
+              ]
+            ],
+            "cx": -178.20392956614788,
+            "cz": 458.98920687243765,
+            "area": 285.1041655000008,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-17-rear-continuous-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -170.064,
+                433.755
+              ],
+              [
+                -167.755,
+                432.092
+              ],
+              [
+                -165.014,
+                432.196
+              ],
+              [
+                -162.07,
+                433.557
+              ],
+              [
+                -159.395,
+                435.408
+              ],
+              [
+                -157.485,
+                437.73
+              ],
+              [
+                -157.33,
+                440.236
+              ],
+              [
+                -158.91,
+                442.426
+              ],
+              [
+                -161.199,
+                443.59
+              ],
+              [
+                -164.439,
+                443.468
+              ],
+              [
+                -167.392,
+                442.357
+              ],
+              [
+                -169.819,
+                440.515
+              ],
+              [
+                -171.229,
+                438.212
+              ],
+              [
+                -171.136,
+                435.715
+              ]
+            ],
+            "cx": -164.42318050035928,
+            "cz": 437.98506429458035,
+            "area": 117.85172199999943,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-17-middle-round-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -156.734,
+                384.505
+              ],
+              [
+                -154.905,
+                382.323
+              ],
+              [
+                -152.624,
+                381.409
+              ],
+              [
+                -150.41,
+                382.243
+              ],
+              [
+                -148.721,
+                383.807
+              ],
+              [
+                -148.068,
+                386.331
+              ],
+              [
+                -148.928,
+                389.299
+              ],
+              [
+                -150.536,
+                392.239
+              ],
+              [
+                -152.355,
+                394.17
+              ],
+              [
+                -154.875,
+                394.825
+              ],
+              [
+                -157.081,
+                393.742
+              ],
+              [
+                -158.501,
+                391.688
+              ],
+              [
+                -158.656,
+                389.182
+              ],
+              [
+                -157.815,
+                386.714
+              ]
+            ],
+            "cx": -153.44971456674747,
+            "cz": 388.12989708761097,
+            "area": 100.06152799999472,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-17-forward-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-17-rear-continuous-2025",
+          "originalPadRing": [
+            [
+              -187.378,
+              462.854
+            ],
+            [
+              -185.225,
+              458.685
+            ],
+            [
+              -182.813,
+              454.276
+            ],
+            [
+              -180.402,
+              449.867
+            ],
+            [
+              -178.554,
+              447.186
+            ],
+            [
+              -176.542,
+              446.762
+            ],
+            [
+              -173.847,
+              448.114
+            ],
+            [
+              -170.923,
+              449.974
+            ],
+            [
+              -168.994,
+              451.797
+            ],
+            [
+              -168.322,
+              453.822
+            ],
+            [
+              -169.191,
+              457.04
+            ],
+            [
+              -171.086,
+              460.968
+            ],
+            [
+              -173.719,
+              464.619
+            ],
+            [
+              -177.339,
+              467.983
+            ],
+            [
+              -180.423,
+              470.367
+            ],
+            [
+              -183.192,
+              471.013
+            ],
+            [
+              -185.647,
+              469.92
+            ],
+            [
+              -187.067,
+              467.867
+            ],
+            [
+              -187.721,
+              465.342
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-17-rear-continuous-2025",
+          "originalPadRing": [
+            [
+              -187.378,
+              462.854
+            ],
+            [
+              -185.225,
+              458.685
+            ],
+            [
+              -182.813,
+              454.276
+            ],
+            [
+              -180.402,
+              449.867
+            ],
+            [
+              -178.554,
+              447.186
+            ],
+            [
+              -176.542,
+              446.762
+            ],
+            [
+              -173.847,
+              448.114
+            ],
+            [
+              -170.923,
+              449.974
+            ],
+            [
+              -168.994,
+              451.797
+            ],
+            [
+              -168.322,
+              453.822
+            ],
+            [
+              -169.191,
+              457.04
+            ],
+            [
+              -171.086,
+              460.968
+            ],
+            [
+              -173.719,
+              464.619
+            ],
+            [
+              -177.339,
+              467.983
+            ],
+            [
+              -180.423,
+              470.367
+            ],
+            [
+              -183.192,
+              471.013
+            ],
+            [
+              -185.647,
+              469.92
+            ],
+            [
+              -187.067,
+              467.867
+            ],
+            [
+              -187.721,
+              465.342
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-17-middle-round-2025",
+          "originalPadRing": [
+            [
+              -170.064,
+              433.755
+            ],
+            [
+              -167.755,
+              432.092
+            ],
+            [
+              -165.014,
+              432.196
+            ],
+            [
+              -162.07,
+              433.557
+            ],
+            [
+              -159.395,
+              435.408
+            ],
+            [
+              -157.485,
+              437.73
+            ],
+            [
+              -157.33,
+              440.236
+            ],
+            [
+              -158.91,
+              442.426
+            ],
+            [
+              -161.199,
+              443.59
+            ],
+            [
+              -164.439,
+              443.468
+            ],
+            [
+              -167.392,
+              442.357
+            ],
+            [
+              -169.819,
+              440.515
+            ],
+            [
+              -171.229,
+              438.212
+            ],
+            [
+              -171.136,
+              435.715
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-17-middle-round-2025",
+          "originalPadRing": [
+            [
+              -170.064,
+              433.755
+            ],
+            [
+              -167.755,
+              432.092
+            ],
+            [
+              -165.014,
+              432.196
+            ],
+            [
+              -162.07,
+              433.557
+            ],
+            [
+              -159.395,
+              435.408
+            ],
+            [
+              -157.485,
+              437.73
+            ],
+            [
+              -157.33,
+              440.236
+            ],
+            [
+              -158.91,
+              442.426
+            ],
+            [
+              -161.199,
+              443.59
+            ],
+            [
+              -164.439,
+              443.468
+            ],
+            [
+              -167.392,
+              442.357
+            ],
+            [
+              -169.819,
+              440.515
+            ],
+            [
+              -171.229,
+              438.212
+            ],
+            [
+              -171.136,
+              435.715
+            ]
+          ],
+          "maxShiftMetres": 6,
+          "originalDistanceToPadMetres": 0.0
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 2,
+          "padSourceId": "upsala-stora-tee-17-forward-2025",
+          "originalPadRing": [
+            [
+              -156.734,
+              384.505
+            ],
+            [
+              -154.905,
+              382.323
+            ],
+            [
+              -152.624,
+              381.409
+            ],
+            [
+              -150.41,
+              382.243
+            ],
+            [
+              -148.721,
+              383.807
+            ],
+            [
+              -148.068,
+              386.331
+            ],
+            [
+              -148.928,
+              389.299
+            ],
+            [
+              -150.536,
+              392.239
+            ],
+            [
+              -152.355,
+              394.17
+            ],
+            [
+              -154.875,
+              394.825
+            ],
+            [
+              -157.081,
+              393.742
+            ],
+            [
+              -158.501,
+              391.688
+            ],
+            [
+              -158.656,
+              389.182
+            ],
+            [
+              -157.815,
+              386.714
+            ]
+          ],
+          "maxShiftMetres": 10,
+          "originalDistanceToPadMetres": 3.977
+        },
+        {
+          "markIndex": 5,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 2,
+          "padSourceId": "upsala-stora-tee-17-forward-2025",
+          "originalPadRing": [
+            [
+              -156.734,
+              384.505
+            ],
+            [
+              -154.905,
+              382.323
+            ],
+            [
+              -152.624,
+              381.409
+            ],
+            [
+              -150.41,
+              382.243
+            ],
+            [
+              -148.721,
+              383.807
+            ],
+            [
+              -148.068,
+              386.331
+            ],
+            [
+              -148.928,
+              389.299
+            ],
+            [
+              -150.536,
+              392.239
+            ],
+            [
+              -152.355,
+              394.17
+            ],
+            [
+              -154.875,
+              394.825
+            ],
+            [
+              -157.081,
+              393.742
+            ],
+            [
+              -158.501,
+              391.688
+            ],
+            [
+              -158.656,
+              389.182
+            ],
+            [
+              -157.815,
+              386.714
+            ]
+          ],
+          "maxShiftMetres": 10,
+          "originalDistanceToPadMetres": 3.977
+        }
+      ]
+    },
+    {
+      "hole": 18,
+      "originalMarks": [
+        {
+          "c": [
+            -135.7,
+            234.6
+          ],
+          "b": 28.6,
+          "m": 389
+        },
+        {
+          "c": [
+            -123.7,
+            212.6
+          ],
+          "b": 28.6,
+          "m": 364
+        },
+        {
+          "c": [
+            -105,
+            178.4
+          ],
+          "b": 28.6,
+          "m": 325
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        }
+      ],
+      "originalLine": [
+        [
+          -135.7,
+          234.6
+        ],
+        [
+          -95,
+          160
+        ],
+        [
+          -52,
+          88
+        ],
+        [
+          -18,
+          12
+        ],
+        [
+          -5,
+          -60
+        ],
+        [
+          -8.4,
+          -123.7
+        ]
+      ],
+      "originalDistances": [
+        389,
+        364,
+        325,
+        287,
+        287,
+        287
+      ],
+      "padReview": {
+        "decision": "retain-existing-footprints",
+        "note": "Three visible platforms agree with retained outlines; rear, middle and third distance groups associate in order. Shortest three refs lie beyond the front platform and cannot be assigned from this image.",
+        "sourceId": "stora-18-tees",
+        "originalPads": [
+          {
+            "ring": [
+              [
+                -123.784,
+                204.985
+              ],
+              [
+                -122.157,
+                201.546
+              ],
+              [
+                -119.802,
+                198.635
+              ],
+              [
+                -117.455,
+                195.973
+              ],
+              [
+                -115.396,
+                194.301
+              ],
+              [
+                -113.393,
+                194.126
+              ],
+              [
+                -111.686,
+                195.191
+              ],
+              [
+                -111.004,
+                196.967
+              ],
+              [
+                -111.836,
+                199.185
+              ],
+              [
+                -113.702,
+                202.365
+              ],
+              [
+                -115.827,
+                205.785
+              ],
+              [
+                -117.943,
+                208.956
+              ],
+              [
+                -120.021,
+                211.127
+              ],
+              [
+                -121.794,
+                211.811
+              ],
+              [
+                -123.741,
+                210.487
+              ],
+              [
+                -124.663,
+                208.452
+              ],
+              [
+                -124.597,
+                206.705
+              ]
+            ],
+            "cx": -118.1126769152027,
+            "cz": 202.7368380118959,
+            "area": 124.6840800000009,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-18-middle-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.75,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -97.002,
+                169.743
+              ],
+              [
+                -94.694,
+                168.08
+              ],
+              [
+                -92.413,
+                167.166
+              ],
+              [
+                -90.697,
+                167.981
+              ],
+              [
+                -89.516,
+                169.775
+              ],
+              [
+                -89.601,
+                172.022
+              ],
+              [
+                -90.701,
+                174.731
+              ],
+              [
+                -92.271,
+                176.672
+              ],
+              [
+                -94.303,
+                177.595
+              ],
+              [
+                -96.517,
+                176.762
+              ],
+              [
+                -98.206,
+                175.198
+              ],
+              [
+                -98.62,
+                172.932
+              ],
+              [
+                -98.046,
+                170.954
+              ]
+            ],
+            "cx": -93.94671426695294,
+            "cz": 172.3890248508252,
+            "area": 66.85751349999646,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-18-forward-2025",
+            "imagerySourceId": "lm2025_025m_r1_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+            "boundaryInterpretationUncertaintyMetres": 1.75,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -135.462,
+                222.525
+              ],
+              [
+                -134.214,
+                220.109
+              ],
+              [
+                -132.266,
+                218.298
+              ],
+              [
+                -130.222,
+                217.796
+              ],
+              [
+                -128.232,
+                218.74
+              ],
+              [
+                -126.714,
+                220.681
+              ],
+              [
+                -126.095,
+                223.458
+              ],
+              [
+                -126.348,
+                226.346
+              ],
+              [
+                -127.452,
+                228.768
+              ],
+              [
+                -129.384,
+                230.145
+              ],
+              [
+                -131.562,
+                230.352
+              ],
+              [
+                -133.84,
+                229.397
+              ],
+              [
+                -135.086,
+                227.901
+              ],
+              [
+                -135.866,
+                225.553
+              ]
+            ],
+            "cx": -130.87680016884354,
+            "cz": 224.24313977992793,
+            "area": 93.56541250000555,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-18-rear-archive-2020",
+            "imagerySourceId": "uppsala-service-2020-stora-tee-18",
+            "observedYear": 2020,
+            "crosscheckYear": 2025,
+            "yearBasis": "municipal archive service name; exact flight date unknown",
+            "captureDate": null,
+            "sourceSha256": "9faa562ac43fe64eba8f87036ef5ceec9b70ebf3b919402f5b08a67abcca7bc4",
+            "boundaryInterpretationUncertaintyMetres": 2,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ]
+      },
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 2,
+          "padSourceId": "upsala-stora-tee-18-rear-archive-2020",
+          "originalPadRing": [
+            [
+              -135.462,
+              222.525
+            ],
+            [
+              -134.214,
+              220.109
+            ],
+            [
+              -132.266,
+              218.298
+            ],
+            [
+              -130.222,
+              217.796
+            ],
+            [
+              -128.232,
+              218.74
+            ],
+            [
+              -126.714,
+              220.681
+            ],
+            [
+              -126.095,
+              223.458
+            ],
+            [
+              -126.348,
+              226.346
+            ],
+            [
+              -127.452,
+              228.768
+            ],
+            [
+              -129.384,
+              230.145
+            ],
+            [
+              -131.562,
+              230.352
+            ],
+            [
+              -133.84,
+              229.397
+            ],
+            [
+              -135.086,
+              227.901
+            ],
+            [
+              -135.866,
+              225.553
+            ]
+          ],
+          "maxShiftMetres": 12,
+          "originalDistanceToPadMetres": 5.518
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 0,
+          "padSourceId": "upsala-stora-tee-18-middle-2025",
+          "originalPadRing": [
+            [
+              -123.784,
+              204.985
+            ],
+            [
+              -122.157,
+              201.546
+            ],
+            [
+              -119.802,
+              198.635
+            ],
+            [
+              -117.455,
+              195.973
+            ],
+            [
+              -115.396,
+              194.301
+            ],
+            [
+              -113.393,
+              194.126
+            ],
+            [
+              -111.686,
+              195.191
+            ],
+            [
+              -111.004,
+              196.967
+            ],
+            [
+              -111.836,
+              199.185
+            ],
+            [
+              -113.702,
+              202.365
+            ],
+            [
+              -115.827,
+              205.785
+            ],
+            [
+              -117.943,
+              208.956
+            ],
+            [
+              -120.021,
+              211.127
+            ],
+            [
+              -121.794,
+              211.811
+            ],
+            [
+              -123.741,
+              210.487
+            ],
+            [
+              -124.663,
+              208.452
+            ],
+            [
+              -124.597,
+              206.705
+            ]
+          ],
+          "maxShiftMetres": 8,
+          "originalDistanceToPadMetres": 1.724
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "reason": "Explicit spatial-order association to the photographed platform; inferred navigation position, not observed daily markers.",
+          "padIndex": 1,
+          "padSourceId": "upsala-stora-tee-18-forward-2025",
+          "originalPadRing": [
+            [
+              -97.002,
+              169.743
+            ],
+            [
+              -94.694,
+              168.08
+            ],
+            [
+              -92.413,
+              167.166
+            ],
+            [
+              -90.697,
+              167.981
+            ],
+            [
+              -89.516,
+              169.775
+            ],
+            [
+              -89.601,
+              172.022
+            ],
+            [
+              -90.701,
+              174.731
+            ],
+            [
+              -92.271,
+              176.672
+            ],
+            [
+              -94.303,
+              177.595
+            ],
+            [
+              -96.517,
+              176.762
+            ],
+            [
+              -98.206,
+              175.198
+            ],
+            [
+              -98.62,
+              172.932
+            ],
+            [
+              -98.046,
+              170.954
+            ]
+          ],
+          "maxShiftMetres": 14,
+          "originalDistanceToPadMetres": 7.511
+        },
+        {
+          "markIndex": 3,
+          "status": "retain",
+          "reason": "Three visible platforms agree with retained outlines; rear, middle and third distance groups associate in order. Shortest three refs lie beyond the front platform and cannot be assigned from this image."
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "Three visible platforms agree with retained outlines; rear, middle and third distance groups associate in order. Shortest three refs lie beyond the front platform and cannot be assigned from this image."
+        },
+        {
+          "markIndex": 5,
+          "status": "retain",
+          "reason": "Three visible platforms agree with retained outlines; rear, middle and third distance groups associate in order. Shortest three refs lie beyond the front platform and cannot be assigned from this image."
+        }
+      ]
+    }
+  ]
+}

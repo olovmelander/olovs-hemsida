@@ -1,0 +1,2189 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "kind": "orthophoto-window-capture-evidence",
+  "observedAt": "2026-09-09T18:04:30.421202+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-o2-2025",
+  "planSha256": "4efa7b6503bf1fd76f8818560c8ebb4c29904767d72e8a3c1733a63ac173d16f",
+  "method": "Intersect native EPSG:3006 review pixel-edge bounds with published flygbild mosaic source polygons.",
+  "sourceMetadata": [
+    {
+      "id": "o66225_6775_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o66225_6775_25_mr25_flygbild.json",
+      "bytes": 87987,
+      "sha256": "3b8b70523753f396a88019c65dd5e564128b8070bd9accf4aed579ee339ce61f",
+      "features": 8
+    },
+    {
+      "id": "o66225_6800_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o66225_6800_25_mr25_flygbild.json",
+      "bytes": 80930,
+      "sha256": "a02ea43667a758e6bbedb135fc7c74671488bf1487efc65bcc7b33acc8117f8f",
+      "features": 5
+    },
+    {
+      "id": "o66250_6775_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o66250_6775_25_mr25_flygbild.json",
+      "bytes": 80331,
+      "sha256": "336dfba6648f41445afe3f22968e5cd13f4423052d56eea00e437936cc89fd76",
+      "features": 8
+    },
+    {
+      "id": "o66250_6800_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o66250_6800_25_mr25_flygbild.json",
+      "bytes": 69959,
+      "sha256": "ddb64b817e6109f336ef88c43e932090a86f3d26c35edddd9c17806746ab61be",
+      "features": 8
+    }
+  ],
+  "windows": [
+    {
+      "id": "ground-overview",
+      "boundsEpsg3006": [
+        678538.4,
+        6624287.2,
+        680320.8,
+        6626441.6
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:45Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065445_3383",
+          "capturedAt": "2025-06-14T06:54:45Z",
+          "intersectionSquareMetres": 575893.0296,
+          "windowFraction": 0.14997204
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 7309.5612,
+          "windowFraction": 0.00190353
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 5302.6665,
+          "windowFraction": 0.0013809
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 453323.2227,
+          "windowFraction": 0.11805284
+        },
+        {
+          "sourceId": "o66225_6800_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 18861.0188,
+          "windowFraction": 0.00491172
+        },
+        {
+          "sourceId": "o66225_6800_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 209805.2212,
+          "windowFraction": 0.05463674
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 18279.6283,
+          "windowFraction": 0.00476032
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064454_3330",
+          "capturedAt": "2025-06-14T06:44:54Z",
+          "intersectionSquareMetres": 204904.5516,
+          "windowFraction": 0.05336052
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065445_3383",
+          "capturedAt": "2025-06-14T06:54:45Z",
+          "intersectionSquareMetres": 9575.3025,
+          "windowFraction": 0.00249357
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 446400.8129,
+          "windowFraction": 0.11625013
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 703293.6916,
+          "windowFraction": 0.18314928
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 724588.5731,
+          "windowFraction": 0.18869482
+        },
+        {
+          "sourceId": "o66250_6800_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064454_3330",
+          "capturedAt": "2025-06-14T06:44:54Z",
+          "intersectionSquareMetres": 156160.6403,
+          "windowFraction": 0.04066681
+        },
+        {
+          "sourceId": "o66250_6800_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 306304.6397,
+          "windowFraction": 0.07976678
+        }
+      ]
+    },
+    {
+      "id": "eighteen-01-surfaces",
+      "boundsEpsg3006": [
+        679306.24,
+        6625803.68,
+        679395.2,
+        6625908.16
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 9294.5408,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-02-surfaces",
+      "boundsEpsg3006": [
+        679312.32,
+        6625498.24,
+        679404.32,
+        6625586.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 8125.44,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-03-surfaces",
+      "boundsEpsg3006": [
+        679799.04,
+        6625501.76,
+        679893.28,
+        6625610.24
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 10223.1552,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-04-surfaces",
+      "boundsEpsg3006": [
+        680036.32,
+        6625338.4,
+        680250.4,
+        6625482.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6800_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 30861.7728,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-05-surfaces",
+      "boundsEpsg3006": [
+        679833.76,
+        6625127.52,
+        679920.64,
+        6625217.92
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 7853.952,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-06-surfaces",
+      "boundsEpsg3006": [
+        679668.64,
+        6625151.04,
+        679756.32,
+        6625245.92
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 8319.0784,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-07-surfaces",
+      "boundsEpsg3006": [
+        679842.72,
+        6624733.6,
+        679930.72,
+        6624823.36
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:44:38Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 7898.88,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-08-surfaces",
+      "boundsEpsg3006": [
+        679509.76,
+        6624357.28,
+        679598.88,
+        6624586.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:45Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065445_3383",
+          "capturedAt": "2025-06-14T06:54:45Z",
+          "intersectionSquareMetres": 3771.3201,
+          "windowFraction": 0.18469503
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 16647.8543,
+          "windowFraction": 0.81530497
+        }
+      ]
+    },
+    {
+      "id": "eighteen-09-surfaces",
+      "boundsEpsg3006": [
+        679468.64,
+        6624542.24,
+        679556.16,
+        6624627.2
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:44:38Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 7435.6992,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-10-surfaces",
+      "boundsEpsg3006": [
+        679068.48,
+        6624736.48,
+        679155.84,
+        6624848.32
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:45Z",
+        "last": "2025-06-14T06:54:45Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065445_3383",
+          "capturedAt": "2025-06-14T06:54:45Z",
+          "intersectionSquareMetres": 9770.3424,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-11-surfaces",
+      "boundsEpsg3006": [
+        679463.68,
+        6624884.16,
+        679560.32,
+        6624980.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:44:38Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 9308.3648,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-12-surfaces",
+      "boundsEpsg3006": [
+        679773.76,
+        6624908.96,
+        679872.96,
+        6624989.76
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:44:38Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 8015.36,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-13-surfaces",
+      "boundsEpsg3006": [
+        679629.76,
+        6625030.56,
+        679720.48,
+        6625131.52
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 2327.7119,
+          "windowFraction": 0.25414223
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 6831.3793,
+          "windowFraction": 0.74585777
+        }
+      ]
+    },
+    {
+      "id": "eighteen-14-surfaces",
+      "boundsEpsg3006": [
+        679297.6,
+        6624970.08,
+        679389.92,
+        6625052.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 1858.3342,
+          "windowFraction": 0.24571863
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 903.8802,
+          "windowFraction": 0.11951575
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 4800.64,
+          "windowFraction": 0.63476563
+        }
+      ]
+    },
+    {
+      "id": "eighteen-15-surfaces",
+      "boundsEpsg3006": [
+        679600.16,
+        6625131.84,
+        679702.72,
+        6625227.36
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 9796.5312,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-16-surfaces",
+      "boundsEpsg3006": [
+        679236.16,
+        6625366.08,
+        679335.84,
+        6625463.04
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 9664.9728,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-17-surfaces",
+      "boundsEpsg3006": [
+        679303.84,
+        6625610.4,
+        679396.16,
+        6625695.36
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 7843.5072,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-18-surfaces",
+      "boundsEpsg3006": [
+        679206.88,
+        6626079.68,
+        679290.72,
+        6626168.64
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 7458.4064,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-01-surfaces",
+      "boundsEpsg3006": [
+        678808.96,
+        6626128.64,
+        678891.04,
+        6626216.8
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 7236.1728,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-02-surfaces",
+      "boundsEpsg3006": [
+        678629.6,
+        6625896.96,
+        678715.84,
+        6625981.6
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:37Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 7299.3536,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-03-surfaces",
+      "boundsEpsg3006": [
+        678631.52,
+        6626171.52,
+        678713.6,
+        6626250.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 6474.4704,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-04-surfaces",
+      "boundsEpsg3006": [
+        678741.28,
+        6626133.44,
+        678823.84,
+        6626219.04
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 7067.136,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-05-surfaces",
+      "boundsEpsg3006": [
+        679094.72,
+        6626097.92,
+        679173.92,
+        6626180.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 6500.736,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-06-surfaces",
+      "boundsEpsg3006": [
+        678826.24,
+        6625950.24,
+        678912.16,
+        6626046.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 5227.4515,
+          "windowFraction": 0.63270503
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 3034.6157,
+          "windowFraction": 0.36729497
+        }
+      ]
+    },
+    {
+      "id": "nine-07-surfaces",
+      "boundsEpsg3006": [
+        678690.72,
+        6625896.64,
+        678770.08,
+        6625978.72
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:37Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 6513.8688,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-08-surfaces",
+      "boundsEpsg3006": [
+        679134.24,
+        6625837.6,
+        679214.72,
+        6625919.2
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 2801.6256,
+          "windowFraction": 0.42661092
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 3765.5424,
+          "windowFraction": 0.57338908
+        }
+      ]
+    },
+    {
+      "id": "nine-09-surfaces",
+      "boundsEpsg3006": [
+        679118.72,
+        6626079.2,
+        679210.4,
+        6626179.68
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 9212.0064,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-01-hole",
+      "boundsEpsg3006": [
+        679248.64,
+        6625793.6,
+        679405.12,
+        6626164.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 24786.886,
+          "windowFraction": 0.42710014
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 33248.4164,
+          "windowFraction": 0.57289986
+        }
+      ]
+    },
+    {
+      "id": "eighteen-02-hole",
+      "boundsEpsg3006": [
+        679302.08,
+        6625488.32,
+        679475.2,
+        6625906.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 72405.7088,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-03-hole",
+      "boundsEpsg3006": [
+        679329.28,
+        6625468.48,
+        679903.36,
+        6625651.52
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 105079.6032,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-04-hole",
+      "boundsEpsg3006": [
+        679739.52,
+        6625328.32,
+        680260.48,
+        6625528.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 52012.6464,
+          "windowFraction": 0.5
+        },
+        {
+          "sourceId": "o66250_6800_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 52012.6464,
+          "windowFraction": 0.5
+        }
+      ]
+    },
+    {
+      "id": "eighteen-05-hole",
+      "boundsEpsg3006": [
+        679823.04,
+        6625117.44,
+        680253.44,
+        6625398.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 49718.6816,
+          "windowFraction": 0.41115242
+        },
+        {
+          "sourceId": "o66250_6800_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 71206.5024,
+          "windowFraction": 0.58884758
+        }
+      ]
+    },
+    {
+      "id": "eighteen-06-hole",
+      "boundsEpsg3006": [
+        679658.56,
+        6625053.44,
+        679912.32,
+        6625256.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 1476.1635,
+          "windowFraction": 0.02871823
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 49925.4621,
+          "windowFraction": 0.97128177
+        }
+      ]
+    },
+    {
+      "id": "eighteen-07-hole",
+      "boundsEpsg3006": [
+        679656.64,
+        6624723.52,
+        679956.48,
+        6625205.12
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 3124.1207,
+          "windowFraction": 0.02163474
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 79775.6425,
+          "windowFraction": 0.55245164
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 11314.7983,
+          "windowFraction": 0.07835573
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 50188.3825,
+          "windowFraction": 0.34755789
+        }
+      ]
+    },
+    {
+      "id": "eighteen-08-hole",
+      "boundsEpsg3006": [
+        679499.84,
+        6624347.2,
+        679775.04,
+        6624709.44
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:45Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065445_3383",
+          "capturedAt": "2025-06-14T06:54:45Z",
+          "intersectionSquareMetres": 5813.2537,
+          "windowFraction": 0.05831422
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 93875.1943,
+          "windowFraction": 0.94168578
+        }
+      ]
+    },
+    {
+      "id": "eighteen-09-hole",
+      "boundsEpsg3006": [
+        679458.56,
+        6624372.48,
+        679571.2,
+        6624637.12
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:45Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065445_3383",
+          "capturedAt": "2025-06-14T06:54:45Z",
+          "intersectionSquareMetres": 9625.1395,
+          "windowFraction": 0.3228932
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 20183.9101,
+          "windowFraction": 0.6771068
+        }
+      ]
+    },
+    {
+      "id": "eighteen-10-hole",
+      "boundsEpsg3006": [
+        679058.56,
+        6624491.2,
+        679495.36,
+        6624865.92
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:45Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065445_3383",
+          "capturedAt": "2025-06-14T06:54:45Z",
+          "intersectionSquareMetres": 89391.7009,
+          "windowFraction": 0.54614467
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 74285.9951,
+          "windowFraction": 0.45385533
+        }
+      ]
+    },
+    {
+      "id": "eighteen-11-hole",
+      "boundsEpsg3006": [
+        679135.36,
+        6624792.0,
+        679570.56,
+        6624993.6
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:45Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065445_3383",
+          "capturedAt": "2025-06-14T06:54:45Z",
+          "intersectionSquareMetres": 7146.3606,
+          "windowFraction": 0.0814527
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 4184.0253,
+          "windowFraction": 0.04768863
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 76405.9341,
+          "windowFraction": 0.87085866
+        }
+      ]
+    },
+    {
+      "id": "eighteen-12-hole",
+      "boundsEpsg3006": [
+        679435.84,
+        6624815.04,
+        679882.88,
+        6625000.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 273.0115,
+          "windowFraction": 0.00330185
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 54.3154,
+          "windowFraction": 0.0006569
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 82357.1915,
+          "windowFraction": 0.99604126
+        }
+      ]
+    },
+    {
+      "id": "eighteen-13-hole",
+      "boundsEpsg3006": [
+        679619.52,
+        6624903.36,
+        679802.24,
+        6625141.44
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 17658.0608,
+          "windowFraction": 0.40591398
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 11438.4174,
+          "windowFraction": 0.26294017
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 8.1376,
+          "windowFraction": 0.00018706
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 14397.3618,
+          "windowFraction": 0.33095879
+        }
+      ]
+    },
+    {
+      "id": "eighteen-14-hole",
+      "boundsEpsg3006": [
+        679287.68,
+        6624953.28,
+        679718.4,
+        6625178.88
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 3406.3821,
+          "windowFraction": 0.03505575
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 16716.8563,
+          "windowFraction": 0.17203645
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 10318.5737,
+          "windowFraction": 0.10619047
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 46434.9063,
+          "windowFraction": 0.47787074
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 20293.7136,
+          "windowFraction": 0.20884659
+        }
+      ]
+    },
+    {
+      "id": "eighteen-15-hole",
+      "boundsEpsg3006": [
+        679249.6,
+        6624987.52,
+        679712.64,
+        6625237.44
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 2562.7407,
+          "windowFraction": 0.02214548
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 3215.9985,
+          "windowFraction": 0.0277905
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 10022.4485,
+          "windowFraction": 0.08660726
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 63689.9828,
+          "windowFraction": 0.55036602
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 36231.7863,
+          "windowFraction": 0.31309074
+        }
+      ]
+    },
+    {
+      "id": "eighteen-16-hole",
+      "boundsEpsg3006": [
+        679226.24,
+        6625156.8,
+        679708.48,
+        6625477.12
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 29462.3891,
+          "windowFraction": 0.19073073
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 125008.7277,
+          "windowFraction": 0.80926927
+        }
+      ]
+    },
+    {
+      "id": "eighteen-17-hole",
+      "boundsEpsg3006": [
+        679214.4,
+        6625472.64,
+        679406.08,
+        6625705.28
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 44592.4352,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-18-hole",
+      "boundsEpsg3006": [
+        679171.52,
+        6625609.28,
+        679329.28,
+        6626178.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 27222.1911,
+          "windowFraction": 0.30310999
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 62587.4217,
+          "windowFraction": 0.69689001
+        }
+      ]
+    },
+    {
+      "id": "nine-01-hole",
+      "boundsEpsg3006": [
+        678799.04,
+        6626106.88,
+        679197.12,
+        6626226.88
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 47769.6,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-02-hole",
+      "boundsEpsg3006": [
+        678619.52,
+        6625886.72,
+        678871.04,
+        6626207.36
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 52351.9072,
+          "windowFraction": 0.64914585
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 28295.4656,
+          "windowFraction": 0.35085415
+        }
+      ]
+    },
+    {
+      "id": "nine-03-hole",
+      "boundsEpsg3006": [
+        678598.72,
+        6625919.04,
+        678724.8,
+        6626260.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 31349.9234,
+          "windowFraction": 0.72824228
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 11698.8318,
+          "windowFraction": 0.27175772
+        }
+      ]
+    },
+    {
+      "id": "nine-04-hole",
+      "boundsEpsg3006": [
+        678616.96,
+        6626123.2,
+        678833.92,
+        6626258.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 29367.7056,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-05-hole",
+      "boundsEpsg3006": [
+        678820.16,
+        6626031.68,
+        679184.0,
+        6626193.28
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 58796.544,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-06-hole",
+      "boundsEpsg3006": [
+        678810.24,
+        6625931.52,
+        679210.24,
+        6626164.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 74563.5065,
+          "windowFraction": 0.80017499
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 14216.5856,
+          "windowFraction": 0.15256466
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 4403.9079,
+          "windowFraction": 0.04726034
+        }
+      ]
+    },
+    {
+      "id": "nine-07-hole",
+      "boundsEpsg3006": [
+        678680.64,
+        6625886.4,
+        678872.96,
+        6626110.72
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 22389.4564,
+          "windowFraction": 0.51898057
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 20751.766,
+          "windowFraction": 0.48101943
+        }
+      ]
+    },
+    {
+      "id": "nine-08-hole",
+      "boundsEpsg3006": [
+        678731.84,
+        6625824.32,
+        679224.64,
+        6625971.52
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 2130.0904,
+          "windowFraction": 0.02936429
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 61562.2112,
+          "windowFraction": 0.84866385
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 8847.8584,
+          "windowFraction": 0.12197186
+        }
+      ]
+    },
+    {
+      "id": "nine-09-hole",
+      "boundsEpsg3006": [
+        679108.8,
+        6625931.52,
+        679220.48,
+        6626189.76
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 22024.4959,
+          "windowFraction": 0.76367234
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 1533.5364,
+          "windowFraction": 0.05317349
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 5282.2109,
+          "windowFraction": 0.18315417
+        }
+      ]
+    },
+    {
+      "id": "nine-03-actual-green",
+      "boundsEpsg3006": [
+        678620.8,
+        6626136.96,
+        678711.04,
+        6626227.2
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 8143.2576,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-05-actual-green",
+      "boundsEpsg3006": [
+        679039.04,
+        6626071.36,
+        679129.28,
+        6626161.6
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 8143.2576,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-03-actual-tees",
+      "boundsEpsg3006": [
+        679343.84,
+        6625386.88,
+        679533.92,
+        6625576.96
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 36130.4064,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eighteen-08-actual-tees",
+      "boundsEpsg3006": [
+        679655.2,
+        6624603.2,
+        679760.48,
+        6624708.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:44:38Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 11083.8784,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-03-actual-tees",
+      "boundsEpsg3006": [
+        678576.96,
+        6625909.12,
+        678726.24,
+        6626058.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 7040.6756,
+          "windowFraction": 0.3159447
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 15243.8428,
+          "windowFraction": 0.6840553
+        }
+      ]
+    },
+    {
+      "id": "nine-04-actual-tees",
+      "boundsEpsg3006": [
+        678607.04,
+        6626137.76,
+        678746.88,
+        6626277.6
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 19555.2256,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-06-actual-tees",
+      "boundsEpsg3006": [
+        679078.24,
+        6626040.48,
+        679220.32,
+        6626182.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 20186.7264,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-07-actual-tees",
+      "boundsEpsg3006": [
+        678752.8,
+        6625988.32,
+        678885.28,
+        6626120.8
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 17454.4834,
+          "windowFraction": 0.9945036
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 96.467,
+          "windowFraction": 0.0054964
+        }
+      ]
+    },
+    {
+      "id": "nine-08-actual-tees",
+      "boundsEpsg3006": [
+        678721.92,
+        6625838.88,
+        678880.0,
+        6625996.96
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 1213.6074,
+          "windowFraction": 0.04856511
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 23775.679,
+          "windowFraction": 0.95143489
+        }
+      ]
+    },
+    {
+      "id": "nine-09-actual-tees",
+      "boundsEpsg3006": [
+        679085.44,
+        6625921.76,
+        679253.76,
+        6626090.08
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 16865.4626,
+          "windowFraction": 0.59528757
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 2865.5354,
+          "windowFraction": 0.10114265
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 8600.6244,
+          "windowFraction": 0.30356978
+        }
+      ]
+    },
+    {
+      "id": "estate-club-practice",
+      "boundsEpsg3006": [
+        679104.48,
+        6626075.04,
+        679374.56,
+        6626345.28
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 72986.4192,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "estate-range",
+      "boundsEpsg3006": [
+        678915.84,
+        6626107.68,
+        679246.08,
+        6626437.76
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 109005.6192,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "estate-ponds-north",
+      "boundsEpsg3006": [
+        679061.44,
+        6625817.76,
+        679341.6,
+        6626097.92
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 30324.3657,
+          "windowFraction": 0.38634871
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 14470.2205,
+          "windowFraction": 0.18435838
+        },
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 33695.0394,
+          "windowFraction": 0.42929291
+        }
+      ]
+    },
+    {
+      "id": "estate-ponds-h2",
+      "boundsEpsg3006": [
+        679294.24,
+        6625487.04,
+        679524.32,
+        6625717.28
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 52973.6192,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "estate-ponds-h3",
+      "boundsEpsg3006": [
+        679440.8,
+        6625359.68,
+        679900.96,
+        6625819.84
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:46Z",
+        "last": "2025-06-14T06:44:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064446_3329",
+          "capturedAt": "2025-06-14T06:44:46Z",
+          "intersectionSquareMetres": 211747.2256,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "estate-pond-h11",
+      "boundsEpsg3006": [
+        679208.48,
+        6624866.72,
+        679333.6,
+        6624991.84
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:44:38Z",
+        "last": "2025-06-14T06:54:37Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065437_3382",
+          "capturedAt": "2025-06-14T06:54:37Z",
+          "intersectionSquareMetres": 886.1579,
+          "windowFraction": 0.05660537
+        },
+        {
+          "sourceId": "o66225_6775_25_mr25",
+          "imageId": "25o215ss97_35~2025-06-14_064438_3328",
+          "capturedAt": "2025-06-14T06:44:38Z",
+          "intersectionSquareMetres": 14768.8565,
+          "windowFraction": 0.94339463
+        }
+      ]
+    },
+    {
+      "id": "nine-01-actual-tees",
+      "boundsEpsg3006": [
+        679056.64,
+        6626086.24,
+        679207.2,
+        6626236.64
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 22644.224,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-02-actual-tees",
+      "boundsEpsg3006": [
+        678744.96,
+        6626076.64,
+        678885.44,
+        6626217.28
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 19757.1072,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "nine-05-actual-tees",
+      "boundsEpsg3006": [
+        678810.24,
+        6626038.4,
+        678950.4,
+        6626178.72
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-06-14T06:54:29Z",
+        "last": "2025-06-14T06:54:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o66250_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-06-14_065429_3381",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "intersectionSquareMetres": 19667.2512,
+          "windowFraction": 1.0
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Capture dates describe source pixels, not dates of course construction or change.",
+    "Ground sample distance does not establish absolute positional accuracy."
+  ]
+}

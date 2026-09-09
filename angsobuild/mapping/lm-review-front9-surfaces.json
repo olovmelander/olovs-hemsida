@@ -1,0 +1,4673 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "reviewedAt": "2026-09-09",
+  "sources": {
+    "angso-01-hole": {
+      "id": "angso-01-hole",
+      "rasterFile": "angso-01-hole.tif",
+      "rgbFile": "angso-01-hole.png",
+      "sha256": "f2f4d850216cf11d5ca99915f5d09e42d67e9113b0926300cd5f8ca15f58d30c",
+      "rgbSha256": "774861ddc2eb2259ae8b0d91641ba015f03edf495bee397fde91bca78c86bceb",
+      "requestSha256": "38bf4df994e23b754eb9e0b7e5bf2cf9cf0570860fbe93799aada8b289b337cf",
+      "bytes": 10038477,
+      "boundsEpsg3006": [
+        605500.96,
+        6604664.960000001,
+        605694.88,
+        6605156.48
+      ],
+      "geoTransform": [
+        605500.96,
+        0.16,
+        0.0,
+        6605156.48,
+        0.0,
+        -0.16
+      ],
+      "width": 1212,
+      "height": 3072,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:15.121214+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-02-hole": {
+      "id": "angso-02-hole",
+      "rasterFile": "angso-02-hole.tif",
+      "rgbFile": "angso-02-hole.png",
+      "sha256": "d29a6f7a0e1dfc03f3c9dc14455d2081e00d0ba8c012bd2d87f333047b922e78",
+      "rgbSha256": "3ed488f83dd1572cdfafa4ab73b1a64175f38ce9f7d7e6c94168cc19f60a9fbc",
+      "requestSha256": "7f02cfdcaab9d4801c9ec0d2abc554942fdb5f38056659057322c45028a36a5b",
+      "bytes": 8878715,
+      "boundsEpsg3006": [
+        605495.36,
+        6604588.16,
+        605965.12,
+        6604767.68
+      ],
+      "geoTransform": [
+        605495.36,
+        0.16,
+        0.0,
+        6604767.68,
+        0.0,
+        -0.16
+      ],
+      "width": 2936,
+      "height": 1122,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:16.849476+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-03-hole": {
+      "id": "angso-03-hole",
+      "rasterFile": "angso-03-hole.tif",
+      "rgbFile": "angso-03-hole.png",
+      "sha256": "6b8f34a245b19fe957cf37d314adaf456a15a9439318f50580110d3698f37ad0",
+      "rgbSha256": "67cf517dfcd563e82df07cb993927dd18dd3dfc30a678d79b9d149252806f87e",
+      "requestSha256": "c7654e143324998d0eb6839f063071fa46d1577403db35e23664e650323d2d22",
+      "bytes": 5908239,
+      "boundsEpsg3006": [
+        605658.56,
+        6604707.04,
+        605941.92,
+        6604909.92
+      ],
+      "geoTransform": [
+        605658.56,
+        0.16,
+        0.0,
+        6604909.92,
+        0.0,
+        -0.16
+      ],
+      "width": 1771,
+      "height": 1268,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:18.009977+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-04-hole": {
+      "id": "angso-04-hole",
+      "rasterFile": "angso-04-hole.tif",
+      "rgbFile": "angso-04-hole.png",
+      "sha256": "4d326544b9a30215d3b09059b5d0cd989cc07c052e67d9fad480b510f6910ea4",
+      "rgbSha256": "9089600ccee9dd86890d618e26a9b3a88173df63851cdc5c611c16208d805e25",
+      "requestSha256": "1c94b4cc594acf5e81407d452e9dc135bdb98c10fded65bbb2f5cbcdb1c04e0f",
+      "bytes": 10288679,
+      "boundsEpsg3006": [
+        605677.28,
+        6604844.4799999995,
+        605883.8400000001,
+        6605319.52
+      ],
+      "geoTransform": [
+        605677.28,
+        0.16,
+        0.0,
+        6605319.52,
+        0.0,
+        -0.16
+      ],
+      "width": 1291,
+      "height": 2969,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:20.083874+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-05-hole": {
+      "id": "angso-05-hole",
+      "rasterFile": "angso-05-hole.tif",
+      "rgbFile": "angso-05-hole.png",
+      "sha256": "afe290152d1dd78edfa8c474e92a5439234c2c4e9e9cb0f83c32d2d7f0e7b4ae",
+      "rgbSha256": "d3ad2bd3d0321d4f1fb1df41e9079ae27b4f0e8225c0d0afcc5de655c5a1297d",
+      "requestSha256": "a5e136b1bb63c5ce136f964b6f03e022638464b294b142bfdbf3998a1ff5c661",
+      "bytes": 16255033,
+      "boundsEpsg3006": [
+        605813.28,
+        6604774.88,
+        606122.24,
+        6605312.16
+      ],
+      "geoTransform": [
+        605813.28,
+        0.16,
+        0.0,
+        6605312.16,
+        0.0,
+        -0.16
+      ],
+      "width": 1931,
+      "height": 3358,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:23.278601+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-06-hole": {
+      "id": "angso-06-hole",
+      "rasterFile": "angso-06-hole.tif",
+      "rgbFile": "angso-06-hole.png",
+      "sha256": "db364ef6712cac85af1d122238b0a3c8a6fe2a125204ba0af60ca86b73f06d02",
+      "rgbSha256": "b425ffc94b2870aa500d36f29a5efb7ab49a982dac3bc415e22d401b0dfa3796",
+      "requestSha256": "b670148b0a2e3806997a8c05874960caece1f324494a3bb5019877c68785bb32",
+      "bytes": 10520667,
+      "boundsEpsg3006": [
+        605896.96,
+        6604817.44,
+        606163.0399999999,
+        6605221.28
+      ],
+      "geoTransform": [
+        605896.96,
+        0.16,
+        0.0,
+        6605221.28,
+        0.0,
+        -0.16
+      ],
+      "width": 1663,
+      "height": 2524,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:25.294698+00:00",
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "captureStart": "2025-04-24T08:18:57Z",
+          "captureEnd": "2025-04-24T08:40:05Z"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-07-hole": {
+      "id": "angso-07-hole",
+      "rasterFile": "angso-07-hole.tif",
+      "rgbFile": "angso-07-hole.png",
+      "sha256": "63eb37690e42d320e24d28db14c2195196661e35838463c48ec7d0c1755d16ea",
+      "rgbSha256": "4b43c2a26ccdad8da937a3dffa6546d54f139a8ad147ec7c776c3d2f0bdc2b69",
+      "requestSha256": "0277fe6b2676da4e9ff0ea30d2a6d47e69149b98ce3e70dd71993ce8573dfa37",
+      "bytes": 14990685,
+      "boundsEpsg3006": [
+        605824.64,
+        6605139.36,
+        606086.08,
+        6605767.04
+      ],
+      "geoTransform": [
+        605824.64,
+        0.16,
+        0.0,
+        6605767.04,
+        0.0,
+        -0.16
+      ],
+      "width": 1634,
+      "height": 3923,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:28.754326+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-08-hole": {
+      "id": "angso-08-hole",
+      "rasterFile": "angso-08-hole.tif",
+      "rgbFile": "angso-08-hole.png",
+      "sha256": "72ee10ad43c00ea66c1d241f548bdeee4792ba5ff048a818e7244724d3aaaf12",
+      "rgbSha256": "1b24c6e09f9c38e12c1e0df56902b5cd627ba01a87404c77bdc3aa3a518682d8",
+      "requestSha256": "23c764c4cea383d2dd711c376d723246ca2c54c2febc34806d2fdb8a4c5db59f",
+      "bytes": 8913297,
+      "boundsEpsg3006": [
+        605685.12,
+        6605401.76,
+        605858.88,
+        6605882.88
+      ],
+      "geoTransform": [
+        605685.12,
+        0.16,
+        0.0,
+        6605882.88,
+        0.0,
+        -0.16
+      ],
+      "width": 1086,
+      "height": 3007,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:30.445687+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "angso-09-hole": {
+      "id": "angso-09-hole",
+      "rasterFile": "angso-09-hole.tif",
+      "rgbFile": "angso-09-hole.png",
+      "sha256": "29e8334c859a62f610638daeaeadc03f9e74f1f0468f24b2bf8db8277be7293e",
+      "rgbSha256": "2498e80fc0b0d460119abf6333dbd8b3c9d86464e1307804f49630cf760ab9f1",
+      "requestSha256": "b8175409945aa4364b2f922684bee008b98e935afed4b1588b2969ed2a76332e",
+      "bytes": 4829789,
+      "boundsEpsg3006": [
+        605586.56,
+        6605177.76,
+        605756.64,
+        6605442.56
+      ],
+      "geoTransform": [
+        605586.56,
+        0.16,
+        0.0,
+        6605442.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1063,
+      "height": 1655,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:31.273920+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    }
+  },
+  "holes": [
+    {
+      "n": 1,
+      "green": {
+        "id": "angso-01-green",
+        "sourceKey": "angso-01-hole",
+        "ringPixels": [
+          [
+            352.0,
+            2560.0
+          ],
+          [
+            374.0,
+            2549.0
+          ],
+          [
+            400.0,
+            2544.0
+          ],
+          [
+            425.0,
+            2543.0
+          ],
+          [
+            446.0,
+            2551.0
+          ],
+          [
+            461.0,
+            2567.0
+          ],
+          [
+            468.0,
+            2588.0
+          ],
+          [
+            464.0,
+            2606.0
+          ],
+          [
+            454.0,
+            2632.0
+          ],
+          [
+            446.0,
+            2658.0
+          ],
+          [
+            446.0,
+            2685.0
+          ],
+          [
+            445.0,
+            2700.0
+          ],
+          [
+            437.0,
+            2716.0
+          ],
+          [
+            423.0,
+            2728.0
+          ],
+          [
+            400.0,
+            2736.0
+          ],
+          [
+            372.0,
+            2735.0
+          ],
+          [
+            349.0,
+            2729.0
+          ],
+          [
+            332.0,
+            2720.0
+          ],
+          [
+            321.0,
+            2705.0
+          ],
+          [
+            320.0,
+            2689.0
+          ],
+          [
+            326.0,
+            2673.0
+          ],
+          [
+            333.0,
+            2655.0
+          ],
+          [
+            335.0,
+            2632.0
+          ],
+          [
+            334.0,
+            2611.0
+          ],
+          [
+            337.0,
+            2588.0
+          ],
+          [
+            343.0,
+            2573.0
+          ],
+          [
+            352.0,
+            2560.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h01-green.png",
+          "sha256": "40ffb535ff19c76eb7dbb494d314933a5945a160417fe2b5eca31ffecf42e8cd",
+          "geoTransform": [
+            605514.08,
+            0.16,
+            0,
+            6604781.28,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              270,
+              215
+            ],
+            [
+              292,
+              204
+            ],
+            [
+              318,
+              199
+            ],
+            [
+              343,
+              198
+            ],
+            [
+              364,
+              206
+            ],
+            [
+              379,
+              222
+            ],
+            [
+              386,
+              243
+            ],
+            [
+              382,
+              261
+            ],
+            [
+              372,
+              287
+            ],
+            [
+              364,
+              313
+            ],
+            [
+              364,
+              340
+            ],
+            [
+              363,
+              355
+            ],
+            [
+              355,
+              371
+            ],
+            [
+              341,
+              383
+            ],
+            [
+              318,
+              391
+            ],
+            [
+              290,
+              390
+            ],
+            [
+              267,
+              384
+            ],
+            [
+              250,
+              375
+            ],
+            [
+              239,
+              360
+            ],
+            [
+              238,
+              344
+            ],
+            [
+              244,
+              328
+            ],
+            [
+              251,
+              310
+            ],
+            [
+              253,
+              287
+            ],
+            [
+              252,
+              266
+            ],
+            [
+              255,
+              243
+            ],
+            [
+              261,
+              228
+            ],
+            [
+              270,
+              215
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 0.6
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-01-hole",
+        "accepted": [
+          {
+            "id": "angso-01-bunker-1",
+            "sourceKey": "angso-01-hole",
+            "ringPixels": [
+              [
+                360.0,
+                2491.0
+              ],
+              [
+                363.0,
+                2480.0
+              ],
+              [
+                372.0,
+                2469.0
+              ],
+              [
+                386.0,
+                2465.0
+              ],
+              [
+                398.0,
+                2469.0
+              ],
+              [
+                406.0,
+                2479.0
+              ],
+              [
+                406.0,
+                2491.0
+              ],
+              [
+                398.0,
+                2503.0
+              ],
+              [
+                386.0,
+                2511.0
+              ],
+              [
+                373.0,
+                2513.0
+              ],
+              [
+                365.0,
+                2507.0
+              ],
+              [
+                360.0,
+                2491.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h01-green.png",
+              "sha256": "40ffb535ff19c76eb7dbb494d314933a5945a160417fe2b5eca31ffecf42e8cd",
+              "geoTransform": [
+                605514.08,
+                0.16,
+                0,
+                6604781.28,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  278,
+                  146
+                ],
+                [
+                  281,
+                  135
+                ],
+                [
+                  290,
+                  124
+                ],
+                [
+                  304,
+                  120
+                ],
+                [
+                  316,
+                  124
+                ],
+                [
+                  324,
+                  134
+                ],
+                [
+                  324,
+                  146
+                ],
+                [
+                  316,
+                  158
+                ],
+                [
+                  304,
+                  166
+                ],
+                [
+                  291,
+                  168
+                ],
+                [
+                  283,
+                  162
+                ],
+                [
+                  278,
+                  146
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          },
+          {
+            "id": "angso-01-bunker-2",
+            "sourceKey": "angso-01-hole",
+            "ringPixels": [
+              [
+                505.0,
+                2473.0
+              ],
+              [
+                509.0,
+                2462.0
+              ],
+              [
+                522.0,
+                2453.0
+              ],
+              [
+                533.0,
+                2454.0
+              ],
+              [
+                545.0,
+                2463.0
+              ],
+              [
+                551.0,
+                2476.0
+              ],
+              [
+                552.0,
+                2489.0
+              ],
+              [
+                545.0,
+                2499.0
+              ],
+              [
+                533.0,
+                2503.0
+              ],
+              [
+                519.0,
+                2498.0
+              ],
+              [
+                509.0,
+                2488.0
+              ],
+              [
+                505.0,
+                2473.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h01-green.png",
+              "sha256": "40ffb535ff19c76eb7dbb494d314933a5945a160417fe2b5eca31ffecf42e8cd",
+              "geoTransform": [
+                605514.08,
+                0.16,
+                0,
+                6604781.28,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  423,
+                  128
+                ],
+                [
+                  427,
+                  117
+                ],
+                [
+                  440,
+                  108
+                ],
+                [
+                  451,
+                  109
+                ],
+                [
+                  463,
+                  118
+                ],
+                [
+                  469,
+                  131
+                ],
+                [
+                  470,
+                  144
+                ],
+                [
+                  463,
+                  154
+                ],
+                [
+                  451,
+                  158
+                ],
+                [
+                  437,
+                  153
+                ],
+                [
+                  427,
+                  143
+                ],
+                [
+                  423,
+                  128
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          },
+          {
+            "id": "angso-01-bunker-3",
+            "sourceKey": "angso-01-hole",
+            "ringPixels": [
+              [
+                466.0,
+                2636.0
+              ],
+              [
+                471.0,
+                2625.0
+              ],
+              [
+                480.0,
+                2620.0
+              ],
+              [
+                488.0,
+                2624.0
+              ],
+              [
+                491.0,
+                2634.0
+              ],
+              [
+                487.0,
+                2646.0
+              ],
+              [
+                479.0,
+                2654.0
+              ],
+              [
+                470.0,
+                2655.0
+              ],
+              [
+                465.0,
+                2650.0
+              ],
+              [
+                466.0,
+                2636.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h01-green.png",
+              "sha256": "40ffb535ff19c76eb7dbb494d314933a5945a160417fe2b5eca31ffecf42e8cd",
+              "geoTransform": [
+                605514.08,
+                0.16,
+                0,
+                6604781.28,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  384,
+                  291
+                ],
+                [
+                  389,
+                  280
+                ],
+                [
+                  398,
+                  275
+                ],
+                [
+                  406,
+                  279
+                ],
+                [
+                  409,
+                  289
+                ],
+                [
+                  405,
+                  301
+                ],
+                [
+                  397,
+                  309
+                ],
+                [
+                  388,
+                  310
+                ],
+                [
+                  383,
+                  305
+                ],
+                [
+                  384,
+                  291
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          },
+          {
+            "id": "angso-01-bunker-4",
+            "sourceKey": "angso-01-hole",
+            "ringPixels": [
+              [
+                776.0,
+                1814.0
+              ],
+              [
+                784.0,
+                1800.0
+              ],
+              [
+                796.0,
+                1800.0
+              ],
+              [
+                804.0,
+                1816.0
+              ],
+              [
+                806.0,
+                1836.0
+              ],
+              [
+                800.0,
+                1858.0
+              ],
+              [
+                790.0,
+                1870.0
+              ],
+              [
+                778.0,
+                1866.0
+              ],
+              [
+                772.0,
+                1850.0
+              ],
+              [
+                772.0,
+                1830.0
+              ],
+              [
+                776.0,
+                1814.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h01-hole.png",
+              "sha256": "b41c65a5c9de7a33829c9c051a17fc7864aff6478a9e7fade4bcd655e1f10c72",
+              "geoTransform": [
+                605500.96,
+                0.32,
+                0,
+                6605156.48,
+                0,
+                -0.32
+              ],
+              "ringPixels": [
+                [
+                  388,
+                  907
+                ],
+                [
+                  392,
+                  900
+                ],
+                [
+                  398,
+                  900
+                ],
+                [
+                  402,
+                  908
+                ],
+                [
+                  403,
+                  918
+                ],
+                [
+                  400,
+                  929
+                ],
+                [
+                  395,
+                  935
+                ],
+                [
+                  389,
+                  933
+                ],
+                [
+                  386,
+                  925
+                ],
+                [
+                  386,
+                  915
+                ],
+                [
+                  388,
+                  907
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "n": 2,
+      "green": {
+        "id": "angso-02-green",
+        "sourceKey": "angso-02-hole",
+        "ringPixels": [
+          [
+            2425.0,
+            430.0
+          ],
+          [
+            2442.0,
+            414.0
+          ],
+          [
+            2467.0,
+            400.0
+          ],
+          [
+            2493.0,
+            383.0
+          ],
+          [
+            2514.0,
+            362.0
+          ],
+          [
+            2533.0,
+            342.0
+          ],
+          [
+            2553.0,
+            330.0
+          ],
+          [
+            2571.0,
+            323.0
+          ],
+          [
+            2586.0,
+            326.0
+          ],
+          [
+            2597.0,
+            338.0
+          ],
+          [
+            2601.0,
+            357.0
+          ],
+          [
+            2597.0,
+            379.0
+          ],
+          [
+            2588.0,
+            404.0
+          ],
+          [
+            2576.0,
+            429.0
+          ],
+          [
+            2567.0,
+            444.0
+          ],
+          [
+            2552.0,
+            455.0
+          ],
+          [
+            2533.0,
+            460.0
+          ],
+          [
+            2506.0,
+            464.0
+          ],
+          [
+            2481.0,
+            472.0
+          ],
+          [
+            2457.0,
+            481.0
+          ],
+          [
+            2439.0,
+            481.0
+          ],
+          [
+            2424.0,
+            475.0
+          ],
+          [
+            2415.0,
+            463.0
+          ],
+          [
+            2415.0,
+            446.0
+          ],
+          [
+            2425.0,
+            430.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h02-green.png",
+          "sha256": "54921f4e49ff12e968d881e75a790892768ef61f97b274df8e7dad38a9c9f682",
+          "geoTransform": [
+            605849.76,
+            0.16,
+            0,
+            6604751.84,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              210,
+              331
+            ],
+            [
+              227,
+              315
+            ],
+            [
+              252,
+              301
+            ],
+            [
+              278,
+              284
+            ],
+            [
+              299,
+              263
+            ],
+            [
+              318,
+              243
+            ],
+            [
+              338,
+              231
+            ],
+            [
+              356,
+              224
+            ],
+            [
+              371,
+              227
+            ],
+            [
+              382,
+              239
+            ],
+            [
+              386,
+              258
+            ],
+            [
+              382,
+              280
+            ],
+            [
+              373,
+              305
+            ],
+            [
+              361,
+              330
+            ],
+            [
+              352,
+              345
+            ],
+            [
+              337,
+              356
+            ],
+            [
+              318,
+              361
+            ],
+            [
+              291,
+              365
+            ],
+            [
+              266,
+              373
+            ],
+            [
+              242,
+              382
+            ],
+            [
+              224,
+              382
+            ],
+            [
+              209,
+              376
+            ],
+            [
+              200,
+              364
+            ],
+            [
+              200,
+              347
+            ],
+            [
+              210,
+              331
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 0.6
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-02-hole",
+        "accepted": [
+          {
+            "id": "angso-02-bunker-1",
+            "sourceKey": "angso-02-hole",
+            "ringPixels": [
+              [
+                2432.0,
+                505.0
+              ],
+              [
+                2443.0,
+                498.0
+              ],
+              [
+                2460.0,
+                492.0
+              ],
+              [
+                2477.0,
+                486.0
+              ],
+              [
+                2489.0,
+                485.0
+              ],
+              [
+                2496.0,
+                492.0
+              ],
+              [
+                2498.0,
+                501.0
+              ],
+              [
+                2495.0,
+                509.0
+              ],
+              [
+                2485.0,
+                516.0
+              ],
+              [
+                2471.0,
+                520.0
+              ],
+              [
+                2455.0,
+                522.0
+              ],
+              [
+                2441.0,
+                520.0
+              ],
+              [
+                2434.0,
+                515.0
+              ],
+              [
+                2432.0,
+                505.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h02-green.png",
+              "sha256": "54921f4e49ff12e968d881e75a790892768ef61f97b274df8e7dad38a9c9f682",
+              "geoTransform": [
+                605849.76,
+                0.16,
+                0,
+                6604751.84,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  217,
+                  406
+                ],
+                [
+                  228,
+                  399
+                ],
+                [
+                  245,
+                  393
+                ],
+                [
+                  262,
+                  387
+                ],
+                [
+                  274,
+                  386
+                ],
+                [
+                  281,
+                  393
+                ],
+                [
+                  283,
+                  402
+                ],
+                [
+                  280,
+                  410
+                ],
+                [
+                  270,
+                  417
+                ],
+                [
+                  256,
+                  421
+                ],
+                [
+                  240,
+                  423
+                ],
+                [
+                  226,
+                  421
+                ],
+                [
+                  219,
+                  416
+                ],
+                [
+                  217,
+                  406
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          },
+          {
+            "id": "angso-02-bunker-2",
+            "sourceKey": "angso-02-hole",
+            "ringPixels": [
+              [
+                1658.0,
+                772.0
+              ],
+              [
+                1674.0,
+                764.0
+              ],
+              [
+                1694.0,
+                764.0
+              ],
+              [
+                1710.0,
+                764.0
+              ],
+              [
+                1718.0,
+                776.0
+              ],
+              [
+                1716.0,
+                792.0
+              ],
+              [
+                1702.0,
+                800.0
+              ],
+              [
+                1678.0,
+                802.0
+              ],
+              [
+                1658.0,
+                796.0
+              ],
+              [
+                1654.0,
+                786.0
+              ],
+              [
+                1658.0,
+                772.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h02-hole.png",
+              "sha256": "b6108b6652b3ed4e825aa4f1a1212d655215306c4885c4d48fef45c98ff19aba",
+              "geoTransform": [
+                605495.36,
+                0.32,
+                0,
+                6604767.68,
+                0,
+                -0.32
+              ],
+              "ringPixels": [
+                [
+                  829,
+                  386
+                ],
+                [
+                  837,
+                  382
+                ],
+                [
+                  847,
+                  382
+                ],
+                [
+                  855,
+                  382
+                ],
+                [
+                  859,
+                  388
+                ],
+                [
+                  858,
+                  396
+                ],
+                [
+                  851,
+                  400
+                ],
+                [
+                  839,
+                  401
+                ],
+                [
+                  829,
+                  398
+                ],
+                [
+                  827,
+                  393
+                ],
+                [
+                  829,
+                  386
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "green": {
+        "id": "angso-03-green",
+        "sourceKey": "angso-03-hole",
+        "ringPixels": [
+          [
+            289.0,
+            443.0
+          ],
+          [
+            310.0,
+            427.0
+          ],
+          [
+            337.0,
+            412.0
+          ],
+          [
+            366.0,
+            398.0
+          ],
+          [
+            393.0,
+            387.0
+          ],
+          [
+            415.0,
+            384.0
+          ],
+          [
+            435.0,
+            391.0
+          ],
+          [
+            448.0,
+            407.0
+          ],
+          [
+            452.0,
+            429.0
+          ],
+          [
+            455.0,
+            453.0
+          ],
+          [
+            467.0,
+            476.0
+          ],
+          [
+            477.0,
+            497.0
+          ],
+          [
+            477.0,
+            520.0
+          ],
+          [
+            467.0,
+            540.0
+          ],
+          [
+            448.0,
+            558.0
+          ],
+          [
+            425.0,
+            566.0
+          ],
+          [
+            399.0,
+            572.0
+          ],
+          [
+            372.0,
+            573.0
+          ],
+          [
+            349.0,
+            566.0
+          ],
+          [
+            330.0,
+            553.0
+          ],
+          [
+            317.0,
+            534.0
+          ],
+          [
+            305.0,
+            511.0
+          ],
+          [
+            296.0,
+            487.0
+          ],
+          [
+            289.0,
+            443.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h03-green.png",
+          "sha256": "fdb1f8e9d7b48cbf41f002d4727ee6bd75dceee477ca19ef40f7b09248e21297",
+          "geoTransform": [
+            605668.8,
+            0.16,
+            0,
+            6604886.08,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              225,
+              294
+            ],
+            [
+              246,
+              278
+            ],
+            [
+              273,
+              263
+            ],
+            [
+              302,
+              249
+            ],
+            [
+              329,
+              238
+            ],
+            [
+              351,
+              235
+            ],
+            [
+              371,
+              242
+            ],
+            [
+              384,
+              258
+            ],
+            [
+              388,
+              280
+            ],
+            [
+              391,
+              304
+            ],
+            [
+              403,
+              327
+            ],
+            [
+              413,
+              348
+            ],
+            [
+              413,
+              371
+            ],
+            [
+              403,
+              391
+            ],
+            [
+              384,
+              409
+            ],
+            [
+              361,
+              417
+            ],
+            [
+              335,
+              423
+            ],
+            [
+              308,
+              424
+            ],
+            [
+              285,
+              417
+            ],
+            [
+              266,
+              404
+            ],
+            [
+              253,
+              385
+            ],
+            [
+              241,
+              362
+            ],
+            [
+              232,
+              338
+            ],
+            [
+              225,
+              294
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 0.6
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-03-hole",
+        "accepted": [
+          {
+            "id": "angso-03-bunker-1",
+            "sourceKey": "angso-03-hole",
+            "ringPixels": [
+              [
+                430.0,
+                575.0
+              ],
+              [
+                439.0,
+                571.0
+              ],
+              [
+                453.0,
+                568.0
+              ],
+              [
+                465.0,
+                570.0
+              ],
+              [
+                471.0,
+                576.0
+              ],
+              [
+                470.0,
+                583.0
+              ],
+              [
+                463.0,
+                588.0
+              ],
+              [
+                449.0,
+                593.0
+              ],
+              [
+                436.0,
+                595.0
+              ],
+              [
+                429.0,
+                591.0
+              ],
+              [
+                428.0,
+                584.0
+              ],
+              [
+                430.0,
+                575.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h03-green.png",
+              "sha256": "fdb1f8e9d7b48cbf41f002d4727ee6bd75dceee477ca19ef40f7b09248e21297",
+              "geoTransform": [
+                605668.8,
+                0.16,
+                0,
+                6604886.08,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  366,
+                  426
+                ],
+                [
+                  375,
+                  422
+                ],
+                [
+                  389,
+                  419
+                ],
+                [
+                  401,
+                  421
+                ],
+                [
+                  407,
+                  427
+                ],
+                [
+                  406,
+                  434
+                ],
+                [
+                  399,
+                  439
+                ],
+                [
+                  385,
+                  444
+                ],
+                [
+                  372,
+                  446
+                ],
+                [
+                  365,
+                  442
+                ],
+                [
+                  364,
+                  435
+                ],
+                [
+                  366,
+                  426
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "n": 4,
+      "green": {
+        "id": "angso-04-green",
+        "sourceKey": "angso-04-hole",
+        "ringPixels": [
+          [
+            642.0,
+            510.0
+          ],
+          [
+            658.0,
+            498.0
+          ],
+          [
+            677.0,
+            491.0
+          ],
+          [
+            700.0,
+            491.0
+          ],
+          [
+            720.0,
+            498.0
+          ],
+          [
+            736.0,
+            510.0
+          ],
+          [
+            746.0,
+            529.0
+          ],
+          [
+            747.0,
+            549.0
+          ],
+          [
+            743.0,
+            573.0
+          ],
+          [
+            741.0,
+            595.0
+          ],
+          [
+            743.0,
+            620.0
+          ],
+          [
+            738.0,
+            645.0
+          ],
+          [
+            729.0,
+            666.0
+          ],
+          [
+            714.0,
+            680.0
+          ],
+          [
+            693.0,
+            685.0
+          ],
+          [
+            673.0,
+            679.0
+          ],
+          [
+            658.0,
+            666.0
+          ],
+          [
+            649.0,
+            648.0
+          ],
+          [
+            641.0,
+            624.0
+          ],
+          [
+            635.0,
+            598.0
+          ],
+          [
+            632.0,
+            571.0
+          ],
+          [
+            631.0,
+            547.0
+          ],
+          [
+            633.0,
+            526.0
+          ],
+          [
+            642.0,
+            510.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h04-green.png",
+          "sha256": "b57a5e17929fd71819db108318755c3d90083f65452c8656b426296eeb5afe72",
+          "geoTransform": [
+            605740.16,
+            0.16,
+            0,
+            6605277.92,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              249,
+              250
+            ],
+            [
+              265,
+              238
+            ],
+            [
+              284,
+              231
+            ],
+            [
+              307,
+              231
+            ],
+            [
+              327,
+              238
+            ],
+            [
+              343,
+              250
+            ],
+            [
+              353,
+              269
+            ],
+            [
+              354,
+              289
+            ],
+            [
+              350,
+              313
+            ],
+            [
+              348,
+              335
+            ],
+            [
+              350,
+              360
+            ],
+            [
+              345,
+              385
+            ],
+            [
+              336,
+              406
+            ],
+            [
+              321,
+              420
+            ],
+            [
+              300,
+              425
+            ],
+            [
+              280,
+              419
+            ],
+            [
+              265,
+              406
+            ],
+            [
+              256,
+              388
+            ],
+            [
+              248,
+              364
+            ],
+            [
+              242,
+              338
+            ],
+            [
+              239,
+              311
+            ],
+            [
+              238,
+              287
+            ],
+            [
+              240,
+              266
+            ],
+            [
+              249,
+              250
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 0.6
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-04-hole",
+        "accepted": [
+          {
+            "id": "angso-04-bunker-1",
+            "sourceKey": "angso-04-hole",
+            "ringPixels": [
+              [
+                774.0,
+                613.0
+              ],
+              [
+                781.0,
+                599.0
+              ],
+              [
+                792.0,
+                591.0
+              ],
+              [
+                801.0,
+                593.0
+              ],
+              [
+                810.0,
+                606.0
+              ],
+              [
+                816.0,
+                620.0
+              ],
+              [
+                816.0,
+                633.0
+              ],
+              [
+                809.0,
+                647.0
+              ],
+              [
+                799.0,
+                661.0
+              ],
+              [
+                787.0,
+                672.0
+              ],
+              [
+                775.0,
+                675.0
+              ],
+              [
+                769.0,
+                669.0
+              ],
+              [
+                769.0,
+                658.0
+              ],
+              [
+                772.0,
+                641.0
+              ],
+              [
+                774.0,
+                613.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h04-green.png",
+              "sha256": "b57a5e17929fd71819db108318755c3d90083f65452c8656b426296eeb5afe72",
+              "geoTransform": [
+                605740.16,
+                0.16,
+                0,
+                6605277.92,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  381,
+                  353
+                ],
+                [
+                  388,
+                  339
+                ],
+                [
+                  399,
+                  331
+                ],
+                [
+                  408,
+                  333
+                ],
+                [
+                  417,
+                  346
+                ],
+                [
+                  423,
+                  360
+                ],
+                [
+                  423,
+                  373
+                ],
+                [
+                  416,
+                  387
+                ],
+                [
+                  406,
+                  401
+                ],
+                [
+                  394,
+                  412
+                ],
+                [
+                  382,
+                  415
+                ],
+                [
+                  376,
+                  409
+                ],
+                [
+                  376,
+                  398
+                ],
+                [
+                  379,
+                  381
+                ],
+                [
+                  381,
+                  353
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "n": 5,
+      "green": {
+        "id": "angso-05-green",
+        "sourceKey": "angso-05-hole",
+        "ringPixels": [
+          [
+            1490.0,
+            2970.0
+          ],
+          [
+            1508.0,
+            2961.0
+          ],
+          [
+            1525.0,
+            2961.0
+          ],
+          [
+            1544.0,
+            2966.0
+          ],
+          [
+            1564.0,
+            2978.0
+          ],
+          [
+            1587.0,
+            2991.0
+          ],
+          [
+            1611.0,
+            3001.0
+          ],
+          [
+            1636.0,
+            3008.0
+          ],
+          [
+            1655.0,
+            3019.0
+          ],
+          [
+            1666.0,
+            3035.0
+          ],
+          [
+            1669.0,
+            3052.0
+          ],
+          [
+            1663.0,
+            3069.0
+          ],
+          [
+            1648.0,
+            3081.0
+          ],
+          [
+            1627.0,
+            3089.0
+          ],
+          [
+            1605.0,
+            3094.0
+          ],
+          [
+            1585.0,
+            3101.0
+          ],
+          [
+            1565.0,
+            3105.0
+          ],
+          [
+            1545.0,
+            3100.0
+          ],
+          [
+            1527.0,
+            3091.0
+          ],
+          [
+            1511.0,
+            3076.0
+          ],
+          [
+            1498.0,
+            3056.0
+          ],
+          [
+            1486.0,
+            3035.0
+          ],
+          [
+            1478.0,
+            3014.0
+          ],
+          [
+            1477.0,
+            2995.0
+          ],
+          [
+            1482.0,
+            2980.0
+          ],
+          [
+            1490.0,
+            2970.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h05-green.png",
+          "sha256": "feaec77a9dba5d4a8fea9f55a5df2fa378a5756031413975e67ca4e114420542",
+          "geoTransform": [
+            606007.8400000001,
+            0.16,
+            0,
+            6604886.4,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              274,
+              309
+            ],
+            [
+              292,
+              300
+            ],
+            [
+              309,
+              300
+            ],
+            [
+              328,
+              305
+            ],
+            [
+              348,
+              317
+            ],
+            [
+              371,
+              330
+            ],
+            [
+              395,
+              340
+            ],
+            [
+              420,
+              347
+            ],
+            [
+              439,
+              358
+            ],
+            [
+              450,
+              374
+            ],
+            [
+              453,
+              391
+            ],
+            [
+              447,
+              408
+            ],
+            [
+              432,
+              420
+            ],
+            [
+              411,
+              428
+            ],
+            [
+              389,
+              433
+            ],
+            [
+              369,
+              440
+            ],
+            [
+              349,
+              444
+            ],
+            [
+              329,
+              439
+            ],
+            [
+              311,
+              430
+            ],
+            [
+              295,
+              415
+            ],
+            [
+              282,
+              395
+            ],
+            [
+              270,
+              374
+            ],
+            [
+              262,
+              353
+            ],
+            [
+              261,
+              334
+            ],
+            [
+              266,
+              319
+            ],
+            [
+              274,
+              309
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 1.5
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-05-hole",
+        "accepted": []
+      }
+    },
+    {
+      "n": 6,
+      "green": {
+        "id": "angso-06-green",
+        "sourceKey": "angso-06-hole",
+        "ringPixels": [
+          [
+            711.0,
+            345.0
+          ],
+          [
+            731.0,
+            331.0
+          ],
+          [
+            752.0,
+            327.0
+          ],
+          [
+            775.0,
+            331.0
+          ],
+          [
+            797.0,
+            345.0
+          ],
+          [
+            818.0,
+            364.0
+          ],
+          [
+            837.0,
+            385.0
+          ],
+          [
+            851.0,
+            407.0
+          ],
+          [
+            867.0,
+            429.0
+          ],
+          [
+            876.0,
+            450.0
+          ],
+          [
+            875.0,
+            468.0
+          ],
+          [
+            867.0,
+            482.0
+          ],
+          [
+            850.0,
+            492.0
+          ],
+          [
+            830.0,
+            495.0
+          ],
+          [
+            810.0,
+            500.0
+          ],
+          [
+            792.0,
+            509.0
+          ],
+          [
+            772.0,
+            517.0
+          ],
+          [
+            750.0,
+            521.0
+          ],
+          [
+            729.0,
+            519.0
+          ],
+          [
+            711.0,
+            512.0
+          ],
+          [
+            696.0,
+            498.0
+          ],
+          [
+            685.0,
+            477.0
+          ],
+          [
+            680.0,
+            454.0
+          ],
+          [
+            681.0,
+            431.0
+          ],
+          [
+            686.0,
+            409.0
+          ],
+          [
+            693.0,
+            387.0
+          ],
+          [
+            701.0,
+            363.0
+          ],
+          [
+            711.0,
+            345.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h06-green.png",
+          "sha256": "e8d4f066eb57c9b9b375242ea7aa5d856f6e83812636468f95194ed2b358f92a",
+          "geoTransform": [
+            605968.1599999999,
+            0.16,
+            0,
+            6605208.8,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              266,
+              267
+            ],
+            [
+              286,
+              253
+            ],
+            [
+              307,
+              249
+            ],
+            [
+              330,
+              253
+            ],
+            [
+              352,
+              267
+            ],
+            [
+              373,
+              286
+            ],
+            [
+              392,
+              307
+            ],
+            [
+              406,
+              329
+            ],
+            [
+              422,
+              351
+            ],
+            [
+              431,
+              372
+            ],
+            [
+              430,
+              390
+            ],
+            [
+              422,
+              404
+            ],
+            [
+              405,
+              414
+            ],
+            [
+              385,
+              417
+            ],
+            [
+              365,
+              422
+            ],
+            [
+              347,
+              431
+            ],
+            [
+              327,
+              439
+            ],
+            [
+              305,
+              443
+            ],
+            [
+              284,
+              441
+            ],
+            [
+              266,
+              434
+            ],
+            [
+              251,
+              420
+            ],
+            [
+              240,
+              399
+            ],
+            [
+              235,
+              376
+            ],
+            [
+              236,
+              353
+            ],
+            [
+              241,
+              331
+            ],
+            [
+              248,
+              309
+            ],
+            [
+              256,
+              285
+            ],
+            [
+              266,
+              267
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 0.6
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-06-hole",
+        "accepted": [
+          {
+            "id": "angso-06-bunker-1",
+            "sourceKey": "angso-06-hole",
+            "ringPixels": [
+              [
+                754.0,
+                563.0
+              ],
+              [
+                761.0,
+                547.0
+              ],
+              [
+                773.0,
+                537.0
+              ],
+              [
+                787.0,
+                534.0
+              ],
+              [
+                797.0,
+                528.0
+              ],
+              [
+                809.0,
+                515.0
+              ],
+              [
+                821.0,
+                511.0
+              ],
+              [
+                833.0,
+                515.0
+              ],
+              [
+                840.0,
+                523.0
+              ],
+              [
+                839.0,
+                533.0
+              ],
+              [
+                828.0,
+                550.0
+              ],
+              [
+                823.0,
+                566.0
+              ],
+              [
+                817.0,
+                582.0
+              ],
+              [
+                805.0,
+                594.0
+              ],
+              [
+                788.0,
+                600.0
+              ],
+              [
+                771.0,
+                605.0
+              ],
+              [
+                758.0,
+                607.0
+              ],
+              [
+                750.0,
+                598.0
+              ],
+              [
+                749.0,
+                584.0
+              ],
+              [
+                754.0,
+                563.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h06-green.png",
+              "sha256": "e8d4f066eb57c9b9b375242ea7aa5d856f6e83812636468f95194ed2b358f92a",
+              "geoTransform": [
+                605968.1599999999,
+                0.16,
+                0,
+                6605208.8,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  309,
+                  485
+                ],
+                [
+                  316,
+                  469
+                ],
+                [
+                  328,
+                  459
+                ],
+                [
+                  342,
+                  456
+                ],
+                [
+                  352,
+                  450
+                ],
+                [
+                  364,
+                  437
+                ],
+                [
+                  376,
+                  433
+                ],
+                [
+                  388,
+                  437
+                ],
+                [
+                  395,
+                  445
+                ],
+                [
+                  394,
+                  455
+                ],
+                [
+                  383,
+                  472
+                ],
+                [
+                  378,
+                  488
+                ],
+                [
+                  372,
+                  504
+                ],
+                [
+                  360,
+                  516
+                ],
+                [
+                  343,
+                  522
+                ],
+                [
+                  326,
+                  527
+                ],
+                [
+                  313,
+                  529
+                ],
+                [
+                  305,
+                  520
+                ],
+                [
+                  304,
+                  506
+                ],
+                [
+                  309,
+                  485
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          },
+          {
+            "id": "angso-06-bunker-2",
+            "sourceKey": "angso-06-hole",
+            "ringPixels": [
+              [
+                555.665865,
+                868.0
+              ],
+              [
+                559.663462,
+                862.0
+              ],
+              [
+                573.655048,
+                866.0
+              ],
+              [
+                595.641827,
+                880.0
+              ],
+              [
+                619.627404,
+                878.0
+              ],
+              [
+                645.611779,
+                866.0
+              ],
+              [
+                671.596154,
+                844.0
+              ],
+              [
+                687.586538,
+                836.0
+              ],
+              [
+                703.576923,
+                840.0
+              ],
+              [
+                711.572115,
+                852.0
+              ],
+              [
+                701.578125,
+                876.0
+              ],
+              [
+                691.584135,
+                896.0
+              ],
+              [
+                679.591346,
+                910.0
+              ],
+              [
+                657.604567,
+                912.0
+              ],
+              [
+                635.617788,
+                904.0
+              ],
+              [
+                619.627404,
+                910.0
+              ],
+              [
+                609.633413,
+                924.0
+              ],
+              [
+                593.643029,
+                920.0
+              ],
+              [
+                577.652644,
+                902.0
+              ],
+              [
+                563.661058,
+                888.0
+              ],
+              [
+                555.665865,
+                868.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h06-hole.png",
+              "sha256": "334967840c254f7ca315b708bd1150f01fc1fe0b4dda1490a995996ea66777e5",
+              "geoTransform": [
+                605896.96,
+                0.3198076923076923,
+                0,
+                6605221.28,
+                0,
+                -0.32
+              ],
+              "ringPixels": [
+                [
+                  278,
+                  434
+                ],
+                [
+                  280,
+                  431
+                ],
+                [
+                  287,
+                  433
+                ],
+                [
+                  298,
+                  440
+                ],
+                [
+                  310,
+                  439
+                ],
+                [
+                  323,
+                  433
+                ],
+                [
+                  336,
+                  422
+                ],
+                [
+                  344,
+                  418
+                ],
+                [
+                  352,
+                  420
+                ],
+                [
+                  356,
+                  426
+                ],
+                [
+                  351,
+                  438
+                ],
+                [
+                  346,
+                  448
+                ],
+                [
+                  340,
+                  455
+                ],
+                [
+                  329,
+                  456
+                ],
+                [
+                  318,
+                  452
+                ],
+                [
+                  310,
+                  455
+                ],
+                [
+                  305,
+                  462
+                ],
+                [
+                  297,
+                  460
+                ],
+                [
+                  289,
+                  451
+                ],
+                [
+                  282,
+                  444
+                ],
+                [
+                  278,
+                  434
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          },
+          {
+            "id": "angso-06-bunker-3",
+            "sourceKey": "angso-06-hole",
+            "ringPixels": [
+              [
+                511.692308,
+                940.0
+              ],
+              [
+                525.683894,
+                934.0
+              ],
+              [
+                541.674279,
+                938.0
+              ],
+              [
+                549.669471,
+                950.0
+              ],
+              [
+                547.670673,
+                962.0
+              ],
+              [
+                537.676683,
+                972.0
+              ],
+              [
+                523.685096,
+                976.0
+              ],
+              [
+                513.691106,
+                968.0
+              ],
+              [
+                507.694712,
+                956.0
+              ],
+              [
+                511.692308,
+                940.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h06-hole.png",
+              "sha256": "334967840c254f7ca315b708bd1150f01fc1fe0b4dda1490a995996ea66777e5",
+              "geoTransform": [
+                605896.96,
+                0.3198076923076923,
+                0,
+                6605221.28,
+                0,
+                -0.32
+              ],
+              "ringPixels": [
+                [
+                  256,
+                  470
+                ],
+                [
+                  263,
+                  467
+                ],
+                [
+                  271,
+                  469
+                ],
+                [
+                  275,
+                  475
+                ],
+                [
+                  274,
+                  481
+                ],
+                [
+                  269,
+                  486
+                ],
+                [
+                  262,
+                  488
+                ],
+                [
+                  257,
+                  484
+                ],
+                [
+                  254,
+                  478
+                ],
+                [
+                  256,
+                  470
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "n": 7,
+      "green": {
+        "id": "angso-07-green",
+        "sourceKey": "angso-07-hole",
+        "ringPixels": [
+          [
+            738.0,
+            382.0
+          ],
+          [
+            754.0,
+            379.0
+          ],
+          [
+            770.0,
+            385.0
+          ],
+          [
+            782.0,
+            401.0
+          ],
+          [
+            789.0,
+            420.0
+          ],
+          [
+            790.0,
+            439.0
+          ],
+          [
+            783.0,
+            460.0
+          ],
+          [
+            777.0,
+            481.0
+          ],
+          [
+            773.0,
+            505.0
+          ],
+          [
+            767.0,
+            531.0
+          ],
+          [
+            761.0,
+            559.0
+          ],
+          [
+            753.0,
+            583.0
+          ],
+          [
+            737.0,
+            604.0
+          ],
+          [
+            718.0,
+            619.0
+          ],
+          [
+            695.0,
+            626.0
+          ],
+          [
+            674.0,
+            621.0
+          ],
+          [
+            658.0,
+            611.0
+          ],
+          [
+            648.0,
+            595.0
+          ],
+          [
+            647.0,
+            578.0
+          ],
+          [
+            655.0,
+            557.0
+          ],
+          [
+            667.0,
+            537.0
+          ],
+          [
+            678.0,
+            515.0
+          ],
+          [
+            686.0,
+            493.0
+          ],
+          [
+            692.0,
+            473.0
+          ],
+          [
+            703.0,
+            452.0
+          ],
+          [
+            715.0,
+            434.0
+          ],
+          [
+            724.0,
+            416.0
+          ],
+          [
+            727.0,
+            396.0
+          ],
+          [
+            738.0,
+            382.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h07-green.png",
+          "sha256": "e0cec14d7e9505385839a02e72618bf2e4da030a89b19df87e15e732253a01e0",
+          "geoTransform": [
+            605888.96,
+            0.16,
+            0,
+            6605750.72,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              336,
+              280
+            ],
+            [
+              352,
+              277
+            ],
+            [
+              368,
+              283
+            ],
+            [
+              380,
+              299
+            ],
+            [
+              387,
+              318
+            ],
+            [
+              388,
+              337
+            ],
+            [
+              381,
+              358
+            ],
+            [
+              375,
+              379
+            ],
+            [
+              371,
+              403
+            ],
+            [
+              365,
+              429
+            ],
+            [
+              359,
+              457
+            ],
+            [
+              351,
+              481
+            ],
+            [
+              335,
+              502
+            ],
+            [
+              316,
+              517
+            ],
+            [
+              293,
+              524
+            ],
+            [
+              272,
+              519
+            ],
+            [
+              256,
+              509
+            ],
+            [
+              246,
+              493
+            ],
+            [
+              245,
+              476
+            ],
+            [
+              253,
+              455
+            ],
+            [
+              265,
+              435
+            ],
+            [
+              276,
+              413
+            ],
+            [
+              284,
+              391
+            ],
+            [
+              290,
+              371
+            ],
+            [
+              301,
+              350
+            ],
+            [
+              313,
+              332
+            ],
+            [
+              322,
+              314
+            ],
+            [
+              325,
+              294
+            ],
+            [
+              336,
+              280
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 1.5
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-07-hole",
+        "accepted": [
+          {
+            "id": "angso-07-bunker-1",
+            "sourceKey": "angso-07-hole",
+            "ringPixels": [
+              [
+                760.0,
+                713.818043
+              ],
+              [
+                768.0,
+                693.82314
+              ],
+              [
+                794.0,
+                681.826198
+              ],
+              [
+                802.0,
+                663.830785
+              ],
+              [
+                806.0,
+                645.835372
+              ],
+              [
+                820.0,
+                639.836901
+              ],
+              [
+                832.0,
+                647.834862
+              ],
+              [
+                834.0,
+                669.829256
+              ],
+              [
+                836.0,
+                685.825178
+              ],
+              [
+                826.0,
+                697.82212
+              ],
+              [
+                804.0,
+                709.819062
+              ],
+              [
+                786.0,
+                723.815494
+              ],
+              [
+                772.0,
+                731.813456
+              ],
+              [
+                758.0,
+                733.812946
+              ],
+              [
+                760.0,
+                713.818043
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h07-hole.png",
+              "sha256": "49e442163c2258d4711f50fcb65b262db5afb90917e8b1ab8dafbf2a6aaac85e",
+              "geoTransform": [
+                605824.64,
+                0.32,
+                0,
+                6605767.04,
+                0,
+                -0.31991845056065243
+              ],
+              "ringPixels": [
+                [
+                  380,
+                  357
+                ],
+                [
+                  384,
+                  347
+                ],
+                [
+                  397,
+                  341
+                ],
+                [
+                  401,
+                  332
+                ],
+                [
+                  403,
+                  323
+                ],
+                [
+                  410,
+                  320
+                ],
+                [
+                  416,
+                  324
+                ],
+                [
+                  417,
+                  335
+                ],
+                [
+                  418,
+                  343
+                ],
+                [
+                  413,
+                  349
+                ],
+                [
+                  402,
+                  355
+                ],
+                [
+                  393,
+                  362
+                ],
+                [
+                  386,
+                  366
+                ],
+                [
+                  379,
+                  367
+                ],
+                [
+                  380,
+                  357
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          },
+          {
+            "id": "angso-07-bunker-2",
+            "sourceKey": "angso-07-hole",
+            "ringPixels": [
+              [
+                368.0,
+                2517.358308
+              ],
+              [
+                378.0,
+                2501.362385
+              ],
+              [
+                390.0,
+                2497.363405
+              ],
+              [
+                402.0,
+                2507.360856
+              ],
+              [
+                410.0,
+                2525.356269
+              ],
+              [
+                416.0,
+                2543.351682
+              ],
+              [
+                414.0,
+                2555.348624
+              ],
+              [
+                402.0,
+                2561.347095
+              ],
+              [
+                388.0,
+                2553.349134
+              ],
+              [
+                378.0,
+                2539.352701
+              ],
+              [
+                368.0,
+                2517.358308
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h07-hole.png",
+              "sha256": "49e442163c2258d4711f50fcb65b262db5afb90917e8b1ab8dafbf2a6aaac85e",
+              "geoTransform": [
+                605824.64,
+                0.32,
+                0,
+                6605767.04,
+                0,
+                -0.31991845056065243
+              ],
+              "ringPixels": [
+                [
+                  184,
+                  1259
+                ],
+                [
+                  189,
+                  1251
+                ],
+                [
+                  195,
+                  1249
+                ],
+                [
+                  201,
+                  1254
+                ],
+                [
+                  205,
+                  1263
+                ],
+                [
+                  208,
+                  1272
+                ],
+                [
+                  207,
+                  1278
+                ],
+                [
+                  201,
+                  1281
+                ],
+                [
+                  194,
+                  1277
+                ],
+                [
+                  189,
+                  1270
+                ],
+                [
+                  184,
+                  1259
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "n": 8,
+      "green": {
+        "id": "angso-08-green",
+        "sourceKey": "angso-08-hole",
+        "ringPixels": [
+          [
+            399.0,
+            2436.0
+          ],
+          [
+            416.0,
+            2428.0
+          ],
+          [
+            434.0,
+            2430.0
+          ],
+          [
+            454.0,
+            2441.0
+          ],
+          [
+            472.0,
+            2458.0
+          ],
+          [
+            484.0,
+            2481.0
+          ],
+          [
+            490.0,
+            2502.0
+          ],
+          [
+            487.0,
+            2525.0
+          ],
+          [
+            476.0,
+            2548.0
+          ],
+          [
+            467.0,
+            2571.0
+          ],
+          [
+            461.0,
+            2596.0
+          ],
+          [
+            451.0,
+            2616.0
+          ],
+          [
+            435.0,
+            2628.0
+          ],
+          [
+            416.0,
+            2631.0
+          ],
+          [
+            396.0,
+            2624.0
+          ],
+          [
+            380.0,
+            2613.0
+          ],
+          [
+            366.0,
+            2596.0
+          ],
+          [
+            358.0,
+            2576.0
+          ],
+          [
+            354.0,
+            2553.0
+          ],
+          [
+            356.0,
+            2531.0
+          ],
+          [
+            367.0,
+            2507.0
+          ],
+          [
+            379.0,
+            2483.0
+          ],
+          [
+            386.0,
+            2462.0
+          ],
+          [
+            399.0,
+            2436.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h08-green.png",
+          "sha256": "56ab10f788faf6d3349a28daa73d943d46b0535c68853d3936d9f93637c26cba",
+          "geoTransform": [
+            605700.64,
+            0.16,
+            0,
+            6605538.56,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              302,
+              284
+            ],
+            [
+              319,
+              276
+            ],
+            [
+              337,
+              278
+            ],
+            [
+              357,
+              289
+            ],
+            [
+              375,
+              306
+            ],
+            [
+              387,
+              329
+            ],
+            [
+              393,
+              350
+            ],
+            [
+              390,
+              373
+            ],
+            [
+              379,
+              396
+            ],
+            [
+              370,
+              419
+            ],
+            [
+              364,
+              444
+            ],
+            [
+              354,
+              464
+            ],
+            [
+              338,
+              476
+            ],
+            [
+              319,
+              479
+            ],
+            [
+              299,
+              472
+            ],
+            [
+              283,
+              461
+            ],
+            [
+              269,
+              444
+            ],
+            [
+              261,
+              424
+            ],
+            [
+              257,
+              401
+            ],
+            [
+              259,
+              379
+            ],
+            [
+              270,
+              355
+            ],
+            [
+              282,
+              331
+            ],
+            [
+              289,
+              310
+            ],
+            [
+              302,
+              284
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 0.6
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-08-hole",
+        "accepted": [
+          {
+            "id": "angso-08-bunker-1",
+            "sourceKey": "angso-08-hole",
+            "ringPixels": [
+              [
+                467.0,
+                2358.0
+              ],
+              [
+                471.0,
+                2347.0
+              ],
+              [
+                479.0,
+                2342.0
+              ],
+              [
+                489.0,
+                2344.0
+              ],
+              [
+                500.0,
+                2351.0
+              ],
+              [
+                514.0,
+                2356.0
+              ],
+              [
+                528.0,
+                2354.0
+              ],
+              [
+                538.0,
+                2351.0
+              ],
+              [
+                548.0,
+                2356.0
+              ],
+              [
+                554.0,
+                2364.0
+              ],
+              [
+                555.0,
+                2374.0
+              ],
+              [
+                551.0,
+                2383.0
+              ],
+              [
+                541.0,
+                2388.0
+              ],
+              [
+                524.0,
+                2392.0
+              ],
+              [
+                510.0,
+                2400.0
+              ],
+              [
+                499.0,
+                2405.0
+              ],
+              [
+                490.0,
+                2404.0
+              ],
+              [
+                483.0,
+                2397.0
+              ],
+              [
+                479.0,
+                2382.0
+              ],
+              [
+                472.0,
+                2372.0
+              ],
+              [
+                466.0,
+                2366.0
+              ],
+              [
+                467.0,
+                2358.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h08-green.png",
+              "sha256": "56ab10f788faf6d3349a28daa73d943d46b0535c68853d3936d9f93637c26cba",
+              "geoTransform": [
+                605700.64,
+                0.16,
+                0,
+                6605538.56,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  370,
+                  206
+                ],
+                [
+                  374,
+                  195
+                ],
+                [
+                  382,
+                  190
+                ],
+                [
+                  392,
+                  192
+                ],
+                [
+                  403,
+                  199
+                ],
+                [
+                  417,
+                  204
+                ],
+                [
+                  431,
+                  202
+                ],
+                [
+                  441,
+                  199
+                ],
+                [
+                  451,
+                  204
+                ],
+                [
+                  457,
+                  212
+                ],
+                [
+                  458,
+                  222
+                ],
+                [
+                  454,
+                  231
+                ],
+                [
+                  444,
+                  236
+                ],
+                [
+                  427,
+                  240
+                ],
+                [
+                  413,
+                  248
+                ],
+                [
+                  402,
+                  253
+                ],
+                [
+                  393,
+                  252
+                ],
+                [
+                  386,
+                  245
+                ],
+                [
+                  382,
+                  230
+                ],
+                [
+                  375,
+                  220
+                ],
+                [
+                  369,
+                  214
+                ],
+                [
+                  370,
+                  206
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "n": 9,
+      "green": {
+        "id": "angso-09-green",
+        "sourceKey": "angso-09-hole",
+        "ringPixels": [
+          [
+            366.0,
+            1260.0
+          ],
+          [
+            385.0,
+            1241.0
+          ],
+          [
+            407.0,
+            1230.0
+          ],
+          [
+            430.0,
+            1223.0
+          ],
+          [
+            455.0,
+            1221.0
+          ],
+          [
+            477.0,
+            1225.0
+          ],
+          [
+            496.0,
+            1234.0
+          ],
+          [
+            508.0,
+            1248.0
+          ],
+          [
+            512.0,
+            1263.0
+          ],
+          [
+            506.0,
+            1276.0
+          ],
+          [
+            494.0,
+            1284.0
+          ],
+          [
+            475.0,
+            1290.0
+          ],
+          [
+            457.0,
+            1302.0
+          ],
+          [
+            444.0,
+            1321.0
+          ],
+          [
+            434.0,
+            1343.0
+          ],
+          [
+            421.0,
+            1359.0
+          ],
+          [
+            405.0,
+            1367.0
+          ],
+          [
+            387.0,
+            1365.0
+          ],
+          [
+            370.0,
+            1357.0
+          ],
+          [
+            357.0,
+            1341.0
+          ],
+          [
+            348.0,
+            1323.0
+          ],
+          [
+            346.0,
+            1304.0
+          ],
+          [
+            352.0,
+            1282.0
+          ],
+          [
+            366.0,
+            1260.0
+          ]
+        ],
+        "reviewedPanel": {
+          "path": "angsobuild/cache/lm-ortho/review-panels/h09-green.png",
+          "sha256": "8b80666f5261db2d1e1532b7b20d7b086265e39065653ff435d775d8ef50dd4b",
+          "geoTransform": [
+            605599.2000000001,
+            0.16,
+            0,
+            6605292.64,
+            0,
+            -0.16
+          ],
+          "ringPixels": [
+            [
+              287,
+              323
+            ],
+            [
+              306,
+              304
+            ],
+            [
+              328,
+              293
+            ],
+            [
+              351,
+              286
+            ],
+            [
+              376,
+              284
+            ],
+            [
+              398,
+              288
+            ],
+            [
+              417,
+              297
+            ],
+            [
+              429,
+              311
+            ],
+            [
+              433,
+              326
+            ],
+            [
+              427,
+              339
+            ],
+            [
+              415,
+              347
+            ],
+            [
+              396,
+              353
+            ],
+            [
+              378,
+              365
+            ],
+            [
+              365,
+              384
+            ],
+            [
+              355,
+              406
+            ],
+            [
+              342,
+              422
+            ],
+            [
+              326,
+              430
+            ],
+            [
+              308,
+              428
+            ],
+            [
+              291,
+              420
+            ],
+            [
+              278,
+              404
+            ],
+            [
+              269,
+              386
+            ],
+            [
+              267,
+              367
+            ],
+            [
+              273,
+              345
+            ],
+            [
+              287,
+              323
+            ]
+          ]
+        },
+        "interpretationUncertaintyMetres": 0.6
+      },
+      "bunkers": {
+        "replaceAll": true,
+        "sourceKey": "angso-09-hole",
+        "accepted": [
+          {
+            "id": "angso-09-bunker-1",
+            "sourceKey": "angso-09-hole",
+            "ringPixels": [
+              [
+                334.0,
+                1226.0
+              ],
+              [
+                340.0,
+                1215.0
+              ],
+              [
+                352.0,
+                1207.0
+              ],
+              [
+                362.0,
+                1209.0
+              ],
+              [
+                370.0,
+                1215.0
+              ],
+              [
+                372.0,
+                1223.0
+              ],
+              [
+                368.0,
+                1235.0
+              ],
+              [
+                359.0,
+                1245.0
+              ],
+              [
+                347.0,
+                1250.0
+              ],
+              [
+                339.0,
+                1248.0
+              ],
+              [
+                334.0,
+                1239.0
+              ],
+              [
+                334.0,
+                1226.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h09-green.png",
+              "sha256": "8b80666f5261db2d1e1532b7b20d7b086265e39065653ff435d775d8ef50dd4b",
+              "geoTransform": [
+                605599.2000000001,
+                0.16,
+                0,
+                6605292.64,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  255,
+                  289
+                ],
+                [
+                  261,
+                  278
+                ],
+                [
+                  273,
+                  270
+                ],
+                [
+                  283,
+                  272
+                ],
+                [
+                  291,
+                  278
+                ],
+                [
+                  293,
+                  286
+                ],
+                [
+                  289,
+                  298
+                ],
+                [
+                  280,
+                  308
+                ],
+                [
+                  268,
+                  313
+                ],
+                [
+                  260,
+                  311
+                ],
+                [
+                  255,
+                  302
+                ],
+                [
+                  255,
+                  289
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          },
+          {
+            "id": "angso-09-bunker-2",
+            "sourceKey": "angso-09-hole",
+            "ringPixels": [
+              [
+                460.0,
+                1314.0
+              ],
+              [
+                469.0,
+                1305.0
+              ],
+              [
+                482.0,
+                1297.0
+              ],
+              [
+                493.0,
+                1294.0
+              ],
+              [
+                503.0,
+                1299.0
+              ],
+              [
+                511.0,
+                1310.0
+              ],
+              [
+                512.0,
+                1320.0
+              ],
+              [
+                503.0,
+                1328.0
+              ],
+              [
+                490.0,
+                1336.0
+              ],
+              [
+                476.0,
+                1343.0
+              ],
+              [
+                465.0,
+                1346.0
+              ],
+              [
+                459.0,
+                1341.0
+              ],
+              [
+                457.0,
+                1331.0
+              ],
+              [
+                460.0,
+                1314.0
+              ]
+            ],
+            "reviewedPanel": {
+              "path": "angsobuild/cache/lm-ortho/review-panels/h09-green.png",
+              "sha256": "8b80666f5261db2d1e1532b7b20d7b086265e39065653ff435d775d8ef50dd4b",
+              "geoTransform": [
+                605599.2000000001,
+                0.16,
+                0,
+                6605292.64,
+                0,
+                -0.16
+              ],
+              "ringPixels": [
+                [
+                  381,
+                  377
+                ],
+                [
+                  390,
+                  368
+                ],
+                [
+                  403,
+                  360
+                ],
+                [
+                  414,
+                  357
+                ],
+                [
+                  424,
+                  362
+                ],
+                [
+                  432,
+                  373
+                ],
+                [
+                  433,
+                  383
+                ],
+                [
+                  424,
+                  391
+                ],
+                [
+                  411,
+                  399
+                ],
+                [
+                  397,
+                  406
+                ],
+                [
+                  386,
+                  409
+                ],
+                [
+                  380,
+                  404
+                ],
+                [
+                  378,
+                  394
+                ],
+                [
+                  381,
+                  377
+                ]
+              ]
+            },
+            "interpretationUncertaintyMetres": 0.4
+          }
+        ]
+      }
+    }
+  ],
+  "water": [],
+  "notes": [
+    "Manual visible putting-surface and sand boundaries on the 2025-04-24 orthophoto. Source pixel spacing is not positional accuracy.",
+    "Hole 5 and 7 green edges cross deciduous tree shadows: about 1.5 m interpretation uncertainty. Other putting edges about 0.6 m; sand about 0.4 m.",
+    "All 9 front-nine full-hole panels inspected for sand, including fairway bunkers. Physical tee and fairway review in separate ledgers."
+  ]
+}

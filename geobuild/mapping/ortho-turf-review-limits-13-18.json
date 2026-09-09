@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "groundId": "veckefjarden",
+  "reviewedOn": "2026-09-09",
+  "sourceCaptureDate": "2024-06-27",
+  "sourceCollection": "orto-u2-2024",
+  "reviewPanels": "geobuild/cache/lm-ortho-review/panels.json",
+  "acceptedBoundaryLedger": "geobuild/mapping/ortho-reviewed-13-18-turf.json",
+  "dailyTeeMarkerPositionsChanged": false,
+  "notes": [
+    "Existing tee-platform indices and hole associations are retained. A photographed platform boundary does not establish daily tee markers or scorecard-colour identity.",
+    "Retained geometry is not a claim that a boundary has been independently verified. The reasons below describe source limitations."
+  ],
+  "holes": [
+    {
+      "hole": 13,
+      "acceptedTeePadIndices": [
+        0,
+        1,
+        2
+      ],
+      "retainedTeePadIndices": [
+        3
+      ],
+      "teeLimit": "The terrain-authored forward pad (index3) lies in the continuous fairway; no independent tee-platform edge can be distinguished. Its existing reference remains provisional.",
+      "fairway": "one continuous photographed mow-line boundary corrected"
+    },
+    {
+      "hole": 14,
+      "acceptedTeePadIndices": [],
+      "retainedTeePadIndices": [
+        0,
+        1,
+        2
+      ],
+      "teeLimit": "Northern and long western pads are heavily obscured by trees and shadow. The synthetic forward pad has no distinct rectangular turf boundary in the dry triangular area; no replacement or colour association inferred.",
+      "fairway": "retained empty; no separate fairway corridor is evident on the island par3 carry"
+    },
+    {
+      "hole": 15,
+      "acceptedTeePadIndices": [
+        0
+      ],
+      "retainedTeePadIndices": [
+        1
+      ],
+      "teeLimit": "The existing long strip corresponds to photographed mown turf. The synthetic northern start is not resolved. Additional shorter physical platforms to its east are visible but their association with the six numbered references is not established.",
+      "fairway": "retained after review: dry/worn turf causes ambiguous middle-section mow-line separation; an attempted candidate was rejected during overlay review"
+    },
+    {
+      "hole": 16,
+      "acceptedTeePadIndices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "retainedTeePadIndices": [
+        4
+      ],
+      "teeLimit": "Four existing photographed platforms were corrected. The synthetic back pad overlaps the road junction and has no corresponding visible tee platform there; its identity/reference remains unresolved.",
+      "fairway": "retained: parts of the photographed apron/rough transition are diffuse in the dry summer turf"
+    },
+    {
+      "hole": 17,
+      "acceptedTeePadIndices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "retainedTeePadIndices": [
+        4
+      ],
+      "teeLimit": "Four physical tee platforms were corrected. The synthetic forward rectangle is in the continuous fairway and has no separate visible platform boundary.",
+      "fairway": "both components retained: the complete dry mow-line boundary and approach transition cannot be resolved consistently at every edge"
+    },
+    {
+      "hole": 18,
+      "acceptedTeePadIndices": [
+        0,
+        1
+      ],
+      "retainedTeePadIndices": [
+        2,
+        3,
+        4
+      ],
+      "teeLimit": "The two clear rear platforms were corrected. Intermediate pads have weak turf separation and tree interference; the synthetic forward pad lies in fairway turf without an independently distinguishable platform. No automatic nearest-platform association inferred.",
+      "fairway": "both components retained: dry/worn transitions blend into surrounds; complete replacement would overstate boundary certainty"
+    }
+  ]
+}

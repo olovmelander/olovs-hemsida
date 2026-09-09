@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "kind": "orthophoto-catalogue-verification",
+  "observedAt": "2026-09-09T16:48:12.026Z",
+  "endpoint": "https://api.lantmateriet.se/stac-bild/v1/",
+  "baseline": {
+    "path": "geo_data/course-v2/puttom/acquisition/d2-discovery.json",
+    "sha256": "9137cdcac0fbad87e167a94cb88b4112333f25cb1a6c7d6a63536e8544f77114"
+  },
+  "aoi": {
+    "bboxWgs84": [
+      18.9,
+      63.28,
+      18.98,
+      63.32
+    ],
+    "bboxEpsg3006": [
+      695289.437,
+      7022734.805,
+      699568.189,
+      7027431.813
+    ],
+    "widthMetres": 4278.752,
+    "heightMetres": 4697.008,
+    "squareMetres": 20097332.374
+  },
+  "orthophoto": {
+    "collection": "orto-u2-2024",
+    "coverage": {
+      "requiredSquareMetres": 20097332.374,
+      "coveredSquareMetres": 20097332.374,
+      "ratio": 1,
+      "complete": true
+    },
+    "horizontalCrs": "EPSG:3006",
+    "resolutionMetres": 0.16,
+    "spectralType": "rgbi",
+    "captureRange": {
+      "first": "2024-06-27T15:07:35Z",
+      "last": "2024-06-27T15:19:26Z"
+    },
+    "items": [
+      {
+        "id": "o70225_6950_25_mr24",
+        "collection": "orto-u2-2024",
+        "bboxWgs84": [
+          18.88856944443991,
+          63.27683489393747,
+          18.941342135982143,
+          63.30058825017895
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          695000,
+          7022500,
+          697500,
+          7025000
+        ],
+        "capturedAt": "2024-06-27T15:07:43Z",
+        "captureStart": "2024-06-27T15:07:35Z",
+        "captureEnd": "2024-06-27T15:19:26Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6950_25_mr24.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o70225_6950_25_mr24",
+            "roles": [
+              "data"
+            ],
+            "bytes": 749254585,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              695000,
+              7022500,
+              697500,
+              7025000
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70225_6950_25_mr24_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o70225_6950_25_mr24_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "o70225_6975_25_mr24",
+        "collection": "orto-u2-2024",
+        "bboxWgs84": [
+          18.938282698375755,
+          63.27544978912935,
+          18.99108841794243,
+          63.29921914989591
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          697500,
+          7022500,
+          700000,
+          7025000
+        ],
+        "capturedAt": "2024-06-27T15:19:09Z",
+        "captureStart": "2024-06-27T15:07:51Z",
+        "captureEnd": "2024-06-27T15:19:26Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6975_25_mr24.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o70225_6975_25_mr24",
+            "roles": [
+              "data"
+            ],
+            "bytes": 749400749,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              697500,
+              7022500,
+              700000,
+              7025000
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70225_6975_25_mr24_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o70225_6975_25_mr24_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "o70250_6950_25_mr24",
+        "collection": "orto-u2-2024",
+        "bboxWgs84": [
+          18.891590501805787,
+          63.29921914989591,
+          18.94440692581205,
+          63.32297368064156
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          695000,
+          7025000,
+          697500,
+          7027500
+        ],
+        "capturedAt": "2024-06-27T15:08:07Z",
+        "captureStart": "2024-06-27T15:07:59Z",
+        "captureEnd": "2024-06-27T15:19:01Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70250_6950_25_mr24.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o70250_6950_25_mr24",
+            "roles": [
+              "data"
+            ],
+            "bytes": 725998954,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              695000,
+              7025000,
+              697500,
+              7027500
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70250_6950_25_mr24_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o70250_6950_25_mr24_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "o70250_6975_25_mr24",
+        "collection": "orto-u2-2024",
+        "bboxWgs84": [
+          18.941342135982143,
+          63.297832702689334,
+          18.99419164120889,
+          63.32160325257587
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          697500,
+          7025000,
+          700000,
+          7027500
+        ],
+        "capturedAt": "2024-06-27T15:18:53Z",
+        "captureStart": "2024-06-27T15:07:59Z",
+        "captureEnd": "2024-06-27T15:19:01Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70250_6975_25_mr24.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o70250_6975_25_mr24",
+            "roles": [
+              "data"
+            ],
+            "bytes": 756319665,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              697500,
+              7025000,
+              700000,
+              7027500
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70250_6975_25_mr24_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o70250_6975_25_mr24_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      }
+    ],
+    "alternativeCampaigns": [
+      {
+        "collection": "orto-u2-2024",
+        "rank": "2024-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2022",
+        "rank": "2022-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2020",
+        "rank": "2020-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2018",
+        "rank": "2018-12-31",
+        "itemCount": 8,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2016",
+        "rank": "2016-12-31",
+        "itemCount": 8,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2014",
+        "rank": "2014-12-31",
+        "itemCount": 8,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2012",
+        "rank": "2012-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-k-2010",
+        "rank": "2010-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-i-2007",
+        "rank": "2007-12-31",
+        "itemCount": 2,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      }
+    ]
+  },
+  "rawImageryRedistributed": false,
+  "geometryChanged": false
+}

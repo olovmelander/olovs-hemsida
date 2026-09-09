@@ -102,7 +102,7 @@
       ],
       "lifecycle": "planned",
       "use": "candidate",
-      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/collections/orto-o2-2025",
       "localPath": null,
       "bboxWgs84": [
         17.452,
@@ -110,15 +110,15 @@
         17.54,
         59.864
       ],
-      "acquiredAt": null,
+      "acquiredAt": "2026-09-09",
       "capturedAt": null,
       "checksum": null,
-      "checksumReason": "The 2025 O2 16 cm RGBI campaign is recorded in D2; its data assets advertise sizes but no source checksums and authenticated windows remain pending.",
+      "checksumReason": "Bounded RGBI windows are acquired and individually checksummed in reference/lm-ortho-acquisition-2026-09-09.json. The whole-source lifecycle remains planned because complete remote TIFFs were range-read, not downloaded and hashed in full.",
       "replacementSourceId": null,
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Measurement input for both courses' surfaces, vegetation and objects; never a runtime texture."
+      "notes": "Authenticated native 0.16 m RGBI windows cover all 27 green complexes and mapped bunkers plus all 27 tee sites; a 0.8 m overview covers the shared playing ground. Published mosaic seam metadata dates every native window to 2025-06-14; the broader overview also includes 2025-04-25 imagery. The registered target bbox is wider than the acquired playing-ground windows; exact acquired bounds and capture times are in reference/. Reviewed surface vectors and bounded tee navigation-reference corrections are applied to both courses; raw imagery stays in ignored local cache. Absolute horizontal accuracy and independent control approval remain unestablished."
     },
     {
       "id": "laser-lm-skog",
@@ -345,13 +345,14 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "upsalabuild/course-model.json",
-      "sha256": "becbfca4ab43408ffc7003eb31051e5ad7700701b80add47f9a55a36225abb5d",
+      "sha256": "bccb6f3b428ce75651f17eac4f4a182e76d01abe32669cd980ebe329f2d7cb58",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
       "notes": "Current championship-course vectors, routing and scenery inputs. Horizontal geometry is unchanged since the Terrarium build; every hole elevation, water level and the water floor are re-measured from the 1 m DTM."
@@ -445,12 +446,13 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
-      "sha256": "f6efa0eca000034120b70c1c2d61ee65ca14d3c99ea6eb6b7975c60b759cdac4",
+      "sha256": "14f289d819399f905970f939822c241c488e20efb337c44ff2d777161a6b5c18",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
       "notes": "Deterministic horizontal conversion of current championship-course vectors to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
@@ -473,7 +475,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/upsala/migration/residual-report.json",
-      "sha256": "33a5cb6d2b356cf14fabfa1b616b67952fd8be7fa9c7d510abb1fba975c18fbb",
+      "sha256": "fff5b6519b6eaab057b38b3c9dd983b8b422f19a626e832f254595e815d56a4a",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -537,13 +539,14 @@
       "id": "shipped-middle-course-model",
       "kind": "composite",
       "path": "upsalamellanbuild/course-model.json",
-      "sha256": "23cf42493f6d7dc7be60569e06967f2c94605c2ae6a3e9d6bd670c7e85bee39b",
+      "sha256": "cdbbd39d05116a06dcb1abbb6d9e82025edd32f5c6205df5b843e5186e0f6c9a",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
       "notes": "The current Mellanbanan nine shipped by the app, built by tools/build-nine.mjs. Canonical migration explicitly selects this registered artifact and the championship model; the historical legacy-middle-model remains recorded but is superseded as a migration input. The current output is migration-mellanbanan-course-model-epsg3006."
@@ -552,13 +555,14 @@
       "id": "migration-mellanbanan-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/mellanbanan-course-model.epsg3006.json",
-      "sha256": "106e5240af15a9dc5cc1184fe330881eee24ef77ec33acbff03ee9d87429f046",
+      "sha256": "d215924f2a85bae972b72de800d51542100222a0e8e34ea13e65716d44740148",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
         "osm-legacy",
         "esri-imagery-legacy",
-        "club-guide-legacy"
+        "club-guide-legacy",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
       "notes": "The SHIPPED nine in absolute EPSG:3006, and the routing the v2 course manifest claims tiles for. Projected with the repository's own Krüger series because PROJ was unavailable; the driver first reproduced the committed cs2cs migration of this same ground to 1.3 mm over all 12,925 of its coordinates and refuses to write otherwise. The older migration-middle-model-epsg3006 is the banguide TRACE, which disagrees with this routing by up to 164 m on holes 7 and 8."
@@ -573,6 +577,210 @@
       ],
       "use": "discovery-evidence",
       "notes": "Pinned Laserdata Skog inventory: one March 2021 leaf-off campaign (21c037) split over items 21c037-663_63 and 21c037-663_64 with the known E 640000 provenance seam the terrain window already crosses; 2.05-2.18 returns/m2. record-laser-campaigns --check re-derives the live catalogue and fails on drift. Leaf-off under-detects deciduous crowns; audit before believing a thinned forest (the Johannesberg lesson)."
+    },
+    {
+      "id": "lm-ortho-plan-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-ortho-plan-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Verified authenticated Upsala orthophoto plan evidence; source pixels remain in ignored local cache.",
+      "sha256": "1934dd3da1ef73ae24f4652532a4a4c28fa109c36fb72eede431956714a43b95",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-ortho-acquisition-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-ortho-acquisition-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Verified authenticated Upsala orthophoto acquisition evidence; source pixels remain in ignored local cache.",
+      "sha256": "e597d69b9225f18c0314be692b88edff640df05cdeeee3621ee83c90fbabc1e4",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-ortho-capture-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-ortho-capture-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Verified authenticated Upsala orthophoto capture evidence; source pixels remain in ignored local cache.",
+      "sha256": "78b4731a673a429d458586a9b1a568e7537df90a7c84ecfd760b929268c4b09f",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-ortho-catalog-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-ortho-catalog-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Verified authenticated Upsala orthophoto catalog evidence; source pixels remain in ignored local cache.",
+      "sha256": "fccfc5f2c6ff20327e5f2b8370dd1ca7ab2e0c416a79782ead89dbd5538d2365",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-ortho-validation-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-ortho-validation-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Verified authenticated Upsala orthophoto validation evidence; source pixels remain in ignored local cache.",
+      "sha256": "9bf3b55b3f6ffaf90d2af70fbe02b3a727b736715e3bce061fc040cb830f482a",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-surface-review-front9-2026-09-09",
+      "kind": "surface",
+      "path": "upsalabuild/mapping/lm-review-front9-2026-09-09.json",
+      "use": "migration-only",
+      "notes": "Manual source-image review with original boundaries, accepted local and EPSG:3006 vectors, pixel traces, image hashes, capture dates and interpretation uncertainty. No survey approval or hidden-boundary inference.",
+      "sha256": "5738b251be766efd96e1b6a3075fa1b9f6473836767a47c35a475cbc898e6225",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-surface-review-back9-2026-09-09",
+      "kind": "surface",
+      "path": "upsalabuild/mapping/lm-review-back9-2026-09-09.json",
+      "use": "migration-only",
+      "notes": "Manual source-image review with original boundaries, accepted local and EPSG:3006 vectors, pixel traces, image hashes, capture dates and interpretation uncertainty. No survey approval or hidden-boundary inference.",
+      "sha256": "55a753efc1d2ed38adce4f46174467db8c119e60c7591d98dcd335dbdf8aa033",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-surface-review-mellan-2026-09-09",
+      "kind": "surface",
+      "path": "upsalabuild/mapping/lm-review-mellan-2026-09-09.json",
+      "use": "migration-only",
+      "notes": "Manual source-image review with original boundaries, accepted local and EPSG:3006 vectors, pixel traces, image hashes, capture dates and interpretation uncertainty. No survey approval or hidden-boundary inference.",
+      "sha256": "99cddd6bba23d7ac39f8afc3bd43f529591bcbc6eb1456c7d0da0c98519f4e00",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-surface-review-validation-2026-09-09",
+      "kind": "acquisition",
+      "path": "upsalabuild/mapping/lm-review-validation-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Independent source-hash, pixel-transform, polygon-topology and shared-adoption checks for the three accepted boundary ledgers. Numerical agreement is not independent survey accuracy.",
+      "sha256": "8d016ac72d70294f89abfc330731136426e737d48c4bec296ec894a210188af0",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-plan-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-tee-plan-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated native 0.16 m windows covering all 27 tee sites; source grid and 2025-06-14 capture evidence retained independently of the green/bunker intake.",
+      "sha256": "f34419fa41e51a01fa56a87e79f658d87329bab68165972f1699b26b055ff69a",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-acquisition-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-tee-acquisition-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated native 0.16 m windows covering all 27 tee sites; source grid and 2025-06-14 capture evidence retained independently of the green/bunker intake.",
+      "sha256": "11e14c6d3e8862302757ab54c0714bc14e5beeb332d06240afb0c2e322255eb5",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-capture-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-tee-capture-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated native 0.16 m windows covering all 27 tee sites; source grid and 2025-06-14 capture evidence retained independently of the green/bunker intake.",
+      "sha256": "43dd1c7ec04b83b3b3aba3908f30986e27fcf2b38a01a90cc7446e16627c1e01",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-validation-2026-09-09",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/reference/lm-tee-validation-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Authenticated native 0.16 m windows covering all 27 tee sites; source grid and 2025-06-14 capture evidence retained independently of the green/bunker intake.",
+      "sha256": "4a16b81dd474c8943345752814d9d06ced036a67600ac163bc912e049eae07aa",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-review-front9-2026-09-09",
+      "kind": "surface",
+      "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+      "use": "migration-only",
+      "notes": "Visual tee-platform review and explicit bounded navigation-reference associations. Preserves source pads, card distances and unsupported reference positions; does not establish daily marker positions or tee colours.",
+      "sha256": "87fa606606f03d048f4ff1febae0492bbe64d5613d677ef60f43b76731ad3449",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-review-back9-2026-09-09",
+      "kind": "surface",
+      "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+      "use": "migration-only",
+      "notes": "Visual tee-platform review and explicit bounded navigation-reference associations. Preserves source pads, card distances and unsupported reference positions; does not establish daily marker positions or tee colours.",
+      "sha256": "f35c0745376cf253c803edd92fb9018199c6be1d2cbb93695ac5572e5c7d3225",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-review-mellan-2026-09-09",
+      "kind": "surface",
+      "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+      "use": "migration-only",
+      "notes": "Visual tee-platform review and explicit bounded navigation-reference associations. Preserves source pads, card distances and unsupported reference positions; does not establish daily marker positions or tee colours.",
+      "sha256": "7ab44573a672730827c58192447841f05c9a981aa136b889f41230f311d8715a",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-alignment-validation-2026-09-09",
+      "kind": "acquisition",
+      "path": "upsalabuild/mapping/lm-tee-alignment-validation-2026-09-09.json",
+      "use": "discovery-evidence",
+      "notes": "Independent source-hash, pad containment, movement-limit and unchanged-geometry validation of the tee reference correction.",
+      "sha256": "1f0e1fa7db4f51833f13b32031b1bd7c114c5d66f1c9d118fd8dbfd81506a8a0",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
     }
   ],
   "blockers": [
@@ -585,8 +793,8 @@
     {
       "id": "authoritative-assets",
       "severity": "release-blocking",
-      "description": "Terrain is acquired and verified: the 1 m Markhöjdmodell window backs both the published v2 tiles and the pack heightfields, and the ring reader reproduces the published level-zero tiles to within half a quantum. Orthophoto, laser point windows and the tree-height raster are still not acquired.",
-      "exitGate": "Acquire the credentialed orthophoto and Laserdata Skog windows for this ground, verify their clipped outputs and record them as approved candidate assets shared by both slugs."
+      "description": "Terrain and bounded authenticated orthophoto windows are acquired and verified. Surface review is partial and independent source/control approval remains outstanding; acquisition does not establish surveyed geometry.",
+      "exitGate": "Complete the remaining source review and independent controls, and record explicit approval before treating any candidate as authoritative."
     },
     {
       "id": "zone-a-survey",

@@ -67,8 +67,9 @@ describe('the reviewed Ängsö frontier rectangle', () => {
     for (const [side, metres] of Object.entries(margin)) {
       expect(metres, `${side} margin`).toBeGreaterThanOrEqual(ZONE_A_MARGIN_METRES);
     }
-    /* The reviewed claim is 577 m east and west, 452 m north and south. */
-    expect(Math.round(Math.min(...Object.values(margin)))).toBe(452);
+    /* September 9 orthophoto review: minimum 453.859 m, rounded to 454 m.
+       The independent 100 m safety margin above remains the release gate. */
+    expect(Math.round(Math.min(...Object.values(margin)))).toBe(454);
   });
 
   it('is a complete rectangle of published level-zero tiles inside the budget', () => {

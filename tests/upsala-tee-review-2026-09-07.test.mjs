@@ -15,7 +15,12 @@ const options = evidence => ({ evidence,
 describe('Upsala archive-assisted tee additions, 2026-09-07', () => {
   it('adds H11 rear while preserving all original decks, routes, markers and other model fields', () => {
     const model = read('upsalabuild/course-model.json');
-    for (const record of stora.holes) model.holes.find(h => h.n === record.hole).tees.pads = structuredClone(record.originalPads);
+    for (const record of stora.holes) {
+      const h = model.holes.find(h => h.n === record.hole);
+      h.tees.pads = structuredClone(record.originalPads);
+      h.tees.marks = structuredClone(record.originalMarks);
+      h.line = structuredClone(record.originalLine);
+    }
     const before = structuredClone(model), applied = applyReviewedTeeSurfaces(model, [stora]);
     expect(model).toEqual(before);
     expect(applied.holes.find(h => h.n === 11).tees.pads).toHaveLength(2);

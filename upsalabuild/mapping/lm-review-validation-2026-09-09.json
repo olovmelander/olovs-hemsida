@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "kind": "independent-orthophoto-review-validation",
+  "observedAt": "2026-09-09T17:00:14.085131+00:00",
+  "state": "passed",
+  "reviewFiles": [
+    {
+      "path": "upsalabuild/mapping/lm-review-front9-2026-09-09.json",
+      "sha256": "b7b38c3103fc63b6f939ca791d7ddbd88cfbb419e11d672ceee4d97dff8f6aad"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-review-back9-2026-09-09.json",
+      "sha256": "26c90450dc0b3e754d572d9e66637a2b94645d4f852766c077159619610c9107"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-review-mellan-2026-09-09.json",
+      "sha256": "1d8f205fff7ee2e8cd11dff34ae930f4d4775113a71e582db453adbb56f7529d"
+    }
+  ],
+  "acquisitionSha256": "bb03ae29dd497b834590f19dd94cf57787c330da5e126f406346b54235e6b8b6",
+  "method": "Independent Python/pyproj/Shapely reconstruction from review pixel rings, separately from the JavaScript runtime applier.",
+  "featureCount": 12,
+  "vertexCount": 407,
+  "checkedSourceRasters": 12,
+  "maximumPixelToGridMetres": 4.967462380758343e-07,
+  "maximumGridToLocalMetres": 0.0006644854884853193,
+  "maximumForwardRoundtripMetres": 0.0006654239014958139,
+  "overlapBeforeSquareMetres": {},
+  "overlapAfterSquareMetres": {},
+  "introducedOrIncreasedOverlap": {},
+  "runtimeApplierAudit": {
+    "state": "passed",
+    "checkedRuntimeRecords": 13,
+    "checks": [
+      "all accepted rings adopted exactly",
+      "merged bunker removed and retired exactly once",
+      "shared Mellan green updated exactly once",
+      "review pixel/grid/source paths absent from runtime payload",
+      "late invalid original rejected before mutations",
+      "self-merge rejected before mutations"
+    ],
+    "applierSha256": "936f1829e3f5c1f7b899c15b00cec1805e9a476be9d9ad3e70692f225f820c77",
+    "mellanApplierSha256": "28b0775bad72d84926f2ed55cdacea5c6b9f80a8fbc45ce77728871f06290913",
+    "reviewFiles": [
+      {
+        "path": "upsalabuild/mapping/lm-review-front9-2026-09-09.json",
+        "sha256": "b7b38c3103fc63b6f939ca791d7ddbd88cfbb419e11d672ceee4d97dff8f6aad"
+      },
+      {
+        "path": "upsalabuild/mapping/lm-review-back9-2026-09-09.json",
+        "sha256": "26c90450dc0b3e754d572d9e66637a2b94645d4f852766c077159619610c9107"
+      },
+      {
+        "path": "upsalabuild/mapping/lm-review-mellan-2026-09-09.json",
+        "sha256": "1d8f205fff7ee2e8cd11dff34ae930f4d4775113a71e582db453adbb56f7529d"
+      }
+    ]
+  },
+  "features": [
+    {
+      "id": "upsala-stora-01-w452928633-lm2025-review-20260909",
+      "course": "stora",
+      "hole": 1,
+      "kind": "bunker",
+      "vertices": 30,
+      "valid": true,
+      "areaSquareMetres": 41.3958,
+      "pixelToGridMaximumMetres": 1.0086270780058398e-07,
+      "gridToLocalMaximumMetres": 0.0006110832040127361,
+      "forwardRoundtripMaximumMetres": 0.0006121763210742664,
+      "sources": [
+        "stora-01-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-02-w438983953-lm2025-review-20260909",
+      "course": "stora",
+      "hole": 2,
+      "kind": "bunker",
+      "vertices": 26,
+      "valid": true,
+      "areaSquareMetres": 45.585493,
+      "pixelToGridMaximumMetres": 3.179259811447207e-07,
+      "gridToLocalMaximumMetres": 0.0005715365907601266,
+      "forwardRoundtripMaximumMetres": 0.0005722638027927837,
+      "sources": [
+        "stora-02-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-03-w438986830-lm2025-review-20260909",
+      "course": "stora",
+      "hole": 3,
+      "kind": "bunker",
+      "vertices": 80,
+      "valid": true,
+      "areaSquareMetres": 159.958432,
+      "pixelToGridMaximumMetres": 3.659425417254289e-07,
+      "gridToLocalMaximumMetres": 0.0006618225877723535,
+      "forwardRoundtripMaximumMetres": 0.0006628026718873828,
+      "sources": [
+        "stora-03-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-07-w438981594-lm2025-review-20260909",
+      "course": "stora",
+      "hole": 7,
+      "kind": "bunker",
+      "vertices": 55,
+      "valid": true,
+      "areaSquareMetres": 164.805848,
+      "pixelToGridMaximumMetres": 2.4670560202174455e-07,
+      "gridToLocalMaximumMetres": 0.0006597532952656358,
+      "forwardRoundtripMaximumMetres": 0.0006608446290336744,
+      "sources": [
+        "stora-07-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-07-w438982463-lm2025-review-20260909",
+      "course": "stora",
+      "hole": 7,
+      "kind": "bunker",
+      "vertices": 21,
+      "valid": true,
+      "areaSquareMetres": 21.26333,
+      "pixelToGridMaximumMetres": 4.967462380758343e-07,
+      "gridToLocalMaximumMetres": 0.0006204511087225679,
+      "forwardRoundtripMaximumMetres": 0.0006212683839675499,
+      "sources": [
+        "stora-07-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-bunker-10-w438983239-lm-2025-review",
+      "course": "stora",
+      "hole": 10,
+      "kind": "bunker",
+      "vertices": 23,
+      "valid": true,
+      "areaSquareMetres": 57.625293,
+      "pixelToGridMaximumMetres": 0.0,
+      "gridToLocalMaximumMetres": 0.0006254417895508297,
+      "forwardRoundtripMaximumMetres": 0.0006264472061699003,
+      "sources": [
+        "stora-10-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-bunker-11-w438982475-lm-2025-review",
+      "course": "stora",
+      "hole": 11,
+      "kind": "bunker",
+      "vertices": 18,
+      "valid": true,
+      "areaSquareMetres": 42.516219,
+      "pixelToGridMaximumMetres": 0.0,
+      "gridToLocalMaximumMetres": 0.0006582589546279043,
+      "forwardRoundtripMaximumMetres": 0.0006592469272040084,
+      "sources": [
+        "stora-11-surfaces",
+        "stora-13-surfaces",
+        "stora-14-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-green-14-w452926950-lm-2025-review",
+      "course": "stora",
+      "hole": 14,
+      "kind": "green",
+      "vertices": 35,
+      "valid": true,
+      "areaSquareMetres": 503.544732,
+      "pixelToGridMaximumMetres": 0.0,
+      "gridToLocalMaximumMetres": 0.0005896744322338515,
+      "forwardRoundtripMaximumMetres": 0.0005905789136422089,
+      "sources": [
+        "stora-08-surfaces",
+        "stora-14-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-bunker-14-w438979692-lm-2025-review",
+      "course": "stora",
+      "hole": 14,
+      "kind": "bunker",
+      "vertices": 20,
+      "valid": true,
+      "areaSquareMetres": 48.250793,
+      "pixelToGridMaximumMetres": 0.0,
+      "gridToLocalMaximumMetres": 0.0005703809356843143,
+      "forwardRoundtripMaximumMetres": 0.0005711542001559199,
+      "sources": [
+        "stora-08-surfaces",
+        "stora-14-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-green-15-w452926952-lm-2025-review",
+      "course": "stora",
+      "hole": 15,
+      "kind": "green",
+      "vertices": 36,
+      "valid": true,
+      "areaSquareMetres": 459.805067,
+      "pixelToGridMaximumMetres": 0.0,
+      "gridToLocalMaximumMetres": 0.0006167144150138218,
+      "forwardRoundtripMaximumMetres": 0.0006174956602808605,
+      "sources": [
+        "stora-15-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-stora-green-18-w452926951-lm-2025-review",
+      "course": "stora",
+      "hole": 18,
+      "kind": "green",
+      "vertices": 33,
+      "valid": true,
+      "areaSquareMetres": 537.721801,
+      "pixelToGridMaximumMetres": 0.0,
+      "gridToLocalMaximumMetres": 0.0006644854884853193,
+      "forwardRoundtripMaximumMetres": 0.0006654239014958139,
+      "sources": [
+        "stora-18-surfaces"
+      ]
+    },
+    {
+      "id": "upsala-mellan-h6-green-lm-direct-2025-2026-09-09",
+      "course": "mellan",
+      "hole": 6,
+      "kind": "green",
+      "vertices": 30,
+      "valid": true,
+      "areaSquareMetres": 491.772193,
+      "pixelToGridMaximumMetres": 0.0,
+      "gridToLocalMaximumMetres": 0.0006108796587847026,
+      "forwardRoundtripMaximumMetres": 0.0006118391071116846,
+      "sources": [
+        "mellan-06-surfaces"
+      ]
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "Polygon and coordinate validation do not independently confirm hand-interpreted image boundaries.",
+    "Source 0.16 m resolution and submillimetre conversion agreement are not absolute positional accuracy."
+  ]
+}

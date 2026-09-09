@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "kind": "orthophoto-offline-verification",
+  "observedAt": "2026-09-09T18:14:21.325299+00:00",
+  "state": "passed",
+  "planSha256": "92177685396574d34b89aee06612bc75631498eee9d7f8dab962f986b3538933",
+  "acquisitionSha256": "c4d3829dc6e2f3f511c1439625c515f1e0f10da0405e87903d36a0abb78afabc",
+  "validatedWindows": 19,
+  "nativeWindows": 18,
+  "pixels": 77348371,
+  "nativeOverlapChecks": [
+    {
+      "left": "angso-01-hole",
+      "right": "angso-02-hole",
+      "pixels": 778104,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-01-hole",
+      "right": "angso-03-hole",
+      "pixels": 287836,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-01-hole",
+      "right": "angso-04-hole",
+      "pixels": 214500,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-02-hole",
+      "right": "angso-03-hole",
+      "pixels": 671209,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-03-hole",
+      "right": "angso-04-hole",
+      "pixels": 528019,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-03-hole",
+      "right": "angso-05-hole",
+      "pixels": 678576,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-03-hole",
+      "right": "angso-06-hole",
+      "pixels": 162418,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-04-hole",
+      "right": "angso-05-hole",
+      "pixels": 1289043,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-04-hole",
+      "right": "angso-07-hole",
+      "pixels": 416620,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-04-hole",
+      "right": "angso-09-hole",
+      "pixels": 439456,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-04-hole",
+      "right": "angso-10-hole",
+      "pixels": 124575,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-05-hole",
+      "right": "angso-06-hole",
+      "pixels": 3553792,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-05-hole",
+      "right": "angso-07-hole",
+      "pixels": 1764720,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-06-hole",
+      "right": "angso-07-hole",
+      "pixels": 605184,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-07-hole",
+      "right": "angso-08-hole",
+      "pixels": 488562,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-07-hole",
+      "right": "angso-11-hole",
+      "pixels": 10692,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-08-hole",
+      "right": "angso-09-hole",
+      "pixels": 113985,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-08-hole",
+      "right": "angso-10-hole",
+      "pixels": 266628,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-08-hole",
+      "right": "angso-11-hole",
+      "pixels": 927068,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-09-hole",
+      "right": "angso-10-hole",
+      "pixels": 1144492,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-10-hole",
+      "right": "angso-11-hole",
+      "pixels": 276320,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-10-hole",
+      "right": "angso-17-hole",
+      "pixels": 132088,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-10-hole",
+      "right": "angso-18-hole",
+      "pixels": 194180,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-12-hole",
+      "right": "angso-13-hole",
+      "pixels": 881981,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-12-hole",
+      "right": "angso-14-hole",
+      "pixels": 349770,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-12-hole",
+      "right": "angso-15-hole",
+      "pixels": 774972,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-12-hole",
+      "right": "angso-16-hole",
+      "pixels": 431142,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-13-hole",
+      "right": "angso-14-hole",
+      "pixels": 3923823,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-13-hole",
+      "right": "angso-15-hole",
+      "pixels": 929101,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-14-hole",
+      "right": "angso-15-hole",
+      "pixels": 838103,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-15-hole",
+      "right": "angso-16-hole",
+      "pixels": 759626,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "angso-16-hole",
+      "right": "angso-17-hole",
+      "pixels": 641844,
+      "state": "identical-RGBI"
+    }
+  ],
+  "checks": [
+    "all expected windows present",
+    "raster and RGB checksums",
+    "EPSG:3006 and exact planned pixel-edge grid",
+    "explicit RGBI band interpretation with independent validity mask",
+    "all pixels valid",
+    "PNG RGB values exactly match GeoTIFF",
+    "worldfile pixel centres",
+    "complete source-image capture-date coverage",
+    "all 18 complete holes at native resolution",
+    "source tile seams coincide with all review pixel grids",
+    "all overlapping native windows have identical RGBI values"
+  ],
+  "limitations": [
+    "Internal coordinate consistency does not measure absolute geolocation accuracy.",
+    "Image verification does not accept any feature geometry."
+  ]
+}

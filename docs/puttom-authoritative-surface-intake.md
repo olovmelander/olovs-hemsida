@@ -1,8 +1,9 @@
 # Puttom — underlag för auktoritativa spelytor
 
-Den nuvarande Puttom-vyn använder verifierade 1 m-terrain-tiles, men dess
-fairways, greener, tees och bunkrar är fortfarande migrerade GPK1-vektorer.
-De får användas för opt-in-previewen, inte som inmätt banunderlag.
+Den nuvarande Puttom-vyn använder verifierade terrängdata med 1 m upplösning.
+Synliga spelytor har delvis uppdaterats mot Lantmäteriets ortofoto från 2024;
+övriga ytor behåller sina äldre källor. Se [granskningen från 2026-09-09](puttom-orthophoto-alignment.md).
+Varken bildtolkningen eller mjukvarans koordinatkontroller gör ytorna inmätta.
 
 ## Vad vi behöver från banägaren eller mätkonsulten
 

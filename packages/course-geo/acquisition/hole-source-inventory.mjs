@@ -43,27 +43,27 @@ export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
   }),
   upsala: Object.freeze({
     path: 'upsalabuild/course-model.json',
-    sha256: 'becbfca4ab43408ffc7003eb31051e5ad7700701b80add47f9a55a36225abb5d',
+    sha256: 'bccb6f3b428ce75651f17eac4f4a182e76d01abe32669cd980ebe329f2d7cb58',
   }),
   'upsala-mellanbanan': Object.freeze({
     path: 'upsalamellanbuild/course-model.json',
-    sha256: '23cf42493f6d7dc7be60569e06967f2c94605c2ae6a3e9d6bd670c7e85bee39b',
+    sha256: 'cdbbd39d05116a06dcb1abbb6d9e82025edd32f5c6205df5b843e5186e0f6c9a',
   }),
   johannesberg: Object.freeze({
     path: 'johannesbergbuild/course-model.json',
-    sha256: '066f0cc3e7a2bddd99d3c34f18002ec9d2f9aa3e754592924f8beff939916839',
+    sha256: 'edc5b8dd6be0b0e3c7a91e7bb3fd4acf0d680f0f361af13f755a3cff1c7032a0',
   }),
   'johannesberg-9': Object.freeze({
     path: 'johannesberg9build/course-model.json',
-    sha256: '5ce19f44e8b1328e44f96a6438439d4e5f9a0f1c6faedbad5f5a04f7076fed1d',
+    sha256: '4d8f51cbecfd14843e4e91a7af02199a34403de24aa816688318bc7f55359f76',
   }),
   veckefjarden: Object.freeze({
     path: 'geobuild/course-model.json',
-    sha256: '938823c626068d8f464c7318dc84e95fa6c11711f215354b229c441b31fc1093',
+    sha256: 'a0a3cc41555672f9e84fc6962815d9488ee12aeaa5d60f0df9f757e4fc8f11b7',
   }),
   'veckefjarden-korthalsbanan': Object.freeze({
     path: 'veckefjardenkortbuild/course-model.json',
-    sha256: '4cdc23854e79f96b65ee34a430cbfbbcd5d884b795d5c7afb68f0e638457647d',
+    sha256: '6b75e3007ed0600862f3996664d90245abc80e31f8e08f47751e2be27b433807',
   }),
 });
 

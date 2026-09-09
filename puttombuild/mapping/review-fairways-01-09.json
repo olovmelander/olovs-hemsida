@@ -1,0 +1,1902 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "reviewedAt": "2026-09-09",
+  "reviewMethod": "machine visual interpretation of visible mowing boundaries, verified native RGBI context; not a survey or independent human approval",
+  "sources": {
+    "hole-01-full": {
+      "id": "hole-01-full",
+      "rasterFile": "hole-01-full.tif",
+      "sha256": "1e5ce2cf0388c4bba0c57cea0f6c6cbd05a8ce1147ed567834d5bd3395618997",
+      "requestSha256": "d539eb40f9a63261e0781c5bbc5e3f73f6acd7bf1b4b117627c99ac8134d46b1",
+      "horizontalCrs": "EPSG:3006",
+      "width": 1306,
+      "height": 2291,
+      "geoTransform": [
+        697226.88,
+        0.16,
+        0,
+        7025578.56,
+        0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        697226.88,
+        7025212,
+        697435.84,
+        7025578.56
+      ],
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        },
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24",
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ],
+      "validFraction": 1,
+      "derivation": {
+        "kind": "native-crop-of-verified-windows",
+        "bounds": [
+          697226.88,
+          7025212,
+          697435.84,
+          7025578.56
+        ],
+        "resolution": 0.16,
+        "inputs": [
+          {
+            "id": "context-0-0",
+            "sha256": "b1e8d35aa6be7a0c5854b35b6c933091c8cc513f90b840b3b8623c428a296ea0"
+          },
+          {
+            "id": "context-0-1",
+            "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe"
+          },
+          {
+            "id": "context-1-0",
+            "sha256": "ce7481a267983e3d11899da2c21a345d85032c53419148d59f063bba556eb9be"
+          },
+          {
+            "id": "context-1-1",
+            "sha256": "c8eaccef0ff7e77c859e3ab92c2256117d4428da5bafb2300fb2524cff43c6da"
+          }
+        ]
+      },
+      "bytes": 8744111
+    },
+    "hole-02-full": {
+      "id": "hole-02-full",
+      "rasterFile": "hole-02-full.tif",
+      "sha256": "0385f7bf9083ce4ab7418fb5f8415188a11164ae408265de51ea2ce6ad24d38c",
+      "requestSha256": "650beaa8caeb08ef2bf3a4fa3778bc46fc43fb2bba2bfa1b082b04925a545f38",
+      "horizontalCrs": "EPSG:3006",
+      "width": 2477,
+      "height": 777,
+      "geoTransform": [
+        696979.52,
+        0.16,
+        0,
+        7025640.32,
+        0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        696979.52,
+        7025516,
+        697375.84,
+        7025640.32
+      ],
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "validFraction": 1,
+      "derivation": {
+        "kind": "native-crop-of-verified-windows",
+        "bounds": [
+          696979.52,
+          7025516,
+          697375.84,
+          7025640.32
+        ],
+        "resolution": 0.16,
+        "inputs": [
+          {
+            "id": "context-0-0",
+            "sha256": "b1e8d35aa6be7a0c5854b35b6c933091c8cc513f90b840b3b8623c428a296ea0"
+          },
+          {
+            "id": "context-0-1",
+            "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe"
+          }
+        ]
+      },
+      "bytes": 5743437
+    },
+    "hole-04-full": {
+      "id": "hole-04-full",
+      "rasterFile": "hole-04-full.tif",
+      "sha256": "8278fb4b3eeea36ef84229468b925e4ea90c249e32fc55b03a98cddf87e2cb7d",
+      "requestSha256": "4a55653ab4e14ee01366e9e84b2dd455782810a44ce7d23aee18c89d5aaa7d09",
+      "horizontalCrs": "EPSG:3006",
+      "width": 2538,
+      "height": 2220,
+      "geoTransform": [
+        696977.76,
+        0.16,
+        0,
+        7025556.96,
+        0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        696977.76,
+        7025201.76,
+        697383.84,
+        7025556.96
+      ],
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        },
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24",
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ],
+      "validFraction": 1,
+      "derivation": {
+        "kind": "native-crop-of-verified-windows",
+        "bounds": [
+          696977.76,
+          7025201.76,
+          697383.84,
+          7025556.96
+        ],
+        "resolution": 0.16,
+        "inputs": [
+          {
+            "id": "context-0-0",
+            "sha256": "b1e8d35aa6be7a0c5854b35b6c933091c8cc513f90b840b3b8623c428a296ea0"
+          },
+          {
+            "id": "context-0-1",
+            "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe"
+          },
+          {
+            "id": "context-1-0",
+            "sha256": "ce7481a267983e3d11899da2c21a345d85032c53419148d59f063bba556eb9be"
+          },
+          {
+            "id": "context-1-1",
+            "sha256": "c8eaccef0ff7e77c859e3ab92c2256117d4428da5bafb2300fb2524cff43c6da"
+          }
+        ]
+      },
+      "bytes": 13473331
+    },
+    "hole-05-full": {
+      "id": "hole-05-full",
+      "rasterFile": "hole-05-full.tif",
+      "sha256": "255c64a20bdedad029bc6a2f79d0835473421811a36bfad985760f071f3962c9",
+      "requestSha256": "ccd2206c4c0e704267e74b852fe577f0078a805059aabcc219e31b157ba4d168",
+      "horizontalCrs": "EPSG:3006",
+      "width": 1504,
+      "height": 898,
+      "geoTransform": [
+        697530.08,
+        0.16,
+        0,
+        7025395.36,
+        0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        697530.08,
+        7025251.680000001,
+        697770.72,
+        7025395.36
+      ],
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "validFraction": 1,
+      "derivation": {
+        "kind": "native-crop-of-verified-windows",
+        "bounds": [
+          697530.08,
+          7025251.68,
+          697770.72,
+          7025395.36
+        ],
+        "resolution": 0.16,
+        "inputs": [
+          {
+            "id": "context-0-1",
+            "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe"
+          }
+        ]
+      },
+      "bytes": 4065855
+    },
+    "hole-06-full": {
+      "id": "hole-06-full",
+      "rasterFile": "hole-06-full.tif",
+      "sha256": "58e685bb22762c75c3570976a30945c1f82c87398eefbb9447f3ca36bd578c13",
+      "requestSha256": "7cfc209faf007524c031ddd2bd3ae29a2a0de508dd81497a9b6e79d4c32cc0b7",
+      "horizontalCrs": "EPSG:3006",
+      "width": 2215,
+      "height": 1729,
+      "geoTransform": [
+        697645.28,
+        0.16,
+        0,
+        7025454.24,
+        0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        697645.28,
+        7025177.600000001,
+        697999.68,
+        7025454.24
+      ],
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        },
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24",
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ],
+      "validFraction": 1,
+      "derivation": {
+        "kind": "native-crop-of-verified-windows",
+        "bounds": [
+          697645.28,
+          7025177.6,
+          697999.68,
+          7025454.24
+        ],
+        "resolution": 0.16,
+        "inputs": [
+          {
+            "id": "context-0-1",
+            "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe"
+          },
+          {
+            "id": "context-0-2",
+            "sha256": "0e124a28ef8dc3540011f1b1034114a5cb6ca2f9cebdf268bf83eb645a5a9bee"
+          },
+          {
+            "id": "context-1-1",
+            "sha256": "c8eaccef0ff7e77c859e3ab92c2256117d4428da5bafb2300fb2524cff43c6da"
+          },
+          {
+            "id": "context-1-2",
+            "sha256": "1ff5c43cd2f55d9b2996a0bd8484410d6ad67fe50bbe350a5bb56a189b38290b"
+          }
+        ]
+      },
+      "bytes": 11617549
+    },
+    "hole-09-full": {
+      "id": "hole-09-full",
+      "rasterFile": "hole-09-full.tif",
+      "sha256": "329b6be142b71be79e24a803142b0a5ca73e653d6068bc96afa8df8da93f13e9",
+      "requestSha256": "a2c29343d404fb34f5dc8594ac7ceebf26fe02462b0ed6e50a9ba6ed9032f2d8",
+      "horizontalCrs": "EPSG:3006",
+      "width": 3487,
+      "height": 831,
+      "geoTransform": [
+        697384.64,
+        0.16,
+        0,
+        7025290.4,
+        0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        697384.64,
+        7025157.44,
+        697942.56,
+        7025290.4
+      ],
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        },
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24",
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ],
+      "validFraction": 1,
+      "derivation": {
+        "kind": "native-crop-of-verified-windows",
+        "bounds": [
+          697384.64,
+          7025157.44,
+          697942.56,
+          7025290.4
+        ],
+        "resolution": 0.16,
+        "inputs": [
+          {
+            "id": "context-0-1",
+            "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe"
+          },
+          {
+            "id": "context-0-2",
+            "sha256": "0e124a28ef8dc3540011f1b1034114a5cb6ca2f9cebdf268bf83eb645a5a9bee"
+          },
+          {
+            "id": "context-1-1",
+            "sha256": "c8eaccef0ff7e77c859e3ab92c2256117d4428da5bafb2300fb2524cff43c6da"
+          },
+          {
+            "id": "context-1-2",
+            "sha256": "1ff5c43cd2f55d9b2996a0bd8484410d6ad67fe50bbe350a5bb56a189b38290b"
+          }
+        ]
+      },
+      "bytes": 8366331
+    }
+  },
+  "holes": [
+    {
+      "n": 1,
+      "fairways": [
+        {
+          "id": "lm-2024-hole-01-fairway-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-01-full",
+          "ringPixels": [
+            [
+              346.265,
+              315
+            ],
+            [
+              368.282,
+              363
+            ],
+            [
+              396.304,
+              407
+            ],
+            [
+              440.337,
+              477
+            ],
+            [
+              494.379,
+              579
+            ],
+            [
+              538.413,
+              667
+            ],
+            [
+              590.452,
+              759
+            ],
+            [
+              638.489,
+              843
+            ],
+            [
+              680.521,
+              915
+            ],
+            [
+              722.554,
+              975
+            ],
+            [
+              766.587,
+              1055
+            ],
+            [
+              802.615,
+              1135
+            ],
+            [
+              826.633,
+              1213
+            ],
+            [
+              828.635,
+              1259
+            ],
+            [
+              804.617,
+              1295
+            ],
+            [
+              768.589,
+              1305
+            ],
+            [
+              734.563,
+              1299
+            ],
+            [
+              702.538,
+              1267
+            ],
+            [
+              678.52,
+              1231
+            ],
+            [
+              636.488,
+              1191
+            ],
+            [
+              592.454,
+              1139
+            ],
+            [
+              558.428,
+              1097
+            ],
+            [
+              534.41,
+              1047
+            ],
+            [
+              516.396,
+              987
+            ],
+            [
+              498.382,
+              929
+            ],
+            [
+              474.363,
+              869
+            ],
+            [
+              440.337,
+              815
+            ],
+            [
+              402.308,
+              751
+            ],
+            [
+              378.29,
+              709
+            ],
+            [
+              374.287,
+              663
+            ],
+            [
+              368.282,
+              611
+            ],
+            [
+              356.273,
+              555
+            ],
+            [
+              328.252,
+              503
+            ],
+            [
+              298.229,
+              455
+            ],
+            [
+              282.216,
+              415
+            ],
+            [
+              278.213,
+              379
+            ],
+            [
+              284.218,
+              355
+            ],
+            [
+              302.232,
+              341
+            ],
+            [
+              320.245,
+              335
+            ],
+            [
+              346.265,
+              315
+            ]
+          ],
+          "interpretation": "machine visual fairway mowing edge, retaining the distinction from surrounding rough and tee platforms",
+          "estimatedInterpretationToleranceMetres": 2,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy",
+          "tracePreview": {
+            "sourceReviewId": "hole-01-full",
+            "sourcePreviewSha256": "25d0d5616be768cd9679877101db3f172233584acd732395691c2a6249811bd3",
+            "previewWidth": 652,
+            "previewHeight": 1145,
+            "previewToNative": "preview indices scaled by exact native PNG dimensions, then original PNG affine to EPSG:3006 and inverse derived TIFF affine"
+          }
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "fairways": [
+        {
+          "id": "lm-2024-hole-02-fairway-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-02-full",
+          "ringPixels": [
+            [
+              318,
+              325
+            ],
+            [
+              350,
+              281
+            ],
+            [
+              396,
+              229
+            ],
+            [
+              438,
+              197
+            ],
+            [
+              492,
+              187
+            ],
+            [
+              566,
+              193
+            ],
+            [
+              634,
+              205
+            ],
+            [
+              700,
+              229
+            ],
+            [
+              766,
+              257
+            ],
+            [
+              836,
+              283
+            ],
+            [
+              898,
+              307
+            ],
+            [
+              960,
+              321
+            ],
+            [
+              1030,
+              319
+            ],
+            [
+              1088,
+              325
+            ],
+            [
+              1152,
+              349
+            ],
+            [
+              1226,
+              379
+            ],
+            [
+              1290,
+              395
+            ],
+            [
+              1370,
+              397
+            ],
+            [
+              1458,
+              405
+            ],
+            [
+              1550,
+              417
+            ],
+            [
+              1634,
+              437
+            ],
+            [
+              1710,
+              451
+            ],
+            [
+              1782,
+              463
+            ],
+            [
+              1840,
+              479
+            ],
+            [
+              1890,
+              503
+            ],
+            [
+              1900,
+              527
+            ],
+            [
+              1880,
+              549
+            ],
+            [
+              1850,
+              561
+            ],
+            [
+              1806,
+              561
+            ],
+            [
+              1748,
+              555
+            ],
+            [
+              1690,
+              557
+            ],
+            [
+              1628,
+              565
+            ],
+            [
+              1562,
+              577
+            ],
+            [
+              1496,
+              587
+            ],
+            [
+              1430,
+              599
+            ],
+            [
+              1370,
+              607
+            ],
+            [
+              1298,
+              601
+            ],
+            [
+              1224,
+              587
+            ],
+            [
+              1150,
+              573
+            ],
+            [
+              1070,
+              559
+            ],
+            [
+              990,
+              545
+            ],
+            [
+              910,
+              537
+            ],
+            [
+              836,
+              527
+            ],
+            [
+              762,
+              515
+            ],
+            [
+              688,
+              501
+            ],
+            [
+              620,
+              485
+            ],
+            [
+              562,
+              467
+            ],
+            [
+              510,
+              441
+            ],
+            [
+              464,
+              409
+            ],
+            [
+              424,
+              381
+            ],
+            [
+              384,
+              355
+            ],
+            [
+              354,
+              345
+            ],
+            [
+              318,
+              325
+            ]
+          ],
+          "interpretation": "machine visual fairway mowing edge, retaining the distinction from surrounding rough and tee platforms",
+          "estimatedInterpretationToleranceMetres": 1.5,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy",
+          "tracePreview": {
+            "sourceReviewId": "hole-02-full",
+            "sourcePreviewSha256": "878a9aea5c347ba72672f8fc71f6ef6bbf38581fd6084332ae8354da369222a4",
+            "previewWidth": 1238,
+            "previewHeight": 388,
+            "previewToNative": "preview indices scaled by exact native PNG dimensions, then original PNG affine to EPSG:3006 and inverse derived TIFF affine"
+          }
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "fairways": [
+        {
+          "id": "lm-2024-hole-04-fairway-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-04-full",
+          "ringPixels": [
+            [
+              1048.413,
+              308.139
+            ],
+            [
+              1110.438,
+              322.145
+            ],
+            [
+              1162.458,
+              344.155
+            ],
+            [
+              1242.49,
+              376.17
+            ],
+            [
+              1306.515,
+              400.18
+            ],
+            [
+              1364.538,
+              412.186
+            ],
+            [
+              1430.564,
+              432.195
+            ],
+            [
+              1490.588,
+              474.214
+            ],
+            [
+              1556.614,
+              532.24
+            ],
+            [
+              1620.639,
+              600.271
+            ],
+            [
+              1666.657,
+              650.293
+            ],
+            [
+              1716.677,
+              702.317
+            ],
+            [
+              1762.695,
+              752.339
+            ],
+            [
+              1806.712,
+              810.365
+            ],
+            [
+              1850.729,
+              872.393
+            ],
+            [
+              1894.747,
+              930.419
+            ],
+            [
+              1928.76,
+              990.446
+            ],
+            [
+              1960.773,
+              1060.478
+            ],
+            [
+              1982.782,
+              1130.509
+            ],
+            [
+              2000.789,
+              1200.541
+            ],
+            [
+              2026.799,
+              1284.579
+            ],
+            [
+              2072.817,
+              1380.622
+            ],
+            [
+              2124.838,
+              1472.664
+            ],
+            [
+              2180.86,
+              1552.7
+            ],
+            [
+              2230.879,
+              1626.733
+            ],
+            [
+              2276.897,
+              1688.761
+            ],
+            [
+              2296.905,
+              1732.781
+            ],
+            [
+              2274.897,
+              1758.793
+            ],
+            [
+              2248.886,
+              1774.8
+            ],
+            [
+              2264.893,
+              1812.817
+            ],
+            [
+              2296.905,
+              1828.824
+            ],
+            [
+              2318.914,
+              1858.838
+            ],
+            [
+              2342.924,
+              1886.85
+            ],
+            [
+              2318.914,
+              1916.864
+            ],
+            [
+              2288.902,
+              1914.863
+            ],
+            [
+              2238.882,
+              1874.845
+            ],
+            [
+              2190.864,
+              1862.839
+            ],
+            [
+              2160.852,
+              1832.826
+            ],
+            [
+              2130.84,
+              1784.804
+            ],
+            [
+              2104.83,
+              1730.78
+            ],
+            [
+              2084.822,
+              1668.752
+            ],
+            [
+              2074.818,
+              1592.718
+            ],
+            [
+              2052.809,
+              1516.683
+            ],
+            [
+              2022.797,
+              1448.653
+            ],
+            [
+              1988.784,
+              1386.625
+            ],
+            [
+              1962.774,
+              1318.594
+            ],
+            [
+              1938.764,
+              1258.567
+            ],
+            [
+              1914.755,
+              1190.537
+            ],
+            [
+              1888.744,
+              1128.509
+            ],
+            [
+              1866.736,
+              1058.477
+            ],
+            [
+              1842.726,
+              1002.452
+            ],
+            [
+              1802.711,
+              952.429
+            ],
+            [
+              1756.692,
+              906.408
+            ],
+            [
+              1710.674,
+              870.392
+            ],
+            [
+              1660.655,
+              836.377
+            ],
+            [
+              1604.632,
+              802.362
+            ],
+            [
+              1550.611,
+              764.344
+            ],
+            [
+              1500.591,
+              726.327
+            ],
+            [
+              1452.573,
+              688.31
+            ],
+            [
+              1406.554,
+              650.293
+            ],
+            [
+              1360.536,
+              618.279
+            ],
+            [
+              1310.517,
+              590.266
+            ],
+            [
+              1258.496,
+              562.253
+            ],
+            [
+              1212.478,
+              540.243
+            ],
+            [
+              1160.457,
+              512.231
+            ],
+            [
+              1104.435,
+              492.222
+            ],
+            [
+              1052.415,
+              474.214
+            ],
+            [
+              1014.4,
+              456.206
+            ],
+            [
+              988.39,
+              438.197
+            ],
+            [
+              978.386,
+              408.184
+            ],
+            [
+              980.386,
+              364.164
+            ],
+            [
+              1004.396,
+              328.148
+            ],
+            [
+              1048.413,
+              308.139
+            ]
+          ],
+          "interpretation": "machine visual fairway mowing edge, retaining the distinction from surrounding rough and tee platforms",
+          "estimatedInterpretationToleranceMetres": 2,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy",
+          "tracePreview": {
+            "sourceReviewId": "hole-04-full",
+            "sourcePreviewSha256": "01fad6c5b6ab390e2f5cd379bdd50776f0972a1bee5d64523f89c1dafbeba2c5",
+            "previewWidth": 1268,
+            "previewHeight": 1109,
+            "previewToNative": "preview indices scaled by exact native PNG dimensions, then original PNG affine to EPSG:3006 and inverse derived TIFF affine"
+          }
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "fairways": [
+        {
+          "id": "lm-2024-hole-05-fairway-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-05-full",
+          "ringPixels": [
+            [
+              355.236,
+              565
+            ],
+            [
+              403.268,
+              541
+            ],
+            [
+              451.3,
+              507
+            ],
+            [
+              489.325,
+              467
+            ],
+            [
+              523.348,
+              437
+            ],
+            [
+              569.378,
+              407
+            ],
+            [
+              627.417,
+              377
+            ],
+            [
+              687.457,
+              349
+            ],
+            [
+              751.499,
+              323
+            ],
+            [
+              815.542,
+              299
+            ],
+            [
+              881.586,
+              275
+            ],
+            [
+              949.631,
+              249
+            ],
+            [
+              1007.67,
+              227
+            ],
+            [
+              1053.7,
+              205
+            ],
+            [
+              1097.73,
+              201
+            ],
+            [
+              1125.748,
+              217
+            ],
+            [
+              1131.752,
+              253
+            ],
+            [
+              1117.743,
+              293
+            ],
+            [
+              1109.738,
+              329
+            ],
+            [
+              1125.748,
+              361
+            ],
+            [
+              1097.73,
+              383
+            ],
+            [
+              1059.704,
+              411
+            ],
+            [
+              1023.68,
+              437
+            ],
+            [
+              967.643,
+              453
+            ],
+            [
+              909.605,
+              451
+            ],
+            [
+              839.558,
+              453
+            ],
+            [
+              745.495,
+              443
+            ],
+            [
+              671.446,
+              449
+            ],
+            [
+              617.41,
+              463
+            ],
+            [
+              567.377,
+              509
+            ],
+            [
+              483.321,
+              547
+            ],
+            [
+              407.27,
+              573
+            ],
+            [
+              357.237,
+              591
+            ],
+            [
+              355.236,
+              565
+            ]
+          ],
+          "interpretation": "machine visual fairway mowing edge, retaining the distinction from surrounding rough and tee platforms",
+          "estimatedInterpretationToleranceMetres": 1.5,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy",
+          "tracePreview": {
+            "sourceReviewId": "hole-05-full",
+            "sourcePreviewSha256": "98f2c9df0b831dc69c72b2e16fb4fd21a8882c86f72b2d29e6ef157f0bc1da6f",
+            "previewWidth": 751,
+            "previewHeight": 448,
+            "previewToNative": "preview indices scaled by exact native PNG dimensions, then original PNG affine to EPSG:3006 and inverse derived TIFF affine"
+          }
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "fairways": [
+        {
+          "id": "lm-2024-hole-06-fairway-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-06-full",
+          "ringPixels": [
+            [
+              767,
+              689.399
+            ],
+            [
+              811,
+              689.399
+            ],
+            [
+              877,
+              721.417
+            ],
+            [
+              927,
+              765.443
+            ],
+            [
+              983,
+              813.47
+            ],
+            [
+              1043,
+              849.491
+            ],
+            [
+              1103,
+              877.508
+            ],
+            [
+              1165,
+              911.527
+            ],
+            [
+              1231,
+              945.547
+            ],
+            [
+              1293,
+              973.563
+            ],
+            [
+              1355,
+              1001.579
+            ],
+            [
+              1421,
+              1027.594
+            ],
+            [
+              1475,
+              1055.611
+            ],
+            [
+              1525,
+              1089.63
+            ],
+            [
+              1573,
+              1131.655
+            ],
+            [
+              1625,
+              1153.667
+            ],
+            [
+              1685,
+              1171.678
+            ],
+            [
+              1733,
+              1195.692
+            ],
+            [
+              1783,
+              1227.71
+            ],
+            [
+              1821,
+              1265.732
+            ],
+            [
+              1845,
+              1309.758
+            ],
+            [
+              1857,
+              1349.781
+            ],
+            [
+              1877,
+              1381.8
+            ],
+            [
+              1903,
+              1399.81
+            ],
+            [
+              1915,
+              1433.83
+            ],
+            [
+              1907,
+              1467.849
+            ],
+            [
+              1891,
+              1451.84
+            ],
+            [
+              1837,
+              1437.832
+            ],
+            [
+              1779,
+              1425.825
+            ],
+            [
+              1735,
+              1407.815
+            ],
+            [
+              1681,
+              1375.796
+            ],
+            [
+              1623,
+              1345.779
+            ],
+            [
+              1571,
+              1329.769
+            ],
+            [
+              1515,
+              1317.762
+            ],
+            [
+              1461,
+              1313.76
+            ],
+            [
+              1403,
+              1287.745
+            ],
+            [
+              1341,
+              1261.73
+            ],
+            [
+              1283,
+              1239.717
+            ],
+            [
+              1221,
+              1223.708
+            ],
+            [
+              1163,
+              1207.699
+            ],
+            [
+              1109,
+              1185.686
+            ],
+            [
+              1059,
+              1159.671
+            ],
+            [
+              1013,
+              1127.652
+            ],
+            [
+              969,
+              1085.628
+            ],
+            [
+              935,
+              1041.603
+            ],
+            [
+              905,
+              995.576
+            ],
+            [
+              869,
+              949.549
+            ],
+            [
+              833,
+              911.527
+            ],
+            [
+              795,
+              881.51
+            ],
+            [
+              765,
+              847.49
+            ],
+            [
+              749,
+              811.469
+            ],
+            [
+              745,
+              761.44
+            ],
+            [
+              767,
+              689.399
+            ]
+          ],
+          "interpretation": "machine visual fairway mowing edge, retaining the distinction from surrounding rough and tee platforms",
+          "estimatedInterpretationToleranceMetres": 2,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy",
+          "tracePreview": {
+            "sourceReviewId": "hole-06-full",
+            "sourcePreviewSha256": "7180b0fa474e86487056c675a2d08ddebed00f14c33b19e909a2a8c143b5da5b",
+            "previewWidth": 1107,
+            "previewHeight": 863,
+            "previewToNative": "preview indices scaled by exact native PNG dimensions, then original PNG affine to EPSG:3006 and inverse derived TIFF affine"
+          }
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "fairways": [
+        {
+          "id": "lm-2024-hole-09-fairway-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-09-full",
+          "ringPixels": [
+            [
+              450,
+              493
+            ],
+            [
+              488,
+              479
+            ],
+            [
+              540,
+              463
+            ],
+            [
+              588,
+              437
+            ],
+            [
+              640,
+              393
+            ],
+            [
+              688,
+              357
+            ],
+            [
+              730,
+              331
+            ],
+            [
+              780,
+              321
+            ],
+            [
+              832,
+              301
+            ],
+            [
+              884,
+              265
+            ],
+            [
+              934,
+              239
+            ],
+            [
+              980,
+              251
+            ],
+            [
+              1040,
+              261
+            ],
+            [
+              1088,
+              259
+            ],
+            [
+              1140,
+              243
+            ],
+            [
+              1198,
+              221
+            ],
+            [
+              1250,
+              203
+            ],
+            [
+              1300,
+              197
+            ],
+            [
+              1354,
+              197
+            ],
+            [
+              1406,
+              207
+            ],
+            [
+              1466,
+              221
+            ],
+            [
+              1520,
+              233
+            ],
+            [
+              1572,
+              235
+            ],
+            [
+              1626,
+              229
+            ],
+            [
+              1682,
+              213
+            ],
+            [
+              1726,
+              213
+            ],
+            [
+              1786,
+              227
+            ],
+            [
+              1844,
+              237
+            ],
+            [
+              1896,
+              249
+            ],
+            [
+              1954,
+              245
+            ],
+            [
+              2008,
+              257
+            ],
+            [
+              2064,
+              277
+            ],
+            [
+              2130,
+              293
+            ],
+            [
+              2194,
+              305
+            ],
+            [
+              2234,
+              313
+            ],
+            [
+              2254,
+              333
+            ],
+            [
+              2254,
+              359
+            ],
+            [
+              2234,
+              387
+            ],
+            [
+              2196,
+              411
+            ],
+            [
+              2154,
+              415
+            ],
+            [
+              2100,
+              413
+            ],
+            [
+              2046,
+              407
+            ],
+            [
+              1988,
+              401
+            ],
+            [
+              1932,
+              395
+            ],
+            [
+              1878,
+              391
+            ],
+            [
+              1816,
+              389
+            ],
+            [
+              1760,
+              387
+            ],
+            [
+              1700,
+              391
+            ],
+            [
+              1638,
+              391
+            ],
+            [
+              1580,
+              379
+            ],
+            [
+              1522,
+              363
+            ],
+            [
+              1474,
+              359
+            ],
+            [
+              1418,
+              363
+            ],
+            [
+              1364,
+              375
+            ],
+            [
+              1316,
+              387
+            ],
+            [
+              1266,
+              395
+            ],
+            [
+              1210,
+              405
+            ],
+            [
+              1156,
+              415
+            ],
+            [
+              1100,
+              429
+            ],
+            [
+              1044,
+              449
+            ],
+            [
+              988,
+              469
+            ],
+            [
+              936,
+              487
+            ],
+            [
+              882,
+              497
+            ],
+            [
+              832,
+              505
+            ],
+            [
+              780,
+              525
+            ],
+            [
+              744,
+              543
+            ],
+            [
+              706,
+              555
+            ],
+            [
+              670,
+              545
+            ],
+            [
+              634,
+              531
+            ],
+            [
+              596,
+              531
+            ],
+            [
+              556,
+              557
+            ],
+            [
+              516,
+              581
+            ],
+            [
+              474,
+              601
+            ],
+            [
+              436,
+              619
+            ],
+            [
+              414,
+              607
+            ],
+            [
+              450,
+              493
+            ]
+          ],
+          "interpretation": "machine visual fairway mowing edge, retaining the distinction from surrounding rough and tee platforms",
+          "estimatedInterpretationToleranceMetres": 1.5,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy",
+          "tracePreview": {
+            "sourceReviewId": "hole-09-full",
+            "sourcePreviewSha256": "c609e381a3665c40df68dd12bf5e9cda30e7678383ed5a35a8b6778a9c62bf6d",
+            "previewWidth": 1743,
+            "previewHeight": 415,
+            "previewToNative": "preview indices scaled by exact native PNG dimensions, then original PNG affine to EPSG:3006 and inverse derived TIFF affine"
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Fairway mowing transitions can be diffuse, and the imagery represents 2024-06-27 conditions.",
+    "Hole 3 approach boundaries and holes 7/8 shared worn/patchy turf boundaries are unresolved and retain prior geometry.",
+    "Tree shadows obscure short sections of holes 1/4/6 boundaries; estimated visual interpretation tolerance is 2 m there, not measured absolute accuracy."
+  ],
+  "deferredFeatures": [
+    {
+      "hole": 3,
+      "feature": "fairway",
+      "reason": "Southern approach edge is partly obscured by tree shadows, while the northern strip is visible; retain existing complete ring pending a defensible closed boundary."
+    },
+    {
+      "hole": 7,
+      "feature": "fairway",
+      "reason": "Patchy worn turf and diffuse shared mowing transitions; retain both existing rings."
+    },
+    {
+      "hole": 8,
+      "feature": "fairway",
+      "reason": "Patchy worn turf and tree-shadowed northern approach; retain existing ring."
+    }
+  ]
+}

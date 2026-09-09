@@ -131,7 +131,7 @@ export async function compilePuttomSurfacePreview({
     await rm(join(root, 'surface-preview.json'), { force: true });
   }
   const bundle = await writeSurfacePreviewBundle(root, compilation, {
-    label: 'Puttom · migrerade ytor (ej inmätta)',
+    label: PUTTOM_PREVIEW_CONFIG.surfaceLabel,
     terrainDescriptorSha256: descriptorSha256,
     packSha256,
     fileName: 'surface-preview.json',

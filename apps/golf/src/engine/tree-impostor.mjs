@@ -17,7 +17,7 @@
  * TSL for the shader. They must agree, and the test says so. */
 import * as THREE from 'three/webgpu';
 import {
-  Fn, float, vec2, vec3, uv, attribute, varying, texture, cameraPosition, uniform,
+  Fn, float, vec2, vec3, color, uv, attribute, varying, texture, cameraPosition, uniform,
   normalize, abs, floor, fract, select, dot, pow, saturate, sin, cos,
   transformNormalToView, positionWorld,
 } from 'three/tsl';
@@ -173,7 +173,8 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPe
   const scene = new THREE.Scene();
   const crownAlbedo = new THREE.MeshBasicNodeMaterial();
   crownAlbedo.colorNode = attribute('color', 'vec3');
-  const trunkAlbedo = new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(trunkColor) });
+  const trunkBase = new THREE.Color(trunkColor);
+  const trunkAlbedo = new THREE.MeshBasicNodeMaterial({ color: trunkBase });
   /* the normal in the tree's frame, and the crown mask in alpha. The mesh
      tiers are flat shaded, so the picture carries FACE normals from the
      screen-space derivatives, not the smoothed vertex normals the geometry
@@ -258,11 +259,25 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPe
   return Object.freeze({
     albedo: albedoTarget.texture, normal: normalTarget.texture,
     targets: [albedoTarget, normalTarget],
-    framesPerSide, frameSize, size, radius, centreY, height,
+    framesPerSide, frameSize, size, radius, centreY, height, trunkColor: trunkBase,
   });
 }
 
 /* --------------------------------------------------------------- material */
+
+function enableImpostorCoverage(material) {
+  material.alphaToCoverage = true;
+  /* Alpha selects MSAA samples; RGB replaces each covered sample. Preserve
+     an opaque backdrop's alpha too: overwriting it with coverage makes the
+     resolved frame translucent. The output colour transform then unpremultiplies
+     that already-composited RGB, leaving dark hollow outlines without bloom. */
+  material.blending = THREE.CustomBlending;
+  material.blendEquation = material.blendEquationAlpha = THREE.AddEquation;
+  material.blendSrc = THREE.OneFactor;
+  material.blendDst = THREE.ZeroFactor;
+  material.blendSrcAlpha = THREE.OneFactor;
+  material.blendDstAlpha = THREE.OneMinusSrcAlphaFactor;
+}
 
 /**
  * The impostor material: a lit billboard. Instances come from an
@@ -354,7 +369,14 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
   const coverage = albedo.a;
   /* premultiplied by coverage in the blend; divide it back out */
   const colourLocal = albedo.rgb.div(coverage.max(1e-4));
-  const crownMask = nrm.a.div(coverage.max(1e-4)).clamp(0, 1);
+  const crownCoverage = nrm.a.clamp(0, coverage);
+  const crownMask = crownCoverage.div(coverage.max(1e-4));
+  /* Filtering mixes untinted crown RGB with the trunk's baked colour. Tinting
+     that mixture by a filtered mask creates bright, desaturated cross terms.
+     Recover both premultiplied contributions before tinting only the crown;
+     clamp the mask to coverage to absorb half-float rounding between atlases. */
+  const trunkPremultiplied = color(atlas.trunkColor).mul(coverage.sub(crownCoverage));
+  const crownPremultiplied = albedo.rgb.sub(trunkPremultiplied).max(0);
   const nLocalRaw = nrm.rgb.div(coverage.max(1e-4)).mul(2).sub(1);
   /* the blend of three frames' facet normals (and the mip chain under
      them) is SHORT where the facets disagreed: the sideways components of
@@ -377,7 +399,7 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
   /* The mipmapped atlas already stores filtered coverage. Pass that to MSAA
      directly: another 0.5 cutoff destroys thin branches and makes regions
      covered by just one of two equally weighted views blink at the zenith. */
-  material.alphaToCoverage = true;
+  enableImpostorCoverage(material);
   const coveredOpacity = Fn(() => {
     // Colour has already sampled both atlases before this discard. Keep
     // empty texels out of the depth buffer, including single-sample capture.
@@ -395,15 +417,15 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
   /* 14: the colour scaled by the normal's length; 15: the length as ambient occlusion */
   const lenScale = !debug ? float(1) : select(m.greaterThan(13.5).and(m.lessThan(14.5)), nLen, float(1));
   if (debug) material.aoNode = select(m.greaterThan(14.5).and(m.lessThan(15.5)), nLen, float(1));
-  const crownColour = colourLocal.mul(crownBase).mul(back);
-  material.colorNode = crownColour.mul(crownMask).add(colourLocal.mul(float(1).sub(crownMask))).mul(lenScale);
+  material.colorNode = crownPremultiplied.mul(crownBase).mul(back).add(trunkPremultiplied)
+    .div(coverage.max(1e-4)).mul(lenScale);
   if (debug && debug !== 'lit') {
     /* the harness's view of one term at a time (impostorDebugMode), on
        the same billboard with the same cut, and nothing between the value
        and the pixel but the output transfer function */
     const unlit = new THREE.MeshBasicNodeMaterial();
     unlit.positionNode = world;
-    unlit.alphaToCoverage = true;
+    enableImpostorCoverage(unlit);
     unlit.opacityNode = coveredOpacity;
     unlit.fog = false;
     unlit.toneMapped = false;

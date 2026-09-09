@@ -3,6 +3,10 @@
 The September 9, 2026 tree fix targets apparent LOD flipping and sparkling tree
 edges on both WebGPU and WebGL2. It requires no new Blender assets or URL flag.
 
+The subsequent [distant-colour correction](tree-distant-color.md) preserves
+these stability changes while fixing pale canopies and hollow outlines in the
+direct rendering path.
+
 ## Keep detail tied to the course
 
 The existing default is already geographic (`lodmode=zone`). The distance is

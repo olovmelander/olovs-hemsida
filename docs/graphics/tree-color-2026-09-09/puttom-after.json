@@ -1,0 +1,160 @@
+{
+  "reports": [
+    {
+      "post": "0",
+      "backend": "webgpu",
+      "cam": {
+        "pos": [
+          450,
+          1350,
+          600
+        ],
+        "look": [
+          -100,
+          55,
+          -300
+        ],
+        "mode": "orbit"
+      },
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1600,
+            730
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": null
+      },
+      "tiers": {
+        "tier0": 4998,
+        "tier1": 14475,
+        "tier2": 25221,
+        "tier3": 7071,
+        "cells": 451,
+        "cellsVisible": 298,
+        "moves": 51823,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 3,
+        "bakeMs": 190,
+        "fading": 0,
+        "updateMs": 1.7999999970197678,
+        "zoneA": 5040,
+        "zoneB": 18055,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "flightPlacements": 12,
+      "initialSwitches": 0,
+      "finalSwitches": 0
+    },
+    {
+      "post": "1",
+      "backend": "webgpu",
+      "cam": {
+        "pos": [
+          450,
+          1350,
+          600
+        ],
+        "look": [
+          -100,
+          55,
+          -300
+        ],
+        "mode": "orbit"
+      },
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1600,
+            730
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": 0.2
+      },
+      "tiers": {
+        "tier0": 4998,
+        "tier1": 14475,
+        "tier2": 25221,
+        "tier3": 7071,
+        "cells": 451,
+        "cellsVisible": 298,
+        "moves": 51823,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 3,
+        "bakeMs": 165,
+        "fading": 0,
+        "updateMs": 3.7000000029802322,
+        "zoneA": 5040,
+        "zoneB": 18055,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

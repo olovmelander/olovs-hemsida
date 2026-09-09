@@ -1,0 +1,410 @@
+[
+  {
+    "mode": "before",
+    "view": "evening",
+    "density": 0.0004,
+    "backend": "webgpu",
+    "cam": {
+      "pos": [
+        450,
+        1350,
+        600
+      ],
+      "look": [
+        -100,
+        55,
+        -300
+      ],
+      "mode": "orbit"
+    },
+    "tiers": {
+      "tier0": 4998,
+      "tier1": 14475,
+      "tier2": 25221,
+      "tier3": 7071,
+      "cells": 451,
+      "cellsVisible": 298,
+      "moves": 51823,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 2,
+      "bakeMs": 84,
+      "fading": 0,
+      "updateMs": 1,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "mode": "before",
+    "view": "no-post",
+    "density": 0.0004,
+    "backend": "webgpu",
+    "cam": {
+      "pos": [
+        450,
+        1350,
+        600
+      ],
+      "look": [
+        -100,
+        55,
+        -300
+      ],
+      "mode": "orbit"
+    },
+    "tiers": {
+      "tier0": 4998,
+      "tier1": 14475,
+      "tier2": 25221,
+      "tier3": 7071,
+      "cells": 451,
+      "cellsVisible": 298,
+      "moves": 51823,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 2,
+      "bakeMs": 84,
+      "fading": 0,
+      "updateMs": 0.9000000059604645,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "mode": "before",
+    "view": "clear",
+    "density": 0,
+    "backend": "webgpu",
+    "cam": {
+      "pos": [
+        450,
+        1350,
+        600
+      ],
+      "look": [
+        -100,
+        55,
+        -300
+      ],
+      "mode": "orbit"
+    },
+    "tiers": {
+      "tier0": 4998,
+      "tier1": 14475,
+      "tier2": 25221,
+      "tier3": 7071,
+      "cells": 451,
+      "cellsVisible": 298,
+      "moves": 51823,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 2,
+      "bakeMs": 84,
+      "fading": 0,
+      "updateMs": 0.6000000089406967,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "mode": "before",
+    "view": "light-haze",
+    "density": 0.0002,
+    "backend": "webgpu",
+    "cam": {
+      "pos": [
+        450,
+        1350,
+        600
+      ],
+      "look": [
+        -100,
+        55,
+        -300
+      ],
+      "mode": "orbit"
+    },
+    "tiers": {
+      "tier0": 4998,
+      "tier1": 14475,
+      "tier2": 25221,
+      "tier3": 7071,
+      "cells": 451,
+      "cellsVisible": 298,
+      "moves": 51823,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 2,
+      "bakeMs": 84,
+      "fading": 0,
+      "updateMs": 1,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "mode": "after",
+    "view": "evening",
+    "density": 0.0004,
+    "backend": "webgpu",
+    "cam": {
+      "pos": [
+        450,
+        1350,
+        600
+      ],
+      "look": [
+        -100,
+        55,
+        -300
+      ],
+      "mode": "orbit"
+    },
+    "tiers": {
+      "tier0": 4998,
+      "tier1": 14475,
+      "tier2": 25221,
+      "tier3": 7071,
+      "cells": 451,
+      "cellsVisible": 298,
+      "moves": 51823,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 2,
+      "bakeMs": 142,
+      "fading": 0,
+      "updateMs": 0.7999999970197678,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "mode": "after",
+    "view": "no-post",
+    "density": 0.0004,
+    "backend": "webgpu",
+    "cam": {
+      "pos": [
+        450,
+        1350,
+        600
+      ],
+      "look": [
+        -100,
+        55,
+        -300
+      ],
+      "mode": "orbit"
+    },
+    "tiers": {
+      "tier0": 4998,
+      "tier1": 14475,
+      "tier2": 25221,
+      "tier3": 7071,
+      "cells": 451,
+      "cellsVisible": 298,
+      "moves": 51823,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 2,
+      "bakeMs": 142,
+      "fading": 0,
+      "updateMs": 0.7000000029802322,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "mode": "after",
+    "view": "clear",
+    "density": 0,
+    "backend": "webgpu",
+    "cam": {
+      "pos": [
+        450,
+        1350,
+        600
+      ],
+      "look": [
+        -100,
+        55,
+        -300
+      ],
+      "mode": "orbit"
+    },
+    "tiers": {
+      "tier0": 4998,
+      "tier1": 14475,
+      "tier2": 25221,
+      "tier3": 7071,
+      "cells": 451,
+      "cellsVisible": 298,
+      "moves": 51823,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 2,
+      "bakeMs": 142,
+      "fading": 0,
+      "updateMs": 0.7000000029802322,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "mode": "after",
+    "view": "light-haze",
+    "density": 0.0002,
+    "backend": "webgpu",
+    "cam": {
+      "pos": [
+        450,
+        1350,
+        600
+      ],
+      "look": [
+        -100,
+        55,
+        -300
+      ],
+      "mode": "orbit"
+    },
+    "tiers": {
+      "tier0": 4998,
+      "tier1": 14475,
+      "tier2": 25221,
+      "tier3": 7071,
+      "cells": 451,
+      "cellsVisible": 298,
+      "moves": 51823,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 2,
+      "bakeMs": 142,
+      "fading": 0,
+      "updateMs": 0.699999988079071,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    }
+  }
+]

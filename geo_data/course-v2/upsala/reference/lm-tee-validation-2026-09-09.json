@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "kind": "tee-native-orthophoto-verification",
+  "observedAt": "2026-09-09T17:37:00.233288+00:00",
+  "state": "passed",
+  "planSha256": "992d78af8fa0a037c9e337f74645f49c5a87dc60e5662448c10b6982143e6a4c",
+  "acquisitionSha256": "a6dcaee00be5ee739d690cba3998fe7fadeaadf96e67d75993381674113ad758",
+  "verifiedWindows": 27,
+  "nativeResolutionMetres": 0.16,
+  "pixels": 25081195,
+  "declaredFrameProjectionMaximumResidualMetres": 0,
+  "captureDates": [
+    "2025-06-14"
+  ],
+  "checks": [
+    "All 27 expected tee windows present",
+    "Final TIFF and RGB hashes",
+    "Native EPSG:3006 pixel grids",
+    "Explicit RGBI bands and valid coverage",
+    "Exact PNG/TIFF RGB values",
+    "Worldfile pixel centres",
+    "Declared mPerLon/mPerLat projection of every pad vertex and tee reference",
+    "40 m search margin around every pad, tee reference and route start",
+    "Complete capture-date source polygon coverage"
+  ],
+  "limitations": [
+    "This validates source registration; it does not accept physical pad outlines or daily marker positions."
+  ]
+}

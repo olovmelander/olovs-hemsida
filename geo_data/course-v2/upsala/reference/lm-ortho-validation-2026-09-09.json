@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "kind": "orthophoto-offline-verification",
+  "observedAt": "2026-09-09T16:53:38.620962+00:00",
+  "state": "passed",
+  "planSha256": "00e2425a3fce576dc39c8461836273d500bd25b182b8c17c0387ae2b46fdcbc3",
+  "acquisitionSha256": "bb03ae29dd497b834590f19dd94cf57787c330da5e126f406346b54235e6b8b6",
+  "validatedWindows": 28,
+  "nativeWindows": 27,
+  "pixels": 27255224,
+  "checks": [
+    "all expected windows present",
+    "raster and RGB checksums",
+    "EPSG:3006 and exact planned pixel-edge grid",
+    "explicit RGBI band interpretation with independent validity mask",
+    "all pixels valid",
+    "PNG RGB values exactly match GeoTIFF",
+    "worldfile pixel centres",
+    "complete source-image capture-date coverage"
+  ],
+  "limitations": [
+    "Internal coordinate consistency does not measure absolute geolocation accuracy.",
+    "Image verification does not accept any feature geometry."
+  ]
+}

@@ -1377,7 +1377,8 @@ const PRESETS = {
      y 0.18 (11 degrees after normalising) is a real 63N golden hour, and the ramps
      below were rewidened around it */
   golden: { sun: 0xffc384, int: 3.1, dir: [-0.56, 0.18, 0.71], hemiS: 0xffdcbb, hemiG: 0x716c52,
-            hemiI: 1.60, fog: 0xc4b49c, dens: 0.00040, exp: 1.22, turb: 4.2, ray: 2.1, cloud: 0.40,
+            /* Keep evening warmth without bleaching the forest in course-wide views. */
+            hemiI: 1.60, fog: 0xc4b49c, dens: 0.00020, exp: 1.22, turb: 4.2, ray: 2.1, cloud: 0.40,
             bloom: 0.20 },
   noon:   { sun: 0xfffaf0, int: 3.0, dir: [-0.22, 0.88, 0.42], hemiS: 0xdff0ff, hemiG: 0x56634a,
             hemiI: 1.35, fog: 0xb4cfdc, dens: 0.00033, exp: 1.02, turb: 2.6, ray: 1.1, cloud: 0.26,

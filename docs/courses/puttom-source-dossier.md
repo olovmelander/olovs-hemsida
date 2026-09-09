@@ -1,5 +1,9 @@
 # Örnsköldsviks Golfklubb Puttom — source dossier
 
+> Updated geometry, 2026-09-09: see [the orthophoto alignment record](../puttom-orthophoto-alignment.md)
+> for the adopted Lantmäteriet pixel traces and remaining gaps. The dated measurements
+> below describe the earlier OSM/GPS model unless explicitly superseded there.
+
 > Compiled 2026-09-05. Everything here is either a source that was read on
 > that date and is quoted, or a measurement made in this repository and
 > reproducible from a command in it. Where a source and this repository
