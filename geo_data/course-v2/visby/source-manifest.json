@@ -233,12 +233,12 @@
       "acquiredAt": null,
       "capturedAt": "2026-04-10",
       "checksum": null,
-      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "checksumReason": "Only bounded image windows acquired; their individual SHA-256 hashes and exact pixel grids are retained in the acquisition evidence. Complete source TIFF not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Authenticated TIFF header and pinned source size verified on 2026-09-09. This image does not intersect the selected 22 review windows, so no image window was acquired from it. No source imagery redistributed."
+      "notes": "Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for course and environment review; minimum valid-pixel fraction 1.0000. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; source imagery is not committed or shipped in the app."
     },
     {
       "id": "imagery-lm-o63675-6875-25-mr26",
@@ -261,12 +261,12 @@
       "acquiredAt": null,
       "capturedAt": "2026-04-10",
       "checksum": null,
-      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "checksumReason": "Only bounded image windows acquired; their individual SHA-256 hashes and exact pixel grids are retained in the acquisition evidence. Complete source TIFF not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Authenticated TIFF header and pinned source size verified on 2026-09-09. This image does not intersect the selected 22 review windows, so no image window was acquired from it. No source imagery redistributed."
+      "notes": "Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for course and environment review; minimum valid-pixel fraction 1.0000. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; source imagery is not committed or shipped in the app."
     },
     {
       "id": "imagery-lm-o63700-6850-25-mr26",
@@ -294,7 +294,7 @@
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for tee and priority surface review; minimum valid-pixel fraction 1.0000. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; no source imagery redistributed."
+      "notes": "Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for course and environment review; minimum valid-pixel fraction 1.0000. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; source imagery is not committed or shipped in the app."
     },
     {
       "id": "imagery-lm-o63700-6875-25-mr26",
@@ -322,7 +322,7 @@
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for tee and priority surface review; minimum valid-pixel fraction 1.0000. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; no source imagery redistributed."
+      "notes": "Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for course and environment review; minimum valid-pixel fraction 1.0000. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; source imagery is not committed or shipped in the app."
     },
     {
       "id": "topography-lm-10",
@@ -1104,7 +1104,7 @@
       "id": "authenticated-ortho-review-plan",
       "kind": "acquisition",
       "path": "geo_data/course-v2/visby/reference/lm-ortho-plan-2026-09-09.json",
-      "sha256": "76ec4c1efd2f4bcaa1cb29ffc7896bd753e0ddbb0b069c50afb27f23e6cba801",
+      "sha256": "9a3ee951fd5b9b0d6ba2dce2fdff8392accc7114924c98137d4955d4128bbe2b",
       "derivedFrom": [
         "imagery-lm-o63675-6850-25-mr26",
         "imagery-lm-o63675-6875-25-mr26",
@@ -1118,7 +1118,7 @@
       "id": "authenticated-ortho-acquisition",
       "kind": "acquisition",
       "path": "geo_data/course-v2/visby/reference/lm-ortho-acquisition-2026-09-09.json",
-      "sha256": "1d709060018c4746dfc7617eb9a5602df8fdc23f350cee1c891097f6429eb797",
+      "sha256": "6658276b2829ae2848cd9c3d1ec7d0a50218034ef043477651c17825389a30e8",
       "derivedFrom": [
         "imagery-lm-o63675-6850-25-mr26",
         "imagery-lm-o63675-6875-25-mr26",
@@ -1126,7 +1126,7 @@
         "imagery-lm-o63700-6875-25-mr26"
       ],
       "use": "discovery-evidence",
-      "notes": "Live authenticated byte access, 22 cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository."
+      "notes": "Live authenticated byte access, 68 cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository."
     }
   ],
   "blockers": [
@@ -1151,7 +1151,7 @@
     {
       "id": "current-ortho-access",
       "severity": "release-blocking",
-      "description": "Authenticated 2026 imagery access is verified and 22 review windows acquired. Interpretation of current playing boundaries, independent registration and applicable derivative terms remain unresolved.",
+      "description": "Authenticated 2026 imagery access is verified and 68 review windows acquired. Interpretation of current playing boundaries, independent registration and applicable derivative terms remain unresolved.",
       "exitGate": "Review the acquired current pixels and source-specific terms before adopting revised playing geometry; byte access is no longer the blocker."
     },
     {
