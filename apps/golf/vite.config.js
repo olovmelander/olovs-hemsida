@@ -204,6 +204,7 @@ export default defineConfig({
                safe and the whole point of content addressing. */
             urlPattern: ({ url, sameOrigin }) => sameOrigin &&
               (/\/courses\/[^/]+\/course-v2-[a-f0-9]{64}\.json$/.test(url.pathname) ||
+               /\/courses\/[^/]+\/environment-water-[a-f0-9]{64}\.geojson$/.test(url.pathname) ||
                /\/grounds\/[^/]+\/ground-v2-[a-f0-9]{64}\.json$/.test(url.pathname) ||
                /\/(?:courses|grounds)\/[^/]+\/(?:routing|terrain|surface|objects|stands)\/[a-f0-9]{64}\.bvch$/
                  .test(url.pathname)),

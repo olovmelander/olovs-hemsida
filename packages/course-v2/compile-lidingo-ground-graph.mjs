@@ -10,8 +10,10 @@ import { createProvisionalFrame } from './terrain-preview-node.mjs';
 import { TerrainPyramidSampler } from './terrain-pyramid.mjs';
 import { emitGroundGraph, writeGroundGraphFiles } from './emit-ground-graph-node.mjs';
 import { planV2LegacyCutout } from '../../apps/golf/src/engine/v2-legacy-cutout.mjs';
+import { refusePublishedRingOverwrite } from './ground-ring-publication-guard.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+await refusePublishedRingOverwrite(path.join(ROOT, 'apps/golf/public'), 'lidingo');
 const json = async p => JSON.parse(await readFile(path.join(ROOT, p), 'utf8'));
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const write = (p, obj) => writeFile(path.join(ROOT, p), JSON.stringify(obj, null, 2) + '\n');

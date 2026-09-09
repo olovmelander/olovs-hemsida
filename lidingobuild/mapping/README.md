@@ -4,6 +4,50 @@ Lidingö opens at `?bana=lidingo` as a provisional 18-hole course. The 1 m
 Lantmäteriet terrain and source water levels remain unchanged. This iteration
 improves the features placed on that ground, using dated source evidence.
 
+The [mapping completeness audit](mapping-completeness.md) checks every adopted
+playing/facility outline, building footprint and vegetation boundary against the
+actual served pack. It also lists all 18 holes for the current-orthophoto review,
+including explicitly unresolved changes. Run
+`node lidingobuild/mapping/audit-completeness.mjs --check` to verify that report.
+Passing geometry preservation does not establish current completeness.
+
+The review branch now has a 16,384 m terrain world with 277 tiles. Land cover,
+water and measured canopy have separate source extents; expanding terrain alone
+does not make those layers complete. The older fixed-pyramid compiler shown in
+the historical rebuild instructions below now refuses to overwrite a published
+ring graph. `publish-ground-rings.mjs --ground lidingo` owns ring publication
+and requires the retained acquisition caches. It preserves existing finest
+layers; changed canopy layers must be integrated and checked before publication.
+
+## New 2025 imagery and surrounding water
+
+Both 2025 RGBI tiles were read successfully after explicit approval of the
+credentialed acquisition. All 110 adopted outlines have measurements from the
+new imagery. The [first imagery review](ortho-2025-review.md) identifies three
+bunker outlines for inspection, especially holes 15 and 16. Spectral flags do
+not establish exact outlines or justify removing a bunker without image review.
+The explicitly approved encrypted-image transfer is installed. Public Actions
+[run 34326604307](https://github.com/olovmelander/olovs-hemsida/actions/runs/34326604307)
+completed successfully and uploaded only the encrypted artifact, with one-day
+retention. This public report contains the previously approved statistics;
+private-image observations and decrypted crop metadata are not included.
+
+The renderer now loads a checksummed 1.33 MB surrounding-water vector asset only
+for Lidingö's ready v2 world. Its 144 polygons retain 180 interior rings and
+source elevations, including six features with varying vertex heights. Nine
+source-item batches add the water outside the original course crop; the seven
+course polygons remain unchanged. No water rectangle, invented bed, shoreline
+foam at crop edges or terrain leveling is introduced. The only height offset is
+a 6 cm display clearance, matching the existing measured-water rendering.
+
+The [independent topology check](environment-water-validation.json) compares
+all 47,115 triangles against the original polygons, including islands and the
+course exclusion, with zero horizontal area difference. Loader integrity,
+island topology, height preservation and batching have automated checks.
+The full suite passes 525 Vitest and 394 Node tests, with three source-cache
+dependent skips. Production build and app asset checks pass. Browser
+visual/performance review remains pending.
+
 ## Current inventory
 
 | Layer | Result | Remaining limits |

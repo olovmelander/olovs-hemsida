@@ -122,12 +122,12 @@
       "acquiredAt": null,
       "capturedAt": "2025-05-31",
       "checksum": null,
-      "checksumReason": "Complete ortho-o2-2025 campaign discovered: items o65850_6750_25_mr25 and o65850_6775_25_mr25, 0.16 m RGBI captured 2025-05-31. STAC supplies no imagery checksum and imagery bytes are not acquired.",
+      "checksumReason": "Authenticated range reads succeeded for both 2025 RGBI items. Whole COG files and review pixels are not retained publicly, and no whole-file checksum is claimed. The separately checksummed surface-audit artifact records acquired statistics.",
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Verified flight-metadata responses retained in STAC evidence. Two source items cover the target AOI; imagery access, exact retained window identity and product-specific rights review remain pending. Never render raw orthophoto as ground texture. Existing configured account returned HTTP 403 for the checked 2025 asset on 2026-09-07; access remains unresolved."
+      "notes": "2025-05-31 RGBI imagery access confirmed on 2026-09-09T07:58:52.060127+00:00. All 110 adopted surface polygons were sampled at 1 m from the 0.16 m source. Raw imagery retention and per-hole visual boundary review remain pending; planned lifecycle here refers to retained imagery intake, not unresolved account access. No raw orthophoto ground texture or surveyed accuracy is claimed."
     },
     {
       "id": "laser-lm-skog",
@@ -872,6 +872,72 @@
       ],
       "use": "discovery-evidence",
       "notes": "Independent TIN area, winding, source heights, footprint containment, uncovered topology and supported wall perimeter checks."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/acquisition/ground-rings.json",
+      "sha256": "ed163e548ea980512414b932d1de7622451cc6e6c98acda0aa7633c6a5e83ee7",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    },
+    {
+      "id": "ortho-2025-surface-audit",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/acquisition/ortho-2025-surface-audit.json",
+      "sha256": "ca260879030c1b9638c40f89c6cdb23e3e35dec0568c47e39229d76443fb5350",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Actual authenticated RGBI reads and per-feature statistics; no raw pixels, automatic boundary edits or visual approval."
+    },
+    {
+      "id": "ortho-2025-review",
+      "kind": "control",
+      "path": "lidingobuild/mapping/ortho-2025-review.json",
+      "sha256": "6f19fbcb3791e1a3e2e6173d7f76258172e6322a369eb2cbb1fc5a90c090ca0b",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Spectral review priorities against current adopted outlines; flags are not confirmed geometry changes."
+    },
+    {
+      "id": "environment-water-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/acquisition/environment-water.json",
+      "sha256": "b74bfdf145fe49be3e76dc046148e49d8d3d35ca0249427f3406f4059331ae00",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nine source items, original file checksums and 16 km crop. Varying water vertex heights and all island holes preserved."
+    },
+    {
+      "id": "environment-water-geometry",
+      "kind": "topography",
+      "path": "geo_data/course-v2/lidingo/acquisition/environment-water.geojson",
+      "sha256": "22d904c63d31ccb7a331e1a0f4f177398f26632c20edb31cbc56774a475e14e3",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "144 source water polygons outside the original course window with 180 interior rings. Six non-flat features retain source vertex heights."
+    },
+    {
+      "id": "environment-water-validation",
+      "kind": "control",
+      "path": "lidingobuild/mapping/environment-water-validation.json",
+      "sha256": "2d95898a027b8a733a3bcd807308809e99ed8761d717bbc7375d5eecb2cd2366",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Independent triangle-union comparison to source polygons including islands/core exclusion; not browser visual approval."
     }
   ],
   "blockers": [
