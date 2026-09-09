@@ -5775,19 +5775,22 @@ if (M.infra.objectPlacement === 'mapped-only') {
   stats.measuredRoofBuildings = 0;
   stats.measuredRoofTriangles = 0;
   stats.genericRoofBuildings = 0;
+  stats.clubhouseDetails = [];
   for (const b of M.infra.buildings) {
     if (b.ring.length < 3) continue;
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
     if (b.roofSurface) {
       const geometry = measuredRoofGeometry(b.roofSurface, terrainH);
-      // Roof shade follows the dark roof observation. Facade material remains
-      // a neutral rendering approximation; no borrowed clubhouse windows,
-      // overhangs, balconies, eave height or extra roof above the source TIN.
-      const wall = L(0xc5c0b4), roof = L(0x3c4141);
+      // Keep the measured roof intact. A course module may add separately
+      // documented facade appearance; generic roof/decorations stay bypassed.
+      const look = SCENERY?.buildingLooks?.[b.id];
+      const wall = L(look?.wall ?? 0xc5c0b4), roof = L(look?.roof ?? 0x3c4141);
       for (const [a, c, d] of geometry.triangles) tri(a, c, d, roof);
       for (const [a, c, d, e] of geometry.walls) quad(a, c, d, e, wall);
       stats.measuredRoofBuildings++;
       stats.measuredRoofTriangles += geometry.triangles.length;
+      const details = SCENERY?.decorateMeasuredBuilding?.({ building:b, terrainH, tri, quad, L });
+      if (details) stats.clubhouseDetails.push(details);
       continue;
     }
     const [cx, cz] = centroidOf(b.ring);
@@ -9756,6 +9759,7 @@ window.V3D = {
            measuredRoofBuildings: stats.measuredRoofBuildings | 0,
            measuredRoofTriangles: stats.measuredRoofTriangles | 0,
            genericRoofBuildings: stats.genericRoofBuildings | 0,
+           clubhouseDetails: stats.clubhouseDetails || [],
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
