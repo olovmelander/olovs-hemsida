@@ -1,0 +1,61 @@
+{
+  "backend": "webgl2",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "errors": [],
+  "views": [
+    {
+      "mode": "native",
+      "low": false,
+      "seaLeaks": 40462,
+      "landPixels": 837,
+      "waterPixels": 58429,
+      "near": 105,
+      "reversedDepth": true,
+      "file": "overview-native.png",
+      "controlLandPixels": 838,
+      "lowDryControlPixels": 398,
+      "shoreBoundaryPixelsExcluded": 2
+    },
+    {
+      "mode": "masked",
+      "low": false,
+      "seaLeaks": 0,
+      "landPixels": 836,
+      "waterPixels": 137282,
+      "near": 105,
+      "reversedDepth": true,
+      "file": "overview-masked.png",
+      "controlLandPixels": 838,
+      "lowDryControlPixels": 398,
+      "shoreBoundaryPixelsExcluded": 2
+    },
+    {
+      "mode": "native",
+      "low": true,
+      "seaLeaks": 24269,
+      "landPixels": 801,
+      "waterPixels": 47585,
+      "near": 7.2,
+      "reversedDepth": true,
+      "file": "low-native.png",
+      "controlLandPixels": 802,
+      "lowDryControlPixels": 315,
+      "shoreBoundaryPixelsExcluded": 2
+    },
+    {
+      "mode": "masked",
+      "low": true,
+      "seaLeaks": 6,
+      "landPixels": 800,
+      "waterPixels": 87788,
+      "near": 7.2,
+      "reversedDepth": true,
+      "file": "low-masked.png",
+      "controlLandPixels": 802,
+      "lowDryControlPixels": 315,
+      "shoreBoundaryPixelsExcluded": 2
+    }
+  ],
+  "passed": true
+}

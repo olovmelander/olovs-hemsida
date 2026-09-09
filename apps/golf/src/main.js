@@ -56,10 +56,12 @@ import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engi
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
+import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
 import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildCoastalWater } from './engine/coastal-water.mjs';
+import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
@@ -1266,6 +1268,10 @@ let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.0, 14000);
+const COASTAL_DEPTH_ENABLED = !IS_GPU && M.infra.terrainPlacement === 'measured-only' && M.water.some(w => w.isSea);
+const COASTAL_TERRAIN_CEILING = V2_SELECTION.graph
+  ? V2_SELECTION.graph.ground.bounds.maxHeightRH2000 - V2_SELECTION.graph.ground.frame.origin.heightRH2000
+  : NaN;
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.055;
@@ -2247,6 +2253,7 @@ if (V2_WORLD) {
    fillGroundTintTextures falls back to the compatibility DEM outside the
    frontier's own sampler. */
 const GROUND_TINT = TERRAIN_PREVIEW.ready ? createGroundTintTextures() : null;
+const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER) : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Low WebGL2 requests reduced terrain. Ring grounds retain every native
      course vertex and simplify surrounding levels with rebuilt morphs.
@@ -2255,15 +2262,14 @@ if (TERRAIN_PREVIEW.ready) {
   const renderStride = ['1', '2'].includes(requestedTerrainStride)
     ? Number(requestedTerrainStride) : !IS_GPU && LOWQ ? 2 : 1;
   const prepareStarted = performance.now();
+  const decorateGround = createV2GroundMaterialDecorator({
+    atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
+    graphicsPolish: GRAPHICS_POLISH, debugMode: surfaceDebugMode, tint: GROUND_TINT,
+  });
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
     renderStride,
-    decorateMaterial: createV2GroundMaterialDecorator({
-      atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
-      graphicsPolish: GRAPHICS_POLISH,
-      debugMode: surfaceDebugMode,
-      tint: GROUND_TINT,
-    }),
+    decorateMaterial: COASTAL_TERRAIN_MASK ? COASTAL_TERRAIN_MASK.wrap(decorateGround) : decorateGround,
     legacySurfaceAtlas: TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas'
       ? groundAtlas
       : null,
@@ -9452,6 +9458,10 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
 let FRAME_NO = 0, TIER_FRAME = 0;   /* the frame the tree tiers last changed on */
 const FRAME_MS = new Float32Array(120);   /* the last frames' intervals, for the harness (V3D.frameTimes) */
 function updateFrameVisibility(now, dt) {
+  const near = coastalCameraNear({ enabled: COASTAL_DEPTH_ENABLED && terrainV2.kind === 'graph' && terrainV2.active,
+    cameraHeight: camera.position.y, terrainCeiling: COASTAL_TERRAIN_CEILING,
+    focusDistance: camera.position.distanceTo(controls.target) });
+  if (camera.near !== near) { camera.near = near; camera.updateProjectionMatrix(); }
   /* the world graph streams by screen-space error against the real camera */
   if (terrainV2.kind === 'graph' && terrainV2.active) {
     /* The graph adapter refreshes camera matrices before its frustum test;
@@ -9909,6 +9919,7 @@ window.V3D = {
     depthTest: waterMat.depthTest, polygonOffset: waterMat.polygonOffset,
     depthFunc: waterMat.depthFunc,
     polygonOffsetFactor: waterMat.polygonOffsetFactor, polygonOffsetUnits: waterMat.polygonOffsetUnits,
+    terrainMaskBytes: COASTAL_TERRAIN_MASK?.bytes ?? 0,
   } : null,
   cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */

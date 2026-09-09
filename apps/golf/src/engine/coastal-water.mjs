@@ -1,4 +1,5 @@
 import { inRingIndexed } from './ring-index.mjs';
+import { waterShoreDistance } from './water-shore.mjs';
 
 /* Extend a mapped sea into the surrounding DTM, never across its mapped land.
  * The source window is authoritative (including islands and low dry ground).
@@ -20,6 +21,7 @@ export function buildCoastalWater({ bounds, sourceBounds, bodies, heightAt,
   const height = Math.ceil((bounds.z1 - bounds.z0) / spacing);
   if (width * height > 2e6) throw new RangeError('Coastal water grid exceeds its boot budget');
   const seas = bodies.filter(w => w.isSea && w.ring?.length >= 3).map(w => ({
+    water: w,
     ring: w.ring,
     x0: Math.min(...w.ring.map(p => p[0])), x1: Math.max(...w.ring.map(p => p[0])),
     z0: Math.min(...w.ring.map(p => p[1])), z1: Math.max(...w.ring.map(p => p[1])),
@@ -83,6 +85,21 @@ export function buildCoastalWater({ bounds, sourceBounds, bodies, heightAt,
     positions.push(x0, seaLevel, z0, x1, seaLevel, z0, x0, seaLevel, z1, x1, seaLevel, z1);
     indices.push(base, base + 2, base + 1, base + 1, base + 2, base + 3);
   }
+  // The DTM records the sea surface, not a submerged bed. Two nearly coplanar
+  // surfaces remain unstable at range even with a deeper buffer. Omit that
+  // redundant terrain surface only where a water sheet is already guaranteed.
+  // Offshore cells exactly match emitted extension quads. Within the mapped
+  // window, keep a full cell diagonal away from every observed shore/island.
+  const terrainCoverage = extension.slice();
+  const shoreMargin = spacing * Math.SQRT2;
+  for (let row = 0; row < height; row++) for (let col = 0; col < width; col++) {
+    const x = bounds.x0 + (col + 0.5) * spacing, z = bounds.z0 + (row + 0.5) * spacing;
+    if (x - spacing / 2 < sourceBounds.x0 || x + spacing / 2 > sourceBounds.x1 ||
+        z - spacing / 2 < sourceBounds.z0 || z + spacing / 2 > sourceBounds.z1) continue;
+    const sea = seas.find(w => inBox(x, z, w) && inRingIndexed(x, z, w.ring));
+    if (sea && waterShoreDistance(x, z, sea.water) > shoreMargin) terrainCoverage[row * width + col] = 1;
+  }
   return { positions, indices, isSeaAt, spacing, cells, quads: indices.length / 6,
+    width, height, terrainCoverage, maximumCoveredTerrainHeight: seaLevel + tolerance,
     bounds: { ...bounds }, sourceBounds: { ...sourceBounds } };
 }

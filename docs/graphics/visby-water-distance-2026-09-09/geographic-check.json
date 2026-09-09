@@ -1,0 +1,31 @@
+{
+  "groundManifestSha256": "90834565deaa503404ea1ab86278218af70284a8f8e967fc7b70c3cfe8cc6a5e",
+  "modelSha256": "f424be0ad18158715c3a9a188527081984064747879a73fc83e8770e9739c7d2",
+  "bounds": {
+    "x0": -8192,
+    "x1": 8192,
+    "z0": -8192,
+    "z1": 8192
+  },
+  "sourceBounds": {
+    "x0": -2048,
+    "x1": 2048,
+    "z0": -2048,
+    "z1": 2048
+  },
+  "spacingMetres": 32,
+  "extensionHectares": 13275.4432,
+  "quads": 636,
+  "milliseconds": 1379,
+  "playedPointsExcluded": 1404,
+  "sourceGridComparisons": 65536,
+  "lowDrySamplesProtected": 64,
+  "islands": 10,
+  "islandSamplesExcluded": 11631,
+  "terrainMaskBytes": 262144,
+  "terrainMaskDryLandChecks": true,
+  "sourceTerrainModified": false,
+  "sourceGeometryModified": false,
+  "visualCameraChecks": "See native, depth-only and masked capture reports in this directory",
+  "limitation": "Outside the 4096 m source window this is a conservative DTM-connected visual extension, not a surveyed coastline. Distant features narrower than the 32 m sampling can remain unresolved."
+}
