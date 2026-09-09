@@ -23,12 +23,33 @@ import { inRing, lineBearingAt } from './geom.js';
 const HALF_WIDTH = 5.2;
 const HALF_DEPTH = 4.4;
 
+/* Optional presentation anchors are separate from the inherited tee reference.
+   They identify a place to draw a marker on an existing deck, not a surveyed
+   colour assignment. Validate all anchors before replacing runtime marks. */
+export function applyTeeDisplayAnchors(hole) {
+  const marks = hole.tees?.marks || [];
+  if (!marks.some(mk => Object.hasOwn(mk, 'displayC'))) return hole;
+  const point = p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite);
+  const adopted = marks.map(mk => {
+    if (!Object.hasOwn(mk, 'displayC')) return mk;
+    const reference = mk.referenceC ?? mk.c;
+    if (!point(mk.displayC) || !point(reference)) throw new Error(`hole ${hole.n}: invalid tee displayC or reference coordinate`);
+    if (!(hole.tees.pads || []).some(p => Array.isArray(p.ring) && p.ring.length >= 3 && inRing(...mk.displayC, p.ring))) {
+      throw new Error(`hole ${hole.n}: tee displayC lies outside existing tee pads`);
+    }
+    return { ...mk, referenceC: [...reference], c: [...mk.displayC] };
+  });
+  hole.tees.marks = adopted;
+  return hole;
+}
+
 /* The bearing is not read from the pack, it is DERIVED from the hole line the
    engine itself draws: `mk.b` in the packs is a compass bearing on eight of
    nine courses and alongLine's convention on the ninth, and a bearing that
    must agree with the line is better derived from the line than believed
    from a field beside it. Degrees, overwritten in place. */
 export function deriveTeeBearings(hole) {
+  applyTeeDisplayAnchors(hole);
   for (const mk of hole.tees?.marks || []) mk.b = lineBearingAt(hole.line, mk.c) * 180 / Math.PI;
   return hole;
 }

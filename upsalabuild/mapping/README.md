@@ -1,5 +1,17 @@
 # Upsala ground mapping: reviewed 2024–2025 evidence
 
+**Tee follow-up, 9 September:** 83 navigation references corrected against
+observed platforms; both course builds refreshed. Read the
+[tee alignment report](lm-tee-alignment-review-2026-09-09.md), including the
+27 retained uncertain references and shadowed physical boundaries.
+
+**9 September 2026 update:** authenticated Lantmäteriet imagery from 14 June
+2025 now supports four corrected greens and eight corrected bunker footprints
+across the shared ground. Both course builds have been refreshed. Start with the
+[alignment review](lm-alignment-review-2026-09-09.md) and
+[before/after boundary sheet](lm-boundary-changes-2026-09-09.svg); the earlier
+checkpoints below retain their historical counts and limitations.
+
 This pass improves the shared Stora/Mellanbanan environment. It is not a complete
 survey of every object, species or current mowing boundary. `ground-map.geojson`
 is an RFC 7946 longitude/latitude GIS export, including the

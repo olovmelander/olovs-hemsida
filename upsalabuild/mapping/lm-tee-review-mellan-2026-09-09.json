@@ -1,0 +1,5855 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "course": "mellan",
+  "courseSlug": "upsala-mellanbanan",
+  "scope": "All nine Mellan tee sites: existing physical platforms, nominal card references and route starts in 40 m buffered native-source windows.",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "baselineModelSha256": "7596a520c5df06447aec3d4ef91e900aa9ad4a3837b4bf59b2613a8421f9f61e",
+  "completeSurvey": false,
+  "method": "Direct visual review of native 0.16 m RGB images and exactly projected existing outlines. Distances measured independently with pyproj EPSG:3006 and Shapely point-to-polygon distance. No image registration fit or automatic boundary extraction.",
+  "sourceAcquisitionSha256": "a6dcaee00be5ee739d690cba3998fe7fadeaadf96e67d75993381674113ad758",
+  "sourceCaptureEvidenceSha256": "ad9f18ed41662022a8f0ecfcbdd531060d64271cd16ce7c1f7a0d881ba03faa3",
+  "sources": [
+    {
+      "id": "mellan-01-tees",
+      "rasterFile": "mellan-01-tees.tif",
+      "rgbFile": "mellan-01-tees.png",
+      "sha256": "708a42f4693f52734dee800453d385e8fe63b78642e2d41bab0dc6db88754023",
+      "rgbSha256": "b47bff187c4acd94f8107b8bd872226488de7226df593e31d508bf18aba3b48e",
+      "requestSha256": "81ce5c1ed9fe165819b6f756d5a31abf52356f37713e40aa3c7d11519c71a7d1",
+      "bytes": 1905689,
+      "boundsEpsg3006": [
+        639928.16,
+        6636362.72,
+        640083.52,
+        6636467.52
+      ],
+      "geoTransform": [
+        639928.16,
+        0.16,
+        0.0,
+        6636467.52,
+        0.0,
+        -0.16
+      ],
+      "width": 971,
+      "height": 655,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:09.143332+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-01-tees.tif"
+    },
+    {
+      "id": "mellan-02-tees",
+      "rasterFile": "mellan-02-tees.tif",
+      "rgbFile": "mellan-02-tees.png",
+      "sha256": "d1d3b0c6b0ee27a623e414741e3a8702e342b8b135e179e1e3d99850d0d50290",
+      "rgbSha256": "f7ff778869deb88c06e620bbf5b59e83a312a5b91dec924f709b5f357114ee90",
+      "requestSha256": "1680a73167784f68164abd2682cabd829ddcad3d490d6730f87819337c8afa64",
+      "bytes": 2691345,
+      "boundsEpsg3006": [
+        640223.2,
+        6636356.16,
+        640411.6799999999,
+        6636484.0
+      ],
+      "geoTransform": [
+        640223.2,
+        0.16,
+        0.0,
+        6636484.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1178,
+      "height": 799,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:09.871911+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-02-tees.tif"
+    },
+    {
+      "id": "mellan-03-tees",
+      "rasterFile": "mellan-03-tees.tif",
+      "rgbFile": "mellan-03-tees.png",
+      "sha256": "f3e3ed1cd0b0fc69434b6a28c3bab5fadea111eb28636b148966e86612945582",
+      "rgbSha256": "3522b35773c20060eb08614165fb16e6f5f89c5011e66d399167e63e7c12a00f",
+      "requestSha256": "c568432cc6c6fb1db1102f7b4450b1afbf22b089b0f1f93c388fe09c11d3423b",
+      "bytes": 3152081,
+      "boundsEpsg3006": [
+        640535.52,
+        6636395.359999999,
+        640754.0800000001,
+        6636525.76
+      ],
+      "geoTransform": [
+        640535.52,
+        0.16,
+        0.0,
+        6636525.76,
+        0.0,
+        -0.16
+      ],
+      "width": 1366,
+      "height": 815,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:10.672481+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-03-tees.tif"
+    },
+    {
+      "id": "mellan-04-tees",
+      "rasterFile": "mellan-04-tees.tif",
+      "rgbFile": "mellan-04-tees.png",
+      "sha256": "ec9cfc52a41dd143a430a8f2015bada5d88c1e61f6c66a26561fbb19565f32a7",
+      "rgbSha256": "57c8a5c7fe992a3483a2debaa8b2b93e0aa88abe4bc91300aa0aa80d0dfd8d62",
+      "requestSha256": "a4a302cdd448e941cfb7c33fd9a81296aad02e7f6a130fe5927a3a379f6197b6",
+      "bytes": 2791919,
+      "boundsEpsg3006": [
+        640821.12,
+        6636215.680000001,
+        641034.88,
+        6636340.32
+      ],
+      "geoTransform": [
+        640821.12,
+        0.16,
+        0.0,
+        6636340.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1336,
+      "height": 779,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:11.344499+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-04-tees.tif"
+    },
+    {
+      "id": "mellan-05-tees",
+      "rasterFile": "mellan-05-tees.tif",
+      "rgbFile": "mellan-05-tees.png",
+      "sha256": "0a4fb08d7044aaec0c1a844beed2433a5a9477c03e39556fe27055738b7cad84",
+      "rgbSha256": "d1acd7cdeaf699d2f39aa580c0e4b7927011ad15c58e85d97c67dbaaabf1405a",
+      "requestSha256": "26d9329dc244913ce7335828e1a635cd7f48a7265ebea9b6b104422f076292f8",
+      "bytes": 1532221,
+      "boundsEpsg3006": [
+        640522.88,
+        6636149.119999999,
+        640641.6,
+        6636259.52
+      ],
+      "geoTransform": [
+        640522.88,
+        0.16,
+        0.0,
+        6636259.52,
+        0.0,
+        -0.16
+      ],
+      "width": 742,
+      "height": 690,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:11.752838+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-05-tees.tif"
+    },
+    {
+      "id": "mellan-06-tees",
+      "rasterFile": "mellan-06-tees.tif",
+      "rgbFile": "mellan-06-tees.png",
+      "sha256": "272b42d7fdd9383ef24d5799c1832ac5472b8411386c0067a67ff747bb892447",
+      "rgbSha256": "167da746a04bfae5886db1ccb9bc88cc4654ce5b4d1471971f393a387a99a98d",
+      "requestSha256": "59fe30b4ab0dc1d6eb5d410607a4333541819cbcaa69100f8e031d69748108ac",
+      "bytes": 3838825,
+      "boundsEpsg3006": [
+        640466.72,
+        6635896.16,
+        640671.6799999999,
+        6636057.44
+      ],
+      "geoTransform": [
+        640466.72,
+        0.16,
+        0.0,
+        6636057.44,
+        0.0,
+        -0.16
+      ],
+      "width": 1281,
+      "height": 1008,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:12.610637+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-06-tees.tif"
+    },
+    {
+      "id": "mellan-07-tees",
+      "rasterFile": "mellan-07-tees.tif",
+      "rgbFile": "mellan-07-tees.png",
+      "sha256": "8a2bdca8b10995dc69bb0f9046d34421f6f8cd98594107d148c024e93a47006a",
+      "rgbSha256": "d5f1c8dc52029a0d6a8b4e90d119526a1a93f49eb037c8c8f68bbe4cb0829eb7",
+      "requestSha256": "f359f1d92bbbb52da4ac3324afb97b5cb9476428160e82b3b668e64e9fe684d1",
+      "bytes": 1469615,
+      "boundsEpsg3006": [
+        640187.84,
+        6635780.16,
+        640320.32,
+        6635877.76
+      ],
+      "geoTransform": [
+        640187.84,
+        0.16,
+        0.0,
+        6635877.76,
+        0.0,
+        -0.16
+      ],
+      "width": 828,
+      "height": 610,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:12.989085+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-07-tees.tif"
+    },
+    {
+      "id": "mellan-08-tees",
+      "rasterFile": "mellan-08-tees.tif",
+      "rgbFile": "mellan-08-tees.png",
+      "sha256": "f9f4d07af0f436378bc422ed249faf7415ca7c5993e768a988689992f903bd8b",
+      "rgbSha256": "403089f6c53eefd3c947f6794492858361623a1ed92ebad3c60bef90c487e7a3",
+      "requestSha256": "d852eb1e7ba8c9f20c5e5f9f4f2ce6c01af5c4cf515d959aaabdb0c58a06c894",
+      "bytes": 1542101,
+      "boundsEpsg3006": [
+        640284.48,
+        6635895.680000001,
+        640390.72,
+        6636026.24
+      ],
+      "geoTransform": [
+        640284.48,
+        0.16,
+        0.0,
+        6636026.24,
+        0.0,
+        -0.16
+      ],
+      "width": 664,
+      "height": 816,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:13.354202+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-08-tees.tif"
+    },
+    {
+      "id": "mellan-09-tees",
+      "rasterFile": "mellan-09-tees.tif",
+      "rgbFile": "mellan-09-tees.png",
+      "sha256": "8b9c0f202d24d0a3af1e1d2608668e9005fa0503595bea466a6f031891b69c74",
+      "rgbSha256": "69fbbea7b34e9924eebfb8f3c4ac44c580c82680d08f222477754d301f72cb3b",
+      "requestSha256": "f37c0f223c63c6747806c8ac24b1d711a3d39ee89150a0d6eb04182ddb5ca9ac",
+      "bytes": 1624609,
+      "boundsEpsg3006": [
+        640119.2,
+        6636277.6,
+        640267.36,
+        6636375.52
+      ],
+      "geoTransform": [
+        640119.2,
+        0.16,
+        0.0,
+        6636375.52,
+        0.0,
+        -0.16
+      ],
+      "width": 926,
+      "height": 612,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:13.673951+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "path": "upsalabuild/cache/lm-tees/mellan-09-tees.tif"
+    }
+  ],
+  "reviews": [
+    {
+      "hole": 1,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-01-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-01-tees.png",
+        "plainSha256": "b47bff187c4acd94f8107b8bd872226488de7226df593e31d508bf18aba3b48e",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-01-tees-overlay.png",
+        "overlaySha256": "ad4c396cec1f5cff1853e4b934a6c8333780f3a2af43db22dcf8429a16d9a2ad",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "The long west platform and short east platform agree with the visible closely mown turf. Small edge differences do not justify a replacement. The last two nominal references sit just north of the east outline.",
+      "padBoundaryInterpretationUncertaintyMetres": 1.0,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-01-west",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "2900e9e21dfeda929c049bb3da3cdcd9e7b351eae7b3bfbdc708f82100094a82",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-01-east",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "89fd1691dcbda7b4752019bd587642c9957ab401d34dfa5ac18309dcf2b2c484",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 286,
+            "c": [
+              151.3,
+              -299.5
+            ],
+            "b": 100
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-01-west",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            59.4735
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 273,
+            "c": [
+              164.1,
+              -297.3
+            ],
+            "b": 100
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-01-west",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            46.4786
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 273,
+            "c": [
+              164.1,
+              -297.3
+            ],
+            "b": 100
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-01-west",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            46.4786
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 221,
+            "c": [
+              215.3,
+              -288.3
+            ],
+            "b": 100
+          },
+          "classification": "outside-within-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-01-east",
+          "distanceToNearestPadMetres": 0.7764,
+          "distanceToEveryPadMetres": [
+            38.1158,
+            0.7764
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 221,
+            "c": [
+              215.3,
+              -288.3
+            ],
+            "b": 100
+          },
+          "classification": "outside-within-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-01-east",
+          "distanceToNearestPadMetres": 0.7764,
+          "distanceToEveryPadMetres": [
+            38.1158,
+            0.7764
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-01-west",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-01-west",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-01-west",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-01-east",
+          "status": "advisory-platform-association",
+          "basis": "near-edge",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.7764,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-01-east",
+          "status": "advisory-platform-association",
+          "basis": "near-edge",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.7764,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          157.9,
+          -298.4
+        ],
+        "nearestPadIndex": 0,
+        "distanceToNearestPadMetres": 0.0,
+        "insideExistingPad": true,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    },
+    {
+      "hole": 2,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-02-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-02-tees.png",
+        "plainSha256": "f7ff778869deb88c06e620bbf5b59e83a312a5b91dec924f709b5f357114ee90",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-02-tees-overlay.png",
+        "overlaySha256": "380895d3a97fb7906d9bffdfc325d68cf6086eac2af595e26bb65aa207118e49",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "Both northwest and pondside platforms agree with the visible turf. The shortest nominal reference is far east beyond the pondside pad, beside rough/fairway approach; this image does not identify a separate pad there.",
+      "padBoundaryInterpretationUncertaintyMetres": 1.0,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-02-northwest",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "4c08f9c611af1a82593c998d50de858bdf843186acdf9a7ba2a6121882ea2e00",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-02-pondside",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "a4495d08dbbff91253dea1415dceb164b86e59b067071d2194e3b67535bf8107",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 335,
+            "c": [
+              446,
+              -309.5
+            ],
+            "b": 114.9
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            42.2243
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 329,
+            "c": [
+              451.5,
+              -306.9
+            ],
+            "b": 114.9
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            36.1574
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 329,
+            "c": [
+              451.5,
+              -306.9
+            ],
+            "b": 114.9
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            36.1574
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 291,
+            "c": [
+              485.9,
+              -290.9
+            ],
+            "b": 114.9
+          },
+          "classification": "outside-within-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-02-pondside",
+          "distanceToNearestPadMetres": 0.6766,
+          "distanceToEveryPadMetres": [
+            29.1997,
+            0.6766
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 220,
+            "c": [
+              550.3,
+              -261
+            ],
+            "b": 114.9
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-02-pondside",
+          "distanceToNearestPadMetres": 58.5684,
+          "distanceToEveryPadMetres": [
+            100.2575,
+            58.5684
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-02-pondside",
+          "status": "advisory-platform-association",
+          "basis": "near-edge",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.6766,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "unresolved-no-visible-platform",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          458.7,
+          -303.6
+        ],
+        "nearestPadIndex": 0,
+        "distanceToNearestPadMetres": 0.0,
+        "insideExistingPad": true,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    },
+    {
+      "hole": 3,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-03-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-03-tees.png",
+        "plainSha256": "3522b35773c20060eb08614165fb16e6f5f89c5011e66d399167e63e7c12a00f",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-03-tees-overlay.png",
+        "overlaySha256": "0cd1882c097ad25e5c93fefbc9626cfc450c9889da7a4d0c9f30d67e0c460c39",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "The broad northwest platform and smaller southeast platform agree with the visible turf. The two longest references lie beside the road west of the large pad; the middle pair lies between platforms. The shortest reference is farther southeast in rough, with no distinct physical platform identified.",
+      "padBoundaryInterpretationUncertaintyMetres": 1.0,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-03-northwest",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "b6caa1c39520e6f33177ea64a82d5d2b9b035aa38a6c49820f0ac0815e8e0de5",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-03-southeast",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "bbd939c650db515d2286ddb5dca18e209a14b06ac4355d0164ea5f9c71016c36",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 435,
+            "c": [
+              757,
+              -342.7
+            ],
+            "b": 112.1
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-03-northwest",
+          "distanceToNearestPadMetres": 19.5343,
+          "distanceToEveryPadMetres": [
+            19.5343,
+            101.2924
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 435,
+            "c": [
+              757,
+              -342.7
+            ],
+            "b": 112.1
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-03-northwest",
+          "distanceToNearestPadMetres": 19.5343,
+          "distanceToEveryPadMetres": [
+            19.5343,
+            101.2924
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 353,
+            "c": [
+              832.9,
+              -311.8
+            ],
+            "b": 112.1
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-03-southeast",
+          "distanceToNearestPadMetres": 19.1872,
+          "distanceToEveryPadMetres": [
+            33.5061,
+            19.1872
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 353,
+            "c": [
+              832.9,
+              -311.8
+            ],
+            "b": 112.1
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-03-southeast",
+          "distanceToNearestPadMetres": 19.1872,
+          "distanceToEveryPadMetres": [
+            33.5061,
+            19.1872
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 288,
+            "c": [
+              893.1,
+              -287.3
+            ],
+            "b": 112.1
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-03-southeast",
+          "distanceToNearestPadMetres": 32.911,
+          "distanceToEveryPadMetres": [
+            98.6116,
+            32.911
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-03-northwest",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 19.5343,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-03-northwest",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 19.5343,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-03-southeast",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 19.1872,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-03-southeast",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 19.1872,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "unresolved-no-visible-platform",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          767.7,
+          -338.3
+        ],
+        "nearestPadIndex": 0,
+        "distanceToNearestPadMetres": 8.3417,
+        "insideExistingPad": false,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    },
+    {
+      "hole": 4,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-04-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-04-tees.png",
+        "plainSha256": "57c8a5c7fe992a3483a2debaa8b2b93e0aa88abe4bc91300aa0aa80d0dfd8d62",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-04-tees-overlay.png",
+        "overlaySha256": "92550121453e298efc6acaf9821595e917688734ab289ae4ef09fde1503a3c76",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "The east and northwest turf platforms are visible and their existing outlines agree. The middle pair of nominal references lies substantially south of the northwest platform; the shortest reference lies near the far-west fairway edge with no separately identifiable tee pad.",
+      "padBoundaryInterpretationUncertaintyMetres": 1.0,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-04-east",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "65cbc72b1086633f8ab5af49fe52116a4e07b365a738a47d0d3dab2dc79b06a5",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-04-northwest",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "24f2fd6b78d9e436ddc1a8d9d13d9f363bbbf41fed1658227ffb715229a7160d",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 307,
+            "c": [
+              1161.8,
+              -102
+            ],
+            "b": -83.6
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-04-east",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            60.0657
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 300,
+            "c": [
+              1154.9,
+              -102.8
+            ],
+            "b": -83.6
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-04-east",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            53.8893
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 248,
+            "c": [
+              1103.2,
+              -108.6
+            ],
+            "b": -83.6
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-04-northwest",
+          "distanceToNearestPadMetres": 22.7475,
+          "distanceToEveryPadMetres": [
+            43.3705,
+            22.7475
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 248,
+            "c": [
+              1103.2,
+              -108.6
+            ],
+            "b": -83.6
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-04-northwest",
+          "distanceToNearestPadMetres": 22.7475,
+          "distanceToEveryPadMetres": [
+            43.3705,
+            22.7475
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 178,
+            "c": [
+              1033.7,
+              -116.4
+            ],
+            "b": -83.6
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-04-northwest",
+          "distanceToNearestPadMetres": 65.6523,
+          "distanceToEveryPadMetres": [
+            113.3291,
+            65.6523
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-04-east",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-04-east",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-04-northwest",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 22.7475,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-04-northwest",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 22.7475,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "unresolved-no-visible-platform",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          1158.9,
+          -102.4
+        ],
+        "nearestPadIndex": 0,
+        "distanceToNearestPadMetres": 0.0,
+        "insideExistingPad": true,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    },
+    {
+      "hole": 5,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-05-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-05-tees.png",
+        "plainSha256": "d1acd7cdeaf699d2f39aa580c0e4b7927011ad15c58e85d97c67dbaaabf1405a",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-05-tees-overlay.png",
+        "overlaySha256": "48bcc91d30650bcc7a511903dd3ba6f8cf64d9372707e18dac376a13db59d650",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "All three northeast-to-southwest platforms and the five nominal references agree broadly with the image. The southwest platform has a shadowed edge; no hidden boundary is redrawn.",
+      "padBoundaryInterpretationUncertaintyMetres": 1.5,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-05-northeast",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "84e4bb00a8b7d5bac33999dd90218a73d74d3280bfea1466fa0da5acbced72c2",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-05-middle",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "0e1187fd0fccdc4e5b98b609ea128c63fda20d514d5f976508d0000ff93e8934",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "upsala-mellanbanan-tee-05-southwest",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "37c4572c2f59a888671f44148241c2763f992b444d4a90e37a73cdb8cfcae435",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 109,
+            "c": [
+              769.2,
+              -72.2
+            ],
+            "b": -116.7
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-05-northeast",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            18.8606,
+            31.9752
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 102,
+            "c": [
+              762.9,
+              -69
+            ],
+            "b": -116.7
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-05-northeast",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            11.8979,
+            25.0204
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 86,
+            "c": [
+              748.6,
+              -61.9
+            ],
+            "b": -116.7
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            1
+          ],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-05-middle",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            13.4588,
+            0.0,
+            9.6261
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 73,
+            "c": [
+              737,
+              -56
+            ],
+            "b": -116.7
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            2
+          ],
+          "nearestPadIndex": 2,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-05-southwest",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            26.4578,
+            8.3939,
+            0.0
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 73,
+            "c": [
+              737,
+              -56
+            ],
+            "b": -116.7
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            2
+          ],
+          "nearestPadIndex": 2,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-05-southwest",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            26.4578,
+            8.3939,
+            0.0
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-05-northeast",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-05-northeast",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-05-middle",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": 2,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-05-southwest",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": 2,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-05-southwest",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          760.5,
+          -67.8
+        ],
+        "nearestPadIndex": 0,
+        "distanceToNearestPadMetres": 0.2045,
+        "insideExistingPad": false,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    },
+    {
+      "hole": 6,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-06-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-06-tees.png",
+        "plainSha256": "167da746a04bfae5886db1ccb9bc88cc4654ce5b4d1471971f393a387a99a98d",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-06-tees-overlay.png",
+        "overlaySha256": "bcc635fb1833184e930d907c8c50d7f7be21e2b77b6e990668b2ec593eb69ef8",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "Four existing platforms are identifiable: northeast upper, northeast lower, west of the path and southwest. Their outlines follow visible turf within edge/shadow uncertainty. The nominal rear references enter woodland, the fourth lies on the path and the shortest lies in scrub southwest of the forward platform. Three rear platforms cannot be assigned to tee identities from imagery alone. The southwest pad is a plausible fourth-group candidate by spatial/card ordering; the shortest group has no separately identified pad.",
+      "padBoundaryInterpretationUncertaintyMetres": 2.0,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "7286ef0e3fcc5a62c042af56e5a37dc43863957d9a18d4c58d11a3c63dfe11e1",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-06-northeast-lower",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "fa81060285576134ba39e37613483f5af04bd64ad45840d5db6a25c4d02e5396",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "upsala-mellanbanan-tee-06-west-of-path",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "78230cfd2188830bbf1c9e657121d35c3dfdde97d498f88302284891b426c389",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 3,
+          "sourceId": "upsala-mellanbanan-tee-06-southwest",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "8b98e0f01453cef2980cffb4d17ec6c88eb56ea0817a8b84da8e537239193179",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 455,
+            "c": [
+              795.2,
+              127.2
+            ],
+            "b": -119.9
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+          "distanceToNearestPadMetres": 23.2525,
+          "distanceToEveryPadMetres": [
+            23.2525,
+            34.1061,
+            58.9195,
+            108.0535
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 442,
+            "c": [
+              783.9,
+              133.7
+            ],
+            "b": -119.9
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+          "distanceToNearestPadMetres": 10.4182,
+          "distanceToEveryPadMetres": [
+            10.4182,
+            21.1628,
+            46.3679,
+            95.092
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 428,
+            "c": [
+              771.8,
+              140.7
+            ],
+            "b": -119.9
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            7.7224,
+            33.2807,
+            81.2235
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 368,
+            "c": [
+              719.8,
+              170.6
+            ],
+            "b": -119.9
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 2,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-06-west-of-path",
+          "distanceToNearestPadMetres": 20.0616,
+          "distanceToEveryPadMetres": [
+            57.1211,
+            45.4142,
+            20.0616,
+            23.7173
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 308,
+            "c": [
+              667.8,
+              200.6
+            ],
+            "b": -119.9
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 3,
+          "nearestPadSourceId": "upsala-mellanbanan-tee-06-southwest",
+          "distanceToNearestPadMetres": 30.251,
+          "distanceToEveryPadMetres": [
+            117.2093,
+            105.4535,
+            77.2085,
+            30.251
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "uncertain-rear-platform-association",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [
+            0,
+            1,
+            2
+          ],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "uncertain-rear-platform-association",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [
+            0,
+            1,
+            2
+          ],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "uncertain-rear-platform-association",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [
+            0,
+            1,
+            2
+          ],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": 3,
+          "recommendedPadSourceId": "upsala-mellanbanan-tee-06-southwest",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 23.7173,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "unresolved-no-visible-platform",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          765.9,
+          144.1
+        ],
+        "nearestPadIndex": 1,
+        "distanceToNearestPadMetres": 2.0047,
+        "insideExistingPad": false,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    },
+    {
+      "hole": 7,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-07-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-07-tees.png",
+        "plainSha256": "d5f1c8dc52029a0d6a8b4e90d119526a1a93f49eb037c8c8f68bbe4cb0829eb7",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-07-tees-overlay.png",
+        "overlaySha256": "1d9853e75ff3ee7ccf311a0e46185aa9b2b0a0b25c9ff1ea23ce5fe94e92b5e2",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "Four distinct west-to-east platforms agree with existing footprints; the western end is partly shadowed. The reference sequence increases eastward but three groups fall between or outside the physical pads. Ordered candidate associations follow the four separate platforms; nearest-pad assignment alone would attach the third reference to the preceding platform.",
+      "padBoundaryInterpretationUncertaintyMetres": 1.5,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "mellan-7-tee-west",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "adc5299b6c138abf01761f586027265f3450ab6c618d5f4ee4e1d32792d67532",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "mellan-7-tee-middle-west",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "94b61832d7fae92c2c13b31435f1f998474990ba049f5af7ee864afda997a457",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "mellan-7-tee-middle-east",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "f089a8841a46f2fa5e8905222fc5c5e9ec24c1b63284119d3365d9f6bee718cd",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 3,
+          "sourceId": "mellan-7-tee-east",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "f336623ee1714bf5c89b62e99e59c307a01d5b9225206ce8871d161b570217b1",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 155,
+            "c": [
+              386.3,
+              308.7
+            ],
+            "b": 68.4
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "mellan-7-tee-west",
+          "distanceToNearestPadMetres": 2.0356,
+          "distanceToEveryPadMetres": [
+            2.0356,
+            16.3195,
+            32.0181,
+            44.211
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 137,
+            "c": [
+              403,
+              302
+            ],
+            "b": 68.4
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            1
+          ],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "mellan-7-tee-middle-west",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            11.5552,
+            0.0,
+            14.194,
+            26.7648
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 127,
+            "c": [
+              412.3,
+              298.4
+            ],
+            "b": 68.4
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "mellan-7-tee-middle-west",
+          "distanceToNearestPadMetres": 3.7097,
+          "distanceToEveryPadMetres": [
+            21.1696,
+            3.7097,
+            4.4816,
+            17.4808
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 113,
+            "c": [
+              425.3,
+              293.2
+            ],
+            "b": 68.4
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 2,
+          "nearestPadSourceId": "mellan-7-tee-middle-east",
+          "distanceToNearestPadMetres": 4.2381,
+          "distanceToEveryPadMetres": [
+            34.9919,
+            17.636,
+            4.2381,
+            5.1391
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 113,
+            "c": [
+              425.3,
+              293.2
+            ],
+            "b": 68.4
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 2,
+          "nearestPadSourceId": "mellan-7-tee-middle-east",
+          "distanceToNearestPadMetres": 4.2381,
+          "distanceToEveryPadMetres": [
+            34.9919,
+            17.636,
+            4.2381,
+            5.1391
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "mellan-7-tee-west",
+          "status": "advisory-platform-association",
+          "basis": "near-edge",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 2.0356,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "mellan-7-tee-middle-west",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": 2,
+          "recommendedPadSourceId": "mellan-7-tee-middle-east",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 4.4816,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": 3,
+          "recommendedPadSourceId": "mellan-7-tee-east",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 5.1391,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": 3,
+          "recommendedPadSourceId": "mellan-7-tee-east",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 5.1391,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          390.2,
+          307.1
+        ],
+        "nearestPadIndex": 0,
+        "distanceToNearestPadMetres": 0.0,
+        "insideExistingPad": true,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    },
+    {
+      "hole": 8,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-08-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-08-tees.png",
+        "plainSha256": "403089f6c53eefd3c947f6794492858361623a1ed92ebad3c60bef90c487e7a3",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-08-tees-overlay.png",
+        "overlaySha256": "740504520c1eb9a7b35194465ac46c8c7b53186b96a231b0f42bd0dc144753c6",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "The southern platform and the additional northern platform are visible among rock, scrub and tree shadow. Existing boundaries are retained because obscured edge details do not support a new outline. The longest pair falls in scrub well south of the southern pad. The middle pair lies just south of that pad, yet the card-group progression could instead use the northern pad; that association remains uncertain. The shortest reference lies beside the path northeast of the northern pad.",
+      "padBoundaryInterpretationUncertaintyMetres": 2.0,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "mellan-8-tee-upper",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "8a159f32fd55e029bb20cac3e6e3957cced12c167e3e996689b2832cc910b587",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "d2b6463f50803eabe00f1c217fd4222b441c9ab81f30b0af5de1f0cfa3bd6ab1",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 338,
+            "c": [
+              495.2,
+              197.3
+            ],
+            "b": 20.7
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "mellan-8-tee-upper",
+          "distanceToNearestPadMetres": 20.4521,
+          "distanceToEveryPadMetres": [
+            20.4521,
+            38.1497
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 338,
+            "c": [
+              495.2,
+              197.3
+            ],
+            "b": 20.7
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "mellan-8-tee-upper",
+          "distanceToNearestPadMetres": 20.4521,
+          "distanceToEveryPadMetres": [
+            20.4521,
+            38.1497
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 320,
+            "c": [
+              501.6,
+              180.4
+            ],
+            "b": 20.7
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "mellan-8-tee-upper",
+          "distanceToNearestPadMetres": 2.3961,
+          "distanceToEveryPadMetres": [
+            2.3961,
+            22.0119
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 320,
+            "c": [
+              501.6,
+              180.4
+            ],
+            "b": 20.7
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "mellan-8-tee-upper",
+          "distanceToNearestPadMetres": 2.3961,
+          "distanceToEveryPadMetres": [
+            2.3961,
+            22.0119
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 285,
+            "c": [
+              513.9,
+              147.7
+            ],
+            "b": 20.7
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+          "distanceToNearestPadMetres": 17.6172,
+          "distanceToEveryPadMetres": [
+            26.1027,
+            17.6172
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "mellan-8-tee-upper",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 20.4521,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "mellan-8-tee-upper",
+          "status": "advisory-platform-association",
+          "basis": "ordered-platform-candidate",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 20.4521,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "uncertain-middle-platform-association",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [
+            0,
+            1
+          ],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "uncertain-middle-platform-association",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [
+            0,
+            1
+          ],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": null,
+          "recommendedPadSourceId": null,
+          "status": "unresolved",
+          "basis": "unresolved-no-visible-platform",
+          "distanceFromNominalReferenceToRecommendedPadMetres": null,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          503.4,
+          175.7
+        ],
+        "nearestPadIndex": 0,
+        "distanceToNearestPadMetres": 0.0,
+        "insideExistingPad": true,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    },
+    {
+      "hole": 9,
+      "status": "reviewed-physical-pads",
+      "sourceWindowIds": [
+        "mellan-09-tees"
+      ],
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "imageReview": {
+        "plainPath": "upsalabuild/cache/lm-tees/mellan-09-tees.png",
+        "plainSha256": "69fbbea7b34e9924eebfb8f3c4ac44c580c82680d08f222477754d301f72cb3b",
+        "overlayPath": "upsalabuild/cache/lm-tees/mellan-09-tees-overlay.png",
+        "overlaySha256": "bc353ac70e16c5f648d623c103d1cc02f44f0279a86d8938c602c436a3f5b505",
+        "nativeResolutionMetres": 0.16,
+        "directVisualInspection": true
+      },
+      "note": "The west, middle and east platforms agree with the observed turf. The first reference is inside the east pad; the middle pair lies just south of the middle pad; the last pair lies on the west pad edge. Tree shadows obscure parts of the southern edges, so no new boundary is inferred.",
+      "padBoundaryInterpretationUncertaintyMetres": 1.5,
+      "pads": [
+        {
+          "padIndex": 0,
+          "sourceId": "mellan-9-tee-west",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "31bd1633444f7a35548969cbd0b7a30305a28c00713b407a0a8ef101a0acfbce",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "mellan-9-tee-middle",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "aff11f417a11098758976c2126c6c994d1c33ca20b0cfa4948fadf36b9b77385",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "mellan-9-tee-east",
+          "decision": "retain-existing-observed-footprint",
+          "originalShapeSha256": "9c72067c65005b527c0c06967f9a4fd31c912de7d1e121017576879d83affb78",
+          "sourcePositionSupported": true,
+          "boundaryChangeAccepted": false,
+          "absoluteHorizontalAccuracyMetres": null
+        }
+      ],
+      "nominalReferenceDiagnostics": [
+        {
+          "markIndex": 0,
+          "displayReference": "M1",
+          "originalReference": {
+            "teeIdx": 0,
+            "m": 181,
+            "c": [
+              398.5,
+              -198.9
+            ],
+            "b": -97.3
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            2
+          ],
+          "nearestPadIndex": 2,
+          "nearestPadSourceId": "mellan-9-tee-east",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            52.495,
+            32.4069,
+            0.0
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 1,
+          "displayReference": "M2",
+          "originalReference": {
+            "teeIdx": 1,
+            "m": 143,
+            "c": [
+              360.8,
+              -194.1
+            ],
+            "b": -97.3
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "mellan-9-tee-middle",
+          "distanceToNearestPadMetres": 1.3885,
+          "distanceToEveryPadMetres": [
+            14.4187,
+            1.3885,
+            26.9811
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 2,
+          "displayReference": "M3",
+          "originalReference": {
+            "teeIdx": 2,
+            "m": 143,
+            "c": [
+              360.8,
+              -194.1
+            ],
+            "b": -97.3
+          },
+          "classification": "outside-over-1m",
+          "containingPadIndexes": [],
+          "nearestPadIndex": 1,
+          "nearestPadSourceId": "mellan-9-tee-middle",
+          "distanceToNearestPadMetres": 1.3885,
+          "distanceToEveryPadMetres": [
+            14.4187,
+            1.3885,
+            26.9811
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 3,
+          "displayReference": "M4",
+          "originalReference": {
+            "teeIdx": 3,
+            "m": 128,
+            "c": [
+              345.9,
+              -192.2
+            ],
+            "b": -97.3
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "mellan-9-tee-west",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            7.2713,
+            42.0341
+          ],
+          "observedDailyMarker": false
+        },
+        {
+          "markIndex": 4,
+          "displayReference": "M5",
+          "originalReference": {
+            "teeIdx": 4,
+            "m": 128,
+            "c": [
+              345.9,
+              -192.2
+            ],
+            "b": -97.3
+          },
+          "classification": "on-or-inside-existing-pad",
+          "containingPadIndexes": [
+            0
+          ],
+          "nearestPadIndex": 0,
+          "nearestPadSourceId": "mellan-9-tee-west",
+          "distanceToNearestPadMetres": 0.0,
+          "distanceToEveryPadMetres": [
+            0.0,
+            7.2713,
+            42.0341
+          ],
+          "observedDailyMarker": false
+        }
+      ],
+      "referencePadAssociations": [
+        {
+          "markIndex": 0,
+          "recommendedPadIndex": 2,
+          "recommendedPadSourceId": "mellan-9-tee-east",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 1,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "mellan-9-tee-middle",
+          "status": "advisory-platform-association",
+          "basis": "near-edge",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 1.3885,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 2,
+          "recommendedPadIndex": 1,
+          "recommendedPadSourceId": "mellan-9-tee-middle",
+          "status": "advisory-platform-association",
+          "basis": "near-edge",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 1.3885,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 3,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "mellan-9-tee-west",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        },
+        {
+          "markIndex": 4,
+          "recommendedPadIndex": 0,
+          "recommendedPadSourceId": "mellan-9-tee-west",
+          "status": "advisory-platform-association",
+          "basis": "contained",
+          "distanceFromNominalReferenceToRecommendedPadMetres": 0.0,
+          "alternativePadIndexes": [],
+          "dailyMarkerIdentityVerified": false,
+          "automaticAdoption": false
+        }
+      ],
+      "routeStartDiagnostic": {
+        "originalLocal": [
+          394.3,
+          -198.4
+        ],
+        "nearestPadIndex": 2,
+        "distanceToNearestPadMetres": 0.0,
+        "insideExistingPad": true,
+        "assessment": "Pre-alignment route diagnostic; downstream adoption is governed by explicit reference decisions."
+      }
+    }
+  ],
+  "holes": [
+    {
+      "hole": 1,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 286,
+          "c": [
+            151.3,
+            -299.5
+          ],
+          "b": 100
+        },
+        {
+          "teeIdx": 1,
+          "m": 273,
+          "c": [
+            164.1,
+            -297.3
+          ],
+          "b": 100
+        },
+        {
+          "teeIdx": 2,
+          "m": 273,
+          "c": [
+            164.1,
+            -297.3
+          ],
+          "b": 100
+        },
+        {
+          "teeIdx": 3,
+          "m": 221,
+          "c": [
+            215.3,
+            -288.3
+          ],
+          "b": 100
+        },
+        {
+          "teeIdx": 4,
+          "m": 221,
+          "c": [
+            215.3,
+            -288.3
+          ],
+          "b": 100
+        }
+      ],
+      "originalLine": [
+        [
+          157.9,
+          -298.4
+        ],
+        [
+          315.4,
+          -254.9
+        ],
+        [
+          416.3,
+          -252.4
+        ],
+        [
+          435.3,
+          -249.4
+        ],
+        [
+          432.9,
+          -250.1
+        ]
+      ],
+      "originalDistances": [
+        286,
+        273,
+        273,
+        221,
+        221
+      ],
+      "sourceWindowId": "mellan-01-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "708a42f4693f52734dee800453d385e8fe63b78642e2d41bab0dc6db88754023",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-01-west",
+          "originalPadRing": [
+            [
+              149.201,
+              -303.995
+            ],
+            [
+              150.781,
+              -306.186
+            ],
+            [
+              153.819,
+              -307.321
+            ],
+            [
+              157.309,
+              -307.189
+            ],
+            [
+              161.269,
+              -306.289
+            ],
+            [
+              166.197,
+              -304.603
+            ],
+            [
+              171.357,
+              -302.408
+            ],
+            [
+              175.26,
+              -300.01
+            ],
+            [
+              177.649,
+              -297.17
+            ],
+            [
+              177.805,
+              -294.664
+            ],
+            [
+              175.975,
+              -292.483
+            ],
+            [
+              172.946,
+              -291.597
+            ],
+            [
+              168.977,
+              -292.247
+            ],
+            [
+              163.799,
+              -293.943
+            ],
+            [
+              158.381,
+              -295.898
+            ],
+            [
+              154.2,
+              -297.556
+            ],
+            [
+              151.035,
+              -299.676
+            ],
+            [
+              149.366,
+              -301.739
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-01-west",
+          "originalPadRing": [
+            [
+              149.201,
+              -303.995
+            ],
+            [
+              150.781,
+              -306.186
+            ],
+            [
+              153.819,
+              -307.321
+            ],
+            [
+              157.309,
+              -307.189
+            ],
+            [
+              161.269,
+              -306.289
+            ],
+            [
+              166.197,
+              -304.603
+            ],
+            [
+              171.357,
+              -302.408
+            ],
+            [
+              175.26,
+              -300.01
+            ],
+            [
+              177.649,
+              -297.17
+            ],
+            [
+              177.805,
+              -294.664
+            ],
+            [
+              175.975,
+              -292.483
+            ],
+            [
+              172.946,
+              -291.597
+            ],
+            [
+              168.977,
+              -292.247
+            ],
+            [
+              163.799,
+              -293.943
+            ],
+            [
+              158.381,
+              -295.898
+            ],
+            [
+              154.2,
+              -297.556
+            ],
+            [
+              151.035,
+              -299.676
+            ],
+            [
+              149.366,
+              -301.739
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-01-west",
+          "originalPadRing": [
+            [
+              149.201,
+              -303.995
+            ],
+            [
+              150.781,
+              -306.186
+            ],
+            [
+              153.819,
+              -307.321
+            ],
+            [
+              157.309,
+              -307.189
+            ],
+            [
+              161.269,
+              -306.289
+            ],
+            [
+              166.197,
+              -304.603
+            ],
+            [
+              171.357,
+              -302.408
+            ],
+            [
+              175.26,
+              -300.01
+            ],
+            [
+              177.649,
+              -297.17
+            ],
+            [
+              177.805,
+              -294.664
+            ],
+            [
+              175.975,
+              -292.483
+            ],
+            [
+              172.946,
+              -291.597
+            ],
+            [
+              168.977,
+              -292.247
+            ],
+            [
+              163.799,
+              -293.943
+            ],
+            [
+              158.381,
+              -295.898
+            ],
+            [
+              154.2,
+              -297.556
+            ],
+            [
+              151.035,
+              -299.676
+            ],
+            [
+              149.366,
+              -301.739
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-01-east",
+          "originalPadRing": [
+            [
+              209.197,
+              -286.477
+            ],
+            [
+              211.257,
+              -288.149
+            ],
+            [
+              213.749,
+              -288.055
+            ],
+            [
+              216.703,
+              -286.943
+            ],
+            [
+              220.385,
+              -285.304
+            ],
+            [
+              223.061,
+              -283.453
+            ],
+            [
+              223.494,
+              -281.686
+            ],
+            [
+              221.693,
+              -280.254
+            ],
+            [
+              219.191,
+              -280.099
+            ],
+            [
+              215.748,
+              -281.479
+            ],
+            [
+              211.807,
+              -282.878
+            ],
+            [
+              209.869,
+              -284.451
+            ]
+          ],
+          "maxShiftMetres": 5.776,
+          "reason": "The nominal reference sits on or just outside the matching observed platform edge; align the displayed reference to the platform interior without claiming a daily marker position.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-01-east",
+          "originalPadRing": [
+            [
+              209.197,
+              -286.477
+            ],
+            [
+              211.257,
+              -288.149
+            ],
+            [
+              213.749,
+              -288.055
+            ],
+            [
+              216.703,
+              -286.943
+            ],
+            [
+              220.385,
+              -285.304
+            ],
+            [
+              223.061,
+              -283.453
+            ],
+            [
+              223.494,
+              -281.686
+            ],
+            [
+              221.693,
+              -280.254
+            ],
+            [
+              219.191,
+              -280.099
+            ],
+            [
+              215.748,
+              -281.479
+            ],
+            [
+              211.807,
+              -282.878
+            ],
+            [
+              209.869,
+              -284.451
+            ]
+          ],
+          "maxShiftMetres": 5.776,
+          "reason": "The nominal reference sits on or just outside the matching observed platform edge; align the displayed reference to the platform interior without claiming a daily marker position.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 2,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 335,
+          "c": [
+            446,
+            -309.5
+          ],
+          "b": 114.9
+        },
+        {
+          "teeIdx": 1,
+          "m": 329,
+          "c": [
+            451.5,
+            -306.9
+          ],
+          "b": 114.9
+        },
+        {
+          "teeIdx": 2,
+          "m": 329,
+          "c": [
+            451.5,
+            -306.9
+          ],
+          "b": 114.9
+        },
+        {
+          "teeIdx": 3,
+          "m": 291,
+          "c": [
+            485.9,
+            -290.9
+          ],
+          "b": 114.9
+        },
+        {
+          "teeIdx": 4,
+          "m": 220,
+          "c": [
+            550.3,
+            -261
+          ],
+          "b": 114.9
+        }
+      ],
+      "originalLine": [
+        [
+          458.7,
+          -303.6
+        ],
+        [
+          635.6,
+          -188.9
+        ],
+        [
+          737.6,
+          -167.8
+        ],
+        [
+          753.6,
+          -169.1
+        ],
+        [
+          749.8,
+          -168.3
+        ]
+      ],
+      "originalDistances": [
+        335,
+        329,
+        329,
+        291,
+        220
+      ],
+      "sourceWindowId": "mellan-02-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "d1d3b0c6b0ee27a623e414741e3a8702e342b8b135e179e1e3d99850d0d50290",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "originalPadRing": [
+            [
+              443.955,
+              -309.599
+            ],
+            [
+              445.536,
+              -311.789
+            ],
+            [
+              448.565,
+              -312.674
+            ],
+            [
+              452.543,
+              -312.274
+            ],
+            [
+              456.734,
+              -310.865
+            ],
+            [
+              459.889,
+              -308.495
+            ],
+            [
+              460.782,
+              -305.711
+            ],
+            [
+              459.71,
+              -303.752
+            ],
+            [
+              456.883,
+              -301.609
+            ],
+            [
+              454.344,
+              -300.455
+            ],
+            [
+              451.611,
+              -300.808
+            ],
+            [
+              448.686,
+              -302.669
+            ],
+            [
+              446.278,
+              -305.01
+            ],
+            [
+              444.618,
+              -307.323
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "originalPadRing": [
+            [
+              443.955,
+              -309.599
+            ],
+            [
+              445.536,
+              -311.789
+            ],
+            [
+              448.565,
+              -312.674
+            ],
+            [
+              452.543,
+              -312.274
+            ],
+            [
+              456.734,
+              -310.865
+            ],
+            [
+              459.889,
+              -308.495
+            ],
+            [
+              460.782,
+              -305.711
+            ],
+            [
+              459.71,
+              -303.752
+            ],
+            [
+              456.883,
+              -301.609
+            ],
+            [
+              454.344,
+              -300.455
+            ],
+            [
+              451.611,
+              -300.808
+            ],
+            [
+              448.686,
+              -302.669
+            ],
+            [
+              446.278,
+              -305.01
+            ],
+            [
+              444.618,
+              -307.323
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+          "originalPadRing": [
+            [
+              443.955,
+              -309.599
+            ],
+            [
+              445.536,
+              -311.789
+            ],
+            [
+              448.565,
+              -312.674
+            ],
+            [
+              452.543,
+              -312.274
+            ],
+            [
+              456.734,
+              -310.865
+            ],
+            [
+              459.889,
+              -308.495
+            ],
+            [
+              460.782,
+              -305.711
+            ],
+            [
+              459.71,
+              -303.752
+            ],
+            [
+              456.883,
+              -301.609
+            ],
+            [
+              454.344,
+              -300.455
+            ],
+            [
+              451.611,
+              -300.808
+            ],
+            [
+              448.686,
+              -302.669
+            ],
+            [
+              446.278,
+              -305.01
+            ],
+            [
+              444.618,
+              -307.323
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-02-pondside",
+          "originalPadRing": [
+            [
+              483.647,
+              -289.845
+            ],
+            [
+              485.66,
+              -290.268
+            ],
+            [
+              488.115,
+              -289.175
+            ],
+            [
+              491.012,
+              -286.565
+            ],
+            [
+              493.382,
+              -283.225
+            ],
+            [
+              494.764,
+              -280.173
+            ],
+            [
+              494.44,
+              -278.185
+            ],
+            [
+              492.619,
+              -276.254
+            ],
+            [
+              490.099,
+              -275.599
+            ],
+            [
+              487.883,
+              -276.433
+            ],
+            [
+              485.697,
+              -278.016
+            ],
+            [
+              484.027,
+              -280.079
+            ],
+            [
+              482.626,
+              -282.633
+            ],
+            [
+              481.991,
+              -285.657
+            ],
+            [
+              482.335,
+              -288.144
+            ]
+          ],
+          "maxShiftMetres": 5.677,
+          "reason": "The nominal reference sits on or just outside the matching observed platform edge; align the displayed reference to the platform interior without claiming a daily marker position.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 3,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 435,
+          "c": [
+            757,
+            -342.7
+          ],
+          "b": 112.1
+        },
+        {
+          "teeIdx": 1,
+          "m": 435,
+          "c": [
+            757,
+            -342.7
+          ],
+          "b": 112.1
+        },
+        {
+          "teeIdx": 2,
+          "m": 353,
+          "c": [
+            832.9,
+            -311.8
+          ],
+          "b": 112.1
+        },
+        {
+          "teeIdx": 3,
+          "m": 353,
+          "c": [
+            832.9,
+            -311.8
+          ],
+          "b": 112.1
+        },
+        {
+          "teeIdx": 4,
+          "m": 288,
+          "c": [
+            893.1,
+            -287.3
+          ],
+          "b": 112.1
+        }
+      ],
+      "originalLine": [
+        [
+          767.7,
+          -338.3
+        ],
+        [
+          1015.4,
+          -197.9
+        ],
+        [
+          1150.1,
+          -181.4
+        ],
+        [
+          1161.4,
+          -176.9
+        ],
+        [
+          1159.9,
+          -178.8
+        ]
+      ],
+      "originalDistances": [
+        435,
+        435,
+        353,
+        353,
+        288
+      ],
+      "sourceWindowId": "mellan-03-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "f3e3ed1cd0b0fc69434b6a28c3bab5fadea111eb28636b148966e86612945582",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-03-northwest",
+          "originalPadRing": [
+            [
+              776.037,
+              -338.514
+            ],
+            [
+              777.119,
+              -340.723
+            ],
+            [
+              779.88,
+              -341.119
+            ],
+            [
+              783.839,
+              -340.218
+            ],
+            [
+              788.509,
+              -338.291
+            ],
+            [
+              793.16,
+              -335.864
+            ],
+            [
+              797.552,
+              -333.197
+            ],
+            [
+              800.2,
+              -330.597
+            ],
+            [
+              802.099,
+              -328.024
+            ],
+            [
+              802.513,
+              -325.759
+            ],
+            [
+              801.44,
+              -323.799
+            ],
+            [
+              799.38,
+              -322.127
+            ],
+            [
+              797.099,
+              -321.214
+            ],
+            [
+              793.859,
+              -321.337
+            ],
+            [
+              790.158,
+              -322.477
+            ],
+            [
+              785.737,
+              -324.395
+            ],
+            [
+              782.074,
+              -326.534
+            ],
+            [
+              779.168,
+              -328.895
+            ],
+            [
+              777.268,
+              -331.467
+            ],
+            [
+              775.886,
+              -334.52
+            ]
+          ],
+          "maxShiftMetres": 24.534,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-03-northwest",
+          "originalPadRing": [
+            [
+              776.037,
+              -338.514
+            ],
+            [
+              777.119,
+              -340.723
+            ],
+            [
+              779.88,
+              -341.119
+            ],
+            [
+              783.839,
+              -340.218
+            ],
+            [
+              788.509,
+              -338.291
+            ],
+            [
+              793.16,
+              -335.864
+            ],
+            [
+              797.552,
+              -333.197
+            ],
+            [
+              800.2,
+              -330.597
+            ],
+            [
+              802.099,
+              -328.024
+            ],
+            [
+              802.513,
+              -325.759
+            ],
+            [
+              801.44,
+              -323.799
+            ],
+            [
+              799.38,
+              -322.127
+            ],
+            [
+              797.099,
+              -321.214
+            ],
+            [
+              793.859,
+              -321.337
+            ],
+            [
+              790.158,
+              -322.477
+            ],
+            [
+              785.737,
+              -324.395
+            ],
+            [
+              782.074,
+              -326.534
+            ],
+            [
+              779.168,
+              -328.895
+            ],
+            [
+              777.268,
+              -331.467
+            ],
+            [
+              775.886,
+              -334.52
+            ]
+          ],
+          "maxShiftMetres": 24.534,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-03-southeast",
+          "originalPadRing": [
+            [
+              851.435,
+              -305.9
+            ],
+            [
+              853.246,
+              -307.581
+            ],
+            [
+              855.748,
+              -307.736
+            ],
+            [
+              858.442,
+              -306.384
+            ],
+            [
+              861.099,
+              -304.033
+            ],
+            [
+              862.74,
+              -301.22
+            ],
+            [
+              862.405,
+              -298.983
+            ],
+            [
+              860.604,
+              -297.551
+            ],
+            [
+              858.083,
+              -296.897
+            ],
+            [
+              855.609,
+              -297.491
+            ],
+            [
+              853.404,
+              -298.575
+            ],
+            [
+              851.725,
+              -300.389
+            ],
+            [
+              850.555,
+              -302.433
+            ],
+            [
+              850.362,
+              -303.941
+            ]
+          ],
+          "maxShiftMetres": 24.187,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-03-southeast",
+          "originalPadRing": [
+            [
+              851.435,
+              -305.9
+            ],
+            [
+              853.246,
+              -307.581
+            ],
+            [
+              855.748,
+              -307.736
+            ],
+            [
+              858.442,
+              -306.384
+            ],
+            [
+              861.099,
+              -304.033
+            ],
+            [
+              862.74,
+              -301.22
+            ],
+            [
+              862.405,
+              -298.983
+            ],
+            [
+              860.604,
+              -297.551
+            ],
+            [
+              858.083,
+              -296.897
+            ],
+            [
+              855.609,
+              -297.491
+            ],
+            [
+              853.404,
+              -298.575
+            ],
+            [
+              851.725,
+              -300.389
+            ],
+            [
+              850.555,
+              -302.433
+            ],
+            [
+              850.362,
+              -303.941
+            ]
+          ],
+          "maxShiftMetres": 24.187,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 4,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 307,
+          "c": [
+            1161.8,
+            -102
+          ],
+          "b": -83.6
+        },
+        {
+          "teeIdx": 1,
+          "m": 300,
+          "c": [
+            1154.9,
+            -102.8
+          ],
+          "b": -83.6
+        },
+        {
+          "teeIdx": 2,
+          "m": 248,
+          "c": [
+            1103.2,
+            -108.6
+          ],
+          "b": -83.6
+        },
+        {
+          "teeIdx": 3,
+          "m": 248,
+          "c": [
+            1103.2,
+            -108.6
+          ],
+          "b": -83.6
+        },
+        {
+          "teeIdx": 4,
+          "m": 178,
+          "c": [
+            1033.7,
+            -116.4
+          ],
+          "b": -83.6
+        }
+      ],
+      "originalLine": [
+        [
+          1158.9,
+          -102.4
+        ],
+        [
+          945.2,
+          -107.3
+        ],
+        [
+          875,
+          -129.1
+        ],
+        [
+          859.6,
+          -136
+        ],
+        [
+          856.8,
+          -136.2
+        ]
+      ],
+      "originalDistances": [
+        307,
+        300,
+        248,
+        248,
+        178
+      ],
+      "sourceWindowId": "mellan-04-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "ec9cfc52a41dd143a430a8f2015bada5d88c1e61f6c66a26561fbb19565f32a7",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-04-east",
+          "originalPadRing": [
+            [
+              1146.468,
+              -108.172
+            ],
+            [
+              1148.317,
+              -110.852
+            ],
+            [
+              1151.143,
+              -112.995
+            ],
+            [
+              1154.44,
+              -114.369
+            ],
+            [
+              1157.441,
+              -114.505
+            ],
+            [
+              1160.662,
+              -113.883
+            ],
+            [
+              1163.337,
+              -112.031
+            ],
+            [
+              1165.486,
+              -109.449
+            ],
+            [
+              1166.618,
+              -106.405
+            ],
+            [
+              1166.255,
+              -103.419
+            ],
+            [
+              1165.173,
+              -101.21
+            ],
+            [
+              1162.605,
+              -99.308
+            ],
+            [
+              1159.807,
+              -97.914
+            ],
+            [
+              1156.548,
+              -97.538
+            ],
+            [
+              1153.345,
+              -98.66
+            ],
+            [
+              1150.411,
+              -100.272
+            ],
+            [
+              1148.004,
+              -102.613
+            ],
+            [
+              1146.843,
+              -104.908
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-04-east",
+          "originalPadRing": [
+            [
+              1146.468,
+              -108.172
+            ],
+            [
+              1148.317,
+              -110.852
+            ],
+            [
+              1151.143,
+              -112.995
+            ],
+            [
+              1154.44,
+              -114.369
+            ],
+            [
+              1157.441,
+              -114.505
+            ],
+            [
+              1160.662,
+              -113.883
+            ],
+            [
+              1163.337,
+              -112.031
+            ],
+            [
+              1165.486,
+              -109.449
+            ],
+            [
+              1166.618,
+              -106.405
+            ],
+            [
+              1166.255,
+              -103.419
+            ],
+            [
+              1165.173,
+              -101.21
+            ],
+            [
+              1162.605,
+              -99.308
+            ],
+            [
+              1159.807,
+              -97.914
+            ],
+            [
+              1156.548,
+              -97.538
+            ],
+            [
+              1153.345,
+              -98.66
+            ],
+            [
+              1150.411,
+              -100.272
+            ],
+            [
+              1148.004,
+              -102.613
+            ],
+            [
+              1146.843,
+              -104.908
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-04-northwest",
+          "originalPadRing": [
+            [
+              1097.304,
+              -141.295
+            ],
+            [
+              1099.374,
+              -143.216
+            ],
+            [
+              1102.144,
+              -143.861
+            ],
+            [
+              1105.393,
+              -143.987
+            ],
+            [
+              1108.346,
+              -142.875
+            ],
+            [
+              1111.031,
+              -141.273
+            ],
+            [
+              1112.442,
+              -138.969
+            ],
+            [
+              1112.596,
+              -136.463
+            ],
+            [
+              1111.265,
+              -134.263
+            ],
+            [
+              1108.946,
+              -132.351
+            ],
+            [
+              1106.166,
+              -131.457
+            ],
+            [
+              1102.917,
+              -131.331
+            ],
+            [
+              1100.453,
+              -132.174
+            ],
+            [
+              1098.017,
+              -133.767
+            ],
+            [
+              1096.339,
+              -135.581
+            ],
+            [
+              1095.935,
+              -138.097
+            ]
+          ],
+          "maxShiftMetres": 27.747,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-04-northwest",
+          "originalPadRing": [
+            [
+              1097.304,
+              -141.295
+            ],
+            [
+              1099.374,
+              -143.216
+            ],
+            [
+              1102.144,
+              -143.861
+            ],
+            [
+              1105.393,
+              -143.987
+            ],
+            [
+              1108.346,
+              -142.875
+            ],
+            [
+              1111.031,
+              -141.273
+            ],
+            [
+              1112.442,
+              -138.969
+            ],
+            [
+              1112.596,
+              -136.463
+            ],
+            [
+              1111.265,
+              -134.263
+            ],
+            [
+              1108.946,
+              -132.351
+            ],
+            [
+              1106.166,
+              -131.457
+            ],
+            [
+              1102.917,
+              -131.331
+            ],
+            [
+              1100.453,
+              -132.174
+            ],
+            [
+              1098.017,
+              -133.767
+            ],
+            [
+              1096.339,
+              -135.581
+            ],
+            [
+              1095.935,
+              -138.097
+            ]
+          ],
+          "maxShiftMetres": 27.747,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 5,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 109,
+          "c": [
+            769.2,
+            -72.2
+          ],
+          "b": -116.7
+        },
+        {
+          "teeIdx": 1,
+          "m": 102,
+          "c": [
+            762.9,
+            -69
+          ],
+          "b": -116.7
+        },
+        {
+          "teeIdx": 2,
+          "m": 86,
+          "c": [
+            748.6,
+            -61.9
+          ],
+          "b": -116.7
+        },
+        {
+          "teeIdx": 3,
+          "m": 73,
+          "c": [
+            737,
+            -56
+          ],
+          "b": -116.7
+        },
+        {
+          "teeIdx": 4,
+          "m": 73,
+          "c": [
+            737,
+            -56
+          ],
+          "b": -116.7
+        }
+      ],
+      "originalLine": [
+        [
+          760.5,
+          -67.8
+        ],
+        [
+          720.3,
+          -43.4
+        ],
+        [
+          677.7,
+          -36.3
+        ],
+        [
+          676,
+          -22
+        ],
+        [
+          671.8,
+          -23.3
+        ]
+      ],
+      "originalDistances": [
+        109,
+        102,
+        86,
+        73,
+        73
+      ],
+      "sourceWindowId": "mellan-05-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "0a4fb08d7044aaec0c1a844beed2433a5a9477c03e39556fe27055738b7cad84",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-05-northeast",
+          "originalPadRing": [
+            [
+              759.5,
+              -72.873
+            ],
+            [
+              761.08,
+              -75.063
+            ],
+            [
+              763.62,
+              -76.217
+            ],
+            [
+              766.112,
+              -76.122
+            ],
+            [
+              768.816,
+              -75.02
+            ],
+            [
+              770.984,
+              -72.937
+            ],
+            [
+              772.634,
+              -70.374
+            ],
+            [
+              772.549,
+              -68.127
+            ],
+            [
+              770.968,
+              -65.937
+            ],
+            [
+              768.419,
+              -64.534
+            ],
+            [
+              765.668,
+              -64.388
+            ],
+            [
+              763.214,
+              -65.482
+            ],
+            [
+              761.037,
+              -67.314
+            ],
+            [
+              759.626,
+              -69.618
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-05-northeast",
+          "originalPadRing": [
+            [
+              759.5,
+              -72.873
+            ],
+            [
+              761.08,
+              -75.063
+            ],
+            [
+              763.62,
+              -76.217
+            ],
+            [
+              766.112,
+              -76.122
+            ],
+            [
+              768.816,
+              -75.02
+            ],
+            [
+              770.984,
+              -72.937
+            ],
+            [
+              772.634,
+              -70.374
+            ],
+            [
+              772.549,
+              -68.127
+            ],
+            [
+              770.968,
+              -65.937
+            ],
+            [
+              768.419,
+              -64.534
+            ],
+            [
+              765.668,
+              -64.388
+            ],
+            [
+              763.214,
+              -65.482
+            ],
+            [
+              761.037,
+              -67.314
+            ],
+            [
+              759.626,
+              -69.618
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-05-middle",
+          "originalPadRing": [
+            [
+              744.609,
+              -61.937
+            ],
+            [
+              745.941,
+              -64.137
+            ],
+            [
+              747.972,
+              -65.06
+            ],
+            [
+              749.966,
+              -64.984
+            ],
+            [
+              751.913,
+              -63.66
+            ],
+            [
+              753.822,
+              -61.338
+            ],
+            [
+              754.964,
+              -58.544
+            ],
+            [
+              754.879,
+              -56.297
+            ],
+            [
+              753.318,
+              -54.606
+            ],
+            [
+              751.037,
+              -53.693
+            ],
+            [
+              748.813,
+              -54.277
+            ],
+            [
+              746.875,
+              -55.851
+            ],
+            [
+              745.216,
+              -58.164
+            ],
+            [
+              744.294,
+              -60.199
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 2,
+          "padSourceId": "upsala-mellanbanan-tee-05-southwest",
+          "originalPadRing": [
+            [
+              733.571,
+              -53.855
+            ],
+            [
+              735.142,
+              -55.796
+            ],
+            [
+              737.174,
+              -56.719
+            ],
+            [
+              739.417,
+              -56.634
+            ],
+            [
+              741.613,
+              -55.3
+            ],
+            [
+              743.531,
+              -53.227
+            ],
+            [
+              744.693,
+              -50.933
+            ],
+            [
+              744.119,
+              -48.955
+            ],
+            [
+              742.566,
+              -47.514
+            ],
+            [
+              740.544,
+              -46.84
+            ],
+            [
+              738.071,
+              -47.434
+            ],
+            [
+              736.124,
+              -48.758
+            ],
+            [
+              734.455,
+              -50.822
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "padIndex": 2,
+          "padSourceId": "upsala-mellanbanan-tee-05-southwest",
+          "originalPadRing": [
+            [
+              733.571,
+              -53.855
+            ],
+            [
+              735.142,
+              -55.796
+            ],
+            [
+              737.174,
+              -56.719
+            ],
+            [
+              739.417,
+              -56.634
+            ],
+            [
+              741.613,
+              -55.3
+            ],
+            [
+              743.531,
+              -53.227
+            ],
+            [
+              744.693,
+              -50.933
+            ],
+            [
+              744.119,
+              -48.955
+            ],
+            [
+              742.566,
+              -47.514
+            ],
+            [
+              740.544,
+              -46.84
+            ],
+            [
+              738.071,
+              -47.434
+            ],
+            [
+              736.124,
+              -48.758
+            ],
+            [
+              734.455,
+              -50.822
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 6,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 455,
+          "c": [
+            795.2,
+            127.2
+          ],
+          "b": -119.9
+        },
+        {
+          "teeIdx": 1,
+          "m": 442,
+          "c": [
+            783.9,
+            133.7
+          ],
+          "b": -119.9
+        },
+        {
+          "teeIdx": 2,
+          "m": 428,
+          "c": [
+            771.8,
+            140.7
+          ],
+          "b": -119.9
+        },
+        {
+          "teeIdx": 3,
+          "m": 368,
+          "c": [
+            719.8,
+            170.6
+          ],
+          "b": -119.9
+        },
+        {
+          "teeIdx": 4,
+          "m": 308,
+          "c": [
+            667.8,
+            200.6
+          ],
+          "b": -119.9
+        }
+      ],
+      "originalLine": [
+        [
+          765.9,
+          144.1
+        ],
+        [
+          603.2,
+          335.3
+        ],
+        [
+          425.7,
+          345.8
+        ],
+        [
+          414.6,
+          349.5
+        ],
+        [
+          400.9,
+          354.3
+        ]
+      ],
+      "originalDistances": [
+        455,
+        442,
+        428,
+        368,
+        308
+      ],
+      "sourceWindowId": "mellan-06-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "272b42d7fdd9383ef24d5799c1832ac5472b8411386c0067a67ff747bb892447",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "retain",
+          "reason": "Several rear platforms are visible, but their tee-group identities are unresolved. Retain this nominal reference pending supported association.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "retain",
+          "reason": "Several rear platforms are visible, but their tee-group identities are unresolved. Retain this nominal reference pending supported association.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "retain",
+          "reason": "Several rear platforms are visible, but their tee-group identities are unresolved. Retain this nominal reference pending supported association.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "upsala-mellanbanan-tee-06-southwest",
+          "originalPadRing": [
+            [
+              698.415,
+              196.079
+            ],
+            [
+              699.765,
+              193.38
+            ],
+            [
+              701.834,
+              191.458
+            ],
+            [
+              704.373,
+              190.304
+            ],
+            [
+              706.616,
+              190.389
+            ],
+            [
+              708.572,
+              191.464
+            ],
+            [
+              709.752,
+              193.258
+            ],
+            [
+              710.166,
+              195.524
+            ],
+            [
+              709.564,
+              198.252
+            ],
+            [
+              708.223,
+              200.701
+            ],
+            [
+              706.643,
+              202.891
+            ],
+            [
+              704.592,
+              204.314
+            ],
+            [
+              702.331,
+              204.728
+            ],
+            [
+              700.365,
+              203.903
+            ],
+            [
+              698.936,
+              202.099
+            ],
+            [
+              698.024,
+              199.814
+            ],
+            [
+              697.85,
+              197.807
+            ]
+          ],
+          "maxShiftMetres": 28.717,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 7,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 155,
+          "c": [
+            386.3,
+            308.7
+          ],
+          "b": 68.4
+        },
+        {
+          "teeIdx": 1,
+          "m": 137,
+          "c": [
+            403,
+            302
+          ],
+          "b": 68.4
+        },
+        {
+          "teeIdx": 2,
+          "m": 127,
+          "c": [
+            412.3,
+            298.4
+          ],
+          "b": 68.4
+        },
+        {
+          "teeIdx": 3,
+          "m": 113,
+          "c": [
+            425.3,
+            293.2
+          ],
+          "b": 68.4
+        },
+        {
+          "teeIdx": 4,
+          "m": 113,
+          "c": [
+            425.3,
+            293.2
+          ],
+          "b": 68.4
+        }
+      ],
+      "originalLine": [
+        [
+          390.2,
+          307.1
+        ],
+        [
+          476.9,
+          280.4
+        ],
+        [
+          516.6,
+          255.9
+        ],
+        [
+          531.9,
+          253.1
+        ],
+        [
+          530.4,
+          251.7
+        ]
+      ],
+      "originalDistances": [
+        155,
+        137,
+        127,
+        113,
+        113
+      ],
+      "sourceWindowId": "mellan-07-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "8a2bdca8b10995dc69bb0f9046d34421f6f8cd98594107d148c024e93a47006a",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "mellan-7-tee-west",
+          "originalPadRing": [
+            [
+              386.542,
+              299.27
+            ],
+            [
+              388.314,
+              298.587
+            ],
+            [
+              390.271,
+              299.661
+            ],
+            [
+              391.441,
+              301.705
+            ],
+            [
+              391.587,
+              304.461
+            ],
+            [
+              390.994,
+              306.939
+            ],
+            [
+              389.72,
+              307.641
+            ],
+            [
+              387.496,
+              307.056
+            ],
+            [
+              386.067,
+              305.252
+            ],
+            [
+              385.681,
+              302.237
+            ]
+          ],
+          "maxShiftMetres": 7.036,
+          "reason": "The nominal reference sits on or just outside the matching observed platform edge; align the displayed reference to the platform interior without claiming a daily marker position.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "mellan-7-tee-middle-west",
+          "originalPadRing": [
+            [
+              401.33,
+              297.579
+            ],
+            [
+              403.851,
+              296.925
+            ],
+            [
+              406.564,
+              297.777
+            ],
+            [
+              408.741,
+              299.61
+            ],
+            [
+              410.142,
+              302.163
+            ],
+            [
+              410.288,
+              304.919
+            ],
+            [
+              409.206,
+              307.128
+            ],
+            [
+              407.424,
+              308.061
+            ],
+            [
+              404.96,
+              307.217
+            ],
+            [
+              402.783,
+              305.385
+            ],
+            [
+              401.391,
+              302.582
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 2,
+          "padSourceId": "mellan-7-tee-middle-east",
+          "originalPadRing": [
+            [
+              417.125,
+              295.677
+            ],
+            [
+              419.147,
+              295.004
+            ],
+            [
+              421.381,
+              295.338
+            ],
+            [
+              423.069,
+              296.902
+            ],
+            [
+              423.981,
+              299.187
+            ],
+            [
+              424.126,
+              301.943
+            ],
+            [
+              423.073,
+              303.403
+            ],
+            [
+              421.06,
+              303.827
+            ],
+            [
+              418.836,
+              303.242
+            ],
+            [
+              417.407,
+              301.438
+            ],
+            [
+              416.763,
+              298.664
+            ]
+          ],
+          "maxShiftMetres": 9.482,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "mellan-7-tee-east",
+          "originalPadRing": [
+            [
+              430.131,
+              294.919
+            ],
+            [
+              432.431,
+              293.506
+            ],
+            [
+              435.44,
+              293.12
+            ],
+            [
+              437.387,
+              294.444
+            ],
+            [
+              438.05,
+              296.719
+            ],
+            [
+              437.697,
+              299.456
+            ],
+            [
+              436.606,
+              301.915
+            ],
+            [
+              434.805,
+              303.347
+            ],
+            [
+              432.045,
+              303.742
+            ],
+            [
+              430.338,
+              302.678
+            ],
+            [
+              429.666,
+              300.652
+            ],
+            [
+              429.779,
+              297.656
+            ]
+          ],
+          "maxShiftMetres": 10.139,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "mellan-7-tee-east",
+          "originalPadRing": [
+            [
+              430.131,
+              294.919
+            ],
+            [
+              432.431,
+              293.506
+            ],
+            [
+              435.44,
+              293.12
+            ],
+            [
+              437.387,
+              294.444
+            ],
+            [
+              438.05,
+              296.719
+            ],
+            [
+              437.697,
+              299.456
+            ],
+            [
+              436.606,
+              301.915
+            ],
+            [
+              434.805,
+              303.347
+            ],
+            [
+              432.045,
+              303.742
+            ],
+            [
+              430.338,
+              302.678
+            ],
+            [
+              429.666,
+              300.652
+            ],
+            [
+              429.779,
+              297.656
+            ]
+          ],
+          "maxShiftMetres": 10.139,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 8,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 338,
+          "c": [
+            495.2,
+            197.3
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 1,
+          "m": 338,
+          "c": [
+            495.2,
+            197.3
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 2,
+          "m": 320,
+          "c": [
+            501.6,
+            180.4
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 3,
+          "m": 320,
+          "c": [
+            501.6,
+            180.4
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 4,
+          "m": 285,
+          "c": [
+            513.9,
+            147.7
+          ],
+          "b": 20.7
+        }
+      ],
+      "originalLine": [
+        [
+          503.4,
+          175.7
+        ],
+        [
+          522.5,
+          -17.3
+        ],
+        [
+          606.3,
+          -108.2
+        ],
+        [
+          618.9,
+          -117.5
+        ],
+        [
+          614.5,
+          -119
+        ]
+      ],
+      "originalDistances": [
+        338,
+        338,
+        320,
+        320,
+        285
+      ],
+      "sourceWindowId": "mellan-08-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "f9f4d07af0f436378bc422ed249faf7415ca7c5993e768a988689992f903bd8b",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "mellan-8-tee-upper",
+          "originalPadRing": [
+            [
+              495.727,
+              170.395
+            ],
+            [
+              498.257,
+              169.49
+            ],
+            [
+              500.97,
+              170.343
+            ],
+            [
+              502.898,
+              172.166
+            ],
+            [
+              503.81,
+              174.451
+            ],
+            [
+              503.707,
+              177.197
+            ],
+            [
+              502.423,
+              178.149
+            ],
+            [
+              499.71,
+              177.296
+            ],
+            [
+              497.504,
+              176.212
+            ],
+            [
+              495.529,
+              175.637
+            ],
+            [
+              494.598,
+              173.852
+            ],
+            [
+              494.415,
+              172.095
+            ]
+          ],
+          "maxShiftMetres": 25.452,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "mellan-8-tee-upper",
+          "originalPadRing": [
+            [
+              495.727,
+              170.395
+            ],
+            [
+              498.257,
+              169.49
+            ],
+            [
+              500.97,
+              170.343
+            ],
+            [
+              502.898,
+              172.166
+            ],
+            [
+              503.81,
+              174.451
+            ],
+            [
+              503.707,
+              177.197
+            ],
+            [
+              502.423,
+              178.149
+            ],
+            [
+              499.71,
+              177.296
+            ],
+            [
+              497.504,
+              176.212
+            ],
+            [
+              495.529,
+              175.637
+            ],
+            [
+              494.598,
+              173.852
+            ],
+            [
+              494.415,
+              172.095
+            ]
+          ],
+          "maxShiftMetres": 25.452,
+          "reason": "The physical platforms and reference-group progression identify this platform as the supported display association; align to its interior. Actual daily marker colour/position is unverified.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "retain",
+          "reason": "The middle reference could use either the southern or northern platform; the image does not establish the tee identity. Retain pending supported association.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "retain",
+          "reason": "The middle reference could use either the southern or northern platform; the image does not establish the tee identity. Retain pending supported association.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 9,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 181,
+          "c": [
+            398.5,
+            -198.9
+          ],
+          "b": -97.3
+        },
+        {
+          "teeIdx": 1,
+          "m": 143,
+          "c": [
+            360.8,
+            -194.1
+          ],
+          "b": -97.3
+        },
+        {
+          "teeIdx": 2,
+          "m": 143,
+          "c": [
+            360.8,
+            -194.1
+          ],
+          "b": -97.3
+        },
+        {
+          "teeIdx": 3,
+          "m": 128,
+          "c": [
+            345.9,
+            -192.2
+          ],
+          "b": -97.3
+        },
+        {
+          "teeIdx": 4,
+          "m": 128,
+          "c": [
+            345.9,
+            -192.2
+          ],
+          "b": -97.3
+        }
+      ],
+      "originalLine": [
+        [
+          394.3,
+          -198.4
+        ],
+        [
+          271.3,
+          -190.7
+        ],
+        [
+          238,
+          -181.3
+        ],
+        [
+          217.8,
+          -174.5
+        ],
+        [
+          219,
+          -175.9
+        ]
+      ],
+      "originalDistances": [
+        181,
+        143,
+        143,
+        128,
+        128
+      ],
+      "sourceWindowId": "mellan-09-tees",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ],
+      "sourceRasterSha256": "8b9c0f202d24d0a3af1e1d2608668e9005fa0503595bea466a6f031891b69c74",
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 2,
+          "padSourceId": "mellan-9-tee-east",
+          "originalPadRing": [
+            [
+              387.265,
+              -202.987
+            ],
+            [
+              390.064,
+              -204.381
+            ],
+            [
+              394.089,
+              -205.229
+            ],
+            [
+              398.576,
+              -205.059
+            ],
+            [
+              402.268,
+              -203.669
+            ],
+            [
+              403.937,
+              -201.606
+            ],
+            [
+              403.843,
+              -199.11
+            ],
+            [
+              402.023,
+              -197.178
+            ],
+            [
+              398.966,
+              -195.544
+            ],
+            [
+              395.18,
+              -194.437
+            ],
+            [
+              391.432,
+              -194.329
+            ],
+            [
+              388.728,
+              -195.431
+            ],
+            [
+              387.547,
+              -197.226
+            ],
+            [
+              387.152,
+              -199.991
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "mellan-9-tee-middle",
+          "originalPadRing": [
+            [
+              346.666,
+              -205.273
+            ],
+            [
+              349.492,
+              -207.417
+            ],
+            [
+              353.499,
+              -207.765
+            ],
+            [
+              357.986,
+              -207.595
+            ],
+            [
+              362.693,
+              -206.667
+            ],
+            [
+              365.369,
+              -204.816
+            ],
+            [
+              366.281,
+              -202.531
+            ],
+            [
+              366.187,
+              -200.035
+            ],
+            [
+              364.866,
+              -198.084
+            ],
+            [
+              362.556,
+              -196.422
+            ],
+            [
+              359.509,
+              -195.037
+            ],
+            [
+              356.01,
+              -194.919
+            ],
+            [
+              352.069,
+              -196.318
+            ],
+            [
+              349.421,
+              -198.919
+            ],
+            [
+              347.78,
+              -201.731
+            ]
+          ],
+          "maxShiftMetres": 6.389,
+          "reason": "The nominal reference sits on or just outside the matching observed platform edge; align the displayed reference to the platform interior without claiming a daily marker position.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "mellan-9-tee-middle",
+          "originalPadRing": [
+            [
+              346.666,
+              -205.273
+            ],
+            [
+              349.492,
+              -207.417
+            ],
+            [
+              353.499,
+              -207.765
+            ],
+            [
+              357.986,
+              -207.595
+            ],
+            [
+              362.693,
+              -206.667
+            ],
+            [
+              365.369,
+              -204.816
+            ],
+            [
+              366.281,
+              -202.531
+            ],
+            [
+              366.187,
+              -200.035
+            ],
+            [
+              364.866,
+              -198.084
+            ],
+            [
+              362.556,
+              -196.422
+            ],
+            [
+              359.509,
+              -195.037
+            ],
+            [
+              356.01,
+              -194.919
+            ],
+            [
+              352.069,
+              -196.318
+            ],
+            [
+              349.421,
+              -198.919
+            ],
+            [
+              347.78,
+              -201.731
+            ]
+          ],
+          "maxShiftMetres": 6.389,
+          "reason": "The nominal reference sits on or just outside the matching observed platform edge; align the displayed reference to the platform interior without claiming a daily marker position.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "mellan-9-tee-west",
+          "originalPadRing": [
+            [
+              335.915,
+              -198.18
+            ],
+            [
+              337.726,
+              -199.861
+            ],
+            [
+              339.729,
+              -200.036
+            ],
+            [
+              342.184,
+              -198.943
+            ],
+            [
+              344.121,
+              -197.369
+            ],
+            [
+              346.031,
+              -195.047
+            ],
+            [
+              346.454,
+              -193.031
+            ],
+            [
+              345.391,
+              -191.321
+            ],
+            [
+              343.608,
+              -190.388
+            ],
+            [
+              341.384,
+              -190.972
+            ],
+            [
+              339.169,
+              -191.806
+            ],
+            [
+              337.481,
+              -193.37
+            ],
+            [
+              336.061,
+              -195.424
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "mellan-9-tee-west",
+          "originalPadRing": [
+            [
+              335.915,
+              -198.18
+            ],
+            [
+              337.726,
+              -199.861
+            ],
+            [
+              339.729,
+              -200.036
+            ],
+            [
+              342.184,
+              -198.943
+            ],
+            [
+              344.121,
+              -197.369
+            ],
+            [
+              346.031,
+              -195.047
+            ],
+            [
+              346.454,
+              -193.031
+            ],
+            [
+              345.391,
+              -191.321
+            ],
+            [
+              343.608,
+              -190.388
+            ],
+            [
+              341.384,
+              -190.972
+            ],
+            [
+              339.169,
+              -191.806
+            ],
+            [
+              337.481,
+              -193.37
+            ],
+            [
+              336.061,
+              -195.424
+            ]
+          ],
+          "maxShiftMetres": 5.0,
+          "reason": "The nominal reference is already on this observed physical platform; retain its existing coordinate when it is contained.",
+          "dailyMarkerIdentityVerified": false
+        }
+      ]
+    }
+  ],
+  "features": [],
+  "summary": {
+    "reviewedHoles": 9,
+    "existingPadsReviewed": 24,
+    "acceptedPadBoundaryChanges": 0,
+    "nominalReferences": 45,
+    "onOrInsideExistingPad": 18,
+    "outsideWithin1Metre": 3,
+    "outsideOver1Metre": 24,
+    "maximumNominalReferenceDistanceToPadMetres": 65.6523,
+    "explicitReferencePadAssociations": 35,
+    "unresolvedReferencePadAssociations": 10
+  },
+  "limitations": [
+    "The large displacement is mainly in nominal card references, not a common offset of physical turf outlines.",
+    "The imagery does not identify daily marker colours/numbers. Explicit align-to-observed-pad decisions place displayed references on supported physical platforms; they do not establish actual daily marker positions.",
+    "Shortest tee references at H2, H3, H4 and H6 have no separately identified physical platform in these windows.",
+    "H6 rear-platform and H8 middle/short-group associations remain unresolved; nearest-pad assignment alone is insufficient.",
+    "Retained boundaries include shadow uncertainty. This is not a complete census of every historical, seasonal or forward tee position.",
+    "2025-06-14 imagery cannot verify changes completed after that capture."
+  ]
+}

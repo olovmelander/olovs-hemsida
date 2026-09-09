@@ -1,0 +1,1642 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "reviewedAt": "2026-09-09",
+  "reviewMethod": "machine visual interpretation of native RGBI; no human or survey approval",
+  "sources": {
+    "hole-13-green": {
+      "id": "hole-13-green",
+      "requestSha256": "86abf99aec9a5d05f962acf1450b656a396e6dec5426b09b64bb5c244c349638",
+      "sha256": "dafc840c4b44f071b9b2a5df97e00851d28276ce52fb0c0ddae940e7dfbb7feb",
+      "bytes": 2583012,
+      "rasterFile": "hole-13-green.tif",
+      "boundsEpsg3006": [
+        697432.48,
+        7025068.8,
+        697588.7999999999,
+        7025217.28
+      ],
+      "width": 977,
+      "height": 928,
+      "geoTransform": [
+        697432.48,
+        0.16,
+        0.0,
+        7025217.28,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:15.892708+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 24.0,
+          "maximum": 249.0,
+          "mean": 81.11509326580313,
+          "standardDeviation": 23.684010226311173
+        },
+        {
+          "band": 2,
+          "minimum": 38.0,
+          "maximum": 250.0,
+          "mean": 104.07465786362192,
+          "standardDeviation": 21.061983139756116
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 245.0,
+          "mean": 89.25813097801151,
+          "standardDeviation": 14.46039633987791
+        },
+        {
+          "band": 4,
+          "minimum": 12.0,
+          "maximum": 255.0,
+          "mean": 163.43792574030283,
+          "standardDeviation": 35.39912684057224
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-14-green": {
+      "id": "hole-14-green",
+      "requestSha256": "965c90b864be7264f63ab0be321ae689233c55d19ba5d4d55173578ab0c9eee7",
+      "sha256": "0338e247ebc3fc3369fa5733152a3a88d4ba8e9510614aa5b382f2a14c191c73",
+      "bytes": 2222824,
+      "rasterFile": "hole-14-green.tif",
+      "boundsEpsg3006": [
+        697314.4,
+        7024585.92,
+        697462.72,
+        7024738.88
+      ],
+      "width": 927,
+      "height": 956,
+      "geoTransform": [
+        697314.4,
+        0.16,
+        0.0,
+        7024738.88,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:17.751562+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 13.0,
+          "maximum": 248.0,
+          "mean": 59.73090637454695,
+          "standardDeviation": 24.07078797675022
+        },
+        {
+          "band": 2,
+          "minimum": 22.0,
+          "maximum": 249.0,
+          "mean": 80.55378848401962,
+          "standardDeviation": 26.96901473307972
+        },
+        {
+          "band": 3,
+          "minimum": 39.0,
+          "maximum": 244.0,
+          "mean": 76.39128673500247,
+          "standardDeviation": 14.10478277750383
+        },
+        {
+          "band": 4,
+          "minimum": 4.0,
+          "maximum": 255.0,
+          "mean": 111.10537884840197,
+          "standardDeviation": 60.674784200208556
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    "hole-15-green": {
+      "id": "hole-15-green",
+      "requestSha256": "e1f362da8cb277f2c4346d00f8a6ad7f912458ce3a80810181cf92fbdae1abb9",
+      "sha256": "413b326d0b1e3c66a82c289bbfb0fa20d5b4bf0e1beda660fb003a47490c22c4",
+      "bytes": 2386808,
+      "rasterFile": "hole-15-green.tif",
+      "boundsEpsg3006": [
+        697362.4,
+        7024381.76,
+        697511.04,
+        7024535.52
+      ],
+      "width": 929,
+      "height": 961,
+      "geoTransform": [
+        697362.4,
+        0.16,
+        0.0,
+        7024535.52,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:19.097113+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 14.0,
+          "maximum": 248.0,
+          "mean": 51.506174609557455,
+          "standardDeviation": 21.7837596088241
+        },
+        {
+          "band": 2,
+          "minimum": 23.0,
+          "maximum": 252.0,
+          "mean": 71.43324981042129,
+          "standardDeviation": 24.33845048576904
+        },
+        {
+          "band": 3,
+          "minimum": 41.0,
+          "maximum": 248.0,
+          "mean": 72.33142615839036,
+          "standardDeviation": 12.55286790893572
+        },
+        {
+          "band": 4,
+          "minimum": 4.0,
+          "maximum": 255.0,
+          "mean": 100.87937305170766,
+          "standardDeviation": 59.07031680380221
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ]
+    },
+    "hole-16-green": {
+      "id": "hole-16-green",
+      "requestSha256": "8ee1505a1dec94a5dd67f2b843bd730c7b1291a3749a4cad812d3987082f71d7",
+      "sha256": "41cc623cef08c8a963c0dcaa3250b106edd335afd14ac70e0a8d085fece6b70c",
+      "bytes": 2789333,
+      "rasterFile": "hole-16-green.tif",
+      "boundsEpsg3006": [
+        697144.32,
+        7024294.08,
+        697297.2799999999,
+        7024445.28
+      ],
+      "width": 956,
+      "height": 945,
+      "geoTransform": [
+        697144.32,
+        0.16,
+        0.0,
+        7024445.28,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:20.672803+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16.0,
+          "maximum": 206.0,
+          "mean": 54.2746629474663,
+          "standardDeviation": 23.231476280123363
+        },
+        {
+          "band": 2,
+          "minimum": 30.0,
+          "maximum": 210.0,
+          "mean": 73.54011755329746,
+          "standardDeviation": 22.19733025963744
+        },
+        {
+          "band": 3,
+          "minimum": 41.0,
+          "maximum": 198.0,
+          "mean": 73.55734099311505,
+          "standardDeviation": 14.338330622839186
+        },
+        {
+          "band": 4,
+          "minimum": 17.0,
+          "maximum": 254.0,
+          "mean": 114.8213953642824,
+          "standardDeviation": 42.61948724181594
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    "hole-17-green": {
+      "id": "hole-17-green",
+      "requestSha256": "e85519642273b5c3447b210562f45c31ea81d8cf3018163dfb9de7903dd625bb",
+      "sha256": "56858024c3e33aef217ed1447542b20f52135a4a0f633cd3ec3a3bf3c01bb983",
+      "bytes": 2516004,
+      "rasterFile": "hole-17-green.tif",
+      "boundsEpsg3006": [
+        697224.8,
+        7024724.0,
+        697369.12,
+        7024875.2
+      ],
+      "width": 902,
+      "height": 945,
+      "geoTransform": [
+        697224.8,
+        0.16,
+        0.0,
+        7024875.2,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:22.049928+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 18.0,
+          "maximum": 245.0,
+          "mean": 63.50567228616009,
+          "standardDeviation": 21.724472864942673
+        },
+        {
+          "band": 2,
+          "minimum": 34.0,
+          "maximum": 252.0,
+          "mean": 85.78616009103814,
+          "standardDeviation": 21.707999239871114
+        },
+        {
+          "band": 3,
+          "minimum": 40.0,
+          "maximum": 242.0,
+          "mean": 78.68449887962083,
+          "standardDeviation": 13.158239977343927
+        },
+        {
+          "band": 4,
+          "minimum": 22.0,
+          "maximum": 255.0,
+          "mean": 142.31133284060112,
+          "standardDeviation": 38.64994432589213
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    "hole-18-green": {
+      "id": "hole-18-green",
+      "requestSha256": "69238034b6a3a0257909c681963b6cb9b1f850d4e0fb50a975ad8c230f616b69",
+      "sha256": "6b89bf499151c3085deb6459273e3ca996cee53822bc3590048d16240d156a90",
+      "bytes": 2789076,
+      "rasterFile": "hole-18-green.tif",
+      "boundsEpsg3006": [
+        697316.32,
+        7025057.44,
+        697467.6799999999,
+        7025218.24
+      ],
+      "width": 946,
+      "height": 1005,
+      "geoTransform": [
+        697316.32,
+        0.16,
+        0.0,
+        7025218.24,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:23.671325+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19.0,
+          "maximum": 255.0,
+          "mean": 80.17268940708719,
+          "standardDeviation": 34.13564283142752
+        },
+        {
+          "band": 2,
+          "minimum": 34.0,
+          "maximum": 255.0,
+          "mean": 99.75988450979773,
+          "standardDeviation": 29.99834361713091
+        },
+        {
+          "band": 3,
+          "minimum": 41.0,
+          "maximum": 252.0,
+          "mean": 90.42413829373218,
+          "standardDeviation": 23.10995897879199
+        },
+        {
+          "band": 4,
+          "minimum": 17.0,
+          "maximum": 255.0,
+          "mean": 143.46901643999874,
+          "standardDeviation": 43.86766741341075
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    }
+  },
+  "holes": [
+    {
+      "n": 13,
+      "bunkers": [
+        {
+          "id": "lm-2024-h13-bunker-1",
+          "sourceKey": "hole-13-green",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              778,
+              445
+            ],
+            [
+              762,
+              443
+            ],
+            [
+              755,
+              446
+            ],
+            [
+              750,
+              453
+            ],
+            [
+              750,
+              460
+            ],
+            [
+              753,
+              467
+            ],
+            [
+              758,
+              471
+            ],
+            [
+              768,
+              469
+            ],
+            [
+              777,
+              460
+            ],
+            [
+              781,
+              448
+            ],
+            [
+              778,
+              445
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        },
+        {
+          "id": "lm-2024-h13-bunker-2",
+          "sourceKey": "hole-13-green",
+          "replaceIndex": 2,
+          "ringPixels": [
+            [
+              598,
+              521
+            ],
+            [
+              593,
+              520
+            ],
+            [
+              586,
+              525
+            ],
+            [
+              575,
+              551
+            ],
+            [
+              577,
+              561
+            ],
+            [
+              586,
+              562
+            ],
+            [
+              596,
+              553
+            ],
+            [
+              603,
+              535
+            ],
+            [
+              602,
+              526
+            ],
+            [
+              598,
+              521
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        },
+        {
+          "id": "lm-2024-h13-bunker-3",
+          "sourceKey": "hole-13-green",
+          "replaceIndex": 3,
+          "ringPixels": [
+            [
+              541,
+              365
+            ],
+            [
+              542,
+              377
+            ],
+            [
+              549,
+              387
+            ],
+            [
+              558,
+              390
+            ],
+            [
+              576,
+              383
+            ],
+            [
+              589,
+              383
+            ],
+            [
+              601,
+              389
+            ],
+            [
+              607,
+              403
+            ],
+            [
+              612,
+              408
+            ],
+            [
+              619,
+              408
+            ],
+            [
+              620,
+              401
+            ],
+            [
+              618,
+              396
+            ],
+            [
+              596,
+              378
+            ],
+            [
+              549,
+              363
+            ],
+            [
+              543,
+              363
+            ],
+            [
+              541,
+              365
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-h13-green",
+        "sourceKey": "hole-13-green",
+        "ringPixels": [
+          [
+            435,
+            442
+          ],
+          [
+            450,
+            429
+          ],
+          [
+            470,
+            421
+          ],
+          [
+            493,
+            419
+          ],
+          [
+            517,
+            422
+          ],
+          [
+            540,
+            430
+          ],
+          [
+            561,
+            442
+          ],
+          [
+            579,
+            459
+          ],
+          [
+            588,
+            476
+          ],
+          [
+            581,
+            495
+          ],
+          [
+            566,
+            509
+          ],
+          [
+            543,
+            522
+          ],
+          [
+            518,
+            530
+          ],
+          [
+            493,
+            533
+          ],
+          [
+            470,
+            529
+          ],
+          [
+            450,
+            520
+          ],
+          [
+            437,
+            507
+          ],
+          [
+            429,
+            490
+          ],
+          [
+            427,
+            471
+          ],
+          [
+            429,
+            454
+          ],
+          [
+            435,
+            442
+          ]
+        ],
+        "referencePixels": [
+          498.8,
+          475.0
+        ],
+        "interpretation": "putting surface inside collar; shadow-adjacent segments have lower confidence"
+      }
+    },
+    {
+      "n": 14,
+      "bunkers": [
+        {
+          "id": "lm-2024-h14-bunker-0",
+          "sourceKey": "hole-14-green",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              579,
+              455
+            ],
+            [
+              571,
+              459
+            ],
+            [
+              570,
+              468
+            ],
+            [
+              567,
+              470
+            ],
+            [
+              569,
+              475
+            ],
+            [
+              567,
+              482
+            ],
+            [
+              572,
+              493
+            ],
+            [
+              584,
+              501
+            ],
+            [
+              585,
+              504
+            ],
+            [
+              589,
+              504
+            ],
+            [
+              596,
+              499
+            ],
+            [
+              596,
+              471
+            ],
+            [
+              593,
+              463
+            ],
+            [
+              589,
+              462
+            ],
+            [
+              590,
+              458
+            ],
+            [
+              579,
+              455
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        },
+        {
+          "id": "lm-2024-h14-bunker-1",
+          "sourceKey": "hole-14-green",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              455,
+              334
+            ],
+            [
+              452,
+              331
+            ],
+            [
+              440,
+              328
+            ],
+            [
+              426,
+              329
+            ],
+            [
+              413,
+              340
+            ],
+            [
+              414,
+              351
+            ],
+            [
+              418,
+              355
+            ],
+            [
+              436,
+              356
+            ],
+            [
+              437,
+              354
+            ],
+            [
+              447,
+              352
+            ],
+            [
+              453,
+              348
+            ],
+            [
+              456,
+              343
+            ],
+            [
+              455,
+              334
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-h14-green",
+        "sourceKey": "hole-14-green",
+        "ringPixels": [
+          [
+            442,
+            430
+          ],
+          [
+            458,
+            418
+          ],
+          [
+            475,
+            411
+          ],
+          [
+            492,
+            411
+          ],
+          [
+            509,
+            419
+          ],
+          [
+            525,
+            433
+          ],
+          [
+            537,
+            453
+          ],
+          [
+            543,
+            476
+          ],
+          [
+            543,
+            500
+          ],
+          [
+            535,
+            524
+          ],
+          [
+            524,
+            544
+          ],
+          [
+            508,
+            558
+          ],
+          [
+            489,
+            567
+          ],
+          [
+            468,
+            565
+          ],
+          [
+            448,
+            557
+          ],
+          [
+            431,
+            543
+          ],
+          [
+            421,
+            523
+          ],
+          [
+            416,
+            502
+          ],
+          [
+            417,
+            480
+          ],
+          [
+            424,
+            458
+          ],
+          [
+            431,
+            444
+          ],
+          [
+            442,
+            430
+          ]
+        ],
+        "referencePixels": [
+          477.9,
+          486.5
+        ],
+        "interpretation": "visible putting surface inside the collar"
+      }
+    },
+    {
+      "n": 15,
+      "bunkers": []
+    },
+    {
+      "n": 16,
+      "bunkers": [
+        {
+          "id": "lm-2024-h16-bunker-0",
+          "sourceKey": "hole-16-green",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              594,
+              444
+            ],
+            [
+              589,
+              449
+            ],
+            [
+              592,
+              463
+            ],
+            [
+              599,
+              476
+            ],
+            [
+              610,
+              477
+            ],
+            [
+              618,
+              468
+            ],
+            [
+              618,
+              455
+            ],
+            [
+              606,
+              445
+            ],
+            [
+              594,
+              444
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        },
+        {
+          "id": "lm-2024-h16-bunker-1",
+          "sourceKey": "hole-16-green",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              605,
+              546
+            ],
+            [
+              596,
+              556
+            ],
+            [
+              596,
+              569
+            ],
+            [
+              601,
+              574
+            ],
+            [
+              613,
+              574
+            ],
+            [
+              624,
+              567
+            ],
+            [
+              626,
+              559
+            ],
+            [
+              615,
+              546
+            ],
+            [
+              605,
+              546
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-h16-green",
+        "sourceKey": "hole-16-green",
+        "ringPixels": [
+          [
+            449,
+            434
+          ],
+          [
+            466,
+            422
+          ],
+          [
+            485,
+            415
+          ],
+          [
+            507,
+            415
+          ],
+          [
+            530,
+            419
+          ],
+          [
+            550,
+            429
+          ],
+          [
+            563,
+            444
+          ],
+          [
+            571,
+            464
+          ],
+          [
+            573,
+            487
+          ],
+          [
+            568,
+            511
+          ],
+          [
+            557,
+            529
+          ],
+          [
+            541,
+            540
+          ],
+          [
+            519,
+            544
+          ],
+          [
+            497,
+            541
+          ],
+          [
+            476,
+            533
+          ],
+          [
+            457,
+            520
+          ],
+          [
+            442,
+            503
+          ],
+          [
+            434,
+            483
+          ],
+          [
+            434,
+            461
+          ],
+          [
+            440,
+            446
+          ],
+          [
+            449,
+            434
+          ]
+        ],
+        "referencePixels": [
+          503.0,
+          477.0
+        ],
+        "interpretation": "putting surface inside collar; shadow-adjacent segments have lower confidence"
+      }
+    },
+    {
+      "n": 17,
+      "bunkers": [
+        {
+          "id": "lm-2024-h17-bunker-0",
+          "sourceKey": "hole-17-green",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              547,
+              495
+            ],
+            [
+              542,
+              500
+            ],
+            [
+              537,
+              516
+            ],
+            [
+              539,
+              532
+            ],
+            [
+              544,
+              534
+            ],
+            [
+              552,
+              532
+            ],
+            [
+              558,
+              518
+            ],
+            [
+              556,
+              501
+            ],
+            [
+              547,
+              495
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        },
+        {
+          "id": "lm-2024-h17-bunker-1",
+          "sourceKey": "hole-17-green",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              385,
+              485
+            ],
+            [
+              382,
+              491
+            ],
+            [
+              382,
+              506
+            ],
+            [
+              384,
+              507
+            ],
+            [
+              386,
+              516
+            ],
+            [
+              391,
+              523
+            ],
+            [
+              405,
+              523
+            ],
+            [
+              409,
+              509
+            ],
+            [
+              405,
+              495
+            ],
+            [
+              394,
+              485
+            ],
+            [
+              385,
+              485
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        },
+        {
+          "id": "lm-2024-h17-bunker-2",
+          "sourceKey": "hole-17-green",
+          "replaceIndex": 2,
+          "ringPixels": [
+            [
+              436,
+              649
+            ],
+            [
+              434,
+              659
+            ],
+            [
+              438,
+              668
+            ],
+            [
+              444,
+              674
+            ],
+            [
+              444,
+              680
+            ],
+            [
+              450,
+              685
+            ],
+            [
+              449,
+              688
+            ],
+            [
+              453,
+              692
+            ],
+            [
+              458,
+              693
+            ],
+            [
+              462,
+              699
+            ],
+            [
+              471,
+              700
+            ],
+            [
+              474,
+              698
+            ],
+            [
+              475,
+              684
+            ],
+            [
+              465,
+              662
+            ],
+            [
+              458,
+              653
+            ],
+            [
+              451,
+              648
+            ],
+            [
+              440,
+              647
+            ],
+            [
+              436,
+              649
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        },
+        {
+          "id": "lm-2024-h17-bunker-3",
+          "sourceKey": "hole-17-green",
+          "replaceIndex": 3,
+          "ringPixels": [
+            [
+              583,
+              598
+            ],
+            [
+              577,
+              601
+            ],
+            [
+              559,
+              629
+            ],
+            [
+              559,
+              635
+            ],
+            [
+              564,
+              642
+            ],
+            [
+              566,
+              650
+            ],
+            [
+              580,
+              660
+            ],
+            [
+              584,
+              659
+            ],
+            [
+              594,
+              646
+            ],
+            [
+              600,
+              625
+            ],
+            [
+              600,
+              614
+            ],
+            [
+              596,
+              606
+            ],
+            [
+              590,
+              600
+            ],
+            [
+              583,
+              598
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-h17-green",
+        "sourceKey": "hole-17-green",
+        "ringPixels": [
+          [
+            442,
+            440
+          ],
+          [
+            452,
+            430
+          ],
+          [
+            466,
+            425
+          ],
+          [
+            484,
+            424
+          ],
+          [
+            499,
+            429
+          ],
+          [
+            509,
+            439
+          ],
+          [
+            515,
+            455
+          ],
+          [
+            518,
+            475
+          ],
+          [
+            519,
+            496
+          ],
+          [
+            515,
+            517
+          ],
+          [
+            509,
+            535
+          ],
+          [
+            496,
+            548
+          ],
+          [
+            482,
+            554
+          ],
+          [
+            467,
+            553
+          ],
+          [
+            453,
+            544
+          ],
+          [
+            443,
+            529
+          ],
+          [
+            436,
+            509
+          ],
+          [
+            432,
+            487
+          ],
+          [
+            432,
+            465
+          ],
+          [
+            436,
+            451
+          ],
+          [
+            442,
+            440
+          ]
+        ],
+        "referencePixels": [
+          475.2,
+          485.2
+        ],
+        "interpretation": "visible putting surface inside the collar"
+      }
+    },
+    {
+      "n": 18,
+      "bunkers": [
+        {
+          "id": "lm-2024-h18-bunker-0",
+          "sourceKey": "hole-18-green",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              562,
+              627
+            ],
+            [
+              555,
+              638
+            ],
+            [
+              555,
+              644
+            ],
+            [
+              559,
+              652
+            ],
+            [
+              563,
+              656
+            ],
+            [
+              589,
+              669
+            ],
+            [
+              602,
+              682
+            ],
+            [
+              606,
+              682
+            ],
+            [
+              610,
+              675
+            ],
+            [
+              610,
+              665
+            ],
+            [
+              590,
+              642
+            ],
+            [
+              582,
+              627
+            ],
+            [
+              577,
+              624
+            ],
+            [
+              567,
+              624
+            ],
+            [
+              562,
+              627
+            ]
+          ],
+          "interpretation": "visible sand extent; native RGB colour component checked visually"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-h18-green",
+        "sourceKey": "hole-18-green",
+        "ringPixels": [
+          [
+            447,
+            471
+          ],
+          [
+            459,
+            460
+          ],
+          [
+            474,
+            454
+          ],
+          [
+            493,
+            451
+          ],
+          [
+            511,
+            451
+          ],
+          [
+            527,
+            457
+          ],
+          [
+            536,
+            469
+          ],
+          [
+            540,
+            488
+          ],
+          [
+            542,
+            510
+          ],
+          [
+            544,
+            534
+          ],
+          [
+            542,
+            557
+          ],
+          [
+            535,
+            579
+          ],
+          [
+            523,
+            593
+          ],
+          [
+            506,
+            601
+          ],
+          [
+            485,
+            603
+          ],
+          [
+            466,
+            600
+          ],
+          [
+            451,
+            592
+          ],
+          [
+            442,
+            579
+          ],
+          [
+            438,
+            560
+          ],
+          [
+            435,
+            537
+          ],
+          [
+            432,
+            515
+          ],
+          [
+            433,
+            494
+          ],
+          [
+            438,
+            481
+          ],
+          [
+            447,
+            471
+          ]
+        ],
+        "referencePixels": [
+          486.9,
+          523.3
+        ],
+        "interpretation": "visible putting surface inside the collar"
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "hole": 15,
+      "feature": "green",
+      "reason": "Tree shadows obscure the north and west putting boundary; existing ring retained."
+    },
+    {
+      "hole": 18,
+      "feature": "bunker-1",
+      "reason": "Sand boundary partly hidden by tree shadow; retained."
+    }
+  ]
+}

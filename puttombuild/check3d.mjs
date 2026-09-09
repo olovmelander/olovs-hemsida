@@ -1,9 +1,10 @@
 /* The regression gate for puttom3d.html. Exits non-zero on anything that
    would make the page state a falsehood about the real course:
 
-   1. the card in the page is the club's card — 144 values, exact
-   2. every drawn hole line measures its card length to 0.5%
-   3. every green ring contains its GPS-surveyed centre, at a sane area
+   1. the card in the page is the club's card — 108 values, exact
+   2. reviewed routes preserve observed endpoints and measured route lengths;
+      legacy routes measure their card length to 0.5%
+   3. every green ring contains its virtual target, at a sane area
    4. no green or tee sits at or below the water that surrounds it
    5. the heightfields in the page decode to exactly what geobuild encoded
    6. the page's embedded block is current with the committed model
@@ -60,7 +61,17 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     const dev = Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] * 100;
     if (dev > worst) { worst = dev; worstN = h.n; }
   }
-  gate(worst <= 0.5, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}), gate 0.5%`);
+  if (model.orthophotoReview) {
+    const coherent = vec.holes.every(h => {
+      const expected = model.holes.find(m => m.n === h.n);
+      return JSON.stringify(h.line) === JSON.stringify(expected.line) &&
+        Number.isFinite(polyLen(h.line)) && polyLen(h.line) > 0 &&
+        Math.abs(h.lineLen - polyLen(h.line)) <= 0.051 &&
+        (expected.lineSrc === 'lm-orthophoto-reviewed-endpoints' ||
+          Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] <= 0.005);
+    });
+    gate(coherent, `routes preserve image-reviewed endpoints and measured lengths; card distance difference up to ${worst.toFixed(3)}% (hole ${worstN}) remains display metadata`);
+  } else gate(worst <= 0.5, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}), gate 0.5%`);
 }
 
 /* --- 3: greens ---------------------------------------------------------------- */
@@ -72,7 +83,7 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     if (a < 150) small++;
     if (a > 1200) big++;
   }
-  gate(out === 0, `greens: every surveyed centre inside its traced ring (${out} outside)`);
+  gate(out === 0, `greens: every virtual target inside its retained or reviewed ring (${out} outside)`);
   gate(small === 0 && big === 0, `green areas within 150–1200 m² (${small} small, ${big} large)`);
 }
 

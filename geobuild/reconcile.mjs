@@ -17,6 +17,8 @@
    for everything that has no geometry at all, and the card verbatim for every number
    the page ever prints.                                                              */
 import path from 'node:path';
+import fs from 'node:fs';
+import { applyOrthoReview, legacyHeightfieldSampler, ORTHO_REVIEW_PATH } from './mapping/apply-ortho-review.mjs';
 import {
   ROOT, ORIGIN, M_PER_LAT, M_PER_LON, readJSON, writeJSON, hyp, polyLen, polyArea,
   centroid, bbox, distToLine, ptSeg, ptSegD, pointInPoly, polySD, alongLine, right,
@@ -671,7 +673,7 @@ const marking = [];
 }
 
 /* --- the model ---------------------------------------------------------------- */
-const model = {
+let model = {
   version: 1,
   origin: { lat: ORIGIN.lat, lon: ORIGIN.lon },
   mPerLat: M_PER_LAT, mPerLon: +M_PER_LON.toFixed(2),
@@ -721,6 +723,15 @@ const model = {
     range: osm.drivingRange.map(d => d.ring),
   },
 };
+
+/* Keep accepted national orthophoto traces after every historical-source pass.
+   The ledger pins the original rings, so upstream drift fails before writing. */
+const orthoReviewFile = path.join(ROOT, ORTHO_REVIEW_PATH);
+if (fs.existsSync(orthoReviewFile)) {
+  const review = readJSON(orthoReviewFile);
+  model = applyOrthoReview(model, review, { heightAt: legacyHeightfieldSampler(hf.hf0) });
+  say(`orthophoto: ${review.features.length} accepted surface traces applied from ${ORTHO_REVIEW_PATH}`);
+}
 
 const dest = path.join(ROOT, 'geobuild/course-model.json');
 writeJSON(dest, model);

@@ -14,6 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { applyCourseReview } from './mapping/apply-course-review.mjs';
 import {
   ORIGIN, M_PER_LAT, M_PER_LON, lonLatToXZ,
   polyLen, polyArea, centroid, pointInPoly, distToLine, bbox,
@@ -373,7 +374,7 @@ const tracedCartPark = traces.cartPark ? { line: ring1(traces.cartPark.line), co
 const spareGreens = greens.filter(g => !g.used);
 
 /* --- the model ---------------------------------------------------------------- */
-const model = {
+let model = {
   version: 1,
   origin: { lat: ORIGIN.lat, lon: ORIGIN.lon },
   mPerLat: M_PER_LAT, mPerLon: Math.round(M_PER_LON * 100) / 100,
@@ -410,9 +411,16 @@ const model = {
   },
 };
 
-writeJSON(path.join(HERE, 'course-model.json'), model);
+const reviewFile = path.join(HERE, 'mapping/orthophoto-review.json');
+const baselineOnly = process.argv.includes('--baseline');
+if (!baselineOnly && fs.existsSync(reviewFile)) model = applyCourseReview(model, readJSON(reviewFile));
+const modelOutput = baselineOnly ? path.join(HERE, 'cache/orthophoto-baseline.json') : path.join(HERE, 'course-model.json');
+fs.mkdirSync(path.dirname(modelOutput), { recursive: true });
+writeJSON(modelOutput, model);
+if (model.orthophotoReview) console.log('Adopted orthophoto review:', JSON.stringify(model.orthophotoReview.summary));
 
 /* --- report ------------------------------------------------------------------- */
+if (model.orthophotoReview) console.log('\nLegacy baseline diagnostics below precede orthophoto adoption; see mapping/alignment-audit.json for the revised geometry.');
 console.log('hole par  card  drawn   dev%  slide  green m²  gc-dist  src');
 for (const r of report) {
   const bad = r.lenDev > 0.5 || r.gd > 12;
@@ -442,4 +450,4 @@ console.log(`shore slides: ${shoreSlides.map(s => `hole ${s.n} ${s.m} m: ${s.met
 console.log(`ditches from the laser: ${ditches.length} (${ditches.reduce((a, d) => a + polyLen(d.line), 0).toFixed(0)} m), crossing holes ${[...new Set(ditches.flatMap(d => d.crossings.map(c => c.hole)))].sort((a, b) => a - b).join(', ')}`);
 console.log(`practice bunkers: ${practiceBunkers.length}`);
 if (card.provisional) console.log('\nNOTE: card.json is PROVISIONAL — tee lengths/index are placeholders.');
-console.log(`\nwrote puttombuild/course-model.json (${(fs.statSync(path.join(HERE, 'course-model.json')).size / 1024).toFixed(0)} KB)`);
+console.log(`\nwrote ${path.relative(path.join(HERE, '..'), modelOutput)} (${(fs.statSync(modelOutput).size / 1024).toFixed(0)} KB)`);

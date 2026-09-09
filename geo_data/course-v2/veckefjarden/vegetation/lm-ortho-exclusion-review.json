@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "groundId": "veckefjarden",
+  "review": {
+    "path": "geobuild/mapping/lm-ortho-review.json",
+    "sha256": "538748e07382effa84e722cb09b0c935e1eace197a4c8af1ae2626df799a7cb2"
+  },
+  "sourceModelSha256": "a0a3cc41555672f9e84fc6962815d9488ee12aeaa5d60f0df9f757e4fc8f11b7",
+  "sourceManifestSha256": "e7d9482f10fb39cf06f18a330632948247847cdfbe4b9ce721ead767961780ef",
+  "inputGround": {
+    "bytes": 266838,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "724d7fe7d9e1b1fa6949ef21cf1bbe05b75598170a784003f2addda4017e994d",
+    "url": "grounds/veckefjarden/ground-v2-724d7fe7d9e1b1fa6949ef21cf1bbe05b75598170a784003f2addda4017e994d.json"
+  },
+  "method": "Monotonically add stand exclusions within one cell half diagonal of accepted playing surfaces; preserve canopy channels, crown objects, terrain, surfaces and routing.",
+  "reviewedAreas": 93,
+  "individualCrownsPreserved": 1821,
+  "individualIntersections": [],
+  "changedTiles": 0,
+  "excludedCellsAdded": 0,
+  "eligibleCanopyCellsRemoved": 0,
+  "changes": [],
+  "outputGround": {
+    "url": "grounds/veckefjarden/ground-v2-70c25ba49fd4929fe83fd822801a982345656481dfb294cb85314e0910ca796a.json",
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "bytes": 266838,
+    "sha256": "70c25ba49fd4929fe83fd822801a982345656481dfb294cb85314e0910ca796a"
+  }
+}

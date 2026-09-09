@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "kind": "reviewed-stand-cell-exclusions",
+  "observedOn": "2026-09-09",
+  "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
+  "baselineGroundManifest": {
+    "bytes": 112059,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "8d1710cf5d92270429a9f74272c45cd55404eec2e8d30857394fa12521be29ed",
+    "url": "grounds/johannesberg/ground-v2-8d1710cf5d92270429a9f74272c45cd55404eec2e8d30857394fa12521be29ed.json"
+  },
+  "sourceStandLayers": {
+    "l0/4/5": {
+      "bytes": 4642,
+      "decodedBytes": 16384,
+      "decodedSha256": "99d84141f87225142513e3e9aade5bfaf46a12dbe2e4baba1b24c01896f12145",
+      "kind": "stands",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "stand-field-u8-v1"
+      ],
+      "sha256": "e59759b4751d3ed419caba2a5496da5b79cf6dfd2bf9e5e4d78998ab5aa2d2da",
+      "url": "grounds/johannesberg/stands/e59759b4751d3ed419caba2a5496da5b79cf6dfd2bf9e5e4d78998ab5aa2d2da.bvch"
+    },
+    "l0/2/0": {
+      "bytes": 1981,
+      "decodedBytes": 16384,
+      "decodedSha256": "4b2844167464ff41226423cfaba1bbce752a64c98ed4e451098adcb5854dfe08",
+      "kind": "stands",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "stand-field-u8-v1"
+      ],
+      "sha256": "1540e24aee38393a1c10770b4585106c1b901e241f23bbd8fc026a59fdbe77af",
+      "url": "grounds/johannesberg/stands/1540e24aee38393a1c10770b4585106c1b901e241f23bbd8fc026a59fdbe77af.bvch"
+    },
+    "l0/1/0": {
+      "bytes": 2416,
+      "decodedBytes": 16384,
+      "decodedSha256": "5e780df72a0d109b4050fec8353c8257ddd2e895977db412a41aebdec3b801f4",
+      "kind": "stands",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "stand-field-u8-v1"
+      ],
+      "sha256": "8159d1af4067a311b37fb352cfd113a11c1a39bbf18f0a16f111149f7a5cc62e",
+      "url": "grounds/johannesberg/stands/8159d1af4067a311b37fb352cfd113a11c1a39bbf18f0a16f111149f7a5cc62e.bvch"
+    }
+  },
+  "cells": [
+    {
+      "id": "l0/4/5/16/43",
+      "tileId": "l0/4/5",
+      "column": 16,
+      "row": 43,
+      "boundsEpsg3006": [
+        679491.5,
+        6624868.5,
+        679495.5,
+        6624872.5
+      ],
+      "status": "accepted",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "note": "The cell is visually clear turf in the dated source. Excluding representative stand planting here is supported; no measured crown is relocated or deleted."
+      }
+    },
+    {
+      "id": "l0/4/5/15/42",
+      "tileId": "l0/4/5",
+      "column": 15,
+      "row": 42,
+      "boundsEpsg3006": [
+        679487.5,
+        6624872.5,
+        679491.5,
+        6624876.5
+      ],
+      "status": "accepted",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "note": "The cell is visually clear turf in the dated source. Excluding representative stand planting here is supported; no measured crown is relocated or deleted."
+      }
+    },
+    {
+      "id": "l0/2/0/0/37",
+      "tileId": "l0/2/0",
+      "column": 0,
+      "row": 37,
+      "boundsEpsg3006": [
+        678915.5,
+        6626172.5,
+        678919.5,
+        6626176.5
+      ],
+      "status": "accepted",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/nine-01-hole.png",
+            "sha256": "bbcb8b801ad30b46d6c20049b94bab06223ee44c46b7c63940860fa228eb46eb"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "note": "The cell is visually clear turf in the dated source. Excluding representative stand planting here is supported; no measured crown is relocated or deleted."
+      }
+    },
+    {
+      "id": "l0/1/0/63/37",
+      "tileId": "l0/1/0",
+      "column": 63,
+      "row": 37,
+      "boundsEpsg3006": [
+        678911.5,
+        6626172.5,
+        678915.5,
+        6626176.5
+      ],
+      "status": "accepted",
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/nine-01-hole.png",
+            "sha256": "bbcb8b801ad30b46d6c20049b94bab06223ee44c46b7c63940860fa228eb46eb"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "note": "The cell is visually clear turf in the dated source. Excluding representative stand planting here is supported; no measured crown is relocated or deleted."
+      }
+    }
+  ],
+  "scope": "Set only the excluded flag in four source-confirmed clear-turf stand cells; preserve canopy measurements, all individual trees and all other cells."
+}

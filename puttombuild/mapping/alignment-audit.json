@@ -1,0 +1,2999 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "kind": "orthophoto-adoption-alignment-audit",
+  "passed": true,
+  "reviewedAt": "2026-09-09",
+  "baselineAvailable": true,
+  "tolerances": {
+    "sourcePixelAdoptionMetres": 0.01,
+    "runtimeBridgeMetres": 0.16
+  },
+  "adopted": {
+    "greens": 16,
+    "teePlatforms": 21,
+    "fairwayRings": 18,
+    "bunkers": 34,
+    "cameraReferences": 28,
+    "cameraReferencesWithReviewedPlatform": 22,
+    "standaloneCameraReferences": 6,
+    "waterRings": 0,
+    "paths": 0,
+    "removedBunkers": 3
+  },
+  "coverage": {
+    "holes": [
+      {
+        "hole": 1,
+        "greens": 1,
+        "teePlatforms": 0,
+        "fairwayRings": 1,
+        "bunkers": 1,
+        "correctedCameras": 0,
+        "unresolvedCameras": 4
+      },
+      {
+        "hole": 2,
+        "greens": 1,
+        "teePlatforms": 1,
+        "fairwayRings": 1,
+        "bunkers": 1,
+        "correctedCameras": 1,
+        "unresolvedCameras": 3
+      },
+      {
+        "hole": 3,
+        "greens": 0,
+        "teePlatforms": 0,
+        "fairwayRings": 0,
+        "bunkers": 2,
+        "correctedCameras": 0,
+        "unresolvedCameras": 4
+      },
+      {
+        "hole": 4,
+        "greens": 1,
+        "teePlatforms": 1,
+        "fairwayRings": 1,
+        "bunkers": 3,
+        "correctedCameras": 1,
+        "unresolvedCameras": 3
+      },
+      {
+        "hole": 5,
+        "greens": 1,
+        "teePlatforms": 2,
+        "fairwayRings": 1,
+        "bunkers": 3,
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
+      },
+      {
+        "hole": 6,
+        "greens": 1,
+        "teePlatforms": 1,
+        "fairwayRings": 1,
+        "bunkers": 2,
+        "correctedCameras": 1,
+        "unresolvedCameras": 3
+      },
+      {
+        "hole": 7,
+        "greens": 1,
+        "teePlatforms": 1,
+        "fairwayRings": 0,
+        "bunkers": 2,
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
+      },
+      {
+        "hole": 8,
+        "greens": 1,
+        "teePlatforms": 1,
+        "fairwayRings": 0,
+        "bunkers": 0,
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
+      },
+      {
+        "hole": 9,
+        "greens": 1,
+        "teePlatforms": 3,
+        "fairwayRings": 1,
+        "bunkers": 3,
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
+      },
+      {
+        "hole": 10,
+        "greens": 1,
+        "teePlatforms": 3,
+        "fairwayRings": 2,
+        "bunkers": 2,
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
+      },
+      {
+        "hole": 11,
+        "greens": 1,
+        "teePlatforms": 2,
+        "fairwayRings": 2,
+        "bunkers": 2,
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
+      },
+      {
+        "hole": 12,
+        "greens": 1,
+        "teePlatforms": 2,
+        "fairwayRings": 0,
+        "bunkers": 1,
+        "correctedCameras": 4,
+        "unresolvedCameras": 0
+      },
+      {
+        "hole": 13,
+        "greens": 1,
+        "teePlatforms": 1,
+        "fairwayRings": 2,
+        "bunkers": 3,
+        "correctedCameras": 1,
+        "unresolvedCameras": 3
+      },
+      {
+        "hole": 14,
+        "greens": 1,
+        "teePlatforms": 0,
+        "fairwayRings": 1,
+        "bunkers": 2,
+        "correctedCameras": 0,
+        "unresolvedCameras": 4
+      },
+      {
+        "hole": 15,
+        "greens": 0,
+        "teePlatforms": 0,
+        "fairwayRings": 0,
+        "bunkers": 0,
+        "correctedCameras": 0,
+        "unresolvedCameras": 4
+      },
+      {
+        "hole": 16,
+        "greens": 1,
+        "teePlatforms": 1,
+        "fairwayRings": 2,
+        "bunkers": 2,
+        "correctedCameras": 0,
+        "unresolvedCameras": 4
+      },
+      {
+        "hole": 17,
+        "greens": 1,
+        "teePlatforms": 0,
+        "fairwayRings": 1,
+        "bunkers": 4,
+        "correctedCameras": 0,
+        "unresolvedCameras": 4
+      },
+      {
+        "hole": 18,
+        "greens": 1,
+        "teePlatforms": 2,
+        "fairwayRings": 2,
+        "bunkers": 1,
+        "correctedCameras": 2,
+        "unresolvedCameras": 2
+      }
+    ],
+    "greensRemainingUnreviewed": 2,
+    "cameraReferences": 72,
+    "explicitlyReviewedCameras": 28,
+    "referencesWithoutReviewedNumberedIdentity": 44,
+    "markerStatuses": {
+      "outside-all-mapped-platforms": 26,
+      "inside-unreviewed-mapped-platform": 10,
+      "corrected-inside-reviewed-platform": 22,
+      "inside-reviewed-platform-numbered-identity-unverified": 8,
+      "reviewed-visible-interior-anchor-boundary-unreviewed": 6
+    }
+  },
+  "sourcePixelAgreement": {
+    "count": 1855,
+    "maximumMetres": 0,
+    "medianMetres": 0,
+    "p95Metres": 0
+  },
+  "runtimeBridgeAgreement": {
+    "count": 1855,
+    "maximumMetres": 0.090946,
+    "medianMetres": 0.016079,
+    "p95Metres": 0.066472
+  },
+  "correctedCameraMovement": {
+    "count": 28,
+    "maximumMetres": 28.556903,
+    "medianMetres": 6.127752,
+    "p95Metres": 25.205724
+  },
+  "cameraReferenceDisposition": {
+    "movedAtLeastOneNativePixel": 24,
+    "retainedWithinOneNativePixel": 4,
+    "outsideAnyMappedPlatform": 27,
+    "unreviewedAndOutsideAnyMappedPlatform": 26
+  },
+  "scorecard": {
+    "checkedDisplayValues": 108,
+    "checkedMarkerDistanceValues": 72,
+    "exactConservation": true
+  },
+  "features": [
+    {
+      "id": "lm-2024-hole-01-green",
+      "kind": "green",
+      "hole": 1,
+      "sourceKey": "hole-01-green",
+      "vertexCount": 19,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 307.206324,
+      "previousAreaSquareMetres": 340.975,
+      "centroidMovementMetres": 2.980584
+    },
+    {
+      "id": "lm-2024-hole-01-fairway-0",
+      "kind": "fairway",
+      "hole": 1,
+      "sourceKey": "hole-01-full",
+      "vertexCount": 40,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 4068.988945,
+      "previousAreaSquareMetres": 4467.48,
+      "centroidMovementMetres": 0.715465
+    },
+    {
+      "id": "lm-2024-hole-01-bunker-0",
+      "kind": "bunker",
+      "hole": 1,
+      "sourceKey": "hole-01-green",
+      "vertexCount": 15,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 48.536232,
+      "previousAreaSquareMetres": 45.585,
+      "centroidMovementMetres": 2.913141
+    },
+    {
+      "id": "lm-2024-hole-02-green",
+      "kind": "green",
+      "hole": 2,
+      "sourceKey": "hole-02-green",
+      "vertexCount": 18,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 318.904471,
+      "previousAreaSquareMetres": 315.695,
+      "centroidMovementMetres": 2.872915
+    },
+    {
+      "id": "h02-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 2,
+      "sourceKey": "hole-02-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 394.885214,
+      "previousAreaSquareMetres": 292.47,
+      "centroidMovementMetres": 2.457539
+    },
+    {
+      "id": "lm-2024-hole-02-fairway-0",
+      "kind": "fairway",
+      "hole": 2,
+      "sourceKey": "hole-02-full",
+      "vertexCount": 53,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 7773.603846,
+      "previousAreaSquareMetres": 7689.38,
+      "centroidMovementMetres": 2.741959
+    },
+    {
+      "id": "lm-2024-hole-02-bunker-0",
+      "kind": "bunker",
+      "hole": 2,
+      "sourceKey": "hole-02-green",
+      "vertexCount": 12,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 43.09339,
+      "previousAreaSquareMetres": 60.49,
+      "centroidMovementMetres": 3.008857
+    },
+    {
+      "id": "lm-2024-hole-03-bunker-0",
+      "kind": "bunker",
+      "hole": 3,
+      "sourceKey": "hole-03-green",
+      "vertexCount": 12,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 61.577594,
+      "previousAreaSquareMetres": 87.885,
+      "centroidMovementMetres": 3.150138
+    },
+    {
+      "id": "lm-2024-hole-03-bunker-1",
+      "kind": "bunker",
+      "hole": 3,
+      "sourceKey": "hole-03-green",
+      "vertexCount": 14,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 21.163448,
+      "previousAreaSquareMetres": 36.745,
+      "centroidMovementMetres": 1.884599
+    },
+    {
+      "id": "lm-2024-hole-04-green",
+      "kind": "green",
+      "hole": 4,
+      "sourceKey": "hole-04-green",
+      "vertexCount": 18,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 259.525961,
+      "previousAreaSquareMetres": 341.24,
+      "centroidMovementMetres": 1.322201
+    },
+    {
+      "id": "h04-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 4,
+      "sourceKey": "hole-04-tees",
+      "vertexCount": 13,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 304.108438,
+      "previousAreaSquareMetres": 350.095,
+      "centroidMovementMetres": 3.832568
+    },
+    {
+      "id": "lm-2024-hole-04-fairway-0",
+      "kind": "fairway",
+      "hole": 4,
+      "sourceKey": "hole-04-full",
+      "vertexCount": 73,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 6864.384711,
+      "previousAreaSquareMetres": 8489.98,
+      "centroidMovementMetres": 4.959467
+    },
+    {
+      "id": "lm-2024-hole-04-bunker-0",
+      "kind": "bunker",
+      "hole": 4,
+      "sourceKey": "hole-04-green",
+      "vertexCount": 12,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 35.707761,
+      "previousAreaSquareMetres": 41.125,
+      "centroidMovementMetres": 2.954713
+    },
+    {
+      "id": "lm-2024-hole-04-bunker-2",
+      "kind": "bunker",
+      "hole": 4,
+      "sourceKey": "hole-04-green",
+      "vertexCount": 12,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 17.872866,
+      "previousAreaSquareMetres": 22.53,
+      "centroidMovementMetres": 2.964202
+    },
+    {
+      "id": "lm-2024-hole-04-bunker-3",
+      "kind": "bunker",
+      "hole": 4,
+      "sourceKey": "hole-04-green",
+      "vertexCount": 11,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 26.4652,
+      "previousAreaSquareMetres": 40.71,
+      "centroidMovementMetres": 2.694919
+    },
+    {
+      "id": "lm-2024-hole-05-green",
+      "kind": "green",
+      "hole": 5,
+      "sourceKey": "hole-05-green",
+      "vertexCount": 21,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 407.474695,
+      "previousAreaSquareMetres": 381.905,
+      "centroidMovementMetres": 3.996932
+    },
+    {
+      "id": "h05-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 5,
+      "sourceKey": "hole-05-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 92.411751,
+      "previousAreaSquareMetres": 114.88,
+      "centroidMovementMetres": 2.644918
+    },
+    {
+      "id": "h05-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 5,
+      "sourceKey": "hole-05-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 209.937,
+      "previousAreaSquareMetres": 137.4,
+      "centroidMovementMetres": 2.488867
+    },
+    {
+      "id": "lm-2024-hole-05-fairway-0",
+      "kind": "fairway",
+      "hole": 5,
+      "sourceKey": "hole-05-full",
+      "vertexCount": 34,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 2498.856291,
+      "previousAreaSquareMetres": 2642.885,
+      "centroidMovementMetres": 3.153041
+    },
+    {
+      "id": "lm-2024-hole-05-bunker-0",
+      "kind": "bunker",
+      "hole": 5,
+      "sourceKey": "hole-05-green",
+      "vertexCount": 9,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 21.21317,
+      "previousAreaSquareMetres": 18.55,
+      "centroidMovementMetres": 3.1336
+    },
+    {
+      "id": "lm-2024-hole-05-bunker-1",
+      "kind": "bunker",
+      "hole": 5,
+      "sourceKey": "hole-05-green",
+      "vertexCount": 12,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 34.930281,
+      "previousAreaSquareMetres": 28.87,
+      "centroidMovementMetres": 3.389768
+    },
+    {
+      "id": "lm-2024-hole-05-bunker-2",
+      "kind": "bunker",
+      "hole": 5,
+      "sourceKey": "hole-05-green",
+      "vertexCount": 10,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 17.91147,
+      "previousAreaSquareMetres": 17.11,
+      "centroidMovementMetres": 2.859416
+    },
+    {
+      "id": "lm-2024-hole-06-green",
+      "kind": "green",
+      "hole": 6,
+      "sourceKey": "hole-06-green",
+      "vertexCount": 24,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 445.114167,
+      "previousAreaSquareMetres": 411.38,
+      "centroidMovementMetres": 2.000821
+    },
+    {
+      "id": "h06-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 6,
+      "sourceKey": "hole-06-tees",
+      "vertexCount": 22,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 480.77359,
+      "previousAreaSquareMetres": 436.04,
+      "centroidMovementMetres": 2.577221
+    },
+    {
+      "id": "lm-2024-hole-06-fairway-0",
+      "kind": "fairway",
+      "hole": 6,
+      "sourceKey": "hole-06-full",
+      "vertexCount": 53,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 6946.71294,
+      "previousAreaSquareMetres": 6562.28,
+      "centroidMovementMetres": 4.068779
+    },
+    {
+      "id": "lm-2024-hole-06-bunker-0",
+      "kind": "bunker",
+      "hole": 6,
+      "sourceKey": "hole-06-green",
+      "vertexCount": 13,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 38.44729,
+      "previousAreaSquareMetres": 31.09,
+      "centroidMovementMetres": 3.329088
+    },
+    {
+      "id": "lm-2024-hole-06-bunker-1",
+      "kind": "bunker",
+      "hole": 6,
+      "sourceKey": "hole-06-green",
+      "vertexCount": 13,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 29.868234,
+      "previousAreaSquareMetres": 26.415,
+      "centroidMovementMetres": 2.910655
+    },
+    {
+      "id": "h07-green-lm2024",
+      "kind": "green",
+      "hole": 7,
+      "sourceKey": "hole-07-green",
+      "vertexCount": 23,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 349.098851,
+      "previousAreaSquareMetres": 339.695,
+      "centroidMovementMetres": 2.487672
+    },
+    {
+      "id": "h07-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 7,
+      "sourceKey": "hole-07-tees",
+      "vertexCount": 9,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 125.574693,
+      "previousAreaSquareMetres": 99.165,
+      "centroidMovementMetres": 3.210363
+    },
+    {
+      "id": "h07-bunker-01-lm2024",
+      "kind": "bunker",
+      "hole": 7,
+      "sourceKey": "hole-07-green",
+      "vertexCount": 15,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 54.312572,
+      "previousAreaSquareMetres": 58.495,
+      "centroidMovementMetres": 2.822888
+    },
+    {
+      "id": "h07-bunker-02-lm2024",
+      "kind": "bunker",
+      "hole": 7,
+      "sourceKey": "hole-07-green",
+      "vertexCount": 15,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 46.728721,
+      "previousAreaSquareMetres": 46.545,
+      "centroidMovementMetres": 3.017127
+    },
+    {
+      "id": "h08-green-lm2024",
+      "kind": "green",
+      "hole": 8,
+      "sourceKey": "hole-08-green",
+      "vertexCount": 23,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 421.335269,
+      "previousAreaSquareMetres": 380.15,
+      "centroidMovementMetres": 3.223538
+    },
+    {
+      "id": "h08-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 8,
+      "sourceKey": "hole-08-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 81.170958,
+      "previousAreaSquareMetres": 88.1,
+      "centroidMovementMetres": 2.686494
+    },
+    {
+      "id": "h09-green-lm2024",
+      "kind": "green",
+      "hole": 9,
+      "sourceKey": "hole-09-green",
+      "vertexCount": 31,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 524.893944,
+      "previousAreaSquareMetres": 466.615,
+      "centroidMovementMetres": 2.101925
+    },
+    {
+      "id": "h09-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 9,
+      "sourceKey": "hole-09-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 85.002469,
+      "previousAreaSquareMetres": 63.33,
+      "centroidMovementMetres": 3.242682
+    },
+    {
+      "id": "h09-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 9,
+      "sourceKey": "hole-09-tees",
+      "vertexCount": 10,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 168.283596,
+      "previousAreaSquareMetres": 111.6,
+      "centroidMovementMetres": 2.423891
+    },
+    {
+      "id": "h09-tee-pad-02-lm2024",
+      "kind": "tee",
+      "hole": 9,
+      "sourceKey": "hole-09-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 93.849049,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "lm-2024-hole-09-fairway-0",
+      "kind": "fairway",
+      "hole": 9,
+      "sourceKey": "hole-09-full",
+      "vertexCount": 76,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 7516.557221,
+      "previousAreaSquareMetres": 8910.97,
+      "centroidMovementMetres": 18.857797
+    },
+    {
+      "id": "h09-bunker-01-lm2024",
+      "kind": "bunker",
+      "hole": 9,
+      "sourceKey": "hole-09-green",
+      "vertexCount": 23,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 54.408165,
+      "previousAreaSquareMetres": 63.84,
+      "centroidMovementMetres": 3.272956
+    },
+    {
+      "id": "h09-bunker-02-lm2024",
+      "kind": "bunker",
+      "hole": 9,
+      "sourceKey": "hole-09-green",
+      "vertexCount": 15,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 29.613231,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "h09-bunker-03-lm2024",
+      "kind": "bunker",
+      "hole": 9,
+      "sourceKey": "hole-09-green",
+      "vertexCount": 23,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 97.138639,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "h10-green-lm2024",
+      "kind": "green",
+      "hole": 10,
+      "sourceKey": "hole-10-green",
+      "vertexCount": 21,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 284.851258,
+      "previousAreaSquareMetres": 274.48,
+      "centroidMovementMetres": 1.721969
+    },
+    {
+      "id": "h10-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 10,
+      "sourceKey": "hole-10-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 164.140624,
+      "previousAreaSquareMetres": 123.66,
+      "centroidMovementMetres": 6.713047
+    },
+    {
+      "id": "h10-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 10,
+      "sourceKey": "hole-10-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 152.692751,
+      "previousAreaSquareMetres": 147.73,
+      "centroidMovementMetres": 5.064255
+    },
+    {
+      "id": "h10-tee-pad-02-lm2024",
+      "kind": "tee",
+      "hole": 10,
+      "sourceKey": "hole-10-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 104.302283,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "h10-fairway-01-lm2024",
+      "kind": "fairway",
+      "hole": 10,
+      "sourceKey": "hole-10-full",
+      "vertexCount": 47,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 4675.770047,
+      "previousAreaSquareMetres": 6154.955,
+      "centroidMovementMetres": 8.035365
+    },
+    {
+      "id": "h10-fairway-02-lm2024",
+      "kind": "fairway",
+      "hole": 10,
+      "sourceKey": "hole-10-full",
+      "vertexCount": 26,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 1300.001865,
+      "previousAreaSquareMetres": 1292.12,
+      "centroidMovementMetres": 12.196237
+    },
+    {
+      "id": "h10-bunker-01-lm2024",
+      "kind": "bunker",
+      "hole": 10,
+      "sourceKey": "hole-10-green",
+      "vertexCount": 13,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 27.215495,
+      "previousAreaSquareMetres": 22.005,
+      "centroidMovementMetres": 3.106034
+    },
+    {
+      "id": "h10-bunker-02-lm2024",
+      "kind": "bunker",
+      "hole": 10,
+      "sourceKey": "hole-10-green",
+      "vertexCount": 19,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 41.161147,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "h11-green-lm2024",
+      "kind": "green",
+      "hole": 11,
+      "sourceKey": "hole-11-green",
+      "vertexCount": 24,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 445.469014,
+      "previousAreaSquareMetres": 465.77,
+      "centroidMovementMetres": 1.994055
+    },
+    {
+      "id": "h11-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 11,
+      "sourceKey": "hole-11-tees",
+      "vertexCount": 17,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 190.747411,
+      "previousAreaSquareMetres": 171.455,
+      "centroidMovementMetres": 2.646304
+    },
+    {
+      "id": "h11-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 11,
+      "sourceKey": "hole-11-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 47.035923,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "h11-fairway-01-lm2024",
+      "kind": "fairway",
+      "hole": 11,
+      "sourceKey": "hole-11-full",
+      "vertexCount": 37,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 4249.198982,
+      "previousAreaSquareMetres": 4376.69,
+      "centroidMovementMetres": 4.86042
+    },
+    {
+      "id": "h11-fairway-02-lm2024",
+      "kind": "fairway",
+      "hole": 11,
+      "sourceKey": "hole-11-full",
+      "vertexCount": 17,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 552.85808,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "h11-bunker-01-lm2024",
+      "kind": "bunker",
+      "hole": 11,
+      "sourceKey": "hole-11-green",
+      "vertexCount": 14,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 27.824405,
+      "previousAreaSquareMetres": 36.035,
+      "centroidMovementMetres": 3.101997
+    },
+    {
+      "id": "h11-bunker-02-lm2024",
+      "kind": "bunker",
+      "hole": 11,
+      "sourceKey": "hole-11-green",
+      "vertexCount": 15,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 32.897116,
+      "previousAreaSquareMetres": 36.375,
+      "centroidMovementMetres": 3.492455
+    },
+    {
+      "id": "h12-green-lm2024",
+      "kind": "green",
+      "hole": 12,
+      "sourceKey": "hole-12-green",
+      "vertexCount": 22,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 430.890446,
+      "previousAreaSquareMetres": 419.52,
+      "centroidMovementMetres": 3.207669
+    },
+    {
+      "id": "h12-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 12,
+      "sourceKey": "hole-12-tees",
+      "vertexCount": 10,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 209.472655,
+      "previousAreaSquareMetres": 171.51,
+      "centroidMovementMetres": 4.080351
+    },
+    {
+      "id": "h12-tee-pad-02-lm2024",
+      "kind": "tee",
+      "hole": 12,
+      "sourceKey": "hole-12-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 3.683522,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "h12-bunker-01-lm2024",
+      "kind": "bunker",
+      "hole": 12,
+      "sourceKey": "hole-12-green",
+      "vertexCount": 22,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 39.232118,
+      "previousAreaSquareMetres": 44.8,
+      "centroidMovementMetres": 2.86605
+    },
+    {
+      "id": "lm-2024-h13-green",
+      "kind": "green",
+      "hole": 13,
+      "sourceKey": "hole-13-green",
+      "vertexCount": 21,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 353.92522,
+      "previousAreaSquareMetres": 360.525,
+      "centroidMovementMetres": 3.350605
+    },
+    {
+      "id": "h13-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 13,
+      "sourceKey": "hole-13-tees",
+      "vertexCount": 6,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 69.162693,
+      "previousAreaSquareMetres": 98.47,
+      "centroidMovementMetres": 4.76744
+    },
+    {
+      "id": "h13-fairway-01-lm2024",
+      "kind": "fairway",
+      "hole": 13,
+      "sourceKey": "hole-13-full",
+      "vertexCount": 42,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 3468.434255,
+      "previousAreaSquareMetres": 3313.575,
+      "centroidMovementMetres": 3.028837
+    },
+    {
+      "id": "h13-fairway-02-lm2024",
+      "kind": "fairway",
+      "hole": 13,
+      "sourceKey": "hole-13-full",
+      "vertexCount": 30,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 3212.296086,
+      "previousAreaSquareMetres": 3242.625,
+      "centroidMovementMetres": 1.281483
+    },
+    {
+      "id": "lm-2024-h13-bunker-1",
+      "kind": "bunker",
+      "hole": 13,
+      "sourceKey": "hole-13-green",
+      "vertexCount": 11,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 16.049263,
+      "previousAreaSquareMetres": 21.98,
+      "centroidMovementMetres": 2.801585
+    },
+    {
+      "id": "lm-2024-h13-bunker-2",
+      "kind": "bunker",
+      "hole": 13,
+      "sourceKey": "hole-13-green",
+      "vertexCount": 10,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 19.019395,
+      "previousAreaSquareMetres": 23.46,
+      "centroidMovementMetres": 3.186094
+    },
+    {
+      "id": "lm-2024-h13-bunker-3",
+      "kind": "bunker",
+      "hole": 13,
+      "sourceKey": "hole-13-green",
+      "vertexCount": 16,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 29.141196,
+      "previousAreaSquareMetres": 46.18,
+      "centroidMovementMetres": 3.068403
+    },
+    {
+      "id": "lm-2024-h14-green",
+      "kind": "green",
+      "hole": 14,
+      "sourceKey": "hole-14-green",
+      "vertexCount": 22,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 389.829755,
+      "previousAreaSquareMetres": 327.245,
+      "centroidMovementMetres": 2.760172
+    },
+    {
+      "id": "h14-fairway-01-lm2024",
+      "kind": "fairway",
+      "hole": 14,
+      "sourceKey": "hole-14-full",
+      "vertexCount": 71,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 10514.016338,
+      "previousAreaSquareMetres": 10434.495,
+      "centroidMovementMetres": 9.881961
+    },
+    {
+      "id": "lm-2024-h14-bunker-0",
+      "kind": "bunker",
+      "hole": 14,
+      "sourceKey": "hole-14-green",
+      "vertexCount": 16,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 27.518146,
+      "previousAreaSquareMetres": 40.435,
+      "centroidMovementMetres": 2.863335
+    },
+    {
+      "id": "lm-2024-h14-bunker-1",
+      "kind": "bunker",
+      "hole": 14,
+      "sourceKey": "hole-14-green",
+      "vertexCount": 13,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 23.974996,
+      "previousAreaSquareMetres": 32.48,
+      "centroidMovementMetres": 2.656089
+    },
+    {
+      "id": "lm-2024-h16-green",
+      "kind": "green",
+      "hole": 16,
+      "sourceKey": "hole-16-green",
+      "vertexCount": 21,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 360.827775,
+      "previousAreaSquareMetres": 344.61,
+      "centroidMovementMetres": 3.937588
+    },
+    {
+      "id": "h16-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 16,
+      "sourceKey": "hole-16-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 145.52154,
+      "previousAreaSquareMetres": 137.98,
+      "centroidMovementMetres": 2.999799
+    },
+    {
+      "id": "h16-fairway-01-lm2024",
+      "kind": "fairway",
+      "hole": 16,
+      "sourceKey": "hole-16-full",
+      "vertexCount": 29,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 712.74201,
+      "previousAreaSquareMetres": 2618.855,
+      "centroidMovementMetres": 53.137658
+    },
+    {
+      "id": "h16-fairway-02-lm2024",
+      "kind": "fairway",
+      "hole": 16,
+      "sourceKey": "hole-16-full",
+      "vertexCount": 40,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 5575.996997,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
+      "id": "lm-2024-h16-bunker-0",
+      "kind": "bunker",
+      "hole": 16,
+      "sourceKey": "hole-16-green",
+      "vertexCount": 9,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 18.084729,
+      "previousAreaSquareMetres": 27.455,
+      "centroidMovementMetres": 3.683596
+    },
+    {
+      "id": "lm-2024-h16-bunker-1",
+      "kind": "bunker",
+      "hole": 16,
+      "sourceKey": "hole-16-green",
+      "vertexCount": 9,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 16.580771,
+      "previousAreaSquareMetres": 27.585,
+      "centroidMovementMetres": 3.599762
+    },
+    {
+      "id": "lm-2024-h17-green",
+      "kind": "green",
+      "hole": 17,
+      "sourceKey": "hole-17-green",
+      "vertexCount": 21,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 232.646446,
+      "previousAreaSquareMetres": 226.835,
+      "centroidMovementMetres": 4.722964
+    },
+    {
+      "id": "h17-fairway-01-lm2024",
+      "kind": "fairway",
+      "hole": 17,
+      "sourceKey": "hole-17-full",
+      "vertexCount": 62,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 5958.544585,
+      "previousAreaSquareMetres": 5525.845,
+      "centroidMovementMetres": 8.464196
+    },
+    {
+      "id": "lm-2024-h17-bunker-0",
+      "kind": "bunker",
+      "hole": 17,
+      "sourceKey": "hole-17-green",
+      "vertexCount": 9,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 15.257359,
+      "previousAreaSquareMetres": 17.86,
+      "centroidMovementMetres": 2.745576
+    },
+    {
+      "id": "lm-2024-h17-bunker-1",
+      "kind": "bunker",
+      "hole": 17,
+      "sourceKey": "hole-17-green",
+      "vertexCount": 11,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 20.202961,
+      "previousAreaSquareMetres": 29.705,
+      "centroidMovementMetres": 2.591464
+    },
+    {
+      "id": "lm-2024-h17-bunker-2",
+      "kind": "bunker",
+      "hole": 17,
+      "sourceKey": "hole-17-green",
+      "vertexCount": 18,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 32.375444,
+      "previousAreaSquareMetres": 40.78,
+      "centroidMovementMetres": 2.630555
+    },
+    {
+      "id": "lm-2024-h17-bunker-3",
+      "kind": "bunker",
+      "hole": 17,
+      "sourceKey": "hole-17-green",
+      "vertexCount": 14,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 43.655932,
+      "previousAreaSquareMetres": 49.97,
+      "centroidMovementMetres": 2.733356
+    },
+    {
+      "id": "lm-2024-h18-green",
+      "kind": "green",
+      "hole": 18,
+      "sourceKey": "hole-18-green",
+      "vertexCount": 24,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 363.562864,
+      "previousAreaSquareMetres": 513.06,
+      "centroidMovementMetres": 4.728282
+    },
+    {
+      "id": "h18-tee-pad-00-lm2024",
+      "kind": "tee",
+      "hole": 18,
+      "sourceKey": "hole-18-tees",
+      "vertexCount": 6,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 75.319039,
+      "previousAreaSquareMetres": 63.3,
+      "centroidMovementMetres": 3.399813
+    },
+    {
+      "id": "h18-tee-pad-01-lm2024",
+      "kind": "tee",
+      "hole": 18,
+      "sourceKey": "hole-18-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 114.157326,
+      "previousAreaSquareMetres": 86.145,
+      "centroidMovementMetres": 2.980766
+    },
+    {
+      "id": "h18-fairway-01-lm2024",
+      "kind": "fairway",
+      "hole": 18,
+      "sourceKey": "hole-18-full",
+      "vertexCount": 20,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 721.622473,
+      "previousAreaSquareMetres": 801.285,
+      "centroidMovementMetres": 2.53425
+    },
+    {
+      "id": "h18-fairway-02-lm2024",
+      "kind": "fairway",
+      "hole": 18,
+      "sourceKey": "hole-18-full",
+      "vertexCount": 41,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 4830.445127,
+      "previousAreaSquareMetres": 5020.665,
+      "centroidMovementMetres": 3.119565
+    },
+    {
+      "id": "lm-2024-h18-bunker-0",
+      "kind": "bunker",
+      "hole": 18,
+      "sourceKey": "hole-18-green",
+      "vertexCount": 15,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 40.486257,
+      "previousAreaSquareMetres": 64.745,
+      "centroidMovementMetres": 2.534495
+    }
+  ],
+  "references": [
+    {
+      "id": "lm-2024-hole-01-green",
+      "key": "green-1",
+      "sourceKey": "hole-01-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -192.2,
+        -550
+      ],
+      "coordinate": [
+        -189.73489154732874,
+        -548.3694351143672
+      ],
+      "movementMetres": 2.955588
+    },
+    {
+      "id": "lm-2024-hole-02-green",
+      "key": "green-2",
+      "sourceKey": "hole-02-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -439.3,
+        -614.3
+      ],
+      "coordinate": [
+        -437.5329129170105,
+        -612.0877904034692
+      ],
+      "movementMetres": 2.831337
+    },
+    {
+      "id": "h02-tee-pad-00-lm2024",
+      "key": "2:tee-61",
+      "sourceKey": "hole-02-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -117.8,
+        -561.9
+      ],
+      "coordinate": [
+        -124.51515523891355,
+        -558.8453812682073
+      ],
+      "movementMetres": 7.377263
+    },
+    {
+      "id": "lm-2024-hole-04-green",
+      "key": "green-4",
+      "sourceKey": "hole-04-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -137.1,
+        -257.3
+      ],
+      "coordinate": [
+        -135.77693564519507,
+        -257.334536042994
+      ],
+      "movementMetres": 1.323515
+    },
+    {
+      "id": "h04-tee-48-lm2024-visible-anchor",
+      "key": "4:tee-48",
+      "sourceKey": "hole-04-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -377.4,
+        -519.5
+      ],
+      "coordinate": [
+        -364.9113329001532,
+        -536.663401504598
+      ],
+      "movementMetres": 21.226143
+    },
+    {
+      "id": "lm-2024-hole-05-green",
+      "key": "green-5",
+      "sourceKey": "hole-05-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        246.5,
+        -327.1
+      ],
+      "coordinate": [
+        249.3004031251704,
+        -324.29978996813446
+      ],
+      "movementMetres": 3.960232
+    },
+    {
+      "id": "h05-tee-pad-00-lm2024",
+      "key": "5:tee-48",
+      "sourceKey": "hole-05-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        124.2,
+        -304.2
+      ],
+      "coordinate": [
+        124.71771340237564,
+        -290.5595585339961
+      ],
+      "movementMetres": 13.650263
+    },
+    {
+      "id": "h05-tee-pad-00-lm2024",
+      "key": "5:tee-41",
+      "sourceKey": "hole-05-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        124.2,
+        -304.2
+      ],
+      "coordinate": [
+        124.71771340237564,
+        -290.5595585339961
+      ],
+      "movementMetres": 13.650263
+    },
+    {
+      "id": "h05-tee-pad-01-lm2024",
+      "key": "5:tee-57",
+      "sourceKey": "hole-05-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        97.3,
+        -290.9
+      ],
+      "coordinate": [
+        94.66137508709912,
+        -285.3694486023039
+      ],
+      "movementMetres": 6.127752
+    },
+    {
+      "id": "lm-2024-hole-06-green",
+      "key": "green-6",
+      "sourceKey": "hole-06-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        471.4,
+        -194.7
+      ],
+      "coordinate": [
+        472.88937524006076,
+        -193.29312105658772
+      ],
+      "movementMetres": 2.048792
+    },
+    {
+      "id": "h06-tee-pad-00-lm2024",
+      "key": "6:tee-48",
+      "sourceKey": "hole-06-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        248.3,
+        -367.7
+      ],
+      "coordinate": [
+        251.86943719276118,
+        -371.88042371686464
+      ],
+      "movementMetres": 5.496983
+    },
+    {
+      "id": "h07-green-lm2024",
+      "key": "green-7",
+      "sourceKey": "hole-07-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        331.8,
+        155.2
+      ],
+      "coordinate": [
+        334.1762694440154,
+        155.70262102544632
+      ],
+      "movementMetres": 2.428844
+    },
+    {
+      "id": "h07-tee-pad-01-lm2024",
+      "key": "7:tee-48",
+      "sourceKey": "hole-07-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        468,
+        -103.7
+      ],
+      "coordinate": [
+        479.11146718975533,
+        -100.27950120991676
+      ],
+      "movementMetres": 11.626027
+    },
+    {
+      "id": "h07-tee-61-lm2024-visible-anchor",
+      "key": "7:tee-61",
+      "sourceKey": "hole-07-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        488.4,
+        -165.4
+      ],
+      "coordinate": [
+        488.399994870559,
+        -165.39994372028787
+      ],
+      "movementMetres": 0.000057
+    },
+    {
+      "id": "h07-tee-57-lm2024-visible-anchor",
+      "key": "7:tee-57",
+      "sourceKey": "hole-07-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        486.8,
+        -160.6
+      ],
+      "coordinate": [
+        488.626325006281,
+        -163.884080658284
+      ],
+      "movementMetres": 3.757745
+    },
+    {
+      "id": "h08-green-lm2024",
+      "key": "green-8",
+      "sourceKey": "hole-08-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        438.9,
+        -158.9
+      ],
+      "coordinate": [
+        442.2862995806962,
+        -159.06299236060107
+      ],
+      "movementMetres": 3.39022
+    },
+    {
+      "id": "h08-tee-pad-00-lm2024",
+      "key": "8:tee-48",
+      "sourceKey": "hole-08-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        324.6,
+        90.2
+      ],
+      "coordinate": [
+        315.6959710894573,
+        87.16776157271369
+      ],
+      "movementMetres": 9.406179
+    },
+    {
+      "id": "h08-tee-61-lm2024-visible-anchor",
+      "key": "8:tee-61",
+      "sourceKey": "hole-08-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        291.7,
+        153.1
+      ],
+      "coordinate": [
+        297.38295213995,
+        145.74729855524737
+      ],
+      "movementMetres": 9.292909
+    },
+    {
+      "id": "h08-tee-57-lm2024-visible-anchor",
+      "key": "8:tee-57",
+      "sourceKey": "hole-08-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        294.5,
+        147.8
+      ],
+      "coordinate": [
+        299.3921268667107,
+        144.27051975449046
+      ],
+      "movementMetres": 6.032424
+    },
+    {
+      "id": "h09-green-lm2024",
+      "key": "green-9",
+      "sourceKey": "hole-09-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -54.5,
+        -204.6
+      ],
+      "coordinate": [
+        -54.638567372790234,
+        -202.52595825703906
+      ],
+      "movementMetres": 2.078665
+    },
+    {
+      "id": "h09-tee-pad-00-lm2024",
+      "key": "9:tee-48",
+      "sourceKey": "hole-09-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        344.2,
+        -206.2
+      ],
+      "coordinate": [
+        344.37892670858974,
+        -199.52662383651102
+      ],
+      "movementMetres": 6.675774
+    },
+    {
+      "id": "h09-tee-pad-01-lm2024",
+      "key": "9:tee-57",
+      "sourceKey": "hole-09-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        403.1,
+        -195
+      ],
+      "coordinate": [
+        403.0999792442732,
+        -194.99990100772578
+      ],
+      "movementMetres": 0.000101
+    },
+    {
+      "id": "h09-tee-pad-02-lm2024",
+      "key": "9:tee-61",
+      "sourceKey": "hole-09-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        425.7,
+        -190.7
+      ],
+      "coordinate": [
+        425.6999511309175,
+        -190.69990741841337
+      ],
+      "movementMetres": 0.000105
+    },
+    {
+      "id": "h10-green-lm2024",
+      "key": "green-10",
+      "sourceKey": "hole-10-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        303.1,
+        -69.9
+      ],
+      "coordinate": [
+        303.9595015487918,
+        -67.55421986749383
+      ],
+      "movementMetres": 2.498285
+    },
+    {
+      "id": "h10-tee-pad-00-lm2024",
+      "key": "10:tee-57",
+      "sourceKey": "hole-10-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -35.3,
+        -184.6
+      ],
+      "coordinate": [
+        -35.529962076269854,
+        -180.85833447079892
+      ],
+      "movementMetres": 3.748726
+    },
+    {
+      "id": "h10-tee-pad-01-lm2024",
+      "key": "10:tee-61",
+      "sourceKey": "hole-10-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -97.9,
+        -191.3
+      ],
+      "coordinate": [
+        -76.6223429703895,
+        -177.78741890944247
+      ],
+      "movementMetres": 25.205724
+    },
+    {
+      "id": "h10-tee-pad-02-lm2024",
+      "key": "10:tee-48",
+      "sourceKey": "hole-10-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -0.5,
+        -180.9
+      ],
+      "coordinate": [
+        -0.6836935312382041,
+        -177.91049698828914
+      ],
+      "movementMetres": 2.995141
+    },
+    {
+      "id": "h11-green-lm2024",
+      "key": "green-11",
+      "sourceKey": "hole-11-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        219.4,
+        289.3
+      ],
+      "coordinate": [
+        220.79578738625412,
+        291.4960441610643
+      ],
+      "movementMetres": 2.602082
+    },
+    {
+      "id": "h11-tee-pad-00-lm2024",
+      "key": "11:tee-57",
+      "sourceKey": "hole-11-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        268.9,
+        -11.5
+      ],
+      "coordinate": [
+        268.89997240477044,
+        -11.49999450119509
+      ],
+      "movementMetres": 0.000028
+    },
+    {
+      "id": "h11-tee-pad-01-lm2024",
+      "key": "11:tee-48",
+      "sourceKey": "hole-11-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        263.4,
+        28.1
+      ],
+      "coordinate": [
+        277.7584551273004,
+        43.84533205466653
+      ],
+      "movementMetres": 21.30917
+    },
+    {
+      "id": "h11-tee-pad-01-lm2024",
+      "key": "11:tee-41",
+      "sourceKey": "hole-11-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        263.4,
+        28.1
+      ],
+      "coordinate": [
+        277.7584551273004,
+        43.84533205466653
+      ],
+      "movementMetres": 21.30917
+    },
+    {
+      "id": "h12-green-lm2024",
+      "key": "green-12",
+      "sourceKey": "hole-12-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        167.6,
+        270.3
+      ],
+      "coordinate": [
+        168.86399826816907,
+        267.8016024831655
+      ],
+      "movementMetres": 2.799943
+    },
+    {
+      "id": "h12-tee-pad-01-lm2024",
+      "key": "12:tee-61",
+      "sourceKey": "hole-12-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        189.5,
+        390.3
+      ],
+      "coordinate": [
+        192.35778385628365,
+        387.3903049929501
+      ],
+      "movementMetres": 4.078389
+    },
+    {
+      "id": "h12-tee-pad-01-lm2024",
+      "key": "12:tee-57",
+      "sourceKey": "hole-12-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        187.3,
+        378.5
+      ],
+      "coordinate": [
+        187.53682389344874,
+        382.61060612131473
+      ],
+      "movementMetres": 4.117423
+    },
+    {
+      "id": "h12-tee-pad-02-lm2024",
+      "key": "12:tee-41",
+      "sourceKey": "hole-12-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        217.8,
+        322.1
+      ],
+      "coordinate": [
+        216.0794193677927,
+        326.5827675682948
+      ],
+      "movementMetres": 4.801625
+    },
+    {
+      "id": "h12-tee-48-lm2024-visible-anchor",
+      "key": "12:tee-48",
+      "sourceKey": "hole-12-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        184.7,
+        363.8
+      ],
+      "coordinate": [
+        184.1693293120745,
+        367.19521136674956
+      ],
+      "movementMetres": 3.436433
+    },
+    {
+      "id": "lm-2024-h13-green",
+      "key": "green-13",
+      "sourceKey": "hole-13-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        21.1,
+        -144.3
+      ],
+      "coordinate": [
+        22.995344922371775,
+        -142.19394451080205
+      ],
+      "movementMetres": 2.833338
+    },
+    {
+      "id": "h13-tee-pad-01-lm2024",
+      "key": "13:tee-48",
+      "sourceKey": "hole-13-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        171.2,
+        126.8
+      ],
+      "coordinate": [
+        191.58219693176173,
+        129.77327332907436
+      ],
+      "movementMetres": 20.59792
+    },
+    {
+      "id": "lm-2024-h14-green",
+      "key": "green-14",
+      "sourceKey": "hole-14-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -129.2,
+        327.8
+      ],
+      "coordinate": [
+        -127.27621017343445,
+        329.0256613877466
+      ],
+      "movementMetres": 2.281055
+    },
+    {
+      "id": "lm-2024-h16-green",
+      "key": "green-16",
+      "sourceKey": "hole-16-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -313.7,
+        608.6
+      ],
+      "coordinate": [
+        -310.4191047463559,
+        609.9739826734187
+      ],
+      "movementMetres": 3.556979
+    },
+    {
+      "id": "lm-2024-h17-green",
+      "key": "green-17",
+      "sourceKey": "hole-17-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -212.2,
+        184.9
+      ],
+      "coordinate": [
+        -208.52787380789624,
+        187.42594414364618
+      ],
+      "movementMetres": 4.457006
+    },
+    {
+      "id": "lm-2024-h18-green",
+      "key": "green-18",
+      "sourceKey": "hole-18-green",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -96.7,
+        -146.5
+      ],
+      "coordinate": [
+        -94.94173496716112,
+        -142.6899735401753
+      ],
+      "movementMetres": 4.196165
+    },
+    {
+      "id": "h18-tee-pad-00-lm2024",
+      "key": "18:tee-48",
+      "sourceKey": "hole-18-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -203.4,
+        136.5
+      ],
+      "coordinate": [
+        -177.93201055772928,
+        149.41813582801387
+      ],
+      "movementMetres": 28.556903
+    },
+    {
+      "id": "h18-tee-pad-01-lm2024",
+      "key": "18:tee-61",
+      "sourceKey": "hole-18-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -224.2,
+        168.3
+      ],
+      "coordinate": [
+        -218.1557350510596,
+        164.0698743377925
+      ],
+      "movementMetres": 7.377473
+    }
+  ],
+  "marks": [
+    {
+      "hole": 1,
+      "tee": "tee-61",
+      "coordinate": [
+        -79.7,
+        -250.4
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 1,
+      "tee": "tee-57",
+      "coordinate": [
+        -85,
+        -264.5
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 1,
+      "tee": "tee-48",
+      "coordinate": [
+        -97.3,
+        -297.2
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 1,
+      "tee": "tee-41",
+      "coordinate": [
+        -109.6,
+        -330
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 2,
+      "tee": "tee-61",
+      "coordinate": [
+        -124.51515523891355,
+        -558.8453812682073
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h02-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 7.377263
+    },
+    {
+      "hole": 2,
+      "tee": "tee-57",
+      "coordinate": [
+        -133.5,
+        -565
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h02-tee-pad-00-lm2024"
+      ],
+      "status": "inside-reviewed-platform-numbered-identity-unverified",
+      "movementMetres": 0
+    },
+    {
+      "hole": 2,
+      "tee": "tee-48",
+      "coordinate": [
+        -162.9,
+        -570.8
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h02-tee-pad-00-lm2024"
+      ],
+      "status": "inside-reviewed-platform-numbered-identity-unverified",
+      "movementMetres": 0
+    },
+    {
+      "hole": 2,
+      "tee": "tee-41",
+      "coordinate": [
+        -216.9,
+        -581.5
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 3,
+      "tee": "tee-61",
+      "coordinate": [
+        -456.4,
+        -598.7
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 3,
+      "tee": "tee-57",
+      "coordinate": [
+        -456.8,
+        -596.8
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 3,
+      "tee": "tee-48",
+      "coordinate": [
+        -459.8,
+        -582.1
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 3,
+      "tee": "tee-41",
+      "coordinate": [
+        -459.8,
+        -582.1
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 4,
+      "tee": "tee-61",
+      "coordinate": [
+        -455.9,
+        -552.2
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 4,
+      "tee": "tee-57",
+      "coordinate": [
+        -437.4,
+        -544.5
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h04-tee-pad-01-lm2024"
+      ],
+      "status": "inside-reviewed-platform-numbered-identity-unverified",
+      "movementMetres": 0
+    },
+    {
+      "hole": 4,
+      "tee": "tee-48",
+      "coordinate": [
+        -364.9113329001532,
+        -536.663401504598
+      ],
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 21.226143
+    },
+    {
+      "hole": 4,
+      "tee": "tee-41",
+      "coordinate": [
+        -317.4,
+        -494.6
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 5,
+      "tee": "tee-61",
+      "coordinate": [
+        83.9,
+        -284.2
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h05-tee-pad-01-lm2024"
+      ],
+      "status": "inside-reviewed-platform-numbered-identity-unverified",
+      "movementMetres": 0
+    },
+    {
+      "hole": 5,
+      "tee": "tee-57",
+      "coordinate": [
+        94.66137508709912,
+        -285.3694486023039
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h05-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 6.127752
+    },
+    {
+      "hole": 5,
+      "tee": "tee-48",
+      "coordinate": [
+        124.71771340237564,
+        -290.5595585339961
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h05-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 13.650263
+    },
+    {
+      "hole": 5,
+      "tee": "tee-41",
+      "coordinate": [
+        124.71771340237564,
+        -290.5595585339961
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h05-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 13.650263
+    },
+    {
+      "hole": 6,
+      "tee": "tee-61",
+      "coordinate": [
+        202.8,
+        -414
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 6,
+      "tee": "tee-57",
+      "coordinate": [
+        223.8,
+        -392.6
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h06-tee-pad-00-lm2024"
+      ],
+      "status": "inside-reviewed-platform-numbered-identity-unverified",
+      "movementMetres": 0
+    },
+    {
+      "hole": 6,
+      "tee": "tee-48",
+      "coordinate": [
+        251.86943719276118,
+        -371.88042371686464
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h06-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 5.496983
+    },
+    {
+      "hole": 6,
+      "tee": "tee-41",
+      "coordinate": [
+        276.4,
+        -339.1
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 7,
+      "tee": "tee-61",
+      "coordinate": [
+        488.399994870559,
+        -165.39994372028787
+      ],
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 0.000057
+    },
+    {
+      "hole": 7,
+      "tee": "tee-57",
+      "coordinate": [
+        488.626325006281,
+        -163.884080658284
+      ],
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 3.757745
+    },
+    {
+      "hole": 7,
+      "tee": "tee-48",
+      "coordinate": [
+        479.11146718975533,
+        -100.27950120991676
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h07-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 11.626027
+    },
+    {
+      "hole": 7,
+      "tee": "tee-41",
+      "coordinate": [
+        436.5,
+        -8.8
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 8,
+      "tee": "tee-61",
+      "coordinate": [
+        297.38295213995,
+        145.74729855524737
+      ],
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 9.292909
+    },
+    {
+      "hole": 8,
+      "tee": "tee-57",
+      "coordinate": [
+        299.3921268667107,
+        144.27051975449046
+      ],
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 6.032424
+    },
+    {
+      "hole": 8,
+      "tee": "tee-48",
+      "coordinate": [
+        315.6959710894573,
+        87.16776157271369
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h08-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 9.406179
+    },
+    {
+      "hole": 8,
+      "tee": "tee-41",
+      "coordinate": [
+        354.7,
+        32.6
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 9,
+      "tee": "tee-61",
+      "coordinate": [
+        425.6999511309175,
+        -190.69990741841337
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h09-tee-pad-02-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000105
+    },
+    {
+      "hole": 9,
+      "tee": "tee-57",
+      "coordinate": [
+        403.0999792442732,
+        -194.99990100772578
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h09-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000101
+    },
+    {
+      "hole": 9,
+      "tee": "tee-48",
+      "coordinate": [
+        344.37892670858974,
+        -199.52662383651102
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h09-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 6.675774
+    },
+    {
+      "hole": 9,
+      "tee": "tee-41",
+      "coordinate": [
+        265.6,
+        -221.1
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 10,
+      "tee": "tee-61",
+      "coordinate": [
+        -76.6223429703895,
+        -177.78741890944247
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h10-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 25.205724
+    },
+    {
+      "hole": 10,
+      "tee": "tee-57",
+      "coordinate": [
+        -35.529962076269854,
+        -180.85833447079892
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h10-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 3.748726
+    },
+    {
+      "hole": 10,
+      "tee": "tee-48",
+      "coordinate": [
+        -0.6836935312382041,
+        -177.91049698828914
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h10-tee-pad-02-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 2.995141
+    },
+    {
+      "hole": 10,
+      "tee": "tee-41",
+      "coordinate": [
+        64.2,
+        -174
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 11,
+      "tee": "tee-61",
+      "coordinate": [
+        279.2,
+        -85.8
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 11,
+      "tee": "tee-57",
+      "coordinate": [
+        268.89997240477044,
+        -11.49999450119509
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h11-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000028
+    },
+    {
+      "hole": 11,
+      "tee": "tee-48",
+      "coordinate": [
+        277.7584551273004,
+        43.84533205466653
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h11-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 21.30917
+    },
+    {
+      "hole": 11,
+      "tee": "tee-41",
+      "coordinate": [
+        277.7584551273004,
+        43.84533205466653
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h11-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 21.30917
+    },
+    {
+      "hole": 12,
+      "tee": "tee-61",
+      "coordinate": [
+        192.35778385628365,
+        387.3903049929501
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h12-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 4.078389
+    },
+    {
+      "hole": 12,
+      "tee": "tee-57",
+      "coordinate": [
+        187.53682389344874,
+        382.61060612131473
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h12-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 4.117423
+    },
+    {
+      "hole": 12,
+      "tee": "tee-48",
+      "coordinate": [
+        184.1693293120745,
+        367.19521136674956
+      ],
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 3.436433
+    },
+    {
+      "hole": 12,
+      "tee": "tee-41",
+      "coordinate": [
+        216.0794193677927,
+        326.5827675682948
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h12-tee-pad-02-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 4.801625
+    },
+    {
+      "hole": 13,
+      "tee": "tee-61",
+      "coordinate": [
+        150.4,
+        209.2
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 13,
+      "tee": "tee-57",
+      "coordinate": [
+        152.8,
+        199.5
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 13,
+      "tee": "tee-48",
+      "coordinate": [
+        191.58219693176173,
+        129.77327332907436
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h13-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 20.59792
+    },
+    {
+      "hole": 13,
+      "tee": "tee-41",
+      "coordinate": [
+        192,
+        44.4
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 14,
+      "tee": "tee-61",
+      "coordinate": [
+        14.4,
+        -109
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 14,
+      "tee": "tee-57",
+      "coordinate": [
+        13.9,
+        -108.1
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 14,
+      "tee": "tee-48",
+      "coordinate": [
+        -36.3,
+        -67.5
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 14,
+      "tee": "tee-41",
+      "coordinate": [
+        -51.9,
+        9.7
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 15,
+      "tee": "tee-61",
+      "coordinate": [
+        -144.3,
+        360.7
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 15,
+      "tee": "tee-57",
+      "coordinate": [
+        -140.1,
+        375.1
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 15,
+      "tee": "tee-48",
+      "coordinate": [
+        -163.3,
+        413.2
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 15,
+      "tee": "tee-41",
+      "coordinate": [
+        -163.3,
+        413.2
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 16,
+      "tee": "tee-61",
+      "coordinate": [
+        -52.4,
+        541.9
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h16-tee-pad-00-lm2024"
+      ],
+      "status": "inside-reviewed-platform-numbered-identity-unverified",
+      "movementMetres": 0
+    },
+    {
+      "hole": 16,
+      "tee": "tee-57",
+      "coordinate": [
+        -52,
+        540.5
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h16-tee-pad-00-lm2024"
+      ],
+      "status": "inside-reviewed-platform-numbered-identity-unverified",
+      "movementMetres": 0
+    },
+    {
+      "hole": 16,
+      "tee": "tee-48",
+      "coordinate": [
+        -78.6,
+        554.4
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 16,
+      "tee": "tee-41",
+      "coordinate": [
+        -114.1,
+        572.8
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 17,
+      "tee": "tee-61",
+      "coordinate": [
+        -223.7,
+        579.7
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 17,
+      "tee": "tee-57",
+      "coordinate": [
+        -221.7,
+        564.8
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "inside-unreviewed-mapped-platform",
+      "movementMetres": 0
+    },
+    {
+      "hole": 17,
+      "tee": "tee-48",
+      "coordinate": [
+        -215,
+        515.3
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 17,
+      "tee": "tee-41",
+      "coordinate": [
+        -207,
+        455.8
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    },
+    {
+      "hole": 18,
+      "tee": "tee-61",
+      "coordinate": [
+        -218.1557350510596,
+        164.0698743377925
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h18-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 7.377473
+    },
+    {
+      "hole": 18,
+      "tee": "tee-57",
+      "coordinate": [
+        -217.1,
+        157.4
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h18-tee-pad-01-lm2024"
+      ],
+      "status": "inside-reviewed-platform-numbered-identity-unverified",
+      "movementMetres": 0
+    },
+    {
+      "hole": 18,
+      "tee": "tee-48",
+      "coordinate": [
+        -177.93201055772928,
+        149.41813582801387
+      ],
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h18-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 28.556903
+    },
+    {
+      "hole": 18,
+      "tee": "tee-41",
+      "coordinate": [
+        -148.5,
+        52.9
+      ],
+      "corrected": false,
+      "geometryBasis": null,
+      "insideAnyMappedPlatform": false,
+      "containingPlatformReviewIds": [],
+      "status": "outside-all-mapped-platforms",
+      "movementMetres": 0
+    }
+  ],
+  "issues": [],
+  "limitations": [
+    "Source-pixel agreement verifies the software conversion, not absolute positional accuracy.",
+    "Runtime bridge error measures coordinate-frame approximation, not imagery or survey accuracy.",
+    "Uncorrected marker containment is diagnostic; it does not establish numbered platform identity.",
+    "Standalone visible-interior anchors certify no platform boundary; their existing-pad containment remains diagnostic.",
+    "Visible 2024 boundaries and virtual camera references are not survey-approved or daily tee-marker measurements."
+  ],
+  "inputs": {
+    "model": {
+      "path": "puttombuild/course-model.json",
+      "sha256": "8714ffeed308b7459bc992a4efaa4b7087dd090aa60dc0100f86fdc09b3801a3"
+    },
+    "review": {
+      "path": "puttombuild/mapping/orthophoto-review.json",
+      "sha256": "b996729bea1fc9035114efbc9a506da96eb47f2fe89f5ab9e778492cde470b52"
+    },
+    "card": {
+      "path": "puttombuild/card.json",
+      "sha256": "b7ed58d9fadaf0c0bb6650968ab1aafaa85994e9f7b4555aa8b87b0a59b0ed89"
+    },
+    "baseline": {
+      "path": "puttombuild/cache/orthophoto-baseline.json",
+      "sha256": "db966f06373c1986c90fdec0fe5387e036457257638f973d94bda5ee20ba7645"
+    }
+  }
+}

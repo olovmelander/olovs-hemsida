@@ -1,0 +1,5520 @@
+{
+  "schemaVersion": 1,
+  "groundId": "veckefjarden",
+  "kind": "independent-orthophoto-alignment-evidence-audit",
+  "auditedAt": "2026-09-09T17:49:27.168786+00:00",
+  "state": "passed",
+  "inputs": {
+    "ledgerPath": "geobuild/mapping/lm-ortho-review.json",
+    "ledgerSha256": "538748e07382effa84e722cb09b0c935e1eace197a4c8af1ae2626df799a7cb2",
+    "modelPath": "geobuild/course-model.json",
+    "modelSha256": "a0a3cc41555672f9e84fc6962815d9488ee12aeaa5d60f0df9f757e4fc8f11b7",
+    "baselineCommit": "7aac4d4495e78d9321889273b34ad6d1bb12290a",
+    "baselineModelSha256": "938823c626068d8f464c7318dc84e95fa6c11711f215354b229c441b31fc1093"
+  },
+  "methodology": {
+    "sourceVerification": "Read actual cached native TIFF bytes and compare recorded SHA-256, CRS, affine, dimensions and band dtype.",
+    "panelVerification": "Read actual PNG/world/CRS files; recompute nine bilinear RGB sample pixels from cited TIFFs on the complete panel affine and compare exact channel values.",
+    "geometryVerification": "Recompute every pixel-edge affine, inverse projection and centimetre-quantized legacy vertex; compare accepted ledger and actual rebuilt model independently.",
+    "changeMetrics": "Polygon area and area-weighted centroid. Tee-set metrics compare complete inventory totals, not paired motion of individual platforms.",
+    "retainedHistorical": "Retained historical rings must equal the Git baseline and are excluded from source-traced vertex and resolved-platform counts."
+  },
+  "accuracy": {
+    "nativePixelResolutionMetres": 0.16,
+    "storedLocalCoordinateStepMetres": 0.01,
+    "sourceAbsoluteHorizontalAccuracyMetres": null,
+    "maximumProjectionRoundtripErrorMetres": 3.725290298461914e-09,
+    "maximumStoredVertexQuantizationErrorMetres": 0.007001374570310976,
+    "interpretationUncertaintyRangeMetres": [
+      0.4,
+      3
+    ],
+    "limitation": "Numerical source registration, pixel resolution and boundary interpretation uncertainty are distinct from absolute surveying accuracy. No daily marker positions are verified."
+  },
+  "summary": {
+    "features": 82,
+    "featuresPassed": 82,
+    "featureKinds": {
+      "green": 16,
+      "tee-set": 6,
+      "bunker": 30,
+      "tee": 27,
+      "fairway": 3
+    },
+    "sourceVerticesChecked": 1369,
+    "sourceTracedRings": 92,
+    "retainedHistoricalRings": 1,
+    "actualNativeTiffHashesVerified": 7,
+    "actualReviewPanelHashesVerified": 48,
+    "exactPanelRgbSamplesCompared": 432,
+    "provisionalPhysicalPlatformReferences": 28,
+    "unresolvedTeeReferences": 80,
+    "errors": 0
+  },
+  "sources": [
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-2.tif",
+      "sha256": "e235a3eab4b4bc131d0c79138ae3a5138789f3fc9464b629e50a4cdacd01b524",
+      "bytes": 51029709,
+      "crs": "EPSG:3006",
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        684164.96,
+        0.16,
+        0.0,
+        7022747.04,
+        0.0,
+        -0.16
+      ],
+      "boundsEPSG3006": [
+        684164.96,
+        7022107.04,
+        684804.96,
+        7022747.04
+      ],
+      "bandCount": 4,
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ]
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+      "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+      "bytes": 51399267,
+      "crs": "EPSG:3006",
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        684164.96,
+        0.16,
+        0.0,
+        7023387.04,
+        0.0,
+        -0.16
+      ],
+      "boundsEPSG3006": [
+        684164.96,
+        7022747.04,
+        684804.96,
+        7023387.04
+      ],
+      "bandCount": 4,
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ]
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-1.tif",
+      "sha256": "7ade0afbf202e5d05c8f3784fc2f4a9243870ce6a90586774b68bfff0091ab20",
+      "bytes": 41663893,
+      "crs": "EPSG:3006",
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        683524.96,
+        0.16,
+        0.0,
+        7022747.04,
+        0.0,
+        -0.16
+      ],
+      "boundsEPSG3006": [
+        683524.96,
+        7022107.04,
+        684164.96,
+        7022747.04
+      ],
+      "bandCount": 4,
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ]
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+      "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+      "bytes": 45065931,
+      "crs": "EPSG:3006",
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        683524.96,
+        0.16,
+        0.0,
+        7023387.04,
+        0.0,
+        -0.16
+      ],
+      "boundsEPSG3006": [
+        683524.96,
+        7022747.04,
+        684164.96,
+        7023387.04
+      ],
+      "bandCount": 4,
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ]
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+      "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+      "bytes": 49722905,
+      "crs": "EPSG:3006",
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        683524.96,
+        0.16,
+        0.0,
+        7024027.04,
+        0.0,
+        -0.16
+      ],
+      "boundsEPSG3006": [
+        683524.96,
+        7023387.04,
+        684164.96,
+        7024027.04
+      ],
+      "bandCount": 4,
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ]
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-0-0.tif",
+      "sha256": "d9b13ecaf36a332e6f15b27400778409d384073cad396f6216b9e2be1efa7a30",
+      "bytes": 42253469,
+      "crs": "EPSG:3006",
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        682884.96,
+        0.16,
+        0.0,
+        7024027.04,
+        0.0,
+        -0.16
+      ],
+      "boundsEPSG3006": [
+        682884.96,
+        7023387.04,
+        683524.96,
+        7024027.04
+      ],
+      "bandCount": 4,
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ]
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-0.tif",
+      "sha256": "56b30e1c08b663705f0427be797f5ea6a5fbc4409a0ce3ba8bc1f01b54bc55b1",
+      "bytes": 21810855,
+      "crs": "EPSG:3006",
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        682884.96,
+        0.16,
+        0.0,
+        7023387.04,
+        0.0,
+        -0.16
+      ],
+      "boundsEPSG3006": [
+        682884.96,
+        7022747.04,
+        683524.96,
+        7023387.04
+      ],
+      "bandCount": 4,
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ]
+    }
+  ],
+  "panels": [
+    {
+      "path": "geobuild/cache/lm-ortho-after-01-06/greens-hole-01-plain.png",
+      "sha256": "06c1996e0779222a7e3caaf0ece581b13f04c8f5ca21d32fbf3b46f3e382646e",
+      "reportPath": "geobuild/cache/lm-ortho-after-01-06/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684262.0399537509,
+        0.125,
+        0,
+        7022581.733924128,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h01-back-plain.png",
+      "sha256": "a9166c0e9e1e57780b83bcf38e03df2965090e001fcc9c10518f161460a7af3f",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684173.062818154,
+        0.11875,
+        0,
+        7022874.777689116,
+        0,
+        -0.11875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h01-front-plain.png",
+      "sha256": "5a0e447c37f9b046def2b59ac6ca33d5191195cdffd5f935078fd8bed5ca2d86",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684184.837227121,
+        0.11875,
+        0,
+        7022789.448023258,
+        0,
+        -0.11875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-01-06/greens-hole-02-plain.png",
+      "sha256": "a16f0f0b18bfa356d67bfa03c1f0f1e33b77ead2c9cf034487885b1c4e8f5a76",
+      "reportPath": "geobuild/cache/lm-ortho-after-01-06/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683888.4338109877,
+        0.125,
+        0,
+        7022344.777324842,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h02-back-plain.png",
+      "sha256": "df8ce518f0b0e84d0a644bf9780709a1654496232bea4d6f7799907e51ff3b21",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684279.5081161957,
+        0.18346207660535582,
+        0,
+        7022527.67701504,
+        0,
+        -0.18346207660622896
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h02-front-plain.png",
+      "sha256": "49cc434ee6eef7c52560aa97abdeea3a619a3fdcd0338a1e8bac52aef3c96c9e",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684228.0455001835,
+        0.11875,
+        0,
+        7022494.093396536,
+        0,
+        -0.11875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-01-06/greens-hole-03-plain.png",
+      "sha256": "09918f2d5aff7f48700f696a3b086bd18b20c0ee177ad02a139943df4b6733b3",
+      "reportPath": "geobuild/cache/lm-ortho-after-01-06/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684098.233132365,
+        0.125,
+        0,
+        7022686.776751938,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h03-back-plain.png",
+      "sha256": "dba1ac67299bbe5022bb5c7b10031b5a8ce9751d6140af7c812cc48f4306e0d6",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683873.0746014164,
+        0.11875,
+        0,
+        7022391.052001122,
+        0,
+        -0.11875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-01-06/greens-hole-04-plain.png",
+      "sha256": "e0e0be33021ecec3533384a7e9965afe20166ea5a82a872ae6dffa81ec56ca05",
+      "reportPath": "geobuild/cache/lm-ortho-after-01-06/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683920.0207537416,
+        0.125,
+        0,
+        7022556.10650252,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h04-back-plain.png",
+      "sha256": "ac854e339641abaac3b50f8f263a35af02ba35e445fb3edf94721e132c74b579",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684029.0675888144,
+        0.11875,
+        0,
+        7022672.144532599,
+        0,
+        -0.11875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-01-06/greens-hole-05-plain.png",
+      "sha256": "b3e8baed88284a44e85205462fe0c877e07aa60c86409bcdc9ee69b4a87ce9bf",
+      "reportPath": "geobuild/cache/lm-ortho-after-01-06/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683899.6717915817,
+        0.125,
+        0,
+        7022913.101138401,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h05-back-plain.png",
+      "sha256": "d08ef380d059705bba0538851fe151d051e4d9cecb6443698e11ebe0e3c2ab8c",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683848.2174287529,
+        0.13845090594957582,
+        0,
+        7022464.7578473,
+        0,
+        -0.13845090595073997
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h05-front-plain.png",
+      "sha256": "2fe225176bc0ccb9bb155243ec3a92b4bd3199285201703d6dcdc302746edede",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683810.7238663014,
+        0.20455140708363614,
+        0,
+        7022612.325370703,
+        0,
+        -0.2045514070848003
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-01-06/greens-hole-06-plain.png",
+      "sha256": "75a094da2e2283637996fc89c9d50245f8de5e9868711130ad1ba85279700444",
+      "reportPath": "geobuild/cache/lm-ortho-after-01-06/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683617.0614453169,
+        0.125,
+        0,
+        7023329.503060396,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h06-back-plain.png",
+      "sha256": "60e72759d630cff0627d28baadbe01d73aff14d3292b223d9203f6715166e51d",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683820.443703468,
+        0.13580829221755267,
+        0,
+        7023018.947686108,
+        0,
+        -0.13580829221755267
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h06-front-plain.png",
+      "sha256": "5678f87f8924dd61c1ce360b50ba184f454ac365b4d61c19d9d6c1dd50430e8c",
+      "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683783.3404404743,
+        0.12881476433714853,
+        0,
+        7023116.720017115,
+        0,
+        -0.12881476433714853
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review/greens-hole-07-plain.png",
+      "sha256": "b996e21da605d4c931a909f48fef34822f1dae54869f0fdd18c40db756a5c89e",
+      "reportPath": "geobuild/cache/lm-ortho-review/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683635.1154914832,
+        0.125,
+        0,
+        7023477.269613821,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review/greens-hole-08-plain.png",
+      "sha256": "83e7c35b48246789c7afd83b16df98536cce3bc916ea823dfaae9a546a28590e",
+      "reportPath": "geobuild/cache/lm-ortho-review/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683845.4526163711,
+        0.125,
+        0,
+        7023410.87836265,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-00-plain.png",
+      "sha256": "5c7f77e39dc852845fdb027b2e0ce805d391ccbc27a48784e8543893607b0ab7",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683637.0098352624,
+        0.0875,
+        0,
+        7023622.896860016,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-01-plain.png",
+      "sha256": "6eeb287f54cee155fba5d1be46029f882b288e619ff8f48833e143b80da34f8a",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683605.5669563815,
+        0.0875,
+        0,
+        7023654.797685787,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-02-plain.png",
+      "sha256": "d3f6dbc36aeec1d695a2528ef233201c4abcda0f9aee86e559ec0b14d0d5e2cc",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683691.3046114824,
+        0.0875,
+        0,
+        7023584.681463055,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review/greens-hole-09-plain.png",
+      "sha256": "8d42ba0639d33f02d219c462da3f888993e173780ca3b41af08da1b38d6718e9",
+      "reportPath": "geobuild/cache/lm-ortho-review/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684228.5381084325,
+        0.125,
+        0,
+        7023132.250951928,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12-check/h09-fairway-00-wide-plain.png",
+      "sha256": "decfee3863e6e48f96372ab12533c46baa1ced8fc5c03b1b216948cdb7708371",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12-check/panels.json",
+      "pixelSize": [
+        1000,
+        1000
+      ],
+      "geoTransform": [
+        684060.9100584199,
+        0.26921249732235447,
+        0,
+        7023292.029436666,
+        0,
+        -0.2692124973218888
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-00-plain.png",
+      "sha256": "ee89bcdfed4a76e444c8f14bbda0df6292db7d69364e69021f99d6286ae3ffd8",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684047.3495644092,
+        0.0875,
+        0,
+        7023297.164341764,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-01-plain.png",
+      "sha256": "ff8fa31068bd08d43998ecab26ec64c777a5bb54c970fa2d75eb19390b9f6425",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683947.0408338059,
+        0.0875,
+        0,
+        7023379.475771076,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-00-plain.png",
+      "sha256": "229a6c720bc2f4a2d2e7157d50cc6b12616b0f6833352847aa2040dcdfa1d968",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684239.9007404629,
+        0.0875,
+        0,
+        7023196.377704657,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-01-plain.png",
+      "sha256": "37fdf92e434e9a91a5050e5b5582238806d8c4a71c476934e69486d4f0b39ca5",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684199.7228693537,
+        0.0875,
+        0,
+        7023247.330169636,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-02-plain.png",
+      "sha256": "98d1f6e1b8db38832781260d6ee7a28f8245e6cd2d3220e93c2c21015ef54c1f",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684271.7526649658,
+        0.0875,
+        0,
+        7023159.29032369,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-03-plain.png",
+      "sha256": "21dd2441fdec7e997bc8bb27412cc4884effbc706acb8dd639e506a7e6b34c24",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684262.8817896434,
+        0.0875,
+        0,
+        7023175.631175554,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review/greens-hole-11-plain.png",
+      "sha256": "0e2a64ebf3044427551dea2e7ffdccbd2cbc3c61503bfbc3634d4d827e3c2482",
+      "reportPath": "geobuild/cache/lm-ortho-review/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683531.5717221029,
+        0.125,
+        0,
+        7023756.890769828,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12-check/h11-fairway-00-wide-plain.png",
+      "sha256": "6f6a666b6816a92fc7a37de59eb909b73b768d818fc5b58f17063106abebae7b",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12-check/panels.json",
+      "pixelSize": [
+        1000,
+        1000
+      ],
+      "geoTransform": [
+        683528.6284725545,
+        0.30226209106296303,
+        0,
+        7023811.497025168,
+        0,
+        -0.30226209106296303
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-01-plain.png",
+      "sha256": "ae73bade1f7a20a810adbbbb357ba5045f3ea6346c9037b0841abaa6668f66d1",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683807.0432870985,
+        0.0875,
+        0,
+        7023606.151067966,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review/greens-hole-12-plain.png",
+      "sha256": "88f396fa48a75f167a00a3943197cb139a88b77faf9525d65a3809e8c5f0e6f0",
+      "reportPath": "geobuild/cache/lm-ortho-review/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683420.4053729094,
+        0.125,
+        0,
+        7023725.7622834975,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-00-plain.png",
+      "sha256": "22ac446e516936f09430ddda0c03f938994a62bc1097b2552d22989edbc79f34",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683581.4037399869,
+        0.0875,
+        0,
+        7023619.114192869,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-01-plain.png",
+      "sha256": "df1f8496b3d781bd2f188388e5028f984babdde403407c787385cd38cce660e0",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683572.7434297415,
+        0.0875,
+        0,
+        7023649.409858364,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-02-plain.png",
+      "sha256": "b5417ada8c919570f5ffc0ebc95568471be9bfaf52468d54303291752106f54c",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683547.2853444458,
+        0.0875,
+        0,
+        7023659.187115886,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-13-plain.png",
+      "sha256": "008bd5a67772a01d9b463474b47c1a38dcc11eb120fd0e02d3fe6b345c5f0c23",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683548.1527147554,
+        0.125,
+        0,
+        7023423.04990474,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18-turf/holes-hole-13-plain.png",
+      "sha256": "1138944d1f23753ebae0835c4ad4648aff27aa1d5fbf0c338df08eb606b53fe0",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18-turf/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683272.2427500181,
+        0.5584218717669137,
+        0,
+        7023751.6239053635,
+        0,
+        -0.5584218717669137
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18-turf/tees-hole-13-plain.png",
+      "sha256": "a18b1ede0b26af41d8179f2b47f2fc5f2b2822373e6ab48848815f9c7b409950",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18-turf/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683326.9664640103,
+        0.29429904220916797,
+        0,
+        7023768.86687777,
+        0,
+        -0.2942990422085859
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-14-plain.png",
+      "sha256": "4a7fad3f8f4bd4d2ef3f54a654257f8eb8c381d8be9a0ede568af2252cb0e724",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683463.3747820804,
+        0.125,
+        0,
+        7023316.502790094,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-15-plain.png",
+      "sha256": "a0d0f89c49fe1bb6778640acc6a13a640acc936e3204043b706027602ec256b0",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683654.6046137325,
+        0.125,
+        0,
+        7023103.27585722,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18-turf/tees-hole-15-plain.png",
+      "sha256": "b1e1847eaf80cdff05e2c0c553eb21ab014e8b85d26a5bdae7cffa776bddd484",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18-turf/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683507.1917938152,
+        0.1587580410001101,
+        0,
+        7023294.0921522,
+        0,
+        -0.15875804099952803
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-16-plain.png",
+      "sha256": "c61f9239fdf5f17eeaff37bbe7f577f94a08761d1c5c8d5ec7535ea92eedfcdb",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684139.5868975841,
+        0.125,
+        0,
+        7023075.895234182,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18-turf/tees-hole-16-plain.png",
+      "sha256": "7345cc3a971f2fc177e210d7a9a7ea67c96bfbfa097341b22c7e6d001f1da9f7",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18-turf/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683843.3750966575,
+        0.21189506062713917,
+        0,
+        7023072.373620717,
+        0,
+        -0.21189506062772126
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-17-plain.png",
+      "sha256": "f436f9cf9a2724de1dee0983d991becaf87ed1edea1af5675d9780a1753be781",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683668.6176316194,
+        0.125,
+        0,
+        7023365.5505624795,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18-turf/tees-hole-17-plain.png",
+      "sha256": "3f9d76410d560a8b72e93cbde41cd81d21abb1c7343398fec64cc631e9ac89d4",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18-turf/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683898.6191708606,
+        0.2679528455768013,
+        0,
+        7023229.310832062,
+        0,
+        -0.26795284557621923
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-18-plain.png",
+      "sha256": "e3838ea611907ee1dd9f29ec08b58b8440d03a191579007fdb3c637b72033b28",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684208.8444541492,
+        0.125,
+        0,
+        7023092.2052936,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18-turf/tees-hole-18-plain.png",
+      "sha256": "952da1d7681b42a5ae6f44560ba9f12023fb4e953b6f2530b9630752867bcfba",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18-turf/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683756.8815242143,
+        0.3512527691631112,
+        0,
+        7023432.891300624,
+        0,
+        -0.3512527691619471
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    }
+  ],
+  "features": [
+    {
+      "id": "lm-2024-h01-green",
+      "hole": 1,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "391707550be84d85f71866011b9c11d9dcd4ef0a4d07746b5b699bdaec0d1f02",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 22,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006139996062346333,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 221.74,
+      "afterAreaSquareMetres": 312.592,
+      "areaChangeSquareMetres": 90.852,
+      "areaWeightedCentroidShiftMetres": 0.912
+    },
+    {
+      "id": "lm-2024-h01-tee-inventory",
+      "hole": 1,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "0c49e837ceb536b9341d06c0458a8aaeea34d52720bca15dc040f7caa40c5549",
+      "adoptedRings": 3,
+      "sourceTracedRings": 3,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 24,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005978730064237862,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 423.22,
+      "afterAreaSquareMetres": 501.277,
+      "areaChangeSquareMetres": 78.057,
+      "areaWeightedCentroidShiftMetres": 23.435
+    },
+    {
+      "id": "lm-2024-h02-bunker-02",
+      "hole": 2,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "58d92ced595cf87ea7e7abcb10ee4673525599b8925a3c744606ca3301c59dbf",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 13,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.3283064365386963e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005774634795437571,
+      "interpretationUncertaintyMetres": 0.4,
+      "beforeAreaSquareMetres": 23.0,
+      "afterAreaSquareMetres": 28.233,
+      "areaChangeSquareMetres": 5.233,
+      "areaWeightedCentroidShiftMetres": 1.891
+    },
+    {
+      "id": "lm-2024-h02-tee-inventory",
+      "hole": 2,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "0492d7cdf2770857e4d4f8279be1828a167aeed02a9faef61f9492793dae0c47",
+      "adoptedRings": 3,
+      "sourceTracedRings": 3,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 27,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005816554053594573,
+      "interpretationUncertaintyMetres": 1.2,
+      "beforeAreaSquareMetres": 550.08,
+      "afterAreaSquareMetres": 322.369,
+      "areaChangeSquareMetres": -227.711,
+      "areaWeightedCentroidShiftMetres": 43.429
+    },
+    {
+      "id": "lm-2024-h03-bunker-01",
+      "hole": 3,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "642f3eb0c3d8709f104e361a6cda3bdd84d8a34e1b7c690762a3deea3f4470ff",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 23,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006864095423375837,
+      "interpretationUncertaintyMetres": 0.4,
+      "beforeAreaSquareMetres": 35.0,
+      "afterAreaSquareMetres": 88.004,
+      "areaChangeSquareMetres": 53.004,
+      "areaWeightedCentroidShiftMetres": 3.194
+    },
+    {
+      "id": "lm-2024-h03-green",
+      "hole": 3,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "02e9541113c238d832750cd5cdf1b49121909ebae7784a3063d666fcdbd6d6ff",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 26,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005681433083307118,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 467.265,
+      "afterAreaSquareMetres": 463.223,
+      "areaChangeSquareMetres": -4.042,
+      "areaWeightedCentroidShiftMetres": 2.35
+    },
+    {
+      "id": "lm-2024-h03-tee-inventory",
+      "hole": 3,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "92675724197e492d9b04560b1187a0053fb3860fe8d85a76d579215054ed62bc",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 8,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005026465506077805,
+      "interpretationUncertaintyMetres": 0.9,
+      "beforeAreaSquareMetres": 558.735,
+      "afterAreaSquareMetres": 211.586,
+      "areaChangeSquareMetres": -347.149,
+      "areaWeightedCentroidShiftMetres": 43.938
+    },
+    {
+      "id": "lm-2024-h04-bunker-01",
+      "hole": 4,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "1fab37e89ede8538d21e27a677fb88d6ab77eb0d506f7943820c0b057fd3b4d5",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 32,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.877140660839749e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006856776662434795,
+      "interpretationUncertaintyMetres": 0.4,
+      "beforeAreaSquareMetres": 148.375,
+      "afterAreaSquareMetres": 129.593,
+      "areaChangeSquareMetres": -18.782,
+      "areaWeightedCentroidShiftMetres": 2.226
+    },
+    {
+      "id": "lm-2024-h04-green",
+      "hole": 4,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "07805766a729e52d13751bf06f1e5181dd3591c2a3fd6a63640fe68af3079b24",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 31,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006066604217658527,
+      "interpretationUncertaintyMetres": 0.9,
+      "beforeAreaSquareMetres": 319.75,
+      "afterAreaSquareMetres": 538.498,
+      "areaChangeSquareMetres": 218.748,
+      "areaWeightedCentroidShiftMetres": 5.195
+    },
+    {
+      "id": "lm-2024-h04-tee-inventory",
+      "hole": 4,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "8e7294a96e0696f038d398db1529ee2a1c47d5a8aa7ad196ef75c788764f74f5",
+      "adoptedRings": 4,
+      "sourceTracedRings": 4,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 39,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.8036522163991574e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005916537211174534,
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 135.29,
+      "afterAreaSquareMetres": 181.236,
+      "areaChangeSquareMetres": 45.946,
+      "areaWeightedCentroidShiftMetres": 17.4
+    },
+    {
+      "id": "lm-2024-h05-bunker-01",
+      "hole": 5,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "fecab9b9c6cf52b63144dfa66dda1f1c87e5d7e6a574395f34edec3bfd17234d",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 14,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0057708820525772895,
+      "interpretationUncertaintyMetres": 0.4,
+      "beforeAreaSquareMetres": 62.125,
+      "afterAreaSquareMetres": 60.403,
+      "areaChangeSquareMetres": -1.722,
+      "areaWeightedCentroidShiftMetres": 1.335
+    },
+    {
+      "id": "lm-2024-h05-bunker-02",
+      "hole": 5,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "737a4eb80529298fcc4290cb22270be7cd8bccd4a7b3fb4d8cb6ded6d01759b0",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 16,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0064522905983680785,
+      "interpretationUncertaintyMetres": 0.4,
+      "beforeAreaSquareMetres": 83.125,
+      "afterAreaSquareMetres": 71.837,
+      "areaChangeSquareMetres": -11.288,
+      "areaWeightedCentroidShiftMetres": 1.664
+    },
+    {
+      "id": "lm-2024-h05-green",
+      "hole": 5,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "b80d9bc3af9cd168328f5017292c50021767788a98bb2a9f3edaf593493c6f14",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 24,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006542250385141353,
+      "interpretationUncertaintyMetres": 0.8,
+      "beforeAreaSquareMetres": 401.135,
+      "afterAreaSquareMetres": 522.347,
+      "areaChangeSquareMetres": 121.212,
+      "areaWeightedCentroidShiftMetres": 1.621
+    },
+    {
+      "id": "lm-2024-h05-tee-inventory",
+      "hole": 5,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "7489cf75b76e090e5e4eaf761d914320fbaf20f02fb8aa706bf0f1a8cc71bce2",
+      "adoptedRings": 2,
+      "sourceTracedRings": 2,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 8,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005349872788796105,
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 545.455,
+      "afterAreaSquareMetres": 142.664,
+      "areaChangeSquareMetres": -402.791,
+      "areaWeightedCentroidShiftMetres": 35.483
+    },
+    {
+      "id": "lm-2024-h06-bunker-01",
+      "hole": 6,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "5a23619c82ffc3b6b2c90de46fed73532c0bcd52acbcff957d2dbb0220a25223",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 12,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.00570343905075388,
+      "interpretationUncertaintyMetres": 0.4,
+      "beforeAreaSquareMetres": 34.115,
+      "afterAreaSquareMetres": 16.154,
+      "areaChangeSquareMetres": -17.961,
+      "areaWeightedCentroidShiftMetres": 2.62
+    },
+    {
+      "id": "lm-2024-h06-bunker-02",
+      "hole": 6,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "5cd5f537eaacb6bc58e86bbbceabadef436b2b11bf11f1636d13d43d108ba363",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 15,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0067747849337522065,
+      "interpretationUncertaintyMetres": 0.4,
+      "beforeAreaSquareMetres": 39.29,
+      "afterAreaSquareMetres": 37.126,
+      "areaChangeSquareMetres": -2.164,
+      "areaWeightedCentroidShiftMetres": 2.675
+    },
+    {
+      "id": "lm-2024-h06-bunker-04",
+      "hole": 6,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "897967da168d1c6d24e17442d67ebeb38629c412ddb990c5dbdc1e4d347d47e8",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 16,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0055367121996843256,
+      "interpretationUncertaintyMetres": 0.4,
+      "beforeAreaSquareMetres": 59.84,
+      "afterAreaSquareMetres": 60.361,
+      "areaChangeSquareMetres": 0.521,
+      "areaWeightedCentroidShiftMetres": 2.361
+    },
+    {
+      "id": "lm-2024-h06-green",
+      "hole": 6,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "180e4a053acfe0cd839c8f695b6c5971e7267354ac517224b660f67ade92cb59",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 26,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006648051808999048,
+      "interpretationUncertaintyMetres": 0.8,
+      "beforeAreaSquareMetres": 591.33,
+      "afterAreaSquareMetres": 429.604,
+      "areaChangeSquareMetres": -161.726,
+      "areaWeightedCentroidShiftMetres": 3.195
+    },
+    {
+      "id": "lm-2024-h06-tee-inventory",
+      "hole": 6,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "b1b665adeed19c305bf088d8f6bbecb974c13fa9d2d6837dd19fd37561c93993",
+      "adoptedRings": 4,
+      "sourceTracedRings": 3,
+      "retainedHistoricalRings": 1,
+      "sourceVerticesChecked": 20,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005489233936190399,
+      "interpretationUncertaintyMetres": 3,
+      "beforeAreaSquareMetres": 565.595,
+      "afterAreaSquareMetres": 259.368,
+      "areaChangeSquareMetres": -306.227,
+      "areaWeightedCentroidShiftMetres": 30.046
+    },
+    {
+      "id": "lm-2024-h07-bunker-1",
+      "hole": 7,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "46ce6dcc88e4d0c246e161f1bd95f882a7ebda385dc7e1697d33f96c9b764081",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 25,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0062831622714128385,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 146.125,
+      "afterAreaSquareMetres": 121.835,
+      "areaChangeSquareMetres": -24.29,
+      "areaWeightedCentroidShiftMetres": 1.934
+    },
+    {
+      "id": "lm-2024-h07-bunker-2",
+      "hole": 7,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "eec14ecfbd9dd2fb458ac1d83c52b61c9e798a28f0ceb3904c94921140a1ced3",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 15,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.3283064365386963e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005851356973390087,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 47.375,
+      "afterAreaSquareMetres": 48.04,
+      "areaChangeSquareMetres": 0.665,
+      "areaWeightedCentroidShiftMetres": 1.674
+    },
+    {
+      "id": "lm-2024-h07-green",
+      "hole": 7,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "2bfe63601c1edddad373f252dbc729e86f64619a4dcb36c464642f592a26ca5e",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 30,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0064215137240152586,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 199.435,
+      "afterAreaSquareMetres": 436.248,
+      "areaChangeSquareMetres": 236.813,
+      "areaWeightedCentroidShiftMetres": 1.035
+    },
+    {
+      "id": "lm-2024-h08-bunker-1",
+      "hole": 8,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "5b8e667072d5285949c8ee77b814a3572c63782c03364246b2c1014c52306184",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 25,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.00542955611688833,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 101.085,
+      "afterAreaSquareMetres": 106.299,
+      "areaChangeSquareMetres": 5.214,
+      "areaWeightedCentroidShiftMetres": 2.514
+    },
+    {
+      "id": "lm-2024-h08-green",
+      "hole": 8,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "db607ba62413cd0403e953c119d62eb86723dacdb754b861add11bb73edd2b91",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 30,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006620582514541573,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 588.045,
+      "afterAreaSquareMetres": 480.488,
+      "areaChangeSquareMetres": -107.557,
+      "areaWeightedCentroidShiftMetres": 2.889
+    },
+    {
+      "id": "lm-2024-h08-tee-1",
+      "hole": 8,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "68a2475145c3c27c4f7741feb211f40159f4c1841c632ca9ff1043fdd0da68c1",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004097961704426216,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 230.18,
+      "afterAreaSquareMetres": 137.352,
+      "areaChangeSquareMetres": -92.828,
+      "areaWeightedCentroidShiftMetres": 1.543
+    },
+    {
+      "id": "lm-2024-h08-tee-2",
+      "hole": 8,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "554d4858a8dbecececb74d428bd44dd3cb1bbbb5575066079afce212ab8764e6",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006818116306288293,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 143.07,
+      "afterAreaSquareMetres": 130.754,
+      "areaChangeSquareMetres": -12.316,
+      "areaWeightedCentroidShiftMetres": 2.76
+    },
+    {
+      "id": "lm-2024-h08-tee-3",
+      "hole": 8,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "50f0a52fcdd3f3b869b2e0e9f3c8309708476fdf6d9a60cb3940979705201ff0",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.1641532182693481e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004380717562808142,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 63.03,
+      "afterAreaSquareMetres": 87.969,
+      "areaChangeSquareMetres": 24.939,
+      "areaWeightedCentroidShiftMetres": 1.5
+    },
+    {
+      "id": "lm-2024-h09-bunker-1",
+      "hole": 9,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "649bb8e84abbbc679741d7e578009cf901c4f63a5f3c165ed9672be067571bf2",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 14,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0066119653202465255,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 58.275,
+      "afterAreaSquareMetres": 35.215,
+      "areaChangeSquareMetres": -23.06,
+      "areaWeightedCentroidShiftMetres": 3.804
+    },
+    {
+      "id": "lm-2024-h09-bunker-3",
+      "hole": 9,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "3b0910dba64a38dd24b59002153cebabee598bd8fde9c419993814f0a0c6b3d3",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 13,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.877140660839749e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006546300073354617,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 37.87,
+      "afterAreaSquareMetres": 25.428,
+      "areaChangeSquareMetres": -12.442,
+      "areaWeightedCentroidShiftMetres": 2.764
+    },
+    {
+      "id": "lm-2024-h09-fairway",
+      "hole": 9,
+      "kind": "fairway",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "bb979d432998a4749c8c86e9e090db20be31247e5c5f3ac8691dbc811fefb768",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 75,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.7939677238464355e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006542065287581309,
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 5272.25,
+      "afterAreaSquareMetres": 5222.406,
+      "areaChangeSquareMetres": -49.844,
+      "areaWeightedCentroidShiftMetres": 3.865
+    },
+    {
+      "id": "lm-2024-h09-green",
+      "hole": 9,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "4622fab97e37b12661f596c210efceb481fb8bed50729675ff0988e534e37a2d",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 26,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005968181563041735,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 575.805,
+      "afterAreaSquareMetres": 399.269,
+      "areaChangeSquareMetres": -176.536,
+      "areaWeightedCentroidShiftMetres": 3.342
+    },
+    {
+      "id": "lm-2024-h09-tee-1",
+      "hole": 9,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "b12cad626a895060539c929c466540a16ec37ce130a45040485bde5e5951651c",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004640245966495354,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 111.99,
+      "afterAreaSquareMetres": 51.412,
+      "areaChangeSquareMetres": -60.578,
+      "areaWeightedCentroidShiftMetres": 1.557
+    },
+    {
+      "id": "lm-2024-h09-tee-2",
+      "hole": 9,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "2b247a79c8dce87ff454ea9936552709542fa988a6a7f81d5afb465a42d9c12c",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 20,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0062798370785584505,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 224.135,
+      "afterAreaSquareMetres": 126.988,
+      "areaChangeSquareMetres": -97.147,
+      "areaWeightedCentroidShiftMetres": 4.396
+    },
+    {
+      "id": "lm-2024-h10-tee-1",
+      "hole": 10,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "b963d6ec216d1049db4fc235637df001b92cbce27c56e70c373c0bba85916d92",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006206118885125514,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 150.16,
+      "afterAreaSquareMetres": 116.815,
+      "areaChangeSquareMetres": -33.346,
+      "areaWeightedCentroidShiftMetres": 2.15
+    },
+    {
+      "id": "lm-2024-h10-tee-2",
+      "hole": 10,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "bcc93658f363aa2a7159235808244eee03d5946eb0bbbef091c52a6bcc3c9177",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 8,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006614346001033461,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 78.855,
+      "afterAreaSquareMetres": 85.049,
+      "areaChangeSquareMetres": 6.194,
+      "areaWeightedCentroidShiftMetres": 2.96
+    },
+    {
+      "id": "lm-2024-h10-tee-3",
+      "hole": 10,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "64b1056e9c70a80331efa4d88495ad844df62469e1c4b1c8ed06b0b3adca754f",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004031248427587538,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 53.3,
+      "afterAreaSquareMetres": 59.286,
+      "areaChangeSquareMetres": 5.986,
+      "areaWeightedCentroidShiftMetres": 3.231
+    },
+    {
+      "id": "lm-2024-h10-tee-4",
+      "hole": 10,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "edf689e0e019758e9f4468941a3224f00b3cb6d24f0a86803dcfd773de10ac1b",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.00470831745501205,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 78.595,
+      "afterAreaSquareMetres": 54.549,
+      "areaChangeSquareMetres": -24.046,
+      "areaWeightedCentroidShiftMetres": 2.444
+    },
+    {
+      "id": "lm-2024-h11-bunker-2",
+      "hole": 11,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "a265433c413786a25dbba1e11cdbc0346581044a1caca81d4aa7260447d949d8",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 25,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0054041307080211045,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 89.805,
+      "afterAreaSquareMetres": 69.614,
+      "areaChangeSquareMetres": -20.191,
+      "areaWeightedCentroidShiftMetres": 3.023
+    },
+    {
+      "id": "lm-2024-h11-fairway",
+      "hole": 11,
+      "kind": "fairway",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "a640f8912c014c9a85c17427a07d9d9b2e724ec67fa5a25dd42eac86916070d1",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 62,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006385219028123747,
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 5222.465,
+      "afterAreaSquareMetres": 5618.799,
+      "areaChangeSquareMetres": 396.334,
+      "areaWeightedCentroidShiftMetres": 6.358
+    },
+    {
+      "id": "lm-2024-h11-green",
+      "hole": 11,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "98502d99ba9c500990e51496934a69f2454821adf75f039767416f7798016a0c",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 26,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006658614439856474,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 718.43,
+      "afterAreaSquareMetres": 518.972,
+      "areaChangeSquareMetres": -199.458,
+      "areaWeightedCentroidShiftMetres": 2.634
+    },
+    {
+      "id": "lm-2024-h11-tee-2",
+      "hole": 11,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "5f219eb659a8e28ba7a6c06871a8480af16e980738b464c1fe0e75f3b72c37f3",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004971716692055947,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 166.4,
+      "afterAreaSquareMetres": 112.552,
+      "areaChangeSquareMetres": -53.848,
+      "areaWeightedCentroidShiftMetres": 2.496
+    },
+    {
+      "id": "lm-2024-h12-bunker-1",
+      "hole": 12,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "dc73cc3339cbabc66369767464427f17f04ca4882812ecf57ae51edf16b9d593",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 15,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.7939677238464355e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006727747630130029,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 49.685,
+      "afterAreaSquareMetres": 44.338,
+      "areaChangeSquareMetres": -5.347,
+      "areaWeightedCentroidShiftMetres": 2.595
+    },
+    {
+      "id": "lm-2024-h12-bunker-2",
+      "hole": 12,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "32779090aa971a5de04ef896a847cbd186e50846d6977ada38c5099183b03f85",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 30,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006476463056552276,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 127.37,
+      "afterAreaSquareMetres": 128.286,
+      "areaChangeSquareMetres": 0.916,
+      "areaWeightedCentroidShiftMetres": 2.453
+    },
+    {
+      "id": "lm-2024-h12-bunker-3",
+      "hole": 12,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "4f3f1107a1e581780bacb2d9d87d9b38be7a41797d8b478a1e223842f62c8e7f",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 23,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.7939677238464355e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005945343888865281,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 76.775,
+      "afterAreaSquareMetres": 72.609,
+      "areaChangeSquareMetres": -4.166,
+      "areaWeightedCentroidShiftMetres": 2.538
+    },
+    {
+      "id": "lm-2024-h12-green",
+      "hole": 12,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "3be2c2f9a60acf10138b96a2c1efc0282c09e31160df55d6d2979032641fed38",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 26,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005321155278587286,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 538.77,
+      "afterAreaSquareMetres": 405.875,
+      "areaChangeSquareMetres": -132.895,
+      "areaWeightedCentroidShiftMetres": 2.303
+    },
+    {
+      "id": "lm-2024-h12-tee-1",
+      "hole": 12,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "75246a27e6910a9e75a5fa1c40b43696c4cd1e0257c2a62f6c29488ec04b9296",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.1641532182693481e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005460495591769974,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 130.215,
+      "afterAreaSquareMetres": 148.627,
+      "areaChangeSquareMetres": 18.412,
+      "areaWeightedCentroidShiftMetres": 2.828
+    },
+    {
+      "id": "lm-2024-h12-tee-2",
+      "hole": 12,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "f61dbd82dd3b8cebbadee53b686ac4fabbe71ae448871ed3c838f1ebf213f414",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.7939677238464355e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005114503190046726,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 189.23,
+      "afterAreaSquareMetres": 140.277,
+      "areaChangeSquareMetres": -48.953,
+      "areaWeightedCentroidShiftMetres": 3.409
+    },
+    {
+      "id": "lm-2024-h12-tee-3",
+      "hole": 12,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "36c3cb9f6276d54d35abd541714d095ca61ae8c24646430bf9dd8e4ba5c1b5dc",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004645526477280229,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 38.725,
+      "afterAreaSquareMetres": 63.026,
+      "areaChangeSquareMetres": 24.301,
+      "areaWeightedCentroidShiftMetres": 3.348
+    },
+    {
+      "id": "lm-2024-h13-bunker-4",
+      "hole": 13,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "d09e67283df540bc3cfbe2271f75d10bdd677dcba0fc02969cd7b36d4844e0c8",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 15,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.7939677238464355e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006727747630130029,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 55.0,
+      "afterAreaSquareMetres": 44.338,
+      "areaChangeSquareMetres": -10.662,
+      "areaWeightedCentroidShiftMetres": 1.795
+    },
+    {
+      "id": "lm2024-h13-bunker-01",
+      "hole": 13,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "f61ff20ca8706f3417a086f0c1aa3ca5b5c0866240b423f8a135429c72f48d00",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 14,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.7939677238464355e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006008536756375747,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 44.955,
+      "afterAreaSquareMetres": 50.168,
+      "areaChangeSquareMetres": 5.213,
+      "areaWeightedCentroidShiftMetres": 3.234
+    },
+    {
+      "id": "lm2024-h13-fairway",
+      "hole": 13,
+      "kind": "fairway",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "fcdf4f33710557bef04dea8032f14a2ac42cdf2253b8b8ebc230facf616d4299",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 46,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.877140660839749e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0064622678432676136,
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 7936.675,
+      "afterAreaSquareMetres": 9240.804,
+      "areaChangeSquareMetres": 1304.129,
+      "areaWeightedCentroidShiftMetres": 6.68
+    },
+    {
+      "id": "lm2024-h13-green",
+      "hole": 13,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "2a3d55fe8d7f74ddc4e0d6297dd120bd663a3f34671c6dedf2c75ebbdf19990b",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 24,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005701602779694105,
+      "interpretationUncertaintyMetres": 1.2,
+      "beforeAreaSquareMetres": 470.35,
+      "afterAreaSquareMetres": 548.073,
+      "areaChangeSquareMetres": 77.723,
+      "areaWeightedCentroidShiftMetres": 1.451
+    },
+    {
+      "id": "lm2024-h13-tee-01",
+      "hole": 13,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "bdc07b25adf89b386687dec1d957fe8d14b20e543476c58ad32b4e7fff4c73ea",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0050064714041340415,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 59.235,
+      "afterAreaSquareMetres": 76.679,
+      "areaChangeSquareMetres": 17.444,
+      "areaWeightedCentroidShiftMetres": 2.752
+    },
+    {
+      "id": "lm2024-h13-tee-02",
+      "hole": 13,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "d358e2f211fe09bc1bbd36b930cee325f77d3d1573c691334e1e2d64b9569814",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.003788536619461691,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 196.79,
+      "afterAreaSquareMetres": 240.912,
+      "areaChangeSquareMetres": 44.122,
+      "areaWeightedCentroidShiftMetres": 3.235
+    },
+    {
+      "id": "lm2024-h13-tee-03",
+      "hole": 13,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "90a19d0b29145197324953e968ea709894b188f8c0bedadf17c13bf557b36fcd",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 7,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005728648263838669,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 204.925,
+      "afterAreaSquareMetres": 260.245,
+      "areaChangeSquareMetres": 55.32,
+      "areaWeightedCentroidShiftMetres": 1.375
+    },
+    {
+      "id": "lm2024-h14-bunker-01",
+      "hole": 14,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "dabc653f9bc4fbef4ebfce37827bc2b5bd742dd7ec6d6a4af85a189aa49984b1",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 12,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006881168569125596,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 28.355,
+      "afterAreaSquareMetres": 28.045,
+      "areaChangeSquareMetres": -0.31,
+      "areaWeightedCentroidShiftMetres": 2.094
+    },
+    {
+      "id": "lm2024-h14-green",
+      "hole": 14,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "3aa8b02b6a7b8577168140604bf53001eb0c74e5031a495ad689ec7e9b6c3912",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 26,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006647231616497139,
+      "interpretationUncertaintyMetres": 0.8,
+      "beforeAreaSquareMetres": 519.855,
+      "afterAreaSquareMetres": 506.593,
+      "areaChangeSquareMetres": -13.262,
+      "areaWeightedCentroidShiftMetres": 2.052
+    },
+    {
+      "id": "lm2024-h15-bunker-01",
+      "hole": 15,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "9dbc8279022340d09d15e0745b75f8dd507d4ad896e505e1b2b6e35bab50b691",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 13,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0065644232217084205,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 29.135,
+      "afterAreaSquareMetres": 33.34,
+      "areaChangeSquareMetres": 4.205,
+      "areaWeightedCentroidShiftMetres": 2.477
+    },
+    {
+      "id": "lm2024-h15-bunker-02",
+      "hole": 15,
+      "kind": "bunker",
+      "action": "add",
+      "state": "passed",
+      "originalRingSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 15,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005685246601718583,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 0.0,
+      "afterAreaSquareMetres": 53.767,
+      "areaChangeSquareMetres": 53.767,
+      "areaWeightedCentroidShiftMetres": null
+    },
+    {
+      "id": "lm2024-h15-green",
+      "hole": 15,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "c9df154e6e2c4b18b4e1947724e5ba1d26c81f233beb87ae34be36296252e3b4",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 26,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.007001374570310976,
+      "interpretationUncertaintyMetres": 1.2,
+      "beforeAreaSquareMetres": 455.645,
+      "afterAreaSquareMetres": 465.884,
+      "areaChangeSquareMetres": 10.239,
+      "areaWeightedCentroidShiftMetres": 1.782
+    },
+    {
+      "id": "lm2024-h15-tee-01",
+      "hole": 15,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "b6277581b5d74e064603a461851828e94e2bc4eee129f29a1791b1117c56aee4",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005386666646757178,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 178.19,
+      "afterAreaSquareMetres": 151.33,
+      "areaChangeSquareMetres": -26.86,
+      "areaWeightedCentroidShiftMetres": 4.603
+    },
+    {
+      "id": "lm2024-h16-bunker-01",
+      "hole": 16,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "e32833273c4e2867e2e462b0b09d6b81546718799ecf29f8ec7bfde08bb872f3",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 18,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005698463668569097,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 41.56,
+      "afterAreaSquareMetres": 38.484,
+      "areaChangeSquareMetres": -3.076,
+      "areaWeightedCentroidShiftMetres": 2.239
+    },
+    {
+      "id": "lm2024-h16-bunker-02",
+      "hole": 16,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "c875843c076363f0670ee48f9b00a33b5c01c487f99df4f2121cf43f36baa1c8",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 18,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006308108124823882,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 47.995,
+      "afterAreaSquareMetres": 50.612,
+      "areaChangeSquareMetres": 2.617,
+      "areaWeightedCentroidShiftMetres": 2.196
+    },
+    {
+      "id": "lm2024-h16-bunker-03",
+      "hole": 16,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "5e3c3342960b89ba36ac1f4f90949ff5ebd9ae2eae11e4ca6f23f09cb5aa58f9",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 12,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 3.725290298461914e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005667718965092877,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 13.995,
+      "afterAreaSquareMetres": 18.207,
+      "areaChangeSquareMetres": 4.212,
+      "areaWeightedCentroidShiftMetres": 2.45
+    },
+    {
+      "id": "lm2024-h16-bunker-04",
+      "hole": 16,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "ee1ec84abe826743784689356e387291f6d3b46421a62c13669653d3912c3406",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 12,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006455904316273941,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 21.19,
+      "afterAreaSquareMetres": 22.511,
+      "areaChangeSquareMetres": 1.321,
+      "areaWeightedCentroidShiftMetres": 2.058
+    },
+    {
+      "id": "lm2024-h16-bunker-05",
+      "hole": 16,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "4cd8f6f89ca45d9820d8beb2616849eef07baa27bc903d85a20a2bf762f86ceb",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 13,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.877140660839749e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005972424482657241,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 24.145,
+      "afterAreaSquareMetres": 26.187,
+      "areaChangeSquareMetres": 2.042,
+      "areaWeightedCentroidShiftMetres": 2.059
+    },
+    {
+      "id": "lm2024-h16-green",
+      "hole": 16,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "880b420fd09a8234d6e2625918ee7d9d18ed98bfe2834b310fd065e7069b0aa6",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 27,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0059338056032739415,
+      "interpretationUncertaintyMetres": 0.8,
+      "beforeAreaSquareMetres": 394.795,
+      "afterAreaSquareMetres": 497.651,
+      "areaChangeSquareMetres": 102.856,
+      "areaWeightedCentroidShiftMetres": 4.042
+    },
+    {
+      "id": "lm2024-h16-tee-01",
+      "hole": 16,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "811da8de31363c9e767dd652a12139973f02ca7378aa2f50048c164896780dea",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005291039144405174,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 59.85,
+      "afterAreaSquareMetres": 60.749,
+      "areaChangeSquareMetres": 0.899,
+      "areaWeightedCentroidShiftMetres": 2.391
+    },
+    {
+      "id": "lm2024-h16-tee-02",
+      "hole": 16,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "f0f7f179e65ae55c61b0e20070f481fcbe49d509556ece201bd3362a162ec97e",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004296816498230189,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 55.92,
+      "afterAreaSquareMetres": 82.197,
+      "areaChangeSquareMetres": 26.277,
+      "areaWeightedCentroidShiftMetres": 2.124
+    },
+    {
+      "id": "lm2024-h16-tee-03",
+      "hole": 16,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "97520fa061e296467ae344bdbe92954172a3c0a6e1b2728b666b653a4ee53176",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 5,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0061334655710302746,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 61.69,
+      "afterAreaSquareMetres": 83.182,
+      "areaChangeSquareMetres": 21.492,
+      "areaWeightedCentroidShiftMetres": 2.114
+    },
+    {
+      "id": "lm2024-h16-tee-04",
+      "hole": 16,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "9facacc345f55f4f70a455fa3f29b141c2fb282d1a90c038399dc838ccf83fc9",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 5,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005220290048649852,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 61.265,
+      "afterAreaSquareMetres": 91.271,
+      "areaChangeSquareMetres": 30.006,
+      "areaWeightedCentroidShiftMetres": 1.288
+    },
+    {
+      "id": "lm2024-h17-bunker-01",
+      "hole": 17,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "3a330da6afccd0318d80ac72e3052300a5690a80fd3d3de5ac143da9b6f93bbb",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 14,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005340338377378802,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 57.005,
+      "afterAreaSquareMetres": 44.541,
+      "areaChangeSquareMetres": -12.464,
+      "areaWeightedCentroidShiftMetres": 2.378
+    },
+    {
+      "id": "lm2024-h17-green",
+      "hole": 17,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "5e741440cb9e4dd4d5111453f8a09775ff78d4796006f3618e0de0c85c25261c",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 24,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005801936061882846,
+      "interpretationUncertaintyMetres": 1.2,
+      "beforeAreaSquareMetres": 437.63,
+      "afterAreaSquareMetres": 384.276,
+      "areaChangeSquareMetres": -53.354,
+      "areaWeightedCentroidShiftMetres": 3.634
+    },
+    {
+      "id": "lm2024-h17-tee-01",
+      "hole": 17,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "168c80b0a84dc4939cd3d955e11784e7fee48d8346cbff8a1d7b9144d3a00ec1",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005653865757767652,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 80.86,
+      "afterAreaSquareMetres": 89.406,
+      "areaChangeSquareMetres": 8.546,
+      "areaWeightedCentroidShiftMetres": 3.045
+    },
+    {
+      "id": "lm2024-h17-tee-02",
+      "hole": 17,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "768daf7233b9c3dfe92a3c5379a9e2e41ab0ab957ea050f78e932b40b70a8941",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005689784169956311,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 142.145,
+      "afterAreaSquareMetres": 148.451,
+      "areaChangeSquareMetres": 6.306,
+      "areaWeightedCentroidShiftMetres": 2.997
+    },
+    {
+      "id": "lm2024-h17-tee-03",
+      "hole": 17,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "b778c458cccc551fba92d09ecb07ed8f2b651499d49f17d9be9369a348273524",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005809919271916992,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 71.96,
+      "afterAreaSquareMetres": 77.611,
+      "areaChangeSquareMetres": 5.651,
+      "areaWeightedCentroidShiftMetres": 4.0
+    },
+    {
+      "id": "lm2024-h17-tee-04",
+      "hole": 17,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "e713619939b0119bedc5e5e1dc46ecc8fb93d1cfa5e22d83d6fa3922c66e7ad6",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0063309721831666475,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 84.755,
+      "afterAreaSquareMetres": 56.873,
+      "areaChangeSquareMetres": -27.882,
+      "areaWeightedCentroidShiftMetres": 2.476
+    },
+    {
+      "id": "lm2024-h18-bunker-03",
+      "hole": 18,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "eced98389d052adc997113daf503de4e49de9bd70feb2986aa5f98b9064447f4",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 13,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005852384135030036,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 27.75,
+      "afterAreaSquareMetres": 30.342,
+      "areaChangeSquareMetres": 2.592,
+      "areaWeightedCentroidShiftMetres": 2.191
+    },
+    {
+      "id": "lm2024-h18-bunker-05",
+      "hole": 18,
+      "kind": "bunker",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "7a1591473f79d16939583eb85707507a079c77a7b3c2089eaa4be3e2dc6a8d68",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 12,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 3.725290298461914e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005667718965092877,
+      "interpretationUncertaintyMetres": 0.5,
+      "beforeAreaSquareMetres": 11.625,
+      "afterAreaSquareMetres": 18.207,
+      "areaChangeSquareMetres": 6.582,
+      "areaWeightedCentroidShiftMetres": 1.778
+    },
+    {
+      "id": "lm2024-h18-green",
+      "hole": 18,
+      "kind": "green",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "5c39cf247d2dbf0408bdac21bbef372b23ef02845c6feb771e4a44a36873dcbd",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 26,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.8036522163991574e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0069545995623271056,
+      "interpretationUncertaintyMetres": 1.2,
+      "beforeAreaSquareMetres": 526.525,
+      "afterAreaSquareMetres": 510.735,
+      "areaChangeSquareMetres": -15.79,
+      "areaWeightedCentroidShiftMetres": 3.182
+    },
+    {
+      "id": "lm2024-h18-tee-01",
+      "hole": 18,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "e793e04a5bb8e29970b5048e73ebb76e9b68132cfd1446b96b5f678b320abe2e",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004464422107682039,
+      "interpretationUncertaintyMetres": 1,
+      "beforeAreaSquareMetres": 58.46,
+      "afterAreaSquareMetres": 209.673,
+      "areaChangeSquareMetres": 151.213,
+      "areaWeightedCentroidShiftMetres": 5.516
+    },
+    {
+      "id": "lm2024-h18-tee-02",
+      "hole": 18,
+      "kind": "tee",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "0bfc3bad959cbba0010aa3fc7fa7aab3ca0b5af127c996786f40e919dc5bafd5",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 4,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004274758849286904,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 141.72,
+      "afterAreaSquareMetres": 163.502,
+      "areaChangeSquareMetres": 21.782,
+      "areaWeightedCentroidShiftMetres": 3.276
+    }
+  ],
+  "holes": [
+    {
+      "hole": 1,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 2,
+        "sourceReviewedIndices": [],
+        "unresolvedIndices": [
+          0,
+          1
+        ]
+      },
+      "teePlatforms": {
+        "total": 3,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 1
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            50.3,
+            -275.6
+          ],
+          "after": [
+            50.3,
+            -275.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h01-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            51,
+            -266.7
+          ],
+          "after": [
+            51,
+            -266.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h01-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            52.1,
+            -253.7
+          ],
+          "after": [
+            51.397502885866906,
+            -254.04379637747292
+          ],
+          "shiftMetres": 0.782,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h01-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            52.9,
+            -243.8
+          ],
+          "after": [
+            52.07323789265331,
+            -244.50113953340914
+          ],
+          "shiftMetres": 1.084,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h01-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            56.7,
+            -195.9
+          ],
+          "after": [
+            36.86380601051966,
+            -191.33897432061733
+          ],
+          "shiftMetres": 20.354,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h01-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            2
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            60.2,
+            -152
+          ],
+          "after": [
+            60.2,
+            -152
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 2,
+      "green": {
+        "total": 1,
+        "sourceReviewed": false
+      },
+      "bunkers": {
+        "total": 2,
+        "sourceReviewedIndices": [
+          1
+        ],
+        "unresolvedIndices": [
+          0
+        ]
+      },
+      "teePlatforms": {
+        "total": 3,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 1
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            210.5,
+            117.7
+          ],
+          "after": [
+            211.38264345331172,
+            123.22433405349946
+          ],
+          "shiftMetres": 5.594,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h02-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            188.5,
+            118.6
+          ],
+          "after": [
+            188.5,
+            118.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h02-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            175.5,
+            119.2
+          ],
+          "after": [
+            176.7436459403168,
+            119.42576788583227
+          ],
+          "shiftMetres": 1.264,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h02-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            113.6,
+            121.8
+          ],
+          "after": [
+            113.6,
+            121.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            84.6,
+            123
+          ],
+          "after": [
+            89.6607351215662,
+            127.5691078725314
+          ],
+          "shiftMetres": 6.818,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h02-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            2
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            84.6,
+            123
+          ],
+          "after": [
+            89.6607351215662,
+            127.5691078725314
+          ],
+          "shiftMetres": 6.818,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h02-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "hole": 3,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 5,
+        "sourceReviewedIndices": [
+          0
+        ],
+        "unresolvedIndices": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "teePlatforms": {
+        "total": 1,
+        "sourceTracedIndices": [
+          0
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 1
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -290.1,
+            219
+          ],
+          "after": [
+            -277.4225571864967,
+            209.70708846507577
+          ],
+          "shiftMetres": 15.719,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h03-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -272.8,
+            203.8
+          ],
+          "after": [
+            -272.8,
+            203.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h03-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -266.1,
+            197.8
+          ],
+          "after": [
+            -266.1,
+            197.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h03-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -259.3,
+            191.9
+          ],
+          "after": [
+            -259.3,
+            191.9
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h03-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -199.3,
+            139
+          ],
+          "after": [
+            -199.3,
+            139
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -161.8,
+            105.9
+          ],
+          "after": [
+            -161.8,
+            105.9
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 4,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 1,
+        "sourceReviewedIndices": [
+          0
+        ],
+        "unresolvedIndices": []
+      },
+      "teePlatforms": {
+        "total": 4,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
+      },
+      "fairways": {
+        "totalComponents": 2,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 2
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -90.6,
+            -78.6
+          ],
+          "after": [
+            -90.6,
+            -78.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h04-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -97.7,
+            -71.6
+          ],
+          "after": [
+            -97.7,
+            -71.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -109.7,
+            -59.6
+          ],
+          "after": [
+            -108.80587710086692,
+            -59.305294259039684
+          ],
+          "shiftMetres": 0.941,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h04-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -116.1,
+            -53.2
+          ],
+          "after": [
+            -112.11241059922364,
+            -55.680647712806454
+          ],
+          "shiftMetres": 4.696,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h04-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -126.8,
+            -42.6
+          ],
+          "after": [
+            -126.8,
+            -42.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 3,
+          "sourceReviewId": "lm-2024-h04-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            3
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -126.8,
+            -42.6
+          ],
+          "after": [
+            -126.8,
+            -42.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 3,
+          "sourceReviewId": "lm-2024-h04-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "hole": 5,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 6,
+        "sourceReviewedIndices": [
+          0,
+          1
+        ],
+        "unresolvedIndices": [
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "teePlatforms": {
+        "total": 2,
+        "sourceTracedIndices": [
+          0,
+          1
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
+      },
+      "fairways": {
+        "totalComponents": 2,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 2
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -286.8,
+            169.3
+          ],
+          "after": [
+            -285.9950784505594,
+            157.37403699309127
+          ],
+          "shiftMetres": 11.953,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h05-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -287.6,
+            145.4
+          ],
+          "after": [
+            -286.2390492491054,
+            146.01780648260052
+          ],
+          "shiftMetres": 1.495,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h05-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -287.8,
+            139.4
+          ],
+          "after": [
+            -286.2999862525703,
+            145.12331770412848
+          ],
+          "shiftMetres": 5.917,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h05-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -288.9,
+            108.4
+          ],
+          "after": [
+            -288.9,
+            108.4
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -290,
+            74.4
+          ],
+          "after": [
+            -300.93470873947985,
+            75.54969744514516
+          ],
+          "shiftMetres": 10.995,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h05-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -293.9,
+            -39.5
+          ],
+          "after": [
+            -293.9,
+            -39.5
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 6,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 4,
+        "sourceReviewedIndices": [
+          0,
+          1,
+          3
+        ],
+        "unresolvedIndices": [
+          2
+        ]
+      },
+      "teePlatforms": {
+        "total": 4,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2
+        ],
+        "retainedHistoricalIndices": [
+          3
+        ],
+        "unresolvedIndices": [
+          3
+        ],
+        "inferredPadGenerationDisabled": true
+      },
+      "fairways": {
+        "totalComponents": 2,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 2
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -275,
+            -386.5
+          ],
+          "after": [
+            -275.5330927661278,
+            -404.91968550281484
+          ],
+          "shiftMetres": 18.427,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h06-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -283.8,
+            -413.1
+          ],
+          "after": [
+            -277.96909586595257,
+            -411.1810750201754
+          ],
+          "shiftMetres": 6.139,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h06-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -293.6,
+            -442.5
+          ],
+          "after": [
+            -281.46468702500886,
+            -442.62015306239397
+          ],
+          "shiftMetres": 12.136,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h06-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -294.8,
+            -446.3
+          ],
+          "after": [
+            -281.46468702500886,
+            -442.62015306239397
+          ],
+          "shiftMetres": 13.834,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h06-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -309.9,
+            -491.9
+          ],
+          "after": [
+            -284.89490143367533,
+            -507.30328617147967
+          ],
+          "shiftMetres": 29.369,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h06-tee-inventory",
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            2
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -327.9,
+            -546
+          ],
+          "after": [
+            -327.9,
+            -546
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 7,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 2,
+        "sourceReviewedIndices": [
+          0,
+          1
+        ],
+        "unresolvedIndices": []
+      },
+      "teePlatforms": {
+        "total": 5,
+        "sourceTracedIndices": [],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 0,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 0
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -528.9,
+            -753.1
+          ],
+          "after": [
+            -528.9,
+            -753.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0,
+            1
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -524.8,
+            -760
+          ],
+          "after": [
+            -524.8,
+            -760
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -520.6,
+            -766.8
+          ],
+          "after": [
+            -520.6,
+            -766.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -514.4,
+            -777.1
+          ],
+          "after": [
+            -514.4,
+            -777.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1,
+            2
+          ]
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -493.8,
+            -811.4
+          ],
+          "after": [
+            -493.8,
+            -811.4
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            3,
+            4
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -493.8,
+            -811.4
+          ],
+          "after": [
+            -493.8,
+            -811.4
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "hole": 8,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 2,
+        "sourceReviewedIndices": [
+          0
+        ],
+        "unresolvedIndices": [
+          1
+        ]
+      },
+      "teePlatforms": {
+        "total": 3,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 1
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -474.8,
+            -1089.9
+          ],
+          "after": [
+            -474.8,
+            -1089.9
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -471.8,
+            -1085.9
+          ],
+          "after": [
+            -471.8,
+            -1085.9
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -448.7,
+            -1055.7
+          ],
+          "after": [
+            -448.7,
+            -1055.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -442.6,
+            -1047.8
+          ],
+          "after": [
+            -442.6,
+            -1047.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -407.4,
+            -1001.7
+          ],
+          "after": [
+            -407.4,
+            -1001.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -407.4,
+            -1001.7
+          ],
+          "after": [
+            -407.4,
+            -1001.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 9,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 3,
+        "sourceReviewedIndices": [
+          0,
+          2
+        ],
+        "unresolvedIndices": [
+          1
+        ]
+      },
+      "teePlatforms": {
+        "total": 4,
+        "sourceTracedIndices": [
+          0,
+          1
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          2,
+          3
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 1,
+        "unresolvedComponents": 0
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -157.7,
+            -800.3
+          ],
+          "after": [
+            -157.7,
+            -800.3
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -144.4,
+            -786.7
+          ],
+          "after": [
+            -144.4,
+            -786.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -104,
+            -745.1
+          ],
+          "after": [
+            -104,
+            -745.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -97.7,
+            -738.6
+          ],
+          "after": [
+            -97.7,
+            -738.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -60.8,
+            -700.6
+          ],
+          "after": [
+            -60.8,
+            -700.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -14.8,
+            -653.3
+          ],
+          "after": [
+            -14.8,
+            -653.3
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "hole": 10,
+      "green": {
+        "total": 1,
+        "sourceReviewed": false
+      },
+      "bunkers": {
+        "total": 3,
+        "sourceReviewedIndices": [],
+        "unresolvedIndices": [
+          0,
+          1,
+          2
+        ]
+      },
+      "teePlatforms": {
+        "total": 5,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          4
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 2,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 2
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            160.8,
+            -556
+          ],
+          "after": [
+            160.8,
+            -556
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            148.6,
+            -571.8
+          ],
+          "after": [
+            148.6,
+            -571.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            134.5,
+            -590
+          ],
+          "after": [
+            134.5,
+            -590
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            129,
+            -597.1
+          ],
+          "after": [
+            129,
+            -597.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            91.6,
+            -645.3
+          ],
+          "after": [
+            91.6,
+            -645.3
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            53,
+            -695.1
+          ],
+          "after": [
+            53,
+            -695.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 11,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 2,
+        "sourceReviewedIndices": [
+          1
+        ],
+        "unresolvedIndices": [
+          0
+        ]
+      },
+      "teePlatforms": {
+        "total": 4,
+        "sourceTracedIndices": [
+          1
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          0,
+          2,
+          3
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 1,
+        "unresolvedComponents": 0
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -256.4,
+            -982.7
+          ],
+          "after": [
+            -256.4,
+            -982.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            2
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -260.1,
+            -986
+          ],
+          "after": [
+            -260.1,
+            -986
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -264.6,
+            -990
+          ],
+          "after": [
+            -264.6,
+            -990
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -291.4,
+            -1013.9
+          ],
+          "after": [
+            -291.4,
+            -1013.9
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -330.3,
+            -1048.6
+          ],
+          "after": [
+            -330.3,
+            -1048.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -357.9,
+            -1073.2
+          ],
+          "after": [
+            -357.9,
+            -1073.2
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "hole": 12,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 3,
+        "sourceReviewedIndices": [
+          0,
+          1,
+          2
+        ],
+        "unresolvedIndices": []
+      },
+      "teePlatforms": {
+        "total": 3,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 1
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -506.3,
+            -1046.3
+          ],
+          "after": [
+            -506.3,
+            -1046.3
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -512.8,
+            -1051
+          ],
+          "after": [
+            -512.8,
+            -1051
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -523.3,
+            -1058.6
+          ],
+          "after": [
+            -523.3,
+            -1058.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -532.2,
+            -1065.1
+          ],
+          "after": [
+            -532.2,
+            -1065.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -549.2,
+            -1077.4
+          ],
+          "after": [
+            -549.2,
+            -1077.4
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -549.2,
+            -1077.4
+          ],
+          "after": [
+            -549.2,
+            -1077.4
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 13,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 4,
+        "sourceReviewedIndices": [
+          0,
+          3
+        ],
+        "unresolvedIndices": [
+          1,
+          2
+        ]
+      },
+      "teePlatforms": {
+        "total": 4,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          3
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 1,
+        "unresolvedComponents": 0
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -740.3,
+            -1179.7
+          ],
+          "after": [
+            -740.3,
+            -1179.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -732.7,
+            -1173.2
+          ],
+          "after": [
+            -732.7,
+            -1173.2
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -703.1,
+            -1147.8
+          ],
+          "after": [
+            -703.1,
+            -1147.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            2
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -695.5,
+            -1141.3
+          ],
+          "after": [
+            -695.5,
+            -1141.3
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            2
+          ]
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -664.4,
+            -1114.6
+          ],
+          "after": [
+            -664.4,
+            -1114.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -608.2,
+            -1066.4
+          ],
+          "after": [
+            -608.2,
+            -1066.4
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "hole": 14,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 1,
+        "sourceReviewedIndices": [
+          0
+        ],
+        "unresolvedIndices": []
+      },
+      "teePlatforms": {
+        "total": 3,
+        "sourceTracedIndices": [],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          0,
+          1,
+          2
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 0,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 0
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -580.6,
+            -894.1
+          ],
+          "after": [
+            -580.6,
+            -894.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -584.4,
+            -881.6
+          ],
+          "after": [
+            -584.4,
+            -881.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -588.4,
+            -868.2
+          ],
+          "after": [
+            -588.4,
+            -868.2
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -590.7,
+            -860.6
+          ],
+          "after": [
+            -590.7,
+            -860.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -594.4,
+            -848.1
+          ],
+          "after": [
+            -594.4,
+            -848.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -607.1,
+            -806
+          ],
+          "after": [
+            -607.1,
+            -806
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "hole": 15,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 2,
+        "sourceReviewedIndices": [
+          0,
+          1
+        ],
+        "unresolvedIndices": []
+      },
+      "teePlatforms": {
+        "total": 2,
+        "sourceTracedIndices": [
+          0
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          1
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 1
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -593.5,
+            -714.9
+          ],
+          "after": [
+            -593.5,
+            -714.9
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            1
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -567.1,
+            -693.4
+          ],
+          "after": [
+            -567.1,
+            -693.4
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -560.1,
+            -687.8
+          ],
+          "after": [
+            -560.1,
+            -687.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -551.6,
+            -680.8
+          ],
+          "after": [
+            -551.6,
+            -680.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -545.4,
+            -675.8
+          ],
+          "after": [
+            -545.4,
+            -675.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -545.4,
+            -675.8
+          ],
+          "after": [
+            -545.4,
+            -675.8
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 16,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 5,
+        "sourceReviewedIndices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "unresolvedIndices": []
+      },
+      "teePlatforms": {
+        "total": 5,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          4
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 1,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 1
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -275.4,
+            -429.1
+          ],
+          "after": [
+            -275.4,
+            -429.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            4
+          ]
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -239.6,
+            -432.6
+          ],
+          "after": [
+            -239.6,
+            -432.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -239.6,
+            -432.6
+          ],
+          "after": [
+            -239.6,
+            -432.6
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -220.7,
+            -434.5
+          ],
+          "after": [
+            -220.7,
+            -434.5
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -182.9,
+            -438.2
+          ],
+          "after": [
+            -182.9,
+            -438.2
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -182.9,
+            -438.2
+          ],
+          "after": [
+            -182.9,
+            -438.2
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        }
+      ]
+    },
+    {
+      "hole": 17,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 1,
+        "sourceReviewedIndices": [
+          0
+        ],
+        "unresolvedIndices": []
+      },
+      "teePlatforms": {
+        "total": 5,
+        "sourceTracedIndices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          4
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 2,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 2
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -96,
+            -521.9
+          ],
+          "after": [
+            -96,
+            -521.9
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -108.8,
+            -531.5
+          ],
+          "after": [
+            -108.8,
+            -531.5
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -117.6,
+            -538.1
+          ],
+          "after": [
+            -117.6,
+            -538.1
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -124.8,
+            -543.5
+          ],
+          "after": [
+            -124.8,
+            -543.5
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -167.1,
+            -575.4
+          ],
+          "after": [
+            -167.1,
+            -575.4
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -208.7,
+            -606.7
+          ],
+          "after": [
+            -208.7,
+            -606.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "hole": 18,
+      "green": {
+        "total": 1,
+        "sourceReviewed": true
+      },
+      "bunkers": {
+        "total": 5,
+        "sourceReviewedIndices": [
+          2,
+          4
+        ],
+        "unresolvedIndices": [
+          0,
+          1,
+          3
+        ]
+      },
+      "teePlatforms": {
+        "total": 5,
+        "sourceTracedIndices": [
+          0,
+          1
+        ],
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [
+          2,
+          3,
+          4
+        ],
+        "inferredPadGenerationDisabled": false
+      },
+      "fairways": {
+        "totalComponents": 2,
+        "sourceReviewedComponents": 0,
+        "unresolvedComponents": 2
+      },
+      "teeReferences": [
+        {
+          "index": 0,
+          "teeIdx": 0,
+          "before": [
+            -327.8,
+            -819.7
+          ],
+          "after": [
+            -327.8,
+            -819.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 1,
+          "teeIdx": 1,
+          "before": [
+            -308.6,
+            -803.7
+          ],
+          "after": [
+            -308.6,
+            -803.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 2,
+          "teeIdx": 2,
+          "before": [
+            -301.7,
+            -797.9
+          ],
+          "after": [
+            -301.7,
+            -797.9
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 3,
+          "teeIdx": 3,
+          "before": [
+            -276.4,
+            -776.7
+          ],
+          "after": [
+            -276.4,
+            -776.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 4,
+          "teeIdx": 4,
+          "before": [
+            -225,
+            -733.7
+          ],
+          "after": [
+            -225,
+            -733.7
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": []
+        },
+        {
+          "index": 5,
+          "teeIdx": 5,
+          "before": [
+            -149,
+            -670.3
+          ],
+          "after": [
+            -149,
+            -670.3
+          ],
+          "shiftMetres": 0.0,
+          "decision": "unresolved-retained-reference",
+          "selectedPadIndex": null,
+          "sourceReviewId": null,
+          "dailyMarkerPositionVerified": false,
+          "containedByCurrentPadIndices": [
+            4
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

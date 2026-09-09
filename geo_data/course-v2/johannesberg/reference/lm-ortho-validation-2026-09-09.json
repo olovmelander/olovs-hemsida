@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "kind": "orthophoto-offline-verification",
+  "observedAt": "2026-09-09T18:04:40.886484+00:00",
+  "state": "passed",
+  "planSha256": "4efa7b6503bf1fd76f8818560c8ebb4c29904767d72e8a3c1733a63ac173d16f",
+  "acquisitionSha256": "6b8cfc58039dc379b883ec640ceb9234a2054cfdd67091d75bfb2969057b447b",
+  "validatedWindows": 74,
+  "nativeWindows": 46,
+  "pixels": 68269078,
+  "checks": [
+    "all expected windows present",
+    "raster and RGB checksums",
+    "EPSG:3006 and exact planned pixel-edge grid",
+    "explicit RGBI band interpretation with independent validity mask",
+    "all pixels valid",
+    "PNG RGB values exactly match GeoTIFF",
+    "worldfile pixel centres",
+    "complete source-image capture-date coverage"
+  ],
+  "limitations": [
+    "Internal coordinate consistency does not measure absolute geolocation accuracy.",
+    "Image verification does not accept any feature geometry."
+  ]
+}

@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09T18:14:07.288Z",
+  "passed": true,
+  "scope": "Current Upsala Stora and Mellan named tee references, actual browser selection, tee camera and rangefinder, required course-v2 and explicit GPK1 paths.",
+  "methodology": {
+    "browser": "Installed Chrome via playwright-core, WebGL2, 1280x900 at deviceScaleFactor 1; deterministic low-quality view with normal default evening lighting.",
+    "url": "http://127.0.0.1:8636",
+    "query": "?bana=<slug>&v2=<require|0>&det=1&q=lo&qualitylock=1&graphics=1&gl=1",
+    "procedure": [
+      "Hash served pack bytes against current public and dist packs before each routing.",
+      "For every reference on every hole in both modes, click the actual tee button and invoke the instant tee camera. Compare runtime references and pad rings to the generated model; compare camera X/Z and rangefinder origin to the selected reference.",
+      "For every reviewed association, require the reference to be inside its explicitly chosen physical pad and groundSample to identify surface 5 (TEE). For unresolved references, require exact original coordinates.",
+      "Wait for the camera to settle before screenshots; in required v2 also wait for the graph adapter ready with zero loading and failed tiles. Inspect all ten captures."
+    ],
+    "limits": [
+      "This validates source-reviewed display reference associations; it does not establish daily marker locations or colour assignments.",
+      "27 unresolved forward or ambiguous references retain their previous inferred positions; the report makes no physical-pad containment claim for those references.",
+      "Synthetic pad absence is checked through exact runtime pad ring/count identity and zero additional course-surface overlay meshes; it is not inferred solely from screenshots."
+    ]
+  },
+  "reproduce": {
+    "powershell": "$env:BANVY_GPU='1'; node upsalabuild/cache/lm-tee-browser-review-2026-09-09.mjs",
+    "script": {
+      "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09.mjs",
+      "sha256": "4803040a50ebe327e1378f14fa391818b87ba64137e6027776f87eb2d523d49a"
+    },
+    "rawResults": {
+      "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/report.json",
+      "sha256": "8f2e11afc9d0640716cd5257d5cf749eeb5aa05fc1eb32400a960825df6fc7d7"
+    }
+  },
+  "sources": [
+    {
+      "slug": "upsala",
+      "model": {
+        "path": "upsalabuild/course-model.json",
+        "sha256": "bccb6f3b428ce75651f17eac4f4a182e76d01abe32669cd980ebe329f2d7cb58"
+      },
+      "reviews": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+          "sha256": "679317bf8e56797efe83dac5057e9fb7df795aec0b90c42752e051b1fac7c450"
+        },
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+          "sha256": "2eee1088a6ba885df48d043520d69c1e8ad9ecab6a71d216a243520fb1af3f8f"
+        }
+      ],
+      "publicPack": {
+        "path": "apps/golf/public/courses/upsala/pack.bin",
+        "sha256": "4702d46890d7d80c4dfcc49228fe26f941a539e087ec6f353b21b228381597ea"
+      },
+      "distPack": {
+        "path": "apps/golf/dist/courses/upsala/pack.bin",
+        "sha256": "4702d46890d7d80c4dfcc49228fe26f941a539e087ec6f353b21b228381597ea"
+      },
+      "servedPackMatchesPublicAndDist": true,
+      "physicalPadCount": 54,
+      "references": 108,
+      "explicitPadAssociations": 91,
+      "unresolvedReferencesRetained": 17,
+      "referencesMoved": 60
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "model": {
+        "path": "upsalamellanbuild/course-model.json",
+        "sha256": "cdbbd39d05116a06dcb1abbb6d9e82025edd32f5c6205df5b843e5186e0f6c9a"
+      },
+      "reviews": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+          "sha256": "21320b7931377da280ee816a84af3d60b9a03f1ad4f3fb89643368a12b63a4fe"
+        }
+      ],
+      "publicPack": {
+        "path": "apps/golf/public/courses/upsala-mellanbanan/pack.bin",
+        "sha256": "1f536e5dd4e3a69edc77fff2c0149f23721046b93c20bf0258539cb4816c3470"
+      },
+      "distPack": {
+        "path": "apps/golf/dist/courses/upsala-mellanbanan/pack.bin",
+        "sha256": "1f536e5dd4e3a69edc77fff2c0149f23721046b93c20bf0258539cb4816c3470"
+      },
+      "servedPackMatchesPublicAndDist": true,
+      "physicalPadCount": 24,
+      "references": 45,
+      "explicitPadAssociations": 35,
+      "unresolvedReferencesRetained": 10,
+      "referencesMoved": 23
+    }
+  ],
+  "summary": {
+    "routings": 2,
+    "runtimeModes": 2,
+    "teeSelections": 306,
+    "movedReferences": 83,
+    "assignedReferences": 126,
+    "retainedUnresolvedReferences": 27,
+    "assignedTeeSurfaceChecks": 252,
+    "maximumCameraErrorMetres": 0,
+    "browserErrors": 0,
+    "screenshotsVisuallyInspected": 10
+  },
+  "visualReview": {
+    "result": "All ten settled views show the selected tee camera on maintained tee turf with the selected tee button and hole HUD coherent. No floating tee marker balls or extra tee pad surface were apparent in the captures.",
+    "samples": [
+      "Stora H1 reference 2: foreground tee surface and fairway view.",
+      "Stora H7 reference 1: tee alongside the path; view follows the hole.",
+      "Stora H18 reference 2: tee view toward the clubhouse.",
+      "Mellan H3 reference 1: wooded tee complex and fairway ahead.",
+      "Mellan H8 reference 1: raised tee overlooking the descent."
+    ],
+    "qualification": "The screenshots inspect camera placement and rendering. Native orthophoto evidence for the reviewed pad associations is retained in the three source review ledgers."
+  },
+  "runs": [
+    {
+      "slug": "upsala",
+      "v2QueryValue": "require",
+      "packSha256": "4702d46890d7d80c4dfcc49228fe26f941a539e087ec6f353b21b228381597ea",
+      "selection": {
+        "requested": true,
+        "ready": true,
+        "status": "ready",
+        "requestMode": "require",
+        "backend": "webgl2",
+        "surfaceRepresentation": "legacy-ground-atlas",
+        "courseSurfaceOverlayMeshes": 0,
+        "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86"
+      },
+      "checks": {
+        "teeButtonSelections": 108,
+        "allRuntimeReferencesMatchGeneratedModel": true,
+        "allRuntimePadRingsAndCountsMatchGeneratedModel": true,
+        "allCameraPositionsMatchReferenceXZ": true,
+        "maximumCameraErrorMetres": 0,
+        "allRangefinderOriginsMatchReference": true,
+        "assignedReferencesInsideTheirReviewedPads": 91,
+        "assignedReferencesSamplingTeeSurface": 91,
+        "unresolvedReferencesPreservedExactly": 17,
+        "browserErrors": 0
+      },
+      "screenshots": [
+        {
+          "hole": 1,
+          "markIndex": 1,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-h1-tee2-v2-require.png",
+          "sha256": "ff79d10803c2ecec0abca9f41c0df060ffe96835e2053e5d56a8b9092c013d0b",
+          "visuallyInspected": true
+        },
+        {
+          "hole": 7,
+          "markIndex": 0,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-h7-tee1-v2-require.png",
+          "sha256": "53f70f37ec479af96047611a90de462a1c4e4bc9114e41aa28a043edd6def6f3",
+          "visuallyInspected": true
+        },
+        {
+          "hole": 18,
+          "markIndex": 1,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-h18-tee2-v2-require.png",
+          "sha256": "5bbe7fd920b5662e3c623b018f68c325ba14ad26fe6186cc6bb5d030b4d37444",
+          "visuallyInspected": true
+        }
+      ]
+    },
+    {
+      "slug": "upsala",
+      "v2QueryValue": "0",
+      "packSha256": "4702d46890d7d80c4dfcc49228fe26f941a539e087ec6f353b21b228381597ea",
+      "selection": {
+        "requested": false,
+        "ready": false,
+        "status": "fallback",
+        "requestMode": "off",
+        "backend": "webgl2",
+        "surfaceRepresentation": null,
+        "courseSurfaceOverlayMeshes": 0,
+        "frameFingerprint": null
+      },
+      "checks": {
+        "teeButtonSelections": 108,
+        "allRuntimeReferencesMatchGeneratedModel": true,
+        "allRuntimePadRingsAndCountsMatchGeneratedModel": true,
+        "allCameraPositionsMatchReferenceXZ": true,
+        "maximumCameraErrorMetres": 0,
+        "allRangefinderOriginsMatchReference": true,
+        "assignedReferencesInsideTheirReviewedPads": 91,
+        "assignedReferencesSamplingTeeSurface": 91,
+        "unresolvedReferencesPreservedExactly": 17,
+        "browserErrors": 0
+      },
+      "screenshots": [
+        {
+          "hole": 1,
+          "markIndex": 1,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-h1-tee2-v2-0.png",
+          "sha256": "cb988f623a679b5ee25c96131399be884154a5c94c455b1ebbd77b6e76b7cf44",
+          "visuallyInspected": true
+        },
+        {
+          "hole": 7,
+          "markIndex": 0,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-h7-tee1-v2-0.png",
+          "sha256": "09a185b3b90f35c10156a510155b702760765a29515081f0a398c3bc74722b70",
+          "visuallyInspected": true
+        },
+        {
+          "hole": 18,
+          "markIndex": 1,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-h18-tee2-v2-0.png",
+          "sha256": "cd8fa4f7fd5ca7f1c6e77b727272b228c42a4551ad048c5db014c90d62e294b3",
+          "visuallyInspected": true
+        }
+      ]
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "v2QueryValue": "require",
+      "packSha256": "1f536e5dd4e3a69edc77fff2c0149f23721046b93c20bf0258539cb4816c3470",
+      "selection": {
+        "requested": true,
+        "ready": true,
+        "status": "ready",
+        "requestMode": "require",
+        "backend": "webgl2",
+        "surfaceRepresentation": "legacy-ground-atlas",
+        "courseSurfaceOverlayMeshes": 0,
+        "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86"
+      },
+      "checks": {
+        "teeButtonSelections": 45,
+        "allRuntimeReferencesMatchGeneratedModel": true,
+        "allRuntimePadRingsAndCountsMatchGeneratedModel": true,
+        "allCameraPositionsMatchReferenceXZ": true,
+        "maximumCameraErrorMetres": 0,
+        "allRangefinderOriginsMatchReference": true,
+        "assignedReferencesInsideTheirReviewedPads": 35,
+        "assignedReferencesSamplingTeeSurface": 35,
+        "unresolvedReferencesPreservedExactly": 10,
+        "browserErrors": 0
+      },
+      "screenshots": [
+        {
+          "hole": 3,
+          "markIndex": 0,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-mellanbanan-h3-tee1-v2-require.png",
+          "sha256": "b7a4c2c164df1d9e7e69f8bfa104b497742becf391310b29ec3f2be67fd00b8b",
+          "visuallyInspected": true
+        },
+        {
+          "hole": 8,
+          "markIndex": 0,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-mellanbanan-h8-tee1-v2-require.png",
+          "sha256": "874bde710becd4bb711b74edfb58f897e5642b6ec433d775b50dc287cd4f51da",
+          "visuallyInspected": true
+        }
+      ]
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "v2QueryValue": "0",
+      "packSha256": "1f536e5dd4e3a69edc77fff2c0149f23721046b93c20bf0258539cb4816c3470",
+      "selection": {
+        "requested": false,
+        "ready": false,
+        "status": "fallback",
+        "requestMode": "off",
+        "backend": "webgl2",
+        "surfaceRepresentation": null,
+        "courseSurfaceOverlayMeshes": 0,
+        "frameFingerprint": null
+      },
+      "checks": {
+        "teeButtonSelections": 45,
+        "allRuntimeReferencesMatchGeneratedModel": true,
+        "allRuntimePadRingsAndCountsMatchGeneratedModel": true,
+        "allCameraPositionsMatchReferenceXZ": true,
+        "maximumCameraErrorMetres": 0,
+        "allRangefinderOriginsMatchReference": true,
+        "assignedReferencesInsideTheirReviewedPads": 35,
+        "assignedReferencesSamplingTeeSurface": 35,
+        "unresolvedReferencesPreservedExactly": 10,
+        "browserErrors": 0
+      },
+      "screenshots": [
+        {
+          "hole": 3,
+          "markIndex": 0,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-mellanbanan-h3-tee1-v2-0.png",
+          "sha256": "3d691635e75595f4faf85c14665b29b262e0f40060ae9cf32bc605ac84f22e9f",
+          "visuallyInspected": true
+        },
+        {
+          "hole": 8,
+          "markIndex": 0,
+          "path": "upsalabuild/cache/lm-tee-browser-review-2026-09-09/upsala-mellanbanan-h8-tee1-v2-0.png",
+          "sha256": "81c38e34b946be918bc73d00f2781cfed21ddc8f158e4b376e06588eaae28652",
+          "visuallyInspected": true
+        }
+      ]
+    }
+  ]
+}

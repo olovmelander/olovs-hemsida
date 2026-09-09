@@ -13,15 +13,13 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   label: 'Puttom · Lantmäteriet 1 m terräng',
   descriptorSha256: 'be3d4676c7580e75e612ddfe3585be1b905f4c6da4bcfdb34456f1b9673657ed',
   surfaceDescriptorPath: 'grounds/puttom/surface-preview.json',
-  surfaceLabel: 'Puttom · migrerade ytor (ej inmätta)',
+  surfaceLabel: 'Puttom · spelytor, delvis ortofotogranskade',
   /* class-sdf-v1: nine exact per-class distance channels over the same 30
      tiles. Derived from compile-puttom-surface-preview.mjs's output, never
      typed -- see docs/v2-course-runbook.md. */
-  /* from compile-puttom-surface-preview.mjs --replace, 2026-09-05: the pack
-     changed (laser lake names and ditches, the 3rd's apron fairway, the
-     practice bunker, the wet tee marks slid ashore), so the surface preview
-     was recompiled against it and re-bound here */
-  surfaceDescriptorSha256: '9e06cde5323095698c49cceb8881fbb05b15d90170fc8d553152ee7609fe9390',
+  /* Recompiled from the 2026-09-09 orthophoto review. Native interpreted
+     boundaries are retained; unresolved camera positions do not invent pads. */
+  surfaceDescriptorSha256: '23b4c24e60341d992889658f24b93e6bf494581c13b891e15141fd07c46b0025',
   surfaceProvisionalReason: 'migration-vectors-not-survey-approved',
   frameFingerprint: '07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),
@@ -91,9 +89,8 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   legacyCoreCutout: Object.freeze({
     guardCells: 2,
     guardMetres: 8,
-    /* Reviewed after main.js has normalised the mown-edge geometry. The
-       post-normalisation Puttom z minimum snaps to -756, not the raw pack's
-       -792, so this spatial contract deliberately accompanies the counts. */
+    /* Remeasured from the orthophoto-reviewed model with native boundaries
+       preserved and synthetic tee pads disabled: the same CORE is retained. */
     expectedCoreGrid: Object.freeze({
       dx: 4,
       x0: -648,

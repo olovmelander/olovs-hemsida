@@ -1,0 +1,807 @@
+{
+  "ref": "working-tree",
+  "materialSha256": "0967f1e511a8e221737ada18af4661cf972befbc70bad3962a7e74c4ff12a17a",
+  "executionAdapter": "hardware-requested",
+  "performanceEvidence": false,
+  "backends": [
+    {
+      "backend": "webgpu",
+      "samples": 4,
+      "pairs": [
+        {
+          "name": "repeat-identical-view",
+          "changedPixels": 0,
+          "occupiedPixels": 2363,
+          "changedFraction": 0,
+          "meanAbsolute": 0
+        },
+        {
+          "name": "old-polar-boundary",
+          "changedPixels": 0,
+          "occupiedPixels": 2450,
+          "changedFraction": 0,
+          "meanAbsolute": 0.000030517578125
+        },
+        {
+          "name": "across-zenith",
+          "changedPixels": 0,
+          "occupiedPixels": 2363,
+          "changedFraction": 0,
+          "meanAbsolute": 0.00006103515625
+        },
+        {
+          "name": "atlas-frame-boundary",
+          "changedPixels": 1,
+          "occupiedPixels": 4069,
+          "changedFraction": 0.0002457606291472106,
+          "meanAbsolute": 0.00091552734375
+        },
+        {
+          "name": "lit-with-fade-attributes",
+          "changedPixels": 0,
+          "occupiedPixels": 2363,
+          "changedFraction": 0,
+          "meanAbsolute": 0.0000152587890625
+        },
+        {
+          "name": "lit-midfade",
+          "changedPixels": 0,
+          "occupiedPixels": 1186,
+          "changedFraction": 0,
+          "meanAbsolute": 0.000005086263020833333
+        }
+      ],
+      "edges": [
+        {
+          "coverage": false,
+          "meanArea": 16.310866013071898,
+          "relativeAreaRange": 0.0976132635427883
+        },
+        {
+          "coverage": true,
+          "meanArea": 17.72001633986928,
+          "relativeAreaRange": 0.08394922842138762
+        }
+      ],
+      "whiteCorners": true,
+      "fadeAreas": [
+        1948.1986928104745,
+        975.9281045751588,
+        972.2705882352897
+      ],
+      "fadeRelativeError": 1.3421614937155398e-14,
+      "distantAppearance": [
+        {
+          "view": "high",
+          "theta": 0.65,
+          "azimuth": 0.3,
+          "distance": 350,
+          "fog": false,
+          "mesh": {
+            "area": 86.02352941176468,
+            "opaquePixels": 70,
+            "partialPixels": 30,
+            "meanCoveredRgb": [
+              0.020286287381473356,
+              0.037016776075857,
+              0.00929978118161924
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.031458707148067075
+          },
+          "impostor": {
+            "area": 91.0666666666666,
+            "opaquePixels": 55,
+            "partialPixels": 80,
+            "meanCoveredRgb": [
+              0.027732322797347317,
+              0.0499095685126173,
+              0.013047971750925829
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.04253327878735677
+          },
+          "coverageRatio": 1.058625091174325,
+          "luminanceRatio": 1.3520351801860413
+        },
+        {
+          "view": "high",
+          "theta": 0.65,
+          "azimuth": 0.3,
+          "distance": 700,
+          "fog": false,
+          "mesh": {
+            "area": 21.768627450980382,
+            "opaquePixels": 15,
+            "partialPixels": 15,
+            "meanCoveredRgb": [
+              0.02125743109349666,
+              0.038731760043235454,
+              0.010268420104485669
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.03296166456494325
+          },
+          "impostor": {
+            "area": 22.0235294117647,
+            "opaquePixels": 8,
+            "partialPixels": 29,
+            "meanCoveredRgb": [
+              0.02795584045584044,
+              0.04985754985754986,
+              0.013354700854700847
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.04256574074074074
+          },
+          "coverageRatio": 1.0117096018735365,
+          "luminanceRatio": 1.291371091313514
+        },
+        {
+          "view": "high",
+          "theta": 0.65,
+          "azimuth": 0.3,
+          "distance": 700,
+          "fog": true,
+          "mesh": {
+            "area": 21.768627450980382,
+            "opaquePixels": 15,
+            "partialPixels": 15,
+            "meanCoveredRgb": [
+              0.06107007746352011,
+              0.06935687263556116,
+              0.03368762385155828
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.06501978021978022
+          },
+          "impostor": {
+            "area": 22.0235294117647,
+            "opaquePixels": 8,
+            "partialPixels": 29,
+            "meanCoveredRgb": [
+              0.06748575498575497,
+              0.08012820512820511,
+              0.036502849002849024
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.0742906695156695
+          },
+          "coverageRatio": 1.0117096018735365,
+          "luminanceRatio": 1.1425856756905632
+        },
+        {
+          "view": "high",
+          "theta": 0.65,
+          "azimuth": 0.3,
+          "distance": 1400,
+          "fog": true,
+          "mesh": {
+            "area": 5.003921568627451,
+            "opaquePixels": 2,
+            "partialPixels": 6,
+            "meanCoveredRgb": [
+              0.16222570532915362,
+              0.1512539184952978,
+              0.0956112852664577
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.1495691222570533
+          },
+          "impostor": {
+            "area": 5.509803921568627,
+            "opaquePixels": 1,
+            "partialPixels": 12,
+            "meanCoveredRgb": [
+              0.17010676156583626,
+              0.16014234875444833,
+              0.09750889679715308
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.15773864768683266
+          },
+          "coverageRatio": 1.1010971786833856,
+          "luminanceRatio": 1.0546204009657756
+        },
+        {
+          "view": "oblique",
+          "theta": 1.1,
+          "azimuth": 1.1,
+          "distance": 350,
+          "fog": false,
+          "mesh": {
+            "area": 96.78823529411761,
+            "opaquePixels": 78,
+            "partialPixels": 36,
+            "meanCoveredRgb": [
+              0.01689558769903973,
+              0.0304282646570236,
+              0.007738746404116516
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.025913034317896336
+          },
+          "impostor": {
+            "area": 102.07843137254898,
+            "opaquePixels": 65,
+            "partialPixels": 87,
+            "meanCoveredRgb": [
+              0.022512485593545878,
+              0.03910872070687665,
+              0.010718401844026105
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.033530580099884716
+          },
+          "coverageRatio": 1.054657428791378,
+          "luminanceRatio": 1.293965796847167
+        },
+        {
+          "view": "oblique",
+          "theta": 1.1,
+          "azimuth": 1.1,
+          "distance": 700,
+          "fog": false,
+          "mesh": {
+            "area": 24.26666666666666,
+            "opaquePixels": 15,
+            "partialPixels": 19,
+            "meanCoveredRgb": [
+              0.017129928894634775,
+              0.029896574014221078,
+              0.007918552036199088
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.025595572074983843
+          },
+          "impostor": {
+            "area": 25.772549019607837,
+            "opaquePixels": 12,
+            "partialPixels": 31,
+            "meanCoveredRgb": [
+              0.022063298843578806,
+              0.03880097382836273,
+              0.010499087035909911
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.033199147900182566
+          },
+          "coverageRatio": 1.0620555914673562,
+          "luminanceRatio": 1.2970660629472772
+        },
+        {
+          "view": "oblique",
+          "theta": 1.1,
+          "azimuth": 1.1,
+          "distance": 700,
+          "fog": true,
+          "mesh": {
+            "area": 24.26666666666666,
+            "opaquePixels": 15,
+            "partialPixels": 19,
+            "meanCoveredRgb": [
+              0.05672268907563025,
+              0.06237879767291532,
+              0.031674208144796386
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.05895943762120233
+          },
+          "impostor": {
+            "area": 25.772549019607837,
+            "opaquePixels": 12,
+            "partialPixels": 31,
+            "meanCoveredRgb": [
+              0.06269020085209982,
+              0.07060255629945222,
+              0.03454047474132684
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.06631670724284845
+          },
+          "coverageRatio": 1.0620555914673562,
+          "luminanceRatio": 1.1247852747326814
+        },
+        {
+          "view": "oblique",
+          "theta": 1.1,
+          "azimuth": 1.1,
+          "distance": 1400,
+          "fog": true,
+          "mesh": {
+            "area": 5.5019607843137255,
+            "opaquePixels": 2,
+            "partialPixels": 7,
+            "meanCoveredRgb": [
+              0.16108339272986458,
+              0.14540270848182468,
+              0.09408410548823952
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.14503121881682113
+          },
+          "impostor": {
+            "area": 6.262745098039216,
+            "opaquePixels": 0,
+            "partialPixels": 15,
+            "meanCoveredRgb": [
+              0.16530995616781463,
+              0.15216030056355662,
+              0.09580463368816534
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.1508870381966186
+          },
+          "coverageRatio": 1.1382751247327156,
+          "luminanceRatio": 1.0403762681412307
+        },
+        {
+          "view": "horizon",
+          "theta": 1.45,
+          "azimuth": 2.3,
+          "distance": 350,
+          "fog": false,
+          "mesh": {
+            "area": 89.03137254901958,
+            "opaquePixels": 68,
+            "partialPixels": 41,
+            "meanCoveredRgb": [
+              0.010086772673214983,
+              0.019733074924018837,
+              0.004757080562040254
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.016601004272563082
+          },
+          "impostor": {
+            "area": 93.5647058823529,
+            "opaquePixels": 61,
+            "partialPixels": 74,
+            "meanCoveredRgb": [
+              0.009388490716291532,
+              0.01907037176746718,
+              0.00435894211827821
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.01594983863531579
+          },
+          "coverageRatio": 1.050918380830727,
+          "luminanceRatio": 0.9607755273984544
+        },
+        {
+          "view": "horizon",
+          "theta": 1.45,
+          "azimuth": 2.3,
+          "distance": 700,
+          "fog": false,
+          "mesh": {
+            "area": 22.019607843137244,
+            "opaquePixels": 14,
+            "partialPixels": 18,
+            "meanCoveredRgb": [
+              0.010329474621549418,
+              0.02101513802315226,
+              0.0051647373107747046
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.01759896705253784
+          },
+          "impostor": {
+            "area": 22.027450980392146,
+            "opaquePixels": 11,
+            "partialPixels": 26,
+            "meanCoveredRgb": [
+              0.009435641801673483,
+              0.019405376535517167,
+              0.0044507744347516386
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.01620608865942673
+          },
+          "coverageRatio": 1.0003561887800534,
+          "luminanceRatio": 0.9208545371468122
+        },
+        {
+          "view": "horizon",
+          "theta": 1.45,
+          "azimuth": 2.3,
+          "distance": 700,
+          "fog": true,
+          "mesh": {
+            "area": 22.019607843137244,
+            "opaquePixels": 14,
+            "partialPixels": 18,
+            "meanCoveredRgb": [
+              0.0512911843276937,
+              0.05414069456812114,
+              0.030276046304541403
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.0518118610863758
+          },
+          "impostor": {
+            "area": 22.027450980392146,
+            "opaquePixels": 11,
+            "partialPixels": 26,
+            "meanCoveredRgb": [
+              0.050026704646608515,
+              0.05234110735267937,
+              0.030087235178921114
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.05024233576642336
+          },
+          "coverageRatio": 1.0003561887800534,
+          "luminanceRatio": 0.9697072197940182
+        },
+        {
+          "view": "horizon",
+          "theta": 1.45,
+          "azimuth": 2.3,
+          "distance": 1400,
+          "fog": true,
+          "mesh": {
+            "area": 5.5058823529411764,
+            "opaquePixels": 2,
+            "partialPixels": 8,
+            "meanCoveredRgb": [
+              0.15883190883190879,
+              0.14102564102564102,
+              0.0933048433048433
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.14136581196581194
+          },
+          "impostor": {
+            "area": 5.003921568627451,
+            "opaquePixels": 0,
+            "partialPixels": 11,
+            "meanCoveredRgb": [
+              0.15360501567398116,
+              0.13401253918495296,
+              0.09247648902821319
+            ],
+            "litAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "silhouetteAlpha": {
+              "minimum": 255,
+              "nonOpaquePixels": 0
+            },
+            "meanCoveredLuminance": 0.13517899686520374
+          },
+          "coverageRatio": 0.9088319088319088,
+          "luminanceRatio": 0.9562354220261938
+        }
+      ],
+      "mixedTexelTint": {
+        "tolerance": 0.005,
+        "samples": [
+          {
+            "crownHex": 4482601,
+            "mask": 0,
+            "actual": [
+              0.03529411764705882,
+              0.023529411764705882,
+              0.011764705882352941
+            ],
+            "expected": [
+              0.035601314869097636,
+              0.02217388478862708,
+              0.013702083043526807
+            ],
+            "maxError": 0.0019373771611738665
+          },
+          {
+            "crownHex": 4482601,
+            "mask": 0.25,
+            "actual": [
+              0.03529411764705882,
+              0.03529411764705882,
+              0.011764705882352941
+            ],
+            "expected": [
+              0.035371800679392135,
+              0.03656066182309225,
+              0.013602645000939167
+            ],
+            "maxError": 0.0018379391185862261
+          },
+          {
+            "crownHex": 4482601,
+            "mask": 0.5,
+            "actual": [
+              0.03529411764705882,
+              0.050980392156862744,
+              0.011764705882352941
+            ],
+            "expected": [
+              0.035142286489686626,
+              0.05094743885755742,
+              0.013503206958351527
+            ],
+            "maxError": 0.0017385010759985858
+          },
+          {
+            "crownHex": 4482601,
+            "mask": 0.75,
+            "actual": [
+              0.03529411764705882,
+              0.06666666666666667,
+              0.011764705882352941
+            ],
+            "expected": [
+              0.03491277229998112,
+              0.06533421589202258,
+              0.013403768915763888
+            ],
+            "maxError": 0.0016390630334109473
+          },
+          {
+            "crownHex": 4482601,
+            "mask": 1,
+            "actual": [
+              0.03529411764705882,
+              0.0784313725490196,
+              0.011764705882352941
+            ],
+            "expected": [
+              0.03468325811027562,
+              0.07972099292648775,
+              0.013304330873176248
+            ],
+            "maxError": 0.001539624990823307
+          },
+          {
+            "crownHex": 13141038,
+            "mask": 0,
+            "actual": [
+              0.03529411764705882,
+              0.023529411764705882,
+              0.011764705882352941
+            ],
+            "expected": [
+              0.035601314869097636,
+              0.02217388478862708,
+              0.013702083043526807
+            ],
+            "maxError": 0.0019373771611738665
+          },
+          {
+            "crownHex": 13141038,
+            "mask": 0.25,
+            "actual": [
+              0.11372549019607843,
+              0.050980392156862744,
+              0.01568627450980392
+            ],
+            "expected": [
+              0.11333805221504183,
+              0.05124142086851337,
+              0.014374696027718677
+            ],
+            "maxError": 0.001311578482085244
+          },
+          {
+            "crownHex": 13141038,
+            "mask": 0.5,
+            "actual": [
+              0.19215686274509805,
+              0.0784313725490196,
+              0.01568627450980392
+            ],
+            "expected": [
+              0.191074789560986,
+              0.08030895694839967,
+              0.015047309011910549
+            ],
+            "maxError": 0.0018775843993800584
+          },
+          {
+            "crownHex": 13141038,
+            "mask": 0.75,
+            "actual": [
+              0.27058823529411763,
+              0.10980392156862745,
+              0.01568627450980392
+            ],
+            "expected": [
+              0.2688115269069302,
+              0.10937649302828596,
+              0.01571992199610242
+            ],
+            "maxError": 0.001776708387187409
+          },
+          {
+            "crownHex": 13141038,
+            "mask": 1,
+            "actual": [
+              0.34509803921568627,
+              0.13725490196078433,
+              0.01568627450980392
+            ],
+            "expected": [
+              0.3465482642528744,
+              0.13844402910817225,
+              0.01639253498029429
+            ],
+            "maxError": 0.0014502250371881131
+          }
+        ]
+      },
+      "opaqueDisplay": {
+        "background": [
+          157,
+          188,
+          125
+        ],
+        "maxRgbError": 0,
+        "outlinePixels": 0,
+        "tolerance": 1
+      },
+      "errors": []
+    }
+  ]
+}

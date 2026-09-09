@@ -1,0 +1,2716 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "method": "Stored nominal marker references compared with same-hole physical pad boundaries in legacy local metres. Distances are zero inside. This does not infer named-tee/platform identity or daily marker placement.",
+  "courses": [
+    {
+      "build": "upsalabuild",
+      "holes": [
+        {
+          "hole": 1,
+          "padCount": 4,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -6.1,
+            -177.5
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -6.1,
+                -177.5
+              ],
+              "cardDistance": 374,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-01-rear",
+                "distance": 0.8561902311557497
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                8.5,
+                -166.9
+              ],
+              "cardDistance": 356,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-01-middle-rear",
+                "distance": 6.802003228673412
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                8.5,
+                -166.9
+              ],
+              "cardDistance": 356,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-01-middle-rear",
+                "distance": 6.802003228673412
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                38.4,
+                -145.2
+              ],
+              "cardDistance": 319,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-01-middle-front",
+                "distance": 16.59581935307806
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                86.7,
+                -109.6
+              ],
+              "cardDistance": 259,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-01-front",
+                "distance": 26.410188677856897
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                86.7,
+                -109.6
+              ],
+              "cardDistance": 259,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-01-front",
+                "distance": 26.410188677856897
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 2,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            321.8,
+            28.4
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                321.8,
+                28.4
+              ],
+              "cardDistance": 147,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-02-rear-long",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                318,
+                18.1
+              ],
+              "cardDistance": 136,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-02-rear-long",
+                "distance": 0.5541930065738848
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                315.3,
+                10.5
+              ],
+              "cardDistance": 128,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-02-rear-long",
+                "distance": 3.1009138762676924
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                315.3,
+                10.5
+              ],
+              "cardDistance": 128,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-02-rear-long",
+                "distance": 3.1009138762676924
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                306.8,
+                -13
+              ],
+              "cardDistance": 103,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-02-front",
+                "distance": 13.131427669212963
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                306.8,
+                -13
+              ],
+              "cardDistance": 103,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-02-front",
+                "distance": 13.131427669212963
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 3,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            387.6,
+            -126.4
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                387.6,
+                -126.4
+              ],
+              "cardDistance": 324,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-03-rear",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                387.6,
+                -126.4
+              ],
+              "cardDistance": 324,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-03-rear",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                389,
+                -118.6
+              ],
+              "cardDistance": 316,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-03-rear",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                394.2,
+                -90
+              ],
+              "cardDistance": 287,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-03-front",
+                "distance": 6.815507317874427
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                394.2,
+                -90
+              ],
+              "cardDistance": 287,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-03-front",
+                "distance": 6.815507317874427
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                405.9,
+                -11
+              ],
+              "cardDistance": 207,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-03-front",
+                "distance": 72.34219427830483
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 4,
+          "padCount": 4,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            383,
+            191
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                383,
+                191
+              ],
+              "cardDistance": 396,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-04-rear",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                356,
+                177.9
+              ],
+              "cardDistance": 366,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-04-middle-rear",
+                "distance": 2.587080400760657
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                323.6,
+                162.2
+              ],
+              "cardDistance": 330,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-04-middle-front",
+                "distance": 18.903061158142467
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                323.6,
+                162.2
+              ],
+              "cardDistance": 330,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-04-middle-front",
+                "distance": 18.903061158142467
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                295.7,
+                148.7
+              ],
+              "cardDistance": 299,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-04-middle-front",
+                "distance": 26.435350215194816
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                251.7,
+                123
+              ],
+              "cardDistance": 248,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-04-front",
+                "distance": 49.84027674481752
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 5,
+          "padCount": 4,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            109.8,
+            52.3
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                109.8,
+                52.3
+              ],
+              "cardDistance": 481,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-05-rear",
+                "distance": 1.6395478984299032
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                116.4,
+                87.6
+              ],
+              "cardDistance": 445,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-05-middle-rear",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                121.9,
+                117.1
+              ],
+              "cardDistance": 415,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-05-middle-front",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                126.6,
+                142.7
+              ],
+              "cardDistance": 389,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-05-front",
+                "distance": 14.105268632387913
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                126.6,
+                142.7
+              ],
+              "cardDistance": 389,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-05-front",
+                "distance": 14.105268632387913
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                126.5,
+                194.5
+              ],
+              "cardDistance": 337,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-05-front",
+                "distance": 48.20271878224298
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 6,
+          "padCount": 3,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -113.8,
+            505.4
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -113.8,
+                505.4
+              ],
+              "cardDistance": 204,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-06-rear",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -134.8,
+                506.3
+              ],
+              "cardDistance": 183,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-06-middle",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -162.8,
+                507.5
+              ],
+              "cardDistance": 155,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-06-front",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -189.8,
+                508.7
+              ],
+              "cardDistance": 128,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-06-front",
+                "distance": 19.892265700755896
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -189.8,
+                508.7
+              ],
+              "cardDistance": 128,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-06-front",
+                "distance": 19.892265700755896
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -189.8,
+                508.7
+              ],
+              "cardDistance": 128,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-06-front",
+                "distance": 19.892265700755896
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 7,
+          "padCount": 4,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -296.2,
+            444.5
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -296.2,
+                444.5
+              ],
+              "cardDistance": 415,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-07-back-east-2025",
+                "distance": 34.95508885568013
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -307.1,
+                406
+              ],
+              "cardDistance": 375,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-07-middle-south-2025",
+                "distance": 15.783372294918465
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -309.5,
+                397.3
+              ],
+              "cardDistance": 366,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-07-middle-north-2025",
+                "distance": 12.874769671309835
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -328.8,
+                329
+              ],
+              "cardDistance": 295,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-07-front-north-2025",
+                "distance": 6.091252972058688
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -328.8,
+                329
+              ],
+              "cardDistance": 295,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-07-front-north-2025",
+                "distance": 6.091252972058688
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -343.8,
+                279.2
+              ],
+              "cardDistance": 243,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-07-front-north-2025",
+                "distance": 43.49291519316684
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 8,
+          "padCount": 3,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -499.8,
+            -1.6
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -499.8,
+                -1.6
+              ],
+              "cardDistance": 467,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-hole8-tee-sw-2025",
+                "distance": 12.427740743996862
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -491.8,
+                -10.6
+              ],
+              "cardDistance": 455,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-hole8-tee-sw-2025",
+                "distance": 11.745901237400831
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -465.6,
+                -40.7
+              ],
+              "cardDistance": 415,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-hole8-tee-complex-ne-ortho2024",
+                "distance": 2.5856288927285713
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -465.6,
+                -40.7
+              ],
+              "cardDistance": 415,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-hole8-tee-complex-ne-ortho2024",
+                "distance": 2.5856288927285713
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -442.2,
+                -79.1
+              ],
+              "cardDistance": 370,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-08-front-northeast-2025",
+                "distance": 8.301130344718098
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -414.1,
+                -125.3
+              ],
+              "cardDistance": 316,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-08-front-northeast-2025",
+                "distance": 45.41685815861771
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 9,
+          "padCount": 3,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -83.6,
+            -288.7
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -83.6,
+                -288.7
+              ],
+              "cardDistance": 353,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-hole9-tee-upper-2025",
+                "distance": 7.845023390659853
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -80.4,
+                -296
+              ],
+              "cardDistance": 345,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-hole9-tee-upper-2025",
+                "distance": 3.4964287386333717
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -80.4,
+                -296
+              ],
+              "cardDistance": 345,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-hole9-tee-upper-2025",
+                "distance": 3.4964287386333717
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -78.1,
+                -301.5
+              ],
+              "cardDistance": 339,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-hole9-tee-upper-2025",
+                "distance": 2.600579935322121
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -59.8,
+                -343.7
+              ],
+              "cardDistance": 293,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-09-north-lower-2025",
+                "distance": 7.6765543625866135
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -59.8,
+                -343.7
+              ],
+              "cardDistance": 293,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-09-north-lower-2025",
+                "distance": 7.6765543625866135
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 10,
+          "padCount": 4,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            158.1,
+            -391.5
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                158.1,
+                -391.5
+              ],
+              "cardDistance": 184,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-10-back-southwest-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                173.1,
+                -407.5
+              ],
+              "cardDistance": 162,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-10-middle-southwest-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                173.1,
+                -407.5
+              ],
+              "cardDistance": 162,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-10-middle-southwest-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                185.4,
+                -420.6
+              ],
+              "cardDistance": 144,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-10-middle-northeast-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                208,
+                -444.7
+              ],
+              "cardDistance": 111,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-10-front-northeast-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                208,
+                -444.7
+              ],
+              "cardDistance": 111,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-10-front-northeast-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            }
+          ]
+        },
+        {
+          "hole": 11,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            291.4,
+            -576.4
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                291.4,
+                -576.4
+              ],
+              "cardDistance": 376,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+                "distance": 3.383834172986434
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                278.4,
+                -575
+              ],
+              "cardDistance": 363,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+                "distance": 4.145936820215994
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                268.5,
+                -573.9
+              ],
+              "cardDistance": 353,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+                "distance": 5.06600410183929
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                203.9,
+                -566.7
+              ],
+              "cardDistance": 288,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-11-front-west-2025",
+                "distance": 6.376096423362188
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                203.9,
+                -566.7
+              ],
+              "cardDistance": 288,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-11-front-west-2025",
+                "distance": 6.376096423362188
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                164.4,
+                -561.2
+              ],
+              "cardDistance": 248,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-11-front-west-2025",
+                "distance": 33.78961267904676
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 12,
+          "padCount": 3,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -7.9,
+            -598.1
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -7.9,
+                -598.1
+              ],
+              "cardDistance": 521,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-12-back-northeast-2025",
+                "distance": 5.0801875873187905
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -23,
+                -593
+              ],
+              "cardDistance": 505,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-12-back-northeast-2025",
+                "distance": 4.573437098922123
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -70.4,
+                -576.9
+              ],
+              "cardDistance": 455,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-12-middle-archive-2023",
+                "distance": 3.8091318783721877
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -131.1,
+                -554.1
+              ],
+              "cardDistance": 390,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-12-front-southwest-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -131.1,
+                -554.1
+              ],
+              "cardDistance": 390,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-12-front-southwest-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -161.1,
+                -538
+              ],
+              "cardDistance": 356,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-12-front-southwest-2025",
+                "distance": 27.726000072134457
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 13,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -398.3,
+            -239.2
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -398.3,
+                -239.2
+              ],
+              "cardDistance": 333,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-13-rear-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -398.3,
+                -239.2
+              ],
+              "cardDistance": 333,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-13-rear-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -387.7,
+                -244.9
+              ],
+              "cardDistance": 321,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-13-rear-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -338.3,
+                -271.4
+              ],
+              "cardDistance": 265,
+              "nearest": {
+                "padIndex": 0,
+                "distance": 0.7868573324967228
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -338.3,
+                -271.4
+              ],
+              "cardDistance": 265,
+              "nearest": {
+                "padIndex": 0,
+                "distance": 0.7868573324967228
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -302.1,
+                -292.6
+              ],
+              "cardDistance": 223,
+              "nearest": {
+                "padIndex": 0,
+                "distance": 42.72836280984337
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 14,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -116,
+            -503.3
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -116,
+                -503.3
+              ],
+              "cardDistance": 153,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-14-rear-continuous-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -115.9,
+                -493.3
+              ],
+              "cardDistance": 143,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-14-rear-continuous-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -115.8,
+                -485.3
+              ],
+              "cardDistance": 135,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-14-rear-continuous-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -115.8,
+                -485.3
+              ],
+              "cardDistance": 135,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-14-rear-continuous-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -115.5,
+                -454.3
+              ],
+              "cardDistance": 104,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-14-forward-archive-2023",
+                "distance": 2.0000296144594083
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -115.5,
+                -454.3
+              ],
+              "cardDistance": 104,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-14-forward-archive-2023",
+                "distance": 2.0000296144594083
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 15,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -111.3,
+            -245.5
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -111.4,
+                -245.5
+              ],
+              "cardDistance": 337,
+              "nearest": {
+                "padIndex": 0,
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -118.9,
+                -240.6
+              ],
+              "cardDistance": 328,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -118.9,
+                -240.6
+              ],
+              "cardDistance": 328,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -126.5,
+                -235.7
+              ],
+              "cardDistance": 319,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+                "distance": 0.45067957059195185
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -126.5,
+                -235.7
+              ],
+              "cardDistance": 319,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+                "distance": 0.45067957059195185
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -205.7,
+                -183.3
+              ],
+              "cardDistance": 224,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+                "distance": 95.32908569791277
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 16,
+          "padCount": 4,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -359.9,
+            17.7
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -359.9,
+                17.7
+              ],
+              "cardDistance": 468,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-16-rear-2025",
+                "distance": 0.694761404741059
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -342.8,
+                30
+              ],
+              "cardDistance": 447,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-16-middle-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -325.8,
+                42.2
+              ],
+              "cardDistance": 426,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-16-front-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -325.8,
+                42.2
+              ],
+              "cardDistance": 426,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-16-front-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -263.2,
+                87.1
+              ],
+              "cardDistance": 349,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-16-forward-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -263.2,
+                87.1
+              ],
+              "cardDistance": 349,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-stora-tee-16-forward-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            }
+          ]
+        },
+        {
+          "hole": 17,
+          "padCount": 3,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -183,
+            468.1
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -183,
+                468.1
+              ],
+              "cardDistance": 270,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-17-rear-continuous-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -177.7,
+                457.3
+              ],
+              "cardDistance": 258,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-17-rear-continuous-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -167.2,
+                435.7
+              ],
+              "cardDistance": 234,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-17-middle-round-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -167.2,
+                435.7
+              ],
+              "cardDistance": 234,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-17-middle-round-2025",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -146.2,
+                392.6
+              ],
+              "cardDistance": 186,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-17-forward-2025",
+                "distance": 3.9774069268025283
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -146.2,
+                392.6
+              ],
+              "cardDistance": 186,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-17-forward-2025",
+                "distance": 3.9774069268025283
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 18,
+          "padCount": 3,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            -135.7,
+            234.6
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "teeName": "62",
+              "c": [
+                -135.7,
+                234.6
+              ],
+              "cardDistance": 389,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-stora-tee-18-rear-archive-2020",
+                "distance": 5.517521130626441
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "teeName": "59",
+              "c": [
+                -123.7,
+                212.6
+              ],
+              "cardDistance": 364,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-stora-tee-18-middle-2025",
+                "distance": 1.7242238198908417
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "teeName": "56",
+              "c": [
+                -105,
+                178.4
+              ],
+              "cardDistance": 325,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-18-forward-2025",
+                "distance": 7.510741641143033
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "teeName": "51",
+              "c": [
+                -86.2,
+                145.3
+              ],
+              "cardDistance": 287,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-18-forward-2025",
+                "distance": 22.73154911131222
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "teeName": "47",
+              "c": [
+                -86.2,
+                145.3
+              ],
+              "cardDistance": 287,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-18-forward-2025",
+                "distance": 22.73154911131222
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 5,
+              "teeName": "42",
+              "c": [
+                -86.2,
+                145.3
+              ],
+              "cardDistance": 287,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-stora-tee-18-forward-2025",
+                "distance": 22.73154911131222
+              },
+              "insideObservedPad": false
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "pads": 54,
+        "marks": 108,
+        "inside": 37,
+        "outside": 71,
+        "beyond10Metres": 30,
+        "beyond30Metres": 9,
+        "max": {
+          "hole": 15,
+          "markIndex": 5,
+          "teeName": "42",
+          "c": [
+            -205.7,
+            -183.3
+          ],
+          "cardDistance": 224,
+          "nearest": {
+            "padIndex": 1,
+            "padSourceId": "upsala-stora-tee-15-lower-archive-2023",
+            "distance": 95.32908569791277
+          },
+          "insideObservedPad": false
+        }
+      }
+    },
+    {
+      "build": "upsalamellanbuild",
+      "holes": [
+        {
+          "hole": 1,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            157.9,
+            -298.4
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                151.3,
+                -299.5
+              ],
+              "cardDistance": 286,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-01-west",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                164.1,
+                -297.3
+              ],
+              "cardDistance": 273,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-01-west",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                164.1,
+                -297.3
+              ],
+              "cardDistance": 273,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-01-west",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                215.3,
+                -288.3
+              ],
+              "cardDistance": 221,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-01-east",
+                "distance": 0.7757149581892853
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                215.3,
+                -288.3
+              ],
+              "cardDistance": 221,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-01-east",
+                "distance": 0.7757149581892853
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 2,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            458.7,
+            -303.6
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                446,
+                -309.5
+              ],
+              "cardDistance": 335,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                451.5,
+                -306.9
+              ],
+              "cardDistance": 329,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                451.5,
+                -306.9
+              ],
+              "cardDistance": 329,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                485.9,
+                -290.9
+              ],
+              "cardDistance": 291,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-02-pondside",
+                "distance": 0.6760355020263236
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                550.3,
+                -261
+              ],
+              "cardDistance": 220,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-02-pondside",
+                "distance": 58.443680796130515
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 3,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            767.7,
+            -338.3
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                757,
+                -342.7
+              ],
+              "cardDistance": 435,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-03-northwest",
+                "distance": 19.49179224699466
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                757,
+                -342.7
+              ],
+              "cardDistance": 435,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-03-northwest",
+                "distance": 19.49179224699466
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                832.9,
+                -311.8
+              ],
+              "cardDistance": 353,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-03-southeast",
+                "distance": 19.149029348768575
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                832.9,
+                -311.8
+              ],
+              "cardDistance": 353,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-03-southeast",
+                "distance": 19.149029348768575
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                893.1,
+                -287.3
+              ],
+              "cardDistance": 288,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-03-southeast",
+                "distance": 32.84319585545845
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 4,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            1158.9,
+            -102.4
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                1161.8,
+                -102
+              ],
+              "cardDistance": 307,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-04-east",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                1154.9,
+                -102.8
+              ],
+              "cardDistance": 300,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-04-east",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                1103.2,
+                -108.6
+              ],
+              "cardDistance": 248,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-04-northwest",
+                "distance": 22.732761600826237
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                1103.2,
+                -108.6
+              ],
+              "cardDistance": 248,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-04-northwest",
+                "distance": 22.732761600826237
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                1033.7,
+                -116.4
+              ],
+              "cardDistance": 178,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-04-northwest",
+                "distance": 65.50996170049244
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 5,
+          "padCount": 3,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            760.5,
+            -67.8
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                769.2,
+                -72.2
+              ],
+              "cardDistance": 109,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-05-northeast",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                762.9,
+                -69
+              ],
+              "cardDistance": 102,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-05-northeast",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                748.6,
+                -61.9
+              ],
+              "cardDistance": 86,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "upsala-mellanbanan-tee-05-middle",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                737,
+                -56
+              ],
+              "cardDistance": 73,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-mellanbanan-tee-05-southwest",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                737,
+                -56
+              ],
+              "cardDistance": 73,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-mellanbanan-tee-05-southwest",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            }
+          ]
+        },
+        {
+          "hole": 6,
+          "padCount": 4,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            765.9,
+            144.1
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                795.2,
+                127.2
+              ],
+              "cardDistance": 455,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+                "distance": 23.20324705725475
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                783.9,
+                133.7
+              ],
+              "cardDistance": 442,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+                "distance": 10.394415519883708
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                771.8,
+                140.7
+              ],
+              "cardDistance": 428,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                719.8,
+                170.6
+              ],
+              "cardDistance": 368,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "upsala-mellanbanan-tee-06-west-of-path",
+                "distance": 20.041840080633655
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                667.8,
+                200.6
+              ],
+              "cardDistance": 308,
+              "nearest": {
+                "padIndex": 3,
+                "padSourceId": "upsala-mellanbanan-tee-06-southwest",
+                "distance": 30.178938932407167
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 7,
+          "padCount": 4,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            390.2,
+            307.1
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                386.3,
+                308.7
+              ],
+              "cardDistance": 155,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "mellan-7-tee-west",
+                "distance": 2.0330154942842773
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                403,
+                302
+              ],
+              "cardDistance": 137,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "mellan-7-tee-middle-west",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                412.3,
+                298.4
+              ],
+              "cardDistance": 127,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "mellan-7-tee-middle-west",
+                "distance": 3.7021931717847787
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                425.3,
+                293.2
+              ],
+              "cardDistance": 113,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "mellan-7-tee-middle-east",
+                "distance": 4.231850722829688
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                425.3,
+                293.2
+              ],
+              "cardDistance": 113,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "mellan-7-tee-middle-east",
+                "distance": 4.231850722829688
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 8,
+          "padCount": 2,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            503.4,
+            175.7
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                495.2,
+                197.3
+              ],
+              "cardDistance": 338,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "mellan-8-tee-upper",
+                "distance": 20.435713160424292
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                495.2,
+                197.3
+              ],
+              "cardDistance": 338,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "mellan-8-tee-upper",
+                "distance": 20.435713160424292
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                501.6,
+                180.4
+              ],
+              "cardDistance": 320,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "mellan-8-tee-upper",
+                "distance": 2.3942098073445295
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                501.6,
+                180.4
+              ],
+              "cardDistance": 320,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "mellan-8-tee-upper",
+                "distance": 2.3942098073445295
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                513.9,
+                147.7
+              ],
+              "cardDistance": 285,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+                "distance": 17.5835327792796
+              },
+              "insideObservedPad": false
+            }
+          ]
+        },
+        {
+          "hole": 9,
+          "padCount": 3,
+          "inferPads": false,
+          "addedRuntimePads": 0,
+          "routeStart": [
+            394.3,
+            -198.4
+          ],
+          "marks": [
+            {
+              "markIndex": 0,
+              "c": [
+                398.5,
+                -198.9
+              ],
+              "cardDistance": 181,
+              "nearest": {
+                "padIndex": 2,
+                "padSourceId": "mellan-9-tee-east",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 1,
+              "c": [
+                360.8,
+                -194.1
+              ],
+              "cardDistance": 143,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "mellan-9-tee-middle",
+                "distance": 1.3872329904752987
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 2,
+              "c": [
+                360.8,
+                -194.1
+              ],
+              "cardDistance": 143,
+              "nearest": {
+                "padIndex": 1,
+                "padSourceId": "mellan-9-tee-middle",
+                "distance": 1.3872329904752987
+              },
+              "insideObservedPad": false
+            },
+            {
+              "markIndex": 3,
+              "c": [
+                345.9,
+                -192.2
+              ],
+              "cardDistance": 128,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "mellan-9-tee-west",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            },
+            {
+              "markIndex": 4,
+              "c": [
+                345.9,
+                -192.2
+              ],
+              "cardDistance": 128,
+              "nearest": {
+                "padIndex": 0,
+                "padSourceId": "mellan-9-tee-west",
+                "distance": 0
+              },
+              "insideObservedPad": true
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "pads": 24,
+        "marks": 45,
+        "inside": 18,
+        "outside": 27,
+        "beyond10Metres": 16,
+        "beyond30Metres": 4,
+        "max": {
+          "hole": 4,
+          "markIndex": 4,
+          "c": [
+            1033.7,
+            -116.4
+          ],
+          "cardDistance": 178,
+          "nearest": {
+            "padIndex": 1,
+            "padSourceId": "upsala-mellanbanan-tee-04-northwest",
+            "distance": 65.50996170049244
+          },
+          "insideObservedPad": false
+        }
+      }
+    }
+  ],
+  "oldTraceConversionChecks": {
+    "method": "Reconstruct EPSG:3006 from original sourceCrop pixelRing at .25m and actual pixel-edge extent (not requested unsnapped extent); archive panels use720x720 image area below44px header. Convert independently with repository inverse projection and compare stored ring vertices. Numerical conversion check only; not an image interpretation check.",
+    "checks": [
+      {
+        "file": "stora-tees-01-06-2025.json",
+        "features": 19,
+        "vertices": 251,
+        "maximumMetres": 0.0013134788209327656,
+        "worst": {
+          "id": "upsala-stora-tee-02-front",
+          "vertices": 12,
+          "maxMetres": 0.0013134788209327656
+        }
+      },
+      {
+        "file": "stora-tees-07-12-2025.json",
+        "features": 14,
+        "vertices": 194,
+        "maximumMetres": 0.0013178761121956924,
+        "worst": {
+          "id": "upsala-stora-tee-12-front-southwest-2025",
+          "vertices": 14,
+          "maxMetres": 0.0013178761121956924
+        }
+      },
+      {
+        "file": "stora-tees-13-18-2025.json",
+        "features": 11,
+        "vertices": 164,
+        "maximumMetres": 0.0013247517994268356,
+        "worst": {
+          "id": "upsala-stora-tee-18-middle-2025",
+          "vertices": 17,
+          "maxMetres": 0.0013247517994268356
+        }
+      },
+      {
+        "file": "stora-tees-followup-2026-09-06.json",
+        "features": 4,
+        "vertices": 53,
+        "maximumMetres": 0.0012617860359025908,
+        "worst": {
+          "id": "upsala-stora-tee-15-lower-archive-2023",
+          "vertices": 14,
+          "maxMetres": 0.0012617860359025908
+        }
+      },
+      {
+        "file": "stora-tees-review-2026-09-07.json",
+        "features": 1,
+        "vertices": 24,
+        "maximumMetres": 0.0011720670993625253,
+        "worst": {
+          "id": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+          "vertices": 24,
+          "maxMetres": 0.0011720670993625253
+        }
+      },
+      {
+        "file": "mellan-tees-2025.json",
+        "features": 23,
+        "vertices": 325,
+        "maximumMetres": 0.0012968696516535336,
+        "worst": {
+          "id": "upsala-mellanbanan-tee-06-northeast-lower",
+          "vertices": 13,
+          "maxMetres": 0.0012968696516535336
+        }
+      },
+      {
+        "file": "mellan-tees-review-2026-09-07.json",
+        "features": 1,
+        "vertices": 16,
+        "maximumMetres": 0.0012616003152769268,
+        "worst": {
+          "id": "mellan-8-tee-north-archive-review-2026-09-07",
+          "vertices": 16,
+          "maxMetres": 0.0012616003152769268
+        }
+      }
+    ]
+  }
+}

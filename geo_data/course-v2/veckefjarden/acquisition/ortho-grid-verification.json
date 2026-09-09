@@ -1,0 +1,1061 @@
+{
+  "schemaVersion": 1,
+  "groundId": "veckefjarden",
+  "verifiedAt": "2026-09-09T16:54:48.745786+00:00",
+  "planSha256": "28c2405337280e879c73c6849522c7f786829a8bd0ba7dc19f973de4a4b1bdbf",
+  "sourceGrids": [
+    {
+      "id": "o70200_6825_25_mr24",
+      "width": 15625,
+      "height": 15625,
+      "geoTransform": [
+        682500.0,
+        0.16,
+        0.0,
+        7022500.0,
+        0.0,
+        -0.16
+      ],
+      "crs": "EPSG:3006",
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ],
+      "colorInterpretation": [
+        "red",
+        "green",
+        "blue",
+        "undefined"
+      ]
+    },
+    {
+      "id": "o70225_6825_25_mr24",
+      "width": 15625,
+      "height": 15625,
+      "geoTransform": [
+        682500.0,
+        0.16,
+        0.0,
+        7025000.0,
+        0.0,
+        -0.16
+      ],
+      "crs": "EPSG:3006",
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ],
+      "colorInterpretation": [
+        "red",
+        "green",
+        "blue",
+        "undefined"
+      ]
+    }
+  ],
+  "windows": [
+    {
+      "id": "context-0-0",
+      "sha256": "d9b13ecaf36a332e6f15b27400778409d384073cad396f6216b9e2be1efa7a30",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 682885.0399999999,
+          "northing": 7024026.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 6081,
+          "sourceColumn": 2406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 683524.88,
+          "northing": 7024026.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 6081,
+          "sourceColumn": 6405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 682885.0399999999,
+          "northing": 7023387.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10080,
+          "sourceColumn": 2406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 683524.88,
+          "northing": 7023387.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10080,
+          "sourceColumn": 6405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 683205.0399999999,
+          "northing": 7023706.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 8081,
+          "sourceColumn": 4406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-0-1",
+      "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 683525.0399999999,
+          "northing": 7024026.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 6081,
+          "sourceColumn": 6406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 684164.88,
+          "northing": 7024026.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 6081,
+          "sourceColumn": 10405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 683525.0399999999,
+          "northing": 7023387.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10080,
+          "sourceColumn": 6406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 684164.88,
+          "northing": 7023387.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10080,
+          "sourceColumn": 10405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 683845.0399999999,
+          "northing": 7023706.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 8081,
+          "sourceColumn": 8406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-0-2",
+      "sha256": "32c2f1599a0b2ec1546ce7a26d61c0516b53f639d612e5218afb999baf145976",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 684165.0399999999,
+          "northing": 7024026.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 6081,
+          "sourceColumn": 10406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 684804.88,
+          "northing": 7024026.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 6081,
+          "sourceColumn": 14405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 684165.0399999999,
+          "northing": 7023387.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10080,
+          "sourceColumn": 10406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 684804.88,
+          "northing": 7023387.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10080,
+          "sourceColumn": 14405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 684485.0399999999,
+          "northing": 7023706.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 8081,
+          "sourceColumn": 12406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-0-3",
+      "sha256": "2d9e6ca892e6cd1736d93801c390629bec47e48049e89f1b37255230abb5e56a",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 684805.0399999999,
+          "northing": 7024026.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 6081,
+          "sourceColumn": 14406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 806,
+          "easting": 684934.0,
+          "northing": 7024026.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 6081,
+          "sourceColumn": 15212,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 684805.0399999999,
+          "northing": 7023387.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10080,
+          "sourceColumn": 14406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 806,
+          "easting": 684934.0,
+          "northing": 7023387.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10080,
+          "sourceColumn": 15212,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 403,
+          "easting": 684869.52,
+          "northing": 7023706.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 8081,
+          "sourceColumn": 14809,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-1-0",
+      "sha256": "56b30e1c08b663705f0427be797f5ea6a5fbc4409a0ce3ba8bc1f01b54bc55b1",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 682885.0399999999,
+          "northing": 7023386.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10081,
+          "sourceColumn": 2406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 683524.88,
+          "northing": 7023386.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10081,
+          "sourceColumn": 6405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 682885.0399999999,
+          "northing": 7022747.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14080,
+          "sourceColumn": 2406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 683524.88,
+          "northing": 7022747.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14080,
+          "sourceColumn": 6405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 683205.0399999999,
+          "northing": 7023066.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 12081,
+          "sourceColumn": 4406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-1-1",
+      "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 683525.0399999999,
+          "northing": 7023386.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10081,
+          "sourceColumn": 6406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 684164.88,
+          "northing": 7023386.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10081,
+          "sourceColumn": 10405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 683525.0399999999,
+          "northing": 7022747.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14080,
+          "sourceColumn": 6406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 684164.88,
+          "northing": 7022747.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14080,
+          "sourceColumn": 10405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 683845.0399999999,
+          "northing": 7023066.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 12081,
+          "sourceColumn": 8406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-1-2",
+      "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 684165.0399999999,
+          "northing": 7023386.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10081,
+          "sourceColumn": 10406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 684804.88,
+          "northing": 7023386.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10081,
+          "sourceColumn": 14405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 684165.0399999999,
+          "northing": 7022747.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14080,
+          "sourceColumn": 10406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 684804.88,
+          "northing": 7022747.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14080,
+          "sourceColumn": 14405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 684485.0399999999,
+          "northing": 7023066.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 12081,
+          "sourceColumn": 12406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-1-3",
+      "sha256": "3d6ccd27790a02cc6a4a7e73ec9223aadc60c91242a8a6d66d486a30b0846961",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 684805.0399999999,
+          "northing": 7023386.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10081,
+          "sourceColumn": 14406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 806,
+          "easting": 684934.0,
+          "northing": 7023386.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 10081,
+          "sourceColumn": 15212,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 684805.0399999999,
+          "northing": 7022747.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14080,
+          "sourceColumn": 14406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 806,
+          "easting": 684934.0,
+          "northing": 7022747.12,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14080,
+          "sourceColumn": 15212,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 403,
+          "easting": 684869.52,
+          "northing": 7023066.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 12081,
+          "sourceColumn": 14809,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-2-0",
+      "sha256": "82ef30f6f995155c7aac9650fc7eb4927e2180085867c56c78e28643fc272344",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 682885.0399999999,
+          "northing": 7022746.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14081,
+          "sourceColumn": 2406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 683524.88,
+          "northing": 7022746.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14081,
+          "sourceColumn": 6405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 682885.0399999999,
+          "northing": 7022107.12,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2455,
+          "sourceColumn": 2406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 683524.88,
+          "northing": 7022107.12,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2455,
+          "sourceColumn": 6405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 683205.0399999999,
+          "northing": 7022426.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 456,
+          "sourceColumn": 4406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-2-1",
+      "sha256": "7ade0afbf202e5d05c8f3784fc2f4a9243870ce6a90586774b68bfff0091ab20",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 683525.0399999999,
+          "northing": 7022746.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14081,
+          "sourceColumn": 6406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 684164.88,
+          "northing": 7022746.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14081,
+          "sourceColumn": 10405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 683525.0399999999,
+          "northing": 7022107.12,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2455,
+          "sourceColumn": 6406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 684164.88,
+          "northing": 7022107.12,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2455,
+          "sourceColumn": 10405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 683845.0399999999,
+          "northing": 7022426.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 456,
+          "sourceColumn": 8406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-2-2",
+      "sha256": "e235a3eab4b4bc131d0c79138ae3a5138789f3fc9464b629e50a4cdacd01b524",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 684165.0399999999,
+          "northing": 7022746.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14081,
+          "sourceColumn": 10406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 684804.88,
+          "northing": 7022746.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14081,
+          "sourceColumn": 14405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 684165.0399999999,
+          "northing": 7022107.12,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2455,
+          "sourceColumn": 10406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 3999,
+          "easting": 684804.88,
+          "northing": 7022107.12,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2455,
+          "sourceColumn": 14405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 2000,
+          "easting": 684485.0399999999,
+          "northing": 7022426.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 456,
+          "sourceColumn": 12406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-2-3",
+      "sha256": "601f2238d4047cef080b0c35f37df7482f188c702dc705b164947cfa4caaa8af",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 684805.0399999999,
+          "northing": 7022746.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14081,
+          "sourceColumn": 14406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 806,
+          "easting": 684934.0,
+          "northing": 7022746.96,
+          "sourceId": "o70225_6825_25_mr24",
+          "sourceRow": 14081,
+          "sourceColumn": 15212,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 0,
+          "easting": 684805.0399999999,
+          "northing": 7022107.12,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2455,
+          "sourceColumn": 14406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 3999,
+          "column": 806,
+          "easting": 684934.0,
+          "northing": 7022107.12,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2455,
+          "sourceColumn": 15212,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 2000,
+          "column": 403,
+          "easting": 684869.52,
+          "northing": 7022426.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 456,
+          "sourceColumn": 14809,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-3-0",
+      "sha256": "7edde54b3221a6c0b88b164072ab7b0f404277adbe40510a495c2af0e61a3a57",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 682885.0399999999,
+          "northing": 7022106.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2456,
+          "sourceColumn": 2406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 683524.88,
+          "northing": 7022106.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2456,
+          "sourceColumn": 6405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 806,
+          "column": 0,
+          "easting": 682885.0399999999,
+          "northing": 7021978.0,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 3262,
+          "sourceColumn": 2406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 806,
+          "column": 3999,
+          "easting": 683524.88,
+          "northing": 7021978.0,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 3262,
+          "sourceColumn": 6405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 403,
+          "column": 2000,
+          "easting": 683205.0399999999,
+          "northing": 7022042.48,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2859,
+          "sourceColumn": 4406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-3-1",
+      "sha256": "c4917286de364583ed6fa655c520573ff99343336d95b782c3ca92c04a78d3d3",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 683525.0399999999,
+          "northing": 7022106.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2456,
+          "sourceColumn": 6406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 684164.88,
+          "northing": 7022106.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2456,
+          "sourceColumn": 10405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 806,
+          "column": 0,
+          "easting": 683525.0399999999,
+          "northing": 7021978.0,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 3262,
+          "sourceColumn": 6406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 806,
+          "column": 3999,
+          "easting": 684164.88,
+          "northing": 7021978.0,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 3262,
+          "sourceColumn": 10405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 403,
+          "column": 2000,
+          "easting": 683845.0399999999,
+          "northing": 7022042.48,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2859,
+          "sourceColumn": 8406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-3-2",
+      "sha256": "ccc3951ecc0db209851942d22685626f15331539c73403632f76f02d5e6e8df8",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 684165.0399999999,
+          "northing": 7022106.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2456,
+          "sourceColumn": 10406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 3999,
+          "easting": 684804.88,
+          "northing": 7022106.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2456,
+          "sourceColumn": 14405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 806,
+          "column": 0,
+          "easting": 684165.0399999999,
+          "northing": 7021978.0,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 3262,
+          "sourceColumn": 10406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 806,
+          "column": 3999,
+          "easting": 684804.88,
+          "northing": 7021978.0,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 3262,
+          "sourceColumn": 14405,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 403,
+          "column": 2000,
+          "easting": 684485.0399999999,
+          "northing": 7022042.48,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2859,
+          "sourceColumn": 12406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    },
+    {
+      "id": "context-3-3",
+      "sha256": "44d08f884aa4f4416e430095de6fc5d82e1f100eac74a05feb514d40c96f6368",
+      "nativeGridVerified": true,
+      "sampleChecks": [
+        {
+          "row": 0,
+          "column": 0,
+          "easting": 684805.0399999999,
+          "northing": 7022106.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2456,
+          "sourceColumn": 14406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 0,
+          "column": 806,
+          "easting": 684934.0,
+          "northing": 7022106.96,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2456,
+          "sourceColumn": 15212,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 806,
+          "column": 0,
+          "easting": 684805.0399999999,
+          "northing": 7021978.0,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 3262,
+          "sourceColumn": 14406,
+          "centreErrorMetres": 1.1641532182693481e-10,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 806,
+          "column": 806,
+          "easting": 684934.0,
+          "northing": 7021978.0,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 3262,
+          "sourceColumn": 15212,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        },
+        {
+          "row": 403,
+          "column": 403,
+          "easting": 684869.52,
+          "northing": 7022042.48,
+          "sourceId": "o70200_6825_25_mr24",
+          "sourceRow": 2859,
+          "sourceColumn": 14809,
+          "centreErrorMetres": 0.0,
+          "fourBandPixelsIdentical": true
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "windows": 16,
+    "identicalFourBandSourceSamples": 80,
+    "sourceToCropRegistrationVerified": true,
+    "sourceAbsoluteHorizontalAccuracyMetres": null
+  },
+  "limitation": "Exact source-to-crop pixel registration is not a survey of source absolute positional accuracy."
+}

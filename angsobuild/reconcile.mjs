@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { applyReviewedOrthophoto } from './mapping/reviewed-orthophoto.mjs';
 import {
   ORIGIN, M_PER_LAT, M_PER_LON,
   polyLen, polyArea, centroid, pointInPoly, distToLine,
@@ -297,7 +298,7 @@ for (const d of (dtm?.decks || [])) {
   decksAdded++;
 }
 
-const model = {
+let model = {
   version: 1,
   origin: { lat: ORIGIN.lat, lon: ORIGIN.lon },
   mPerLat: M_PER_LAT, mPerLon: Math.round(M_PER_LON * 100) / 100,
@@ -371,23 +372,40 @@ const model = {
              range: [...(osm.drivingRange || []).map(r => r.ring),
                      ...(((traces.scenery || {}).range) || []).map(r => ring1(r.ring || r))] },
 };
+/* Image-reviewed surfaces supersede every historical OSM, satellite and DTM
+   choice above. Keep this last: a later legacy pass must not restore an old
+   outline or slide a physical tee back to the scorecard distance. */
+const reviewFile = path.join(HERE, 'mapping/orthophoto-review.json');
+if (fs.existsSync(reviewFile)) {
+  model = applyReviewedOrthophoto(model, readJSON(reviewFile));
+  for (const h of model.holes) {
+    h.elev = { tee: r1(terr(...h.line[0])), green: r1(terr(...h.green.c)) };
+    h.elev.rise = r1(h.elev.green - h.elev.tee);
+  }
+  console.log('Adopted orthophoto review:', JSON.stringify(model.orthophotoReview.summary));
+}
 writeJSON(path.join(HERE, 'course-model.json'), model);
 
 /* --- report ------------------------------------------------------------------- */
+if (model.orthophotoReview) {
+  report.splice(0, report.length, ...model.holes.map(h => ({ n: h.n, par: h.par,
+    card: h.t[0], lineLen: h.lineLen, lenDev: h.lenDev, slide: h.teeSlide ?? 'none',
+    area: h.green.area, prov: h.green.prov, conf: 'image-reviewed' })));
+}
 console.log('\nhole par  card  drawn   dev%  slide  green m²  source     conf');
 for (const r of report) {
-  const bad = r.lenDev > 0.5;
+  const bad = !model.orthophotoReview && r.lenDev > 0.5;
   console.log(`${String(r.n).padStart(4)}  ${r.par}  ${String(r.card).padStart(4)}  ${String(r.lineLen).padStart(6)}  ${String(r.lenDev).padStart(5)}  ${String(r.slide).padStart(5)}  ${String(r.area).padStart(8)}  ${r.prov.padEnd(9)}  ${r.conf}${bad ? '  <-- CHECK' : ''}`);
 }
 const devs = report.map(r => r.lenDev);
 const osmN = report.filter(r => r.prov.startsWith('osm')).length;
 console.log(`\nlength dev max ${Math.max(...devs).toFixed(2)}%  ·  greens: ${osmN} from OSM, ${18 - osmN} traced`);
 console.log(`green areas ${Math.min(...report.map(r => r.area))}–${Math.max(...report.map(r => r.area))} m²`);
-const bkN = holes.reduce((a, h) => a + h.bunkers.length, 0);
-const fwN = holes.reduce((a, h) => a + h.fairway.rings.length, 0);
-const tpN = holes.reduce((a, h) => a + h.tees.pads.length, 0);
-console.log(`bunkers: ${bunkersMeasured} measured off the calibrated capture (${bunkersAdded} the trace never had), ${bunkersDropped} traced ones with neither sand nor a dish dropped`);
-console.log(`assigned: bunkers ${bkN} (${bunkers.length} from OSM), fairways ${fwN}, tee pads ${tpN} (${decksAdded} measured decks); water ${water.length} (${pondsTraced} ponds off the laser plate), streams ${model.streams.length}`);
+const bkN = model.holes.reduce((a, h) => a + h.bunkers.length, 0);
+const fwN = model.holes.reduce((a, h) => a + h.fairway.rings.length, 0);
+const tpN = model.holes.reduce((a, h) => a + h.tees.pads.length, 0);
+if (!model.orthophotoReview) console.log(`bunkers: ${bunkersMeasured} measured off the calibrated capture (${bunkersAdded} the trace never had), ${bunkersDropped} traced ones with neither sand nor a dish dropped`);
+console.log(`assigned: bunkers ${bkN}, fairways ${fwN}, tee pads ${tpN}; water ${model.water.length}, streams ${model.streams.length}`);
 {
   const club = (model.infra.buildings || []).filter(b => b.amenity === 'clubhouse')
     .sort((a, b) => Math.abs(polyArea(b.ring)) - Math.abs(polyArea(a.ring)));
@@ -396,6 +414,6 @@ console.log(`assigned: bunkers ${bkN} (${bunkers.length} from OSM), fairways ${f
               `; range ${model.scenery.range.length ? `${Math.round(Math.abs(polyArea(model.scenery.range[0])))} m² at ${centroid(model.scenery.range[0]).map(r1).join(',')}` : 'MISSING'}`);
 }
 console.log(`\nhole  tee m  green m  rise`);
-for (const h of holes) console.log(`${String(h.n).padStart(4)}  ${h.elev.tee.toFixed(1).padStart(5)}  ${h.elev.green.toFixed(1).padStart(6)}  ${(h.elev.rise >= 0 ? '+' : '') + h.elev.rise.toFixed(1)}`);
+for (const h of model.holes) console.log(`${String(h.n).padStart(4)}  ${h.elev.tee.toFixed(1).padStart(5)}  ${h.elev.green.toFixed(1).padStart(6)}  ${(h.elev.rise >= 0 ? '+' : '') + h.elev.rise.toFixed(1)}`);
 if (card.provisional) console.log('\nNOTE: card.json is PROVISIONAL.');
 console.log(`\nwrote ${path.basename(HERE)}/course-model.json (${(fs.statSync(path.join(HERE, 'course-model.json')).size / 1024).toFixed(0)} KB)`);

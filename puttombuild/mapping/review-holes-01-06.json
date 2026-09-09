@@ -1,0 +1,1601 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "reviewedAt": "2026-09-09",
+  "reviewMethod": "machine visual interpretation of native RGBI; no independent human or survey approval",
+  "sources": {
+    "hole-01-green": {
+      "id": "hole-01-green",
+      "requestSha256": "7dbc3afbc496f130cd786fb2b21c15e153d8ee8358265a6fa599cb12b8996711",
+      "sha256": "2541c2852a05af8644bc41f4e36480697c90bdf7a875fe484b1a7839ed8b3070",
+      "bytes": 2671265,
+      "rasterFile": "hole-01-green.tif",
+      "boundsEpsg3006": [
+        697197.44,
+        7025457.28,
+        697346.08,
+        7025613.28
+      ],
+      "width": 929,
+      "height": 975,
+      "geoTransform": [
+        697197.44,
+        0.16,
+        0,
+        7025613.28,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:48:48.268393+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 22,
+          "maximum": 228,
+          "mean": 84.60308023515773,
+          "standardDeviation": 22.005384368143808
+        },
+        {
+          "band": 2,
+          "minimum": 39,
+          "maximum": 222,
+          "mean": 105.79874913747895,
+          "standardDeviation": 19.35446216337717
+        },
+        {
+          "band": 3,
+          "minimum": 44,
+          "maximum": 208,
+          "mean": 89.99126604289145,
+          "standardDeviation": 13.58861116746222
+        },
+        {
+          "band": 4,
+          "minimum": 33,
+          "maximum": 255,
+          "mean": 172.78659711296956,
+          "standardDeviation": 31.35698951357275
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    "hole-02-green": {
+      "id": "hole-02-green",
+      "requestSha256": "9299b23cfdd869aef91ed9386c8e0d9c3903450456099fb1602e2de6a9ab8bb5",
+      "sha256": "93454b87bf8fb760b1218e8f7d21754e8f139f3b9b22239337c226e4a8c8b854",
+      "bytes": 2644660,
+      "rasterFile": "hole-02-green.tif",
+      "boundsEpsg3006": [
+        696944.48,
+        7025509.279999999,
+        697096.64,
+        7025659.68
+      ],
+      "width": 951,
+      "height": 940,
+      "geoTransform": [
+        696944.48,
+        0.16,
+        0,
+        7025659.68,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:48:57.863561+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20,
+          "maximum": 242,
+          "mean": 66.46859297044544,
+          "standardDeviation": 21.60321619194295
+        },
+        {
+          "band": 2,
+          "minimum": 36,
+          "maximum": 239,
+          "mean": 88.6392957021724,
+          "standardDeviation": 21.56828594720339
+        },
+        {
+          "band": 3,
+          "minimum": 45,
+          "maximum": 228,
+          "mean": 80.28042597937221,
+          "standardDeviation": 12.393130858584694
+        },
+        {
+          "band": 4,
+          "minimum": 23,
+          "maximum": 255,
+          "mean": 147.72472425442425,
+          "standardDeviation": 39.60498541365723
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    "hole-03-green": {
+      "id": "hole-03-green",
+      "requestSha256": "7ab8fb2e7eb9e8092c09f18e21c96ecef7685fb98df1b3f7375bb2b59fbd6be6",
+      "sha256": "25e707e6848e785bd7c6438593546209dc692b4af9cbf8449f4069687537f189",
+      "bytes": 2722772,
+      "rasterFile": "hole-03-green.tif",
+      "boundsEpsg3006": [
+        696911.2,
+        7025352.32,
+        697059.2,
+        7025514.4
+      ],
+      "width": 925,
+      "height": 1013,
+      "geoTransform": [
+        696911.2,
+        0.16,
+        0,
+        7025514.4,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:48:59.043665+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16,
+          "maximum": 250,
+          "mean": 62.55530428750567,
+          "standardDeviation": 24.41204519249393
+        },
+        {
+          "band": 2,
+          "minimum": 26,
+          "maximum": 250,
+          "mean": 83.02081588004589,
+          "standardDeviation": 24.505086887329682
+        },
+        {
+          "band": 3,
+          "minimum": 38,
+          "maximum": 246,
+          "mean": 78.20729436247699,
+          "standardDeviation": 14.610090253637237
+        },
+        {
+          "band": 4,
+          "minimum": 4,
+          "maximum": 255,
+          "mean": 131.36682585843494,
+          "standardDeviation": 51.53675377024743
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    "hole-04-green": {
+      "id": "hole-04-green",
+      "requestSha256": "76f235bd5fa292fa20f46ae417f57f7ba40375d372da64f353cd75f7d45789cd",
+      "sha256": "88c212fc291db710999e195f3d43056d445ed6ecf3a28ea5633093b88c827bea",
+      "bytes": 2769491,
+      "rasterFile": "hole-04-green.tif",
+      "boundsEpsg3006": [
+        697270.4,
+        7025166.88,
+        697418.56,
+        7025323.2
+      ],
+      "width": 926,
+      "height": 977,
+      "geoTransform": [
+        697270.4,
+        0.16,
+        0,
+        7025323.2,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:00.709298+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20,
+          "maximum": 255,
+          "mean": 82.22137676273513,
+          "standardDeviation": 35.886909076817055
+        },
+        {
+          "band": 2,
+          "minimum": 32,
+          "maximum": 255,
+          "mean": 99.53828553490541,
+          "standardDeviation": 30.762600850107102
+        },
+        {
+          "band": 3,
+          "minimum": 43,
+          "maximum": 255,
+          "mean": 92.79778534810357,
+          "standardDeviation": 24.986017078629153
+        },
+        {
+          "band": 4,
+          "minimum": 7,
+          "maximum": 255,
+          "mean": 132.63949344646082,
+          "standardDeviation": 52.47726304430081
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    "hole-05-green": {
+      "id": "hole-05-green",
+      "requestSha256": "9eddb6f151969b940c025cf6252eb2609be32e7b48f4deb6b7b0a50050b36eec",
+      "sha256": "f249fa5cf1dc2e8e1b8392798e31c23e754037b61281bb43700b359a304dfa26",
+      "bytes": 2838099,
+      "rasterFile": "hole-05-green.tif",
+      "boundsEpsg3006": [
+        697642.72,
+        7025267.04,
+        697805.76,
+        7025412.32
+      ],
+      "width": 1019,
+      "height": 908,
+      "geoTransform": [
+        697642.72,
+        0.16,
+        0,
+        7025412.32,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:02.052396+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20,
+          "maximum": 230,
+          "mean": 75.13692269781637,
+          "standardDeviation": 32.832642589721495
+        },
+        {
+          "band": 2,
+          "minimum": 34,
+          "maximum": 224,
+          "mean": 94.34521622217515,
+          "standardDeviation": 29.924354974769972
+        },
+        {
+          "band": 3,
+          "minimum": 39,
+          "maximum": 209,
+          "mean": 85.17297233618517,
+          "standardDeviation": 18.27694197152563
+        },
+        {
+          "band": 4,
+          "minimum": 31,
+          "maximum": 255,
+          "mean": 153.11168524899162,
+          "standardDeviation": 43.19092110497071
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    "hole-06-green": {
+      "id": "hole-06-green",
+      "requestSha256": "61abc92370a7007d2c34e0c05c45e82d21e358acbcdd9750694ee4769a54d46b",
+      "sha256": "1bed0bc831761e51fb1bb335b180f28b6d347542d03afca198f73601fd01293c",
+      "bytes": 2920502,
+      "rasterFile": "hole-06-green.tif",
+      "boundsEpsg3006": [
+        697880,
+        7025142.72,
+        698034.72,
+        7025300
+      ],
+      "width": 967,
+      "height": 983,
+      "geoTransform": [
+        697880,
+        0.16,
+        0,
+        7025300,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:03.439099+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16,
+          "maximum": 247,
+          "mean": 67.65322267587246,
+          "standardDeviation": 32.67018878229801
+        },
+        {
+          "band": 2,
+          "minimum": 29,
+          "maximum": 248,
+          "mean": 87.23816462068189,
+          "standardDeviation": 32.330805340794335
+        },
+        {
+          "band": 3,
+          "minimum": 40,
+          "maximum": 237,
+          "mean": 80.34143416361496,
+          "standardDeviation": 19.113144883534858
+        },
+        {
+          "band": 4,
+          "minimum": 19,
+          "maximum": 255,
+          "mean": 137.22947711930112,
+          "standardDeviation": 56.51067182739136
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    }
+  },
+  "holes": [
+    {
+      "n": 1,
+      "bunkers": [
+        {
+          "id": "lm-2024-hole-01-bunker-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-01-green",
+          "ringPixels": [
+            [
+              389,
+              568
+            ],
+            [
+              390,
+              576
+            ],
+            [
+              404,
+              596
+            ],
+            [
+              425,
+              618
+            ],
+            [
+              436,
+              626
+            ],
+            [
+              444,
+              624
+            ],
+            [
+              451,
+              617
+            ],
+            [
+              454,
+              610
+            ],
+            [
+              452,
+              598
+            ],
+            [
+              445,
+              593
+            ],
+            [
+              428,
+              588
+            ],
+            [
+              419,
+              580
+            ],
+            [
+              404,
+              560
+            ],
+            [
+              397,
+              559
+            ],
+            [
+              389,
+              568
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-hole-01-green",
+        "sourceKey": "hole-01-green",
+        "ringPixels": [
+          [
+            461,
+            430
+          ],
+          [
+            484,
+            421
+          ],
+          [
+            505,
+            419
+          ],
+          [
+            522,
+            430
+          ],
+          [
+            532,
+            451
+          ],
+          [
+            531,
+            475
+          ],
+          [
+            524,
+            506
+          ],
+          [
+            518,
+            537
+          ],
+          [
+            508,
+            562
+          ],
+          [
+            493,
+            572
+          ],
+          [
+            474,
+            571
+          ],
+          [
+            456,
+            560
+          ],
+          [
+            438,
+            542
+          ],
+          [
+            427,
+            522
+          ],
+          [
+            424,
+            501
+          ],
+          [
+            431,
+            480
+          ],
+          [
+            444,
+            465
+          ],
+          [
+            447,
+            448
+          ],
+          [
+            461,
+            430
+          ]
+        ],
+        "referencePixels": [
+          481.12,
+          494.53
+        ],
+        "interpretation": "machine visual putting-surface boundary; collar excluded; northwestern edge partially shadowed",
+        "estimatedInterpretationToleranceMetres": 1,
+        "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+      }
+    },
+    {
+      "n": 2,
+      "bunkers": [
+        {
+          "id": "lm-2024-hole-02-bunker-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-02-green",
+          "ringPixels": [
+            [
+              621,
+              489
+            ],
+            [
+              602,
+              489
+            ],
+            [
+              591,
+              496
+            ],
+            [
+              584,
+              504
+            ],
+            [
+              580,
+              521
+            ],
+            [
+              589,
+              532
+            ],
+            [
+              598,
+              536
+            ],
+            [
+              608,
+              536
+            ],
+            [
+              620,
+              528
+            ],
+            [
+              627,
+              504
+            ],
+            [
+              627,
+              495
+            ],
+            [
+              621,
+              489
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-hole-02-green",
+        "sourceKey": "hole-02-green",
+        "ringPixels": [
+          [
+            415,
+            492
+          ],
+          [
+            428,
+            470
+          ],
+          [
+            452,
+            447
+          ],
+          [
+            479,
+            427
+          ],
+          [
+            500,
+            416
+          ],
+          [
+            519,
+            415
+          ],
+          [
+            535,
+            427
+          ],
+          [
+            551,
+            447
+          ],
+          [
+            558,
+            467
+          ],
+          [
+            553,
+            487
+          ],
+          [
+            538,
+            508
+          ],
+          [
+            519,
+            525
+          ],
+          [
+            497,
+            537
+          ],
+          [
+            474,
+            543
+          ],
+          [
+            454,
+            542
+          ],
+          [
+            434,
+            533
+          ],
+          [
+            420,
+            517
+          ],
+          [
+            415,
+            492
+          ]
+        ],
+        "referencePixels": [
+          487.86,
+          481.73
+        ],
+        "interpretation": "machine visual putting-surface boundary; collar excluded",
+        "estimatedInterpretationToleranceMetres": 0.8,
+        "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+      }
+    },
+    {
+      "n": 3,
+      "bunkers": [
+        {
+          "id": "lm-2024-hole-03-bunker-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-03-green",
+          "ringPixels": [
+            [
+              562,
+              444
+            ],
+            [
+              555,
+              444
+            ],
+            [
+              550,
+              450
+            ],
+            [
+              544,
+              491
+            ],
+            [
+              545,
+              506
+            ],
+            [
+              548,
+              512
+            ],
+            [
+              560,
+              511
+            ],
+            [
+              589,
+              497
+            ],
+            [
+              595,
+              490
+            ],
+            [
+              595,
+              482
+            ],
+            [
+              590,
+              469
+            ],
+            [
+              562,
+              444
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        },
+        {
+          "id": "lm-2024-hole-03-bunker-1",
+          "replaceIndex": 1,
+          "sourceKey": "hole-03-green",
+          "ringPixels": [
+            [
+              480,
+              352
+            ],
+            [
+              480,
+              357
+            ],
+            [
+              486,
+              360
+            ],
+            [
+              507,
+              360
+            ],
+            [
+              520,
+              363
+            ],
+            [
+              537,
+              379
+            ],
+            [
+              541,
+              381
+            ],
+            [
+              545,
+              379
+            ],
+            [
+              539,
+              366
+            ],
+            [
+              522,
+              351
+            ],
+            [
+              513,
+              347
+            ],
+            [
+              495,
+              346
+            ],
+            [
+              485,
+              348
+            ],
+            [
+              480,
+              352
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "bunkers": [
+        {
+          "id": "lm-2024-hole-04-bunker-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-04-green",
+          "ringPixels": [
+            [
+              456,
+              279
+            ],
+            [
+              440,
+              290
+            ],
+            [
+              440,
+              297
+            ],
+            [
+              455,
+              321
+            ],
+            [
+              464,
+              327
+            ],
+            [
+              475,
+              327
+            ],
+            [
+              480,
+              322
+            ],
+            [
+              482,
+              315
+            ],
+            [
+              480,
+              303
+            ],
+            [
+              472,
+              285
+            ],
+            [
+              465,
+              279
+            ],
+            [
+              456,
+              279
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        },
+        {
+          "id": "lm-2024-hole-04-bunker-2",
+          "replaceIndex": 2,
+          "sourceKey": "hole-04-green",
+          "ringPixels": [
+            [
+              375,
+              447
+            ],
+            [
+              371,
+              451
+            ],
+            [
+              370,
+              458
+            ],
+            [
+              377,
+              475
+            ],
+            [
+              382,
+              478
+            ],
+            [
+              390,
+              477
+            ],
+            [
+              395,
+              480
+            ],
+            [
+              401,
+              477
+            ],
+            [
+              404,
+              472
+            ],
+            [
+              396,
+              458
+            ],
+            [
+              388,
+              452
+            ],
+            [
+              375,
+              447
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        },
+        {
+          "id": "lm-2024-hole-04-bunker-3",
+          "replaceIndex": 3,
+          "sourceKey": "hole-04-green",
+          "ringPixels": [
+            [
+              519,
+              362
+            ],
+            [
+              513,
+              359
+            ],
+            [
+              498,
+              362
+            ],
+            [
+              474,
+              377
+            ],
+            [
+              472,
+              384
+            ],
+            [
+              477,
+              388
+            ],
+            [
+              487,
+              391
+            ],
+            [
+              507,
+              390
+            ],
+            [
+              516,
+              381
+            ],
+            [
+              520,
+              368
+            ],
+            [
+              519,
+              362
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-hole-04-green",
+        "sourceKey": "hole-04-green",
+        "ringPixels": [
+          [
+            445,
+            420
+          ],
+          [
+            468,
+            418
+          ],
+          [
+            492,
+            424
+          ],
+          [
+            513,
+            436
+          ],
+          [
+            525,
+            455
+          ],
+          [
+            524,
+            478
+          ],
+          [
+            518,
+            500
+          ],
+          [
+            515,
+            521
+          ],
+          [
+            504,
+            540
+          ],
+          [
+            487,
+            551
+          ],
+          [
+            470,
+            548
+          ],
+          [
+            455,
+            534
+          ],
+          [
+            444,
+            516
+          ],
+          [
+            435,
+            495
+          ],
+          [
+            423,
+            477
+          ],
+          [
+            417,
+            457
+          ],
+          [
+            425,
+            438
+          ],
+          [
+            445,
+            420
+          ]
+        ],
+        "referencePixels": [
+          474.42,
+          478.84
+        ],
+        "interpretation": "machine visual putting-surface boundary; collar excluded",
+        "estimatedInterpretationToleranceMetres": 1,
+        "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+      }
+    },
+    {
+      "n": 5,
+      "bunkers": [
+        {
+          "id": "lm-2024-hole-05-bunker-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-05-green",
+          "ringPixels": [
+            [
+              437,
+              502
+            ],
+            [
+              419,
+              507
+            ],
+            [
+              415,
+              514
+            ],
+            [
+              417,
+              527
+            ],
+            [
+              430,
+              535
+            ],
+            [
+              442,
+              532
+            ],
+            [
+              450,
+              519
+            ],
+            [
+              448,
+              510
+            ],
+            [
+              437,
+              502
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        },
+        {
+          "id": "lm-2024-hole-05-bunker-1",
+          "replaceIndex": 1,
+          "sourceKey": "hole-05-green",
+          "ringPixels": [
+            [
+              536,
+              531
+            ],
+            [
+              527,
+              524
+            ],
+            [
+              513,
+              521
+            ],
+            [
+              511,
+              528
+            ],
+            [
+              502,
+              540
+            ],
+            [
+              488,
+              552
+            ],
+            [
+              489,
+              560
+            ],
+            [
+              509,
+              564
+            ],
+            [
+              524,
+              563
+            ],
+            [
+              536,
+              548
+            ],
+            [
+              538,
+              537
+            ],
+            [
+              536,
+              531
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        },
+        {
+          "id": "lm-2024-hole-05-bunker-2",
+          "replaceIndex": 2,
+          "sourceKey": "hole-05-green",
+          "ringPixels": [
+            [
+              465,
+              389
+            ],
+            [
+              467,
+              397
+            ],
+            [
+              481,
+              402
+            ],
+            [
+              497,
+              400
+            ],
+            [
+              504,
+              395
+            ],
+            [
+              502,
+              385
+            ],
+            [
+              488,
+              378
+            ],
+            [
+              476,
+              379
+            ],
+            [
+              467,
+              385
+            ],
+            [
+              465,
+              389
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-hole-05-green",
+        "sourceKey": "hole-05-green",
+        "ringPixels": [
+          [
+            429,
+            431
+          ],
+          [
+            448,
+            419
+          ],
+          [
+            471,
+            414
+          ],
+          [
+            494,
+            421
+          ],
+          [
+            522,
+            421
+          ],
+          [
+            553,
+            426
+          ],
+          [
+            585,
+            438
+          ],
+          [
+            613,
+            456
+          ],
+          [
+            635,
+            479
+          ],
+          [
+            635,
+            498
+          ],
+          [
+            622,
+            515
+          ],
+          [
+            599,
+            525
+          ],
+          [
+            572,
+            523
+          ],
+          [
+            546,
+            518
+          ],
+          [
+            518,
+            511
+          ],
+          [
+            493,
+            504
+          ],
+          [
+            471,
+            497
+          ],
+          [
+            448,
+            486
+          ],
+          [
+            431,
+            470
+          ],
+          [
+            424,
+            452
+          ],
+          [
+            429,
+            431
+          ]
+        ],
+        "referencePixels": [
+          530.25,
+          469.22
+        ],
+        "interpretation": "machine visual putting-surface boundary; collar excluded",
+        "estimatedInterpretationToleranceMetres": 0.8,
+        "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+      }
+    },
+    {
+      "n": 6,
+      "bunkers": [
+        {
+          "id": "lm-2024-hole-06-bunker-0",
+          "replaceIndex": 0,
+          "sourceKey": "hole-06-green",
+          "ringPixels": [
+            [
+              409,
+              487
+            ],
+            [
+              400,
+              501
+            ],
+            [
+              397,
+              528
+            ],
+            [
+              401,
+              531
+            ],
+            [
+              406,
+              528
+            ],
+            [
+              433,
+              532
+            ],
+            [
+              438,
+              528
+            ],
+            [
+              438,
+              521
+            ],
+            [
+              441,
+              516
+            ],
+            [
+              441,
+              507
+            ],
+            [
+              438,
+              501
+            ],
+            [
+              423,
+              490
+            ],
+            [
+              409,
+              487
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        },
+        {
+          "id": "lm-2024-hole-06-bunker-1",
+          "replaceIndex": 1,
+          "sourceKey": "hole-06-green",
+          "ringPixels": [
+            [
+              421,
+              357
+            ],
+            [
+              407,
+              365
+            ],
+            [
+              401,
+              378
+            ],
+            [
+              405,
+              394
+            ],
+            [
+              419,
+              398
+            ],
+            [
+              432,
+              393
+            ],
+            [
+              437,
+              388
+            ],
+            [
+              440,
+              379
+            ],
+            [
+              438,
+              368
+            ],
+            [
+              434,
+              366
+            ],
+            [
+              436,
+              365
+            ],
+            [
+              430,
+              359
+            ],
+            [
+              421,
+              357
+            ]
+          ],
+          "interpretation": "machine visual sand polygon; native RGB threshold component accepted after overlay review",
+          "estimatedInterpretationToleranceMetres": 0.48,
+          "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+        }
+      ],
+      "green": {
+        "id": "lm-2024-hole-06-green",
+        "sourceKey": "hole-06-green",
+        "ringPixels": [
+          [
+            443,
+            419
+          ],
+          [
+            462,
+            410
+          ],
+          [
+            478,
+            413
+          ],
+          [
+            498,
+            426
+          ],
+          [
+            521,
+            446
+          ],
+          [
+            540,
+            467
+          ],
+          [
+            555,
+            487
+          ],
+          [
+            570,
+            512
+          ],
+          [
+            575,
+            534
+          ],
+          [
+            571,
+            553
+          ],
+          [
+            558,
+            570
+          ],
+          [
+            537,
+            581
+          ],
+          [
+            513,
+            585
+          ],
+          [
+            490,
+            581
+          ],
+          [
+            471,
+            570
+          ],
+          [
+            461,
+            553
+          ],
+          [
+            457,
+            532
+          ],
+          [
+            454,
+            511
+          ],
+          [
+            443,
+            493
+          ],
+          [
+            427,
+            478
+          ],
+          [
+            413,
+            460
+          ],
+          [
+            413,
+            442
+          ],
+          [
+            425,
+            427
+          ],
+          [
+            443,
+            419
+          ]
+        ],
+        "referencePixels": [
+          496.23,
+          499.36
+        ],
+        "interpretation": "machine visual putting-surface boundary; collar excluded",
+        "estimatedInterpretationToleranceMetres": 0.8,
+        "toleranceBasis": "visual interpretation estimate, not independently measured positional accuracy"
+      }
+    }
+  ],
+  "limitations": [
+    "Visual traces have finite interpretation uncertainty; pixel spacing is not positional accuracy.",
+    "Hole 3 green remains unmodified because tree shadows obscure the southern putting-surface edge.",
+    "Only greenside bunkers visible in each source window are replaced; distant fairway bunkers retain their existing geometry.",
+    "Hole 3 western bunker remains unmodified because its southern sand edge is shadowed; thresholding that shadow would falsely shrink the bunker."
+  ]
+}

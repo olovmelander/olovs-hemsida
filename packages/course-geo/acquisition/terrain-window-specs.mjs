@@ -11,6 +11,15 @@ import { NORRFALLSVIKEN_GROUND_GRAPH_CONFIG } from '../../course-v2/norrfallsvik
 import { UPSALA_GROUND_GRAPH_CONFIG } from '../../course-v2/upsala-ground-graph.mjs';
 
 export const TERRAIN_WINDOW_SPECS = Object.freeze({
+  tortuna: Object.freeze({
+    // A 4.096 km square covers both loops, facilities and a broad context margin.
+    // Exact native sample centres; this does not approve the canonical origin.
+    sourceItemIds: ['661_59'], sampleSpacingMetres: 1,
+    width: 4097, height: 4097,
+    originEasting: 595352.5, originNorthing: 6616947.5,
+    pixelEdgeWindow: { west: 595352, north: 6616948, east: 599449, south: 6612851 },
+    plausibleHeightRangeRH2000: { minimum: -5, maximum: 150 },
+  }),
   visby: Object.freeze({
     /* Initial coastal context window around the complete OSM property extent
        E687076..688432/N6370517..6371990. The cropped coastal source products

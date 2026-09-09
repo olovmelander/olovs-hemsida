@@ -1,0 +1,6804 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "scope": "Stora H1-9 greens and all 26 currently assigned bunker footprints",
+  "completeSurvey": false,
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "baselineModelSha256": "becbfca4ab43408ffc7003eb31051e5ad7700701b80add47f9a55a36225abb5d",
+  "method": "Manual plain/overlay visual inspection of authenticated native 0.16 m RGBI windows. Trace sand edges by hand in north-up georeferenced panels; pyproj EPSG:3006 to WGS84 followed by the exact declared legacy frame. No whole-course translation, fitted registration or threshold contours.",
+  "limitations": [
+    "Nine original greens are corroborated or explicitly retained, not independently surveyed.",
+    "H5 southern green edge and H3 northern assigned bunker remain partly obscured.",
+    "No claim covers every tree, water edge, mowing strip, tee, building or later course change.",
+    "Image ground sample distance and boundary interpretation uncertainty do not measure absolute horizontal accuracy."
+  ],
+  "sources": [
+    {
+      "id": "stora-01-surfaces",
+      "rasterFile": "stora-01-surfaces.tif",
+      "rgbFile": "stora-01-surfaces.png",
+      "sha256": "f1fba8a4e57b5d1ec9a275f0e01c060857ab1c80547bc68798c16173a0cea851",
+      "rgbSha256": "56f056d5704a05cbd2daa2fa6be3a272ecef9eb742438a67a0a223a1360739d0",
+      "requestSha256": "baf059339d441ed29569df399ab2b8eabb88162dcb0b8cd23ce7612a49851bcd",
+      "bytes": 3575046,
+      "boundsEpsg3006": [
+        639952.96,
+        6636014.399999999,
+        640155.84,
+        6636195.68
+      ],
+      "geoTransform": [
+        639952.96,
+        0.16,
+        0.0,
+        6636195.68,
+        0.0,
+        -0.16
+      ],
+      "width": 1268,
+      "height": 1133,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:49:24.354721+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-01-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-01-surfaces",
+        "boundsEpsg3006": [
+          639952.96,
+          6636014.4,
+          640155.84,
+          6636195.68
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:50Z",
+          "last": "2025-06-14T09:25:58Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6375_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+            "capturedAt": "2025-06-14T09:25:58Z",
+            "intersectionSquareMetres": 8527.4112,
+            "windowFraction": 0.2318612
+          },
+          {
+            "sourceId": "o66350_6400_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+            "capturedAt": "2025-06-14T09:25:50Z",
+            "intersectionSquareMetres": 549.1744,
+            "windowFraction": 0.01493211
+          },
+          {
+            "sourceId": "o66350_6400_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+            "capturedAt": "2025-06-14T09:25:58Z",
+            "intersectionSquareMetres": 27701.5008,
+            "windowFraction": 0.75320669
+          }
+        ]
+      }
+    },
+    {
+      "id": "stora-02-surfaces",
+      "rasterFile": "stora-02-surfaces.tif",
+      "rgbFile": "stora-02-surfaces.png",
+      "sha256": "ed5f9ce358a5f1d34a5c9a5669e2fd17cfde2a8fe9edd8c467f01c774b54f945",
+      "rgbSha256": "138c003b50cd9662e088c7006833e94f717dbd4e2f52854f8fb129e5af223ce9",
+      "requestSha256": "bd52fa6aa23563da9b523193d72b994585dc18d137f6af38593a3c34f0bfe1ee",
+      "bytes": 2170484,
+      "boundsEpsg3006": [
+        640050.24,
+        6636176.32,
+        640178.4,
+        6636329.92
+      ],
+      "geoTransform": [
+        640050.24,
+        0.16,
+        0.0,
+        6636329.92,
+        0.0,
+        -0.16
+      ],
+      "width": 801,
+      "height": 960,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:49:58.332397+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-02-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-02-surfaces",
+        "boundsEpsg3006": [
+          640050.24,
+          6636176.32,
+          640178.4,
+          6636329.92
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:50Z",
+          "last": "2025-06-14T09:25:58Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6400_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+            "capturedAt": "2025-06-14T09:25:50Z",
+            "intersectionSquareMetres": 16564.8804,
+            "windowFraction": 0.84148153
+          },
+          {
+            "sourceId": "o66350_6400_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+            "capturedAt": "2025-06-14T09:25:58Z",
+            "intersectionSquareMetres": 3120.4956,
+            "windowFraction": 0.15851847
+          }
+        ]
+      }
+    },
+    {
+      "id": "stora-03-surfaces",
+      "rasterFile": "stora-03-surfaces.tif",
+      "rgbFile": "stora-03-surfaces.png",
+      "sha256": "e60a52407c1e728fbb347f4f699e979f57d7c434205d32a14140853b557062fd",
+      "rgbSha256": "82f0ab6db288eeeac492fb2f71b2b553d88c53e0da67a8d34847d6382a818a90",
+      "requestSha256": "c13d9b06ce35b11269baa50ed7e7174f47f57f5080da753e77a0ea04e5b8f16a",
+      "bytes": 8124533,
+      "boundsEpsg3006": [
+        640137.76,
+        6635886.88,
+        640325.4400000001,
+        6636304.0
+      ],
+      "geoTransform": [
+        640137.76,
+        0.16,
+        0.0,
+        6636304.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1173,
+      "height": 2607,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:00.964120+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-03-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-03-surfaces",
+        "boundsEpsg3006": [
+          640137.76,
+          6635886.88,
+          640325.44,
+          6636304.0
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:50Z",
+          "last": "2025-06-14T09:25:58Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6400_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+            "capturedAt": "2025-06-14T09:25:50Z",
+            "intersectionSquareMetres": 28282.1025,
+            "windowFraction": 0.36127065
+          },
+          {
+            "sourceId": "o66350_6400_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+            "capturedAt": "2025-06-14T09:25:58Z",
+            "intersectionSquareMetres": 50002.9791,
+            "windowFraction": 0.63872935
+          }
+        ]
+      }
+    },
+    {
+      "id": "stora-04-surfaces",
+      "rasterFile": "stora-04-surfaces.tif",
+      "rgbFile": "stora-04-surfaces.png",
+      "sha256": "7b45038a0f7bb3cb8ba422a3599f03cd9a7ca517998177864d5308fcbe5c0253",
+      "rgbSha256": "774d7c0320499994d1db9ea70bb6b7dcab9192c7dd776d92df1fe3882c7ae30d",
+      "requestSha256": "0094b0e7a29ac9c1788bd15083d7b4714eacbb8fc92aaff270681a1cb307d094",
+      "bytes": 835490,
+      "boundsEpsg3006": [
+        639868.32,
+        6636117.44,
+        639959.5199999999,
+        6636208.0
+      ],
+      "geoTransform": [
+        639868.32,
+        0.16,
+        0.0,
+        6636208.0,
+        0.0,
+        -0.16
+      ],
+      "width": 570,
+      "height": 566,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:01.411628+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-04-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-04-surfaces",
+        "boundsEpsg3006": [
+          639868.32,
+          6636117.44,
+          639959.52,
+          6636208.0
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:50Z",
+          "last": "2025-06-14T09:25:58Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6375_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+            "capturedAt": "2025-06-14T09:25:50Z",
+            "intersectionSquareMetres": 524.0021,
+            "windowFraction": 0.06344564
+          },
+          {
+            "sourceId": "o66350_6375_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+            "capturedAt": "2025-06-14T09:25:58Z",
+            "intersectionSquareMetres": 7735.0699,
+            "windowFraction": 0.93655436
+          }
+        ]
+      }
+    },
+    {
+      "id": "stora-05-surfaces",
+      "rasterFile": "stora-05-surfaces.tif",
+      "rgbFile": "stora-05-surfaces.png",
+      "sha256": "53c008d3d7bd4a9d8c887932b05d1d016e2f3db4301905e7b0e45e965976cf50",
+      "rgbSha256": "c6bf188ed76201c3029842c475ec3c592ef9ab95da9a3ea1593c5e499f7fb227",
+      "requestSha256": "2a0ded7269826255c9c04aec186b9a173af254945ffa876e756b6cc6c66570c4",
+      "bytes": 1213711,
+      "boundsEpsg3006": [
+        639758.24,
+        6635595.68,
+        639866.72,
+        6635698.56
+      ],
+      "geoTransform": [
+        639758.24,
+        0.16,
+        0.0,
+        6635698.56,
+        0.0,
+        -0.16
+      ],
+      "width": 678,
+      "height": 643,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:01.907917+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-05-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-05-surfaces",
+        "boundsEpsg3006": [
+          639758.24,
+          6635595.68,
+          639866.72,
+          6635698.56
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:58Z",
+          "last": "2025-06-14T09:25:58Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6375_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+            "capturedAt": "2025-06-14T09:25:58Z",
+            "intersectionSquareMetres": 11160.4224,
+            "windowFraction": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "stora-06-surfaces",
+      "rasterFile": "stora-06-surfaces.tif",
+      "rgbFile": "stora-06-surfaces.png",
+      "sha256": "2d9378e3dd85cc8eaf717f0e09a0db99bc0f9820de8c4e9cab2a59461a68a6ec",
+      "rgbSha256": "bae90b2de65b5394e078d96e70fbb5b3ac800d0b4df6a152da4ce7a2b3cbce27",
+      "requestSha256": "2cd8e7c4ee36d226651adce1bab45ac30fe6a8754d159bcadb657ea227814b35",
+      "bytes": 949421,
+      "boundsEpsg3006": [
+        639484.32,
+        6635537.28,
+        639577.6,
+        6635637.44
+      ],
+      "geoTransform": [
+        639484.32,
+        0.16,
+        0.0,
+        6635637.44,
+        0.0,
+        -0.16
+      ],
+      "width": 583,
+      "height": 626,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:02.334711+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-06-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-06-surfaces",
+        "boundsEpsg3006": [
+          639484.32,
+          6635537.28,
+          639577.6,
+          6635637.44
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:58Z",
+          "last": "2025-06-14T09:25:58Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6375_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+            "capturedAt": "2025-06-14T09:25:58Z",
+            "intersectionSquareMetres": 9342.9248,
+            "windowFraction": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "stora-07-surfaces",
+      "rasterFile": "stora-07-surfaces.tif",
+      "rgbFile": "stora-07-surfaces.png",
+      "sha256": "068b957a262b76404bf21d8a2ec5c01b2ec5eedf3b000036e70c25c109716a71",
+      "rgbSha256": "cc5245a0112bce189b23676f472c8ffd490d18079b8f36b6fdf65aa99bc86399",
+      "requestSha256": "5d841fefb9c4fcfff170357645fd691bc50566fdf9158412c3cca8815742d573",
+      "bytes": 4071399,
+      "boundsEpsg3006": [
+        639359.68,
+        6635797.76,
+        639489.92,
+        6636090.24
+      ],
+      "geoTransform": [
+        639359.68,
+        0.16,
+        0.0,
+        6636090.24,
+        0.0,
+        -0.16
+      ],
+      "width": 814,
+      "height": 1828,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:03.753929+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-07-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-07-surfaces",
+        "boundsEpsg3006": [
+          639359.68,
+          6635797.76,
+          639489.92,
+          6636090.24
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:58Z",
+          "last": "2025-06-14T09:25:58Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6375_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+            "capturedAt": "2025-06-14T09:25:58Z",
+            "intersectionSquareMetres": 38092.5952,
+            "windowFraction": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "stora-08-surfaces",
+      "rasterFile": "stora-08-surfaces.tif",
+      "rgbFile": "stora-08-surfaces.png",
+      "sha256": "143b67b761dd82ae6a4ea1c47fe478ae932984797fa38cbc541838cb18e00f75",
+      "rgbSha256": "63bdfe917069294cdfb251e774e70e98f3e9f329ad77e5aebd850df389ea0352",
+      "requestSha256": "ae862351e92556880021fe443b20f971bf8b2535a077429a2101b2ff81d0aed2",
+      "bytes": 937379,
+      "boundsEpsg3006": [
+        639598.88,
+        6636370.4,
+        639702.4,
+        6636459.36
+      ],
+      "geoTransform": [
+        639598.88,
+        0.16,
+        0.0,
+        6636459.36,
+        0.0,
+        -0.16
+      ],
+      "width": 647,
+      "height": 556,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:04.206892+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-08-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-08-surfaces",
+        "boundsEpsg3006": [
+          639598.88,
+          6636370.4,
+          639702.4,
+          6636459.36
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:50Z",
+          "last": "2025-06-14T09:25:50Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6375_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+            "capturedAt": "2025-06-14T09:25:50Z",
+            "intersectionSquareMetres": 9209.1392,
+            "windowFraction": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "stora-09-surfaces",
+      "rasterFile": "stora-09-surfaces.tif",
+      "rgbFile": "stora-09-surfaces.png",
+      "sha256": "6191931397e02934052b1df85d9dc1a69806e6bbcf5aecc5acbf60522d07328b",
+      "rgbSha256": "d1a0007c85c8bdcdf684348bfd05b7700e5826bd3d38054f0a778e5a80c956df",
+      "requestSha256": "b4e577f4159f8734788c2c5115a4ca0fe44f307f06ebb62ffd7abd8200b95aef",
+      "bytes": 1025845,
+      "boundsEpsg3006": [
+        639923.04,
+        6636571.36,
+        640024.3200000001,
+        6636668.0
+      ],
+      "geoTransform": [
+        639923.04,
+        0.16,
+        0.0,
+        6636668.0,
+        0.0,
+        -0.16
+      ],
+      "width": 633,
+      "height": 604,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:04.738176+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "localPath": "upsalabuild/cache/lm-ortho/stora-09-surfaces.tif",
+      "captureEvidence": {
+        "id": "stora-09-surfaces",
+        "boundsEpsg3006": [
+          639923.04,
+          6636571.36,
+          640024.32,
+          6636668.0
+        ],
+        "coverageFraction": 1.0,
+        "captureRange": {
+          "first": "2025-06-14T09:25:50Z",
+          "last": "2025-06-14T09:25:50Z"
+        },
+        "contributingImages": [
+          {
+            "sourceId": "o66350_6375_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+            "capturedAt": "2025-06-14T09:25:50Z",
+            "intersectionSquareMetres": 7437.4144,
+            "windowFraction": 0.75987362
+          },
+          {
+            "sourceId": "o66350_6400_25_mr25",
+            "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+            "capturedAt": "2025-06-14T09:25:50Z",
+            "intersectionSquareMetres": 2350.2848,
+            "windowFraction": 0.24012638
+          }
+        ]
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "hole": 1,
+      "kind": "green",
+      "sourceId": "w452926949",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            271.4,
+            53.8
+          ],
+          [
+            266.7,
+            57.4
+          ],
+          [
+            263.9,
+            61.5
+          ],
+          [
+            262.4,
+            65.8
+          ],
+          [
+            262.5,
+            69.3
+          ],
+          [
+            263.7,
+            73.6
+          ],
+          [
+            266.1,
+            75.9
+          ],
+          [
+            271.7,
+            77.4
+          ],
+          [
+            278.4,
+            80.4
+          ],
+          [
+            282.9,
+            80.5
+          ],
+          [
+            286.7,
+            78.4
+          ],
+          [
+            288.9,
+            74.8
+          ],
+          [
+            288.8,
+            70.2
+          ],
+          [
+            285.2,
+            61.5
+          ],
+          [
+            284.6,
+            57.1
+          ],
+          [
+            283.4,
+            53.5
+          ],
+          [
+            279.8,
+            51.6
+          ],
+          [
+            275.4,
+            51.6
+          ],
+          [
+            272.7,
+            52
+          ]
+        ],
+        "c": [
+          276,
+          66.6
+        ],
+        "prov": "osm",
+        "sourceId": "w452926949",
+        "area": 568
+      },
+      "sourceWindowId": "stora-01-surfaces",
+      "interpretationUncertaintyM": 1.5,
+      "note": "The OSM footprint follows the visible turf; small angular/collar differences do not establish a shift beyond approximately 1.5 m interpretation uncertainty."
+    },
+    {
+      "hole": 1,
+      "kind": "bunker",
+      "sourceId": "w438979705",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            163.8,
+            -42.2
+          ],
+          [
+            163.4,
+            -43.4
+          ],
+          [
+            161.9,
+            -44.9
+          ],
+          [
+            160.6,
+            -45.2
+          ],
+          [
+            156.2,
+            -45.3
+          ],
+          [
+            155,
+            -44.9
+          ],
+          [
+            154.1,
+            -43.7
+          ],
+          [
+            154.4,
+            -41
+          ],
+          [
+            156.7,
+            -39.5
+          ],
+          [
+            159.8,
+            -39.6
+          ],
+          [
+            162.6,
+            -40.8
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438979705"
+      },
+      "sourceWindowId": "stora-01-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 1,
+      "kind": "bunker",
+      "sourceId": "w438979709",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            168.2,
+            -25.6
+          ],
+          [
+            166.6,
+            -28.6
+          ],
+          [
+            164.5,
+            -30.2
+          ],
+          [
+            161.8,
+            -30.3
+          ],
+          [
+            161,
+            -29.5
+          ],
+          [
+            160.4,
+            -28.1
+          ],
+          [
+            160.4,
+            -26.5
+          ],
+          [
+            161.2,
+            -24.7
+          ],
+          [
+            164.3,
+            -22.3
+          ],
+          [
+            167.1,
+            -22.4
+          ],
+          [
+            168,
+            -23.3
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438979709"
+      },
+      "sourceWindowId": "stora-01-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 1,
+      "kind": "bunker",
+      "sourceId": "w438979713",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            179.6,
+            -28.9
+          ],
+          [
+            178.5,
+            -30.7
+          ],
+          [
+            177.3,
+            -31.6
+          ],
+          [
+            176.1,
+            -31.6
+          ],
+          [
+            174.7,
+            -30.7
+          ],
+          [
+            174,
+            -29.4
+          ],
+          [
+            173.9,
+            -25.3
+          ],
+          [
+            175.7,
+            -22.7
+          ],
+          [
+            176.9,
+            -22.5
+          ],
+          [
+            178.8,
+            -23.1
+          ],
+          [
+            179.9,
+            -24.1
+          ],
+          [
+            180.4,
+            -25
+          ],
+          [
+            180.4,
+            -26.5
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438979713"
+      },
+      "sourceWindowId": "stora-01-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 1,
+      "kind": "bunker",
+      "sourceId": "w438979741",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            260.6,
+            57.5
+          ],
+          [
+            258.7,
+            56.2
+          ],
+          [
+            256.3,
+            56.1
+          ],
+          [
+            253.6,
+            57.2
+          ],
+          [
+            251.9,
+            58.8
+          ],
+          [
+            251.5,
+            60.2
+          ],
+          [
+            251.6,
+            61.5
+          ],
+          [
+            252.4,
+            63.1
+          ],
+          [
+            255.2,
+            65.1
+          ],
+          [
+            257,
+            65.5
+          ],
+          [
+            258.7,
+            65.1
+          ],
+          [
+            260.2,
+            63.8
+          ],
+          [
+            261.7,
+            60.7
+          ],
+          [
+            261.6,
+            58.9
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438979741"
+      },
+      "sourceWindowId": "stora-01-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 1,
+      "kind": "bunker",
+      "sourceId": "w452928633",
+      "status": "replaced-with-reviewed-trace",
+      "originalShape": {
+        "ring": [
+          [
+            289.5,
+            56.5
+          ],
+          [
+            287.9,
+            58.2
+          ],
+          [
+            287.9,
+            59.8
+          ],
+          [
+            290.4,
+            65.7
+          ],
+          [
+            291.2,
+            61.5
+          ],
+          [
+            292.8,
+            57.4
+          ],
+          [
+            291.2,
+            56.4
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w452928633"
+      },
+      "sourceWindowId": "stora-01-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "The old triangular eastern edge omits the plainly visible east and southeast sand lobe. Trace the continuous exposed sand edge, excluding the darker grass collar."
+    },
+    {
+      "hole": 2,
+      "kind": "green",
+      "sourceId": "w452926956",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            265.1,
+            -121.2
+          ],
+          [
+            259.8,
+            -119
+          ],
+          [
+            256.8,
+            -114.8
+          ],
+          [
+            256.4,
+            -111.2
+          ],
+          [
+            257.7,
+            -106.5
+          ],
+          [
+            259.8,
+            -103.2
+          ],
+          [
+            263.7,
+            -98.6
+          ],
+          [
+            267.3,
+            -95.3
+          ],
+          [
+            271.4,
+            -93.8
+          ],
+          [
+            275.4,
+            -95.6
+          ],
+          [
+            278.7,
+            -99.3
+          ],
+          [
+            281.7,
+            -103.8
+          ],
+          [
+            283.1,
+            -107.7
+          ],
+          [
+            283.2,
+            -111.8
+          ],
+          [
+            281.1,
+            -116
+          ],
+          [
+            278.6,
+            -119.6
+          ],
+          [
+            275.3,
+            -121.8
+          ],
+          [
+            271.5,
+            -122.6
+          ],
+          [
+            267.9,
+            -122.3
+          ]
+        ],
+        "c": [
+          270.1,
+          -109.2
+        ],
+        "prov": "osm",
+        "sourceId": "w452926956",
+        "area": 555
+      },
+      "sourceWindowId": "stora-02-surfaces",
+      "interpretationUncertaintyM": 1.5,
+      "note": "The putting surface is the pale central footprint; the southeast approach spur is a different mowing surface. Existing green broadly follows the putting edge."
+    },
+    {
+      "hole": 2,
+      "kind": "bunker",
+      "sourceId": "w438979717",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            276.6,
+            -86.5
+          ],
+          [
+            275.8,
+            -88.2
+          ],
+          [
+            272.3,
+            -91.3
+          ],
+          [
+            267.4,
+            -92.7
+          ],
+          [
+            261.4,
+            -95.2
+          ],
+          [
+            257.6,
+            -94.9
+          ],
+          [
+            255.7,
+            -92.3
+          ],
+          [
+            255.3,
+            -88.8
+          ],
+          [
+            256,
+            -87.5
+          ],
+          [
+            257.7,
+            -85.8
+          ],
+          [
+            259.4,
+            -85.2
+          ],
+          [
+            261.9,
+            -85.3
+          ],
+          [
+            266.4,
+            -84.1
+          ],
+          [
+            270.7,
+            -84.3
+          ],
+          [
+            272.2,
+            -82.5
+          ],
+          [
+            274.7,
+            -81.7
+          ],
+          [
+            276.9,
+            -82.8
+          ],
+          [
+            277.1,
+            -84.2
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438979717"
+      },
+      "sourceWindowId": "stora-02-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 2,
+      "kind": "bunker",
+      "sourceId": "w438979725",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            261.1,
+            -169.7
+          ],
+          [
+            260.6,
+            -173.2
+          ],
+          [
+            259.7,
+            -175
+          ],
+          [
+            258.8,
+            -175.7
+          ],
+          [
+            256.8,
+            -175
+          ],
+          [
+            256.1,
+            -172.7
+          ],
+          [
+            256.7,
+            -169.6
+          ],
+          [
+            257.7,
+            -168.8
+          ],
+          [
+            259.7,
+            -168.4
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438979725"
+      },
+      "sourceWindowId": "stora-02-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 2,
+      "kind": "bunker",
+      "sourceId": "w438983953",
+      "status": "replaced-with-reviewed-trace",
+      "originalShape": {
+        "ring": [
+          [
+            322.5,
+            -132.9
+          ],
+          [
+            319.8,
+            -139.9
+          ],
+          [
+            319.4,
+            -140.4
+          ],
+          [
+            318.3,
+            -140.3
+          ],
+          [
+            316.9,
+            -138.3
+          ],
+          [
+            316.4,
+            -133.4
+          ],
+          [
+            317,
+            -131.7
+          ],
+          [
+            318.1,
+            -130.5
+          ],
+          [
+            320.9,
+            -130.2
+          ],
+          [
+            322.2,
+            -131
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438983953"
+      },
+      "sourceWindowId": "stora-02-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "The source triangle clips the visible east side of the oval sand footprint and extends into the southern grass collar. The entire exposed edge is visible."
+    },
+    {
+      "hole": 3,
+      "kind": "green",
+      "sourceId": "w452926944",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            439.7,
+            187.5
+          ],
+          [
+            437,
+            186.1
+          ],
+          [
+            432.6,
+            186
+          ],
+          [
+            424.4,
+            181.3
+          ],
+          [
+            420.2,
+            180.8
+          ],
+          [
+            417.3,
+            181.8
+          ],
+          [
+            415.2,
+            183.4
+          ],
+          [
+            414.3,
+            187.5
+          ],
+          [
+            414.8,
+            191.4
+          ],
+          [
+            416.6,
+            195.6
+          ],
+          [
+            420.3,
+            198.3
+          ],
+          [
+            426.9,
+            206
+          ],
+          [
+            430.4,
+            207.2
+          ],
+          [
+            434.7,
+            207.7
+          ],
+          [
+            438.5,
+            207.4
+          ],
+          [
+            441.2,
+            205.5
+          ],
+          [
+            443.3,
+            201
+          ],
+          [
+            444.8,
+            195.7
+          ],
+          [
+            445.1,
+            192.8
+          ],
+          [
+            443.6,
+            189.9
+          ]
+        ],
+        "c": [
+          429.8,
+          194.2
+        ],
+        "prov": "osm",
+        "sourceId": "w452926944",
+        "area": 561
+      },
+      "sourceWindowId": "stora-03-surfaces",
+      "interpretationUncertaintyM": 1.5,
+      "note": "Existing outline broadly follows the putting surface between pond and sand. Retain the reference center and original edge; no whole-green displacement is supported."
+    },
+    {
+      "hole": 3,
+      "kind": "bunker",
+      "sourceId": "w438981573",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            385.5,
+            131.3
+          ],
+          [
+            384.9,
+            130.3
+          ],
+          [
+            380.5,
+            129.7
+          ],
+          [
+            379.3,
+            129
+          ],
+          [
+            376.5,
+            125.7
+          ],
+          [
+            374.2,
+            125.1
+          ],
+          [
+            371.2,
+            126.6
+          ],
+          [
+            370.4,
+            131.9
+          ],
+          [
+            370.5,
+            132.8
+          ],
+          [
+            372.3,
+            133.8
+          ],
+          [
+            375.8,
+            133
+          ],
+          [
+            377.3,
+            133.2
+          ],
+          [
+            379.2,
+            138.1
+          ],
+          [
+            380.7,
+            138.7
+          ],
+          [
+            383.4,
+            137.9
+          ],
+          [
+            385.7,
+            135.3
+          ],
+          [
+            386.3,
+            133.4
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981573"
+      },
+      "sourceWindowId": "stora-03-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 3,
+      "kind": "bunker",
+      "sourceId": "w438983955",
+      "status": "retained-partly-obscured",
+      "originalShape": {
+        "ring": [
+          [
+            348.3,
+            -134.9
+          ],
+          [
+            350.6,
+            -138.8
+          ],
+          [
+            351,
+            -141.5
+          ],
+          [
+            348.2,
+            -145.9
+          ],
+          [
+            347.4,
+            -146.4
+          ],
+          [
+            345.3,
+            -146.4
+          ],
+          [
+            344.8,
+            -145.5
+          ],
+          [
+            344.1,
+            -136.9
+          ],
+          [
+            342.3,
+            -134.6
+          ],
+          [
+            342.1,
+            -133.4
+          ],
+          [
+            343.6,
+            -131.6
+          ],
+          [
+            344.4,
+            -131.7
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438983955"
+      },
+      "sourceWindowId": "stora-03-surfaces",
+      "interpretationUncertaintyM": 2,
+      "note": "The northern exposed sand cap and east upper edge extend beyond the OSM polygon, but tree shadow hides the southern/eastern sand boundary. Retain the full original explicitly pending unobscured imagery; do not infer a complete replacement."
+    },
+    {
+      "hole": 3,
+      "kind": "bunker",
+      "sourceId": "w438986825",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            445.2,
+            185.8
+          ],
+          [
+            447.7,
+            190.4
+          ],
+          [
+            448.4,
+            196.9
+          ],
+          [
+            447.5,
+            202.6
+          ],
+          [
+            442.3,
+            209.6
+          ],
+          [
+            442.3,
+            212.9
+          ],
+          [
+            442.9,
+            213.9
+          ],
+          [
+            443.8,
+            214.3
+          ],
+          [
+            448,
+            212.8
+          ],
+          [
+            449.1,
+            211.7
+          ],
+          [
+            450.7,
+            206.7
+          ],
+          [
+            455.4,
+            204.1
+          ],
+          [
+            456.7,
+            202
+          ],
+          [
+            456.8,
+            200.4
+          ],
+          [
+            452,
+            186.4
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438986825"
+      },
+      "sourceWindowId": "stora-03-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 3,
+      "kind": "bunker",
+      "sourceId": "w438986828",
+      "status": "merged-into-reviewed-connected-bunker",
+      "originalShape": {
+        "ring": [
+          [
+            422.1,
+            207.1
+          ],
+          [
+            422.7,
+            205.7
+          ],
+          [
+            422.2,
+            202.7
+          ],
+          [
+            419.9,
+            201
+          ],
+          [
+            417.8,
+            201.1
+          ],
+          [
+            417,
+            201.9
+          ],
+          [
+            416.8,
+            203
+          ],
+          [
+            417.9,
+            205.8
+          ],
+          [
+            417.2,
+            209.6
+          ],
+          [
+            418.5,
+            210.4
+          ],
+          [
+            420.2,
+            209.8
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438986828"
+      },
+      "sourceWindowId": "stora-03-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Visible sand connection joins this source to w438986830; remove this separate runtime polygon after tracing the combined footprint."
+    },
+    {
+      "hole": 3,
+      "kind": "bunker",
+      "sourceId": "w438986830",
+      "status": "replaced-with-reviewed-trace",
+      "originalShape": {
+        "ring": [
+          [
+            414.4,
+            205.5
+          ],
+          [
+            415,
+            198.9
+          ],
+          [
+            414.3,
+            196.1
+          ],
+          [
+            409.5,
+            191.6
+          ],
+          [
+            408.5,
+            191.2
+          ],
+          [
+            405.5,
+            191.4
+          ],
+          [
+            402.7,
+            192.7
+          ],
+          [
+            402,
+            193.6
+          ],
+          [
+            401.4,
+            196.7
+          ],
+          [
+            401.9,
+            200.2
+          ],
+          [
+            402.6,
+            201.1
+          ],
+          [
+            403.5,
+            201.7
+          ],
+          [
+            405.3,
+            201.4
+          ],
+          [
+            407,
+            197.4
+          ],
+          [
+            408.8,
+            196.9
+          ],
+          [
+            410.1,
+            198.2
+          ],
+          [
+            410.3,
+            199.4
+          ],
+          [
+            409.5,
+            202.3
+          ],
+          [
+            408.2,
+            204.4
+          ],
+          [
+            408.5,
+            205.9
+          ],
+          [
+            409.3,
+            206.6
+          ],
+          [
+            412.5,
+            207.1
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438986830"
+      },
+      "sourceWindowId": "stora-03-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "The west greenside sand is one connected three-lobed bunker. The two old polygons leave an artificial grass gap across a fully visible sand neck. Trace the single outer edge and retire the secondary split footprint."
+    },
+    {
+      "hole": 4,
+      "kind": "green",
+      "sourceId": "w452926953",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            82.9,
+            -59
+          ],
+          [
+            79,
+            -60.5
+          ],
+          [
+            74.2,
+            -59.9
+          ],
+          [
+            72,
+            -58.2
+          ],
+          [
+            70.5,
+            -55.4
+          ],
+          [
+            70.6,
+            -49.5
+          ],
+          [
+            69.7,
+            -44.9
+          ],
+          [
+            70.5,
+            -40.8
+          ],
+          [
+            73,
+            -37.5
+          ],
+          [
+            77.2,
+            -36.8
+          ],
+          [
+            81,
+            -36.8
+          ],
+          [
+            84,
+            -39
+          ],
+          [
+            87.6,
+            -40.5
+          ],
+          [
+            92.2,
+            -41.6
+          ],
+          [
+            96.1,
+            -41.3
+          ],
+          [
+            98.7,
+            -42
+          ],
+          [
+            100.6,
+            -44.4
+          ],
+          [
+            100.5,
+            -48
+          ],
+          [
+            99.6,
+            -51.5
+          ],
+          [
+            97.5,
+            -54.3
+          ],
+          [
+            94.8,
+            -56.7
+          ],
+          [
+            90.9,
+            -57.8
+          ],
+          [
+            87.4,
+            -57.9
+          ]
+        ],
+        "c": [
+          83.7,
+          -48.7
+        ],
+        "prov": "osm",
+        "sourceId": "w452926953",
+        "area": 548
+      },
+      "sourceWindowId": "stora-04-surfaces",
+      "interpretationUncertaintyM": 1.5,
+      "note": "The visible asymmetric putting footprint corroborates the original polygon. Small edge/collar differences are within approximately 1.5 m visual interpretation uncertainty."
+    },
+    {
+      "hole": 4,
+      "kind": "bunker",
+      "sourceId": "w438979702",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            95.4,
+            -35
+          ],
+          [
+            94.9,
+            -37.1
+          ],
+          [
+            93.9,
+            -38.2
+          ],
+          [
+            92,
+            -38.9
+          ],
+          [
+            85.4,
+            -38.3
+          ],
+          [
+            84,
+            -36
+          ],
+          [
+            84.6,
+            -32.2
+          ],
+          [
+            87.5,
+            -30
+          ],
+          [
+            89.7,
+            -29.7
+          ],
+          [
+            94.1,
+            -30
+          ],
+          [
+            95.5,
+            -32.1
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438979702"
+      },
+      "sourceWindowId": "stora-04-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 5,
+      "kind": "green",
+      "sourceId": "w452926942",
+      "status": "retained-partly-obscured",
+      "originalShape": {
+        "ring": [
+          [
+            -41.1,
+            454.3
+          ],
+          [
+            -44,
+            457.5
+          ],
+          [
+            -47,
+            459.1
+          ],
+          [
+            -53.9,
+            461.3
+          ],
+          [
+            -55.4,
+            462.7
+          ],
+          [
+            -58.5,
+            469
+          ],
+          [
+            -59.6,
+            473
+          ],
+          [
+            -59.3,
+            476.8
+          ],
+          [
+            -58.2,
+            480.1
+          ],
+          [
+            -55.4,
+            482.5
+          ],
+          [
+            -53,
+            483.4
+          ],
+          [
+            -48.8,
+            482.9
+          ],
+          [
+            -42.3,
+            475.9
+          ],
+          [
+            -40.1,
+            471.5
+          ],
+          [
+            -37.4,
+            469.7
+          ],
+          [
+            -33.3,
+            468.8
+          ],
+          [
+            -29.1,
+            468.7
+          ],
+          [
+            -24.9,
+            467
+          ],
+          [
+            -22.5,
+            463.8
+          ],
+          [
+            -21.9,
+            460
+          ],
+          [
+            -22.8,
+            455.9
+          ],
+          [
+            -25.1,
+            454.1
+          ],
+          [
+            -28.4,
+            453.8
+          ],
+          [
+            -32.4,
+            454.6
+          ]
+        ],
+        "c": [
+          -42.3,
+          466.8
+        ],
+        "prov": "osm",
+        "sourceId": "w452926942",
+        "area": 630
+      },
+      "sourceWindowId": "stora-05-surfaces",
+      "interpretationUncertaintyM": 2,
+      "note": "Visible parts agree broadly with the original putting outline. Tree shadow obscures a section of the southern edge, so a complete replacement is not justified."
+    },
+    {
+      "hole": 5,
+      "kind": "bunker",
+      "sourceId": "w438981584",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -14.5,
+            469.6
+          ],
+          [
+            -11.9,
+            465.7
+          ],
+          [
+            -11.1,
+            463
+          ],
+          [
+            -11.1,
+            460.3
+          ],
+          [
+            -12.2,
+            456.8
+          ],
+          [
+            -13.9,
+            455.8
+          ],
+          [
+            -15.2,
+            455.6
+          ],
+          [
+            -18.5,
+            456.6
+          ],
+          [
+            -19.2,
+            458
+          ],
+          [
+            -18.8,
+            463.1
+          ],
+          [
+            -21.8,
+            467.6
+          ],
+          [
+            -22.3,
+            470.4
+          ],
+          [
+            -21,
+            472.1
+          ],
+          [
+            -18.6,
+            472.4
+          ],
+          [
+            -15.7,
+            471.1
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981584"
+      },
+      "sourceWindowId": "stora-05-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 5,
+      "kind": "bunker",
+      "sourceId": "w438981585",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -31.1,
+            447.4
+          ],
+          [
+            -31.7,
+            446
+          ],
+          [
+            -34.7,
+            444.7
+          ],
+          [
+            -37.4,
+            445.5
+          ],
+          [
+            -38.2,
+            448
+          ],
+          [
+            -37.9,
+            449.3
+          ],
+          [
+            -36.7,
+            450.4
+          ],
+          [
+            -35.1,
+            451.6
+          ],
+          [
+            -33.8,
+            451.9
+          ],
+          [
+            -31.4,
+            450.8
+          ],
+          [
+            -30.7,
+            449.9
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981585"
+      },
+      "sourceWindowId": "stora-05-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 5,
+      "kind": "bunker",
+      "sourceId": "w438981586",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -45.4,
+            453.6
+          ],
+          [
+            -44.7,
+            451.3
+          ],
+          [
+            -45.1,
+            449.7
+          ],
+          [
+            -45.8,
+            448.9
+          ],
+          [
+            -52.2,
+            448.6
+          ],
+          [
+            -53.5,
+            449.1
+          ],
+          [
+            -54.8,
+            451.4
+          ],
+          [
+            -54.6,
+            452.9
+          ],
+          [
+            -53.8,
+            454.3
+          ],
+          [
+            -49.6,
+            457.4
+          ],
+          [
+            -48.2,
+            457.4
+          ],
+          [
+            -46.6,
+            456.3
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981586"
+      },
+      "sourceWindowId": "stora-05-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 5,
+      "kind": "bunker",
+      "sourceId": "w438981587",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -33.9,
+            484.4
+          ],
+          [
+            -34.2,
+            482.3
+          ],
+          [
+            -38.2,
+            478.2
+          ],
+          [
+            -41,
+            479.1
+          ],
+          [
+            -42.2,
+            480.6
+          ],
+          [
+            -42.5,
+            481.9
+          ],
+          [
+            -42.1,
+            483.5
+          ],
+          [
+            -41.2,
+            485.1
+          ],
+          [
+            -38.8,
+            486.7
+          ],
+          [
+            -36.3,
+            487.3
+          ],
+          [
+            -34.5,
+            486.1
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981587"
+      },
+      "sourceWindowId": "stora-05-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 6,
+      "kind": "green",
+      "sourceId": "w452926945",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -321.8,
+            508.1
+          ],
+          [
+            -325.9,
+            511.7
+          ],
+          [
+            -328.6,
+            513.2
+          ],
+          [
+            -329.8,
+            516.1
+          ],
+          [
+            -330.2,
+            524.9
+          ],
+          [
+            -329.2,
+            529.4
+          ],
+          [
+            -327.4,
+            532.6
+          ],
+          [
+            -324.4,
+            534.1
+          ],
+          [
+            -320.3,
+            535
+          ],
+          [
+            -314.5,
+            533.3
+          ],
+          [
+            -313.1,
+            529
+          ],
+          [
+            -310.7,
+            525.1
+          ],
+          [
+            -301.7,
+            515.9
+          ],
+          [
+            -301.7,
+            511.3
+          ],
+          [
+            -304.4,
+            507.8
+          ],
+          [
+            -310.1,
+            505.9
+          ],
+          [
+            -318.1,
+            505.1
+          ]
+        ],
+        "c": [
+          -317.3,
+          519.1
+        ],
+        "prov": "osm",
+        "sourceId": "w452926945",
+        "area": 583
+      },
+      "sourceWindowId": "stora-06-surfaces",
+      "interpretationUncertaintyM": 1.5,
+      "note": "The putting surface lies inside the distinct approach collar beside the pond. Existing polygon agrees broadly; no whole-green registration change is supported."
+    },
+    {
+      "hole": 6,
+      "kind": "bunker",
+      "sourceId": "w438981592",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -303.3,
+            499.8
+          ],
+          [
+            -306.7,
+            496
+          ],
+          [
+            -307.8,
+            495.5
+          ],
+          [
+            -308.9,
+            495.5
+          ],
+          [
+            -311.2,
+            497.1
+          ],
+          [
+            -311.3,
+            498.1
+          ],
+          [
+            -310,
+            501.3
+          ],
+          [
+            -309,
+            503
+          ],
+          [
+            -307.2,
+            504.1
+          ],
+          [
+            -305.8,
+            504.3
+          ],
+          [
+            -303.9,
+            503
+          ],
+          [
+            -303.1,
+            501.5
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981592"
+      },
+      "sourceWindowId": "stora-06-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 6,
+      "kind": "bunker",
+      "sourceId": "w438981593",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -324.4,
+            502.1
+          ],
+          [
+            -325.2,
+            498.4
+          ],
+          [
+            -327.3,
+            497.5
+          ],
+          [
+            -329.2,
+            498.1
+          ],
+          [
+            -333.9,
+            503
+          ],
+          [
+            -334.2,
+            503.9
+          ],
+          [
+            -334.2,
+            505.1
+          ],
+          [
+            -332,
+            509.7
+          ],
+          [
+            -329.4,
+            510.1
+          ],
+          [
+            -324.8,
+            507.7
+          ],
+          [
+            -323.8,
+            504.9
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981593"
+      },
+      "sourceWindowId": "stora-06-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 7,
+      "kind": "green",
+      "sourceId": "w221189972",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -438.7,
+            62.6
+          ],
+          [
+            -440.7,
+            59.7
+          ],
+          [
+            -441.7,
+            57.2
+          ],
+          [
+            -441.8,
+            53.5
+          ],
+          [
+            -441.4,
+            50
+          ],
+          [
+            -436.9,
+            44
+          ],
+          [
+            -431.6,
+            39.2
+          ],
+          [
+            -426.6,
+            38.2
+          ],
+          [
+            -422.5,
+            39.8
+          ],
+          [
+            -418.4,
+            42.4
+          ],
+          [
+            -415.8,
+            46.9
+          ],
+          [
+            -415.4,
+            52
+          ],
+          [
+            -422.8,
+            65.9
+          ],
+          [
+            -425,
+            66.7
+          ],
+          [
+            -427.6,
+            66.2
+          ],
+          [
+            -433.6,
+            63.8
+          ]
+        ],
+        "c": [
+          -428.5,
+          52.4
+        ],
+        "prov": "osm",
+        "sourceId": "w221189972",
+        "area": 543
+      },
+      "sourceWindowId": "stora-07-surfaces",
+      "interpretationUncertaintyM": 1.5,
+      "note": "Original polygon follows the putting area, with locally angular edges; the broad northwest apron remains outside the putting claim. No large shift is supported."
+    },
+    {
+      "hole": 7,
+      "kind": "bunker",
+      "sourceId": "w438981594",
+      "status": "replaced-with-reviewed-trace",
+      "originalShape": {
+        "ring": [
+          [
+            -380,
+            249.6
+          ],
+          [
+            -382.6,
+            247.9
+          ],
+          [
+            -384.7,
+            248.1
+          ],
+          [
+            -386.9,
+            249.5
+          ],
+          [
+            -388.5,
+            252.9
+          ],
+          [
+            -388.9,
+            256.5
+          ],
+          [
+            -387.1,
+            260.6
+          ],
+          [
+            -388.2,
+            266.5
+          ],
+          [
+            -388,
+            267.8
+          ],
+          [
+            -386.9,
+            270
+          ],
+          [
+            -385.5,
+            271.7
+          ],
+          [
+            -384.5,
+            272.1
+          ],
+          [
+            -382,
+            271.6
+          ],
+          [
+            -381,
+            270.9
+          ],
+          [
+            -380.5,
+            269.5
+          ],
+          [
+            -380.2,
+            265.9
+          ],
+          [
+            -380.6,
+            263.9
+          ],
+          [
+            -382.7,
+            260.1
+          ],
+          [
+            -383,
+            257.8
+          ],
+          [
+            -382.6,
+            256.7
+          ],
+          [
+            -379.7,
+            253.6
+          ],
+          [
+            -379.2,
+            250.5
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981594"
+      },
+      "sourceWindowId": "stora-07-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "The old outline truncates the clear northern sand cap by approximately 2.5 m and extends beyond the southern sand edge into grass. Trace both lobes and preserve the visible grass indentation on the east."
+    },
+    {
+      "hole": 7,
+      "kind": "bunker",
+      "sourceId": "w438981596",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -405.2,
+            55.6
+          ],
+          [
+            -405.1,
+            52.2
+          ],
+          [
+            -406.2,
+            51.2
+          ],
+          [
+            -409.6,
+            51
+          ],
+          [
+            -410.9,
+            51.7
+          ],
+          [
+            -413.2,
+            56.6
+          ],
+          [
+            -416.9,
+            60.4
+          ],
+          [
+            -417.6,
+            61.9
+          ],
+          [
+            -416.9,
+            64.9
+          ],
+          [
+            -414.3,
+            66.7
+          ],
+          [
+            -412.9,
+            67.2
+          ],
+          [
+            -411.4,
+            66.9
+          ],
+          [
+            -409.3,
+            63.5
+          ],
+          [
+            -404.7,
+            59.3
+          ],
+          [
+            -404.6,
+            57.6
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981596"
+      },
+      "sourceWindowId": "stora-07-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 7,
+      "kind": "bunker",
+      "sourceId": "w438982463",
+      "status": "replaced-with-reviewed-trace",
+      "originalShape": {
+        "ring": [
+          [
+            -434.5,
+            68.9
+          ],
+          [
+            -435.2,
+            67.6
+          ],
+          [
+            -436.2,
+            67.1
+          ],
+          [
+            -438.5,
+            67.7
+          ],
+          [
+            -439,
+            69.8
+          ],
+          [
+            -437.7,
+            72.4
+          ],
+          [
+            -435.8,
+            72.7
+          ],
+          [
+            -434.3,
+            71.3
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438982463"
+      },
+      "sourceWindowId": "stora-07-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "The small southern bunker is a clearly visible oval. The old polygon omits its north and east sides and includes a southern strip of grass. The local outline correction materially changes this small footprint."
+    },
+    {
+      "hole": 8,
+      "kind": "green",
+      "sourceId": "w452926947",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -170.4,
+            -315.1
+          ],
+          [
+            -171,
+            -307.4
+          ],
+          [
+            -170.1,
+            -301.9
+          ],
+          [
+            -167.4,
+            -296.8
+          ],
+          [
+            -161.7,
+            -293
+          ],
+          [
+            -155.4,
+            -292
+          ],
+          [
+            -152,
+            -292
+          ],
+          [
+            -148.7,
+            -294.4
+          ],
+          [
+            -146.7,
+            -297.5
+          ],
+          [
+            -146.3,
+            -302
+          ],
+          [
+            -147.5,
+            -306.2
+          ],
+          [
+            -154.2,
+            -318.4
+          ],
+          [
+            -157.8,
+            -320.9
+          ],
+          [
+            -162,
+            -320.9
+          ],
+          [
+            -165.6,
+            -320
+          ],
+          [
+            -169.1,
+            -317.8
+          ]
+        ],
+        "c": [
+          -159.1,
+          -306
+        ],
+        "prov": "osm",
+        "sourceId": "w452926947",
+        "area": 545
+      },
+      "sourceWindowId": "stora-08-surfaces",
+      "interpretationUncertaintyM": 1.5,
+      "note": "The original green broadly follows the rounded putting edge, and the existing Sahara trace matches the visible exposed sand. Retain both."
+    },
+    {
+      "hole": 8,
+      "kind": "bunker",
+      "sourceId": "upsala-stora-hole8-sahara-sand-2025",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            -181.339,
+            -312.591
+          ],
+          [
+            -180.404,
+            -312.556
+          ],
+          [
+            -179.489,
+            -312.001
+          ],
+          [
+            -178.805,
+            -310.829
+          ],
+          [
+            -178.336,
+            -309.457
+          ],
+          [
+            -178.183,
+            -307.993
+          ],
+          [
+            -178.238,
+            -306.536
+          ],
+          [
+            -178.835,
+            -304.475
+          ],
+          [
+            -179.625,
+            -302.838
+          ],
+          [
+            -180.407,
+            -301.409
+          ],
+          [
+            -181.465,
+            -300.928
+          ],
+          [
+            -182.511,
+            -300.76
+          ],
+          [
+            -183.85,
+            -301.123
+          ],
+          [
+            -185.076,
+            -301.69
+          ],
+          [
+            -186.215,
+            -301.837
+          ],
+          [
+            -187.681,
+            -301.579
+          ],
+          [
+            -188.704,
+            -302.035
+          ],
+          [
+            -189.403,
+            -302.79
+          ],
+          [
+            -189.584,
+            -303.526
+          ],
+          [
+            -189.548,
+            -304.463
+          ],
+          [
+            -189.098,
+            -305.383
+          ],
+          [
+            -188.34,
+            -306.188
+          ],
+          [
+            -187.174,
+            -306.769
+          ],
+          [
+            -186.019,
+            -307.038
+          ],
+          [
+            -184.957,
+            -307.623
+          ],
+          [
+            -184.511,
+            -308.44
+          ],
+          [
+            -184.356,
+            -309.788
+          ],
+          [
+            -183.89,
+            -311.125
+          ],
+          [
+            -183.232,
+            -312.037
+          ],
+          [
+            -182.277,
+            -312.522
+          ]
+        ],
+        "prov": "dated-orthophoto-trace",
+        "sourceId": "upsala-stora-hole8-sahara-sand-2025",
+        "name": "Sahara",
+        "evidence": {
+          "source": "Lantmateriet 2025 orthophoto through advertised Uppsala municipal WMS",
+          "sourceProductYear": 2025,
+          "latestVisualCrossCheckYear": 2024,
+          "sourceSha256": [
+            "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "819f3c18d2d1b1550eadf5234849e14242775f1dbf3883911efe1c6bc4c84ab1"
+          ],
+          "sourceHorizontalAccuracyM": null,
+          "uncertaintyM": 1,
+          "acceptance": "Visible exposed sand boundary traced on the 2025 orthophoto and crosschecked on municipal 2024 imagery; club confirms a new left-greenside bunker in November 2022.",
+          "note": "The existing Stora hole 8 model has no bunker. Sand is completely visible in both reviewed products. Trace the exposed sand edge only; the surrounding grass collar, bunker depth, rake positions and 2026 changes are unverified."
+        }
+      },
+      "sourceWindowId": "stora-08-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "The previously adopted Sahara sand trace agrees closely with the authenticated 2025 exposed-sand boundary; retain its original evidence and geometry."
+    },
+    {
+      "hole": 9,
+      "kind": "green",
+      "sourceId": "w452926955",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            162,
+            -497.5
+          ],
+          [
+            159,
+            -494
+          ],
+          [
+            158.1,
+            -491.5
+          ],
+          [
+            158.6,
+            -487.9
+          ],
+          [
+            160.4,
+            -485
+          ],
+          [
+            163.9,
+            -482.9
+          ],
+          [
+            170.9,
+            -480.7
+          ],
+          [
+            175.5,
+            -481.3
+          ],
+          [
+            179.4,
+            -483.8
+          ],
+          [
+            181.8,
+            -487.9
+          ],
+          [
+            182.4,
+            -498.5
+          ],
+          [
+            181.4,
+            -505.7
+          ],
+          [
+            178.7,
+            -509.6
+          ],
+          [
+            175.4,
+            -512.3
+          ],
+          [
+            172.4,
+            -512.5
+          ],
+          [
+            169.8,
+            -512
+          ],
+          [
+            167.6,
+            -509.3
+          ],
+          [
+            164.7,
+            -500.6
+          ]
+        ],
+        "c": [
+          171.7,
+          -495.4
+        ],
+        "prov": "osm",
+        "sourceId": "w452926955",
+        "area": 550
+      },
+      "sourceWindowId": "stora-09-surfaces",
+      "interpretationUncertaintyM": 1.5,
+      "note": "The original green follows the pale putting footprint. Its southern angular tip differs locally from the collar transition, within approximately 1.5 m interpretation uncertainty."
+    },
+    {
+      "hole": 9,
+      "kind": "bunker",
+      "sourceId": "w438983235",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            161,
+            -505.9
+          ],
+          [
+            157.8,
+            -509.1
+          ],
+          [
+            155.9,
+            -509.1
+          ],
+          [
+            151.6,
+            -505.4
+          ],
+          [
+            150.9,
+            -503.8
+          ],
+          [
+            151.2,
+            -502.3
+          ],
+          [
+            152.1,
+            -500.6
+          ],
+          [
+            153.1,
+            -499.8
+          ],
+          [
+            156.5,
+            -500.2
+          ],
+          [
+            160.1,
+            -502.7
+          ],
+          [
+            160.9,
+            -504.1
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438983235"
+      },
+      "sourceWindowId": "stora-09-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    },
+    {
+      "hole": 9,
+      "kind": "bunker",
+      "sourceId": "w438983236",
+      "status": "retained-corroborated",
+      "originalShape": {
+        "ring": [
+          [
+            153.2,
+            -512.2
+          ],
+          [
+            152.7,
+            -513.3
+          ],
+          [
+            148.7,
+            -515.4
+          ],
+          [
+            146.9,
+            -517.5
+          ],
+          [
+            145.6,
+            -518
+          ],
+          [
+            144.2,
+            -517.8
+          ],
+          [
+            143.2,
+            -516.9
+          ],
+          [
+            142,
+            -514.2
+          ],
+          [
+            142,
+            -512.9
+          ],
+          [
+            143.6,
+            -510.7
+          ],
+          [
+            146.4,
+            -509.4
+          ],
+          [
+            150.2,
+            -509.7
+          ],
+          [
+            152.5,
+            -510.9
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438983236"
+      },
+      "sourceWindowId": "stora-09-surfaces",
+      "interpretationUncertaintyM": 1,
+      "note": "Reviewed on the native whole-hole source and green/detail panel where relevant. The old outline broadly follows visible sand; small collar and angular-edge differences do not justify a replacement in this pass."
+    }
+  ],
+  "features": [
+    {
+      "id": "upsala-stora-01-w452928633-lm2025-review-20260909",
+      "kind": "bunker",
+      "hole": 1,
+      "sourceId": "w452928633",
+      "status": "accepted",
+      "action": "replace",
+      "originalShape": {
+        "ring": [
+          [
+            289.5,
+            56.5
+          ],
+          [
+            287.9,
+            58.2
+          ],
+          [
+            287.9,
+            59.8
+          ],
+          [
+            290.4,
+            65.7
+          ],
+          [
+            291.2,
+            61.5
+          ],
+          [
+            292.8,
+            57.4
+          ],
+          [
+            291.2,
+            56.4
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w452928633"
+      },
+      "ring": [
+        [
+          290.11,
+          55.869
+        ],
+        [
+          290.931,
+          55.937
+        ],
+        [
+          291.668,
+          56.265
+        ],
+        [
+          292.36,
+          56.779
+        ],
+        [
+          292.967,
+          57.552
+        ],
+        [
+          293.387,
+          58.318
+        ],
+        [
+          293.759,
+          59.382
+        ],
+        [
+          294.017,
+          60.479
+        ],
+        [
+          294.195,
+          61.724
+        ],
+        [
+          294.235,
+          62.663
+        ],
+        [
+          294.129,
+          63.484
+        ],
+        [
+          293.842,
+          64.148
+        ],
+        [
+          293.411,
+          64.657
+        ],
+        [
+          292.834,
+          65.047
+        ],
+        [
+          292.187,
+          65.323
+        ],
+        [
+          291.589,
+          65.3
+        ],
+        [
+          291.036,
+          65.092
+        ],
+        [
+          290.416,
+          64.656
+        ],
+        [
+          289.949,
+          64.113
+        ],
+        [
+          289.569,
+          63.274
+        ],
+        [
+          289.228,
+          62.398
+        ],
+        [
+          288.999,
+          61.527
+        ],
+        [
+          288.771,
+          60.618
+        ],
+        [
+          288.428,
+          59.78
+        ],
+        [
+          288.192,
+          59.096
+        ],
+        [
+          288.141,
+          58.457
+        ],
+        [
+          288.317,
+          57.751
+        ],
+        [
+          288.718,
+          57.054
+        ],
+        [
+          289.228,
+          56.435
+        ],
+        [
+          289.692,
+          56.04
+        ]
+      ],
+      "sourceGeometryEPSG3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              640122.964255,
+              6636069.486262
+            ],
+            [
+              640123.789255,
+              6636069.448762
+            ],
+            [
+              640124.539255,
+              6636069.148762
+            ],
+            [
+              640125.251755,
+              6636068.661262
+            ],
+            [
+              640125.889255,
+              6636067.911262
+            ],
+            [
+              640126.339255,
+              6636067.161262
+            ],
+            [
+              640126.751755,
+              6636066.111262
+            ],
+            [
+              640127.051755,
+              6636065.023762
+            ],
+            [
+              640127.276755,
+              6636063.786262
+            ],
+            [
+              640127.351755,
+              6636062.848762
+            ],
+            [
+              640127.276755,
+              6636062.023762
+            ],
+            [
+              640127.014255,
+              6636061.348762
+            ],
+            [
+              640126.601755,
+              6636060.823762
+            ],
+            [
+              640126.039255,
+              6636060.411262
+            ],
+            [
+              640125.401755,
+              6636060.111262
+            ],
+            [
+              640124.801755,
+              6636060.111262
+            ],
+            [
+              640124.239255,
+              6636060.298762
+            ],
+            [
+              640123.601755,
+              6636060.711262
+            ],
+            [
+              640123.114255,
+              6636061.236262
+            ],
+            [
+              640122.701755,
+              6636062.061262
+            ],
+            [
+              640122.326755,
+              6636062.923762
+            ],
+            [
+              640122.064255,
+              6636063.786262
+            ],
+            [
+              640121.801755,
+              6636064.686262
+            ],
+            [
+              640121.426755,
+              6636065.511262
+            ],
+            [
+              640121.164255,
+              6636066.186262
+            ],
+            [
+              640121.089255,
+              6636066.823762
+            ],
+            [
+              640121.239255,
+              6636067.536262
+            ],
+            [
+              640121.614255,
+              6636068.248762
+            ],
+            [
+              640122.101755,
+              6636068.886262
+            ],
+            [
+              640122.551755,
+              6636069.298762
+            ],
+            [
+              640122.964255,
+              6636069.486262
+            ]
+          ]
+        ]
+      },
+      "originalPixelRing": [
+        [
+          396,
+          307
+        ],
+        [
+          418,
+          308
+        ],
+        [
+          438,
+          316
+        ],
+        [
+          457,
+          329
+        ],
+        [
+          474,
+          349
+        ],
+        [
+          486,
+          369
+        ],
+        [
+          497,
+          397
+        ],
+        [
+          505,
+          426
+        ],
+        [
+          511,
+          459
+        ],
+        [
+          513,
+          484
+        ],
+        [
+          511,
+          506
+        ],
+        [
+          504,
+          524
+        ],
+        [
+          493,
+          538
+        ],
+        [
+          478,
+          549
+        ],
+        [
+          461,
+          557
+        ],
+        [
+          445,
+          557
+        ],
+        [
+          430,
+          552
+        ],
+        [
+          413,
+          541
+        ],
+        [
+          400,
+          527
+        ],
+        [
+          389,
+          505
+        ],
+        [
+          379,
+          482
+        ],
+        [
+          372,
+          459
+        ],
+        [
+          365,
+          435
+        ],
+        [
+          355,
+          413
+        ],
+        [
+          348,
+          395
+        ],
+        [
+          346,
+          378
+        ],
+        [
+          350,
+          359
+        ],
+        [
+          360,
+          340
+        ],
+        [
+          373,
+          323
+        ],
+        [
+          385,
+          312
+        ]
+      ],
+      "tracePanel": {
+        "hole": 1,
+        "focusSourceId": "w452928633",
+        "plainPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h01-east/hole-01-plain.png",
+        "overlayPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h01-east/hole-01-overlay.png",
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640108.1142549255,
+          6636050.998761932,
+          640138.1142549255,
+          6636080.998761932
+        ],
+        "geoTransform": [
+          640108.1142549255,
+          0.0375,
+          0.0,
+          6636080.998761932,
+          0.0,
+          -0.0375
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained",
+        "sources": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-01-surfaces.tif",
+            "sha256": "f1fba8a4e57b5d1ec9a275f0e01c060857ab1c80547bc68798c16173a0cea851",
+            "crs": "EPSG:3006",
+            "width": 1268,
+            "height": 1133,
+            "geoTransform": [
+              639952.96,
+              0.16,
+              0.0,
+              6636195.68,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              639952.96,
+              6636014.399999999,
+              640155.84,
+              6636195.68
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "source": "Lantmateriet authenticated Ortofoto Nedladdning, orto-o2-2025",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "captureEvidencePath": "geo_data/course-v2/upsala/reference/lm-ortho-capture-2026-09-09.json",
+        "captureEvidenceSha256": "2e0eebeef0f49567e0b72c6dd83999da79d0d0c8b822ae762a154915e26ee317",
+        "captureDateFootprintCoverageFraction": 1.0,
+        "sourceFiles": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-01-surfaces.tif",
+            "sha256": "f1fba8a4e57b5d1ec9a275f0e01c060857ab1c80547bc68798c16173a0cea851",
+            "rgbSha256": "56f056d5704a05cbd2daa2fa6be3a272ecef9eb742438a67a0a223a1360739d0",
+            "resolutionMetres": 0.16
+          }
+        ],
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": 0.5,
+        "acceptance": "The old triangular eastern edge omits the plainly visible east and southeast sand lobe. Trace the continuous exposed sand edge, excluding the darker grass collar.",
+        "note": "Manual visual boundary interpretation from the full RGB footprint. Display upsampling adds no source resolution. Sand depth, grass-bank breaklines and later changes remain unmeasured."
+      },
+      "comparison": {
+        "originalAreaM2": 24.11,
+        "acceptedAreaM2": 41.396,
+        "maximumRoundTripErrorM": 0.000612
+      }
+    },
+    {
+      "id": "upsala-stora-02-w438983953-lm2025-review-20260909",
+      "kind": "bunker",
+      "hole": 2,
+      "sourceId": "w438983953",
+      "status": "accepted",
+      "action": "replace",
+      "originalShape": {
+        "ring": [
+          [
+            322.5,
+            -132.9
+          ],
+          [
+            319.8,
+            -139.9
+          ],
+          [
+            319.4,
+            -140.4
+          ],
+          [
+            318.3,
+            -140.3
+          ],
+          [
+            316.9,
+            -138.3
+          ],
+          [
+            316.4,
+            -133.4
+          ],
+          [
+            317,
+            -131.7
+          ],
+          [
+            318.1,
+            -130.5
+          ],
+          [
+            320.9,
+            -130.2
+          ],
+          [
+            322.2,
+            -131
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438983953"
+      },
+      "ring": [
+        [
+          319.234,
+          -141.057
+        ],
+        [
+          319.926,
+          -140.881
+        ],
+        [
+          320.707,
+          -140.401
+        ],
+        [
+          321.327,
+          -139.628
+        ],
+        [
+          321.939,
+          -138.655
+        ],
+        [
+          322.544,
+          -137.482
+        ],
+        [
+          323.045,
+          -136.213
+        ],
+        [
+          323.4,
+          -135.049
+        ],
+        [
+          323.516,
+          -134.145
+        ],
+        [
+          323.336,
+          -133.352
+        ],
+        [
+          322.858,
+          -132.57
+        ],
+        [
+          322.183,
+          -131.895
+        ],
+        [
+          321.47,
+          -131.522
+        ],
+        [
+          320.615,
+          -131.354
+        ],
+        [
+          319.72,
+          -131.438
+        ],
+        [
+          318.985,
+          -131.816
+        ],
+        [
+          318.304,
+          -132.292
+        ],
+        [
+          317.828,
+          -132.91
+        ],
+        [
+          317.458,
+          -133.674
+        ],
+        [
+          317.239,
+          -134.482
+        ],
+        [
+          317.179,
+          -135.535
+        ],
+        [
+          317.228,
+          -136.833
+        ],
+        [
+          317.324,
+          -138.079
+        ],
+        [
+          317.569,
+          -139.27
+        ],
+        [
+          318.004,
+          -140.204
+        ],
+        [
+          318.626,
+          -140.83
+        ]
+      ],
+      "sourceGeometryEPSG3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              640144.699664,
+              6636267.500401
+            ],
+            [
+              640145.399664,
+              6636267.350401
+            ],
+            [
+              640146.199664,
+              6636266.900401
+            ],
+            [
+              640146.849664,
+              6636266.150401
+            ],
+            [
+              640147.499664,
+              6636265.200401
+            ],
+            [
+              640148.149664,
+              6636264.050401
+            ],
+            [
+              640148.699664,
+              6636262.800401
+            ],
+            [
+              640149.099664,
+              6636261.650401
+            ],
+            [
+              640149.249664,
+              6636260.750401
+            ],
+            [
+              640149.099664,
+              6636259.950401
+            ],
+            [
+              640148.649664,
+              6636259.150401
+            ],
+            [
+              640147.999664,
+              6636258.450401
+            ],
+            [
+              640147.299664,
+              6636258.050401
+            ],
+            [
+              640146.449664,
+              6636257.850401
+            ],
+            [
+              640145.549664,
+              6636257.900401
+            ],
+            [
+              640144.799664,
+              6636258.250401
+            ],
+            [
+              640144.099664,
+              6636258.700401
+            ],
+            [
+              640143.599664,
+              6636259.300401
+            ],
+            [
+              640143.199664,
+              6636260.050401
+            ],
+            [
+              640142.949664,
+              6636260.850401
+            ],
+            [
+              640142.849664,
+              6636261.900401
+            ],
+            [
+              640142.849664,
+              6636263.200401
+            ],
+            [
+              640142.899664,
+              6636264.450401
+            ],
+            [
+              640143.099664,
+              6636265.650401
+            ],
+            [
+              640143.499664,
+              6636266.600401
+            ],
+            [
+              640144.099664,
+              6636267.250401
+            ],
+            [
+              640144.699664,
+              6636267.500401
+            ]
+          ]
+        ]
+      },
+      "originalPixelRing": [
+        [
+          397,
+          276
+        ],
+        [
+          411,
+          279
+        ],
+        [
+          427,
+          288
+        ],
+        [
+          440,
+          303
+        ],
+        [
+          453,
+          322
+        ],
+        [
+          466,
+          345
+        ],
+        [
+          477,
+          370
+        ],
+        [
+          485,
+          393
+        ],
+        [
+          488,
+          411
+        ],
+        [
+          485,
+          427
+        ],
+        [
+          476,
+          443
+        ],
+        [
+          463,
+          457
+        ],
+        [
+          449,
+          465
+        ],
+        [
+          432,
+          469
+        ],
+        [
+          414,
+          468
+        ],
+        [
+          399,
+          461
+        ],
+        [
+          385,
+          452
+        ],
+        [
+          375,
+          440
+        ],
+        [
+          367,
+          425
+        ],
+        [
+          362,
+          409
+        ],
+        [
+          360,
+          388
+        ],
+        [
+          360,
+          362
+        ],
+        [
+          361,
+          337
+        ],
+        [
+          365,
+          313
+        ],
+        [
+          373,
+          294
+        ],
+        [
+          385,
+          281
+        ]
+      ],
+      "tracePanel": {
+        "hole": 2,
+        "focusSourceId": "w438983953",
+        "plainPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h02-distal/hole-02-plain.png",
+        "overlayPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h02-distal/hole-02-overlay.png",
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640124.8496642823,
+          6636241.300401146,
+          640164.8496642823,
+          6636281.300401146
+        ],
+        "geoTransform": [
+          640124.8496642823,
+          0.05,
+          0.0,
+          6636281.300401146,
+          0.0,
+          -0.05
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained",
+        "sources": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-02-surfaces.tif",
+            "sha256": "ed5f9ce358a5f1d34a5c9a5669e2fd17cfde2a8fe9edd8c467f01c774b54f945",
+            "crs": "EPSG:3006",
+            "width": 801,
+            "height": 960,
+            "geoTransform": [
+              640050.24,
+              0.16,
+              0.0,
+              6636329.92,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              640050.24,
+              6636176.32,
+              640178.4,
+              6636329.92
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "source": "Lantmateriet authenticated Ortofoto Nedladdning, orto-o2-2025",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "captureEvidencePath": "geo_data/course-v2/upsala/reference/lm-ortho-capture-2026-09-09.json",
+        "captureEvidenceSha256": "2e0eebeef0f49567e0b72c6dd83999da79d0d0c8b822ae762a154915e26ee317",
+        "captureDateFootprintCoverageFraction": 1.0,
+        "sourceFiles": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-02-surfaces.tif",
+            "sha256": "ed5f9ce358a5f1d34a5c9a5669e2fd17cfde2a8fe9edd8c467f01c774b54f945",
+            "rgbSha256": "138c003b50cd9662e088c7006833e94f717dbd4e2f52854f8fb129e5af223ce9",
+            "resolutionMetres": 0.16
+          }
+        ],
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": 0.5,
+        "acceptance": "The source triangle clips the visible east side of the oval sand footprint and extends into the southern grass collar. The entire exposed edge is visible.",
+        "note": "Manual visual boundary interpretation from the full RGB footprint. Display upsampling adds no source resolution. Sand depth, grass-bank breaklines and later changes remain unmeasured."
+      },
+      "comparison": {
+        "originalAreaM2": 43.585,
+        "acceptedAreaM2": 45.585,
+        "maximumRoundTripErrorM": 0.000572
+      }
+    },
+    {
+      "id": "upsala-stora-03-w438986830-lm2025-review-20260909",
+      "kind": "bunker",
+      "hole": 3,
+      "sourceId": "w438986830",
+      "status": "accepted",
+      "action": "merge",
+      "originalShape": {
+        "ring": [
+          [
+            414.4,
+            205.5
+          ],
+          [
+            415,
+            198.9
+          ],
+          [
+            414.3,
+            196.1
+          ],
+          [
+            409.5,
+            191.6
+          ],
+          [
+            408.5,
+            191.2
+          ],
+          [
+            405.5,
+            191.4
+          ],
+          [
+            402.7,
+            192.7
+          ],
+          [
+            402,
+            193.6
+          ],
+          [
+            401.4,
+            196.7
+          ],
+          [
+            401.9,
+            200.2
+          ],
+          [
+            402.6,
+            201.1
+          ],
+          [
+            403.5,
+            201.7
+          ],
+          [
+            405.3,
+            201.4
+          ],
+          [
+            407,
+            197.4
+          ],
+          [
+            408.8,
+            196.9
+          ],
+          [
+            410.1,
+            198.2
+          ],
+          [
+            410.3,
+            199.4
+          ],
+          [
+            409.5,
+            202.3
+          ],
+          [
+            408.2,
+            204.4
+          ],
+          [
+            408.5,
+            205.9
+          ],
+          [
+            409.3,
+            206.6
+          ],
+          [
+            412.5,
+            207.1
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438986830"
+      },
+      "ring": [
+        [
+          406.889,
+          190.521
+        ],
+        [
+          408.233,
+          190.622
+        ],
+        [
+          409.514,
+          191.07
+        ],
+        [
+          410.636,
+          191.763
+        ],
+        [
+          411.699,
+          192.703
+        ],
+        [
+          412.652,
+          193.889
+        ],
+        [
+          413.456,
+          195.07
+        ],
+        [
+          414.253,
+          196.45
+        ],
+        [
+          414.848,
+          197.873
+        ],
+        [
+          415.512,
+          198.798
+        ],
+        [
+          416.337,
+          199.429
+        ],
+        [
+          417.47,
+          199.822
+        ],
+        [
+          418.759,
+          200.071
+        ],
+        [
+          419.892,
+          200.464
+        ],
+        [
+          420.807,
+          201.348
+        ],
+        [
+          421.613,
+          202.479
+        ],
+        [
+          422.166,
+          203.7
+        ],
+        [
+          422.471,
+          204.862
+        ],
+        [
+          422.493,
+          205.613
+        ],
+        [
+          422.158,
+          206.55
+        ],
+        [
+          421.57,
+          207.578
+        ],
+        [
+          420.735,
+          208.546
+        ],
+        [
+          419.869,
+          209.013
+        ],
+        [
+          419.016,
+          209.131
+        ],
+        [
+          418.324,
+          208.955
+        ],
+        [
+          417.888,
+          208.588
+        ],
+        [
+          417.662,
+          207.98
+        ],
+        [
+          417.592,
+          207.177
+        ],
+        [
+          417.783,
+          206.084
+        ],
+        [
+          417.867,
+          205.187
+        ],
+        [
+          417.701,
+          204.281
+        ],
+        [
+          417.379,
+          203.569
+        ],
+        [
+          416.897,
+          203.101
+        ],
+        [
+          416.358,
+          202.83
+        ],
+        [
+          415.714,
+          202.706
+        ],
+        [
+          415.108,
+          202.883
+        ],
+        [
+          414.641,
+          203.365
+        ],
+        [
+          414.316,
+          204.053
+        ],
+        [
+          413.938,
+          204.789
+        ],
+        [
+          413.371,
+          205.267
+        ],
+        [
+          412.61,
+          205.588
+        ],
+        [
+          411.857,
+          205.71
+        ],
+        [
+          411.014,
+          205.578
+        ],
+        [
+          410.03,
+          205.191
+        ],
+        [
+          409.299,
+          204.713
+        ],
+        [
+          408.624,
+          204.087
+        ],
+        [
+          408.453,
+          203.331
+        ],
+        [
+          408.629,
+          202.638
+        ],
+        [
+          409.059,
+          201.804
+        ],
+        [
+          409.444,
+          200.868
+        ],
+        [
+          409.731,
+          199.879
+        ],
+        [
+          409.968,
+          198.888
+        ],
+        [
+          409.948,
+          198.087
+        ],
+        [
+          409.777,
+          197.331
+        ],
+        [
+          409.453,
+          196.668
+        ],
+        [
+          409.019,
+          196.252
+        ],
+        [
+          408.429,
+          196.03
+        ],
+        [
+          407.831,
+          196.007
+        ],
+        [
+          407.275,
+          196.186
+        ],
+        [
+          406.811,
+          196.568
+        ],
+        [
+          406.541,
+          197.108
+        ],
+        [
+          406.363,
+          197.851
+        ],
+        [
+          406.285,
+          198.599
+        ],
+        [
+          406.104,
+          199.442
+        ],
+        [
+          405.73,
+          200.078
+        ],
+        [
+          405.221,
+          200.358
+        ],
+        [
+          404.526,
+          200.232
+        ],
+        [
+          403.788,
+          199.954
+        ],
+        [
+          403.061,
+          199.377
+        ],
+        [
+          402.539,
+          198.657
+        ],
+        [
+          402.121,
+          197.841
+        ],
+        [
+          401.806,
+          196.929
+        ],
+        [
+          401.694,
+          195.925
+        ],
+        [
+          401.831,
+          194.93
+        ],
+        [
+          402.166,
+          193.992
+        ],
+        [
+          402.649,
+          193.111
+        ],
+        [
+          403.329,
+          192.286
+        ],
+        [
+          404.208,
+          191.469
+        ],
+        [
+          405.124,
+          191.004
+        ],
+        [
+          406.035,
+          190.689
+        ]
+      ],
+      "sourceGeometryEPSG3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              640245.023635,
+              6635939.26152
+            ],
+            [
+              640246.373635,
+              6635939.21152
+            ],
+            [
+              640247.673635,
+              6635938.81152
+            ],
+            [
+              640248.823635,
+              6635938.16152
+            ],
+            [
+              640249.923635,
+              6635937.26152
+            ],
+            [
+              640250.923635,
+              6635936.11152
+            ],
+            [
+              640251.773635,
+              6635934.96152
+            ],
+            [
+              640252.623635,
+              6635933.61152
+            ],
+            [
+              640253.273635,
+              6635932.21152
+            ],
+            [
+              640253.973635,
+              6635931.31152
+            ],
+            [
+              640254.823635,
+              6635930.71152
+            ],
+            [
+              640255.973635,
+              6635930.36152
+            ],
+            [
+              640257.273635,
+              6635930.16152
+            ],
+            [
+              640258.423635,
+              6635929.81152
+            ],
+            [
+              640259.373635,
+              6635928.96152
+            ],
+            [
+              640260.223635,
+              6635927.86152
+            ],
+            [
+              640260.823635,
+              6635926.66152
+            ],
+            [
+              640261.173635,
+              6635925.51152
+            ],
+            [
+              640261.223635,
+              6635924.76152
+            ],
+            [
+              640260.923635,
+              6635923.81152
+            ],
+            [
+              640260.373635,
+              6635922.76152
+            ],
+            [
+              640259.573635,
+              6635921.76152
+            ],
+            [
+              640258.723635,
+              6635921.26152
+            ],
+            [
+              640257.873635,
+              6635921.11152
+            ],
+            [
+              640257.173635,
+              6635921.26152
+            ],
+            [
+              640256.723635,
+              6635921.61152
+            ],
+            [
+              640256.473635,
+              6635922.21152
+            ],
+            [
+              640256.373635,
+              6635923.01152
+            ],
+            [
+              640256.523635,
+              6635924.11152
+            ],
+            [
+              640256.573635,
+              6635925.01152
+            ],
+            [
+              640256.373635,
+              6635925.91152
+            ],
+            [
+              640256.023635,
+              6635926.61152
+            ],
+            [
+              640255.523635,
+              6635927.06152
+            ],
+            [
+              640254.973635,
+              6635927.31152
+            ],
+            [
+              640254.323635,
+              6635927.41152
+            ],
+            [
+              640253.723635,
+              6635927.21152
+            ],
+            [
+              640253.273635,
+              6635926.71152
+            ],
+            [
+              640252.973635,
+              6635926.01152
+            ],
+            [
+              640252.623635,
+              6635925.26152
+            ],
+            [
+              640252.073635,
+              6635924.76152
+            ],
+            [
+              640251.323635,
+              6635924.41152
+            ],
+            [
+              640250.573635,
+              6635924.26152
+            ],
+            [
+              640249.723635,
+              6635924.36152
+            ],
+            [
+              640248.723635,
+              6635924.71152
+            ],
+            [
+              640247.973635,
+              6635925.16152
+            ],
+            [
+              640247.273635,
+              6635925.76152
+            ],
+            [
+              640247.073635,
+              6635926.51152
+            ],
+            [
+              640247.223635,
+              6635927.21152
+            ],
+            [
+              640247.623635,
+              6635928.06152
+            ],
+            [
+              640247.973635,
+              6635929.01152
+            ],
+            [
+              640248.223635,
+              6635930.01152
+            ],
+            [
+              640248.423635,
+              6635931.01152
+            ],
+            [
+              640248.373635,
+              6635931.81152
+            ],
+            [
+              640248.173635,
+              6635932.56152
+            ],
+            [
+              640247.823635,
+              6635933.21152
+            ],
+            [
+              640247.373635,
+              6635933.61152
+            ],
+            [
+              640246.773635,
+              6635933.81152
+            ],
+            [
+              640246.173635,
+              6635933.81152
+            ],
+            [
+              640245.623635,
+              6635933.61152
+            ],
+            [
+              640245.173635,
+              6635933.21152
+            ],
+            [
+              640244.923635,
+              6635932.66152
+            ],
+            [
+              640244.773635,
+              6635931.91152
+            ],
+            [
+              640244.723635,
+              6635931.16152
+            ],
+            [
+              640244.573635,
+              6635930.31152
+            ],
+            [
+              640244.223635,
+              6635929.66152
+            ],
+            [
+              640243.723635,
+              6635929.36152
+            ],
+            [
+              640243.023635,
+              6635929.46152
+            ],
+            [
+              640242.273635,
+              6635929.71152
+            ],
+            [
+              640241.523635,
+              6635930.26152
+            ],
+            [
+              640240.973635,
+              6635930.96152
+            ],
+            [
+              640240.523635,
+              6635931.76152
+            ],
+            [
+              640240.173635,
+              6635932.66152
+            ],
+            [
+              640240.023635,
+              6635933.66152
+            ],
+            [
+              640240.123635,
+              6635934.66152
+            ],
+            [
+              640240.423635,
+              6635935.61152
+            ],
+            [
+              640240.873635,
+              6635936.51152
+            ],
+            [
+              640241.523635,
+              6635937.36152
+            ],
+            [
+              640242.373635,
+              6635938.21152
+            ],
+            [
+              640243.273635,
+              6635938.71152
+            ],
+            [
+              640244.173635,
+              6635939.06152
+            ],
+            [
+              640245.023635,
+              6635939.26152
+            ]
+          ]
+        ]
+      },
+      "originalPixelRing": [
+        [
+          376,
+          229
+        ],
+        [
+          403,
+          230
+        ],
+        [
+          429,
+          238
+        ],
+        [
+          452,
+          251
+        ],
+        [
+          474,
+          269
+        ],
+        [
+          494,
+          292
+        ],
+        [
+          511,
+          315
+        ],
+        [
+          528,
+          342
+        ],
+        [
+          541,
+          370
+        ],
+        [
+          555,
+          388
+        ],
+        [
+          572,
+          400
+        ],
+        [
+          595,
+          407
+        ],
+        [
+          621,
+          411
+        ],
+        [
+          644,
+          418
+        ],
+        [
+          663,
+          435
+        ],
+        [
+          680,
+          457
+        ],
+        [
+          692,
+          481
+        ],
+        [
+          699,
+          504
+        ],
+        [
+          700,
+          519
+        ],
+        [
+          694,
+          538
+        ],
+        [
+          683,
+          559
+        ],
+        [
+          667,
+          579
+        ],
+        [
+          650,
+          589
+        ],
+        [
+          633,
+          592
+        ],
+        [
+          619,
+          589
+        ],
+        [
+          610,
+          582
+        ],
+        [
+          605,
+          570
+        ],
+        [
+          603,
+          554
+        ],
+        [
+          606,
+          532
+        ],
+        [
+          607,
+          514
+        ],
+        [
+          603,
+          496
+        ],
+        [
+          596,
+          482
+        ],
+        [
+          586,
+          473
+        ],
+        [
+          575,
+          468
+        ],
+        [
+          562,
+          466
+        ],
+        [
+          550,
+          470
+        ],
+        [
+          541,
+          480
+        ],
+        [
+          535,
+          494
+        ],
+        [
+          528,
+          509
+        ],
+        [
+          517,
+          519
+        ],
+        [
+          502,
+          526
+        ],
+        [
+          487,
+          529
+        ],
+        [
+          470,
+          527
+        ],
+        [
+          450,
+          520
+        ],
+        [
+          435,
+          511
+        ],
+        [
+          421,
+          499
+        ],
+        [
+          417,
+          484
+        ],
+        [
+          420,
+          470
+        ],
+        [
+          428,
+          453
+        ],
+        [
+          435,
+          434
+        ],
+        [
+          440,
+          414
+        ],
+        [
+          444,
+          394
+        ],
+        [
+          443,
+          378
+        ],
+        [
+          439,
+          363
+        ],
+        [
+          432,
+          350
+        ],
+        [
+          423,
+          342
+        ],
+        [
+          411,
+          338
+        ],
+        [
+          399,
+          338
+        ],
+        [
+          388,
+          342
+        ],
+        [
+          379,
+          350
+        ],
+        [
+          374,
+          361
+        ],
+        [
+          371,
+          376
+        ],
+        [
+          370,
+          391
+        ],
+        [
+          367,
+          408
+        ],
+        [
+          360,
+          421
+        ],
+        [
+          350,
+          427
+        ],
+        [
+          336,
+          425
+        ],
+        [
+          321,
+          420
+        ],
+        [
+          306,
+          409
+        ],
+        [
+          295,
+          395
+        ],
+        [
+          286,
+          379
+        ],
+        [
+          279,
+          361
+        ],
+        [
+          276,
+          341
+        ],
+        [
+          278,
+          321
+        ],
+        [
+          284,
+          302
+        ],
+        [
+          293,
+          284
+        ],
+        [
+          306,
+          267
+        ],
+        [
+          323,
+          250
+        ],
+        [
+          341,
+          240
+        ],
+        [
+          359,
+          233
+        ]
+      ],
+      "tracePanel": {
+        "hole": 3,
+        "focusSourceId": "w438986830",
+        "plainPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h03-west/hole-03-plain.png",
+        "overlayPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h03-west/hole-03-overlay.png",
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640226.2236352953,
+          6635910.711519784,
+          640266.2236352953,
+          6635950.711519784
+        ],
+        "geoTransform": [
+          640226.2236352953,
+          0.05,
+          0.0,
+          6635950.711519784,
+          0.0,
+          -0.05
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained",
+        "sources": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-03-surfaces.tif",
+            "sha256": "e60a52407c1e728fbb347f4f699e979f57d7c434205d32a14140853b557062fd",
+            "crs": "EPSG:3006",
+            "width": 1173,
+            "height": 2607,
+            "geoTransform": [
+              640137.76,
+              0.16,
+              0.0,
+              6636304.0,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              640137.76,
+              6635886.88,
+              640325.4400000001,
+              6636304.0
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "source": "Lantmateriet authenticated Ortofoto Nedladdning, orto-o2-2025",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "captureEvidencePath": "geo_data/course-v2/upsala/reference/lm-ortho-capture-2026-09-09.json",
+        "captureEvidenceSha256": "2e0eebeef0f49567e0b72c6dd83999da79d0d0c8b822ae762a154915e26ee317",
+        "captureDateFootprintCoverageFraction": 1.0,
+        "sourceFiles": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-03-surfaces.tif",
+            "sha256": "e60a52407c1e728fbb347f4f699e979f57d7c434205d32a14140853b557062fd",
+            "rgbSha256": "82f0ab6db288eeeac492fb2f71b2b553d88c53e0da67a8d34847d6382a818a90",
+            "resolutionMetres": 0.16
+          }
+        ],
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": 0.5,
+        "acceptance": "The west greenside sand is one connected three-lobed bunker. The two old polygons leave an artificial grass gap across a fully visible sand neck. Trace the single outer edge and retire the secondary split footprint.",
+        "note": "Manual visual boundary interpretation from the full RGB footprint. Display upsampling adds no source resolution. Sand depth, grass-bank breaklines and later changes remain unmeasured."
+      },
+      "comparison": {
+        "originalAreaM2": 126.81,
+        "acceptedAreaM2": 159.958,
+        "maximumRoundTripErrorM": 0.000663
+      },
+      "mergedSourceIds": [
+        "w438986828"
+      ],
+      "originalMergedShapes": [
+        {
+          "ring": [
+            [
+              422.1,
+              207.1
+            ],
+            [
+              422.7,
+              205.7
+            ],
+            [
+              422.2,
+              202.7
+            ],
+            [
+              419.9,
+              201
+            ],
+            [
+              417.8,
+              201.1
+            ],
+            [
+              417,
+              201.9
+            ],
+            [
+              416.8,
+              203
+            ],
+            [
+              417.9,
+              205.8
+            ],
+            [
+              417.2,
+              209.6
+            ],
+            [
+              418.5,
+              210.4
+            ],
+            [
+              420.2,
+              209.8
+            ]
+          ],
+          "prov": "osm",
+          "sourceId": "w438986828"
+        }
+      ],
+      "neckObservation": {
+        "pixel": [
+          555,
+          438
+        ],
+        "pointEPSG3006": [
+          640253.973635,
+          6635928.81152
+        ],
+        "localPoint": [
+          415.418,
+          201.294
+        ],
+        "observation": "Visible exposed sand within the former inter-polygon gap; no internal grass lip."
+      }
+    },
+    {
+      "id": "upsala-stora-07-w438981594-lm2025-review-20260909",
+      "kind": "bunker",
+      "hole": 7,
+      "sourceId": "w438981594",
+      "status": "accepted",
+      "action": "replace",
+      "originalShape": {
+        "ring": [
+          [
+            -380,
+            249.6
+          ],
+          [
+            -382.6,
+            247.9
+          ],
+          [
+            -384.7,
+            248.1
+          ],
+          [
+            -386.9,
+            249.5
+          ],
+          [
+            -388.5,
+            252.9
+          ],
+          [
+            -388.9,
+            256.5
+          ],
+          [
+            -387.1,
+            260.6
+          ],
+          [
+            -388.2,
+            266.5
+          ],
+          [
+            -388,
+            267.8
+          ],
+          [
+            -386.9,
+            270
+          ],
+          [
+            -385.5,
+            271.7
+          ],
+          [
+            -384.5,
+            272.1
+          ],
+          [
+            -382,
+            271.6
+          ],
+          [
+            -381,
+            270.9
+          ],
+          [
+            -380.5,
+            269.5
+          ],
+          [
+            -380.2,
+            265.9
+          ],
+          [
+            -380.6,
+            263.9
+          ],
+          [
+            -382.7,
+            260.1
+          ],
+          [
+            -383,
+            257.8
+          ],
+          [
+            -382.6,
+            256.7
+          ],
+          [
+            -379.7,
+            253.6
+          ],
+          [
+            -379.2,
+            250.5
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438981594"
+      },
+      "ring": [
+        [
+          -383.466,
+          245.434
+        ],
+        [
+          -382.373,
+          245.575
+        ],
+        [
+          -381.098,
+          246.173
+        ],
+        [
+          -380.033,
+          247.063
+        ],
+        [
+          -379.329,
+          248.24
+        ],
+        [
+          -379.023,
+          249.401
+        ],
+        [
+          -378.964,
+          250.504
+        ],
+        [
+          -379.212,
+          251.794
+        ],
+        [
+          -379.603,
+          252.88
+        ],
+        [
+          -380.288,
+          253.854
+        ],
+        [
+          -381.116,
+          254.623
+        ],
+        [
+          -381.935,
+          255.192
+        ],
+        [
+          -382.615,
+          256.017
+        ],
+        [
+          -382.845,
+          256.808
+        ],
+        [
+          -382.83,
+          257.759
+        ],
+        [
+          -382.576,
+          258.968
+        ],
+        [
+          -382.021,
+          260.139
+        ],
+        [
+          -381.462,
+          261.21
+        ],
+        [
+          -380.957,
+          262.379
+        ],
+        [
+          -380.703,
+          263.589
+        ],
+        [
+          -380.604,
+          264.943
+        ],
+        [
+          -380.609,
+          266.393
+        ],
+        [
+          -380.661,
+          267.791
+        ],
+        [
+          -380.855,
+          268.984
+        ],
+        [
+          -381.183,
+          269.721
+        ],
+        [
+          -381.752,
+          270.25
+        ],
+        [
+          -382.413,
+          270.575
+        ],
+        [
+          -383.216,
+          270.695
+        ],
+        [
+          -384.057,
+          270.513
+        ],
+        [
+          -384.99,
+          270.078
+        ],
+        [
+          -385.765,
+          269.449
+        ],
+        [
+          -386.48,
+          268.572
+        ],
+        [
+          -386.943,
+          267.604
+        ],
+        [
+          -387.301,
+          266.491
+        ],
+        [
+          -387.361,
+          265.438
+        ],
+        [
+          -387.22,
+          264.344
+        ],
+        [
+          -386.926,
+          263.155
+        ],
+        [
+          -386.684,
+          262.014
+        ],
+        [
+          -386.595,
+          260.967
+        ],
+        [
+          -386.762,
+          260.111
+        ],
+        [
+          -387.079,
+          259.249
+        ],
+        [
+          -387.439,
+          258.185
+        ],
+        [
+          -387.85,
+          257.17
+        ],
+        [
+          -388.311,
+          256.152
+        ],
+        [
+          -388.563,
+          254.893
+        ],
+        [
+          -388.669,
+          253.739
+        ],
+        [
+          -388.877,
+          252.631
+        ],
+        [
+          -388.936,
+          251.528
+        ],
+        [
+          -388.841,
+          250.332
+        ],
+        [
+          -388.499,
+          249.195
+        ],
+        [
+          -387.959,
+          248.115
+        ],
+        [
+          -387.276,
+          247.191
+        ],
+        [
+          -386.4,
+          246.473
+        ],
+        [
+          -385.381,
+          245.912
+        ],
+        [
+          -384.371,
+          245.6
+        ]
+      ],
+      "sourceGeometryEPSG3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639455.397773,
+              6635854.521235
+            ],
+            [
+              639456.497773,
+              6635854.421235
+            ],
+            [
+              639457.797773,
+              6635853.871235
+            ],
+            [
+              639458.897773,
+              6635853.021235
+            ],
+            [
+              639459.647773,
+              6635851.871235
+            ],
+            [
+              639459.997773,
+              6635850.721235
+            ],
+            [
+              639460.097773,
+              6635849.621235
+            ],
+            [
+              639459.897773,
+              6635848.321235
+            ],
+            [
+              639459.547773,
+              6635847.221235
+            ],
+            [
+              639458.897773,
+              6635846.221235
+            ],
+            [
+              639458.097773,
+              6635845.421235
+            ],
+            [
+              639457.297773,
+              6635844.821235
+            ],
+            [
+              639456.647773,
+              6635843.971235
+            ],
+            [
+              639456.447773,
+              6635843.171235
+            ],
+            [
+              639456.497773,
+              6635842.221235
+            ],
+            [
+              639456.797773,
+              6635841.021235
+            ],
+            [
+              639457.397773,
+              6635839.871235
+            ],
+            [
+              639457.997773,
+              6635838.821235
+            ],
+            [
+              639458.547773,
+              6635837.671235
+            ],
+            [
+              639458.847773,
+              6635836.471235
+            ],
+            [
+              639458.997773,
+              6635835.121235
+            ],
+            [
+              639459.047773,
+              6635833.671235
+            ],
+            [
+              639459.047773,
+              6635832.271235
+            ],
+            [
+              639458.897773,
+              6635831.071235
+            ],
+            [
+              639458.597773,
+              6635830.321235
+            ],
+            [
+              639458.047773,
+              6635829.771235
+            ],
+            [
+              639457.397773,
+              6635829.421235
+            ],
+            [
+              639456.597773,
+              6635829.271235
+            ],
+            [
+              639455.747773,
+              6635829.421235
+            ],
+            [
+              639454.797773,
+              6635829.821235
+            ],
+            [
+              639453.997773,
+              6635830.421235
+            ],
+            [
+              639453.247773,
+              6635831.271235
+            ],
+            [
+              639452.747773,
+              6635832.221235
+            ],
+            [
+              639452.347773,
+              6635833.321235
+            ],
+            [
+              639452.247773,
+              6635834.371235
+            ],
+            [
+              639452.347773,
+              6635835.471235
+            ],
+            [
+              639452.597773,
+              6635836.671235
+            ],
+            [
+              639452.797773,
+              6635837.821235
+            ],
+            [
+              639452.847773,
+              6635838.871235
+            ],
+            [
+              639452.647773,
+              6635839.721235
+            ],
+            [
+              639452.297773,
+              6635840.571235
+            ],
+            [
+              639451.897773,
+              6635841.621235
+            ],
+            [
+              639451.447773,
+              6635842.621235
+            ],
+            [
+              639450.947773,
+              6635843.621235
+            ],
+            [
+              639450.647773,
+              6635844.871235
+            ],
+            [
+              639450.497773,
+              6635846.021235
+            ],
+            [
+              639450.247773,
+              6635847.121235
+            ],
+            [
+              639450.147773,
+              6635848.221235
+            ],
+            [
+              639450.197773,
+              6635849.421235
+            ],
+            [
+              639450.497773,
+              6635850.571235
+            ],
+            [
+              639450.997773,
+              6635851.671235
+            ],
+            [
+              639451.647773,
+              6635852.621235
+            ],
+            [
+              639452.497773,
+              6635853.371235
+            ],
+            [
+              639453.497773,
+              6635853.971235
+            ],
+            [
+              639454.497773,
+              6635854.321235
+            ],
+            [
+              639455.397773,
+              6635854.521235
+            ]
+          ]
+        ]
+      },
+      "originalPixelRing": [
+        [
+          395,
+          96
+        ],
+        [
+          417,
+          98
+        ],
+        [
+          443,
+          109
+        ],
+        [
+          465,
+          126
+        ],
+        [
+          480,
+          149
+        ],
+        [
+          487,
+          172
+        ],
+        [
+          489,
+          194
+        ],
+        [
+          485,
+          220
+        ],
+        [
+          478,
+          242
+        ],
+        [
+          465,
+          262
+        ],
+        [
+          449,
+          278
+        ],
+        [
+          433,
+          290
+        ],
+        [
+          420,
+          307
+        ],
+        [
+          416,
+          323
+        ],
+        [
+          417,
+          342
+        ],
+        [
+          423,
+          366
+        ],
+        [
+          435,
+          389
+        ],
+        [
+          447,
+          410
+        ],
+        [
+          458,
+          433
+        ],
+        [
+          464,
+          457
+        ],
+        [
+          467,
+          484
+        ],
+        [
+          468,
+          513
+        ],
+        [
+          468,
+          541
+        ],
+        [
+          465,
+          565
+        ],
+        [
+          459,
+          580
+        ],
+        [
+          448,
+          591
+        ],
+        [
+          435,
+          598
+        ],
+        [
+          419,
+          601
+        ],
+        [
+          402,
+          598
+        ],
+        [
+          383,
+          590
+        ],
+        [
+          367,
+          578
+        ],
+        [
+          352,
+          561
+        ],
+        [
+          342,
+          542
+        ],
+        [
+          334,
+          520
+        ],
+        [
+          332,
+          499
+        ],
+        [
+          334,
+          477
+        ],
+        [
+          339,
+          453
+        ],
+        [
+          343,
+          430
+        ],
+        [
+          344,
+          409
+        ],
+        [
+          340,
+          392
+        ],
+        [
+          333,
+          375
+        ],
+        [
+          325,
+          354
+        ],
+        [
+          316,
+          334
+        ],
+        [
+          306,
+          314
+        ],
+        [
+          300,
+          289
+        ],
+        [
+          297,
+          266
+        ],
+        [
+          292,
+          244
+        ],
+        [
+          290,
+          222
+        ],
+        [
+          291,
+          198
+        ],
+        [
+          297,
+          175
+        ],
+        [
+          307,
+          153
+        ],
+        [
+          320,
+          134
+        ],
+        [
+          337,
+          119
+        ],
+        [
+          357,
+          107
+        ],
+        [
+          377,
+          100
+        ]
+      ],
+      "tracePanel": {
+        "hole": 7,
+        "focusSourceId": "w438981594",
+        "plainPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h07-distal/hole-07-plain.png",
+        "overlayPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h07-distal/hole-07-overlay.png",
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          639435.6477728547,
+          6635819.3212351985,
+          639475.6477728547,
+          6635859.3212351985
+        ],
+        "geoTransform": [
+          639435.6477728547,
+          0.05,
+          0.0,
+          6635859.3212351985,
+          0.0,
+          -0.05
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained",
+        "sources": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-07-surfaces.tif",
+            "sha256": "068b957a262b76404bf21d8a2ec5c01b2ec5eedf3b000036e70c25c109716a71",
+            "crs": "EPSG:3006",
+            "width": 814,
+            "height": 1828,
+            "geoTransform": [
+              639359.68,
+              0.16,
+              0.0,
+              6636090.24,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              639359.68,
+              6635797.76,
+              639489.92,
+              6636090.24
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "source": "Lantmateriet authenticated Ortofoto Nedladdning, orto-o2-2025",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "captureEvidencePath": "geo_data/course-v2/upsala/reference/lm-ortho-capture-2026-09-09.json",
+        "captureEvidenceSha256": "2e0eebeef0f49567e0b72c6dd83999da79d0d0c8b822ae762a154915e26ee317",
+        "captureDateFootprintCoverageFraction": 1.0,
+        "sourceFiles": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-07-surfaces.tif",
+            "sha256": "068b957a262b76404bf21d8a2ec5c01b2ec5eedf3b000036e70c25c109716a71",
+            "rgbSha256": "cc5245a0112bce189b23676f472c8ffd490d18079b8f36b6fdf65aa99bc86399",
+            "resolutionMetres": 0.16
+          }
+        ],
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": 0.5,
+        "acceptance": "The old outline truncates the clear northern sand cap by approximately 2.5 m and extends beyond the southern sand edge into grass. Trace both lobes and preserve the visible grass indentation on the east.",
+        "note": "Manual visual boundary interpretation from the full RGB footprint. Display upsampling adds no source resolution. Sand depth, grass-bank breaklines and later changes remain unmeasured."
+      },
+      "comparison": {
+        "originalAreaM2": 158.345,
+        "acceptedAreaM2": 164.806,
+        "maximumRoundTripErrorM": 0.000661
+      }
+    },
+    {
+      "id": "upsala-stora-07-w438982463-lm2025-review-20260909",
+      "kind": "bunker",
+      "hole": 7,
+      "sourceId": "w438982463",
+      "status": "accepted",
+      "action": "replace",
+      "originalShape": {
+        "ring": [
+          [
+            -434.5,
+            68.9
+          ],
+          [
+            -435.2,
+            67.6
+          ],
+          [
+            -436.2,
+            67.1
+          ],
+          [
+            -438.5,
+            67.7
+          ],
+          [
+            -439,
+            69.8
+          ],
+          [
+            -437.7,
+            72.4
+          ],
+          [
+            -435.8,
+            72.7
+          ],
+          [
+            -434.3,
+            71.3
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438982463"
+      },
+      "ring": [
+        [
+          -436.681,
+          66.189
+        ],
+        [
+          -435.862,
+          66.333
+        ],
+        [
+          -435.089,
+          66.662
+        ],
+        [
+          -434.365,
+          67.326
+        ],
+        [
+          -433.835,
+          68.171
+        ],
+        [
+          -433.567,
+          69.007
+        ],
+        [
+          -433.559,
+          69.794
+        ],
+        [
+          -433.846,
+          70.459
+        ],
+        [
+          -434.314,
+          70.966
+        ],
+        [
+          -434.961,
+          71.242
+        ],
+        [
+          -435.677,
+          71.365
+        ],
+        [
+          -436.386,
+          71.301
+        ],
+        [
+          -437.123,
+          71.01
+        ],
+        [
+          -437.745,
+          70.612
+        ],
+        [
+          -438.322,
+          70.028
+        ],
+        [
+          -438.787,
+          69.448
+        ],
+        [
+          -439.062,
+          68.8
+        ],
+        [
+          -439.033,
+          68.013
+        ],
+        [
+          -438.671,
+          67.352
+        ],
+        [
+          -438.127,
+          66.81
+        ],
+        [
+          -437.438,
+          66.423
+        ]
+      ],
+      "sourceGeometryEPSG3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639395.360864,
+              6636031.752118
+            ],
+            [
+              639396.185864,
+              6636031.639618
+            ],
+            [
+              639396.973364,
+              6636031.339618
+            ],
+            [
+              639397.723364,
+              6636030.702118
+            ],
+            [
+              639398.285864,
+              6636029.877118
+            ],
+            [
+              639398.585864,
+              6636029.052118
+            ],
+            [
+              639398.623364,
+              6636028.264618
+            ],
+            [
+              639398.360864,
+              6636027.589618
+            ],
+            [
+              639397.910864,
+              6636027.064618
+            ],
+            [
+              639397.273364,
+              6636026.764618
+            ],
+            [
+              639396.560864,
+              6636026.614618
+            ],
+            [
+              639395.848364,
+              6636026.652118
+            ],
+            [
+              639395.098364,
+              6636026.914618
+            ],
+            [
+              639394.460864,
+              6636027.289618
+            ],
+            [
+              639393.860864,
+              6636027.852118
+            ],
+            [
+              639393.373364,
+              6636028.414618
+            ],
+            [
+              639393.073364,
+              6636029.052118
+            ],
+            [
+              639393.073364,
+              6636029.839618
+            ],
+            [
+              639393.410864,
+              6636030.514618
+            ],
+            [
+              639393.935864,
+              6636031.077118
+            ],
+            [
+              639394.610864,
+              6636031.489618
+            ],
+            [
+              639395.360864,
+              6636031.752118
+            ]
+          ]
+        ]
+      },
+      "originalPixelRing": [
+        [
+          389,
+          307
+        ],
+        [
+          411,
+          310
+        ],
+        [
+          432,
+          318
+        ],
+        [
+          452,
+          335
+        ],
+        [
+          467,
+          357
+        ],
+        [
+          475,
+          379
+        ],
+        [
+          476,
+          400
+        ],
+        [
+          469,
+          418
+        ],
+        [
+          457,
+          432
+        ],
+        [
+          440,
+          440
+        ],
+        [
+          421,
+          444
+        ],
+        [
+          402,
+          443
+        ],
+        [
+          382,
+          436
+        ],
+        [
+          365,
+          426
+        ],
+        [
+          349,
+          411
+        ],
+        [
+          336,
+          396
+        ],
+        [
+          328,
+          379
+        ],
+        [
+          328,
+          358
+        ],
+        [
+          337,
+          340
+        ],
+        [
+          351,
+          325
+        ],
+        [
+          369,
+          314
+        ]
+      ],
+      "tracePanel": {
+        "hole": 7,
+        "focusSourceId": "w438982463",
+        "plainPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h07-small/hole-07-plain.png",
+        "overlayPath": "upsalabuild/cache/lm-review-front9-2026-09-09/h07-small/hole-07-overlay.png",
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          639380.7733642146,
+          6636013.264618448,
+          639410.7733642146,
+          6636043.264618448
+        ],
+        "geoTransform": [
+          639380.7733642146,
+          0.0375,
+          0.0,
+          6636043.264618448,
+          0.0,
+          -0.0375
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained",
+        "sources": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-07-surfaces.tif",
+            "sha256": "068b957a262b76404bf21d8a2ec5c01b2ec5eedf3b000036e70c25c109716a71",
+            "crs": "EPSG:3006",
+            "width": 814,
+            "height": 1828,
+            "geoTransform": [
+              639359.68,
+              0.16,
+              0.0,
+              6636090.24,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              639359.68,
+              6635797.76,
+              639489.92,
+              6636090.24
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "source": "Lantmateriet authenticated Ortofoto Nedladdning, orto-o2-2025",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "captureEvidencePath": "geo_data/course-v2/upsala/reference/lm-ortho-capture-2026-09-09.json",
+        "captureEvidenceSha256": "2e0eebeef0f49567e0b72c6dd83999da79d0d0c8b822ae762a154915e26ee317",
+        "captureDateFootprintCoverageFraction": 1.0,
+        "sourceFiles": [
+          {
+            "path": "upsalabuild/cache/lm-ortho/stora-07-surfaces.tif",
+            "sha256": "068b957a262b76404bf21d8a2ec5c01b2ec5eedf3b000036e70c25c109716a71",
+            "rgbSha256": "cc5245a0112bce189b23676f472c8ffd490d18079b8f36b6fdf65aa99bc86399",
+            "resolutionMetres": 0.16
+          }
+        ],
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": 0.5,
+        "acceptance": "The small southern bunker is a clearly visible oval. The old polygon omits its north and east sides and includes a southern strip of grass. The local outline correction materially changes this small footprint.",
+        "note": "Manual visual boundary interpretation from the full RGB footprint. Display upsampling adds no source resolution. Sand depth, grass-bank breaklines and later changes remain unmeasured."
+      },
+      "comparison": {
+        "originalAreaM2": 19.735,
+        "acceptedAreaM2": 21.263,
+        "maximumRoundTripErrorM": 0.000621
+      }
+    }
+  ]
+}

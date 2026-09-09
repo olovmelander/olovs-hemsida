@@ -1,0 +1,44 @@
+{
+  "report": "geobuild/cache/lm-tee-focus-review/panels.json",
+  "features": [
+    {
+      "id":"lm-2024-h01-tee-inventory","kind":"tee-set","hole":1,
+      "referencePads":[0,0,0,0,2,null],"uncertaintyM":1.0,
+      "note":"Three visible prepared platforms. Long rear platform unifies two terrain-derived pieces; small OSM symbols west of road belong to short-course area. Forward 48 reference provisionally tied to photographed deck; 40 reference remains unresolved in fairway. Platform association does not identify daily markers.",
+      "pads":[
+        {"id":"lm-h01-rear-long","panel":"tees-h01-back","pixels":[[352,250],[392,248],[402,376],[408,469],[419,598],[411,607],[358,609],[352,516],[347,394],[347,286]],"note":"Continuous long eastern rear platform, inside graded rim."},
+        {"id":"lm-h01-rear-west","panel":"tees-h01-back","pixels":[[273,413],[310,412],[321,488],[328,582],[316,592],[274,593],[269,529],[264,458]],"note":"Separate western rear platform visible beside long platform."},
+        {"id":"lm-h01-forward","panel":"tees-h01-front","pixels":[[140,225],[206,229],[227,301],[217,312],[153,318],[143,290]],"note":"Prepared forward platform west of path, rather than legacy east-of-path reference."}
+      ]
+    },
+    {
+      "id":"lm-2024-h02-tee-inventory","kind":"tee-set","hole":2,
+      "referencePads":[0,1,1,null,2,2],"uncertaintyM":1.2,
+      "note":"Three clearly visible platforms replace synthetic rectangles on rocky slope. Rear two references use the long middle deck. 55 reference remains unresolved; 48/40 coincide on observed forward deck as provisional platform references. Card lengths preserved separately.",
+      "pads":[
+        {"id":"lm-h02-rear","panel":"tees-h02-back","pixels":[[667,401],[698,400],[724,407],[739,418],[742,438],[735,450],[712,453],[681,448],[664,437],[660,419]],"note":"Worn but visible prepared rear platform, below the synthetic reference."},
+        {"id":"lm-h02-middle","panel":"tees-h02-back","pixels":[[476,393],[543,385],[571,380],[610,379],[616,408],[565,418],[519,427],[484,431],[478,420]],"note":"Elongated prepared middle platform; turf includes worn eastern end."},
+        {"id":"lm-h02-forward","panel":"tees-h02-front","pixels":[[440,432],[492,431],[501,439],[499,474],[489,478],[438,475],[432,467],[433,441]],"note":"Clear small forward plateau beside exposed bedrock."}
+      ]
+    },
+    {
+      "id":"lm-2024-h03-tee-inventory","kind":"tee-set","hole":3,
+      "referencePads":[0,0,0,0,null,null],"uncertaintyM":0.9,
+      "note":"One clearly photographed long rear platform replaces four overlapping synthetic rectangles and two unrelated short-course OSM symbols. The synthetic furthest-back rectangle lay beyond prepared turf. Forward fairway reference points remain unresolved and are not promoted to physical platforms.",
+      "pads":[
+        {"id":"lm-h03-rear-long","panel":"tees-h03-back","pixels":[[349,395],[518,255],[536,259],[559,286],[559,299],[393,446],[375,442],[350,410]],"note":"Continuous rectangular platform observed inside the graded edge."}
+      ]
+    },
+    {
+      "id":"lm-2024-h04-tee-inventory","kind":"tee-set","hole":4,
+      "referencePads":[0,null,1,1,3,3],"uncertaintyM":1.5,
+      "note":"Four prepared platforms are visible in the actual tee complex. The rear oval's northwest margin is partly shaded; boundary interpretation is less certain there. Second reference between decks remains unresolved; associations elsewhere are provisional physical deck references, not daily tee markers.",
+      "pads":[
+        {"id":"lm-h04-rear","panel":"tees-h04-back","pixels":[[534,235],[549,243],[552,258],[544,279],[529,301],[515,316],[503,322],[492,315],[487,306],[493,287],[510,260]],"note":"Rear prepared oval, partial shadow at northwest margin."},
+        {"id":"lm-h04-middle-west","panel":"tees-h04-back","pixels":[[391,411],[407,420],[414,438],[404,454],[379,479],[351,507],[337,504],[326,494],[335,477],[360,446]],"note":"Western middle platform beside forest; trimmed to visible turf."},
+        {"id":"lm-h04-middle-east","panel":"tees-h04-back","pixels":[[505,416],[542,383],[554,383],[575,407],[574,420],[539,455],[527,460],[507,441],[499,428]],"note":"Separate eastern middle platform visible beside path."},
+        {"id":"lm-h04-forward","panel":"tees-h04-back","pixels":[[215,598],[245,569],[260,575],[272,591],[273,606],[253,627],[236,640],[221,631],[211,616]],"note":"Forward prepared platform observed inside worn perimeter."}
+      ]
+    }
+  ]
+}

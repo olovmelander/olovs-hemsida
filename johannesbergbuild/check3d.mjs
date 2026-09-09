@@ -1,21 +1,22 @@
 /* The regression gate for johannesberg3d.html. Exits non-zero on anything that
    would make the page state a falsehood about the real course:
 
-   1. the card in the page is the club's card — 144 values, exact
-   2. every drawn hole line measures its card length to 0.5%
-   3. every green ring contains its GPS-surveyed centre, at a sane area
+   1. the card in the page is the club's card — par, index and tee values, exact
+   2. drawn lines match the card to 0.5%, except an evidenced green endpoint move
+   3. every green ring contains its display target, at a sane area
    4. no green or tee sits at or below the water that surrounds it
    5. the heightfields in the page decode to exactly what geobuild encoded
    6. the page's embedded block is current with the committed model
 
    Everything else it prints is a measurement, not a gate.
 
-   Run:  node nvgkbuild/check3d.mjs [page.html]                                  */
+   Run:  node johannesbergbuild/check3d.mjs [page.html]                          */
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { ROOT, readJSON, decodeHF, polyLen, pointInPoly, polyArea } from './lib.mjs';
+import { geometrySha256 } from './mapping/apply-ortho-review.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const page = process.argv[2] || path.join(ROOT, 'johannesberg3d.html');
@@ -54,13 +55,54 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
 }
 
 /* --- 2: drawn lengths --------------------------------------------------------- */
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+/* A reviewed putting surface may move the display target away from an old
+   card-fitted endpoint. Accept only that endpoint change: the original route
+   must pass the existing length gate, and every earlier vertex must be intact.
+   The original line is retained in the model, not added to the page payload. */
+function reviewedEndpointEvidence(h, original, feature) {
+  const review = original?.routingReview;
+  if (!review || !feature || feature.status !== 'accepted' || feature.kind !== 'green' || feature.hole !== h.n) return false;
+  if (original.routingReviewId !== feature.id || review.reviewId !== feature.id) return false;
+  if (original.green.prov !== 'reviewed-lm-orthophoto' || original.green.reviewId !== feature.id) return false;
+  if (!same(h.green.ring, feature.ring) || !same(h.green.ring, original.green.ring)) return false;
+  const evidence = feature.evidence;
+  if (!(evidence?.uncertaintyM > 0) || !evidence.sourceFiles?.length ||
+      !evidence.sourceFiles.every(s => s.path && /^[0-9a-f]{64}$/.test(s.sha256)) ||
+      !evidence.sourceCaptureDates?.length || !same(original.green.sourceCaptureDates, evidence.sourceCaptureDates)) return false;
+  const before = review.originalLine;
+  if (!Array.isArray(before) || before.length < 2 || before.length !== h.line.length ||
+      !before.every(p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite))) return false;
+  if (geometrySha256(before) !== review.originalLineSha256 || !same(h.line, original.line)) return false;
+  if (!same(h.line.slice(0, -1), before.slice(0, -1)) || same(h.line.at(-1), before.at(-1))) return false;
+  if (!same(h.line.at(-1), h.green.c) || !same(h.pin, h.green.c) || !same(h.green.c, original.green.c)) return false;
+  if (feature.target && !same(h.green.c, feature.target)) return false;
+  if (!pointInPoly(h.green.c[0], h.green.c[1], feature.ring)) return false;
+  return Math.abs(polyLen(before) - h.t[0]) / h.t[0] * 100 <= 0.5;
+}
+
 {
+  const acceptedGreens = new Map();
+  for (const name of ['lm-review-front9.json', 'lm-review-back9.json']) {
+    const file = path.join(HERE, 'mapping', name);
+    if (!fs.existsSync(file)) continue;
+    const ledger = readJSON(file);
+    if (ledger.groundId !== 'johannesberg' || ledger.course !== 'johannesberg') throw new Error(`wrong review identity: ${name}`);
+    for (const f of ledger.features) if (f.kind === 'green' && f.status === 'accepted') acceptedGreens.set(f.id, f);
+  }
   let worst = 0, worstN = 0;
+  const rejected = [], reviewed = [];
   for (const h of vec.holes) {
     const dev = Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] * 100;
     if (dev > worst) { worst = dev; worstN = h.n; }
+    if (dev <= 0.5) continue;
+    const sourceHole = model.holes.find(q => q.n === h.n);
+    if (reviewedEndpointEvidence(h, sourceHole, acceptedGreens.get(sourceHole?.routingReviewId))) reviewed.push(h.n);
+    else rejected.push(h.n);
   }
-  gate(worst <= 0.5, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}), gate 0.5%`);
+  gate(rejected.length === 0, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}); 0.5% gate, ${reviewed.length} evidenced endpoint changes, ${rejected.length} unsupported deviations${rejected.length ? ' on holes ' + rejected.join(', ') : ''}`);
+  if (reviewed.length) console.log(`       holes ${reviewed.join(', ')}: reviewed green targets; original tee and intermediate route vertices unchanged`);
 }
 
 /* --- 3: greens ---------------------------------------------------------------- */
@@ -72,7 +114,7 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     if (a < 150) small++;
     if (a > 1200) big++;
   }
-  gate(out === 0, `greens: every surveyed centre inside its traced ring (${out} outside)`);
+  gate(out === 0, `greens: every display target inside its traced ring (${out} outside)`);
   gate(small === 0 && big === 0, `green areas within 150–1200 m² (${small} small, ${big} large)`);
 }
 
@@ -122,11 +164,25 @@ gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
 
 /* --- 6: embedded data is current ----------------------------------------------- */
 {
-  const holesNow = model.holes.map(h => h.n + ':' + h.lineLen + ':' + h.green.c.join(','));
-  const holesPage = vec.holes.map(h => h.n + ':' + Math.round(polyLen(h.line) * 10) / 10 + ':' + h.green.c.join(','));
-  let stale = 0;
-  for (let i = 0; i < 18; i++) if (holesNow[i] !== holesPage[i]) stale++;
-  gate(stale === 0, `currency: page holes match course-model.json (${stale} stale)`);
+  const geometryState = h => ({
+    n: h.n, line: h.line, lineLen: h.lineLen, pin: h.pin,
+    green: { ring: h.green.ring, c: h.green.c },
+    fairway: h.fairway.rings,
+    tees: {
+      ...(h.tees.inferPads === false ? { inferPads: false } : {}),
+      ...(h.tees.status ? { status: h.tees.status } : {}),
+      pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}) })),
+      marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.displayC !== undefined ? { displayC: m.displayC } : {}) })),
+    },
+    bunkers: h.bunkers.map(b => b.ring),
+  });
+  const stale = model.holes.filter(h => {
+    const embedded = vec.holes.find(q => q.n === h.n);
+    return !embedded || !same(geometryState(h), geometryState(embedded)) || embedded.lineLen !== Math.round(polyLen(embedded.line) * 10) / 10;
+  }).length;
+  gate(stale === 0 && vec.holes.length === model.holes.length, `currency: exact hole geometry, targets and tee policies match course-model.json (${stale} stale)`);
+  gate(vec.infra.preserveMappedBoundaries === model.infra.preserveMappedBoundaries, 'currency: mapped-boundary display policy matches model');
+  gate(same(vec.scenery, model.scenery), 'currency: neighbouring course and practice geometry matches model');
   gate(GEO.seaLevel === model.seaLevel, `currency: seaLevel ${GEO.seaLevel} matches model`);
 }
 

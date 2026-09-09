@@ -1,0 +1,3742 @@
+{
+  "schemaVersion": 1,
+  "groundId": "veckefjarden",
+  "frame": {
+    "origin": {
+      "lat": 63.2845,
+      "lon": 18.6735
+    },
+    "mPerLat": 111320,
+    "mPerLon": 50045.09
+  },
+  "reviewedOn": "2026-09-09",
+  "features": [
+    {
+      "id": "lm-2024-h08-tee-1",
+      "hole": 8,
+      "kind": "tee",
+      "index": 0,
+      "status": "accepted",
+      "originalRingSha256": "68a2475145c3c27c4f7741feb211f40159f4c1841c632ca9ff1043fdd0da68c1",
+      "ring": [
+        [
+          -459.22,
+          -1054.67
+        ],
+        [
+          -453.78,
+          -1058.03
+        ],
+        [
+          -443.07,
+          -1041.93
+        ],
+        [
+          -449.52,
+          -1037.66
+        ]
+      ],
+      "evidence": {
+        "panel": "h08-tee-00",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+            "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7024027.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7023387.04,
+              684164.96,
+              7024027.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            306,
+            345
+          ],
+          [
+            366,
+            303
+          ],
+          [
+            499,
+            480
+          ],
+          [
+            428,
+            533
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683663.7848352625,
+            7023592.709360016
+          ],
+          [
+            683669.0348352625,
+            7023596.384360015
+          ],
+          [
+            683680.6723352624,
+            7023580.896860016
+          ],
+          [
+            683674.4598352624,
+            7023576.259360015
+          ]
+        ],
+        "panelExtent": [
+          683637.0098352624,
+          7023552.896860016,
+          683707.0098352624,
+          7023622.896860016
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          683637.0098352624,
+          0.0875,
+          0.0,
+          7023622.896860016,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "5c7f77e39dc852845fdb027b2e0ce805d391ccbc27a48784e8543893607b0ab7",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Existing OSM pad association retained; the deck extends south of the old northern edge.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h08-tee-2",
+      "hole": 8,
+      "kind": "tee",
+      "index": 1,
+      "status": "accepted",
+      "originalRingSha256": "554d4858a8dbecececb74d428bd44dd3cb1bbbb5575066079afce212ab8764e6",
+      "ring": [
+        [
+          -490.24,
+          -1087.57
+        ],
+        [
+          -484.84,
+          -1090.32
+        ],
+        [
+          -473.41,
+          -1074.52
+        ],
+        [
+          -478.57,
+          -1069.92
+        ]
+      ],
+      "evidence": {
+        "panel": "h08-tee-01",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+            "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7024027.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7023387.04,
+              684164.96,
+              7024027.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            289,
+            354
+          ],
+          [
+            349,
+            319
+          ],
+          [
+            490,
+            492
+          ],
+          [
+            434,
+            548
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683630.8544563815,
+            7023623.822685787
+          ],
+          [
+            683636.1044563815,
+            7023626.885185787
+          ],
+          [
+            683648.4419563815,
+            7023611.747685787
+          ],
+          [
+            683643.5419563815,
+            7023606.847685787
+          ]
+        ],
+        "panelExtent": [
+          683605.5669563815,
+          7023584.797685787,
+          683675.5669563815,
+          7023654.797685787
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          683605.5669563815,
+          0.0875,
+          0.0,
+          7023654.797685787,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "6eeb287f54cee155fba5d1be46029f882b288e619ff8f48833e143b80da34f8a",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Existing OSM pad association retained; rectangular top traced rather than surrounding berm.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h08-tee-3",
+      "hole": 8,
+      "kind": "tee",
+      "index": 2,
+      "status": "accepted",
+      "originalRingSha256": "50f0a52fcdd3f3b869b2e0e9f3c8309708476fdf6d9a60cb3940979705201ff0",
+      "ring": [
+        [
+          -406.29,
+          -1010.08
+        ],
+        [
+          -399.52,
+          -1013.72
+        ],
+        [
+          -394.11,
+          -1004.31
+        ],
+        [
+          -401.43,
+          -1000.18
+        ]
+      ],
+      "evidence": {
+        "panel": "h08-tee-02",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+            "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7024027.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7023387.04,
+              684164.96,
+              7024027.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            320,
+            383
+          ],
+          [
+            395,
+            337
+          ],
+          [
+            463,
+            441
+          ],
+          [
+            382,
+            493
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683719.3046114824,
+            7023551.168963055
+          ],
+          [
+            683725.8671114824,
+            7023555.1939630555
+          ],
+          [
+            683731.8171114824,
+            7023546.093963055
+          ],
+          [
+            683724.7296114825,
+            7023541.543963055
+          ]
+        ],
+        "panelExtent": [
+          683691.3046114824,
+          7023514.681463055,
+          683761.3046114824,
+          7023584.681463055
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          683691.3046114824,
+          0.0875,
+          0.0,
+          7023584.681463055,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "d3f6dbc36aeec1d695a2528ef233201c4abcda0f9aee86e559ec0b14d0d5e2cc",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Small deck southeast of the rear tees; markers are not moved from imagery.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h09-tee-1",
+      "hole": 9,
+      "kind": "tee",
+      "index": 0,
+      "status": "accepted",
+      "originalRingSha256": "b12cad626a895060539c929c466540a16ec37ce130a45040485bde5e5951651c",
+      "ring": [
+        [
+          -68.28,
+          -702.83
+        ],
+        [
+          -62.94,
+          -705.94
+        ],
+        [
+          -57.52,
+          -699.76
+        ],
+        [
+          -61.84,
+          -696.07
+        ]
+      ],
+      "evidence": {
+        "panel": "h09-tee-00",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+            "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7023387.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7022747.04,
+              684164.96,
+              7023387.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            318,
+            386
+          ],
+          [
+            377,
+            347
+          ],
+          [
+            443,
+            414
+          ],
+          [
+            396,
+            459
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            684075.1745644092,
+            7023263.389341763
+          ],
+          [
+            684080.3370644093,
+            7023266.801841764
+          ],
+          [
+            684086.1120644092,
+            7023260.939341764
+          ],
+          [
+            684081.9995644093,
+            7023257.001841764
+          ]
+        ],
+        "panelExtent": [
+          684047.3495644092,
+          7023227.164341764,
+          684117.3495644092,
+          7023297.164341764
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          684047.3495644092,
+          0.0875,
+          0.0,
+          7023297.164341764,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "ee89bcdfed4a76e444c8f14bbda0df6292db7d69364e69021f99d6286ae3ffd8",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Small deck beside the path; no marker reassignment.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h09-tee-2",
+      "hole": 9,
+      "kind": "tee",
+      "index": 1,
+      "status": "accepted",
+      "originalRingSha256": "2b247a79c8dce87ff454ea9936552709542fa988a6a7f81d5afb465a42d9c12c",
+      "ring": [
+        [
+          -170.15,
+          -794.78
+        ],
+        [
+          -167.24,
+          -796.71
+        ],
+        [
+          -162.57,
+          -792.77
+        ],
+        [
+          -159.33,
+          -789.69
+        ],
+        [
+          -156.38,
+          -787.77
+        ],
+        [
+          -153.47,
+          -786.73
+        ],
+        [
+          -150.12,
+          -785.75
+        ],
+        [
+          -146.9,
+          -783.9
+        ],
+        [
+          -144.76,
+          -781.59
+        ],
+        [
+          -146.06,
+          -780.27
+        ],
+        [
+          -148.32,
+          -780.48
+        ],
+        [
+          -151.7,
+          -782.52
+        ],
+        [
+          -155.24,
+          -784.82
+        ],
+        [
+          -158.48,
+          -786.32
+        ],
+        [
+          -160.79,
+          -787.06
+        ],
+        [
+          -162.54,
+          -787.16
+        ],
+        [
+          -164.68,
+          -786.32
+        ],
+        [
+          -166.41,
+          -785.11
+        ],
+        [
+          -169.04,
+          -788.06
+        ],
+        [
+          -171.67,
+          -791.1
+        ]
+      ],
+      "evidence": {
+        "panel": "h09-tee-01",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+            "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7023387.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7022747.04,
+              684164.96,
+              7023387.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            239,
+            343
+          ],
+          [
+            271,
+            319
+          ],
+          [
+            327,
+            361
+          ],
+          [
+            366,
+            394
+          ],
+          [
+            401,
+            414
+          ],
+          [
+            435,
+            424
+          ],
+          [
+            474,
+            433
+          ],
+          [
+            512,
+            452
+          ],
+          [
+            538,
+            477
+          ],
+          [
+            524,
+            493
+          ],
+          [
+            498,
+            492
+          ],
+          [
+            458,
+            471
+          ],
+          [
+            416,
+            447
+          ],
+          [
+            378,
+            432
+          ],
+          [
+            351,
+            425
+          ],
+          [
+            331,
+            425
+          ],
+          [
+            307,
+            436
+          ],
+          [
+            288,
+            451
+          ],
+          [
+            256,
+            419
+          ],
+          [
+            224,
+            386
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683967.9533338059,
+            7023349.463271076
+          ],
+          [
+            683970.753333806,
+            7023351.563271076
+          ],
+          [
+            683975.653333806,
+            7023347.888271076
+          ],
+          [
+            683979.065833806,
+            7023345.000771076
+          ],
+          [
+            683982.128333806,
+            7023343.250771076
+          ],
+          [
+            683985.1033338059,
+            7023342.375771076
+          ],
+          [
+            683988.5158338059,
+            7023341.588271076
+          ],
+          [
+            683991.840833806,
+            7023339.925771076
+          ],
+          [
+            683994.1158338059,
+            7023337.738271076
+          ],
+          [
+            683992.8908338059,
+            7023336.338271076
+          ],
+          [
+            683990.6158338059,
+            7023336.425771076
+          ],
+          [
+            683987.1158338059,
+            7023338.263271076
+          ],
+          [
+            683983.440833806,
+            7023340.363271076
+          ],
+          [
+            683980.1158338059,
+            7023341.675771076
+          ],
+          [
+            683977.753333806,
+            7023342.288271076
+          ],
+          [
+            683976.003333806,
+            7023342.288271076
+          ],
+          [
+            683973.903333806,
+            7023341.325771076
+          ],
+          [
+            683972.2408338059,
+            7023340.013271076
+          ],
+          [
+            683969.440833806,
+            7023342.813271076
+          ],
+          [
+            683966.6408338059,
+            7023345.700771076
+          ]
+        ],
+        "panelExtent": [
+          683947.0408338059,
+          7023309.475771076,
+          684017.0408338059,
+          7023379.475771076
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          683947.0408338059,
+          0.0875,
+          0.0,
+          7023379.475771076,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "ff8fa31068bd08d43998ecab26ec64c777a5bb54c970fa2d75eb19390b9f6425",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Connected irregular rear tee surface; the narrow join and two lobes are visible.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h10-tee-1",
+      "hole": 10,
+      "kind": "tee",
+      "index": 0,
+      "status": "accepted",
+      "originalRingSha256": "b963d6ec216d1049db4fc235637df001b92cbce27c56e70c373c0bba85916d92",
+      "ring": [
+        [
+          117.33,
+          -595.12
+        ],
+        [
+          122.53,
+          -597.45
+        ],
+        [
+          132.75,
+          -580.49
+        ],
+        [
+          127.43,
+          -577.65
+        ]
+      ],
+      "evidence": {
+        "panel": "h10-tee-00",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+            "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              684164.96,
+              0.16,
+              0.0,
+              7023387.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              684164.96,
+              7022747.04,
+              684804.96,
+              7023387.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            311,
+            343
+          ],
+          [
+            369,
+            313
+          ],
+          [
+            497,
+            500
+          ],
+          [
+            438,
+            536
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            684267.113240463,
+            7023166.3652046565
+          ],
+          [
+            684272.1882404629,
+            7023168.9902046565
+          ],
+          [
+            684283.388240463,
+            7023152.627704657
+          ],
+          [
+            684278.2257404629,
+            7023149.477704656
+          ]
+        ],
+        "panelExtent": [
+          684239.9007404629,
+          7023126.377704657,
+          684309.9007404629,
+          7023196.377704657
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          684239.9007404629,
+          0.0875,
+          0.0,
+          7023196.377704657,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "229a6c720bc2f4a2d2e7157d50cc6b12616b0f6833352847aa2040dcdfa1d968",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Long rectangular existing deck west of the trees; browned top edges are included.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h10-tee-2",
+      "hole": 10,
+      "kind": "tee",
+      "index": 1,
+      "status": "accepted",
+      "originalRingSha256": "bcc93658f363aa2a7159235808244eee03d5946eb0bbbef091c52a6bcc3c9177",
+      "ring": [
+        [
+          81.52,
+          -643.24
+        ],
+        [
+          88.05,
+          -645.84
+        ],
+        [
+          89.07,
+          -645.43
+        ],
+        [
+          93.07,
+          -637.41
+        ],
+        [
+          92.91,
+          -636.11
+        ],
+        [
+          87.87,
+          -633.51
+        ],
+        [
+          86.92,
+          -633.74
+        ],
+        [
+          81.62,
+          -641.92
+        ]
+      ],
+      "evidence": {
+        "panel": "h10-tee-01",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+            "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              684164.96,
+              0.16,
+              0.0,
+              7023387.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              684164.96,
+              7022747.04,
+              684804.96,
+              7023387.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            329,
+            399
+          ],
+          [
+            402,
+            365
+          ],
+          [
+            414,
+            369
+          ],
+          [
+            465,
+            458
+          ],
+          [
+            464,
+            473
+          ],
+          [
+            408,
+            506
+          ],
+          [
+            397,
+            504
+          ],
+          [
+            331,
+            414
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            684228.5103693537,
+            7023212.417669636
+          ],
+          [
+            684234.8978693538,
+            7023215.392669636
+          ],
+          [
+            684235.9478693537,
+            7023215.042669636
+          ],
+          [
+            684240.4103693537,
+            7023207.255169636
+          ],
+          [
+            684240.3228693537,
+            7023205.942669636
+          ],
+          [
+            684235.4228693537,
+            7023203.055169635
+          ],
+          [
+            684234.4603693538,
+            7023203.230169636
+          ],
+          [
+            684228.6853693537,
+            7023211.105169636
+          ]
+        ],
+        "panelExtent": [
+          684199.7228693537,
+          7023177.330169636,
+          684269.7228693537,
+          7023247.330169636
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          684199.7228693537,
+          0.0875,
+          0.0,
+          7023247.330169636,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "37fdf92e434e9a91a5050e5b5582238806d8c4a71c476934e69486d4f0b39ca5",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Small forward rectangular deck with slightly rounded corners.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h10-tee-3",
+      "hole": 10,
+      "kind": "tee",
+      "index": 2,
+      "status": "accepted",
+      "originalRingSha256": "64b1056e9c70a80331efa4d88495ad844df62469e1c4b1c8ed06b0b3adca754f",
+      "ring": [
+        [
+          148.53,
+          -550.71
+        ],
+        [
+          154.78,
+          -552.98
+        ],
+        [
+          158.59,
+          -544.62
+        ],
+        [
+          152.44,
+          -542.61
+        ]
+      ],
+      "evidence": {
+        "panel": "h10-tee-02",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+            "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              684164.96,
+              0.16,
+              0.0,
+              7023387.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              684164.96,
+              7022747.04,
+              684804.96,
+              7023387.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            333,
+            406
+          ],
+          [
+            403,
+            376
+          ],
+          [
+            452,
+            469
+          ],
+          [
+            383,
+            496
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            684300.8901649658,
+            7023123.765323689
+          ],
+          [
+            684307.0151649658,
+            7023126.390323689
+          ],
+          [
+            684311.3026649659,
+            7023118.25282369
+          ],
+          [
+            684305.2651649658,
+            7023115.890323689
+          ]
+        ],
+        "panelExtent": [
+          684271.7526649658,
+          7023089.29032369,
+          684341.7526649658,
+          7023159.29032369
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          684271.7526649658,
+          0.0875,
+          0.0,
+          7023159.29032369,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "98d1f6e1b8db38832781260d6ee7a28f8245e6cd2d3220e93c2c21015ef54c1f",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Southern of the two small rear decks near the building, maintaining its existing pad index.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h10-tee-4",
+      "hole": 10,
+      "kind": "tee",
+      "index": 3,
+      "status": "accepted",
+      "originalRingSha256": "edf689e0e019758e9f4468941a3224f00b3cb6d24f0a86803dcfd773de10ac1b",
+      "ring": [
+        [
+          140.74,
+          -567.86
+        ],
+        [
+          146.4,
+          -570.51
+        ],
+        [
+          150.63,
+          -563.44
+        ],
+        [
+          144.16,
+          -560.48
+        ]
+      ],
+      "evidence": {
+        "panel": "h10-tee-03",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+            "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              684164.96,
+              0.16,
+              0.0,
+              7023387.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              684164.96,
+              7022747.04,
+              684804.96,
+              7023387.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            334,
+            402
+          ],
+          [
+            397,
+            368
+          ],
+          [
+            450,
+            446
+          ],
+          [
+            378,
+            484
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            684292.1067896434,
+            7023140.456175555
+          ],
+          [
+            684297.6192896435,
+            7023143.431175554
+          ],
+          [
+            684302.2567896434,
+            7023136.606175554
+          ],
+          [
+            684295.9567896434,
+            7023133.281175555
+          ]
+        ],
+        "panelExtent": [
+          684262.8817896434,
+          7023105.631175554,
+          684332.8817896434,
+          7023175.631175554
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          684262.8817896434,
+          0.0875,
+          0.0,
+          7023175.631175554,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "21dd2441fdec7e997bc8bb27412cc4884effbc706acb8dd639e506a7e6b34c24",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Middle small deck between the long tee and the rear small deck; visible mowing corners traced.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h11-tee-2",
+      "hole": 11,
+      "kind": "tee",
+      "index": 1,
+      "status": "accepted",
+      "originalRingSha256": "5f219eb659a8e28ba7a6c06871a8480af16e980738b464c1fe0e75f3b72c37f3",
+      "ring": [
+        [
+          -294.27,
+          -1027.5
+        ],
+        [
+          -290.9,
+          -1029.85
+        ],
+        [
+          -274.78,
+          -1016.67
+        ],
+        [
+          -278.41,
+          -1011.36
+        ]
+      ],
+      "evidence": {
+        "panel": "h11-tee-01",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+            "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7024027.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7023387.04,
+              684164.96,
+              7024027.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            267,
+            356
+          ],
+          [
+            304,
+            327
+          ],
+          [
+            497,
+            467
+          ],
+          [
+            459,
+            530
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683830.4057870986,
+            7023575.001067965
+          ],
+          [
+            683833.6432870985,
+            7023577.538567966
+          ],
+          [
+            683850.5307870986,
+            7023565.288567966
+          ],
+          [
+            683847.2057870985,
+            7023559.776067966
+          ]
+        ],
+        "panelExtent": [
+          683807.0432870985,
+          7023536.151067966,
+          683877.0432870985,
+          7023606.151067966
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          683807.0432870985,
+          0.0875,
+          0.0,
+          7023606.151067966,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "ae73bade1f7a20a810adbbbb357ba5045f3ea6346c9037b0841abaa6668f66d1",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Long deck beside the northern side of the path; existing OSM association retained.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h12-tee-1",
+      "hole": 12,
+      "kind": "tee",
+      "index": 0,
+      "status": "accepted",
+      "originalRingSha256": "75246a27e6910a9e75a5fa1c40b43696c4cd1e0257c2a62f6c29488ec04b9296",
+      "ring": [
+        [
+          -517.52,
+          -1048.18
+        ],
+        [
+          -512.33,
+          -1054.71
+        ],
+        [
+          -498.48,
+          -1044.64
+        ],
+        [
+          -503.09,
+          -1037.38
+        ]
+      ],
+      "evidence": {
+        "panel": "h12-tee-00",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+            "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7024027.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7023387.04,
+              684164.96,
+              7024027.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            279,
+            414
+          ],
+          [
+            334,
+            336
+          ],
+          [
+            499,
+            442
+          ],
+          [
+            451,
+            528
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683605.8162399869,
+            7023582.889192869
+          ],
+          [
+            683610.6287399869,
+            7023589.714192868
+          ],
+          [
+            683625.0662399869,
+            7023580.439192869
+          ],
+          [
+            683620.866239987,
+            7023572.914192868
+          ]
+        ],
+        "panelExtent": [
+          683581.4037399869,
+          7023549.114192869,
+          683651.4037399869,
+          7023619.114192869
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          683581.4037399869,
+          0.0875,
+          0.0,
+          7023619.114192869,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "22ac446e516936f09430ddda0c03f938994a62bc1097b2552d22989edbc79f34",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Long rear deck south of the crossing path; grass top traced, surrounding berm excluded.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h12-tee-2",
+      "hole": 12,
+      "kind": "tee",
+      "index": 1,
+      "status": "accepted",
+      "originalRingSha256": "f61dbd82dd3b8cebbadee53b686ac4fabbe71ae448871ed3c838f1ebf213f414",
+      "ring": [
+        [
+          -527.11,
+          -1077.64
+        ],
+        [
+          -523.53,
+          -1085.13
+        ],
+        [
+          -505.36,
+          -1075.69
+        ],
+        [
+          -508.35,
+          -1070.87
+        ]
+      ],
+      "evidence": {
+        "panel": "h12-tee-01",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+            "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7024027.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7023387.04,
+              684164.96,
+              7024027.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            249,
+            430
+          ],
+          [
+            285,
+            342
+          ],
+          [
+            499,
+            438
+          ],
+          [
+            468,
+            495
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683594.5309297414,
+            7023611.784858364
+          ],
+          [
+            683597.6809297415,
+            7023619.484858364
+          ],
+          [
+            683616.4059297414,
+            7023611.0848583635
+          ],
+          [
+            683613.6934297414,
+            7023606.097358364
+          ]
+        ],
+        "panelExtent": [
+          683572.7434297415,
+          7023579.409858364,
+          683642.7434297415,
+          7023649.409858364
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          683572.7434297415,
+          0.0875,
+          0.0,
+          7023649.409858364,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "df1f8496b3d781bd2f188388e5028f984babdde403407c787385cd38cce660e0",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Long deck north of the east-west path; existing hole association retained although card marker allocation is not established by the photo.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h12-tee-3",
+      "hole": 12,
+      "kind": "tee",
+      "index": 2,
+      "status": "accepted",
+      "originalRingSha256": "36c3cb9f6276d54d35abd541714d095ca61ae8c24646430bf9dd8e4ba5c1b5dc",
+      "ring": [
+        [
+          -545.9,
+          -1086.83
+        ],
+        [
+          -542.86,
+          -1092.61
+        ],
+        [
+          -533.93,
+          -1088.33
+        ],
+        [
+          -536.95,
+          -1082.82
+        ]
+      ],
+      "evidence": {
+        "panel": "h12-tee-02",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+            "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7024027.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7023387.04,
+              684164.96,
+              7024027.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            319,
+            449
+          ],
+          [
+            350,
+            381
+          ],
+          [
+            455,
+            424
+          ],
+          [
+            424,
+            489
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683575.1978444458,
+            7023619.899615887
+          ],
+          [
+            683577.9103444458,
+            7023625.849615886
+          ],
+          [
+            683587.0978444458,
+            7023622.087115887
+          ],
+          [
+            683584.3853444458,
+            7023616.399615887
+          ]
+        ],
+        "panelExtent": [
+          683547.2853444458,
+          7023589.187115886,
+          683617.2853444458,
+          7023659.187115886
+        ],
+        "panelPixelSize": [
+          800,
+          800
+        ],
+        "panelGeoTransform": [
+          683547.2853444458,
+          0.0875,
+          0.0,
+          7023659.187115886,
+          0.0,
+          -0.0875
+        ],
+        "panelImageSha256": "b5417ada8c919570f5ffc0ebc95568471be9bfaf52468d54303291752106f54c",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1,
+        "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Small rectangular deck west of the north-south path; no daily tee-marker position inferred.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h09-fairway",
+      "hole": 9,
+      "kind": "fairway",
+      "status": "accepted",
+      "originalRingSha256": "bb979d432998a4749c8c86e9e090db20be31247e5c5f3ac8691dbc811fefb768",
+      "rings": [
+        [
+          [
+            -18.11,
+            -653.47
+          ],
+          [
+            -11.46,
+            -656.86
+          ],
+          [
+            -2.58,
+            -656.88
+          ],
+          [
+            7.5,
+            -654.42
+          ],
+          [
+            13.12,
+            -649.25
+          ],
+          [
+            15.26,
+            -644.28
+          ],
+          [
+            15.22,
+            -638.9
+          ],
+          [
+            16.52,
+            -633.44
+          ],
+          [
+            22.11,
+            -627.73
+          ],
+          [
+            29.09,
+            -622.75
+          ],
+          [
+            36.65,
+            -618.55
+          ],
+          [
+            42.97,
+            -616.3
+          ],
+          [
+            49.12,
+            -615.67
+          ],
+          [
+            54.04,
+            -617.01
+          ],
+          [
+            57.76,
+            -616.26
+          ],
+          [
+            60.83,
+            -613.39
+          ],
+          [
+            62.44,
+            -608.72
+          ],
+          [
+            62.89,
+            -602.5
+          ],
+          [
+            63.31,
+            -595.74
+          ],
+          [
+            65.42,
+            -590.23
+          ],
+          [
+            69.23,
+            -586.24
+          ],
+          [
+            75.0,
+            -583.76
+          ],
+          [
+            81.36,
+            -582.05
+          ],
+          [
+            87.37,
+            -579.01
+          ],
+          [
+            92.22,
+            -574.42
+          ],
+          [
+            95.38,
+            -568.58
+          ],
+          [
+            96.92,
+            -562.57
+          ],
+          [
+            98.46,
+            -556.56
+          ],
+          [
+            99.16,
+            -550.05
+          ],
+          [
+            101.0,
+            -544.56
+          ],
+          [
+            104.76,
+            -539.77
+          ],
+          [
+            108.33,
+            -536.33
+          ],
+          [
+            110.16,
+            -530.84
+          ],
+          [
+            112.3,
+            -525.87
+          ],
+          [
+            116.55,
+            -520.24
+          ],
+          [
+            113.05,
+            -515.59
+          ],
+          [
+            107.49,
+            -516.99
+          ],
+          [
+            101.74,
+            -520.01
+          ],
+          [
+            95.4,
+            -521.99
+          ],
+          [
+            90.15,
+            -524.18
+          ],
+          [
+            86.58,
+            -527.62
+          ],
+          [
+            84.41,
+            -532.05
+          ],
+          [
+            83.66,
+            -537.75
+          ],
+          [
+            83.75,
+            -543.94
+          ],
+          [
+            83.01,
+            -549.9
+          ],
+          [
+            80.69,
+            -556.23
+          ],
+          [
+            76.42,
+            -561.59
+          ],
+          [
+            71.3,
+            -566.2
+          ],
+          [
+            66.1,
+            -569.19
+          ],
+          [
+            60.76,
+            -570.03
+          ],
+          [
+            56.87,
+            -567.83
+          ],
+          [
+            53.46,
+            -564.53
+          ],
+          [
+            48.97,
+            -561.29
+          ],
+          [
+            44.63,
+            -560.73
+          ],
+          [
+            39.6,
+            -562.09
+          ],
+          [
+            34.61,
+            -564.26
+          ],
+          [
+            30.24,
+            -567.75
+          ],
+          [
+            27.55,
+            -572.48
+          ],
+          [
+            26.49,
+            -577.39
+          ],
+          [
+            24.59,
+            -581.81
+          ],
+          [
+            20.72,
+            -584.72
+          ],
+          [
+            16.82,
+            -587.1
+          ],
+          [
+            12.43,
+            -590.31
+          ],
+          [
+            8.63,
+            -594.3
+          ],
+          [
+            6.24,
+            -599.56
+          ],
+          [
+            4.95,
+            -605.29
+          ],
+          [
+            3.13,
+            -611.04
+          ],
+          [
+            1.83,
+            -616.51
+          ],
+          [
+            -0.83,
+            -621.77
+          ],
+          [
+            -4.66,
+            -625.23
+          ],
+          [
+            -8.5,
+            -628.68
+          ],
+          [
+            -13.38,
+            -632.73
+          ],
+          [
+            -16.9,
+            -636.97
+          ],
+          [
+            -19.59,
+            -641.7
+          ],
+          [
+            -20.09,
+            -647.12
+          ]
+        ]
+      ],
+      "evidence": {
+        "panel": "h09-fairway-00-wide",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+            "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7023387.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7022747.04,
+              684164.96,
+              7023387.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          },
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+            "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              684164.96,
+              0.16,
+              0.0,
+              7023387.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              684164.96,
+              7022747.04,
+              684804.96,
+              7023387.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            250,
+            279
+          ],
+          [
+            274,
+            265
+          ],
+          [
+            307,
+            263
+          ],
+          [
+            345,
+            270
+          ],
+          [
+            367,
+            288
+          ],
+          [
+            376,
+            306
+          ],
+          [
+            377,
+            326
+          ],
+          [
+            383,
+            346
+          ],
+          [
+            405,
+            366
+          ],
+          [
+            432,
+            383
+          ],
+          [
+            461,
+            397
+          ],
+          [
+            485,
+            404
+          ],
+          [
+            508,
+            405
+          ],
+          [
+            526,
+            399
+          ],
+          [
+            540,
+            401
+          ],
+          [
+            552,
+            411
+          ],
+          [
+            559,
+            428
+          ],
+          [
+            562,
+            451
+          ],
+          [
+            565,
+            476
+          ],
+          [
+            574,
+            496
+          ],
+          [
+            589,
+            510
+          ],
+          [
+            611,
+            518
+          ],
+          [
+            635,
+            523
+          ],
+          [
+            658,
+            533
+          ],
+          [
+            677,
+            549
+          ],
+          [
+            690,
+            570
+          ],
+          [
+            697,
+            592
+          ],
+          [
+            704,
+            614
+          ],
+          [
+            708,
+            638
+          ],
+          [
+            716,
+            658
+          ],
+          [
+            731,
+            675
+          ],
+          [
+            745,
+            687
+          ],
+          [
+            753,
+            707
+          ],
+          [
+            762,
+            725
+          ],
+          [
+            779,
+            745
+          ],
+          [
+            767,
+            763
+          ],
+          [
+            746,
+            759
+          ],
+          [
+            724,
+            749
+          ],
+          [
+            700,
+            743
+          ],
+          [
+            680,
+            736
+          ],
+          [
+            666,
+            724
+          ],
+          [
+            657,
+            708
+          ],
+          [
+            653,
+            687
+          ],
+          [
+            652,
+            664
+          ],
+          [
+            648,
+            642
+          ],
+          [
+            638,
+            619
+          ],
+          [
+            621,
+            600
+          ],
+          [
+            601,
+            584
+          ],
+          [
+            581,
+            574
+          ],
+          [
+            561,
+            572
+          ],
+          [
+            547,
+            581
+          ],
+          [
+            535,
+            594
+          ],
+          [
+            519,
+            607
+          ],
+          [
+            503,
+            610
+          ],
+          [
+            484,
+            606
+          ],
+          [
+            465,
+            599
+          ],
+          [
+            448,
+            587
+          ],
+          [
+            437,
+            570
+          ],
+          [
+            432,
+            552
+          ],
+          [
+            424,
+            536
+          ],
+          [
+            409,
+            526
+          ],
+          [
+            394,
+            518
+          ],
+          [
+            377,
+            507
+          ],
+          [
+            362,
+            493
+          ],
+          [
+            352,
+            474
+          ],
+          [
+            346,
+            453
+          ],
+          [
+            338,
+            432
+          ],
+          [
+            332,
+            412
+          ],
+          [
+            321,
+            393
+          ],
+          [
+            306,
+            381
+          ],
+          [
+            291,
+            369
+          ],
+          [
+            272,
+            355
+          ],
+          [
+            258,
+            340
+          ],
+          [
+            247,
+            323
+          ],
+          [
+            244,
+            303
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            684128.2131827505,
+            7023216.919149913
+          ],
+          [
+            684134.6742826862,
+            7023220.688124876
+          ],
+          [
+            684143.5582950979,
+            7023221.22654987
+          ],
+          [
+            684153.7883699961,
+            7023219.342062389
+          ],
+          [
+            684159.7110449373,
+            7023214.496237437
+          ],
+          [
+            684162.1339574131,
+            7023209.650412485
+          ],
+          [
+            684162.4031699104,
+            7023204.266162539
+          ],
+          [
+            684164.0184448943,
+            7023198.881912592
+          ],
+          [
+            684169.9411198355,
+            7023193.497662646
+          ],
+          [
+            684177.2098572631,
+            7023188.921050191
+          ],
+          [
+            684185.0170196855,
+            7023185.152075229
+          ],
+          [
+            684191.4781196213,
+            7023183.267587747
+          ],
+          [
+            684197.6700070597,
+            7023182.99837525
+          ],
+          [
+            684202.5158320115,
+            7023184.613650234
+          ],
+          [
+            684206.284806974,
+            7023184.07522524
+          ],
+          [
+            684209.5153569418,
+            7023181.383100267
+          ],
+          [
+            684211.3998444232,
+            7023176.806487812
+          ],
+          [
+            684212.2074819151,
+            7023170.614600373
+          ],
+          [
+            684213.0151194071,
+            7023163.88428794
+          ],
+          [
+            684215.438031883,
+            7023158.500037994
+          ],
+          [
+            684219.4762193428,
+            7023154.731063032
+          ],
+          [
+            684225.3988942839,
+            7023152.577363052
+          ],
+          [
+            684231.8599942196,
+            7023151.231300566
+          ],
+          [
+            684238.051881658,
+            7023148.539175593
+          ],
+          [
+            684243.1669191072,
+            7023144.231775636
+          ],
+          [
+            684246.6666815723,
+            7023138.578313192
+          ],
+          [
+            684248.5511690537,
+            7023132.655638251
+          ],
+          [
+            684250.4356565349,
+            7023126.73296331
+          ],
+          [
+            684251.5125065241,
+            7023120.271863374
+          ],
+          [
+            684253.6662065027,
+            7023114.887613428
+          ],
+          [
+            684257.7043939625,
+            7023110.311000973
+          ],
+          [
+            684261.473368925,
+            7023107.080451005
+          ],
+          [
+            684263.6270689036,
+            7023101.696201059
+          ],
+          [
+            684266.0499813795,
+            7023096.850376107
+          ],
+          [
+            684270.626593834,
+            7023091.466126161
+          ],
+          [
+            684267.3960438662,
+            7023086.620301209
+          ],
+          [
+            684261.7425814224,
+            7023087.697151198
+          ],
+          [
+            684255.8199064813,
+            7023090.389276171
+          ],
+          [
+            684249.3588065456,
+            7023092.0045511555
+          ],
+          [
+            684243.9745565992,
+            7023093.889038636
+          ],
+          [
+            684240.2055816366,
+            7023097.119588604
+          ],
+          [
+            684237.7826691607,
+            7023101.426988562
+          ],
+          [
+            684236.7058191714,
+            7023107.080451005
+          ],
+          [
+            684236.4366066741,
+            7023113.272338443
+          ],
+          [
+            684235.3597566849,
+            7023119.195013385
+          ],
+          [
+            684232.6676317116,
+            7023125.386900824
+          ],
+          [
+            684228.0910192571,
+            7023130.501938272
+          ],
+          [
+            684222.7067693106,
+            7023134.80933823
+          ],
+          [
+            684217.3225193642,
+            7023137.501463203
+          ],
+          [
+            684211.9382694177,
+            7023138.039888198
+          ],
+          [
+            684208.1692944552,
+            7023135.616975722
+          ],
+          [
+            684204.9387444874,
+            7023132.117213257
+          ],
+          [
+            684200.6313445303,
+            7023128.617450791
+          ],
+          [
+            684196.323944573,
+            7023127.809813299
+          ],
+          [
+            684191.2089071239,
+            7023128.886663289
+          ],
+          [
+            684186.0938696748,
+            7023130.77115077
+          ],
+          [
+            684181.5172572203,
+            7023134.0017007375
+          ],
+          [
+            684178.5559197498,
+            7023138.578313192
+          ],
+          [
+            684177.2098572631,
+            7023143.424138144
+          ],
+          [
+            684175.0561572846,
+            7023147.731538101
+          ],
+          [
+            684171.0179698247,
+            7023150.423663074
+          ],
+          [
+            684166.9797823649,
+            7023152.577363052
+          ],
+          [
+            684162.4031699104,
+            7023155.538700524
+          ],
+          [
+            684158.3649824506,
+            7023159.3076754855
+          ],
+          [
+            684155.6728574773,
+            7023164.422712935
+          ],
+          [
+            684154.0575824934,
+            7023170.076175379
+          ],
+          [
+            684151.9038825149,
+            7023175.729637822
+          ],
+          [
+            684150.288607531,
+            7023181.113887769
+          ],
+          [
+            684147.3272700604,
+            7023186.228925218
+          ],
+          [
+            684143.2890826005,
+            7023189.459475186
+          ],
+          [
+            684139.2508951407,
+            7023192.690025154
+          ],
+          [
+            684134.1358576916,
+            7023196.459000116
+          ],
+          [
+            684130.3668827291,
+            7023200.497187576
+          ],
+          [
+            684127.4055452585,
+            7023205.07380003
+          ],
+          [
+            684126.5979077666,
+            7023210.458049977
+          ]
+        ],
+        "panelExtent": [
+          684060.9100584199,
+          7023022.816939344,
+          684330.1225557423,
+          7023292.029436666
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelGeoTransform": [
+          684060.9100584199,
+          0.26921249732235447,
+          0.0,
+          7023292.029436666,
+          0.0,
+          -0.2692124973218888
+        ],
+        "panelImageSha256": "decfee3863e6e48f96372ab12533c46baa1ced8fc5c03b1b216948cdb7708371",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1.5,
+        "note": "Visible boundary of the short-mown fairway against darker rough. Main lobes, bunker exclusions at the edge, pond-side indentation and the green approach were manually followed; connection into the putting surface overlaps the green rather than asserting a separate visible boundary through it.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    },
+    {
+      "id": "lm-2024-h11-fairway",
+      "hole": 11,
+      "kind": "fairway",
+      "status": "accepted",
+      "originalRingSha256": "a640f8912c014c9a85c17427a07d9d9b2e724ec67fa5a25dd42eac86916070d1",
+      "rings": [
+        [
+          [
+            -514.87,
+            -1165.14
+          ],
+          [
+            -505.21,
+            -1170.33
+          ],
+          [
+            -496.91,
+            -1172.88
+          ],
+          [
+            -487.58,
+            -1172.35
+          ],
+          [
+            -478.97,
+            -1169.74
+          ],
+          [
+            -471.4,
+            -1164.77
+          ],
+          [
+            -465.45,
+            -1157.78
+          ],
+          [
+            -457.87,
+            -1153.11
+          ],
+          [
+            -448.95,
+            -1150.48
+          ],
+          [
+            -439.42,
+            -1148.12
+          ],
+          [
+            -430.23,
+            -1145.18
+          ],
+          [
+            -422.57,
+            -1141.71
+          ],
+          [
+            -415.91,
+            -1136.8
+          ],
+          [
+            -410.21,
+            -1130.73
+          ],
+          [
+            -404.42,
+            -1126.46
+          ],
+          [
+            -398.23,
+            -1123.69
+          ],
+          [
+            -389.82,
+            -1122.91
+          ],
+          [
+            -381.42,
+            -1121.82
+          ],
+          [
+            -377.65,
+            -1119.18
+          ],
+          [
+            -374.58,
+            -1114.78
+          ],
+          [
+            -373.7,
+            -1108.98
+          ],
+          [
+            -372.24,
+            -1102.85
+          ],
+          [
+            -368.32,
+            -1097.48
+          ],
+          [
+            -362.8,
+            -1093.54
+          ],
+          [
+            -358.81,
+            -1089.38
+          ],
+          [
+            -356.98,
+            -1084.44
+          ],
+          [
+            -357.08,
+            -1077.49
+          ],
+          [
+            -357.74,
+            -1071.18
+          ],
+          [
+            -360.17,
+            -1065.57
+          ],
+          [
+            -363.34,
+            -1063.03
+          ],
+          [
+            -367.5,
+            -1064.18
+          ],
+          [
+            -370.29,
+            -1068.27
+          ],
+          [
+            -372.71,
+            -1073.55
+          ],
+          [
+            -376.11,
+            -1077.37
+          ],
+          [
+            -381.14,
+            -1079.17
+          ],
+          [
+            -389.22,
+            -1080.54
+          ],
+          [
+            -397.23,
+            -1083.12
+          ],
+          [
+            -404.81,
+            -1087.78
+          ],
+          [
+            -408.35,
+            -1094.64
+          ],
+          [
+            -410.13,
+            -1100.48
+          ],
+          [
+            -412.08,
+            -1103.32
+          ],
+          [
+            -415.63,
+            -1104.73
+          ],
+          [
+            -420.71,
+            -1105.63
+          ],
+          [
+            -425.83,
+            -1105.92
+          ],
+          [
+            -431.01,
+            -1105.01
+          ],
+          [
+            -437.71,
+            -1104.18
+          ],
+          [
+            -443.41,
+            -1104.81
+          ],
+          [
+            -448.11,
+            -1107.2
+          ],
+          [
+            -452.13,
+            -1110.75
+          ],
+          [
+            -455.17,
+            -1115.76
+          ],
+          [
+            -458.5,
+            -1120.79
+          ],
+          [
+            -463.1,
+            -1124.99
+          ],
+          [
+            -468.66,
+            -1128.03
+          ],
+          [
+            -475.42,
+            -1131.44
+          ],
+          [
+            -481.58,
+            -1134.51
+          ],
+          [
+            -487.77,
+            -1137.28
+          ],
+          [
+            -494.87,
+            -1139.81
+          ],
+          [
+            -502.26,
+            -1142.65
+          ],
+          [
+            -509.63,
+            -1145.79
+          ],
+          [
+            -515.45,
+            -1149.75
+          ],
+          [
+            -520.31,
+            -1154.57
+          ],
+          [
+            -519.04,
+            -1160.84
+          ]
+        ]
+      ],
+      "evidence": {
+        "panel": "h11-fairway-00-wide",
+        "sourceFiles": [
+          {
+            "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+            "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+            "crs": "EPSG:3006",
+            "width": 4000,
+            "height": 4000,
+            "geoTransform": [
+              683524.96,
+              0.16,
+              0.0,
+              7024027.04,
+              0.0,
+              -0.16
+            ],
+            "boundsEPSG3006": [
+              683524.96,
+              7023387.04,
+              684164.96,
+              7024027.04
+            ],
+            "resolutionM": [
+              0.16,
+              0.16
+            ],
+            "colourInterpretation": [
+              "red",
+              "green",
+              "blue",
+              "alpha"
+            ],
+            "nodata": null
+          }
+        ],
+        "sourcePixelRing": [
+          [
+            242,
+            369
+          ],
+          [
+            273,
+            350
+          ],
+          [
+            300,
+            340
+          ],
+          [
+            331,
+            340
+          ],
+          [
+            360,
+            347
+          ],
+          [
+            386,
+            362
+          ],
+          [
+            407,
+            384
+          ],
+          [
+            433,
+            398
+          ],
+          [
+            463,
+            405
+          ],
+          [
+            495,
+            411
+          ],
+          [
+            526,
+            419
+          ],
+          [
+            552,
+            429
+          ],
+          [
+            575,
+            444
+          ],
+          [
+            595,
+            463
+          ],
+          [
+            615,
+            476
+          ],
+          [
+            636,
+            484
+          ],
+          [
+            664,
+            485
+          ],
+          [
+            692,
+            487
+          ],
+          [
+            705,
+            495
+          ],
+          [
+            716,
+            509
+          ],
+          [
+            720,
+            528
+          ],
+          [
+            726,
+            548
+          ],
+          [
+            740,
+            565
+          ],
+          [
+            759,
+            577
+          ],
+          [
+            773,
+            590
+          ],
+          [
+            780,
+            606
+          ],
+          [
+            781,
+            629
+          ],
+          [
+            780,
+            650
+          ],
+          [
+            773,
+            669
+          ],
+          [
+            763,
+            678
+          ],
+          [
+            749,
+            675
+          ],
+          [
+            739,
+            662
+          ],
+          [
+            730,
+            645
+          ],
+          [
+            718,
+            633
+          ],
+          [
+            701,
+            628
+          ],
+          [
+            674,
+            625
+          ],
+          [
+            647,
+            618
+          ],
+          [
+            621,
+            604
+          ],
+          [
+            608,
+            582
+          ],
+          [
+            601,
+            563
+          ],
+          [
+            594,
+            554
+          ],
+          [
+            582,
+            550
+          ],
+          [
+            565,
+            548
+          ],
+          [
+            548,
+            548
+          ],
+          [
+            531,
+            552
+          ],
+          [
+            509,
+            556
+          ],
+          [
+            490,
+            555
+          ],
+          [
+            474,
+            548
+          ],
+          [
+            460,
+            537
+          ],
+          [
+            449,
+            521
+          ],
+          [
+            437,
+            505
+          ],
+          [
+            421,
+            492
+          ],
+          [
+            402,
+            483
+          ],
+          [
+            379,
+            473
+          ],
+          [
+            358,
+            464
+          ],
+          [
+            337,
+            456
+          ],
+          [
+            313,
+            449
+          ],
+          [
+            288,
+            441
+          ],
+          [
+            263,
+            432
+          ],
+          [
+            243,
+            420
+          ],
+          [
+            226,
+            405
+          ],
+          [
+            229,
+            384
+          ]
+        ],
+        "sourceRingEPSG3006": [
+          [
+            683601.7758985917,
+            7023699.962313565
+          ],
+          [
+            683611.1460234147,
+            7023705.705293296
+          ],
+          [
+            683619.3070998734,
+            7023708.727914206
+          ],
+          [
+            683628.6772246964,
+            7023708.727914206
+          ],
+          [
+            683637.4428253372,
+            7023706.612079569
+          ],
+          [
+            683645.3016397048,
+            7023702.078148203
+          ],
+          [
+            683651.6491436171,
+            7023695.428382199
+          ],
+          [
+            683659.5079579848,
+            7023691.196712924
+          ],
+          [
+            683668.5758207167,
+            7023689.080878287
+          ],
+          [
+            683678.2482076307,
+            7023687.267305741
+          ],
+          [
+            683687.6183324537,
+            7023684.849209012
+          ],
+          [
+            683695.4771468212,
+            7023681.826588102
+          ],
+          [
+            683702.4291749157,
+            7023677.2926567355
+          ],
+          [
+            683708.474416737,
+            7023671.549677005
+          ],
+          [
+            683714.5196585582,
+            7023667.620269822
+          ],
+          [
+            683720.8671624706,
+            7023665.202173093
+          ],
+          [
+            683729.3305010203,
+            7023664.899911002
+          ],
+          [
+            683737.79383957,
+            7023664.29538682
+          ],
+          [
+            683741.7232467539,
+            7023661.8772900915
+          ],
+          [
+            683745.0481297555,
+            7023657.645620816
+          ],
+          [
+            683746.2571781198,
+            7023651.902641086
+          ],
+          [
+            683748.0707506662,
+            7023645.857399265
+          ],
+          [
+            683752.302419941,
+            7023640.718943717
+          ],
+          [
+            683758.0453996713,
+            7023637.091798624
+          ],
+          [
+            683762.2770689462,
+            7023633.16239144
+          ],
+          [
+            683764.3929035836,
+            7023628.326197984
+          ],
+          [
+            683764.6951656747,
+            7023621.374169889
+          ],
+          [
+            683764.3929035836,
+            7023615.026665976
+          ],
+          [
+            683762.2770689462,
+            7023609.283686247
+          ],
+          [
+            683759.2544480355,
+            7023606.563327427
+          ],
+          [
+            683755.0227787606,
+            7023607.4701137
+          ],
+          [
+            683752.00015785,
+            7023611.399520884
+          ],
+          [
+            683749.2797990305,
+            7023616.537976432
+          ],
+          [
+            683745.6526539377,
+            7023620.165121525
+          ],
+          [
+            683740.5141983896,
+            7023621.67643198
+          ],
+          [
+            683732.353121931,
+            7023622.583218253
+          ],
+          [
+            683724.1920454722,
+            7023624.699052891
+          ],
+          [
+            683716.3332311047,
+            7023628.930722166
+          ],
+          [
+            683712.4038239208,
+            7023635.580488169
+          ],
+          [
+            683710.2879892833,
+            7023641.323467899
+          ],
+          [
+            683708.1721546459,
+            7023644.043826719
+          ],
+          [
+            683704.5450095532,
+            7023645.252875083
+          ],
+          [
+            683699.4065540051,
+            7023645.857399265
+          ],
+          [
+            683694.268098457,
+            7023645.857399265
+          ],
+          [
+            683689.1296429089,
+            7023644.648350901
+          ],
+          [
+            683682.4798769056,
+            7023643.439302537
+          ],
+          [
+            683676.7368971753,
+            7023643.741564628
+          ],
+          [
+            683671.9007037183,
+            7023645.857399265
+          ],
+          [
+            683667.6690344434,
+            7023649.182282267
+          ],
+          [
+            683664.3441514418,
+            7023654.018475723
+          ],
+          [
+            683660.717006349,
+            7023658.854669181
+          ],
+          [
+            683655.880812892,
+            7023662.784076365
+          ],
+          [
+            683650.1378331619,
+            7023665.504435184
+          ],
+          [
+            683643.1858050673,
+            7023668.527056095
+          ],
+          [
+            683636.838301155,
+            7023671.247414914
+          ],
+          [
+            683630.4907972427,
+            7023673.665511643
+          ],
+          [
+            683623.2365070572,
+            7023675.78134628
+          ],
+          [
+            683615.6799547806,
+            7023678.199443009
+          ],
+          [
+            683608.123402504,
+            7023680.919801828
+          ],
+          [
+            683602.0781606828,
+            7023684.546946921
+          ],
+          [
+            683596.9397051347,
+            7023689.080878287
+          ],
+          [
+            683597.846491408,
+            7023695.428382199
+          ]
+        ],
+        "panelExtent": [
+          683528.6284725545,
+          7023509.234934105,
+          683830.8905636175,
+          7023811.497025168
+        ],
+        "panelPixelSize": [
+          1000,
+          1000
+        ],
+        "panelGeoTransform": [
+          683528.6284725545,
+          0.30226209106296303,
+          0.0,
+          7023811.497025168,
+          0.0,
+          -0.30226209106296303
+        ],
+        "panelImageSha256": "6f6a666b6816a92fc7a37de59eb909b73b768d818fc5b58f17063106abebae7b",
+        "source": "Lantmateriet Ortofoto Nedladdning, orto-u2-2024",
+        "sourceCaptureDates": [
+          "2024-06-27"
+        ],
+        "uncertaintyM": 1.5,
+        "note": "Visible short-mown fairway against the darker rough, following the northern concavities and the southern bunker-side indentation. The western end joins the separately reviewed green with a short overlap; no marker locations inferred.",
+        "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
+        "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
+        "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim"
+      }
+    }
+  ]
+}

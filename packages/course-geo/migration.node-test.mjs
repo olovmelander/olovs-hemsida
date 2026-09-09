@@ -43,6 +43,16 @@ test('legacy local coordinates invert to latitude/longitude', () => {
   });
 });
 
+test('migration preserves hashed original-route evidence while projecting the adopted route', () => {
+  const originalLine = [[1, 2], [3, 4]];
+  const result = collectCoordinatePairs({holes:[{line:[[1,2],[30,40]],routingReview:{originalLine}}]});
+  assert.equal(result.coordinates.length, 2);
+  assert.equal(result.ignored.length, 2);
+  for (const entry of result.coordinates) entry.pair[0] += 500000;
+  assert.deepEqual(originalLine, [[1,2],[3,4]]);
+  assert.throws(() => collectCoordinatePairs({holes:[{routingReview:{mystery:[[1,2]]}}]}), /Unclassified/);
+});
+
 test('projected local coordinates use exact EPSG:3006 axis translation', () => {
   assert.deepEqual(localToProjected([469.6, -444.9], {
     projectedOriginEpsg3006: { easting: 448975.5, northing: 6536024.5 },

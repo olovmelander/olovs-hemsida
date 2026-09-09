@@ -229,10 +229,10 @@ not that it is complete.
 | Item | State |
 |---|---|
 | Canonical origin | `pending-control-approval`; no independent control survey |
-| Played surfaces | satellite traces routed by the 2026 banguide, `prov:"synth"`/trace — not surveyed, so `surfacePolicy` stays `legacy-ground-atlas` |
+| Played surfaces | updated 2026-09-09 from authenticated 2025-06-14 Lantmateriet orthophotos across both courses; explicit review ledgers in `johannesbergbuild/mapping/`. Unresolved obscured surfaces/tee identities remain labelled; `surfacePolicy` stays `legacy-ground-atlas` |
 | Nine-hole course (`johannesberg-9`) | shares this ground and this terrain window, but is **not yet published as a v2 course**; `emitGroundGraph` takes one course per call |
 | Vegetation | published: 2,417 measured crowns + a 64-tile stand field. Leaf-off, so conservative on deciduous; see §4 |
-| Ortho / Topografi 10 | discovered and covered, not acquired; no product terms approved for redistribution |
+| Ortho / Topografi 10 | orthophoto windows acquired, georeferenced, hashed and reviewed on 2026-09-09; raw pixels remain private. Topografi 10 remains unacquired |
 | Hole 12 | the tee end is under spruce in every image; the card slide resolves it to within 26 m of the banguide's own disc. See CLAUDE.md before re-tracing |
 | The nine's shapes | three greens (2, 7, 8) measured off the tiles (`prov:"sat"`), four more (3, 4, 5, 6) and one bunker read off the 1 m laser hillshade (`prov:"laser"`, §7.9–7.10); two greens (1, 9), every fairway and every tee pad remain synthesised. A dated, leafed-on ortho would finish the fairways |
 | Hole 1's two bunkers | the trace puts them 12–30 m short and WEST of the green centre; the club's Bana-1 plan draws them at the green's LEFT edge, which for a hole playing south is east. Same count, ~20 m apart; not resolved at 0.3 m/px — see §7.2 |

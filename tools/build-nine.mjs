@@ -32,8 +32,11 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { applyReviewedNineTees } from './apply-reviewed-nine-tees.mjs';
+import { applyUpsalaLmTeeReferences } from './apply-upsala-lm-tee-references.mjs';
 import { applyReviewedNineFairways } from './apply-reviewed-nine-fairways.mjs';
 import { mergeMellanTeeReview20260907 } from './apply-mellan-tee-review-2026-09-07.mjs';
+import { applyOrthoReview, legacyHeightfieldSampler } from '../johannesbergbuild/mapping/apply-ortho-review.mjs';
+import { excludeOwnedScenery } from '../johannesbergbuild/mapping/scenery-ownership.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJSON = p => JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -239,7 +242,8 @@ for (const [number, sourceId] of Object.entries(cfg.greenSourceIds || {})) {
     twiceArea += b[0] * a[1] - a[0] * b[1];
   }
   if (!inside) throw new Error(`reviewed green ${sourceId} does not contain hole ${number}'s provisional pin`);
-  hole.green = { ...hole.green, ring: structuredClone(ring), area: Math.round(Math.abs(twiceArea) / 2), prov: source.prov, sourceId, positionalAccuracyMetres: null };
+  hole.green = { ...hole.green, ring: structuredClone(ring), area: Math.round(Math.abs(twiceArea) / 2), prov: source.prov, sourceId, positionalAccuracyMetres: null,
+    ...(source.evidence ? { evidence: structuredClone(source.evidence) } : {}) };
 }
 
 /* Physical platforms were reviewed against the archived source-route model.
@@ -257,6 +261,27 @@ if (cfg.reviewedFairways) {
     readJSON(path.resolve(ROOT, cfg.reviewedFairways))).holes;
 }
 
+if (cfg.reviewedTeeReferences) {
+  if (cfg.slug !== 'upsala-mellanbanan') throw new Error('reviewedTeeReferences currently requires the Upsala source frame');
+  holes = applyUpsalaLmTeeReferences({ origin: parent.origin, mPerLat: parent.mPerLat, mPerLon: parent.mPerLon, holes },
+    [readJSON(path.resolve(ROOT, cfg.reviewedTeeReferences))]).holes;
+}
+
+const baselineHoles = cfg.orthophotoReviews ? structuredClone(holes) : [];
+let orthophotoModel;
+if (cfg.orthophotoReviews) {
+  if (cfg.slug !== 'johannesberg-9' || !Array.isArray(cfg.orthophotoReviews) || !cfg.orthophotoReviews.length) {
+    throw new Error('orthophotoReviews requires an explicit Johannesberg nine review list');
+  }
+  orthophotoModel = {origin:parent.origin, mPerLat:parent.mPerLat, mPerLon:parent.mPerLon,
+    holes, infra:parent.infra};
+  for (const filename of cfg.orthophotoReviews) {
+    orthophotoModel = applyOrthoReview(orthophotoModel, readJSON(path.resolve(ROOT, filename)),
+      {heightAt:legacyHeightfieldSampler(hf)});
+  }
+  holes = orthophotoModel.holes;
+}
+
 /* ---- the parent's holes become scenery ----------------------------------------- */
 /* The relationship is symmetric: the parent's reconcile may carry THIS nine's holes
    in its own scenery (Johannesberg does), and those rings must not come back here
@@ -266,9 +291,13 @@ const cen = r => { let x = 0, z = 0; for (const p of r) { x += p[0]; z += p[1]; 
 const own = [
   ...holes.map(h => h.green.ring), ...holes.flatMap(h => h.fairway.rings),
   ...holes.flatMap(h => h.tees.pads.map(p => p.ring)), ...holes.flatMap(h => h.bunkers.map(b => b.ring)),
+  // First migration from an older parent has no explicit ownership ledger yet.
+  // Include both pre-review and accepted geometry in that legacy fallback.
+  ...baselineHoles.map(h => h.green.ring), ...baselineHoles.flatMap(h => h.fairway.rings),
+  ...baselineHoles.flatMap(h => h.tees.pads.map(p => p.ring)), ...baselineHoles.flatMap(h => h.bunkers.map(b => b.ring)),
 ].map(cen);
 const notOwn = rings => (rings || []).filter(r => { const c = cen(r); return !own.some(o => Math.hypot(o[0] - c[0], o[1] - c[1]) < 3); });
-const P = parent.scenery || {};
+const P = cfg.slug === 'johannesberg-9' ? excludeOwnedScenery(parent.scenery || {}, cfg.slug) : parent.scenery || {};
 const scenery = {
   greens: [...notOwn(P.greens), ...parent.holes.map(h => h.green.ring)],
   fairways: [...notOwn(P.fairways), ...parent.holes.flatMap(h => h.fairway.rings)],
@@ -297,7 +326,8 @@ const model = {
   card: card.holes.map(h => ({ n: h.n, par: h.par, hcp: h.hcp, t: h.t })),
   holes,
   water: parent.water, streams: parent.streams, coast: parent.coast,
-  vegetation: parent.vegetation, infra: parent.infra, pois: parent.pois,
+  vegetation: parent.vegetation, infra: orthophotoModel?.infra ?? parent.infra, pois: parent.pois,
+  ...(orthophotoModel?.orthophotoReview ? {orthophotoReview:orthophotoModel.orthophotoReview} : {}),
   scenery,
   note: cfg.note,
 };

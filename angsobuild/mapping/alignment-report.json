@@ -1,0 +1,3239 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "kind": "independent-orthophoto-alignment-audit",
+  "auditedAt": "2026-09-09T18:18:06.477302+00:00",
+  "inputs": {
+    "modelPath": "angsobuild/course-model.json",
+    "modelSha256": "35fdadaed2cb45f0347c277d995f3e71a4af4f1d8f71a5bcf7f8d40e13d69d91",
+    "reviewPath": "angsobuild/mapping/orthophoto-review.json",
+    "reviewSha256": "d1f8f27dbe72135af15a05b87f071dfc8880ad54c3f70dad52c2f82460e1165f",
+    "baselinePath": "angsobuild/cache/lm-ortho/baseline-course-model.json",
+    "baselineSha256": "f32c2c7c72349ee4f826ba4ebffce5608f8ab14c61f80093df7947a8f1c895db",
+    "validatorSha256": "ecaddd58104fb7b82b627519c0c220b511bb0be9da74f0f66744042d61f05ee1"
+  },
+  "sourceCaptureDate": "2025-04-24",
+  "reviewDate": "2026-09-09",
+  "frame": {
+    "origin": {
+      "lat": 59.5739,
+      "lon": 16.871
+    },
+    "mPerLat": 111320,
+    "mPerLon": 56375.41,
+    "axes": "east +x, true north -z",
+    "horizontalCrs": "EPSG:3006",
+    "conversion": "Native pixel-edge affine -> EPSG:3006. Model local metres -> frozen WGS84 inverse -> independent pyproj EPSG:3006; grid convergence is handled by PROJ, not an image fit.",
+    "pyprojVersion": "3.8.0",
+    "projVersion": "9.8.1",
+    "pixelConvention": "continuous pixel edges; sample centres use column+0.5,row+0.5",
+    "globalFitApplied": false
+  },
+  "counts": {
+    "baselineRings": {
+      "green": 18,
+      "fairways": 19,
+      "tees": 64,
+      "bunkers": 48,
+      "water": 14
+    },
+    "modelRings": {
+      "green": 18,
+      "fairways": 18,
+      "tees": 50,
+      "bunkers": 33,
+      "water": 14
+    },
+    "reviewedRings": {
+      "green": 18,
+      "fairways": 16,
+      "tees": 50,
+      "bunkers": 33,
+      "water": 8
+    },
+    "retainedUnreviewedRings": {
+      "green": 0,
+      "fairways": 2,
+      "tees": 0,
+      "bunkers": 0,
+      "water": 6
+    },
+    "reviewedHoleCategories": {
+      "green": 18,
+      "fairways": 16,
+      "tees": 18,
+      "bunkers": 18
+    },
+    "totalReviewedRings": 125
+  },
+  "numericalRegistration": {
+    "method": "Independent projected residual for every matched accepted vertex, including closing vertex; measures implementation fidelity only.",
+    "perClassMetres": {
+      "all": {
+        "count": 2515,
+        "minimum": 0.0007452750582051312,
+        "median": 0.0007455367598484744,
+        "maximum": 0.0007459241900393312,
+        "rms": 0.0007455636771392817
+      },
+      "green": {
+        "count": 478,
+        "minimum": 0.000745289959373519,
+        "median": 0.0007455823946857054,
+        "maximum": 0.0007459241900393312,
+        "rms": 0.0007455683547598358
+      },
+      "fairways": {
+        "count": 724,
+        "minimum": 0.000745276920853871,
+        "median": 0.0007454971786267055,
+        "maximum": 0.000745909288871022,
+        "rms": 0.0007455264869133577
+      },
+      "tees": {
+        "count": 608,
+        "minimum": 0.0007452806461194096,
+        "median": 0.0007456061433984178,
+        "maximum": 0.0007458981130036839,
+        "rms": 0.0007455947436610848
+      },
+      "bunkers": {
+        "count": 500,
+        "minimum": 0.0007452750582051312,
+        "median": 0.0007455884482696182,
+        "maximum": 0.0007459130141648708,
+        "rms": 0.0007455795090630379
+      },
+      "water": {
+        "count": 205,
+        "minimum": 0.0007452974099577401,
+        "median": 0.0007454855370927148,
+        "maximum": 0.000745794736190863,
+        "rms": 0.0007455533563735406
+      }
+    },
+    "nativePixels": {
+      "count": 2515,
+      "minimum": 0.00465796911377223,
+      "median": 0.004659604283399742,
+      "maximum": 0.004662025722095283,
+      "rms": 0.00465977291636706
+    },
+    "passLimitMetres": 0.005,
+    "passed": true,
+    "doesNotMeasure": [
+      "absolute surveying accuracy",
+      "manual boundary interpretation accuracy",
+      "current ground changes after the capture date"
+    ]
+  },
+  "topology": {
+    "modelRings": 133,
+    "reviewedRings": 125,
+    "invalidReviewedRings": [],
+    "unclosedReviewedRings": [],
+    "invalidRetainedRings": [
+      {
+        "hole": null,
+        "kind": "water",
+        "id": "malaren-1",
+        "reviewed": false,
+        "valid": false,
+        "reason": "Ring Self-intersection[604225.112077532 6603678.66051922]",
+        "closed": false,
+        "areaSquareMetres": 2547761.346249709
+      }
+    ],
+    "allReviewedPixelRingsInsideTheirSource": true,
+    "allGreenReferencesInsideTheirPuttingSurfaces": true
+  },
+  "centroidDisplacements": {
+    "greenMetres": {
+      "count": 18,
+      "minimum": 1.8339,
+      "median": 6.01905,
+      "maximum": 15.4754,
+      "rms": 8.08876125686471
+    },
+    "definition": "Projected polygon-area centroids; per-class values compare union centroids within a hole, not feature identities."
+  },
+  "teeReferences": {
+    "total": 90,
+    "kinds": {
+      "unresolved-virtual-tee-reference": 36,
+      "provisional-virtual-tee-reference": 40,
+      "legacy-reference-inside-reviewed-pad": 14
+    },
+    "displacementMetres": {
+      "count": 90,
+      "minimum": 0.0,
+      "median": 0.0,
+      "maximum": 24.38371349354103,
+      "rms": 7.2478156724149985
+    },
+    "allUnresolvedOriginalPositionsRetained": true,
+    "allResolvedReferencesInsideReviewedPads": true,
+    "allPhysicalPadsPreserveMeasuredTerrain": true,
+    "colourAssociationsVerified": 0,
+    "references": [
+      {
+        "hole": 1,
+        "markIndex": 0,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 26.419775092933357,
+        "originalNearestPadEdgeMetres": 26.42,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 1,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 15.247806991615981,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 9.453,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-01-physical-tee-02"
+      },
+      {
+        "hole": 1,
+        "markIndex": 2,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 13.859341884312053,
+        "originalNearestPadEdgeMetres": 13.859,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 1,
+        "markIndex": 3,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 10.910579780713384,
+        "originalNearestPadEdgeMetres": 10.911,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 1,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 27.330237079614545,
+        "originalNearestPadEdgeMetres": 27.33,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 2,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 8.090420373925587,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 2.185,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-02-physical-tee-01"
+      },
+      {
+        "hole": 2,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 11.490730596339032,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 2.124,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-02-physical-tee-01"
+      },
+      {
+        "hole": 2,
+        "markIndex": 2,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 21.25461136377733,
+        "originalNearestPadEdgeMetres": 21.255,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 2,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 3.093271058091719,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.24,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-02-physical-tee-02"
+      },
+      {
+        "hole": 2,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 27.03422917492483,
+        "originalNearestPadEdgeMetres": 27.034,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 3,
+        "markIndex": 0,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-03-physical-tee-02"
+      },
+      {
+        "hole": 3,
+        "markIndex": 1,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-03-physical-tee-02"
+      },
+      {
+        "hole": 3,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 4.690050127789962,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.669,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-03-physical-tee-01"
+      },
+      {
+        "hole": 3,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 5.833354160197331,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.756,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-03-physical-tee-01"
+      },
+      {
+        "hole": 3,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 23.935003089396833,
+        "originalNearestPadEdgeMetres": 23.935,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 4,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 15.076179414482993,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 2.174,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-04-physical-tee-02"
+      },
+      {
+        "hole": 4,
+        "markIndex": 1,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-04-physical-tee-02"
+      },
+      {
+        "hole": 4,
+        "markIndex": 2,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-04-physical-tee-02"
+      },
+      {
+        "hole": 4,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 5.557228212751142,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.886,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-04-physical-tee-01"
+      },
+      {
+        "hole": 4,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 19.95351910280228,
+        "originalNearestPadEdgeMetres": 19.954,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 5,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 3.2818312595255583,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.149,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-05-physical-tee-01"
+      },
+      {
+        "hole": 5,
+        "markIndex": 1,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-05-physical-tee-02"
+      },
+      {
+        "hole": 5,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 8.768513381738792,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 4.791,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-05-physical-tee-03"
+      },
+      {
+        "hole": 5,
+        "markIndex": 3,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 55.757450461390114,
+        "originalNearestPadEdgeMetres": 55.757,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 5,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 100.83408927647972,
+        "originalNearestPadEdgeMetres": 100.834,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 6,
+        "markIndex": 0,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-06-physical-tee-03"
+      },
+      {
+        "hole": 6,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 8.914810781796703,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 5.397,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-06-physical-tee-02"
+      },
+      {
+        "hole": 6,
+        "markIndex": 2,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 10.358747961070371,
+        "originalNearestPadEdgeMetres": 10.359,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 6,
+        "markIndex": 3,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 11.843373703016926,
+        "originalNearestPadEdgeMetres": 11.843,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 6,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 78.38595651016556,
+        "originalNearestPadEdgeMetres": 78.386,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 7,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 9.026680273400203,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 4.45,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-07-physical-tee-03"
+      },
+      {
+        "hole": 7,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 10.249368367262813,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 6.015,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-07-physical-tee-02"
+      },
+      {
+        "hole": 7,
+        "markIndex": 2,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 14.766105776472637,
+        "originalNearestPadEdgeMetres": 14.766,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 7,
+        "markIndex": 3,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 67.98772915306554,
+        "originalNearestPadEdgeMetres": 67.988,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 7,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 130.79670512104957,
+        "originalNearestPadEdgeMetres": 130.797,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 8,
+        "markIndex": 0,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 47.470361553557595,
+        "originalNearestPadEdgeMetres": 47.47,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 8,
+        "markIndex": 1,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 34.44003218629982,
+        "originalNearestPadEdgeMetres": 34.44,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 8,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 8.398953408293679,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 5.115,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-08-physical-tee-01"
+      },
+      {
+        "hole": 8,
+        "markIndex": 3,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 13.238446669539258,
+        "originalNearestPadEdgeMetres": 13.238,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 8,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 48.203986211164334,
+        "originalNearestPadEdgeMetres": 48.204,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 9,
+        "markIndex": 0,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 11.518066551602097,
+        "originalNearestPadEdgeMetres": 11.518,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 9,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 7.403566835778862,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 3.348,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-09-physical-tee-01"
+      },
+      {
+        "hole": 9,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 11.672230206942023,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 4.378,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-09-physical-tee-01"
+      },
+      {
+        "hole": 9,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 3.137062063345351,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.125,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-09-physical-tee-02"
+      },
+      {
+        "hole": 9,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 35.01549558945596,
+        "originalNearestPadEdgeMetres": 35.015,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 10,
+        "markIndex": 0,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-10-physical-tee-02"
+      },
+      {
+        "hole": 10,
+        "markIndex": 1,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-10-physical-tee-02"
+      },
+      {
+        "hole": 10,
+        "markIndex": 2,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 22.476231714001187,
+        "originalNearestPadEdgeMetres": 22.476,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 10,
+        "markIndex": 3,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 48.56662663613463,
+        "originalNearestPadEdgeMetres": 48.567,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 10,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 105.6332614394773,
+        "originalNearestPadEdgeMetres": 105.633,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 11,
+        "markIndex": 0,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-11-physical-tee-03"
+      },
+      {
+        "hole": 11,
+        "markIndex": 1,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-11-physical-tee-02"
+      },
+      {
+        "hole": 11,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 19.243470346059798,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.989,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-11-physical-tee-02"
+      },
+      {
+        "hole": 11,
+        "markIndex": 3,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-11-physical-tee-01"
+      },
+      {
+        "hole": 11,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 41.773983975307125,
+        "originalNearestPadEdgeMetres": 41.774,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 12,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 4.3715084150568355,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.034,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-12-physical-tee-02"
+      },
+      {
+        "hole": 12,
+        "markIndex": 1,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-12-physical-tee-02"
+      },
+      {
+        "hole": 12,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 5.388176700211329,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.479,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-12-physical-tee-01"
+      },
+      {
+        "hole": 12,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 4.8201004505688285,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.679,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-12-physical-tee-01"
+      },
+      {
+        "hole": 12,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 58.62430598565317,
+        "originalNearestPadEdgeMetres": 58.624,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 13,
+        "markIndex": 0,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-13-physical-tee-03"
+      },
+      {
+        "hole": 13,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 8.75670471761762,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 4.398,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-13-physical-tee-02"
+      },
+      {
+        "hole": 13,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 24.38371349354103,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 9.408,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-13-physical-tee-02"
+      },
+      {
+        "hole": 13,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 6.215292577002798,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.526,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-13-physical-tee-01"
+      },
+      {
+        "hole": 13,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 54.75257083878027,
+        "originalNearestPadEdgeMetres": 54.753,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 14,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 12.086911609420277,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.834,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-14-physical-tee-01"
+      },
+      {
+        "hole": 14,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 23.453641174239,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 7.249,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-14-physical-tee-01"
+      },
+      {
+        "hole": 14,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 15.330817648423483,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 9.509,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-14-physical-tee-03"
+      },
+      {
+        "hole": 14,
+        "markIndex": 3,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 10.732168236499227,
+        "originalNearestPadEdgeMetres": 10.732,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 14,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 83.17530229278437,
+        "originalNearestPadEdgeMetres": 83.175,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 15,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 10.911560490803891,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 6.586,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-15-physical-tee-03"
+      },
+      {
+        "hole": 15,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 6.0052313392226,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.994,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-15-physical-tee-02"
+      },
+      {
+        "hole": 15,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 13.72381227917449,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 3.243,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-15-physical-tee-02"
+      },
+      {
+        "hole": 15,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 4.733046985524814,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.139,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-15-physical-tee-01"
+      },
+      {
+        "hole": 15,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 21.94009625580996,
+        "originalNearestPadEdgeMetres": 21.94,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 16,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 10.749734616843275,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.071,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-16-physical-tee-01"
+      },
+      {
+        "hole": 16,
+        "markIndex": 1,
+        "kind": "legacy-reference-inside-reviewed-pad",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0,
+        "retainedOriginal": true,
+        "selectedPadReviewId": "lm-angso-16-physical-tee-01"
+      },
+      {
+        "hole": 16,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 7.181325107152724,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 3.397,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-16-physical-tee-02"
+      },
+      {
+        "hole": 16,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 4.043908019844156,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.396,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-16-physical-tee-03"
+      },
+      {
+        "hole": 16,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 65.16406063810294,
+        "originalNearestPadEdgeMetres": 65.164,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 17,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 4.284914533179293,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 0.2,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-17-physical-tee-01"
+      },
+      {
+        "hole": 17,
+        "markIndex": 1,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 10.693237243643424,
+        "originalNearestPadEdgeMetres": 10.693,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 17,
+        "markIndex": 2,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 17.235447853334314,
+        "originalNearestPadEdgeMetres": 17.235,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 17,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 5.94920566233622,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 1.699,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-17-physical-tee-04"
+      },
+      {
+        "hole": 17,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 49.18293183268772,
+        "originalNearestPadEdgeMetres": 49.183,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      },
+      {
+        "hole": 18,
+        "markIndex": 0,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 11.676316135499942,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 4.389,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-18-physical-tee-01"
+      },
+      {
+        "hole": 18,
+        "markIndex": 1,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 15.018424856264781,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 8.959,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-18-physical-tee-02"
+      },
+      {
+        "hole": 18,
+        "markIndex": 2,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 12.829554550692945,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 7.146,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-18-physical-tee-03"
+      },
+      {
+        "hole": 18,
+        "markIndex": 3,
+        "kind": "provisional-virtual-tee-reference",
+        "identityStatus": "unverified-colour-association",
+        "displacementMetres": 11.686192617114305,
+        "distanceToReviewedPadMetres": 0.0,
+        "originalNearestPadEdgeMetres": 6.177,
+        "retainedOriginal": false,
+        "selectedPadReviewId": "lm-angso-18-physical-tee-04"
+      },
+      {
+        "hole": 18,
+        "markIndex": 4,
+        "kind": "unresolved-virtual-tee-reference",
+        "identityStatus": "unsupported-platform-association",
+        "displacementMetres": 0.0,
+        "distanceToReviewedPadMetres": 46.08704540296475,
+        "originalNearestPadEdgeMetres": 46.087,
+        "retainedOriginal": true,
+        "selectedPadReviewId": null
+      }
+    ]
+  },
+  "waterLevels": {
+    "allRetained": true,
+    "values": [
+      {
+        "id": "w1508749365",
+        "reviewed": false,
+        "baselineLevel": 15.96,
+        "modelLevel": 15.96
+      },
+      {
+        "id": "w519749977",
+        "reviewed": false,
+        "baselineLevel": 31.34,
+        "modelLevel": 31.34
+      },
+      {
+        "id": "w1511512726",
+        "reviewed": false,
+        "baselineLevel": 23.38,
+        "modelLevel": 23.38
+      },
+      {
+        "id": "malaren-1",
+        "reviewed": false,
+        "baselineLevel": 0.76,
+        "modelLevel": 0.76
+      },
+      {
+        "id": "malaren-2",
+        "reviewed": false,
+        "baselineLevel": 0.76,
+        "modelLevel": 0.76
+      },
+      {
+        "id": "malaren-3",
+        "reviewed": false,
+        "baselineLevel": 0.76,
+        "modelLevel": 0.76
+      },
+      {
+        "id": "t1",
+        "reviewed": true,
+        "baselineLevel": 1.04,
+        "modelLevel": 1.04
+      },
+      {
+        "id": "t2",
+        "reviewed": true,
+        "baselineLevel": 1.31,
+        "modelLevel": 1.31
+      },
+      {
+        "id": "t3",
+        "reviewed": true,
+        "baselineLevel": 14.88,
+        "modelLevel": 14.88
+      },
+      {
+        "id": "t4",
+        "reviewed": true,
+        "baselineLevel": 10.93,
+        "modelLevel": 10.93
+      },
+      {
+        "id": "t5",
+        "reviewed": true,
+        "baselineLevel": 11.79,
+        "modelLevel": 11.79
+      },
+      {
+        "id": "t6",
+        "reviewed": true,
+        "baselineLevel": 13.63,
+        "modelLevel": 13.63
+      },
+      {
+        "id": "t7",
+        "reviewed": true,
+        "baselineLevel": 7.37,
+        "modelLevel": 7.37
+      },
+      {
+        "id": "t8",
+        "reviewed": true,
+        "baselineLevel": 6.98,
+        "modelLevel": 6.98
+      }
+    ]
+  },
+  "unchangedSourceClasses": {
+    "vegetation": true,
+    "streams": true,
+    "coast": true,
+    "scenery": true,
+    "infraGeometry": true
+  },
+  "limitations": [
+    "Fairways on par-three holes 12 and 15 retain legacy rings; the April image does not establish their cut boundary confidently.",
+    "Tree shadows and dormant spring turf limit some interpreted edges, especially long fairway margins.",
+    "The imagery is from 2025-04-24 and does not establish later construction, mowing, marker placement or water levels.",
+    "Physical tee platforms are visible; official tee-colour associations are unverified. Distant virtual references remain unresolved at their prior positions.",
+    "Canopy, infrastructure, surrounding land cover and terrain are not re-surveyed by this surface review.",
+    "The retained malaren-1 shoreline has a pre-existing self-intersection; it is unchanged and is not among the 125 reviewed polygons.",
+    "0.16 m ground sample distance and subpixel numerical registration do not establish absolute geodetic or manual tracing accuracy.",
+    "Scorecard distances remain metadata; geometry and camera endpoints are not stretched to match card length."
+  ],
+  "sources": [
+    {
+      "sourceKey": "angso-01-hole",
+      "sha256": "f2f4d850216cf11d5ca99915f5d09e42d67e9113b0926300cd5f8ca15f58d30c",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-02-hole",
+      "sha256": "d29a6f7a0e1dfc03f3c9dc14455d2081e00d0ba8c012bd2d87f333047b922e78",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-03-hole",
+      "sha256": "6b8f34a245b19fe957cf37d314adaf456a15a9439318f50580110d3698f37ad0",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-04-hole",
+      "sha256": "4d326544b9a30215d3b09059b5d0cd989cc07c052e67d9fad480b510f6910ea4",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-05-hole",
+      "sha256": "afe290152d1dd78edfa8c474e92a5439234c2c4e9e9cb0f83c32d2d7f0e7b4ae",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-06-hole",
+      "sha256": "db364ef6712cac85af1d122238b0a3c8a6fe2a125204ba0af60ca86b73f06d02",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-07-hole",
+      "sha256": "63eb37690e42d320e24d28db14c2195196661e35838463c48ec7d0c1755d16ea",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-08-hole",
+      "sha256": "72ee10ad43c00ea66c1d241f548bdeee4792ba5ff048a818e7244724d3aaaf12",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-09-hole",
+      "sha256": "29e8334c859a62f610638daeaeadc03f9e74f1f0468f24b2bf8db8277be7293e",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-15-hole",
+      "sha256": "6990edf675ff0325a156d4547a5a377bdd0787a4918aa38545688b29729a46c6",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-17-hole",
+      "sha256": "32e132fc798390af68cdd998c960103fe8f71997f6f9703d05c700f907782514",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-18-hole",
+      "sha256": "05ae5768e81b61c5d008fe0d21797f628c0fc3cfb30e8b62bf91dc114fd535e8",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-10-hole",
+      "sha256": "5723496a9c27ad70bda76b5227f09da16ed76f3ddbfc03e4ea652650321fb949",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-11-hole",
+      "sha256": "5039205b04fa035d47150ba3e2bcc3675feb1d56b351b2f631eda2140b760ab7",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-12-hole",
+      "sha256": "a53997a26de442fd264cacd71176f14a9552e74edd750705726686f2ccb50650",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-13-hole",
+      "sha256": "1f09c6ca329c5b1592144d80eb1645d52d167b162cb720582095bbb048fe73d8",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-14-hole",
+      "sha256": "a1e995633b033c3eaca6884090b298d7baa4e9fdefc15523e16aaa59049aed88",
+      "gridAndHashVerified": true
+    },
+    {
+      "sourceKey": "angso-16-hole",
+      "sha256": "1eab03a069012ed99e79f5435091743cf5254bfd8f1059dc75875dbf829b7d1e",
+      "gridAndHashVerified": true
+    }
+  ],
+  "holes": [
+    {
+      "hole": 1,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 569.9493,
+          "modelAreaSquareMetres": 553.728,
+          "aggregateCentroidShiftMetres": 3.0096
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 5932.232,
+          "modelAreaSquareMetres": 5082.0608,
+          "aggregateCentroidShiftMetres": 0.7146
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 326.3233,
+          "modelAreaSquareMetres": 333.8496,
+          "aggregateCentroidShiftMetres": 28.3012
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 4,
+          "baselineAreaSquareMetres": 249.8642,
+          "modelAreaSquareMetres": 149.2352,
+          "aggregateCentroidShiftMetres": 7.8871
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 383.4,
+      "scorecardMetres": 386,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 2,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 536.7992,
+          "modelAreaSquareMetres": 411.9296,
+          "aggregateCentroidShiftMetres": 1.8339
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 4573.8997,
+          "modelAreaSquareMetres": 4555.8784,
+          "aggregateCentroidShiftMetres": 3.9334
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 465.1025,
+          "modelAreaSquareMetres": 193.1392,
+          "aggregateCentroidShiftMetres": 6.0844
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 139.2033,
+          "modelAreaSquareMetres": 94.5536,
+          "aggregateCentroidShiftMetres": 7.1795
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 339.9,
+      "scorecardMetres": 348,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 3,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 403.2887,
+          "modelAreaSquareMetres": 667.2128,
+          "aggregateCentroidShiftMetres": 3.4592
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 2821.6616,
+          "modelAreaSquareMetres": 997.1713,
+          "aggregateCentroidShiftMetres": 5.7476
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 234.7815,
+          "modelAreaSquareMetres": 293.6192,
+          "aggregateCentroidShiftMetres": 13.4597
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 37.6589,
+          "modelAreaSquareMetres": 21.7728,
+          "aggregateCentroidShiftMetres": 1.9943
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 176.4,
+      "scorecardMetres": 179,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 4,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 490.0288,
+          "modelAreaSquareMetres": 466.3808,
+          "aggregateCentroidShiftMetres": 3.12
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 11610.4308,
+          "modelAreaSquareMetres": 4558.3384,
+          "aggregateCentroidShiftMetres": 69.0497
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 429.9295,
+          "modelAreaSquareMetres": 222.5536,
+          "aggregateCentroidShiftMetres": 12.0951
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 405.9348,
+          "modelAreaSquareMetres": 70.1696,
+          "aggregateCentroidShiftMetres": 11.3765
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 321.2,
+      "scorecardMetres": 337,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 5,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 468.1027,
+          "modelAreaSquareMetres": 472.6144,
+          "aggregateCentroidShiftMetres": 11.4603
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 16188.0605,
+          "modelAreaSquareMetres": 8748.2632,
+          "aggregateCentroidShiftMetres": 37.6188
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 400.0949,
+          "modelAreaSquareMetres": 347.6224,
+          "aggregateCentroidShiftMetres": 2.2032
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 0,
+          "modelRings": 0,
+          "baselineAreaSquareMetres": 0,
+          "modelAreaSquareMetres": 0,
+          "aggregateCentroidShiftMetres": null
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 504,
+      "scorecardMetres": 493,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 6,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 585.6422,
+          "modelAreaSquareMetres": 698.7008,
+          "aggregateCentroidShiftMetres": 6.3989
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 12520.4936,
+          "modelAreaSquareMetres": 4820.9091,
+          "aggregateCentroidShiftMetres": 58.2933
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 381.0956,
+          "modelAreaSquareMetres": 160.448,
+          "aggregateCentroidShiftMetres": 8.3301
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 299.8451,
+          "modelAreaSquareMetres": 332.7438,
+          "aggregateCentroidShiftMetres": 5.8594
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 334.5,
+      "scorecardMetres": 337,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 7,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 622.7766,
+          "modelAreaSquareMetres": 515.0976,
+          "aggregateCentroidShiftMetres": 15.4754
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 13282.1739,
+          "modelAreaSquareMetres": 10941.9788,
+          "aggregateCentroidShiftMetres": 19.3302
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 262.533,
+          "modelAreaSquareMetres": 160.6016,
+          "aggregateCentroidShiftMetres": 33.7419
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 187.255,
+          "modelAreaSquareMetres": 135.3895,
+          "aggregateCentroidShiftMetres": 10.156
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 539.5,
+      "scorecardMetres": 545,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 8,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 631.7143,
+          "modelAreaSquareMetres": 498.6496,
+          "aggregateCentroidShiftMetres": 10.5591
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 10343.1749,
+          "modelAreaSquareMetres": 3737.074,
+          "aggregateCentroidShiftMetres": 40.8548
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 5,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 657.4513,
+          "modelAreaSquareMetres": 136.7552,
+          "aggregateCentroidShiftMetres": 41.3981
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 92.1248,
+          "modelAreaSquareMetres": 90.5472,
+          "aggregateCentroidShiftMetres": 8.3367
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 353.7,
+      "scorecardMetres": 344,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 9,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 563.0638,
+          "modelAreaSquareMetres": 382.5408,
+          "aggregateCentroidShiftMetres": 7.4351
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 1945.3731,
+          "modelAreaSquareMetres": 627.7658,
+          "aggregateCentroidShiftMetres": 26.7842
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 331.2301,
+          "modelAreaSquareMetres": 197.3504,
+          "aggregateCentroidShiftMetres": 6.5489
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 70.5705,
+          "modelAreaSquareMetres": 78.3744,
+          "aggregateCentroidShiftMetres": 32.2759
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 147.6,
+      "scorecardMetres": 143,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 10,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 724.414,
+          "modelAreaSquareMetres": 449.4208,
+          "aggregateCentroidShiftMetres": 2.9945
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 20184.4731,
+          "modelAreaSquareMetres": 13543.3728,
+          "aggregateCentroidShiftMetres": 24.7664
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 363.7082,
+          "modelAreaSquareMetres": 401.1776,
+          "aggregateCentroidShiftMetres": 16.4777
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 460.6203,
+          "modelAreaSquareMetres": 163.4048,
+          "aggregateCentroidShiftMetres": 221.8887
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 526.9,
+      "scorecardMetres": 527,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 11,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 598.5272,
+          "modelAreaSquareMetres": 645.9648,
+          "aggregateCentroidShiftMetres": 13.3023
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 8259.3543,
+          "modelAreaSquareMetres": 5126.7456,
+          "aggregateCentroidShiftMetres": 13.3104
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 460.5703,
+          "modelAreaSquareMetres": 370.2528,
+          "aggregateCentroidShiftMetres": 7.6936
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 6,
+          "modelRings": 6,
+          "baselineAreaSquareMetres": 141.8644,
+          "modelAreaSquareMetres": 155.5072,
+          "aggregateCentroidShiftMetres": 2.4043
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 331.5,
+      "scorecardMetres": 340,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 12,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 629.4775,
+          "modelAreaSquareMetres": 636.9664,
+          "aggregateCentroidShiftMetres": 4.0562
+        },
+        "fairways": {
+          "status": "retained-unreviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 2306.6936,
+          "modelAreaSquareMetres": 2306.6936,
+          "aggregateCentroidShiftMetres": 0.0
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 415.5923,
+          "modelAreaSquareMetres": 146.9184,
+          "aggregateCentroidShiftMetres": 2.5329
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 85.7112,
+          "modelAreaSquareMetres": 78.72,
+          "aggregateCentroidShiftMetres": 0.4679
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 163.5,
+      "scorecardMetres": 169,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 13,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 640.0227,
+          "modelAreaSquareMetres": 548.1984,
+          "aggregateCentroidShiftMetres": 9.7995
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 8279.8357,
+          "modelAreaSquareMetres": 3504.1536,
+          "aggregateCentroidShiftMetres": 20.0954
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 4,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 379.2295,
+          "modelAreaSquareMetres": 441.1008,
+          "aggregateCentroidShiftMetres": 23.7138
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 0,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 0,
+          "modelAreaSquareMetres": 161.4848,
+          "aggregateCentroidShiftMetres": null
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 417.6,
+      "scorecardMetres": 426,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 14,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 610.1953,
+          "modelAreaSquareMetres": 467.6608,
+          "aggregateCentroidShiftMetres": 5.6392
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 5499.9129,
+          "modelAreaSquareMetres": 3301.7472,
+          "aggregateCentroidShiftMetres": 14.7962
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 5,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 503.5862,
+          "modelAreaSquareMetres": 265.9456,
+          "aggregateCentroidShiftMetres": 8.477
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 168.0365,
+          "modelAreaSquareMetres": 95.1168,
+          "aggregateCentroidShiftMetres": 47.7589
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 362.1,
+      "scorecardMetres": 350,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 15,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 588.9625,
+          "modelAreaSquareMetres": 506.496,
+          "aggregateCentroidShiftMetres": 9.5537
+        },
+        "fairways": {
+          "status": "retained-unreviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 1318.7588,
+          "modelAreaSquareMetres": 1318.7588,
+          "aggregateCentroidShiftMetres": 0.0
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 266.7778,
+          "modelAreaSquareMetres": 259.4048,
+          "aggregateCentroidShiftMetres": 19.9111
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 41.1019,
+          "modelAreaSquareMetres": 38.0032,
+          "aggregateCentroidShiftMetres": 22.8275
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 172.5,
+      "scorecardMetres": 172,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 16,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 454.6533,
+          "modelAreaSquareMetres": 430.4256,
+          "aggregateCentroidShiftMetres": 10.1031
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 5805.56,
+          "modelAreaSquareMetres": 2496.4992,
+          "aggregateCentroidShiftMetres": 45.0946
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 3,
+          "baselineAreaSquareMetres": 212.7115,
+          "modelAreaSquareMetres": 315.776,
+          "aggregateCentroidShiftMetres": 6.4392
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 2,
+          "baselineAreaSquareMetres": 110.4047,
+          "modelAreaSquareMetres": 142.2848,
+          "aggregateCentroidShiftMetres": 4.3475
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 337.4,
+      "scorecardMetres": 338,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 17,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 572.2593,
+          "modelAreaSquareMetres": 494.912,
+          "aggregateCentroidShiftMetres": 4.4519
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 6957.1194,
+          "modelAreaSquareMetres": 6239.5776,
+          "aggregateCentroidShiftMetres": 4.2402
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 5,
+          "modelRings": 4,
+          "baselineAreaSquareMetres": 558.8685,
+          "modelAreaSquareMetres": 278.7712,
+          "aggregateCentroidShiftMetres": 10.4212
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 8,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 385.4998,
+          "modelAreaSquareMetres": 43.8016,
+          "aggregateCentroidShiftMetres": 191.3628
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 359.4,
+      "scorecardMetres": 358,
+      "scorecardDifferenceIsAGate": false
+    },
+    {
+      "hole": 18,
+      "classes": {
+        "green": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 474.8353,
+          "modelAreaSquareMetres": 519.9872,
+          "aggregateCentroidShiftMetres": 4.655
+        },
+        "fairways": {
+          "status": "reviewed",
+          "baselineRings": 1,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 13725.3214,
+          "modelAreaSquareMetres": 7095.3984,
+          "aggregateCentroidShiftMetres": 50.0213
+        },
+        "tees": {
+          "status": "reviewed",
+          "baselineRings": 3,
+          "modelRings": 4,
+          "baselineAreaSquareMetres": 448.2714,
+          "modelAreaSquareMetres": 267.7888,
+          "aggregateCentroidShiftMetres": 15.5372
+        },
+        "bunkers": {
+          "status": "reviewed",
+          "baselineRings": 2,
+          "modelRings": 1,
+          "baselineAreaSquareMetres": 260.0844,
+          "modelAreaSquareMetres": 159.808,
+          "aggregateCentroidShiftMetres": 0.2947
+        }
+      },
+      "greenReferenceInside": true,
+      "routeEndToGreenReferenceMetres": 0,
+      "routeLengthMetres": 491.2,
+      "scorecardMetres": 497,
+      "scorecardDifferenceIsAGate": false
+    }
+  ],
+  "featureResiduals": [
+    {
+      "id": "angso-01-green",
+      "hole": 1,
+      "kind": "green",
+      "vertices": 27,
+      "maximumMetres": 0.0007453123110974335,
+      "rmsMetres": 0.0007453059298214288
+    },
+    {
+      "id": "lm-angso-01-fairway-01",
+      "hole": 1,
+      "kind": "fairways",
+      "vertices": 46,
+      "maximumMetres": 0.0007453747097169952,
+      "rmsMetres": 0.0007453449279243097
+    },
+    {
+      "id": "lm-angso-01-physical-tee-01",
+      "hole": 1,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007454184818815542,
+      "rmsMetres": 0.0007454150670369605
+    },
+    {
+      "id": "lm-angso-01-physical-tee-02",
+      "hole": 1,
+      "kind": "tees",
+      "vertices": 10,
+      "maximumMetres": 0.0007454054433655157,
+      "rmsMetres": 0.0007454024631352032
+    },
+    {
+      "id": "lm-angso-01-physical-tee-03",
+      "hole": 1,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007453849542688838,
+      "rmsMetres": 0.0007453807115771007
+    },
+    {
+      "id": "angso-01-bunker-1",
+      "hole": 1,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007453141737425819,
+      "rmsMetres": 0.0007453133200280217
+    },
+    {
+      "id": "angso-01-bunker-2",
+      "hole": 1,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007453141737461186,
+      "rmsMetres": 0.0007453128543699591
+    },
+    {
+      "id": "angso-01-bunker-3",
+      "hole": 1,
+      "kind": "bunkers",
+      "vertices": 10,
+      "maximumMetres": 0.0007453085858106735,
+      "rmsMetres": 0.000745306257501545
+    },
+    {
+      "id": "angso-01-bunker-4",
+      "hole": 1,
+      "kind": "bunkers",
+      "vertices": 11,
+      "maximumMetres": 0.000745346770036215,
+      "rmsMetres": 0.00074534380673985
+    },
+    {
+      "id": "angso-02-green",
+      "hole": 2,
+      "kind": "green",
+      "vertices": 25,
+      "maximumMetres": 0.0007452983412839601,
+      "rmsMetres": 0.0007452939454445943
+    },
+    {
+      "id": "lm-angso-02-fairway-01",
+      "hole": 2,
+      "kind": "fairways",
+      "vertices": 48,
+      "maximumMetres": 0.0007452955473162377,
+      "rmsMetres": 0.0007452855938079147
+    },
+    {
+      "id": "lm-angso-02-physical-tee-01",
+      "hole": 2,
+      "kind": "tees",
+      "vertices": 11,
+      "maximumMetres": 0.0007452871653879304,
+      "rmsMetres": 0.000745283355430069
+    },
+    {
+      "id": "lm-angso-02-physical-tee-02",
+      "hole": 2,
+      "kind": "tees",
+      "vertices": 10,
+      "maximumMetres": 0.0007452871653950223,
+      "rmsMetres": 0.0007452852096146966
+    },
+    {
+      "id": "angso-02-bunker-1",
+      "hole": 2,
+      "kind": "bunkers",
+      "vertices": 14,
+      "maximumMetres": 0.0007452927533521793,
+      "rmsMetres": 0.0007452892276254789
+    },
+    {
+      "id": "angso-02-bunker-2",
+      "hole": 2,
+      "kind": "bunkers",
+      "vertices": 11,
+      "maximumMetres": 0.0007452797148180022,
+      "rmsMetres": 0.0007452776828441388
+    },
+    {
+      "id": "angso-03-green",
+      "hole": 3,
+      "kind": "green",
+      "vertices": 24,
+      "maximumMetres": 0.0007453393194627493,
+      "rmsMetres": 0.0007453351673239883
+    },
+    {
+      "id": "lm-angso-03-fairway-01",
+      "hole": 3,
+      "kind": "fairways",
+      "vertices": 22,
+      "maximumMetres": 0.0007453309375667822,
+      "rmsMetres": 0.0007453270852826866
+    },
+    {
+      "id": "lm-angso-03-physical-tee-01",
+      "hole": 3,
+      "kind": "tees",
+      "vertices": 10,
+      "maximumMetres": 0.0007453234869898165,
+      "rmsMetres": 0.0007453210655524153
+    },
+    {
+      "id": "lm-angso-03-physical-tee-02",
+      "hole": 3,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.000745315105090295,
+      "rmsMetres": 0.0007453126215621991
+    },
+    {
+      "id": "angso-03-bunker-1",
+      "hole": 3,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007453328002119306,
+      "rmsMetres": 0.0007453300838512214
+    },
+    {
+      "id": "angso-04-green",
+      "hole": 4,
+      "kind": "green",
+      "vertices": 24,
+      "maximumMetres": 0.0007454566661179216,
+      "rmsMetres": 0.0007454508841681338
+    },
+    {
+      "id": "lm-angso-04-fairway-01",
+      "hole": 4,
+      "kind": "fairways",
+      "vertices": 46,
+      "maximumMetres": 0.0007454454902543402,
+      "rmsMetres": 0.0007454186035896708
+    },
+    {
+      "id": "lm-angso-04-physical-tee-01",
+      "hole": 4,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007453886795700078,
+      "rmsMetres": 0.0007453841264397623
+    },
+    {
+      "id": "lm-angso-04-physical-tee-02",
+      "hole": 4,
+      "kind": "tees",
+      "vertices": 19,
+      "maximumMetres": 0.0007453681904661398,
+      "rmsMetres": 0.0007453597105437155
+    },
+    {
+      "id": "angso-04-bunker-1",
+      "hole": 4,
+      "kind": "bunkers",
+      "vertices": 15,
+      "maximumMetres": 0.0007454510781861218,
+      "rmsMetres": 0.000745447663337441
+    },
+    {
+      "id": "angso-05-green",
+      "hole": 5,
+      "kind": "green",
+      "vertices": 26,
+      "maximumMetres": 0.0007453346628828536,
+      "rmsMetres": 0.0007453288242079947
+    },
+    {
+      "id": "lm-angso-05-fairway-01",
+      "hole": 5,
+      "kind": "fairways",
+      "vertices": 58,
+      "maximumMetres": 0.0007454194132259456,
+      "rmsMetres": 0.0007453775202307505
+    },
+    {
+      "id": "lm-angso-05-physical-tee-01",
+      "hole": 5,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007454631853869306,
+      "rmsMetres": 0.0007454602879414885
+    },
+    {
+      "id": "lm-angso-05-physical-tee-02",
+      "hole": 5,
+      "kind": "tees",
+      "vertices": 14,
+      "maximumMetres": 0.0007454557348063373,
+      "rmsMetres": 0.0007454509451530541
+    },
+    {
+      "id": "lm-angso-05-physical-tee-03",
+      "hole": 5,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.000745434314387132,
+      "rmsMetres": 0.0007454324517392909
+    },
+    {
+      "id": "angso-06-green",
+      "hole": 6,
+      "kind": "green",
+      "vertices": 28,
+      "maximumMetres": 0.0007454343143982858,
+      "rmsMetres": 0.0007454270966574079
+    },
+    {
+      "id": "lm-angso-06-fairway-01",
+      "hole": 6,
+      "kind": "fairways",
+      "vertices": 50,
+      "maximumMetres": 0.0007454222072010859,
+      "rmsMetres": 0.0007453986076463077
+    },
+    {
+      "id": "lm-angso-06-physical-tee-01",
+      "hole": 6,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007453579459472068,
+      "rmsMetres": 0.0007453573250633897
+    },
+    {
+      "id": "lm-angso-06-physical-tee-02",
+      "hole": 6,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007453532893305997,
+      "rmsMetres": 0.00074534987448502
+    },
+    {
+      "id": "lm-angso-06-physical-tee-03",
+      "hole": 6,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007453486327214656,
+      "rmsMetres": 0.0007453453213550984
+    },
+    {
+      "id": "angso-06-bunker-1",
+      "hole": 6,
+      "kind": "bunkers",
+      "vertices": 20,
+      "maximumMetres": 0.0007454240698462342,
+      "rmsMetres": 0.0007454209499188521
+    },
+    {
+      "id": "angso-06-bunker-2",
+      "hole": 6,
+      "kind": "bunkers",
+      "vertices": 21,
+      "maximumMetres": 0.0007454082373624738,
+      "rmsMetres": 0.0007454058868810916
+    },
+    {
+      "id": "angso-06-bunker-3",
+      "hole": 6,
+      "kind": "bunkers",
+      "vertices": 10,
+      "maximumMetres": 0.0007454045120684592,
+      "rmsMetres": 0.0007454027425565325
+    },
+    {
+      "id": "angso-07-green",
+      "hole": 7,
+      "kind": "green",
+      "vertices": 29,
+      "maximumMetres": 0.0007455926392358885,
+      "rmsMetres": 0.0007455861521033599
+    },
+    {
+      "id": "lm-angso-07-fairway-01",
+      "hole": 7,
+      "kind": "fairways",
+      "vertices": 80,
+      "maximumMetres": 0.0007455805320386894,
+      "rmsMetres": 0.000745523489333237
+    },
+    {
+      "id": "lm-angso-07-physical-tee-01",
+      "hole": 7,
+      "kind": "tees",
+      "vertices": 10,
+      "maximumMetres": 0.0007454603914229077,
+      "rmsMetres": 0.0007454569455330643
+    },
+    {
+      "id": "lm-angso-07-physical-tee-02",
+      "hole": 7,
+      "kind": "tees",
+      "vertices": 10,
+      "maximumMetres": 0.0007454473529105876,
+      "rmsMetres": 0.0007454461421924688
+    },
+    {
+      "id": "lm-angso-07-physical-tee-03",
+      "hole": 7,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007454417649788789,
+      "rmsMetres": 0.0007454396953689089
+    },
+    {
+      "id": "angso-07-bunker-1",
+      "hole": 7,
+      "kind": "bunkers",
+      "vertices": 15,
+      "maximumMetres": 0.0007455796007198507,
+      "rmsMetres": 0.0007455766204883404
+    },
+    {
+      "id": "angso-07-bunker-2",
+      "hole": 7,
+      "kind": "bunkers",
+      "vertices": 11,
+      "maximumMetres": 0.0007454920563867291,
+      "rmsMetres": 0.0007454895164174239
+    },
+    {
+      "id": "angso-08-green",
+      "hole": 8,
+      "kind": "green",
+      "vertices": 24,
+      "maximumMetres": 0.0007455311719238545,
+      "rmsMetres": 0.0007455250795311095
+    },
+    {
+      "id": "lm-angso-08-fairway-01",
+      "hole": 8,
+      "kind": "fairways",
+      "vertices": 45,
+      "maximumMetres": 0.0007455842573215697,
+      "rmsMetres": 0.0007455585116191969
+    },
+    {
+      "id": "lm-angso-08-physical-tee-01",
+      "hole": 8,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007456168536153638,
+      "rmsMetres": 0.0007456145770453061
+    },
+    {
+      "id": "lm-angso-08-physical-tee-02",
+      "hole": 8,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007456131283213683,
+      "rmsMetres": 0.0007456111621971567
+    },
+    {
+      "id": "lm-angso-08-physical-tee-03",
+      "hole": 8,
+      "kind": "tees",
+      "vertices": 10,
+      "maximumMetres": 0.0007456028837767516,
+      "rmsMetres": 0.0007455997172798192
+    },
+    {
+      "id": "angso-08-bunker-1",
+      "hole": 8,
+      "kind": "bunkers",
+      "vertices": 22,
+      "maximumMetres": 0.0007455358285440329,
+      "rmsMetres": 0.000745532949908965
+    },
+    {
+      "id": "angso-09-green",
+      "hole": 9,
+      "kind": "green",
+      "vertices": 24,
+      "maximumMetres": 0.0007454594600748178,
+      "rmsMetres": 0.00074545453183443
+    },
+    {
+      "id": "lm-angso-09-fairway-01",
+      "hole": 9,
+      "kind": "fairways",
+      "vertices": 14,
+      "maximumMetres": 0.0007454697046303329,
+      "rmsMetres": 0.0007454653806375711
+    },
+    {
+      "id": "lm-angso-09-physical-tee-01",
+      "hole": 9,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007454939190172612,
+      "rmsMetres": 0.0007454910474428523
+    },
+    {
+      "id": "lm-angso-09-physical-tee-02",
+      "hole": 9,
+      "kind": "tees",
+      "vertices": 9,
+      "maximumMetres": 0.0007454855371177206,
+      "rmsMetres": 0.0007454831570669288
+    },
+    {
+      "id": "angso-09-bunker-1",
+      "hole": 9,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007454594600784084,
+      "rmsMetres": 0.0007454575198216893
+    },
+    {
+      "id": "angso-09-bunker-2",
+      "hole": 9,
+      "kind": "bunkers",
+      "vertices": 14,
+      "maximumMetres": 0.0007454548034655376,
+      "rmsMetres": 0.0007454526747280699
+    },
+    {
+      "id": "angso-10-green-01",
+      "hole": 10,
+      "kind": "green",
+      "vertices": 24,
+      "maximumMetres": 0.0007456131283103807,
+      "rmsMetres": 0.0007456077732105774
+    },
+    {
+      "id": "angso-10-fairway-01",
+      "hole": 10,
+      "kind": "fairways",
+      "vertices": 55,
+      "maximumMetres": 0.0007456038150810128,
+      "rmsMetres": 0.0007455501718447693
+    },
+    {
+      "id": "lm-angso-10-physical-tee-01",
+      "hole": 10,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007454873997520431,
+      "rmsMetres": 0.0007454839072937874
+    },
+    {
+      "id": "lm-angso-10-physical-tee-02",
+      "hole": 10,
+      "kind": "tees",
+      "vertices": 21,
+      "maximumMetres": 0.000745467841974413,
+      "rmsMetres": 0.0007454604801023459
+    },
+    {
+      "id": "angso-10-bunker-01",
+      "hole": 10,
+      "kind": "bunkers",
+      "vertices": 27,
+      "maximumMetres": 0.0007456066090487354,
+      "rmsMetres": 0.0007456024008529926
+    },
+    {
+      "id": "angso-11-green-01",
+      "hole": 11,
+      "kind": "green",
+      "vertices": 27,
+      "maximumMetres": 0.0007457146424819504,
+      "rmsMetres": 0.0007457072609007243
+    },
+    {
+      "id": "angso-11-fairway-01",
+      "hole": 11,
+      "kind": "fairways",
+      "vertices": 35,
+      "maximumMetres": 0.0007457062605824815,
+      "rmsMetres": 0.0007456777091657239
+    },
+    {
+      "id": "lm-angso-11-physical-tee-01",
+      "hole": 11,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007456485185681988,
+      "rmsMetres": 0.0007456454141641558
+    },
+    {
+      "id": "lm-angso-11-physical-tee-02",
+      "hole": 11,
+      "kind": "tees",
+      "vertices": 18,
+      "maximumMetres": 0.0007456317547691706,
+      "rmsMetres": 0.0007456260116217561
+    },
+    {
+      "id": "lm-angso-11-physical-tee-03",
+      "hole": 11,
+      "kind": "tees",
+      "vertices": 13,
+      "maximumMetres": 0.0007456168536079842,
+      "rmsMetres": 0.0007456144894798424
+    },
+    {
+      "id": "angso-11-bunker-01",
+      "hole": 11,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007457043979373332,
+      "rmsMetres": 0.0007457007502568351
+    },
+    {
+      "id": "angso-11-bunker-02",
+      "hole": 11,
+      "kind": "bunkers",
+      "vertices": 14,
+      "maximumMetres": 0.0007457006726507533,
+      "rmsMetres": 0.0007456991426153653
+    },
+    {
+      "id": "angso-11-bunker-03",
+      "hole": 11,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007456950847078933,
+      "rmsMetres": 0.0007456937653322297
+    },
+    {
+      "id": "angso-11-bunker-04",
+      "hole": 11,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007456941533816389,
+      "rmsMetres": 0.000745691204195637
+    },
+    {
+      "id": "angso-11-bunker-05",
+      "hole": 11,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007456876341273001,
+      "rmsMetres": 0.0007456857714817861
+    },
+    {
+      "id": "angso-11-bunker-06",
+      "hole": 11,
+      "kind": "bunkers",
+      "vertices": 13,
+      "maximumMetres": 0.0007456792522204524,
+      "rmsMetres": 0.0007456773179343826
+    },
+    {
+      "id": "angso-12-green-01",
+      "hole": 12,
+      "kind": "green",
+      "vertices": 32,
+      "maximumMetres": 0.000745817087943301,
+      "rmsMetres": 0.0007458119656762589
+    },
+    {
+      "id": "lm-angso-12-physical-tee-01",
+      "hole": 12,
+      "kind": "tees",
+      "vertices": 13,
+      "maximumMetres": 0.0007457928735671938,
+      "rmsMetres": 0.0007457893631994815
+    },
+    {
+      "id": "lm-angso-12-physical-tee-02",
+      "hole": 12,
+      "kind": "tees",
+      "vertices": 13,
+      "maximumMetres": 0.0007457835603450958,
+      "rmsMetres": 0.0007457812678563291
+    },
+    {
+      "id": "angso-12-bunker-01",
+      "hole": 12,
+      "kind": "bunkers",
+      "vertices": 17,
+      "maximumMetres": 0.000745811500018677,
+      "rmsMetres": 0.0007458074460214016
+    },
+    {
+      "id": "angso-13-green-01",
+      "hole": 13,
+      "kind": "green",
+      "vertices": 30,
+      "maximumMetres": 0.0007459241900393312,
+      "rmsMetres": 0.0007459178880927664
+    },
+    {
+      "id": "angso-13-fairway-01",
+      "hole": 13,
+      "kind": "fairways",
+      "vertices": 43,
+      "maximumMetres": 0.000745909288871022,
+      "rmsMetres": 0.0007458768444973272
+    },
+    {
+      "id": "lm-angso-13-physical-tee-01",
+      "hole": 13,
+      "kind": "tees",
+      "vertices": 11,
+      "maximumMetres": 0.0007458468902728702,
+      "rmsMetres": 0.0007458451122947181
+    },
+    {
+      "id": "lm-angso-13-physical-tee-02",
+      "hole": 13,
+      "kind": "tees",
+      "vertices": 19,
+      "maximumMetres": 0.0007458375770507536,
+      "rmsMetres": 0.0007458301264778715
+    },
+    {
+      "id": "lm-angso-13-physical-tee-03",
+      "hole": 13,
+      "kind": "tees",
+      "vertices": 15,
+      "maximumMetres": 0.0007458198819218446,
+      "rmsMetres": 0.0007458181434543042
+    },
+    {
+      "id": "angso-13-bunker-01",
+      "hole": 13,
+      "kind": "bunkers",
+      "vertices": 19,
+      "maximumMetres": 0.0007459130141648708,
+      "rmsMetres": 0.0007459112495506685
+    },
+    {
+      "id": "angso-13-bunker-02",
+      "hole": 13,
+      "kind": "bunkers",
+      "vertices": 12,
+      "maximumMetres": 0.0007459055635771914,
+      "rmsMetres": 0.0007459026920075279
+    },
+    {
+      "id": "angso-13-bunker-03",
+      "hole": 13,
+      "kind": "bunkers",
+      "vertices": 13,
+      "maximumMetres": 0.0007459102202007186,
+      "rmsMetres": 0.0007459077844332859
+    },
+    {
+      "id": "angso-14-green-01",
+      "hole": 14,
+      "kind": "green",
+      "vertices": 25,
+      "maximumMetres": 0.0007458245385238944,
+      "rmsMetres": 0.000745819807410879
+    },
+    {
+      "id": "angso-14-fairway-01",
+      "hole": 14,
+      "kind": "fairways",
+      "vertices": 37,
+      "maximumMetres": 0.0007458524781904627,
+      "rmsMetres": 0.0007458338518121222
+    },
+    {
+      "id": "lm-angso-14-physical-tee-01",
+      "hole": 14,
+      "kind": "tees",
+      "vertices": 18,
+      "maximumMetres": 0.0007458981130036839,
+      "rmsMetres": 0.0007458942324933928
+    },
+    {
+      "id": "lm-angso-14-physical-tee-02",
+      "hole": 14,
+      "kind": "tees",
+      "vertices": 10,
+      "maximumMetres": 0.0007458822805163707,
+      "rmsMetres": 0.0007458782758289241
+    },
+    {
+      "id": "lm-angso-14-physical-tee-03",
+      "hole": 14,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007458720359680547,
+      "rmsMetres": 0.0007458694748290088
+    },
+    {
+      "id": "angso-14-bunker-01",
+      "hole": 14,
+      "kind": "bunkers",
+      "vertices": 19,
+      "maximumMetres": 0.0007458208132371866,
+      "rmsMetres": 0.0007458185094345828
+    },
+    {
+      "id": "angso-15-green-01",
+      "hole": 15,
+      "kind": "green",
+      "vertices": 29,
+      "maximumMetres": 0.0007457882169328437,
+      "rmsMetres": 0.0007457822436288899
+    },
+    {
+      "id": "lm-angso-15-physical-tee-01",
+      "hole": 15,
+      "kind": "tees",
+      "vertices": 11,
+      "maximumMetres": 0.0007457993928108209,
+      "rmsMetres": 0.0007457952441920703
+    },
+    {
+      "id": "lm-angso-15-physical-tee-02",
+      "hole": 15,
+      "kind": "tees",
+      "vertices": 16,
+      "maximumMetres": 0.0007458096373699035,
+      "rmsMetres": 0.000745803991222679
+    },
+    {
+      "id": "lm-angso-15-physical-tee-03",
+      "hole": 15,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007458049807534256,
+      "rmsMetres": 0.000745803971817484
+    },
+    {
+      "id": "angso-15-bunker-01",
+      "hole": 15,
+      "kind": "bunkers",
+      "vertices": 15,
+      "maximumMetres": 0.0007457928735457146,
+      "rmsMetres": 0.000745789520786136
+    },
+    {
+      "id": "angso-16-green-01",
+      "hole": 16,
+      "kind": "green",
+      "vertices": 23,
+      "maximumMetres": 0.000745727680983377,
+      "rmsMetres": 0.0007457229028963344
+    },
+    {
+      "id": "angso-16-fairway-01",
+      "hole": 16,
+      "kind": "fairways",
+      "vertices": 38,
+      "maximumMetres": 0.0007457667965207246,
+      "rmsMetres": 0.0007457503024146909
+    },
+    {
+      "id": "lm-angso-16-physical-tee-01",
+      "hole": 16,
+      "kind": "tees",
+      "vertices": 21,
+      "maximumMetres": 0.0007457686591587857,
+      "rmsMetres": 0.0007457669295568868
+    },
+    {
+      "id": "lm-angso-16-physical-tee-02",
+      "hole": 16,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007457705218074686,
+      "rmsMetres": 0.0007457679606676425
+    },
+    {
+      "id": "lm-angso-16-physical-tee-03",
+      "hole": 16,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007457686591623203,
+      "rmsMetres": 0.0007457663308544468
+    },
+    {
+      "id": "angso-16-bunker-01",
+      "hole": 16,
+      "kind": "bunkers",
+      "vertices": 16,
+      "maximumMetres": 0.0007457295436249179,
+      "rmsMetres": 0.0007457264586183775
+    },
+    {
+      "id": "angso-16-bunker-02",
+      "hole": 16,
+      "kind": "bunkers",
+      "vertices": 22,
+      "maximumMetres": 0.0007457351315567736,
+      "rmsMetres": 0.0007457308559468629
+    },
+    {
+      "id": "angso-17-green-01",
+      "hole": 17,
+      "kind": "green",
+      "vertices": 28,
+      "maximumMetres": 0.0007456177849124275,
+      "rmsMetres": 0.0007456113654352734
+    },
+    {
+      "id": "angso-17-fairway-01",
+      "hole": 17,
+      "kind": "fairways",
+      "vertices": 48,
+      "maximumMetres": 0.0007456867027757921,
+      "rmsMetres": 0.0007456485189153965
+    },
+    {
+      "id": "lm-angso-17-physical-tee-01",
+      "hole": 17,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007457174364242931,
+      "rmsMetres": 0.0007457147976773423
+    },
+    {
+      "id": "lm-angso-17-physical-tee-02",
+      "hole": 17,
+      "kind": "tees",
+      "vertices": 13,
+      "maximumMetres": 0.0007457127798114222,
+      "rmsMetres": 0.0007457102007664527
+    },
+    {
+      "id": "lm-angso-17-physical-tee-03",
+      "hole": 17,
+      "kind": "tees",
+      "vertices": 10,
+      "maximumMetres": 0.0007457034665892516,
+      "rmsMetres": 0.0007457009520182363
+    },
+    {
+      "id": "lm-angso-17-physical-tee-04",
+      "hole": 17,
+      "kind": "tees",
+      "vertices": 13,
+      "maximumMetres": 0.0007456950846825128,
+      "rmsMetres": 0.0007456920041529128
+    },
+    {
+      "id": "angso-17-bunker-01",
+      "hole": 17,
+      "kind": "bunkers",
+      "vertices": 15,
+      "maximumMetres": 0.0007456075403569864,
+      "rmsMetres": 0.0007456050568288334
+    },
+    {
+      "id": "angso-18-green-01",
+      "hole": 18,
+      "kind": "green",
+      "vertices": 29,
+      "maximumMetres": 0.0007454231384802438,
+      "rmsMetres": 0.0007454152704163517
+    },
+    {
+      "id": "angso-18-fairway-01",
+      "hole": 18,
+      "kind": "fairways",
+      "vertices": 59,
+      "maximumMetres": 0.0007455097514796437,
+      "rmsMetres": 0.0007454678897893961
+    },
+    {
+      "id": "lm-angso-18-physical-tee-01",
+      "hole": 18,
+      "kind": "tees",
+      "vertices": 13,
+      "maximumMetres": 0.0007455581802465215,
+      "rmsMetres": 0.0007455549564431255
+    },
+    {
+      "id": "lm-angso-18-physical-tee-02",
+      "hole": 18,
+      "kind": "tees",
+      "vertices": 13,
+      "maximumMetres": 0.0007455423477627601,
+      "rmsMetres": 0.0007455396254367234
+    },
+    {
+      "id": "lm-angso-18-physical-tee-03",
+      "hole": 18,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007455265152824798,
+      "rmsMetres": 0.0007455243421950673
+    },
+    {
+      "id": "lm-angso-18-physical-tee-04",
+      "hole": 18,
+      "kind": "tees",
+      "vertices": 12,
+      "maximumMetres": 0.0007455181333898648,
+      "rmsMetres": 0.0007455161155172247
+    },
+    {
+      "id": "angso-18-bunker-01",
+      "hole": 18,
+      "kind": "bunkers",
+      "vertices": 28,
+      "maximumMetres": 0.0007454734298888059,
+      "rmsMetres": 0.0007454673430421784
+    },
+    {
+      "id": "lm-angso-water-t1",
+      "hole": null,
+      "kind": "water",
+      "vertices": 28,
+      "maximumMetres": 0.0007453104484737783,
+      "rmsMetres": 0.0007453041287963593
+    },
+    {
+      "id": "lm-angso-water-t2",
+      "hole": null,
+      "kind": "water",
+      "vertices": 38,
+      "maximumMetres": 0.0007454091686887842,
+      "rmsMetres": 0.0007454010073760032
+    },
+    {
+      "id": "lm-angso-water-t3",
+      "hole": null,
+      "kind": "water",
+      "vertices": 43,
+      "maximumMetres": 0.000745794736190863,
+      "rmsMetres": 0.0007457843183976475
+    },
+    {
+      "id": "lm-angso-water-t4",
+      "hole": null,
+      "kind": "water",
+      "vertices": 20,
+      "maximumMetres": 0.000745623372844301,
+      "rmsMetres": 0.0007456172726834862
+    },
+    {
+      "id": "lm-angso-water-t5",
+      "hole": null,
+      "kind": "water",
+      "vertices": 17,
+      "maximumMetres": 0.0007456289607726574,
+      "rmsMetres": 0.0007456256189715653
+    },
+    {
+      "id": "lm-angso-water-t6",
+      "hole": null,
+      "kind": "water",
+      "vertices": 21,
+      "maximumMetres": 0.0007457137111375676,
+      "rmsMetres": 0.000745706526654877
+    },
+    {
+      "id": "lm-angso-water-t7",
+      "hole": null,
+      "kind": "water",
+      "vertices": 17,
+      "maximumMetres": 0.0007454855370927148,
+      "rmsMetres": 0.0007454826883400485
+    },
+    {
+      "id": "lm-angso-water-t8",
+      "hole": null,
+      "kind": "water",
+      "vertices": 21,
+      "maximumMetres": 0.000745478086515639,
+      "rmsMetres": 0.0007454728977208298
+    }
+  ],
+  "overlays": [
+    {
+      "hole": 1,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-01-baseline-reviewed-native.png",
+      "nativeSha256": "27724b1cb32991c18a266433b30a2139ad7f213465ea9ba27e7fc9452b35cec9",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-01-baseline-reviewed.png"
+    },
+    {
+      "hole": 2,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-02-baseline-reviewed-native.png",
+      "nativeSha256": "22b0c5e523dd0aa321e31398acb43cbbb50ba081195a85af294c62a7a1efb3b2",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-02-baseline-reviewed.png"
+    },
+    {
+      "hole": 3,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-03-baseline-reviewed-native.png",
+      "nativeSha256": "3a07f8d84bc4436028a8ebfadd1f4d1bb33d4c99a45efc0689d0b203510ee07d",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-03-baseline-reviewed.png"
+    },
+    {
+      "hole": 4,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-04-baseline-reviewed-native.png",
+      "nativeSha256": "4cee65286b349b0e8114017cb14320e6397f70ecb4c16d65cfb371600dc51dc0",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-04-baseline-reviewed.png"
+    },
+    {
+      "hole": 5,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-05-baseline-reviewed-native.png",
+      "nativeSha256": "1087a840087c9f57edd3861b9e067dec0f596b54cf16eba07224af12bfde66c4",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-05-baseline-reviewed.png"
+    },
+    {
+      "hole": 6,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-06-baseline-reviewed-native.png",
+      "nativeSha256": "6e0bda4afa15b643b183ba4d0df0e5b36f0abeafbcf0fa5008e81b8727c84ef2",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-06-baseline-reviewed.png"
+    },
+    {
+      "hole": 7,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-07-baseline-reviewed-native.png",
+      "nativeSha256": "f161ef2336e8401fab76abff5d94f61d497b6691b88d6d4ff870823ab01a6227",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-07-baseline-reviewed.png"
+    },
+    {
+      "hole": 8,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-08-baseline-reviewed-native.png",
+      "nativeSha256": "b05b19e087426d238281f0b33127dba4ef4f833df1a614e5a86500d25062bfd4",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-08-baseline-reviewed.png"
+    },
+    {
+      "hole": 9,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-09-baseline-reviewed-native.png",
+      "nativeSha256": "77a1ac48e9bef8ed09272b98efa9b7a2a61395595ee46e6ca419c5f953682802",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-09-baseline-reviewed.png"
+    },
+    {
+      "hole": 10,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-10-baseline-reviewed-native.png",
+      "nativeSha256": "e518ea5aba27d9d8853ddbcf0f2ca19e4e64e6670ebfeaefadc2f4503e3f4a96",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-10-baseline-reviewed.png"
+    },
+    {
+      "hole": 11,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-11-baseline-reviewed-native.png",
+      "nativeSha256": "60a9bc2e14082ba86174625e08ff542ed5e637c127688452d8b7fae02607561f",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-11-baseline-reviewed.png"
+    },
+    {
+      "hole": 12,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-12-baseline-reviewed-native.png",
+      "nativeSha256": "db3d5a48a0da310acdbb04b0ccbba6b493fea5c561dbf34f7fa50159a8e494b1",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-12-baseline-reviewed.png"
+    },
+    {
+      "hole": 13,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-13-baseline-reviewed-native.png",
+      "nativeSha256": "0a6596888bb26409eb5b8b8520f2162f4fa89feac1f749cf69b3bca1b96c47cc",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-13-baseline-reviewed.png"
+    },
+    {
+      "hole": 14,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-14-baseline-reviewed-native.png",
+      "nativeSha256": "ab166f044f7680ed3e56920bf482fc40bf0b0705e04e50c76b79fc930d05f174",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-14-baseline-reviewed.png"
+    },
+    {
+      "hole": 15,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-15-baseline-reviewed-native.png",
+      "nativeSha256": "c54d800ad34a985b6604d4b4788619c6a38e2700736c3ac716a7d261a4604a58",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-15-baseline-reviewed.png"
+    },
+    {
+      "hole": 16,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-16-baseline-reviewed-native.png",
+      "nativeSha256": "784306bf2c1b5250acef54680140ee3e87aa1c4c376fb360cadc5e28cc64473c",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-16-baseline-reviewed.png"
+    },
+    {
+      "hole": 17,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-17-baseline-reviewed-native.png",
+      "nativeSha256": "1d04913d3400ab7efe0abb5f7ff48beb2d51724347fd7f90b14da54590791608",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-17-baseline-reviewed.png"
+    },
+    {
+      "hole": 18,
+      "nativePath": "angsobuild/cache/lm-ortho/alignment-review/hole-18-baseline-reviewed-native.png",
+      "nativeSha256": "082215a7a855eb10d92ed7f8fdfc08ee742c211bb2324a6b0e9812bb4bb7a0b8",
+      "previewPath": "angsobuild/cache/lm-ortho/alignment-review/hole-18-baseline-reviewed.png"
+    }
+  ]
+}

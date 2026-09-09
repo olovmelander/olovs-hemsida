@@ -1,0 +1,789 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "validatedOn": "2026-09-09",
+  "validationScope": "Mechanical source-to-authored-pixel registration, actual generated playing models, geometry validity, green endpoint containment, provisional display anchors and shared scenery. This is not an independent survey or a measured absolute positional accuracy claim.",
+  "sourceCaptureDate": "2025-06-14",
+  "sourceFilesVerified": 124,
+  "sourceHashesVerified": true,
+  "reviews": [
+    {
+      "path": "johannesbergbuild/mapping/lm-review-front9.json",
+      "sha256": "283361eedd7d0e92d5861533025564ab01a5d4cefc4111e086a06d64d1429f02",
+      "acceptedFeatureRecords": 42,
+      "verifiedPixelVertices": 1087,
+      "maxPixelRoundtripMetres": 0.000704,
+      "unresolvedRecords": 2
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-back9.json",
+      "sha256": "3cdae22c077569b5c9a0e244006bc274667d921a804c291b52f7a090f5069c1d",
+      "acceptedFeatureRecords": 20,
+      "verifiedPixelVertices": 433,
+      "maxPixelRoundtripMetres": 0.00682,
+      "unresolvedRecords": 0
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-back9-turf.json",
+      "sha256": "1e48af0457699621bc9b375c401a5852b5070a96d6057e42df98f9f84e1e8bf5",
+      "acceptedFeatureRecords": 18,
+      "verifiedPixelVertices": 716,
+      "maxPixelRoundtripMetres": 0.000692,
+      "unresolvedRecords": 2
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-nine.json",
+      "sha256": "09474acfff42200b76c7d55abd8c6c858cdafe6bc523b9a0052b844c4e632be3",
+      "acceptedFeatureRecords": 30,
+      "verifiedPixelVertices": 763,
+      "maxPixelRoundtripMetres": 0.006895,
+      "unresolvedRecords": 7
+    }
+  ],
+  "pixelRoundtrip": {
+    "method": "pyproj EPSG:4326 to EPSG:3006 from declared legacy origin/metres-per-degree; compared with retained source-panel pixel-edge affine. Residual measures coordinate quantization/reprojection only.",
+    "passThresholdMetres": 0.01,
+    "thresholdMeaning": "Centimetre bound covers retained0.01m coordinate rounding and forward/inverse projection; it is not source positional accuracy.",
+    "vertexCount": 2999,
+    "maximumMetres": 0.006895,
+    "byPanelPixelResolution": [
+      {
+        "resolutionM": 0.09,
+        "vertexCount": 433,
+        "maximumMetres": 0.00682
+      },
+      {
+        "resolutionM": 0.16,
+        "vertexCount": 830,
+        "maximumMetres": 0.006895
+      },
+      {
+        "resolutionM": 0.32,
+        "vertexCount": 1736,
+        "maximumMetres": 0.006574
+      }
+    ]
+  },
+  "courses": [
+    {
+      "course": "johannesberg",
+      "model": {
+        "path": "johannesbergbuild/course-model.json",
+        "sha256": "edc5b8dd6be0b0e3c7a91e7bb3fd4acf0d680f0f361af13f755a3cff1c7032a0"
+      },
+      "countsBefore": {
+        "greens": 18,
+        "fairwayRings": 21,
+        "teePlatforms": 44,
+        "bunkers": 27,
+        "waterBodies": 12,
+        "streams": 5
+      },
+      "countsAfter": {
+        "greens": 18,
+        "fairwayRings": 21,
+        "teePlatforms": 46,
+        "bunkers": 26,
+        "waterBodies": 12,
+        "streams": 5
+      },
+      "holes": [
+        {
+          "hole": 1,
+          "greenAreaBeforeM2": 461.84,
+          "greenAreaAfterM2": 381.616594,
+          "greenCentroidMovementM": 4.929875,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 2
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 2
+          }
+        },
+        {
+          "hole": 2,
+          "greenAreaBeforeM2": 449.04,
+          "greenAreaAfterM2": 356.302264,
+          "greenCentroidMovementM": 6.344947,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 2,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 2,
+            "teePlatforms": 2,
+            "bunkers": 1
+          }
+        },
+        {
+          "hole": 3,
+          "greenAreaBeforeM2": 637.12,
+          "greenAreaAfterM2": 545.053186,
+          "greenCentroidMovementM": 4.850908,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 2,
+            "teePlatforms": 2,
+            "bunkers": 2
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 2,
+            "teePlatforms": 3,
+            "bunkers": 2
+          }
+        },
+        {
+          "hole": 4,
+          "greenAreaBeforeM2": 390.065,
+          "greenAreaAfterM2": 415.913119,
+          "greenCentroidMovementM": 7.207932,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 4,
+            "bunkers": 4
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 4
+          }
+        },
+        {
+          "hole": 5,
+          "greenAreaBeforeM2": 365.355,
+          "greenAreaAfterM2": 341.862303,
+          "greenCentroidMovementM": 5.108227,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 1
+          }
+        },
+        {
+          "hole": 6,
+          "greenAreaBeforeM2": 361.95,
+          "greenAreaAfterM2": 291.182315,
+          "greenCentroidMovementM": 2.885878,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 2
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 2
+          }
+        },
+        {
+          "hole": 7,
+          "greenAreaBeforeM2": 473.625,
+          "greenAreaAfterM2": 242.380245,
+          "greenCentroidMovementM": 7.536788,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          }
+        },
+        {
+          "hole": 8,
+          "greenAreaBeforeM2": 492.35,
+          "greenAreaAfterM2": 310.098722,
+          "greenCentroidMovementM": 6.471211,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 2
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 2
+          }
+        },
+        {
+          "hole": 9,
+          "greenAreaBeforeM2": 404.63,
+          "greenAreaAfterM2": 307.452616,
+          "greenCentroidMovementM": 5.990155,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          }
+        },
+        {
+          "hole": 10,
+          "greenAreaBeforeM2": 464.565,
+          "greenAreaAfterM2": 376.92505,
+          "greenCentroidMovementM": 1.573359,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 2,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 11,
+          "greenAreaBeforeM2": 513.075,
+          "greenAreaAfterM2": 404.59735,
+          "greenCentroidMovementM": 4.11503,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 2
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 2
+          }
+        },
+        {
+          "hole": 12,
+          "greenAreaBeforeM2": 415.285,
+          "greenAreaAfterM2": 280.92015,
+          "greenCentroidMovementM": 6.475091,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 1,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 1
+          }
+        },
+        {
+          "hole": 13,
+          "greenAreaBeforeM2": 395.985,
+          "greenAreaAfterM2": 259.361,
+          "greenCentroidMovementM": 2.136984,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          }
+        },
+        {
+          "hole": 14,
+          "greenAreaBeforeM2": 480.8,
+          "greenAreaAfterM2": 327.7142,
+          "greenCentroidMovementM": 2.158502,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 4,
+            "bunkers": 0
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 15,
+          "greenAreaBeforeM2": 544.04,
+          "greenAreaAfterM2": 376.73915,
+          "greenCentroidMovementM": 6.719828,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 4,
+            "bunkers": 2
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 4,
+            "bunkers": 2
+          }
+        },
+        {
+          "hole": 16,
+          "greenAreaBeforeM2": 382.1,
+          "greenAreaAfterM2": 275.0155,
+          "greenCentroidMovementM": 4.358897,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 3
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 3
+          }
+        },
+        {
+          "hole": 17,
+          "greenAreaBeforeM2": 540.745,
+          "greenAreaAfterM2": 341.1842,
+          "greenCentroidMovementM": 2.915662,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 0
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 3,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 18,
+          "greenAreaBeforeM2": 317.005,
+          "greenAreaAfterM2": 270.24985,
+          "greenCentroidMovementM": 0.766415,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 2,
+            "teePlatforms": 2,
+            "bunkers": 1
+          }
+        }
+      ]
+    },
+    {
+      "course": "johannesberg-9",
+      "model": {
+        "path": "johannesberg9build/course-model.json",
+        "sha256": "4d8f51cbecfd14843e4e91a7af02199a34403de24aa816688318bc7f55359f76"
+      },
+      "countsBefore": {
+        "greens": 9,
+        "fairwayRings": 6,
+        "teePlatforms": 18,
+        "bunkers": 3,
+        "waterBodies": 12,
+        "streams": 5
+      },
+      "countsAfter": {
+        "greens": 9,
+        "fairwayRings": 9,
+        "teePlatforms": 15,
+        "bunkers": 1,
+        "waterBodies": 12,
+        "streams": 5
+      },
+      "holes": [
+        {
+          "hole": 1,
+          "greenAreaBeforeM2": 468.22,
+          "greenAreaAfterM2": 217.15035,
+          "greenCentroidMovementM": 12.012919,
+          "targetMovementM": 12.058742,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 1,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 2,
+          "greenAreaBeforeM2": 419.055,
+          "greenAreaAfterM2": 357.38895,
+          "greenCentroidMovementM": 0.986269,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 1,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 3,
+          "greenAreaBeforeM2": 315.82,
+          "greenAreaAfterM2": 235.5174,
+          "greenCentroidMovementM": 28.802466,
+          "targetMovementM": 28.802466,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 4,
+          "greenAreaBeforeM2": 440.16,
+          "greenAreaAfterM2": 312.8195,
+          "greenCentroidMovementM": 4.973088,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 0,
+            "teePlatforms": 2,
+            "bunkers": 0
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 5,
+          "greenAreaBeforeM2": 314.05,
+          "greenAreaAfterM2": 219.09435,
+          "greenCentroidMovementM": 51.1805,
+          "targetMovementM": 51.1805,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 6,
+          "greenAreaBeforeM2": 374.52,
+          "greenAreaAfterM2": 265.01395,
+          "greenCentroidMovementM": 14.671161,
+          "targetMovementM": 14.671161,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 1,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 7,
+          "greenAreaBeforeM2": 276.615,
+          "greenAreaAfterM2": 264.15045,
+          "greenCentroidMovementM": 0.706843,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 0,
+            "teePlatforms": 2,
+            "bunkers": 0
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 8,
+          "greenAreaBeforeM2": 335.67,
+          "greenAreaAfterM2": 350.53055,
+          "greenCentroidMovementM": 2.290259,
+          "targetMovementM": 0.0,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 0
+          }
+        },
+        {
+          "hole": 9,
+          "greenAreaBeforeM2": 403.645,
+          "greenAreaAfterM2": 247.304,
+          "greenCentroidMovementM": 16.169587,
+          "targetMovementM": 16.187098,
+          "routingEndInsideGreen": true,
+          "countsBefore": {
+            "greens": 1,
+            "fairwayRings": 0,
+            "teePlatforms": 2,
+            "bunkers": 1
+          },
+          "countsAfter": {
+            "greens": 1,
+            "fairwayRings": 1,
+            "teePlatforms": 2,
+            "bunkers": 1
+          }
+        }
+      ]
+    }
+  ],
+  "crossHolePlayingSurfaceIntersections": [
+    {
+      "a": {
+        "course": "johannesberg-9",
+        "hole": 1,
+        "kind": "fairway",
+        "index": 0
+      },
+      "b": {
+        "course": "johannesberg-9",
+        "hole": 5,
+        "kind": "fairway",
+        "index": 0
+      },
+      "areaM2": 43.750023,
+      "reviewStatus": "accepted-shared-mown-connector",
+      "reviewNote": "Native nine-05-hole source around pixel750,177 and final H1/H5 overlays show continuous mown connector around the eastern end of the intervening rough strip. Both polygons assign the same fairway/apron class. Two visual reviewers confirmed no visible physical turf boundary between hole ownership. Retained without inventing a physical edge.",
+      "source": "johannesbergbuild/cache/lm-ortho/nine-05-hole.png"
+    }
+  ],
+  "intersectionScope": "Different holes and different courses only. Same-hole green/fairway/tee/bunker layering is intentional and excluded. Positive intersection areas above0.01m2 retained for review.",
+  "sharedScenery": [
+    {
+      "course": "johannesberg",
+      "sharedCourse": "johannesberg-9",
+      "kind": "greens",
+      "expectedSharedRings": 9,
+      "missingSharedRings": 0,
+      "ownPlayingRingsDuplicatedAsScenery": 0
+    },
+    {
+      "course": "johannesberg",
+      "sharedCourse": "johannesberg-9",
+      "kind": "fairways",
+      "expectedSharedRings": 9,
+      "missingSharedRings": 0,
+      "ownPlayingRingsDuplicatedAsScenery": 0
+    },
+    {
+      "course": "johannesberg",
+      "sharedCourse": "johannesberg-9",
+      "kind": "tees",
+      "expectedSharedRings": 15,
+      "missingSharedRings": 0,
+      "ownPlayingRingsDuplicatedAsScenery": 0
+    },
+    {
+      "course": "johannesberg",
+      "sharedCourse": "johannesberg-9",
+      "kind": "bunkers",
+      "expectedSharedRings": 1,
+      "missingSharedRings": 0,
+      "ownPlayingRingsDuplicatedAsScenery": 0
+    },
+    {
+      "course": "johannesberg-9",
+      "sharedCourse": "johannesberg",
+      "kind": "greens",
+      "expectedSharedRings": 18,
+      "missingSharedRings": 0,
+      "ownPlayingRingsDuplicatedAsScenery": 0
+    },
+    {
+      "course": "johannesberg-9",
+      "sharedCourse": "johannesberg",
+      "kind": "fairways",
+      "expectedSharedRings": 21,
+      "missingSharedRings": 0,
+      "ownPlayingRingsDuplicatedAsScenery": 0
+    },
+    {
+      "course": "johannesberg-9",
+      "sharedCourse": "johannesberg",
+      "kind": "tees",
+      "expectedSharedRings": 46,
+      "missingSharedRings": 0,
+      "ownPlayingRingsDuplicatedAsScenery": 0
+    },
+    {
+      "course": "johannesberg-9",
+      "sharedCourse": "johannesberg",
+      "kind": "bunkers",
+      "expectedSharedRings": 26,
+      "missingSharedRings": 0,
+      "ownPlayingRingsDuplicatedAsScenery": 0
+    }
+  ],
+  "markerDisplayValidation": {
+    "sourceMarks": 108,
+    "originalCoordinatesRetained": 108,
+    "displayAnchorsInsideDeclaredPad": 108,
+    "meaning": "displayC is a provisional visual anchor on a photographed physical pad; original c is retained. Official tee-colour ownership and daily marker placement remain unverified."
+  },
+  "baselineReference": {
+    "gitCommit": "7aac4d4495e78d9321889273b34ad6d1bb12290a",
+    "modelHashes": {
+      "johannesberg": "9cdec310df0f70a39b86f440fb6397309c7c175b668fba26683148864f392e69",
+      "johannesberg-9": "f1b767a3ce03ac21c25daf485a8fa4d0f595c948844ad7dc146c53eae082b2b3"
+    }
+  },
+  "boundaryInterpretationUncertaintyMetres": {
+    "minimum": 0.6,
+    "maximum": 3,
+    "meaning": "Reviewer interpretation allowance per feature. Independent absolute source accuracy remains unmeasured."
+  },
+  "unresolvedReferences": [
+    {
+      "path": "johannesbergbuild/mapping/lm-review-front9.json",
+      "section": "unresolved",
+      "count": 2
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-back9.json",
+      "section": "unresolved",
+      "count": 0
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-back9-turf.json",
+      "section": "unresolved",
+      "count": 2
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-nine.json",
+      "section": "unresolved",
+      "count": 7
+    }
+  ],
+  "failureCount": 0,
+  "failures": [],
+  "status": "passed-mechanical-checks-with-reviewed-shared-turf"
+}

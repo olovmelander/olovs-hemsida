@@ -1,0 +1,3266 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "completeSurvey": false,
+  "baselineModelSha256": "becbfca4ab43408ffc7003eb31051e5ad7700701b80add47f9a55a36225abb5d",
+  "method": "Manual visual tracing of visible putting-turf and exposed-sand boundaries on exactly projected, north-up RGB panels from authenticated LM RGBI crops. The 0.10 m display pixels resample native 0.16 m source pixels; neither is a positional accuracy certificate. No global registration fit.",
+  "sources": [],
+  "reviews": [
+    {
+      "hole": 10,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Green and other sand outlines retained within approximately 1.5 m interpretation uncertainty. Southeast green edge has tree shadow. Northeast sand grass crescent corrected.",
+      "sourceWindowIds": [
+        "stora-10-surfaces"
+      ]
+    },
+    {
+      "hole": 11,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Green and east bunker retained within interpretation uncertainty; south green edge shadow limits exact boundary. North bunker grass extension corrected.",
+      "sourceWindowIds": [
+        "stora-11-surfaces",
+        "stora-13-surfaces",
+        "stora-14-surfaces"
+      ]
+    },
+    {
+      "hole": 12,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Green and both sand outlines agree broadly with the source; retain. Southern bunker includes tree shadow; no hidden edge inferred.",
+      "sourceWindowIds": [
+        "stora-12-surfaces"
+      ]
+    },
+    {
+      "hole": 13,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Green and west sand retained within interpretation uncertainty; south green end shadowed. Visible east bunker is existing source w438982472 owned by H14, not a missing physical object. No duplicate added.",
+      "sourceWindowIds": [
+        "stora-11-surfaces",
+        "stora-13-surfaces",
+        "stora-14-surfaces"
+      ]
+    },
+    {
+      "hole": 14,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Green and south bunker corrected. North bunker retained within approximately 1 m interpretation uncertainty.",
+      "sourceWindowIds": [
+        "stora-08-surfaces",
+        "stora-14-surfaces"
+      ]
+    },
+    {
+      "hole": 15,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Green southern extension corrected. Both sand outlines retained within approximately 1 m interpretation uncertainty.",
+      "sourceWindowIds": [
+        "stora-15-surfaces"
+      ]
+    },
+    {
+      "hole": 16,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Existing reviewed green and three nearby sand footprints agree with source within interpretation uncertainty; retain. Far fairway bunker outside green panel not covered by this review.",
+      "sourceWindowIds": [
+        "stora-16-surfaces",
+        "stora-17-surfaces"
+      ]
+    },
+    {
+      "hole": 17,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Existing reviewed green and nearby sand footprints retained within interpretation uncertainty. Southwest sand only partially visible in panel; complete sand census not claimed.",
+      "sourceWindowIds": [
+        "stora-17-surfaces"
+      ]
+    },
+    {
+      "hole": 18,
+      "status": "reviewed-green-complex",
+      "scope": "80 m square centered on existing green; excludes distant fairway/tee features",
+      "note": "Green northern rounded end corrected; three surrounding sand outlines retained within approximately 1.5 m interpretation uncertainty. Far fairway bunker outside panel not covered.",
+      "sourceWindowIds": [
+        "stora-18-surfaces"
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "upsala-stora-bunker-10-w438983239-lm-2025-review",
+      "kind": "bunker",
+      "hole": 10,
+      "sourceId": "w438983239",
+      "status": "accepted",
+      "originalShape": {
+        "ring": [
+          [
+            306.7,
+            -536
+          ],
+          [
+            306.1,
+            -537.8
+          ],
+          [
+            300.5,
+            -537.6
+          ],
+          [
+            299.8,
+            -537.8
+          ],
+          [
+            297.3,
+            -540.3
+          ],
+          [
+            296.5,
+            -540.4
+          ],
+          [
+            295.5,
+            -540.2
+          ],
+          [
+            293.9,
+            -537.9
+          ],
+          [
+            294.1,
+            -535.3
+          ],
+          [
+            295.1,
+            -533.1
+          ],
+          [
+            295.6,
+            -532.4
+          ],
+          [
+            298,
+            -531.5
+          ],
+          [
+            299.9,
+            -531.4
+          ],
+          [
+            301.5,
+            -532
+          ],
+          [
+            305.1,
+            -532.3
+          ],
+          [
+            306.7,
+            -533.6
+          ],
+          [
+            307,
+            -534.7
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438983239"
+      },
+      "ring": [
+        [
+          294.11,
+          -539.615
+        ],
+        [
+          294.646,
+          -540.595
+        ],
+        [
+          295.658,
+          -540.956
+        ],
+        [
+          296.644,
+          -540.619
+        ],
+        [
+          297.703,
+          -539.579
+        ],
+        [
+          298.87,
+          -538.735
+        ],
+        [
+          300.354,
+          -538.379
+        ],
+        [
+          301.854,
+          -538.422
+        ],
+        [
+          303.361,
+          -538.665
+        ],
+        [
+          304.354,
+          -538.527
+        ],
+        [
+          305.325,
+          -537.791
+        ],
+        [
+          305.981,
+          -536.666
+        ],
+        [
+          305.936,
+          -535.467
+        ],
+        [
+          305.296,
+          -534.391
+        ],
+        [
+          304.169,
+          -533.634
+        ],
+        [
+          302.459,
+          -533.299
+        ],
+        [
+          300.657,
+          -533.167
+        ],
+        [
+          298.966,
+          -533.331
+        ],
+        [
+          297.493,
+          -533.987
+        ],
+        [
+          296.33,
+          -534.931
+        ],
+        [
+          295.278,
+          -536.17
+        ],
+        [
+          294.526,
+          -537.399
+        ],
+        [
+          294.168,
+          -538.513
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          640104.4880625483,
+          6636665.081015728
+        ],
+        [
+          640104.9880625483,
+          6636666.081015728
+        ],
+        [
+          640105.9880625483,
+          6636666.481015729
+        ],
+        [
+          640106.9880625483,
+          6636666.181015729
+        ],
+        [
+          640108.0880625484,
+          6636665.181015729
+        ],
+        [
+          640109.2880625484,
+          6636664.381015728
+        ],
+        [
+          640110.7880625484,
+          6636664.081015728
+        ],
+        [
+          640112.2880625484,
+          6636664.181015729
+        ],
+        [
+          640113.7880625484,
+          6636664.481015729
+        ],
+        [
+          640114.7880625484,
+          6636664.381015728
+        ],
+        [
+          640115.7880625484,
+          6636663.681015729
+        ],
+        [
+          640116.4880625483,
+          6636662.581015728
+        ],
+        [
+          640116.4880625483,
+          6636661.381015728
+        ],
+        [
+          640115.8880625484,
+          6636660.281015729
+        ],
+        [
+          640114.7880625484,
+          6636659.481015729
+        ],
+        [
+          640113.0880625484,
+          6636659.081015728
+        ],
+        [
+          640111.2880625484,
+          6636658.881015728
+        ],
+        [
+          640109.5880625484,
+          6636658.981015729
+        ],
+        [
+          640108.0880625484,
+          6636659.581015728
+        ],
+        [
+          640106.8880625484,
+          6636660.481015729
+        ],
+        [
+          640105.7880625484,
+          6636661.681015729
+        ],
+        [
+          640104.9880625483,
+          6636662.881015728
+        ],
+        [
+          640104.5880625484,
+          6636663.981015729
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          497,
+          257
+        ],
+        [
+          502,
+          247
+        ],
+        [
+          512,
+          243
+        ],
+        [
+          522,
+          246
+        ],
+        [
+          533,
+          256
+        ],
+        [
+          545,
+          264
+        ],
+        [
+          560,
+          267
+        ],
+        [
+          575,
+          266
+        ],
+        [
+          590,
+          263
+        ],
+        [
+          600,
+          264
+        ],
+        [
+          610,
+          271
+        ],
+        [
+          617,
+          282
+        ],
+        [
+          617,
+          294
+        ],
+        [
+          611,
+          305
+        ],
+        [
+          600,
+          313
+        ],
+        [
+          583,
+          317
+        ],
+        [
+          565,
+          319
+        ],
+        [
+          548,
+          318
+        ],
+        [
+          533,
+          312
+        ],
+        [
+          521,
+          303
+        ],
+        [
+          510,
+          291
+        ],
+        [
+          502,
+          279
+        ],
+        [
+          498,
+          268
+        ]
+      ],
+      "tracePanel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640054.7880625484,
+          6636610.781015729,
+          640134.7880625484,
+          6636690.781015729
+        ],
+        "geoTransform": [
+          640054.7880625484,
+          0.1,
+          0.0,
+          6636690.781015729,
+          0.0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "evidence": {
+        "source": "Lantmateriet Ortofoto Nedladdning; authenticated orto-o2-2025 RGBI",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "sourceFiles": [
+          {
+            "id": "stora-10-surfaces",
+            "rasterFile": "stora-10-surfaces.tif",
+            "rgbFile": "stora-10-surfaces.png",
+            "sha256": "4ac8aa8f79804bbfa8eea7302fe8fb84b7b29f9f6dafcc5874b05ca482f9fff5",
+            "rgbSha256": "a74fe6106079da824905be73973dc59142a098a0b897a94c155ab3cc0f09c84a",
+            "requestSha256": "bcd01a41de0ece77d21de21674e611d490613b40267a9ef8364d4fb016c1f61d",
+            "bytes": 1199196,
+            "boundsEpsg3006": [
+              640038.88,
+              6636596.0,
+              640147.68,
+              6636700.8
+            ],
+            "geoTransform": [
+              640038.88,
+              0.16,
+              0.0,
+              6636700.8,
+              0.0,
+              -0.16
+            ],
+            "width": 680,
+            "height": 655,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:05.192943+00:00",
+            "sources": [
+              {
+                "id": "o66350_6400_25_mr25",
+                "capturedAt": "2025-06-14T09:25:50Z",
+                "captureStart": "2025-04-25T07:36:44Z",
+                "captureEnd": "2025-06-14T09:26:06Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          }
+        ],
+        "uncertaintyM": 0.7,
+        "sourceHorizontalAccuracyM": null,
+        "acceptance": "Visible boundary reviewed manually; no fitted displacement or inferred elevation",
+        "note": "The old southwest and southern boundary includes a crescent of grass outside the visible sand. The sand lobe and its tree-shadowed southeast edge are distinguishable in the RGB image."
+      },
+      "comparison": {
+        "beforeAreaM2": 79.18499999999997,
+        "afterAreaM2": 57.62529250000003,
+        "boundaryHausdorffMetres": 2.4251769292876104
+      }
+    },
+    {
+      "id": "upsala-stora-bunker-11-w438982475-lm-2025-review",
+      "kind": "bunker",
+      "hole": 11,
+      "sourceId": "w438982475",
+      "status": "accepted",
+      "originalShape": {
+        "ring": [
+          [
+            -65.7,
+            -532.3
+          ],
+          [
+            -67.7,
+            -533.4
+          ],
+          [
+            -69.2,
+            -533.3
+          ],
+          [
+            -72,
+            -531.5
+          ],
+          [
+            -72.2,
+            -530.6
+          ],
+          [
+            -71.4,
+            -528.5
+          ],
+          [
+            -70.8,
+            -524.8
+          ],
+          [
+            -69.5,
+            -523.4
+          ],
+          [
+            -67.6,
+            -523.4
+          ],
+          [
+            -64.9,
+            -527.4
+          ],
+          [
+            -64.4,
+            -530.1
+          ],
+          [
+            -64.9,
+            -531.5
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438982475"
+      },
+      "ring": [
+        [
+          -71.288,
+          -531.77
+        ],
+        [
+          -70.154,
+          -532.727
+        ],
+        [
+          -68.927,
+          -533.481
+        ],
+        [
+          -67.631,
+          -533.432
+        ],
+        [
+          -66.354,
+          -532.884
+        ],
+        [
+          -65.187,
+          -532.04
+        ],
+        [
+          -64.634,
+          -530.819
+        ],
+        [
+          -64.683,
+          -529.521
+        ],
+        [
+          -65.238,
+          -528.041
+        ],
+        [
+          -66.084,
+          -526.773
+        ],
+        [
+          -67.126,
+          -525.612
+        ],
+        [
+          -68.15,
+          -524.951
+        ],
+        [
+          -69.247,
+          -524.992
+        ],
+        [
+          -70.122,
+          -525.625
+        ],
+        [
+          -70.583,
+          -526.643
+        ],
+        [
+          -70.729,
+          -528.048
+        ],
+        [
+          -71.079,
+          -529.362
+        ],
+        [
+          -71.337,
+          -530.472
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639738.8408330679,
+          6636643.437000341
+        ],
+        [
+          639739.940833068,
+          6636644.437000341
+        ],
+        [
+          639741.1408330679,
+          6636645.2370003415
+        ],
+        [
+          639742.440833068,
+          6636645.2370003415
+        ],
+        [
+          639743.7408330679,
+          6636644.7370003415
+        ],
+        [
+          639744.940833068,
+          6636643.937000341
+        ],
+        [
+          639745.540833068,
+          6636642.7370003415
+        ],
+        [
+          639745.540833068,
+          6636641.437000341
+        ],
+        [
+          639745.040833068,
+          6636639.937000341
+        ],
+        [
+          639744.2408330679,
+          6636638.637000341
+        ],
+        [
+          639743.2408330679,
+          6636637.437000341
+        ],
+        [
+          639742.2408330679,
+          6636636.7370003415
+        ],
+        [
+          639741.1408330679,
+          6636636.7370003415
+        ],
+        [
+          639740.2408330679,
+          6636637.337000341
+        ],
+        [
+          639739.7408330679,
+          6636638.337000341
+        ],
+        [
+          639739.540833068,
+          6636639.7370003415
+        ],
+        [
+          639739.1408330679,
+          6636641.037000341
+        ],
+        [
+          639738.8408330679,
+          6636642.137000341
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          422,
+          49
+        ],
+        [
+          433,
+          39
+        ],
+        [
+          445,
+          31
+        ],
+        [
+          458,
+          31
+        ],
+        [
+          471,
+          36
+        ],
+        [
+          483,
+          44
+        ],
+        [
+          489,
+          56
+        ],
+        [
+          489,
+          69
+        ],
+        [
+          484,
+          84
+        ],
+        [
+          476,
+          97
+        ],
+        [
+          466,
+          109
+        ],
+        [
+          456,
+          116
+        ],
+        [
+          445,
+          116
+        ],
+        [
+          436,
+          110
+        ],
+        [
+          431,
+          100
+        ],
+        [
+          429,
+          86
+        ],
+        [
+          425,
+          73
+        ],
+        [
+          422,
+          62
+        ]
+      ],
+      "tracePanel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          639696.6408330679,
+          6636568.337000341,
+          639776.6408330679,
+          6636648.337000341
+        ],
+        "geoTransform": [
+          639696.6408330679,
+          0.1,
+          0.0,
+          6636648.337000341,
+          0.0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "evidence": {
+        "source": "Lantmateriet Ortofoto Nedladdning; authenticated orto-o2-2025 RGBI",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "sourceFiles": [
+          {
+            "id": "stora-11-surfaces",
+            "rasterFile": "stora-11-surfaces.tif",
+            "rgbFile": "stora-11-surfaces.png",
+            "sha256": "a40d2adefc72f114614e4a144f78beecbab2107892cbc7aff28c915b66169a02",
+            "rgbSha256": "db29e395481c370adb561e265e555905891c5a44f47d08a514ff212a3a24c967",
+            "requestSha256": "963dc9edb582f89e6469cc005f081cdc5f693bd4063f598227311cec63a7af64",
+            "bytes": 1062266,
+            "boundsEpsg3006": [
+              639693.92,
+              6636564.800000001,
+              639786.88,
+              6636675.36
+            ],
+            "geoTransform": [
+              639693.92,
+              0.16,
+              0.0,
+              6636675.36,
+              0.0,
+              -0.16
+            ],
+            "width": 581,
+            "height": 691,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:05.651301+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          },
+          {
+            "id": "stora-13-surfaces",
+            "rasterFile": "stora-13-surfaces.tif",
+            "rgbFile": "stora-13-surfaces.png",
+            "sha256": "b13aa1785b770d8bc081558c383b2d8f821d861d3ff05f0e0767aae5469792e2",
+            "rgbSha256": "681cfddd3327925ba6de49ada2ef5637265c1b1f9918e2ea02ee759a97907cca",
+            "requestSha256": "d2e7def7b65abe86a65fbe57f679791aae5be8290420ab28916fc261f32e9c91",
+            "bytes": 916345,
+            "boundsEpsg3006": [
+              639619.52,
+              6636503.36,
+              639708.3200000001,
+              6636600.16
+            ],
+            "geoTransform": [
+              639619.52,
+              0.16,
+              0.0,
+              6636600.16,
+              0.0,
+              -0.16
+            ],
+            "width": 555,
+            "height": 605,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:06.382990+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          },
+          {
+            "id": "stora-14-surfaces",
+            "rasterFile": "stora-14-surfaces.tif",
+            "rgbFile": "stora-14-surfaces.png",
+            "sha256": "0d50307944a1bacf2b2af63633bea70b49eb933356714feefa2b90f4e0e9bc05",
+            "rgbSha256": "5188e62d9747287316a84d7a3c0d543449bce92eb3b16048145623de89f5835a",
+            "requestSha256": "192843fc0d5d501ec63a84678aa05aec427b2fbd7fd11096ddf4fde9cacc66b6",
+            "bytes": 1704949,
+            "boundsEpsg3006": [
+              639649.6,
+              6636410.5600000005,
+              639745.6,
+              6636580.48
+            ],
+            "geoTransform": [
+              639649.6,
+              0.16,
+              0.0,
+              6636580.48,
+              0.0,
+              -0.16
+            ],
+            "width": 600,
+            "height": 1062,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:06.856167+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          }
+        ],
+        "uncertaintyM": 0.7,
+        "sourceHorizontalAccuracyM": null,
+        "acceptance": "Visible boundary reviewed manually; no fitted displacement or inferred elevation",
+        "note": "The old southern point extends about two metres beyond the visible sand into the grass surround. The replacement follows the rounded sand end."
+      },
+      "comparison": {
+        "beforeAreaM2": 55.19999999999994,
+        "afterAreaM2": 42.51621949999993,
+        "boundaryHausdorffMetres": 1.6456308820632137
+      }
+    },
+    {
+      "id": "upsala-stora-green-14-w452926950-lm-2025-review",
+      "kind": "green",
+      "hole": 14,
+      "sourceId": "w452926950",
+      "status": "accepted",
+      "originalShape": {
+        "ring": [
+          [
+            -120.6,
+            -355.1
+          ],
+          [
+            -125.7,
+            -351.7
+          ],
+          [
+            -129,
+            -346.1
+          ],
+          [
+            -129.6,
+            -341.5
+          ],
+          [
+            -129,
+            -338.3
+          ],
+          [
+            -126,
+            -335.5
+          ],
+          [
+            -122.9,
+            -334.5
+          ],
+          [
+            -119.6,
+            -335.6
+          ],
+          [
+            -112.5,
+            -341
+          ],
+          [
+            -104.7,
+            -344.6
+          ],
+          [
+            -102.5,
+            -347.3
+          ],
+          [
+            -101.3,
+            -350.8
+          ],
+          [
+            -102.2,
+            -360.7
+          ],
+          [
+            -103.1,
+            -365.5
+          ],
+          [
+            -105.9,
+            -367.6
+          ],
+          [
+            -108.8,
+            -367.7
+          ],
+          [
+            -111.8,
+            -366.1
+          ],
+          [
+            -114.2,
+            -363.1
+          ],
+          [
+            -116.3,
+            -359.2
+          ]
+        ],
+        "c": [
+          -114.5,
+          -350.3
+        ],
+        "prov": "osm",
+        "sourceId": "w452926950",
+        "area": 555
+      },
+      "ring": [
+        [
+          -130.006,
+          -344.184
+        ],
+        [
+          -129.406,
+          -346.862
+        ],
+        [
+          -127.699,
+          -349.798
+        ],
+        [
+          -125.415,
+          -352.112
+        ],
+        [
+          -122.744,
+          -354.111
+        ],
+        [
+          -120.18,
+          -355.915
+        ],
+        [
+          -117.701,
+          -358.121
+        ],
+        [
+          -115.398,
+          -360.935
+        ],
+        [
+          -113.391,
+          -363.859
+        ],
+        [
+          -111.503,
+          -366.288
+        ],
+        [
+          -109.763,
+          -367.422
+        ],
+        [
+          -108.16,
+          -367.562
+        ],
+        [
+          -106.384,
+          -366.995
+        ],
+        [
+          -104.822,
+          -366.036
+        ],
+        [
+          -103.786,
+          -364.397
+        ],
+        [
+          -102.975,
+          -362.066
+        ],
+        [
+          -102.585,
+          -359.151
+        ],
+        [
+          -102.299,
+          -356.14
+        ],
+        [
+          -102.101,
+          -353.433
+        ],
+        [
+          -102.184,
+          -351.236
+        ],
+        [
+          -102.961,
+          -349.165
+        ],
+        [
+          -104.332,
+          -347.216
+        ],
+        [
+          -106.286,
+          -345.69
+        ],
+        [
+          -108.835,
+          -344.286
+        ],
+        [
+          -111.377,
+          -343.082
+        ],
+        [
+          -113.822,
+          -341.774
+        ],
+        [
+          -115.976,
+          -340.255
+        ],
+        [
+          -118.034,
+          -338.632
+        ],
+        [
+          -120.276,
+          -337.417
+        ],
+        [
+          -122.599,
+          -336.705
+        ],
+        [
+          -124.597,
+          -336.68
+        ],
+        [
+          -126.672,
+          -337.258
+        ],
+        [
+          -128.33,
+          -338.321
+        ],
+        [
+          -129.466,
+          -339.964
+        ],
+        [
+          -129.989,
+          -341.983
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639687.0962719023,
+          6636453.649335112
+        ],
+        [
+          639687.5962719023,
+          6636456.349335113
+        ],
+        [
+          639689.1962719024,
+          6636459.349335113
+        ],
+        [
+          639691.3962719024,
+          6636461.749335113
+        ],
+        [
+          639693.9962719023,
+          6636463.849335113
+        ],
+        [
+          639696.4962719023,
+          6636465.749335113
+        ],
+        [
+          639698.8962719024,
+          6636468.049335113
+        ],
+        [
+          639701.0962719023,
+          6636470.949335112
+        ],
+        [
+          639702.9962719023,
+          6636473.949335112
+        ],
+        [
+          639704.7962719024,
+          6636476.449335112
+        ],
+        [
+          639706.4962719023,
+          6636477.649335112
+        ],
+        [
+          639708.0962719023,
+          6636477.849335113
+        ],
+        [
+          639709.8962719024,
+          6636477.349335113
+        ],
+        [
+          639711.4962719023,
+          6636476.449335112
+        ],
+        [
+          639712.5962719023,
+          6636474.849335113
+        ],
+        [
+          639713.4962719023,
+          6636472.549335113
+        ],
+        [
+          639713.9962719023,
+          6636469.649335112
+        ],
+        [
+          639714.3962719024,
+          6636466.649335112
+        ],
+        [
+          639714.6962719024,
+          6636463.949335112
+        ],
+        [
+          639714.6962719024,
+          6636461.749335113
+        ],
+        [
+          639713.9962719023,
+          6636459.649335112
+        ],
+        [
+          639712.6962719024,
+          6636457.649335112
+        ],
+        [
+          639710.7962719024,
+          6636456.049335113
+        ],
+        [
+          639708.2962719024,
+          6636454.549335113
+        ],
+        [
+          639705.7962719024,
+          6636453.249335113
+        ],
+        [
+          639703.3962719024,
+          6636451.849335113
+        ],
+        [
+          639701.2962719024,
+          6636450.249335113
+        ],
+        [
+          639699.2962719024,
+          6636448.549335113
+        ],
+        [
+          639697.0962719023,
+          6636447.249335113
+        ],
+        [
+          639694.7962719024,
+          6636446.449335112
+        ],
+        [
+          639692.7962719024,
+          6636446.349335113
+        ],
+        [
+          639690.6962719024,
+          6636446.849335113
+        ],
+        [
+          639688.9962719023,
+          6636447.849335113
+        ],
+        [
+          639687.7962719024,
+          6636449.449335112
+        ],
+        [
+          639687.1962719024,
+          6636451.449335112
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          247,
+          467
+        ],
+        [
+          252,
+          440
+        ],
+        [
+          268,
+          410
+        ],
+        [
+          290,
+          386
+        ],
+        [
+          316,
+          365
+        ],
+        [
+          341,
+          346
+        ],
+        [
+          365,
+          323
+        ],
+        [
+          387,
+          294
+        ],
+        [
+          406,
+          264
+        ],
+        [
+          424,
+          239
+        ],
+        [
+          441,
+          227
+        ],
+        [
+          457,
+          225
+        ],
+        [
+          475,
+          230
+        ],
+        [
+          491,
+          239
+        ],
+        [
+          502,
+          255
+        ],
+        [
+          511,
+          278
+        ],
+        [
+          516,
+          307
+        ],
+        [
+          520,
+          337
+        ],
+        [
+          523,
+          364
+        ],
+        [
+          523,
+          386
+        ],
+        [
+          516,
+          407
+        ],
+        [
+          503,
+          427
+        ],
+        [
+          484,
+          443
+        ],
+        [
+          459,
+          458
+        ],
+        [
+          434,
+          471
+        ],
+        [
+          410,
+          485
+        ],
+        [
+          389,
+          501
+        ],
+        [
+          369,
+          518
+        ],
+        [
+          347,
+          531
+        ],
+        [
+          324,
+          539
+        ],
+        [
+          304,
+          540
+        ],
+        [
+          283,
+          535
+        ],
+        [
+          266,
+          525
+        ],
+        [
+          254,
+          509
+        ],
+        [
+          248,
+          489
+        ]
+      ],
+      "tracePanel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          639662.3962719024,
+          6636420.349335113,
+          639742.3962719024,
+          6636500.349335113
+        ],
+        "geoTransform": [
+          639662.3962719024,
+          0.1,
+          0.0,
+          6636500.349335113,
+          0.0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "evidence": {
+        "source": "Lantmateriet Ortofoto Nedladdning; authenticated orto-o2-2025 RGBI",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "sourceFiles": [
+          {
+            "id": "stora-08-surfaces",
+            "rasterFile": "stora-08-surfaces.tif",
+            "rgbFile": "stora-08-surfaces.png",
+            "sha256": "143b67b761dd82ae6a4ea1c47fe478ae932984797fa38cbc541838cb18e00f75",
+            "rgbSha256": "63bdfe917069294cdfb251e774e70e98f3e9f329ad77e5aebd850df389ea0352",
+            "requestSha256": "ae862351e92556880021fe443b20f971bf8b2535a077429a2101b2ff81d0aed2",
+            "bytes": 937379,
+            "boundsEpsg3006": [
+              639598.88,
+              6636370.4,
+              639702.4,
+              6636459.36
+            ],
+            "geoTransform": [
+              639598.88,
+              0.16,
+              0.0,
+              6636459.36,
+              0.0,
+              -0.16
+            ],
+            "width": 647,
+            "height": 556,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:04.206892+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          },
+          {
+            "id": "stora-14-surfaces",
+            "rasterFile": "stora-14-surfaces.tif",
+            "rgbFile": "stora-14-surfaces.png",
+            "sha256": "0d50307944a1bacf2b2af63633bea70b49eb933356714feefa2b90f4e0e9bc05",
+            "rgbSha256": "5188e62d9747287316a84d7a3c0d543449bce92eb3b16048145623de89f5835a",
+            "requestSha256": "192843fc0d5d501ec63a84678aa05aec427b2fbd7fd11096ddf4fde9cacc66b6",
+            "bytes": 1704949,
+            "boundsEpsg3006": [
+              639649.6,
+              6636410.5600000005,
+              639745.6,
+              6636580.48
+            ],
+            "geoTransform": [
+              639649.6,
+              0.16,
+              0.0,
+              6636580.48,
+              0.0,
+              -0.16
+            ],
+            "width": 600,
+            "height": 1062,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:06.856167+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          }
+        ],
+        "uncertaintyM": 1.0,
+        "sourceHorizontalAccuracyM": null,
+        "acceptance": "Visible boundary reviewed manually; no fitted displacement or inferred elevation",
+        "note": "The old angular southern end extends into the darker collar, and the northern/eastern perimeter is coarse. Follow the visible putting-turf transition, keeping the narrower diagonal neck; the fringe is excluded."
+      },
+      "comparison": {
+        "beforeAreaM2": 554.855,
+        "afterAreaM2": 503.5447315000002,
+        "boundaryHausdorffMetres": 2.2010614381199503
+      }
+    },
+    {
+      "id": "upsala-stora-bunker-14-w438979692-lm-2025-review",
+      "kind": "bunker",
+      "hole": 14,
+      "sourceId": "w438979692",
+      "status": "accepted",
+      "originalShape": {
+        "ring": [
+          [
+            -107.6,
+            -337.3
+          ],
+          [
+            -108.1,
+            -338.9
+          ],
+          [
+            -109,
+            -339.7
+          ],
+          [
+            -110.4,
+            -339.5
+          ],
+          [
+            -112.8,
+            -338.1
+          ],
+          [
+            -114.8,
+            -335.6
+          ],
+          [
+            -115.1,
+            -334.1
+          ],
+          [
+            -114.3,
+            -331.5
+          ],
+          [
+            -110.7,
+            -330.5
+          ],
+          [
+            -108.8,
+            -330.9
+          ],
+          [
+            -107.7,
+            -332.7
+          ]
+        ],
+        "prov": "osm",
+        "sourceId": "w438979692"
+      },
+      "ring": [
+        [
+          -114.265,
+          -335.29
+        ],
+        [
+          -113.91,
+          -336.777
+        ],
+        [
+          -113.163,
+          -338.049
+        ],
+        [
+          -111.922,
+          -339.202
+        ],
+        [
+          -110.496,
+          -339.948
+        ],
+        [
+          -109.085,
+          -340.295
+        ],
+        [
+          -108.092,
+          -340.158
+        ],
+        [
+          -107.117,
+          -339.521
+        ],
+        [
+          -106.553,
+          -338.6
+        ],
+        [
+          -106.483,
+          -337.797
+        ],
+        [
+          -106.934,
+          -336.414
+        ],
+        [
+          -107.282,
+          -335.127
+        ],
+        [
+          -107.427,
+          -333.932
+        ],
+        [
+          -107.967,
+          -332.853
+        ],
+        [
+          -108.691,
+          -332.18
+        ],
+        [
+          -109.795,
+          -332.021
+        ],
+        [
+          -111.184,
+          -332.274
+        ],
+        [
+          -112.668,
+          -332.63
+        ],
+        [
+          -113.746,
+          -333.17
+        ],
+        [
+          -114.215,
+          -333.988
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639703.1962719024,
+          6636445.349335113
+        ],
+        [
+          639703.4962719023,
+          6636446.849335113
+        ],
+        [
+          639704.1962719024,
+          6636448.149335112
+        ],
+        [
+          639705.3962719024,
+          6636449.349335113
+        ],
+        [
+          639706.7962719024,
+          6636450.149335112
+        ],
+        [
+          639708.1962719024,
+          6636450.549335113
+        ],
+        [
+          639709.1962719024,
+          6636450.449335112
+        ],
+        [
+          639710.1962719024,
+          6636449.849335113
+        ],
+        [
+          639710.7962719024,
+          6636448.949335112
+        ],
+        [
+          639710.8962719024,
+          6636448.149335112
+        ],
+        [
+          639710.4962719023,
+          6636446.749335113
+        ],
+        [
+          639710.1962719024,
+          6636445.449335112
+        ],
+        [
+          639710.0962719023,
+          6636444.249335113
+        ],
+        [
+          639709.5962719023,
+          6636443.149335112
+        ],
+        [
+          639708.8962719024,
+          6636442.449335112
+        ],
+        [
+          639707.7962719024,
+          6636442.249335113
+        ],
+        [
+          639706.3962719024,
+          6636442.449335112
+        ],
+        [
+          639704.8962719024,
+          6636442.749335113
+        ],
+        [
+          639703.7962719024,
+          6636443.249335113
+        ],
+        [
+          639703.2962719024,
+          6636444.049335113
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          408,
+          550
+        ],
+        [
+          411,
+          535
+        ],
+        [
+          418,
+          522
+        ],
+        [
+          430,
+          510
+        ],
+        [
+          444,
+          502
+        ],
+        [
+          458,
+          498
+        ],
+        [
+          468,
+          499
+        ],
+        [
+          478,
+          505
+        ],
+        [
+          484,
+          514
+        ],
+        [
+          485,
+          522
+        ],
+        [
+          481,
+          536
+        ],
+        [
+          478,
+          549
+        ],
+        [
+          477,
+          561
+        ],
+        [
+          472,
+          572
+        ],
+        [
+          465,
+          579
+        ],
+        [
+          454,
+          581
+        ],
+        [
+          440,
+          579
+        ],
+        [
+          425,
+          576
+        ],
+        [
+          414,
+          571
+        ],
+        [
+          409,
+          563
+        ]
+      ],
+      "tracePanel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          639662.3962719024,
+          6636420.349335113,
+          639742.3962719024,
+          6636500.349335113
+        ],
+        "geoTransform": [
+          639662.3962719024,
+          0.1,
+          0.0,
+          6636500.349335113,
+          0.0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "evidence": {
+        "source": "Lantmateriet Ortofoto Nedladdning; authenticated orto-o2-2025 RGBI",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "sourceFiles": [
+          {
+            "id": "stora-08-surfaces",
+            "rasterFile": "stora-08-surfaces.tif",
+            "rgbFile": "stora-08-surfaces.png",
+            "sha256": "143b67b761dd82ae6a4ea1c47fe478ae932984797fa38cbc541838cb18e00f75",
+            "rgbSha256": "63bdfe917069294cdfb251e774e70e98f3e9f329ad77e5aebd850df389ea0352",
+            "requestSha256": "ae862351e92556880021fe443b20f971bf8b2535a077429a2101b2ff81d0aed2",
+            "bytes": 937379,
+            "boundsEpsg3006": [
+              639598.88,
+              6636370.4,
+              639702.4,
+              6636459.36
+            ],
+            "geoTransform": [
+              639598.88,
+              0.16,
+              0.0,
+              6636459.36,
+              0.0,
+              -0.16
+            ],
+            "width": 647,
+            "height": 556,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:04.206892+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          },
+          {
+            "id": "stora-14-surfaces",
+            "rasterFile": "stora-14-surfaces.tif",
+            "rgbFile": "stora-14-surfaces.png",
+            "sha256": "0d50307944a1bacf2b2af63633bea70b49eb933356714feefa2b90f4e0e9bc05",
+            "rgbSha256": "5188e62d9747287316a84d7a3c0d543449bce92eb3b16048145623de89f5835a",
+            "requestSha256": "192843fc0d5d501ec63a84678aa05aec427b2fbd7fd11096ddf4fde9cacc66b6",
+            "bytes": 1704949,
+            "boundsEpsg3006": [
+              639649.6,
+              6636410.5600000005,
+              639745.6,
+              6636580.48
+            ],
+            "geoTransform": [
+              639649.6,
+              0.16,
+              0.0,
+              6636580.48,
+              0.0,
+              -0.16
+            ],
+            "width": 600,
+            "height": 1062,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:06.856167+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          }
+        ],
+        "uncertaintyM": 0.7,
+        "sourceHorizontalAccuracyM": null,
+        "acceptance": "Visible boundary reviewed manually; no fitted displacement or inferred elevation",
+        "note": "The old ring clips the northeast sand and extends into grass at its southern end. The visible rounded footprint shifts the northeast edge outward while removing the false southern lip."
+      },
+      "comparison": {
+        "beforeAreaM2": 52.485000000000085,
+        "afterAreaM2": 48.25079299999992,
+        "boundaryHausdorffMetres": 1.7412628121605205
+      }
+    },
+    {
+      "id": "upsala-stora-green-15-w452926952-lm-2025-review",
+      "kind": "green",
+      "hole": 15,
+      "sourceId": "w452926952",
+      "status": "accepted",
+      "originalShape": {
+        "ring": [
+          [
+            -373.6,
+            -44.6
+          ],
+          [
+            -373.9,
+            -39.2
+          ],
+          [
+            -373,
+            -33.8
+          ],
+          [
+            -373.9,
+            -30.6
+          ],
+          [
+            -379.1,
+            -23.9
+          ],
+          [
+            -380.5,
+            -20.9
+          ],
+          [
+            -379.4,
+            -17.7
+          ],
+          [
+            -373.7,
+            -13.5
+          ],
+          [
+            -369.1,
+            -14.3
+          ],
+          [
+            -362.8,
+            -17.4
+          ],
+          [
+            -360.5,
+            -21.5
+          ],
+          [
+            -359,
+            -28.1
+          ],
+          [
+            -357.1,
+            -32.9
+          ],
+          [
+            -357.1,
+            -37.1
+          ],
+          [
+            -358.6,
+            -41.6
+          ],
+          [
+            -361.1,
+            -46.5
+          ],
+          [
+            -364.4,
+            -50
+          ],
+          [
+            -368.8,
+            -50.3
+          ],
+          [
+            -372.1,
+            -48.2
+          ]
+        ],
+        "c": [
+          -367.7,
+          -31.1
+        ],
+        "prov": "osm",
+        "sourceId": "w452926952",
+        "area": 549
+      },
+      "ring": [
+        [
+          -374.532,
+          -43.258
+        ],
+        [
+          -374.339,
+          -45.751
+        ],
+        [
+          -373.359,
+          -47.914
+        ],
+        [
+          -371.8,
+          -49.555
+        ],
+        [
+          -369.979,
+          -50.187
+        ],
+        [
+          -368.089,
+          -50.016
+        ],
+        [
+          -366.029,
+          -49.038
+        ],
+        [
+          -363.999,
+          -47.262
+        ],
+        [
+          -362.383,
+          -45.101
+        ],
+        [
+          -360.992,
+          -42.248
+        ],
+        [
+          -359.62,
+          -38.896
+        ],
+        [
+          -358.732,
+          -35.963
+        ],
+        [
+          -358.526,
+          -33.455
+        ],
+        [
+          -359.222,
+          -30.881
+        ],
+        [
+          -360.11,
+          -28.514
+        ],
+        [
+          -361.012,
+          -25.748
+        ],
+        [
+          -361.711,
+          -23.074
+        ],
+        [
+          -362.905,
+          -20.519
+        ],
+        [
+          -364.472,
+          -18.678
+        ],
+        [
+          -366.618,
+          -17.358
+        ],
+        [
+          -368.945,
+          -16.546
+        ],
+        [
+          -371.456,
+          -16.14
+        ],
+        [
+          -373.642,
+          -16.423
+        ],
+        [
+          -375.617,
+          -16.997
+        ],
+        [
+          -377.271,
+          -18.159
+        ],
+        [
+          -378.411,
+          -19.702
+        ],
+        [
+          -378.945,
+          -21.423
+        ],
+        [
+          -378.882,
+          -23.12
+        ],
+        [
+          -378.12,
+          -24.792
+        ],
+        [
+          -376.753,
+          -26.64
+        ],
+        [
+          -375.29,
+          -28.385
+        ],
+        [
+          -374.015,
+          -30.438
+        ],
+        [
+          -373.338,
+          -32.512
+        ],
+        [
+          -373.451,
+          -34.817
+        ],
+        [
+          -373.948,
+          -37.536
+        ],
+        [
+          -374.438,
+          -40.454
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639453.5000546173,
+          6636143.530989949
+        ],
+        [
+          639453.6000546174,
+          6636146.030989949
+        ],
+        [
+          639454.5000546173,
+          6636148.230989948
+        ],
+        [
+          639456.0000546173,
+          6636149.930989948
+        ],
+        [
+          639457.8000546173,
+          6636150.630989948
+        ],
+        [
+          639459.7000546174,
+          6636150.530989949
+        ],
+        [
+          639461.8000546173,
+          6636149.630989948
+        ],
+        [
+          639463.9000546173,
+          6636147.930989948
+        ],
+        [
+          639465.6000546174,
+          6636145.8309899485
+        ],
+        [
+          639467.1000546174,
+          6636143.030989949
+        ],
+        [
+          639468.6000546174,
+          6636139.730989948
+        ],
+        [
+          639469.6000546174,
+          6636136.8309899485
+        ],
+        [
+          639469.9000546173,
+          6636134.3309899485
+        ],
+        [
+          639469.3000546173,
+          6636131.730989948
+        ],
+        [
+          639468.5000546173,
+          6636129.3309899485
+        ],
+        [
+          639467.7000546174,
+          6636126.530989949
+        ],
+        [
+          639467.1000546174,
+          6636123.8309899485
+        ],
+        [
+          639466.0000546173,
+          6636121.230989948
+        ],
+        [
+          639464.5000546173,
+          6636119.3309899485
+        ],
+        [
+          639462.4000546173,
+          6636117.930989948
+        ],
+        [
+          639460.1000546174,
+          6636117.030989949
+        ],
+        [
+          639457.6000546174,
+          6636116.530989949
+        ],
+        [
+          639455.4000546173,
+          6636116.730989948
+        ],
+        [
+          639453.4000546173,
+          6636117.230989948
+        ],
+        [
+          639451.7000546174,
+          6636118.3309899485
+        ],
+        [
+          639450.5000546173,
+          6636119.8309899485
+        ],
+        [
+          639449.9000546173,
+          6636121.530989949
+        ],
+        [
+          639449.9000546173,
+          6636123.230989948
+        ],
+        [
+          639450.6000546174,
+          6636124.930989948
+        ],
+        [
+          639451.9000546173,
+          6636126.8309899485
+        ],
+        [
+          639453.3000546173,
+          6636128.630989948
+        ],
+        [
+          639454.5000546173,
+          6636130.730989948
+        ],
+        [
+          639455.1000546174,
+          6636132.8309899485
+        ],
+        [
+          639454.9000546173,
+          6636135.130989948
+        ],
+        [
+          639454.3000546173,
+          6636137.8309899485
+        ],
+        [
+          639453.7000546174,
+          6636140.730989948
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          327,
+          281
+        ],
+        [
+          328,
+          256
+        ],
+        [
+          337,
+          234
+        ],
+        [
+          352,
+          217
+        ],
+        [
+          370,
+          210
+        ],
+        [
+          389,
+          211
+        ],
+        [
+          410,
+          220
+        ],
+        [
+          431,
+          237
+        ],
+        [
+          448,
+          258
+        ],
+        [
+          463,
+          286
+        ],
+        [
+          478,
+          319
+        ],
+        [
+          488,
+          348
+        ],
+        [
+          491,
+          373
+        ],
+        [
+          485,
+          399
+        ],
+        [
+          477,
+          423
+        ],
+        [
+          469,
+          451
+        ],
+        [
+          463,
+          478
+        ],
+        [
+          452,
+          504
+        ],
+        [
+          437,
+          523
+        ],
+        [
+          416,
+          537
+        ],
+        [
+          393,
+          546
+        ],
+        [
+          368,
+          551
+        ],
+        [
+          346,
+          549
+        ],
+        [
+          326,
+          544
+        ],
+        [
+          309,
+          533
+        ],
+        [
+          297,
+          518
+        ],
+        [
+          291,
+          501
+        ],
+        [
+          291,
+          484
+        ],
+        [
+          298,
+          467
+        ],
+        [
+          311,
+          448
+        ],
+        [
+          325,
+          430
+        ],
+        [
+          337,
+          409
+        ],
+        [
+          343,
+          388
+        ],
+        [
+          341,
+          365
+        ],
+        [
+          335,
+          338
+        ],
+        [
+          329,
+          309
+        ]
+      ],
+      "tracePanel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          639420.8000546173,
+          6636091.630989948,
+          639500.8000546173,
+          6636171.630989948
+        ],
+        "geoTransform": [
+          639420.8000546173,
+          0.1,
+          0.0,
+          6636171.630989948,
+          0.0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "evidence": {
+        "source": "Lantmateriet Ortofoto Nedladdning; authenticated orto-o2-2025 RGBI",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "sourceFiles": [
+          {
+            "id": "stora-15-surfaces",
+            "rasterFile": "stora-15-surfaces.tif",
+            "rgbFile": "stora-15-surfaces.png",
+            "sha256": "f9ab4fd57578d05e224bac70a049442c1ce6d294886ac057619657cdd932183e",
+            "rgbSha256": "1ee1ed736ba07016aec87144f822f3eedd1f1f5c95bada951cc8768547463c88",
+            "requestSha256": "7e8d850548b3438e3958e9f33c8d6f37ec6d0a6fffaf6f29d24f1e6065e9e07f",
+            "bytes": 2592959,
+            "boundsEpsg3006": [
+              639418.24,
+              6636083.680000001,
+              639560.16,
+              6636267.36
+            ],
+            "geoTransform": [
+              639418.24,
+              0.16,
+              0.0,
+              6636267.36,
+              0.0,
+              -0.16
+            ],
+            "width": 887,
+            "height": 1148,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:07.645841+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          }
+        ],
+        "uncertaintyM": 1.0,
+        "sourceHorizontalAccuracyM": null,
+        "acceptance": "Visible boundary reviewed manually; no fitted displacement or inferred elevation",
+        "note": "The OSM green has an unsupported angular southern extension reaching roughly three metres into the darker surround. Trace the rounded putting surface, including the visible concave west waist. Preserve the existing green reference."
+      },
+      "comparison": {
+        "beforeAreaM2": 549.0899999999995,
+        "afterAreaM2": 459.8050674999999,
+        "boundaryHausdorffMetres": 2.9062555500191265
+      }
+    },
+    {
+      "id": "upsala-stora-green-18-w452926951-lm-2025-review",
+      "kind": "green",
+      "hole": 18,
+      "sourceId": "w452926951",
+      "status": "accepted",
+      "originalShape": {
+        "ring": [
+          [
+            -11,
+            -136.7
+          ],
+          [
+            -14,
+            -135.2
+          ],
+          [
+            -21,
+            -121.7
+          ],
+          [
+            -18.9,
+            -113.4
+          ],
+          [
+            -17.3,
+            -110.1
+          ],
+          [
+            -15,
+            -108.6
+          ],
+          [
+            -8.7,
+            -110.1
+          ],
+          [
+            -5.6,
+            -113
+          ],
+          [
+            0.7,
+            -116.4
+          ],
+          [
+            3.9,
+            -119
+          ],
+          [
+            4,
+            -122.3
+          ],
+          [
+            3.3,
+            -128
+          ],
+          [
+            0.7,
+            -135
+          ],
+          [
+            -1.1,
+            -137.4
+          ],
+          [
+            -5.9,
+            -138.8
+          ],
+          [
+            -9.2,
+            -138
+          ]
+        ],
+        "c": [
+          -8.4,
+          -123.7
+        ],
+        "prov": "osm",
+        "sourceId": "w452926951",
+        "area": 525
+      },
+      "ring": [
+        [
+          -20.102,
+          -123.142
+        ],
+        [
+          -19.188,
+          -126.207
+        ],
+        [
+          -17.78,
+          -129.154
+        ],
+        [
+          -16.367,
+          -132.201
+        ],
+        [
+          -14.552,
+          -135.333
+        ],
+        [
+          -12.87,
+          -137.57
+        ],
+        [
+          -10.908,
+          -139.296
+        ],
+        [
+          -8.662,
+          -140.611
+        ],
+        [
+          -6.454,
+          -140.928
+        ],
+        [
+          -4.279,
+          -140.346
+        ],
+        [
+          -2.327,
+          -139.172
+        ],
+        [
+          -0.692,
+          -137.51
+        ],
+        [
+          0.625,
+          -135.36
+        ],
+        [
+          1.62,
+          -132.622
+        ],
+        [
+          2.501,
+          -129.489
+        ],
+        [
+          3.178,
+          -126.263
+        ],
+        [
+          3.774,
+          -123.541
+        ],
+        [
+          3.788,
+          -121.24
+        ],
+        [
+          3.019,
+          -119.369
+        ],
+        [
+          1.659,
+          -117.72
+        ],
+        [
+          -0.392,
+          -116.297
+        ],
+        [
+          -2.837,
+          -114.99
+        ],
+        [
+          -5.39,
+          -113.486
+        ],
+        [
+          -7.846,
+          -111.878
+        ],
+        [
+          -10.295,
+          -110.471
+        ],
+        [
+          -12.722,
+          -109.662
+        ],
+        [
+          -15.022,
+          -109.549
+        ],
+        [
+          -16.89,
+          -110.32
+        ],
+        [
+          -18.138,
+          -111.667
+        ],
+        [
+          -18.96,
+          -113.698
+        ],
+        [
+          -19.468,
+          -116.117
+        ],
+        [
+          -19.873,
+          -118.633
+        ],
+        [
+          -20.285,
+          -120.948
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639805.4966367206,
+          6636236.766227363
+        ],
+        [
+          639806.2966367205,
+          6636239.866227362
+        ],
+        [
+          639807.5966367206,
+          6636242.866227362
+        ],
+        [
+          639808.8966367205,
+          6636245.966227363
+        ],
+        [
+          639810.5966367206,
+          6636249.166227363
+        ],
+        [
+          639812.1966367206,
+          6636251.466227363
+        ],
+        [
+          639814.0966367206,
+          6636253.266227363
+        ],
+        [
+          639816.2966367205,
+          6636254.666227363
+        ],
+        [
+          639818.4966367206,
+          6636255.0662273625
+        ],
+        [
+          639820.6966367206,
+          6636254.5662273625
+        ],
+        [
+          639822.6966367206,
+          6636253.466227363
+        ],
+        [
+          639824.3966367205,
+          6636251.866227362
+        ],
+        [
+          639825.7966367205,
+          6636249.766227363
+        ],
+        [
+          639826.8966367205,
+          6636247.0662273625
+        ],
+        [
+          639827.8966367205,
+          6636243.966227363
+        ],
+        [
+          639828.6966367206,
+          6636240.766227363
+        ],
+        [
+          639829.3966367205,
+          6636238.0662273625
+        ],
+        [
+          639829.4966367206,
+          6636235.766227363
+        ],
+        [
+          639828.7966367205,
+          6636233.866227362
+        ],
+        [
+          639827.4966367206,
+          6636232.166227363
+        ],
+        [
+          639825.4966367206,
+          6636230.666227363
+        ],
+        [
+          639823.0966367206,
+          6636229.266227363
+        ],
+        [
+          639820.5966367206,
+          6636227.666227363
+        ],
+        [
+          639818.1966367206,
+          6636225.966227363
+        ],
+        [
+          639815.7966367205,
+          6636224.466227363
+        ],
+        [
+          639813.3966367205,
+          6636223.5662273625
+        ],
+        [
+          639811.0966367206,
+          6636223.366227362
+        ],
+        [
+          639809.1966367206,
+          6636224.0662273625
+        ],
+        [
+          639807.8966367205,
+          6636225.366227362
+        ],
+        [
+          639806.9966367206,
+          6636227.366227362
+        ],
+        [
+          639806.3966367205,
+          6636229.766227363
+        ],
+        [
+          639805.8966367205,
+          6636232.266227363
+        ],
+        [
+          639805.3966367205,
+          6636234.5662273625
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          283,
+          410
+        ],
+        [
+          291,
+          379
+        ],
+        [
+          304,
+          349
+        ],
+        [
+          317,
+          318
+        ],
+        [
+          334,
+          286
+        ],
+        [
+          350,
+          263
+        ],
+        [
+          369,
+          245
+        ],
+        [
+          391,
+          231
+        ],
+        [
+          413,
+          227
+        ],
+        [
+          435,
+          232
+        ],
+        [
+          455,
+          243
+        ],
+        [
+          472,
+          259
+        ],
+        [
+          486,
+          280
+        ],
+        [
+          497,
+          307
+        ],
+        [
+          507,
+          338
+        ],
+        [
+          515,
+          370
+        ],
+        [
+          522,
+          397
+        ],
+        [
+          523,
+          420
+        ],
+        [
+          516,
+          439
+        ],
+        [
+          503,
+          456
+        ],
+        [
+          483,
+          471
+        ],
+        [
+          459,
+          485
+        ],
+        [
+          434,
+          501
+        ],
+        [
+          410,
+          518
+        ],
+        [
+          386,
+          533
+        ],
+        [
+          362,
+          542
+        ],
+        [
+          339,
+          544
+        ],
+        [
+          320,
+          537
+        ],
+        [
+          307,
+          524
+        ],
+        [
+          298,
+          504
+        ],
+        [
+          292,
+          480
+        ],
+        [
+          287,
+          455
+        ],
+        [
+          282,
+          432
+        ]
+      ],
+      "tracePanel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          639777.1966367206,
+          6636197.766227363,
+          639857.1966367206,
+          6636277.766227363
+        ],
+        "geoTransform": [
+          639777.1966367206,
+          0.1,
+          0.0,
+          6636277.766227363,
+          0.0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "evidence": {
+        "source": "Lantmateriet Ortofoto Nedladdning; authenticated orto-o2-2025 RGBI",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "sourceFiles": [
+          {
+            "id": "stora-18-surfaces",
+            "rasterFile": "stora-18-surfaces.tif",
+            "rgbFile": "stora-18-surfaces.png",
+            "sha256": "7a0600c0076e035f78c1647d23c0638203ab41fd1cfb2801a7bf6615eb197952",
+            "rgbSha256": "ab4f78e74b65cae2cc647aa3058bb10e18da318ccfb8c08853f75bcd08fcc2b6",
+            "requestSha256": "222cd05a8d9bb65c24f1eb4db9872f320ed665c1794a821b95cff0cbc834513a",
+            "bytes": 2949880,
+            "boundsEpsg3006": [
+              639764.96,
+              6636066.399999999,
+              639892.64,
+              6636290.56
+            ],
+            "geoTransform": [
+              639764.96,
+              0.16,
+              0.0,
+              6636290.56,
+              0.0,
+              -0.16
+            ],
+            "width": 798,
+            "height": 1401,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1.0,
+            "acquiredAt": "2026-09-09T16:50:11.008730+00:00",
+            "sources": [
+              {
+                "id": "o66350_6375_25_mr25",
+                "capturedAt": "2025-06-14T09:25:58Z",
+                "captureStart": "2025-06-14T09:25:42Z",
+                "captureEnd": "2025-06-15T09:30:32Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          }
+        ],
+        "uncertaintyM": 1.2,
+        "sourceHorizontalAccuracyM": null,
+        "acceptance": "Visible boundary reviewed manually; no fitted displacement or inferred elevation",
+        "note": "The older polygon cuts across the rounded northern putting-surface end and approximates its southwest edge with long angular segments. Follow the visible turf transition; the southern approach and surrounding collar stay outside the green. The diffuse edge carries 1.2 m interpretation uncertainty."
+      },
+      "comparison": {
+        "beforeAreaM2": 525.31,
+        "afterAreaM2": 537.7218015,
+        "boundaryHausdorffMetres": 2.4107478121688137
+      }
+    }
+  ]
+}

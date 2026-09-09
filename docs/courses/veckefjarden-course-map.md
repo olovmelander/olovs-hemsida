@@ -1,5 +1,10 @@
 # Veckefjärdens GC — the course, feature by feature
 
+> Superseded for reviewed surfaces on 2026-09-09 by the
+> [Lantmateriet orthophoto alignment](../../geobuild/mapping/README.md).
+> The inventory below records the earlier model, including limitations that the
+> new imagery has since resolved; its counts are historical.
+>
 > Compiled 2026-09-05. This is the inventory of everything the model knows about the
 > place, by category, with where each thing came from, how it was checked, and what is
 > still missing. The evidence for the ground itself is in

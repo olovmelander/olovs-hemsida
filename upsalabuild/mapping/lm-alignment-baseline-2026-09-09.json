@@ -1,0 +1,994 @@
+{
+  "schemaVersion": 1,
+  "audit": "upsala-lm-horizontal-alignment-v1",
+  "generatedAt": "2026-09-09T16:49:06.331Z",
+  "methodology": {
+    "population": "Every stored route, green-ring, physical-tee-ring, fairway-ring and bunker-ring vertex of both shipped course models. Repeated vertices are retained; scenery/infra and intermediate mesh samples are outside this population.",
+    "exactProjection": "Invert the declared legacy flat-earth frame to latitude/longitude, then use the repository Kruger-series SWEREF 99 TM forward projection. Exact means nonlinear projection instead of affine approximation; this is not an independent survey.",
+    "runtimeProjection": "Use the runtime legacyGridBridge.toGrid plus the configured projected legacy origin; compare Euclidean EPSG:3006 distances with nonlinear projection.",
+    "affineApproximationOnly": "Use the nonlinear projected origin for both paths, isolating affine curvature error from the configured origin rounding difference.",
+    "quantiles": "Ascending residuals; p50/p95 select index floor(count*q), capped at count-1. Units are metres; output rounded to 9 decimals.",
+    "roundtrip": "Forward then inverse repository projection and declared local frame. Numerical closure only; it does not validate orthophoto registration or original pixel traces.",
+    "assetHashes": "Every referenced course, routing, fallback, ground, shell and tile payload is read and checked against byte count and SHA-256. Each layer digest hashes JSON.stringify of {tileId,url,bytes,sha256} references sorted by tileId.",
+    "limitations": "No imagery pixels or independent control points are compared. No geometry/frame/terrain is changed. Orthophoto capture age, edge interpretation and source positional uncertainty remain separate limits."
+  },
+  "implementation": [
+    {
+      "path": "upsalabuild/mapping/check-lm-alignment.mjs",
+      "bytes": 13277,
+      "sha256": "4c0db22cba1a4f1c561bb60419d8512200f3467d0f325d32923aee2f9f47a8de",
+      "normalizedTextSha256": "4c0db22cba1a4f1c561bb60419d8512200f3467d0f325d32923aee2f9f47a8de"
+    },
+    {
+      "path": "apps/golf/src/engine/geodetic-frame.mjs",
+      "bytes": 10532,
+      "sha256": "6c04603789ae1fb6c2a471abbab4fe6332207062e892f8106383ac46fcac0fb7",
+      "normalizedTextSha256": "cf22f4674f63930b40430eafe65908270d9d0d2e46d7517cd111c586ee350fd0"
+    },
+    {
+      "path": "apps/golf/src/engine/v2-upsala-config.mjs",
+      "bytes": 10728,
+      "sha256": "7808477e9a4931d45741fc4e49022a5b50f1c9ed31edc5e5619f54309268bdb0",
+      "normalizedTextSha256": "98dccfe0caa99e6ec7f44cba6172b0f55102ea8aa4197a303984ab4856a46b10"
+    },
+    {
+      "path": "packages/course-geo/chmv2/projection.mjs",
+      "bytes": 5095,
+      "sha256": "922dad99e9b4502350207d4b0b2a1551c72913f0bc73d07d52f60cf0a6d48dcc",
+      "normalizedTextSha256": "922dad99e9b4502350207d4b0b2a1551c72913f0bc73d07d52f60cf0a6d48dcc"
+    }
+  ],
+  "courses": [
+    {
+      "slug": "upsala",
+      "sourceModel": {
+        "path": "upsalabuild/course-model.json",
+        "bytes": 732704,
+        "sha256": "becbfca4ab43408ffc7003eb31051e5ad7700701b80add47f9a55a36225abb5d",
+        "normalizedTextSha256": "becbfca4ab43408ffc7003eb31051e5ad7700701b80add47f9a55a36225abb5d"
+      },
+      "legacyHeightfields": {
+        "path": "upsalabuild/heightfields.json",
+        "bytes": 755771,
+        "sha256": "eef8475eb961b98835eff797a65058d224f909728c963108481683e777287cf4",
+        "normalizedTextSha256": "eef8475eb961b98835eff797a65058d224f909728c963108481683e777287cf4"
+      },
+      "protectedRoutingCardMarkersSha256": "18be58ca38da3429f57379501f636c153fad8a04c773c6db59c3887a11cd95fb",
+      "bridge": {
+        "rotationDegrees": 2.157738349,
+        "scaleX": 0.997659212,
+        "scaleZ": 0.999356507,
+        "exactProjectedLegacyOrigin": [
+          639830.27051645,
+          6636114.392078411
+        ],
+        "configuredProjectedLegacyOrigin": {
+          "easting": 639830.271,
+          "northing": 6636114.391
+        },
+        "projectedOriginDifferenceMetres": 0.001181859
+      },
+      "runtimeVsExactProjection": {
+        "count": 2749,
+        "p50Metres": 0.016133318,
+        "p95Metres": 0.03929565,
+        "maxMetres": 0.05058685,
+        "worst": {
+          "hole": 6,
+          "geometry": "green",
+          "vertex": 5,
+          "localXZ": [
+            -329.2,
+            529.4
+          ],
+          "exactEPSG3006": [
+            639520.429305489,
+            6635572.616739812
+          ],
+          "runtimeEPSG3006": [
+            639520.477703156,
+            6635572.602019243
+          ]
+        }
+      },
+      "affineApproximationOnly": {
+        "count": 2749,
+        "p50Metres": 0.015796108,
+        "p95Metres": 0.038913217,
+        "maxMetres": 0.049818381,
+        "worst": {
+          "hole": 6,
+          "geometry": "green",
+          "vertex": 5,
+          "localXZ": [
+            -329.2,
+            529.4
+          ],
+          "exactEPSG3006": [
+            639520.429305489,
+            6635572.616739812
+          ],
+          "runtimeEPSG3006": [
+            639520.477703156,
+            6635572.602019243
+          ]
+        }
+      },
+      "exactProjectionRoundtrip": {
+        "count": 2749,
+        "p50Metres": 3.3e-8,
+        "p95Metres": 3.3e-8,
+        "maxMetres": 3.4e-8,
+        "worst": {
+          "hole": 3,
+          "geometry": "bunker/2",
+          "vertex": 12,
+          "localXZ": [
+            456.7,
+            202
+          ],
+          "exactEPSG3006": [
+            640295.35196706,
+            6635929.669619678
+          ],
+          "runtimeEPSG3006": [
+            640295.328313965,
+            6635929.639685447
+          ]
+        }
+      },
+      "perHole": [
+        {
+          "hole": 1,
+          "count": 171,
+          "p50Metres": 0.005542262,
+          "p95Metres": 0.013045606,
+          "maxMetres": 0.013500205,
+          "worst": {
+            "hole": 1,
+            "geometry": "green",
+            "vertex": 11,
+            "localXZ": [
+              288.9,
+              74.8
+            ],
+            "exactEPSG3006": [
+              640122.466666856,
+              6636050.511241338
+            ],
+            "runtimeEPSG3006": [
+              640122.461606639,
+              6636050.498725359
+            ]
+          }
+        },
+        {
+          "hole": 2,
+          "count": 92,
+          "p50Metres": 0.014982474,
+          "p95Metres": 0.019254114,
+          "maxMetres": 0.019527576,
+          "worst": {
+            "hole": 2,
+            "geometry": "bunker/2",
+            "vertex": 1,
+            "localXZ": [
+              319.8,
+              -139.9
+            ],
+            "exactEPSG3006": [
+              640145.310382282,
+              6636266.365400768
+            ],
+            "runtimeEPSG3006": [
+              640145.32332753,
+              6636266.350780685
+            ]
+          }
+        },
+        {
+          "hole": 3,
+          "count": 178,
+          "p50Metres": 0.026543277,
+          "p95Metres": 0.037162711,
+          "maxMetres": 0.03815137,
+          "worst": {
+            "hole": 3,
+            "geometry": "bunker/2",
+            "vertex": 12,
+            "localXZ": [
+              456.7,
+              202
+            ],
+            "exactEPSG3006": [
+              640295.35196706,
+              6635929.669619678
+            ],
+            "runtimeEPSG3006": [
+              640295.328313965,
+              6635929.639685447
+            ]
+          }
+        },
+        {
+          "hole": 4,
+          "count": 154,
+          "p50Metres": 0.007684259,
+          "p95Metres": 0.027844388,
+          "maxMetres": 0.028662628,
+          "worst": {
+            "hole": 4,
+            "geometry": "tee/0",
+            "vertex": 5,
+            "localXZ": [
+              384.619,
+              191.44
+            ],
+            "exactEPSG3006": [
+              640222.75040873,
+              6635937.50032638
+            ],
+            "runtimeEPSG3006": [
+              640222.731572174,
+              6635937.478722436
+            ]
+          }
+        },
+        {
+          "hole": 5,
+          "count": 191,
+          "p50Metres": 0.004810455,
+          "p95Metres": 0.008627254,
+          "maxMetres": 0.010873817,
+          "worst": {
+            "hole": 5,
+            "geometry": "fairway/0",
+            "vertex": 12,
+            "localXZ": [
+              129.942,
+              311.72
+            ],
+            "exactEPSG3006": [
+              639972.17980389,
+              6635807.599026362
+            ],
+            "runtimeEPSG3006": [
+              639972.169575167,
+              6635807.595336765
+            ]
+          }
+        },
+        {
+          "hole": 6,
+          "count": 86,
+          "p50Metres": 0.025074329,
+          "p95Metres": 0.04960587,
+          "maxMetres": 0.05058685,
+          "worst": {
+            "hole": 6,
+            "geometry": "green",
+            "vertex": 5,
+            "localXZ": [
+              -329.2,
+              529.4
+            ],
+            "exactEPSG3006": [
+              639520.429305489,
+              6635572.616739812
+            ],
+            "runtimeEPSG3006": [
+              639520.477703156,
+              6635572.602019243
+            ]
+          }
+        },
+        {
+          "hole": 7,
+          "count": 154,
+          "p50Metres": 0.03270717,
+          "p95Metres": 0.035733161,
+          "maxMetres": 0.038642463,
+          "worst": {
+            "hole": 7,
+            "geometry": "route",
+            "vertex": 0,
+            "localXZ": [
+              -296.2,
+              444.5
+            ],
+            "exactEPSG3006": [
+              639550.296395118,
+              6635658.754009751
+            ],
+            "runtimeEPSG3006": [
+              639550.333071293,
+              6635658.741840193
+            ]
+          }
+        },
+        {
+          "hole": 8,
+          "count": 179,
+          "p50Metres": 0.024283409,
+          "p95Metres": 0.03672553,
+          "maxMetres": 0.037666993,
+          "worst": {
+            "hole": 8,
+            "geometry": "tee/1",
+            "vertex": 15,
+            "localXZ": [
+              -519.721,
+              -14.346
+            ],
+            "exactEPSG3006": [
+              639309.160091215,
+              6636109.159930293
+            ],
+            "runtimeEPSG3006": [
+              639309.159471254,
+              6636109.122268403
+            ]
+          }
+        },
+        {
+          "hole": 9,
+          "count": 153,
+          "p50Metres": 0.008193313,
+          "p95Metres": 0.024930684,
+          "maxMetres": 0.026302049,
+          "worst": {
+            "hole": 9,
+            "geometry": "green",
+            "vertex": 11,
+            "localXZ": [
+              181.4,
+              -505.7
+            ],
+            "exactEPSG3006": [
+              639992.889643544,
+              6636626.908752553
+            ],
+            "runtimeEPSG3006": [
+              639992.915455683,
+              6636626.90369971
+            ]
+          }
+        },
+        {
+          "hole": 10,
+          "count": 128,
+          "p50Metres": 0.039560722,
+          "p95Metres": 0.046490194,
+          "maxMetres": 0.047516155,
+          "worst": {
+            "hole": 10,
+            "geometry": "bunker/2",
+            "vertex": 1,
+            "localXZ": [
+              306.1,
+              -537.8
+            ],
+            "exactEPSG3006": [
+              640116.564286054,
+              6636663.720458962
+            ],
+            "runtimeEPSG3006": [
+              640116.610045185,
+              6636663.707657131
+            ]
+          }
+        },
+        {
+          "hole": 11,
+          "count": 131,
+          "p50Metres": 0.010403164,
+          "p95Metres": 0.048129476,
+          "maxMetres": 0.048947286,
+          "worst": {
+            "hole": 11,
+            "geometry": "tee/1",
+            "vertex": 7,
+            "localXZ": [
+              292.114,
+              -585.293
+            ],
+            "exactEPSG3006": [
+              640100.764333229,
+              6636710.681380483
+            ],
+            "runtimeEPSG3006": [
+              640100.811872139,
+              6636710.669723347
+            ]
+          }
+        },
+        {
+          "hole": 12,
+          "count": 149,
+          "p50Metres": 0.034514399,
+          "p95Metres": 0.039284607,
+          "maxMetres": 0.04005498,
+          "worst": {
+            "hole": 12,
+            "geometry": "green",
+            "vertex": 15,
+            "localXZ": [
+              -416.3,
+              -286.5
+            ],
+            "exactEPSG3006": [
+              639402.527226546,
+              6636385.186797344
+            ],
+            "runtimeEPSG3006": [
+              639402.496227431,
+              6636385.161430905
+            ]
+          }
+        },
+        {
+          "hole": 13,
+          "count": 130,
+          "p50Metres": 0.020281406,
+          "p95Metres": 0.03370286,
+          "maxMetres": 0.034523549,
+          "worst": {
+            "hole": 13,
+            "geometry": "tee/1",
+            "vertex": 0,
+            "localXZ": [
+              -404.127,
+              -239.103
+            ],
+            "exactEPSG3006": [
+              639416.499779873,
+              6636338.25078696
+            ],
+            "runtimeEPSG3006": [
+              639416.474818379,
+              6636338.226937448
+            ]
+          }
+        },
+        {
+          "hole": 14,
+          "count": 99,
+          "p50Metres": 0.012257024,
+          "p95Metres": 0.015538172,
+          "maxMetres": 0.015993332,
+          "worst": {
+            "hole": 14,
+            "geometry": "tee/0",
+            "vertex": 18,
+            "localXZ": [
+              -121.6,
+              -503.978
+            ],
+            "exactEPSG3006": [
+              639689.500327704,
+              6636613.75050477
+            ],
+            "runtimeEPSG3006": [
+              639689.484752312,
+              6636613.746872437
+            ]
+          }
+        },
+        {
+          "hole": 15,
+          "count": 152,
+          "p50Metres": 0.016387003,
+          "p95Metres": 0.020458543,
+          "maxMetres": 0.020752603,
+          "worst": {
+            "hole": 15,
+            "geometry": "fairway/0",
+            "vertex": 44,
+            "localXZ": [
+              -373.36,
+              -61.184
+            ],
+            "exactEPSG3006": [
+              639454.00044448,
+              6636161.50081343
+            ],
+            "runtimeEPSG3006": [
+              639453.995235109,
+              6636161.4807253
+            ]
+          }
+        },
+        {
+          "hole": 16,
+          "count": 227,
+          "p50Metres": 0.018741795,
+          "p95Metres": 0.027656462,
+          "maxMetres": 0.028787455,
+          "worst": {
+            "hole": 16,
+            "geometry": "green",
+            "vertex": 28,
+            "localXZ": [
+              -228.707,
+              433.647
+            ],
+            "exactEPSG3006": [
+              639617.499806089,
+              6635672.148842778
+            ],
+            "runtimeEPSG3006": [
+              639617.527574691,
+              6635672.141251845
+            ]
+          }
+        },
+        {
+          "hole": 17,
+          "count": 199,
+          "p50Metres": 0.007765409,
+          "p95Metres": 0.023888191,
+          "maxMetres": 0.025189931,
+          "worst": {
+            "hole": 17,
+            "geometry": "tee/0",
+            "vertex": 17,
+            "localXZ": [
+              -187.067,
+              467.867
+            ],
+            "exactEPSG3006": [
+              639660.500301603,
+              6635639.500296399
+            ],
+            "runtimeEPSG3006": [
+              639660.524917948,
+              6635639.494951481
+            ]
+          }
+        },
+        {
+          "hole": 18,
+          "count": 176,
+          "p50Metres": 0.001248751,
+          "p95Metres": 0.009053207,
+          "maxMetres": 0.009838894,
+          "worst": {
+            "hole": 18,
+            "geometry": "route",
+            "vertex": 0,
+            "localXZ": [
+              -135.7,
+              234.6
+            ],
+            "exactEPSG3006": [
+              639703.178364768,
+              6635874.688580298
+            ],
+            "runtimeEPSG3006": [
+              639703.187602811,
+              6635874.685194681
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "sourceModel": {
+        "path": "upsalamellanbuild/course-model.json",
+        "bytes": 660016,
+        "sha256": "23cf42493f6d7dc7be60569e06967f2c94605c2ae6a3e9d6bd670c7e85bee39b",
+        "normalizedTextSha256": "23cf42493f6d7dc7be60569e06967f2c94605c2ae6a3e9d6bd670c7e85bee39b"
+      },
+      "legacyHeightfields": {
+        "path": "upsalamellanbuild/heightfields.json",
+        "bytes": 755771,
+        "sha256": "eef8475eb961b98835eff797a65058d224f909728c963108481683e777287cf4",
+        "normalizedTextSha256": "eef8475eb961b98835eff797a65058d224f909728c963108481683e777287cf4"
+      },
+      "protectedRoutingCardMarkersSha256": "5d242e7dd2b88d5efb3cfcbc9b355909dc46b46411ed2bf6db4cc5074231a0ad",
+      "bridge": {
+        "rotationDegrees": 2.157738349,
+        "scaleX": 0.997659212,
+        "scaleZ": 0.999356507,
+        "exactProjectedLegacyOrigin": [
+          639830.27051645,
+          6636114.392078411
+        ],
+        "configuredProjectedLegacyOrigin": {
+          "easting": 639830.271,
+          "northing": 6636114.391
+        },
+        "projectedOriginDifferenceMetres": 0.001181859
+      },
+      "runtimeVsExactProjection": {
+        "count": 1027,
+        "p50Metres": 0.061373457,
+        "p95Metres": 0.184718153,
+        "maxMetres": 0.194735777,
+        "worst": {
+          "hole": 3,
+          "geometry": "green",
+          "vertex": 9,
+          "localXZ": [
+            1170.612,
+            -175.508
+          ],
+          "exactEPSG3006": [
+            640996.124707808,
+            6636334.250352354
+          ],
+          "runtimeEPSG3006": [
+            640996.185364942,
+            6636334.065304427
+          ]
+        }
+      },
+      "affineApproximationOnly": {
+        "count": 1027,
+        "p50Metres": 0.060459902,
+        "p95Metres": 0.183536507,
+        "maxMetres": 0.193560437,
+        "worst": {
+          "hole": 3,
+          "geometry": "green",
+          "vertex": 9,
+          "localXZ": [
+            1170.612,
+            -175.508
+          ],
+          "exactEPSG3006": [
+            640996.124707808,
+            6636334.250352354
+          ],
+          "runtimeEPSG3006": [
+            640996.185364942,
+            6636334.065304427
+          ]
+        }
+      },
+      "exactProjectionRoundtrip": {
+        "count": 1027,
+        "p50Metres": 3.4e-8,
+        "p95Metres": 3.4e-8,
+        "maxMetres": 3.5e-8,
+        "worst": {
+          "hole": 4,
+          "geometry": "fairway/0",
+          "vertex": 40,
+          "localXZ": [
+            930.597,
+            -95.575
+          ],
+          "exactEPSG3006": [
+            640758.761828753,
+            6636245.197215987
+          ],
+          "runtimeEPSG3006": [
+            640758.789276299,
+            6636245.079602743
+          ]
+        }
+      },
+      "perHole": [
+        {
+          "hole": 1,
+          "count": 119,
+          "p50Metres": 0.031065818,
+          "p95Metres": 0.041959498,
+          "maxMetres": 0.042464625,
+          "worst": {
+            "hole": 1,
+            "geometry": "green",
+            "vertex": 11,
+            "localXZ": [
+              447.609,
+              -257.582
+            ],
+            "exactEPSG3006": [
+              640268.875290012,
+              6636388.875891318
+            ],
+            "runtimeEPSG3006": [
+              640268.907701814,
+              6636388.848455585
+            ]
+          }
+        },
+        {
+          "hole": 2,
+          "count": 127,
+          "p50Metres": 0.066445925,
+          "p95Metres": 0.086993196,
+          "maxMetres": 0.087738376,
+          "worst": {
+            "hole": 2,
+            "geometry": "green",
+            "vertex": 10,
+            "localXZ": [
+              762.028,
+              -176.034
+            ],
+            "exactEPSG3006": [
+              640586.874551183,
+              6636319.250416292
+            ],
+            "runtimeEPSG3006": [
+              640586.913277502,
+              6636319.171687041
+            ]
+          }
+        },
+        {
+          "hole": 3,
+          "count": 140,
+          "p50Metres": 0.151461404,
+          "p95Metres": 0.193949684,
+          "maxMetres": 0.194735777,
+          "worst": {
+            "hole": 3,
+            "geometry": "green",
+            "vertex": 9,
+            "localXZ": [
+              1170.612,
+              -175.508
+            ],
+            "exactEPSG3006": [
+              640996.124707808,
+              6636334.250352354
+            ],
+            "runtimeEPSG3006": [
+              640996.185364942,
+              6636334.065304427
+            ]
+          }
+        },
+        {
+          "hole": 4,
+          "count": 122,
+          "p50Metres": 0.126294783,
+          "p95Metres": 0.186672655,
+          "maxMetres": 0.188329485,
+          "worst": {
+            "hole": 4,
+            "geometry": "tee/0",
+            "vertex": 8,
+            "localXZ": [
+              1166.618,
+              -106.405
+            ],
+            "exactEPSG3006": [
+              640994.749655005,
+              6636265.000431698
+            ],
+            "runtimeEPSG3006": [
+              640994.788286663,
+              6636264.816107011
+            ]
+          }
+        },
+        {
+          "hole": 5,
+          "count": 72,
+          "p50Metres": 0.075927281,
+          "p95Metres": 0.082738181,
+          "maxMetres": 0.083250142,
+          "worst": {
+            "hole": 5,
+            "geometry": "tee/0",
+            "vertex": 6,
+            "localXZ": [
+              772.634,
+              -70.374
+            ],
+            "exactEPSG3006": [
+              640601.500168567,
+              6636214.000333055
+            ],
+            "runtimeEPSG3006": [
+              640601.517362921,
+              6636213.918877912
+            ]
+          }
+        },
+        {
+          "hole": 6,
+          "count": 161,
+          "p50Metres": 0.074583662,
+          "p95Metres": 0.086326547,
+          "maxMetres": 0.086959872,
+          "worst": {
+            "hole": 6,
+            "geometry": "tee/0",
+            "vertex": 5,
+            "localXZ": [
+              774.239,
+              137.951
+            ],
+            "exactEPSG3006": [
+              640610.999927496,
+              6636005.751000887
+            ],
+            "runtimeEPSG3006": [
+              640610.973628441,
+              6636005.668113137
+            ]
+          }
+        },
+        {
+          "hole": 7,
+          "count": 77,
+          "p50Metres": 0.043377664,
+          "p95Metres": 0.055759384,
+          "maxMetres": 0.056107265,
+          "worst": {
+            "hole": 7,
+            "geometry": "green",
+            "vertex": 14,
+            "localXZ": [
+              546.528,
+              259.325
+            ],
+            "exactEPSG3006": [
+              640387.499615643,
+              6635875.750943066
+            ],
+            "runtimeEPSG3006": [
+              640387.46295282,
+              6635875.708471161
+            ]
+          }
+        },
+        {
+          "hole": 8,
+          "count": 132,
+          "p50Metres": 0.040908628,
+          "p95Metres": 0.057388487,
+          "maxMetres": 0.058032604,
+          "worst": {
+            "hole": 8,
+            "geometry": "green",
+            "vertex": 12,
+            "localXZ": [
+              627.839,
+              -115.869
+            ],
+            "exactEPSG3006": [
+              640454.750031521,
+              6636254.000373345
+            ],
+            "runtimeEPSG3006": [
+              640454.771516356,
+              6636253.946464301
+            ]
+          }
+        },
+        {
+          "hole": 9,
+          "count": 77,
+          "p50Metres": 0.024771963,
+          "p95Metres": 0.031972728,
+          "maxMetres": 0.032328986,
+          "worst": {
+            "hole": 9,
+            "geometry": "tee/2",
+            "vertex": 5,
+            "localXZ": [
+              403.937,
+              -201.606
+            ],
+            "exactEPSG3006": [
+              640227.250070165,
+              6636331.250606199
+            ],
+            "runtimeEPSG3006": [
+              640227.273167653,
+              6636331.227986088
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "published": {
+    "rootIndex": {
+      "path": "apps/golf/public/courses/v2-index.json",
+      "bytes": 5935,
+      "sha256": "b666a89efd4d79fa9308a9e7dcd53b270aa769ccc54402b8ba7488848ebcb8f8",
+      "normalizedTextSha256": "b666a89efd4d79fa9308a9e7dcd53b270aa769ccc54402b8ba7488848ebcb8f8"
+    },
+    "courses": [
+      {
+        "slug": "upsala",
+        "manifest": {
+          "url": "courses/upsala/course-v2-ae3b70009af21b12bd0186b50027a222f92a9502b2e2135136b45f539d62f853.json",
+          "bytes": 3997,
+          "sha256": "ae3b70009af21b12bd0186b50027a222f92a9502b2e2135136b45f539d62f853"
+        },
+        "routing": {
+          "url": "courses/upsala/routing/06977c93d9e9ccb082499a632249ecfd6a2b79262d43db0b465042c02d2d3dc8.bvch",
+          "bytes": 2201,
+          "sha256": "06977c93d9e9ccb082499a632249ecfd6a2b79262d43db0b465042c02d2d3dc8"
+        },
+        "fallbackV1": {
+          "url": "courses/upsala/pack.bin",
+          "bytes": 744341,
+          "sha256": "ccb4ea55db18b939e83c6a1d9fc2505d9eca286d45480527426b4ad769f9ab6d"
+        }
+      },
+      {
+        "slug": "upsala-mellanbanan",
+        "manifest": {
+          "url": "courses/upsala-mellanbanan/course-v2-8338d68c495469f81092a11fd81ca49891967b67b68c19ce5e84af4a18fe251c.json",
+          "bytes": 2534,
+          "sha256": "8338d68c495469f81092a11fd81ca49891967b67b68c19ce5e84af4a18fe251c"
+        },
+        "routing": {
+          "url": "courses/upsala-mellanbanan/routing/98b11e7c055695686cbd662cb35c71e8b873884385fdefb9e6a6c96e1e73a96c.bvch",
+          "bytes": 1526,
+          "sha256": "98b11e7c055695686cbd662cb35c71e8b873884385fdefb9e6a6c96e1e73a96c"
+        },
+        "fallbackV1": {
+          "url": "courses/upsala-mellanbanan/pack.bin",
+          "bytes": 741048,
+          "sha256": "79e38f57dca2969b49a336236cfdaf5f51e424278dfc3d7cb88ceb2c69603f2c"
+        }
+      }
+    ],
+    "ground": {
+      "manifest": {
+        "url": "grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json",
+        "bytes": 263314,
+        "sha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53"
+      },
+      "frame": {
+        "axisMapping": {
+          "worldX": "easting - originEasting",
+          "worldY": "heightRH2000 - originHeightRH2000",
+          "worldZ": "originNorthing - northing"
+        },
+        "compoundCrs": "EPSG:5845",
+        "fingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "horizontalCrs": "EPSG:3006",
+        "origin": {
+          "easting": 640143.5,
+          "heightRH2000": 13.28,
+          "northing": 6636145.5
+        },
+        "verticalCrs": "EPSG:5613"
+      },
+      "shell": {
+        "url": "grounds/upsala/terrain/3733c820d0a9448e4a23b4718e1319af3ff90292c46af359767af2e027c830ff.bvch",
+        "bytes": 71292,
+        "sha256": "3733c820d0a9448e4a23b4718e1319af3ff90292c46af359767af2e027c830ff"
+      },
+      "layers": {
+        "objects": {
+          "tileReferenceCount": 58,
+          "uniqueAssets": 58,
+          "totalUniqueBytes": 191365,
+          "sortedReferencesSha256": "e1c34a197faf14f35c82d04df8cbb31185031dc16102f58a3d126a2cfbfe1b1d"
+        },
+        "stands": {
+          "tileReferenceCount": 64,
+          "uniqueAssets": 64,
+          "totalUniqueBytes": 370838,
+          "sortedReferencesSha256": "2e918641911564dd0d9d10905d7f6a50e1cd0565b78d1c85f28b40eb2c9e440c"
+        },
+        "surface": {
+          "tileReferenceCount": 0,
+          "uniqueAssets": 0,
+          "totalUniqueBytes": 0,
+          "sortedReferencesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "terrain": {
+          "tileReferenceCount": 277,
+          "uniqueAssets": 277,
+          "totalUniqueBytes": 18022827,
+          "sortedReferencesSha256": "4ee095780560186c3f5deae64dd2f5c9a2e392a5b24905f4d29ed2c947122e08"
+        }
+      }
+    },
+    "verifiedAssetCount": 407
+  }
+}

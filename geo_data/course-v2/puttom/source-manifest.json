@@ -84,14 +84,14 @@
         63.32
       ],
       "acquiredAt": null,
-      "capturedAt": null,
+      "capturedAt": "2024-06-27",
       "checksum": null,
-      "checksumReason": "The 2024 U2 16 cm RGBI campaign is recorded in D2; its data assets advertise sizes but no source checksums and authenticated windows remain pending.",
+      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Measurement input for surfaces, forest edges, rocks and objects; never a runtime ground texture."
+      "notes": "Authenticated orto-u2-2024 access verified 2026-09-09: 45 RGBI windows at 0.16 m, all fully valid, cover all eighteen holes and facilities. The provider product/full-TIFF lifecycle remains planned because only bounded windows were acquired. Source imagery remains outside Git and the app; image interpretation and independent survey approval are separate."
     },
     {
       "id": "laser-lm-skog",
@@ -333,6 +333,114 @@
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
       "notes": "Coordinate extraction lacks acquisition date, survey method and approved derivative rights; comparison only."
+    },
+    {
+      "id": "imagery-lm-o70225-6950-25-mr24",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6950_25_mr24.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.88856944443991,
+        63.27683489393747,
+        18.941342135982143,
+        63.30058825017895
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2024-06-27",
+      "checksum": null,
+      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "o70225_6950_25_mr24: 15625 by 15625 native EPSG:3006 RGBI pixels, 749254585 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
+    },
+    {
+      "id": "imagery-lm-o70225-6975-25-mr24",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6975_25_mr24.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.938282698375755,
+        63.27544978912935,
+        18.99108841794243,
+        63.29921914989591
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2024-06-27",
+      "checksum": null,
+      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "o70225_6975_25_mr24: 15625 by 15625 native EPSG:3006 RGBI pixels, 749400749 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
+    },
+    {
+      "id": "imagery-lm-o70250-6950-25-mr24",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70250_6950_25_mr24.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.891590501805787,
+        63.29921914989591,
+        18.94440692581205,
+        63.32297368064156
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2024-06-27",
+      "checksum": null,
+      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "o70250_6950_25_mr24: 15625 by 15625 native EPSG:3006 RGBI pixels, 725998954 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
+    },
+    {
+      "id": "imagery-lm-o70250-6975-25-mr24",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70250_6975_25_mr24.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.941342135982143,
+        63.297832702689334,
+        18.99419164120889,
+        63.32160325257587
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2024-06-27",
+      "checksum": null,
+      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "o70250_6975_25_mr24: 15625 by 15625 native EPSG:3006 RGBI pixels, 756319665 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
     }
   ],
   "artifacts": [
@@ -340,16 +448,21 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "puttombuild/course-model.json",
-      "sha256": "db966f06373c1986c90fdec0fe5387e036457257638f973d94bda5ee20ba7645",
+      "sha256": "8714ffeed308b7459bc992a4efaa4b7087dd090aa60dc0100f86fdc09b3801a3",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
         "esri-imagery-legacy",
         "club-guide-legacy",
-        "golftraxx-legacy"
+        "golftraxx-legacy",
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24"
       ],
       "use": "migration-only",
-      "notes": "Current composite vectors, routing, elevations and scenery inputs."
+      "notes": "Compatibility model incorporating retained native orthophoto pixel traces in its unchanged legacy geographic frame. Unreviewed geometry and legacy height sources retain their existing lineage; no survey or canonical-origin approval is implied."
     },
     {
       "id": "legacy-heightfields",
@@ -402,31 +515,41 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/puttom/migration/course-model.epsg3006.json",
-      "sha256": "4b5ee818964e2575fa4b53bfcbeff120fa23e60cec28e7b4563156eb2b3b7008",
+      "sha256": "8404449d49755cbd5be674f61ec162b44a01e4b25e094e2eceb49400104818e0",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
         "esri-imagery-legacy",
         "club-guide-legacy",
-        "golftraxx-legacy"
+        "golftraxx-legacy",
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24"
       ],
       "use": "migration-only",
-      "notes": "Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+      "notes": "Deterministic conversion of the current compatibility model to absolute EPSG:3006 through the declared legacy frame. Coordinate preservation is a software check; scalar heights and canonical origin remain independently unapproved."
     },
     {
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/puttom/migration/residual-report.json",
-      "sha256": "c1c5eb5fb1e9675255efbdd856af7fb17b174c3e9aa1c6afe20c6e029d041494",
+      "sha256": "b6e7427172a12606454e8abd418c806fffcb5a819e48a395a1ee70a5e0fbd01a",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
         "esri-imagery-legacy",
         "club-guide-legacy",
-        "golftraxx-legacy"
+        "golftraxx-legacy",
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24"
       ],
       "use": "migration-only",
-      "notes": "Candidate origin and scoped migration residuals; not an independent control approval."
+      "notes": "Current software coordinate migration residuals; fitted legacy-frame comparisons do not establish independent survey registration or approve the canonical origin."
     },
     {
       "id": "d2-authoritative-source-discovery",
@@ -474,6 +597,102 @@
       ],
       "use": "discovery-evidence",
       "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    },
+    {
+      "id": "orthophoto-catalogue-verification",
+      "kind": "acquisition",
+      "path": "puttombuild/mapping/lm-ortho-discovery.json",
+      "sha256": "beb17d3fc222e7d5a059b8d66afda4db28b9811f08c6906c1dfaecd61703b13e",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Official STAC search observed 2026-09-09: latest complete Puttom campaign orto-u2-2024, captured 2024-06-27; four exact RGBI tile identities and native grids. Existing D2 discovery remains as baseline evidence."
+    },
+    {
+      "id": "authenticated-ortho-review-plan",
+      "kind": "acquisition",
+      "path": "puttombuild/mapping/lm-ortho-plan.json",
+      "sha256": "5dda645ad4da1af3a7eb94540933752ba45f94edd6326f301afad33eca807045",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The exact acquired plan bytes: 45 native-grid windows, eighteen tee areas, eighteen greens and 9 continuous whole-course context windows. Extents do not establish feature boundaries or survey accuracy."
+    },
+    {
+      "id": "authenticated-ortho-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/puttom/acquisition/orthophoto-review.json",
+      "sha256": "33bb29f4308e2233a5cab49622b9a2534aa890cc9ac660790af2a048618e6fb0",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24"
+      ],
+      "use": "discovery-evidence",
+      "notes": "45/45 windows acquired with valid fraction 1, authenticated TIFF byte access, exact transforms and per-window SHA-256 hashes. Bound to plan SHA-256 5dda645ad4da1af3a7eb94540933752ba45f94edd6326f301afad33eca807045. Source pixels are not committed or shipped."
+    },
+    {
+      "id": "orthophoto-boundary-review-2024",
+      "kind": "control",
+      "path": "puttombuild/mapping/orthophoto-review.json",
+      "sha256": "b996729bea1fc9035114efbc9a506da96eb47f2fe89f5ab9e778492cde470b52",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24",
+        "club-guide-legacy"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Machine visual interpretation of 2024-06-27 native image pixels: 16 greens, 21 tee platforms, 28 numbered virtual tee references, 18 fairway polygons, 34 bunkers, 0 water polygons and 0 paths. Per-feature pixel vertices and source hashes are retained; ambiguous boundaries and independent registration remain unresolved. This is not human survey approval."
+    },
+    {
+      "id": "orthophoto-alignment-audit",
+      "kind": "control",
+      "path": "puttombuild/mapping/alignment-audit.json",
+      "sha256": "c4b8ce8ec2ce61cd211b4331580fdac1d2db952da481df7430e62bd9819281b9",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy",
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source-pixel agreement, runtime-frame residuals, geometry topology and all 72 tee reference statuses. Software validation and machine interpretation, not survey approval."
+    },
+    {
+      "id": "orthophoto-open-water-candidate",
+      "kind": "surface",
+      "path": "puttombuild/mapping/review-water.json",
+      "sha256": "76fc9ed4ba47a965bd6eb173a8767fae36171921588d9668430349fe189e3799",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Unadopted spectral open-water candidate excluding reeds and occluded banks. The runtime hydrological outline and water levels retain their previous source; this candidate does not replace them."
     }
   ],
   "blockers": [
@@ -486,8 +705,8 @@
     {
       "id": "authoritative-assets",
       "severity": "release-blocking",
-      "description": "Official source ids, dates, CRS, checksums and terms are discovered, but authenticated COG, break-geometry and tree-height windows have not been acquired.",
-      "exitGate": "Run the credentialed D2 acquisition, verify clipped outputs and measurements, then record the approved candidate assets without exposing credentials."
+      "description": "Authenticated orthophoto access and 45 fully valid native RGBI windows are now recorded. Remaining source acquisitions, interpretation gaps and independent geometry controls require their own evidence; this intake does not approve unrelated source or survey gates.",
+      "exitGate": "Complete the remaining source-specific acquisitions and unresolved feature review, then verify independent controls before source promotion. Orthophoto byte access and bounded-window hashes are already recorded."
     },
     {
       "id": "zone-a-survey",
@@ -498,7 +717,7 @@
     {
       "id": "legacy-imagery-rights",
       "severity": "release-blocking",
-      "description": "Current geometry depends on unapproved Esri and GolfTraxx derivatives.",
+      "description": "Reviewed features now retain Lantmäteriet orthophoto lineage and attribution. Unreviewed Esri, GolfTraxx and other legacy derivatives remain in the composite and retain their existing production-rights gate.",
       "exitGate": "Re-derive from approved imagery/survey or record explicit production rights."
     }
   ]

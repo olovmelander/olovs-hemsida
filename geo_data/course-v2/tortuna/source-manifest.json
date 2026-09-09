@@ -1,0 +1,238 @@
+{
+  "$schema": "../../../packages/course-geo/source-manifest.schema.json",
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "groundName": "Tortuna Golfklubb",
+  "courseSlugs": [
+    "tortuna"
+  ],
+  "targetBboxWgs84": [
+    16.697,
+    59.641,
+    16.762,
+    59.683
+  ],
+  "legacyFrame": null,
+  "canonicalFrame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "originStatus": "pending-control-approval",
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
+  },
+  "sources": [
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain",
+        "control"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://api.lantmateriet.se/stac-hojd/v1/",
+      "localPath": null,
+      "bboxWgs84": [
+        16.697,
+        59.641,
+        16.762,
+        59.683
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+    },
+    {
+      "id": "imagery-lm-ortho",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
+      "localPath": null,
+      "bboxWgs84": [
+        16.697,
+        59.641,
+        16.762,
+        59.683
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "canopy",
+        "object",
+        "control"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://api.lantmateriet.se/stac-hojd/v1/",
+      "localPath": null,
+      "bboxWgs84": [
+        16.697,
+        59.641,
+        16.762,
+        59.683
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+    },
+    {
+      "id": "tortuna-osm-2026-09-09",
+      "productId": "openstreetmap",
+      "roles": [
+        "topography",
+        "hydrology"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=16.71,59.651,16.744,59.674",
+      "localPath": null,
+      "bboxWgs84": [
+        16.697,
+        59.641,
+        16.762,
+        59.683
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+    },
+    {
+      "id": "tortuna-club-reference",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "planned",
+      "use": "reference-only",
+      "sourceUri": "https://tortunagk.se/spela-golf/banan/",
+      "localPath": null,
+      "bboxWgs84": [
+        16.697,
+        59.641,
+        16.762,
+        59.683
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+    },
+    {
+      "id": "tortuna-golftraxx-reference",
+      "productId": "golftraxx-layout",
+      "roles": [
+        "routing",
+        "control"
+      ],
+      "lifecycle": "planned",
+      "use": "reference-only",
+      "sourceUri": "https://golftraxx.com/playing?coursename=Tortuna+Golfklubb&hole=1&static=true&zipcode=72596SW",
+      "localPath": null,
+      "bboxWgs84": [
+        16.697,
+        59.641,
+        16.762,
+        59.683
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "national-source-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/d2-discovery.json",
+      "sha256": "a88c4c451ec8524e7f9e3e590b3b2660f7abbeaa4bac199d8e791815c12b071f",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Public STAC discovery; metadata coverage does not establish authenticated byte access."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "current-routing-review",
+      "severity": "release-blocking",
+      "description": "GolfTraxx has par 72; current sources and the OSM property label have par 71. No complete surveyed current routing has been acquired.",
+      "exitGate": "Resolve the card and changed hole with current club material and imagery before live routing is exposed."
+    },
+    {
+      "id": "canonical-control-pending",
+      "severity": "release-blocking",
+      "description": "Independent horizontal and RH 2000 controls are not yet acquired.",
+      "exitGate": "Acquire independent controls and approve residuals."
+    },
+    {
+      "id": "surface-intake-pending",
+      "severity": "release-blocking",
+      "description": "No observed playing-surface outlines acquired yet.",
+      "exitGate": "Review current orthophoto-derived outlines and provenance per hole."
+    },
+    {
+      "id": "media-rights-review",
+      "severity": "quality",
+      "description": "Club/Caddee/GolfTraxx are reference-only; raw orthophoto remains private review input.",
+      "exitGate": "Record applicable source terms and derivative decisions before production authority."
+    }
+  ]
+}

@@ -1,5 +1,10 @@
 # Veckefjärdens GC — source dossier
 
+> Update 2026-09-09: native Lantmateriet orthophotos are now acquired and reviewed
+> surface corrections applied. See the [alignment record](../../geobuild/mapping/README.md)
+> for current imagery, validation and remaining limits. The terrain findings below
+> describe the earlier migration and remain historical evidence.
+>
 > Compiled 2026-09-04, for the move to 1 m Lantmäteriet terrain. Everything
 > below was checked on that date against a live source or a committed file, and
 > every claim names the thing that proves it. Where a source contradicts the

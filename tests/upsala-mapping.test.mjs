@@ -13,7 +13,8 @@ describe('reviewed Upsala ground mapping', () => {
     const ids = new Set([...model.holes.flatMap(h => h.bunkers.map(b => b.sourceId)), ...model.scenery.sourceFeatures.filter(f => f.kind === 'bunker').map(f => f.id), ...model.scenery.mappedFeatures.flatMap(f => f.replacesSourceIds || []), ...(model.scenery.retiredSourceFeatures || []).filter(f => f.kind === 'bunker').map(f => f.id)]);
     expect(osm.bunkers.filter(b => !ids.has(b.id))).toEqual([]);
     expect(osm.bunkers).toHaveLength(86);
-    expect(model.scenery.retiredSourceFeatures.filter(f => f.kind === 'bunker').map(f => f.id)).toEqual(['w438984738']);
+    const merged = JSON.parse(fs.readFileSync(new URL('../upsalabuild/mapping/lm-review-front9-2026-09-09.json', import.meta.url))).features.flatMap(f => f.mergedSourceIds || []);
+    expect(model.scenery.retiredSourceFeatures.filter(f => f.kind === 'bunker').map(f => f.id).sort()).toEqual(['w438984738', ...merged].sort());
     expect(model.infra.buildings).toHaveLength(444);
   });
   it('keeps the practice-green island out of the putting turf', () => {

@@ -1,0 +1,2239 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "reviewedAt": "2026-09-09",
+  "method": "Manual native 0.16 m pixel-edge inspection of physical mown tee platforms in the 2025-04-24 Lantmateriet capture.",
+  "sources": {
+    "angso-10-hole": {
+      "id": "angso-10-hole",
+      "rasterFile": "angso-10-hole.tif",
+      "rgbFile": "angso-10-hole.png",
+      "sha256": "5723496a9c27ad70bda76b5227f09da16ed76f3ddbfc03e4ea652650321fb949",
+      "rgbSha256": "52d5ade426ff5d7ea18b929b60d53444747c6caf6f30719dbef204bee16aeb9a",
+      "requestSha256": "10f1e9a0b1828f9e7e250b3b2c277d4912ca16f00cb2bf73bdc73277dbc145b0",
+      "bytes": 15181637,
+      "boundsEpsg3006": [
+        605472.96,
+        6605187.52,
+        605701.44,
+        6605820.0
+      ],
+      "geoTransform": [
+        605472.96,
+        0.16,
+        0.0,
+        6605820.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1428,
+      "height": 3953,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:34.059922+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-11-hole": {
+      "id": "angso-11-hole",
+      "rasterFile": "angso-11-hole.tif",
+      "rgbFile": "angso-11-hole.png",
+      "sha256": "5039205b04fa035d47150ba3e2bcc3675feb1d56b351b2f631eda2140b760ab7",
+      "rgbSha256": "8e0c3753158ec90353deac9a51c459f3b7c044d28a2b9fea327abf846a2911bb",
+      "requestSha256": "072458403a066d45b7b241a1432952657d712103cf1535b3f3ff9717643eea1d",
+      "bytes": 9583115,
+      "boundsEpsg3006": [
+        605631.04,
+        6605719.5200000005,
+        605830.4,
+        6606164.48
+      ],
+      "geoTransform": [
+        605631.04,
+        0.16,
+        0.0,
+        6606164.48,
+        0.0,
+        -0.16
+      ],
+      "width": 1246,
+      "height": 2781,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:35.738718+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-12-hole": {
+      "id": "angso-12-hole",
+      "rasterFile": "angso-12-hole.tif",
+      "rgbFile": "angso-12-hole.png",
+      "sha256": "a53997a26de442fd264cacd71176f14a9552e74edd750705726686f2ccb50650",
+      "rgbSha256": "f8610acc4d8b1a78b64a7c46e9bba745be73c4d24d9f7017df9cfb3377e303f1",
+      "requestSha256": "d6414eb935c201179f0d6142c63e80e24579f28823f29be0f552f11e92e43cb9",
+      "bytes": 6337305,
+      "boundsEpsg3006": [
+        605398.24,
+        6606274.239999999,
+        605650.4,
+        6606504.64
+      ],
+      "geoTransform": [
+        605398.24,
+        0.16,
+        0.0,
+        6606504.64,
+        0.0,
+        -0.16
+      ],
+      "width": 1576,
+      "height": 1440,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:36.951256+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-13-hole": {
+      "id": "angso-13-hole",
+      "rasterFile": "angso-13-hole.tif",
+      "rgbFile": "angso-13-hole.png",
+      "sha256": "1f09c6ca329c5b1592144d80eb1645d52d167b162cb720582095bbb048fe73d8",
+      "rgbSha256": "bd2f1397377b16e573699c3a7c8ac1c0892e74234a87679d3737631f6b20b4c6",
+      "requestSha256": "a271cc9a86ab662ffca73c48ac8d77857045f28357e00ce5bea1e4f6d9aceea4",
+      "bytes": 19147087,
+      "boundsEpsg3006": [
+        605215.04,
+        6606390.5600000005,
+        605596.16,
+        6606855.36
+      ],
+      "geoTransform": [
+        605215.04,
+        0.16,
+        0.0,
+        6606855.36,
+        0.0,
+        -0.16
+      ],
+      "width": 2382,
+      "height": 2905,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:41.450097+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-14-hole": {
+      "id": "angso-14-hole",
+      "rasterFile": "angso-14-hole.tif",
+      "rgbFile": "angso-14-hole.png",
+      "sha256": "a1e995633b033c3eaca6884090b298d7baa4e9fdefc15523e16aaa59049aed88",
+      "rgbSha256": "c8cc90db9514350ff5089cf31958fdecab44921b494adf97de8e5d0fbf74da82",
+      "requestSha256": "282742e31d1e8352e7340fb14218212d915f63a738cc8f72cbec642bed6c4ceb",
+      "bytes": 12093139,
+      "boundsEpsg3006": [
+        605168.48,
+        6606399.84,
+        605483.6799999999,
+        6606773.76
+      ],
+      "geoTransform": [
+        605168.48,
+        0.16,
+        0.0,
+        6606773.76,
+        0.0,
+        -0.16
+      ],
+      "width": 1970,
+      "height": 2337,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:43.298741+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-15-hole": {
+      "id": "angso-15-hole",
+      "rasterFile": "angso-15-hole.tif",
+      "rgbFile": "angso-15-hole.png",
+      "sha256": "6990edf675ff0325a156d4547a5a377bdd0787a4918aa38545688b29729a46c6",
+      "rgbSha256": "321f26c030de5d9d77a54b21222276da4ca347f5d4a710ffb6d0ef3909fdb934",
+      "requestSha256": "0273e03ff4de12254aa4e76336657b0f278b75e6535aab34822315540f01fc3e",
+      "bytes": 6366363,
+      "boundsEpsg3006": [
+        605197.76,
+        6606272.8,
+        605497.12,
+        6606474.88
+      ],
+      "geoTransform": [
+        605197.76,
+        0.16,
+        0.0,
+        6606474.88,
+        0.0,
+        -0.16
+      ],
+      "width": 1871,
+      "height": 1263,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:44.484235+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-16-hole": {
+      "id": "angso-16-hole",
+      "rasterFile": "angso-16-hole.tif",
+      "rgbFile": "angso-16-hole.png",
+      "sha256": "1eab03a069012ed99e79f5435091743cf5254bfd8f1059dc75875dbf829b7d1e",
+      "rgbSha256": "8505e6a58f19cd5b7c0f0013c4444ba7568ff3f9058c29a716ccbb3fcf44584a",
+      "requestSha256": "c0a27e42f3dcd5643e7afbdff6716d8695c97f528d1b6c779832c6c0ba42a5e7",
+      "bytes": 10689901,
+      "boundsEpsg3006": [
+        605189.12,
+        6606084.64,
+        605572.0,
+        6606337.76
+      ],
+      "geoTransform": [
+        605189.12,
+        0.16,
+        0.0,
+        6606337.76,
+        0.0,
+        -0.16
+      ],
+      "width": 2393,
+      "height": 1582,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:46.259501+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-17-hole": {
+      "id": "angso-17-hole",
+      "rasterFile": "angso-17-hole.tif",
+      "rgbFile": "angso-17-hole.png",
+      "sha256": "32e132fc798390af68cdd998c960103fe8f71997f6f9703d05c700f907782514",
+      "rgbSha256": "b1c30a2bdf35025782bc1bd5d5c53fc68d719d786df6dac32ee2820c8739f8ab",
+      "requestSha256": "40968ecef20ca32f9e711bb06680b81c33c8c43a8cec2921f8aa198f7e1a916e",
+      "bytes": 9883115,
+      "boundsEpsg3006": [
+        605317.12,
+        6605686.24,
+        605498.24,
+        6606175.36
+      ],
+      "geoTransform": [
+        605317.12,
+        0.16,
+        0.0,
+        6606175.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1132,
+      "height": 3057,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:48.109529+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    },
+    "angso-18-hole": {
+      "id": "angso-18-hole",
+      "rasterFile": "angso-18-hole.tif",
+      "rgbFile": "angso-18-hole.png",
+      "sha256": "05ae5768e81b61c5d008fe0d21797f628c0fc3cfb30e8b62bf91dc114fd535e8",
+      "rgbSha256": "b8587e0c653561c029ef6c6120d1d4be8883e19f525f20f07e892b0741f67c42",
+      "requestSha256": "29d90ce4977dcd91e85a1bb074fb9a9ad9be293ee17c1af748de00e08c527c25",
+      "bytes": 15791769,
+      "boundsEpsg3006": [
+        605246.72,
+        6605030.720000001,
+        605484.1599999999,
+        6605631.36
+      ],
+      "geoTransform": [
+        605246.72,
+        0.16,
+        0.0,
+        6605631.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1484,
+      "height": 3754,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:16:50.766588+00:00",
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "captureStart": "2025-04-24T08:18:42Z",
+          "captureEnd": "2025-04-24T08:40:23Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceIds": [
+        "o66050_6050_25_mr25"
+      ]
+    }
+  },
+  "holes": [
+    {
+      "n": 10,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-10-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-10-physical-tee-01",
+            "sourceKey": "angso-10-hole",
+            "ringPixels": [
+              [
+                662,
+                3006
+              ],
+              [
+                693,
+                3006
+              ],
+              [
+                705,
+                3019
+              ],
+              [
+                709,
+                3042
+              ],
+              [
+                704,
+                3067
+              ],
+              [
+                695,
+                3080
+              ],
+              [
+                675,
+                3083
+              ],
+              [
+                660,
+                3079
+              ],
+              [
+                651,
+                3067
+              ],
+              [
+                651,
+                3042
+              ],
+              [
+                656,
+                3020
+              ],
+              [
+                662,
+                3006
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-10-physical-tee-02",
+            "sourceKey": "angso-10-hole",
+            "ringPixels": [
+              [
+                476,
+                3403
+              ],
+              [
+                491,
+                3406
+              ],
+              [
+                494,
+                3423
+              ],
+              [
+                485,
+                3448
+              ],
+              [
+                480,
+                3481
+              ],
+              [
+                472,
+                3518
+              ],
+              [
+                464,
+                3549
+              ],
+              [
+                451,
+                3581
+              ],
+              [
+                439,
+                3616
+              ],
+              [
+                426,
+                3648
+              ],
+              [
+                408,
+                3678
+              ],
+              [
+                395,
+                3684
+              ],
+              [
+                384,
+                3670
+              ],
+              [
+                387,
+                3646
+              ],
+              [
+                395,
+                3615
+              ],
+              [
+                403,
+                3578
+              ],
+              [
+                411,
+                3538
+              ],
+              [
+                424,
+                3498
+              ],
+              [
+                440,
+                3463
+              ],
+              [
+                458,
+                3432
+              ],
+              [
+                476,
+                3403
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Two physically visible surfaces: one forward oval and one long contiguous rear platform. The rear edge is partly under bare-tree shadows; no artificial subdivision is inferred."
+      }
+    },
+    {
+      "n": 11,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-11-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-11-physical-tee-01",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                434,
+                1738
+              ],
+              [
+                447,
+                1734
+              ],
+              [
+                458,
+                1740
+              ],
+              [
+                466,
+                1758
+              ],
+              [
+                468,
+                1784
+              ],
+              [
+                465,
+                1807
+              ],
+              [
+                455,
+                1824
+              ],
+              [
+                442,
+                1825
+              ],
+              [
+                431,
+                1812
+              ],
+              [
+                426,
+                1789
+              ],
+              [
+                426,
+                1765
+              ],
+              [
+                434,
+                1738
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-11-physical-tee-02",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                452,
+                2064
+              ],
+              [
+                466,
+                2067
+              ],
+              [
+                473,
+                2088
+              ],
+              [
+                475,
+                2119
+              ],
+              [
+                475,
+                2155
+              ],
+              [
+                476,
+                2192
+              ],
+              [
+                474,
+                2231
+              ],
+              [
+                470,
+                2268
+              ],
+              [
+                463,
+                2295
+              ],
+              [
+                450,
+                2304
+              ],
+              [
+                440,
+                2296
+              ],
+              [
+                436,
+                2272
+              ],
+              [
+                437,
+                2235
+              ],
+              [
+                437,
+                2198
+              ],
+              [
+                440,
+                2162
+              ],
+              [
+                442,
+                2125
+              ],
+              [
+                446,
+                2090
+              ],
+              [
+                452,
+                2064
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-11-physical-tee-03",
+            "sourceKey": "angso-11-hole",
+            "ringPixels": [
+              [
+                422,
+                2388
+              ],
+              [
+                438,
+                2383
+              ],
+              [
+                451,
+                2392
+              ],
+              [
+                458,
+                2413
+              ],
+              [
+                461,
+                2439
+              ],
+              [
+                456,
+                2458
+              ],
+              [
+                445,
+                2472
+              ],
+              [
+                428,
+                2476
+              ],
+              [
+                416,
+                2469
+              ],
+              [
+                409,
+                2448
+              ],
+              [
+                408,
+                2427
+              ],
+              [
+                412,
+                2404
+              ],
+              [
+                422,
+                2388
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Three visible platforms; the middle platform is contiguous across tree shadows. Colour identities and exact marker positions remain unverified."
+      }
+    },
+    {
+      "n": 12,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-12-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-12-physical-tee-01",
+            "sourceKey": "angso-12-hole",
+            "ringPixels": [
+              [
+                1029,
+                854
+              ],
+              [
+                1046,
+                850
+              ],
+              [
+                1061,
+                859
+              ],
+              [
+                1076,
+                874
+              ],
+              [
+                1090,
+                890
+              ],
+              [
+                1103,
+                909
+              ],
+              [
+                1106,
+                922
+              ],
+              [
+                1096,
+                935
+              ],
+              [
+                1080,
+                931
+              ],
+              [
+                1064,
+                914
+              ],
+              [
+                1049,
+                894
+              ],
+              [
+                1036,
+                875
+              ],
+              [
+                1029,
+                854
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-12-physical-tee-02",
+            "sourceKey": "angso-12-hole",
+            "ringPixels": [
+              [
+                1166,
+                1016
+              ],
+              [
+                1183,
+                1019
+              ],
+              [
+                1200,
+                1036
+              ],
+              [
+                1219,
+                1056
+              ],
+              [
+                1236,
+                1076
+              ],
+              [
+                1242,
+                1092
+              ],
+              [
+                1235,
+                1102
+              ],
+              [
+                1219,
+                1098
+              ],
+              [
+                1203,
+                1083
+              ],
+              [
+                1188,
+                1066
+              ],
+              [
+                1173,
+                1047
+              ],
+              [
+                1163,
+                1030
+              ],
+              [
+                1166,
+                1016
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Two visible mown platforms along the path. Tree shadows partly obscure both; short obscured edges follow the visible cut-grass border. The bright rough/apron east of the rear platform is excluded."
+      }
+    },
+    {
+      "n": 13,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-13-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-13-physical-tee-01",
+            "sourceKey": "angso-13-hole",
+            "ringPixels": [
+              [
+                1586,
+                1893
+              ],
+              [
+                1599,
+                1892
+              ],
+              [
+                1614,
+                1909
+              ],
+              [
+                1629,
+                1931
+              ],
+              [
+                1638,
+                1949
+              ],
+              [
+                1631,
+                1961
+              ],
+              [
+                1614,
+                1963
+              ],
+              [
+                1601,
+                1953
+              ],
+              [
+                1589,
+                1937
+              ],
+              [
+                1581,
+                1917
+              ],
+              [
+                1586,
+                1893
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-13-physical-tee-02",
+            "sourceKey": "angso-13-hole",
+            "ringPixels": [
+              [
+                1803,
+                2117
+              ],
+              [
+                1820,
+                2120
+              ],
+              [
+                1837,
+                2148
+              ],
+              [
+                1855,
+                2182
+              ],
+              [
+                1874,
+                2218
+              ],
+              [
+                1895,
+                2254
+              ],
+              [
+                1915,
+                2289
+              ],
+              [
+                1926,
+                2318
+              ],
+              [
+                1922,
+                2337
+              ],
+              [
+                1906,
+                2346
+              ],
+              [
+                1889,
+                2338
+              ],
+              [
+                1872,
+                2316
+              ],
+              [
+                1856,
+                2288
+              ],
+              [
+                1841,
+                2256
+              ],
+              [
+                1826,
+                2222
+              ],
+              [
+                1816,
+                2190
+              ],
+              [
+                1803,
+                2159
+              ],
+              [
+                1795,
+                2134
+              ],
+              [
+                1803,
+                2117
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-13-physical-tee-03",
+            "sourceKey": "angso-13-hole",
+            "ringPixels": [
+              [
+                1956,
+                2431
+              ],
+              [
+                1971,
+                2427
+              ],
+              [
+                1986,
+                2438
+              ],
+              [
+                2001,
+                2461
+              ],
+              [
+                2019,
+                2487
+              ],
+              [
+                2035,
+                2514
+              ],
+              [
+                2041,
+                2534
+              ],
+              [
+                2031,
+                2547
+              ],
+              [
+                2015,
+                2544
+              ],
+              [
+                2000,
+                2525
+              ],
+              [
+                1985,
+                2503
+              ],
+              [
+                1969,
+                2479
+              ],
+              [
+                1958,
+                2460
+              ],
+              [
+                1950,
+                2444
+              ],
+              [
+                1956,
+                2431
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Three visible mown platforms. The long middle platform and the rear platform are distinct; old rectangles over the path and rough are superseded. Local shadow edges remain uncertain."
+      }
+    },
+    {
+      "n": 14,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-14-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-14-physical-tee-01",
+            "sourceKey": "angso-14-hole",
+            "ringPixels": [
+              [
+                394,
+                329
+              ],
+              [
+                405,
+                328
+              ],
+              [
+                414,
+                338
+              ],
+              [
+                423,
+                364
+              ],
+              [
+                429,
+                396
+              ],
+              [
+                435,
+                432
+              ],
+              [
+                440,
+                469
+              ],
+              [
+                445,
+                502
+              ],
+              [
+                441,
+                522
+              ],
+              [
+                429,
+                529
+              ],
+              [
+                417,
+                518
+              ],
+              [
+                411,
+                495
+              ],
+              [
+                406,
+                461
+              ],
+              [
+                399,
+                426
+              ],
+              [
+                393,
+                394
+              ],
+              [
+                388,
+                363
+              ],
+              [
+                387,
+                343
+              ],
+              [
+                394,
+                329
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-14-physical-tee-02",
+            "sourceKey": "angso-14-hole",
+            "ringPixels": [
+              [
+                435,
+                722
+              ],
+              [
+                449,
+                719
+              ],
+              [
+                459,
+                730
+              ],
+              [
+                463,
+                749
+              ],
+              [
+                460,
+                773
+              ],
+              [
+                448,
+                785
+              ],
+              [
+                435,
+                781
+              ],
+              [
+                429,
+                766
+              ],
+              [
+                429,
+                744
+              ],
+              [
+                435,
+                722
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-14-physical-tee-03",
+            "sourceKey": "angso-14-hole",
+            "ringPixels": [
+              [
+                484,
+                913
+              ],
+              [
+                498,
+                911
+              ],
+              [
+                508,
+                923
+              ],
+              [
+                515,
+                943
+              ],
+              [
+                519,
+                963
+              ],
+              [
+                515,
+                978
+              ],
+              [
+                502,
+                985
+              ],
+              [
+                489,
+                977
+              ],
+              [
+                480,
+                961
+              ],
+              [
+                475,
+                940
+              ],
+              [
+                476,
+                922
+              ],
+              [
+                484,
+                913
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Three visible cut-grass platforms including a small middle platform partly affected by shadow. The much larger pale surrounding turf is excluded."
+      }
+    },
+    {
+      "n": 15,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-15-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-15-physical-tee-01",
+            "sourceKey": "angso-15-hole",
+            "ringPixels": [
+              [
+                996,
+                611
+              ],
+              [
+                1007,
+                605
+              ],
+              [
+                1025,
+                598
+              ],
+              [
+                1041,
+                597
+              ],
+              [
+                1051,
+                604
+              ],
+              [
+                1052,
+                617
+              ],
+              [
+                1041,
+                628
+              ],
+              [
+                1021,
+                636
+              ],
+              [
+                1005,
+                636
+              ],
+              [
+                995,
+                627
+              ],
+              [
+                996,
+                611
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-15-physical-tee-02",
+            "sourceKey": "angso-15-hole",
+            "ringPixels": [
+              [
+                1255,
+                441
+              ],
+              [
+                1274,
+                426
+              ],
+              [
+                1298,
+                409
+              ],
+              [
+                1321,
+                393
+              ],
+              [
+                1347,
+                377
+              ],
+              [
+                1365,
+                372
+              ],
+              [
+                1380,
+                379
+              ],
+              [
+                1388,
+                392
+              ],
+              [
+                1385,
+                406
+              ],
+              [
+                1365,
+                421
+              ],
+              [
+                1339,
+                438
+              ],
+              [
+                1311,
+                455
+              ],
+              [
+                1285,
+                470
+              ],
+              [
+                1269,
+                469
+              ],
+              [
+                1257,
+                457
+              ],
+              [
+                1255,
+                441
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-15-physical-tee-03",
+            "sourceKey": "angso-15-hole",
+            "ringPixels": [
+              [
+                1490,
+                420
+              ],
+              [
+                1507,
+                414
+              ],
+              [
+                1531,
+                408
+              ],
+              [
+                1551,
+                407
+              ],
+              [
+                1564,
+                415
+              ],
+              [
+                1569,
+                427
+              ],
+              [
+                1562,
+                438
+              ],
+              [
+                1544,
+                444
+              ],
+              [
+                1520,
+                445
+              ],
+              [
+                1502,
+                441
+              ],
+              [
+                1491,
+                432
+              ],
+              [
+                1490,
+                420
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Three separate cut-grass platforms, including the forward oval near the pond and the rear oval across the path. No colour association is asserted."
+      }
+    },
+    {
+      "n": 16,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-16-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-16-physical-tee-01",
+            "sourceKey": "angso-16-hole",
+            "ringPixels": [
+              [
+                351,
+                375
+              ],
+              [
+                367,
+                369
+              ],
+              [
+                395,
+                373
+              ],
+              [
+                409,
+                373
+              ],
+              [
+                420,
+                360
+              ],
+              [
+                439,
+                354
+              ],
+              [
+                468,
+                354
+              ],
+              [
+                496,
+                356
+              ],
+              [
+                520,
+                360
+              ],
+              [
+                527,
+                371
+              ],
+              [
+                528,
+                393
+              ],
+              [
+                519,
+                405
+              ],
+              [
+                499,
+                409
+              ],
+              [
+                468,
+                409
+              ],
+              [
+                439,
+                409
+              ],
+              [
+                411,
+                409
+              ],
+              [
+                387,
+                408
+              ],
+              [
+                364,
+                407
+              ],
+              [
+                349,
+                399
+              ],
+              [
+                344,
+                387
+              ],
+              [
+                351,
+                375
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-16-physical-tee-02",
+            "sourceKey": "angso-16-hole",
+            "ringPixels": [
+              [
+                655,
+                333
+              ],
+              [
+                675,
+                330
+              ],
+              [
+                701,
+                334
+              ],
+              [
+                728,
+                339
+              ],
+              [
+                748,
+                349
+              ],
+              [
+                750,
+                360
+              ],
+              [
+                738,
+                369
+              ],
+              [
+                715,
+                367
+              ],
+              [
+                688,
+                363
+              ],
+              [
+                664,
+                357
+              ],
+              [
+                649,
+                347
+              ],
+              [
+                655,
+                333
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-16-physical-tee-03",
+            "sourceKey": "angso-16-hole",
+            "ringPixels": [
+              [
+                793,
+                352
+              ],
+              [
+                815,
+                355
+              ],
+              [
+                839,
+                359
+              ],
+              [
+                862,
+                365
+              ],
+              [
+                873,
+                372
+              ],
+              [
+                872,
+                379
+              ],
+              [
+                861,
+                383
+              ],
+              [
+                837,
+                380
+              ],
+              [
+                813,
+                376
+              ],
+              [
+                793,
+                369
+              ],
+              [
+                787,
+                361
+              ],
+              [
+                793,
+                352
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Three visible continuous platforms. The western surface has two contiguous mown lobes combined in one ring; the eastern narrow strip is separately traced after native-resolution inspection. Its upper edge has weaker contrast than the large western surface."
+      }
+    },
+    {
+      "n": 17,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-17-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-17-physical-tee-01",
+            "sourceKey": "angso-17-hole",
+            "ringPixels": [
+              [
+                630,
+                373
+              ],
+              [
+                642,
+                371
+              ],
+              [
+                651,
+                382
+              ],
+              [
+                654,
+                401
+              ],
+              [
+                653,
+                420
+              ],
+              [
+                647,
+                437
+              ],
+              [
+                637,
+                445
+              ],
+              [
+                625,
+                439
+              ],
+              [
+                618,
+                423
+              ],
+              [
+                617,
+                403
+              ],
+              [
+                622,
+                384
+              ],
+              [
+                630,
+                373
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-17-physical-tee-02",
+            "sourceKey": "angso-17-hole",
+            "ringPixels": [
+              [
+                704,
+                482
+              ],
+              [
+                720,
+                478
+              ],
+              [
+                735,
+                485
+              ],
+              [
+                746,
+                500
+              ],
+              [
+                750,
+                520
+              ],
+              [
+                747,
+                547
+              ],
+              [
+                736,
+                571
+              ],
+              [
+                723,
+                580
+              ],
+              [
+                705,
+                578
+              ],
+              [
+                692,
+                566
+              ],
+              [
+                690,
+                543
+              ],
+              [
+                696,
+                510
+              ],
+              [
+                704,
+                482
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-17-physical-tee-03",
+            "sourceKey": "angso-17-hole",
+            "ringPixels": [
+              [
+                687,
+                707
+              ],
+              [
+                701,
+                705
+              ],
+              [
+                712,
+                716
+              ],
+              [
+                716,
+                732
+              ],
+              [
+                713,
+                748
+              ],
+              [
+                703,
+                757
+              ],
+              [
+                689,
+                754
+              ],
+              [
+                682,
+                742
+              ],
+              [
+                681,
+                724
+              ],
+              [
+                687,
+                707
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-17-physical-tee-04",
+            "sourceKey": "angso-17-hole",
+            "ringPixels": [
+              [
+                514,
+                881
+              ],
+              [
+                525,
+                879
+              ],
+              [
+                535,
+                890
+              ],
+              [
+                537,
+                911
+              ],
+              [
+                532,
+                932
+              ],
+              [
+                527,
+                954
+              ],
+              [
+                518,
+                969
+              ],
+              [
+                504,
+                970
+              ],
+              [
+                495,
+                961
+              ],
+              [
+                494,
+                946
+              ],
+              [
+                500,
+                923
+              ],
+              [
+                506,
+                899
+              ],
+              [
+                514,
+                881
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Four visible cut-grass platforms around the pond and path. The former narrow DTM polygon farther down the fairway has no separate visible tee border and is excluded."
+      }
+    },
+    {
+      "n": 18,
+      "tees": {
+        "replaceAll": true,
+        "sourceKey": "angso-18-hole",
+        "accepted": [
+          {
+            "id": "lm-angso-18-physical-tee-01",
+            "sourceKey": "angso-18-hole",
+            "ringPixels": [
+              [
+                343,
+                387
+              ],
+              [
+                355,
+                382
+              ],
+              [
+                367,
+                392
+              ],
+              [
+                376,
+                413
+              ],
+              [
+                383,
+                436
+              ],
+              [
+                385,
+                456
+              ],
+              [
+                376,
+                471
+              ],
+              [
+                363,
+                471
+              ],
+              [
+                352,
+                457
+              ],
+              [
+                343,
+                437
+              ],
+              [
+                338,
+                414
+              ],
+              [
+                338,
+                398
+              ],
+              [
+                343,
+                387
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-18-physical-tee-02",
+            "sourceKey": "angso-18-hole",
+            "ringPixels": [
+              [
+                478,
+                694
+              ],
+              [
+                492,
+                692
+              ],
+              [
+                506,
+                706
+              ],
+              [
+                519,
+                725
+              ],
+              [
+                528,
+                745
+              ],
+              [
+                530,
+                762
+              ],
+              [
+                520,
+                774
+              ],
+              [
+                506,
+                772
+              ],
+              [
+                494,
+                759
+              ],
+              [
+                483,
+                741
+              ],
+              [
+                474,
+                721
+              ],
+              [
+                471,
+                704
+              ],
+              [
+                478,
+                694
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-18-physical-tee-03",
+            "sourceKey": "angso-18-hole",
+            "ringPixels": [
+              [
+                661,
+                1012
+              ],
+              [
+                674,
+                1010
+              ],
+              [
+                686,
+                1023
+              ],
+              [
+                699,
+                1042
+              ],
+              [
+                711,
+                1063
+              ],
+              [
+                712,
+                1076
+              ],
+              [
+                700,
+                1087
+              ],
+              [
+                686,
+                1083
+              ],
+              [
+                674,
+                1066
+              ],
+              [
+                664,
+                1047
+              ],
+              [
+                657,
+                1028
+              ],
+              [
+                661,
+                1012
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          },
+          {
+            "id": "lm-angso-18-physical-tee-04",
+            "sourceKey": "angso-18-hole",
+            "ringPixels": [
+              [
+                808,
+                1204
+              ],
+              [
+                821,
+                1201
+              ],
+              [
+                831,
+                1214
+              ],
+              [
+                837,
+                1234
+              ],
+              [
+                843,
+                1258
+              ],
+              [
+                838,
+                1276
+              ],
+              [
+                824,
+                1281
+              ],
+              [
+                811,
+                1271
+              ],
+              [
+                804,
+                1251
+              ],
+              [
+                799,
+                1227
+              ],
+              [
+                801,
+                1212
+              ],
+              [
+                808,
+                1204
+              ]
+            ],
+            "interpretation": "visible-mown-physical-platform",
+            "colourAssociation": "unverified"
+          }
+        ],
+        "identityStatus": "unverified-colour-association",
+        "note": "Four visible cut-grass platforms; two forward platforms were omitted or misplaced in the legacy set. Tree shadows partly cover the rear platforms."
+      }
+    }
+  ],
+  "limitations": [
+    "The imagery establishes visible mown platform boundaries, not official tee colours or permanent marker locations.",
+    "Short boundary sections under bare-tree shadows are interpolated between visible adjacent turf edges; these local edges remain uncertain.",
+    "Contiguous mown surfaces remain one polygon where physical subdivision is not visible.",
+    "Complete replacement records the physically visible inventory in this capture; field inspection may reveal seasonal or obscured platforms."
+  ]
+}

@@ -1,5 +1,5 @@
 const GEOMETRY_KEYS = new Set([
-  'ring', 'rings', 'line', 'c', 'pin', 'pts', 'boundary',
+  'ring', 'rings', 'line', 'c', 'displayC', 'pin', 'pts', 'boundary',
   'forest', 'rock', 'scrub', 'wetland', 'wood', 'sand',
   'range', 'greens', 'fairways', 'tees', 'bunkers', 'grass',
   'poles', 'towers', 'yard', 'hayfields', 'shallows', 'clearfells',
@@ -27,6 +27,9 @@ function pairRole(path) {
   const keys = path.filter(part => typeof part === 'string');
   if (keys[0] === 'card') return 'metadata';
   if (keys[0] === 'holes' && keys.at(-1) === 't') return 'metadata';
+  // A hashed pre-review route is immutable evidence in the original local
+  // frame, not the adopted route. Projecting it would invalidate its checksum.
+  if (keys.join('.') === 'holes.routingReview.originalLine') return 'metadata';
   if (keys.some(key => GEOMETRY_KEYS.has(key))) return 'coordinate';
   return 'unknown';
 }

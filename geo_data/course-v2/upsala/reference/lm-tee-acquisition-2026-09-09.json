@@ -1,0 +1,1279 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "state": "acquired-for-review",
+  "observedAt": "2026-09-09T17:36:15.974326+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-o2-2025",
+  "nativeResolutionMetres": 0.16,
+  "planSha256": "992d78af8fa0a037c9e337f74645f49c5a87dc60e5662448c10b6982143e6a4c",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o66350_6375_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o66350_6400_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "stora-01-tees",
+      "rasterFile": "stora-01-tees.tif",
+      "rgbFile": "stora-01-tees.png",
+      "sha256": "fc0d5fa74a6f9f01e6ecff13bd145d6de186a3633c5a45b1486491ca2ce49b36",
+      "rgbSha256": "ab7cde6fa1ddf105d0da78a0b4abda71d1e68c6e7476cd676f03aaf93c505f08",
+      "requestSha256": "7805d490ed858fd81191b78e319e0cfd1be433306533f686930f5b64a07ce438",
+      "bytes": 3261963,
+      "boundsEpsg3006": [
+        639774.72,
+        6636187.2,
+        639980.1599999999,
+        6636334.4
+      ],
+      "geoTransform": [
+        639774.72,
+        0.16,
+        0.0,
+        6636334.4,
+        0.0,
+        -0.16
+      ],
+      "width": 1284,
+      "height": 920,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:34:57.114417+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-02-tees",
+      "rasterFile": "stora-02-tees.tif",
+      "rgbFile": "stora-02-tees.png",
+      "sha256": "286c8aee8a5247564abb37f3cbcbfcd9d079df73ee2b14a35938a656d4fca7d9",
+      "rgbSha256": "75f69bde94e7794b259a2703cddc38432978613a741c7ce6b256eb6f4250c0d3",
+      "requestSha256": "1d3121f1abfa740beffc6fa286a3c44e99381dc435b517067cfd85dd696c2c63",
+      "bytes": 1521521,
+      "boundsEpsg3006": [
+        640096.96,
+        6636050.4,
+        640198.5599999999,
+        6636189.28
+      ],
+      "geoTransform": [
+        640096.96,
+        0.16,
+        0.0,
+        6636189.28,
+        0.0,
+        -0.16
+      ],
+      "width": 635,
+      "height": 868,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:34:57.553348+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-03-tees",
+      "rasterFile": "stora-03-tees.tif",
+      "rgbFile": "stora-03-tees.png",
+      "sha256": "6d2a69a7a763f9d8bfdfa131f79273e15a8c2db8c7b9d989ec3be07b742c7835",
+      "rgbSha256": "38192aceb67e6a2923a2c53f5dd76c71407c1460c800d2afaa05dbbe44a73c5e",
+      "requestSha256": "85841dc1deae849bdfade0f834da6207afc41e27cff992aa472052aa8659e9ce",
+      "bytes": 2471331,
+      "boundsEpsg3006": [
+        640166.72,
+        6636100.64,
+        640278.08,
+        6636301.12
+      ],
+      "geoTransform": [
+        640166.72,
+        0.16,
+        0.0,
+        6636301.12,
+        0.0,
+        -0.16
+      ],
+      "width": 696,
+      "height": 1253,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:34:58.174796+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-04-tees",
+      "rasterFile": "stora-04-tees.tif",
+      "rgbFile": "stora-04-tees.png",
+      "sha256": "97585457c52998676060f4472e56903293fed0ee5f673d4912620bf60b628ab8",
+      "rgbSha256": "093292ebe784cbbeda6875b33a3c20a2fa0aa182499beca3087608d8fe8a11be",
+      "requestSha256": "85ff9b38d397cf5f2dd5e3c824f1b42e840d88880dc65bd51360b5b736861fbc",
+      "bytes": 3178881,
+      "boundsEpsg3006": [
+        640046.88,
+        6635894.72,
+        640264.0,
+        6636040.96
+      ],
+      "geoTransform": [
+        640046.88,
+        0.16,
+        0.0,
+        6636040.96,
+        0.0,
+        -0.16
+      ],
+      "width": 1357,
+      "height": 914,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:34:59.062334+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-05-tees",
+      "rasterFile": "stora-05-tees.tif",
+      "rgbFile": "stora-05-tees.png",
+      "sha256": "3d30c35a436794b76d445b09cd3e04301385a092824103869cc3055a7ddc3b5c",
+      "rgbSha256": "3b1a4bc0237ba8497b3ece57fe226e5a71bd2946052a5e8ee214eacae58c5077",
+      "requestSha256": "aa50b1590b4c40cf8f49d3acb0ef04749ec2bee2407e48cf6082bf44173bfe31",
+      "bytes": 2917601,
+      "boundsEpsg3006": [
+        639888.96,
+        6635884.640000001,
+        640004.32,
+        6636115.36
+      ],
+      "geoTransform": [
+        639888.96,
+        0.16,
+        0.0,
+        6636115.36,
+        0.0,
+        -0.16
+      ],
+      "width": 721,
+      "height": 1442,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:34:59.722558+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-06-tees",
+      "rasterFile": "stora-06-tees.tif",
+      "rgbFile": "stora-06-tees.png",
+      "sha256": "68d78fbdefdf1929b90c8b837ac5834073453b82636e7144f0c45b733da70bca",
+      "rgbSha256": "cadaad036bdf99bdc7b0872d8b0a46a215f9a9f14a3a0650ae9e4fd66c42359b",
+      "requestSha256": "a047b14cae2f0a76af35f3ac749b26d453bec642f363ae70d4f7cc5dcd766c7a",
+      "bytes": 1869531,
+      "boundsEpsg3006": [
+        639619.2,
+        6635549.6,
+        639786.3999999999,
+        6635648.8
+      ],
+      "geoTransform": [
+        639619.2,
+        0.16,
+        0.0,
+        6635648.8,
+        0.0,
+        -0.16
+      ],
+      "width": 1045,
+      "height": 620,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:00.264857+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-07-tees",
+      "rasterFile": "stora-07-tees.tif",
+      "rgbFile": "stora-07-tees.png",
+      "sha256": "6c048d856076ce339d737e1631d6f7dca5acc7f55810e40db0e71efd7e3a764f",
+      "rgbSha256": "e85d037664bb3f26396d560748f0c8dbd26a39c76510c833773596411e9ea535",
+      "requestSha256": "a8798cb4e8fa45d25bb080dc6c8b61f78bc3f40376d25b2cd668398a6f346943",
+      "bytes": 4855105,
+      "boundsEpsg3006": [
+        639456.32,
+        6635618.720000001,
+        639631.5199999999,
+        6635862.4
+      ],
+      "geoTransform": [
+        639456.32,
+        0.16,
+        0.0,
+        6635862.4,
+        0.0,
+        -0.16
+      ],
+      "width": 1095,
+      "height": 1523,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:01.347158+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-08-tees",
+      "rasterFile": "stora-08-tees.tif",
+      "rgbFile": "stora-08-tees.png",
+      "sha256": "803d1915ffeef6ae5cce6e56ef9c9a11846b29f0b424620dd0b16b532f98f8b0",
+      "rgbSha256": "ebedae99e18cb4d22379d162565e133f498502fe0618569111dbe9171d23c574",
+      "requestSha256": "efba5e8e0384de818f67ca678859d554a8b8c0f840ccfc9087821ec8de2dfec9",
+      "bytes": 3710165,
+      "boundsEpsg3006": [
+        639269.12,
+        6636057.12,
+        639450.88,
+        6636264.16
+      ],
+      "geoTransform": [
+        639269.12,
+        0.16,
+        0.0,
+        6636264.16,
+        0.0,
+        -0.16
+      ],
+      "width": 1136,
+      "height": 1294,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:02.321811+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-09-tees",
+      "rasterFile": "stora-09-tees.tif",
+      "rgbFile": "stora-09-tees.png",
+      "sha256": "6560b370587572c6a81df55b6218e38479c8c318bc9d023784d7b84aba33f2e2",
+      "rgbSha256": "79da6b44576fabd35fa9f1e359e3600c5848147f55bf69cc3ce1a40ea35bb782",
+      "requestSha256": "d8d7240dcb00082405f79ed67da439be19256fd613324891ecbfb3c64fe42060",
+      "bytes": 1986679,
+      "boundsEpsg3006": [
+        639679.2,
+        6636359.84,
+        639797.44,
+        6636509.6
+      ],
+      "geoTransform": [
+        639679.2,
+        0.16,
+        0.0,
+        6636509.6,
+        0.0,
+        -0.16
+      ],
+      "width": 739,
+      "height": 936,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:02.828443+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-10-tees",
+      "rasterFile": "stora-10-tees.tif",
+      "rgbFile": "stora-10-tees.png",
+      "sha256": "59d52f2ed4fb42229156e364c488a12b91e870ddf8d25bfc3407250d51720120",
+      "rgbSha256": "321013e8a8d5d88a0fa3c18a7cf1ea0a8209d2d55590b6162756f1735c9f60b0",
+      "requestSha256": "825257d122ad4e97c1b2d1847d9e4dcc030f6cd7f9202b76b0d2da4276896ffb",
+      "bytes": 2224013,
+      "boundsEpsg3006": [
+        639929.12,
+        6636470.4,
+        640065.28,
+        6636614.08
+      ],
+      "geoTransform": [
+        639929.12,
+        0.16,
+        0.0,
+        6636614.08,
+        0.0,
+        -0.16
+      ],
+      "width": 851,
+      "height": 898,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:03.395372+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-11-tees",
+      "rasterFile": "stora-11-tees.tif",
+      "rgbFile": "stora-11-tees.png",
+      "sha256": "ea7cd06c4f1af1f7a77d4842fa604962b668ef78ad86ddeef01db0bfef6e8015",
+      "rgbSha256": "3ee32c5bfebe315e407e3c28265e6cbfd2a8357a5748d6dc29ae05ef8845a5a9",
+      "requestSha256": "bbc3b5edb95a8d1899511ede1cb155d200de55ec955093eb89026fdca93eec0e",
+      "bytes": 2501973,
+      "boundsEpsg3006": [
+        639933.76,
+        6636641.76,
+        640141.76,
+        6636752.96
+      ],
+      "geoTransform": [
+        639933.76,
+        0.16,
+        0.0,
+        6636752.96,
+        0.0,
+        -0.16
+      ],
+      "width": 1300,
+      "height": 695,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:04.008975+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-12-tees",
+      "rasterFile": "stora-12-tees.tif",
+      "rgbFile": "stora-12-tees.png",
+      "sha256": "ceeaf99a553019989cdc605910328d0eb17909fb46c8d4934da5acefe6321360",
+      "rgbSha256": "3e11e8a293058b9214826252478b82fc9403b2a9bcbdec72d41e4f32cd14cf0b",
+      "requestSha256": "d3a9386e5ffdb3842c61b77c99ee8e1952e1a5f586d39a662218e5435dd5f82b",
+      "bytes": 3801553,
+      "boundsEpsg3006": [
+        639608.64,
+        6636606.24,
+        639842.88,
+        6636766.08
+      ],
+      "geoTransform": [
+        639608.64,
+        0.16,
+        0.0,
+        6636766.08,
+        0.0,
+        -0.16
+      ],
+      "width": 1464,
+      "height": 999,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:04.915216+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-13-tees",
+      "rasterFile": "stora-13-tees.tif",
+      "rgbFile": "stora-13-tees.png",
+      "sha256": "a8ac7712ce6d28db925c8811d9c501c5bfcf12ac669cfe6716b5abc5e5616bf5",
+      "rgbSha256": "aa10d1ed4e57fb1e02196ffd2ef90297fca4caf43e3c55c0fda8fa58defaaeac",
+      "requestSha256": "2f5fea15019d9845ec0fab13247e827501d54860583421db9bc64fb8f3d46222",
+      "bytes": 2606941,
+      "boundsEpsg3006": [
+        639376.48,
+        6636292.0,
+        639556.7999999999,
+        6636435.68
+      ],
+      "geoTransform": [
+        639376.48,
+        0.16,
+        0.0,
+        6636435.68,
+        0.0,
+        -0.16
+      ],
+      "width": 1127,
+      "height": 898,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:05.734848+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-14-tees",
+      "rasterFile": "stora-14-tees.tif",
+      "rgbFile": "stora-14-tees.png",
+      "sha256": "e431150cb8e40029bb1fec97b082da5c0f3a3433de37477125b8a28ef0d633f0",
+      "rgbSha256": "3949f5b60c0da8ba58877de61f5314985ec920f922a1afb312d18329825f2b59",
+      "requestSha256": "b1a29507138f1f02c5cbea7a2582948cb25eef2245d53a26c51c3a4fc000938a",
+      "bytes": 1437221,
+      "boundsEpsg3006": [
+        639649.44,
+        6636521.92,
+        639747.0399999999,
+        6636657.76
+      ],
+      "geoTransform": [
+        639649.44,
+        0.16,
+        0.0,
+        6636657.76,
+        0.0,
+        -0.16
+      ],
+      "width": 610,
+      "height": 849,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:06.110569+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-15-tees",
+      "rasterFile": "stora-15-tees.tif",
+      "rgbFile": "stora-15-tees.png",
+      "sha256": "1d944f6bdee6e04a75201baa44220229dcae576fa07aa2e8713f5c928670dd60",
+      "rgbSha256": "e792833f06a675fba859b41c30e7f68d55925c50e88a37d11a00178110f9e659",
+      "requestSha256": "5a003f7a14d7b2495c82cba82504f4082e77c4989a93acd4dc087fa071d6e578",
+      "bytes": 2985191,
+      "boundsEpsg3006": [
+        639577.28,
+        6636249.920000001,
+        639759.2000000001,
+        6636405.44
+      ],
+      "geoTransform": [
+        639577.28,
+        0.16,
+        0.0,
+        6636405.44,
+        0.0,
+        -0.16
+      ],
+      "width": 1137,
+      "height": 972,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:06.754842+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-16-tees",
+      "rasterFile": "stora-16-tees.tif",
+      "rgbFile": "stora-16-tees.png",
+      "sha256": "a8d7c5f6c8221a6d71873d6e2615c3e132f61ea65bd36d24fe77b14a40a40ec5",
+      "rgbSha256": "8cb3e23749ad80391cd9e5a701424fb4918d69c1e8cdd5291f1fdb68d229b02f",
+      "requestSha256": "197bdb8cb9da4db9217cbb043c72c4f583a19781ac46f89192dcf7f18a44ffc5",
+      "bytes": 3233419,
+      "boundsEpsg3006": [
+        639421.92,
+        6635972.16,
+        639613.6000000001,
+        6636127.36
+      ],
+      "geoTransform": [
+        639421.92,
+        0.16,
+        0.0,
+        6636127.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1198,
+      "height": 970,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:07.518451+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-17-tees",
+      "rasterFile": "stora-17-tees.tif",
+      "rgbFile": "stora-17-tees.png",
+      "sha256": "09b793c1b24e5c822468f2dd871c5c7d91e62e94058ad18ea13c46380114408f",
+      "rgbSha256": "7d25c7a01f5d03c2c166106fe26fcd0247ee601a610fe5f91a84ab60377a3ef0",
+      "requestSha256": "609433d3cc1e35457d1d17356166e069b9f2d0f8513716809309479df936458e",
+      "bytes": 2186645,
+      "boundsEpsg3006": [
+        639619.68,
+        6635596.48,
+        639738.7200000001,
+        6635767.36
+      ],
+      "geoTransform": [
+        639619.68,
+        0.16,
+        0.0,
+        6635767.36,
+        0.0,
+        -0.16
+      ],
+      "width": 744,
+      "height": 1068,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:08.007522+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "stora-18-tees",
+      "rasterFile": "stora-18-tees.tif",
+      "rgbFile": "stora-18-tees.png",
+      "sha256": "bcf74b63f81f7bad56bc34fd747d1788858f2663cc75737355864ac70cfbc53b",
+      "rgbSha256": "852bf9975f5827ac83d4a38caddceca9d8089a11f4d5f74253aa16012209d249",
+      "requestSha256": "381c945ebd2b8a0459d9a51075d288c25c6eeb8bf5a564a0051f61bb918fa2be",
+      "bytes": 2486417,
+      "boundsEpsg3006": [
+        639662.56,
+        6635834.56,
+        639789.4400000001,
+        6636005.92
+      ],
+      "geoTransform": [
+        639662.56,
+        0.16,
+        0.0,
+        6636005.92,
+        0.0,
+        -0.16
+      ],
+      "width": 793,
+      "height": 1071,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:08.558990+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-01-tees",
+      "rasterFile": "mellan-01-tees.tif",
+      "rgbFile": "mellan-01-tees.png",
+      "sha256": "708a42f4693f52734dee800453d385e8fe63b78642e2d41bab0dc6db88754023",
+      "rgbSha256": "b47bff187c4acd94f8107b8bd872226488de7226df593e31d508bf18aba3b48e",
+      "requestSha256": "81ce5c1ed9fe165819b6f756d5a31abf52356f37713e40aa3c7d11519c71a7d1",
+      "bytes": 1905689,
+      "boundsEpsg3006": [
+        639928.16,
+        6636362.72,
+        640083.52,
+        6636467.52
+      ],
+      "geoTransform": [
+        639928.16,
+        0.16,
+        0.0,
+        6636467.52,
+        0.0,
+        -0.16
+      ],
+      "width": 971,
+      "height": 655,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:09.143332+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-02-tees",
+      "rasterFile": "mellan-02-tees.tif",
+      "rgbFile": "mellan-02-tees.png",
+      "sha256": "d1d3b0c6b0ee27a623e414741e3a8702e342b8b135e179e1e3d99850d0d50290",
+      "rgbSha256": "f7ff778869deb88c06e620bbf5b59e83a312a5b91dec924f709b5f357114ee90",
+      "requestSha256": "1680a73167784f68164abd2682cabd829ddcad3d490d6730f87819337c8afa64",
+      "bytes": 2691345,
+      "boundsEpsg3006": [
+        640223.2,
+        6636356.16,
+        640411.6799999999,
+        6636484.0
+      ],
+      "geoTransform": [
+        640223.2,
+        0.16,
+        0.0,
+        6636484.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1178,
+      "height": 799,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:09.871911+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-03-tees",
+      "rasterFile": "mellan-03-tees.tif",
+      "rgbFile": "mellan-03-tees.png",
+      "sha256": "f3e3ed1cd0b0fc69434b6a28c3bab5fadea111eb28636b148966e86612945582",
+      "rgbSha256": "3522b35773c20060eb08614165fb16e6f5f89c5011e66d399167e63e7c12a00f",
+      "requestSha256": "c568432cc6c6fb1db1102f7b4450b1afbf22b089b0f1f93c388fe09c11d3423b",
+      "bytes": 3152081,
+      "boundsEpsg3006": [
+        640535.52,
+        6636395.359999999,
+        640754.0800000001,
+        6636525.76
+      ],
+      "geoTransform": [
+        640535.52,
+        0.16,
+        0.0,
+        6636525.76,
+        0.0,
+        -0.16
+      ],
+      "width": 1366,
+      "height": 815,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:10.672481+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-04-tees",
+      "rasterFile": "mellan-04-tees.tif",
+      "rgbFile": "mellan-04-tees.png",
+      "sha256": "ec9cfc52a41dd143a430a8f2015bada5d88c1e61f6c66a26561fbb19565f32a7",
+      "rgbSha256": "57c8a5c7fe992a3483a2debaa8b2b93e0aa88abe4bc91300aa0aa80d0dfd8d62",
+      "requestSha256": "a4a302cdd448e941cfb7c33fd9a81296aad02e7f6a130fe5927a3a379f6197b6",
+      "bytes": 2791919,
+      "boundsEpsg3006": [
+        640821.12,
+        6636215.680000001,
+        641034.88,
+        6636340.32
+      ],
+      "geoTransform": [
+        640821.12,
+        0.16,
+        0.0,
+        6636340.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1336,
+      "height": 779,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:11.344499+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-05-tees",
+      "rasterFile": "mellan-05-tees.tif",
+      "rgbFile": "mellan-05-tees.png",
+      "sha256": "0a4fb08d7044aaec0c1a844beed2433a5a9477c03e39556fe27055738b7cad84",
+      "rgbSha256": "d1acd7cdeaf699d2f39aa580c0e4b7927011ad15c58e85d97c67dbaaabf1405a",
+      "requestSha256": "26d9329dc244913ce7335828e1a635cd7f48a7265ebea9b6b104422f076292f8",
+      "bytes": 1532221,
+      "boundsEpsg3006": [
+        640522.88,
+        6636149.119999999,
+        640641.6,
+        6636259.52
+      ],
+      "geoTransform": [
+        640522.88,
+        0.16,
+        0.0,
+        6636259.52,
+        0.0,
+        -0.16
+      ],
+      "width": 742,
+      "height": 690,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:11.752838+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-06-tees",
+      "rasterFile": "mellan-06-tees.tif",
+      "rgbFile": "mellan-06-tees.png",
+      "sha256": "272b42d7fdd9383ef24d5799c1832ac5472b8411386c0067a67ff747bb892447",
+      "rgbSha256": "167da746a04bfae5886db1ccb9bc88cc4654ce5b4d1471971f393a387a99a98d",
+      "requestSha256": "59fe30b4ab0dc1d6eb5d410607a4333541819cbcaa69100f8e031d69748108ac",
+      "bytes": 3838825,
+      "boundsEpsg3006": [
+        640466.72,
+        6635896.16,
+        640671.6799999999,
+        6636057.44
+      ],
+      "geoTransform": [
+        640466.72,
+        0.16,
+        0.0,
+        6636057.44,
+        0.0,
+        -0.16
+      ],
+      "width": 1281,
+      "height": 1008,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:12.610637+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-07-tees",
+      "rasterFile": "mellan-07-tees.tif",
+      "rgbFile": "mellan-07-tees.png",
+      "sha256": "8a2bdca8b10995dc69bb0f9046d34421f6f8cd98594107d148c024e93a47006a",
+      "rgbSha256": "d5f1c8dc52029a0d6a8b4e90d119526a1a93f49eb037c8c8f68bbe4cb0829eb7",
+      "requestSha256": "f359f1d92bbbb52da4ac3324afb97b5cb9476428160e82b3b668e64e9fe684d1",
+      "bytes": 1469615,
+      "boundsEpsg3006": [
+        640187.84,
+        6635780.16,
+        640320.32,
+        6635877.76
+      ],
+      "geoTransform": [
+        640187.84,
+        0.16,
+        0.0,
+        6635877.76,
+        0.0,
+        -0.16
+      ],
+      "width": 828,
+      "height": 610,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:12.989085+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-08-tees",
+      "rasterFile": "mellan-08-tees.tif",
+      "rgbFile": "mellan-08-tees.png",
+      "sha256": "f9f4d07af0f436378bc422ed249faf7415ca7c5993e768a988689992f903bd8b",
+      "rgbSha256": "403089f6c53eefd3c947f6794492858361623a1ed92ebad3c60bef90c487e7a3",
+      "requestSha256": "d852eb1e7ba8c9f20c5e5f9f4f2ce6c01af5c4cf515d959aaabdb0c58a06c894",
+      "bytes": 1542101,
+      "boundsEpsg3006": [
+        640284.48,
+        6635895.680000001,
+        640390.72,
+        6636026.24
+      ],
+      "geoTransform": [
+        640284.48,
+        0.16,
+        0.0,
+        6636026.24,
+        0.0,
+        -0.16
+      ],
+      "width": 664,
+      "height": 816,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:13.354202+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-09-tees",
+      "rasterFile": "mellan-09-tees.tif",
+      "rgbFile": "mellan-09-tees.png",
+      "sha256": "8b9c0f202d24d0a3af1e1d2608668e9005fa0503595bea466a6f031891b69c74",
+      "rgbSha256": "69fbbea7b34e9924eebfb8f3c4ac44c580c82680d08f222477754d301f72cb3b",
+      "requestSha256": "f37c0f223c63c6747806c8ac24b1d711a3d39ee89150a0d6eb04182ddb5ca9ac",
+      "bytes": 1624609,
+      "boundsEpsg3006": [
+        640119.2,
+        6636277.6,
+        640267.36,
+        6636375.52
+      ],
+      "geoTransform": [
+        640119.2,
+        0.16,
+        0.0,
+        6636375.52,
+        0.0,
+        -0.16
+      ],
+      "width": 926,
+      "height": 612,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:13.673951+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "o66350_6375_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66350_6375_25_mr25.tif",
+      "bytes": 639759353,
+      "boundsEpsg3006": [
+        637500,
+        6635000,
+        640000,
+        6637500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T09:25:58Z",
+      "captureStart": "2025-06-14T09:25:42Z",
+      "captureEnd": "2025-06-15T09:30:32Z"
+    },
+    {
+      "id": "o66350_6400_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66350_6400_25_mr25.tif",
+      "bytes": 680411854,
+      "boundsEpsg3006": [
+        640000,
+        6635000,
+        642500,
+        6637500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T09:25:50Z",
+      "captureStart": "2025-04-25T07:36:44Z",
+      "captureEnd": "2025-06-14T09:26:06Z"
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false,
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0.",
+  "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf"
+}

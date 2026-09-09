@@ -1,0 +1,1323 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "state": "acquired-for-review",
+  "observedAt": "2026-09-09T16:50:39.705289+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-o2-2025",
+  "nativeResolutionMetres": 0.16,
+  "planSha256": "00e2425a3fce576dc39c8461836273d500bd25b182b8c17c0387ae2b46fdcbc3",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o66350_6375_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o66350_6400_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "ground-overview",
+      "rasterFile": "ground-overview.tif",
+      "rgbFile": "ground-overview.png",
+      "sha256": "c572dc398499443756820d8e8f944661af5b36e841f0d1859ea373e6cce6566d",
+      "rgbSha256": "67bc0702367146f15427c800eaf36a2d33cb9dd4419022a037aa1753fb7cc667",
+      "requestSha256": "3516bb6a058c19f2f4cbda743fb840f78b453ac2d3ef6368b60a9afe70866fdb",
+      "bytes": 23472123,
+      "boundsEpsg3006": [
+        639019.2,
+        6635020.8,
+        641268.0,
+        6637269.6
+      ],
+      "geoTransform": [
+        639019.2,
+        0.8,
+        0.0,
+        6637269.6,
+        0.0,
+        -0.8
+      ],
+      "width": 2811,
+      "height": 2811,
+      "resolutionMetres": 0.8,
+      "resampling": "average",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:49.524742+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-01-surfaces",
+      "rasterFile": "stora-01-surfaces.tif",
+      "rgbFile": "stora-01-surfaces.png",
+      "sha256": "f1fba8a4e57b5d1ec9a275f0e01c060857ab1c80547bc68798c16173a0cea851",
+      "rgbSha256": "56f056d5704a05cbd2daa2fa6be3a272ecef9eb742438a67a0a223a1360739d0",
+      "requestSha256": "baf059339d441ed29569df399ab2b8eabb88162dcb0b8cd23ce7612a49851bcd",
+      "bytes": 3575046,
+      "boundsEpsg3006": [
+        639952.96,
+        6636014.399999999,
+        640155.84,
+        6636195.68
+      ],
+      "geoTransform": [
+        639952.96,
+        0.16,
+        0.0,
+        6636195.68,
+        0.0,
+        -0.16
+      ],
+      "width": 1268,
+      "height": 1133,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:49:24.354721+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-02-surfaces",
+      "rasterFile": "stora-02-surfaces.tif",
+      "rgbFile": "stora-02-surfaces.png",
+      "sha256": "ed5f9ce358a5f1d34a5c9a5669e2fd17cfde2a8fe9edd8c467f01c774b54f945",
+      "rgbSha256": "138c003b50cd9662e088c7006833e94f717dbd4e2f52854f8fb129e5af223ce9",
+      "requestSha256": "bd52fa6aa23563da9b523193d72b994585dc18d137f6af38593a3c34f0bfe1ee",
+      "bytes": 2170484,
+      "boundsEpsg3006": [
+        640050.24,
+        6636176.32,
+        640178.4,
+        6636329.92
+      ],
+      "geoTransform": [
+        640050.24,
+        0.16,
+        0.0,
+        6636329.92,
+        0.0,
+        -0.16
+      ],
+      "width": 801,
+      "height": 960,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:49:58.332397+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-03-surfaces",
+      "rasterFile": "stora-03-surfaces.tif",
+      "rgbFile": "stora-03-surfaces.png",
+      "sha256": "e60a52407c1e728fbb347f4f699e979f57d7c434205d32a14140853b557062fd",
+      "rgbSha256": "82f0ab6db288eeeac492fb2f71b2b553d88c53e0da67a8d34847d6382a818a90",
+      "requestSha256": "c13d9b06ce35b11269baa50ed7e7174f47f57f5080da753e77a0ea04e5b8f16a",
+      "bytes": 8124533,
+      "boundsEpsg3006": [
+        640137.76,
+        6635886.88,
+        640325.4400000001,
+        6636304.0
+      ],
+      "geoTransform": [
+        640137.76,
+        0.16,
+        0.0,
+        6636304.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1173,
+      "height": 2607,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:00.964120+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-04-surfaces",
+      "rasterFile": "stora-04-surfaces.tif",
+      "rgbFile": "stora-04-surfaces.png",
+      "sha256": "7b45038a0f7bb3cb8ba422a3599f03cd9a7ca517998177864d5308fcbe5c0253",
+      "rgbSha256": "774d7c0320499994d1db9ea70bb6b7dcab9192c7dd776d92df1fe3882c7ae30d",
+      "requestSha256": "0094b0e7a29ac9c1788bd15083d7b4714eacbb8fc92aaff270681a1cb307d094",
+      "bytes": 835490,
+      "boundsEpsg3006": [
+        639868.32,
+        6636117.44,
+        639959.5199999999,
+        6636208.0
+      ],
+      "geoTransform": [
+        639868.32,
+        0.16,
+        0.0,
+        6636208.0,
+        0.0,
+        -0.16
+      ],
+      "width": 570,
+      "height": 566,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:01.411628+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-05-surfaces",
+      "rasterFile": "stora-05-surfaces.tif",
+      "rgbFile": "stora-05-surfaces.png",
+      "sha256": "53c008d3d7bd4a9d8c887932b05d1d016e2f3db4301905e7b0e45e965976cf50",
+      "rgbSha256": "c6bf188ed76201c3029842c475ec3c592ef9ab95da9a3ea1593c5e499f7fb227",
+      "requestSha256": "2a0ded7269826255c9c04aec186b9a173af254945ffa876e756b6cc6c66570c4",
+      "bytes": 1213711,
+      "boundsEpsg3006": [
+        639758.24,
+        6635595.68,
+        639866.72,
+        6635698.56
+      ],
+      "geoTransform": [
+        639758.24,
+        0.16,
+        0.0,
+        6635698.56,
+        0.0,
+        -0.16
+      ],
+      "width": 678,
+      "height": 643,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:01.907917+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-06-surfaces",
+      "rasterFile": "stora-06-surfaces.tif",
+      "rgbFile": "stora-06-surfaces.png",
+      "sha256": "2d9378e3dd85cc8eaf717f0e09a0db99bc0f9820de8c4e9cab2a59461a68a6ec",
+      "rgbSha256": "bae90b2de65b5394e078d96e70fbb5b3ac800d0b4df6a152da4ce7a2b3cbce27",
+      "requestSha256": "2cd8e7c4ee36d226651adce1bab45ac30fe6a8754d159bcadb657ea227814b35",
+      "bytes": 949421,
+      "boundsEpsg3006": [
+        639484.32,
+        6635537.28,
+        639577.6,
+        6635637.44
+      ],
+      "geoTransform": [
+        639484.32,
+        0.16,
+        0.0,
+        6635637.44,
+        0.0,
+        -0.16
+      ],
+      "width": 583,
+      "height": 626,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:02.334711+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-07-surfaces",
+      "rasterFile": "stora-07-surfaces.tif",
+      "rgbFile": "stora-07-surfaces.png",
+      "sha256": "068b957a262b76404bf21d8a2ec5c01b2ec5eedf3b000036e70c25c109716a71",
+      "rgbSha256": "cc5245a0112bce189b23676f472c8ffd490d18079b8f36b6fdf65aa99bc86399",
+      "requestSha256": "5d841fefb9c4fcfff170357645fd691bc50566fdf9158412c3cca8815742d573",
+      "bytes": 4071399,
+      "boundsEpsg3006": [
+        639359.68,
+        6635797.76,
+        639489.92,
+        6636090.24
+      ],
+      "geoTransform": [
+        639359.68,
+        0.16,
+        0.0,
+        6636090.24,
+        0.0,
+        -0.16
+      ],
+      "width": 814,
+      "height": 1828,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:03.753929+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-08-surfaces",
+      "rasterFile": "stora-08-surfaces.tif",
+      "rgbFile": "stora-08-surfaces.png",
+      "sha256": "143b67b761dd82ae6a4ea1c47fe478ae932984797fa38cbc541838cb18e00f75",
+      "rgbSha256": "63bdfe917069294cdfb251e774e70e98f3e9f329ad77e5aebd850df389ea0352",
+      "requestSha256": "ae862351e92556880021fe443b20f971bf8b2535a077429a2101b2ff81d0aed2",
+      "bytes": 937379,
+      "boundsEpsg3006": [
+        639598.88,
+        6636370.4,
+        639702.4,
+        6636459.36
+      ],
+      "geoTransform": [
+        639598.88,
+        0.16,
+        0.0,
+        6636459.36,
+        0.0,
+        -0.16
+      ],
+      "width": 647,
+      "height": 556,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:04.206892+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-09-surfaces",
+      "rasterFile": "stora-09-surfaces.tif",
+      "rgbFile": "stora-09-surfaces.png",
+      "sha256": "6191931397e02934052b1df85d9dc1a69806e6bbcf5aecc5acbf60522d07328b",
+      "rgbSha256": "d1a0007c85c8bdcdf684348bfd05b7700e5826bd3d38054f0a778e5a80c956df",
+      "requestSha256": "b4e577f4159f8734788c2c5115a4ca0fe44f307f06ebb62ffd7abd8200b95aef",
+      "bytes": 1025845,
+      "boundsEpsg3006": [
+        639923.04,
+        6636571.36,
+        640024.3200000001,
+        6636668.0
+      ],
+      "geoTransform": [
+        639923.04,
+        0.16,
+        0.0,
+        6636668.0,
+        0.0,
+        -0.16
+      ],
+      "width": 633,
+      "height": 604,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:04.738176+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-10-surfaces",
+      "rasterFile": "stora-10-surfaces.tif",
+      "rgbFile": "stora-10-surfaces.png",
+      "sha256": "4ac8aa8f79804bbfa8eea7302fe8fb84b7b29f9f6dafcc5874b05ca482f9fff5",
+      "rgbSha256": "a74fe6106079da824905be73973dc59142a098a0b897a94c155ab3cc0f09c84a",
+      "requestSha256": "bcd01a41de0ece77d21de21674e611d490613b40267a9ef8364d4fb016c1f61d",
+      "bytes": 1199196,
+      "boundsEpsg3006": [
+        640038.88,
+        6636596.0,
+        640147.68,
+        6636700.8
+      ],
+      "geoTransform": [
+        640038.88,
+        0.16,
+        0.0,
+        6636700.8,
+        0.0,
+        -0.16
+      ],
+      "width": 680,
+      "height": 655,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:05.192943+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-11-surfaces",
+      "rasterFile": "stora-11-surfaces.tif",
+      "rgbFile": "stora-11-surfaces.png",
+      "sha256": "a40d2adefc72f114614e4a144f78beecbab2107892cbc7aff28c915b66169a02",
+      "rgbSha256": "db29e395481c370adb561e265e555905891c5a44f47d08a514ff212a3a24c967",
+      "requestSha256": "963dc9edb582f89e6469cc005f081cdc5f693bd4063f598227311cec63a7af64",
+      "bytes": 1062266,
+      "boundsEpsg3006": [
+        639693.92,
+        6636564.800000001,
+        639786.88,
+        6636675.36
+      ],
+      "geoTransform": [
+        639693.92,
+        0.16,
+        0.0,
+        6636675.36,
+        0.0,
+        -0.16
+      ],
+      "width": 581,
+      "height": 691,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:05.651301+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-12-surfaces",
+      "rasterFile": "stora-12-surfaces.tif",
+      "rgbFile": "stora-12-surfaces.png",
+      "sha256": "e79ae6b763dd4ccab5581a7224ad0cd52bf52150ba30c16605cbf512c035eb39",
+      "rgbSha256": "8281555200e99125c6e4366ae0a335268c3363418d36aea1e76282e28721d9d3",
+      "requestSha256": "a78649d8a46b63980a926a02af09a96dd3bfd01bc536a06727093e156ad7d9ba",
+      "bytes": 995620,
+      "boundsEpsg3006": [
+        639372.0,
+        6636333.600000001,
+        639466.08,
+        6636433.28
+      ],
+      "geoTransform": [
+        639372.0,
+        0.16,
+        0.0,
+        6636433.28,
+        0.0,
+        -0.16
+      ],
+      "width": 588,
+      "height": 623,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:06.043802+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-13-surfaces",
+      "rasterFile": "stora-13-surfaces.tif",
+      "rgbFile": "stora-13-surfaces.png",
+      "sha256": "b13aa1785b770d8bc081558c383b2d8f821d861d3ff05f0e0767aae5469792e2",
+      "rgbSha256": "681cfddd3327925ba6de49ada2ef5637265c1b1f9918e2ea02ee759a97907cca",
+      "requestSha256": "d2e7def7b65abe86a65fbe57f679791aae5be8290420ab28916fc261f32e9c91",
+      "bytes": 916345,
+      "boundsEpsg3006": [
+        639619.52,
+        6636503.36,
+        639708.3200000001,
+        6636600.16
+      ],
+      "geoTransform": [
+        639619.52,
+        0.16,
+        0.0,
+        6636600.16,
+        0.0,
+        -0.16
+      ],
+      "width": 555,
+      "height": 605,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:06.382990+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-14-surfaces",
+      "rasterFile": "stora-14-surfaces.tif",
+      "rgbFile": "stora-14-surfaces.png",
+      "sha256": "0d50307944a1bacf2b2af63633bea70b49eb933356714feefa2b90f4e0e9bc05",
+      "rgbSha256": "5188e62d9747287316a84d7a3c0d543449bce92eb3b16048145623de89f5835a",
+      "requestSha256": "192843fc0d5d501ec63a84678aa05aec427b2fbd7fd11096ddf4fde9cacc66b6",
+      "bytes": 1704949,
+      "boundsEpsg3006": [
+        639649.6,
+        6636410.5600000005,
+        639745.6,
+        6636580.48
+      ],
+      "geoTransform": [
+        639649.6,
+        0.16,
+        0.0,
+        6636580.48,
+        0.0,
+        -0.16
+      ],
+      "width": 600,
+      "height": 1062,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:06.856167+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-15-surfaces",
+      "rasterFile": "stora-15-surfaces.tif",
+      "rgbFile": "stora-15-surfaces.png",
+      "sha256": "f9ab4fd57578d05e224bac70a049442c1ce6d294886ac057619657cdd932183e",
+      "rgbSha256": "1ee1ed736ba07016aec87144f822f3eedd1f1f5c95bada951cc8768547463c88",
+      "requestSha256": "7e8d850548b3438e3958e9f33c8d6f37ec6d0a6fffaf6f29d24f1e6065e9e07f",
+      "bytes": 2592959,
+      "boundsEpsg3006": [
+        639418.24,
+        6636083.680000001,
+        639560.16,
+        6636267.36
+      ],
+      "geoTransform": [
+        639418.24,
+        0.16,
+        0.0,
+        6636267.36,
+        0.0,
+        -0.16
+      ],
+      "width": 887,
+      "height": 1148,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:07.645841+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-16-surfaces",
+      "rasterFile": "stora-16-surfaces.tif",
+      "rgbFile": "stora-16-surfaces.png",
+      "sha256": "c56dee3b0bdee6fad28991290036e1a1e3341099f03a7891117d42ec0d3eee92",
+      "rgbSha256": "e725e3d4953f91c55e44b91d11748114266b71fdefce0303a5fb019c4997afd4",
+      "requestSha256": "fff85e1d86640325cbd14fe30202ee3981b16c553f5a25595ee07a91a97ad490",
+      "bytes": 3882795,
+      "boundsEpsg3006": [
+        639585.92,
+        6635626.5600000005,
+        639681.12,
+        6636009.12
+      ],
+      "geoTransform": [
+        639585.92,
+        0.16,
+        0.0,
+        6636009.12,
+        0.0,
+        -0.16
+      ],
+      "width": 595,
+      "height": 2391,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:08.708228+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-17-surfaces",
+      "rasterFile": "stora-17-surfaces.tif",
+      "rgbFile": "stora-17-surfaces.png",
+      "sha256": "9b2636767e4e2f23d4e4f97e378aa306f54e844be7183fd99730e8034f89041e",
+      "rgbSha256": "bca4074e0eb82926b654189071ec3cc4eec6cf30c312c854a4a46f2b6b5fc83b",
+      "requestSha256": "e168133eca32f4f009ea9d9107129a53ade3a4721fd44fdd9e99a436a41825c2",
+      "bytes": 6430746,
+      "boundsEpsg3006": [
+        639634.4,
+        6635646.239999999,
+        639835.2000000001,
+        6635932.64
+      ],
+      "geoTransform": [
+        639634.4,
+        0.16,
+        0.0,
+        6635932.64,
+        0.0,
+        -0.16
+      ],
+      "width": 1255,
+      "height": 1790,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:10.111677+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "stora-18-surfaces",
+      "rasterFile": "stora-18-surfaces.tif",
+      "rgbFile": "stora-18-surfaces.png",
+      "sha256": "7a0600c0076e035f78c1647d23c0638203ab41fd1cfb2801a7bf6615eb197952",
+      "rgbSha256": "ab4f78e74b65cae2cc647aa3058bb10e18da318ccfb8c08853f75bcd08fcc2b6",
+      "requestSha256": "222cd05a8d9bb65c24f1eb4db9872f320ed665c1794a821b95cff0cbc834513a",
+      "bytes": 2949880,
+      "boundsEpsg3006": [
+        639764.96,
+        6636066.399999999,
+        639892.64,
+        6636290.56
+      ],
+      "geoTransform": [
+        639764.96,
+        0.16,
+        0.0,
+        6636290.56,
+        0.0,
+        -0.16
+      ],
+      "width": 798,
+      "height": 1401,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:11.008730+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-01-surfaces",
+      "rasterFile": "mellan-01-surfaces.tif",
+      "rgbFile": "mellan-01-surfaces.png",
+      "sha256": "859706c6d23a1db44f6a74fca70ea0600f2c99bd5938eaa65567b518930cbb9a",
+      "rgbSha256": "1b759d2f52f5ffd6760d2a6ea367284b3487d0c441640a3e0de89a598250789e",
+      "requestSha256": "167b600d9a8f8cb8fe99dc375edb2900bceae20c96db824b04144dcac2b96ba0",
+      "bytes": 903950,
+      "boundsEpsg3006": [
+        640208.16,
+        6636337.4399999995,
+        640300.8,
+        6636424.64
+      ],
+      "geoTransform": [
+        640208.16,
+        0.16,
+        0.0,
+        6636424.64,
+        0.0,
+        -0.16
+      ],
+      "width": 579,
+      "height": 545,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:11.347426+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-02-surfaces",
+      "rasterFile": "mellan-02-surfaces.tif",
+      "rgbFile": "mellan-02-surfaces.png",
+      "sha256": "9bf79c1f49b84d36144d60926689cb97a1149400d383f5a34afd7595572251fa",
+      "rgbSha256": "412f8fe039e2ecd84b5c8554e7f8035bd1c941611bcf6b3df190ea13972b2222",
+      "requestSha256": "3336e2aff403183ddcfc871ed2406d6ddaa27f6d64564fe2919007ce4e80d870",
+      "bytes": 839288,
+      "boundsEpsg3006": [
+        640532.0,
+        6636265.76,
+        640617.92,
+        6636356.64
+      ],
+      "geoTransform": [
+        640532.0,
+        0.16,
+        0.0,
+        6636356.64,
+        0.0,
+        -0.16
+      ],
+      "width": 537,
+      "height": 568,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:11.756342+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-03-surfaces",
+      "rasterFile": "mellan-03-surfaces.tif",
+      "rgbFile": "mellan-03-surfaces.png",
+      "sha256": "3a8b91adc1c48a40d7b7e44861d955b07ecd9d492b9c998351dfb1247f2d021d",
+      "rgbSha256": "34e64d346f067e6e73cd92c4c6ff609bbc6cc70e9c9855c7a2d013f82f0f6fb1",
+      "requestSha256": "5f637e31e034e0668b5ccf5d92559e4b88df78fd48ddca8fc1ff1d7728461936",
+      "bytes": 792461,
+      "boundsEpsg3006": [
+        640944.48,
+        6636293.4399999995,
+        641026.88,
+        6636381.92
+      ],
+      "geoTransform": [
+        640944.48,
+        0.16,
+        0.0,
+        6636381.92,
+        0.0,
+        -0.16
+      ],
+      "width": 515,
+      "height": 553,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:12.088393+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-04-surfaces",
+      "rasterFile": "mellan-04-surfaces.tif",
+      "rgbFile": "mellan-04-surfaces.png",
+      "sha256": "363a1d87672672bcf8b6f42ed8052cf8d308ba246e848643de57275eb671c381",
+      "rgbSha256": "e285db5d72803526ce0ab02b718b044eda1a27fa83f9687c51deff65472be66a",
+      "requestSha256": "c2eb0f718040c5c51f507e20332e531cc72347b9aec7ddfef06cc21b8f519974",
+      "bytes": 756227,
+      "boundsEpsg3006": [
+        640637.12,
+        6636239.84,
+        640729.6,
+        6636325.6
+      ],
+      "geoTransform": [
+        640637.12,
+        0.16,
+        0.0,
+        6636325.6,
+        0.0,
+        -0.16
+      ],
+      "width": 578,
+      "height": 536,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:12.398816+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-05-surfaces",
+      "rasterFile": "mellan-05-surfaces.tif",
+      "rgbFile": "mellan-05-surfaces.png",
+      "sha256": "d3d1925545ba4c279aaa7719eb08f922b551e8bd2032c23111bed631f1424e46",
+      "rgbSha256": "20b2350bc54056980376435411a2209873c13c46ee11a56ea1d588465d8bbd69",
+      "requestSha256": "e9c73dac182fd0ac4bced7ea9055aa324bf3d3f26493023e4dfa8f538a1b74cc",
+      "bytes": 818932,
+      "boundsEpsg3006": [
+        640460.48,
+        6636119.039999999,
+        640544.32,
+        6636207.52
+      ],
+      "geoTransform": [
+        640460.48,
+        0.16,
+        0.0,
+        6636207.52,
+        0.0,
+        -0.16
+      ],
+      "width": 524,
+      "height": 553,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:12.803554+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-06-surfaces",
+      "rasterFile": "mellan-06-surfaces.tif",
+      "rgbFile": "mellan-06-surfaces.png",
+      "sha256": "2fa294b1a16e881c8435791b75963085b9cfafac66744a0b827f60ce582efa20",
+      "rgbSha256": "18fcaeab7bea34e9e9a2faa377583fb0cf2634c402a7257d40ff4defccf0e2fc",
+      "requestSha256": "1df87982237a8405538ab4b32c960ca9ab51ea9d332af163de65a47663b280c2",
+      "bytes": 917103,
+      "boundsEpsg3006": [
+        640204.96,
+        6635732.4799999995,
+        640298.88,
+        6635821.6
+      ],
+      "geoTransform": [
+        640204.96,
+        0.16,
+        0.0,
+        6635821.6,
+        0.0,
+        -0.16
+      ],
+      "width": 587,
+      "height": 557,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:13.142719+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-07-surfaces",
+      "rasterFile": "mellan-07-surfaces.tif",
+      "rgbFile": "mellan-07-surfaces.png",
+      "sha256": "c48a8ef4475ddf121276371056b264af3749c03fa9a43a41ad14a042542f5036",
+      "rgbSha256": "d4e74d08679aefd3aab02da8e90f37583ca7a7bb28c34bddf592525e1e80904a",
+      "requestSha256": "e464eb7647ff8e5282d322b624e6620c26f7658cbec6da17a954f57c0d9a03c0",
+      "bytes": 870244,
+      "boundsEpsg3006": [
+        640324.16,
+        6635841.44,
+        640418.56,
+        6635924.32
+      ],
+      "geoTransform": [
+        640324.16,
+        0.16,
+        0.0,
+        6635924.32,
+        0.0,
+        -0.16
+      ],
+      "width": 590,
+      "height": 518,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:13.479761+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-08-surfaces",
+      "rasterFile": "mellan-08-surfaces.tif",
+      "rgbFile": "mellan-08-surfaces.png",
+      "sha256": "775f6d6dcc183b3540699259fe26849dfc04e204fed77736174c123ecaf347d0",
+      "rgbSha256": "905681e3002449c34c32e70b4f144afe970f9c97461e08aa369caedc7f0e4b06",
+      "requestSha256": "d0eac77ffed63523671ec832fd1291c901cea4bc3862347a307829f077009675",
+      "bytes": 725097,
+      "boundsEpsg3006": [
+        640399.68,
+        6636216.4799999995,
+        640484.8,
+        6636298.88
+      ],
+      "geoTransform": [
+        640399.68,
+        0.16,
+        0.0,
+        6636298.88,
+        0.0,
+        -0.16
+      ],
+      "width": 532,
+      "height": 515,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:13.787104+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-09-surfaces",
+      "rasterFile": "mellan-09-surfaces.tif",
+      "rgbFile": "mellan-09-surfaces.png",
+      "sha256": "9f9cc00b45e9f740552e71d49d1fada17a0257b4d855071fce79e16956456a95",
+      "rgbSha256": "7c4da5690625ee9adb694a92abe141366a8a0238170ba7676ad6074b42c86b4c",
+      "requestSha256": "80ef3baee56ca3a35e58a7ac52e035f41156ffc0c488290eaf153b0008c7c9eb",
+      "bytes": 958820,
+      "boundsEpsg3006": [
+        639995.2,
+        6636254.24,
+        640093.76,
+        6636340.8
+      ],
+      "geoTransform": [
+        639995.2,
+        0.16,
+        0.0,
+        6636340.8,
+        0.0,
+        -0.16
+      ],
+      "width": 616,
+      "height": 541,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "acquiredAt": "2026-09-09T16:50:14.070985+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    }
+  ],
+  "sources": [
+    {
+      "id": "o66350_6375_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66350_6375_25_mr25.tif",
+      "bytes": 639759353,
+      "boundsEpsg3006": [
+        637500,
+        6635000,
+        640000,
+        6637500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T09:25:58Z",
+      "captureStart": "2025-06-14T09:25:42Z",
+      "captureEnd": "2025-06-15T09:30:32Z"
+    },
+    {
+      "id": "o66350_6400_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66350_6400_25_mr25.tif",
+      "bytes": 680411854,
+      "boundsEpsg3006": [
+        640000,
+        6635000,
+        642500,
+        6637500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T09:25:50Z",
+      "captureStart": "2025-04-25T07:36:44Z",
+      "captureEnd": "2025-06-14T09:26:06Z"
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false,
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0.",
+  "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf"
+}

@@ -1,5 +1,28 @@
 # Continue Upsala mapping in Codex / VS Code
 
+## Current update — 9 September 2026
+
+The [tee follow-up](lm-tee-alignment-review-2026-09-09.md) is the newest change:
+83 navigation references moved, nine corresponding Stora route starts updated,
+all 78 physical pads retained. Do not restore scorecard-interpolated positions
+over these explicit platform associations. Twenty-seven reference decisions
+remain uncertain; do not snap these generically to the nearest platform.
+
+Read [the authenticated orthophoto alignment review](lm-alignment-review-2026-09-09.md)
+first. It supersedes the playing-surface status in the September 7 checkpoint
+below: all 27 greens reviewed, four greens and eight bunker footprints corrected,
+including Mellan H6 and the connected Stora H3 sand surface. Both routings share
+the rebuilt physical geometry. Acquisition is reproducible through
+[the runbook](lm-ortho-2026-09-09.md); source rasters are in ignored
+`upsalabuild/cache/lm-ortho/`.
+
+The new adoption helpers assert their exact original source shapes. Do not edit
+generated models or reapply a review to an already adopted model. Regenerate
+through `tools/refresh-upsala-mapping.mjs`, then refresh new evidence hashes with
+`node upsalabuild/mapping/update-lm-manifest.mjs` if review ledgers changed.
+Preserve other ongoing work in this shared checkout. The current working branch
+may differ from the historical branch named below.
+
 Saved 2026-09-07. Repository: `C:\Users\olov_\repos\olovs-hemsida`.
 Branch: `codex/upsala-ground-mapping`.
 

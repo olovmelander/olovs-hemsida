@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "report": "geobuild/cache/lm-tee-focus-review/panels.json",
+  "suppressInferredTeeHoles": [
+    5,
+    6
+  ],
+  "features": [
+    {
+      "id": "lm-2024-h05-tee-inventory",
+      "hole": 5,
+      "kind": "tee-set",
+      "uncertaintyM": 1.5,
+      "referencePads": [
+        0,
+        0,
+        0,
+        null,
+        1,
+        null
+      ],
+      "note": "Two clearly visible physical decks inventory. Long rear deck and smaller middle deck were traced; four unrelated tiny historic OSM references and synthetic rectangles are removed from this hole inventory. Tree shadows prevent a claim of complete deck census. Legacy references0–2 provisionally refer to the visible rear deck, reference4 to the visible middle deck. References3 and5 remain unresolved virtual starts; no daily marker positions are inferred. Runtime footprint inference is suppressed as a separate source policy.",
+      "pads": [
+        {
+          "id": "lm-2024-h05-rear-deck",
+          "panel": "tees-h05-back",
+          "pixels": [
+            [
+              411,
+              440
+            ],
+            [
+              460,
+              437
+            ],
+            [
+              469,
+              535
+            ],
+            [
+              419,
+              538
+            ]
+          ],
+          "note": "Clearly visible short-mown rectangular rear physical deck, including its worn turf; excludes surrounding berm. Legacy card references0–2 provisionally associate with this observed deck, without implying exact daily markers."
+        },
+        {
+          "id": "lm-2024-h05-middle-deck",
+          "panel": "tees-h05-front",
+          "pixels": [
+            [
+              347,
+              678
+            ],
+            [
+              375,
+              684
+            ],
+            [
+              366,
+              724
+            ],
+            [
+              337,
+              717
+            ]
+          ],
+          "note": "Visible small middle deck west of the legacy reference4. The reference is moved onto this physical turf footprint provisionally, not interpreted as a daily marker."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h06-tee-inventory",
+      "hole": 6,
+      "kind": "tee-set",
+      "uncertaintyM": 3,
+      "referencePads": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        null
+      ],
+      "note": "Three clearly visible physical decks plus one unchanged historical OSM deck obscured by shadow. Traces cover the large rear deck south of the crossing path, elongated middle deck north of it, and the forward deck east of the pond. The old forward reference4 lay in the pond and provisionally associates with the observed forward deck. References0–1 provisionally use the visible rear deck and2–3 the visible middle deck; reference5 remains an unresolved virtual fairway start. Shadow prevents a complete-source-accuracy claim. Synthetic phantom footprints are removed; runtime footprint inference is suppressed separately.",
+      "pads": [
+        {
+          "id": "lm-2024-h06-rear-deck",
+          "panel": "tees-h06-back",
+          "pixels": [
+            [
+              449,
+              432
+            ],
+            [
+              506,
+              429
+            ],
+            [
+              519,
+              481
+            ],
+            [
+              451,
+              488
+            ]
+          ],
+          "note": "Clearly visible rectangular short-mown rear physical deck east of the smaller historic shaded deck. Provisional deck reference, not daily tee markers."
+        },
+        {
+          "id": "lm-2024-h06-middle-deck",
+          "panel": "tees-h06-back",
+          "pixels": [
+            [
+              450,
+              96
+            ],
+            [
+              468,
+              96
+            ],
+            [
+              480,
+              111
+            ],
+            [
+              476,
+              138
+            ],
+            [
+              461,
+              175
+            ],
+            [
+              443,
+              213
+            ],
+            [
+              429,
+              233
+            ],
+            [
+              413,
+              226
+            ],
+            [
+              411,
+              210
+            ],
+            [
+              423,
+              177
+            ],
+            [
+              434,
+              147
+            ],
+            [
+              443,
+              120
+            ]
+          ],
+          "note": "Visible elongated physical deck immediately north of the crossing path, with its rounded northern end and narrow southern end."
+        },
+        {
+          "id": "lm-2024-h06-forward-deck",
+          "panel": "tees-h06-front",
+          "pixels": [
+            [
+              664,
+              473
+            ],
+            [
+              692,
+              450
+            ],
+            [
+              729,
+              502
+            ],
+            [
+              701,
+              522
+            ]
+          ],
+          "note": "Visible forward physical deck east of the pond. Supplies the provisional platform reference for legacy reference4, which previously lay in water."
+        },
+        {
+          "id": "osm-w1527513658-retained-shadow",
+          "panel": "tees-h06-back",
+          "retainedOriginalPadIndex": 0,
+          "uncertaintyM": 3,
+          "note": "Historical OSM w1527513658 boundary retained exactly from the baseline. Tree shadow prevents independent tracing of its complete perimeter in the2024 orthophoto; this outline is not claimed to be newly traced or source-accurate. No virtual reference is newly assigned to this uncertain deck."
+        }
+      ]
+    }
+  ],
+  "reviewNotes": [
+    {
+      "hole": 5,
+      "inventoryCompleteness": "partial-visible-inventory",
+      "referenceConfidence": "provisional, with3/5 unresolved",
+      "note": "Focus back/front and whole tee/hole panels inspected. Only the two clearly observed physical decks are adopted. Synthetic footprints do not establish physical deck existence."
+    },
+    {
+      "hole": 6,
+      "inventoryCompleteness": "visible-decks-plus-historical-shadow-retention",
+      "referenceConfidence": "provisional, with5 unresolved",
+      "note": "Focus back/front panels inspected. One uncertain historic OSM footprint is retained as historic; inferred rear and pond footprints are not accepted as physical decks."
+    }
+  ]
+}

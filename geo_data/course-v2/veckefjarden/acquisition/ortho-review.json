@@ -1,0 +1,1051 @@
+{
+  "schemaVersion": 1,
+  "groundId": "veckefjarden",
+  "kind": "authenticated-orthophoto-acquisition",
+  "observedAt": "2026-09-09T16:51:52.110393+00:00",
+  "state": "acquired-for-review",
+  "planSha256": "28c2405337280e879c73c6849522c7f786829a8bd0ba7dc19f973de4a4b1bdbf",
+  "collection": "orto-u2-2024",
+  "horizontalCrs": "EPSG:3006",
+  "resolutionMetres": 0.16,
+  "boundsEpsg3006": [
+    682884.96,
+    7021977.92,
+    684934.08,
+    7024027.04
+  ],
+  "sourceRasterDirectory": "geobuild/cache/lm-ortho-veckefjarden",
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0.",
+  "sourceAbsoluteHorizontalAccuracyMetres": null,
+  "selectedWindows": [
+    "context-0-0",
+    "context-0-1",
+    "context-0-2",
+    "context-0-3",
+    "context-1-0",
+    "context-1-1",
+    "context-1-2",
+    "context-1-3",
+    "context-2-0",
+    "context-2-1",
+    "context-2-2",
+    "context-2-3",
+    "context-3-0",
+    "context-3-1",
+    "context-3-2",
+    "context-3-3"
+  ],
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o70200_6825_25_mr24",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o70225_6825_25_mr24",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "context-0-0",
+      "requestSha256": "c714dfa369b9d02431ec55f94ed5b79e8a57e131d27cd371aa4bf68ef2b890b6",
+      "sha256": "d9b13ecaf36a332e6f15b27400778409d384073cad396f6216b9e2be1efa7a30",
+      "bytes": 42253469,
+      "rasterFile": "context-0-0.tif",
+      "boundsEpsg3006": [
+        682884.96,
+        7023387.04,
+        683524.96,
+        7024027.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        682884.96,
+        0.16,
+        0.0,
+        7024027.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:52:05.711044+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16.0,
+          "maximum": 255.0,
+          "mean": 59.7546553125,
+          "standardDeviation": 34.38211308837512
+        },
+        {
+          "band": 2,
+          "minimum": 23.0,
+          "maximum": 255.0,
+          "mean": 73.52247125,
+          "standardDeviation": 32.9804717566763
+        },
+        {
+          "band": 3,
+          "minimum": 36.0,
+          "maximum": 255.0,
+          "mean": 73.3084850625,
+          "standardDeviation": 23.99388069443362
+        },
+        {
+          "band": 4,
+          "minimum": 4.0,
+          "maximum": 255.0,
+          "mean": 112.88458625,
+          "standardDeviation": 72.41727900018967
+        }
+      ]
+    },
+    {
+      "id": "context-0-1",
+      "requestSha256": "40279f9910de558c7471508a7f4bfef486995647a26fb158774c3be6f4865338",
+      "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+      "bytes": 49722905,
+      "rasterFile": "context-0-1.tif",
+      "boundsEpsg3006": [
+        683524.96,
+        7023387.04,
+        684164.96,
+        7024027.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        683524.96,
+        0.16,
+        0.0,
+        7024027.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:52:18.028875+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 17.0,
+          "maximum": 255.0,
+          "mean": 72.6925489375,
+          "standardDeviation": 36.24194368796557
+        },
+        {
+          "band": 2,
+          "minimum": 27.0,
+          "maximum": 255.0,
+          "mean": 87.9557893125,
+          "standardDeviation": 31.19392985185757
+        },
+        {
+          "band": 3,
+          "minimum": 33.0,
+          "maximum": 255.0,
+          "mean": 82.334279875,
+          "standardDeviation": 25.08450587444708
+        },
+        {
+          "band": 4,
+          "minimum": 12.0,
+          "maximum": 255.0,
+          "mean": 148.30749375,
+          "standardDeviation": 52.38652551080011
+        }
+      ]
+    },
+    {
+      "id": "context-0-2",
+      "requestSha256": "df2c64eab04db710142f2b8dc85c77363e21cd9670510f30697db4d2bfa5aefa",
+      "sha256": "32c2f1599a0b2ec1546ce7a26d61c0516b53f639d612e5218afb999baf145976",
+      "bytes": 51038629,
+      "rasterFile": "context-0-2.tif",
+      "boundsEpsg3006": [
+        684164.96,
+        7023387.04,
+        684804.96,
+        7024027.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        684164.96,
+        0.16,
+        0.0,
+        7024027.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:52:32.427149+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15.0,
+          "maximum": 255.0,
+          "mean": 69.5771261875,
+          "standardDeviation": 39.0514471953499
+        },
+        {
+          "band": 2,
+          "minimum": 27.0,
+          "maximum": 255.0,
+          "mean": 82.52558475,
+          "standardDeviation": 32.85309014073969
+        },
+        {
+          "band": 3,
+          "minimum": 32.0,
+          "maximum": 255.0,
+          "mean": 80.707423375,
+          "standardDeviation": 28.553640361931148
+        },
+        {
+          "band": 4,
+          "minimum": 8.0,
+          "maximum": 255.0,
+          "mean": 117.343414625,
+          "standardDeviation": 45.2390436295943
+        }
+      ]
+    },
+    {
+      "id": "context-0-3",
+      "requestSha256": "3713d2ec1e98357386d6b7a98796d769e1b152230c672c741240bde9f2ee17a1",
+      "sha256": "2d9e6ca892e6cd1736d93801c390629bec47e48049e89f1b37255230abb5e56a",
+      "bytes": 9939316,
+      "rasterFile": "context-0-3.tif",
+      "boundsEpsg3006": [
+        684804.96,
+        7023387.04,
+        684934.08,
+        7024027.04
+      ],
+      "width": 807,
+      "height": 4000,
+      "geoTransform": [
+        684804.96,
+        0.16,
+        0.0,
+        7024027.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:52:35.290949+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15.0,
+          "maximum": 255.0,
+          "mean": 58.52062670384139,
+          "standardDeviation": 33.6131814063186
+        },
+        {
+          "band": 2,
+          "minimum": 28.0,
+          "maximum": 255.0,
+          "mean": 75.91489931846344,
+          "standardDeviation": 29.221580170328803
+        },
+        {
+          "band": 3,
+          "minimum": 31.0,
+          "maximum": 255.0,
+          "mean": 74.6192249070632,
+          "standardDeviation": 24.777234657900454
+        },
+        {
+          "band": 4,
+          "minimum": 11.0,
+          "maximum": 255.0,
+          "mean": 122.25207899628253,
+          "standardDeviation": 46.10033999271126
+        }
+      ]
+    },
+    {
+      "id": "context-1-0",
+      "requestSha256": "cfca1e0d19486d47c6ef4152ed910ea6f7053fdc8f72b1703421d375bf463ef8",
+      "sha256": "56b30e1c08b663705f0427be797f5ea6a5fbc4409a0ce3ba8bc1f01b54bc55b1",
+      "bytes": 21810855,
+      "rasterFile": "context-1-0.tif",
+      "boundsEpsg3006": [
+        682884.96,
+        7022747.04,
+        683524.96,
+        7023387.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        682884.96,
+        0.16,
+        0.0,
+        7023387.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:52:50.767308+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 17.0,
+          "maximum": 242.0,
+          "mean": 24.381670375,
+          "standardDeviation": 8.348262235330617
+        },
+        {
+          "band": 2,
+          "minimum": 21.0,
+          "maximum": 239.0,
+          "mean": 32.8859843125,
+          "standardDeviation": 8.741817716327875
+        },
+        {
+          "band": 3,
+          "minimum": 34.0,
+          "maximum": 249.0,
+          "mean": 48.195047875,
+          "standardDeviation": 6.525325840634932
+        },
+        {
+          "band": 4,
+          "minimum": 3.0,
+          "maximum": 255.0,
+          "mean": 9.945143625,
+          "standardDeviation": 17.90850167596725
+        }
+      ]
+    },
+    {
+      "id": "context-1-1",
+      "requestSha256": "8320d2f5b75f640c532164ba2e3329bcfffb20f8b7e41ab8ddc883c50919fb90",
+      "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+      "bytes": 45065931,
+      "rasterFile": "context-1-1.tif",
+      "boundsEpsg3006": [
+        683524.96,
+        7022747.04,
+        684164.96,
+        7023387.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        683524.96,
+        0.16,
+        0.0,
+        7023387.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:53:04.554982+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 17.0,
+          "maximum": 255.0,
+          "mean": 69.0551934375,
+          "standardDeviation": 30.842226097056564
+        },
+        {
+          "band": 2,
+          "minimum": 27.0,
+          "maximum": 255.0,
+          "mean": 83.1407641875,
+          "standardDeviation": 30.27039108198005
+        },
+        {
+          "band": 3,
+          "minimum": 35.0,
+          "maximum": 255.0,
+          "mean": 77.421836375,
+          "standardDeviation": 18.37013901206866
+        },
+        {
+          "band": 4,
+          "minimum": 5.0,
+          "maximum": 255.0,
+          "mean": 136.6365533125,
+          "standardDeviation": 64.53513766792355
+        }
+      ]
+    },
+    {
+      "id": "context-1-2",
+      "requestSha256": "ac4dcf39abb1dbd08ce17d7fa8f61b0cde7835c852c948a7d0f3da2d5b4e980d",
+      "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+      "bytes": 51399267,
+      "rasterFile": "context-1-2.tif",
+      "boundsEpsg3006": [
+        684164.96,
+        7022747.04,
+        684804.96,
+        7023387.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        684164.96,
+        0.16,
+        0.0,
+        7023387.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:53:22.882249+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16.0,
+          "maximum": 255.0,
+          "mean": 73.644300125,
+          "standardDeviation": 37.309173965312134
+        },
+        {
+          "band": 2,
+          "minimum": 26.0,
+          "maximum": 255.0,
+          "mean": 87.170480125,
+          "standardDeviation": 31.97222597860493
+        },
+        {
+          "band": 3,
+          "minimum": 33.0,
+          "maximum": 255.0,
+          "mean": 82.5988773125,
+          "standardDeviation": 26.24787786949781
+        },
+        {
+          "band": 4,
+          "minimum": 14.0,
+          "maximum": 255.0,
+          "mean": 135.247964875,
+          "standardDeviation": 48.43293826437507
+        }
+      ]
+    },
+    {
+      "id": "context-1-3",
+      "requestSha256": "a0423f82c8375b08ced65902e6bec2412defbe1c1cf1d566c5bf5ad130ec9abb",
+      "sha256": "3d6ccd27790a02cc6a4a7e73ec9223aadc60c91242a8a6d66d486a30b0846961",
+      "bytes": 9297774,
+      "rasterFile": "context-1-3.tif",
+      "boundsEpsg3006": [
+        684804.96,
+        7022747.04,
+        684934.08,
+        7023387.04
+      ],
+      "width": 807,
+      "height": 4000,
+      "geoTransform": [
+        684804.96,
+        0.16,
+        0.0,
+        7023387.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:53:26.077755+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 12.0,
+          "maximum": 238.0,
+          "mean": 52.30476517967782,
+          "standardDeviation": 28.60222700351706
+        },
+        {
+          "band": 2,
+          "minimum": 21.0,
+          "maximum": 229.0,
+          "mean": 65.13708054522924,
+          "standardDeviation": 26.753798271185197
+        },
+        {
+          "band": 3,
+          "minimum": 30.0,
+          "maximum": 223.0,
+          "mean": 68.64619578686494,
+          "standardDeviation": 19.638991995355507
+        },
+        {
+          "band": 4,
+          "minimum": 2.0,
+          "maximum": 255.0,
+          "mean": 77.30125774473358,
+          "standardDeviation": 47.623239952235394
+        }
+      ]
+    },
+    {
+      "id": "context-2-0",
+      "requestSha256": "ebbb7bc0984537c2cd80f790e46b413a0c1c3ce903cbdf200f6fa659c43e7704",
+      "sha256": "82ef30f6f995155c7aac9650fc7eb4927e2180085867c56c78e28643fc272344",
+      "bytes": 21752577,
+      "rasterFile": "context-2-0.tif",
+      "boundsEpsg3006": [
+        682884.96,
+        7022107.04,
+        683524.96,
+        7022747.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        682884.96,
+        0.16,
+        0.0,
+        7022747.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        },
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:53:44.693957+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16.0,
+          "maximum": 255.0,
+          "mean": 25.6381084375,
+          "standardDeviation": 9.320076209961552
+        },
+        {
+          "band": 2,
+          "minimum": 22.0,
+          "maximum": 255.0,
+          "mean": 34.7791071875,
+          "standardDeviation": 9.919007570210129
+        },
+        {
+          "band": 3,
+          "minimum": 30.0,
+          "maximum": 255.0,
+          "mean": 49.885430875,
+          "standardDeviation": 6.661471668527664
+        },
+        {
+          "band": 4,
+          "minimum": 3.0,
+          "maximum": 255.0,
+          "mean": 12.3924645,
+          "standardDeviation": 25.520097391394096
+        }
+      ]
+    },
+    {
+      "id": "context-2-1",
+      "requestSha256": "317529d6b06f3c29a13f824d91e0889ce0a077eb85ad7c72023938bc6c752af8",
+      "sha256": "7ade0afbf202e5d05c8f3784fc2f4a9243870ce6a90586774b68bfff0091ab20",
+      "bytes": 41663893,
+      "rasterFile": "context-2-1.tif",
+      "boundsEpsg3006": [
+        683524.96,
+        7022107.04,
+        684164.96,
+        7022747.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        683524.96,
+        0.16,
+        0.0,
+        7022747.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        },
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:53:57.075941+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15.0,
+          "maximum": 253.0,
+          "mean": 56.8449551875,
+          "standardDeviation": 35.06493786774214
+        },
+        {
+          "band": 2,
+          "minimum": 23.0,
+          "maximum": 253.0,
+          "mean": 69.6316425,
+          "standardDeviation": 34.226050130013455
+        },
+        {
+          "band": 3,
+          "minimum": 33.0,
+          "maximum": 247.0,
+          "mean": 70.3125096875,
+          "standardDeviation": 21.773059798928553
+        },
+        {
+          "band": 4,
+          "minimum": 4.0,
+          "maximum": 255.0,
+          "mean": 104.5849180625,
+          "standardDeviation": 75.49107781501507
+        }
+      ]
+    },
+    {
+      "id": "context-2-2",
+      "requestSha256": "0275953b545687d17efc245a9d8f819881e8cc465a9eaed0765c1052326a5464",
+      "sha256": "e235a3eab4b4bc131d0c79138ae3a5138789f3fc9464b629e50a4cdacd01b524",
+      "bytes": 51029709,
+      "rasterFile": "context-2-2.tif",
+      "boundsEpsg3006": [
+        684164.96,
+        7022107.04,
+        684804.96,
+        7022747.04
+      ],
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        684164.96,
+        0.16,
+        0.0,
+        7022747.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        },
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:54:11.202541+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16.0,
+          "maximum": 255.0,
+          "mean": 63.4006914375,
+          "standardDeviation": 28.721128543450625
+        },
+        {
+          "band": 2,
+          "minimum": 27.0,
+          "maximum": 255.0,
+          "mean": 77.6555714375,
+          "standardDeviation": 25.50424165512149
+        },
+        {
+          "band": 3,
+          "minimum": 33.0,
+          "maximum": 252.0,
+          "mean": 74.8359465,
+          "standardDeviation": 18.267172552810077
+        },
+        {
+          "band": 4,
+          "minimum": 16.0,
+          "maximum": 255.0,
+          "mean": 122.031199375,
+          "standardDeviation": 44.94771096339612
+        }
+      ]
+    },
+    {
+      "id": "context-2-3",
+      "requestSha256": "c0b77889cb7f549bcffd523607a9ad06593d42af0853f4599341e10a698ed758",
+      "sha256": "601f2238d4047cef080b0c35f37df7482f188c702dc705b164947cfa4caaa8af",
+      "bytes": 9996002,
+      "rasterFile": "context-2-3.tif",
+      "boundsEpsg3006": [
+        684804.96,
+        7022107.04,
+        684934.08,
+        7022747.04
+      ],
+      "width": 807,
+      "height": 4000,
+      "geoTransform": [
+        684804.96,
+        0.16,
+        0.0,
+        7022747.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        },
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:54:15.423714+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 12.0,
+          "maximum": 230.0,
+          "mean": 67.15043649318463,
+          "standardDeviation": 34.50289308526304
+        },
+        {
+          "band": 2,
+          "minimum": 22.0,
+          "maximum": 225.0,
+          "mean": 77.78214312267659,
+          "standardDeviation": 30.188600400533385
+        },
+        {
+          "band": 3,
+          "minimum": 32.0,
+          "maximum": 219.0,
+          "mean": 79.03933674101611,
+          "standardDeviation": 25.225377839218563
+        },
+        {
+          "band": 4,
+          "minimum": 1.0,
+          "maximum": 253.0,
+          "mean": 87.62541356877324,
+          "standardDeviation": 37.310291087085645
+        }
+      ]
+    },
+    {
+      "id": "context-3-0",
+      "requestSha256": "d31e215fb0e412eef5dd09a5de18e98645f46147596c30cb291d801b2e67709e",
+      "sha256": "7edde54b3221a6c0b88b164072ab7b0f404277adbe40510a495c2af0e61a3a57",
+      "bytes": 9617957,
+      "rasterFile": "context-3-0.tif",
+      "boundsEpsg3006": [
+        682884.96,
+        7021977.92,
+        683524.96,
+        7022107.04
+      ],
+      "width": 4000,
+      "height": 807,
+      "geoTransform": [
+        682884.96,
+        0.16,
+        0.0,
+        7022107.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:54:18.865997+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 17.0,
+          "maximum": 255.0,
+          "mean": 88.97887608426271,
+          "standardDeviation": 46.79792211996946
+        },
+        {
+          "band": 2,
+          "minimum": 28.0,
+          "maximum": 255.0,
+          "mean": 97.10756815365552,
+          "standardDeviation": 37.81705253651543
+        },
+        {
+          "band": 3,
+          "minimum": 38.0,
+          "maximum": 255.0,
+          "mean": 91.52002044609665,
+          "standardDeviation": 29.604357735834345
+        },
+        {
+          "band": 4,
+          "minimum": 5.0,
+          "maximum": 255.0,
+          "mean": 134.01367224287483,
+          "standardDeviation": 51.30300167003896
+        }
+      ]
+    },
+    {
+      "id": "context-3-1",
+      "requestSha256": "a68debfdab07ff425460c44642090d84851d3acd35f271d27b8c33781974c734",
+      "sha256": "c4917286de364583ed6fa655c520573ff99343336d95b782c3ca92c04a78d3d3",
+      "bytes": 6997195,
+      "rasterFile": "context-3-1.tif",
+      "boundsEpsg3006": [
+        683524.96,
+        7021977.92,
+        684164.96,
+        7022107.04
+      ],
+      "width": 4000,
+      "height": 807,
+      "geoTransform": [
+        683524.96,
+        0.16,
+        0.0,
+        7022107.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:54:24.326805+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15.0,
+          "maximum": 255.0,
+          "mean": 46.20480328376704,
+          "standardDeviation": 32.821074368693814
+        },
+        {
+          "band": 2,
+          "minimum": 24.0,
+          "maximum": 255.0,
+          "mean": 58.0282592936803,
+          "standardDeviation": 32.34476724511935
+        },
+        {
+          "band": 3,
+          "minimum": 36.0,
+          "maximum": 255.0,
+          "mean": 64.89040923172243,
+          "standardDeviation": 22.329053943788097
+        },
+        {
+          "band": 4,
+          "minimum": 4.0,
+          "maximum": 255.0,
+          "mean": 69.71678686493185,
+          "standardDeviation": 75.86664618562753
+        }
+      ]
+    },
+    {
+      "id": "context-3-2",
+      "requestSha256": "7f36e39e6aec63030ca26a9fd42a281a6a1316125bb27c27df4e724e9c622c8e",
+      "sha256": "ccc3951ecc0db209851942d22685626f15331539c73403632f76f02d5e6e8df8",
+      "bytes": 10172431,
+      "rasterFile": "context-3-2.tif",
+      "boundsEpsg3006": [
+        684164.96,
+        7021977.92,
+        684804.96,
+        7022107.04
+      ],
+      "width": 4000,
+      "height": 807,
+      "geoTransform": [
+        684164.96,
+        0.16,
+        0.0,
+        7022107.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:54:29.539297+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15.0,
+          "maximum": 223.0,
+          "mean": 50.76529182156134,
+          "standardDeviation": 24.91987852651081
+        },
+        {
+          "band": 2,
+          "minimum": 27.0,
+          "maximum": 218.0,
+          "mean": 67.61892038413879,
+          "standardDeviation": 24.498240456235422
+        },
+        {
+          "band": 3,
+          "minimum": 34.0,
+          "maximum": 205.0,
+          "mean": 67.9439104708798,
+          "standardDeviation": 16.518528588843367
+        },
+        {
+          "band": 4,
+          "minimum": 16.0,
+          "maximum": 255.0,
+          "mean": 115.83496189591078,
+          "standardDeviation": 50.33086041948282
+        }
+      ]
+    },
+    {
+      "id": "context-3-3",
+      "requestSha256": "6c13cf087b5c8d9b805ef8ef40fc6d2be0626a6aa87f4cec7945f88d7e47690b",
+      "sha256": "44d08f884aa4f4416e430095de6fc5d82e1f100eac74a05feb514d40c96f6368",
+      "bytes": 2089842,
+      "rasterFile": "context-3-3.tif",
+      "boundsEpsg3006": [
+        684804.96,
+        7021977.92,
+        684934.08,
+        7022107.04
+      ],
+      "width": 807,
+      "height": 807,
+      "geoTransform": [
+        684804.96,
+        0.16,
+        0.0,
+        7022107.04,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:54:30.778357+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 18.0,
+          "maximum": 217.0,
+          "mean": 59.054400083531796,
+          "standardDeviation": 25.961369816979875
+        },
+        {
+          "band": 2,
+          "minimum": 31.0,
+          "maximum": 207.0,
+          "mean": 72.63971537768197,
+          "standardDeviation": 23.227002722030445
+        },
+        {
+          "band": 3,
+          "minimum": 37.0,
+          "maximum": 198.0,
+          "mean": 72.88347007058744,
+          "standardDeviation": 18.01996432890487
+        },
+        {
+          "band": 4,
+          "minimum": 20.0,
+          "maximum": 239.0,
+          "mean": 99.01406374520344,
+          "standardDeviation": 34.90242342078652
+        }
+      ]
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false
+}

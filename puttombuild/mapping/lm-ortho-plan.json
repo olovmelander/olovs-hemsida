@@ -1,0 +1,963 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "kind": "authenticated-orthophoto-review-plan",
+  "collection": "orto-u2-2024",
+  "horizontalCrs": "EPSG:3006",
+  "resolutionMetres": 0.16,
+  "captureRange": {
+    "first": "2024-06-27T15:07:35Z",
+    "last": "2024-06-27T15:19:26Z"
+  },
+  "frame": {
+    "source": "local metres about ORIGIN; north -z, east +x",
+    "origin": {
+      "lat": 63.2992,
+      "lon": 18.9413
+    },
+    "mPerLat": 111320,
+    "mPerLon": 50019.58,
+    "transformation": "declared legacy local frame inverse to WGS84 then repository GRS80 SWEREF99TM projection; no fitted translation or rotation"
+  },
+  "pixelConvention": "bounds are pixel edges; centre E=minE+(column+0.5)*resolution, N=maxN-(row+0.5)*resolution",
+  "modelSha256": "db966f06373c1986c90fdec0fe5387e036457257638f973d94bda5ee20ba7645",
+  "discoverySha256": "fda21e90665b697bcbbd819395b5d3f4ed36df281ce37b3be57e4427e8658f83",
+  "courseBoundsEpsg3006": [
+    696843.84,
+    7024233.76,
+    698101.76,
+    7025730.08
+  ],
+  "sources": [
+    {
+      "id": "o70225_6950_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6950_25_mr24.tif",
+      "boundsEpsg3006": [
+        695000,
+        7022500,
+        697500,
+        7025000
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-06-27T15:07:43Z",
+      "bytes": 749254585
+    },
+    {
+      "id": "o70225_6975_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6975_25_mr24.tif",
+      "boundsEpsg3006": [
+        697500,
+        7022500,
+        700000,
+        7025000
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-06-27T15:19:09Z",
+      "bytes": 749400749
+    },
+    {
+      "id": "o70250_6950_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70250_6950_25_mr24.tif",
+      "boundsEpsg3006": [
+        695000,
+        7025000,
+        697500,
+        7027500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-06-27T15:08:07Z",
+      "bytes": 725998954
+    },
+    {
+      "id": "o70250_6975_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70250_6975_25_mr24.tif",
+      "boundsEpsg3006": [
+        697500,
+        7025000,
+        700000,
+        7027500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-06-27T15:18:53Z",
+      "bytes": 756319665
+    }
+  ],
+  "windows": [
+    {
+      "id": "hole-01-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 1,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697302.88,
+        7025176.96,
+        697470.72,
+        7025385.92
+      ],
+      "width": 1049,
+      "height": 1306,
+      "megapixels": 1.37,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-01-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 1,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697197.44,
+        7025457.28,
+        697346.08,
+        7025613.28
+      ],
+      "width": 929,
+      "height": 975,
+      "megapixels": 0.906,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-02-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 2,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697180.16,
+        7025482.88,
+        697410.72,
+        7025630.72
+      ],
+      "width": 1441,
+      "height": 924,
+      "megapixels": 1.331,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-02-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 2,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        696944.48,
+        7025509.28,
+        697096.64,
+        7025659.68
+      ],
+      "width": 951,
+      "height": 940,
+      "megapixels": 0.894,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-03-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 3,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        696928.16,
+        7025477.28,
+        697074.24,
+        7025635.2
+      ],
+      "width": 913,
+      "height": 987,
+      "megapixels": 0.901,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-03-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 3,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        696911.2,
+        7025352.32,
+        697059.2,
+        7025514.4
+      ],
+      "width": 925,
+      "height": 1013,
+      "megapixels": 0.937,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-04-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 4,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        696942.72,
+        7025407.52,
+        697215.04,
+        7025592
+      ],
+      "width": 1702,
+      "height": 1153,
+      "megapixels": 1.962,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-04-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 4,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697270.4,
+        7025166.88,
+        697418.56,
+        7025323.2
+      ],
+      "width": 926,
+      "height": 977,
+      "megapixels": 0.905,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-05-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 5,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697495.2,
+        7025216.8,
+        697675.2,
+        7025374.56
+      ],
+      "width": 1125,
+      "height": 986,
+      "megapixels": 1.109,
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-05-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 5,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697642.72,
+        7025267.04,
+        697805.76,
+        7025412.32
+      ],
+      "width": 1019,
+      "height": 908,
+      "megapixels": 0.925,
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-06-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 6,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697610.4,
+        7025288.64,
+        697818.88,
+        7025489.12
+      ],
+      "width": 1303,
+      "height": 1253,
+      "megapixels": 1.633,
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-06-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 6,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697880,
+        7025142.72,
+        698034.72,
+        7025300
+      ],
+      "width": 967,
+      "height": 983,
+      "megapixels": 0.951,
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-07-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 7,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697869.28,
+        7024968.32,
+        698046.72,
+        7025262.88
+      ],
+      "width": 1109,
+      "height": 1841,
+      "megapixels": 2.042,
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-07-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 7,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697764.16,
+        7024784.48,
+        697914.56,
+        7024942.88
+      ],
+      "width": 940,
+      "height": 990,
+      "megapixels": 0.931,
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-08-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 8,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697730.56,
+        7024794.72,
+        697920.16,
+        7025052.16
+      ],
+      "width": 1185,
+      "height": 1609,
+      "megapixels": 1.907,
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-08-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 8,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697854.4,
+        7025103.84,
+        698000.8,
+        7025262.56
+      ],
+      "width": 915,
+      "height": 992,
+      "megapixels": 0.908,
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-09-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 9,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697685.12,
+        7025147.2,
+        697977.44,
+        7025300.16
+      ],
+      "width": 1827,
+      "height": 956,
+      "megapixels": 1.747,
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-09-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 9,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697349.6,
+        7025122.4,
+        697514.56,
+        7025272.32
+      ],
+      "width": 1031,
+      "height": 937,
+      "megapixels": 0.966,
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-10-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 10,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697323.2,
+        7025094.88,
+        697616.64,
+        7025248.32
+      ],
+      "width": 1834,
+      "height": 959,
+      "megapixels": 1.759,
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-10-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 10,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697723.68,
+        7025009.76,
+        697870.24,
+        7025162.4
+      ],
+      "width": 916,
+      "height": 954,
+      "megapixels": 0.874,
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-11-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 11,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697696.64,
+        7024920.8,
+        697837.44,
+        7025165.76
+      ],
+      "width": 880,
+      "height": 1531,
+      "megapixels": 1.347,
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-11-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 11,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697660,
+        7024640.16,
+        697811.04,
+        7024803.36
+      ],
+      "width": 944,
+      "height": 1020,
+      "megapixels": 0.963,
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-12-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 12,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697632.8,
+        7024554.24,
+        697800.96,
+        7024754.24
+      ],
+      "width": 1051,
+      "height": 1250,
+      "megapixels": 1.314,
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-12-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 12,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697605.92,
+        7024659.68,
+        697759.84,
+        7024817.12
+      ],
+      "width": 962,
+      "height": 984,
+      "megapixels": 0.947,
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-13-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 13,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697592.16,
+        7024732.8,
+        697764.96,
+        7025030.24
+      ],
+      "width": 1080,
+      "height": 1859,
+      "megapixels": 2.008,
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-13-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 13,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697432.48,
+        7025068.8,
+        697588.8,
+        7025217.28
+      ],
+      "width": 977,
+      "height": 928,
+      "megapixels": 0.907,
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-14-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 14,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697381.6,
+        7024919.84,
+        697577.6,
+        7025176
+      ],
+      "width": 1225,
+      "height": 1601,
+      "megapixels": 1.961,
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24",
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-14-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 14,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697314.4,
+        7024585.92,
+        697462.72,
+        7024738.88
+      ],
+      "width": 927,
+      "height": 956,
+      "megapixels": 0.886,
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-15-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 15,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697294.88,
+        7024509.6,
+        697458.4,
+        7024693.44
+      ],
+      "width": 1022,
+      "height": 1149,
+      "megapixels": 1.174,
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-15-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 15,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697362.4,
+        7024381.76,
+        697511.04,
+        7024535.52
+      ],
+      "width": 929,
+      "height": 961,
+      "megapixels": 0.893,
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-16-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 16,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697353.92,
+        7024353.12,
+        697552,
+        7024524
+      ],
+      "width": 1238,
+      "height": 1068,
+      "megapixels": 1.322,
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-16-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 16,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697144.32,
+        7024294.08,
+        697297.28,
+        7024445.28
+      ],
+      "width": 956,
+      "height": 945,
+      "megapixels": 0.903,
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-17-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 17,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697232.96,
+        7024337.6,
+        697384,
+        7024594.56
+      ],
+      "width": 944,
+      "height": 1606,
+      "megapixels": 1.516,
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-17-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 17,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697224.8,
+        7024724,
+        697369.12,
+        7024875.2
+      ],
+      "width": 902,
+      "height": 945,
+      "megapixels": 0.852,
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-18-tees",
+      "purpose": "physical tee platforms and current tee associations",
+      "hole": 18,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697217.76,
+        7024750.72,
+        697417.76,
+        7025000.8
+      ],
+      "width": 1250,
+      "height": 1563,
+      "megapixels": 1.954,
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "hole-18-green",
+      "purpose": "putting surface, collar and surrounding bunkers",
+      "hole": 18,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697316.32,
+        7025057.44,
+        697467.68,
+        7025218.24
+      ],
+      "width": 946,
+      "height": 1005,
+      "megapixels": 0.951,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "context-0-0",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 0,
+      "col": 0,
+      "priority": "context",
+      "boundsEpsg3006": [
+        696843.84,
+        7025218.08,
+        697355.84,
+        7025730.08
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "context-0-1",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 0,
+      "col": 1,
+      "priority": "context",
+      "boundsEpsg3006": [
+        697355.84,
+        7025218.08,
+        697867.84,
+        7025730.08
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "context-0-2",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 0,
+      "col": 2,
+      "priority": "context",
+      "boundsEpsg3006": [
+        697867.84,
+        7025218.08,
+        698101.76,
+        7025730.08
+      ],
+      "width": 1462,
+      "height": 3200,
+      "megapixels": 4.678,
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "context-1-0",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 1,
+      "col": 0,
+      "priority": "context",
+      "boundsEpsg3006": [
+        696843.84,
+        7024706.08,
+        697355.84,
+        7025218.08
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70250_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "context-1-1",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 1,
+      "col": 1,
+      "priority": "context",
+      "boundsEpsg3006": [
+        697355.84,
+        7024706.08,
+        697867.84,
+        7025218.08
+      ],
+      "width": 3200,
+      "height": 3200,
+      "megapixels": 10.24,
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24",
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "context-1-2",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 1,
+      "col": 2,
+      "priority": "context",
+      "boundsEpsg3006": [
+        697867.84,
+        7024706.08,
+        698101.76,
+        7025218.08
+      ],
+      "width": 1462,
+      "height": 3200,
+      "megapixels": 4.678,
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "context-2-0",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 2,
+      "col": 0,
+      "priority": "context",
+      "boundsEpsg3006": [
+        696843.84,
+        7024233.76,
+        697355.84,
+        7024706.08
+      ],
+      "width": 3200,
+      "height": 2952,
+      "megapixels": 9.446,
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ]
+    },
+    {
+      "id": "context-2-1",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 2,
+      "col": 1,
+      "priority": "context",
+      "boundsEpsg3006": [
+        697355.84,
+        7024233.76,
+        697867.84,
+        7024706.08
+      ],
+      "width": 3200,
+      "height": 2952,
+      "megapixels": 9.446,
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ]
+    },
+    {
+      "id": "context-2-2",
+      "purpose": "continuous whole-course coverage: playing surfaces, trees, water, buildings and access",
+      "row": 2,
+      "col": 2,
+      "priority": "context",
+      "boundsEpsg3006": [
+        697867.84,
+        7024233.76,
+        698101.76,
+        7024706.08
+      ],
+      "width": 1462,
+      "height": 2952,
+      "megapixels": 4.316,
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ]
+    }
+  ],
+  "summary": {
+    "windows": 45,
+    "fullAoi": false,
+    "contextWindows": 9,
+    "coveredHoles": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "totalMegapixels": 118.38
+  },
+  "limitations": [
+    "Pixel spacing is not positional accuracy. Independent controls are required to quantify absolute alignment.",
+    "2024 imagery and 2023/2026 laser represent different dates.",
+    "The default context covers all eighteen holes and facilities plus 120 m; distant scenery is outside this review.",
+    "Review extents do not establish feature boundaries or tee identity. Raw imagery stays in the ignored cache."
+  ]
+}

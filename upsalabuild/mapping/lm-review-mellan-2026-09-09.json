@@ -1,0 +1,1481 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "courseSlug": "upsala-mellanbanan",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "completeSurvey": false,
+  "baselineModelSha256": "23cf42493f6d7dc7be60569e06967f2c94605c2ae6a3e9d6bd670c7e85bee39b",
+  "method": "Manual visual review of all nine Mellan putting surfaces on paired raw/overlay 80 m panels using exact pyproj EPSG:4326 to EPSG:3006 through the declared local frame. The 0.10 m display pixels resample 0.16 m source data and are not independent positional accuracy. Eight earlier reviewed outlines retained; one materially misplaced OSM outline manually retraced. No global registration fit.",
+  "sources": [
+    {
+      "id": "mellan-01-surfaces",
+      "rasterFile": "mellan-01-surfaces.tif",
+      "rgbFile": "mellan-01-surfaces.png",
+      "sha256": "859706c6d23a1db44f6a74fca70ea0600f2c99bd5938eaa65567b518930cbb9a",
+      "rgbSha256": "1b759d2f52f5ffd6760d2a6ea367284b3487d0c441640a3e0de89a598250789e",
+      "requestSha256": "167b600d9a8f8cb8fe99dc375edb2900bceae20c96db824b04144dcac2b96ba0",
+      "bytes": 903950,
+      "boundsEpsg3006": [
+        640208.16,
+        6636337.4399999995,
+        640300.8,
+        6636424.64
+      ],
+      "geoTransform": [
+        640208.16,
+        0.16,
+        0,
+        6636424.64,
+        0,
+        -0.16
+      ],
+      "width": 579,
+      "height": 545,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:11.347426+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-02-surfaces",
+      "rasterFile": "mellan-02-surfaces.tif",
+      "rgbFile": "mellan-02-surfaces.png",
+      "sha256": "9bf79c1f49b84d36144d60926689cb97a1149400d383f5a34afd7595572251fa",
+      "rgbSha256": "412f8fe039e2ecd84b5c8554e7f8035bd1c941611bcf6b3df190ea13972b2222",
+      "requestSha256": "3336e2aff403183ddcfc871ed2406d6ddaa27f6d64564fe2919007ce4e80d870",
+      "bytes": 839288,
+      "boundsEpsg3006": [
+        640532,
+        6636265.76,
+        640617.92,
+        6636356.64
+      ],
+      "geoTransform": [
+        640532,
+        0.16,
+        0,
+        6636356.64,
+        0,
+        -0.16
+      ],
+      "width": 537,
+      "height": 568,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:11.756342+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-03-surfaces",
+      "rasterFile": "mellan-03-surfaces.tif",
+      "rgbFile": "mellan-03-surfaces.png",
+      "sha256": "3a8b91adc1c48a40d7b7e44861d955b07ecd9d492b9c998351dfb1247f2d021d",
+      "rgbSha256": "34e64d346f067e6e73cd92c4c6ff609bbc6cc70e9c9855c7a2d013f82f0f6fb1",
+      "requestSha256": "5f637e31e034e0668b5ccf5d92559e4b88df78fd48ddca8fc1ff1d7728461936",
+      "bytes": 792461,
+      "boundsEpsg3006": [
+        640944.48,
+        6636293.4399999995,
+        641026.88,
+        6636381.92
+      ],
+      "geoTransform": [
+        640944.48,
+        0.16,
+        0,
+        6636381.92,
+        0,
+        -0.16
+      ],
+      "width": 515,
+      "height": 553,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:12.088393+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-04-surfaces",
+      "rasterFile": "mellan-04-surfaces.tif",
+      "rgbFile": "mellan-04-surfaces.png",
+      "sha256": "363a1d87672672bcf8b6f42ed8052cf8d308ba246e848643de57275eb671c381",
+      "rgbSha256": "e285db5d72803526ce0ab02b718b044eda1a27fa83f9687c51deff65472be66a",
+      "requestSha256": "c2eb0f718040c5c51f507e20332e531cc72347b9aec7ddfef06cc21b8f519974",
+      "bytes": 756227,
+      "boundsEpsg3006": [
+        640637.12,
+        6636239.84,
+        640729.6,
+        6636325.6
+      ],
+      "geoTransform": [
+        640637.12,
+        0.16,
+        0,
+        6636325.6,
+        0,
+        -0.16
+      ],
+      "width": 578,
+      "height": 536,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:12.398816+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-05-surfaces",
+      "rasterFile": "mellan-05-surfaces.tif",
+      "rgbFile": "mellan-05-surfaces.png",
+      "sha256": "d3d1925545ba4c279aaa7719eb08f922b551e8bd2032c23111bed631f1424e46",
+      "rgbSha256": "20b2350bc54056980376435411a2209873c13c46ee11a56ea1d588465d8bbd69",
+      "requestSha256": "e9c73dac182fd0ac4bced7ea9055aa324bf3d3f26493023e4dfa8f538a1b74cc",
+      "bytes": 818932,
+      "boundsEpsg3006": [
+        640460.48,
+        6636119.039999999,
+        640544.32,
+        6636207.52
+      ],
+      "geoTransform": [
+        640460.48,
+        0.16,
+        0,
+        6636207.52,
+        0,
+        -0.16
+      ],
+      "width": 524,
+      "height": 553,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:12.803554+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-06-surfaces",
+      "rasterFile": "mellan-06-surfaces.tif",
+      "rgbFile": "mellan-06-surfaces.png",
+      "sha256": "2fa294b1a16e881c8435791b75963085b9cfafac66744a0b827f60ce582efa20",
+      "rgbSha256": "18fcaeab7bea34e9e9a2faa377583fb0cf2634c402a7257d40ff4defccf0e2fc",
+      "requestSha256": "1df87982237a8405538ab4b32c960ca9ab51ea9d332af163de65a47663b280c2",
+      "bytes": 917103,
+      "boundsEpsg3006": [
+        640204.96,
+        6635732.4799999995,
+        640298.88,
+        6635821.6
+      ],
+      "geoTransform": [
+        640204.96,
+        0.16,
+        0,
+        6635821.6,
+        0,
+        -0.16
+      ],
+      "width": 587,
+      "height": 557,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:13.142719+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-07-surfaces",
+      "rasterFile": "mellan-07-surfaces.tif",
+      "rgbFile": "mellan-07-surfaces.png",
+      "sha256": "c48a8ef4475ddf121276371056b264af3749c03fa9a43a41ad14a042542f5036",
+      "rgbSha256": "d4e74d08679aefd3aab02da8e90f37583ca7a7bb28c34bddf592525e1e80904a",
+      "requestSha256": "e464eb7647ff8e5282d322b624e6620c26f7658cbec6da17a954f57c0d9a03c0",
+      "bytes": 870244,
+      "boundsEpsg3006": [
+        640324.16,
+        6635841.44,
+        640418.56,
+        6635924.32
+      ],
+      "geoTransform": [
+        640324.16,
+        0.16,
+        0,
+        6635924.32,
+        0,
+        -0.16
+      ],
+      "width": 590,
+      "height": 518,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:13.479761+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-08-surfaces",
+      "rasterFile": "mellan-08-surfaces.tif",
+      "rgbFile": "mellan-08-surfaces.png",
+      "sha256": "775f6d6dcc183b3540699259fe26849dfc04e204fed77736174c123ecaf347d0",
+      "rgbSha256": "905681e3002449c34c32e70b4f144afe970f9c97461e08aa369caedc7f0e4b06",
+      "requestSha256": "d0eac77ffed63523671ec832fd1291c901cea4bc3862347a307829f077009675",
+      "bytes": 725097,
+      "boundsEpsg3006": [
+        640399.68,
+        6636216.4799999995,
+        640484.8,
+        6636298.88
+      ],
+      "geoTransform": [
+        640399.68,
+        0.16,
+        0,
+        6636298.88,
+        0,
+        -0.16
+      ],
+      "width": 532,
+      "height": 515,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:13.787104+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    },
+    {
+      "id": "mellan-09-surfaces",
+      "rasterFile": "mellan-09-surfaces.tif",
+      "rgbFile": "mellan-09-surfaces.png",
+      "sha256": "9f9cc00b45e9f740552e71d49d1fada17a0257b4d855071fce79e16956456a95",
+      "rgbSha256": "7c4da5690625ee9adb694a92abe141366a8a0238170ba7676ad6074b42c86b4c",
+      "requestSha256": "80ef3baee56ca3a35e58a7ac52e035f41156ffc0c488290eaf153b0008c7c9eb",
+      "bytes": 958820,
+      "boundsEpsg3006": [
+        639995.2,
+        6636254.24,
+        640093.76,
+        6636340.8
+      ],
+      "geoTransform": [
+        639995.2,
+        0.16,
+        0,
+        6636340.8,
+        0,
+        -0.16
+      ],
+      "width": 616,
+      "height": 541,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1,
+      "acquiredAt": "2026-09-09T16:50:14.070985+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ],
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha"
+    }
+  ],
+  "reviews": [
+    {
+      "hole": 1,
+      "status": "reviewed-green-complex",
+      "decision": "retain",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "Oval putting-turf outline follows the visible edge; retain at its existing 1 m interpretation uncertainty. Northwest sand is visible but was not included in the initial green-only overlay.",
+      "sourceWindowIds": [
+        "mellan-01-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640214.4260652388,
+          6636340.836817256,
+          640294.4260652388,
+          6636420.836817256
+        ],
+        "geoTransform": [
+          640214.4260652388,
+          0.1,
+          0,
+          6636420.836817256,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "962954de4641269d1f5d997533c883087720ddd4b4fc2d00d45b2f94764bd926",
+      "overlaySha256": "c4143ab19081c87986da6e655bc8c35e24382fa93e692c828285dba81bb74a4c"
+    },
+    {
+      "hole": 2,
+      "status": "reviewed-green-complex",
+      "decision": "retain",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "Elongated diagonal putting-turf outline follows the visible edge; retain at existing 1 m interpretation uncertainty. No material translation is apparent.",
+      "sourceWindowIds": [
+        "mellan-02-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640534.9201446389,
+          6636271.052247697,
+          640614.9201446389,
+          6636351.052247697
+        ],
+        "geoTransform": [
+          640534.9201446389,
+          0.1,
+          0,
+          6636351.052247697,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "e16169338cf51f9950e7b2db28d25a1e0c3ddf159e2271cf845514df2ff8575e",
+      "overlaySha256": "fd491a196c2817fc3e38936d42ac1ebc856bc585accc06cc02f8c413d0d6d2a4"
+    },
+    {
+      "hole": 3,
+      "status": "reviewed-green-complex",
+      "decision": "retain",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "Elongated putting-turf outline follows the visible edge; retain at existing 1 m interpretation uncertainty. Adjacent canopy shadows do not justify moving the unobscured perimeter.",
+      "sourceWindowIds": [
+        "mellan-03-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640945.2707210791,
+          6636297.133732162,
+          641025.2707210791,
+          6636377.133732162
+        ],
+        "geoTransform": [
+          640945.2707210791,
+          0.1,
+          0,
+          6636377.133732162,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "b2638a815085ae55ba82a377de0579e02411d882958522465399351539606d1e",
+      "overlaySha256": "ae5aad8c3c5e9b2365f08b96c959868ecfc95a20be477d2b12cfd790a6f8d900"
+    },
+    {
+      "hole": 4,
+      "status": "reviewed-green-complex",
+      "decision": "retain",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "Putting-turf outline agrees with the kidney-shaped visible surface beside the water; retain at existing 1 m interpretation uncertainty. Shoreline and sand need their own geometry comparison.",
+      "sourceWindowIds": [
+        "mellan-04-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640643.3065176038,
+          6636243.0157436915,
+          640723.3065176038,
+          6636323.0157436915
+        ],
+        "geoTransform": [
+          640643.3065176038,
+          0.1,
+          0,
+          6636323.0157436915,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "2ff561e7e274a8ea69f001333f4b96f3c3825bbec158746b66e85d700ccc740e",
+      "overlaySha256": "86b7a1cda37fbcb92f9ae6463e851f16b6eabd10b6879c4990b9204d517341cb"
+    },
+    {
+      "hole": 5,
+      "status": "reviewed-green-complex",
+      "decision": "retain",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "Putting-turf outline follows the diagonal oval surface; retain at existing 1 m interpretation uncertainty. Adjacent bunker shadows are not green boundaries.",
+      "sourceWindowIds": [
+        "mellan-05-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640462.2857162482,
+          6636123.103844057,
+          640542.2857162482,
+          6636203.103844057
+        ],
+        "geoTransform": [
+          640462.2857162482,
+          0.1,
+          0,
+          6636203.103844057,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "3c2dffe128a8955cf012467dfc77d6b2b3fac514effd7c1496a9cdafcd247f6e",
+      "overlaySha256": "a8415eee1e37e47b584cd434feb73a17d74baff76b8ad44a9948f75d5d334e9c"
+    },
+    {
+      "hole": 6,
+      "status": "reviewed-green-complex",
+      "decision": "replace",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "The coarse OSM outline lies southwest of the rounded putting surface. The lighter putting turf is distinguished from the darker northeast apron in both the LM 2025 crop and the municipal 2024 product. Only the putting perimeter is traced; the darker northeast cap is excluded. The original nominal green reference remains inside the new ring.",
+      "sourceWindowIds": [
+        "mellan-06-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640205.2120605833,
+          6635735.266925013,
+          640285.2120605833,
+          6635815.266925013
+        ],
+        "geoTransform": [
+          640205.2120605833,
+          0.1,
+          0,
+          6635815.266925013,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "ef101b979bd6ad25793561ab6b5ed0bd21d3634d2bff7986a93a892fef621f29",
+      "overlaySha256": "b2bbaf56587831e549c15ac92d310bbb1fc0927f20d16c1c2f962af4857fc3cc"
+    },
+    {
+      "hole": 7,
+      "status": "reviewed-green-complex",
+      "decision": "retain",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "Putting-turf outline follows the broad horizontal surface; retain at existing 1.5 m interpretation uncertainty. Surround mowing bands are not an extension of the putting surface.",
+      "sourceWindowIds": [
+        "mellan-07-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640331.055809753,
+          6635842.763625979,
+          640411.055809753,
+          6635922.763625979
+        ],
+        "geoTransform": [
+          640331.055809753,
+          0.1,
+          0,
+          6635922.763625979,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "860c84ab3aaca50d372656c4c939695db6a95461ecab0ac44b70a33c4a367de2",
+      "overlaySha256": "d5d48ee19b39ba4e996f2fb17a4988e570b07f350c7715b71de898b010797b69"
+    },
+    {
+      "hole": 8,
+      "status": "reviewed-green-complex",
+      "decision": "retain",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "Putting-turf outline follows the rounded triangular visible surface; retain at existing 1.5 m interpretation uncertainty. The southern drainage crossing is visible but its geometry was not compared in this green review.",
+      "sourceWindowIds": [
+        "mellan-08-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640401.2712072609,
+          6636216.624768639,
+          640481.2712072609,
+          6636296.624768639
+        ],
+        "geoTransform": [
+          640401.2712072609,
+          0.1,
+          0,
+          6636296.624768639,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "a74b7e63653a2482a0a3f475bf79c4512ff09f51c9b5d80b7eca7c603dc7129d",
+      "overlaySha256": "a9cfc5595fcc8124244339849720783121d2ef1fa901e75ff38f22117e149410"
+    },
+    {
+      "hole": 9,
+      "status": "reviewed-green-complex",
+      "decision": "retain",
+      "scope": "80 m square centered on existing nominal green reference; accepted decisions cover putting-turf outline only, not distant tees/fairways or a complete bunker/water census",
+      "note": "Putting-turf outline follows the lobed visible surface; retain at existing 1.5 m interpretation uncertainty. Small mowing-edge differences do not support a material correction.",
+      "sourceWindowIds": [
+        "mellan-09-surfaces"
+      ],
+      "panel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640002.9910602459,
+          6636258.550888874,
+          640082.9910602459,
+          6636338.550888874
+        ],
+        "geoTransform": [
+          640002.9910602459,
+          0.1,
+          0,
+          6636338.550888874,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "plainSha256": "7cac7382bfcef2e55aa632c71ad8dcbb728d5f27c5519c5902d46fe190bffe40",
+      "overlaySha256": "a0dd4bdf320d159b46b8c12aae2cd020c2f6e447f7de1e90014e3a9818ba517d"
+    }
+  ],
+  "features": [
+    {
+      "id": "upsala-mellan-h6-green-lm-direct-2025-2026-09-09",
+      "status": "accepted",
+      "kind": "green",
+      "hole": 6,
+      "sourceId": "w221192642",
+      "originalShape": {
+        "ring": [
+          [
+            391.5,
+            351.6
+          ],
+          [
+            399,
+            343.2
+          ],
+          [
+            411.6,
+            338.4
+          ],
+          [
+            421.5,
+            339
+          ],
+          [
+            424.8,
+            344.7
+          ],
+          [
+            420.9,
+            358.5
+          ],
+          [
+            406.8,
+            366.6
+          ],
+          [
+            396.9,
+            366.9
+          ],
+          [
+            392.4,
+            363
+          ],
+          [
+            390.6,
+            357.6
+          ]
+        ],
+        "c": [
+          400.9,
+          354.3
+        ],
+        "prov": "osm",
+        "area": 705,
+        "sourceId": "w221192642",
+        "positionalAccuracyMetres": null
+      },
+      "originalScenerySourceFeature": {
+        "id": "w221192642",
+        "kind": "green",
+        "ring": [
+          [
+            391.5,
+            351.6
+          ],
+          [
+            399,
+            343.2
+          ],
+          [
+            411.6,
+            338.4
+          ],
+          [
+            421.5,
+            339
+          ],
+          [
+            424.8,
+            344.7
+          ],
+          [
+            420.9,
+            358.5
+          ],
+          [
+            406.8,
+            366.6
+          ],
+          [
+            396.9,
+            366.9
+          ],
+          [
+            392.4,
+            363
+          ],
+          [
+            390.6,
+            357.6
+          ]
+        ],
+        "prov": "osm"
+      },
+      "originalRenderedRingCount": 1,
+      "ring": [
+        [
+          413.57,
+          335.978
+        ],
+        [
+          416.047,
+          336.472
+        ],
+        [
+          418.303,
+          337.558
+        ],
+        [
+          420.535,
+          339.242
+        ],
+        [
+          422.453,
+          341.315
+        ],
+        [
+          424.065,
+          343.576
+        ],
+        [
+          424.979,
+          345.811
+        ],
+        [
+          425.088,
+          348.215
+        ],
+        [
+          424.411,
+          350.29
+        ],
+        [
+          423.235,
+          352.345
+        ],
+        [
+          421.465,
+          354.278
+        ],
+        [
+          418.572,
+          356.869
+        ],
+        [
+          415.595,
+          359.057
+        ],
+        [
+          412.444,
+          360.537
+        ],
+        [
+          409.508,
+          361.626
+        ],
+        [
+          406.809,
+          361.724
+        ],
+        [
+          404.436,
+          361.134
+        ],
+        [
+          402.487,
+          359.86
+        ],
+        [
+          400.753,
+          358.195
+        ],
+        [
+          399.433,
+          356.145
+        ],
+        [
+          398.511,
+          354.11
+        ],
+        [
+          397.896,
+          351.886
+        ],
+        [
+          397.983,
+          349.589
+        ],
+        [
+          398.465,
+          347.407
+        ],
+        [
+          399.441,
+          345.344
+        ],
+        [
+          401.207,
+          343.511
+        ],
+        [
+          403.568,
+          341.8
+        ],
+        [
+          406.43,
+          340.008
+        ],
+        [
+          409.304,
+          337.917
+        ],
+        [
+          411.654,
+          336.506
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          520,
+          212
+        ],
+        [
+          545,
+          216
+        ],
+        [
+          568,
+          226
+        ],
+        [
+          591,
+          242
+        ],
+        [
+          611,
+          262
+        ],
+        [
+          628,
+          284
+        ],
+        [
+          638,
+          306
+        ],
+        [
+          640,
+          330
+        ],
+        [
+          634,
+          351
+        ],
+        [
+          623,
+          372
+        ],
+        [
+          606,
+          392
+        ],
+        [
+          578,
+          419
+        ],
+        [
+          549,
+          442
+        ],
+        [
+          518,
+          458
+        ],
+        [
+          489,
+          470
+        ],
+        [
+          462,
+          472
+        ],
+        [
+          438,
+          467
+        ],
+        [
+          418,
+          455
+        ],
+        [
+          400,
+          439
+        ],
+        [
+          386,
+          419
+        ],
+        [
+          376,
+          399
+        ],
+        [
+          369,
+          377
+        ],
+        [
+          369,
+          354
+        ],
+        [
+          373,
+          332
+        ],
+        [
+          382,
+          311
+        ],
+        [
+          399,
+          292
+        ],
+        [
+          422,
+          274
+        ],
+        [
+          450,
+          255
+        ],
+        [
+          478,
+          233
+        ],
+        [
+          501,
+          218
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          640257.2120605833,
+          6635794.0669250125
+        ],
+        [
+          640259.7120605833,
+          6635793.666925013
+        ],
+        [
+          640262.0120605833,
+          6635792.666925013
+        ],
+        [
+          640264.3120605833,
+          6635791.0669250125
+        ],
+        [
+          640266.3120605833,
+          6635789.0669250125
+        ],
+        [
+          640268.0120605833,
+          6635786.866925012
+        ],
+        [
+          640269.0120605833,
+          6635784.666925013
+        ],
+        [
+          640269.2120605833,
+          6635782.266925013
+        ],
+        [
+          640268.6120605833,
+          6635780.166925013
+        ],
+        [
+          640267.5120605833,
+          6635778.0669250125
+        ],
+        [
+          640265.8120605833,
+          6635776.0669250125
+        ],
+        [
+          640263.0120605833,
+          6635773.366925012
+        ],
+        [
+          640260.1120605833,
+          6635771.0669250125
+        ],
+        [
+          640257.0120605833,
+          6635769.466925013
+        ],
+        [
+          640254.1120605833,
+          6635768.266925013
+        ],
+        [
+          640251.4120605832,
+          6635768.0669250125
+        ],
+        [
+          640249.0120605833,
+          6635768.5669250125
+        ],
+        [
+          640247.0120605833,
+          6635769.766925013
+        ],
+        [
+          640245.2120605833,
+          6635771.366925012
+        ],
+        [
+          640243.8120605833,
+          6635773.366925012
+        ],
+        [
+          640242.8120605833,
+          6635775.366925012
+        ],
+        [
+          640242.1120605833,
+          6635777.5669250125
+        ],
+        [
+          640242.1120605833,
+          6635779.866925012
+        ],
+        [
+          640242.5120605833,
+          6635782.0669250125
+        ],
+        [
+          640243.4120605832,
+          6635784.166925013
+        ],
+        [
+          640245.1120605833,
+          6635786.0669250125
+        ],
+        [
+          640247.4120605832,
+          6635787.866925012
+        ],
+        [
+          640250.2120605833,
+          6635789.766925013
+        ],
+        [
+          640253.0120605833,
+          6635791.966925013
+        ],
+        [
+          640255.3120605833,
+          6635793.466925013
+        ]
+      ],
+      "tracePanel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640205.2120605833,
+          6635735.266925013,
+          640285.2120605833,
+          6635815.266925013
+        ],
+        "geoTransform": [
+          640205.2120605833,
+          0.1,
+          0,
+          6635815.266925013,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "evidence": {
+        "source": "Lantmateriet Ortofoto Nedladdning; authenticated orto-o2-2025 RGBI",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "sourceFiles": [
+          {
+            "id": "mellan-06-surfaces",
+            "rasterFile": "mellan-06-surfaces.tif",
+            "rgbFile": "mellan-06-surfaces.png",
+            "sha256": "2fa294b1a16e881c8435791b75963085b9cfafac66744a0b827f60ce582efa20",
+            "rgbSha256": "18fcaeab7bea34e9e9a2faa377583fb0cf2634c402a7257d40ff4defccf0e2fc",
+            "requestSha256": "1df87982237a8405538ab4b32c960ca9ab51ea9d332af163de65a47663b280c2",
+            "bytes": 917103,
+            "boundsEpsg3006": [
+              640204.96,
+              6635732.4799999995,
+              640298.88,
+              6635821.6
+            ],
+            "geoTransform": [
+              640204.96,
+              0.16,
+              0,
+              6635821.6,
+              0,
+              -0.16
+            ],
+            "width": 587,
+            "height": 557,
+            "resolutionMetres": 0.16,
+            "resampling": "nearest",
+            "validFraction": 1,
+            "acquiredAt": "2026-09-09T16:50:13.142719+00:00",
+            "sources": [
+              {
+                "id": "o66350_6400_25_mr25",
+                "capturedAt": "2025-06-14T09:25:50Z",
+                "captureStart": "2025-04-25T07:36:44Z",
+                "captureEnd": "2025-06-14T09:26:06Z"
+              }
+            ],
+            "bands": [
+              "red",
+              "green",
+              "blue",
+              "near infrared"
+            ],
+            "mask": "explicit dataset validity; NIR is not alpha"
+          }
+        ],
+        "uncertaintyM": 1,
+        "sourceHorizontalAccuracyM": null,
+        "acceptance": "Visible putting-turf boundary reviewed manually against raw and annotated source panels; retained nominal green reference remains inside. No fitted displacement or inferred elevation.",
+        "note": "The coarse OSM outline lies southwest of the rounded putting surface. The lighter putting turf is distinguished from the darker northeast apron in both the LM 2025 crop and the municipal 2024 product. Only the putting perimeter is traced; the darker northeast cap is excluded. The original nominal green reference remains inside the new ring.",
+        "crosscheck": {
+          "sourceRequest": "upsalabuild/cache/review-2026-09-06/municipal-2024/municipal_2024_r1_c1.request.json",
+          "sourceSha256": "0c5a93d078d592ed8bad3f9237fd53866416172db9e9063feaf6a7332d9301d1",
+          "sourceProductYear": 2024,
+          "captureDate": null,
+          "sourceUrl": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=640143.5%2C6635121.5%2C641167.5%2C6636145.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+          "sourceCrs": "EPSG:3006",
+          "sourceExtentEPSG3006": [
+            640143.5,
+            6635121.5,
+            641167.5,
+            6636145.5
+          ],
+          "panelImage": "upsalabuild/cache/lm-review-mellan-2026-09-09/hole-06-municipal2024.png",
+          "panelSha256": "b48a5b82be22da753ef76921e2da2ade8fa9f8e8c210736eaa5f0d816093eb74",
+          "note": "Year is the municipal service product label; exact capture date unknown. Used to distinguish putting turf from northeast apron."
+        }
+      },
+      "comparison": {
+        "beforeAreaM2": 704.8800000000001,
+        "afterAreaM2": 491.7721930000007,
+        "boundaryVertexToSegmentMaximumMetres": 9.624350179579157,
+        "existingGreenReferenceInside": true,
+        "existingGreenReferenceBoundaryClearanceMetres": 2.097661316784826,
+        "polygonCentroidShiftMetres": 5.084026671316792
+      }
+    }
+  ],
+  "contextReview": {
+    "images": [
+      "upsalabuild/cache/lm-ortho/ground-overview.png",
+      "upsalabuild/cache/lm-ortho/ground-overview-overlay.png"
+    ],
+    "note": "Whole-ground imagery inspected for context. Fine tee/fairway/water boundaries and object completeness were not determined at overview scale. No geometry decision is based solely on this overview."
+  },
+  "reviewArtifacts": {
+    "panels": "upsalabuild/cache/lm-review-mellan-2026-09-09/panels.json",
+    "candidateOverlay": "upsalabuild/cache/lm-review-mellan-2026-09-09/hole-06-candidate.png",
+    "candidateOverlaySha256": "100d2c50c833e7d1d4c81740f207cce1b18d0eab18866fa1d7abf1335b505ffb"
+  },
+  "rejectedCandidates": [
+    {
+      "hole": 6,
+      "kind": "green",
+      "originalPixelRing": [
+        [
+          623,
+          145
+        ],
+        [
+          647,
+          151
+        ],
+        [
+          668,
+          167
+        ],
+        [
+          682,
+          188
+        ],
+        [
+          689,
+          210
+        ],
+        [
+          690,
+          233
+        ],
+        [
+          683,
+          260
+        ],
+        [
+          671,
+          289
+        ],
+        [
+          653,
+          320
+        ],
+        [
+          631,
+          350
+        ],
+        [
+          608,
+          379
+        ],
+        [
+          579,
+          408
+        ],
+        [
+          549,
+          434
+        ],
+        [
+          518,
+          456
+        ],
+        [
+          489,
+          470
+        ],
+        [
+          462,
+          472
+        ],
+        [
+          438,
+          467
+        ],
+        [
+          418,
+          455
+        ],
+        [
+          400,
+          439
+        ],
+        [
+          386,
+          419
+        ],
+        [
+          376,
+          399
+        ],
+        [
+          369,
+          377
+        ],
+        [
+          369,
+          354
+        ],
+        [
+          373,
+          332
+        ],
+        [
+          382,
+          311
+        ],
+        [
+          399,
+          292
+        ],
+        [
+          422,
+          274
+        ],
+        [
+          450,
+          255
+        ],
+        [
+          478,
+          233
+        ],
+        [
+          508,
+          211
+        ],
+        [
+          538,
+          189
+        ],
+        [
+          566,
+          168
+        ],
+        [
+          593,
+          152
+        ]
+      ],
+      "tracePanel": {
+        "pixelSize": [
+          800,
+          800
+        ],
+        "extentEPSG3006": [
+          640205.2120605833,
+          6635735.266925013,
+          640285.2120605833,
+          6635815.266925013
+        ],
+        "geoTransform": [
+          640205.2120605833,
+          0.1,
+          0,
+          6635815.266925013,
+          0,
+          -0.1
+        ],
+        "pixelCoordinateConvention": "pixel edges; E=west+x*resolution, N=north-y*resolution",
+        "resampling": "bilinear display only; native source retained"
+      },
+      "reason": "Initial trace included the darker northeast apron. Rejected after parent review and same-extent municipal 2024 crosscheck; excluded from the adopted putting surface."
+    }
+  ]
+}

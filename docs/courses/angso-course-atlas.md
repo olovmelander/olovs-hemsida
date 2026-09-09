@@ -1,5 +1,10 @@
 # Ängsö Golfklubb — the complete course atlas
 
+This is the historical 2026-09-04 atlas. Playing-surface outlines and the
+measurements below were superseded by the [2026-09-09 orthophoto alignment
+review](angso-orthophoto-alignment.md), based on Lantmäteriet imagery captured
+2025-04-24. The scorecard remains unchanged; use the newer review for geometry.
+
 Everything the repository knows about Ängsö GK, feature by feature, with world
 coordinates, areas, levels and provenance — measured from the committed data
 (`angsobuild/course-model.json`, `sat-shapes.json`, `osm-features.json`,
