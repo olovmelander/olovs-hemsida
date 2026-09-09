@@ -1,75 +1,81 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { decodeHF } from '../../../../../geobuild/lib.mjs';
+import { loadArchitectureFixture } from '../../../../../lidingobuild/architecture-fixture.mjs';
 import { measuredRoofGeometry } from '../measured-roof.mjs';
-import { buildingLooks, clubhouseDetails, decorateMeasuredBuilding } from './lidingo.js';
+import { mappedPathSurface, buildGroundSurfaceFeatures } from '../surface-features.mjs';
+import { SURFACE } from '../surface.js';
+import { buildingArchitecture, courtyardArchitecture, BUILDING_IDS } from './lidingo-architecture.js';
+import { applySurfaceAppearance, renderArchitecture } from './lidingo.js';
+import { loadSceneryModule } from './index.js';
+const {model,terrainH}=loadArchitectureFixture();
+const buildings=model.infra.buildings.filter(b=>Object.values(BUILDING_IDS).includes(b.id));
+const area=ring=>Math.abs(ring.reduce((s,p,i)=>{const q=ring[(i+1)%ring.length];return s+p[0]*q[1]-q[0]*p[1];},0)/2);
 
-const model = JSON.parse(readFileSync(new URL('../../../../../lidingobuild/course-model.json', import.meta.url)));
-const { hf0 } = JSON.parse(readFileSync(new URL('../../../../../lidingobuild/heightfields.json', import.meta.url)));
-const heights = decodeHF(hf0);
-function terrainH(x,z) {
-  const u=(x-hf0.x0)/hf0.dx,v=(z-hf0.z0)/hf0.dx,i=Math.floor(u),j=Math.floor(v),a=u-i,b=v-j;
-  const h=(di,dj)=>heights[(j+dj)*hf0.nx+i+di];
-  return (1-b)*((1-a)*h(0,0)+a*h(1,0))+b*((1-a)*h(0,1)+a*h(1,1));
-}
-const buildings=model.infra.buildings.filter(b=>buildingLooks[b.id]);
-const restaurant=buildings.find(b=>b.id==='way/32262183');
-
-describe('Lidingö photo-referenced clubhouse facade', () => {
-  it('preserves measured footprints, roof triangles and partial wall support', () => {
-    const source=structuredClone(buildings);
+describe('Lidingö complete display architecture',()=>{
+  it('retains all original measured roof evidence and building footprints',()=>{
+    const original=structuredClone(buildings);
     for(const b of buildings) {
       const before=measuredRoofGeometry(b.roofSurface,terrainH);
-      clubhouseDetails(b,terrainH);
+      const d=buildingArchitecture(b,terrainH);
+      expect(d.sourceRoofUnchanged).toBe(true);
+      expect(d.sourceRoofTriangles).toBe(b.roofSurface.triangleIndices.length/3);
       expect(measuredRoofGeometry(b.roofSurface,terrainH)).toEqual(before);
     }
-    expect(buildings).toEqual(source);
+    expect(buildings).toEqual(original);
+    expect(buildings.reduce((n,b)=>n+b.roofSurface.triangleIndices.length/3,0)).toBe(7069);
   });
-
-  it('builds finite, nondegenerate details on the actual sloping DTM within a phone-sized budget', () => {
+  it('covers each footprint with clean upward roof planes, without the TIN gaps',()=>{
+    for(const b of buildings) {
+      const roof=buildingArchitecture(b,terrainH).triangles.filter(t=>t.part==='roof-plane');
+      expect(roof.length).toBeGreaterThan(0);
+      expect(roof.length).toBeLessThan(30);
+      expect(roof.reduce((n,t)=>n+area(t.points.map(p=>[p[0],p[2]])),0)).toBeCloseTo(area(b.ring),5);
+      for(const {points:[a,b,c]} of roof)
+        expect((b[2]-a[2])*(c[0]-a[0])-(b[0]-a[0])*(c[2]-a[2])).toBeGreaterThan(0);
+    }
+  });
+  it('emits finite nondegenerate buildings and courtyard details within a bounded budget',()=>{
+    const details=buildings.map(b=>buildingArchitecture(b,terrainH));
+    details.push(courtyardArchitecture(model.scenery.mappedFeatures,model.infra.buildings,terrainH));
     let count=0;
-    for(const b of buildings) {
-      const result=clubhouseDetails(b,terrainH);
-      count+=result.triangles.length;
-      expect(result.evidence).toBe('public-photo-appearance-estimate');
-      for(const {points:[a,b,c],color} of result.triangles) {
-        expect([...a,...b,...c,color].every(Number.isFinite)).toBe(true);
-        const u=b.map((x,i)=>x-a[i]),v=c.map((x,i)=>x-a[i]);
-        expect(Math.hypot(u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])).toBeGreaterThan(1e-7);
-      }
+    for(const d of details)for(const {points:[a,b,c],color} of d.triangles) {
+      count++;
+      expect([...a,...b,...c,color].every(Number.isFinite)).toBe(true);
+      const u=b.map((v,i)=>v-a[i]),v=c.map((v,i)=>v-a[i]);
+      expect(Math.hypot(u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])).toBeGreaterThan(1e-8);
     }
-    expect(count).toBeGreaterThan(1000);
-    expect(count).toBeLessThanOrEqual(3000);
-    expect(clubhouseDetails(restaurant,terrainH).parts).toEqual(expect.arrayContaining([
-      'restaurant-facade','blue-awnings','upper-glazing','reception-glazing','balcony-apron','clock',
-    ]));
-    expect(clubhouseDetails(buildings.find(b=>b.id==='way/32262176'),terrainH).parts)
-      .toEqual(expect.arrayContaining(['pavilion-glazing','veranda-posts']));
+    expect(count).toBeGreaterThan(3000);
+    expect(count).toBeLessThan(6500); // Fewer than the old roofs alone.
+    expect(details.find(d=>d.buildingId===BUILDING_IDS.restaurant).parts).toEqual(expect.arrayContaining(['blue-awnings','reception-glazing','closed-wall','roof-service-room','chimney','clock']));
+    expect(details.at(-1).parts).toEqual(expect.arrayContaining(['putting-green-kerb','terrace-deck','terrace-stairs','terrace-supports']));
   });
-
-  it('withholds facade features when the retained roof has no support', () => {
-    for(const b of buildings) {
-      const unsupported=structuredClone(b);
-      unsupported.roofSurface.triangleIndices=[];
-      unsupported.roofSurface.boundaryWallSegments=[];
-      expect(clubhouseDetails(unsupported,terrainH).triangles).toHaveLength(0);
-    }
-    const low=structuredClone(restaurant);
-    for(const v of low.roofSurface.vertices) v.heightRH2000=35.9;
-    expect(clubhouseDetails(low,terrainH).parts).not.toContain('blue-awnings');
-    expect(()=>clubhouseDetails({...restaurant,roofSurface:{...restaurant.roofSurface,verticalCrs:'unknown'}},terrainH)).toThrow(/RH2000/);
+  it('changes only the documented courtyard material and preserves its green island',()=>{
+    const original=structuredClone(model.scenery),result=applySurfaceAppearance(model.scenery);
+    expect(model.scenery).toEqual(original);
+    const old=model.scenery.mappedFeatures.find(f=>f.id==='lidingo-courtyard-hardstanding-2019');
+    const now=result.mappedFeatures.find(f=>f.id===old.id);
+    expect(now.rings).toEqual(old.rings);
+    expect(now.rings).toHaveLength(2);
+    expect(now.sourceMaterial).toBe(old.material);
+    expect(mappedPathSurface(now)).toBe(SURFACE.ASPHALT);
+    for(const f of result.mappedFeatures.filter(f=>f.id!==old.id))expect(f).toBe(model.scenery.mappedFeatures.find(old=>old.id===f.id));
+    const compiled=buildGroundSurfaceFeatures({model:{...model,scenery:result},holes:model.holes});
+    const paved=compiled.find(f=>f.sourceId===now.id);
+    expect(paved.surface).toBe(SURFACE.ASPHALT);
+    expect(paved.polygons).toEqual([{rings:now.rings}]);
   });
-
-  it('limits the appearance to three source IDs and appends into the existing batch', () => {
-    expect(buildings).toHaveLength(3);
-    for(const b of model.infra.buildings.filter(b=>!buildingLooks[b.id]))
-      expect(clubhouseDetails(b,terrainH)).toBeNull();
-    expect(clubhouseDetails({...restaurant,roofSurface:null},terrainH)).toBeNull();
-    const emitted=[],colors=[];
-    const result=decorateMeasuredBuilding({building:restaurant,terrainH,
-      tri:(...t)=>emitted.push(t),L:c=>{colors.push(c);return c;}});
-    expect(emitted).toHaveLength(result.triangles);
+  it('uses the shipping registry, scopes the replacement and appends to the existing batch',async()=>{
+    const mod=await loadSceneryModule('lidingo');
+    expect(mod.renderArchitecture).toBe(renderArchitecture);
+    const b=buildings[0],emitted=[],colors=[];
+    const r=mod.renderArchitecture({building:b,terrainH,tri:(...t)=>emitted.push(t),L:c=>{colors.push(c);return c;}});
+    expect(emitted).toHaveLength(r.triangles);
     expect(new Set(colors).size).toBe(colors.length);
-    expect(emitted.every(t=>t.length===4)).toBe(true);
+    for(const b of model.infra.buildings.filter(b=>!Object.values(BUILDING_IDS).includes(b.id)))expect(buildingArchitecture(b,terrainH)).toBeNull();
+    expect(buildingArchitecture({...b,roofSurface:null},terrainH)).toBeNull();
+    expect(()=>buildingArchitecture({...b,roofSurface:{...b.roofSurface,verticalCrs:'wrong'}},terrainH)).toThrow(/RH2000/);
+    const main=readFileSync(new URL('../../main.js',import.meta.url),'utf8');
+    expect(main).toContain("get('buildingGeometry') === 'source'");
+    expect(main.indexOf('SCENERY?.renderArchitecture')).toBeLessThan(main.indexOf('const geometry = measuredRoofGeometry(b.roofSurface'));
   });
 });
