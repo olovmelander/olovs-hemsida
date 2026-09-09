@@ -68,6 +68,8 @@ async function main() {
     method: 'Complete count-checked COPC hierarchy, bounded point windows, class 2/9 ground, nearest ground fill up to 60 m, 3x3 smoothing, maximum non-noise height above cloud ground; no returns means unknown.',
     limitations: ['April 2021 canopy needs May 2026 clearing and building/surface exclusions.',
       'These are canopy cells, not surveyed stems or verified species.', 'Unknown cells must not become procedural trees.'] };
-  fs.writeFileSync(path.join(ROOT, 'geo_data/course-v2/tortuna/vegetation/canopy-evidence.json'), JSON.stringify(evidence, null, 2) + '\n');
+  const evidencePath = path.join(ROOT, 'geo_data/course-v2/tortuna/vegetation/canopy-evidence.json');
+  fs.mkdirSync(path.dirname(evidencePath), { recursive: true });
+  fs.writeFileSync(evidencePath, JSON.stringify(evidence, null, 2) + '\n');
 }
-main().catch(error => { console.error(`Tortuna canopy failed: ${error.name}`); process.exitCode = 1; });
+main().catch(error => { console.error(`Tortuna canopy failed: ${error.name} ${error.code || ''}`); process.exitCode = 1; });
