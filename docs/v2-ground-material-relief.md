@@ -81,7 +81,7 @@ tree placement, counts and tint identity before accepting a comparison. The
 close-up point is chosen inside each real polygon using maximum interior
 clearance; it does not modify course data.
 
-The final source passes **536 Vitest tests and 404 Node tests**, with three Node
+The original pilot source passed **536 Vitest tests and 404 Node tests**, with three Node
 skips. The production build, all 11 published-graph isolation checks and the
 1,126,901-byte renderer proof build pass. Both matched full-app comparisons pass:
 each view retains 931,840 streamed-terrain triangles and one terrain draw, as well
@@ -92,6 +92,64 @@ All browser rendering here uses Chromium 153 with SwiftShader. These checks
 establish shader correctness and reproducible appearance, not physical-phone
 performance, shimmer during motion or thermal behavior. Inspect this opt-in
 pilot on a phone and older desktop before making it the default.
+
+### Integration with the Visby fixes and mobile clarity
+
+The pilot now includes main through `b5f1fed`, including the Visby coastal terrain
+mask, adaptive render resolution and Lidingö clubhouse update. The relief-enabled
+ground decorator is passed through the same coastal-mask wrapper. This keeps
+the geographic surface authority and the terrain's position node intact; the
+shared mask texture remains outside per-tile texture disposal. Regression tests
+exercise this composition for both surface representations and every relief tier.
+
+Resolution and relief remain separate controls. `surfaceRelief=1` selects the
+material tier from `q`; `resolution=1.5` changes the drawing buffer within the
+existing resolution limits. Pixel-footprint fading follows the drawing buffer,
+while terrain and tree detail continue to use the geometry quality policy.
+The automatic mobile resolution controller is unchanged.
+
+On integrated source `95cccb3`, **563 Vitest tests and 405 Node tests pass**, with
+three Node skips. The production build and all 11 published graph isolation
+checks pass. All six off/low/high material proofs pass again on WebGL2 and
+WebGPU, with unchanged terrain counts, allocation, vertex operations and texture
+sample counts. These are software-rendered correctness checks, not device FPS.
+
+Matched Visby H1 captures now pass for the green, first bunker and shallow
+coastal view on WebGL2 low quality, at a fixed 600 × 450 drawing buffer
+(400 × 300 CSS pixels, emulated display DPR 2, `resolution=1.5`). The source,
+routing, camera/lens, terrain inventory, tree positions and ground tint hashes
+match. Texture counts and bytes match at every view. The 262,144-byte coastal
+mask and all reported water settings also match exactly.
+
+| View | Terrain triangles, both versions | Whole-frame draws, both versions | Whole-frame triangles, both versions |
+| --- | ---: | ---: | ---: |
+| Green | 532,480 | 28 | 746,736 |
+| Bunker | 532,480 | 35 | 1,295,100 |
+| Coast | 2,839,552 | 120 | 7,362,040 |
+
+The green stays smooth and the sand gains visible clump detail. The coast
+comparison shows no return of the broad sea-interior breakup. This does not
+resolve the conservative shoreline-collar limitations recorded in the
+[Visby water investigation](visby-webgl-water-distance.md), or establish motion
+stability on a physical phone. The material still adds shader work: the green
+and bunker captures each account for 1,263 additional shader-source bytes and
+16 additional uniform bytes, despite identical texture allocation.
+
+The [integration evidence summary](graphics/ground-relief-integration-2026-09-09/summary.json)
+records the test, shader and comparison results. Full reports and all six images
+are stored alongside it.
+
+| Visby view | Baseline | Material preview |
+| --- | --- | --- |
+| Green | ![Visby green baseline](graphics/ground-relief-integration-2026-09-09/visby-before/h1_turf_golden.png) | ![Visby green preview](graphics/ground-relief-integration-2026-09-09/visby-after/h1_turf_golden.png) |
+| Bunker | ![Visby bunker baseline](graphics/ground-relief-integration-2026-09-09/visby-before/h1_sand_golden.png) | ![Visby bunker preview](graphics/ground-relief-integration-2026-09-09/visby-after/h1_sand_golden.png) |
+| Coast | ![Visby coast baseline](graphics/ground-relief-integration-2026-09-09/visby-before/h1_visby-coast-low_golden.png) | ![Visby coast preview](graphics/ground-relief-integration-2026-09-09/visby-after/h1_visby-coast-low_golden.png) |
+
+After deployment, compare [Visby with the low material tier](https://olovmelander.github.io/olovs-hemsida/?bana=visby&gl=1&q=lo&surfaceRelief=1)
+against [the baseline](https://olovmelander.github.io/olovs-hemsida/?bana=visby&gl=1&q=lo&surfaceRelief=0).
+These links retain automatic render resolution. Inspect nearby turf and sand,
+then pan and zoom out over the coast. Device acceptance includes stable detail
+during motion and sustained frame times, which the static captures cannot prove.
 
 ### Upsala H4 close-ups
 
@@ -131,3 +189,10 @@ pnpm exec vitest run --maxWorkers=2 --testTimeout=30000
 The proof page accepts `materialProof=1&surfaceRelief=off`, `low` or `high`.
 Append `gl=1` for forced WebGL2. Its synthetic patches are test fixtures, not
 course mapping or replacement course textures.
+
+For the integrated Visby comparison, use the same built app for both captures:
+
+```sh
+node tools/v2-graphics-review.mjs --root apps/golf/dist --course visby --backend webgl2 --q lo --graphics 1 --surface-relief 0 --resolution 1.5 --views 1:turf:golden,1:sand:golden,1:visby-coast-low:golden --width 400 --height 300 --dpr 2 --timeout 1200 --out /tmp/visby-relief-before
+node tools/v2-graphics-review.mjs --root apps/golf/dist --course visby --backend webgl2 --q lo --graphics 1 --surface-relief 1 --resolution 1.5 --views 1:turf:golden,1:sand:golden,1:visby-coast-low:golden --width 400 --height 300 --dpr 2 --timeout 1200 --out /tmp/visby-relief-after --compare /tmp/visby-relief-before/report.json
+```
