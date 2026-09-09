@@ -30,7 +30,7 @@ test('expanded tee inventory survives regeneration and keeps reviewed cameras on
     for (const tee of Object.keys(entry.cameraReferencesPixels)) delete hole.tees.references[tee];
   }
   assert.deepEqual(applyReviewedTeePlatforms(unreviewed, review), geometry, 'source overlay reconstructs the adopted authoring geometry');
-  assert.equal(model.holes.reduce((n, hole) => n + hole.tees.pads.length, 0), 46);
+  assert.equal(model.holes.reduce((n, hole) => n + hole.tees.pads.length, 0), 48);
   for (const entry of review.holes) {
     const hole = model.holes[entry.n - 1], source = review.sources[entry.sourceKey];
     for (const pad of entry.additionalPads) {
@@ -148,7 +148,9 @@ test('Visby published compatibility pack preserves canonical observed geometry a
          infers no platform -- so containment is asserted where it is true and
          the derivation is re-derived below where it is not. */
       assert.ok(hole.tees.pads.some(pad => pointInPoly(...hole.tees.marks[0].c, pad.ring)));
-      assert.equal(hole.tees.marks[0].placement, 'observed-tee-platform; the card back tee, whose platform this is');
+      assert.equal(hole.tees.marks[0].placement, source.tees.references?.['tee-63']
+        ? 'source-declared-camera-reference; daily marker location unverified'
+        : 'observed-tee-platform; the card back tee, whose platform this is');
     }
     /* The model and its generator must not be able to disagree. `build-course`
        cannot run in a checkout without the acquired 1 m raster it pins by
