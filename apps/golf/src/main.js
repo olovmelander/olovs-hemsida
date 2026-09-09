@@ -61,6 +61,7 @@ import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildCoastalWater } from './engine/coastal-water.mjs';
+import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
@@ -2252,6 +2253,7 @@ if (V2_WORLD) {
    fillGroundTintTextures falls back to the compatibility DEM outside the
    frontier's own sampler. */
 const GROUND_TINT = TERRAIN_PREVIEW.ready ? createGroundTintTextures() : null;
+const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER) : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Low WebGL2 requests reduced terrain. Ring grounds retain every native
      course vertex and simplify surrounding levels with rebuilt morphs.
@@ -2260,15 +2262,14 @@ if (TERRAIN_PREVIEW.ready) {
   const renderStride = ['1', '2'].includes(requestedTerrainStride)
     ? Number(requestedTerrainStride) : !IS_GPU && LOWQ ? 2 : 1;
   const prepareStarted = performance.now();
+  const decorateGround = createV2GroundMaterialDecorator({
+    atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
+    graphicsPolish: GRAPHICS_POLISH, debugMode: surfaceDebugMode, tint: GROUND_TINT,
+  });
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
     renderStride,
-    decorateMaterial: createV2GroundMaterialDecorator({
-      atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
-      graphicsPolish: GRAPHICS_POLISH,
-      debugMode: surfaceDebugMode,
-      tint: GROUND_TINT,
-    }),
+    decorateMaterial: COASTAL_TERRAIN_MASK ? COASTAL_TERRAIN_MASK.wrap(decorateGround) : decorateGround,
     legacySurfaceAtlas: TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas'
       ? groundAtlas
       : null,
@@ -9918,6 +9919,7 @@ window.V3D = {
     depthTest: waterMat.depthTest, polygonOffset: waterMat.polygonOffset,
     depthFunc: waterMat.depthFunc,
     polygonOffsetFactor: waterMat.polygonOffsetFactor, polygonOffsetUnits: waterMat.polygonOffsetUnits,
+    terrainMaskBytes: COASTAL_TERRAIN_MASK?.bytes ?? 0,
   } : null,
   cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */
