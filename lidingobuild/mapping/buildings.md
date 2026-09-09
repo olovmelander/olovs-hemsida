@@ -21,8 +21,10 @@ are descriptive associations, not confirmed current use.
 
 The two partial roofs retain 45.60 m² and 80.03 m² of unsupported footprint.
 These may include unroofed patios, source-outline differences or sparse/ambiguous
-returns. They remain unknown. No roof fill or walls around those internal gaps
-are inferred. The mapped footprints can still serve as conservative building
+returns. They remain unknown in the source evidence. No roof fill or walls around
+those internal gaps are inferred in the retained measurement mesh. The separate
+display model described below closes its approximate architectural volumes.
+The mapped footprints can still serve as conservative building
 exclusions for vegetation.
 
 ## Reconstruction and checks
@@ -64,15 +66,19 @@ The compatibility world already uses RH 2000 as vertical coordinates, so the
 roof's `heightRH2000` stays unchanged. The separate v2 terrain frame has origin
 height −0.05 m and its existing bridge performs that translation.
 
-Render the supplied roof triangles directly. Walls may descend from the supplied
-supported segments to the source DTM for visualization. Skip generic building
-roofs and decorations for these instances. Do not assign a roof-top height to
-the existing `h` wall/eave field or add a gable above the measured surface.
-Eaves, foundation levels, materials, windows and roof styles remain unverified
-as measurements. A separate [public-photo appearance layer](../../docs/courses/lidingo-clubhouse-appearance.md)
-adds estimated facade details to the three clubhouse-area buildings without
-changing the retained roof triangles or footprints. Those visual estimates are
-not new laser/orthophoto mapping evidence.
+The source inspection path (`buildingGeometry=source`) renders the supplied roof
+triangles directly, with walls descending from supported segments to the DTM.
+The default scene uses a separate [architectural display model](../../docs/courses/lidingo-clubhouse-appearance.md)
+for these five buildings. It replaces the visible TIN with smooth roof sections
+and closed walls, informed by public clubhouse photos and retained roof heights.
+The source TIN, unsupported regions, height fields and footprints remain intact
+in the model and shipping pack. Generic roofs/decorations stay bypassed for both
+paths; no roof-top height is assigned to the existing `h` wall/eave field.
+
+Eaves, foundations, materials, windows and roof styles remain unverified as
+measurements. Authored roof fill and facade/terrace estimates are explicitly
+display geometry, not new laser/orthophoto mapping evidence. Runtime counters
+distinguish retained source triangles from triangles actually rendered.
 
 ## Rebuild
 

@@ -263,6 +263,7 @@ let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = MODEL;
+if (SCENERY?.applySurfaceAppearance) M.scenery = SCENERY.applySurfaceAppearance(M.scenery);
 const HOLES = M.holes;
 /* A verified descriptor alone may not alter either construction or visible
    ground. The adapter opens those gates separately after backend preflight and
@@ -5782,23 +5783,37 @@ if (M.infra.objectPlacement === 'mapped-only') {
 
   stats.measuredRoofBuildings = 0;
   stats.measuredRoofTriangles = 0;
+  stats.sourceRoofBuildings = 0;
+  stats.sourceRoofTriangles = 0;
+  stats.architecturalBuildings = 0;
+  stats.architecturalTriangles = 0;
   stats.genericRoofBuildings = 0;
   stats.clubhouseDetails = [];
+  const sourceBuildingView = new URLSearchParams(location.search).get('buildingGeometry') === 'source';
   for (const b of M.infra.buildings) {
     if (b.ring.length < 3) continue;
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
     if (b.roofSurface) {
+      stats.sourceRoofBuildings++;
+      stats.sourceRoofTriangles += b.roofSurface.triangleIndices.length / 3;
+      // Display architecture is explicitly distinct from retained measurements.
+      // The source view still renders the complete original TIN for inspection.
+      const authored = !sourceBuildingView && SCENERY?.renderArchitecture?.({ building:b, terrainH, tri, L });
+      if (authored) {
+        stats.architecturalBuildings++;
+        stats.architecturalTriangles += authored.triangles;
+        stats.clubhouseDetails.push(authored);
+        continue;
+      }
       const geometry = measuredRoofGeometry(b.roofSurface, terrainH);
-      // Keep the measured roof intact. A course module may add separately
-      // documented facade appearance; generic roof/decorations stay bypassed.
+      // Render the original measured surface in the source view, or when a
+      // course has no display model. Generic roof/decorations stay bypassed.
       const look = SCENERY?.buildingLooks?.[b.id];
       const wall = L(look?.wall ?? 0xc5c0b4), roof = L(look?.roof ?? 0x3c4141);
       for (const [a, c, d] of geometry.triangles) tri(a, c, d, roof);
       for (const [a, c, d, e] of geometry.walls) quad(a, c, d, e, wall);
       stats.measuredRoofBuildings++;
       stats.measuredRoofTriangles += geometry.triangles.length;
-      const details = SCENERY?.decorateMeasuredBuilding?.({ building:b, terrainH, tri, quad, L });
-      if (details) stats.clubhouseDetails.push(details);
       continue;
     }
     const [cx, cz] = centroidOf(b.ring);
@@ -6035,6 +6050,9 @@ if (M.infra.objectPlacement === 'mapped-only') {
       }
     }
   }
+
+  stats.courtyardDetails = sourceBuildingView ? null : SCENERY?.renderCourtyard?.({
+    features:M.scenery.mappedFeatures || [], buildings:M.infra.buildings, terrainH, tri, L });
 
   /* Landuse describes a residential area, not individual house footprints.
      Retain this historical filler only for grounds permitting inferred objects;
@@ -9768,8 +9786,13 @@ window.V3D = {
            inferredRangeTargets: stats.inferredRangeTargets | 0,
            measuredRoofBuildings: stats.measuredRoofBuildings | 0,
            measuredRoofTriangles: stats.measuredRoofTriangles | 0,
+           sourceRoofBuildings: stats.sourceRoofBuildings | 0,
+           sourceRoofTriangles: stats.sourceRoofTriangles | 0,
+           architecturalBuildings: stats.architecturalBuildings | 0,
+           architecturalTriangles: stats.architecturalTriangles | 0,
            genericRoofBuildings: stats.genericRoofBuildings | 0,
            clubhouseDetails: stats.clubhouseDetails || [],
+           courtyardDetails: stats.courtyardDetails || null,
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,

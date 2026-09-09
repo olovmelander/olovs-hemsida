@@ -5,6 +5,7 @@ import { chromium } from 'playwright-core';
 import { browserArgs } from '../tools/browser-args.mjs';
 import { centroid, pointInPoly } from '../geobuild/lib.mjs';
 import { SURFACE } from '../apps/golf/src/engine/surface.js';
+import { applySurfaceAppearance } from '../apps/golf/src/engine/scenery/lidingo.js';
 const base = (process.argv.find(arg => /^https?:/.test(arg)) || 'http://127.0.0.1:8634').replace(/\/$/, '');
 const model = JSON.parse(fs.readFileSync(new URL('./course-model.json', import.meta.url)));
 const output = new URL('./cache/facility-review/', import.meta.url);
@@ -22,7 +23,8 @@ try {
     const ring = f.rings[0], bounds = [Math.min(...ring.map(p => p[0])), Math.min(...ring.map(p => p[1])), Math.max(...ring.map(p => p[0])), Math.max(...ring.map(p => p[1]))];
     const candidates = [centroid(ring)];
     for (let x = bounds[0] + 1; x < bounds[2]; x += 1) for (let z = bounds[1] + 1; z < bounds[3]; z += 1) candidates.push([x, z]);
-    return { id: f.id, expectedSurface: f.kind === 'practice_green' ? SURFACE.GREEN : SURFACE.GRAVEL,
+    return { id: f.id, expectedSurface: f.kind === 'practice_green' ? SURFACE.GREEN
+      : f.id === 'lidingo-courtyard-hardstanding-2019' ? SURFACE.ASPHALT : SURFACE.GRAVEL,
       points: candidates.filter(p => pointInPoly(...p, ring) && !f.rings.slice(1).some(r => pointInPoly(...p, r))) };
   });
   const state = await page.evaluate(probes => {
@@ -36,11 +38,13 @@ try {
     { ok: errors.length === 0, message: 'No browser exceptions', errors },
     { ok: state.terrain.ready && state.terrain.selection.defaulted === true && state.terrain.renderer.meshResolutionMetres === 1,
       message: 'Plain Lidingö URL selects the measured 1 m graph by default' },
-    { ok: JSON.stringify(state.facilities) === JSON.stringify(model.scenery.mappedFeatures), message: 'Every facility ring and courtyard island survived the pack unchanged' },
+    { ok: JSON.stringify(state.facilities) === JSON.stringify(applySurfaceAppearance(model.scenery).mappedFeatures), message: 'Every facility ring and courtyard island survived unchanged; only the documented courtyard material differs' },
     { ok: state.parking.length === 29 && state.parking.every(p => p.cars === false), message: '29 source parking areas, no inferred occupancy' },
     { ok: state.probes.every(p => p.matches > 0), message: 'Practice greens and hardstanding are visible in the active surface atlas', details: state.probes },
-    { ok: state.stats.measuredRoofBuildings === 5 && state.stats.measuredRoofTriangles === 7069 && state.stats.genericRoofBuildings === 557,
-      message: 'Five measured roof meshes replace their generic buildings' },
+    { ok: state.stats.sourceRoofBuildings === 5 && state.stats.sourceRoofTriangles === 7069 &&
+      state.stats.architecturalBuildings === 5 && state.stats.architecturalTriangles > 0 && state.stats.architecturalTriangles < 4700 &&
+      state.stats.measuredRoofBuildings === 0 && state.stats.genericRoofBuildings === 557,
+      message: 'Five display models retain their measured sources and replace the raw roof display' },
   ];
   const views = [
     { name: 'clubhouse', centre: centroid(model.infra.buildings.find(b => b.amenity === 'clubhouse').ring), offset: [90, 85, 125] },
