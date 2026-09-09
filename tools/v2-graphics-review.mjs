@@ -27,6 +27,7 @@ const HELP = `Usage: node tools/v2-graphics-review.mjs (--base URL | --root BUIL
   Visby coastal cameras: visby-coast (overview), visby-coast-low (shallow angle)
   --width 960 --height 600 --dpr 1 --timeout 600 --chrome PATH
   --compare /path/to/previous/report.json
+  --surface-relief 0|1  (v2 material pilot; turf/sand close-up views supported)
   --terrain-stride 1|2  (override the terrain quality request on either backend)
   --resolution 1|1.25|1.5|2  (fixed screen sharpness; geometry quality stays separate)
   --base-path /olovs-hemsida/  (path prefix for --root's internal server)
@@ -35,9 +36,9 @@ Software screenshots and mapping/count checks only; no hardware FPS claim.`;
 
 function optionsFrom(argv) {
   const o = { course: 'puttom', backend: 'webgl2', q: 'lo', graphics: '1', views: 'short',
-    width: 960, height: 600, dpr: 1, timeout: 600, bark: false, autoFallback: false };
+    width: 960, height: 600, dpr: 1, timeout: 600, bark: false, autoFallback: false, 'surface-relief': '0' };
   const allowed = new Set(['base', 'root', 'base-path', 'out', 'course', 'backend', 'q', 'graphics', 'views',
-    'width', 'height', 'dpr', 'timeout', 'chrome', 'compare', 'terrain-stride', 'resolution']);
+    'width', 'height', 'dpr', 'timeout', 'chrome', 'compare', 'terrain-stride', 'resolution', 'surface-relief']);
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--bark') { o.bark = true; continue; }
     if (argv[i] === '--auto-fallback') { o.autoFallback = true; continue; }
@@ -50,6 +51,7 @@ function optionsFrom(argv) {
   if ((!o.base && !o.root) || (o.base && o.root) || !o.out) throw new Error('Specify exactly one of --base / --root, plus --out');
   if (o.base && !['http:', 'https:'].includes(new URL(o.base).protocol)) throw new Error('--base must use http(s)');
   if (!/^[a-z0-9-]+$/.test(o.course)) throw new Error('Invalid --course');
+  if (!['0', '1'].includes(o['surface-relief'])) throw new Error('Invalid --surface-relief');
   if (o['terrain-stride'] !== undefined && !['1', '2'].includes(o['terrain-stride'])) throw new Error('Invalid --terrain-stride');
   if (o.resolution !== undefined && !['1', '1.25', '1.5', '2'].includes(o.resolution)) throw new Error('Invalid --resolution');
   for (const [key, values] of [['backend', ['webgl2', 'webgpu']], ['q', ['lo', 'hi']], ['graphics', ['default', '0', '1']]]) {
@@ -70,7 +72,7 @@ function optionsFrom(argv) {
   const specs = o.views === 'short' ? ['1:tee:noon', '1:green:noon', '1:top:noon', '1:tee:golden'] : o.views.split(',');
   o.views = specs.map(spec => {
     const [h, cam, preset, extra] = spec.split(':');
-    if (extra || !/^\d+$/.test(h) || +h < 1 || !['tee', 'green', 'top', 'orbit', 'visby-coast', 'visby-coast-low'].includes(cam)
+    if (extra || !/^\d+$/.test(h) || +h < 1 || !['tee', 'green', 'top', 'orbit', 'turf', 'sand', 'visby-coast', 'visby-coast-low'].includes(cam)
       || !['noon', 'golden', 'mist', 'dawn', 'host'].includes(preset)) throw new Error(`Invalid view: ${spec}`);
     return { id: `h${h}_${cam}_${preset}`, hole: +h, cam, preset };
   });
@@ -199,6 +201,7 @@ async function main(o) {
   fs.mkdirSync(o.out, { recursive: true });
   const local = o.root ? await serveBuild(o.root, o.basePath) : null;
   const url = new URL(local?.base || o.base);
+  url.searchParams.set('surfaceRelief', o['surface-relief']);
   if (o['terrain-stride']) url.searchParams.set('terrainStride', o['terrain-stride']);
   if (o.resolution) url.searchParams.set('resolution', o.resolution);
   for (const [key, value] of Object.entries({ bana: o.course, v2: 'require', det: '1', q: o.q,
@@ -209,7 +212,7 @@ async function main(o) {
   if (o.backend === 'webgpu') args.push('--enable-unsafe-webgpu', '--enable-webgpu-developer-features',
     '--enable-experimental-web-platform-features', '--use-gpu-in-tests', '--enable-features=UseSkiaRenderer,Vulkan',
     '--use-vulkan=swiftshader', '--use-webgpu-adapter=swiftshader', '--disable-vulkan-surface');
-  const report = { schemaVersion: 1, date: new Date().toISOString(), url: url.href, graphics: o.graphics,
+  const report = { schemaVersion: 1, date: new Date().toISOString(), url: url.href, graphics: o.graphics, surfaceRelief: o['surface-relief'],
     executionAdapter: 'swiftshader-software', performanceEvidence: false,
     note: 'Software captures verify correctness only. Compare real-hardware median/p95/p99 frame times separately.',
     request: { course: o.course, backend: o.backend, autoFallback: o.autoFallback,
@@ -254,6 +257,8 @@ async function main(o) {
     report.boot = await page.evaluate(() => ({ backend: window.V3D.stats.backend, quality: window.V3D.quality(),
       course: window.V3D.course(), terrain: window.V3D.v2Terrain(), stats: window.V3D.stats }));
     if (report.boot.backend !== o.backend) throw new Error(`Requested ${o.backend}, got ${report.boot.backend}`);
+    const expectedRelief = o['surface-relief'] === '1' && o.graphics === '1' ? (o.q === 'lo' ? 'low' : 'high') : 'off';
+    if ((report.boot.quality.surfaceRelief ?? 'off') !== expectedRelief) throw new Error('Surface relief tier not confirmed');
     const selectedPolish = report.boot.quality.graphicsPolish;
     if (selectedPolish !== undefined ? selectedPolish !== (o.graphics === '1') : o.graphics !== '0') {
       throw new Error(`Graphics switch not confirmed: requested ${o.graphics}, reported ${selectedPolish}`);
@@ -271,7 +276,30 @@ async function main(o) {
       await page.evaluate(v => {
         const V = window.V3D;
         if (!V.HOLES.some(h => h.n === v.hole)) throw new Error(`Hole ${v.hole} unavailable`);
-        V.setPreset(v.preset); V.goHole(v.hole, true, true); V.setCam(v.cam === 'bark' || v.cam.startsWith('visby-coast') ? 'tee' : v.cam, true);
+        V.setPreset(v.preset); V.goHole(v.hole, true, true);
+        V.setCam(['bark', 'turf', 'sand'].includes(v.cam) || v.cam.startsWith('visby-coast') ? 'tee' : v.cam, true);
+        if (v.cam === 'turf' || v.cam === 'sand') {
+          const hole = V.HOLES.find(h => h.n === v.hole);
+          const ring = v.cam === 'turf' ? hole.green.ring : hole.bunkers[0]?.ring;
+          if (!ring?.length) throw new Error('Close-up surface has no mapped polygon');
+          const xs = ring.map(p => p[0]), zs = ring.map(p => p[1]);
+          const x0 = Math.min(...xs), z0 = Math.min(...zs), w = Math.max(...xs) - x0, h = Math.max(...zs) - z0;
+          let best = null;
+          for (let r = 0; r < 48; r++) for (let c = 0; c < 48; c++) {
+            const x = x0 + (c + 0.5) * w / 48, z = z0 + (r + 0.5) * h / 48;
+            let inside = false, clearance = Infinity;
+            for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+              const [ax, az] = ring[j], [bx, bz] = ring[i], dx = bx - ax, dz = bz - az;
+              if ((az > z) !== (bz > z) && x < (bx - ax) * (z - az) / (bz - az) + ax) inside = !inside;
+              const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz || 1)));
+              clearance = Math.min(clearance, Math.hypot(x - ax - t * dx, z - az - t * dz));
+            }
+            if (inside && (!best || clearance > best.clearance)) best = { x, z, clearance };
+          }
+          if (!best) throw new Error('Close-up surface has no interior');
+          const { x, z } = best;
+          V.placeCamera([x, V.probeH(x, z + 3) + 1.8, z + 3], [x, V.probeH(x, z) + 0.05, z]);
+        }
         if (v.cam.startsWith('visby-coast')) {
           if (V.course().slug !== 'visby') throw new Error('Visby coastal poses require the Visby course');
           V.placeCamera(v.cam === 'visby-coast' ? [1500, 1600, -1900] : [500, 180, -1400], [-500, 5, 300]);

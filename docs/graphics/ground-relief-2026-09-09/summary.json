@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-09T10:45:05.296578+00:00",
+  "baselineCommit": "32a0ae0dd7373868fbe31479221fb21a2a0b927c",
+  "candidateCodeCommit": "7d9e05d366982ec58cccaebc24a17867893e4e29",
+  "executionAdapter": "swiftshader",
+  "performanceEvidence": false,
+  "course": "upsala",
+  "views": [
+    "h4_turf_golden",
+    "h4_sand_golden"
+  ],
+  "viewport": [
+    640,
+    480
+  ],
+  "devicePixelRatio": 1,
+  "enabledByDefault": false,
+  "tests": {
+    "vitestPassed": 536,
+    "nodePassed": 404,
+    "nodeSkipped": 3
+  },
+  "build": {
+    "production": "passed",
+    "publishedGraphIsolationChecks": 11,
+    "note": "Isolation checker ran against the fresh candidate-packed output; only its DIST path was redirected in a temporary copy.",
+    "rendererProofBytes": 1126901,
+    "codeCi": "passed at 7d9e05d366982ec58cccaebc24a17867893e4e29"
+  },
+  "scope": "Corrected shared packed DETAIL upload plus turf/sand normal and mowing roughness response. No geographic edits.",
+  "fullApp": [
+    {
+      "backend": "webgl2",
+      "quality": "lo",
+      "comparison": {
+        "invariants": {
+          "model": true,
+          "routing": true,
+          "georeferencing": true,
+          "treeInstances": true,
+          "treePositions": true,
+          "vistaPoints": true,
+          "tintNear": true,
+          "tintFar": true,
+          "surfaceSource": true,
+          "vegetationSource": true,
+          "counts": true,
+          "request": true
+        },
+        "views": [
+          {
+            "id": "h4_turf_golden",
+            "matched": true,
+            "captureContractUnchanged": true,
+            "cameraUnchanged": true,
+            "terrainUnchanged": true,
+            "imageChanged": true,
+            "trianglesDelta": 0,
+            "drawCallsDelta": 0
+          },
+          {
+            "id": "h4_sand_golden",
+            "matched": true,
+            "captureContractUnchanged": true,
+            "cameraUnchanged": true,
+            "terrainUnchanged": true,
+            "imageChanged": true,
+            "trianglesDelta": 0,
+            "drawCallsDelta": 0
+          }
+        ],
+        "passed": true,
+        "note": "Image changes are expected. Draw/triangle deltas are observations, not FPS evidence; shadow refresh can alter per-frame counters."
+      },
+      "views": [
+        {
+          "id": "h4_turf_golden",
+          "terrainTrianglesBefore": 931840,
+          "terrainTrianglesAfter": 931840,
+          "terrainDrawsBefore": 1,
+          "terrainDrawsAfter": 1,
+          "beforeImage": "webgl2-before/h4_turf_golden.png",
+          "afterImage": "webgl2-after/h4_turf_golden.png",
+          "centralCropMeanAbsoluteRgbDifference": 3.0462,
+          "centralCropP99AbsoluteRgbDifference": 13.0
+        },
+        {
+          "id": "h4_sand_golden",
+          "terrainTrianglesBefore": 931840,
+          "terrainTrianglesAfter": 931840,
+          "terrainDrawsBefore": 1,
+          "terrainDrawsAfter": 1,
+          "beforeImage": "webgl2-before/h4_sand_golden.png",
+          "afterImage": "webgl2-after/h4_sand_golden.png",
+          "centralCropMeanAbsoluteRgbDifference": 2.5685,
+          "centralCropP99AbsoluteRgbDifference": 9.0
+        }
+      ],
+      "report": "webgl2-after/report.json"
+    },
+    {
+      "backend": "webgpu",
+      "quality": "hi",
+      "comparison": {
+        "invariants": {
+          "model": true,
+          "routing": true,
+          "georeferencing": true,
+          "treeInstances": true,
+          "treePositions": true,
+          "vistaPoints": true,
+          "tintNear": true,
+          "tintFar": true,
+          "surfaceSource": true,
+          "vegetationSource": true,
+          "counts": true,
+          "request": true
+        },
+        "views": [
+          {
+            "id": "h4_turf_golden",
+            "matched": true,
+            "captureContractUnchanged": true,
+            "cameraUnchanged": true,
+            "terrainUnchanged": true,
+            "imageChanged": true,
+            "trianglesDelta": 0,
+            "drawCallsDelta": 0
+          },
+          {
+            "id": "h4_sand_golden",
+            "matched": true,
+            "captureContractUnchanged": true,
+            "cameraUnchanged": true,
+            "terrainUnchanged": true,
+            "imageChanged": true,
+            "trianglesDelta": 0,
+            "drawCallsDelta": 0
+          }
+        ],
+        "passed": true,
+        "note": "Image changes are expected. Draw/triangle deltas are observations, not FPS evidence; shadow refresh can alter per-frame counters."
+      },
+      "views": [
+        {
+          "id": "h4_turf_golden",
+          "terrainTrianglesBefore": 931840,
+          "terrainTrianglesAfter": 931840,
+          "terrainDrawsBefore": 1,
+          "terrainDrawsAfter": 1,
+          "beforeImage": "webgpu-before/h4_turf_golden.png",
+          "afterImage": "webgpu-after/h4_turf_golden.png",
+          "centralCropMeanAbsoluteRgbDifference": 3.08,
+          "centralCropP99AbsoluteRgbDifference": 13.0
+        },
+        {
+          "id": "h4_sand_golden",
+          "terrainTrianglesBefore": 931840,
+          "terrainTrianglesAfter": 931840,
+          "terrainDrawsBefore": 1,
+          "terrainDrawsAfter": 1,
+          "beforeImage": "webgpu-before/h4_sand_golden.png",
+          "afterImage": "webgpu-after/h4_sand_golden.png",
+          "centralCropMeanAbsoluteRgbDifference": 2.1871,
+          "centralCropP99AbsoluteRgbDifference": 8.0
+        }
+      ],
+      "report": "webgpu-after/report.json"
+    }
+  ],
+  "remainingAcceptance": [
+    "physical phone and older desktop",
+    "camera motion and distant shimmer",
+    "frame-time and thermal behavior"
+  ],
+  "syntheticProof": {
+    "passed": true,
+    "browser": "153.0.8010.12",
+    "cases": [
+      {
+        "backend": "webgl2",
+        "tier": "off",
+        "imageSha256": "aee3557bc719f40bc429f50c15bff06cf31352e4a927a9d1feee58f6f8727dcf",
+        "errors": [],
+        "terrainTriangles": 34816,
+        "terrainDraws": 1,
+        "terrainTextureCapacityBytes": 135200
+      },
+      {
+        "backend": "webgl2",
+        "tier": "low",
+        "imageSha256": "64c36bad5e095502041dcac85b5e253cfa1ccd63c4276ba4ec9aaa0c56ea8a7c",
+        "errors": [],
+        "terrainTriangles": 34816,
+        "terrainDraws": 1,
+        "terrainTextureCapacityBytes": 135200
+      },
+      {
+        "backend": "webgl2",
+        "tier": "high",
+        "imageSha256": "b3e65bdfef967f55d19bb283e7676e67ee5701fb076cdbad1b922a1b423672ac",
+        "errors": [],
+        "terrainTriangles": 34816,
+        "terrainDraws": 1,
+        "terrainTextureCapacityBytes": 135200
+      },
+      {
+        "backend": "webgpu",
+        "tier": "off",
+        "imageSha256": "7048a2c8122ce5c722cc4d50602e001be5aa233825a82d88d09101c4a59c4848",
+        "errors": [],
+        "terrainTriangles": 34816,
+        "terrainDraws": 1,
+        "terrainTextureCapacityBytes": 135200,
+        "shader": {
+          "vertexSha256": "006932817cd13f59a8f8b75d40c76a7e47c6e8c77e617d86dde5c90d68e8d022",
+          "vertexMainSha256": "0723bf6639941066451e5ddd87c9661c7d64991edf7ed9d15fef1cbe95d04246",
+          "textureSamples": 9,
+          "dx": 1,
+          "dy": 1
+        }
+      },
+      {
+        "backend": "webgpu",
+        "tier": "low",
+        "imageSha256": "6bdc158dea0561dd913b46d52cecddf0f0afc97b45fdf74260a19e1eddebd458",
+        "errors": [],
+        "terrainTriangles": 34816,
+        "terrainDraws": 1,
+        "terrainTextureCapacityBytes": 135200,
+        "shader": {
+          "vertexSha256": "49116d572e115f30e8fb35ecfb965e4ddb784e3ec0b308906dd1a4c2d08028d9",
+          "vertexMainSha256": "0723bf6639941066451e5ddd87c9661c7d64991edf7ed9d15fef1cbe95d04246",
+          "textureSamples": 9,
+          "dx": 4,
+          "dy": 4
+        }
+      },
+      {
+        "backend": "webgpu",
+        "tier": "high",
+        "imageSha256": "cf66487bc555773689a5551350b2186866fe23cb1ee652265176677642b90be2",
+        "errors": [],
+        "terrainTriangles": 34816,
+        "terrainDraws": 1,
+        "terrainTextureCapacityBytes": 135200,
+        "shader": {
+          "vertexSha256": "32f32491b964d15feeac8401f1e0bee7972adb7041a53ffdc69f1b40adf0a51c",
+          "vertexMainSha256": "0723bf6639941066451e5ddd87c9661c7d64991edf7ed9d15fef1cbe95d04246",
+          "textureSamples": 9,
+          "dx": 5,
+          "dy": 5
+        }
+      }
+    ]
+  },
+  "passed": true
+}

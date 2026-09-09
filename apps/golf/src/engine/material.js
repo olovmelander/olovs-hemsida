@@ -9,6 +9,7 @@ import {
   bumpMap, saturate, step, max, vec4, select, floor,
 } from 'three/tsl';
 import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
+import { createGroundReliefNormal, groundReliefTier } from './ground-surface-relief.mjs';
 
 const MIGRATED = [
   SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN,
@@ -518,10 +519,10 @@ function v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish }) {
     const hardVariation = hardSample.r.sub(0.5).mul(0.065);
     roughness = roughness.add(mix(mix(turfVariation, sandVariation, meta.g), hardVariation, meta.b));
   }
-  return { surfaceDetail, roughness: clamp(roughness, 0.42, 0.99) };
+  return { surfaceDetail, roughness: clamp(roughness, 0.42, 0.99), clumpSample: hardSample.g, grainSample: sandSample.r };
 }
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish }) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief }) {
   const channels = atlas.data.channels;
   const classes = [...channels, SURFACE.ROUGH];
   const roughIndex = classes.length - 1;
@@ -532,6 +533,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   const swizzle = ['r', 'g', 'b', 'a'];
   return material => {
     material.userData.graphicsPolish = graphicsPolish && debugMode === 'off';
+    material.userData.surfaceRelief = debugMode === 'off' ? surfaceRelief : 'off';
     /* Sampled at the LEGACY world position for the same reason the pair
        material is: the descriptor's samplingFrame says which world the raster
        was drawn in, and for the migration preview that is the pack's own. */
@@ -637,7 +639,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     const shade = blend4(index => styles[index].shade);
     const meta = blend4(index => styles[index].meta);
 
-    const { surfaceDetail, roughness } = v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish });
+    const { surfaceDetail, roughness, clumpSample, grainSample } = v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish });
 
     const fields = texture(atlas.texF, uvAtlas);
     const routeDistance = fields.r.mul(255 * atlas.data.routeStepMetres);
@@ -659,7 +661,12 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     /* the same linear share the pair material restores -- see its note */
     const litBase = mix(base.mul(base), base, 0.18);
     material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mowNode));
-    material.roughnessNode = roughness;
+    material.roughnessNode = surfaceRelief === 'off' ? roughness
+      : roughness.sub(mowNode.mul(surfaceRelief === 'high' ? 0.18 : 0.10)).clamp(0.42, 0.99);
+    if (surfaceRelief !== 'off') {
+      material.normalNode = createGroundReliefNormal({ baseNormal: material.normalNode,
+        clumpSample, grainSample, wp, shade, meta, tier: surfaceRelief, textureSize: DETAIL.image.width });
+    }
     material.metalness = 0;
     /* the atlas owns its textures; nothing was created here to dispose */
     material.userData.terrainPreviewTextures = [];
@@ -670,15 +677,17 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false }) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off' }) {
   if (!['off', 'weights'].includes(debugMode)) throw new TypeError(`unknown surface debug mode: ${debugMode}`);
   if (typeof graphicsPolish !== 'boolean') throw new TypeError('graphicsPolish must be a boolean');
+  groundReliefTier(surfaceRelief);
+  if (!graphicsPolish) surfaceRelief = 'off';
   if (atlas?.data?.representation === 'class-sdf-v1') {
     if (!atlas.texSdf?.length || !atlas.texF || !atlas.data.channels?.length) {
       throw new TypeError('the per-class v2 terrain material requires SDF textures and a channel palette');
     }
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish }),
+      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief }),
       atlas,
     );
   }
@@ -687,6 +696,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
   const debugPaletteTexture = debugMode === 'weights' ? makeSurfaceDebugPaletteTexture() : null;
   return bindV2SurfaceAuthority(material => {
     material.userData.graphicsPolish = graphicsPolish && debugMode === 'off';
+    material.userData.surfaceRelief = debugMode === 'off' ? surfaceRelief : 'off';
     /* Sampled with the LEGACY world position, deliberately, even though the
        mesh under it is drawn rotated out of EPSG:3006. The two v2 artefacts are
        not in the same frame: the terrain tiles are real grid-north DTM, but the
@@ -767,7 +777,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     const strength = mix(float(0), mix(secondaryShade.a, primaryShade.a, primaryWeight), active);
     const meta = mix(secondaryMeta, primaryMeta, primaryWeight).mul(inBounds);
 
-    const { surfaceDetail, roughness } = v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish });
+    const { surfaceDetail, roughness, clumpSample, grainSample } = v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish });
 
     const routeDistance = fields.g.mul(255 / 4);
     const ringDistance = fields.a.mul(255 * 0.16);
@@ -785,7 +795,12 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
        restores the missing ambient body without flattening class contrast. */
     const litBase = mix(base.mul(base), base, 0.18);
     material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mow));
-    material.roughnessNode = roughness;
+    material.roughnessNode = surfaceRelief === 'off' ? roughness
+      : roughness.sub(mow.mul(surfaceRelief === 'high' ? 0.18 : 0.10)).clamp(0.42, 0.99);
+    if (surfaceRelief !== 'off') {
+      material.normalNode = createGroundReliefNormal({ baseNormal: material.normalNode,
+        clumpSample, grainSample, wp, shade, meta, tier: surfaceRelief, textureSize: DETAIL.image.width });
+    }
     material.metalness = 0;
     material.userData.terrainPreviewTextures = [styleTexture];
     material.userData.surfaceDebugMode = debugMode;

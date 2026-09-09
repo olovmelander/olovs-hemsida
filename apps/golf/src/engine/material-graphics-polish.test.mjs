@@ -3,6 +3,8 @@ import * as THREE from 'three/webgpu';
 import { vec3 } from 'three/tsl';
 import { createV2GroundMaterialDecorator } from './material.js';
 import { SURFACE } from './surface.js';
+import { groundReliefTier } from './ground-surface-relief.mjs';
+import { createCoastalTerrainMask } from './coastal-terrain-mask.mjs';
 
 const C = Object.fromEntries([
   'rough', 'forest', 'heath', 'semi', 'fair', 'fringe', 'green', 'tee',
@@ -64,6 +66,38 @@ describe.each(['class-sdf-v1', 'pair-sdf-v1'])('%s graphics polish', representat
     for (const tex of owned) tex.dispose();
   });
 
+  it('keeps terrain geometry and texture ownership stable across the relief tiers', () => {
+    const { atlas, DETAIL } = resources(representation);
+    const owned = new Set([DETAIL, atlas.texF, atlas.texID, ...atlas.texSdf]);
+    for (const surfaceRelief of ['off', 'low', 'high']) for (const debugMode of ['off', 'weights']) {
+      const material = new THREE.MeshStandardNodeMaterial();
+      const normal = vec3(0.2, 0.9, 0.3), position = vec3(1, 2, 3);
+      material.normalNode = normal;
+      material.positionNode = position;
+      const decorate = createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE,
+        graphicsPolish: true, surfaceRelief, debugMode });
+      decorate(material);
+      const enabled = surfaceRelief !== 'off' && debugMode === 'off';
+      expect(material.normalNode === normal).toBe(!enabled);
+      expect(material.positionNode).toBe(position);
+      expect(material.userData.surfaceRelief).toBe(debugMode === 'off' ? surfaceRelief : 'off');
+      expect(decorate.v2SurfaceAuthority).toBe(atlas);
+      expect(textureSamples([material.colorNode], DETAIL).size).toBe(debugMode === 'off' ? 4 : 0);
+      expect(material.userData.terrainPreviewTextures.length).toBe(representation === 'class-sdf-v1' ? 0 : debugMode === 'off' ? 1 : 2);
+      for (const tex of material.userData.terrainPreviewTextures) owned.add(tex);
+      material.dispose();
+    }
+    const normal = vec3(0, 1, 0), disabled = new THREE.MeshStandardNodeMaterial();
+    disabled.normalNode = normal;
+    createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, graphicsPolish: false, surfaceRelief: 'high' })(disabled);
+    expect(disabled.normalNode).toBe(normal);
+    expect(disabled.userData.surfaceRelief).toBe('off');
+    for (const tex of disabled.userData.terrainPreviewTextures) owned.add(tex);
+    disabled.dispose();
+    for (const tex of owned) tex.dispose();
+    for (const invalid of ['ultra', true, 1, null]) expect(() => groundReliefTier(invalid)).toThrow(/tier/);
+  });
+
   it('keeps classification diagnostics independent of the appearance option', () => {
     const { atlas, DETAIL } = resources(representation);
     const owned = new Set([DETAIL, atlas.texF, atlas.texID, ...atlas.texSdf]);
@@ -78,5 +112,34 @@ describe.each(['class-sdf-v1', 'pair-sdf-v1'])('%s graphics polish', representat
       material.dispose();
     }
     for (const tex of owned) tex.dispose();
+  });
+
+  it('composes relief with the coastal mask without losing surface authority or sharing its texture ownership', () => {
+    const { atlas, DETAIL } = resources(representation);
+    const owned = new Set([DETAIL, atlas.texF, atlas.texID, ...atlas.texSdf]);
+    const mask = createCoastalTerrainMask({ terrainCoverage: new Uint8Array([0, 1, 0, 0]),
+      width: 2, height: 2, spacing: 1, bounds: { x0: 0, z0: 0 }, maximumCoveredTerrainHeight: 0.28 });
+    for (const surfaceRelief of ['off', 'low', 'high']) {
+      const normal = vec3(0.2, 0.9, 0.3), position = vec3(1, 2, 3);
+      const decorate = createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE,
+        graphicsPolish: true, surfaceRelief });
+      const wrapped = mask.wrap(decorate);
+      expect(Object.getOwnPropertyDescriptor(wrapped, 'v2SurfaceAuthority'))
+        .toEqual(Object.getOwnPropertyDescriptor(decorate, 'v2SurfaceAuthority'));
+      const material = new THREE.MeshStandardNodeMaterial();
+      material.normalNode = normal;
+      material.positionNode = position;
+      expect(wrapped(material)).toBe(material);
+      expect(material.positionNode).toBe(position);
+      expect(material.normalNode === normal).toBe(surfaceRelief === 'off');
+      expect(material.userData.surfaceRelief).toBe(surfaceRelief);
+      expect(textureSamples([material.maskNode], mask.map).size).toBe(1);
+      expect(textureSamples([material.normalNode, material.colorNode], mask.map).size).toBe(0);
+      expect(material.userData.terrainPreviewTextures).not.toContain(mask.map);
+      for (const tex of material.userData.terrainPreviewTextures) owned.add(tex);
+      material.dispose();
+    }
+    for (const tex of owned) tex.dispose();
+    mask.map.dispose();
   });
 });

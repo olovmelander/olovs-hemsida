@@ -1,0 +1,432 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "95cccb30514fd216492f6ff831ef8f02b3f4ba69",
+  "mainIncluded": "b5f1fed587ecb64f0cb862fbd52f11f4d4260d3f",
+  "tests": {
+    "vitest": 563,
+    "nodePassed": 405,
+    "nodeSkipped": 3
+  },
+  "build": {
+    "production": true,
+    "publishedGraphIsolation": 11
+  },
+  "ci": "https://github.com/olovmelander/olovs-hemsida/actions/runs/34368573022",
+  "executionAdapter": "swiftshader",
+  "browser": "153.0.8010.12",
+  "performanceEvidence": false,
+  "proof": {
+    "passed": true,
+    "cases": [
+      {
+        "backend": "webgl2",
+        "tier": "off",
+        "imageSha256": "aee3557bc719f40bc429f50c15bff06cf31352e4a927a9d1feee58f6f8727dcf",
+        "stats": {
+          "batches": [
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 4,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 34816,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 1,
+          "triangles": 34816,
+          "textureCapacityBytes": 135200,
+          "textureUploads": 4,
+          "backend": "webgl2",
+          "synthetic": true,
+          "materialProof": true,
+          "surfaceRelief": "off",
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColours": 2012
+      },
+      {
+        "backend": "webgl2",
+        "tier": "low",
+        "imageSha256": "64c36bad5e095502041dcac85b5e253cfa1ccd63c4276ba4ec9aaa0c56ea8a7c",
+        "stats": {
+          "batches": [
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 4,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 34816,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 1,
+          "triangles": 34816,
+          "textureCapacityBytes": 135200,
+          "textureUploads": 4,
+          "backend": "webgl2",
+          "synthetic": true,
+          "materialProof": true,
+          "surfaceRelief": "low",
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColours": 1703
+      },
+      {
+        "backend": "webgl2",
+        "tier": "high",
+        "imageSha256": "b3e65bdfef967f55d19bb283e7676e67ee5701fb076cdbad1b922a1b423672ac",
+        "stats": {
+          "batches": [
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 4,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 34816,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 1,
+          "triangles": 34816,
+          "textureCapacityBytes": 135200,
+          "textureUploads": 4,
+          "backend": "webgl2",
+          "synthetic": true,
+          "materialProof": true,
+          "surfaceRelief": "high",
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColours": 1840
+      },
+      {
+        "backend": "webgpu",
+        "tier": "off",
+        "imageSha256": "7048a2c8122ce5c722cc4d50602e001be5aa233825a82d88d09101c4a59c4848",
+        "stats": {
+          "batches": [
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 4,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 34816,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 1,
+          "triangles": 34816,
+          "textureCapacityBytes": 135200,
+          "textureUploads": 4,
+          "backend": "webgpu",
+          "synthetic": true,
+          "materialProof": true,
+          "surfaceRelief": "off",
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColours": 1629,
+        "shader": {
+          "vertexSha256": "006932817cd13f59a8f8b75d40c76a7e47c6e8c77e617d86dde5c90d68e8d022",
+          "vertexMainSha256": "0723bf6639941066451e5ddd87c9661c7d64991edf7ed9d15fef1cbe95d04246",
+          "textureSamples": 9,
+          "dx": 1,
+          "dy": 1
+        }
+      },
+      {
+        "backend": "webgpu",
+        "tier": "low",
+        "imageSha256": "6bdc158dea0561dd913b46d52cecddf0f0afc97b45fdf74260a19e1eddebd458",
+        "stats": {
+          "batches": [
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 4,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 34816,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 1,
+          "triangles": 34816,
+          "textureCapacityBytes": 135200,
+          "textureUploads": 4,
+          "backend": "webgpu",
+          "synthetic": true,
+          "materialProof": true,
+          "surfaceRelief": "low",
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColours": 1409,
+        "shader": {
+          "vertexSha256": "49116d572e115f30e8fb35ecfb965e4ddb784e3ec0b308906dd1a4c2d08028d9",
+          "vertexMainSha256": "0723bf6639941066451e5ddd87c9661c7d64991edf7ed9d15fef1cbe95d04246",
+          "textureSamples": 9,
+          "dx": 4,
+          "dy": 4
+        }
+      },
+      {
+        "backend": "webgpu",
+        "tier": "high",
+        "imageSha256": "cf66487bc555773689a5551350b2186866fe23cb1ee652265176677642b90be2",
+        "stats": {
+          "batches": [
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 4,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 34816,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 1,
+          "triangles": 34816,
+          "textureCapacityBytes": 135200,
+          "textureUploads": 4,
+          "backend": "webgpu",
+          "synthetic": true,
+          "materialProof": true,
+          "surfaceRelief": "high",
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColours": 1549,
+        "shader": {
+          "vertexSha256": "32f32491b964d15feeac8401f1e0bee7972adb7041a53ffdc69f1b40adf0a51c",
+          "vertexMainSha256": "0723bf6639941066451e5ddd87c9661c7d64991edf7ed9d15fef1cbe95d04246",
+          "textureSamples": 9,
+          "dx": 5,
+          "dy": 5
+        }
+      }
+    ]
+  },
+  "visby": {
+    "request": {
+      "course": "visby",
+      "backend": "webgl2",
+      "autoFallback": false,
+      "q": "lo",
+      "terrainStride": null,
+      "resolution": "1.5",
+      "viewport": [
+        400,
+        300
+      ],
+      "dpr": 2,
+      "views": [
+        {
+          "id": "h1_turf_golden",
+          "hole": 1,
+          "cam": "turf",
+          "preset": "golden"
+        },
+        {
+          "id": "h1_sand_golden",
+          "hole": 1,
+          "cam": "sand",
+          "preset": "golden"
+        },
+        {
+          "id": "h1_visby-coast-low_golden",
+          "hole": 1,
+          "cam": "visby-coast-low",
+          "preset": "golden"
+        }
+      ]
+    },
+    "comparison": {
+      "invariants": {
+        "model": true,
+        "routing": true,
+        "georeferencing": true,
+        "treeInstances": true,
+        "treePositions": true,
+        "vistaPoints": true,
+        "tintNear": true,
+        "tintFar": true,
+        "surfaceSource": true,
+        "vegetationSource": true,
+        "counts": true,
+        "request": true
+      },
+      "views": [
+        {
+          "id": "h1_turf_golden",
+          "matched": true,
+          "captureContractUnchanged": true,
+          "cameraUnchanged": true,
+          "terrainUnchanged": true,
+          "imageChanged": true,
+          "trianglesDelta": 0,
+          "drawCallsDelta": 0
+        },
+        {
+          "id": "h1_sand_golden",
+          "matched": true,
+          "captureContractUnchanged": true,
+          "cameraUnchanged": true,
+          "terrainUnchanged": true,
+          "imageChanged": true,
+          "trianglesDelta": 0,
+          "drawCallsDelta": 0
+        },
+        {
+          "id": "h1_visby-coast-low_golden",
+          "matched": true,
+          "captureContractUnchanged": true,
+          "cameraUnchanged": true,
+          "terrainUnchanged": true,
+          "imageChanged": true,
+          "trianglesDelta": 0,
+          "drawCallsDelta": 0
+        }
+      ],
+      "passed": true,
+      "note": "Image changes are expected. Draw/triangle deltas are observations, not FPS evidence; shadow refresh can alter per-frame counters."
+    },
+    "comparisonMethod": "Shared graphics harness compareReports plus exact water, texture allocation and draw/triangle checks",
+    "waterMaskAndPolicyUnchanged": true,
+    "terrainMaskBytes": 262144,
+    "views": [
+      {
+        "id": "h1_turf_golden",
+        "buffer": [
+          600,
+          450
+        ],
+        "drawCalls": 28,
+        "triangles": 746736,
+        "terrainTriangles": 532480,
+        "terrainDrawCalls": 1,
+        "textureCount": 32,
+        "textureBytes": 108185140,
+        "imageSha256": "2ef73f6b9c33c5f14baf8fe93e76856be08302680cc847a22dc31c12bde3aa98"
+      },
+      {
+        "id": "h1_sand_golden",
+        "buffer": [
+          600,
+          450
+        ],
+        "drawCalls": 35,
+        "triangles": 1295100,
+        "terrainTriangles": 532480,
+        "terrainDrawCalls": 1,
+        "textureCount": 33,
+        "textureBytes": 108512738,
+        "imageSha256": "44b1b5d1b9b459c41376d95133d24ccdb81730045854abf3694011622c3f79c0"
+      },
+      {
+        "id": "h1_visby-coast-low_golden",
+        "buffer": [
+          600,
+          450
+        ],
+        "drawCalls": 120,
+        "triangles": 7362040,
+        "terrainTriangles": 2839552,
+        "terrainDrawCalls": 2,
+        "textureCount": 56,
+        "textureBytes": 113869947,
+        "imageSha256": "7844f06d74c8121df7c77c55bf063a2fd8d2a608ec25bd2c468ca308dfb3d84b"
+      }
+    ]
+  },
+  "limitations": [
+    "Static software-rendered evidence; phone motion, sustained frame times and thermal acceptance remain open.",
+    "Relief remains opt-in."
+  ]
+}
