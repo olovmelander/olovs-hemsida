@@ -11,6 +11,7 @@ import {
   terrainTileQualityProfile,
 } from '../../../../packages/course-v2/runtime/terrain-tile-manager.mjs';
 import { TerrainTileBatchSet } from './v2-terrain-batch.mjs';
+import { createTerrainRenderView, terrainRenderStride } from '../../../../packages/course-v2/runtime/terrain-render-quality.mjs';
 
 function callback(value, label) {
   if (typeof value !== 'function') throw new TypeError(`${label} must be a function`);
@@ -110,6 +111,7 @@ export class CourseV2TerrainRuntime {
     maximumRetainedTiles,
     profile,
     transformDecoded = null,
+    renderStride = 1,
   } = {}) {
     if (transformDecoded !== null && typeof transformDecoded !== 'function') {
       throw new TypeError('transformDecoded must be a function');
@@ -128,6 +130,7 @@ export class CourseV2TerrainRuntime {
     this.scene = scene;
     this.backend = backend;
     this.mobile = mobile;
+    this.renderStride = terrainRenderStride(renderStride);
     this.clock = callback(clock, 'clock');
     this.onInvalidate = callback(onInvalidate, 'onInvalidate');
     /* the backend profile, unless the caller knows better: a world of nested
@@ -140,6 +143,8 @@ export class CourseV2TerrainRuntime {
     this.layer = new TerrainTileBatchSet({
       maximumTiles: this.profile.maximumSelectedTiles,
       decorateMaterial,
+      compactCapacity: this.renderStride > 1,
+      allowMixedDimensions: this.renderStride > 1,
     });
     scene.add(this.layer.group);
     this.resources = new Map();
@@ -167,17 +172,36 @@ export class CourseV2TerrainRuntime {
       ...(releaseGraceMilliseconds !== undefined ? { releaseGraceMilliseconds } : {}),
       ...(maximumRetainedTiles !== undefined ? { maximumRetainedTiles } : {}),
       clock: this.clock,
-      createResource: ({ tileId, decoded }) => {
+      createResource: async ({ tileId, decoded }) => {
         /* a caller may rewrite the decoded samples before they become a
            render resource (the lake beds are carved here); a rewritten
            tile drops the worker's prepared render data, which described
            the samples it no longer has */
         const input = transformDecoded ? (transformDecoded({ tileId, decoded }) ?? decoded) : decoded;
-        const resource = createTerrainRenderResource({
+        const source = createTerrainRenderResource({
           tileId,
           decoded: input,
           frame: ground.frame,
         });
+        const tile = this.manager.tiles.get(tileId);
+        // Keep every finest available tile, including leaves in outer rings.
+        // Only a tile with four finer children may be simplified: the planner
+        // can then recover detail when its measured render error is visible.
+        const eligible = tile && source.width > 4 && source.height > 4 &&
+          (source.width - 1) % 4 === 0 && (source.height - 1) % 4 === 0;
+        const parent = this.manager.parentById.get(tileId);
+        const parentResource = eligible && this.renderStride > 1 && parent
+          ? await this.controller.resourceWhenReady(parent) : null;
+        const resource = eligible ? createTerrainRenderView(source, {
+          stride: this.manager.childrenById.get(tileId)?.length ? this.renderStride : 1,
+          parentStride: parent ? this.renderStride : 1,
+          parentResource,
+        }) : source;
+        // Refinement must account for measured render approximation, not only
+        // the published source error. The controller replans on this arrival.
+        if (tile && resource.geometricErrorMetres > tile.geometricErrorMetres) {
+          this.manager.setRenderErrorMetres(tileId, resource.geometricErrorMetres);
+        }
         this.resources.set(tileId, resource);
         return resource;
       },
@@ -243,14 +267,15 @@ export class CourseV2TerrainRuntime {
     const ready = new Set(this.controller.snapshot().readyTileIds);
     const candidates = [...this.resources.values()]
       .filter(resource => ready.has(resource.tileId))
-      .sort((left, right) => left.sampleSpacingMetres - right.sampleSpacingMetres ||
+      .sort((left, right) => (left.sourceResource ?? left).sampleSpacingMetres -
+        (right.sourceResource ?? right).sampleSpacingMetres ||
         Number(left.tileId === 'shell') - Number(right.tileId === 'shell'));
     for (const resource of candidates) {
       const height = sampleTerrainRenderResource(resource, worldX, worldZ);
       if (!Number.isNaN(height)) return Object.freeze({
         height,
         tileId: resource.tileId,
-        sampleSpacingMetres: resource.sampleSpacingMetres,
+        sampleSpacingMetres: (resource.sourceResource ?? resource).sampleSpacingMetres,
       });
     }
     return null;
@@ -260,6 +285,7 @@ export class CourseV2TerrainRuntime {
     return Object.freeze({
       backend: this.backend,
       mobile: this.mobile,
+      renderStride: this.renderStride,
       profile: this.profile,
       stream: this.controller.snapshot(),
       renderer: this.layer.stats(),

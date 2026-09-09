@@ -42,6 +42,20 @@ function plan(manager, overrides = {}) {
   });
 }
 
+test('measured render error refines roots without changing their published source error', () => {
+  const data = ground(), manager = new TerrainTileManager({ ground: data, courseSlug: 'test-course' });
+  const camera = { easting: 650004, northing: 6650008, heightRH2000: 36 };
+  const root = manager.roots[0], sourceError = root.geometricErrorMetres;
+  assert.deepEqual(plan(manager, { camera }).desiredTileIds, [root.id]);
+  manager.setRenderErrorMetres(root.id, 100);
+  assert.deepEqual(plan(manager, { camera }).refinedTileIds, [root.id]);
+  assert.equal(root.geometricErrorMetres, sourceError);
+  assert.equal(data.tiles.find(t => t.id === root.id).geometricErrorMetres, sourceError);
+  assert.throws(() => manager.setRenderErrorMetres(root.id, -1), /understate/);
+  assert.throws(() => manager.setRenderErrorMetres(root.id, Infinity), /finite/);
+  assert.throws(() => manager.setRenderErrorMetres('missing', 1), /unknown/);
+});
+
 test('screen-space error refines near terrain and hysteresis prevents threshold flicker', () => {
   const manager = new TerrainTileManager({ ground: ground(), courseSlug: 'test-course' });
   const near = plan(manager);

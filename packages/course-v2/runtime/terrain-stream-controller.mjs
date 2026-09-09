@@ -198,6 +198,16 @@ export class TerrainStreamController {
     });
   }
 
+  /** Await an already-requested ancestor without starting a second transport.
+   * Call only for a parent: waiting on a descendant would create a cycle. */
+  async resourceWhenReady(tileId) {
+    const entry = this.entries.get(tileId);
+    if (!entry) throw new Error(`terrain dependency ${tileId} was not requested`);
+    if (entry.state === 'loading') await entry.promise;
+    if (!this.disposed && this.entries.get(tileId) === entry && entry.state === 'ready') return entry.lease.value;
+    throw this.failures.get(tileId)?.error ?? abortError();
+  }
+
   renderResources() {
     if (!this.lastPlan) return Object.freeze([]);
     return Object.freeze(this.lastPlan.renderTileIds.flatMap(tileId => {

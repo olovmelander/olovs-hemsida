@@ -26,6 +26,7 @@ const HELP = `Usage: node tools/v2-graphics-review.mjs (--base URL | --root BUIL
   --views short|1:tee:noon,14:green:golden       --bark
   --width 960 --height 600 --dpr 1 --timeout 600 --chrome PATH
   --compare /path/to/previous/report.json
+  --terrain-stride 1|2  (override the terrain quality request on either backend)
   --base-path /olovs-hemsida/  (path prefix for --root's internal server)
   --auto-fallback  (WebGL2 via automatic WebGPU fallback, including its depth mode)
 Software screenshots and mapping/count checks only; no hardware FPS claim.`;
@@ -34,7 +35,7 @@ function optionsFrom(argv) {
   const o = { course: 'puttom', backend: 'webgl2', q: 'lo', graphics: '1', views: 'short',
     width: 960, height: 600, dpr: 1, timeout: 600, bark: false, autoFallback: false };
   const allowed = new Set(['base', 'root', 'base-path', 'out', 'course', 'backend', 'q', 'graphics', 'views',
-    'width', 'height', 'dpr', 'timeout', 'chrome', 'compare']);
+    'width', 'height', 'dpr', 'timeout', 'chrome', 'compare', 'terrain-stride']);
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--bark') { o.bark = true; continue; }
     if (argv[i] === '--auto-fallback') { o.autoFallback = true; continue; }
@@ -47,6 +48,7 @@ function optionsFrom(argv) {
   if ((!o.base && !o.root) || (o.base && o.root) || !o.out) throw new Error('Specify exactly one of --base / --root, plus --out');
   if (o.base && !['http:', 'https:'].includes(new URL(o.base).protocol)) throw new Error('--base must use http(s)');
   if (!/^[a-z0-9-]+$/.test(o.course)) throw new Error('Invalid --course');
+  if (o['terrain-stride'] !== undefined && !['1', '2'].includes(o['terrain-stride'])) throw new Error('Invalid --terrain-stride');
   for (const [key, values] of [['backend', ['webgl2', 'webgpu']], ['q', ['lo', 'hi']], ['graphics', ['default', '0', '1']]]) {
     if (!values.includes(o[key])) throw new Error(`Invalid --${key}`);
   }
@@ -160,9 +162,11 @@ async function stateAt(page) {
     return { backend: V.stats.backend, quality: V.quality(), renderer: V.rendererInfo(),
       camera: V.camInfo(), lens: V.cameraInfo(), treeLod: V.treeLodPx(), tiers: V.treeTiers(),
       terrain: V.v2Terrain().adapter, plan: V.v2Plan(),
-      // Identity/byte sums describe source terrain data, not shader output.
+      // Identity/byte sums describe uploaded terrain data, not shader output.
       terrainInventory: V.v2WorldInventory().map(t => ({ tileId: t.tileId, identity: t.identity,
         worldOriginX: t.worldOriginX, worldOriginZ: t.worldOriginZ, sampleSpacingMetres: t.sampleSpacingMetres,
+        sourceSampleSpacingMetres: t.sourceSampleSpacingMetres, renderStride: t.renderStride,
+        maximumReductionErrorMetres: t.maximumReductionErrorMetres,
         heightOffsetWorld: t.heightOffsetWorld, layerByteSum: t.layerByteSum })).sort((a, b) => a.tileId.localeCompare(b.tileId)),
     };
   });
@@ -192,6 +196,7 @@ async function main(o) {
   fs.mkdirSync(o.out, { recursive: true });
   const local = o.root ? await serveBuild(o.root, o.basePath) : null;
   const url = new URL(local?.base || o.base);
+  if (o['terrain-stride']) url.searchParams.set('terrainStride', o['terrain-stride']);
   for (const [key, value] of Object.entries({ bana: o.course, v2: 'require', det: '1', q: o.q,
     qualitylock: '1', ren: '1', gl: o.backend === 'webgl2' && !o.autoFallback ? '1' : '0', lodmode: 'zone' })) url.searchParams.set(key, value);
   if (o.graphics === 'default') url.searchParams.delete('graphics');
@@ -204,7 +209,7 @@ async function main(o) {
     executionAdapter: 'swiftshader-software', performanceEvidence: false,
     note: 'Software captures verify correctness only. Compare real-hardware median/p95/p99 frame times separately.',
     request: { course: o.course, backend: o.backend, autoFallback: o.autoFallback,
-      q: o.q, viewport: [o.width, o.height], dpr: o.dpr, views: o.views },
+      q: o.q, terrainStride: o['terrain-stride'] ?? null, viewport: [o.width, o.height], dpr: o.dpr, views: o.views },
     errors: [], warnings: [], views: [], passed: false };
   let browser;
   try {

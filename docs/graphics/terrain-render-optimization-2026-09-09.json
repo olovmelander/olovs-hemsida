@@ -1,0 +1,543 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-09",
+  "baseCommit": "25ea506d6089dc5d6c58cd6e5568c685161437c2",
+  "codeCommit": "442f77ee2a5adc70312b11bdb0a07b706415ec33",
+  "performanceEvidence": false,
+  "tests": {
+    "vitest": {
+      "filesPassed": 78,
+      "testsPassed": 533,
+      "command": "pnpm exec vitest run --maxWorkers=2 --testTimeout=30000"
+    },
+    "node": {
+      "testsPassed": 404,
+      "skipped": 3,
+      "failed": 0,
+      "command": "All Node test paths from package.json scripts.test with node --test --test-concurrency=2"
+    },
+    "productionBuild": "passed with vite build --emptyOutDir",
+    "appBuildIsolation": "passed for all 11 published graphs",
+    "rendererProofBuild": {
+      "passed": true,
+      "bytes": 1111428
+    }
+  },
+  "perTile": {
+    "native": {
+      "samples": 66049,
+      "trianglesWithSkirts": 133120,
+      "packedBytes": 528392
+    },
+    "reduced": {
+      "samples": 16641,
+      "trianglesWithSkirts": 33792,
+      "packedBytes": 133128
+    }
+  },
+  "fullAppWebGL2": {
+    "passed": true,
+    "request": {
+      "course": "upsala",
+      "backend": "webgl2",
+      "autoFallback": false,
+      "q": "lo",
+      "terrainStride": "2",
+      "viewport": [
+        320,
+        240
+      ],
+      "dpr": 1,
+      "views": [
+        {
+          "id": "h1_tee_noon",
+          "hole": 1,
+          "cam": "tee",
+          "preset": "noon"
+        }
+      ]
+    },
+    "executionAdapter": "swiftshader-software",
+    "browser": "Chromium 140 / Playwright 1.55",
+    "errors": [],
+    "fingerprint": {
+      "model": "2e29af0d5b960d38719c677412253c2758388affc60adcab701dd5853a29dcf5",
+      "routing": "583cd2bc7c755f85e50ae973f0f6cb707523bc2d162898a51e8a4fbb0254ee85",
+      "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+      "treeInstances": "212c95a8f323e71bab4ce624af9af4ee21efbd66da1dd5c3174767ff07190add",
+      "treePositions": "a63be36fe389df8f8ab7033e631691f1ad2749cc2d20ccb348c89fa92f33de84",
+      "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+      "tintNear": "42c72e88f10de2bed8484e619eaf06675333691c01b7585138daa06134baab98",
+      "tintFar": "1d3c77007ca6d55e3f768d209d23b7b14bc0c343a9b83d464585cd97c92c6d0c",
+      "surfaceSource": null,
+      "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+      "counts": {
+        "trees": 53986,
+        "vista": 33483,
+        "tufts": 5691,
+        "bushes": 1085,
+        "stones": 241,
+        "reeds": 0,
+        "cars": 0,
+        "pylons": 21,
+        "stumps": 0,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "camera": {
+      "pos": [
+        8.5,
+        34.1,
+        -166.9
+      ],
+      "look": [
+        206.4,
+        25.4,
+        -4.7
+      ],
+      "mode": "tee"
+    },
+    "lens": {
+      "fov": 48,
+      "near": 1,
+      "far": 14000,
+      "aspect": 1.3333333333333333,
+      "coordinateSystem": 2000,
+      "reversedDepth": false,
+      "position": [
+        8.500000000000028,
+        34.1121338212356,
+        -166.90000000000003
+      ]
+    },
+    "stream": {
+      "renderStride": 2,
+      "readyTiles": 98,
+      "loadingTiles": 0,
+      "failedTiles": 0,
+      "renderedTiles": 34,
+      "drawCalls": 2,
+      "triangles": 3433472,
+      "textureCapacityBytes": 20664968,
+      "batches": [
+        {
+          "width": 257,
+          "height": 257,
+          "capacity": 1,
+          "renderedTiles": 0,
+          "residentLayers": 0,
+          "textureUploads": 1,
+          "renderRevision": 3,
+          "morphing": false,
+          "frameAttributeVersion": 1,
+          "paramsAttributeVersion": 1,
+          "textureCapacityBytes": 528392,
+          "topologyBytes": 2603535,
+          "triangles": 0,
+          "drawCalls": 0
+        },
+        {
+          "width": 129,
+          "height": 129,
+          "capacity": 56,
+          "renderedTiles": 11,
+          "residentLayers": 11,
+          "textureUploads": 55,
+          "renderRevision": 20,
+          "morphing": false,
+          "frameAttributeVersion": 9,
+          "paramsAttributeVersion": 16,
+          "textureCapacityBytes": 7455168,
+          "topologyBytes": 460047,
+          "triangles": 371712,
+          "drawCalls": 1
+        },
+        {
+          "width": 257,
+          "height": 257,
+          "capacity": 24,
+          "renderedTiles": 23,
+          "residentLayers": 23,
+          "textureUploads": 23,
+          "renderRevision": 17,
+          "morphing": false,
+          "frameAttributeVersion": 4,
+          "paramsAttributeVersion": 13,
+          "textureCapacityBytes": 12681408,
+          "topologyBytes": 2603535,
+          "triangles": 3061760,
+          "drawCalls": 1
+        }
+      ],
+      "selectedTiles": 34,
+      "requests": {
+        "queued": 0,
+        "running": 0,
+        "jobs": 0
+      }
+    },
+    "image": "terrain-stride-2-upsala-tee-2026-09-09.png",
+    "imageSha256": "e5eff7414729b14a8de4ac83494a3bd5bb0575856066e50b6766a03883e9f820",
+    "sameFrontierArithmetic": {
+      "nativeTriangles": 4526080,
+      "observedTriangles": 3433472,
+      "reductionPercent": 24.14,
+      "note": "Counterfactual native geometry for the SAME selected tile IDs. This is not a separately measured stride-1 camera/selection baseline or an FPS improvement."
+    }
+  },
+  "isolatedTerrainProof": {
+    "schemaVersion": 1,
+    "adapter": "swiftshader",
+    "performanceEvidence": false,
+    "browser": "Chrome Headless Shell 153.0.8010.12",
+    "cases": [
+      {
+        "backend": "webgl2",
+        "stride": 1,
+        "stats": {
+          "batches": [
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 4,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 34816,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 1,
+          "triangles": 34816,
+          "textureCapacityBytes": 135200,
+          "textureUploads": 4,
+          "backend": "webgl2",
+          "synthetic": true,
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColors": 177
+      },
+      {
+        "backend": "webgl2",
+        "stride": 2,
+        "stats": {
+          "batches": [
+            {
+              "width": 33,
+              "height": 33,
+              "capacity": 4,
+              "renderedTiles": 2,
+              "residentLayers": 2,
+              "textureUploads": 2,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 34848,
+              "topologyBytes": 32079,
+              "triangles": 4608,
+              "drawCalls": 1
+            },
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 2,
+              "residentLayers": 2,
+              "textureUploads": 2,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 17408,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 2,
+          "triangles": 22016,
+          "textureCapacityBytes": 170048,
+          "textureUploads": 4,
+          "backend": "webgl2",
+          "synthetic": true,
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColors": 177
+      },
+      {
+        "backend": "webgpu",
+        "stride": 1,
+        "stats": {
+          "batches": [
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 4,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 34816,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 1,
+          "triangles": 34816,
+          "textureCapacityBytes": 135200,
+          "textureUploads": 4,
+          "backend": "webgpu",
+          "synthetic": true,
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColors": 194
+      },
+      {
+        "backend": "webgpu",
+        "stride": 2,
+        "stats": {
+          "batches": [
+            {
+              "width": 33,
+              "height": 33,
+              "capacity": 4,
+              "renderedTiles": 2,
+              "residentLayers": 2,
+              "textureUploads": 2,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 34848,
+              "topologyBytes": 32079,
+              "triangles": 4608,
+              "drawCalls": 1
+            },
+            {
+              "width": 65,
+              "height": 65,
+              "capacity": 4,
+              "renderedTiles": 2,
+              "residentLayers": 2,
+              "textureUploads": 2,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 135200,
+              "topologyBytes": 119439,
+              "triangles": 17408,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 4,
+          "residentLayers": 4,
+          "drawCalls": 2,
+          "triangles": 22016,
+          "textureCapacityBytes": 170048,
+          "textureUploads": 4,
+          "backend": "webgpu",
+          "synthetic": true,
+          "provisional": true,
+          "actualDrawCalls": 6,
+          "actualTriangles": 0
+        },
+        "errors": [],
+        "centralColors": 193
+      }
+    ],
+    "passed": true
+  },
+  "earlierWebGPUAttempt": {
+    "browser": "Chromium 140",
+    "passed": false,
+    "error": "GPUTextureViewDescriptor.swizzle did not support the Three r185 value; full application boot failed. The standalone terrain proof passed with Chromium 153."
+  },
+  "fullAppWebGPU": {
+    "passed": true,
+    "request": {
+      "course": "upsala",
+      "backend": "webgpu",
+      "autoFallback": false,
+      "q": "lo",
+      "terrainStride": "2",
+      "viewport": [
+        320,
+        240
+      ],
+      "dpr": 1,
+      "views": [
+        {
+          "id": "h1_tee_noon",
+          "hole": 1,
+          "cam": "tee",
+          "preset": "noon"
+        }
+      ]
+    },
+    "browser": "Chrome Headless Shell 153.0.8010.12",
+    "executionAdapter": "swiftshader-software",
+    "errors": [],
+    "fingerprint": {
+      "model": "2e29af0d5b960d38719c677412253c2758388affc60adcab701dd5853a29dcf5",
+      "routing": "583cd2bc7c755f85e50ae973f0f6cb707523bc2d162898a51e8a4fbb0254ee85",
+      "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+      "treeInstances": "212c95a8f323e71bab4ce624af9af4ee21efbd66da1dd5c3174767ff07190add",
+      "treePositions": "a63be36fe389df8f8ab7033e631691f1ad2749cc2d20ccb348c89fa92f33de84",
+      "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+      "tintNear": "42c72e88f10de2bed8484e619eaf06675333691c01b7585138daa06134baab98",
+      "tintFar": "1d3c77007ca6d55e3f768d209d23b7b14bc0c343a9b83d464585cd97c92c6d0c",
+      "surfaceSource": null,
+      "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+      "counts": {
+        "trees": 53986,
+        "vista": 33483,
+        "tufts": 5691,
+        "bushes": 1085,
+        "stones": 241,
+        "reeds": 0,
+        "cars": 0,
+        "pylons": 21,
+        "stumps": 0,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "camera": {
+      "pos": [
+        8.5,
+        34.1,
+        -166.9
+      ],
+      "look": [
+        206.4,
+        25.4,
+        -4.7
+      ],
+      "mode": "tee"
+    },
+    "lens": {
+      "fov": 48,
+      "near": 1,
+      "far": 14000,
+      "aspect": 1.3333333333333333,
+      "coordinateSystem": 2001,
+      "reversedDepth": true,
+      "position": [
+        8.500000000000028,
+        34.1121338212356,
+        -166.90000000000003
+      ]
+    },
+    "stream": {
+      "renderStride": 2,
+      "readyTiles": 102,
+      "loadingTiles": 0,
+      "failedTiles": 0,
+      "renderedTiles": 37,
+      "drawCalls": 2,
+      "triangles": 3932160,
+      "textureCapacityBytes": 24892104,
+      "batches": [
+        {
+          "width": 257,
+          "height": 257,
+          "capacity": 1,
+          "renderedTiles": 0,
+          "residentLayers": 0,
+          "textureUploads": 1,
+          "renderRevision": 3,
+          "morphing": false,
+          "frameAttributeVersion": 1,
+          "paramsAttributeVersion": 1,
+          "textureCapacityBytes": 528392,
+          "topologyBytes": 2603535,
+          "triangles": 0,
+          "drawCalls": 0
+        },
+        {
+          "width": 129,
+          "height": 129,
+          "capacity": 56,
+          "renderedTiles": 10,
+          "residentLayers": 10,
+          "textureUploads": 55,
+          "renderRevision": 21,
+          "morphing": false,
+          "frameAttributeVersion": 10,
+          "paramsAttributeVersion": 17,
+          "textureCapacityBytes": 7455168,
+          "topologyBytes": 460047,
+          "triangles": 337920,
+          "drawCalls": 1
+        },
+        {
+          "width": 257,
+          "height": 257,
+          "capacity": 32,
+          "renderedTiles": 27,
+          "residentLayers": 27,
+          "textureUploads": 27,
+          "renderRevision": 6,
+          "morphing": false,
+          "frameAttributeVersion": 2,
+          "paramsAttributeVersion": 4,
+          "textureCapacityBytes": 16908544,
+          "topologyBytes": 2603535,
+          "triangles": 3594240,
+          "drawCalls": 1
+        }
+      ],
+      "selectedTiles": 37,
+      "requests": {
+        "queued": 0,
+        "running": 0,
+        "jobs": 0
+      }
+    },
+    "imageSha256": "9eeb708abe31dd8bcd45f0c72062e310e262a757bc247f4f32d0a9c0694801ce",
+    "imageRetainedInRepository": false
+  },
+  "limitations": [
+    "Software adapters only; no phone or older-desktop median/p95/p99 frame times.",
+    "No measured full-app stride-1/stride-2 camera pair; the same-frontier arithmetic must not be presented as an actual application speedup.",
+    "Hardware sweeps across Upsala, Liding\u00f6 and coastal Visby, memory peaks and moving-camera/contact checks remain before release."
+  ],
+  "remoteCodeCommit": "a983fd5dfd9c594195b35cee5b55b63b77008dc8",
+  "verifiedCodeTree": "d0ceffbb5221d3f295839ccf4944c4d320693e4d"
+}

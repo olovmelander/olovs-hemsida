@@ -62,8 +62,8 @@ function distanceToBounds(camera, bounds, minimumDistanceMetres) {
   ));
 }
 
-function projectedError(tile, camera, projectionScale, minimumDistanceMetres) {
-  return tile.geometricErrorMetres * projectionScale /
+function projectedError(tile, camera, projectionScale, minimumDistanceMetres, errorMetres = tile.geometricErrorMetres) {
+  return errorMetres * projectionScale /
     distanceToBounds(camera, tile.bounds, minimumDistanceMetres);
 }
 
@@ -144,6 +144,17 @@ export class TerrainTileManager {
       .sort((left, right) => right.lod - left.lod || idOrder(left.id, right.id)));
     this.maximumLod = Math.max(...[...this.tiles.values()].map(tile => tile.lod));
     this.refined = new Set();
+    this.renderErrors = new Map();
+  }
+
+  // GPU simplification adds approximation to the published source error. Keep
+  // that budget separate from the immutable source manifest, including roots.
+  setRenderErrorMetres(tileId, errorMetres) {
+    const tile = this.tiles.get(tileId);
+    if (!tile) throw new Error(`unknown terrain tile ${tileId}`);
+    finite(errorMetres, 'render error');
+    if (errorMetres < tile.geometricErrorMetres) throw new RangeError('render error cannot understate source error');
+    this.renderErrors.set(tileId, errorMetres);
   }
 
   resetHysteresis() {
@@ -209,7 +220,8 @@ export class TerrainTileManager {
     const errors = new Map();
     const errorPixels = tile => {
       if (!errors.has(tile.id)) {
-        errors.set(tile.id, projectedError(tile, cameraPosition, projectionScale, minimumDistanceMetres));
+        errors.set(tile.id, projectedError(tile, cameraPosition, projectionScale, minimumDistanceMetres,
+          this.renderErrors.get(tile.id)));
       }
       return errors.get(tile.id);
     };

@@ -495,7 +495,7 @@ export class V2GraphTerrainAdapter {
     return this.prepared;
   }
 
-  async prepare({ decorateMaterial, preflight, settleMilliseconds = 60_000, settle = 'full' } = {}) {
+  async prepare({ decorateMaterial, preflight, settleMilliseconds = 60_000, settle = 'full', renderStride = 1 } = {}) {
     if (this.phase !== 'pending') throw new Error(`v2 world adapter cannot prepare from ${this.phase}`);
     if (typeof preflight !== 'function') throw new TypeError('preflight must be a function');
     if (!this.backend) throw new Error('configure({ backend }) before prepare');
@@ -521,6 +521,7 @@ export class V2GraphTerrainAdapter {
         cacheStorage: this.cacheStorage,
         clock: this.clock,
         decorateMaterial,
+        renderStride,
         maximumCachedResources: this.maximumCachedResources,
         releaseGraceMilliseconds: this.releaseGraceMilliseconds,
         maximumRetainedTiles: this.maximumRetainedTiles,
@@ -721,12 +722,15 @@ export class V2GraphTerrainAdapter {
       renderer: this.renderer,
       ringLevels: this.rings?.levels ?? [],
       stream: runtime ? Object.freeze({
+        renderStride: runtime.renderStride,
         readyTiles: runtime.stream.readyTileIds.length,
         loadingTiles: runtime.stream.loadingTileIds.length,
         failedTiles: runtime.stream.failedTileIds.length,
         renderedTiles: runtime.renderer.renderedTiles,
         drawCalls: runtime.renderer.drawCalls,
         triangles: runtime.renderer.triangles,
+        textureCapacityBytes: runtime.renderer.textureCapacityBytes,
+        batches: runtime.renderer.batches,
         selectedTiles: runtime.stream.plan?.selectedTiles ?? 0,
         requests: runtime.requests,
       }) : null,
