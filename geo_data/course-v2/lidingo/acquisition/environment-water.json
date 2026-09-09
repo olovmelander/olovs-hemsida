@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "acquiredAt": "2026-09-09T07:28:41.127710+00:00",
+  "worldBoundsEpsg3006": [
+    669508.5,
+    6578207.5,
+    685892.5,
+    6594591.5
+  ],
+  "excludedCoreBoundsEpsg3006": [
+    676676.5,
+    6585375.5,
+    678724.5,
+    6587423.5
+  ],
+  "sources": [
+    {
+      "itemId": "657_66",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m657_66_brytgeometri.gpkg",
+      "bytes": 458752,
+      "sha256": "161d2ebb2d57ae8222c61f995fe6a7c8869c1c59dad290800b15a532e76007f2"
+    },
+    {
+      "itemId": "657_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m657_67_brytgeometri.gpkg",
+      "bytes": 425984,
+      "sha256": "cd8388af5d4a2bca81510edffd894c1a997de9234327dc956abeb0927c9d54cb"
+    },
+    {
+      "itemId": "657_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m657_68_brytgeometri.gpkg",
+      "bytes": 610304,
+      "sha256": "4493ec60c44b8ce8c8ddbb58fceb74827711b8cf0f59562d8a07a353eafbb032"
+    },
+    {
+      "itemId": "658_66",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_66_brytgeometri.gpkg",
+      "bytes": 290816,
+      "sha256": "d1eed361d04ee6d9c3e71ae74a47cabe843dc076c5b72bf8fef840f7e39e28fa"
+    },
+    {
+      "itemId": "658_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_67_brytgeometri.gpkg",
+      "bytes": 548864,
+      "sha256": "892d247c76cb2be712e4966045957f7f34c63fae4b368f038d69130aea619600"
+    },
+    {
+      "itemId": "658_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_68_brytgeometri.gpkg",
+      "bytes": 671744,
+      "sha256": "4f22dc783ff80c14f53f629135eec3c460613ae2c992164d66fa02169fe9a716"
+    },
+    {
+      "itemId": "659_66",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_66_brytgeometri.gpkg",
+      "bytes": 409600,
+      "sha256": "60073b1f6dd05aa6440577f35570fb3bffe21ef8cf4e0b35a7a9104bfe7bbd1b"
+    },
+    {
+      "itemId": "659_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_67_brytgeometri.gpkg",
+      "bytes": 352256,
+      "sha256": "1be8fe62f4d9d62485276ccbf50089e2cd5eae62342ea67aa99a10cc7afaa955"
+    },
+    {
+      "itemId": "659_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_68_brytgeometri.gpkg",
+      "bytes": 561152,
+      "sha256": "b814b165c50a0454b76253647a3b97fd633607ab37ad051886c49574b0ced366"
+    }
+  ],
+  "features": 144,
+  "interiorRings": 180,
+  "nonFlatFeatures": 6,
+  "areaSquareMetres": 67765093.81910464,
+  "geometrySha256": "22d904c63d31ccb7a331e1a0f4f177398f26632c20edb31cbc56774a475e14e3",
+  "method": "Source PolygonZ intersection with 16 km world minus existing 2 km water window; holes and RH2000 levels retained; no repair, smoothing or sea fill.",
+  "attribution": "Markh\u00f6jdmodell Nedladdning, \u00a9 Lantm\u00e4teriet, processed information, CC BY 4.0."
+}
