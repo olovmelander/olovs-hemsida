@@ -17,11 +17,11 @@
  * TSL for the shader. They must agree, and the test says so. */
 import * as THREE from 'three/webgpu';
 import {
-  float, vec2, vec3, uv, attribute, varying, texture, cameraPosition, uniform,
-  normalize, cross, abs, floor, fract, select, dot, pow, saturate, sin, cos,
+  Fn, float, vec2, vec3, uv, attribute, varying, texture, cameraPosition, uniform,
+  normalize, abs, floor, fract, select, dot, pow, saturate, sin, cos,
   transformNormalToView, positionWorld,
 } from 'three/tsl';
-import { attachTreeFade, createFadeAttribute } from './tree-fade.mjs';
+import { treeFadeMask, createFadeAttribute } from './tree-fade.mjs';
 
 /** The harness's debug switch for materials built with `debug: true`:
  *  0 view-space normal, 1 dot(normal, view) in world, 2 the same in the
@@ -105,16 +105,24 @@ export function frameBlend(u, v, framesPerSide) {
   return { frames: [[i0 + 1, j0 + 1], [i0 + 1, j0], [i0, j0 + 1]], weights: [fx + fy - 1, 1 - fy, 1 - fx] };
 }
 
-/** The camera basis for a view direction: right and up, with the pole handled. */
+/** Continuous at the zenith: north is up there, with no polar cap switch.
+ * The singularity is at the SOUTH pole, outside the baked hemisphere. */
 export function viewBasis(dx, dy, dz) {
-  /* looking straight down the up vector is undefined; north stands in */
-  const polar = dy > 0.999;
-  const ux = 0, uy = polar ? 0 : 1, uz = polar ? -1 : 0;
-  /* right = up x view, up' = view x right */
-  let rx = uy * dz - uz * dy, ry = uz * dx - ux * dz, rz = ux * dy - uy * dx;
-  const rl = Math.hypot(rx, ry, rz) || 1; rx /= rl; ry /= rl; rz /= rl;
-  const vx = dy * rz - dz * ry, vy = dz * rx - dx * rz, vz = dx * ry - dy * rx;
-  return { right: [rx, ry, rz], up: [vx, vy, vz] };
+  if (dy < -0.9999) return { right: [1, 0, 0], up: [0, 0, 1] };
+  const a = 1 / (1 + dy);
+  return { right: [1 - dx * dx * a, -dx, -dx * dz * a],
+    up: [dx * dz * a, dz, -1 + dz * dz * a] };
+}
+
+/* Shader twin. Atlas directions all have y >= 0; a camera directly BELOW
+   a distant tree uses a finite fallback, rather than NaNs in its vertices. */
+function viewBasisNode(view) {
+  const a = float(1).div(view.y.add(1).max(1e-4));
+  const south = view.y.lessThan(-0.9999);
+  return {
+    right: select(south, vec3(1, 0, 0), vec3(float(1).sub(view.x.mul(view.x).mul(a)), view.x.negate(), view.x.mul(view.z).mul(a).negate())),
+    up: select(south, vec3(0, 0, 1), vec3(view.x.mul(view.z).mul(a), view.z, view.z.mul(view.z).mul(a).sub(1))),
+  };
 }
 
 /* ------------------------------------------------------------------ bake */
@@ -137,7 +145,13 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPe
   const height = box.max.y, radiusXZ = Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);
   const centreY = height * 0.5;
   /* a square that holds the tree from any direction on the hemisphere */
-  const radius = Math.hypot(height * 0.5, radiusXZ) * 1.02;
+  let enclosingRadius = Math.hypot(height * 0.5, radiusXZ);
+  for (const geometry of [crown, trunk]) {
+    const p = geometry.getAttribute('position');
+    for (let i = 0; i < p.count; i++) enclosingRadius = Math.max(enclosingRadius,
+      Math.hypot(p.getX(i), p.getY(i) - centreY, p.getZ(i)));
+  }
+  const radius = enclosingRadius * 1.02;
   const size = framesPerSide * frameSize;
 
   const target = kind => {
@@ -270,25 +284,33 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
   const yaw = param.x, scaleXZ = param.y, scaleY = param.z;
   const centre = base.add(vec3(0, float(atlas.centreY).mul(scaleY), 0));   /* a number times a node is NaN in JS, and NaN in the shader */
   const view = normalize(cameraPosition.sub(centre));
-  const polar = view.y.greaterThan(0.999);
-  const upRef = select(polar, vec3(0, 0, -1), vec3(0, 1, 0));
-  const right = normalize(cross(upRef, view));
-  const up = cross(view, right);
+  const { right, up } = viewBasisNode(view);
   const q = uv().sub(0.5);
-  const halfW = float(atlas.radius).mul(scaleXZ), halfH = float(atlas.radius).mul(scaleY);
-  const world = centre.add(right.mul(q.x.mul(halfW).mul(2))).add(up.mul(q.y.mul(halfH).mul(2)));
+  /* Support of the scaled template sphere along each billboard axis. The
+     old scaleXZ/scaleY rectangle squashed a tall tree viewed from above. */
+  const scale = vec3(scaleXZ, scaleY, scaleXZ);
+  const halfW = right.mul(scale).length().mul(atlas.radius);
+  const halfH = up.mul(scale).length().mul(atlas.radius);
+  const offset = right.mul(q.x.mul(halfW).mul(2)).add(up.mul(q.y.mul(halfH).mul(2)));
+  const world = centre.add(offset);
 
   /* the view vector in the tree's frame: the instance is the template turned
      by yaw about y, so turn the view back by -yaw */
   const c = cos(yaw), s = sin(yaw);
-  const local = vec3(view.x.mul(c).sub(view.z.mul(s)), view.y, view.x.mul(s).add(view.z.mul(c)));
+  const inverseYaw = v => vec3(v.x.mul(c).sub(v.z.mul(s)), v.y, v.x.mul(s).add(v.z.mul(c)));
+  const local = normalize(inverseYaw(view).div(scale));
+  const localOffset = inverseYaw(offset).div(scale);
   const l1 = abs(local.x).add(abs(local.y)).add(abs(local.z)).max(1e-6);
   const px = local.x.div(l1), pz = local.z.div(l1);
   const ou = px.add(pz).mul(0.5).add(0.5), ov = pz.sub(px).mul(0.5).add(0.5);
   const grid = vec2(ou, ov).mul(n - 1).clamp(0, n - 1 - 1e-4);
   const i0 = floor(grid), f = fract(grid);
   const lower = f.x.add(f.y).lessThanEqual(1);
-  const fA = select(lower, i0, i0.add(1));
+  /* Keep the shared cell origin OUTSIDE select's branches. In Three r185,
+     select(lower, i0, i0.add(1)) can initialise floor(grid) only in the
+     lower branch, then read that uninitialised variable in the upper one
+     and in frames B/C. Which material is compiled first affects the result. */
+  const fA = i0.add(select(lower, float(0), float(1)));
   const fB = vec2(i0.x.add(1), i0.y);
   const fC = vec2(i0.x, i0.y.add(1));
   const wA = select(lower, float(1).sub(f.x).sub(f.y), f.x.add(f.y).sub(1));
@@ -301,17 +323,31 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
   const vLocal = varying(local);
   material.positionNode = world;
 
+  /* Project the same point into EACH bake camera before blending. Sampling
+     all three views at the same UV made their trunks/crowns rotate through
+     each other, most visibly overhead and on trees with an instance yaw.
+     Projection is vertex work; the fragment still uses six texture reads. */
+  const projectedUv = frame => {
+    const t = frame.div(n - 1).mul(2).sub(1);
+    const x = t.x.sub(t.y).mul(0.5), z = t.x.add(t.y).mul(0.5);
+    const direction = normalize(vec3(x, float(1).sub(abs(x)).sub(abs(z)).max(0), z));
+    const basis = viewBasisNode(direction);
+    return varying(vec2(dot(localOffset, basis.right), dot(localOffset, basis.up)).div(2 * atlas.radius).add(0.5));
+  };
+  const uvA = projectedUv(fA), uvB = projectedUv(fB), uvC = projectedUv(fC);
+
   /* --- fragment: blend the three frames, light the result --- */
   /* the TSL twin of frameUv(): frame rows count from the bottom of the
      atlas, texture v from the top, and the tree's top is at v = 0 of its
      frame (the unit test holds the two to each other) */
   const span = cell - inset * 2;
-  const atlasUv = frame => vec2(
-    frame.x.mul(cell).add(uv().x.mul(span)).add(inset),
-    float(n - 1).sub(frame.y).mul(cell).add(float(1).sub(uv().y).mul(span)).add(inset));
-  const sample = (tex, frame) => texture(tex, atlasUv(frame));
-  const albedoA = sample(atlas.albedo, vFrameA), albedoB = sample(atlas.albedo, vFrameB), albedoC = sample(atlas.albedo, vFrameC);
-  const normalA = sample(atlas.normal, vFrameA), normalB = sample(atlas.normal, vFrameB), normalC = sample(atlas.normal, vFrameC);
+  const atlasUv = (frame, p) => vec2(
+    frame.x.mul(cell).add(p.x.clamp(0, 1).mul(span)).add(inset),
+    float(n - 1).sub(frame.y).mul(cell).add(float(1).sub(p.y.clamp(0, 1)).mul(span)).add(inset));
+  const sample = (tex, frame, p) => texture(tex, atlasUv(frame, p)).mul(
+    select(p.x.greaterThanEqual(0).and(p.x.lessThanEqual(1)).and(p.y.greaterThanEqual(0)).and(p.y.lessThanEqual(1)), float(1), float(0)));
+  const albedoA = sample(atlas.albedo, vFrameA, uvA), albedoB = sample(atlas.albedo, vFrameB, uvB), albedoC = sample(atlas.albedo, vFrameC, uvC);
+  const normalA = sample(atlas.normal, vFrameA, uvA), normalB = sample(atlas.normal, vFrameB, uvB), normalC = sample(atlas.normal, vFrameC, uvC);
   const w = vWeights;
   const albedo = albedoA.mul(w.x).add(albedoB.mul(w.y)).add(albedoC.mul(w.z));
   const nrm = normalA.mul(w.x).add(normalB.mul(w.y)).add(normalC.mul(w.z));
@@ -338,9 +374,18 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
   const bentToView = normalize(nWorld.mul(float(1).sub(bend)).add(view.mul(bend)));
   const nLit = !debug ? bentToView : select(m.lessThan(10.5), bentToView, select(m.lessThan(11.5), view, select(m.lessThan(12.5), vec3(0, 1, 0), nWorld.negate())));
   material.normalNode = transformNormalToView(nLit);
-  material.alphaTestNode = float(0.5);
-  material.opacityNode = coverage;
-  if (fade) attachTreeFade(material);
+  /* The mipmapped atlas already stores filtered coverage. Pass that to MSAA
+     directly: another 0.5 cutoff destroys thin branches and makes regions
+     covered by just one of two equally weighted views blink at the zenith. */
+  material.alphaToCoverage = true;
+  const coveredOpacity = Fn(() => {
+    // Colour has already sampled both atlases before this discard. Keep
+    // empty texels out of the depth buffer, including single-sample capture.
+    coverage.lessThanEqual(0.001).discard();
+    if (fade) treeFadeMask().not().discard();
+    return coverage;
+  })();
+  material.opacityNode = coveredOpacity;
   /* the crown takes the species' base colour (the birch its season), the
      trunk keeps the colour it was baked with; and the same back-lit glow
      the mesh crowns carry against a low sun */
@@ -358,8 +403,8 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
        and the pixel but the output transfer function */
     const unlit = new THREE.MeshBasicNodeMaterial();
     unlit.positionNode = world;
-    unlit.alphaTestNode = float(0.5);
-    unlit.opacityNode = coverage;
+    unlit.alphaToCoverage = true;
+    unlit.opacityNode = coveredOpacity;
     unlit.fog = false;
     unlit.toneMapped = false;
     /* the frame is tone-mapped and sRGB-encoded whatever a material says,

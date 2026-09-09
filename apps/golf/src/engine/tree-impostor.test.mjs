@@ -49,6 +49,15 @@ describe('the frame blend', () => {
 });
 
 describe('the view basis', () => {
+  it('does not rotate the image across the former polar threshold or the zenith', () => {
+    for (const a of [0, 0.7, 1.8, 3, 4.6, 5.9]) {
+      for (const theta of [0, Math.acos(0.999)]) {
+        const basis = t => viewBasis(Math.sin(t) * Math.cos(a), Math.cos(t), Math.sin(t) * Math.sin(a));
+        const before = basis(theta - 0.00002), after = basis(theta + 0.00002);
+        for (const axis of ['right', 'up']) expect(Math.hypot(...before[axis].map((v, i) => v - after[axis][i]))).toBeLessThan(0.0001);
+      }
+    }
+  });
   it('is orthonormal and right-handed, including straight down', () => {
     const dirs = [[0, 1, 0], [1, 0, 0], [0, 0, 1], [0.6, 0.8, 0], ...Array.from({ length: 50 }, upperDirection)];
     for (const [x, y, z] of dirs) {
