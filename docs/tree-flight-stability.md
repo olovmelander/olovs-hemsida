@@ -70,8 +70,21 @@ it does not change the water material or introduce a particle effect.
   coverage within the corrected material. Its visible-area range fell from
   approximately **9.39% to 6.15%** of mean area on both backends. This measures
   temporal silhouette stability, not FPS or a promise to eliminate all aliasing.
-- The production app builds successfully. Full-course Visby integration is
-  checked separately with the application's graphics capture and flight tool.
+- The production app builds successfully. Visby's matched WebGL2 low-quality
+  overhead capture at 600 × 450 is **pixel-identical** before and after. All
+  35,044 tree instances, their positions, routing, georeferencing, vegetation
+  source and scene population fingerprints match. The actual-bounds culling
+  reduces visible cells from 11 to 8 and submitted full trees from 266 to 213
+  in this view: 1,061,799 → 1,049,515 total triangles, with 40 draws in both.
+  This is a view-specific culling result, not a hardware speed measurement.
+- The full Visby WebGL2 flight passes all **12 rapid camera placements with
+  zero LOD switches**, live visibility updates and no rendering errors. The
+  [before](graphics/tree-flight-2026-09-09/visby-before.json) and
+  [after/flight](graphics/tree-flight-2026-09-09/visby-after.json) reports retain
+  the camera, quality, per-tier counts, fingerprints and stream diagnostics.
+  Both matched captures use the same
+  [overhead image](graphics/tree-flight-2026-09-09/h1_top_noon.png), since their
+  pixels are identical.
 
 Evidence: [`graphics/tree-flight-2026-09-09/`](graphics/tree-flight-2026-09-09/).
 The renderer captures use **SwiftShader software rasterisation**. A physical
