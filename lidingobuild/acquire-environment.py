@@ -1,12 +1,14 @@
 """Acquire bounded LM water vectors and audit 2025 RGBI against existing surfaces.
 
-Credentials stay in request headers. Only water geometry and per-feature
-statistics leave the runner; orthophoto pixels are never published.
+Credentials stay in request headers. Only water geometry, per-feature
+statistics and encrypted review crops leave the runner; no plaintext imagery
+or credentials are published.
 """
 import base64
 import hashlib
 import json
 import os
+import io
 from pathlib import Path
 import sqlite3
 import tempfile
@@ -104,6 +106,48 @@ def acquire_water():
     print(json.dumps({'waterFeatures': len(features), 'interiorRings': report['interiorRings']}))
 
 
+def private_review(datasets, discovery):
+    """Bounded 0.5 m overview and selected native-resolution detail windows.
+
+    Only encrypted pixels leave the runner. No source images are included in
+    the public stats. The review key is unrelated to LM or GitHub credentials.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('private_review', ROOT / 'lidingobuild/private-ortho-review.py')
+    crypto = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(crypto)
+    model = json.loads((ROOT / 'lidingobuild/course-model.json').read_text())
+    windows = [('overview', discovery['aoi']['bboxEpsg3006'], .5)]
+    for h in model['holes']:
+        rings = []
+        if h['n'] in (13, 17, 18):
+            rings.append(('green', h['green']['ring']))
+        if h['n'] in (1, 10):
+            rings.extend((f'tee-{i+1}', p['ring']) for i, p in enumerate(h['tees']['pads']))
+        for kind, ring in rings:
+            points = [(677700.5+x, 6586399.5-z) for x, z in ring]
+            bounds = [min(p[0] for p in points)-40, min(p[1] for p in points)-40,
+                      max(p[0] for p in points)+40, max(p[1] for p in points)+40]
+            windows.append((f'hole-{h["n"]}-{kind}', bounds, .16))
+    arrays, metadata = {}, []
+    for name, bounds, resolution in windows:
+        data, transform = merge(datasets, bounds=bounds, res=resolution,
+            resampling=rasterio.enums.Resampling.average)
+        arrays[name] = data
+        metadata.append({'name': name, 'shape': list(data.shape), 'transform': list(transform)[:6],
+            'horizontalCrs': 'EPSG:3006', 'resolutionMetres': resolution,
+            'arraySha256': hashlib.sha256(data.tobytes()).hexdigest()})
+    arrays['metadata'] = np.frombuffer(json.dumps({'sourceItems': discovery['orthophoto']['items'],
+        'windows': metadata}).encode(), dtype=np.uint8)
+    stream = io.BytesIO()
+    np.savez_compressed(stream, **arrays)
+    sealed = crypto.seal(stream.getvalue(), (ROOT / 'lidingobuild/mapping/ortho-review-public-key.pem').read_bytes())
+    target = Path(tempfile.gettempdir()) / 'lidingo-ortho-review.enc'
+    target.write_bytes(sealed)
+    print(json.dumps({'privateReviewWindows': len(windows), 'encryptedBytes': len(sealed),
+        'encryptedSha256': hashlib.sha256(sealed).hexdigest()}))
+
+
 def audit_ortho():
     discovery = json.loads((OUT / 'd2-discovery.json').read_text())
     items = discovery['orthophoto']['items']
@@ -132,6 +176,7 @@ def audit_ortho():
                 raise ValueError('Expected four-band EPSG3006 RGBI imagery')
             rgb, transform = merge(datasets, bounds=discovery['aoi']['bboxEpsg3006'], res=1,
                 resampling=rasterio.enums.Resampling.average)
+            private_review(datasets, discovery)
         finally:
             for d in datasets:
                 d.close()
