@@ -16,6 +16,6 @@ The two largest signals are the western hole-16 bunker and the mapped hole-15 bu
 
 The next image review should cover hole 13's green/bunker area, these hole-15/16 flags, hole 17/18 alterations and the uncertain tee platforms. All 18 holes remain in the review queue. Green and tee grass often has lower NDVI than fairway grass in this acquisition, so a single vegetation threshold must not be used to remove turf surfaces.
 
-Source pixels were not published. Private visual crop transfer is still blocked by automatic approval review; this report contains only the approved derived statistics.
+The explicitly approved encrypted-image transfer is installed. Public Actions [run 34326604307](https://github.com/olovmelander/olovs-hemsida/actions/runs/34326604307) completed successfully and uploaded only the encrypted artifact, with one-day retention. This public report contains the previously approved statistics; private-image observations and decrypted crop metadata are not included.
 
 Run `node lidingobuild/mapping/review-ortho-2025.mjs` to regenerate this report from the retained measurement output.

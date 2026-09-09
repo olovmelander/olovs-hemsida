@@ -26,8 +26,11 @@ credentialed acquisition. All 110 adopted outlines have measurements from the
 new imagery. The [first imagery review](ortho-2025-review.md) identifies three
 bunker outlines for inspection, especially holes 15 and 16. Spectral flags do
 not establish exact outlines or justify removing a bunker without image review.
-Raw imagery is not published; a proposed encrypted review-image transfer was
-blocked separately and is not installed in the workflow.
+The explicitly approved encrypted-image transfer is installed. Public Actions
+[run 34326604307](https://github.com/olovmelander/olovs-hemsida/actions/runs/34326604307)
+completed successfully and uploaded only the encrypted artifact, with one-day
+retention. This public report contains the previously approved statistics;
+private-image observations and decrypted crop metadata are not included.
 
 The renderer now loads a checksummed 1.33 MB surrounding-water vector asset only
 for Lidingö's ready v2 world. Its 144 polygons retain 180 interior rings and
