@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-09",
+  "sourceCommit": "7227a6d12359038c9400798c5dcc0b80b7e9a579",
+  "sourceTree": "1c7489d86f1a504134e3dfde683f9f35b76fad9e",
+  "baselineBuildCommit": "8c0f1b0a81f246e3694354cce992100c7f6463d1",
+  "baselineNote": "Material pilot with surfaceRelief disabled; same default rendering path as main 32a0ae0. Native stride 1 reproduces the breakup without simplification.",
+  "depthOnlyCommit": "b064cdbf983df27bff453af2a0fe161a298f102a",
+  "comparisonNote": "Depth-only and masked captures have identical source/data fingerprints, camera pose/lens, terrain inventories, quality, viewport and water geometry. The mask is the changed rendering variable. The depth-only report also records returning to tee near 1 m.",
+  "sameSceneAndDataFingerprints": true,
+  "executionAdapter": "swiftshader-software",
+  "hardwarePerformanceEvidence": false,
+  "terrainMaskBytes": 262144,
+  "views": [
+    {
+      "view": "h1_visby-coast_golden",
+      "sameCameraAndLens": true,
+      "sameTerrainInventory": true,
+      "sameWaterGeometryAndDepthPolicy": true,
+      "nearMetres": 105.43819001700707,
+      "terrainTriangles": 2839552,
+      "before": "depth-only/h1_visby-coast_golden.png",
+      "after": "masked/h1_visby-coast_golden.png"
+    },
+    {
+      "view": "h1_visby-coast-low_golden",
+      "sameCameraAndLens": true,
+      "sameTerrainInventory": true,
+      "sameWaterGeometryAndDepthPolicy": true,
+      "nearMetres": 7.242900085449204,
+      "terrainTriangles": 3173376,
+      "before": "depth-only/h1_visby-coast-low_golden.png",
+      "after": "masked/h1_visby-coast-low_golden.png"
+    }
+  ],
+  "proofViews": {
+    "webgl2": [
+      {
+        "mode": "native",
+        "low": false,
+        "seaLeaks": 40462,
+        "landPixels": 837,
+        "waterPixels": 58429,
+        "near": 105,
+        "reversedDepth": true,
+        "file": "overview-native.png",
+        "controlLandPixels": 838,
+        "lowDryControlPixels": 398,
+        "shoreBoundaryPixelsExcluded": 2
+      },
+      {
+        "mode": "masked",
+        "low": false,
+        "seaLeaks": 0,
+        "landPixels": 836,
+        "waterPixels": 137282,
+        "near": 105,
+        "reversedDepth": true,
+        "file": "overview-masked.png",
+        "controlLandPixels": 838,
+        "lowDryControlPixels": 398,
+        "shoreBoundaryPixelsExcluded": 2
+      },
+      {
+        "mode": "native",
+        "low": true,
+        "seaLeaks": 24269,
+        "landPixels": 801,
+        "waterPixels": 47585,
+        "near": 7.2,
+        "reversedDepth": true,
+        "file": "low-native.png",
+        "controlLandPixels": 802,
+        "lowDryControlPixels": 315,
+        "shoreBoundaryPixelsExcluded": 2
+      },
+      {
+        "mode": "masked",
+        "low": true,
+        "seaLeaks": 6,
+        "landPixels": 800,
+        "waterPixels": 87788,
+        "near": 7.2,
+        "reversedDepth": true,
+        "file": "low-masked.png",
+        "controlLandPixels": 802,
+        "lowDryControlPixels": 315,
+        "shoreBoundaryPixelsExcluded": 2
+      }
+    ],
+    "webgpu": [
+      {
+        "mode": "native",
+        "low": false,
+        "seaLeaks": 42021,
+        "landPixels": 842,
+        "waterPixels": 60070,
+        "near": 1,
+        "reversedDepth": true,
+        "file": "overview-native.png",
+        "controlLandPixels": 842,
+        "lowDryControlPixels": 398,
+        "shoreBoundaryPixelsExcluded": 2
+      },
+      {
+        "mode": "masked",
+        "low": false,
+        "seaLeaks": 0,
+        "landPixels": 840,
+        "waterPixels": 137282,
+        "near": 1,
+        "reversedDepth": true,
+        "file": "overview-masked.png",
+        "controlLandPixels": 842,
+        "lowDryControlPixels": 398,
+        "shoreBoundaryPixelsExcluded": 2
+      },
+      {
+        "mode": "native",
+        "low": true,
+        "seaLeaks": 24517,
+        "landPixels": 801,
+        "waterPixels": 47800,
+        "near": 1,
+        "reversedDepth": true,
+        "file": "low-native.png",
+        "controlLandPixels": 802,
+        "lowDryControlPixels": 315,
+        "shoreBoundaryPixelsExcluded": 2
+      },
+      {
+        "mode": "masked",
+        "low": true,
+        "seaLeaks": 6,
+        "landPixels": 800,
+        "waterPixels": 87796,
+        "near": 1,
+        "reversedDepth": true,
+        "file": "low-masked.png",
+        "controlLandPixels": 802,
+        "lowDryControlPixels": 315,
+        "shoreBoundaryPixelsExcluded": 2
+      }
+    ]
+  },
+  "validation": {
+    "vitestPassed": 539,
+    "focusedNodePassed": 15,
+    "productionBuild": true,
+    "publishedGraphIsolationGate": true,
+    "codeCi": "https://github.com/olovmelander/olovs-hemsida/actions/runs/34352676725"
+  },
+  "visualAssessment": "Broad open-sea breakup is removed. Conservative shoreline bands retain the original terrain; their residual edge pattern is outside the interior mask.",
+  "limits": [
+    "Owner phone and exact gesture not reproduced",
+    "Mobile DPR 1 landscape softness remains",
+    "Source-model geographic check and packaged runtime have separately recorded provenance",
+    "Synthetic sea-leak counts exclude a two-pixel rasterized shoreline boundary; low-angle residual count is six pixels",
+    "No hardware FPS claim"
+  ]
+}
