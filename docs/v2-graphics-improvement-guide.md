@@ -120,6 +120,8 @@ all-hole or all-course appearance review.
 
 ### The ring-terrain density gap
 
+**9 September implementation update:** the [terrain optimization pilot](v2-terrain-render-optimization.md) now consumes this option, preserves all finest available leaves, and derives transitions from actual rendered parents. The audit observations below describe the pre-change baseline.
+
 The `renderStride` setting in [`main.js`](../apps/golf/src/main.js) reaches the
 fixed-frontier [live adapter](../apps/golf/src/engine/v2-terrain-live-adapter.mjs),
 whose [frontier helper](../apps/golf/src/engine/v2-graph-frontier.mjs) decimates the
