@@ -755,7 +755,11 @@
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "All 18 main-course identities matched against guide and 2022 image; explicit pixels and source associations; independent review pending."
@@ -768,7 +772,11 @@
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "Reproducible source-pixel polygons and sand seeds; interpretation uncertainty separate from unknown registration accuracy."
@@ -781,7 +789,11 @@
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "Observed provisional surface polygons; OSM ring lineage and image trace methods retained per feature. Production rights and contemporary verification remain unresolved."
@@ -794,7 +806,11 @@
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "Geometry, association, coverage and source-byte audit; not survey approval."
@@ -803,11 +819,15 @@
       "id": "canonical-routing-candidate",
       "kind": "composite",
       "path": "visbybuild/mapping/geometry.json",
-      "sha256": "0340c9e6413686211dbe2f15d5c09acb8b4d6069000f0d3f11e811b5170a8d09",
+      "sha256": "ecca878ff1fc0efe7ac9d5f85eba4f605822660b6191919004ad1a6e7bb7e338",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "EPSG:3006 main-course authoring geometry; cardinal tee lengths do not determine source coordinates."
@@ -820,7 +840,11 @@
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "Image component parameters and omitted unresolved contours."
@@ -900,6 +924,10 @@
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
         "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
         "club-scorecard"
       ],
       "use": "discovery-evidence",
@@ -909,7 +937,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "visbybuild/course-model.json",
-      "sha256": "7fa91c189101583c345924e061e1e9a281733a12ef978e61693c580b695908c0",
+      "sha256": "f424be0ad18158715c3a9a188527081984064747879a73fc83e8770e9739c7d2",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -918,6 +946,10 @@
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
         "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
         "club-scorecard"
       ],
       "use": "migration-only",
@@ -948,6 +980,10 @@
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
         "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
         "club-scorecard"
       ],
       "use": "discovery-evidence",
@@ -957,7 +993,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-      "sha256": "420b0151f55c03956c57b3dba7798f43793500a341c26c5da70a49d5b3ced6e2",
+      "sha256": "19a4bc139e8074cf102def89f38bd26224e6ddda8cab0b0bfb9c0615a162e706",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -966,6 +1002,10 @@
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
         "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
         "club-scorecard"
       ],
       "use": "migration-only",
@@ -975,7 +1015,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/visby/migration/residual-report.json",
-      "sha256": "c417e6362b61202769b76bd87d28b10351f93f28e78c6c572aad5c6b8d89c788",
+      "sha256": "0e41d1de0180a7ed910afbbb410c4206e667fbc5d0092c3f5e12fadc172e3a62",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -984,6 +1024,10 @@
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
         "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
         "club-scorecard"
       ],
       "use": "migration-only",
@@ -1009,7 +1053,11 @@
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "Observed range field excludes measured height cells that may be range structures, retaining visible boundary trees."
@@ -1022,7 +1070,11 @@
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "Source pixel vertices, retained image hash and independent overlay review of range footprint."
@@ -1095,7 +1147,11 @@
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
-        "club-banguide"
+        "club-banguide",
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
       ],
       "use": "discovery-evidence",
       "notes": "Registered mowing boundaries for the short-game green and neighbouring nine-course green beside the range. Schematic guide corroborates identity only; no new playable routing or equipment inferred."
@@ -1127,6 +1183,35 @@
       ],
       "use": "discovery-evidence",
       "notes": "Live authenticated byte access, 68 cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository."
+    },
+    {
+      "id": "orthophoto-boundary-review-2026",
+      "kind": "control",
+      "path": "visbybuild/mapping/orthophoto-review-2026.json",
+      "sha256": "941925d6a95098a0376bc46aaa0b733273ad54900ded3d8b9159aaa9b04fa5f3",
+      "derivedFrom": [
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "2026-04-10 native image pixels: two greens, three hole-3 tee outlines, the southern hole-3 fairway and 64 bunker contours. Per-feature source hashes and uncertainty retained; 19 net additional sand areas. CC BY 4.0 derivative attribution retained. Independent registration and remaining boundaries are pending."
+    },
+    {
+      "id": "orthophoto-building-roof-colours-2026",
+      "kind": "control",
+      "path": "visbybuild/mapping/building-roof-review-2026.json",
+      "sha256": "d873c15ec72d3a7e78ed5224eedb19dd7560a5210838be0f5003dceaf9bf06fa",
+      "derivedFrom": [
+        "imagery-lm-o63700-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Sixteen daylight roof-colour families replace the generic rendering palette. No wall colours, building dimensions or roof geometry inferred."
     }
   ],
   "blockers": [
@@ -1151,8 +1236,8 @@
     {
       "id": "current-ortho-access",
       "severity": "release-blocking",
-      "description": "Authenticated 2026 imagery access is verified and 68 review windows acquired. Interpretation of current playing boundaries, independent registration and applicable derivative terms remain unresolved.",
-      "exitGate": "Review the acquired current pixels and source-specific terms before adopting revised playing geometry; byte access is no longer the blocker."
+      "description": "Authenticated 2026 imagery access is verified and 68 review windows acquired. A dated playing-boundary pass is adopted with CC BY 4.0 attribution; remaining boundaries and independent registration still need review.",
+      "exitGate": "Complete the remaining boundary inventory and independent registration checks; byte access and the reviewed derivative terms are documented."
     },
     {
       "id": "media-derivative-rights",

@@ -12,7 +12,10 @@ const read = p => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const terrain = ['terrain-lm-636-68', 'terrain-lm-637-68'];
 const water = ['water-breaks-lm-636-68', 'water-breaks-lm-637-68'];
 const laser = ['laser-lm-24e002-636-68', 'laser-lm-24e002-637-68'];
-const surfaces = ['visby-municipal-ortho-2022', 'visby-osm-2026-09-07', 'club-banguide'];
+const orthoReviewPath = 'visbybuild/mapping/orthophoto-review-2026.json';
+const orthoReview = has(orthoReviewPath) ? read(orthoReviewPath) : null;
+const orthoSources = orthoReview ? [...new Set(Object.values(orthoReview.sources).flatMap(s => s.sourceIds))] : [];
+const surfaces = ['visby-municipal-ortho-2022', 'visby-osm-2026-09-07', 'club-banguide', ...orthoSources];
 const lineage = [...terrain, ...water, ...surfaces, 'club-scorecard'];
 if (has('visbybuild/course-model.json')) {
   const model = read('visbybuild/course-model.json');
@@ -76,8 +79,8 @@ if (has(orthoEvidencePath) && has(orthoPlanPath)) {
     `Live authenticated byte access, ${plan.windows.length} cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository.`);
   const blocker = m.blockers.find(b => b.id === 'current-ortho-access');
   if (blocker) {
-    blocker.description = `Authenticated 2026 imagery access is verified and ${plan.windows.length} review windows acquired. Interpretation of current playing boundaries, independent registration and applicable derivative terms remain unresolved.`;
-    blocker.exitGate = 'Review the acquired current pixels and source-specific terms before adopting revised playing geometry; byte access is no longer the blocker.';
+    blocker.description = `Authenticated 2026 imagery access is verified and ${plan.windows.length} review windows acquired. A dated playing-boundary pass is adopted with CC BY 4.0 attribution; remaining boundaries and independent registration still need review.`;
+    blocker.exitGate = 'Complete the remaining boundary inventory and independent registration checks; byte access and the reviewed derivative terms are documented.';
   }
 }
 
@@ -88,6 +91,8 @@ artifact('playing-surface-review', 'control', 'visbybuild/mapping/playing-surfac
 artifact('practice-surface-candidate', 'surface', 'visbybuild/mapping/practice-surfaces.geojson', surfaces, 'Observed range field excludes measured height cells that may be range structures, retaining visible boundary trees.');
 artifact('practice-surface-review', 'control', base+'vegetation/practice-surface-evidence.json', surfaces, 'Source pixel vertices, retained image hash and independent overlay review of range footprint.');
 artifact('canonical-routing-candidate', 'composite', 'visbybuild/mapping/geometry.json', surfaces, 'EPSG:3006 main-course authoring geometry; cardinal tee lengths do not determine source coordinates.');
+artifact('orthophoto-boundary-review-2026', 'control', orthoReviewPath, [...orthoSources, 'club-banguide'], '2026-04-10 native image pixels: two greens, three hole-3 tee outlines, the southern hole-3 fairway and 64 bunker contours. Per-feature source hashes and uncertainty retained; 19 net additional sand areas. CC BY 4.0 derivative attribution retained. Independent registration and remaining boundaries are pending.');
+artifact('orthophoto-building-roof-colours-2026', 'control', 'visbybuild/mapping/building-roof-review-2026.json', orthoSources, 'Sixteen daylight roof-colour families replace the generic rendering palette. No wall colours, building dimensions or roof geometry inferred.');
 artifact('clubhouse-and-first-tee-review', 'control', 'visbybuild/mapping/facilities-review.json', ['visby-municipal-ortho-2022', 'club-banguide'], 'Source image registration and pixel boundaries for a clubhouse practice green and two additional first-hole platforms. Numbered platform groups checked against the retained Caddee plan; tee 59 corrected to the rear platform. Daily marker positions remain unverified.');
 artifact('expanded-tee-platform-review', 'control', 'visbybuild/mapping/tee-platform-review.json', ['visby-municipal-ortho-2022', 'club-banguide'], 'All 18 tee windows inspected; 27 additional physical platforms on 12 holes. Hole 9 numbered platform groups checked against the retained Caddee plan; tee 41 corrected to the front roadside platform. Other numeric associations and daily positions remain unverified.');
 artifact('range-environment-surface-review', 'control', 'visbybuild/mapping/environment-surfaces-review.json', surfaces, 'Registered mowing boundaries for the short-game green and neighbouring nine-course green beside the range. Schematic guide corroborates identity only; no new playable routing or equipment inferred.');

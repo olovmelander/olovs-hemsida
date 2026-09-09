@@ -10,7 +10,7 @@ test('all 108 references are reviewed, with unresolved H12 and altered H3 first'
   const plan = buildOrthoReviewPlan(model, discovery);
   assert.equal(plan.windows.length, 22);
   assert.deepEqual(plan.windows.slice(0, 3).map(w => w.hole), [12, 3, 9]);
-  assert.equal(plan.summary.unresolvedTeeReferences, 40);
+  assert.equal(plan.summary.unresolvedTeeReferences, 37);
   assert.equal(plan.windows.filter(w => w.unresolvedTees).length, 18);
   const h12 = plan.windows.find(w => w.id === 'hole-12-tees');
   assert.equal(h12.mappedPlatforms, 0);
