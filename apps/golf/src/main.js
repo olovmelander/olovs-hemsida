@@ -76,6 +76,7 @@ import { waterShoreDistance } from './engine/water-shore.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
+import { createPackedGroundDetailTexture } from './engine/ground-detail-upload.mjs';
 import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
@@ -1297,7 +1298,7 @@ function canvasTex(size, draw, { srgb = true, rep = 1 } = {}) {
 /* One packed map does all the turf detail: R blade-scale speckle, G a medium clump,
    B a macro variation that keeps a fairway from tiling visibly, A a glint mask. */
 const TEX_STARTED = performance.now();
-const DETAIL = canvasTex(512, (g, S) => {
+const DETAIL = SURFACE_RELIEF !== 'off' ? createPackedGroundDetailTexture({ seamless: GRAPHICS_POLISH }) : canvasTex(512, (g, S) => {
   const im = g.createImageData(S, S), d = im.data;
   fillGroundDetailPixels(d, S, { seamless: GRAPHICS_POLISH });
   g.putImageData(im, 0, 0);

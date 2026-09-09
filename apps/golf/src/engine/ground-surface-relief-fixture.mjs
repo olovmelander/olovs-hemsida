@@ -2,6 +2,7 @@
 import * as THREE from 'three/webgpu';
 import { createV2GroundMaterialDecorator } from './material.js';
 import { fillGroundDetailPixels } from './ground-detail-texture.mjs';
+import { createPackedGroundDetailTexture } from './ground-detail-upload.mjs';
 import { SURFACE } from './surface.js';
 
 export function createGroundReliefFixture(surfaceRelief) {
@@ -22,14 +23,18 @@ export function createGroundReliefFixture(surfaceRelief) {
   texSdf.needsUpdate = true;
   const texF = new THREE.DataTexture(new Uint8Array([255, 0, 0, 255]), 1, 1);
   texF.needsUpdate = true;
-  const pixels = new Uint8ClampedArray(512 * 512 * 4);
-  fillGroundDetailPixels(pixels, 512, { seamless: true });
-  const DETAIL = new THREE.DataTexture(new Uint8Array(pixels.buffer), 512, 512);
-  DETAIL.wrapS = DETAIL.wrapT = THREE.RepeatWrapping;
-  DETAIL.minFilter = THREE.LinearMipmapLinearFilter;
-  DETAIL.magFilter = THREE.LinearFilter;
-  DETAIL.generateMipmaps = true;
-  DETAIL.needsUpdate = true;
+  let DETAIL;
+  if (surfaceRelief === 'off') {
+    // Match the current app baseline, including its lossy canvas alpha path.
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 512;
+    const context = canvas.getContext('2d'), pixels = context.createImageData(512, 512);
+    fillGroundDetailPixels(pixels.data, 512, { seamless: true });
+    context.putImageData(pixels, 0, 0);
+    DETAIL = new THREE.CanvasTexture(canvas);
+    DETAIL.wrapS = DETAIL.wrapT = THREE.RepeatWrapping;
+    DETAIL.anisotropy = 8;
+  } else DETAIL = createPackedGroundDetailTexture();
   const C = Object.fromEntries(Object.entries({ rough: 0x4c7135, forest: 0x405433, heath: 0x77764c,
     semi: 0x65933e, fair: 0x60a03e, fringe: 0x649540, green: 0x489a4c, tee: 0x60a03e,
     sand: 0xd6c497, path: 0x938d7b, aspL: 0x575957, hard: 0x9e9884, soil: 0x786747,
