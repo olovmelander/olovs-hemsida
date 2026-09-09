@@ -1,0 +1,144 @@
+{
+  "ref": "working-tree",
+  "materialSha256": "45732d497c075e68d27c3767f7f14b223f2cf6d3f2d0b2ed1dd58f053ec553ad",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "backends": [
+    {
+      "backend": "webgl2",
+      "samples": 4,
+      "pairs": [
+        {
+          "name": "repeat-identical-view",
+          "changedPixels": 0,
+          "occupiedPixels": 2323,
+          "changedFraction": 0,
+          "meanAbsolute": 0
+        },
+        {
+          "name": "old-polar-boundary",
+          "changedPixels": 0,
+          "occupiedPixels": 2371,
+          "changedFraction": 0,
+          "meanAbsolute": 0.0000762939453125
+        },
+        {
+          "name": "across-zenith",
+          "changedPixels": 0,
+          "occupiedPixels": 2323,
+          "changedFraction": 0,
+          "meanAbsolute": 0.0000457763671875
+        },
+        {
+          "name": "atlas-frame-boundary",
+          "changedPixels": 0,
+          "occupiedPixels": 3940,
+          "changedFraction": 0,
+          "meanAbsolute": 0.0000152587890625
+        },
+        {
+          "name": "lit-with-fade-attributes",
+          "changedPixels": 0,
+          "occupiedPixels": 2323,
+          "changedFraction": 0,
+          "meanAbsolute": 0.000010172526041666666
+        },
+        {
+          "name": "lit-midfade",
+          "changedPixels": 0,
+          "occupiedPixels": 1166,
+          "changedFraction": 0,
+          "meanAbsolute": 0.000005086263020833333
+        }
+      ],
+      "edges": [
+        {
+          "coverage": false,
+          "meanArea": 16.4218137254902,
+          "relativeAreaRange": 0.09392894633413461
+        },
+        {
+          "coverage": true,
+          "meanArea": 16.879738562091504,
+          "relativeAreaRange": 0.06148842251994113
+        }
+      ],
+      "whiteCorners": true,
+      "fadeAreas": [
+        1944.2915032679655,
+        971.4614379084903,
+        972.830065359471
+      ],
+      "fadeRelativeError": 2.2219403963655576e-15,
+      "errors": []
+    },
+    {
+      "backend": "webgpu",
+      "samples": 4,
+      "pairs": [
+        {
+          "name": "repeat-identical-view",
+          "changedPixels": 0,
+          "occupiedPixels": 2323,
+          "changedFraction": 0,
+          "meanAbsolute": 0
+        },
+        {
+          "name": "old-polar-boundary",
+          "changedPixels": 0,
+          "occupiedPixels": 2371,
+          "changedFraction": 0,
+          "meanAbsolute": 0.0000762939453125
+        },
+        {
+          "name": "across-zenith",
+          "changedPixels": 0,
+          "occupiedPixels": 2323,
+          "changedFraction": 0,
+          "meanAbsolute": 0.0000457763671875
+        },
+        {
+          "name": "atlas-frame-boundary",
+          "changedPixels": 0,
+          "occupiedPixels": 3940,
+          "changedFraction": 0,
+          "meanAbsolute": 0.0000152587890625
+        },
+        {
+          "name": "lit-with-fade-attributes",
+          "changedPixels": 0,
+          "occupiedPixels": 2323,
+          "changedFraction": 0,
+          "meanAbsolute": 0.000010172526041666666
+        },
+        {
+          "name": "lit-midfade",
+          "changedPixels": 0,
+          "occupiedPixels": 1166,
+          "changedFraction": 0,
+          "meanAbsolute": 0.000005086263020833333
+        }
+      ],
+      "edges": [
+        {
+          "coverage": false,
+          "meanArea": 16.42197712418301,
+          "relativeAreaRange": 0.09392801174100134
+        },
+        {
+          "coverage": true,
+          "meanArea": 16.879901960784313,
+          "relativeAreaRange": 0.06148782730748732
+        }
+      ],
+      "whiteCorners": true,
+      "fadeAreas": [
+        1944.2915032679912,
+        971.4614379084938,
+        972.8300653594739
+      ],
+      "fadeRelativeError": 1.2045255832928916e-14,
+      "errors": []
+    }
+  ]
+}

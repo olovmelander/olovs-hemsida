@@ -32,6 +32,7 @@ const HELP = `Usage: node tools/v2-graphics-review.mjs (--base URL | --root BUIL
   --resolution 1|1.25|1.5|2  (fixed screen sharpness; geometry quality stays separate)
   --base-path /olovs-hemsida/  (path prefix for --root's internal server)
   --auto-fallback  (WebGL2 via automatic WebGPU fallback, including its depth mode)
+  --tree-flight    (12 rapid camera placements; assert geographic tiers never switch)
 Software screenshots and mapping/count checks only; no hardware FPS claim.`;
 
 function optionsFrom(argv) {
@@ -42,6 +43,7 @@ function optionsFrom(argv) {
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--bark') { o.bark = true; continue; }
     if (argv[i] === '--auto-fallback') { o.autoFallback = true; continue; }
+    if (argv[i] === '--tree-flight') { o.treeFlight = true; continue; }
     const key = argv[i].replace(/^--/, '');
     if (!argv[i].startsWith('--') || !allowed.has(key) || !argv[i + 1] || argv[i + 1].startsWith('--')) {
       throw new Error(`Unknown or incomplete argument: ${argv[i]}`);
@@ -257,10 +259,10 @@ async function main(o) {
     report.boot = await page.evaluate(() => ({ backend: window.V3D.stats.backend, quality: window.V3D.quality(),
       course: window.V3D.course(), terrain: window.V3D.v2Terrain(), stats: window.V3D.stats }));
     if (report.boot.backend !== o.backend) throw new Error(`Requested ${o.backend}, got ${report.boot.backend}`);
-    const expectedRelief = o['surface-relief'] === '1' && o.graphics === '1' ? (o.q === 'lo' ? 'low' : 'high') : 'off';
+    const expectedRelief = o['surface-relief'] === '1' && o.graphics !== '0' ? (o.q === 'lo' ? 'low' : 'high') : 'off';
     if ((report.boot.quality.surfaceRelief ?? 'off') !== expectedRelief) throw new Error('Surface relief tier not confirmed');
     const selectedPolish = report.boot.quality.graphicsPolish;
-    if (selectedPolish !== undefined ? selectedPolish !== (o.graphics === '1') : o.graphics !== '0') {
+    if (selectedPolish !== undefined ? selectedPolish !== (o.graphics !== '0') : o.graphics !== '0') {
       throw new Error(`Graphics switch not confirmed: requested ${o.graphics}, reported ${selectedPolish}`);
     }
     if (report.boot.quality.qualityLocked === false) throw new Error('Requested quality lock is not active');
@@ -331,6 +333,29 @@ async function main(o) {
       report.views.push({ ...view, file: filename, imageSha256: sha256(bytes), visibleTerrainTileIds, before, after });
       fs.writeFileSync(path.join(o.out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
       console.log(`  ${filename}: ${before.renderer.drawCalls} draws, ${before.renderer.triangles} triangles, buffer ${contract.buffer.join('x')}, near ${before.lens.near}, reversed depth ${before.lens.reversedDepth}`);
+    }
+    if (o.treeFlight) {
+      console.log('  Checking geographic tree tiers during a rapid camera flight');
+      const initial = await page.evaluate(() => ({ tiers: V3D.treeTiers(), lod: V3D.treeLodPx(),
+        line: V3D.HOLES[0].line }));
+      if (initial.lod.mode !== 'zone' || initial.tiers.frozen || initial.tiers.force) throw new Error('Flight requires live geographic tree tiers');
+      const samples = [];
+      const [x, z] = initial.line[Math.floor(initial.line.length / 2)];
+      for (let i = 0; i < 12; i++) {
+        const p = i / 11, angle = p * Math.PI * 2;
+        const frame = await page.evaluate(({ x, z, p, angle }) => {
+          const ground = V3D.probeH(x, z), start = V3D.frame();
+          V3D.placeCamera([x + Math.cos(angle) * (100 + 700 * p), ground + 40 + 500 * Math.sin(p * Math.PI) ** 2,
+            z + Math.sin(angle) * (100 + 700 * p)], [x, ground + 10, z]);
+          return start;
+        }, { x, z, p, angle });
+        await page.waitForFunction(start => V3D.frame() >= start + 2, frame, { timeout });
+        const state = await page.evaluate(() => ({ frame: V3D.frame(), tiers: V3D.treeTiers(), lod: V3D.treeLodPx() }));
+        if (state.lod.mode !== 'zone' || state.tiers.switches !== initial.tiers.switches) throw new Error('Tree detail changed with camera movement');
+        samples.push(state);
+        if ([0, 6, 11].includes(i)) await page.screenshot({ path: path.join(o.out, `tree-flight-${i}.png`), timeout });
+      }
+      report.treeFlight = { initial, samples, switches: samples.at(-1).tiers.switches - initial.tiers.switches };
     }
     report.passed = report.errors.length === 0 && report.views.length === o.views.length;
     if (o.compare) {
