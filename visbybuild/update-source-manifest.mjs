@@ -40,6 +40,47 @@ function artifact(id, kind, p, derivedFrom, notes, use = 'discovery-evidence') {
   if (i < 0) m.artifacts.push(value); else m.artifacts[i] = value;
 }
 const base = 'geo_data/course-v2/visby/';
+const orthoEvidencePath = base + 'reference/lm-ortho-acquisition-2026-09-09.json';
+const orthoPlanPath = base + 'reference/lm-ortho-plan-2026-09-09.json';
+if (has(orthoEvidencePath) && has(orthoPlanPath)) {
+  const acquisition = read(orthoEvidencePath), plan = read(orthoPlanPath);
+  if (acquisition.groundId !== 'visby' || acquisition.state !== 'acquired-for-review' ||
+      !acquisition.access?.authorized || acquisition.planSha256 !== sha256File(path.join(ROOT, orthoPlanPath)) ||
+      acquisition.windows.length !== plan.windows.length) throw new Error('Visby orthophoto evidence is incomplete or unbound');
+  const sameIds = (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
+  if (!sameIds(acquisition.windows.map(w => w.id), plan.windows.map(w => w.id)) ||
+      !sameIds(acquisition.access.assets.map(s => s.id), plan.sources.map(s => s.id))) throw new Error('Visby orthophoto evidence inventory differs from its plan');
+  const used = new Set(acquisition.windows.flatMap(w => w.sources.map(s => s.id)));
+  const imageSources = [];
+  for (const image of plan.sources) {
+    const id = 'imagery-lm-' + image.id.replaceAll('_', '-');
+    const source = m.sources.find(s => s.id === id);
+    if (!source || source.sourceUri !== image.href) throw new Error('Visby image source identity changed');
+    imageSources.push(id);
+    if (used.has(image.id)) {
+      // The source record denotes the complete TIFF, which has no provider
+      // checksum. Bounded crops are acquired artifacts with their own hashes;
+      // never put a crop hash in the complete-source checksum field.
+      source.lifecycle = 'planned';
+      source.acquiredAt = null;
+      source.checksumReason = 'Only bounded image windows acquired; their individual SHA-256 hashes and exact pixel grids are retained in the acquisition evidence. Complete source TIFF not downloaded or hashed.';
+      const validity = Math.min(...acquisition.windows.filter(w => w.sources.some(s => s.id === image.id)).map(w => w.validFraction));
+      source.notes = `Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for tee and priority surface review; minimum valid-pixel fraction ${validity.toFixed(4)}. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; no source imagery redistributed.`;
+    } else {
+      source.notes = 'Authenticated TIFF header and pinned source size verified on 2026-09-09. This image does not intersect the selected 22 review windows, so no image window was acquired from it. No source imagery redistributed.';
+    }
+  }
+  artifact('authenticated-ortho-review-plan', 'acquisition', orthoPlanPath, imageSources,
+    'Native-grid review windows for all 108 tee references and priority greens/facilities; extents are not accepted feature boundaries.');
+  artifact('authenticated-ortho-acquisition', 'acquisition', orthoEvidencePath, imageSources,
+    'Live authenticated byte access, 22 cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository.');
+  const blocker = m.blockers.find(b => b.id === 'current-ortho-access');
+  if (blocker) {
+    blocker.description = 'Authenticated 2026 imagery access is verified and 22 review windows acquired. Interpretation of current playing boundaries, independent registration and applicable derivative terms remain unresolved.';
+    blocker.exitGate = 'Review the acquired current pixels and source-specific terms before adopting revised playing geometry; byte access is no longer the blocker.';
+  }
+}
+
 artifact('source-route-crosswalk', 'routing', 'visbybuild/mapping/route-reference.json', surfaces, 'All 18 main-course identities matched against guide and 2022 image; explicit pixels and source associations; independent review pending.');
 artifact('playing-surface-pixel-traces', 'surface', 'visbybuild/mapping/surface-traces-2022.json', surfaces, 'Reproducible source-pixel polygons and sand seeds; interpretation uncertainty separate from unknown registration accuracy.');
 artifact('playing-surface-candidates', 'surface', 'visbybuild/mapping/playing-surfaces.geojson', surfaces, 'Observed provisional surface polygons; OSM ring lineage and image trace methods retained per feature. Production rights and contemporary verification remain unresolved.');

@@ -238,7 +238,7 @@
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Discovered current 0.16 m RGBI ortho-f2-2026 campaign, with flight metadata retained. Configured account returned HTTP 403; no orthophoto pixels acquired. Product access/use terms and independent spatial registration remain unresolved. Do not render raw orthophoto as the ground material."
+      "notes": "Authenticated TIFF header and pinned source size verified on 2026-09-09. This image does not intersect the selected 22 review windows, so no image window was acquired from it. No source imagery redistributed."
     },
     {
       "id": "imagery-lm-o63675-6875-25-mr26",
@@ -266,7 +266,7 @@
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Discovered current 0.16 m RGBI ortho-f2-2026 campaign, with flight metadata retained. Configured account returned HTTP 403; no orthophoto pixels acquired. Product access/use terms and independent spatial registration remain unresolved. Do not render raw orthophoto as the ground material."
+      "notes": "Authenticated TIFF header and pinned source size verified on 2026-09-09. This image does not intersect the selected 22 review windows, so no image window was acquired from it. No source imagery redistributed."
     },
     {
       "id": "imagery-lm-o63700-6850-25-mr26",
@@ -289,12 +289,12 @@
       "acquiredAt": null,
       "capturedAt": "2026-04-10",
       "checksum": null,
-      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "checksumReason": "Only bounded image windows acquired; their individual SHA-256 hashes and exact pixel grids are retained in the acquisition evidence. Complete source TIFF not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Discovered current 0.16 m RGBI ortho-f2-2026 campaign, with flight metadata retained. Configured account returned HTTP 403; no orthophoto pixels acquired. Product access/use terms and independent spatial registration remain unresolved. Do not render raw orthophoto as the ground material."
+      "notes": "Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for tee and priority surface review; minimum valid-pixel fraction 1.0000. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; no source imagery redistributed."
     },
     {
       "id": "imagery-lm-o63700-6875-25-mr26",
@@ -317,12 +317,12 @@
       "acquiredAt": null,
       "capturedAt": "2026-04-10",
       "checksum": null,
-      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "checksumReason": "Only bounded image windows acquired; their individual SHA-256 hashes and exact pixel grids are retained in the acquisition evidence. Complete source TIFF not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Discovered current 0.16 m RGBI ortho-f2-2026 campaign, with flight metadata retained. Configured account returned HTTP 403; no orthophoto pixels acquired. Product access/use terms and independent spatial registration remain unresolved. Do not render raw orthophoto as the ground material."
+      "notes": "Authenticated 0.16 m RGBI windows acquired from the 2026-04-10 campaign for tee and priority surface review; minimum valid-pixel fraction 1.0000. Full-source lifecycle remains planned because no complete TIFF was acquired or hashed. Bounded acquisitions have their own evidence. Geometry adoption and independent registration remain separate; no source imagery redistributed."
     },
     {
       "id": "topography-lm-10",
@@ -1099,6 +1099,34 @@
       ],
       "use": "discovery-evidence",
       "notes": "Registered mowing boundaries for the short-game green and neighbouring nine-course green beside the range. Schematic guide corroborates identity only; no new playable routing or equipment inferred."
+    },
+    {
+      "id": "authenticated-ortho-review-plan",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/reference/lm-ortho-plan-2026-09-09.json",
+      "sha256": "76ec4c1efd2f4bcaa1cb29ffc7896bd753e0ddbb0b069c50afb27f23e6cba801",
+      "derivedFrom": [
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Native-grid review windows for all 108 tee references and priority greens/facilities; extents are not accepted feature boundaries."
+    },
+    {
+      "id": "authenticated-ortho-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/reference/lm-ortho-acquisition-2026-09-09.json",
+      "sha256": "6ecd051403f160d0754d9d05be5ad4d1b6affb1be42b279fc38b4cbe9784df70",
+      "derivedFrom": [
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Live authenticated byte access, 22 cropped RGBI image hashes, exact transforms and aggregate validity statistics. Raw images remain outside the repository."
     }
   ],
   "blockers": [
@@ -1123,8 +1151,8 @@
     {
       "id": "current-ortho-access",
       "severity": "release-blocking",
-      "description": "2026 national imagery discovered but configured credentials return403. Older2022 municipal reference has unresolved primary reuse terms.",
-      "exitGate": "Resolve product access and exact applicable terms; compare suitable current pixels before adopting source-derived playing geometry."
+      "description": "Authenticated 2026 imagery access is verified and 22 review windows acquired. Interpretation of current playing boundaries, independent registration and applicable derivative terms remain unresolved.",
+      "exitGate": "Review the acquired current pixels and source-specific terms before adopting revised playing geometry; byte access is no longer the blocker."
     },
     {
       "id": "media-derivative-rights",

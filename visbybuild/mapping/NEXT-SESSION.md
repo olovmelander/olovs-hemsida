@@ -1,5 +1,13 @@
 # Visby GK / Kronholmen — provisional 3D handoff
 
+**2026-09-09 continuation:** authenticated orthophoto access is verified and
+22 bounded review windows are acquired. The new `lm-download` tracing layer
+checks crop hashes and exact georeferencing. Read
+[lantmateriet-2026.md](lantmateriet-2026.md) for the live evidence and commands,
+and [improvements-2026-09-08.md](improvements-2026-09-08.md) for the latest
+accepted tee geometry. The 2026 imagery has not yet changed runtime geometry;
+H12, H3, H9 and the remaining numbered tee associations still require review.
+
 Checkpoint: 2026-09-08 (see "What changed on 2026-09-08" below; the 2026-09-07
 intake this describes is otherwise unchanged). Follow the
 [runbook](../../docs/v2-course-runbook.md),
