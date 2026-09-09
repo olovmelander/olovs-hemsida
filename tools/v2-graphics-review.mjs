@@ -28,6 +28,7 @@ const HELP = `Usage: node tools/v2-graphics-review.mjs (--base URL | --root BUIL
   --width 960 --height 600 --dpr 1 --timeout 600 --chrome PATH
   --compare /path/to/previous/report.json
   --terrain-stride 1|2  (override the terrain quality request on either backend)
+  --resolution 1|1.25|1.5|2  (fixed screen sharpness; geometry quality stays separate)
   --base-path /olovs-hemsida/  (path prefix for --root's internal server)
   --auto-fallback  (WebGL2 via automatic WebGPU fallback, including its depth mode)
 Software screenshots and mapping/count checks only; no hardware FPS claim.`;
@@ -36,7 +37,7 @@ function optionsFrom(argv) {
   const o = { course: 'puttom', backend: 'webgl2', q: 'lo', graphics: '1', views: 'short',
     width: 960, height: 600, dpr: 1, timeout: 600, bark: false, autoFallback: false };
   const allowed = new Set(['base', 'root', 'base-path', 'out', 'course', 'backend', 'q', 'graphics', 'views',
-    'width', 'height', 'dpr', 'timeout', 'chrome', 'compare', 'terrain-stride']);
+    'width', 'height', 'dpr', 'timeout', 'chrome', 'compare', 'terrain-stride', 'resolution']);
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--bark') { o.bark = true; continue; }
     if (argv[i] === '--auto-fallback') { o.autoFallback = true; continue; }
@@ -50,6 +51,7 @@ function optionsFrom(argv) {
   if (o.base && !['http:', 'https:'].includes(new URL(o.base).protocol)) throw new Error('--base must use http(s)');
   if (!/^[a-z0-9-]+$/.test(o.course)) throw new Error('Invalid --course');
   if (o['terrain-stride'] !== undefined && !['1', '2'].includes(o['terrain-stride'])) throw new Error('Invalid --terrain-stride');
+  if (o.resolution !== undefined && !['1', '1.25', '1.5', '2'].includes(o.resolution)) throw new Error('Invalid --resolution');
   for (const [key, values] of [['backend', ['webgl2', 'webgpu']], ['q', ['lo', 'hi']], ['graphics', ['default', '0', '1']]]) {
     if (!values.includes(o[key])) throw new Error(`Invalid --${key}`);
   }
@@ -198,6 +200,7 @@ async function main(o) {
   const local = o.root ? await serveBuild(o.root, o.basePath) : null;
   const url = new URL(local?.base || o.base);
   if (o['terrain-stride']) url.searchParams.set('terrainStride', o['terrain-stride']);
+  if (o.resolution) url.searchParams.set('resolution', o.resolution);
   for (const [key, value] of Object.entries({ bana: o.course, v2: 'require', det: '1', q: o.q,
     qualitylock: '1', ren: '1', gl: o.backend === 'webgl2' && !o.autoFallback ? '1' : '0', lodmode: 'zone' })) url.searchParams.set(key, value);
   if (o.graphics === 'default') url.searchParams.delete('graphics');
@@ -210,7 +213,8 @@ async function main(o) {
     executionAdapter: 'swiftshader-software', performanceEvidence: false,
     note: 'Software captures verify correctness only. Compare real-hardware median/p95/p99 frame times separately.',
     request: { course: o.course, backend: o.backend, autoFallback: o.autoFallback,
-      q: o.q, terrainStride: o['terrain-stride'] ?? null, viewport: [o.width, o.height], dpr: o.dpr, views: o.views },
+      q: o.q, terrainStride: o['terrain-stride'] ?? null, resolution: o.resolution ?? null,
+      viewport: [o.width, o.height], dpr: o.dpr, views: o.views },
     errors: [], warnings: [], views: [], passed: false };
   let browser;
   try {
@@ -257,7 +261,9 @@ async function main(o) {
     if (report.boot.quality.qualityLocked === false) throw new Error('Requested quality lock is not active');
     report.fingerprint = await fingerprint(page);
     console.log('  Scene booted; data fingerprints recorded');
-    const expectedDpr = o.q === 'lo' ? 1 : Math.min(o.dpr, 2);
+    const lowMax = [1, 1.25, 1.5].filter(r => r === 1 || (r <= o.dpr && o.width * o.height * r * r <= 1_000_000)).at(-1);
+    const expectedDpr = o.resolution ? Math.min(Number(o.resolution), o.q === 'lo' ? lowMax : Math.min(o.dpr, 2))
+      : o.q === 'lo' ? 1 : Math.min(o.dpr, 2);
     const expectedBuffer = [Math.floor(o.width * expectedDpr), Math.floor(o.height * expectedDpr)];
     let firstContract;
     for (const view of o.views) {
