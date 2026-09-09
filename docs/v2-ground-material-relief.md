@@ -81,11 +81,31 @@ tree placement, counts and tint identity before accepting a comparison. The
 close-up point is chosen inside each real polygon using maximum interior
 clearance; it does not modify course data.
 
-Capture and test results are recorded in the accompanying evidence summary.
+The final source passes **536 Vitest tests and 404 Node tests**, with three Node
+skips. The production build, all 11 published-graph isolation checks and the
+1,126,901-byte renderer proof build pass. Both matched full-app comparisons pass:
+each view retains 931,840 streamed-terrain triangles and one terrain draw, as well
+as identical mapping, camera, inventory and whole-frame draw/triangle counts.
+Capture and test results are recorded in the [evidence summary](graphics/ground-relief-2026-09-09/summary.json),
+with the full reports and all eight course images beside it.
 All browser rendering here uses Chromium 153 with SwiftShader. These checks
 establish shader correctness and reproducible appearance, not physical-phone
 performance, shimmer during motion or thermal behavior. Inspect this opt-in
 pilot on a phone and older desktop before making it the default.
+
+### Upsala H4 close-ups
+
+WebGL2 low quality and WebGPU high quality, golden lighting. The green stays smooth; the sand gains
+gentle clump relief. The direct packed upload also removes artificial grain
+caused by treating the glint mask as opacity. These are the same cameras and
+drawing buffers, with unchanged geometry and geographic fingerprints.
+
+| Surface | Before | Pilot |
+| --- | --- | --- |
+| WebGL2 green | ![Green before](graphics/ground-relief-2026-09-09/webgl2-before/h4_turf_golden.png) | ![Green pilot](graphics/ground-relief-2026-09-09/webgl2-after/h4_turf_golden.png) |
+| WebGL2 sand | ![Sand before](graphics/ground-relief-2026-09-09/webgl2-before/h4_sand_golden.png) | ![Sand pilot](graphics/ground-relief-2026-09-09/webgl2-after/h4_sand_golden.png) |
+| WebGPU green | ![Green before](graphics/ground-relief-2026-09-09/webgpu-before/h4_turf_golden.png) | ![Green pilot](graphics/ground-relief-2026-09-09/webgpu-after/h4_turf_golden.png) |
+| WebGPU sand | ![Sand before](graphics/ground-relief-2026-09-09/webgpu-before/h4_sand_golden.png) | ![Sand pilot](graphics/ground-relief-2026-09-09/webgpu-after/h4_sand_golden.png) |
 
 ## Reproduce
 
