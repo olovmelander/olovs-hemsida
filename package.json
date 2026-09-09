@@ -24,7 +24,8 @@
     "check:course-v2-renderer": "node packages/course-v2/check-renderer-build.mjs",
     "course-v2:puttom-surface-preflight": "node packages/course-v2/puttom-authoritative-surface-preflight.mjs",
     "check:lidingo-browser": "node lidingobuild/check-runtime.mjs",
-    "check:visby-runtime": "node visbybuild/check-runtime.mjs"
+    "check:visby-runtime": "node visbybuild/check-runtime.mjs",
+    "check:lidingo-mapping": "node lidingobuild/mapping/audit-completeness.mjs --check"
   },
   "devDependencies": {
     "ajv": "8.20.0",

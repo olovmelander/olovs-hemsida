@@ -4,6 +4,21 @@ Lidingö opens at `?bana=lidingo` as a provisional 18-hole course. The 1 m
 Lantmäteriet terrain and source water levels remain unchanged. This iteration
 improves the features placed on that ground, using dated source evidence.
 
+The [mapping completeness audit](mapping-completeness.md) checks every adopted
+playing/facility outline, building footprint and vegetation boundary against the
+actual served pack. It also lists all 18 holes for the current-orthophoto review,
+including explicitly unresolved changes. Run
+`node lidingobuild/mapping/audit-completeness.mjs --check` to verify that report.
+Passing geometry preservation does not establish current completeness.
+
+The review branch now has a 16,384 m terrain world with 277 tiles. Land cover,
+water and measured canopy have separate source extents; expanding terrain alone
+does not make those layers complete. The older fixed-pyramid compiler shown in
+the historical rebuild instructions below now refuses to overwrite a published
+ring graph. `publish-ground-rings.mjs --ground lidingo` owns ring publication
+and requires the retained acquisition caches. It preserves existing finest
+layers; changed canopy layers must be integrated and checked before publication.
+
 ## Current inventory
 
 | Layer | Result | Remaining limits |
