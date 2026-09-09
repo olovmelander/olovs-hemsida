@@ -2,9 +2,10 @@
 
 The 2026-04-10 national flight is the finest and newest imagery over Kronholmen
 (0.16 m RGBI against Esri z18's 0.32 m from 2016 and the 0.5 m municipal image
-this model's geometry was actually traced from). Its COG on dl1 answers 401
-unauthenticated and 403 for this repo's account; the pixels are servable
-through the viewing service Min karta proxies, which is the route that works.
+this model's geometry was actually traced from). Direct download access was
+previously denied. The lm-download layer now reads hash-verified RGBI windows
+acquired by lm_ortho.py; it never falls back to an unrelated image source.
+The older viewing-service and municipal layers remain explicit alternatives.
 
 Two request conventions, both measured, each costing a blank image if wrong:
 WMS 1.3.0 with EPSG:3006 wants the bbox NORTHING first and returns pure white
@@ -78,6 +79,9 @@ def window(cx, cz, size, layer='lm016', metres=None):
     Returns (pixels, affine) where pixels is HxWx3 uint8 and affine maps local
     metres to pixel coordinates: px = (x - x0) / m, py = (z - z0) / m.
     """
+    if layer == 'lm-download':
+        from lm_ortho_read import read_window
+        return read_window(cx, cz, size, metres or 0.16)
     spec = LAYERS[layer]
     m = metres or spec['metres']
     x0, z0 = cx - size / 2, cz - size / 2

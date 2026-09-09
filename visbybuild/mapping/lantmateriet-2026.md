@@ -60,3 +60,25 @@ source-image review and digitisation.
 The 2026 imagery and 2024 laser/terrain have different epochs. Pixel spacing
 is not positional survey accuracy, and imagery alone cannot establish daily
 markers, species, bunker depth or hidden equipment.
+
+## Tracing from authenticated downloads
+
+The existing crop renderer accepts `--lm-download`:
+
+```sh
+python visbybuild/mapping/ortho_crop.py h12-current 294.25 216.75 240 --lm-download
+```
+
+`ortho_read.window(..., layer='lm-download')` also feeds existing Python
+tracers. It verifies the acquired file hash and affine transform, resamples
+onto the explicitly requested review grid, and rejects uncovered or missing
+pixels. Its returned affine includes image provenance; the crop command writes
+that provenance beside the local PNG. A selected download source never silently
+falls back to the public viewing service.
+
+On 2026-09-09, workflow run 34319657223 acquired all 22 windows with 100% valid
+pixels. Those windows intersect the two northern images of the four-image
+selected campaign. The later workflow revision probes all four selected source
+headers and commits successful acquisition metadata directly to this branch.
+Source-image interpretation and adoption of revised playing geometry remain
+separate work; the import itself does not certify any of the 40 unresolved tees.

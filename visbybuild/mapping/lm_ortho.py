@@ -172,8 +172,7 @@ def main():
     exit_code = 0
     try:
         auth = authorization()
-        ids = {i for w in windows for i in w['sourceIds']}
-        report['access'] = probe_sources([s for s in plan['sources'] if s['id'] in ids], auth)
+        report['access'] = probe_sources(plan['sources'], auth)
         if not report['access']['authorized']:
             raise IntakeError('Orthophoto byte access did not pass; inspect per-asset HTTP status')
         report['state'] = 'access-verified'

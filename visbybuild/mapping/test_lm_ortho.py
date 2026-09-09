@@ -31,4 +31,38 @@ class ReaderTests(unittest.TestCase):
         self.assertFalse(result['authorized'])
         self.assertEqual(result['assets'][0]['status'], 200)
 
+
+class GridTests(unittest.TestCase):
+    def test_downloaded_crop_preserves_centres_and_rejects_tampering(self):
+        import tempfile
+        import json
+        from pathlib import Path
+        import numpy as np
+        import rasterio
+        from rasterio.transform import from_origin
+        from lm_ortho import digest
+        from lm_ortho_read import read_window, FRAME_E, FRAME_N
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            file = root / 'sample.tif'
+            transform = from_origin(FRAME_E - 8, FRAME_N + 8, 0.16, 0.16)
+            pixels = np.zeros((4,100,100), dtype='uint8')
+            pixels[0] = np.tile(np.arange(100, dtype='uint8'), (100,1))
+            pixels[1] = pixels[0].T
+            pixels[2:] = 100
+            with rasterio.open(file,'w',driver='GTiff',width=100,height=100,count=4,dtype='uint8',crs='EPSG:3006',transform=transform) as dst:
+                dst.write(pixels)
+            record = dict(id='sample', rasterFile=file.name, sha256=digest(file), width=100,height=100,
+                boundsEpsg3006=[FRAME_E-8,FRAME_N-8,FRAME_E+8,FRAME_N+8],geoTransform=list(transform.to_gdal()),
+                sources=[{'capturedAt':'2026-04-10'}])
+            (root/'acquisition.json').write_text(json.dumps({'groundId':'visby','access':{'authorized':True},'windows':[record]}))
+            output,aff=read_window(0,0,8,cache=root)
+            self.assertEqual(output.shape,(50,50,3))
+            self.assertEqual(tuple(output[0,0]),(25,25,100))
+            self.assertEqual(tuple(output[-1,-1]),(74,74,100))
+            self.assertAlmostEqual(aff['x0']+0.5*aff['metres'],-3.92)
+            with self.assertRaisesRegex(ValueError,'outside'): read_window(100,100,8,cache=root)
+            file.write_bytes(b'changed')
+            with self.assertRaisesRegex(ValueError,'checksum'): read_window(0,0,8,cache=root)
+
 if __name__ == '__main__': unittest.main()
