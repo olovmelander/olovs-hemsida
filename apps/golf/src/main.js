@@ -2248,10 +2248,12 @@ if (V2_WORLD) {
    frontier's own sampler. */
 const GROUND_TINT = TERRAIN_PREVIEW.ready ? createGroundTintTextures() : null;
 if (TERRAIN_PREVIEW.ready) {
-  /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
-     source vertex. Both frontiers must still preflight as the same 16 tiles
-     and one logical draw before legacy construction can omit anything. */
-  const renderStride = !IS_GPU && LOWQ ? 2 : 1;
+  /* Low WebGL2 requests reduced terrain. Ring grounds retain every native
+     course vertex and simplify surrounding levels with rebuilt morphs.
+     ?terrainStride=1|2 provides a matched comparison on either backend. */
+  const requestedTerrainStride = new URLSearchParams(location.search).get('terrainStride');
+  const renderStride = ['1', '2'].includes(requestedTerrainStride)
+    ? Number(requestedTerrainStride) : !IS_GPU && LOWQ ? 2 : 1;
   const prepareStarted = performance.now();
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,

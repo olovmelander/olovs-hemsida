@@ -2,6 +2,7 @@ import * as THREE from 'three/webgpu';
 import { Fn, attribute, positionLocal, vec3 } from 'three/tsl';
 import { TerrainTileBatchSet } from './v2-terrain-batch.mjs';
 import { loadTerrainPreview } from './v2-terrain-preview-loader.mjs';
+import { createTerrainRenderView, terrainRenderStride } from '../../../../packages/course-v2/runtime/terrain-render-quality.mjs';
 
 const SIZE = 65;
 const SPACING = 4;
@@ -101,6 +102,7 @@ function flatDiagnosticMaterial() {
 async function main() {
   const params = new URLSearchParams(location.search);
   const previewParameter = params.get('preview');
+  const renderStride = terrainRenderStride(Number(params.get('terrainStride') ?? 1));
   const loaded = previewParameter
     ? { ...(await loadTerrainPreview(sameOriginPreviewUrl(previewParameter))), synthetic: false }
     : syntheticPreview();
@@ -131,9 +133,14 @@ async function main() {
   const terrain = new TerrainTileBatchSet({
     maximumTiles: loaded.resources.length,
     morphDurationMilliseconds: 0,
+    compactCapacity: renderStride > 1,
+    allowMixedDimensions: renderStride > 1,
   });
   scene.add(terrain.group);
-  terrain.sync(loaded.resources, { now: 0 });
+  // The explicit diagnostic switch exercises both grid sizes in one draw set.
+  const resources = renderStride > 1 ? loaded.resources.map((resource, i) =>
+    createTerrainRenderView(resource, { stride: i % 2 ? 1 : 2, parentStride: 2 })) : loaded.resources;
+  terrain.sync(resources, { now: 0 });
 
   const forceWebGL = params.get('gl') === '1';
   /* SwiftShader's WebGPU capture is a shader-correctness gate, not a device
