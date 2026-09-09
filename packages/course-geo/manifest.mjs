@@ -18,6 +18,7 @@ export const EXPECTED_GROUNDS = Object.freeze({
   johannesberg: ['johannesberg', 'johannesberg-9'],
   lidingo: ['lidingo'],
   visby: ['visby'],
+  tortuna: ['tortuna'],
   veckefjarden: ['veckefjarden', 'veckefjarden-korthalsbanan'],
 });
 
