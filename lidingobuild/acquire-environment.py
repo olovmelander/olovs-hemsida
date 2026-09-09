@@ -76,8 +76,7 @@ def acquire_water():
                         if not original.intersects(WORLD) or CORE.covers(original):
                             continue
                         zs = mod.heights(original)
-                        if max(zs) - min(zs) > 1e-7:
-                            raise ValueError(f'{item_id}/{fid}: non-flat water, RH2000 range {min(zs)}..{max(zs)}; classification {classification}')
+                        flat = max(zs) - min(zs) <= 1e-7
                         clipped = original.intersection(WORLD).difference(CORE)
                         for part, poly in enumerate(polygons(clipped)):
                             if poly.area < 1:
@@ -85,7 +84,9 @@ def acquire_water():
                             if not poly.is_valid:
                                 raise ValueError('Invalid clipped water topology')
                             features.append({'type': 'Feature', 'id': f'{item_id}/{fid}/{part}',
-                                'properties': {'heightRH2000': zs[0], 'sourceItemId': item_id,
+                                'properties': {'heightRH2000': zs[0] if flat else None,
+                                    'heightRangeRH2000': [min(zs), max(zs)],
+                                    'heightModel': 'flat' if flat else 'source-vertex-heights', 'sourceItemId': item_id,
                                     'sourceClassification': classification, 'clipBoundaryIsShore': False},
                                 'geometry': mapping(poly)})
     target = OUT / 'environment-water.geojson'
@@ -94,6 +95,7 @@ def acquire_water():
     report = {'schemaVersion': 1, 'groundId': 'lidingo', 'acquiredAt': STAMP,
         'worldBoundsEpsg3006': list(WORLD.bounds), 'excludedCoreBoundsEpsg3006': list(CORE.bounds),
         'sources': sources, 'features': len(features), 'interiorRings': sum(len(shape(f['geometry']).interiors) for f in features),
+        'nonFlatFeatures': sum(f['properties']['heightModel'] != 'flat' for f in features),
         'areaSquareMetres': sum(shape(f['geometry']).area for f in features),
         'geometrySha256': hashlib.sha256(target.read_bytes()).hexdigest(),
         'method': 'Source PolygonZ intersection with 16 km world minus existing 2 km water window; holes and RH2000 levels retained; no repair, smoothing or sea fill.',
