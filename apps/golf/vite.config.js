@@ -24,6 +24,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 const BASE = process.env.BANVY_BASE || '/';
 
 export default defineConfig({
+  server: { host: '0.0.0.0', allowedHosts: ['terminal.local'] },
   /* The v2 decode Worker is a module worker, so its bundle must be ESM: an
      IIFE build cannot carry the entry's own imports. */
   worker: { format: 'es' },
