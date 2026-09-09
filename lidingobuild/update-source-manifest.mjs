@@ -37,6 +37,19 @@ function artifact(id, kind, p, derivedFrom, notes, use = 'discovery-evidence') {
   if (index === -1) m.artifacts.push(entry); else m.artifacts[index] = entry;
 }
 const base = 'geo_data/course-v2/lidingo/';
+if (has(base + 'acquisition/ortho-2025-surface-audit.json')) {
+  const audit = read(base + 'acquisition/ortho-2025-surface-audit.json');
+  if (audit.state === 'acquired-and-measured') {
+    const imagery = m.sources.find(s => s.id === 'imagery-lm-ortho');
+    imagery.checksumReason = 'Authenticated range reads succeeded for both 2025 RGBI items. Whole COG files and review pixels are not retained publicly, and no whole-file checksum is claimed. The separately checksummed surface-audit artifact records acquired statistics.';
+    imagery.notes = `2025-05-31 RGBI imagery access confirmed on ${audit.checkedAt}. All ${audit.features.length} adopted surface polygons were sampled at 1 m from the 0.16 m source. Raw imagery retention and per-hole visual boundary review remain pending; planned lifecycle here refers to retained imagery intake, not unresolved account access. No raw orthophoto ground texture or surveyed accuracy is claimed.`;
+  }
+  artifact('ortho-2025-surface-audit', 'acquisition', base + 'acquisition/ortho-2025-surface-audit.json', ['imagery-lm-ortho'], 'Actual authenticated RGBI reads and per-feature statistics; no raw pixels, automatic boundary edits or visual approval.');
+  artifact('ortho-2025-review', 'control', 'lidingobuild/mapping/ortho-2025-review.json', ['imagery-lm-ortho'], 'Spectral review priorities against current adopted outlines; flags are not confirmed geometry changes.');
+}
+artifact('environment-water-acquisition', 'acquisition', base + 'acquisition/environment-water.json', ['water-breaks-lm-1m'], 'Nine source items, original file checksums and 16 km crop. Varying water vertex heights and all island holes preserved.');
+artifact('environment-water-geometry', 'topography', base + 'acquisition/environment-water.geojson', ['water-breaks-lm-1m'], '144 source water polygons outside the original course window with 180 interior rings. Six non-flat features retain source vertex heights.');
+artifact('environment-water-validation', 'control', 'lidingobuild/mapping/environment-water-validation.json', ['water-breaks-lm-1m'], 'Independent triangle-union comparison to source polygons including islands/core exclusion; not browser visual approval.');
 artifact('municipal-imagery-primary-licence', 'acquisition', base + 'mapping/municipal-ortho-2019-licence.json', ['imagery-municipal-2019'], 'Primary CC0 licence evidence for exact 2019 endpoint; does not license the separate public national orthophoto view.');
 artifact('water-breakgeometry-clipped', 'topography', base + 'mapping/water-breakgeometry-epsg3006.geojson', ['water-breaks-lm-1m'], 'Source-clipped 3D water polygons, topology and levels preserved.');
 artifact('water-breakgeometry-review', 'control', base + 'mapping/water-breakgeometry-review.json', ['water-breaks-lm-1m'], 'Source SHA, topology, height and acquisition-edge audit; not independent survey approval.');

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "sourceSha256": "22d904c63d31ccb7a331e1a0f4f177398f26632c20edb31cbc56774a475e14e3",
+  "method": "GEOS union of every renderer triangle versus source PolygonZ horizontal footprint, including all island holes and core exclusion",
+  "features": 144,
+  "triangles": 47115,
+  "maximumSymmetricDifferenceSquareMetres": 0,
+  "totalSymmetricDifferenceSquareMetres": 0.0,
+  "failures": [],
+  "state": "passed",
+  "limitations": [
+    "Horizontal topology check of double-precision mesh input; not browser visual verification.",
+    "GPU Float32 coordinate quantization and the 6 cm display lift do not change source geometry."
+  ],
+  "rendererInput": {
+    "path": "apps/golf/src/engine/lidingo-environment-water.mjs",
+    "sha256": "3cfbc8b37d69d765035adb98f6f38d826ad63bcfa2301c696b917575d6b997dd"
+  }
+}

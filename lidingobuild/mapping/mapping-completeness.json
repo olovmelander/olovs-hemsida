@@ -34,6 +34,14 @@
       "sha256": "8ecd4b09d7f3d434833e5bb6da8aa7181476a169ea56d10f305afe48f1d2f8f4"
     },
     {
+      "path": "geo_data/course-v2/lidingo/acquisition/ortho-2025-surface-audit.json",
+      "sha256": "1fba2975a531b345610ed43f4dbb90db4a7e52c9bf7c9d0cc85bdd4e58794b53"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/acquisition/environment-water.json",
+      "sha256": "725b2b451d3feb7e13649d56c78ba286610b553b96b07b5261befec07b69ed8f"
+    },
+    {
       "path": "apps/golf/public/courses/lidingo/pack.bin",
       "sha256": "846e291417f7dcf44a906400c1b505c07b2cb338ab2173fd2f80bed79ec60873"
     },
@@ -693,14 +701,24 @@
       "limitation": "Measured canopy cells do not establish exact individual stems, crowns or species. No new laser campaign was acquired by this audit."
     },
     "water": {
-      "components": 7,
-      "extentIsAcquisitionLimited": true,
-      "limitation": "Coastal polygons end at the old source crop. They cannot define the full-world shoreline; new source coverage is required."
+      "courseComponents": 7,
+      "surroundingComponents": 144,
+      "surroundingInteriorRings": 180,
+      "worldBoundsEpsg3006": [
+        669508.5,
+        6578207.5,
+        685892.5,
+        6594591.5
+      ],
+      "renderer": "separate checksummed surrounding-water meshes; course pack polygons preserved",
+      "limitation": "Source coverage now reaches the 16 km world bounds. Browser visual verification remains pending; no bathymetry or present-day water level is claimed."
     }
   },
   "newOrthophoto": {
-    "usedForThisAudit": false,
-    "boundaryVerification": "pending acquisition and per-hole source review"
+    "accessState": "acquired-and-measured",
+    "measuredFeatures": 110,
+    "geometryVerificationFromImagery": false,
+    "boundaryVerification": "per-hole visual source review pending; acquired spectral statistics are separate evidence"
   },
   "surfaceRecords": [
     {

@@ -1,6 +1,6 @@
 # Lidingö mapping completeness audit
 
-Geometry preservation: **passed**. This checks retained source vertices against the served pack; it does not establish current completeness or survey accuracy. New Lantmäteriet orthophotos have not been acquired or used by this audit.
+Geometry preservation: **passed**. This checks retained source vertices against the served pack; it does not establish current completeness or survey accuracy. Both 2025 Lantmäteriet orthophoto tiles have been read and all 110 outlines have spectral measurements. This geometry audit does not substitute for a visual image-overlay review; see [the new imagery review](ortho-2025-review.md).
 
 110 adopted playing outlines and 14 facility features retain their physical ownership through packing, including interior islands. 562 building footprints and 27 vegetation context polygons retain their source geometry.
 
@@ -37,7 +37,7 @@ Two greens, one tee and three bunkers are unassigned to playing holes. The green
 - Source context has 1020 features over a smaller extent than the terrain world. 19 retained park, pitch and playground polygons lack explicit leisure-feature representation; their tags cannot locate individual equipment or trees.
 - 5 roofs have 2021 measurements. Clubhouse and north facility roof coverage remains about 92.3% and 89.7%; other building heights and facades need evidence.
 - Canopy is dated 2021-03-23; it provides stand representatives, with zero surveyed individual-tree records. It does not establish forest coverage throughout the expanded world.
-- Seven water components still end at the old acquisition crop. A larger terrain mesh alone cannot repair the clipped shoreline.
+- Seven course-water components are now joined by 144 acquired surrounding polygons with 180 interior rings. The separate renderer preserves islands, original water heights and the course-window exclusion. Browser visual verification remains pending.
 
 ## Acceptance for the next source pass
 

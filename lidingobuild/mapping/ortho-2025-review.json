@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "spectral-review-ready",
+  "inputs": [
+    {
+      "path": "geo_data/course-v2/lidingo/acquisition/ortho-2025-surface-audit.json",
+      "sha256": "1fba2975a531b345610ed43f4dbb90db4a7e52c9bf7c9d0cc85bdd4e58794b53"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/acquisition/d2-discovery.json",
+      "sha256": "092a9e3a79254e2907f833630d6a62776edb3c3eed6ecdf13c4449890f0f4d13"
+    },
+    {
+      "path": "lidingobuild/mapping/playing-surfaces.geojson",
+      "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29"
+    }
+  ],
+  "acquiredAt": "2026-09-09T07:28:41.127710+00:00",
+  "capturedAt": "2025-05-31",
+  "sourceItems": [
+    {
+      "id": "o65850_6750_25_mr25",
+      "capturedAt": "2025-05-31T08:18:43Z",
+      "resolutionMetres": 0.16
+    },
+    {
+      "id": "o65850_6775_25_mr25",
+      "capturedAt": "2025-05-31T08:45:47Z",
+      "resolutionMetres": 0.16
+    }
+  ],
+  "analyzedFeatures": 110,
+  "statisticsResolutionMetres": 1,
+  "coverageFailures": [],
+  "priorities": [
+    {
+      "id": "lidingo-bunker-16-w-ortho2019",
+      "hole": 16,
+      "kind": "bunker",
+      "priority": "high",
+      "medianNDVI": 0.3716,
+      "vegetationFraction": 1,
+      "validFraction": 1,
+      "sampledPixels": 42,
+      "observation": "Vegetation signal covers much of the adopted bunker outline in the 2025 image.",
+      "decision": "retain pending visual review; possible changed land cover, misplaced boundary or mixed pixels"
+    },
+    {
+      "id": "way/331796623",
+      "hole": 15,
+      "kind": "bunker",
+      "priority": "high",
+      "medianNDVI": 0.283,
+      "vegetationFraction": 0.9851,
+      "validFraction": 1,
+      "sampledPixels": 67,
+      "observation": "Vegetation signal covers much of the adopted bunker outline in the 2025 image.",
+      "decision": "retain pending visual review; possible changed land cover, misplaced boundary or mixed pixels"
+    },
+    {
+      "id": "way/427426842",
+      "hole": null,
+      "kind": "bunker",
+      "priority": "review",
+      "medianNDVI": 0.2549,
+      "vegetationFraction": 0.5652,
+      "validFraction": 1,
+      "sampledPixels": 46,
+      "observation": "Vegetation signal covers much of the adopted bunker outline in the 2025 image.",
+      "decision": "retain pending visual review; possible changed land cover, misplaced boundary or mixed pixels"
+    }
+  ],
+  "geometryEditsApplied": 0,
+  "visualReviewCompleted": false,
+  "limitations": [
+    "All 18 holes still require an image overlay review, including missing features outside adopted polygons.",
+    "Mean colour/NDVI cannot verify exact boundaries, tree stems or current tee/flag locations.",
+    "No global threshold is applied to greens or tees; turf maintenance and shadow affect their spectra.",
+    "2025 imagery does not establish changes after its capture date."
+  ]
+}
