@@ -10,7 +10,7 @@
   "inputs": [
     {
       "path": "tortunabuild/mapping/playing-surfaces.geojson",
-      "sha256": "70fd5e2225c3a19931f67e28b9f9e7029a271f0b9c0ad8c7b3004f74d06d78a0"
+      "sha256": "fa5135f5f6fb2f43c403aa95c9d9325913d7d487d9d226e194ab4c7744d3c7cd"
     },
     {
       "path": "tortunabuild/mapping/facilities.geojson",
@@ -35,6 +35,10 @@
     {
       "path": "tortunabuild/mapping/environment-context-extra.geojson",
       "sha256": "c08dc3c0067a8a36683d20155acf9d6f6efbcd6720c827d864dc0f7e4aaf3425"
+    },
+    {
+      "path": "tortunabuild/mapping/canopy-changes-2026.geojson",
+      "sha256": "31b18b09d746349ffa8fbfa2ddfa4da043854361e60df5553efeb3465a1599d9"
     }
   ],
   "sourceFiles": [
@@ -108,7 +112,7 @@
   "stands": {
     "tiles": 120,
     "cellMetres": 4,
-    "encodedBytes": 660520,
+    "encodedBytes": 649772,
     "individualStemRecords": 0
   },
   "exclusions": {
@@ -129,8 +133,8 @@
         "bufferMetres": 2
       },
       "tee": {
-        "features": 22,
-        "excludedCells": 5771,
+        "features": 42,
+        "excludedCells": 9407,
         "bufferMetres": 2
       },
       "bunker": {
@@ -139,8 +143,8 @@
         "bufferMetres": 2
       },
       "fairway": {
-        "features": 15,
-        "excludedCells": 72984,
+        "features": 23,
+        "excludedCells": 162890,
         "bufferMetres": 1
       },
       "practice": {
@@ -167,21 +171,26 @@
         "features": 20,
         "excludedCells": 5641,
         "bufferMetres": 0
+      },
+      "override": {
+        "features": 6,
+        "excludedCells": 52864,
+        "bufferMetres": 0
       }
     },
     "runtimeJitterGuardMetres": 4,
-    "guardCells": 271669,
+    "guardCells": 291636,
     "validity": {
       "invalidCanopyCells": 1128397,
       "unknownGroundCells": 0,
       "belowVegetationElevationThresholdCells": 0,
       "minimumVegetationGroundRH2000": 0,
-      "excludedAdditionalCells": 991243
+      "excludedAdditionalCells": 956404
     }
   },
   "layerIndex": {
     "path": "tortunabuild/cache/vegetation/stands-stage/layer-index.json",
-    "sha256": "9f14dc3b731d5e4816646b13819f3220b478d4c2474c8b1dc7d53cb0bd5b1428"
+    "sha256": "fd578afbe4943dd43b72f6b99f4e4aef9affbb4b0e2788fe8852f1f88db4f52f"
   },
   "limitations": [
     "April 2021 canopy; present-day clearing and tree changes require further evidence.",

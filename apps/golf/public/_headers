@@ -18,6 +18,12 @@
 /courses/*/pack.bin
   Cache-Control: public, max-age=31536000, immutable
 
+# The land-cover record beside the pack is fetched the same way -- by content,
+# with its sha256 in the query and checked at runtime -- so it takes the same
+# rule for the same reason.
+/courses/*/landcover.json
+  Cache-Control: public, max-age=31536000, immutable
+
 # Posters are not content-addressed and they are only decoration, so they get a
 # day: long enough that a returning visitor pays nothing, short enough that a
 # re-render reaches people without a deploy trick. The glob covers hero-1 and

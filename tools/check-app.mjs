@@ -286,6 +286,19 @@ async function checkCourse(c) {
   gate(veg.objects.loaded === null && !(veg.reasons.v2Individual > 0) && !(veg.reasons.v2Stand > 0),
     `no v2 vegetation on the plain path (${veg.objects.graphObjectTiles ?? 'no graph'} object tiles referenced)`);
 
+  /* The land-cover record (tools/build-landcover.mjs): where the manifest
+     declares one it must have loaded, decoded and reached the far tint's
+     6,144 m -- a refused hash or a failed fetch degrades silently to the
+     rule-coloured horizon, which is exactly the kind of quiet fallback this
+     gate exists to see. A course without one is not a failure; it is said. */
+  const land = await page.evaluate(() => window.V3D.landcover());
+  if (c.landcover) {
+    gate(land && !land.error && land.bounds && land.bounds.x0 <= -6144 && land.bounds.x1 >= 6144 && land.bounds.z0 <= -6144 && land.bounds.z1 >= 6144,
+      land && !land.error
+        ? `land-cover record loaded: ${land.nx}x${land.nz} cells at ${land.cell} m, trees ${Math.round(100 * (land.shares?.[3] ?? 0) + 100 * (land.shares?.[5] ?? 0))}%, calibrated on ${land.calibration?.labels ?? '?'} at ${Math.round(100 * (land.calibration?.balanced ?? 0))}%`
+        : `land-cover record declared but not loaded: ${land?.error ?? 'unknown'}`);
+  } else console.log(`  no land-cover record declared for ${c.slug}; the horizon keeps the rule colouring`);
+
   /* Nothing may be under water. This is the gate the 14th exists for: an island
      green that once sat five metres under the fjärd, and a course whose water
      level is 21.59 m rather than zero -- so the probe is LOCAL, asking the

@@ -231,14 +231,15 @@ test('Visby published compatibility pack preserves canonical observed geometry a
      the hole number. There is no club-authored text to use (Caddee's per-hole
      description field is present and empty on all 18), so the hålguide is
      written from records that do exist and each hole says which in its `basis`.
-     Re-derived here through the generator's own rule so the two cannot drift,
-     and `name` stays null on every hole: this ground does not coin epithets,
-     and the HUD's own "Hål N" is true. */
+     Re-derived here through the generator's own rule so the two cannot drift.
+     `name` is an editorial tagline since 2026-09-10, as on every other course
+     (the owner asked for parity); the file's `source` says so. */
   const guide = json('./guide-notes.json');
   const notes = holeNotes(guide);
   for (const hole of model.holes) assert.equal(hole.note, notes.get(hole.n).note);
   assert.equal(new Set(model.holes.map(hole => hole.note)).size, 18);
-  assert.ok(model.holes.every(hole => hole.name === null));
+  for (const hole of model.holes) assert.equal(hole.name, notes.get(hole.n).name);
+  assert.equal(new Set(model.holes.map(hole => hole.name)).size, 18);
   assert.equal(guide.holes.filter(hole => hole.press).length, 3, 'only holes 2, 6 and 11 have published prose');
   assert.equal(model.evidence.terrainModifiedForPlayingSurfaces, false);
   assert.equal(model.evidence.canonicalOriginApproval, 'pending-independent-control');

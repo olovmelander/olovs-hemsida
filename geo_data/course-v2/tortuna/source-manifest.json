@@ -626,7 +626,7 @@
       "id": "playing-surface-candidates",
       "kind": "surface",
       "path": "tortunabuild/mapping/playing-surfaces.geojson",
-      "sha256": "70fd5e2225c3a19931f67e28b9f9e7029a271f0b9c0ad8c7b3004f74d06d78a0",
+      "sha256": "fa5135f5f6fb2f43c403aa95c9d9325913d7d487d9d226e194ab4c7744d3c7cd",
       "derivedFrom": [
         "imagery-lm-ortho"
       ],
@@ -656,7 +656,7 @@
       "id": "canopy-stand-compilation",
       "kind": "canopy",
       "path": "geo_data/course-v2/tortuna/vegetation/stand-evidence.json",
-      "sha256": "fd79cf1c555faf46da7a280f25e4dc804095d628b291ed9e1ffc970195583464",
+      "sha256": "dd2ed02d25c4e748deed6db9696db73b08b1db8e202fe739fbb36d94ba35c3e3",
       "derivedFrom": [
         "laser-lm-skog",
         "terrain-lm-1m",
@@ -672,7 +672,7 @@
       "id": "projected-course-input",
       "kind": "composite",
       "path": "tortunabuild/mapping/course-input.json",
-      "sha256": "e1bd16377a0f79ee6be03a2a1f761fc9e18fd920c269033f0d9b956e372b0c26",
+      "sha256": "656af319fb8cc676b18f808dcd36cd46a846d06d9db48627ae5c14c049df27f9",
       "derivedFrom": [
         "terrain-lm-1m",
         "imagery-lm-ortho",
@@ -691,7 +691,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "tortunabuild/course-model.json",
-      "sha256": "aba02b65fc4c9e8e5b50fca73c1052a38e02b67b60fa1e8f6a730318ec0599b9",
+      "sha256": "7f8b2c1703a05262a0dfb4dfb25bfd927738fe5511e71a47a93cff7115e1a9b0",
       "derivedFrom": [
         "terrain-lm-1m",
         "imagery-lm-ortho",
@@ -733,7 +733,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/tortuna/migration/course-model.epsg3006.json",
-      "sha256": "d45995178b5f550db1c8be4613457904dd81343c799d86ac44ee2fa8b353d0fe",
+      "sha256": "de4db215cfb5a918566eb5cd7042b2b5376a3dd2061105d3a5b193585376cd2a",
       "derivedFrom": [
         "terrain-lm-1m",
         "imagery-lm-ortho",

@@ -155,17 +155,20 @@ export function vistaLandcover(collection) {
    to the club. Each hole carries the `basis` it was written from, so a reader
    can check the sentence against the record.
 
-   `name` stays null on every hole. Other builds carry an editorial tagline
-   there and the HUD shows it as the hole's name; on a ground whose whole policy
-   is that a gap is recorded as a gap, "Hål 7" is the true answer and a coined
-   epithet is not. */
+   `name` used to stay null on every hole, on the reasoning that a ground whose
+   policy is "a gap is recorded as a gap" should not coin epithets. The owner
+   asked on 2026-09-10 for this course's text to match the other courses', and
+   every other course carries an editorial tagline there -- so Visby does too,
+   and guide-notes.json says in its `source` that the taglines are editorial
+   and the club names no holes. A tagline is a caption, not a claim about a
+   record; the claims stay in `note` and `basis`. */
 export function holeNotes(guide) {
   if (guide?.schemaVersion !== 1 || !Array.isArray(guide.holes) || guide.holes.length !== 18) throw new Error('Visby guide notes need schemaVersion 1 and all 18 holes');
   const byHole = new Map();
   for (const [index, hole] of guide.holes.entries()) {
     if (hole.n !== index + 1) throw new Error(`Visby guide notes are out of order at ${hole.n}`);
     if (typeof hole.note !== 'string' || hole.note.trim().length < 20) throw new Error(`Hole ${hole.n} guide note is missing or too short to be a description`);
-    if (hole.name !== null) throw new Error(`Hole ${hole.n} may not carry an invented hole name on this ground`);
+    if (typeof hole.name !== 'string' || !hole.name.trim()) throw new Error(`Hole ${hole.n} guide note needs an editorial tagline`);
     if (typeof hole.basis !== 'string' || !hole.basis.trim()) throw new Error(`Hole ${hole.n} guide note must say what it was written from`);
     byHole.set(hole.n, hole);
   }
@@ -234,7 +237,7 @@ export function buildHoles(card, geometry, heightAt, notes = null) {
       fairway: { rings: fairwayRings },
       tees: { inferPads: false, pads, marks, ...(unresolvedPlatform ? { status: 'unresolved-physical-platform', sourceIds: input.tees.sourceIds } : {}) },
       bunkers: (input.bunkers ?? []).map((bunker, number) => ({ ring: localRing(bunker.ring, `Hole ${row.number} bunker ${number + 1}`), sourceIds: bunker.sourceIds ?? [] })),
-      elev: { tee: r1(teeHeight), green: r1(greenHeight), rise: r1(greenHeight - teeHeight) }, tiers: 1, name: null,
+      elev: { tee: r1(teeHeight), green: r1(greenHeight), rise: r1(greenHeight - teeHeight) }, tiers: 1, name: notes?.get(row.number)?.name ?? null,
       note: notes?.get(row.number)?.note
         ?? (input.notes ?? 'Preliminär 3D-bana från källunderlag. Terräng: Lantmäteriet 1 m. Spelytor och hålrutter behöver fortsatt kontroll. Flaggor och utslagsreferenser är visningspunkter.')
           + (unresolvedPlatform ? ' Hål 12: utslagsplatsen är ännu inte identifierad. Flygningen startar ungefärligt på observerad fairway.' : ''),

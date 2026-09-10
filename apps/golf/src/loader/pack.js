@@ -65,5 +65,27 @@ export async function loadCourse(slug) {
   const url = BASE + rel + (meta.sha256 ? `?v=${meta.sha256.slice(0, 16)}` : '');
   const pack = await fetchPack(url, meta.sha256);
   if (pack.H.slug !== meta.slug) throw new Error(`pack says ${pack.H.slug}, manifest says ${meta.slug}`);
-  return { meta, pack, all: manifest.courses };
+  /* The land-cover record rides beside the pack under the same rule -- asked
+     for by content, hashed against the manifest -- but its absence is a
+     DEGRADATION, not a failure: the far ground falls back to the rule it was
+     always coloured by, and the course still opens. `landcoverError` says
+     which, so a gate can tell "no record" from "record refused". */
+  let landcover = null, landcoverError = null;
+  if (meta.landcover?.url) {
+    try {
+      landcover = await fetchLandcover(BASE + String(meta.landcover.url).replace(/^\//, '') +
+        (meta.landcover.sha256 ? `?v=${meta.landcover.sha256.slice(0, 16)}` : ''), meta.landcover.sha256);
+    } catch (e) { landcoverError = e.message; console.warn('landcover:', e.message); }
+  }
+  return { meta, pack, landcover, landcoverError, all: manifest.courses };
+}
+
+export async function fetchLandcover(url, wantSha) {
+  const buf = await (await get(url, 'markdata saknas')).arrayBuffer();
+  if (wantSha && crypto.subtle) {
+    const got = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buf))]
+      .map(b => b.toString(16).padStart(2, '0')).join('');
+    if (got !== wantSha) throw new Error(`landcover integrity: ${url} hashes ${got.slice(0, 12)}…, manifest says ${wantSha.slice(0, 12)}…`);
+  }
+  return JSON.parse(new TextDecoder().decode(buf));
 }

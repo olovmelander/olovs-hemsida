@@ -352,11 +352,13 @@ export default defineConfig({
                the query -- so a cached response can never be the wrong bytes for
                its URL, and cache-first is both safe and the whole point. This is
                the rule that makes a course open offline. */
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/pack\.bin$/.test(url.pathname),
+            /* ... and the land-cover record beside it, versioned the same way */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/(pack\.bin|landcover\.json)$/.test(url.pathname),
             handler: 'CacheFirst',
             options: {
               cacheName: 'banvy-packs',
-              expiration: { maxEntries: 12, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              /* two entries a course now (pack + record), thirteen courses */
+              expiration: { maxEntries: 28, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

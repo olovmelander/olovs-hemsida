@@ -24,7 +24,7 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  tortuna: 'd45995178b5f550db1c8be4613457904dd81343c799d86ac44ee2fa8b353d0fe',
+  tortuna: 'de4db215cfb5a918566eb5cd7042b2b5376a3dd2061105d3a5b193585376cd2a',
   /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) four times. Hole
      16's fairway ring was re-synced from mapping/geometry.json, which the model
      had never been rebuilt against; the seven rings the national water break
@@ -49,9 +49,18 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      an EPSG:3006 origin, so the transform is an exact translation and the
      residual report reads 0 m over all 1,720 playing-geometry pairs, 0.0007 m
      worst inside 5 km, and ZERO pairs outside it -- the check that would have
-     caught an Upsala-style source-frame coordinate being migrated as local. */
-  visby: '0f60d43a3221b4ed8843f071343651a20fc9eba3b559fdf5a0f717e67b759c5f',
-  lidingo: 'f13278ae5a44f81f4c09f8d0b009bb67532008e42b7b6ca51e6f786a7668fe09',
+     caught an Upsala-style source-frame coordinate being migrated as local.
+     2026-09-10 (later): the 2026 geometry review. Every hole's four card tees
+     stood on ONE point; they stand on named platforms now -- the 22 observed
+     2026 pads, two laser-flat decks at the card distance (the 1st's forward
+     tee, the 15th's back tee) and 18 card-derived 14 x 7 m platforms on the
+     mown corridor, each mark carrying its platform id and reference kind --
+     and the 15 partial fairway strips became 23 rule-traced 2026 fairways
+     (tortunabuild/trace-fairways.mjs). Greens, bunkers, water and everything
+     else are byte-identical. The migration follows the model through the
+     canonical migrator, still an exact translation. */
+  visby: '4e1f79c621fe7981e79d30e2031665899e46653f6492a4fd9911e24211533a32',
+  lidingo: 'e806bd21a71fa172aa9ec428e15968e3fc031c5c61a6e10ed3b009d9c94c74f1',
   angso: '1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf',
   norrfallsviken: 'b6b65607904c8727b8789c85235ebf1278d2185990f558f6fae5099da975d15f',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the

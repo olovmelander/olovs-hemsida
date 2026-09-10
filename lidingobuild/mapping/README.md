@@ -93,7 +93,7 @@ $env:COURSE_GEO_PYPROJ_PYTHON = (Resolve-Path 'upsalabuild/cache/review-venv/Scr
 & $env:COURSE_GEO_PYPROJ_PYTHON lidingobuild/mapping/build-facilities.py
 & $env:COURSE_GEO_PYPROJ_PYTHON lidingobuild/mapping/normalize-infrastructure.py
 & $env:COURSE_GEO_PYPROJ_PYTHON lidingobuild/check-building-roofs.py
-node lidingobuild/build-course.mjs
+node lidingobuild/build-course.mjs            # or, without the terrain cache: node lidingobuild/mapping/apply-guide-notes.mjs --write
 node lidingobuild/update-source-manifest.mjs
 node packages/course-geo/migrate-legacy.mjs --write --ground lidingo
 node packages/course-pack/emit-pack.mjs lidingobuild apps/golf/public/courses/lidingo lidingo

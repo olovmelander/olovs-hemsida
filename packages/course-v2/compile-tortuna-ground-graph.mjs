@@ -46,7 +46,10 @@ export async function stageTortunaTerrain({ root = ROOT } = {}) {
 
 export function assertTortunaCanonicalRouting(migration, model, pack, modelSha256) {
   if (migration?.groundId !== 'tortuna' || migration.target?.horizontalCrs !== 'EPSG:3006' || migration.geometry?.holes?.length !== 18 || model.holes?.length !== 18 || migration.source?.sha256 !== modelSha256) throw new Error('Tortuna canonical model identity or source digest differs');
-  if (canonicalJson(migration.geometry) !== canonicalJson(projectedCourseModel(model, modelSha256).geometry)) throw new Error('Tortuna canonical geometry differs from the exact authored source offsets');
+  /* The committed migration is the canonical migrator's artifact (CI regenerates it and demands byte
+     identity, af1d7d4e), whose geometry is the WHOLE model projected; the generator's own projection is
+     the holes alone. Both must agree on the holes exactly -- that is the routing the graph carries. */
+  if (canonicalJson(migration.geometry?.holes) !== canonicalJson(projectedCourseModel(model, modelSha256).geometry.holes)) throw new Error('Tortuna canonical geometry differs from the exact authored source offsets');
   if (pack.header.slug !== 'tortuna' || pack.header.GEO.frame !== FRAME.text || model.frame !== FRAME.text || pack.header.GEO.origin.lat !== FRAME.latitude || pack.header.GEO.origin.lon !== FRAME.longitude || model.origin.lat !== FRAME.latitude || model.origin.lon !== FRAME.longitude || pack.header.GEO.mPerLon !== model.mPerLon) throw new Error('Tortuna fallback frame differs from the canonical source offsets');
   const vectors = JSON.parse(inflateStream(pack.sv).toString('utf8'));
   if (vectors.holes.length !== 18 || JSON.stringify(vectors.water) !== JSON.stringify(model.water.map(runtimeWater))) throw new Error('Tortuna fallback water or complete hole set differs');

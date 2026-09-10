@@ -44,6 +44,18 @@ receipts. `reference/acquire-references.mjs` and `acquire-review-crops.py` fetch
 references when the relevant sources/access are available; rerunning acquisition
 may produce a new dated source and requires a new review.
 
+The hålguide is `guide-notes.json` (per-hole `name`, `note`, `basis`, `rules`),
+applied by `build-course.mjs` through its exported `holeNotes()`; in a checkout
+without the terrain cache, `node tortunabuild/mapping/apply-guide-notes.mjs --write`
+puts the same text into the committed model through the same rule, and
+`node tortunabuild/mapping/apply-tee-status.mjs --write` stamps the declared
+unresolved tee platforms (holes 6 and 15) the same way. `course.node-test.mjs`
+re-derives both and demands equality. A model change then needs emit-pack,
+emit-manifest, `update-source-manifest.mjs`, `migrate-legacy.mjs --write --ground
+tortuna` (an exact translation, no PROJ needed), `update-source-manifest.mjs`
+again, `packages/course-v2/rebind-course-fallback.mjs --ground tortuna --slug
+tortuna` and the hash pins in `hole-source-controls.mjs` / `hole-source-inventory.mjs`.
+
 For an unchanged source rebuild, keep the committed observations. Optional
 reprojection from the retained review grids uses the following commands from
 the repository root. Do not retrace/reacquire as an automatic part of a build:
@@ -180,3 +192,70 @@ markers and daily flag locations are unverified. Independent
 horizontal/vertical controls, 2021 canopy currentness, complete facilities,
 boundaries and native-device performance remain open work. Source-derived
 camera references and virtual targets are explicitly labelled in the model.
+
+## The 2026 review — tees, fairways, forest (2026-09-10)
+
+Every hole carried its four card tees on ONE point, fifteen fairway strips
+covered eighteen holes (several beside the mown corridor), and the stand field
+planted the April 2021 laser canopy on ground the 2026 orthophoto shows felled.
+All three are measured now, in plain Node (this machine has no Python), from the
+2026-05-02 national orthophoto, the 1 m laser terrain and the club's Caddee
+hole plans. The chain and its instruments:
+
+    node tortunabuild/ortho-crop.mjs <name> <cx> <cz> <size> [--plain] [--metres 0.16]   # Min karta WMS crops, model overlaid
+    node tortunabuild/trace-fairways.mjs          # -> mapping/fairways-2026.geojson + cache/review/fairway-NN.png
+    node tortunabuild/trace-tees.mjs              # -> mapping/tee-candidates-2026.geojson + cache/review/tees-NN.png
+    node tortunabuild/trace-canopy-changes.mjs    # -> mapping/canopy-changes-2026.geojson + cache/review/canopy-changes.png
+    node tortunabuild/mapping/apply-review-2026.mjs --write   # decisions -> playing-surfaces + course-input (+ review-2026.json)
+    node tortunabuild/build-course.mjs
+    node tortunabuild/terrain-check.mjs           # every ring against the laser -> mapping/terrain-check-2026.json
+    node tortunabuild/trace-pins.mjs              # the flag on 2026-05-02 -> mapping/pins-2026.json (refused on all 18)
+
+`lib/png.mjs`, `lib/imagery.mjs`, `lib/rasters.mjs` and `lib/tiff4.mjs` are the
+pure-Node PNG codec, mosaic accessor, raster morphology and terrain/canopy/RGBI
+readers those tools share. `mapping/tee-decisions-2026.json` is the per-hole
+decision with its evidence; `apply-review-2026.mjs` replaces
+`assemble-input.py` for exactly the two things the review changes (surfaces and
+tee references) and leaves everything else in `course-input.json` untouched,
+refreshing its checksum ledger.
+
+- **Tees.** A colour stands on the observed 2026 platform where one exists
+  (22), on a laser-flat mown deck at the card distance where the terrain and
+  the image show one (the 1st's forward tee, the 15th's back tee), and
+  otherwise on a card-derived 14 x 7 m platform: the card's metres to the green
+  walked back along the route, moved onto the middle of the mown corridor,
+  walked forward out of any water, and set on the levellest 14 x 7 m the laser
+  offers within 6 m along and 4 m across (18 of them, flagged
+  `card-derived-platform-reference` on every mark they carry). Each mark names
+  its platform (`sourcePadId`), `reviewedTeeMarks()` in `build-course.mjs`
+  stamps Lidingö's reviewed-marker schema, and the engine draws the colour
+  pairs only for marks it can place on a named platform
+  (`tee-marker-visibility.mjs` accepts the derived kind). Holes 6 and 15 no
+  longer declare an unresolved platform.
+- **Fairways.** The mown score `ExG/6 - textureSD/4 - (B/G - 0.93)*30` over a
+  4 m box, calibrated on the traced fairways against the rough
+  (`cache/calib3.mjs`), passes 81% of fairway and 12.5% of rough at 0.5 -- and
+  ONE threshold is the whole mown estate, not the fairway. So each hole's level
+  is the 60th percentile of the score in its own corridor, the region is grown
+  from the line down a ladder of deltas and kept at the loosest level with a
+  fairway's width, regularised by an 8 m blur and clipped to a design
+  half-width (24 m par 4/5, 16 m par 3), because in May neither colour nor NIR
+  separates fairway from mown rough (NDVI 0.24 against 0.23,
+  `cache/calib-nir.mjs`). 23 rings over all 18 holes.
+- **Forest.** 6 polygons, 5.29 ha, where 2021 laser canopy of 3 m or more is
+  unambiguously open in 2026 (median brightness >= 88 and under 10% of samples
+  darker than 70 over a 4 m cell; intact forest reads 47-75 and 22-97%,
+  `cache/fell-calib.mjs`) are `override` exclusions for the stand compiler and
+  `surround.clearfells` for the runtime. Nothing is added from the image: the
+  laser is the measured record and the newer picture may only remove. The 2026
+  fairways and tee pads exclude canopy as well.
+- **Greens and bunkers** were not retraced: `terrain-check.mjs` finds 27 of
+  the 32 traced bunkers over a laser dish at the traced position (median depth
+  0.33 m) with a median best shift of (0, 0) m, and every green a plateau
+  0.26 m above its collar -- Lantmäteriet's orthophoto is rectified on the same
+  height model, so the traces sit on the laser. Five bunkers show no dish and
+  are listed; the 13th's fifth reads its dish 5 m away.
+- **Flags.** `trace-pins.mjs` looks for the flagstick inside every eroded green
+  on the 0.16 m capture and refuses all 18 (no compact dark blob, or a runner-up
+  within 10 brightness of the darkest); the pin stays the green centre and the
+  record says so.

@@ -645,7 +645,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "lidingobuild/course-model.json",
-      "sha256": "5bfe6e8451b5d3ae606ad3a831c50630ee50ec02c64e136f3e88964a287c7fe8",
+      "sha256": "909c235c64fb8f7a9ab1c15abb1c97f8cf492a285656dd813767bbc77468dd01",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
@@ -673,7 +673,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/lidingo/migration/course-model.epsg3006.json",
-      "sha256": "f13278ae5a44f81f4c09f8d0b009bb67532008e42b7b6ca51e6f786a7668fe09",
+      "sha256": "e806bd21a71fa172aa9ec428e15968e3fc031c5c61a6e10ed3b009d9c94c74f1",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
@@ -690,7 +690,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/lidingo/migration/residual-report.json",
-      "sha256": "08357a7dc21ca3565d6f1b0744827220162f02fea215357ed1f06da9e469c27a",
+      "sha256": "43db6be9ba5ead397cad5436912b494899cef1b236511b8c8fc6005f07c2a435",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
@@ -1108,7 +1108,7 @@
       "id": "review-integration-2026",
       "kind": "control",
       "path": "lidingobuild/mapping/alignment-integration-2026-09-10.json",
-      "sha256": "0818441806c1fcba8673d1906c0384787ee078ed5900edf446051bfcb3827413",
+      "sha256": "d4c36c205fb55918f208862f79ad776fe3ab0526d4f49981a2d53df84bdc7177",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",

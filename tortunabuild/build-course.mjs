@@ -87,7 +87,73 @@ export function createTerrainSampler(fine) {
   };
 }
 
-export function createCourseModel(input, heightAt) {
+/* THE HUD SHOWED ONE DISCLAIMER ON ALL EIGHTEEN HOLES.
+
+   `note` is the line a player reads under the hole number and `name` the
+   tagline above it; every other course fills them with a description of that
+   hole, and Tortuna filled all eighteen with the same provenance sentence
+   because no club-authored per-hole text exists (Caddee's description field
+   is present and empty on all 18). guide-notes.json fills the gap from records
+   that do exist -- the model's own geometry as tools/hole-geometry.mjs reports
+   it, the club's guide drawings, its Lokala regler and its published history
+   -- and each hole says which in `basis`. `name` is an editorial tagline,
+   as on every other course here, and the file says so.
+
+   Applied through this ONE rule by the generator, by
+   mapping/apply-guide-notes.mjs (the committed model is updated without the
+   private terrain raster this generator pins) and by course.node-test.mjs,
+   which re-derives it a third time and demands equality. No second
+   implementation. */
+export function holeNotes(guide) {
+  if (guide?.schemaVersion !== 1 || !Array.isArray(guide.holes) || guide.holes.length !== 18) throw new Error('Tortuna guide notes need schemaVersion 1 and all 18 holes');
+  const byHole = new Map();
+  for (const [index, hole] of guide.holes.entries()) {
+    if (hole.n !== index + 1) throw new Error(`Tortuna guide notes are out of order at ${hole.n}`);
+    if (typeof hole.name !== 'string' || !hole.name.trim()) throw new Error(`Hole ${hole.n} guide note needs an editorial tagline`);
+    if (typeof hole.note !== 'string' || hole.note.trim().length < 20) throw new Error(`Hole ${hole.n} guide note is missing or too short to be a description`);
+    if (typeof hole.basis !== 'string' || !hole.basis.trim()) throw new Error(`Hole ${hole.n} guide note must say what it was written from`);
+    byHole.set(hole.n, hole);
+  }
+  return byHole;
+}
+
+/* A mapped-only ground carries a physical platform for every hole, or DECLARES
+   the gap: tools/check-app.mjs fails an undeclared missing platform and fails a
+   declaration on a hole that has a pad, so the exception cannot spread. Holes
+   6 and 15 have no observed platform in any source image (README: "unresolved"),
+   and their camera references carry the required status text; the model says
+   so on the hole itself, the way Visby's 12th does, and emit-pack carries it. */
+/* EVERY COLOUR STANDS ON A NAMED PLATFORM (2026-09-10). The 2026 review
+   (mapping/tee-decisions-2026.json, applied by mapping/apply-review-2026.mjs)
+   gives each hole one mark per card colour with the platform it stands on --
+   an observed 2026 pad, a laser-flat deck at the card distance, or a
+   card-derived rectangle on the mown corridor -- and the engine renders
+   separate colour pairs only for marks that carry a platform identity and a
+   reference kind it knows (tee-marker-visibility.mjs). This stamps exactly
+   those fields, Lidingö's schema, and refuses a mark that is not inside the
+   platform it names. A hole without `teeMarks` keeps the old single
+   reference per colour and draws no markers, as before. */
+export function reviewedTeeMarks(h, pads, marks, label) {
+  if (!Array.isArray(h.teeMarks)) return {};
+  if (h.teeMarks.length !== marks.length) throw new Error(`${label}: teeMarks must cover every card colour`);
+  const kinds = new Set(['orthophoto-platform-reference', 'card-derived-platform-reference']);
+  h.teeMarks.forEach((source, i) => {
+    const pad = pads.find(p => p.id === source.sourcePadId);
+    if (!pad) throw new Error(`${label} colour ${i}: names a platform the hole does not carry (${source.sourcePadId})`);
+    if (!kinds.has(source.kind)) throw new Error(`${label} colour ${i}: unknown reference kind ${source.kind}`);
+    const c = localPoint(source.c, `${label} tee mark`);
+    if (!pointInPoly(...c, pad.ring)) throw new Error(`${label} colour ${i}: reference lies outside its platform ${pad.id}`);
+    Object.assign(marks[i], { c, sourcePadId: pad.id, placement: 'representative-start-on-named-platform; daily-marker-position-unknown',
+      orthophotoReference: { kind: source.kind, sourceId: 'imagery-lm-ortho', captureDate: '2026-05-02', platformStatus: source.platformStatus, dailyMarkerPositionVerified: false } });
+  });
+  return { markerPlacement: 'reviewed', markerLayout: 'separate-reviewed-colours' };
+}
+
+export function teeStatus(pads, h) {
+  return pads.length === 0 && typeof h.teeReferenceStatus === 'string' ? { status: 'unresolved-physical-platform' } : {};
+}
+
+export function createCourseModel(input, heightAt, notes = null) {
   if (input?.schemaVersion !== 1 || input.groundId !== 'tortuna' || input.horizontalCrs !== 'EPSG:3006') throw new Error('Tortuna course input requires the explicit projected frame');
   const card = input.card;
   if (!card || typeof card.source !== 'string' || !Array.isArray(card.teeNames) || !card.teeNames.length || card.teeNames.some(name => typeof name !== 'string' || !name.trim())) throw new Error('Tortuna needs sourced card metadata and tee names');
@@ -105,19 +171,20 @@ export function createCourseModel(input, heightAt) {
     const green = sourceRings([h.green], `${label} green`)[0];
     const pin = h.pin ? localPoint(h.pin, `${label} target`) : interior(green.ring, `${label} green`);
     if (!pointInPoly(...pin, green.ring)) throw new Error(`${label}: virtual target must be inside its source green`);
-    const pads = sourceRings(h.teePlatforms, `${label} tee`).map(pad => ({ ...pad, preserveTerrain: true }));
+    const pads = sourceRings(h.teePlatforms, `${label} tee`).map(pad => ({ ...pad, id: pad.sourceFeatureId, preserveTerrain: true }));
     const fairways = sourceRings(h.fairways, `${label} fairway`);
     const references = h.teeReferences || (pads.length === 1 ? card.teeNames.map(() => projected(interior(pads[0].ring, `${label} tee`))) : null);
     if (!Array.isArray(references) || references.length !== card.teeNames.length) throw new Error(`${label}: explicit sourced tee camera references are required`);
     const marks = references.map((value, tee) => ({ c: localPoint(value, `${label} tee reference`), b: 0, m: h.teeLengths[tee], placement: h.teeReferenceStatus || 'nominal-camera-reference-on-observed-platform; colour position unverified' }));
     if (!pads.length && !h.teeReferenceStatus) throw new Error(`${label}: unverified tee references need source/status description`);
+    const reviewed = reviewedTeeMarks(h, pads, marks, label);
     const teeHeight = heightAt(...marks[Math.min(1, marks.length - 1)].c), greenHeight = heightAt(...pin);
     return { n: h.number, par: h.par, idx: h.strokeIndex, strokeIndexStatus: h.strokeIndexStatus, t: [...h.teeLengths],
       line, lineLen: polyLen(line), sourceFeatureId: sourceId(h.sourceFeatureId, label), pin,
       green: { ...green, c: pin }, fairway: { rings: fairways.map(feature => feature.ring), sourceFeatureIds: fairways.map(feature => feature.sourceFeatureId) },
-      tees: { inferPads: false, pads, marks }, bunkers: sourceRings(h.bunkers, `${label} bunker`),
+      tees: { inferPads: false, pads, marks, ...reviewed, ...teeStatus(pads, h) }, bunkers: sourceRings(h.bunkers, `${label} bunker`),
       elev: { tee: round(teeHeight), green: round(greenHeight), rise: round(greenHeight - teeHeight) },
-      tiers: 1, name: h.name || null, note: h.note || 'Preliminär källbaserad karta. Flaggposition och färgade teemarkeringar är inte inmätta.',
+      tiers: 1, name: notes?.get(h.number)?.name ?? h.name ?? null, note: notes?.get(h.number)?.note ?? h.note ?? 'Preliminär källbaserad karta. Flaggposition och färgade teemarkeringar är inte inmätta.',
       confidence: 'source-derived-candidate-not-surveyed', pinStatus: 'virtual-green-target; daily flag location unknown' };
   });
   if (holes.reduce((total, hole) => total + hole.par, 0) !== card.par) throw new Error('Tortuna scorecard par total differs');
@@ -216,7 +283,7 @@ export async function buildCourse({ root = ROOT } = {}) {
   assertTortunaAcquisition(receipt, sha256(bytes));
   const fine = new Float32Array(TERRAIN.width * TERRAIN.height);
   for (let i = 0; i < fine.length; i++) fine[i] = bytes.readFloatLE(i * 4);
-  const model = createCourseModel(input, createTerrainSampler(fine));
+  const model = createCourseModel(input, createTerrainSampler(fine), holeNotes(JSON.parse(await readFile(path.join(root, 'tortunabuild/guide-notes.json'), 'utf8'))));
   const field = spacing => { const size = 4096 / spacing + 1, values = new Float32Array(size * size); for (let r = 0; r < size; r++) for (let c = 0; c < size; c++) values[r * size + c] = fine[r * spacing * 4097 + c * spacing]; return { x0: -2048, z0: -2048, dx: spacing, ...quantizeHF(values, size, size, 0.1) }; };
   const modelText = JSON.stringify(model, null, 2) + '\n';
   const outputs = [

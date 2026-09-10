@@ -91,7 +91,7 @@ const COURSES = [
     status: 'provisional', overviewUrl: 'courses/tortuna/overview.svg',
     tees: { names: ['Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 4 } },
   { slug: 'lidingo', build: 'lidingobuild', name: 'Lidingö GK', club: 'Lidingö Golfklubb',
-    title: 'Lidingö Golfklubb — Banan i 3D', tag: 'Preliminär 3D', boot: 'Lidingö · Stockholm',
+    title: 'Lidingö Golfklubb — Banan i 3D', tag: 'Sticklinge · Lidingö', boot: 'Lidingö · Stockholm',
     status: 'provisional',
     overviewUrl: 'courses/lidingo/overview.svg',
     tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
@@ -131,6 +131,20 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
   const dir = path.join(ROOT, 'apps/golf/public/courses', c.slug);
   let photos = 0;
   while (fs.existsSync(path.join(dir, `hero-${photos + 1}.webp`))) photos++;
+  /* The land-cover record (tools/build-landcover.mjs) travels BESIDE the pack,
+     not inside it: a pack change re-binds every v2 ground, and this is an
+     appearance mask for ground beyond the played surfaces. The committed copy
+     in the build directory is the source; the served copy is written here so
+     one command keeps them equal, and it is fetched by content like the pack
+     (sha256 in the manifest, checked at runtime, refused on a mismatch). */
+  let landcover = null;
+  const lcSrc = path.join(ROOT, c.build, 'landcover.json');
+  if (fs.existsSync(lcSrc)) {
+    const lcBuf = fs.readFileSync(lcSrc);
+    const lcOut = path.join(dir, 'landcover.json');
+    if (!fs.existsSync(lcOut) || !fs.readFileSync(lcOut).equals(lcBuf)) fs.writeFileSync(lcOut, lcBuf);
+    landcover = { url: `courses/${c.slug}/landcover.json`, bytes: lcBuf.length, sha256: sha256(lcBuf) };
+  }
   return {
     slug: c.slug, name: c.name, club: c.club, title: c.title, tag: c.tag, boot: c.boot,
     /* Which build directory produced this course. The app ignores it; the gates
@@ -149,6 +163,7 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
        (import.meta.env.BASE_URL), so the same manifest serves a domain root and
        a GitHub Pages subpath without being regenerated per host. */
     packUrl: `courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
+    ...(landcover ? { landcover } : {}),
   };
 });
 
