@@ -973,6 +973,34 @@
       ],
       "use": "discovery-evidence",
       "notes": "Independent recomputation of four overlap byte hashes, native tile coverage, source counts, voids and unchanged native terrain identity. Machine validation, not independent positional controls."
+    },
+    {
+      "id": "canopy-orthophoto-crown-review",
+      "kind": "control",
+      "path": "geo_data/course-v2/tortuna/vegetation/ortho-crown-review.json",
+      "sha256": "0a6aa152f541a387cae98b2785b917f2a17a5e898c1429a0e4e68d410c3ec048",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Every 2021 laser crown maximum read against the 2026-05-02 national orthophoto: present, absent or unclear, with distinct crowns that promote a maximum and absent crowns that leave the stand field. An imagery check of the laser record, not a stem survey."
+    },
+    {
+      "id": "canopy-object-compilation",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/tortuna/vegetation/objects-evidence.json",
+      "sha256": "2df01d525bf82a139014681f0e3bdf03890f36366d4d620ea413703db6fc4ced",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "water-breaks-lm-1m",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Machine-reviewed individual crown records from the 2021 laser canopy, kept only where the 2026 orthophoto does not refuse them, published as object tiles beside recompiled window stand fields. Heights and positions are the laser's; species is not measured."
     }
   ],
   "blockers": [

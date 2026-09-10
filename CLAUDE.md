@@ -4523,6 +4523,42 @@ generalises:
   two whole and had been failing since the CI fix that re-emitted Tortuna's
   migration through the canonical migrator (af1d7d4e); it compares the holes
   now, which is the routing the graph carries.
+- **THE DRIVING RANGE IS GRASS, and the photograph said otherwise.** The
+  range module drew the landing field as a scraped-earth skin because the
+  2026-05-02 orthophoto shows bare fill and the club's 2025 report called the
+  range unfinished -- and on the owner's phone it was a pink-white sheet as
+  bright as the bunker sand (measured in the golden preset: luminance 160
+  against 70 for the rough, 167 for the sand). Two engine facts made it white:
+  a noon ortho pixel is an exposure, not an albedo, so a colour copied out of
+  the imagery is brighter than everything the palette paints beside it; and
+  `renderCourtyard` draws into the BUILDINGS batch, which renders its vertex
+  colour once where the ground squares its own. Neither was the decision. The
+  owner's word (2026-09-10) is that the range is grass, and the owner's word
+  beats a photograph four months older than it: the skin is gone, the field is
+  the turf the ground carries, and the traced extent stays in
+  `tortuna-range-site.json` as a reading with `rendered: false` and the reason
+  beside it, written by `build-site.mjs` too so a re-trace cannot bring it
+  back. **A measured extent is not a licence to paint it** -- and anything
+  drawn through `renderCourtyard` is authored in the batch's own convention,
+  never copied from the terrain palette or the pixels.
+- **Every tree at Tortuna is a measured crown or a stand cell that says so
+  (2026-09-10).** The ground carried stand fields only, so every tree was a
+  representative placement inside a 4 m cell. `compile-objects.mjs` compiles
+  the individual crowns from the pinned 2021 canopy rasters (the CI artifact
+  of `tortuna-canopy-water` holds them; no credentials needed after that),
+  `tortunabuild/ortho-crowns.mjs` reads every maximum against the 2026
+  orthophoto (WMS PNG, no credentials) and the approvals pass publishes 2,383
+  records with the window's stand fields recompiled round them. Three rules
+  it left: **the imagery may refuse, and may promote only on two records** --
+  a distinct crown that is also GREEN, because the first promotion was a shed
+  roof (roofs read excess green p50 −2, crowns p50 7); **a stand maximum with
+  no radius is never a record**; and **the publisher replaces every
+  vegetation layer it is not handed**, so the 60 expanded-window stand tiles
+  whose rasters are not in the checkout are carried byte for byte from the
+  ground that published them. The ortho-only census (1,480 dark blobs) is
+  recorded as NOT ADOPTED: it finds shade, not stems. Run
+  `update-source-manifest` BEFORE `publish-vegetation`, or the ground
+  manifest pins a ledger hash the ledger no longer has.
 - **The registry chain here**: apply-review → build-course → emit-pack →
   emit-manifest → update-source-manifest → migrate-legacy --write --ground
   tortuna → update-source-manifest → compile-stands → update-source-manifest →

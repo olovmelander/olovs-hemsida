@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "tortuna",
+  "slug": "tortuna",
+  "observedOn": "2026-09-10",
+  "review": "approvals file with 2410 keys",
+  "activeRoot": {
+    "url": "courses/v2-index.json",
+    "bytes": 6993,
+    "sha256": "8379375a7599268ce37be747a1b86c0c5749c215b514ab1a291f16428dd1b40f"
+  },
+  "graph": {
+    "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+    "courseManifest": {
+      "url": "courses/tortuna/course-v2-01441f2e6584ebfc1f6b49d99d484fca5d6716e4397d471b096856573ba0f420.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 3892,
+      "sha256": "01441f2e6584ebfc1f6b49d99d484fca5d6716e4397d471b096856573ba0f420"
+    },
+    "groundManifest": {
+      "url": "grounds/tortuna/ground-v2-f2a64a299999bae44354b9e1d6992f3371e3b302e97fc3b59eb659a4005d4e41.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 329130,
+      "sha256": "f2a64a299999bae44354b9e1d6992f3371e3b302e97fc3b59eb659a4005d4e41"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/tortuna/routing/9aeeeff57437a9761e4356e6ce9c1f398ad0761b8574b7bb08372877d37d7365.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 1600,
+      "sha256": "9aeeeff57437a9761e4356e6ce9c1f398ad0761b8574b7bb08372877d37d7365",
+      "decodedBytes": 2581,
+      "decodedSha256": "e296c72553c2833e939cd9500c9d9cceb50719995091346de3c4304a1d0d61db",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    },
+    "sourceManifestSha256": "a0f9f0468de51bf71cae7514e53a2c0e5d6e5413b9f4f8ca782c7ad981894e71",
+    "fallbackV1": {
+      "bytes": 638858,
+      "format": 1,
+      "packUrl": "courses/tortuna/pack.bin",
+      "sha256": "4ca2f560cb24d59086e7c1c1554106d84c6510aac9ab6a14812aa13b4ac58983"
+    },
+    "holes": 18,
+    "tiles": 341,
+    "finestTiles": 256,
+    "shellBytes": 100431,
+    "chunks": 520,
+    "encodedChunkBytes": 24136319,
+    "decodedChunkBytes": 48242410
+  },
+  "vegetation": {
+    "objectTiles": 57,
+    "standTiles": 120,
+    "candidates": {
+      "total": 20337,
+      "byRepresentation": {
+        "excluded": 1989,
+        "individual": 2833,
+        "stand": 15515
+      },
+      "byZone": {
+        "A": 2442,
+        "B": 4947,
+        "C": 12948
+      },
+      "byCampaign": {
+        "21c035-661_59": 20337
+      },
+      "eligible": 2383
+    },
+    "records": {
+      "tiles": 57,
+      "records": 2383,
+      "encodedBytes": 130252,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 60,
+      "encodedBytes": 325488,
+      "measuredCells": 244466,
+      "closedCanopyCells": 57440,
+      "excludedCells": 98700
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 2383,
+      "missing": 0,
+      "nextSequence": 2384
+    }
+  },
+  "filesWritten": 523
+}

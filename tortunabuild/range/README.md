@@ -21,7 +21,8 @@ progress:
 > tiden... I och med att **ytan på rangen inte är gräsbetäckt**, var vi tvungna
 > att återinföra våra gamla bollar.
 
-That is why the landing field is drawn bare. It is also why the club's two drone
+That is why the landing field was first drawn bare -- and it no longer is; see
+"The landing field is grass" below. It is also why the club's two drone
 photographs are used for appearance only and never for what stands where: both
 were uploaded in **March/April 2023** and show the range as it was BEFORE the
 rebuild. A photograph three years older than the capture cannot say what is on
@@ -61,7 +62,37 @@ and are drawn as display estimates.
 **The unfinished landing field: 9,762 m².** Grown from a seed inside the scraped
 area on cuts measured against the range's own surroundings, boundary simplified
 at 1.5 m. The ring is simple (checked: zero self-intersections) and its shoelace
-area matches the raster's 9,606 m² to 1.6%.
+area matches the raster's 9,606 m² to 1.6%. It is kept as the extent that was
+measured and is NOT drawn (`earthworks.rendered: false`, and the reason in
+`renderStatus`).
+
+## The landing field is grass
+
+The first version of this module drew the traced field as a terrain-following
+skin in the field's own photographed colour (#a29c93, the capture's median
+pixel). From the 1st tee and from a phone it was a pink-white sheet as bright
+as the practice bunker's sand -- measured in the engine's golden preset from
+220 m up: luminance 160 for the field against 70 for the rough and 167 for the
+sand. Two general reasons, both worth carrying to the next course:
+
+- **A noon orthophoto pixel is an exposure, not an albedo.** The engine's
+  palette is authored "as the colours grass actually is in daylight rather
+  than the colours grass looks like in a photograph" (main.js, the `C` table),
+  and a value copied straight out of the imagery is brighter than everything
+  painted beside it.
+- **The buildings batch renders its vertex colour ONCE; the ground squares its
+  own** (the `vertexColors` note in CLAUDE.md). Anything drawn through
+  `renderCourtyard` sits in the batch's convention, where "how it should look"
+  is the colour to write down, and a terrain-palette value would come out
+  paler still.
+
+But the colour was not the decision. The owner's word (2026-09-10) is that the
+driving range is grass, and by this repo's own rule the owner's word beats a
+photograph four months older than it. So nothing is drawn over the field: the
+ground it stands on is turf -- mown range where the pack's range ring runs,
+rough beyond it -- and the traced extent stays in the site file as the reading
+it is. `build-site.mjs` writes the same `rendered: false` decision, so a rerun
+of the trace cannot bring the skin back.
 
 ## How it reaches the render
 
