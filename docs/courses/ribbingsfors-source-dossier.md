@@ -1446,3 +1446,130 @@ outlines are the roof AS SEEN and overstate the footprint; the provenance says
 so. The greenkeeping yard is still refused for the reason §20.3 gives — its
 sheet roofs read excess green 16 against gravel at 14–17 — and its three sheds
 keep their by-eye trace.
+
+## 22. The square: the frontier's edge against the legacy world (2026-09-10)
+
+The owner's phone showed the 2048 m frontier as a SQUARE — its ground a
+different colour from the ground around it, with a hard edge along all four
+sides — from every camera high enough to see the edge. Two things were wrong at
+that edge, and they are separate.
+
+**The colour.** Inside the window the tiles draw with the v2 ground material:
+rough is the near/far tint rasters (main.js's own `groundAt`, no ambient term),
+applied as a linear share of the squared colour with the v2 detail amplitude.
+Outside it the legacy CORE rim, MID and FAR drew with `makeGround`: the same
+`groundAt` colour per vertex, multiplied by horizon AO, squared, under grass
+sheen and back-scatter. Same classification, two shading pipelines, and the
+same forest floor read brown-olive outside the window and green inside it.
+Johannesberg's fixed frontier had already been given the cure — the
+surroundings draw with the frontier's own decorated material
+(`frontierSurroundMaterial`) — but it was gated on that config's
+`legacyBoundaryBlendMetres`, which this ground never declared. The engine now
+shares the material on EVERY fixed frontier; only the height blend stays a
+per-ground declaration.
+
+**The height.** `ribbingsforsbuild/frontier-edge-step.mjs` compares the pack's
+own heightfields with the published tiles along the four edges:
+
+| comparison, on the edge | median | MAD | p05 / p95 | worst |
+|---|---|---|---|---|
+| HF0 (4 m) − published (1 m) | −0.02 m | 0.02 | −0.04 / +0.04 | 0.05 m |
+| HF1 (32 m) − published (1 m) | +0.02 m | 0.25 | −0.81 / +0.97 | 3.10 m |
+| HF1 (32 m) − HF0 (4 m) | +0.05 m | 0.11 | −0.40 / +0.48 | 1.23 m |
+
+The pack is the tiles (one DTM, item 653_44, §4) — but HF0 spans exactly the
+window, so `demH`'s 130 m HF0→HF1 cross-fade lies INSIDE the frontier where
+the legacy mesh is never drawn, and the first legacy vertex outside the window
+stands on the 32 m field alone, up to 3.1 m off the 1 m tile it meets. The
+config declares `legacyBoundaryBlendMetres: 72` now (Johannesberg's six MID
+cells): the legacy heights ease onto the frontier's own edge height over that
+band, presentation only, no sample inside the window altered.
+
+Both halves are gated. `V3D.v2Terrain()` reports `sharedFrontierMaterial` and
+`boundaryBlendMetres`; `tools/check-course-v2.mjs` asserts them for every fixed
+frontier against its config, and `tools/check-ribbingsfors-v2.mjs` pins this
+ground's 72 m. Not changed here: the trees. Inside the window the LiDAR stand
+field plants small crowns on a 4 m lattice and outside it the legacy planter
+stands up the tree-cover raster's population, and from altitude the two read as
+different densities across the same edge. That is a vegetation seam, not a
+terrain one, and is recorded rather than fixed.
+
+## 23. The far ring calibrated on the measured stands (2026-09-10)
+
+The second thing the owner's phone showed at the window's edge was the trees:
+small dark crowns inside the square, big pale blobs outside it. That is two
+populations meeting with nothing between them. This ground's middle planted
+band is the window itself (MIDR ±1,008 m inside a 2,048 m window that the
+LiDAR generation owns entirely), so the lattice plants nothing, and the first
+tree outside the coverage is the far ring's dressing: one impostor per 30 m
+cell wherever the orthophoto record reads trees, 12 m × 1.5–2.6 tall by hash,
+so 18–31 m. Inside, measured on the published stand field:
+
+| the stand field (64 tiles, 262,144 cells) | |
+|---|---|
+| measured cells / excluded | 231,947 / 35,655 |
+| cells the planter stands up (fraction ≥ 0.15, mean ≥ 2.5 m) | 101,060 |
+| planted-cell mean height p10 / p50 / p90 | 3.75 / 10.00 / 18.25 m |
+| stems per hectare, closed cells (fraction ≥ 0.6) | 208 (48 m² a stem) |
+| the same, 100 m inside the window's edge | fraction mean 0.46, median height 10.5 m |
+
+So the seam was 10 m trees at 200 a hectare against 25 m trees at 11.
+
+**The rule.** The far ring continues whatever population it meets. Where the
+lattice planted nothing — measured at boot by the planter's own reasons, never
+declared — it is calibrated on the stand trees
+(`apps/golf/src/engine/far-ring-calibration.mjs`): heights drawn from the
+stand trees' height quantiles, crown radii through the same allometry the
+stand planter uses, and stem density by that planter's own rule — a closed
+stand at the median height has one stem per π r² / overlap square metres
+(37.2 m² here, so a 6.1 m spacing), scaled by the record's LOCAL tree
+fraction over a cell and its eight neighbours the way the stand field's
+fraction scales a cell. It thins with distance only: the measured spacing to
+600 m outside the coverage, 16 m to 1,800 m, the dressing ring's 30 m beyond.
+A phone plants every band 1.35× sparser, which is the stand planter's own
+0.55 keep. Each far tree is sized exactly as a planted tree is when it becomes
+an impostor — height over the template's, crown radius over the template's —
+so the horizon and the stands are one look. The orthophoto still says WHERE
+the forest is; the LiDAR says how tall and how dense.
+
+**Two mistakes the measurement caught before they shipped.** The first density
+was the planner's planted-cell ratio, and it read exactly 16 m² a stem — the
+stand planter rolls at most ONE stem per 4 m cell, so that ratio is 16 by
+construction — which put the near band at 4 m spacing and 368k far trees.
+And the far ring's coverage test was gated on a course having no raster, so
+on a measured coverage wider than the raster (Ängsö, Norrfällsviken) cones
+stood among the measured stands; it skips the coverage regardless now.
+
+Measured on the built app (`?v2=require`, 1280 × 720, both quality tiers):
+
+| | full | `q=lo` |
+|---|---|---|
+| stand trees calibrated on | 29,430 | 14,987 |
+| median height / m² a stem / near spacing | 9.09 m / 37.2 / 6.1 m | 8.92 m / 36.7 / 8.2 m |
+| far trees: near / middle / far band | 98,151 / 51,664 / 59,871 | 54,609 / 28,535 / 33,117 |
+| total far trees (was ~60k) | 209,743 | 116,272 |
+| planted inside the coverage | 0 | 0 |
+| draws | 56 | 55 |
+
+The rule is measured at boot, so it reaches every ground where the lattice
+plants nothing and no other. Booted flagless on the built app the same day:
+Visby calibrates (48,226 stand trees, median 7.82 m, 124,055 far trees) and
+Norrfällsviken calibrates (92,677 stand trees, median 7.47 m, 92,913 far
+trees, and 202,311 candidates inside its measured coverage now skipped where
+the old raster-gated test let them stand); Veckefjärden, whose lattice plants
+2,387 forest-ring and satellite trees between the window and the far ring,
+is unchanged cone for cone.
+
+`tools/check-ribbingsfors-v2.mjs` gates it: the lattice plants nothing here,
+the calibration reads the stand field (median 8–13 m), all three bands plant
+with the near band carrying over 30% of the ring, nothing stands inside the
+coverage, and the ring stays under 300k.
+
+**What this is not.** It is LiDAR-CALIBRATED everywhere, not LiDAR-MEASURED
+everywhere: beyond the 2,048 m window no laser has been read for this ground.
+Measuring it would be the credentialed chain the other grounds ran in CI — a
+ring graph for this ground (`RUN-terrain-rings`, the Visby recipe, inland so
+without `seaFill`) and a vegetation acquisition over the wider window, since
+the stand compiler writes level-zero tiles only — and it is a multi-run
+project with its own registries, recorded here as the next step rather than
+started blind.

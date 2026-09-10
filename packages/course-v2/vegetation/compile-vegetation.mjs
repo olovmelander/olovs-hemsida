@@ -275,6 +275,11 @@ export async function compileVegetation({
   zones = PROVISIONAL_ZONES,
   canopyThresholdMetres = 2,
   standCellMetres = STAND_CELL_METRES,
+  /* exclusion features a ground carries beyond its migration model, in the
+     rasteriser's own shape ({ kind, rings } / { kind, lines }): Tortuna's
+     dated roof envelopes, facility footprints and 2026 clear-fells, which its
+     stand compiler already applies and its object compile must apply too */
+  extraExclusionFeatures = [],
 }) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(observedOn || '')) throw new Error('observedOn must be YYYY-MM-DD');
   if (!Array.isArray(rasters) || !rasters.length) throw new Error('at least one campaign raster is required');
@@ -291,7 +296,7 @@ export async function compileVegetation({
   const groundLookup = await createGroundHeightLookup(ground, readAsset);
   if (campaigns.groundId && campaigns.groundId !== groundId) throw new Error('campaign inventory belongs to another ground');
   const holes = geometry.holes || [];
-  const exclusionFeatures = courseExclusionFeatures(geometry);
+  const exclusionFeatures = [...courseExclusionFeatures(geometry), ...extraExclusionFeatures];
   const candidates = [];
   const campaignEvidence = [];
   const standFields = [];
@@ -397,6 +402,12 @@ export async function compileVegetation({
 
   /* which candidates become records */
   const approvedKeys = approvals ? new Set(approvals.map(entry => (typeof entry === 'string' ? entry : entry.key))) : null;
+  /* an approvals entry may carry promote:true -- a maximum the detector
+     handed to the stand representation (crowns touching, not prominent in a
+     leaf-off scan) that an INDEPENDENT record, a dated orthophoto, shows as a
+     distinct crown standing clear; the two records never entered each other.
+     A promoted record keeps the laser's own height and radius. */
+  const promotedKeys = approvals ? new Set(approvals.filter(entry => entry && typeof entry === 'object' && entry.promote).map(entry => entry.key)) : null;
   const reviewRejections = {};
   const eligible = candidates.filter(candidate => {
     if (machineReview) {
@@ -404,6 +415,10 @@ export async function compileVegetation({
       for (const reason of decision.reasons) reviewRejections[reason] = (reviewRejections[reason] || 0) + 1;
       return decision.approved;
     }
+    if (candidate.representation === 'excluded') return false;
+    /* a record needs a crown: a stand maximum whose cells all went to its
+       neighbour has no radius and cannot be promoted, whatever the imagery says */
+    if (promotedKeys?.has(candidate.key) && candidate.representation === 'stand') return candidate.radiusMetres >= 1;
     return candidate.representation === 'individual' &&
       candidate.confidence >= minimumConfidence &&
       (approveAllIndividuals || approvedKeys?.has(candidate.key));
@@ -411,12 +426,16 @@ export async function compileVegetation({
   const baseHeightMisses = [];
   const drafts = [];
   for (const candidate of eligible) {
-    const base = await sampler.sample(candidate.centroid.easting, candidate.centroid.northing);
+    /* a stand crown promoted on an independent record may have no extent of
+       its own (its cells went to a neighbour), so no centroid: the apex is the
+       measured point and stands in for it */
+    const at = Number.isFinite(candidate.centroid?.easting) ? candidate.centroid : { easting: candidate.apex.easting, northing: candidate.apex.northing };
+    const base = await sampler.sample(at.easting, at.northing);
     if (!base || base.nodata) { baseHeightMisses.push(candidate.key); continue; }
     drafts.push({
       candidate,
-      easting: candidate.centroid.easting,
-      northing: candidate.centroid.northing,
+      easting: at.easting,
+      northing: at.northing,
       objectHeightMetres: candidate.heightMetres,
       base,
     });
@@ -433,6 +452,8 @@ export async function compileVegetation({
     id: draft.id,
     groundId,
     candidate: draft.candidate,
+    easting: draft.easting,
+    northing: draft.northing,
     baseHeightRH2000: draft.base.heightRH2000,
     sourceId: `laser-lm-skog-${draft.candidate.campaignId.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`,
     capturedAt: draft.candidate.capturedAt,

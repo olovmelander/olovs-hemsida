@@ -46,6 +46,16 @@ course polygons remain unchanged. No water rectangle, invented bed, shoreline
 foam at crop edges or terrain leveling is introduced. The only height offset is
 a 6 cm display clearance, matching the existing measured-water rendering.
 
+Since 2026-09-10 the renderer also rasters those polygons (and the pack's own
+three sea parts) into a 16 m terrain-coverage mask: the laser sea is a flat
+plate at 0.10 m under a sheet 6 cm above it, and at a kilometre a 24-bit depth
+buffer cannot separate them, so the plate won in bands. Terrain fragments under
+the eroded coverage and below the sea band are not drawn, the sea sheets are
+opaque, the course window's straight cuts no longer count as shore, and the
+window edges are welded vertex for vertex between the two sheets. No source
+level or vertex moves; `check-runtime`'s "no inferred flat water or carved
+bed" gate still holds. The land-cover record now reaches the 8192 m ring edge.
+
 The [independent topology check](environment-water-validation.json) compares
 all 47,115 triangles against the original polygons, including islands and the
 course exclusion, with zero horizontal area difference. Loader integrity,

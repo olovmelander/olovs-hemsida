@@ -186,8 +186,28 @@ export function createCoverage(loaded, mapper) {
       return lattice.byCell.get(`${column},${row}`) || null;
     }
     : scan;
+  /* the covered tiles' box in the legacy world frame (the four corners of
+     every tile through the mapper, so a rotated bridge still gets a box that
+     holds them): what a ring that continues this population measures its
+     distance from */
+  const bounds = tiles.length ? (() => {
+    let x0 = Infinity, z0 = Infinity, x1 = -Infinity, z1 = -Infinity;
+    for (const tile of tiles) {
+      const { minEasting, maxEasting, minNorthing, maxNorthing } = tile.bounds;
+      for (const [e, n] of [[minEasting, minNorthing], [maxEasting, minNorthing], [minEasting, maxNorthing], [maxEasting, maxNorthing]]) {
+        const [x, z] = mapper.toWorld(e, n);
+        if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z;
+      }
+    }
+    return Object.freeze({ x0, z0, x1, z1 });
+  })() : null;
   return Object.freeze({
     tiles: tiles.length,
+    bounds,
+    /** metres outside the covered box (0 inside it) */
+    distanceOutside: (x, z) => bounds
+      ? Math.max(0, bounds.x0 - x, x - bounds.x1, bounds.z0 - z, z - bounds.z1)
+      : Infinity,
     covers: (x, z) => {
       const [easting, northing] = mapper.toEpsg(x, z);
       return owner(easting, northing) !== null;

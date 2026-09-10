@@ -93,7 +93,15 @@ async function piece(c0, r0, cols, rows) {
     if (NO_FETCH) throw new Error(`--no-fetch and ${path.basename(file)} is not cached`);
     const url = `https://minkarta.lantmateriet.se/map/ortofoto?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=Ortofoto_0.5&STYLES=&SRS=EPSG:3006&BBOX=${e0},${n0},${e1},${n1}&WIDTH=${cols}&HEIGHT=${rows}&FORMAT=image/png`;
     const t = Date.now();
-    const r = await fetch(url, { headers: HEADERS });
+    /* the proxy answers an occasional 502/504 on a big piece (Visby's
+       ortho-crop met the same); ask three times before giving up on a window */
+    let r = null;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      r = await fetch(url, { headers: HEADERS });
+      if (r.ok || r.status < 500 || attempt === 3) break;
+      console.log(`  WMS ${r.status} for ${cols}x${rows} at E${e0} N${n0}, retrying (${attempt}/3)`);
+      await new Promise(resolve => setTimeout(resolve, 3000 * attempt));
+    }
     if (!r.ok) throw new Error(`WMS ${r.status} for ${cols}x${rows} at ${e0},${n0}`);
     const bytes = Buffer.from(await r.arrayBuffer());
     if (bytes.length < 4096 || bytes[0] !== 0x89) throw new Error(`WMS answered ${bytes.length} bytes, not a PNG: ${bytes.toString('utf8', 0, 200)}`);

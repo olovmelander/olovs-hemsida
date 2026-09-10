@@ -3832,6 +3832,35 @@ the same commit (`pnpm test` fails loudly on both, and
   belt and braces.** The engine draws a sheet per ring; overlapping sheets a
   centimetre apart fight at any distance on a 24-bit depth buffer. One body,
   one ring — unite in the data, never rely on draw order.
+- **A fixed frontier is a square of one material inside a world of another,
+  and the two seams are separate.** The owner's phone showed the 2048 m window
+  as a square of a different colour (2026-09-10). Colour: the tiles paint
+  `groundAt` through the tint rasters, the legacy rim/MID/FAR painted the same
+  `groundAt` per vertex under AO, squared, with sheen — brown-olive against
+  green. Johannesberg's cure (the surroundings draw with the frontier's own
+  `frontierSurroundMaterial`) was gated on ITS `legacyBoundaryBlendMetres`, so
+  this ground, which never declared one, kept the square; every fixed frontier
+  shares the material now. Height: HF0 spans exactly the window, so the first
+  legacy vertex outside it stands on the 32 m HF1 — up to 3.1 m off the 1 m
+  tiles at the edge (`ribbingsforsbuild/frontier-edge-step.mjs`, dossier §22)
+  — and the config declares a 72 m blend. `check-course-v2` gates both on every
+  fixed frontier.
+- **The far ring continues whatever population it meets, and here it met the
+  LiDAR stands with nothing between.** MIDR is the window, the generation owns
+  the window, so the lattice plants nothing and the dressing ring (one 18–31 m
+  impostor per 30 m cell) stood beside 10 m stands at 200 a hectare — the
+  small-dark-inside, big-pale-outside square. Where the lattice count is zero
+  the far ring is now calibrated on the stand trees
+  (`engine/far-ring-calibration.mjs`): their height quantiles, the stand
+  planter's own allometry and closed-stand stem area (37 m² here), the
+  record's local tree fraction as the chance, three distance bands (measured
+  spacing to 600 m, 16 m to 1,800 m, 30 m beyond). Two traps: the planner's
+  planted-cell ratio is 16 m² BY CONSTRUCTION (one stem per cell at most), not
+  a density; and the far loop skipped the measured coverage only where a
+  course had no raster, so cones stood among the stands on Ängsö and
+  Norrfällsviken. Applies wherever the lattice plants nothing, measured at
+  boot. Dossier §23. Calibrated is not measured: LiDAR beyond the window is
+  the credentialed ring + vegetation chain, not started.
 
 ## Visby GK / Kronholmen — `visbybuild/` (app-only), the first course that is mostly sea
 
@@ -4164,6 +4193,23 @@ sheets keep their ramp. Both probe points had been INSIDE the masked zone by
 the CPU field, which is what made the mask look innocent — the difference
 was never mask-versus-unmasked but plate-versus-sky behind a see-through
 sheet. Isolate a layer before reasoning about it.
+
+**And the hairline that survived it was a tile skirt seen edge-on.** A
+one-pixel line of terrain ran along a tile edge across the masked sea from
+any camera high enough. Four experimental builds of one view settled it (the
+skirts off: gone; the geomorph off: stays; the mask's texel test off: stays;
+the mask's 0.28 m height ceiling raised to 5 m: gone), and a skirts-only
+draw with the mask off showed the whole 256 m skirt grid as hairlines. The
+fragments of an edge-on sliver have their varyings interpolated at the pixel
+centre, which lies OUTSIDE the triangle, so the world height the mask read
+was extrapolated metres above the plate and passed the ceiling. The mask now
+reads a centroid-sampled world position (`toVarying(...).setInterpolation(
+'perspective', 'centroid')`, which both backends emit), so a skirt fragment
+reports a height between the plate and the skirt's foot. Two traps on the
+way: the overhead view is rotated 180° (calibrate pixel→world on a marker
+the model places -- the hole-1 disc -- before reading a coordinate off a
+screenshot; a whole tile-centre theory was built on the uncalibrated one),
+and `arguments` does not exist in an arrow function, which cost a debug build.
 
 ### The far vista ring was gated on a raster, and Visby has none
 
@@ -4594,6 +4640,42 @@ generalises:
   two whole and had been failing since the CI fix that re-emitted Tortuna's
   migration through the canonical migrator (af1d7d4e); it compares the holes
   now, which is the routing the graph carries.
+- **THE DRIVING RANGE IS GRASS, and the photograph said otherwise.** The
+  range module drew the landing field as a scraped-earth skin because the
+  2026-05-02 orthophoto shows bare fill and the club's 2025 report called the
+  range unfinished -- and on the owner's phone it was a pink-white sheet as
+  bright as the bunker sand (measured in the golden preset: luminance 160
+  against 70 for the rough, 167 for the sand). Two engine facts made it white:
+  a noon ortho pixel is an exposure, not an albedo, so a colour copied out of
+  the imagery is brighter than everything the palette paints beside it; and
+  `renderCourtyard` draws into the BUILDINGS batch, which renders its vertex
+  colour once where the ground squares its own. Neither was the decision. The
+  owner's word (2026-09-10) is that the range is grass, and the owner's word
+  beats a photograph four months older than it: the skin is gone, the field is
+  the turf the ground carries, and the traced extent stays in
+  `tortuna-range-site.json` as a reading with `rendered: false` and the reason
+  beside it, written by `build-site.mjs` too so a re-trace cannot bring it
+  back. **A measured extent is not a licence to paint it** -- and anything
+  drawn through `renderCourtyard` is authored in the batch's own convention,
+  never copied from the terrain palette or the pixels.
+- **Every tree at Tortuna is a measured crown or a stand cell that says so
+  (2026-09-10).** The ground carried stand fields only, so every tree was a
+  representative placement inside a 4 m cell. `compile-objects.mjs` compiles
+  the individual crowns from the pinned 2021 canopy rasters (the CI artifact
+  of `tortuna-canopy-water` holds them; no credentials needed after that),
+  `tortunabuild/ortho-crowns.mjs` reads every maximum against the 2026
+  orthophoto (WMS PNG, no credentials) and the approvals pass publishes 2,383
+  records with the window's stand fields recompiled round them. Three rules
+  it left: **the imagery may refuse, and may promote only on two records** --
+  a distinct crown that is also GREEN, because the first promotion was a shed
+  roof (roofs read excess green p50 −2, crowns p50 7); **a stand maximum with
+  no radius is never a record**; and **the publisher replaces every
+  vegetation layer it is not handed**, so the 60 expanded-window stand tiles
+  whose rasters are not in the checkout are carried byte for byte from the
+  ground that published them. The ortho-only census (1,480 dark blobs) is
+  recorded as NOT ADOPTED: it finds shade, not stems. Run
+  `update-source-manifest` BEFORE `publish-vegetation`, or the ground
+  manifest pins a ledger hash the ledger no longer has.
 - **The registry chain here**: apply-review → build-course → emit-pack →
   emit-manifest → update-source-manifest → migrate-legacy --write --ground
   tortuna → update-source-manifest → compile-stands → update-source-manifest →
@@ -4753,3 +4835,52 @@ the brown of the day it was flown.
   brown plate with scattered cones to forest; a 2.2 km top-down of
   Johannesberg was unchanged before the floor recolour, because everything in
   that frame is inside the planted ring — which is how the floor was found.
+
+## Lidingö — the sea, the horizon and the fallback badge (2026-09-10)
+
+The owner's phone (WebGL2) showed the fjärd as horizontal bands of land and
+water that flickered, a thin bright rectangle on the water north-east of the
+course, tan squares among the far tiles, and once the RESERVLÄGE badge. Each
+was measured before it was touched; the record is in the code comments at
+`SOURCE_WATER_COVERAGE`, `SEA_WINDOW` and `GROUND_TINT_FAR` in main.js.
+
+- **The laser sea is a plate at 0.10 m at every ring level** (98–99% of the
+  samples under the measured polygons, LOD 0–3; the rest is shore averaging
+  to 1 m), and the measured sheets stand 6 cm above it. A measured-only
+  course takes no polygon offset and lets terrain win a depth tie
+  (`water-render-policy.mjs`), so at a kilometre on a 24-bit buffer the two
+  quantise to one value and the plate wins in bands. Same fault as the
+  Norrfällsviken ocean, same answer: `buildSourceWaterCoverage` in
+  `lidingo-environment-water.mjs` rasters the polygons at or under the sea
+  level (29 of them, with the pack's own three sea parts) at 16 m, erodes a
+  cell from every shore and island, and `createCoastalTerrainMask` discards
+  the terrain fragments under them (5,212 ha) below the sea band. Nothing is
+  carved, no level moves, and `check-runtime`'s "no inferred flat water or
+  carved bed" gate still holds. With the plate gone the sea is drawn with the
+  OPAQUE ocean material (`seaSheetMat`): a transparent sheet over nothing
+  is a 14% window on the sky.
+- **The bright rectangle was the course window's edge read as a shore.** The
+  pack's sea rings are clipped to the 2048 m window; `aShore` ran to zero
+  along the straight cut and the 7 m shallows band drew a pale line across
+  open water exactly along it. Those rings now carry a `shoreline` whose
+  lines omit every edge on the window (`SEA_WINDOW`), and every vertex the
+  subdivision puts on the window is handed to the outside polygons as an
+  extra seam so both triangulations meet vertex for vertex. The item seams
+  (E 680000, N 6580000/6590000) turned out to share vertices already; the
+  weld is general and is what the test proves.
+- **The tan squares were the outer LOD3 ring past the far tint.** The far
+  tint raster stopped at 6144 m, the ring world runs to 8192, and outside
+  the raster the class-SDF material paints flat `C.rough`. `GROUND_TINT_FAR`
+  now reaches the graph's own bounds on a ring ground (measured, 8192 here),
+  the land-cover record was rebuilt to `--half 8192` (`build-landcover.mjs`
+  retries a 5xx from the WMS now — one piece answered 502), and the Lidingö
+  scenery module exports `farRing` to the record's box, so the far cones
+  went 61,149 → 88,091 and Bogesundslandet is forest to the horizon.
+- **The fallback badge prints its cause** in brackets after "Ladda om
+  sidan" — a phone has no tooltip, and a screenshot of that badge is the only
+  report a fallback sends. `loadRings` also re-asks once for a transfer that
+  drops: 213 fetches (12 MB) go out at once on a phone's radio.
+
+Not done: the boundary between the 46,121 stand representatives (the 2 km
+window) and the far cones beyond it is still a density step; nothing was
+measured on it here.

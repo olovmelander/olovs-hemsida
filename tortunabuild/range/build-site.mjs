@@ -116,7 +116,8 @@ const site = {
   /* The unfinished landing field. The club's own 2025 report is explicit that
      this is a project in progress, and the capture shows it: a scraped, pale,
      ungrassed surface with the constructed target areas standing in it. It is
-     drawn as measured, not grassed over. */
+     a READING, not a surface: the owner's word (2026-09-10) is that the range
+     is grass, so the engine draws nothing over it -- see renderStatus. */
   earthworks: {
     kind: 'range_earthworks',
     areaSquareMetres: earth.areaSquareMetres,
@@ -131,11 +132,15 @@ const site = {
       + 'målområdena på rangen... I och med att ytan på rangen inte är gräsbetäckt, var vi tvungna att återinföra '
       + 'våra gamla bollar (Tortuna GK, medlemsundersökning 2024, published 2025)',
     geometryStatus: 'extent measured; it is a working surface and its boundary moves with the work',
+    rendered: false,
+    renderStatus: 'NOT DRAWN. The owner states (2026-09-10) that the driving range is grass; the bare fill this '
+      + 'capture shows is a May 2026 reading of a field the club was still grassing, and the owner\'s word outranks a '
+      + 'photograph four months older than it. Kept as the extent that was measured, never as a surface to paint.',
   },
   limitations: [
     'A display model of observed structures, not a survey. No coordinate here is an independent control.',
     'The club\'s own 2025 report describes the range as an unfinished project ("jordmassorna", "målområdena"); '
-      + 'the landing field in this capture is largely bare earth and is drawn as the imagery shows it.',
+      + 'the landing field in this capture is largely bare earth. It is NOT drawn that way: the owner states (2026-09-10) that the range is grass, so the field renders as the turf the ground carries and the traced extent is kept as a reading only.',
     'The seventeen range_tee_pad features retained in the pack are a separate earlier reading of the same mats. '
       + 'They are revised for display by this file and are NOT deleted from the source model.',
   ],

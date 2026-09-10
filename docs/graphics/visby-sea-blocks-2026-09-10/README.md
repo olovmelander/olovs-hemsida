@@ -19,8 +19,24 @@ that lets a carved lake bed read through the shallows) and Visby, a
 measured-only ground, never carves a bed and never draws one (`showBed` false)
 — so the sheet showed khaki plate in the margin cells and pale sky past them.
 
-Not addressed here: a one-pixel terrain sliver down the middle of tile
-l0/5/9 (x −640, z 384 → the shore), present before and after, visible only
-from straight above under SwiftShader; and the data-level fact that the
-`carveWaterBeds` path is gated off for measured-only grounds, which CLAUDE.md
-used to state the other way round and now states correctly.
+## The hairline along the tile edge (same day, second pass)
+
+`after-normal.png` still carried a one-pixel line of terrain in the sea. The
+first reading here put it "down the middle of tile l0/5/9 at x −640" -- that
+was a camera-orientation error (the overhead view is rotated 180°; calibrated
+on the hole-1 disc it lies on the tile edge x −256). It is a TILE SKIRT: the
+vertical quad hanging 1.5 m below every tile edge, seen edge-on from 1,000 m
+up. Proved by elimination on experimental builds of the same view: it stays
+with the mask's coverage texel test removed and with the geomorph removed,
+goes with the skirts removed (`skirts-only-nomask.png` shows the whole 256 m
+skirt grid as hairlines) and goes with the mask's height ceiling raised to 5 m
+-- so the fragments carried a height between 0.28 and 5 m over a plate at
+0.23. That is the varying being interpolated at the PIXEL CENTRE, which for an
+edge-on sliver lies outside the triangle: an extrapolated height. The mask now
+reads a centroid-sampled world position (`vCoastalMaskWorld`), which stays
+inside the covered samples, and `after-centroid-normal.png` /
+`after-centroid-terrain-red.png` are the same view with the line gone.
+
+Also corrected the same day: CLAUDE.md used to say the `carveWaterBeds` path
+runs unconditionally under v2 on Visby; it is gated off for measured-only
+grounds and the file now says so.
