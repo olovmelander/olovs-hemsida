@@ -312,6 +312,77 @@ The last two are Veckefjärden-shaped in their paths (the model, the survey, the
 and the method is not: taking them to another ground means the build directory, the
 frame and the water level as parameters — the `loadTerrain(slug)` half already is.
 
+### The basin beyond the extract — the surroundings record (2026-09-10)
+
+The core extract stops at 18.710 E, and Örnsköldsvik begins there: the town
+centre and harbour, Skyttis, the Paradiskullen ski jumps, Varvsberget's slope,
+the trotting track at Överhörnäs, the E4 and Botniabanan beyond the bbox were
+not in the model at all, and beyond `farB`'s 884 boxes the far mesh carried
+only the land-cover tint. `geobuild/surroundings.json` is the record now: the
+wide extract (`fetch-osm-wide.mjs`, 156 map-API tiles over 18.545–18.805 E,
+63.227–63.342 N, ±6.4 km about ORIGIN — the land-cover record's own window)
+parsed by `parse-osm-wide.mjs` into 7,690 far boxes with OSM's heights, 97
+footprinted landmarks (Hägglunds Arena, the churches, the hospital, the
+halls), 443 km of road and 31 km of railway clipped OUTSIDE the core extract,
+23 water rings, the ski jumps and the lift lines, 66 pitches and tracks, the
+towers and chimneys, and the Varvsbacken piste read off the orthophoto. It
+travels BESIDE the pack exactly as the land-cover record does (emit-manifest
+copies it, the loader fetches it by content, `_headers` and the SW cache it,
+`V3D.surroundings()` reports it, `check-app` gates a declared record as loaded
+AND drawn), so a change to scenery three kilometres away never re-binds a v2
+ground or moves a checksum registry. The korthålsbana takes a copy.
+
+- **Two rules decide what the record holds, and the unit test asserts both.**
+  A kind the pack carries (buildings, roads, rail, landuse, water, piers,
+  power) is taken only outside the pack's extract — rings by centroid and by
+  id against `osm-features.json`, lines clipped to their outside runs with
+  the crossing point kept so a ribbon meets the pack's at the edge; a way the
+  pack DROPPED by its own rules (a street too far from the course) is kept
+  whole, inner part included. A kind the pack never had (ski jumps, lifts,
+  pitches, towers, peaks) is taken wherever it stands, minus the three nodes
+  `scenery/veckefjarden.js` already draws. Merging in main.js is therefore a
+  concatenation, never a de-duplication.
+- **The sea is the right-hand side of the coastline, and its level here is
+  20.10, not 0.** OSM has no sea polygon; the `natural=coastline` chains are
+  merged from their HEADS (joining in tile order cut every chain at the first
+  way already visited — the first run produced a 90 km² polygon of land),
+  clipped to the keep box and closed clockwise (north-up) along its
+  perimeter, and the two rings that come out contain the harbour and not the
+  course, which is the test. The level is the median vista-heightfield sample
+  inside the ring: Terrarium carries this basin ~21 m above RH 2000 (the lake
+  at 21.59 against a laser 0.280), so the Gulf reads 20.10 in the frame's
+  datum, and under `?v2` the ring is re-measured against the laser like every
+  other. It enters `M.water` as neither lake nor sea: a lake takes the fjärd's
+  shore bench and shallows, `isSea` lays a plane across the whole world.
+- **`geobuild/ortho-crop.mjs` is Visby's tool carried to a flat-earth
+  frame**: every output pixel is a local (x, z) taken through lonLat →
+  SWEREF 99 TM per point, so the 3.28° convergence never enters. Ortofoto_0.16
+  needs no credentials through the Min karta WMS. Against it OSM's Skyttis,
+  trotting track and jump geometry sat exactly; what OSM lacks is the alpine
+  piste (only the drag lift is mapped), traced in `wide-traces.json` as the
+  mown corridor round the lift, 120 m wide at the E4 narrowing to 30 m at the
+  top. The chair lift runs up to the big hill's inrun, whose OSM ring is the
+  519 m² structure: the engine takes an elongated `piste:type=ski_jump` ring
+  as the inrun (long axis, higher end up, a deck climbing from 3 m over the
+  takeoff to a tower read from the length) and the small hills' single
+  9,791 m² pitch polygon as tint only.
+- **Everything from the record is clipped to the FAR RING at draw time**, not
+  in the record: the record reaches 6.4 km, `FARR` 5.4 km east and 2.5 km
+  south, and a ribbon or a box over no terrain hangs in the sky. The record's
+  roads ride the same `buildRoad` at a coarser `step` (6 m, 9 m for streets,
+  which a phone skips), the trotting oval and the athletics track are gravel
+  bands of their own width inside their outer ring (a centroid offset — both
+  are convex ovals, which is all that offset is good for), and the harbour's
+  quays take the level of the water ring nearest them rather than the fjärd's.
+- Pistes, pitches and tracks go into the `SI` grid like the clear-fells, so
+  the planter, the far cones and the scatter stay off them and `groundAt` and
+  `vistaGround` tint them mown; the far cones consult the rings explicitly,
+  because a 12 m land-cover cell can say trees on a 30 m-wide slope.
+- **Not verified on a GPU here.** This container renders every course black,
+  so the data gates, the record's unit test and `check-app --only=veckefjarden`
+  are what proved the change; the first look at the town, the bay and the
+  jumps has to happen on a real adapter.
+
 ## Running the older page
 
 Open `veckefjardensgc.html` in a browser. It works from `file://`; a server is only

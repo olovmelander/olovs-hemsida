@@ -353,12 +353,12 @@ export default defineConfig({
                its URL, and cache-first is both safe and the whole point. This is
                the rule that makes a course open offline. */
             /* ... and the land-cover record beside it, versioned the same way */
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/(pack\.bin|landcover\.json)$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/(pack\.bin|landcover\.json|surroundings\.json)$/.test(url.pathname),
             handler: 'CacheFirst',
             options: {
               cacheName: 'banvy-packs',
-              /* two entries a course now (pack + record), thirteen courses */
-              expiration: { maxEntries: 28, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              /* three entries a course now (pack + land cover + surroundings), thirteen courses */
+              expiration: { maxEntries: 42, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

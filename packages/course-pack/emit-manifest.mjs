@@ -145,6 +145,17 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
     if (!fs.existsSync(lcOut) || !fs.readFileSync(lcOut).equals(lcBuf)) fs.writeFileSync(lcOut, lcBuf);
     landcover = { url: `courses/${c.slug}/landcover.json`, bytes: lcBuf.length, sha256: sha256(lcBuf) };
   }
+  /* The surroundings record (geobuild/parse-osm-wide.mjs) rides beside the pack
+     under the same rule: the town, the harbour and the skyline three kilometres
+     out are scenery, and a change to them must not re-bind a v2 ground. */
+  let surroundings = null;
+  const srSrc = path.join(ROOT, c.build, 'surroundings.json');
+  if (fs.existsSync(srSrc)) {
+    const srBuf = fs.readFileSync(srSrc);
+    const srOut = path.join(dir, 'surroundings.json');
+    if (!fs.existsSync(srOut) || !fs.readFileSync(srOut).equals(srBuf)) fs.writeFileSync(srOut, srBuf);
+    surroundings = { url: `courses/${c.slug}/surroundings.json`, bytes: srBuf.length, sha256: sha256(srBuf) };
+  }
   return {
     slug: c.slug, name: c.name, club: c.club, title: c.title, tag: c.tag, boot: c.boot,
     /* Which build directory produced this course. The app ignores it; the gates
@@ -164,6 +175,7 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
        a GitHub Pages subpath without being regenerated per host. */
     packUrl: `courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
     ...(landcover ? { landcover } : {}),
+    ...(surroundings ? { surroundings } : {}),
   };
 });
 
