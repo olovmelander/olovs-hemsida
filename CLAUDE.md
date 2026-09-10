@@ -3761,6 +3761,35 @@ the same commit (`pnpm test` fails loudly on both, and
   belt and braces.** The engine draws a sheet per ring; overlapping sheets a
   centimetre apart fight at any distance on a 24-bit depth buffer. One body,
   one ring — unite in the data, never rely on draw order.
+- **A fixed frontier is a square of one material inside a world of another,
+  and the two seams are separate.** The owner's phone showed the 2048 m window
+  as a square of a different colour (2026-09-10). Colour: the tiles paint
+  `groundAt` through the tint rasters, the legacy rim/MID/FAR painted the same
+  `groundAt` per vertex under AO, squared, with sheen — brown-olive against
+  green. Johannesberg's cure (the surroundings draw with the frontier's own
+  `frontierSurroundMaterial`) was gated on ITS `legacyBoundaryBlendMetres`, so
+  this ground, which never declared one, kept the square; every fixed frontier
+  shares the material now. Height: HF0 spans exactly the window, so the first
+  legacy vertex outside it stands on the 32 m HF1 — up to 3.1 m off the 1 m
+  tiles at the edge (`ribbingsforsbuild/frontier-edge-step.mjs`, dossier §22)
+  — and the config declares a 72 m blend. `check-course-v2` gates both on every
+  fixed frontier.
+- **The far ring continues whatever population it meets, and here it met the
+  LiDAR stands with nothing between.** MIDR is the window, the generation owns
+  the window, so the lattice plants nothing and the dressing ring (one 18–31 m
+  impostor per 30 m cell) stood beside 10 m stands at 200 a hectare — the
+  small-dark-inside, big-pale-outside square. Where the lattice count is zero
+  the far ring is now calibrated on the stand trees
+  (`engine/far-ring-calibration.mjs`): their height quantiles, the stand
+  planter's own allometry and closed-stand stem area (37 m² here), the
+  record's local tree fraction as the chance, three distance bands (measured
+  spacing to 600 m, 16 m to 1,800 m, 30 m beyond). Two traps: the planner's
+  planted-cell ratio is 16 m² BY CONSTRUCTION (one stem per cell at most), not
+  a density; and the far loop skipped the measured coverage only where a
+  course had no raster, so cones stood among the stands on Ängsö and
+  Norrfällsviken. Applies wherever the lattice plants nothing, measured at
+  boot. Dossier §23. Calibrated is not measured: LiDAR beyond the window is
+  the credentialed ring + vegetation chain, not started.
 
 ## Visby GK / Kronholmen — `visbybuild/` (app-only), the first course that is mostly sea
 
