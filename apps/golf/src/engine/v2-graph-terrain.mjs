@@ -323,10 +323,26 @@ export class V2GraphTerrainAdapter {
     if (this.rings) return this.rings.levels.length;
     const tiles = this.graph.ground.tiles.filter(tile => tile.lod >= 1 && tile.courses?.includes(this.courseSlug));
     const fetchImpl = this.fetchImpl ?? globalThis.fetch;
+    /* two hundred fetches in flight at once on a phone's radio: one of them
+       dropping is a reset connection, not a bad tile, so a failed transfer
+       is asked for once more before the whole world is given up on */
+    const fetchTile = async (tile, url) => {
+      let response = null;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          response = await fetchImpl(url, { signal });
+          if (response.ok || attempt) break;
+        } catch (error) {
+          if (attempt || signal?.aborted) throw error;
+          response = null;
+        }
+      }
+      if (!response?.ok) throw new Error(`ring tile ${tile.id} returned HTTP ${response?.status ?? 'transfer failure'}`);
+      return response;
+    };
     const decoded = await Promise.all(tiles.map(async tile => {
       const url = resolveV2AssetUrl(tile.layers.terrain.url, this.baseUrl);
-      const response = await fetchImpl(url, { signal });
-      if (!response.ok) throw new Error(`ring tile ${tile.id} returned HTTP ${response.status}`);
+      const response = await fetchTile(tile, url);
       const chunk = await verifyChunkAssetWeb(tile.layers.terrain, new Uint8Array(await response.arrayBuffer()));
       if (chunk?.header?.kind !== 'terrain' || !chunk.payload) throw new Error(`ring tile ${tile.id} did not decode as terrain`);
       const payload = chunk.payload instanceof Uint8Array ? chunk.payload : new Uint8Array(chunk.payload);
