@@ -4059,16 +4059,40 @@ Measured under the seven sea rings on this pack's own heightfield: 566,872
 samples at a mean depth of **−0.000 m**, none deeper than 0.10 m; and on the
 published ring graph, 111,049 samples over a **0.23–0.24 m** range at a mean of
 0.230. The laser carries the Baltic as a flattened plate — there is no
-bathymetry here at all — so on `?v2=0` the shader has no depth to shade 907 ha
-of sea with. Under the default v2 boot the ring adapter's `carveWaterBeds` runs
-unconditionally and gives it one; what is switched off for this course is only
-the FRONTIER path's carve, because `main.js`'s `waterBeds` provider returns null
-on `terrainPlacement === 'measured-only'`. The obvious objection to carving here
-— that the depth would ridge along the forty render pieces' artificial cut edges
-— is answered and does not apply: the depth comes from a distance transform over
-the UNION mask, so neighbouring pieces fill each other's cuts. And a carve
-cannot reach a playing surface: **0 of 1,229 played ring and mark points lie
-inside a sea ring.** What is left needs a render, not another measurement.
+bathymetry here at all — so the shader has no depth to shade 907 ha of sea
+with, on `?v2=0` AND on the ring graph. **This file used to say the ring
+adapter's `carveWaterBeds` runs unconditionally under v2 and gives it one. It
+does not.** The whole re-level / flat-water / carve block in `main.js` is
+gated on `terrainPlacement !== 'measured-only'`, and the frontier provider
+returns null on the same flag — so on Visby, Lidingö and Tortuna no bed is
+ever carved anywhere (`V3D.waterBedAt` answers null, `carvedGpuTiles` 0,
+measured on the built app). That is the policy — a measured ground invents
+no bathymetry — and the render is designed around it: the sheet sits
+`MEASURED_WATER_CLEARANCE_METRES` over the plate, `showBed` is off, and the
+coastal terrain MASK discards the plate's fragments under the sea. The
+objection to carving here — that the depth would ridge along the forty render
+pieces' artificial cut edges — is answered and does not apply (a distance
+transform over the UNION mask fills neighbouring cuts), and a carve could not
+reach a playing surface (**0 of 1,229 played ring and mark points lie inside a
+sea ring**); it is simply not done, by the flag.
+
+**"Square shapes in the water" was the sea drawn as its own background
+(2026-09-10).** The owner's phone showed dark rectangles hugging the whole
+coast in a staircase, lighter open sea beyond. Reproduced headless on WebGL2
+at `q=lo` from 1,000 m up, and isolated by hiding the water and painting the
+world terrain flat red (`V3D.setWaterVisible`, `V3D.v2WorldMaterial`): the
+coastal mask keeps the plate inside its own shore margin — a full cell
+diagonal, so a 32 m staircase along every shore — and removes it beyond, and
+the sea sheet was 62–97 % transparent (the ramp that lets a carved lake bed
+read through the shallows). With no bed to show it painted whatever was
+behind it: khaki plate in the margin cells, pale sky past them. Two tones,
+one 32 m grid. `waterSheetIsOpaque` in `water-render-policy.mjs` now draws a
+sheet opaque wherever no bed is drawn under it (`showBed` false, or the
+connected ocean, which already did); carved inland lakes and the flat-water
+sheets keep their ramp. Both probe points had been INSIDE the masked zone by
+the CPU field, which is what made the mask look innocent — the difference
+was never mask-versus-unmasked but plate-versus-sky behind a see-through
+sheet. Isolate a layer before reasoning about it.
 
 ### The far vista ring was gated on a raster, and Visby has none
 
