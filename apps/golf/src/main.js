@@ -81,7 +81,7 @@ import { createV2GroundMaterialDecorator, makeGround } from './engine/material.j
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
-import { configureWaterRenderPasses, configureWaterDepth, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
+import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
 import { waterShoreDistance } from './engine/water-shore.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
@@ -3430,7 +3430,9 @@ await tick('fyller vattnet', 0.52);
 /* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
-  const m = new THREE.MeshBasicNodeMaterial({ transparent: !ocean, side: THREE.DoubleSide });
+  /* no bed to see through to -> nothing to be see-through for (see the policy) */
+  const opaque = waterSheetIsOpaque({ ocean, showBed });
+  const m = new THREE.MeshBasicNodeMaterial({ transparent: !opaque, side: THREE.DoubleSide });
   configureWaterRenderPasses(m, { mask });
   configureWaterDepth(m, {
     measuredOnly: ocean || M.infra.terrainPlacement === 'measured-only', depthSign: DEPTH_SIGN,
@@ -3524,7 +3526,7 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
        bed showed through as a brown lake. It writes no depth at all. */
     m.depthWrite = false;
   }
-  m.opacityNode = ocean ? float(1) : opacity;
+  m.opacityNode = opaque ? float(1) : opacity;
   return m;
 }
 // Measured coastlines use physical clearance and normal depth testing. The
