@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-09-10T08:02:26.699Z",
-  "url": "http://127.0.0.1:8646",
+  "reviewedAt": "2026-09-10T14:55:07.673Z",
+  "url": "http://127.0.0.1:8636",
   "passed": true,
   "completeProtocol": true,
-  "dist": "C:\\Users\\olov_\\repos\\olovs-hemsida\\upsalabuild\\cache\\authored-runtime-build-2026-09-10",
+  "dist": "C:\\Users\\olov_\\repos\\olovs-hemsida\\apps\\golf\\dist",
   "method": "Actual built app: both routing slugs and terrain modes on WebGL2 plus Stora required-v2 on WebGPU, guarded replacements, source preservation, exact served mesh identity, roof ray intersections, source view and optional-chunk failure.",
   "asset": {
     "path": "apps/golf/src/engine/scenery/upsala-authored-meshes.json",
@@ -24,7 +24,7 @@
       "captures": [
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-require-clubhouse-front.png",
-          "sha256": "af3b28f08a067805744db66496cfd7b84e80b021b4edf6d6230d0571fe277653",
+          "sha256": "4e598573b96b589919700f30942b3210a8d1c5081159c125edde993aef3e14e5",
           "camera": {
             "pos": [
               12,
@@ -41,7 +41,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-require-campus-overview.png",
-          "sha256": "3a96f162ab7063b87950baf7f105e4cc9e8734e03c01e0e688c770e95a3e92f0",
+          "sha256": "80b9540b9895698d313a57b994aa70d8f15199784c570d1a94d63ac37650708b",
           "camera": {
             "pos": [
               160,
@@ -58,7 +58,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-require-range-front.png",
-          "sha256": "22abef31aecc8b197c0b932e3fc688ff92e893df6844fe67fd9a79023e9db12b",
+          "sha256": "0f7dbc2bd9f6921e0ee71278d8661b33c1dcd00ccf7b48e2e526140889fb39b9",
           "camera": {
             "pos": [
               -107.99999999999997,
@@ -76,7 +76,7 @@
       ],
       "packSha256": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd",
       "servedMesh": {
-        "url": "http://127.0.0.1:8646/assets/upsala-authored-meshes-BXG6-qji.js",
+        "url": "http://127.0.0.1:8636/assets/upsala-authored-meshes-BXG6-qji.js",
         "sha256": "9be505f9467f9cb8c481eacdf3396e543ac3843a81e5fdd29b4467de8a579a23",
         "sourcePackageMatches": true
       },
@@ -91,6 +91,7 @@
           "stones": 242,
           "reeds": 0,
           "cars": 0,
+          "authoredParkingCars": 0,
           "pylons": 21,
           "stumps": 0,
           "inferredRangeTargets": 0,
@@ -100,6 +101,9 @@
           "sourceRoofTriangles": 0,
           "architecturalBuildings": 13,
           "architecturalTriangles": 41576,
+          "authoredBuildingModels": 0,
+          "authoredBuildingMeshes": 0,
+          "authoredBuildingTriangles": 0,
           "architectureAssets": {
             "state": "ready",
             "assetCount": 12,
@@ -1003,8 +1007,29 @@
             442,
             443
           ],
+          "sourceParkingBatchIds": [
+            "w34145616",
+            "w438967911",
+            "w438967919",
+            "w438967920",
+            "w438967921",
+            "upsala-parking-south",
+            "upsala-parking-north-bays"
+          ],
+          "sourceParkingBatchIndices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
           "authoredRangeFacilities": false,
+          "rangeNets": 0,
+          "rangeFacilities": null,
           "facilityExcludedTrees": 0,
+          "facilityExcludedClutter": 0,
           "genericRoofBuildings": 431,
           "clubhouseDetails": [
             {
@@ -1624,30 +1649,46 @@
               "fallbackRebuilt": false,
               "batches": [
                 {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
                   "width": 129,
                   "height": 129,
                   "capacity": 8,
                   "renderedTiles": 4,
                   "residentLayers": 4,
                   "textureUploads": 5,
-                  "renderRevision": 9,
+                  "renderRevision": 11,
                   "morphing": false,
                   "frameAttributeVersion": 2,
-                  "paramsAttributeVersion": 7,
+                  "paramsAttributeVersion": 9,
                   "textureCapacityBytes": 1065024,
                   "topologyBytes": 460047,
                   "triangles": 135168,
                   "drawCalls": 1
                 }
               ],
-              "renderRevision": 7,
+              "renderRevision": 10,
               "morphing": false,
               "renderedTiles": 55,
               "residentLayers": 4,
               "drawCalls": 2,
               "triangles": 135168,
-              "textureCapacityBytes": 1065024,
-              "textureUploads": 5,
+              "textureCapacityBytes": 1593416,
+              "textureUploads": 6,
               "readyTiles": 86
             },
             "ringLevels": [
@@ -1660,52 +1701,68 @@
             ],
             "stream": {
               "renderStride": 2,
-              "readyTiles": 95,
-              "loadingTiles": 47,
+              "readyTiles": 94,
+              "loadingTiles": 48,
               "failedTiles": 0,
-              "renderedTiles": 34,
+              "renderedTiles": 31,
               "drawCalls": 2,
-              "triangles": 3135488,
-              "textureCapacityBytes": 20136576,
+              "triangles": 2636800,
+              "textureCapacityBytes": 16437832,
               "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
                 {
                   "width": 129,
                   "height": 129,
                   "capacity": 56,
-                  "renderedTiles": 14,
-                  "residentLayers": 14,
+                  "renderedTiles": 15,
+                  "residentLayers": 15,
                   "textureUploads": 54,
                   "renderRevision": 19,
                   "morphing": false,
-                  "frameAttributeVersion": 8,
+                  "frameAttributeVersion": 7,
                   "paramsAttributeVersion": 16,
                   "textureCapacityBytes": 7455168,
                   "topologyBytes": 460047,
-                  "triangles": 473088,
+                  "triangles": 506880,
                   "drawCalls": 1
                 },
                 {
                   "width": 257,
                   "height": 257,
-                  "capacity": 24,
-                  "renderedTiles": 20,
-                  "residentLayers": 20,
-                  "textureUploads": 20,
-                  "renderRevision": 7,
+                  "capacity": 16,
+                  "renderedTiles": 16,
+                  "residentLayers": 16,
+                  "textureUploads": 16,
+                  "renderRevision": 53,
                   "morphing": true,
-                  "frameAttributeVersion": 2,
-                  "paramsAttributeVersion": 5,
-                  "textureCapacityBytes": 12681408,
+                  "frameAttributeVersion": 4,
+                  "paramsAttributeVersion": 49,
+                  "textureCapacityBytes": 8454272,
                   "topologyBytes": 2603535,
-                  "triangles": 2662400,
+                  "triangles": 2129920,
                   "drawCalls": 1
                 }
               ],
               "selectedTiles": 56,
               "requests": {
-                "queued": 45,
+                "queued": 46,
                 "running": 2,
-                "jobs": 47
+                "jobs": 48
               }
             }
           },
@@ -1727,46 +1784,62 @@
             "fallbackRebuilt": false,
             "batches": [
               {
+                "width": 257,
+                "height": 257,
+                "capacity": 1,
+                "renderedTiles": 0,
+                "residentLayers": 0,
+                "textureUploads": 1,
+                "renderRevision": 3,
+                "morphing": false,
+                "frameAttributeVersion": 1,
+                "paramsAttributeVersion": 1,
+                "textureCapacityBytes": 528392,
+                "topologyBytes": 2603535,
+                "triangles": 0,
+                "drawCalls": 0
+              },
+              {
                 "width": 129,
                 "height": 129,
                 "capacity": 8,
                 "renderedTiles": 4,
                 "residentLayers": 4,
                 "textureUploads": 5,
-                "renderRevision": 9,
+                "renderRevision": 11,
                 "morphing": false,
                 "frameAttributeVersion": 2,
-                "paramsAttributeVersion": 7,
+                "paramsAttributeVersion": 9,
                 "textureCapacityBytes": 1065024,
                 "topologyBytes": 460047,
                 "triangles": 135168,
                 "drawCalls": 1
               }
             ],
-            "renderRevision": 7,
+            "renderRevision": 10,
             "morphing": false,
             "renderedTiles": 55,
             "residentLayers": 4,
             "drawCalls": 2,
             "triangles": 135168,
-            "textureCapacityBytes": 1065024,
-            "textureUploads": 5,
+            "textureCapacityBytes": 1593416,
+            "textureUploads": 6,
             "readyTiles": 86
           },
           "stream": null,
           "backend": "webgl2"
         },
         "renderer": {
-          "calls": 471,
+          "calls": 532,
           "frameCalls": 3,
           "drawCalls": 83,
-          "triangles": 7113201,
+          "triangles": 6115825,
           "points": 0,
           "lines": 48,
           "timestamp": 0,
           "memory": {
-            "attributes": 393,
-            "attributesSize": 181035785,
+            "attributes": 392,
+            "attributesSize": 180834310,
             "geometries": 78,
             "indexAttributes": 54,
             "indexAttributesSize": 2304594,
@@ -1780,10 +1853,10 @@
             "storageAttributes": 0,
             "storageAttributesSize": 0,
             "textures": 32,
-            "texturesSize": 140315463,
+            "texturesSize": 136088327,
             "uniformBuffers": 157,
             "uniformBuffersSize": 67104,
-            "total": 324841976
+            "total": 320413365
           },
           "drawingBuffer": [
             1440,
@@ -2364,7 +2437,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-0-campus-overview.png",
-          "sha256": "560fd349bb838496eac4dd86a7f1829e6380277ff34dc8e2dec5ea7937315c78",
+          "sha256": "bfb3870e906a75f718142a2ce7b141aa22c3f7762ca135b17b3e64eba804bf2a",
           "camera": {
             "pos": [
               160,
@@ -2381,7 +2454,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-0-range-front.png",
-          "sha256": "6113670b8a131b528ef6559043a2dcbbda7bc3e55a9f3414508b668157af381d",
+          "sha256": "f21b8f8e044a910213aedec8cfc81662927dc4ebb3dafabf86d2e4d9798b3aaa",
           "camera": {
             "pos": [
               -107.99999999999997,
@@ -2399,7 +2472,7 @@
       ],
       "packSha256": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd",
       "servedMesh": {
-        "url": "http://127.0.0.1:8646/assets/upsala-authored-meshes-BXG6-qji.js",
+        "url": "http://127.0.0.1:8636/assets/upsala-authored-meshes-BXG6-qji.js",
         "sha256": "9be505f9467f9cb8c481eacdf3396e543ac3843a81e5fdd29b4467de8a579a23",
         "sourcePackageMatches": true
       },
@@ -2414,6 +2487,7 @@
           "stones": 242,
           "reeds": 0,
           "cars": 0,
+          "authoredParkingCars": 0,
           "pylons": 21,
           "stumps": 0,
           "inferredRangeTargets": 0,
@@ -2423,6 +2497,9 @@
           "sourceRoofTriangles": 0,
           "architecturalBuildings": 13,
           "architecturalTriangles": 41576,
+          "authoredBuildingModels": 0,
+          "authoredBuildingMeshes": 0,
+          "authoredBuildingTriangles": 0,
           "architectureAssets": {
             "state": "ready",
             "assetCount": 12,
@@ -3326,8 +3403,29 @@
             442,
             443
           ],
+          "sourceParkingBatchIds": [
+            "w34145616",
+            "w438967911",
+            "w438967919",
+            "w438967920",
+            "w438967921",
+            "upsala-parking-south",
+            "upsala-parking-north-bays"
+          ],
+          "sourceParkingBatchIndices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
           "authoredRangeFacilities": false,
+          "rangeNets": 0,
+          "rangeFacilities": null,
           "facilityExcludedTrees": 0,
+          "facilityExcludedClutter": 0,
           "genericRoofBuildings": 431,
           "clubhouseDetails": [
             {
@@ -3905,7 +4003,7 @@
           "backend": "webgl2"
         },
         "renderer": {
-          "calls": 558,
+          "calls": 511,
           "frameCalls": 2,
           "drawCalls": 59,
           "triangles": 1565976,
@@ -4495,7 +4593,7 @@
       "captures": [
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-mellanbanan-require-clubhouse-front.png",
-          "sha256": "76b66eb689d661f6a5348bd88b225e55eba6d0adbc84de40eed9451745f8d174",
+          "sha256": "0e9591193195bf43c1acbfb5896a9ece1dfa4ca63c1364133f59a18fef951e57",
           "camera": {
             "pos": [
               12,
@@ -4512,7 +4610,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-mellanbanan-require-campus-overview.png",
-          "sha256": "029fdd2eb1da675a5bc9f4d39a218ff8b7ba84ad5181b0f7eb39bb0a0c3b106c",
+          "sha256": "1198f440dacf643e5438b2e47e2c7934397669be3c2aa4bbde9c712c9603e875",
           "camera": {
             "pos": [
               160,
@@ -4529,7 +4627,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-mellanbanan-require-range-front.png",
-          "sha256": "168ba168f75c3f01165593c2949a2c7309f55965c42de0cb159f5dd7c6d28703",
+          "sha256": "a45100a8e1ba83e8c3b9932e00204cf6956a45231b945ea5eb36b2ab66d055bc",
           "camera": {
             "pos": [
               -107.99999999999997,
@@ -4547,7 +4645,7 @@
       ],
       "packSha256": "d76a1c1a76ce9c6758fdb6a3e853fcccaf565441d0ac12f9d9e107a2377f4675",
       "servedMesh": {
-        "url": "http://127.0.0.1:8646/assets/upsala-authored-meshes-BXG6-qji.js",
+        "url": "http://127.0.0.1:8636/assets/upsala-authored-meshes-BXG6-qji.js",
         "sha256": "9be505f9467f9cb8c481eacdf3396e543ac3843a81e5fdd29b4467de8a579a23",
         "sourcePackageMatches": true
       },
@@ -4562,6 +4660,7 @@
           "stones": 181,
           "reeds": 0,
           "cars": 0,
+          "authoredParkingCars": 0,
           "pylons": 21,
           "stumps": 0,
           "inferredRangeTargets": 0,
@@ -4571,6 +4670,9 @@
           "sourceRoofTriangles": 0,
           "architecturalBuildings": 13,
           "architecturalTriangles": 41576,
+          "authoredBuildingModels": 0,
+          "authoredBuildingMeshes": 0,
+          "authoredBuildingTriangles": 0,
           "architectureAssets": {
             "state": "ready",
             "assetCount": 12,
@@ -5474,8 +5576,29 @@
             442,
             443
           ],
+          "sourceParkingBatchIds": [
+            "w34145616",
+            "w438967911",
+            "w438967919",
+            "w438967920",
+            "w438967921",
+            "upsala-parking-south",
+            "upsala-parking-north-bays"
+          ],
+          "sourceParkingBatchIndices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
           "authoredRangeFacilities": false,
+          "rangeNets": 0,
+          "rangeFacilities": null,
           "facilityExcludedTrees": 0,
+          "facilityExcludedClutter": 0,
           "genericRoofBuildings": 431,
           "clubhouseDetails": [
             {
@@ -6147,13 +6270,13 @@
             ],
             "stream": {
               "renderStride": 2,
-              "readyTiles": 66,
-              "loadingTiles": 48,
+              "readyTiles": 71,
+              "loadingTiles": 43,
               "failedTiles": 0,
-              "renderedTiles": 24,
+              "renderedTiles": 30,
               "drawCalls": 2,
-              "triangles": 1406976,
-              "textureCapacityBytes": 12210696,
+              "triangles": 2503680,
+              "textureCapacityBytes": 16437832,
               "batches": [
                 {
                   "width": 257,
@@ -6175,40 +6298,40 @@
                   "width": 129,
                   "height": 129,
                   "capacity": 56,
-                  "renderedTiles": 18,
-                  "residentLayers": 18,
+                  "renderedTiles": 15,
+                  "residentLayers": 15,
                   "textureUploads": 50,
-                  "renderRevision": 10,
+                  "renderRevision": 14,
                   "morphing": false,
-                  "frameAttributeVersion": 5,
-                  "paramsAttributeVersion": 8,
+                  "frameAttributeVersion": 8,
+                  "paramsAttributeVersion": 12,
                   "textureCapacityBytes": 7455168,
                   "topologyBytes": 460047,
-                  "triangles": 608256,
+                  "triangles": 506880,
                   "drawCalls": 1
                 },
                 {
                   "width": 257,
                   "height": 257,
-                  "capacity": 8,
-                  "renderedTiles": 6,
-                  "residentLayers": 6,
-                  "textureUploads": 8,
-                  "renderRevision": 7,
-                  "morphing": false,
-                  "frameAttributeVersion": 3,
-                  "paramsAttributeVersion": 5,
-                  "textureCapacityBytes": 4227136,
+                  "capacity": 16,
+                  "renderedTiles": 15,
+                  "residentLayers": 15,
+                  "textureUploads": 15,
+                  "renderRevision": 29,
+                  "morphing": true,
+                  "frameAttributeVersion": 4,
+                  "paramsAttributeVersion": 25,
+                  "textureCapacityBytes": 8454272,
                   "topologyBytes": 2603535,
-                  "triangles": 798720,
+                  "triangles": 1996800,
                   "drawCalls": 1
                 }
               ],
               "selectedTiles": 52,
               "requests": {
-                "queued": 46,
+                "queued": 41,
                 "running": 2,
-                "jobs": 48
+                "jobs": 43
               }
             }
           },
@@ -6276,16 +6399,16 @@
           "backend": "webgl2"
         },
         "renderer": {
-          "calls": 473,
-          "frameCalls": 2,
-          "drawCalls": 60,
-          "triangles": 2218528,
+          "calls": 513,
+          "frameCalls": 3,
+          "drawCalls": 83,
+          "triangles": 6464790,
           "points": 0,
           "lines": 48,
           "timestamp": 0,
           "memory": {
-            "attributes": 376,
-            "attributesSize": 179807142,
+            "attributes": 377,
+            "attributesSize": 180008617,
             "geometries": 76,
             "indexAttributes": 52,
             "indexAttributesSize": 2291634,
@@ -6299,10 +6422,10 @@
             "storageAttributes": 0,
             "storageAttributesSize": 0,
             "textures": 32,
-            "texturesSize": 130414855,
+            "texturesSize": 134641991,
             "uniformBuffers": 160,
             "uniformBuffersSize": 148944,
-            "total": 313783906
+            "total": 318212517
           },
           "drawingBuffer": [
             1440,
@@ -6883,7 +7006,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-mellanbanan-0-campus-overview.png",
-          "sha256": "fcc7fcff451f1690b2a50a7c6da99fb3a954060e3ef858ad78d4db7e672f7468",
+          "sha256": "82364786cfab67e8eb41c0f2a2fe2d5e84b36709b07148aeecd34bf2ac1a46c8",
           "camera": {
             "pos": [
               160,
@@ -6900,7 +7023,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-mellanbanan-0-range-front.png",
-          "sha256": "19273d6eb067bd9b07361d47311307fee73ff38e1cc1544264db2b9e60ad3e84",
+          "sha256": "44dd8ae8616fa44d4a8e13b361672546c3b3560bc74d92bc45b2dc5dfddb906a",
           "camera": {
             "pos": [
               -107.99999999999997,
@@ -6918,7 +7041,7 @@
       ],
       "packSha256": "d76a1c1a76ce9c6758fdb6a3e853fcccaf565441d0ac12f9d9e107a2377f4675",
       "servedMesh": {
-        "url": "http://127.0.0.1:8646/assets/upsala-authored-meshes-BXG6-qji.js",
+        "url": "http://127.0.0.1:8636/assets/upsala-authored-meshes-BXG6-qji.js",
         "sha256": "9be505f9467f9cb8c481eacdf3396e543ac3843a81e5fdd29b4467de8a579a23",
         "sourcePackageMatches": true
       },
@@ -6933,6 +7056,7 @@
           "stones": 181,
           "reeds": 0,
           "cars": 0,
+          "authoredParkingCars": 0,
           "pylons": 21,
           "stumps": 0,
           "inferredRangeTargets": 0,
@@ -6942,6 +7066,9 @@
           "sourceRoofTriangles": 0,
           "architecturalBuildings": 13,
           "architecturalTriangles": 41576,
+          "authoredBuildingModels": 0,
+          "authoredBuildingMeshes": 0,
+          "authoredBuildingTriangles": 0,
           "architectureAssets": {
             "state": "ready",
             "assetCount": 12,
@@ -7845,8 +7972,29 @@
             442,
             443
           ],
+          "sourceParkingBatchIds": [
+            "w34145616",
+            "w438967911",
+            "w438967919",
+            "w438967920",
+            "w438967921",
+            "upsala-parking-south",
+            "upsala-parking-north-bays"
+          ],
+          "sourceParkingBatchIndices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
           "authoredRangeFacilities": false,
+          "rangeNets": 0,
+          "rangeFacilities": null,
           "facilityExcludedTrees": 0,
+          "facilityExcludedClutter": 0,
           "genericRoofBuildings": 431,
           "clubhouseDetails": [
             {
@@ -8424,7 +8572,7 @@
           "backend": "webgl2"
         },
         "renderer": {
-          "calls": 507,
+          "calls": 493,
           "frameCalls": 2,
           "drawCalls": 59,
           "triangles": 1908261,
@@ -9014,7 +9162,7 @@
       "captures": [
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-require-clubhouse-front-webgpu.png",
-          "sha256": "b8d639c4eb78fd828c9be774f2f5fe898269c60bef183c81dd97e67fb6374194",
+          "sha256": "90e8f9104d544fbc6da2d936cd5d9030e4729c3b4f39506e26785c0b5723b3ad",
           "camera": {
             "pos": [
               12,
@@ -9031,7 +9179,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-require-campus-overview-webgpu.png",
-          "sha256": "9482a4e063af73dcafc607fdc0c13de313193e2224095c6ac62e94c99cf70b2a",
+          "sha256": "044e405b9dbadae41c78d9ddeff7c17d828fd98ee1ead585512edf3ab3afdc74",
           "camera": {
             "pos": [
               160,
@@ -9048,7 +9196,7 @@
         },
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-require-range-front-webgpu.png",
-          "sha256": "ba7cc1adf3a02e1246aef438d926087e1e192588bbfb9a35628d483871b5b9b7",
+          "sha256": "95762ff01d00d9c6b71829f974d1de514cdf3bd5bfd1f6f2d168d7eebec8f8bc",
           "camera": {
             "pos": [
               -107.99999999999997,
@@ -9066,7 +9214,7 @@
       ],
       "packSha256": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd",
       "servedMesh": {
-        "url": "http://127.0.0.1:8646/assets/upsala-authored-meshes-BXG6-qji.js",
+        "url": "http://127.0.0.1:8636/assets/upsala-authored-meshes-BXG6-qji.js",
         "sha256": "9be505f9467f9cb8c481eacdf3396e543ac3843a81e5fdd29b4467de8a579a23",
         "sourcePackageMatches": true
       },
@@ -9081,6 +9229,7 @@
           "stones": 242,
           "reeds": 0,
           "cars": 0,
+          "authoredParkingCars": 0,
           "pylons": 21,
           "stumps": 0,
           "inferredRangeTargets": 0,
@@ -9090,6 +9239,9 @@
           "sourceRoofTriangles": 0,
           "architecturalBuildings": 13,
           "architecturalTriangles": 41576,
+          "authoredBuildingModels": 0,
+          "authoredBuildingMeshes": 0,
+          "authoredBuildingTriangles": 0,
           "architectureAssets": {
             "state": "ready",
             "assetCount": 12,
@@ -9993,8 +10145,29 @@
             442,
             443
           ],
+          "sourceParkingBatchIds": [
+            "w34145616",
+            "w438967911",
+            "w438967919",
+            "w438967920",
+            "w438967921",
+            "upsala-parking-south",
+            "upsala-parking-north-bays"
+          ],
+          "sourceParkingBatchIndices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
           "authoredRangeFacilities": false,
+          "rangeNets": 0,
+          "rangeFacilities": null,
           "facilityExcludedTrees": 0,
+          "facilityExcludedClutter": 0,
           "genericRoofBuildings": 431,
           "clubhouseDetails": [
             {
@@ -10633,27 +10806,27 @@
                   "width": 257,
                   "height": 257,
                   "capacity": 56,
-                  "renderedTiles": 10,
-                  "residentLayers": 10,
-                  "textureUploads": 13,
-                  "renderRevision": 20,
+                  "renderedTiles": 16,
+                  "residentLayers": 16,
+                  "textureUploads": 21,
+                  "renderRevision": 29,
                   "morphing": true,
-                  "frameAttributeVersion": 4,
-                  "paramsAttributeVersion": 16,
+                  "frameAttributeVersion": 6,
+                  "paramsAttributeVersion": 23,
                   "textureCapacityBytes": 29589952,
                   "topologyBytes": 2603535,
-                  "triangles": 1331200,
+                  "triangles": 2129920,
                   "drawCalls": 1
                 }
               ],
-              "renderRevision": 17,
+              "renderRevision": 24,
               "morphing": true,
               "renderedTiles": 55,
-              "residentLayers": 10,
+              "residentLayers": 16,
               "drawCalls": 1,
-              "triangles": 1331200,
+              "triangles": 2129920,
               "textureCapacityBytes": 30118344,
-              "textureUploads": 14,
+              "textureUploads": 22,
               "readyTiles": 86
             },
             "ringLevels": [
@@ -10697,10 +10870,10 @@
                   "renderedTiles": 51,
                   "residentLayers": 51,
                   "textureUploads": 115,
-                  "renderRevision": 127,
+                  "renderRevision": 139,
                   "morphing": false,
                   "frameAttributeVersion": 32,
-                  "paramsAttributeVersion": 95,
+                  "paramsAttributeVersion": 107,
                   "textureCapacityBytes": 29589952,
                   "topologyBytes": 2603535,
                   "triangles": 6789120,
@@ -10752,34 +10925,34 @@
                 "width": 257,
                 "height": 257,
                 "capacity": 56,
-                "renderedTiles": 10,
-                "residentLayers": 10,
-                "textureUploads": 13,
-                "renderRevision": 20,
+                "renderedTiles": 16,
+                "residentLayers": 16,
+                "textureUploads": 21,
+                "renderRevision": 29,
                 "morphing": true,
-                "frameAttributeVersion": 4,
-                "paramsAttributeVersion": 16,
+                "frameAttributeVersion": 6,
+                "paramsAttributeVersion": 23,
                 "textureCapacityBytes": 29589952,
                 "topologyBytes": 2603535,
-                "triangles": 1331200,
+                "triangles": 2129920,
                 "drawCalls": 1
               }
             ],
-            "renderRevision": 17,
+            "renderRevision": 24,
             "morphing": true,
             "renderedTiles": 55,
-            "residentLayers": 10,
+            "residentLayers": 16,
             "drawCalls": 1,
-            "triangles": 1331200,
+            "triangles": 2129920,
             "textureCapacityBytes": 30118344,
-            "textureUploads": 14,
+            "textureUploads": 22,
             "readyTiles": 86
           },
           "stream": null,
           "backend": "webgpu"
         },
         "renderer": {
-          "calls": 529,
+          "calls": 545,
           "frameCalls": 2,
           "drawCalls": 59,
           "triangles": 7304903,
@@ -11369,7 +11542,7 @@
       "captures": [
         {
           "path": "upsalabuild/cache/authored-facilities-runtime-2026-09-10/upsala-0-source.png",
-          "sha256": "0fea052646b85d22c6ae6b80b0771ee5b00d0f9423f659b09ae89e7c1319d97c",
+          "sha256": "f192dfcd0cc3bc2d6b44dcc63967b5dbab61d9333901dd1ff18aa645b9ecc3ed",
           "camera": {
             "pos": [
               12,
@@ -11387,7 +11560,7 @@
       ],
       "packSha256": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd",
       "servedMesh": {
-        "url": "http://127.0.0.1:8646/assets/upsala-authored-meshes-BXG6-qji.js",
+        "url": "http://127.0.0.1:8636/assets/upsala-authored-meshes-BXG6-qji.js",
         "sha256": "9be505f9467f9cb8c481eacdf3396e543ac3843a81e5fdd29b4467de8a579a23",
         "sourcePackageMatches": true
       },
@@ -11402,6 +11575,7 @@
           "stones": 242,
           "reeds": 0,
           "cars": 0,
+          "authoredParkingCars": 0,
           "pylons": 21,
           "stumps": 0,
           "inferredRangeTargets": 0,
@@ -11411,6 +11585,9 @@
           "sourceRoofTriangles": 0,
           "architecturalBuildings": 0,
           "architecturalTriangles": 0,
+          "authoredBuildingModels": 0,
+          "authoredBuildingMeshes": 0,
+          "authoredBuildingTriangles": 0,
           "architectureAssets": {
             "state": "ready",
             "assetCount": 12,
@@ -12314,8 +12491,29 @@
             442,
             443
           ],
+          "sourceParkingBatchIds": [
+            "w34145616",
+            "w438967911",
+            "w438967919",
+            "w438967920",
+            "w438967921",
+            "upsala-parking-south",
+            "upsala-parking-north-bays"
+          ],
+          "sourceParkingBatchIndices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
           "authoredRangeFacilities": false,
+          "rangeNets": 0,
+          "rangeFacilities": null,
           "facilityExcludedTrees": 0,
+          "facilityExcludedClutter": 0,
           "genericRoofBuildings": 444,
           "clubhouseDetails": [],
           "courtyardDetails": null,
@@ -12385,7 +12583,7 @@
           "backend": "webgl2"
         },
         "renderer": {
-          "calls": 479,
+          "calls": 497,
           "frameCalls": 2,
           "drawCalls": 59,
           "triangles": 1525184,
@@ -12430,7 +12628,7 @@
       "backend": "webgl2",
       "errors": [],
       "expectedResourceFailures": [
-        "http://127.0.0.1:8646/assets/upsala-authored-meshes-BXG6-qji.js"
+        "http://127.0.0.1:8636/assets/upsala-authored-meshes-BXG6-qji.js"
       ],
       "captures": [
         {
@@ -12463,6 +12661,7 @@
           "stones": 242,
           "reeds": 0,
           "cars": 0,
+          "authoredParkingCars": 0,
           "pylons": 21,
           "stumps": 0,
           "inferredRangeTargets": 0,
@@ -12472,11 +12671,14 @@
           "sourceRoofTriangles": 0,
           "architecturalBuildings": 0,
           "architecturalTriangles": 0,
+          "authoredBuildingModels": 0,
+          "authoredBuildingMeshes": 0,
+          "authoredBuildingTriangles": 0,
           "architectureAssets": {
             "state": "fallback",
             "assetCount": 0,
             "emittedAssetCount": 0,
-            "reason": "Failed to fetch dynamically imported module: http://127.0.0.1:8646/assets/upsala-authored-meshes-BXG6-qji.js",
+            "reason": "Failed to fetch dynamically imported module: http://127.0.0.1:8636/assets/upsala-authored-meshes-BXG6-qji.js",
             "sourceView": false
           },
           "authoredFacilityBuildings": 0,
@@ -13373,8 +13575,29 @@
             442,
             443
           ],
+          "sourceParkingBatchIds": [
+            "w34145616",
+            "w438967911",
+            "w438967919",
+            "w438967920",
+            "w438967921",
+            "upsala-parking-south",
+            "upsala-parking-north-bays"
+          ],
+          "sourceParkingBatchIndices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
           "authoredRangeFacilities": false,
+          "rangeNets": 0,
+          "rangeFacilities": null,
           "facilityExcludedTrees": 0,
+          "facilityExcludedClutter": 0,
           "genericRoofBuildings": 444,
           "clubhouseDetails": [],
           "courtyardDetails": null,
@@ -13444,7 +13667,7 @@
           "backend": "webgl2"
         },
         "renderer": {
-          "calls": 489,
+          "calls": 467,
           "frameCalls": 2,
           "drawCalls": 59,
           "triangles": 1525184,
@@ -13484,7 +13707,7 @@
     }
   ],
   "servedModule": {
-    "url": "http://127.0.0.1:8646/assets/index-D58XNxgf.js",
-    "sha256": "76e18855b5e9fb88baf06f6e84d826fa074214f8ab5aa135214ef776e21c2651"
+    "url": "http://127.0.0.1:8636/assets/index-C68YahJ2.js",
+    "sha256": "846a6b43bb94612f6fcb90bff824886ffb6debc1af70dd00e4b37ac20a518692"
   }
 }
