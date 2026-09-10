@@ -18,6 +18,11 @@ async function runVista(vegetationPlacement) {
        to enter at all. Null is the case this test is about: a measured-only
        ground with nothing measured out there still plants nothing. */
     LANDCOVER_REC: null,
+    /* the far ring calibrates itself on the measured stands where the lattice
+       planted nothing (engine/far-ring-calibration.mjs); with no v2 plan the
+       calibration is null and the pass is the generator it always was */
+    treeWhy: [[], [], []], WHY_V2_INDIVIDUAL: 5, V2_VEG_PLAN: null, V2_VEG_COVER: null, V2_VEGETATION: null,
+    calibrateFarRing: () => null, farRingSpacing: () => 30, farRingTree: () => null, treeFraction: () => -1,
     stats: {}, VISTA_PTS: null,
   };
   await runInNewContext(`(async () => { ${vistaPass} })()`, context);

@@ -52,6 +52,16 @@ async function boot(search) {
       },
       objects,
       legacyInsideCoverage: window.V3D.legacyTrees().legacyInsideCoverage,
+      /* the far ring, calibrated on the measured stands: heights, density, bands */
+      vista: (() => {
+        const pts = window.V3D.vistaPoints(), cal = window.V3D.vistaCalibration();
+        const veg = window.V3D.legacyTrees();
+        /* the lattice by the planter's own reasons, never by subtracting the
+           plan from the drawn total: the facility exclusion drops a few dozen
+           measured trees before they are drawn */
+        const lattice = ['none', 'forestRing', 'scrubRing', 'satellite', 'shore'].reduce((sum, k) => sum + (veg.reasons[k] || 0), 0);
+        return { count: pts.length / 4, cal, legacyLattice: lattice };
+      })(),
       tint: window.V3D.tintRefresh(),
       groundProbe: window.V3D.probeGround(0, 0),
       /* the lake: Skagern's bed under the frontier, and the one sheet that draws it */
@@ -121,6 +131,22 @@ gate(objects?.error === null && objects?.loaded?.loadedTiles === 64 &&
 gate(objects?.planned?.individuals > 0 && objects?.planned?.standTrees > 0 &&
   required.report?.legacyInsideCoverage === 0,
   'v2 trees plant and the legacy lattice is absent inside their coverage');
+
+/* The far ring (owner's phone, 2026-09-10, second report): inside the window
+   the LiDAR stands are 10 m tall at the median at ~208 stems/ha; outside it
+   the dressing ring stood 18-31 m impostors one per 30 m cell, and the square
+   showed as small dark crowns against big pale blobs. Where the lattice
+   planted nothing the far ring now takes the stands' own heights and stem
+   density and thins with distance (engine/far-ring-calibration.mjs). */
+const vista = required.report?.vista;
+gate(vista?.legacyLattice === 0, 'the legacy lattice plants nothing here (the far ring meets the measured stands directly)');
+gate(vista?.cal?.samples > 20_000 && vista?.cal?.medianHeight > 8 && vista?.cal?.medianHeight < 13,
+  'the far ring is calibrated on the measured stand trees (median height 8-13 m, as the stand field reads)');
+gate(vista?.cal?.bands?.[0] > 0 && vista?.cal?.bands?.[1] > 0 && vista?.cal?.bands?.[2] > 0 &&
+  vista?.cal?.bands?.[0] / (vista?.count || 1) > 0.3,
+  'all three distance bands plant, and the near band at the stands\' own density carries its share');
+gate(vista?.cal?.plantedInsideCoverage === 0 && vista?.count > 50_000 && vista?.count < 300_000,
+  'no far tree stands inside the measured coverage, and the ring stays within its budget');
 
 /* The lake. Three coplanar sheets and an uncarved laser surface used to draw
    Skagern as pale silt with a z-fight sawtooth (2026-09-05, owner's phone

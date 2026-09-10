@@ -66,7 +66,7 @@ import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { canopySampler } from './engine/canopy-cover.mjs';
-import { LANDCOVER, decodeLandcover, landcoverSampler, isTreeClass } from './engine/landcover.mjs';
+import { LANDCOVER, decodeLandcover, landcoverSampler, isTreeClass, treeFraction } from './engine/landcover.mjs';
 import { buildCoastalWater } from './engine/coastal-water.mjs';
 import { coastalWorldBounds, seaLevelInWorld, excludeOceanFromFlatWater } from './engine/coastal-runtime.mjs';
 import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
@@ -114,6 +114,7 @@ import {
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { clipLegacyTerrainGeometry } from './engine/v2-legacy-clip.mjs';
 import { createLegacyTerrainTransition } from './engine/v2-terrain-transition.mjs';
+import { calibrateFarRing, farRingSpacing, farRingTree } from './engine/far-ring-calibration.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
@@ -5161,6 +5162,20 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
     return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz);
   };
   const cvx1 = cv ? cv.x0 + cv.nx * cv.cell : 0, cvz1 = cv ? cv.z0 + cv.nz * cv.cell : 0;
+  /* THE FAR RING CONTINUES WHATEVER POPULATION IT MEETS. Where the middle
+     band planted nothing -- every candidate fell inside the measured
+     coverage, or the course is measured-only -- the first tree outside the
+     coverage stands next to a LiDAR stand tree, and it takes that
+     population's own heights and stem density (engine/far-ring-calibration
+     .mjs), thinning with distance in three bands. Where the lattice planted
+     a band the far ring still meets the lattice, and stays as it was. The
+     condition is MEASURED at boot, not declared: the lattice's own count. */
+  const legacyLatticeCount = treeWhy.reduce((sum, W) => sum + W.filter(w => w < WHY_V2_INDIVIDUAL).length, 0);
+  const FAR_CAL = V2_VEG_PLAN && V2_VEG_COVER?.bounds && legacyLatticeCount === 0
+    ? calibrateFarRing({ standHeights: V2_VEG_PLAN.instances.filter(t => t.kind === 'stand').map(t => t.height) })
+    : null;
+  const farBandCounts = [0, 0, 0];
+  let vistaSkippedInsideCoverage = 0;
   /* the data ring: where the plans or the survey still reach */
   const GAP2 = LOWQ ? 18 : 13;
   if (cv && !MEASURED_ONLY) for (let z = cv.z0; z < cvz1; z += GAP2) {
@@ -5195,16 +5210,31 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
      this ring is dressing, not data, and it stays far outside the property */
   const GAP3 = LOWQ ? 42 : 30;
   const ptsKind = [];   /* the record's class per far cone, so birch stands where the imagery read light canopy */
-  for (let z = FARR.z0; z < FARR.z1; z += GAP3) {
+  const ptsSize = [];   /* calibrated only: [height, crown radius] per far tree, else undefined */
+  /* Calibrated, the lattice is walked at the NEAR band's spacing everywhere
+     and a coarser band keeps one candidate in (spacing / near)^2 of its
+     cells by hash -- one walk, three densities, no seam between them. */
+  const farStep = FAR_CAL ? farRingSpacing(0, FAR_CAL, LOWQ) : GAP3;
+  for (let z = FARR.z0; z < FARR.z1; z += farStep) {
     if (shouldYieldWork()) await yieldWork();
-    for (let x = FARR.x0; x < FARR.x1; x += GAP3) {
+    for (let x = FARR.x0; x < FARR.x1; x += farStep) {
       if (cv && x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) continue;
-      const i = Math.floor(x / GAP3), j = Math.floor(z / GAP3);
-      const px = x + (rnd2(i + 51, j + 29) - 0.5) * GAP3 * 1.6;
-      const pz = z + (rnd2(i + 87, j + 61) - 0.5) * GAP3 * 1.6;
-      /* where a course has no raster, the measured generation is the box this
-         ring must not close over -- its trees are already standing there */
-      if (!cv && V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
+      const i = Math.floor(x / farStep), j = Math.floor(z / farStep);
+      const px = x + (rnd2(i + 51, j + 29) - 0.5) * farStep * 1.6;
+      const pz = z + (rnd2(i + 87, j + 61) - 0.5) * farStep * 1.6;
+      /* the measured generation is the box this ring must not close over --
+         its trees are already standing there. This used to be tested only
+         where a course had no raster, so on a coverage wider than the raster
+         (Ängsö, Norrfällsviken) cones stood among the measured stands. */
+      if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) { vistaSkippedInsideCoverage++; continue; }
+      let band = 2;
+      if (FAR_CAL) {
+        const dCover = V2_VEG_COVER.distanceOutside(px, pz);
+        const spacing = farRingSpacing(dCover, FAR_CAL, LOWQ);
+        band = spacing === farStep ? 0 : dCover < 1800 ? 1 : 2;
+        const keep = (farStep * farStep) / (spacing * spacing);
+        if (keep < 1 && rnd2(i + 23, j + 91) > keep) continue;
+      }
       /* THE RECORD SAYS WHERE THE FOREST IS. Where the orthophoto was read, a
          cone stands on closed canopy and nowhere else -- not on the pasture,
          the field, the town or the clear-fell the noise gap used to miss; only
@@ -5233,14 +5263,30 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
          calls closed canopy is closed, and from 500 m up the far forest read as
          meadow with trees on it at one cone per 1,060 m2 */
       if (lc === LANDCOVER.UNKNOWN && rnd2(i + 9, j + 33) > 0.85) continue;
+      /* calibrated, a stem's chance is the record's LOCAL tree fraction over
+         the cell and its eight neighbours, the way a stand thins at its own
+         edge, rather than one cell's whole verdict */
+      if (FAR_CAL && lc !== LANDCOVER.UNKNOWN) {
+        const fraction = treeFraction(landAt, px, pz, LANDCOVER_REC.cell);
+        if (fraction >= 0 && rnd2(i + 41, j + 17) > fraction) continue;
+      }
       const h = terrainH(px, pz);
       if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < GEO.seaLevel + 1.5) continue;
       if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)continue;
       if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
       ptsKind[pts.length / 4 - 1] = lc;
+      if (FAR_CAL) {
+        const tree = farRingTree(FAR_CAL, rnd2(i + 3, j + 71), rnd2(i + 13, j + 57), lc === LANDCOVER.LIGHT_TREES);
+        ptsSize[pts.length / 4 - 1] = [tree.height, tree.radius];
+        farBandCounts[band]++;
+      }
     }
   }
+  stats.vistaCalibration = FAR_CAL ? {
+    samples: FAR_CAL.samples, medianHeight: +FAR_CAL.medianHeight.toFixed(2), m2PerStem: +FAR_CAL.m2PerStem.toFixed(1),
+    nearSpacing: +farStep.toFixed(2), bands: farBandCounts, skippedInsideCoverage: vistaSkippedInsideCoverage,
+  } : { calibrated: false, legacyLatticeCount, skippedInsideCoverage: vistaSkippedInsideCoverage };
   const n = pts.length / 4;
   VISTA_PTS = pts;
   if (n && TREE_LOD.atlases.length === 3) {
@@ -5260,10 +5306,17 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
+      const tr = SPECIES[s].templateRadius || 4;
       list.forEach((k, i) => {
-        const s0 = pts[k * 4 + 3], sy = 12 * s0 * (0.85 + (k % 5) * 0.07) / th;
+        const s0 = pts[k * 4 + 3];
+        /* a calibrated tree is sized exactly as a planted one is when it
+           becomes an impostor: its height over the template's, its crown
+           radius over the template's (the tier code's own convention) */
+        const size = ptsSize[k];
+        const sy = size ? size[0] / th : 12 * s0 * (0.85 + (k % 5) * 0.07) / th;
+        const sxz = size ? size[1] / tr : s0 * 0.9;
         posA.array.set([pts[k * 4], pts[k * 4 + 1], pts[k * 4 + 2]], i * 3);
-        parA.array.set([hash2(k * 31 + 7, k * 17 + 5) * TAU, s0 * 0.9, sy, 0], i * 4);
+        parA.array.set([hash2(k * 31 + 7, k * 17 + 5) * TAU, sxz, sy, 0], i * 4);
       });
       posA.needsUpdate = parA.needsUpdate = true;
       geo.instanceCount = list.length;
@@ -10273,6 +10326,15 @@ window.V3D = {
   v2WorldVisible: () => (typeof terrainV2.visibleTileIds === 'function' ? terrainV2.visibleTileIds() : []),
   v2WorldFrustum: () => (typeof terrainV2.frustumReport === 'function' ? terrainV2.frustumReport() : null),
   vistaPoints: () => (VISTA_PTS ? Array.from(VISTA_PTS) : []),
+  /* the far ring's calibration on the measured stands, and its band counts */
+  vistaCalibration: () => {
+    if (!stats.vistaCalibration) return null;
+    /* what was PLANTED inside the measured coverage: measured on the points
+       themselves, never taken from the skip counter */
+    let inside = 0;
+    if (VISTA_PTS && V2_VEG_COVER) for (let k = 0; k < VISTA_PTS.length; k += 4) if (V2_VEG_COVER.covers(VISTA_PTS[k], VISTA_PTS[k + 2])) inside++;
+    return { ...stats.vistaCalibration, plantedInsideCoverage: inside };
+  },
   setWaterVisible: on => { for (const m of WATER_MESHES) m.visible = on !== false; return WATER_MESHES.length; },
   roadDraping: () => ROAD_DRAPE_PROOFS.map(proof => ({ ...proof })),
   /* hide or show meshes by tag, instance count or material type, to find what draws what */
