@@ -75,6 +75,37 @@
 /grounds/*/objects/*.bvch
   Cache-Control: public, max-age=31536000, immutable
 
+# Johannesberg's facility manifest may advance; the publisher gives each GLB
+# a full SHA-256 filename, which the runtime verifies before replacing buildings.
+/models/johannesberg/facilities-v1.json
+  Cache-Control: no-cache
+
+/models/johannesberg/facilities-*.glb
+  Cache-Control: public, max-age=31536000, immutable
+
+# Puttom keeps stable export filenames; both HTTP responses must revalidate.
+# The loader adds the verified full SHA-256 query to GLB requests, allowing the
+# service worker to cache each visited geometry revision independently.
+/models/puttom/facilities-v1.json
+  Cache-Control: no-cache
+
+/models/puttom/facilities-v1.glb
+  Cache-Control: no-cache
+
+# Ängsö uses the same mutable receipt and immutable, verified geometry contract.
+/models/angso/facilities-v1.json
+  Cache-Control: no-cache
+
+/models/angso/facilities-*.glb
+  Cache-Control: public, max-age=31536000, immutable
+
+# Lidingö's mutable receipt selects immutable Blender geometry by SHA-256.
+/models/lidingo/facilities-v1.json
+  Cache-Control: no-cache
+
+/models/lidingo/facilities-*.glb
+  Cache-Control: public, max-age=31536000, immutable
+
 # Vite content-hashes everything in /assets, so those names already change when
 # the bytes do.
 /assets/*

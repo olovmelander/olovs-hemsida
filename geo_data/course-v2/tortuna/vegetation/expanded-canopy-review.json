@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "expanded-canopy-byte-and-coverage-verified",
+  "receipt": {
+    "path": "geo_data/course-v2/tortuna/vegetation/expanded-canopy-evidence.json",
+    "sha256": "c39d21dfd5312f00a798b7dea952c74db18c3bf97ae2df898d878b56f4ae5267"
+  },
+  "grid": {
+    "minEasting": 596120.5,
+    "maxNorthing": 6616435.5,
+    "width": 2560,
+    "height": 3072,
+    "sampleSpacingMetres": 1
+  },
+  "tilesCoverExactlyOnce": true,
+  "originalSourceRastersUnchanged": true,
+  "sourceEpoch": "2021-04-05T12:00:00Z",
+  "nativeDtmModified": false,
+  "layers": {
+    "chm": {
+      "data": "tortunabuild/cache/expanded-canopy/chm.f32",
+      "sha256": "3384f3b455ae638ceebc76fb492ca113b3d7f364440f1aa0c468dce135a33033",
+      "bytes": 31457280,
+      "finiteCells": 6735923,
+      "unknownCells": 1128397,
+      "minimum": 0.0,
+      "maximum": 47.226314544677734,
+      "originalOverlapBytes": 15728640,
+      "originalOverlapSha256": "f7648dd78beb6f34afc9a76702c64f6e72c5d444975f1677801bcb61c3d33e76",
+      "originalByteIdentityPreserved": true
+    },
+    "ground": {
+      "data": "tortunabuild/cache/expanded-canopy/ground.f32",
+      "sha256": "e0b9b263110c370e0014fee3182b3fed1ced9df5bad979c8ad9c5b60ad3b84ff",
+      "bytes": 31457280,
+      "finiteCells": 7864320,
+      "unknownCells": 0,
+      "minimum": 17.05666732788086,
+      "maximum": 46.393333435058594,
+      "originalOverlapBytes": 15728640,
+      "originalOverlapSha256": "c2b6e8626b87c12f2d4be314e6739ac82536351fa23c673eea2426eb6687fb05",
+      "originalByteIdentityPreserved": true
+    },
+    "allReturns": {
+      "data": "tortunabuild/cache/expanded-canopy/allReturns.f32",
+      "sha256": "b10dceac0b276d912c7766e426227fc56e1524e32ec9a0ac17460e20488168f2",
+      "bytes": 31457280,
+      "finiteCells": 7864320,
+      "unknownCells": 0,
+      "minimum": 0.0,
+      "maximum": 100.0,
+      "originalOverlapBytes": 15728640,
+      "originalOverlapSha256": "5cad68a3d0b79f8f363b93f11fe9e7e7afffad85b09579cfe72bdf70dd8482ae",
+      "originalByteIdentityPreserved": true
+    },
+    "firstReturns": {
+      "data": "tortunabuild/cache/expanded-canopy/firstReturns.f32",
+      "sha256": "e6d8408ea07e613d7404e0e7aaaa929580b63284c603538e5fd43a8151848165",
+      "bytes": 31457280,
+      "finiteCells": 7864320,
+      "unknownCells": 0,
+      "minimum": 0.0,
+      "maximum": 94.0,
+      "originalOverlapBytes": 15728640,
+      "originalOverlapSha256": "9d496c47ab2f254d2eb73d4a1e10f5d2c90327b54bee83e071cf79bdf2930868",
+      "originalByteIdentityPreserved": true
+    }
+  },
+  "canopyCellsAboveTwoMetres": 1668690,
+  "limitations": [
+    "Canopy remains dated April 2021 source evidence.",
+    "Unknown cells remain unknown; cloud-derived ground supports canopy measurement and never replaces the native terrain raster."
+  ]
+}

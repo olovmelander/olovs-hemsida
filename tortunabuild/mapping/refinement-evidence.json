@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-09",
+  "branch": "codex/tortuna-golf-course-v2",
+  "baselineCommit": "2bf7a935",
+  "state": "source-derived-refinement-validated; independent survey and human acceptance pending",
+  "artifacts": [
+    {
+      "path": "tortunabuild/course-model.json",
+      "sha256": "0c8c249c5f782465278613508fd7d988fba55810f2f57c4946118826c69d809f"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/migration/course-model.epsg3006.json",
+      "sha256": "b7112036c579b75fd324d794d7ea194a269e829b65e75f18a951be9d296c8693"
+    },
+    {
+      "path": "tortunabuild/mapping/course-input.json",
+      "sha256": "0583e9698363785c94b6e4fcfa6e741f43b02859d08cbc0a11e408cf00efa09f"
+    },
+    {
+      "path": "tortunabuild/mapping/assembly-review.json",
+      "sha256": "f5b13250c1dcc86d4b4b07eef9027ffa7519faca487699c4dead3ea5932fdfee"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/source-manifest.json",
+      "sha256": "5de6c15db5a1578b3726f541787c4f59cfbe0ff98d098bba6cf18efd6bd752b4"
+    },
+    {
+      "path": "apps/golf/public/courses/tortuna/pack.bin",
+      "sha256": "c960582f858c8d1031300b31de584479b4761211d46f81c9009b244accf864f6"
+    },
+    {
+      "path": "apps/golf/public/tortuna-ground-graph-report.json",
+      "sha256": "72e1de22a7caf81b0601751eaabb35d5ea2268906f5ec33b73e3f491f0e95626"
+    },
+    {
+      "path": "apps/golf/dist/index.html",
+      "sha256": "7b3b0760bdb569c1c8dd798979a2dd66c205c89241b27e98f41138f27eeccc78"
+    },
+    {
+      "path": "tortunabuild/mapping/native-terrain-validation.json",
+      "sha256": "30b82a3d562c70387ab5fcdbafaed357ae7e7443139e7cc0d675abc8f3842ce2"
+    }
+  ],
+  "before": {
+    "greens": 18,
+    "teePlatforms": 18,
+    "bunkers": 32,
+    "fairwayOrApronPolygons": 14,
+    "buildingsIncludingShelter": 148,
+    "measuredRoofs": 0,
+    "measuredRoofTriangles": 0,
+    "paths": 58,
+    "tracks": 0,
+    "roads": 0,
+    "landuseCompatibilityPieces": 0,
+    "waterPolygons": 56,
+    "watercourses": 0,
+    "railways": 0,
+    "powerLines": 0,
+    "powerSupports": 0
+  },
+  "after": {
+    "greens": 18,
+    "teePlatforms": 22,
+    "bunkers": 32,
+    "fairwayOrApronPolygons": 15,
+    "buildingsIncludingShelter": 148,
+    "measuredRoofs": 6,
+    "measuredRoofTriangles": 4737,
+    "paths": 15,
+    "tracks": 21,
+    "roads": 27,
+    "landuseCompatibilityPieces": 161,
+    "waterPolygons": 56,
+    "watercourses": 5,
+    "railways": 11,
+    "powerLines": 2,
+    "powerSupports": 11
+  },
+  "sourceLandusePolygons": 40,
+  "replacements": 44,
+  "addedTeeHoles": [
+    4,
+    7,
+    11,
+    12,
+    13
+  ],
+  "removedFalseTee": "tortuna-h18-tee-02",
+  "addedApronHole": 6,
+  "unchangedSourceWater": true,
+  "retainedTerrain": {
+    "nativeRasterSha256": "86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1",
+    "nativeSamples": 16785409,
+    "tileCount": 341,
+    "parentLinks": 340,
+    "fullSpanMetres": 4096,
+    "shellAndPayloadsUnchanged": true
+  },
+  "nativeRuntimeCheck": {
+    "path": "tortunabuild/mapping/native-terrain-validation.json",
+    "sha256": "30b82a3d562c70387ab5fcdbafaed357ae7e7443139e7cc0d675abc8f3842ce2",
+    "maximumDifferenceMetres": 0.002851405324864942,
+    "references": 36,
+    "independentSurvey": false
+  },
+  "canopy": {
+    "tiles": 60,
+    "cellMetres": 4,
+    "encodedBytes": 348078,
+    "individualStemRecords": 0,
+    "sourceEpoch": "2021-04-05T12:00:00Z",
+    "originalRasterValuesChanged": false,
+    "newExclusionSources": [
+      "playing surfaces",
+      "paths",
+      "observed roof envelopes"
+    ]
+  },
+  "checks": {
+    "assemblerTestsPassed": 9,
+    "tortunaNodeTestsPassed": 16,
+    "sourceArtifactsVerified": 50,
+    "allCoursePacks": 13,
+    "productionBuild": true,
+    "applicationIsolation": true,
+    "rendererBuild": true,
+    "holeSourcePlanner": true
+  },
+  "tests": {
+    "fullVitest": {
+      "files": 85,
+      "total": 583,
+      "initiallyPassed": 581,
+      "timeouts": 2,
+      "timeoutFiles": [
+        "v2-surface-preview-loader.test.mjs",
+        "v2-terrain-preview-loader.test.mjs"
+      ],
+      "log": {
+        "path": "tortunabuild/cache/improvements-tests-final.log",
+        "sha256": "f8cac51c6e973b0874486e5da55f9ee604e68bf8058b3f27311b4104f2f6b0e5"
+      }
+    },
+    "focusedRecheck": {
+      "files": 3,
+      "passed": 15,
+      "timeoutMilliseconds": 60000,
+      "maxWorkers": 2,
+      "allPriorFailuresResolved": true,
+      "includesLineEndingParityRegression": true,
+      "log": {
+        "path": "tortunabuild/cache/improvements-tests-recheck.log",
+        "sha256": "a2b8b92f772370b9a6769b1b7499872afc50afdcf0415ff137829c0f31f54c03"
+      }
+    },
+    "node": {
+      "total": 424,
+      "passed": 421,
+      "skipped": 3,
+      "failed": 0,
+      "concurrency": 2
+    },
+    "sourceAssertionsDisabled": false
+  },
+  "browser": [
+    {
+      "path": "tortunabuild/mapping/browser/refinements-desktop/report.json",
+      "sha256": "bf9d26b8418d18ae45c06a567a821452e17decfa6ce72664e7d3700b7762028f",
+      "passed": true,
+      "actualBackend": "webgl2",
+      "autoFallback": false,
+      "viewport": [
+        640,
+        480
+      ],
+      "captures": 4,
+      "measuredRoofs": 6,
+      "measuredRoofTriangles": 4737,
+      "performanceEvidence": false
+    },
+    {
+      "path": "tortunabuild/mapping/browser/refinements-phone/report.json",
+      "sha256": "c857870a823e670b5142b9d882869b721088dd40cb29698833f52a522cc6df83",
+      "passed": true,
+      "actualBackend": "webgl2",
+      "autoFallback": true,
+      "viewport": [
+        390,
+        660
+      ],
+      "captures": 1,
+      "measuredRoofs": 6,
+      "measuredRoofTriangles": 4737,
+      "performanceEvidence": false
+    }
+  ],
+  "liveMenu": {
+    "path": "tortunabuild/cache/menu-review/report.json",
+    "sha256": "b808d1e19a30f464a8286dbf1d32bba315368d89da724a80ac788ae65c84594c",
+    "base": "http://localhost:5174/",
+    "passed": true,
+    "checks": [
+      "served manifest includes Tortuna exactly once",
+      "Tortuna card is selectable from All courses",
+      "Tortuna stays visible in Skog & Park",
+      "search finds Tortuna by Tortuna",
+      "search finds Tortuna by Västerås",
+      "Tortuna map pin and Mälardalen preview are selectable",
+      "map play button navigates to Tortuna",
+      "Tortuna boots and appears as active in the quick-switch drawer",
+      "selecting the active Tortuna card resumes the course"
+    ],
+    "errors": []
+  },
+  "visualReview": {
+    "reviewer": "assistant",
+    "capturesInspected": 5,
+    "findings": [
+      "Continuous native terrain and observed playing surfaces in sampled views.",
+      "Measured clubhouse roof and neighbouring buildings render.",
+      "Corrected hole-17 path fork is visible.",
+      "Fields remain separate from playing surfaces.",
+      "Portrait automatic WebGL2 fallback renders the current short ninth."
+    ],
+    "limitations": [
+      "Source roof noise remains visible; architecture/facades/terraces need further refinement.",
+      "Software desktop and phone-size captures do not establish hardware performance or physical-phone/WebGPU compatibility.",
+      "Some fairway edges and tee surfaces remain unresolved; no completeness or independent survey approval claimed.",
+      "Other camera edits were observed concurrently in the worktree; browser build identity is recorded separately from working-tree state."
+    ]
+  }
+}

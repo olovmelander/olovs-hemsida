@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "sourceMetadata": [
+    {
+      "path": "upsalabuild/cache/lm-ortho/o66350_6375_25_mr25-flygbild.json",
+      "sha256": "42015a26f806749d93e97d4279921fbb1bf461a27c69db779a89140a0c32f6cf"
+    },
+    {
+      "path": "upsalabuild/cache/lm-ortho/o66350_6400_25_mr25-flygbild.json",
+      "sha256": "816aa0b8d520b01820a4029a1c5cfdd3302c80988624abb5ec26046f67691794"
+    }
+  ],
+  "windows": [
+    {
+      "id": "facilities-campus-native",
+      "coverageFraction": 1.0,
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o66350_6375_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "windowFraction": 0.5501139131588821
+        },
+        {
+          "sourceId": "o66350_6375_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "windowFraction": 0.13409661315690782
+        },
+        {
+          "sourceId": "o66350_6400_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "windowFraction": 0.24395413934832624
+        },
+        {
+          "sourceId": "o66350_6400_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "windowFraction": 0.07183533433588427
+        }
+      ]
+    },
+    {
+      "id": "facilities-range-native",
+      "coverageFraction": 1.0,
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o66350_6375_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "windowFraction": 0.9801740840892079
+        },
+        {
+          "sourceId": "o66350_6375_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "windowFraction": 0.01982591591079205
+        }
+      ]
+    },
+    {
+      "id": "facilities-range-overview",
+      "coverageFraction": 1.0000000000000002,
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o66350_6375_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "windowFraction": 0.42012356728761313
+        },
+        {
+          "sourceId": "o66350_6375_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "windowFraction": 0.37409092001246536
+        },
+        {
+          "sourceId": "o66350_6400_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092550_4212",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "windowFraction": 0.10205141107391298
+        },
+        {
+          "sourceId": "o66350_6400_25_mr25",
+          "imageId": "25o215ss97_14~2025-06-14_092558_4213",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "windowFraction": 0.10373410162600845
+        }
+      ]
+    }
+  ]
+}

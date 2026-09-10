@@ -213,7 +213,10 @@ export function courseExclusionFeatures(geometry) {
   rings('fairway', holes.flatMap(hole => hole.fairway?.rings || []));
   rings('tee', holes.flatMap(hole => (hole.tees?.pads || []).map(pad => pad.ring)));
   rings('bunker', holes.flatMap(hole => (hole.bunkers || []).map(bunker => bunker.ring)));
-  rings('practice', [...(geometry.scenery?.greens || []), ...(geometry.scenery?.fairways || []), ...(geometry.scenery?.tees || [])]);
+  // Named practice greens are distinct from scenery.greens at Liding? and
+  // Johannesberg; their putting surfaces must also exclude measured canopy.
+  rings('practice', [...(geometry.scenery?.greens || []), ...(geometry.scenery?.practiceGreens || []),
+    ...(geometry.scenery?.fairways || []), ...(geometry.scenery?.tees || [])]);
   /* the range is a list of rings in the migrated model and a single ring in
      older ones; passing a list as a ring rasterised nothing and put trees on
      the driving range, which the first published generation showed */

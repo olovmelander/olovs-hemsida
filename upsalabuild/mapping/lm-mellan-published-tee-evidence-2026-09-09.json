@@ -1,0 +1,1358 @@
+{
+  "schemaVersion": 1,
+  "kind": "published-tee-coordinate-evidence",
+  "course": "mellan",
+  "observedAt": "2026-09-09",
+  "sourceUrl": "https://18birdies.com/golf-courses/club/7cf64a10-86ac-11e4-8c28-020000005b00/upsala-golfklubb",
+  "httpStatus": 200,
+  "liveResponse": {
+    "path": "upsalabuild/cache/lm-tee-validation/mellan-published-source-2026-09-09.html",
+    "sha256": "11627a0104d5cc5ee1e20fbee7ea9668ccb6ff4b257c38ffa33c6389eb105945"
+  },
+  "sourceFile": {
+    "path": "upsalabuild/mellanbanan-routes.geojson",
+    "sha256": "82ed0e341e3f15ab252812cb733b7c738af9aee064d57f9e8b3313783a5c6879"
+  },
+  "model": {
+    "path": "upsalamellanbuild/course-model.json",
+    "sha256": "cdbbd39d05116a06dcb1abbb6d9e82025edd32f5c6205df5b843e5186e0f6c9a"
+  },
+  "liveClubRevision": 20,
+  "liveLayoutRevisionHashCode": 591567093,
+  "holeSet": {
+    "name": "Intermediate",
+    "holeIndexes": [
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "teeIndexes": [
+      12,
+      13,
+      14,
+      15,
+      18,
+      19,
+      20,
+      21
+    ]
+  },
+  "sourceTeeIndexes": [
+    12,
+    14,
+    18,
+    20
+  ],
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "validation": {
+    "points": 36,
+    "allStoredCoordinatesMatchLiveWithinMetres": 1e-05,
+    "maximumRoundingResidualMetres": 5.662274841943834e-06,
+    "maleFemalePointsIdentical": true,
+    "sourceNamesVerified": true
+  },
+  "points": [
+    {
+      "hole": 1,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 18,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.497985929104875,
+        59.84166723703874
+      ],
+      "publishedEpsg3006": [
+        639975.1452148724,
+        6636417.172159174
+      ],
+      "publishedLocal": [
+        155.8189092674045,
+        -296.9168271528767
+      ],
+      "storedSourceRoundingResidualMetres": 4.321010971647975e-06,
+      "currentReferenceLocal": [
+        151.885,
+        -300.316
+      ],
+      "currentToPublishedMetres": 5.199040119944386,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-01-west",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        54.50954565730642
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 1,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 18,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.4980985818835,
+        59.841648371775236
+      ],
+      "publishedEpsg3006": [
+        639981.5349693764,
+        6636415.310260072
+      ],
+      "publishedLocal": [
+        162.11965577981752,
+        -294.8167460193855
+      ],
+      "storedSourceRoundingResidualMetres": 2.9069087903353056e-06,
+      "currentReferenceLocal": [
+        164.1,
+        -297.3
+      ],
+      "currentToPublishedMetres": 3.176210566484521,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-01-west",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        47.91642407123884
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 1,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 18,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.4980985818835,
+        59.84166723703874
+      ],
+      "publishedEpsg3006": [
+        639981.4557547569,
+        6636417.410201857
+      ],
+      "publishedLocal": [
+        162.11965577981752,
+        -296.9168271528767
+      ],
+      "storedSourceRoundingResidualMetres": 4.410028552543243e-06,
+      "currentReferenceLocal": [
+        164.1,
+        -297.3
+      ],
+      "currentToPublishedMetres": 2.0170732909794626,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-01-west",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        48.32672085011666
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 1,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 18,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.499031990620683,
+        59.84153517996987
+      ],
+      "publishedEpsg3006": [
+        640034.2977851222,
+        6636404.683356433
+      ],
+      "publishedLocal": [
+        214.3258411683826,
+        -282.21623424573863
+      ],
+      "storedSourceRoundingResidualMetres": 3.5484090515915675e-06,
+      "currentReferenceLocal": [
+        214.693,
+        -286.626
+      ],
+      "currentToPublishedMetres": 4.425024250226294,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-01-east",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        38.66494895353822,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 2,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 19,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.503379873318636,
+        59.84172515527012
+      ],
+      "publishedEpsg3006": [
+        640277.0570881137,
+        6636435.028985047
+      ],
+      "publishedLocal": [
+        457.5058770251315,
+        -303.3642846697788
+      ],
+      "storedSourceRoundingResidualMetres": 3.48557877006709e-06,
+      "currentReferenceLocal": [
+        446,
+        -309.5
+      ],
+      "currentToPublishedMetres": 13.039639900356162,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        29.17604023552125
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 2,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 19,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.503433517498937,
+        59.841700899971585
+      ],
+      "publishedEpsg3006": [
+        640280.1641606268,
+        6636432.442666829
+      ],
+      "publishedLocal": [
+        460.50623250743166,
+        -300.6641848369611
+      ],
+      "storedSourceRoundingResidualMetres": 3.1636716472238382e-06,
+      "currentReferenceLocal": [
+        451.5,
+        -306.9
+      ],
+      "currentToPublishedMetres": 10.95434227717503,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+      "distanceToNearestPadMetres": 2.945353039566032,
+      "distancesToPadsMetres": [
+        2.945353039566032,
+        25.211443354117748
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 2,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 19,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.503460339589086,
+        59.84169820493732
+      ],
+      "publishedEpsg3006": [
+        640281.6780061994,
+        6636432.199475583
+      ],
+      "publishedLocal": [
+        462.0064102484824,
+        -300.36417362296703
+      ],
+      "storedSourceRoundingResidualMetres": 4.199598114613698e-06,
+      "currentReferenceLocal": [
+        451.5,
+        -306.9
+      ],
+      "currentToPublishedMetres": 12.373426475319407,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-02-northwest",
+      "distanceToNearestPadMetres": 4.09210303449381,
+      "distancesToPadsMetres": [
+        4.09210303449381,
+        23.762452753324023
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 2,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 19,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.503969959301916,
+        59.84152302724243
+      ],
+      "publishedEpsg3006": [
+        640310.9628933268,
+        6636413.779337277
+      ],
+      "publishedLocal": [
+        490.50978732844607,
+        -280.86339262757065
+      ],
+      "storedSourceRoundingResidualMetres": 4.7249237373458955e-06,
+      "currentReferenceLocal": [
+        485.549,
+        -289.217
+      ],
+      "currentToPublishedMetres": 9.715563136060466,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-02-pondside",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        38.438287007003346,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 3,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 20,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.50920293742454,
+        59.84198121681805
+      ],
+      "publishedEpsg3006": [
+        640602.1696851427,
+        6636475.876892885
+      ],
+      "publishedLocal": [
+        783.1938121519371,
+        -331.8690561853103
+      ],
+      "storedSourceRoundingResidualMetres": 2.433114706737664e-06,
+      "currentReferenceLocal": [
+        777.033,
+        -338.259
+      ],
+      "currentToPublishedMetres": 8.876203486082725,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-03-northwest",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        72.89030173010755
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 3,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 20,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.509457747280955,
+        59.84192327402127
+      ],
+      "publishedEpsg3006": [
+        640616.6877372188,
+        6636469.968016561
+      ],
+      "publishedLocal": [
+        797.4455006919189,
+        -325.4188640478401
+      ],
+      "storedSourceRoundingResidualMetres": 2.5960209782338496e-06,
+      "currentReferenceLocal": [
+        777.033,
+        -338.259
+      ],
+      "currentToPublishedMetres": 24.11512545618497,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-03-northwest",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        57.225395886431066
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 3,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 20,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.51056818181312,
+        59.841691501825636
+      ],
+      "publishedEpsg3006": [
+        640679.8689354951,
+        6636446.526625513
+      ],
+      "publishedLocal": [
+        859.5528591714188,
+        -299.61798322996515
+      ],
+      "storedSourceRoundingResidualMetres": 2.9466771652519937e-06,
+      "currentReferenceLocal": [
+        851.401,
+        -303.746
+      ],
+      "currentToPublishedMetres": 9.137468489922966,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-03-southeast",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        62.869199604612696,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 3,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 20,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.510570864022135,
+        59.84168341671992
+      ],
+      "publishedEpsg3006": [
+        640680.0533042799,
+        6636445.63235162
+      ],
+      "publishedLocal": [
+        859.7028769455238,
+        -298.71794926130974
+      ],
+      "storedSourceRoundingResidualMetres": 2.5393004098340595e-06,
+      "currentReferenceLocal": [
+        851.401,
+        -303.746
+      ],
+      "currentToPublishedMetres": 9.70579492104919,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-03-southeast",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        63.38516304299716,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 4,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 21,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.515999675991782,
+        59.83993964780869
+      ],
+      "publishedEpsg3006": [
+        640991.5349466935,
+        6636263.071665213
+      ],
+      "publishedLocal": [
+        1163.3400220000358,
+        -104.60159406367268
+      ],
+      "storedSourceRoundingResidualMetres": 1.0709952441925934e-06,
+      "currentReferenceLocal": [
+        1161.8,
+        -102
+      ],
+      "currentToPublishedMetres": 3.023236582328827,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-04-east",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        60.02124783107498
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 4,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 21,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.515870929959068,
+        59.83993964780869
+      ],
+      "publishedEpsg3006": [
+        640984.3225759931,
+        6636262.797657743
+      ],
+      "publishedLocal": [
+        1156.1391688429924,
+        -104.60159406367268
+      ],
+      "storedSourceRoundingResidualMetres": 2.4852835575540617e-06,
+      "currentReferenceLocal": [
+        1154.9,
+        -102.8
+      ],
+      "currentToPublishedMetres": 2.1866139558009507,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-04-east",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        53.888557186435
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 4,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 21,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.515012623074302,
+        59.84023072562303
+      ],
+      "publishedEpsg3006": [
+        640935.0096112146,
+        6636293.371718176
+      ],
+      "publishedLocal": [
+        1108.1334811293693,
+        -137.00437635586695
+      ],
+      "storedSourceRoundingResidualMetres": 2.938955932930954e-06,
+      "currentReferenceLocal": [
+        1103.071,
+        -132.343
+      ],
+      "currentToPublishedMetres": 6.8816527605116065,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-04-northwest",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        48.01211744336149,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 4,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 21,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.514996529820213,
+        59.84020377408046
+      ],
+      "publishedEpsg3006": [
+        640934.2220051511,
+        6636290.3374532
+      ],
+      "publishedLocal": [
+        1107.233374484739,
+        -134.00413063666093
+      ],
+      "storedSourceRoundingResidualMetres": 2.451390329341401e-06,
+      "currentReferenceLocal": [
+        1103.071,
+        -132.343
+      ],
+      "currentToPublishedMetres": 4.481597521337728,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-04-northwest",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        47.06020519807798,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 5,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 22,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.508964217800912,
+        59.83964727860318
+      ],
+      "publishedEpsg3006": [
+        640598.6400479474,
+        6636215.574567663
+      ],
+      "publishedLocal": [
+        769.8420612730926,
+        -72.0550541062363
+      ],
+      "storedSourceRoundingResidualMetres": 3.5801815353223977e-07,
+      "currentReferenceLocal": [
+        769.2,
+        -72.2
+      ],
+      "currentToPublishedMetres": 0.6582188014058334,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-05-northeast",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        19.30916880689526,
+        32.41077941642389
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 5,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 22,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.508897162575522,
+        59.83962436939192
+      ],
+      "publishedEpsg3006": [
+        640594.9801709048,
+        6636212.882178939
+      ],
+      "publishedLocal": [
+        766.0916169194722,
+        -69.5048007087209
+      ],
+      "storedSourceRoundingResidualMetres": 1.638047075763972e-06,
+      "currentReferenceLocal": [
+        762.9,
+        -69
+      ],
+      "currentToPublishedMetres": 3.231291122165683,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-05-northeast",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        0.0,
+        14.765809675191596,
+        27.868763167722893
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 5,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 22,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.508636988301095,
+        59.83951386591622
+      ],
+      "publishedEpsg3006": [
+        640580.870942746,
+        6636200.02965171
+      ],
+      "publishedLocal": [
+        751.5398928322737,
+        -57.20355379344255
+      ],
+      "storedSourceRoundingResidualMetres": 1.8060448900628364e-06,
+      "currentReferenceLocal": [
+        748.6,
+        -61.9
+      ],
+      "currentToPublishedMetres": 5.5407198843058385,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-05-middle",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        13.891348860884104,
+        0.0,
+        8.959270579836442
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 5,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 22,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.508417047161874,
+        59.83947074250913
+      ],
+      "publishedEpsg3006": [
+        640568.7314352774,
+        6636194.762771318
+      ],
+      "publishedLocal": [
+        739.2384353556579,
+        -52.403056116318965
+      ],
+      "storedSourceRoundingResidualMetres": 2.362165774256268e-06,
+      "currentReferenceLocal": [
+        737.175,
+        -55.616
+      ],
+      "currentToPublishedMetres": 3.8184779515747556,
+      "nearestPadIndex": 2,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-05-southwest",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        26.457905217154018,
+        8.22944543505357,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 6,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 23,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.509033990953167,
+        59.83778008346556
+      ],
+      "publishedEpsg3006": [
+        640610.423179212,
+        6636007.881220287
+      ],
+      "publishedLocal": [
+        773.7445211244572,
+        135.80110861368553
+      ],
+      "storedSourceRoundingResidualMetres": 4.643213134784271e-06,
+      "currentReferenceLocal": [
+        795.2,
+        127.2
+      ],
+      "currentToPublishedMetres": 23.115290246139732,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+      "distanceToNearestPadMetres": 0.2151795232491285,
+      "distancesToPadsMetres": [
+        0.2151795232491285,
+        12.913329865549713,
+        35.97339923354593,
+        85.84971694902228
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "retain"
+    },
+    {
+      "hole": 6,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 23,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.508940113637646,
+        59.83772954558565
+      ],
+      "publishedEpsg3006": [
+        640605.376923788,
+        6636002.056488871
+      ],
+      "publishedLocal": [
+        768.4938990307796,
+        141.4269854050005
+      ],
+      "storedSourceRoundingResidualMetres": 2.6426155634837152e-06,
+      "currentReferenceLocal": [
+        783.9,
+        133.7
+      ],
+      "currentToPublishedMetres": 17.235261835054985,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+      "distanceToNearestPadMetres": 0.8172017997029482,
+      "distancesToPadsMetres": [
+        0.8172017997029482,
+        5.362007363889502,
+        29.897168878118585,
+        78.19708981394939
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "retain"
+    },
+    {
+      "hole": 6,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 23,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.50888110503932,
+        59.83763520800459
+      ],
+      "publishedEpsg3006": [
+        640602.4688402882,
+        6635991.430332664
+      ],
+      "publishedLocal": [
+        765.1935080004681,
+        151.92864492867756
+      ],
+      "storedSourceRoundingResidualMetres": 2.2576593380311404e-06,
+      "currentReferenceLocal": [
+        771.8,
+        140.7
+      ],
+      "currentToPublishedMetres": 13.027977720052897,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-06-northeast-lower",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        11.730180334950706,
+        0.0,
+        26.948801059995517,
+        69.18407823415305
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "retain"
+    },
+    {
+      "hole": 6,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 23,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.50786186561366,
+        59.83721472867858
+      ],
+      "publishedEpsg3006": [
+        640547.1391970259,
+        6635942.46307605
+      ],
+      "publishedLocal": [
+        708.1867538405407,
+        198.73640350011982
+      ],
+      "storedSourceRoundingResidualMetres": 2.5034372770419464e-06,
+      "currentReferenceLocal": [
+        707.858,
+        192.218
+      ],
+      "currentToPublishedMetres": 6.526688538458441,
+      "nearestPadIndex": 3,
+      "nearestPadSourceId": "upsala-mellanbanan-tee-06-southwest",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        83.91411912102812,
+        70.83034920790057,
+        50.46730611941106,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 7,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 24,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.50220779473445,
+        59.83626195071463
+      ],
+      "publishedEpsg3006": [
+        640234.3772084893,
+        6635824.425164242
+      ],
+      "publishedLocal": [
+        391.9507247981341,
+        304.79964644732945
+      ],
+      "storedSourceRoundingResidualMetres": 2.5229249692359663e-06,
+      "currentReferenceLocal": [
+        388.049,
+        306.135
+      ],
+      "currentToPublishedMetres": 4.123909008574827,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "mellan-7-tee-west",
+      "distanceToNearestPadMetres": 0.43356095242759846,
+      "distancesToPadsMetres": [
+        0.43356095242759846,
+        9.719911645537843,
+        25.616769878541714,
+        38.034025414930085
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 7,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 24,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.50245455796382,
+        59.836257907502706
+      ],
+      "publishedEpsg3006": [
+        640248.2195221107,
+        6635824.497483272
+      ],
+      "publishedLocal": [
+        405.7523600158007,
+        305.2497367986521
+      ],
+      "storedSourceRoundingResidualMetres": 2.0459354732929074e-06,
+      "currentReferenceLocal": [
+        403,
+        302
+      ],
+      "currentToPublishedMetres": 4.2586705574735735,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "mellan-7-tee-middle-west",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        14.221698612938063,
+        0.0,
+        12.289815168897785,
+        24.40923486772344
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 7,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 24,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.50271205002925,
+        59.836282166766786
+      ],
+      "publishedEpsg3006": [
+        640262.5438840673,
+        6635827.74298441
+      ],
+      "publishedLocal": [
+        420.15406632988766,
+        302.5491955212411
+      ],
+      "storedSourceRoundingResidualMetres": 4.042807081006515e-06,
+      "currentReferenceLocal": [
+        417.783,
+        298.604
+      ],
+      "currentToPublishedMetres": 4.602882058183502,
+      "nearestPadIndex": 2,
+      "nearestPadSourceId": "mellan-7-tee-middle-east",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        28.69761387772076,
+        10.001807447892393,
+        0.0,
+        9.722190386063051
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 7,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 24,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.50296954209468,
+        59.83629564412809
+      ],
+      "publishedEpsg3006": [
+        640276.9135822547,
+        6635829.788382373
+      ],
+      "publishedLocal": [
+        434.55577264397454,
+        301.04889566054936
+      ],
+      "storedSourceRoundingResidualMetres": 3.14165277915368e-06,
+      "currentReferenceLocal": [
+        431.066,
+        295.527
+      ],
+      "currentToPublishedMetres": 6.532215917483685,
+      "nearestPadIndex": 3,
+      "nearestPadSourceId": "mellan-7-tee-east",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        43.19357180675109,
+        24.497769086664935,
+        10.487706349735065,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 8,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 25,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.50421144552537,
+        59.83738185051935
+      ],
+      "publishedEpsg3006": [
+        640341.9212371175,
+        6635953.326837372
+      ],
+      "publishedLocal": [
+        504.016276016928,
+        180.1324001858319
+      ],
+      "storedSourceRoundingResidualMetres": 2.579227679278318e-06,
+      "currentReferenceLocal": [
+        501.622,
+        176.844
+      ],
+      "currentToPublishedMetres": 4.067693870907165,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "mellan-8-tee-upper",
+      "distanceToNearestPadMetres": 2.545398669586076,
+      "distancesToPadsMetres": [
+        2.545398669586076,
+        22.35563963227411
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 8,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 25,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.50420071668931,
+        59.83738185051935
+      ],
+      "publishedEpsg3006": [
+        640341.320157413,
+        6635953.304108748
+      ],
+      "publishedLocal": [
+        503.4162049205077,
+        180.1324001858319
+      ],
+      "storedSourceRoundingResidualMetres": 2.2352777091105005e-06,
+      "currentReferenceLocal": [
+        501.622,
+        176.844
+      ],
+      "currentToPublishedMetres": 3.746030843299789,
+      "nearestPadIndex": 0,
+      "nearestPadSourceId": "mellan-8-tee-upper",
+      "distanceToNearestPadMetres": 2.2203930870639565,
+      "distancesToPadsMetres": [
+        2.2203930870639565,
+        22.181941235787466
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 8,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 25,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.50420608110734,
+        59.83759343747427
+      ],
+      "publishedEpsg3006": [
+        640340.730115904,
+        6635976.867703463
+      ],
+      "publishedLocal": [
+        503.71624046871784,
+        156.57854036429
+      ],
+      "storedSourceRoundingResidualMetres": 2.8933962735471266e-06,
+      "currentReferenceLocal": [
+        501.6,
+        180.4
+      ],
+      "currentToPublishedMetres": 23.91527572279274,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+      "distanceToNearestPadMetres": 4.836858497328522,
+      "distancesToPadsMetres": [
+        13.965624336577148,
+        4.836858497328522
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "retain"
+    },
+    {
+      "hole": 8,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 25,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.50422217436143,
+        59.83762578185844
+      ],
+      "publishedEpsg3006": [
+        640341.4955893599,
+        6635980.502124164
+      ],
+      "publishedLocal": [
+        504.6163471133483,
+        152.97796351807875
+      ],
+      "storedSourceRoundingResidualMetres": 5.104610695130544e-06,
+      "currentReferenceLocal": [
+        501.6,
+        180.4
+      ],
+      "currentToPublishedMetres": 27.587432550420935,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+      "distanceToNearestPadMetres": 6.93105330842734,
+      "distancesToPadsMetres": [
+        17.673373731337414,
+        6.93105330842734
+      ],
+      "insidePhysicalPad": false,
+      "previousDecision": "retain"
+    },
+    {
+      "hole": 9,
+      "markIndex": 0,
+      "role": "white_tee",
+      "sourceHoleIndex": 26,
+      "sourceTeeIndex": 12,
+      "sourceTeeName": "White",
+      "publishedWgs84": [
+        17.502277490554206,
+        59.84078053241183
+      ],
+      "publishedEpsg3006": [
+        640219.2775158662,
+        6636327.546848216
+      ],
+      "publishedLocal": [
+        395.84885939031415,
+        -198.20886808475052
+      ],
+      "storedSourceRoundingResidualMetres": 2.8800634602137134e-06,
+      "currentReferenceLocal": [
+        398.5,
+        -198.9
+      ],
+      "currentToPublishedMetres": 2.7397463124533816,
+      "nearestPadIndex": 2,
+      "nearestPadSourceId": "mellan-9-tee-east",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        49.77858444346291,
+        29.786001706543736,
+        0.0
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 9,
+      "markIndex": 1,
+      "role": "yellow_tee",
+      "sourceHoleIndex": 26,
+      "sourceTeeIndex": 14,
+      "sourceTeeName": "Yellow",
+      "publishedWgs84": [
+        17.501596209464424,
+        59.84079400795238
+      ],
+      "publishedEpsg3006": [
+        640181.056152955,
+        6636327.604981689
+      ],
+      "publishedLocal": [
+        357.7443447676258,
+        -199.70896525937974
+      ],
+      "storedSourceRoundingResidualMetres": 5.662274841943834e-06,
+      "currentReferenceLocal": [
+        359.807,
+        -196.276
+      ],
+      "currentToPublishedMetres": 4.004971545435595,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "mellan-9-tee-middle",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        12.633078918855087,
+        0.0,
+        29.476455115390394
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 9,
+      "markIndex": 2,
+      "role": "blue_tee",
+      "sourceHoleIndex": 26,
+      "sourceTeeIndex": 18,
+      "sourceTeeName": "Blue",
+      "publishedWgs84": [
+        17.501542565284126,
+        59.84080478838089
+      ],
+      "publishedEpsg3006": [
+        640178.0057305094,
+        6636328.69146194
+      ],
+      "publishedLocal": [
+        354.7439892855244,
+        -200.9090425611987
+      ],
+      "storedSourceRoundingResidualMetres": 2.3047931232539545e-06,
+      "currentReferenceLocal": [
+        359.807,
+        -196.276
+      ],
+      "currentToPublishedMetres": 6.8628828395051045,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "mellan-9-tee-middle",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        10.520113956825904,
+        0.0,
+        32.49532308184204
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    },
+    {
+      "hole": 9,
+      "markIndex": 3,
+      "role": "red_tee",
+      "sourceHoleIndex": 26,
+      "sourceTeeIndex": 20,
+      "sourceTeeName": "Red",
+      "publishedWgs84": [
+        17.50147819226777,
+        59.840772447084866
+      ],
+      "publishedEpsg3006": [
+        640174.5356016934,
+        6636324.955257103
+      ],
+      "publishedLocal": [
+        351.1435627070027,
+        -197.30880948747
+      ],
+      "storedSourceRoundingResidualMetres": 2.4673988748503277e-06,
+      "currentReferenceLocal": [
+        345.078,
+        -192.72
+      ],
+      "currentToPublishedMetres": 7.605801960666383,
+      "nearestPadIndex": 1,
+      "nearestPadSourceId": "mellan-9-tee-middle",
+      "distanceToNearestPadMetres": 0.0,
+      "distancesToPadsMetres": [
+        5.601854193423358,
+        0.0,
+        36.190694579966575
+      ],
+      "insidePhysicalPad": true,
+      "previousDecision": "align-to-observed-pad"
+    }
+  ],
+  "limitations": [
+    "Third-party published tee coordinates; not a surveyed club export or current daily marker positions.",
+    "Source has White, Yellow, Blue and Red coordinates but no Orange tee coordinates for Intermediate.",
+    "Source capture/currentness is unknown; live availability does not imply positions were measured in 2026."
+  ]
+}

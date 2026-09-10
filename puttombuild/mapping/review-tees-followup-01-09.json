@@ -1,0 +1,1026 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "reviewedAt": "2026-09-09",
+  "reviewMethod": "Machine visual paired-year orthophoto review against official numbered club hole plans; no card-distance fitting",
+  "reviewStatus": "machine-reviewed-not-survey-approved",
+  "sources": {
+    "tee-2022-hole-01": {
+      "id": "tee-2022-hole-01",
+      "requestSha256": "93434cef2dbe552bf6f972a3255929e3c14c302b848d1e37aaff6e692082c3fa",
+      "sha256": "6429dcd9bfbc47e866db2d9281ed7bf321754c6ec248fb773db8ea917a44c72d",
+      "bytes": 3730315,
+      "rasterFile": "tee-2022-hole-01.tif",
+      "boundsEpsg3006": [
+        697302.88,
+        7025176.96,
+        697470.72,
+        7025385.92
+      ],
+      "width": 1049,
+      "height": 1306,
+      "geoTransform": [
+        697302.88,
+        0.16,
+        0,
+        7025385.92,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr22",
+          "capturedAt": "2022-07-03T07:37:35Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:40:17.608019+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15,
+          "maximum": 255,
+          "mean": 72.94791145070708,
+          "standardDeviation": 31.754269233181432
+        },
+        {
+          "band": 2,
+          "minimum": 27,
+          "maximum": 255,
+          "mean": 90.9255171920461,
+          "standardDeviation": 29.0258361340523
+        },
+        {
+          "band": 3,
+          "minimum": 33,
+          "maximum": 255,
+          "mean": 78.20012715384155,
+          "standardDeviation": 24.445608879261282
+        },
+        {
+          "band": 4,
+          "minimum": 12,
+          "maximum": 255,
+          "mean": 111.16681678897864,
+          "standardDeviation": 35.69717253267168
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "tee-2022-hole-03": {
+      "id": "tee-2022-hole-03",
+      "requestSha256": "d13691f9e52169a375df6b9d446bff50f343a8f8812e040b441d3b683e305c4a",
+      "sha256": "f92930497df2e1f76053775bb94bf8c749ae2ced6d2622ddb246a6752789f890",
+      "bytes": 2453551,
+      "rasterFile": "tee-2022-hole-03.tif",
+      "boundsEpsg3006": [
+        696928.16,
+        7025477.28,
+        697074.24,
+        7025635.2
+      ],
+      "width": 913,
+      "height": 987,
+      "geoTransform": [
+        696928.16,
+        0.16,
+        0,
+        7025635.2,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70250_6950_25_mr22",
+          "capturedAt": "2022-07-03T07:37:35Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:40:18.709775+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 14,
+          "maximum": 253,
+          "mean": 61.38149947122005,
+          "standardDeviation": 19.860973245711595
+        },
+        {
+          "band": 2,
+          "minimum": 30,
+          "maximum": 255,
+          "mean": 83.09600047051983,
+          "standardDeviation": 19.66740505901665
+        },
+        {
+          "band": 3,
+          "minimum": 36,
+          "maximum": 255,
+          "mean": 68.24562688443744,
+          "standardDeviation": 11.896680997093378
+        },
+        {
+          "band": 4,
+          "minimum": 26,
+          "maximum": 227,
+          "mean": 125.21606070593509,
+          "standardDeviation": 28.496102553898936
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "tee-2022-hole-07": {
+      "id": "tee-2022-hole-07",
+      "requestSha256": "e04489c19e54237b78c52f333d5d0b78500728549452628f004c19d576d3528e",
+      "sha256": "34c41f4e8499a47707a966ced55a62a659fa14499a57281feacb4115528bde97",
+      "bytes": 5493068,
+      "rasterFile": "tee-2022-hole-07.tif",
+      "boundsEpsg3006": [
+        697869.28,
+        7024968.32,
+        698046.72,
+        7025262.88
+      ],
+      "width": 1109,
+      "height": 1841,
+      "geoTransform": [
+        697869.28,
+        0.16,
+        0,
+        7025262.88,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr22",
+          "capturedAt": "2022-06-24T11:30:54Z"
+        },
+        {
+          "id": "o70250_6975_25_mr22",
+          "capturedAt": "2022-06-24T11:31:13Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:40:21.720845+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 13,
+          "maximum": 209,
+          "mean": 53.48312973356602,
+          "standardDeviation": 22.242080425252922
+        },
+        {
+          "band": 2,
+          "minimum": 26,
+          "maximum": 217,
+          "mean": 72.72540945667491,
+          "standardDeviation": 23.749941749477376
+        },
+        {
+          "band": 3,
+          "minimum": 31,
+          "maximum": 214,
+          "mean": 63.14031265596921,
+          "standardDeviation": 14.182680469830197
+        },
+        {
+          "band": 4,
+          "minimum": 18,
+          "maximum": 240,
+          "mean": 97.34718850117233,
+          "standardDeviation": 35.58924448941937
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "tee-2022-hole-08": {
+      "id": "tee-2022-hole-08",
+      "requestSha256": "ff7f790a1cb712f70ce2c93cc526183418f16174ee77c2249382e13ff25aacdc",
+      "sha256": "aa194c05212a34fedac9781ba7eceeb8b0a6183b30989bdfabb07d6a33bf88be",
+      "bytes": 5142452,
+      "rasterFile": "tee-2022-hole-08.tif",
+      "boundsEpsg3006": [
+        697730.56,
+        7024794.72,
+        697920.16,
+        7025052.16
+      ],
+      "width": 1185,
+      "height": 1609,
+      "geoTransform": [
+        697730.56,
+        0.16,
+        0,
+        7025052.16,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr22",
+          "capturedAt": "2022-06-24T11:30:54Z"
+        },
+        {
+          "id": "o70250_6975_25_mr22",
+          "capturedAt": "2022-06-24T11:31:13Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:40:22.731049+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 13,
+          "maximum": 224,
+          "mean": 61.6429902473691,
+          "standardDeviation": 20.105120497295275
+        },
+        {
+          "band": 2,
+          "minimum": 26,
+          "maximum": 237,
+          "mean": 81.11415377111344,
+          "standardDeviation": 19.521658631489185
+        },
+        {
+          "band": 3,
+          "minimum": 30,
+          "maximum": 234,
+          "mean": 68.31177474805484,
+          "standardDeviation": 13.23755064087457
+        },
+        {
+          "band": 4,
+          "minimum": 21,
+          "maximum": 253,
+          "mean": 109.30236092863717,
+          "standardDeviation": 27.47662070307293
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    }
+  },
+  "holes": [
+    {
+      "n": 1,
+      "tees": [
+        {
+          "id": "h01-tee-pad-00-lm2022-followup",
+          "sourceKey": "tee-2022-hole-01",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              498,
+              581
+            ],
+            [
+              538,
+              575
+            ],
+            [
+              557,
+              625
+            ],
+            [
+              576,
+              680
+            ],
+            [
+              595,
+              734
+            ],
+            [
+              615,
+              786
+            ],
+            [
+              637,
+              840
+            ],
+            [
+              657,
+              898
+            ],
+            [
+              648,
+              905
+            ],
+            [
+              610,
+              919
+            ],
+            [
+              598,
+              907
+            ],
+            [
+              583,
+              859
+            ],
+            [
+              564,
+              807
+            ],
+            [
+              546,
+              755
+            ],
+            [
+              527,
+              702
+            ],
+            [
+              510,
+              654
+            ],
+            [
+              490,
+              601
+            ],
+            [
+              498,
+              581
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-61": [
+              631,
+              885
+            ],
+            "tee-57": [
+              616,
+              834
+            ],
+            "tee-48": [
+              518,
+              642
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-1-file-711182",
+          "supersedes": false,
+          "reviewNotes": "Platform boundary visible in 2022 and retained turf footprint corroborated by 2024 imagery; official numbered plan establishes platform identities. Capture dates are in source.sources. Machine visual review; virtual tee reference, not a surveyed current movable marker."
+        }
+      ],
+      "cameraReferences": [
+        {
+          "id": "h01-tee-41-lm2022-visible-anchor",
+          "sourceKey": "tee-2022-hole-01",
+          "teeKey": "tee-41",
+          "pointPixels": [
+            430,
+            411
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-1-file-711182",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "Visible white marker pair on grass east of the cart path, forward of the long clubhouse platform. Numbered plan places41 at this separate forward grass station; 2024 confirms same open turf, without a delineated pad. Machine visual review; virtual tee reference, not a surveyed current movable marker."
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h02-tee-pad-00-lm2024",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              993,
+              513
+            ],
+            "tee-57": [
+              934.441,
+              478.015
+            ],
+            "tee-48": [
+              748.337,
+              453.092
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-2-file-711183",
+          "reviewNotes": "All three retained references visually confirmed inside the long platform. Numbered plan distinguishes back61/57 and leading48; 2022 corroborates footprint. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "tees": [
+        {
+          "id": "h03-tee-pad-01-lm2022-followup",
+          "sourceKey": "tee-2022-hole-03",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              457,
+              414
+            ],
+            [
+              483,
+              418
+            ],
+            [
+              510,
+              433
+            ],
+            [
+              531,
+              457
+            ],
+            [
+              532,
+              483
+            ],
+            [
+              524,
+              517
+            ],
+            [
+              498,
+              515
+            ],
+            [
+              467,
+              504
+            ],
+            [
+              442,
+              492
+            ],
+            [
+              435,
+              470
+            ],
+            [
+              438,
+              444
+            ],
+            [
+              446,
+              424
+            ],
+            [
+              457,
+              414
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-61": [
+              499,
+              444
+            ],
+            "tee-57": [
+              484,
+              465
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-3-file-711184",
+          "supersedes": false,
+          "reviewNotes": "Platform boundary visible in 2022 and retained turf footprint corroborated by 2024 imagery; official numbered plan establishes platform identities. Capture dates are in source.sources. Machine visual review; virtual tee reference, not a surveyed current movable marker."
+        },
+        {
+          "id": "h03-tee-pad-00-lm2022-followup",
+          "sourceKey": "tee-2022-hole-03",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              433,
+              539
+            ],
+            [
+              456,
+              542
+            ],
+            [
+              481,
+              548
+            ],
+            [
+              507,
+              556
+            ],
+            [
+              511,
+              574
+            ],
+            [
+              503,
+              590
+            ],
+            [
+              487,
+              591
+            ],
+            [
+              458,
+              584
+            ],
+            [
+              437,
+              576
+            ],
+            [
+              422,
+              565
+            ],
+            [
+              423,
+              551
+            ],
+            [
+              433,
+              539
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-48": [
+              472,
+              570
+            ],
+            "tee-41": [
+              472,
+              570
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-3-file-711184",
+          "supersedes": false,
+          "reviewNotes": "Platform boundary visible in 2022 and retained turf footprint corroborated by 2024 imagery; official numbered plan establishes platform identities. Capture dates are in source.sources. Machine visual review; virtual tee reference, not a surveyed current movable marker."
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h04-tee-pad-01-lm2024",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              487,
+              503
+            ],
+            "tee-57": [
+              525.622,
+              480.9
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-4-file-711185",
+          "reviewNotes": "Official plan assigns61/57 to rear tee complex; visible L-shaped platform is the corresponding rear complex.61 moved from path/rough to its western lobe;57 retained in observed turf. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h05-tee-pad-01-lm2024",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              433.14,
+              547.456
+            ],
+            "tee-57": [
+              500,
+              536
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-5-file-711186",
+          "reviewNotes": "61/57 confirmed together on rear rectangular platform with61 west/back and57 east/front; both references lie in visible turf. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        },
+        {
+          "platformReviewId": "h05-tee-pad-00-lm2024",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              686,
+              492
+            ],
+            "tee-41": [
+              686,
+              492
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-5-file-711186",
+          "reviewNotes": "48/41 confirmed together on separate forward rectangle; preserve shared virtual reference because artwork establishes platform group, not distinct surveyed spots. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h06-tee-pad-00-lm2024",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              434,
+              519
+            ],
+            "tee-57": [
+              546.46,
+              532.392
+            ],
+            "tee-48": [
+              730,
+              651
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-6-file-711187",
+          "reviewNotes": "Continuous long tee footprint corroborated in both years. Numbered plan orders61 at rear tip,57 along rear section and48 toward forward end. Old61 lay in trees behind the visible tee complex; place its virtual reference inside observed rear tip. Preserve accepted48. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "tees": [
+        {
+          "id": "h07-tee-pad-00-lm2022-followup",
+          "sourceKey": "tee-2022-hole-07",
+          "replaceIndex": 0,
+          "ringPixels": [
+            [
+              665,
+              412
+            ],
+            [
+              718,
+              429
+            ],
+            [
+              699,
+              514
+            ],
+            [
+              646,
+              498
+            ],
+            [
+              665,
+              412
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-61": [
+              671,
+              435.618
+            ],
+            "tee-57": [
+              673,
+              445
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-7-file-711188",
+          "supersedes": true,
+          "reviewNotes": "Platform boundary visible in 2022 and retained turf footprint corroborated by 2024 imagery; official numbered plan establishes platform identities. Capture dates are in source.sources. Machine visual review; virtual tee reference, not a surveyed current movable marker."
+        }
+      ],
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h07-tee-pad-01-lm2024",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              638,
+              846
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-7-file-711188",
+          "reviewNotes": "Separate middle platform and48identity confirmed against both years and plan; retain accepted coordinate. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "tees": [
+        {
+          "id": "h08-tee-pad-01-lm2022-followup",
+          "sourceKey": "tee-2022-hole-08",
+          "replaceIndex": 1,
+          "ringPixels": [
+            [
+              459,
+              1109
+            ],
+            [
+              497,
+              1129
+            ],
+            [
+              502,
+              1142
+            ],
+            [
+              464,
+              1207
+            ],
+            [
+              423,
+              1186
+            ],
+            [
+              439,
+              1144
+            ],
+            [
+              459,
+              1109
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-61": [
+              463,
+              1136
+            ],
+            "tee-57": [
+              475,
+              1126
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-8-file-711189",
+          "supersedes": true,
+          "reviewNotes": "Platform boundary visible in 2022 and retained turf footprint corroborated by 2024 imagery; official numbered plan establishes platform identities. Capture dates are in source.sources. Machine visual review; virtual tee reference, not a surveyed current movable marker."
+        }
+      ],
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h08-tee-pad-00-lm2024",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              555,
+              763
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-8-file-711189",
+          "reviewNotes": "48confirmed on separate platform before bridge; retain accepted coordinate. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h09-tee-pad-00-lm2024",
+          "cameraReferencesPixels": {
+            "tee-48": [
+              908,
+              511
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190",
+          "reviewNotes": "48confirmed on forward small platform, separate from back61/57. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        },
+        {
+          "platformReviewId": "h09-tee-pad-01-lm2024",
+          "cameraReferencesPixels": {
+            "tee-57": [
+              1277.042,
+              516.627
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190",
+          "reviewNotes": "57confirmed on mainbackplatform; preserve accepted interior. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        },
+        {
+          "platformReviewId": "h09-tee-pad-02-lm2024",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              1420.061,
+              534.769
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190",
+          "reviewNotes": "61confirmed on rear continuation at path bend; preserve accepted interior. Machine visual review; virtual tee reference, not a surveyed current movable marker.",
+          "supersedes": false
+        }
+      ]
+    }
+  ],
+  "referenceReview": [
+    {
+      "hole": 1,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 1,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 1,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 1,
+      "teeKey": "tee-41",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 2,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 2,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 2,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 2,
+      "teeKey": "tee-41",
+      "status": "unresolved",
+      "basis": "Numbered plan places41 on forward grass but no uniquely identifiable fixed station is visible; retained provisionally without moving by scorecard distance."
+    },
+    {
+      "hole": 3,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 3,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 3,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 3,
+      "teeKey": "tee-41",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 4,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 4,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 4,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 4,
+      "teeKey": "tee-41",
+      "status": "unresolved",
+      "basis": "Numbered plan places41 on forward grass but no uniquely identifiable fixed station is visible; retained provisionally without moving by scorecard distance."
+    },
+    {
+      "hole": 5,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 5,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 5,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 5,
+      "teeKey": "tee-41",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 6,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 6,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 6,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 6,
+      "teeKey": "tee-41",
+      "status": "unresolved",
+      "basis": "Numbered plan places41 on forward grass but no uniquely identifiable fixed station is visible; retained provisionally without moving by scorecard distance."
+    },
+    {
+      "hole": 7,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 7,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 7,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 7,
+      "teeKey": "tee-41",
+      "status": "unresolved",
+      "basis": "Numbered plan places41 on forward grass but no uniquely identifiable fixed station is visible; retained provisionally without moving by scorecard distance."
+    },
+    {
+      "hole": 8,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 8,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 8,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 8,
+      "teeKey": "tee-41",
+      "status": "unresolved",
+      "basis": "Numbered plan places41 on forward grass but no uniquely identifiable fixed station is visible; retained provisionally without moving by scorecard distance."
+    },
+    {
+      "hole": 9,
+      "teeKey": "tee-61",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 9,
+      "teeKey": "tee-57",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 9,
+      "teeKey": "tee-48",
+      "status": "visually-confirmed-platform-or-anchor",
+      "basis": "Paired native orthophotos and numbered club plan; retained or corrected through this fragment/current reviewed overlay."
+    },
+    {
+      "hole": 9,
+      "teeKey": "tee-41",
+      "status": "unresolved",
+      "basis": "Numbered plan places41 on forward grass but no uniquely identifiable fixed station is visible; retained provisionally without moving by scorecard distance."
+    }
+  ],
+  "notes": [
+    "All36 references reviewed. References to already reviewed platforms use teeReferenceAdditions for root merge.",
+    "H4/48 existing standalone [982,502] independently reconfirmed using visible2024markerpair and official pond-side platform identity; retained unchanged.",
+    "H7/H8 existing standalone61/57 positions are promoted to paired-year traced platforms with explicit supersedes:true; no coordinate change.",
+    "Source capture dates use cached source metadata;2022is historical context and is not called2024imagery."
+  ]
+}

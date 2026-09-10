@@ -1,0 +1,1057 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "state": "acquired-for-review",
+  "observedAt": "2026-09-09T19:57:27.374177+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-u2-2024",
+  "nativeResolutionMetres": 0.16,
+  "planSha256": "bdf732a055cc8b56566fdc86c4f98dc63436791b574c9666d09482a73c26b720",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o69875_6775_25_mr24",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "ground-overview",
+      "rasterFile": "ground-overview.tif",
+      "rgbFile": "ground-overview.png",
+      "sha256": "6458540fb8be86ad8c1e3c0b1adb2046ac91b3fe921065651506253c6f28504a",
+      "rgbSha256": "1fe4bd9d5fb3cfa2c37e156cedacf6e27e8cb3e0190616595d767f9f92cd049d",
+      "requestSha256": "a92155826792afc3c10ce9addab540d5c03cce85bbb60cba6eee1431b89391da",
+      "bytes": 12855457,
+      "boundsEpsg3006": [
+        678172.0,
+        6987820.8,
+        679755.2,
+        6989672.0
+      ],
+      "geoTransform": [
+        678172.0,
+        0.8,
+        0.0,
+        6989672.0,
+        0.0,
+        -0.8
+      ],
+      "width": 1979,
+      "height": 2314,
+      "resolutionMetres": 0.8,
+      "resampling": "average",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:56:54.502945+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-01-hole",
+      "rasterFile": "norrfallsviken-01-hole.tif",
+      "rgbFile": "norrfallsviken-01-hole.png",
+      "sha256": "c5988b63faeb69c976944c7eb90b604e81201a504f3e17c8940c6f9f3eb5935c",
+      "rgbSha256": "54ab88a7912c2c4cd0b4a847f6bdc94236407b1c59897c985648d3604ea30546",
+      "requestSha256": "317bf9e848bc0dabb36cb62318711d225a585309fd1671395fa3abd05463daec",
+      "bytes": 10244331,
+      "boundsEpsg3006": [
+        678604.32,
+        6988339.2,
+        679039.84,
+        6988532.16
+      ],
+      "geoTransform": [
+        678604.32,
+        0.16,
+        0.0,
+        6988532.16,
+        0.0,
+        -0.16
+      ],
+      "width": 2722,
+      "height": 1206,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:30.541511+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-02-hole",
+      "rasterFile": "norrfallsviken-02-hole.tif",
+      "rgbFile": "norrfallsviken-02-hole.png",
+      "sha256": "8e7d88a50bf5ea339604101b5811e1056210965de4a2c9fdada439acf24358e8",
+      "rgbSha256": "f0aaca1a632f739dca2b3ac14e2fc74dec2db4a79a9f6e88a53eb01df0eb45dd",
+      "requestSha256": "703a0841b267022514da3538a9314fa2b8cb5c88645fd8bea629313a68f85056",
+      "bytes": 6061163,
+      "boundsEpsg3006": [
+        678817.92,
+        6988196.0,
+        678999.8400000001,
+        6988464.16
+      ],
+      "geoTransform": [
+        678817.92,
+        0.16,
+        0.0,
+        6988464.16,
+        0.0,
+        -0.16
+      ],
+      "width": 1137,
+      "height": 1676,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:31.861444+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-03-hole",
+      "rasterFile": "norrfallsviken-03-hole.tif",
+      "rgbFile": "norrfallsviken-03-hole.png",
+      "sha256": "5b321b8d07920329f33a4c8f89f58892fab480efbc3a37a37bc6a8bbadd8ffcc",
+      "rgbSha256": "fa307bf16f1f91c60bf981a185fc833be04ab995b61878a5da40474ab23457c5",
+      "requestSha256": "15dd64a0b9a05775c91fd07e9544dae7055a686428d78e9aec50db0b2d093e7f",
+      "bytes": 11294019,
+      "boundsEpsg3006": [
+        678828.96,
+        6987885.44,
+        679089.6,
+        6988232.32
+      ],
+      "geoTransform": [
+        678828.96,
+        0.16,
+        0.0,
+        6988232.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1629,
+      "height": 2168,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:36.654704+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-04-hole",
+      "rasterFile": "norrfallsviken-04-hole.tif",
+      "rgbFile": "norrfallsviken-04-hole.png",
+      "sha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f",
+      "rgbSha256": "6d6504318ccf239659312f523f3073957745d171621dcf9934f9a8b8aa3c3c49",
+      "requestSha256": "ec281465364f8a2d9cfad42d692bf2eb5f7c345f9fbc32fc5509b1686a2841c0",
+      "bytes": 15590295,
+      "boundsEpsg3006": [
+        678914.24,
+        6987905.92,
+        679145.6,
+        6988454.72
+      ],
+      "geoTransform": [
+        678914.24,
+        0.16,
+        0.0,
+        6988454.72,
+        0.0,
+        -0.16
+      ],
+      "width": 1446,
+      "height": 3430,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:40.448543+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-05-hole",
+      "rasterFile": "norrfallsviken-05-hole.tif",
+      "rgbFile": "norrfallsviken-05-hole.png",
+      "sha256": "7d2fb9cefbcf3c621f7229dd43e1eb038c14c38048b839b25e9af75593624260",
+      "rgbSha256": "d5aa2214fe3732edb2d06f69e0dead9387b6cf3327aa06a1f5c388461e0dd3d8",
+      "requestSha256": "5991d6dd58a799d40734c75c1b72769ff786b0c04d15ec29c4e94b1c90f4da29",
+      "bytes": 11141111,
+      "boundsEpsg3006": [
+        678988.48,
+        6988260.48,
+        679406.08,
+        6988477.12
+      ],
+      "geoTransform": [
+        678988.48,
+        0.16,
+        0.0,
+        6988477.12,
+        0.0,
+        -0.16
+      ],
+      "width": 2610,
+      "height": 1354,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:42.685542+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-06-hole",
+      "rasterFile": "norrfallsviken-06-hole.tif",
+      "rgbFile": "norrfallsviken-06-hole.png",
+      "sha256": "827db256765d89d8376d92aa8172286d244aeb35501a6aacff350df2e7c2a228",
+      "rgbSha256": "05ba47d7646de3f930a2a610dd9f9b9a39ed6903cb2a1175027321f044664565",
+      "requestSha256": "16837c7d745cfd3a3d56f0f42cbb52c1dfa4cde33e0379ea4c4dbf82b5ab2c08",
+      "bytes": 10898445,
+      "boundsEpsg3006": [
+        679218.88,
+        6987919.04,
+        679401.12,
+        6988408.32
+      ],
+      "geoTransform": [
+        679218.88,
+        0.16,
+        0.0,
+        6988408.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1139,
+      "height": 3058,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:44.731202+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-07-hole",
+      "rasterFile": "norrfallsviken-07-hole.tif",
+      "rgbFile": "norrfallsviken-07-hole.png",
+      "sha256": "edcb3c3d0143c95d17f4217ea9bae8237e4493a35ceb6882479edad3c26adf9c",
+      "rgbSha256": "c55388e4ddfdf4ab50d4ff578451a10b0a903e8607950ec9b973e66b86623aa7",
+      "requestSha256": "3bec9eca050b479b100d0420b0676d28b306a88e9b50a333cd0d9fc29bad2eb1",
+      "bytes": 4994327,
+      "boundsEpsg3006": [
+        679049.12,
+        6987871.5200000005,
+        679317.12,
+        6988022.08
+      ],
+      "geoTransform": [
+        679049.12,
+        0.16,
+        0.0,
+        6988022.08,
+        0.0,
+        -0.16
+      ],
+      "width": 1675,
+      "height": 941,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:45.543593+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-08-hole",
+      "rasterFile": "norrfallsviken-08-hole.tif",
+      "rgbFile": "norrfallsviken-08-hole.png",
+      "sha256": "26d4d5295f19cf075949c894547bf59b81cdee52650d33bc32fedd57ab0f1ddb",
+      "rgbSha256": "189b977de97fd27a55003be0097a81271720a9c4525d24ff48b9aad70d0692a9",
+      "requestSha256": "d57d27aaccaff90305e1cb50521864e07a76bdf37fc37c48bb746f9a6f8d447f",
+      "bytes": 11685873,
+      "boundsEpsg3006": [
+        678988.0,
+        6987966.72,
+        679177.12,
+        6988470.56
+      ],
+      "geoTransform": [
+        678988.0,
+        0.16,
+        0.0,
+        6988470.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1182,
+      "height": 3149,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:47.386234+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-09-hole",
+      "rasterFile": "norrfallsviken-09-hole.tif",
+      "rgbFile": "norrfallsviken-09-hole.png",
+      "sha256": "49726480abd6880f215fffacccb66f2017184abbeb93dcbc0418bf733999cfbf",
+      "rgbSha256": "3d79f5d936648be4f18ba7b867bd437b23ade7b0aeed9f042e4c538c60267524",
+      "requestSha256": "89c57efdee9168278b86a66e991f1ac97ffba981852ee1c68f63195653452068",
+      "bytes": 15099847,
+      "boundsEpsg3006": [
+        678552.0,
+        6988347.36,
+        679022.88,
+        6988608.0
+      ],
+      "geoTransform": [
+        678552.0,
+        0.16,
+        0.0,
+        6988608.0,
+        0.0,
+        -0.16
+      ],
+      "width": 2943,
+      "height": 1629,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:50.316532+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-10-hole",
+      "rasterFile": "norrfallsviken-10-hole.tif",
+      "rgbFile": "norrfallsviken-10-hole.png",
+      "sha256": "5f113cbfd8316473cfa16d9152f94c04feb028858857caf42d6f9360cdfc95fc",
+      "rgbSha256": "8b6a8cd54cb5eddf024e582b4f2c41f4db3dfbb4f0cf56b776f1bc4f7e58f93b",
+      "requestSha256": "9781f3534802f20693385e619121758a72b9b21d5e0f2d4b2d8292977e378a4a",
+      "bytes": 23321151,
+      "boundsEpsg3006": [
+        678521.76,
+        6988422.56,
+        678937.12,
+        6988877.76
+      ],
+      "geoTransform": [
+        678521.76,
+        0.16,
+        0.0,
+        6988877.76,
+        0.0,
+        -0.16
+      ],
+      "width": 2596,
+      "height": 2845,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:54.645676+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-11-hole",
+      "rasterFile": "norrfallsviken-11-hole.tif",
+      "rgbFile": "norrfallsviken-11-hole.png",
+      "sha256": "a7f9f22d442305cff9e40b433fbf610653d8a4cd5c3c8b27d80897db9cc25b9d",
+      "rgbSha256": "1c1fbb6f2dc51b61e0310c64c0c31b60e25e91f9aa959ab676f1ffa0338ac197",
+      "requestSha256": "b8353d5b2f4de9ef9c1e09b98d103a8d4c704c188defcff486904fc85cfc82a0",
+      "bytes": 5128003,
+      "boundsEpsg3006": [
+        678592.48,
+        6988708.800000001,
+        678829.12,
+        6988883.36
+      ],
+      "geoTransform": [
+        678592.48,
+        0.16,
+        0.0,
+        6988883.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1479,
+      "height": 1091,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:55.621624+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-12-hole",
+      "rasterFile": "norrfallsviken-12-hole.tif",
+      "rgbFile": "norrfallsviken-12-hole.png",
+      "sha256": "9c4f89a01dd096b184ed946013dd22d0dfcd7143f30f186dd61de3590233429d",
+      "rgbSha256": "f97f471b7735fa6030480996eb02cf43f4acca72be848665f2ebb83267054339",
+      "requestSha256": "3887ddf80c9236252c0889cd63c1c83abe80fa25259ce5586f11109b9e2a708b",
+      "bytes": 15609043,
+      "boundsEpsg3006": [
+        678566.08,
+        6988808.64,
+        678896.1599999999,
+        6989199.04
+      ],
+      "geoTransform": [
+        678566.08,
+        0.16,
+        0.0,
+        6989199.04,
+        0.0,
+        -0.16
+      ],
+      "width": 2063,
+      "height": 2440,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:59.736697+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-13-hole",
+      "rasterFile": "norrfallsviken-13-hole.tif",
+      "rgbFile": "norrfallsviken-13-hole.png",
+      "sha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d",
+      "rgbSha256": "0acdc990d00a010c88a83699a7eb4ed828d04427850804fd6e0207aa1b3236bc",
+      "requestSha256": "82f462480a6e0d400abda9d863c1e6da0e9b6632ac56ee89a663bcb451e14f19",
+      "bytes": 13219935,
+      "boundsEpsg3006": [
+        678771.2,
+        6988790.4,
+        679008.7999999999,
+        6989257.28
+      ],
+      "geoTransform": [
+        678771.2,
+        0.16,
+        0.0,
+        6989257.28,
+        0.0,
+        -0.16
+      ],
+      "width": 1485,
+      "height": 2918,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:03.003188+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-14-hole",
+      "rasterFile": "norrfallsviken-14-hole.tif",
+      "rgbFile": "norrfallsviken-14-hole.png",
+      "sha256": "c930181e399f45235f8330c6155dc2694de47d3bf9458502ce238d5c1039265b",
+      "rgbSha256": "992faac0f36b1eef10cf9e8a9e589fce2fb8d22f46a044081816041915df9c50",
+      "requestSha256": "5c455f2953aad1e7a47df3326e41efa1c056d8a0355c81ce28229827997af8b5",
+      "bytes": 4974459,
+      "boundsEpsg3006": [
+        678865.6,
+        6988841.92,
+        679021.28,
+        6989106.88
+      ],
+      "geoTransform": [
+        678865.6,
+        0.16,
+        0.0,
+        6989106.88,
+        0.0,
+        -0.16
+      ],
+      "width": 973,
+      "height": 1656,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:04.180907+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-15-hole",
+      "rasterFile": "norrfallsviken-15-hole.tif",
+      "rgbFile": "norrfallsviken-15-hole.png",
+      "sha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7",
+      "rgbSha256": "d6a9d0d848bedf3e929a8a007538263204a67f5989a6f0903030a57ea8b7dd59",
+      "requestSha256": "f4af990bb2631ed08fc60100935c971bc4ae7c14b3157a5b8679c324518b44e5",
+      "bytes": 13957151,
+      "boundsEpsg3006": [
+        678956.8,
+        6988796.64,
+        679289.76,
+        6989135.84
+      ],
+      "geoTransform": [
+        678956.8,
+        0.16,
+        0.0,
+        6989135.84,
+        0.0,
+        -0.16
+      ],
+      "width": 2081,
+      "height": 2120,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:07.221704+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-16-hole",
+      "rasterFile": "norrfallsviken-16-hole.tif",
+      "rgbFile": "norrfallsviken-16-hole.png",
+      "sha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+      "rgbSha256": "0b67bc4b2f1a77d94317666bd008cd9383137c86b9cae3e741da7ce9f3c2c659",
+      "requestSha256": "cce5661b560f59e00ac1281af4e6b3cf42f2f61367a3c949f122abe795039617",
+      "bytes": 8892917,
+      "boundsEpsg3006": [
+        679188.16,
+        6988425.4399999995,
+        679356.8,
+        6988850.72
+      ],
+      "geoTransform": [
+        679188.16,
+        0.16,
+        0.0,
+        6988850.72,
+        0.0,
+        -0.16
+      ],
+      "width": 1054,
+      "height": 2658,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:09.300884+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-17-hole",
+      "rasterFile": "norrfallsviken-17-hole.tif",
+      "rgbFile": "norrfallsviken-17-hole.png",
+      "sha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+      "rgbSha256": "2984edb028bc8280d33b5e5415c3a0da0cd32943721344e5b2a9788cfea05c2d",
+      "requestSha256": "29ec155b7c0f9621a8a6ab06a04db2cd541892ec8b6c3f0fd72ded91c856aa35",
+      "bytes": 17352243,
+      "boundsEpsg3006": [
+        678909.12,
+        6988393.92,
+        679277.92,
+        6988774.08
+      ],
+      "geoTransform": [
+        678909.12,
+        0.16,
+        0.0,
+        6988774.08,
+        0.0,
+        -0.16
+      ],
+      "width": 2305,
+      "height": 2376,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:12.437714+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-18-hole",
+      "rasterFile": "norrfallsviken-18-hole.tif",
+      "rgbFile": "norrfallsviken-18-hole.png",
+      "sha256": "7a56f9aa451e3132aa1968aaa2b38ade2cbb654b7f2dd45f3ffc728b47f79b61",
+      "rgbSha256": "f2b4764b34676f424ed1979e6c70f017fa5bfcfcc7323bcf317ede4fb43a815a",
+      "requestSha256": "e88d55dc122f49b5f9318b72620af859e4188bc5338a38d44ffb2ffc783f3ca2",
+      "bytes": 18354383,
+      "boundsEpsg3006": [
+        678545.76,
+        6988387.84,
+        678964.0,
+        6988745.76
+      ],
+      "geoTransform": [
+        678545.76,
+        0.16,
+        0.0,
+        6988745.76,
+        0.0,
+        -0.16
+      ],
+      "width": 2614,
+      "height": 2237,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:15.462460+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "facilities-range",
+      "rasterFile": "facilities-range.tif",
+      "rgbFile": "facilities-range.png",
+      "sha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+      "rgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "requestSha256": "6e83badbc12c391fe27c06fe713fb892a75614aa75b96f23d318add0985820f2",
+      "bytes": 12234409,
+      "boundsEpsg3006": [
+        678519.36,
+        6988208.319999999,
+        678929.6,
+        6988451.68
+      ],
+      "geoTransform": [
+        678519.36,
+        0.16,
+        0.0,
+        6988451.68,
+        0.0,
+        -0.16
+      ],
+      "width": 2564,
+      "height": 1521,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:56:57.921924+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "storsanden-beach",
+      "rasterFile": "storsanden-beach.tif",
+      "rgbFile": "storsanden-beach.png",
+      "sha256": "64a5628d3f102b62dec182e57cdb88b7c6f5cf9c652063f0a62bce8225f61c70",
+      "rgbSha256": "d982bd2fdafae99436f71233d2d6c2660903c1e44c2ecd11dd1ceebd26c59ce5",
+      "requestSha256": "d18886a12d8df6012be7e3e25d011a70ace2221ea18e8905a4953a8da093d4d3",
+      "bytes": 30688819,
+      "boundsEpsg3006": [
+        678272.32,
+        6989169.12,
+        678987.2,
+        6989571.36
+      ],
+      "geoTransform": [
+        678272.32,
+        0.16,
+        0.0,
+        6989571.36,
+        0.0,
+        -0.16
+      ],
+      "width": 4468,
+      "height": 2514,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:09.066129+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "east-coast-north",
+      "rasterFile": "east-coast-north.tif",
+      "rgbFile": "east-coast-north.png",
+      "sha256": "0f77c01d52158cb45be09cb01be7b3a596dff6aea4ffc594c995bd6cc80c80a2",
+      "rgbSha256": "2a33e96a3329a22fd61e0e4dde4b56039fdcbaf560967c0adf988df64d893f44",
+      "requestSha256": "bfc16c10af64fadff173f8e69c92456bd65acaa3f63c7f24e785f8e6d45e7631",
+      "bytes": 29055767,
+      "boundsEpsg3006": [
+        679115.04,
+        6988612.48,
+        679620.3200000001,
+        6989216.48
+      ],
+      "geoTransform": [
+        679115.04,
+        0.16,
+        0.0,
+        6989216.48,
+        0.0,
+        -0.16
+      ],
+      "width": 3158,
+      "height": 3775,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:24.842649+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "east-coast-south",
+      "rasterFile": "east-coast-south.tif",
+      "rgbFile": "east-coast-south.png",
+      "sha256": "582747da49363f5a3cd128fd23958872c05d4ccd7c7cfcc41c11017967be4019",
+      "rgbSha256": "6d2ffd248d9a16f7982f86b953ff127475a8bccab55b412e343c96fc8066541c",
+      "requestSha256": "62177c989e137d3b08356f488ccec330f448103c8d895edc9e1ad509f5361422",
+      "bytes": 30461169,
+      "boundsEpsg3006": [
+        679149.6,
+        6987982.56,
+        679655.0399999999,
+        6988586.56
+      ],
+      "geoTransform": [
+        679149.6,
+        0.16,
+        0.0,
+        6988586.56,
+        0.0,
+        -0.16
+      ],
+      "width": 3159,
+      "height": 3775,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:33.082169+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "o69875_6775_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o69875_6775_25_mr24.tif",
+      "bytes": 646553611,
+      "boundsEpsg3006": [
+        677500,
+        6987500,
+        680000,
+        6990000
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-06-27T13:42:21Z",
+      "captureStart": "2024-06-27T13:42:14Z",
+      "captureEnd": "2024-06-27T14:03:03Z"
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false,
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0.",
+  "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf"
+}

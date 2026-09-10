@@ -1,0 +1,419 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "scene": "Veckefjarden | Facility architecture 2026-09-10 v2",
+  "blendPath": "geobuild/cache/facilities-model-2026-09-10/veckefjarden-facilities-v2.blend",
+  "blendSha256": "5d7fa9c8a18e9f0fff7057d15fe4bd061357bd5689b2ce91e71041c94417bfb0",
+  "sourceInputs": [
+    {
+      "path": "geobuild/facilities/inventory.json",
+      "sha256": "001792758cf7eb29ee1befe3dfba12472f041faf48be7e4786d0327cd03bacb9"
+    },
+    {
+      "path": "geobuild/facilities/photo-sources.json",
+      "sha256": "dad26102d2c7a229536bfe4693bc84a2a87afeb4a9b19398122024d475c7bee5"
+    },
+    {
+      "path": "geobuild/facilities/model-ground.json",
+      "sha256": "04d2b19c86b9f084671658a306fd2837a472054c5be3de5aee94acbdd6c093d3"
+    },
+    {
+      "path": "geobuild/facilities/model_clubhouse.py",
+      "sha256": "14f1f063b5397be99f41c3f5abc601bcc113555906314edeaa2a6303d7290000"
+    },
+    {
+      "path": "geobuild/facilities/model_facilities.py",
+      "sha256": "9e76c671d86485a57540f57c054cedd49fdb9cbbba3c7154510113964b5dcb63"
+    },
+    {
+      "path": "geobuild/facilities/build_facility_models.py",
+      "sha256": "e6a592859dbf34efc039072f26186f2a26285bab3cd437a44cba927d960e4012"
+    }
+  ],
+  "counts": {
+    "objects": 2083,
+    "vertices": 29301,
+    "polygons": 29142
+  },
+  "originEPSG3006": [
+    684390,
+    7023040
+  ],
+  "originHeightRH2000": 30.673,
+  "existingScenesPreserved": true,
+  "activeScenePreserved": "Tortuna facility | entry-outbuilding",
+  "currentFilePreserved": true,
+  "cameras": {
+    "clubhouse-west": "VECK MODEL | Clubhouse course side.001",
+    "clubhouse-east": "VECK MODEL | Clubhouse entrance.001",
+    "campus": "VECK MODEL | Campus.001",
+    "hotel-pool": "VECK MODEL | Hotel and pool.001",
+    "range": "VECK MODEL | Range.001",
+    "western": "VECK MODEL | Western buildings.001"
+  },
+  "modeling": {
+    "model_clubhouse.py": {
+      "name": "Veckefjarden clubhouse architecture",
+      "featureIds": [
+        "R01",
+        "R02",
+        "S01"
+      ],
+      "photoIds": [
+        "club-2041",
+        "club-2485",
+        "hotel-167"
+      ],
+      "mainRoofPlan": {
+        "centerBlenderXY": [
+          3.6800000000000006,
+          -5.599999999999999
+        ],
+        "lengthMetres": 35.26140099315398,
+        "widthMetres": 10.898806887299049,
+        "axisRadians": 1.629818603008177
+      },
+      "heightEstimates": {
+        "firstFloorRelativeDatum": 1.448133443146267,
+        "uphillGroundRelativeDatum": 1.228133443146267,
+        "basementBottomRelativeDatum": -1.317848961639103,
+        "westGroundSamples": [
+          -1.137848961639103,
+          -0.8007109499889922,
+          -0.5994685772260667,
+          -0.391791926204768,
+          -0.7887253397288587
+        ],
+        "mainEaveAboveFirstFloorMetres": 7.25,
+        "mainRidgeAboveFirstFloorMetres": 10.1,
+        "mainRoofRiseMetres": 2.85,
+        "heightInterpretationUncertaintyMetres": 1.5
+      },
+      "counts": {
+        "windows": 44,
+        "doors": 4,
+        "roofStacks": 6
+      },
+      "assumptions": [
+        "2024 roof-edge XY controls placement; 0.30 m wall inset estimates roof overhang and is not a surveyed wall footprint.",
+        "Pale yellow vertical timber, white joinery, dark roof, two main window rows and downhill basement derive from club-2041, club-2485 and hotel-167.",
+        "All eaves, ridges, story heights and window spacing are photo estimates; DTM establishes ground only.",
+        "East entrance roof projection is photo estimated at 9.20 by 5.05 m because its orthophoto boundary is in shadow.",
+        "The low south-gable entry beneath the balcony is photo estimated at 3.05 by 4.85 m; its plan is not part of the reviewed high-roof outline.",
+        "The 2024 west roof extension hides part of the old facade; older oblique photos do not resolve its current hidden wall junctions.",
+        "North crosswing and west annex roof planes are approximate decompositions of the reviewed composite R01 outline.",
+        "The raised strip terrace comes from the course-facing photo; S01 separately preserves the traced ground dining surface.",
+        "Furnishing positions and unseen service details are representative; no room-use identity is inferred."
+      ],
+      "wantedCameraPoints": {
+        "clubhouseEast": {
+          "location": [
+            59.70953780490967,
+            -38.35196014543555,
+            23.44813344314627
+          ],
+          "target": [
+            5.676517382099147,
+            -5.482023972875958,
+            5.2481334431462665
+          ]
+        },
+        "clubhouseWest": {
+          "location": [
+            -56.0884703568408,
+            -45.194569718629886,
+            23.44813344314627
+          ],
+          "target": [
+            -2.3685401598594584,
+            -4.955669390322546,
+            5.2481334431462665
+          ]
+        },
+        "clubhouseFacade": {
+          "location": [
+            65.57203884507354,
+            -1.9427431591547517,
+            10.448133443146267
+          ],
+          "target": [
+            3.6800000000000006,
+            -5.599999999999999,
+            6.2481334431462665
+          ]
+        }
+      }
+    },
+    "model_facilities.py": {
+      "module": "model_facilities.py",
+      "featureIds": [
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08"
+      ],
+      "objectCountsByFeature": {
+        "R03": 127,
+        "R04": 173,
+        "R05": 149,
+        "R06": 84,
+        "R07": 30,
+        "R08": 51,
+        "R09": 34,
+        "R10": 101,
+        "R11": 81,
+        "R12": 65,
+        "S02": 100,
+        "S03": 96,
+        "S04": 1,
+        "S05": 1,
+        "S06": 1,
+        "S07": 10,
+        "S08": 70
+      },
+      "estimates": {
+        "hotelEavesAboveBaseMetres": 2.95,
+        "hotelRoofRiseMetres": 2.35,
+        "hotelWallInsetFromRoofMetres": 0.24,
+        "poolCoverRiseMetres": 1.55,
+        "gazeboEavesAboveBaseMetres": 2.25,
+        "gazeboRoofRiseMetres": 1.35,
+        "translucentStructureEavesAboveBaseMetres": 2.25,
+        "translucentStructureRoofRiseMetres": 0.8,
+        "padelEndEnclosureHeightMetres": 4.0,
+        "padelSideEnclosureHeightMetres": 3.0,
+        "padelGlassHeightMetres": 3.0,
+        "padelFloodlightHeightMetres": 6.0,
+        "rangeEavesAboveBaseMetres": 2.8,
+        "rangeRoofRiseMetres": 1.5,
+        "rangeFlagpoleHeightMetres": 6.0,
+        "westernBuildingEavesAboveBaseMetres": 3.8,
+        "westernBuildingRoofRiseMetres": 2.0
+      },
+      "rangeDetailInterpretation": {
+        "sourcePanelId": "range-tee-native",
+        "matPixelCentres": [
+          [
+            221,
+            683
+          ],
+          [
+            229,
+            662
+          ],
+          [
+            236,
+            645
+          ],
+          [
+            244,
+            627
+          ],
+          [
+            250,
+            609
+          ],
+          [
+            259,
+            593
+          ],
+          [
+            270,
+            574
+          ],
+          [
+            279,
+            555
+          ],
+          [
+            287,
+            538
+          ],
+          [
+            296,
+            518
+          ],
+          [
+            315,
+            481
+          ],
+          [
+            331,
+            459
+          ],
+          [
+            345,
+            438
+          ],
+          [
+            358,
+            417
+          ],
+          [
+            378,
+            395
+          ],
+          [
+            390,
+            382
+          ],
+          [
+            408,
+            365
+          ],
+          [
+            423,
+            348
+          ],
+          [
+            437,
+            329
+          ],
+          [
+            452,
+            314
+          ],
+          [
+            467,
+            299
+          ],
+          [
+            481,
+            286
+          ],
+          [
+            496,
+            274
+          ],
+          [
+            511,
+            263
+          ],
+          [
+            524,
+            253
+          ]
+        ],
+        "polePixelCentres": [
+          [
+            204,
+            654
+          ],
+          [
+            210,
+            631
+          ],
+          [
+            218,
+            608
+          ],
+          [
+            225,
+            586
+          ],
+          [
+            238,
+            564
+          ],
+          [
+            247,
+            542
+          ],
+          [
+            258,
+            519
+          ],
+          [
+            269,
+            496
+          ],
+          [
+            286,
+            479
+          ],
+          [
+            300,
+            456
+          ],
+          [
+            316,
+            431
+          ],
+          [
+            333,
+            412
+          ],
+          [
+            348,
+            394
+          ],
+          [
+            364,
+            375
+          ],
+          [
+            385,
+            356
+          ],
+          [
+            403,
+            337
+          ],
+          [
+            419,
+            315
+          ],
+          [
+            438,
+            292
+          ],
+          [
+            454,
+            275
+          ],
+          [
+            474,
+            255
+          ],
+          [
+            493,
+            236
+          ],
+          [
+            513,
+            222
+          ]
+        ],
+        "status": "approximate visual interpretation; no bay-count or height survey"
+      },
+      "assumptions": [
+        "Roof and hard-surface plan geometry uses the 2024-06-27 Lantmateriet traced rings in inventory.json.",
+        "Building eaves, ridges, glazing, hidden elevations and support counts are reconstruction estimates, not measured heights.",
+        "R03/R04/R05 are modeled as the low accommodation cluster; assigning individual hotel functions to each block remains unconfirmed.",
+        "Hotel character follows hotel-167: pale timber, white joinery, low dark standing-seam roofs, gutters and roof vents. The 2024 plan governs over historical oblique geometry.",
+        "Hotel courtyard deck, rope rails and awning derive from hotel-167; exact present-day deck boundary and configuration are unresolved.",
+        "S02 uses the reviewed visible water edge. The coping, surround and partially retracted arched cover are photo estimates; visible water does not establish the entire pool basin.",
+        "R06 remains an unidentified translucent structure; R08/R10/R11/R12 retain unverified building functions. Western shell material and facade openings are generic estimates.",
+        "Padel enclosure, floodlights, net and colours follow club-149/club-155. Heights and glass/mesh division are estimates.",
+        "Range mats and pole bases are independently interpreted native-image positions with 0.6-0.7 m placement uncertainty; small patches and support structure remain ambiguous.",
+        "Parking has no invented space striping; entrance island has no invented central sculpture or sign. Northern neighboring buildings N01-N05 are excluded.",
+        "No web photograph is applied as a texture or embedded in exported facility geometry."
+      ]
+    }
+  },
+  "physicalBuildingHeightsVerified": false,
+  "visualReview": "West annex lower facade corrected to pale-yellow cladding against club-2485; all heights remain estimates."
+}

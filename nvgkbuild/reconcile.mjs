@@ -19,6 +19,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { applyOrthophotoReview, applyEnvironmentReview } from './mapping/apply-orthophoto-review.mjs';
 import {
   ORIGIN, M_PER_LAT, M_PER_LON, lonLatToXZ,
   polyLen, polyArea, centroid, pointInPoly, polySD, bbox,
@@ -55,9 +56,9 @@ for (const f of gpsRaw.features) {
   const [x, z] = lonLatToXZ(...f.geometry.coordinates);
   (G[swap(+p.hole)] ||= {})[p.name] = [r1(x), r1(z)];
 }
-/* the survey's model-8 record (its "4") duplicates the west corridor — its green
-   is the model-4 green, not model-8's. Drop the corrupt points; the trace carries
-   model 8 entirely. */
+/* Legacy assembly uses the old separate H8 trace. The dated LM review below
+   restores the shared H4/H8 surface confirmed by the club's local rules. The
+   duplicate GPS green positions are consistent with that shared green. */
 G[8] = { corrupt: true };
 
 /* --- traces by model number --------------------------------------------------- */
@@ -287,17 +288,30 @@ const model = {
   })(),
 };
 
+for (const part of ['front9', 'back9', 'fairways']) {
+  applyOrthophotoReview(model, readJSON(path.join(HERE, `mapping/review-${part}-2026-09-09.json`)));
+}
+applyEnvironmentReview(model, readJSON(path.join(HERE, 'mapping/review-environment-2026-09-09.json')));
+for (const hole of model.holes) {
+  hole.elev = { tee: r1(terr(...hole.line[0])), green: r1(terr(...hole.green.c)) };
+  hole.elev.rise = r1(hole.elev.green - hole.elev.tee);
+}
+model.courseBoundary = osm.courseBoundary;
 writeJSON(path.join(HERE, 'course-model.json'), model);
 
 /* --- the agreement report ----------------------------------------------------- */
+const reviewedReport = model.holes.map(h => ({ n:h.n, par:h.par, card:h.t[0], lineLen:h.lineLen,
+  lenDev:h.lenDev, slide:0, teePadDist:null, area:h.green.area,
+  gcInRing:pointInPoly(...h.green.c,h.green.ring), conf:'orthophoto-reviewed' }));
+console.log('Reviewed geometry (card differences are reported without fitting):');
 console.log('hole par  card  drawn   dev%  slide  padD  green m²  gc-in  conf');
-for (const r of report) {
+for (const r of reviewedReport) {
   const bad = r.lenDev > 0.5 || !r.gcInRing;
   console.log(`${String(r.n).padStart(4)}  ${r.par}  ${String(r.card).padStart(4)}  ${String(r.lineLen).padStart(6)}  ${String(r.lenDev).padStart(5)}  ${String(r.slide).padStart(5)}  ${r.teePadDist == null ? '   —' : String(Math.round(r.teePadDist)).padStart(4)}  ${String(r.area).padStart(8)}  ${r.gcInRing ? '  yes' : '   NO'}  ${r.conf}${bad ? '   <-- CHECK' : ''}`);
 }
-const devs = report.map(r => r.lenDev);
-console.log(`\nlength dev: max ${Math.max(...devs).toFixed(2)}%  (gate 0.5%)`);
-console.log(`green areas: ${Math.min(...report.map(r => r.area))}..${Math.max(...report.map(r => r.area))} m²`);
+const devs = reviewedReport.map(r => r.lenDev);
+console.log(`\ncard-distance difference: max ${Math.max(...devs).toFixed(2)}%; not a registration gate`);
+console.log(`green areas: ${Math.min(...reviewedReport.map(r => r.area))}..${Math.max(...reviewedReport.map(r => r.area))} m²`);
 console.log(`water: ${water.length} features (${water.filter(w => w.isLake).length} OSM)`);
 const under = holes.filter(h => h.elev.green < hf.seaLevel + 0.5 || h.elev.tee < hf.seaLevel + 0.5);
 if (under.length) console.log(`UNDER-WATER WARNING: holes ${under.map(h => h.n).join(',')}`);

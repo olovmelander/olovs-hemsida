@@ -21,7 +21,7 @@
     "metresPerLatitude": 111320,
     "metresPerLongitude": 56702.08,
     "heightReference": "Absolute RH 2000 from retained Lantmäteriet 1 m DTM; independent local residual checks pending",
-    "frame": "exact local metres from EPSG:3006; east +x, north -z",
+    "frame": "local metres from EPSG:3006; east +x, north -z; origin E677700.5 N6586399.5; heights RH 2000",
     "projectedOriginEpsg3006": {
       "easting": 677700.5,
       "northing": 6586399.5,
@@ -109,25 +109,25 @@
         "imagery",
         "surface"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "acquired",
       "use": "candidate",
       "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
-      "localPath": null,
+      "localPath": "geo_data/course-v2/lidingo/reference/lm-ortho-acquisition-2026-09-09.json",
       "bboxWgs84": [
         18.1093219082564,
         59.36909583539647,
         18.147022734124498,
         59.38833274716611
       ],
-      "acquiredAt": null,
+      "acquiredAt": "2026-09-09",
       "capturedAt": "2025-05-31",
-      "checksum": null,
-      "checksumReason": "Authenticated range reads succeeded for both 2025 RGBI items. Whole COG files and review pixels are not retained publicly, and no whole-file checksum is claimed. The separately checksummed surface-audit artifact records acquired statistics.",
+      "checksum": "41235ca072b0f190af1585e33eb48a6ac9b6ec3d0cee348a91d671eb1436fccd",
+      "checksumReason": null,
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "2025-05-31 RGBI imagery access confirmed on 2026-09-09T07:58:52.060127+00:00. All 110 adopted surface polygons were sampled at 1 m from the 0.16 m source. Raw imagery retention and per-hole visual boundary review remain pending; planned lifecycle here refers to retained imagery intake, not unresolved account access. No raw orthophoto ground texture or surveyed accuracy is claimed."
+      "notes": "The checksum identifies the local bounded-acquisition ledger, which records individual retained TIFF/RGB window hashes; it is not a whole-source COG checksum. Live STAC recheck confirms orto-o2-2025 remains the newest complete campaign. 37 georeferenced review windows acquired; all 18 tee corridors and full-hole boundary views use native 0.16 m samples captured 2025-05-31. Reviewed tee boundaries and road-defined OB segments are retained as provisional vectors; daily marker positions and absolute survey accuracy remain unverified."
     },
     {
       "id": "laser-lm-skog",
@@ -615,14 +615,15 @@
       "id": "canopy-stand-compilation",
       "kind": "canopy",
       "path": "geo_data/course-v2/lidingo/vegetation/stand-evidence.json",
-      "sha256": "8ecd4b09d7f3d434833e5bb6da8aa7181476a169ea56d10f305afe48f1d2f8f4",
+      "sha256": "4ac325e5d201fc594cf7be0c0792c4862537ccc3fa9229902dfeb106ee7496c0",
       "derivedFrom": [
         "laser-lm-skog",
         "terrain-lm-1m",
         "water-breaks-lm-1m",
         "lidingo-osm-2026-09-07",
         "imagery-municipal-2019",
-        "club-scorecard"
+        "club-scorecard",
+        "imagery-lm-ortho"
       ],
       "use": "discovery-evidence",
       "notes": "Measured 4 m stand fields and semantic exclusions; no individual-tree registry or stem survey."
@@ -631,26 +632,28 @@
       "id": "playing-surface-candidates",
       "kind": "surface",
       "path": "lidingobuild/mapping/playing-surfaces.geojson",
-      "sha256": "601ccf4f5b0ce626c90821f79681656dc9110d4a1c027a31d029a91d87557126",
+      "sha256": "90833ea594d4af811e16dae1d5c77dfd95b1b230bb1e0b19944982a6118348dc",
       "derivedFrom": [
         "imagery-municipal-2019",
-        "lidingo-osm-2026-09-07"
+        "lidingo-osm-2026-09-07",
+        "imagery-lm-ortho"
       ],
       "use": "discovery-evidence",
-      "notes": "Per-feature observed geometry and uncertainty; source polygons and 2019 CC0 image traces; machine review only."
+      "notes": "Per-feature observed geometry and uncertainty; source polygons and 2019 CC0 image traces; machine review only. Tee polygons and fourteen putting cuts use their separate 2025-05-31 reviews; one dated hole 13 bunker is added. Other playing surfaces retain their previous source epochs."
     },
     {
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "lidingobuild/course-model.json",
-      "sha256": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12",
+      "sha256": "5bfe6e8451b5d3ae606ad3a831c50630ee50ec02c64e136f3e88964a287c7fe8",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
         "laser-lm-skog",
         "lidingo-osm-2026-09-07",
         "imagery-municipal-2019",
-        "club-scorecard"
+        "club-scorecard",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
       "notes": "Source-derived exact projected compatibility adapter. Terrain is preserved; no inferred physical tees, extended routes or synthetic fairway corridors. Flags and coloured tee starts are UI references. Survey gates remain open."
@@ -670,14 +673,15 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/lidingo/migration/course-model.epsg3006.json",
-      "sha256": "bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74",
+      "sha256": "f13278ae5a44f81f4c09f8d0b009bb67532008e42b7b6ca51e6f786a7668fe09",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
         "laser-lm-skog",
         "lidingo-osm-2026-09-07",
         "imagery-municipal-2019",
-        "club-scorecard"
+        "club-scorecard",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
       "notes": "Exact translation back to EPSG:3006, preserving source coordinates and RH 2000 heights."
@@ -686,14 +690,15 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/lidingo/migration/residual-report.json",
-      "sha256": "8badc6885df4ba51ce64167e60af24cd17369a02a4c83bee9321ab9d90b06da8",
+      "sha256": "08357a7dc21ca3565d6f1b0744827220162f02fea215357ed1f06da9e469c27a",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
         "laser-lm-skog",
         "lidingo-osm-2026-09-07",
         "imagery-municipal-2019",
-        "club-scorecard"
+        "club-scorecard",
+        "imagery-lm-ortho"
       ],
       "use": "migration-only",
       "notes": "Deterministic frame translation audit, not independent survey controls."
@@ -709,7 +714,8 @@
         "laser-lm-skog",
         "lidingo-osm-2026-09-07",
         "imagery-municipal-2019",
-        "club-scorecard"
+        "club-scorecard",
+        "imagery-lm-ortho"
       ],
       "use": "discovery-evidence",
       "notes": "Provisional software bridge, bounds and legacy grid omission contract. Human geospatial approval remains pending."
@@ -718,13 +724,14 @@
       "id": "playing-surface-review",
       "kind": "control",
       "path": "lidingobuild/mapping/playing-surfaces-review.json",
-      "sha256": "41113a5dfcc38cc6ece6a363f730b9f0e4620f33e6621963510d4461ce0d6e89",
+      "sha256": "12bdd2e2a5630d0ec7eca639d010f2a3894c4c6c9f9ddc9baf123acd71e17877",
       "derivedFrom": [
         "imagery-municipal-2019",
-        "lidingo-osm-2026-09-07"
+        "lidingo-osm-2026-09-07",
+        "imagery-lm-ortho"
       ],
       "use": "discovery-evidence",
-      "notes": "Per-polygon source, geometry, association and omission review; explicit retained source hashes and unknown registration accuracy."
+      "notes": "Per-polygon source, geometry, association and omission review; explicit retained source hashes and unknown registration accuracy. Tee polygons and fourteen putting cuts use their separate 2025-05-31 reviews; one dated hole 13 bunker is added. Other playing surfaces retain their previous source epochs."
     },
     {
       "id": "playing-surface-pixel-traces",
@@ -938,13 +945,188 @@
       ],
       "use": "discovery-evidence",
       "notes": "Independent triangle-union comparison to source polygons including islands/core exclusion; not browser visual approval."
+    },
+    {
+      "id": "lm-alignment-catalog",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/reference/lm-ortho-catalog-2026-09-09.json",
+      "sha256": "fe9538f5f1ece61ef13a47823b77b96f6555829713631e07248023789f2b2c0a",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Native imagery source identity, grid and acquisition-date evidence for the 2026-09-09 tee and OB alignment review. Raw pixels remain local."
+    },
+    {
+      "id": "lm-alignment-plan",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/reference/lm-ortho-plan-2026-09-09.json",
+      "sha256": "bd12c28d1d44e7739fd8f030bbfccab2c4594c28f3378ab14a447aa52b3274e0",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Native imagery source identity, grid and acquisition-date evidence for the 2026-09-09 tee and OB alignment review. Raw pixels remain local."
+    },
+    {
+      "id": "lm-alignment-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/reference/lm-ortho-acquisition-2026-09-09.json",
+      "sha256": "41235ca072b0f190af1585e33eb48a6ac9b6ec3d0cee348a91d671eb1436fccd",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Native imagery source identity, grid and acquisition-date evidence for the 2026-09-09 tee and OB alignment review. Raw pixels remain local."
+    },
+    {
+      "id": "lm-alignment-capture",
+      "kind": "control",
+      "path": "geo_data/course-v2/lidingo/reference/lm-ortho-capture-2026-09-09.json",
+      "sha256": "0f65c0e39bc255943261281bc10512c018a80e07219d930c2df4f48538056821",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Native imagery source identity, grid and acquisition-date evidence for the 2026-09-09 tee and OB alignment review. Raw pixels remain local."
+    },
+    {
+      "id": "lm-alignment-validation",
+      "kind": "control",
+      "path": "geo_data/course-v2/lidingo/reference/lm-ortho-validation-2026-09-09.json",
+      "sha256": "fc18de970b5ab0bb656907fafd2afb1b9113e325b1a92d6eeccecef0366243d2",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Native imagery source identity, grid and acquisition-date evidence for the 2026-09-09 tee and OB alignment review. Raw pixels remain local."
+    },
+    {
+      "id": "tee-alignment-review-2026",
+      "kind": "control",
+      "path": "lidingobuild/mapping/tee-native-alignment-review-2026-09-09.json",
+      "sha256": "32e1c71c4271a5f95c70ee5569b446eca807ef8c679ef0b50ff21d41ed8f5988",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 18 tee areas visually reviewed; pixel traces, representative colour associations and explicitly unresolved starts. No daily-marker survey is claimed."
+    },
+    {
+      "id": "ob-placement-review-2026",
+      "kind": "control",
+      "path": "lidingobuild/mapping/ob-placement-review.json",
+      "sha256": "e3af31ad39ca6295e537b3b5c238ee22be9073dfb7679568a4579904f41ab0a5",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Club-rule boundaries traced along visible asphalt edges. Virtual map lines are separate from unverified individual physical stakes."
+    },
+    {
+      "id": "putting-cuts-2025-review",
+      "kind": "control",
+      "path": "lidingobuild/mapping/putting-cuts-2025.json",
+      "sha256": "23c37274be78a5c4f875677e1e700d0e12a9ea1c8f421fca458517754e766cf2",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Fourteen manually reviewed putting cuts with original boundaries, source pixels, May 2025 capture identity and interpretation uncertainty. Four shaded greens remain unchanged."
+    },
+    {
+      "id": "approaches-2025-review",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/approaches-2025.geojson",
+      "sha256": "6054a2f236a48095ff260d97b384cff759d0b60ba3ac23893ed657ee582004e9",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Six observed par-three mown approaches; semi-rough is a display class, not a measured mowing height."
+    },
+    {
+      "id": "bunker-additions-2025",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/bunker-additions-2025.geojson",
+      "sha256": "76a8a31649dfd3744dab4b3e7f7dea5c0f40e65d6835f9f233780b519af2eb6a",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Accepted hole 13 bunker polygon from the completed September 8 branch; imagery and club-record dating retained separately."
+    },
+    {
+      "id": "bunker-additions-2025-evidence",
+      "kind": "control",
+      "path": "lidingobuild/mapping/surface-additions-2025.json",
+      "sha256": "d9617155778fd89354011accacb46f3b6ec83c3f5be2249468e30cd4c31ac002",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "imagery-municipal-2019"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Bounded source component and dated club-record evidence for the hole 13 greenside bunker."
+    },
+    {
+      "id": "surface-change-dating-2025",
+      "kind": "control",
+      "path": "lidingobuild/mapping/change-dating.json",
+      "sha256": "6bddf196170dc62281785920fc1175a4fdad9b29de59bb1bc38bba16fb000da2",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "imagery-municipal-2019"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Retained branch comparison of historical and May 2025 imagery; does not upgrade independent survey status."
+    },
+    {
+      "id": "canopy-floor-2025",
+      "kind": "canopy",
+      "path": "lidingobuild/tree-cover.json",
+      "sha256": "d79c4ebc9054917db09dd6b742c0f1c3a8a09882cd5f055b240939a006a8edae",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Two-bit May 2025 canopy appearance raster. Existing measured-only vegetation and reviewed LiDAR stand graph remain authoritative for tree placement."
+    },
+    {
+      "id": "canopy-floor-2025-evidence",
+      "kind": "control",
+      "path": "lidingobuild/mapping/tree-cover-2025.json",
+      "sha256": "ec8e7bb3f0fa64b6f6b422c8e3d20df5b5fe64b17d162b917c95532373c29a01",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Retained raster classification evidence from the completed Lidingö branch; canopy floor appearance does not establish individual stems."
+    },
+    {
+      "id": "review-integration-2026",
+      "kind": "control",
+      "path": "lidingobuild/mapping/alignment-integration-2026-09-10.json",
+      "sha256": "0818441806c1fcba8673d1906c0384787ee078ed5900edf446051bfcb3827413",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "laser-lm-skog",
+        "lidingo-osm-2026-09-07",
+        "imagery-municipal-2019",
+        "club-scorecard",
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Completed reviews integrated onto the newer local model. Pins unreviewed model fields and all terrain, tee, OB, water and building geometry. Current stand sources are recompiled against the adopted surface exclusions."
     }
   ],
   "blockers": [
     {
       "id": "incomplete-playing-geometry",
       "severity": "release-blocking",
-      "description": "The provisional model uses observed 2019/source polygons; completeness and current 2024–2026 alterations are not independently approved.",
+      "description": "All 18 tee areas have a 2025-05-31 native orthophoto review. Unresolved colour starts, shadowed edges, other playing surfaces and changes after the imagery remain unapproved; individual OB stakes are not surveyed.",
       "exitGate": "Review every hole against licensed current orthophoto and club evidence; acquire/trace only supported physical outlines and identify remaining uncertainty."
     },
     {

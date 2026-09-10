@@ -47,7 +47,7 @@ export function buildOrthoReviewPlan(model, discovery, { fullCourse = false } = 
   for (const n of [12, 3, 9, ...model.holes.map(h => h.n).filter(n => ![12, 3, 9].includes(n))]) {
     const hole = model.holes.find(h => h.n === n);
     const pads = hole.tees.pads || [], marks = hole.tees.marks || [];
-    const unresolvedTees = marks.flatMap((m, i) => pads.some(p => pointInPoly(...m.c, p.ring)) ? [] : [TEES[i]]);
+    const unresolvedTees = marks.flatMap((m, i) => m.placement?.includes('numbered platform unresolved') || !pads.some(p => pointInPoly(...m.c, p.ring)) ? [TEES[i]] : []);
     const points = [...pads.flatMap(p => p.ring), ...marks.map(m => m.c), hole.line[0]];
     // H12's documented virtual start is north of the possible physical start.
     // A wider search is a review extent, never a replacement tee coordinate.

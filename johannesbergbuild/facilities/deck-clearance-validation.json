@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "assetSha256": "ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf",
+  "sampledAt": "2026-09-10T08:13:46.747Z",
+  "maximumSpacingM": 0.25,
+  "sampleCount": 3157,
+  "components": [
+    {
+      "id": "clubhouse-front-balcony",
+      "samples": 256,
+      "deckTopRh2000M": 21.54,
+      "terrainPenetrations": 0,
+      "minimumSampledClearanceMetres": 2.9449674954306744
+    },
+    {
+      "id": "clubhouse-northeast-side-veranda",
+      "samples": 724,
+      "deckTopRh2000M": 18.55,
+      "terrainPenetrations": 0,
+      "minimumSampledClearanceMetres": 0.5791475129589791
+    },
+    {
+      "id": "clubhouse-annex-front-deck",
+      "samples": 1123,
+      "deckTopRh2000M": 18.84,
+      "terrainPenetrations": 0,
+      "minimumSampledClearanceMetres": 0.060636795731763726
+    },
+    {
+      "id": "clubhouse-terrace-pavilion",
+      "samples": 1054,
+      "deckTopRh2000M": 18.51,
+      "terrainPenetrations": 0,
+      "minimumSampledClearanceMetres": 0.08310043462270045
+    }
+  ],
+  "visualReview": {
+    "annexDeckBoardsVisibleWithoutGrass": true,
+    "terraceDoorMeetsDeck": true,
+    "doorLeafBelowFascia": true,
+    "doorFrameMeetsWhiteEaveTrim": true,
+    "pavilionClearInOverview": true,
+    "imagesReviewed": [
+      "deck-v5-clubhouse-front.png",
+      "deck-v5-annex-door.png"
+    ]
+  },
+  "limits": [
+    "This dense sample verifies the rendered terrain at the stated points; it is not a new survey of architectural floor or roof heights."
+  ],
+  "sources": [
+    {
+      "path": "johannesbergbuild/cache/facilities-model/deck-terrain-input.json",
+      "sha256": "d989f2cac503ba1b169d32bcf09cf7eff87adbdeb315fcc9bd83660838bbe931"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/deck-terrain-report.json",
+      "sha256": "aeb19b02f4e6d80ee2f2b9a86d11c446907ca244617b840b2f112bb19b9e0f05"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/deck-terrain-input-v5.json",
+      "sha256": "5ac46843c90ee4aa1aee7a1b34605accec290d4f4ef00b7da4da5a88da227ef7"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/deck-terrain-report-v5.json",
+      "sha256": "88ce594cfe1fab610c82084f3389953e63d89c0fc2fcdd0b325bb9626f6d1b0f"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/deck-v5-clubhouse-front.png",
+      "sha256": "ff1f3bd97776c9c5504a5dd29dc5039d674a6557026827fe5cd81d292d29cc19"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/deck-v5-annex-door.png",
+      "sha256": "1233c7b66baaacb679589d953b1f0588eee9f5b73ccba014e080680a9a6cb71a"
+    }
+  ]
+}

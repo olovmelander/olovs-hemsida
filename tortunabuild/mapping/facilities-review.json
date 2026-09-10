@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "observedOn": "2026-09-09",
+  "outputPath": "tortunabuild/mapping/facilities.geojson",
+  "outputSha256": "bbd584ed3691bc479e075cfc23ada4843322f0795dbbc036781e007f5714b3e5",
+  "featureCount": 28,
+  "kinds": {
+    "parking": 1,
+    "paved_path": 3,
+    "practice_bunker": 1,
+    "practice_green": 1,
+    "range_field": 1,
+    "range_shelter": 1,
+    "range_target": 3,
+    "range_tee_pad": 17
+  },
+  "validation": {
+    "validPolygons": true,
+    "rangeMatsExcludedFromHardSurface": true
+  },
+  "limitations": [
+    "All edges are source-derived visual interpretations pending human acceptance; no survey authority is claimed.",
+    "The range field polygon covers only the visibly grassed southern portion; the large pale northern area has unresolved current ground material.",
+    "No range netting,ball machines,posts or other small equipment were inferred from repetition."
+  ]
+}

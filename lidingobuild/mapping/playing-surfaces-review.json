@@ -36,12 +36,12 @@
       "sha256": "7d0cf4f640dfcc9d4a818d51b91f360456beb148acd43fa0a29a91b60f911011"
     }
   ],
-  "featureCount": 110,
+  "featureCount": 129,
   "counts": {
     "green": 20,
-    "tee": 37,
+    "tee": 55,
     "fairway": 13,
-    "bunker": 40
+    "bunker": 41
   },
   "holesWithGreen": [
     1,
@@ -166,7 +166,7 @@
   ],
   "output": {
     "path": "lidingobuild/mapping/playing-surfaces.geojson",
-    "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29"
+    "sha256": "90833ea594d4af811e16dae1d5c77dfd95b1b230bb1e0b19944982a6118348dc"
   },
   "refinementRound": {
     "previousOutputSha256": "16afdeb87b474d5e45bfd4cb1fcce3a52b7b220d1119a2ccf9278fd7e6aa64d4",
@@ -186,5 +186,65 @@
     },
     "sourceGeometryEpoch": 2019,
     "laterMowingOrBunkerChangesAdopted": false
+  },
+  "currentTeeReview": {
+    "path": "lidingobuild/mapping/tee-native-alignment-review-2026-09-09.json",
+    "sha256": "32e1c71c4271a5f95c70ee5569b446eca807ef8c679ef0b50ff21d41ed8f5988",
+    "planPath": "geo_data/course-v2/lidingo/reference/lm-ortho-plan-2026-09-09.json",
+    "planSha256": "8584c48257c1948850ea74b008caca2452c33449ec4f006c8091ed550a498c20",
+    "holes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "captureDate": "2025-05-31",
+    "independentHumanReview": false,
+    "dailyMarkerPositionsVerified": false
+  },
+  "puttingCuts2025": {
+    "review": "lidingobuild/mapping/putting-cuts-2025.json",
+    "sha256": "23c37274be78a5c4f875677e1e700d0e12a9ea1c8f421fca458517754e766cf2",
+    "replacedHoles": [
+      1,
+      2,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      17
+    ],
+    "independentRegistrationAccuracyMetres": null,
+    "independentHumanReview": false
+  },
+  "newerCaptureAdditions": {
+    "review": "lidingobuild/mapping/bunker-additions-2025.geojson",
+    "sha256": "76a8a31649dfd3744dab4b3e7f7dea5c0f40e65d6835f9f233780b519af2eb6a",
+    "adopted": [
+      "lidingo-bunker-13-green-lm2025"
+    ],
+    "captureDate": "2025-05-31",
+    "independentHumanReview": false
   }
 }

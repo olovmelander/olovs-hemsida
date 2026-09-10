@@ -7,11 +7,11 @@
   "inputs": [
     {
       "path": "lidingobuild/course-model.json",
-      "sha256": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12"
+      "sha256": "20dd2856d0401b58b715ddd0f894cb58585200bed51f8107f6d9c781b5c0e79c"
     },
     {
       "path": "lidingobuild/mapping/playing-surfaces.geojson",
-      "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29"
+      "sha256": "e9a773ecbae1973fd0dbf9f445ac16a473f411f6241c78c5e1a9291592d3727b"
     },
     {
       "path": "lidingobuild/mapping/facilities.geojson",
@@ -27,15 +27,19 @@
     },
     {
       "path": "lidingobuild/mapping/building-roof-meshes.json",
-      "sha256": "b4fba5a233fc72f168ceb0fd337f5aa43ed860c736c46afe6763e8447c10bd9a"
+      "sha256": "4f25c1495768b4defe359c0b068a0df76667363e6fa67128f8602b34b3402934"
     },
     {
       "path": "geo_data/course-v2/lidingo/vegetation/stand-evidence.json",
-      "sha256": "8ecd4b09d7f3d434833e5bb6da8aa7181476a169ea56d10f305afe48f1d2f8f4"
+      "sha256": "7143f0afe3af0adb7cc7280feb5a018e052ee517bc5079d92315cbbcf085c455"
     },
     {
       "path": "geo_data/course-v2/lidingo/acquisition/ortho-2025-surface-audit.json",
       "sha256": "ca260879030c1b9638c40f89c6cdb23e3e35dec0568c47e39229d76443fb5350"
+    },
+    {
+      "path": "lidingobuild/mapping/tee-native-alignment-review-2026-09-09.json",
+      "sha256": "32e1c71c4271a5f95c70ee5569b446eca807ef8c679ef0b50ff21d41ed8f5988"
     },
     {
       "path": "geo_data/course-v2/lidingo/acquisition/environment-water.json",
@@ -43,11 +47,11 @@
     },
     {
       "path": "apps/golf/public/courses/lidingo/pack.bin",
-      "sha256": "846e291417f7dcf44a906400c1b505c07b2cb338ab2173fd2f80bed79ec60873"
+      "sha256": "580243354d3fb9f1ba6ff0cc2b2eb202ac82c5de8bd7d95cd21fb4d49a3ffac5"
     },
     {
-      "path": "apps/golf/public/grounds/lidingo/ground-v2-e15525f22076a76bedf6c1575906843ac93001df703e97e3f41e7d914ef325a0.json",
-      "sha256": "e15525f22076a76bedf6c1575906843ac93001df703e97e3f41e7d914ef325a0"
+      "path": "apps/golf/public/grounds/lidingo/ground-v2-3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158.json",
+      "sha256": "3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158"
     }
   ],
   "coordinateFrame": {
@@ -61,13 +65,14 @@
     "counts": {
       "fairway": 13,
       "green": 20,
-      "tee": 37,
+      "tee": 55,
       "bunker": 40
     },
-    "total": 110,
+    "total": 128,
     "evidence": {
-      "supplementary-map-outline": 48,
-      "orthophoto-2019": 62
+      "supplementary-map-outline": 30,
+      "orthophoto-2019": 44,
+      "orthophoto-2025": 54
     },
     "unassigned": [
       {
@@ -154,12 +159,13 @@
       "hole": 1,
       "par": 3,
       "green": 1,
-      "tee": 1,
+      "tee": 2,
       "fairway": 0,
       "bunker": 3,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 4
+        "orthophoto-2019": 3,
+        "orthophoto-2025": 2
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -180,12 +186,13 @@
       "hole": 2,
       "par": 5,
       "green": 1,
-      "tee": 3,
+      "tee": 5,
       "fairway": 1,
       "bunker": 1,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 5
+        "orthophoto-2019": 2,
+        "orthophoto-2025": 5
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -204,8 +211,8 @@
       "fairway": 0,
       "bunker": 1,
       "sourceEvidence": {
-        "supplementary-map-outline": 3,
-        "orthophoto-2019": 2
+        "orthophoto-2019": 2,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -220,12 +227,13 @@
       "hole": 4,
       "par": 4,
       "green": 1,
-      "tee": 3,
+      "tee": 4,
       "fairway": 1,
       "bunker": 2,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 6
+        "orthophoto-2019": 3,
+        "orthophoto-2025": 4
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -240,12 +248,13 @@
       "hole": 5,
       "par": 4,
       "green": 1,
-      "tee": 1,
+      "tee": 2,
       "fairway": 1,
       "bunker": 2,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 4
+        "orthophoto-2019": 3,
+        "orthophoto-2025": 2
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -260,12 +269,13 @@
       "hole": 6,
       "par": 3,
       "green": 1,
-      "tee": 1,
+      "tee": 4,
       "fairway": 0,
       "bunker": 1,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 2
+        "orthophoto-2019": 1,
+        "orthophoto-2025": 4
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -280,12 +290,12 @@
       "hole": 7,
       "par": 4,
       "green": 1,
-      "tee": 2,
+      "tee": 3,
       "fairway": 2,
       "bunker": 4,
       "sourceEvidence": {
-        "supplementary-map-outline": 2,
-        "orthophoto-2019": 7
+        "orthophoto-2019": 7,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -300,12 +310,13 @@
       "hole": 8,
       "par": 4,
       "green": 1,
-      "tee": 2,
+      "tee": 4,
       "fairway": 1,
       "bunker": 3,
       "sourceEvidence": {
-        "supplementary-map-outline": 3,
-        "orthophoto-2019": 4
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 4,
+        "orthophoto-2025": 4
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -320,12 +331,13 @@
       "hole": 9,
       "par": 3,
       "green": 1,
-      "tee": 2,
+      "tee": 3,
       "fairway": 0,
       "bunker": 1,
       "sourceEvidence": {
-        "supplementary-map-outline": 3,
-        "orthophoto-2019": 1
+        "supplementary-map-outline": 1,
+        "orthophoto-2019": 1,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -345,7 +357,8 @@
       "bunker": 5,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 9
+        "orthophoto-2019": 6,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -360,12 +373,13 @@
       "hole": 11,
       "par": 3,
       "green": 1,
-      "tee": 1,
+      "tee": 2,
       "fairway": 0,
       "bunker": 3,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 4
+        "orthophoto-2019": 3,
+        "orthophoto-2025": 2
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -380,11 +394,12 @@
       "hole": 12,
       "par": 5,
       "green": 1,
-      "tee": 1,
+      "tee": 2,
       "fairway": 1,
       "bunker": 2,
       "sourceEvidence": {
-        "orthophoto-2019": 5
+        "orthophoto-2019": 4,
+        "orthophoto-2025": 2
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -399,12 +414,13 @@
       "hole": 13,
       "par": 4,
       "green": 1,
-      "tee": 1,
+      "tee": 3,
       "fairway": 1,
       "bunker": 0,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 2
+        "orthophoto-2019": 1,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -430,12 +446,13 @@
       "hole": 14,
       "par": 4,
       "green": 1,
-      "tee": 1,
+      "tee": 2,
       "fairway": 1,
       "bunker": 2,
       "sourceEvidence": {
         "supplementary-map-outline": 1,
-        "orthophoto-2019": 4
+        "orthophoto-2019": 3,
+        "orthophoto-2025": 2
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -454,7 +471,8 @@
       "fairway": 1,
       "bunker": 1,
       "sourceEvidence": {
-        "supplementary-map-outline": 6
+        "supplementary-map-outline": 3,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -473,8 +491,9 @@
       "fairway": 0,
       "bunker": 3,
       "sourceEvidence": {
-        "supplementary-map-outline": 6,
-        "orthophoto-2019": 1
+        "supplementary-map-outline": 3,
+        "orthophoto-2019": 1,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -493,8 +512,8 @@
       "fairway": 1,
       "bunker": 2,
       "sourceEvidence": {
-        "supplementary-map-outline": 5,
-        "orthophoto-2019": 2
+        "supplementary-map-outline": 4,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -509,11 +528,12 @@
       "hole": 18,
       "par": 4,
       "green": 1,
-      "tee": 2,
+      "tee": 3,
       "fairway": 1,
       "bunker": 1,
       "sourceEvidence": {
-        "supplementary-map-outline": 5
+        "supplementary-map-outline": 3,
+        "orthophoto-2025": 3
       },
       "runtimeGeometryPreserved": true,
       "currentCompleteness": "not-verified",
@@ -717,8 +737,68 @@
   "newOrthophoto": {
     "accessState": "acquired-and-measured",
     "measuredFeatures": 110,
-    "geometryVerificationFromImagery": false,
-    "boundaryVerification": "per-hole visual source review pending; acquired spectral statistics are separate evidence"
+    "geometryVerificationFromImagery": "tee platforms visually reviewed; other playing surfaces pending",
+    "boundaryVerification": "Native 2025 tee review supersedes the historical spectral review queue for tees only.",
+    "teeReviewPath": "lidingobuild/mapping/tee-native-alignment-review-2026-09-09.json",
+    "teeCaptureDate": "2025-05-31",
+    "reviewedTeeHoles": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "unresolvedColourReferences": [
+      {
+        "hole": 10,
+        "reason": "Orange is absent from the 2026 hole guide; native forward search corridor has no securely identified dedicated platform. Do not infer a pad from the scorecard distance."
+      },
+      {
+        "hole": 11,
+        "reason": "Orange card reference is only 4 m shorter than red and can provisionally share its observed platform. The guide does not positively locate orange, so no physical orange furniture is accepted."
+      },
+      {
+        "hole": 12,
+        "reason": "Orange is absent from the 2026 hole guide; native forward search corridor has no securely identified dedicated platform. Do not infer a pad from the scorecard distance."
+      },
+      {
+        "hole": 13,
+        "reason": "Orange is absent from the 2026 hole guide; native forward search corridor has no securely identified dedicated platform. Do not infer a pad from the scorecard distance."
+      },
+      {
+        "hole": 14,
+        "reason": "Orange card reference is only 7 m shorter than red and can provisionally share its observed platform. The guide does not positively locate orange, so no physical orange furniture is accepted."
+      },
+      {
+        "hole": 15,
+        "reason": "Orange is absent from the 2026 hole guide; native forward search corridor has no securely identified dedicated platform. Do not infer a pad from the scorecard distance."
+      },
+      {
+        "hole": 16,
+        "reason": "Orange is absent from the 2026 hole guide; native forward search corridor has no securely identified dedicated platform. Do not infer a pad from the scorecard distance."
+      },
+      {
+        "hole": 17,
+        "reason": "Orange is absent from the 2026 hole guide; native forward search corridor has no securely identified dedicated platform. Do not infer a pad from the scorecard distance."
+      },
+      {
+        "hole": 18,
+        "reason": "Orange is absent from the 2026 hole guide; native forward search corridor has no securely identified dedicated platform. Do not infer a pad from the scorecard distance."
+      }
+    ]
   },
   "surfaceRecords": [
     {
@@ -766,42 +846,6 @@
       "sourceTimestamp": "2011-12-31T15:52:24Z",
       "runtimeOwners": [
         "hole-2-green"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/221832565",
-      "hole": 3,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2013-05-17T13:50:08Z",
-      "runtimeOwners": [
-        "hole-3-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/221832567",
-      "hole": 3,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2013-05-17T13:50:08Z",
-      "runtimeOwners": [
-        "hole-3-tee-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/221832578",
-      "hole": 3,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2013-05-17T13:50:09Z",
-      "runtimeOwners": [
-        "hole-3-tee-2"
       ],
       "currentBoundaryVerified": false
     },
@@ -890,30 +934,6 @@
       "currentBoundaryVerified": false
     },
     {
-      "id": "way/296422978",
-      "hole": 8,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2014-08-07T09:57:16Z",
-      "runtimeOwners": [
-        "hole-8-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/296422981",
-      "hole": 17,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2014-08-07T09:57:16Z",
-      "runtimeOwners": [
-        "hole-17-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
       "id": "way/296422990",
       "hole": 4,
       "kind": "green",
@@ -934,18 +954,6 @@
       "sourceTimestamp": "2026-06-18T19:46:39Z",
       "runtimeOwners": [
         "scenery-bunkers-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/296422999",
-      "hole": 8,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2014-08-07T09:57:17Z",
-      "runtimeOwners": [
-        "hole-8-tee-1"
       ],
       "currentBoundaryVerified": false
     },
@@ -974,18 +982,6 @@
       "currentBoundaryVerified": false
     },
     {
-      "id": "way/331796609",
-      "hole": 16,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2015-03-08T10:08:15Z",
-      "runtimeOwners": [
-        "hole-16-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
       "id": "way/331796623",
       "hole": 15,
       "kind": "bunker",
@@ -994,18 +990,6 @@
       "sourceTimestamp": "2015-03-08T10:08:16Z",
       "runtimeOwners": [
         "hole-15-bunker-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/331796626",
-      "hole": 7,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2015-03-08T10:08:16Z",
-      "runtimeOwners": [
-        "hole-7-tee-0"
       ],
       "currentBoundaryVerified": false
     },
@@ -1030,78 +1014,6 @@
       "sourceTimestamp": "2015-03-08T10:08:17Z",
       "runtimeOwners": [
         "hole-15-green"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/331796648",
-      "hole": 16,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2015-03-08T10:08:18Z",
-      "runtimeOwners": [
-        "hole-16-tee-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/331796654",
-      "hole": 7,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2015-03-08T10:08:19Z",
-      "runtimeOwners": [
-        "hole-7-tee-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/331796671",
-      "hole": 16,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2015-03-08T10:08:20Z",
-      "runtimeOwners": [
-        "hole-16-tee-2"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/427426704",
-      "hole": 15,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2016-06-26T16:05:36Z",
-      "runtimeOwners": [
-        "hole-15-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/427426720",
-      "hole": 15,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2016-06-26T16:05:37Z",
-      "runtimeOwners": [
-        "hole-15-tee-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/427426728",
-      "hole": 15,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2016-06-26T16:05:37Z",
-      "runtimeOwners": [
-        "hole-15-tee-2"
       ],
       "currentBoundaryVerified": false
     },
@@ -1154,18 +1066,6 @@
       "currentBoundaryVerified": false
     },
     {
-      "id": "way/427426821",
-      "hole": 18,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2016-06-26T16:05:41Z",
-      "runtimeOwners": [
-        "hole-18-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
       "id": "way/427426825",
       "hole": 16,
       "kind": "green",
@@ -1174,18 +1074,6 @@
       "sourceTimestamp": "2016-06-26T16:05:41Z",
       "runtimeOwners": [
         "hole-16-green"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/427426836",
-      "hole": 18,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2016-06-26T16:05:42Z",
-      "runtimeOwners": [
-        "hole-18-tee-1"
       ],
       "currentBoundaryVerified": false
     },
@@ -1246,30 +1134,6 @@
       "sourceTimestamp": "2016-06-26T16:10:05Z",
       "runtimeOwners": [
         "hole-11-green"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/1530686621",
-      "hole": 9,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2026-06-18T19:39:02Z",
-      "runtimeOwners": [
-        "hole-9-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "way/1530686622",
-      "hole": 9,
-      "kind": "tee",
-      "sourceId": "lidingo-osm-2026-09-07",
-      "observedYear": null,
-      "sourceTimestamp": "2026-06-18T19:39:02Z",
-      "runtimeOwners": [
-        "hole-9-tee-1"
       ],
       "currentBoundaryVerified": false
     },
@@ -1562,126 +1426,6 @@
       "currentBoundaryVerified": false
     },
     {
-      "id": "lidingo-tee-01-a-ortho2019",
-      "hole": 1,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-1-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-02-a-ortho2019",
-      "hole": 2,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-2-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-04-a-ortho2019",
-      "hole": 4,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-4-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-05-a-ortho2019",
-      "hole": 5,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-5-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-06-a-ortho2019",
-      "hole": 6,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-6-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-10-a-ortho2019",
-      "hole": 10,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-10-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-11-a-ortho2019",
-      "hole": 11,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-11-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-12-a-ortho2019",
-      "hole": 12,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-12-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-13-a-ortho2019",
-      "hole": 13,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-13-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-14-a-ortho2019",
-      "hole": 14,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-14-tee-0"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
       "id": "lidingo-green-10-ortho2019",
       "hole": 10,
       "kind": "green",
@@ -1798,102 +1542,6 @@
       "sourceTimestamp": null,
       "runtimeOwners": [
         "hole-10-bunker-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-02-b-ortho2019",
-      "hole": 2,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-2-tee-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-02-c-ortho2019",
-      "hole": 2,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-2-tee-2"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-04-b-ortho2019",
-      "hole": 4,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-4-tee-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-04-c-ortho2019",
-      "hole": 4,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-4-tee-2"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-10-b-ortho2019",
-      "hole": 10,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-10-tee-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-10-c-ortho2019",
-      "hole": 10,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-10-tee-2"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-17-b-ortho2019",
-      "hole": 17,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-17-tee-1"
-      ],
-      "currentBoundaryVerified": false
-    },
-    {
-      "id": "lidingo-tee-17-c-ortho2019",
-      "hole": 17,
-      "kind": "tee",
-      "sourceId": "imagery-municipal-2019",
-      "observedYear": 2019,
-      "sourceTimestamp": null,
-      "runtimeOwners": [
-        "hole-17-tee-2"
       ],
       "currentBoundaryVerified": false
     },
@@ -2038,6 +1686,654 @@
       "sourceTimestamp": null,
       "runtimeOwners": [
         "hole-14-bunker-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-01-a-lm2025",
+      "hole": 1,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-1-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-01-b-lm2025",
+      "hole": 1,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-1-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-02-a-lm2025",
+      "hole": 2,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-02-b-lm2025",
+      "hole": 2,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-02-c-lm2025",
+      "hole": 2,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-02-d-lm2025",
+      "hole": 2,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-tee-3"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-02-e-lm2025",
+      "hole": 2,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-2-tee-4"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-03-a-lm2025",
+      "hole": 3,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-3-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-03-b-lm2025",
+      "hole": 3,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-3-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-03-c-lm2025",
+      "hole": 3,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-3-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-04-a-lm2025",
+      "hole": 4,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-04-b-lm2025",
+      "hole": 4,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-04-c-lm2025",
+      "hole": 4,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-04-d-lm2025",
+      "hole": 4,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-4-tee-3"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-05-a-lm2025",
+      "hole": 5,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-5-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-05-b-lm2025",
+      "hole": 5,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-5-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-06-a-lm2025",
+      "hole": 6,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-6-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-06-b-lm2025",
+      "hole": 6,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-6-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-06-c-lm2025",
+      "hole": 6,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-6-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-06-d-lm2025",
+      "hole": 6,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-6-tee-3"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-07-a-lm2025",
+      "hole": 7,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-07-b-lm2025",
+      "hole": 7,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-07-c-lm2025",
+      "hole": 7,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-7-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-08-a-lm2025",
+      "hole": 8,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-8-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-08-b-lm2025",
+      "hole": 8,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-8-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-08-c-lm2025",
+      "hole": 8,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-8-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-08-d-lm2025",
+      "hole": 8,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-8-tee-3"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-09-a-lm2025",
+      "hole": 9,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-9-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-09-b-lm2025",
+      "hole": 9,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-9-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-09-c-lm2025",
+      "hole": 9,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-9-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-10-a-lm2025",
+      "hole": 10,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-10-b-lm2025",
+      "hole": 10,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-10-c-lm2025",
+      "hole": 10,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-10-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-11-a-lm2025",
+      "hole": 11,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-11-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-11-b-lm2025",
+      "hole": 11,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-11-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-12-a-lm2025",
+      "hole": 12,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-12-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-12-b-lm2025",
+      "hole": 12,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-12-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-13-a-lm2025",
+      "hole": 13,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-13-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-13-b-lm2025",
+      "hole": 13,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-13-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-13-c-lm2025",
+      "hole": 13,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-13-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-14-a-lm2025",
+      "hole": 14,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-14-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-14-b-lm2025",
+      "hole": 14,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-14-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-15-a-lm2025",
+      "hole": 15,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-15-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-15-b-lm2025",
+      "hole": 15,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-15-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-15-c-lm2025",
+      "hole": 15,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-15-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-16-a-lm2025",
+      "hole": 16,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-16-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-16-b-lm2025",
+      "hole": 16,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-16-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-16-c-lm2025",
+      "hole": 16,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-16-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-17-a-lm2025",
+      "hole": 17,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-17-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-17-b-lm2025",
+      "hole": 17,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-17-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-17-c-lm2025",
+      "hole": 17,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-17-tee-2"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-18-a-lm2025",
+      "hole": 18,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-18-tee-0"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-18-b-lm2025",
+      "hole": 18,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-18-tee-1"
+      ],
+      "currentBoundaryVerified": false
+    },
+    {
+      "id": "lidingo-tee-18-c-lm2025",
+      "hole": 18,
+      "kind": "tee",
+      "sourceId": "imagery-lm-ortho",
+      "observedYear": 2025,
+      "sourceTimestamp": null,
+      "runtimeOwners": [
+        "hole-18-tee-2"
       ],
       "currentBoundaryVerified": false
     }

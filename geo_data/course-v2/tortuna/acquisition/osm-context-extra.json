@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "sourceId": "tortuna-osm-environment-2026-09-09",
+  "sourceUrl": "https://api.openstreetmap.org/api/0.6/map?bbox=16.703,59.645,16.754,59.676",
+  "acquiredAt": "2026-09-09T20:45:02.785895+00:00",
+  "sourceBytes": 1340456,
+  "sourceSha256": "0a5c2345215a8cb9b51939b4dff3f538302489e0e052ff19f35f0b0f944ddc78",
+  "sourcePath": "tortunabuild/cache/reference/osm-context-extra.xml",
+  "sourceCrs": "OGC:CRS84",
+  "horizontalCrs": "EPSG:3006",
+  "queryBoundsWgs84": [
+    16.703,
+    59.645,
+    16.754,
+    59.676
+  ],
+  "targetBoundsEpsg3006": [
+    596120.5,
+    6613363.5,
+    598680.5,
+    6616435.5
+  ],
+  "nativeBoundsEpsg3006": [
+    595352.5,
+    6612851.5,
+    599448.5,
+    6616947.5
+  ],
+  "requestedTargetAreaSquareMetres": 7864320.0,
+  "queryEnvelopeCoversTarget": true,
+  "previousQueryBoundsWgs84": [
+    16.71,
+    59.651,
+    16.744,
+    59.674
+  ],
+  "previousTargetAreaCoveredSquareMetres": 4907930.903773876,
+  "rawCounts": {
+    "node": 5608,
+    "way": 571,
+    "relation": 13
+  },
+  "transform": {
+    "engine": "pyproj/PROJ",
+    "projVersion": "9.8.1",
+    "alwaysXY": true
+  },
+  "baselineRaw": {
+    "path": "tortunabuild/cache/reference/osm.xml",
+    "sha256": "452faf832c519d3f30a4494a1ea4255b98c8d89bff4377f0ee09de9bc7b8cdb4"
+  },
+  "excludedOriginalElementIdCount": 3732,
+  "originalIdOverlapCount": 0,
+  "outputPath": "tortunabuild/mapping/environment-context-extra.geojson",
+  "outputSha256": "c08dc3c0067a8a36683d20155acf9d6f6efbcd6720c827d864dc0f7e4aaf3425",
+  "featureCounts": {
+    "railway": 5,
+    "highway": 53,
+    "waterway": 4,
+    "forest": 9,
+    "building": 161,
+    "landuse": 46,
+    "natural": 2
+  },
+  "geometryCounts": {
+    "Point": 2,
+    "LineString": 59,
+    "Polygon": 218,
+    "MultiLineString": 1
+  },
+  "tagCounts": {
+    "railway=level_crossing": 1,
+    "railway=milestone": 1,
+    "highway=cycleway": 9,
+    "highway=tertiary": 5,
+    "highway=unclassified": 4,
+    "highway=service": 22,
+    "highway=residential": 5,
+    "highway=track": 6,
+    "waterway=river": 2,
+    "railway=rail": 3,
+    "natural=wood": 2,
+    "waterway=stream": 1,
+    "highway=path": 2,
+    "building=yes": 136,
+    "landuse=residential": 12,
+    "landuse=meadow": 7,
+    "waterway=ditch": 1,
+    "building=farm_auxiliary": 1,
+    "building=farm": 2,
+    "landuse=farmyard": 4,
+    "landuse=farmland": 23,
+    "landuse=forest": 7,
+    "building=residential": 22,
+    "natural=scrub": 2
+  },
+  "clippedFeatureCount": 13,
+  "intersectsTargetFeatureCount": 143,
+  "licence": "ODbL-1.0",
+  "licenceUrl": "https://www.openstreetmap.org/copyright",
+  "attribution": "© OpenStreetMap contributors",
+  "privacy": "Contact tags, user IDs, usernames, changesets and contributor identities excluded from derived data.",
+  "withheldMultipolygonMembers": [],
+  "skipped": [
+    {
+      "id": "node/2149415542",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/8700698367",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/8700698377",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/8700698378",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/9502337953",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/9502337959",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/12926591629",
+      "reason": "outside-native-DTM"
+    }
+  ],
+  "limitations": [
+    "Query envelope covers target; OSM completeness is not guaranteed. Bounding-box API can miss ways with no node inside the query.",
+    "Elements matching any ID in the original retained XML are excluded, even if the previous importer omitted that element.",
+    "Database edit timestamps do not establish imagery date, field condition, or geometric accuracy.",
+    "Complete source WGS84 geometry is retained as provenance. Only projected non-building features can clip to the native DTM rectangle.",
+    "Open routes and waterways remain centrelines; no widths, water levels, bridge decks, tree stems or building heights are invented.",
+    "Forest/wood polygons are mapped land cover, not measured canopy or automatic tree-placement permission."
+  ]
+}

@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, relative, resolve, sep } from 'node:path';
 import { canonicalJsonBytes } from './canonical-json.mjs';
+import { updateFileAtomically } from './atomic-file-node.mjs';
 import {
   assetReferenceForChunk,
   sha256Bytes,
@@ -347,14 +348,8 @@ async function writeImmutable(target, data) {
   }
 }
 
-async function mergedRootBytes(rootTarget, graph) {
-  let existingBytes;
-  try {
-    existingBytes = await readFile(rootTarget);
-  } catch (error) {
-    if (error?.code === 'ENOENT') return graph.rootBytes;
-    throw error;
-  }
+function mergedRootBytes(rootTarget, graph, existingBytes) {
+  if (existingBytes === null) return graph.rootBytes;
   let existing;
   try {
     existing = JSON.parse(existingBytes.toString('utf8'));
@@ -398,8 +393,7 @@ export async function writeGroundGraphFiles(outputDirectory, graph) {
     written.push(target);
   }
   const rootTarget = graphTarget(outputRoot, 'courses/v2-index.json');
-  await mkdir(dirname(rootTarget), { recursive: true });
-  await writeFile(rootTarget, await mergedRootBytes(rootTarget, graph));
+  await updateFileAtomically(rootTarget, current => mergedRootBytes(rootTarget, graph, current));
   written.push(rootTarget);
   return Object.freeze(written);
 }

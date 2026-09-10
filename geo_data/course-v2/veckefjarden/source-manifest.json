@@ -693,7 +693,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "geobuild/course-model.json",
-      "sha256": "a0a3cc41555672f9e84fc6962815d9488ee12aeaa5d60f0df9f757e4fc8f11b7",
+      "sha256": "66885fa4e54d3c240f717800e27035262c82c48e0eea3002b7afbbf0da0997fd",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -819,7 +819,7 @@
       "id": "legacy-short-course-model",
       "kind": "composite",
       "path": "veckefjardenkortbuild/course-model.json",
-      "sha256": "6b75e3007ed0600862f3996664d90245abc80e31f8e08f47751e2be27b433807",
+      "sha256": "0e3bd2f09a89062bdd4b5f715ccb0195c42ab2687ad10086202cf8c0be3ef911",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -861,7 +861,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/veckefjarden/migration/course-model.epsg3006.json",
-      "sha256": "e22363179a351efb8e26123dc0a2c06db675188f5c421911ff2eb8113e0013c1",
+      "sha256": "2cf429476146063c3c6f56e91b6049ee9f0137997c8505ccd9dad85511aceac5",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -892,7 +892,7 @@
       "id": "migration-short-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/veckefjarden/migration/short-course-model.epsg3006.json",
-      "sha256": "9aacd1e4de93fded1cfd61dbfd073de04309dfff1e4406ba7ca761c781661fbe",
+      "sha256": "8aa9b809a06d8dc0bf9aac31bd2c15660dee2e3518087c4b4613f5668be01572",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -922,7 +922,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/veckefjarden/migration/residual-report.json",
-      "sha256": "b93d631af0d040f65f3f3d4e2a13a8ea48eeb86057e870b3c328de5b0869194f",
+      "sha256": "98fba1cbca8a9259eb78657285f8af3a7b130d0f16cfce1470c938d9295f084d",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -1112,7 +1112,7 @@
       "id": "ortho-trace-verification",
       "kind": "control",
       "path": "geo_data/course-v2/veckefjarden/acquisition/ortho-trace-verification.json",
-      "sha256": "4e89a0b374eed8c0c38df495beb08b69aa1267c28a03c8a36b9b16f1ff222ed9",
+      "sha256": "75e5c028996becc982888a8eb71c16eee842a7546c3dde36f5f6db87caba383a",
       "derivedFrom": [
         "imagery-lm-window-context-0-0",
         "imagery-lm-window-context-0-1",
@@ -1132,13 +1132,13 @@
         "imagery-lm-window-context-3-3"
       ],
       "use": "discovery-evidence",
-      "notes": "Source and panel hashes plus pixel-to-EPSG-to-local numerical residual checks."
+      "notes": "Historical first-pass source/panel hash and numerical checks. Current adopted features are checked by ortho-alignment-audit."
     },
     {
       "id": "ortho-reviewed-vectors",
       "kind": "surface",
       "path": "geobuild/mapping/lm-ortho-review.json",
-      "sha256": "538748e07382effa84e722cb09b0c935e1eace197a4c8af1ae2626df799a7cb2",
+      "sha256": "4d3f0edf8cdd0feb09e8c9248bdebd2702abaca9cc6cfa8f54e051e527b39d53",
       "derivedFrom": [
         "imagery-lm-window-context-0-0",
         "imagery-lm-window-context-0-1",
@@ -1164,7 +1164,7 @@
       "id": "ortho-alignment-audit",
       "kind": "control",
       "path": "geo_data/course-v2/veckefjarden/acquisition/ortho-alignment-audit.json",
-      "sha256": "4390a735d4032a9476789a49b6a321ffc2adfa03c42c02de6ac55dad387663ab",
+      "sha256": "6484f78d94668926ed81c08c55988da6cad3147b2ba0e33d0447f750a25da633",
       "derivedFrom": [
         "imagery-lm-window-context-0-0",
         "imagery-lm-window-context-0-1",
@@ -1185,6 +1185,58 @@
       ],
       "use": "discovery-evidence",
       "notes": "Independent final source-to-model checks and per-hole adopted and unresolved inventory."
+    },
+    {
+      "id": "tee-coordinate-review",
+      "kind": "control",
+      "path": "geo_data/course-v2/veckefjarden/acquisition/tee-coordinate-review.json",
+      "sha256": "c3c2183bd6996011f26f47a4b4a5964332bd9698aeaca9851d93308e8aeaeacc",
+      "derivedFrom": [
+        "imagery-lm-window-context-0-0",
+        "imagery-lm-window-context-0-1",
+        "imagery-lm-window-context-0-2",
+        "imagery-lm-window-context-0-3",
+        "imagery-lm-window-context-1-0",
+        "imagery-lm-window-context-1-1",
+        "imagery-lm-window-context-1-2",
+        "imagery-lm-window-context-1-3",
+        "imagery-lm-window-context-2-0",
+        "imagery-lm-window-context-2-1",
+        "imagery-lm-window-context-2-2",
+        "imagery-lm-window-context-2-3",
+        "imagery-lm-window-context-3-0",
+        "imagery-lm-window-context-3-1",
+        "imagery-lm-window-context-3-2",
+        "imagery-lm-window-context-3-3"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 108 numbered reference coordinates in legacy metres, WGS84 and EPSG:3006, with explicit association status, containment and changes from the preceding review."
+    },
+    {
+      "id": "tee-coordinate-table",
+      "kind": "control",
+      "path": "geo_data/course-v2/veckefjarden/acquisition/tee-coordinate-review.csv",
+      "sha256": "6e7d44ab3a7cb48d950555f7374553dd24357e57fdf5f480c1518d89317bb4c6",
+      "derivedFrom": [
+        "imagery-lm-window-context-0-0",
+        "imagery-lm-window-context-0-1",
+        "imagery-lm-window-context-0-2",
+        "imagery-lm-window-context-0-3",
+        "imagery-lm-window-context-1-0",
+        "imagery-lm-window-context-1-1",
+        "imagery-lm-window-context-1-2",
+        "imagery-lm-window-context-1-3",
+        "imagery-lm-window-context-2-0",
+        "imagery-lm-window-context-2-1",
+        "imagery-lm-window-context-2-2",
+        "imagery-lm-window-context-2-3",
+        "imagery-lm-window-context-3-0",
+        "imagery-lm-window-context-3-1",
+        "imagery-lm-window-context-3-2",
+        "imagery-lm-window-context-3-3"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Tabular export of tee-coordinate-review; unresolved references are not surveyed tee positions."
     }
   ],
   "blockers": [

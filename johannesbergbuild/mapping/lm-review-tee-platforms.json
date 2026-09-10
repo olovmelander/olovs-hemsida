@@ -1,0 +1,665 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "course": "johannesberg",
+  "frame": {
+    "origin": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "mPerLat": 111320,
+    "mPerLon": 56118.16
+  },
+  "reviewedOn": "2026-09-09",
+  "features": [
+    {
+      "id": "johannesberg-hole-02-tee-platform-followup",
+      "hole": 2,
+      "kind": "tee",
+      "action": "add",
+      "index": 2,
+      "status": "accepted",
+      "originalRingSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "ring": [
+        [
+          -54.993,
+          -509.696
+        ],
+        [
+          -52.882,
+          -510.395
+        ],
+        [
+          -50.696,
+          -509.329
+        ],
+        [
+          -48.882,
+          -507.161
+        ],
+        [
+          -48.2,
+          -504.727
+        ],
+        [
+          -48.794,
+          -502.354
+        ],
+        [
+          -50.169,
+          -500.34
+        ],
+        [
+          -51.984,
+          -499.147
+        ],
+        [
+          -54.049,
+          -499.407
+        ],
+        [
+          -55.734,
+          -500.929
+        ],
+        [
+          -56.902,
+          -503.226
+        ],
+        [
+          -57.258,
+          -505.804
+        ],
+        [
+          -56.505,
+          -508.168
+        ]
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-02.tif",
+            "sha256": "2df64755d4e61a72115cbcb5f4338ade3b482d320d3007d3f729e7fa21c882b7"
+          },
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-02.png",
+            "sha256": "9b697e5813d8b8107b7f57fa391330ff05e0814dfad23d48da544530de1aaea5"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.2,
+        "note": "Native crop resolves a third oval platform north of the yellow/blue tee. Official plan identifies the rearmost platform as white; nearest-pad assignment incorrectly merged it with yellow/blue.",
+        "panelExtent": {
+          "crs": "EPSG:3006",
+          "bounds": [
+            679372.16,
+            6625791.04,
+            679426.56,
+            6625880.48
+          ]
+        },
+        "panelPixelSize": [
+          340,
+          559
+        ],
+        "sourcePixelRing": [
+          [
+            57,
+            59
+          ],
+          [
+            70,
+            54
+          ],
+          [
+            84,
+            60
+          ],
+          [
+            96,
+            73
+          ],
+          [
+            101,
+            88
+          ],
+          [
+            98,
+            103
+          ],
+          [
+            90,
+            116
+          ],
+          [
+            79,
+            124
+          ],
+          [
+            66,
+            123
+          ],
+          [
+            55,
+            114
+          ],
+          [
+            47,
+            100
+          ],
+          [
+            44,
+            84
+          ],
+          [
+            48,
+            69
+          ]
+        ],
+        "pixelConvention": "pixel-edge coordinates: E=minE+x*resolution, N=maxN-y*resolution"
+      }
+    },
+    {
+      "id": "johannesberg-hole-04-tee-platform-followup",
+      "hole": 4,
+      "kind": "tee",
+      "action": "add",
+      "index": 3,
+      "status": "accepted",
+      "originalRingSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "ring": [
+        [
+          353.602,
+          -87.735
+        ],
+        [
+          355.985,
+          -87.46
+        ],
+        [
+          359.287,
+          -86.34
+        ],
+        [
+          362.877,
+          -84.566
+        ],
+        [
+          365.996,
+          -82.975
+        ],
+        [
+          367.688,
+          -81.612
+        ],
+        [
+          368.248,
+          -79.985
+        ],
+        [
+          367.534,
+          -78.419
+        ],
+        [
+          365.909,
+          -77.857
+        ],
+        [
+          363.541,
+          -78.452
+        ],
+        [
+          360.725,
+          -79.708
+        ],
+        [
+          357.135,
+          -81.482
+        ],
+        [
+          353.841,
+          -82.762
+        ],
+        [
+          352.142,
+          -83.965
+        ],
+        [
+          351.573,
+          -85.433
+        ],
+        [
+          352.439,
+          -86.831
+        ]
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-04.tif",
+            "sha256": "5d23b1556fbd5342dd7d781dcea5d423f71b27900183742842c9d85b16adc178"
+          },
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-04.png",
+            "sha256": "49cc4301ea3f77a3387b6a8744754a2599ca02edd6ce3ee435031a48a89a34a5"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.3,
+        "note": "Distinct dry oblong tee southeast of the path between white and blue platforms. The official plan identifies this tee as yellow. Native imagery resolves its mowing edge and worn central turf; the earlier review mistook it for ordinary turf.",
+        "panelExtent": {
+          "crs": "EPSG:3006",
+          "bounds": [
+            679766.72,
+            6625436.159999999,
+            679920.32,
+            6625499.52
+          ]
+        },
+        "panelPixelSize": [
+          960,
+          396
+        ],
+        "sourcePixelRing": [
+          [
+            275,
+            191
+          ],
+          [
+            290,
+            192
+          ],
+          [
+            311,
+            198
+          ],
+          [
+            334,
+            208
+          ],
+          [
+            354,
+            217
+          ],
+          [
+            365,
+            225
+          ],
+          [
+            369,
+            235
+          ],
+          [
+            365,
+            245
+          ],
+          [
+            355,
+            249
+          ],
+          [
+            340,
+            246
+          ],
+          [
+            322,
+            239
+          ],
+          [
+            299,
+            229
+          ],
+          [
+            278,
+            222
+          ],
+          [
+            267,
+            215
+          ],
+          [
+            263,
+            206
+          ],
+          [
+            268,
+            197
+          ]
+        ],
+        "pixelConvention": "pixel-edge coordinates: E=minE+x*resolution, N=maxN-y*resolution"
+      }
+    },
+    {
+      "id": "johannesberg-hole-06-tee-platform-followup",
+      "hole": 6,
+      "kind": "tee",
+      "action": "add",
+      "index": 2,
+      "status": "accepted",
+      "originalRingSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "ring": [
+        [
+          379.749,
+          274.946
+        ],
+        [
+          381.456,
+          275.989
+        ],
+        [
+          383.914,
+          278.029
+        ],
+        [
+          386.349,
+          280.547
+        ],
+        [
+          387.828,
+          283.02
+        ],
+        [
+          388.381,
+          284.807
+        ],
+        [
+          387.674,
+          286.213
+        ],
+        [
+          386.034,
+          287.094
+        ],
+        [
+          384.273,
+          287.169
+        ],
+        [
+          382.087,
+          286.103
+        ],
+        [
+          379.933,
+          284.399
+        ],
+        [
+          378.127,
+          282.07
+        ],
+        [
+          376.952,
+          279.933
+        ],
+        [
+          377.196,
+          278.184
+        ],
+        [
+          378.245,
+          276.314
+        ]
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-06.tif",
+            "sha256": "c9df8ed9f67f9538719b137ae7f34ed2dc8175b7b3d4fb625e81f2c133ce4b53"
+          },
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-06.png",
+            "sha256": "ace38a7cca01716bb5d1eb75726957641425122978d9772819f7bff050cf97b7"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.2,
+        "note": "Native image resolves the elongated back platform beyond yellow at the end of the path. Its eastern edge lies partly in shadow. Official plan topology identifies white here.",
+        "panelExtent": {
+          "crs": "EPSG:3006",
+          "bounds": [
+            679809.6,
+            6625079.36,
+            679886.4,
+            6625136.96
+          ]
+        },
+        "panelPixelSize": [
+          480,
+          360
+        ],
+        "sourcePixelRing": [
+          [
+            280,
+            183
+          ],
+          [
+            291,
+            189
+          ],
+          [
+            307,
+            201
+          ],
+          [
+            323,
+            216
+          ],
+          [
+            333,
+            231
+          ],
+          [
+            337,
+            242
+          ],
+          [
+            333,
+            251
+          ],
+          [
+            323,
+            257
+          ],
+          [
+            312,
+            258
+          ],
+          [
+            298,
+            252
+          ],
+          [
+            284,
+            242
+          ],
+          [
+            272,
+            228
+          ],
+          [
+            264,
+            215
+          ],
+          [
+            265,
+            204
+          ],
+          [
+            271,
+            192
+          ]
+        ],
+        "pixelConvention": "pixel-edge coordinates: E=minE+x*resolution, N=maxN-y*resolution"
+      }
+    },
+    {
+      "id": "johannesberg-hole-07-tee-platform-followup",
+      "hole": 7,
+      "kind": "tee",
+      "action": "add",
+      "index": 2,
+      "status": "accepted",
+      "originalRingSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "ring": [
+        [
+          222.362,
+          218.681
+        ],
+        [
+          224.617,
+          218.31
+        ],
+        [
+          227.129,
+          219.232
+        ],
+        [
+          229.276,
+          221.096
+        ],
+        [
+          230.596,
+          223.561
+        ],
+        [
+          230.655,
+          225.644
+        ],
+        [
+          229.28,
+          227.659
+        ],
+        [
+          227.313,
+          228.684
+        ],
+        [
+          225.089,
+          228.416
+        ],
+        [
+          222.904,
+          227.351
+        ],
+        [
+          221.075,
+          225.502
+        ],
+        [
+          220.386,
+          223.227
+        ],
+        [
+          220.82,
+          220.847
+        ]
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-07.tif",
+            "sha256": "8d070b981dd30eb1d2f7ecb09b23d86ffd26698ca692fdba4cd4013b511f6d5f"
+          },
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-07.png",
+            "sha256": "9e7d294ff8bc523c8971eb8b91364f360b22a6ea86d0ef6148c9d9b30cd05986"
+          }
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "uncertaintyM": 1.5,
+        "note": "Dry circular mowing surface northwest of yellow, beside the rough island and south of the sixth green. It is the separate white tee shown in the official plan; low contrast caused it to be missed in the earlier review.",
+        "panelExtent": {
+          "crs": "EPSG:3006",
+          "bounds": [
+            679682.56,
+            6625101.12,
+            679783.04,
+            6625179.2
+          ]
+        },
+        "panelPixelSize": [
+          628,
+          488
+        ],
+        "sourcePixelRing": [
+          [
+            72,
+            143
+          ],
+          [
+            86,
+            140
+          ],
+          [
+            102,
+            145
+          ],
+          [
+            116,
+            156
+          ],
+          [
+            125,
+            171
+          ],
+          [
+            126,
+            184
+          ],
+          [
+            118,
+            197
+          ],
+          [
+            106,
+            204
+          ],
+          [
+            92,
+            203
+          ],
+          [
+            78,
+            197
+          ],
+          [
+            66,
+            186
+          ],
+          [
+            61,
+            172
+          ],
+          [
+            63,
+            157
+          ]
+        ],
+        "pixelConvention": "pixel-edge coordinates: E=minE+x*resolution, N=maxN-y*resolution"
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "hole": 8,
+      "kind": "white-tee",
+      "reason": "No complete white tee resolves in the native forest-edge crop."
+    },
+    {
+      "hole": 10,
+      "kind": "white-blue-red-tees",
+      "reason": "Canopy obscures these platforms; the visible yellow platform cannot substitute for them."
+    },
+    {
+      "hole": 18,
+      "kind": "blue-tee",
+      "reason": "A separate blue tee cannot be traced beneath the canopy between back and forward platforms."
+    }
+  ]
+}

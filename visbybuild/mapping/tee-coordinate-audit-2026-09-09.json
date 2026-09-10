@@ -1,0 +1,2713 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "kind": "source-to-runtime-tee-coordinate-audit",
+  "auditedAt": "2026-09-09T20:20:22.749Z",
+  "status": "numeric-coordinate-chain-verified; absolute-survey-control-pending",
+  "artifacts": {
+    "modelSha256": "c9d7e2e3cd13b2a8d040681d315eec3e99083437fa6f82bbda423402eb64eb71",
+    "geometrySha256": "6e2b02245777c3d18432bd5a2a88cc33d6bb47753144faae8a045a3195c6ca0b",
+    "migrationSha256": "0f60d43a3221b4ed8843f071343651a20fc9eba3b559fdf5a0f717e67b759c5f",
+    "packSha256": "a533c99c1b8d2503439dbc42dbfd391846175bae82d69de8f9981a504517c297",
+    "course": {
+      "bytes": 3877,
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "sha256": "250df3733d40d39a16106ff6e4a7c5339bb4c1db8dfececa066ae6153cf23eb9",
+      "url": "courses/visby/course-v2-250df3733d40d39a16106ff6e4a7c5339bb4c1db8dfececa066ae6153cf23eb9.json"
+    },
+    "ground": {
+      "bytes": 500364,
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "sha256": "90834565deaa503404ea1ab86278218af70284a8f8e967fc7b70c3cfe8cc6a5e",
+      "url": "grounds/visby/ground-v2-90834565deaa503404ea1ab86278218af70284a8f8e967fc7b70c3cfe8cc6a5e.json"
+    }
+  },
+  "frame": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "compoundCrs": "EPSG:5845",
+    "origin": {
+      "easting": 687748.5,
+      "heightRH2000": 0.1,
+      "northing": 6370951.5
+    },
+    "conversion": "x=E-687748.5; z=6370951.5-N; bridge restores source RH2000 height; no horizontal affine correction",
+    "bridgeMode": "epsg3006-local-rh2000"
+  },
+  "municipalPixelConvention": {
+    "fullImage": "E=686900.25+0.5*u; N=6372149.75-0.5*v (pixel centres)",
+    "croppedReviews": "E=xmin+u*spacing; N=ymax-v*spacing (pixel edges)",
+    "accidentalHalfPixelShiftMetresAt0p5m": 0.3535533905932738,
+    "interpretation": "Distinct declared conventions; never add a further half pixel to native pixel-edge review coordinates."
+  },
+  "summary": {
+    "holes": 18,
+    "cameraReferences": 108,
+    "declaredReferences": 102,
+    "sourceCorroboratedReferences": 75,
+    "retainedUnresolvedReferences": 33,
+    "referencesOnObservedPads": 84,
+    "physicalPlatforms": 59,
+    "coordinateResiduals": {
+      "authoringReferenceToModel": {
+        "count": 102,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      },
+      "modelToCanonical": {
+        "count": 108,
+        "rmseMetres": 0.000269267,
+        "maxMetres": 0.000556277
+      },
+      "modelToPack": {
+        "count": 108,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      },
+      "geometryRoundTrip": {
+        "count": 102,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      },
+      "canonicalToRouting": {
+        "count": 65,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      }
+    },
+    "runtimeTerrain": {
+      "ready": true,
+      "resources": 64,
+      "tee59HeightResiduals": {
+        "count": 18,
+        "rmseMetres": 0.031076925,
+        "maxMetres": 0.05
+      }
+    },
+    "gpsInput": {
+      "controlSource": "Synthetic EPSG:3006 grid points inverted with PROJ 9.8.1 / pyproj 3.8.0; not surveyed controls",
+      "controls": [
+        {
+          "local": [
+            0,
+            0
+          ],
+          "wgs84": [
+            18.12847826436399,
+            57.44236399463288
+          ],
+          "measuredLocal": [
+            0.0000017294660210609436,
+            -0.0006727511063218117
+          ]
+        },
+        {
+          "local": [
+            -650,
+            -1050
+          ],
+          "wgs84": [
+            18.118467660619093,
+            57.45205012630819
+          ],
+          "measuredLocal": [
+            -649.9999983243179,
+            -1050.0006730789319
+          ]
+        },
+        {
+          "local": [
+            650,
+            -1050
+          ],
+          "wgs84": [
+            18.1400984521626,
+            57.451512773274224
+          ],
+          "measuredLocal": [
+            650.00000175077,
+            -1050.0006730854511
+          ]
+        },
+        {
+          "local": [
+            650,
+            450
+          ],
+          "wgs84": [
+            18.1389448076941,
+            57.43805873583014
+          ],
+          "measuredLocal": [
+            650.0000017751008,
+            449.99932738859206
+          ]
+        },
+        {
+          "local": [
+            -650,
+            450
+          ],
+          "wgs84": [
+            18.117321931606615,
+            57.43859581227263
+          ],
+          "measuredLocal": [
+            -649.999998300802,
+            449.9993273951113
+          ]
+        }
+      ],
+      "residuals": {
+        "count": 5,
+        "rmseMetres": 0.000672829,
+        "maxMetres": 0.000673088
+      }
+    },
+    "verifiedProtectedAssets": {
+      "count": 842,
+      "bytes": 10952819
+    }
+  },
+  "sourceReviews": [
+    {
+      "file": "visbybuild/mapping/orthophoto-review-2026.json",
+      "sha256": "941925d6a95098a0376bc46aaa0b733273ad54900ded3d8b9159aaa9b04fa5f3",
+      "sourceCount": 68,
+      "nativeRasterToAuthoringGrid": {
+        "count": 204,
+        "rmseMetres": 0,
+        "maxMetres": 1e-9
+      },
+      "reviewedReferenceToCurrentGeometry": {
+        "count": 0,
+        "rmseMetres": null,
+        "maxMetres": null
+      },
+      "reviewedNativePixelsToReferenceCoordinates": {
+        "count": 0,
+        "rmseMetres": null,
+        "maxMetres": null
+      },
+      "interpretation": "Same source pixels/coordinates checked through distinct code paths; no independent geographic control."
+    },
+    {
+      "file": "visbybuild/mapping/lm-tee-review-front9-2026-09-09.json",
+      "sha256": "28006f0599c5ffda01168d3a3e0ac9af79d0afff1354d8d4bf7b29d2df6f2849",
+      "sourceCount": 9,
+      "nativeRasterToAuthoringGrid": {
+        "count": 27,
+        "rmseMetres": 0,
+        "maxMetres": 1e-9
+      },
+      "reviewedReferenceToCurrentGeometry": {
+        "count": 54,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      },
+      "reviewedNativePixelsToReferenceCoordinates": {
+        "count": 54,
+        "rmseMetres": 4.8e-8,
+        "maxMetres": 9.9e-8
+      },
+      "interpretation": "Same source pixels/coordinates checked through distinct code paths; no independent geographic control."
+    },
+    {
+      "file": "visbybuild/mapping/lm-tee-review-back9-2026-09-09.json",
+      "sha256": "0820ad19c4039b32c7b26d38c627ca8b46833cf46b2497db5906106e00c1fa72",
+      "sourceCount": 9,
+      "nativeRasterToAuthoringGrid": {
+        "count": 27,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      },
+      "reviewedReferenceToCurrentGeometry": {
+        "count": 48,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      },
+      "reviewedNativePixelsToReferenceCoordinates": {
+        "count": 21,
+        "rmseMetres": 1e-9,
+        "maxMetres": 1e-9
+      },
+      "interpretation": "Same source pixels/coordinates checked through distinct code paths; no independent geographic control."
+    }
+  ],
+  "datedGeometryControls": [
+    {
+      "hole": 3,
+      "feature": "green",
+      "id": "lm-2026-h03-green",
+      "sourceKey": "hole-03-green",
+      "sourceSha256": "9a3f8a1a398aa1626043af3eb4288ef1f3b798f87eba816cff95d56153035f86",
+      "matchedVertexCount": 21,
+      "residuals": {
+        "count": 21,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      }
+    },
+    {
+      "hole": 3,
+      "feature": "tee",
+      "id": "lm-2026-h03-back-tee",
+      "sourceKey": "hole-03-tees",
+      "sourceSha256": "85efb4e2993f9d6db4d2adbbefaae31a2254103912ceacbb7e3f7386eb84dbe3",
+      "matchedVertexCount": 5,
+      "residuals": {
+        "count": 5,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      }
+    },
+    {
+      "hole": 3,
+      "feature": "tee",
+      "id": "lm-2026-h03-middle-tee",
+      "sourceKey": "hole-03-tees",
+      "sourceSha256": "85efb4e2993f9d6db4d2adbbefaae31a2254103912ceacbb7e3f7386eb84dbe3",
+      "matchedVertexCount": 5,
+      "residuals": {
+        "count": 5,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      }
+    },
+    {
+      "hole": 3,
+      "feature": "tee",
+      "id": "lm-2026-h03-front-tee",
+      "sourceKey": "hole-03-tees",
+      "sourceSha256": "85efb4e2993f9d6db4d2adbbefaae31a2254103912ceacbb7e3f7386eb84dbe3",
+      "matchedVertexCount": 5,
+      "residuals": {
+        "count": 5,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      }
+    },
+    {
+      "hole": 9,
+      "feature": "green",
+      "id": "lm-2026-h09-putting-surface",
+      "sourceKey": "hole-09-green",
+      "sourceSha256": "f1df0fc169dc6918faf7834d46f3588c567912d63de464f2706a4bd4d3a84185",
+      "matchedVertexCount": 26,
+      "residuals": {
+        "count": 26,
+        "rmseMetres": 0,
+        "maxMetres": 0
+      }
+    }
+  ],
+  "baselineComparison": {
+    "baselinePath": "visbybuild/cache/tee-coordinate-baseline-2026-09-09.json",
+    "baselineModelSha256": "f424be0ad18158715c3a9a188527081984064747879a73fc83e8770e9739c7d2",
+    "baselineCapturedAt": "2026-09-09T19:44:57.931Z",
+    "changedProtectedFields": [],
+    "movedReferences": [
+      {
+        "hole": 2,
+        "tee": "tee-63",
+        "displacementMetres": 23.95003329
+      },
+      {
+        "hole": 2,
+        "tee": "tee-59",
+        "displacementMetres": 24.794180168
+      },
+      {
+        "hole": 2,
+        "tee": "tee-51",
+        "displacementMetres": 36.532766581
+      },
+      {
+        "hole": 5,
+        "tee": "tee-55",
+        "displacementMetres": 17.680780518
+      },
+      {
+        "hole": 5,
+        "tee": "tee-51",
+        "displacementMetres": 11.15202079
+      },
+      {
+        "hole": 6,
+        "tee": "tee-63",
+        "displacementMetres": 34.116575861
+      },
+      {
+        "hole": 6,
+        "tee": "tee-59",
+        "displacementMetres": 27.054515466
+      },
+      {
+        "hole": 10,
+        "tee": "tee-63",
+        "displacementMetres": 66.795502068
+      },
+      {
+        "hole": 10,
+        "tee": "tee-59",
+        "displacementMetres": 65.765978461
+      },
+      {
+        "hole": 10,
+        "tee": "tee-55",
+        "displacementMetres": 64.073368113
+      },
+      {
+        "hole": 10,
+        "tee": "tee-51",
+        "displacementMetres": 64.073368113
+      },
+      {
+        "hole": 10,
+        "tee": "tee-46",
+        "displacementMetres": 66.277096006
+      },
+      {
+        "hole": 10,
+        "tee": "tee-41",
+        "displacementMetres": 66.277096006
+      },
+      {
+        "hole": 11,
+        "tee": "tee-63",
+        "displacementMetres": 32.776659229
+      },
+      {
+        "hole": 11,
+        "tee": "tee-59",
+        "displacementMetres": 8.960714408
+      },
+      {
+        "hole": 11,
+        "tee": "tee-55",
+        "displacementMetres": 8.960714408
+      },
+      {
+        "hole": 11,
+        "tee": "tee-51",
+        "displacementMetres": 39.298473704
+      },
+      {
+        "hole": 11,
+        "tee": "tee-46",
+        "displacementMetres": 39.298473704
+      },
+      {
+        "hole": 11,
+        "tee": "tee-41",
+        "displacementMetres": 30.445190478
+      },
+      {
+        "hole": 14,
+        "tee": "tee-55",
+        "displacementMetres": 20.190722485
+      },
+      {
+        "hole": 14,
+        "tee": "tee-51",
+        "displacementMetres": 18.641094218
+      },
+      {
+        "hole": 14,
+        "tee": "tee-46",
+        "displacementMetres": 18.641094218
+      },
+      {
+        "hole": 14,
+        "tee": "tee-41",
+        "displacementMetres": 32.183136858
+      },
+      {
+        "hole": 17,
+        "tee": "tee-59",
+        "displacementMetres": 21.528265418
+      },
+      {
+        "hole": 17,
+        "tee": "tee-55",
+        "displacementMetres": 11.790951364
+      },
+      {
+        "hole": 17,
+        "tee": "tee-51",
+        "displacementMetres": 11.987415028
+      },
+      {
+        "hole": 17,
+        "tee": "tee-46",
+        "displacementMetres": 3.113554699
+      },
+      {
+        "hole": 17,
+        "tee": "tee-41",
+        "displacementMetres": 18.0654369
+      }
+    ],
+    "protectedHashes": {
+      "frame": "60a2135b0fd1826da9aed2565d1eef9c4e74c727d8f65d90e4436c59ea08b66f",
+      "groundManifest": "f74784e9aa123a1668b799e1da6ffcff1d59e589ee7190a3ef3e77ce863c1796",
+      "terrain": "4ecf8242f78132c43d3e7a8f05909a4d9a76c2d5888593362ed9d3874617b0cb",
+      "stands": "3187e472ff5400e56d16cffc6d043ac8a4961a6c158f05cb39fa8c906aa97c3a",
+      "objects": "f70911fe99412a626e85097882c9d9c1b378c87d619a0487b0c849d4a801c0b5",
+      "heightfieldsSha256": "789829a74ec6bce15a60ffc5293143748260caabc65d4d33fac470284a868111",
+      "packHeightStreamsSha256": "573959590164fed75366fac87efd30adfe7b374efcc2995e62f2c1ae26815278",
+      "cardSha256": "d5fc87189f0f176d7bbc0fab218e56f1ca1a4c81a6f61d875149445858ff396a",
+      "clubCardSha256": "54d8429707d34260c302b8e9f79effcef059774f6156b3977cd088f46298bd3b",
+      "modelCardSha256": "1da6f44866354247c92029646be38d7c1569a4f1cafe44d486f98fe61c4ea004",
+      "laterRouteVerticesSha256": "e20e4f0e3a4f4d61727875973538ca21290d74d8dcede4671df67291c72b13e1",
+      "greenGeometrySha256": "6689c6d92efd6c1234226e6699c503815c772add089d2a8a6dc9d5f0a462b84b",
+      "otherPlayingSurfacesSha256": "c39190e4fa7b39c194c68abde50ea3c763f04021ec302552fe4c4960cf36292c",
+      "contextSha256": "f05e2f5e91d2e2973d1ae1e20b8040cb3d3bc064038e517e2c51e03ff9e071a1"
+    }
+  },
+  "unresolvedReferences": [
+    {
+      "hole": 3,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 3,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 4,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 6,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 8,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-63",
+      "referenceDeclared": false,
+      "reviewStatus": "retained-unresolved",
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-59",
+      "referenceDeclared": false,
+      "reviewStatus": "retained-unresolved",
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-55",
+      "referenceDeclared": false,
+      "reviewStatus": "retained-unresolved",
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-51",
+      "referenceDeclared": false,
+      "reviewStatus": "retained-unresolved",
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-46",
+      "referenceDeclared": false,
+      "reviewStatus": "retained-unresolved",
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-41",
+      "referenceDeclared": false,
+      "reviewStatus": "retained-unresolved",
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 14,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 14,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 16,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 17,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "reviewStatus": "retained-unresolved",
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    }
+  ],
+  "references": [
+    {
+      "hole": 1,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -580.0277727558278,
+        173.17129188589752
+      ],
+      "projected": [
+        687168.4722272442,
+        6370778.328708114
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 1,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -579,
+        166.25
+      ],
+      "projected": [
+        687169.5,
+        6370785.25
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 1,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -577,
+        138.25
+      ],
+      "projected": [
+        687171.5,
+        6370813.25
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 1,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -577,
+        138.25
+      ],
+      "projected": [
+        687171.5,
+        6370813.25
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 1,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -573.75,
+        115
+      ],
+      "projected": [
+        687174.75,
+        6370836.5
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 1,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -573.75,
+        115
+      ],
+      "projected": [
+        687174.75,
+        6370836.5
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 2,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        4
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -535.2199999999721,
+        81.09999999962747
+      ],
+      "projected": [
+        687213.28,
+        6370870.4
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 2,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -534.0999999999767,
+        56.94000000040978
+      ],
+      "projected": [
+        687214.4,
+        6370894.56
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 2,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -513.7756604999304,
+        25.52233524993062
+      ],
+      "projected": [
+        687234.7243395001,
+        6370925.97766475
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 2,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -496.0200000000186,
+        -2.419999999925494
+      ],
+      "projected": [
+        687252.48,
+        6370953.92
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 2,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -462.97406924993265,
+        -31.238622999750078
+      ],
+      "projected": [
+        687285.5259307501,
+        6370982.738623
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 2,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -462.97406924993265,
+        -31.238622999750078
+      ],
+      "projected": [
+        687285.5259307501,
+        6370982.738623
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 3,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -363.2200000000885,
+        -355.0599999995902
+      ],
+      "projected": [
+        687385.2799999999,
+        6371306.56
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 3,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -355.54000000003725,
+        -394.5800000000745
+      ],
+      "projected": [
+        687392.96,
+        6371346.08
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 3,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -355.54000000003725,
+        -394.5800000000745
+      ],
+      "projected": [
+        687392.96,
+        6371346.08
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 3,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -348.8200000000652,
+        -441.77999999932945
+      ],
+      "projected": [
+        687399.6799999999,
+        6371393.279999999
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 3,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -339.8987550213933,
+        -477.88482931349427
+      ],
+      "projected": [
+        687408.6012449786,
+        6371429.3848293135
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 3,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -333.3283425226109,
+        -496.7747652474791
+      ],
+      "projected": [
+        687415.1716574774,
+        6371448.2747652475
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 4,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -58.31182514806278,
+        -792.3670323928818
+      ],
+      "projected": [
+        687690.1881748519,
+        6371743.867032393
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 4,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -77.4995994004421,
+        -805.0491145411506
+      ],
+      "projected": [
+        687671.0004005996,
+        6371756.549114541
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 4,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -77.4995994004421,
+        -805.0491145411506
+      ],
+      "projected": [
+        687671.0004005996,
+        6371756.549114541
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 4,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -110.80858249997254,
+        -821.1999307498336
+      ],
+      "projected": [
+        687637.6914175,
+        6371772.69993075
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 4,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -110.80858249997254,
+        -821.1999307498336
+      ],
+      "projected": [
+        687637.6914175,
+        6371772.69993075
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 4,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -136.73088450613432,
+        -844.1982507351786
+      ],
+      "projected": [
+        687611.7691154939,
+        6371795.698250735
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 5,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -400.1450863213977,
+        -905.7519920319319
+      ],
+      "projected": [
+        687348.3549136786,
+        6371857.251992032
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 5,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -401.1020659999922,
+        -895.25
+      ],
+      "projected": [
+        687347.397934,
+        6371846.75
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 5,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        4
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -386.5799999999581,
+        -886.0999999996275
+      ],
+      "projected": [
+        687361.92,
+        6371837.6
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 5,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -402.0999999999767,
+        -880.980000000447
+      ],
+      "projected": [
+        687346.4,
+        6371832.48
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 5,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -403.75239949999377,
+        -861.5999999996275
+      ],
+      "projected": [
+        687344.7476005,
+        6371813.1
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 5,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -398.09931374993175,
+        -835.1099734995514
+      ],
+      "projected": [
+        687350.4006862501,
+        6371786.6099735
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 6,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -347.85999999998603,
+        -733.6200000001118
+      ],
+      "projected": [
+        687400.64,
+        6371685.12
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 6,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -364.9799999999814,
+        -704.019999999553
+      ],
+      "projected": [
+        687383.52,
+        6371655.52
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 6,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -372.6667982499348,
+        -669.182412000373
+      ],
+      "projected": [
+        687375.8332017501,
+        6371620.682412
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 6,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -384.05891625001095,
+        -638.7798645002767
+      ],
+      "projected": [
+        687364.44108375,
+        6371590.2798645
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 6,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -384.05891625001095,
+        -638.7798645002767
+      ],
+      "projected": [
+        687364.44108375,
+        6371590.2798645
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 6,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -390.0833478901768,
+        -593.8851445587352
+      ],
+      "projected": [
+        687358.4166521098,
+        6371545.385144559
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -356.0972498343326,
+        -327.0004970179871
+      ],
+      "projected": [
+        687392.4027501657,
+        6371278.500497018
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -343.1750237500528,
+        -327.6188402501866
+      ],
+      "projected": [
+        687405.32497625,
+        6371279.11884025
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -298.1217445000075,
+        -339.8828405002132
+      ],
+      "projected": [
+        687450.3782555,
+        6371291.3828405
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -298.1217445000075,
+        -339.8828405002132
+      ],
+      "projected": [
+        687450.3782555,
+        6371291.3828405
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -298.1217445000075,
+        -339.8828405002132
+      ],
+      "projected": [
+        687450.3782555,
+        6371291.3828405
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 7,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -272.985037239152,
+        -355.9206093652174
+      ],
+      "projected": [
+        687475.5149627608,
+        6371307.420609365
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 8,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -152.60728542914148,
+        -397.6911177644506
+      ],
+      "projected": [
+        687595.8927145709,
+        6371349.191117764
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 8,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -154.22182750003412,
+        -396.1629647500813
+      ],
+      "projected": [
+        687594.2781725,
+        6371347.66296475
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 8,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -185.25786526547745,
+        -336.90510262548923
+      ],
+      "projected": [
+        687563.2421347345,
+        6371288.4051026255
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 8,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -203.75009375007357,
+        -282.23857649974525
+      ],
+      "projected": [
+        687544.7499062499,
+        6371233.7385765
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 8,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -203.75009375007357,
+        -282.23857649974525
+      ],
+      "projected": [
+        687544.7499062499,
+        6371233.7385765
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 8,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -224.69215900008567,
+        -239.09889575000852
+      ],
+      "projected": [
+        687523.8078409999,
+        6371190.59889575
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 9,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -268,
+        -90
+      ],
+      "projected": [
+        687480.5,
+        6371041.5
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 9,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -303.2630664999597,
+        -63.47309949994087
+      ],
+      "projected": [
+        687445.2369335,
+        6371014.9730995
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 9,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -303.2630664999597,
+        -63.47309949994087
+      ],
+      "projected": [
+        687445.2369335,
+        6371014.9730995
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 9,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -326.59565875004046,
+        -31.17785375006497
+      ],
+      "projected": [
+        687421.90434125,
+        6370982.67785375
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 9,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -326.59565875004046,
+        -31.17785375006497
+      ],
+      "projected": [
+        687421.90434125,
+        6370982.67785375
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 9,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -353.88000000000466,
+        20.65000000037253
+      ],
+      "projected": [
+        687394.62,
+        6370930.85
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 10,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -449.14000000001397,
+        194.86000000033528
+      ],
+      "projected": [
+        687299.36,
+        6370756.64
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 10,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -436.1800000000512,
+        193.25999999977648
+      ],
+      "projected": [
+        687312.32,
+        6370758.24
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 10,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -383.85999999998603,
+        181.09999999962747
+      ],
+      "projected": [
+        687364.64,
+        6370770.4
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 10,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -383.85999999998603,
+        181.09999999962747
+      ],
+      "projected": [
+        687364.64,
+        6370770.4
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 10,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -347.21999999997206,
+        167.339999999851
+      ],
+      "projected": [
+        687401.28,
+        6370784.16
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 10,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -347.21999999997206,
+        167.339999999851
+      ],
+      "projected": [
+        687401.28,
+        6370784.16
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 11,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        45.09999999997672,
+        383.820000000298
+      ],
+      "projected": [
+        687793.6,
+        6370567.68
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 11,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        77.90000000002328,
+        380.62000000011176
+      ],
+      "projected": [
+        687826.4,
+        6370570.88
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 11,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        77.90000000002328,
+        380.62000000011176
+      ],
+      "projected": [
+        687826.4,
+        6370570.88
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 11,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        134.21999999997206,
+        368.62000000011176
+      ],
+      "projected": [
+        687882.72,
+        6370582.88
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 11,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        134.21999999997206,
+        368.62000000011176
+      ],
+      "projected": [
+        687882.72,
+        6370582.88
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 11,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        155.97999999998137,
+        332.9400000004098
+      ],
+      "projected": [
+        687904.48,
+        6370618.56
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-63",
+      "referenceDeclared": false,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        294.25,
+        216.75
+      ],
+      "projected": [
+        688042.75,
+        6370734.75
+      ],
+      "sourceToModelResidualMetres": null,
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-59",
+      "referenceDeclared": false,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        294.25,
+        216.75
+      ],
+      "projected": [
+        688042.75,
+        6370734.75
+      ],
+      "sourceToModelResidualMetres": null,
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-55",
+      "referenceDeclared": false,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        294.25,
+        216.75
+      ],
+      "projected": [
+        688042.75,
+        6370734.75
+      ],
+      "sourceToModelResidualMetres": null,
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-51",
+      "referenceDeclared": false,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        294.25,
+        216.75
+      ],
+      "projected": [
+        688042.75,
+        6370734.75
+      ],
+      "sourceToModelResidualMetres": null,
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-46",
+      "referenceDeclared": false,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        294.25,
+        216.75
+      ],
+      "projected": [
+        688042.75,
+        6370734.75
+      ],
+      "sourceToModelResidualMetres": null,
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 12,
+      "tee": "tee-41",
+      "referenceDeclared": false,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        294.25,
+        216.75
+      ],
+      "projected": [
+        688042.75,
+        6370734.75
+      ],
+      "sourceToModelResidualMetres": null,
+      "placement": "approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        262.0653477218002,
+        25.50179856084287
+      ],
+      "projected": [
+        688010.5653477218,
+        6370925.998201439
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        269.6348129219841,
+        30.37039144989103
+      ],
+      "projected": [
+        688018.134812922,
+        6370921.12960855
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        269.6348129219841,
+        30.37039144989103
+      ],
+      "projected": [
+        688018.134812922,
+        6370921.12960855
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        318.4170571542345,
+        61.74383001867682
+      ],
+      "projected": [
+        688066.9170571542,
+        6370889.756169981
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        351.90503045218065,
+        78.20071863569319
+      ],
+      "projected": [
+        688100.4050304522,
+        6370873.299281364
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 13,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        351.90503045218065,
+        78.20071863569319
+      ],
+      "projected": [
+        688100.4050304522,
+        6370873.299281364
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 14,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        431.9068627450615,
+        -62.52647058852017
+      ],
+      "projected": [
+        688180.4068627451,
+        6371014.0264705885
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 14,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        416.7507064676611,
+        -73.98469588626176
+      ],
+      "projected": [
+        688165.2507064677,
+        6371025.484695886
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 14,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        431.0200000000186,
+        -59.700000000186265
+      ],
+      "projected": [
+        688179.52,
+        6371011.2
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 14,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        420.78000000002794,
+        -75.54000000003725
+      ],
+      "projected": [
+        688169.28,
+        6371027.04
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 14,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        420.78000000002794,
+        -75.54000000003725
+      ],
+      "projected": [
+        688169.28,
+        6371027.04
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 14,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        412.45999999996275,
+        -112.82000000029802
+      ],
+      "projected": [
+        688160.96,
+        6371064.32
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        305.5316317626275,
+        -235.91884816717356
+      ],
+      "projected": [
+        688054.0316317626,
+        6371187.418848167
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        269.0659232499311,
+        -230.33232575003058
+      ],
+      "projected": [
+        688017.5659232499,
+        6371181.83232575
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        244.65692752425093,
+        -252.1444570608437
+      ],
+      "projected": [
+        687993.1569275243,
+        6371203.644457061
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        213.22418419469614,
+        -264.0174636328593
+      ],
+      "projected": [
+        687961.7241841947,
+        6371215.517463633
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        213.22418419469614,
+        -264.0174636328593
+      ],
+      "projected": [
+        687961.7241841947,
+        6371215.517463633
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 15,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        191.6888154533226,
+        -278.58550719358027
+      ],
+      "projected": [
+        687940.1888154533,
+        6371230.085507194
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 16,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        15.580211817170493,
+        -271.0547937573865
+      ],
+      "projected": [
+        687764.0802118172,
+        6371222.554793757
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 16,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        28.56632600002922,
+        -254.27093899995089
+      ],
+      "projected": [
+        687777.066326,
+        6371205.770939
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 16,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        38.35782825003844,
+        -240.98842175025493
+      ],
+      "projected": [
+        687786.85782825,
+        6371192.48842175
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 16,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        69.9862500000745,
+        -197.86923374980688
+      ],
+      "projected": [
+        687818.4862500001,
+        6371149.36923375
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 16,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        72.49206475005485,
+        -192.46338525041938
+      ],
+      "projected": [
+        687820.99206475,
+        6371143.96338525
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 16,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        72.49206475005485,
+        -192.46338525041938
+      ],
+      "projected": [
+        687820.99206475,
+        6371143.96338525
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 17,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        159,
+        186.25
+      ],
+      "projected": [
+        687907.5,
+        6370765.25
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 17,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        158.38000000000466,
+        186.37999999988824
+      ],
+      "projected": [
+        687906.88,
+        6370765.12
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 17,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        145.5799999999581,
+        208.78000000026077
+      ],
+      "projected": [
+        687894.08,
+        6370742.72
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 17,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        138.85999999998603,
+        222.21999999973923
+      ],
+      "projected": [
+        687887.36,
+        6370729.28
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 17,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        3
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        136.30000000004657,
+        232.94000000040978
+      ],
+      "projected": [
+        687884.8,
+        6370718.56
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 17,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        4
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        126.21999999997206,
+        253.4199999999255
+      ],
+      "projected": [
+        687874.72,
+        6370698.08
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-63",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        0
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        16.5,
+        353.25
+      ],
+      "projected": [
+        687765,
+        6370598.25
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-59",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        1
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -12.450223420048133,
+        327.1179399220273
+      ],
+      "projected": [
+        687736.04977658,
+        6370624.382060078
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-55",
+      "referenceDeclared": true,
+      "observedPadIndices": [
+        2
+      ],
+      "reviewStatus": "source-corroborated",
+      "local": [
+        -47.3344844999956,
+        302.1808604998514
+      ],
+      "projected": [
+        687701.1655155,
+        6370649.3191395
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-51",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -74.98696855141316,
+        275.62717190850526
+      ],
+      "projected": [
+        687673.5130314486,
+        6370675.8728280915
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-46",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -74.98696855141316,
+        275.62717190850526
+      ],
+      "projected": [
+        687673.5130314486,
+        6370675.8728280915
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    },
+    {
+      "hole": 18,
+      "tee": "tee-41",
+      "referenceDeclared": true,
+      "observedPadIndices": [],
+      "reviewStatus": "retained-unresolved",
+      "local": [
+        -129.23863436223473,
+        266.58522760588676
+      ],
+      "projected": [
+        687619.2613656378,
+        6370684.914772394
+      ],
+      "sourceToModelResidualMetres": 0,
+      "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
+    }
+  ],
+  "failures": [],
+  "limitations": [
+    "33 camera positions have unresolved numbered-platform identity or no explicit numeric reference; see unresolvedReferences.",
+    "No independent surveyed horizontal control anchors are available. Numeric round trips and native pixel spacing do not establish absolute positional accuracy.",
+    "Numbered points are representative navigation references on source-observed turf; daily tee marker positions are unverified."
+  ]
+}

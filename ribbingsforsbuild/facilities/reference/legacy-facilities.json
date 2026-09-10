@@ -1,0 +1,7641 @@
+{
+  "schemaVersion": 1,
+  "groundId": "ribbingsfors",
+  "generatedAt": "2026-09-10T08:38:43.460Z",
+  "coordinateFrame": {
+    "kind": "epsg3006-local-rh2000",
+    "originEpsg3006": {
+      "easting": 448975.5,
+      "northing": 6536024.5
+    },
+    "blenderAxes": "X east, Y north, Z absolute RH2000 metres",
+    "runtimeAxes": "X east, Y absolute RH2000, Z south",
+    "blenderFromRuntime": "[x, -z, heightRH2000]",
+    "runtimeFromBlender": "[X, Z, -Y]",
+    "horizontalRotationRadians": 0,
+    "verticalDatumOffsetMetres": 0
+  },
+  "purpose": "Source snapshot for reference-based Blender modelling; legacy imagery geometry is provisional and must be checked against new orthophoto.",
+  "receipts": [
+    {
+      "path": "ribbingsforsbuild/course-model.json",
+      "sha256": "ad136229a3bc962e30522c01eb1800e5ccfe65fbdecd764a672a5ed3f53376ab"
+    },
+    {
+      "path": "ribbingsforsbuild/surroundings-traces.json",
+      "sha256": "a1c19f3e4cd173b55f3c7b13f132cd313bf56e4a7c0da151693d2727b09fdcdd"
+    }
+  ],
+  "buildingCount": 44,
+  "priorityBuildingCount": 11,
+  "buildings": [
+    {
+      "id": "w464931447",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -1272.9,
+          -72.9
+        ],
+        [
+          -1248.7,
+          -65.3
+        ],
+        [
+          -1251.1,
+          -57.4
+        ],
+        [
+          -1275.4,
+          -65
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -1272.9,
+          72.9
+        ],
+        [
+          -1248.7,
+          65.3
+        ],
+        [
+          -1251.1,
+          57.4
+        ],
+        [
+          -1275.4,
+          65
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -1275.4,
+        "maxX": -1248.7,
+        "minZ": -72.9,
+        "maxZ": -57.4
+      },
+      "areaM2": 210.195,
+      "anchorLocalXZ": [
+        -1262.025,
+        -65.15
+      ],
+      "anchorBlenderXY": [
+        -1262.025,
+        65.15
+      ],
+      "anchorGroundRH2000M": null,
+      "vertexGroundRH2000M": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "minimumVertexGroundRH2000M": null,
+      "maximumVertexGroundRH2000M": null
+    },
+    {
+      "id": "w464931448",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -1283.7,
+          -73.8
+        ],
+        [
+          -1285,
+          -68.7
+        ],
+        [
+          -1293.3,
+          -70.8
+        ],
+        [
+          -1292,
+          -75.9
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -1283.7,
+          73.8
+        ],
+        [
+          -1285,
+          68.7
+        ],
+        [
+          -1293.3,
+          70.8
+        ],
+        [
+          -1292,
+          75.9
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -1293.3,
+        "maxX": -1283.7,
+        "minZ": -75.9,
+        "maxZ": -68.7
+      },
+      "areaM2": 45.06,
+      "anchorLocalXZ": [
+        -1288.5,
+        -72.3
+      ],
+      "anchorBlenderXY": [
+        -1288.5,
+        72.3
+      ],
+      "anchorGroundRH2000M": null,
+      "vertexGroundRH2000M": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "minimumVertexGroundRH2000M": null,
+      "maximumVertexGroundRH2000M": null
+    },
+    {
+      "id": "w464931456",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -847.8,
+          -491
+        ],
+        [
+          -855.6,
+          -495.9
+        ],
+        [
+          -839.7,
+          -521.5
+        ],
+        [
+          -831.9,
+          -516.7
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -847.8,
+          491
+        ],
+        [
+          -855.6,
+          495.9
+        ],
+        [
+          -839.7,
+          521.5
+        ],
+        [
+          -831.9,
+          516.7
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -855.6,
+        "maxX": -831.9,
+        "minZ": -521.5,
+        "maxZ": -491
+      },
+      "areaM2": 277.185,
+      "anchorLocalXZ": [
+        -843.75,
+        -506.275
+      ],
+      "anchorBlenderXY": [
+        -843.75,
+        506.275
+      ],
+      "anchorGroundRH2000M": 82.012,
+      "vertexGroundRH2000M": [
+        81.688,
+        81.725,
+        82.002,
+        81.712
+      ],
+      "minimumVertexGroundRH2000M": 81.688,
+      "maximumVertexGroundRH2000M": 82.002
+    },
+    {
+      "id": "w464931461",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -31.2,
+          -1109.6
+        ],
+        [
+          -21,
+          -1106.7
+        ],
+        [
+          -25.4,
+          -1090.9
+        ],
+        [
+          -43.7,
+          -1096
+        ],
+        [
+          -41.4,
+          -1104.3
+        ],
+        [
+          -33.4,
+          -1102
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -31.2,
+          1109.6
+        ],
+        [
+          -21,
+          1106.7
+        ],
+        [
+          -25.4,
+          1090.9
+        ],
+        [
+          -43.7,
+          1096
+        ],
+        [
+          -41.4,
+          1104.3
+        ],
+        [
+          -33.4,
+          1102
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -43.7,
+        "maxX": -21,
+        "minZ": -1109.6,
+        "maxZ": -1090.9
+      },
+      "areaM2": 246.58,
+      "anchorLocalXZ": [
+        -32.683,
+        -1101.583
+      ],
+      "anchorBlenderXY": [
+        -32.683,
+        1101.583
+      ],
+      "anchorGroundRH2000M": null,
+      "vertexGroundRH2000M": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "minimumVertexGroundRH2000M": null,
+      "maximumVertexGroundRH2000M": null
+    },
+    {
+      "id": "w464931462",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -33,
+          -1015.8
+        ],
+        [
+          -30.2,
+          -1024.3
+        ],
+        [
+          -23.1,
+          -1021.9
+        ],
+        [
+          -26,
+          -1013.4
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -33,
+          1015.8
+        ],
+        [
+          -30.2,
+          1024.3
+        ],
+        [
+          -23.1,
+          1021.9
+        ],
+        [
+          -26,
+          1013.4
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -33,
+        "maxX": -23.1,
+        "minZ": -1024.3,
+        "maxZ": -1013.4
+      },
+      "areaM2": 66.765,
+      "anchorLocalXZ": [
+        -28.075,
+        -1018.85
+      ],
+      "anchorBlenderXY": [
+        -28.075,
+        1018.85
+      ],
+      "anchorGroundRH2000M": 71.195,
+      "vertexGroundRH2000M": [
+        71.238,
+        null,
+        71.062,
+        71.322
+      ],
+      "minimumVertexGroundRH2000M": 71.062,
+      "maximumVertexGroundRH2000M": 71.322
+    },
+    {
+      "id": "w464931463",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -43.3,
+          -986.4
+        ],
+        [
+          -34.8,
+          -984.2
+        ],
+        [
+          -36.4,
+          -978.5
+        ],
+        [
+          -44.8,
+          -980.8
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -43.3,
+          986.4
+        ],
+        [
+          -34.8,
+          984.2
+        ],
+        [
+          -36.4,
+          978.5
+        ],
+        [
+          -44.8,
+          980.8
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -44.8,
+        "maxX": -34.8,
+        "minZ": -986.4,
+        "maxZ": -978.5
+      },
+      "areaM2": 51.23,
+      "anchorLocalXZ": [
+        -39.825,
+        -982.475
+      ],
+      "anchorBlenderXY": [
+        -39.825,
+        982.475
+      ],
+      "anchorGroundRH2000M": 71.24,
+      "vertexGroundRH2000M": [
+        71.372,
+        71.324,
+        71.319,
+        71.368
+      ],
+      "minimumVertexGroundRH2000M": 71.319,
+      "maximumVertexGroundRH2000M": 71.372
+    },
+    {
+      "id": "w464931464",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -44.4,
+          -999.2
+        ],
+        [
+          -34.4,
+          -995.8
+        ],
+        [
+          -37.2,
+          -987.7
+        ],
+        [
+          -47.1,
+          -991
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -44.4,
+          999.2
+        ],
+        [
+          -34.4,
+          995.8
+        ],
+        [
+          -37.2,
+          987.7
+        ],
+        [
+          -47.1,
+          991
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -47.1,
+        "maxX": -34.4,
+        "minZ": -999.2,
+        "maxZ": -987.7
+      },
+      "areaM2": 90.305,
+      "anchorLocalXZ": [
+        -40.775,
+        -993.425
+      ],
+      "anchorBlenderXY": [
+        -40.775,
+        993.425
+      ],
+      "anchorGroundRH2000M": 71.517,
+      "vertexGroundRH2000M": [
+        71.48,
+        71.276,
+        71.331,
+        71.72
+      ],
+      "minimumVertexGroundRH2000M": 71.276,
+      "maximumVertexGroundRH2000M": 71.72
+    },
+    {
+      "id": "w464931471",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -697.1,
+          -247.7
+        ],
+        [
+          -688.4,
+          -240
+        ],
+        [
+          -700.9,
+          -226
+        ],
+        [
+          -709.6,
+          -233.8
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -697.1,
+          247.7
+        ],
+        [
+          -688.4,
+          240
+        ],
+        [
+          -700.9,
+          226
+        ],
+        [
+          -709.6,
+          233.8
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -709.6,
+        "maxX": -688.4,
+        "minZ": -247.7,
+        "maxZ": -226
+      },
+      "areaM2": 218.24,
+      "anchorLocalXZ": [
+        -699,
+        -236.875
+      ],
+      "anchorBlenderXY": [
+        -699,
+        236.875
+      ],
+      "anchorGroundRH2000M": 76.702,
+      "vertexGroundRH2000M": [
+        77.39,
+        76.734,
+        76.282,
+        77.447
+      ],
+      "minimumVertexGroundRH2000M": 76.282,
+      "maximumVertexGroundRH2000M": 77.447
+    },
+    {
+      "id": "w464931472",
+      "kind": "house",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -722.7,
+          -259.2
+        ],
+        [
+          -715.7,
+          -253
+        ],
+        [
+          -723.9,
+          -243.8
+        ],
+        [
+          -730.8,
+          -250.1
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -722.7,
+          259.2
+        ],
+        [
+          -715.7,
+          253
+        ],
+        [
+          -723.9,
+          243.8
+        ],
+        [
+          -730.8,
+          250.1
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -730.8,
+        "maxX": -715.7,
+        "minZ": -259.2,
+        "maxZ": -243.8
+      },
+      "areaM2": 114.53,
+      "anchorLocalXZ": [
+        -723.275,
+        -251.525
+      ],
+      "anchorBlenderXY": [
+        -723.275,
+        251.525
+      ],
+      "anchorGroundRH2000M": 78.221,
+      "vertexGroundRH2000M": [
+        78.09,
+        78.053,
+        78.022,
+        78.185
+      ],
+      "minimumVertexGroundRH2000M": 78.022,
+      "maximumVertexGroundRH2000M": 78.185
+    },
+    {
+      "id": "w464931476",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -553.7,
+          -411.2
+        ],
+        [
+          -547.3,
+          -404.9
+        ],
+        [
+          -554.8,
+          -397.3
+        ],
+        [
+          -561.2,
+          -403.5
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -553.7,
+          411.2
+        ],
+        [
+          -547.3,
+          404.9
+        ],
+        [
+          -554.8,
+          397.3
+        ],
+        [
+          -561.2,
+          403.5
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -561.2,
+        "maxX": -547.3,
+        "minZ": -411.2,
+        "maxZ": -397.3
+      },
+      "areaM2": 95.835,
+      "anchorLocalXZ": [
+        -554.25,
+        -404.225
+      ],
+      "anchorBlenderXY": [
+        -554.25,
+        404.225
+      ],
+      "anchorGroundRH2000M": 76.492,
+      "vertexGroundRH2000M": [
+        77.061,
+        76.626,
+        76.599,
+        77.292
+      ],
+      "minimumVertexGroundRH2000M": 76.599,
+      "maximumVertexGroundRH2000M": 77.292
+    },
+    {
+      "id": "w464931477",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -594.3,
+          -354
+        ],
+        [
+          -589.3,
+          -360
+        ],
+        [
+          -581.5,
+          -353.6
+        ],
+        [
+          -586.5,
+          -347.6
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -594.3,
+          354
+        ],
+        [
+          -589.3,
+          360
+        ],
+        [
+          -581.5,
+          353.6
+        ],
+        [
+          -586.5,
+          347.6
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -594.3,
+        "maxX": -581.5,
+        "minZ": -360,
+        "maxZ": -347.6
+      },
+      "areaM2": 78.8,
+      "anchorLocalXZ": [
+        -587.9,
+        -353.8
+      ],
+      "anchorBlenderXY": [
+        -587.9,
+        353.8
+      ],
+      "anchorGroundRH2000M": 74.14,
+      "vertexGroundRH2000M": [
+        74.283,
+        75.077,
+        73.926,
+        73.648
+      ],
+      "minimumVertexGroundRH2000M": 73.648,
+      "maximumVertexGroundRH2000M": 75.077
+    },
+    {
+      "id": "w464931478",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -606.5,
+          -345.3
+        ],
+        [
+          -611.9,
+          -350.7
+        ],
+        [
+          -605.8,
+          -356.8
+        ],
+        [
+          -600.4,
+          -351.3
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -606.5,
+          345.3
+        ],
+        [
+          -611.9,
+          350.7
+        ],
+        [
+          -605.8,
+          356.8
+        ],
+        [
+          -600.4,
+          351.3
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -611.9,
+        "maxX": -600.4,
+        "minZ": -356.8,
+        "maxZ": -345.3
+      },
+      "areaM2": 65.915,
+      "anchorLocalXZ": [
+        -606.15,
+        -351.025
+      ],
+      "anchorBlenderXY": [
+        -606.15,
+        351.025
+      ],
+      "anchorGroundRH2000M": 74.752,
+      "vertexGroundRH2000M": [
+        74.243,
+        74.685,
+        75.015,
+        74.312
+      ],
+      "minimumVertexGroundRH2000M": 74.243,
+      "maximumVertexGroundRH2000M": 75.015
+    },
+    {
+      "id": "w464931479",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -566.8,
+          -382.1
+        ],
+        [
+          -574.2,
+          -389.1
+        ],
+        [
+          -566.7,
+          -397
+        ],
+        [
+          -559.3,
+          -390
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -566.8,
+          382.1
+        ],
+        [
+          -574.2,
+          389.1
+        ],
+        [
+          -566.7,
+          397
+        ],
+        [
+          -559.3,
+          390
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -574.2,
+        "maxX": -559.3,
+        "minZ": -397,
+        "maxZ": -382.1
+      },
+      "areaM2": 110.96,
+      "anchorLocalXZ": [
+        -566.75,
+        -389.55
+      ],
+      "anchorBlenderXY": [
+        -566.75,
+        389.55
+      ],
+      "anchorGroundRH2000M": 76.356,
+      "vertexGroundRH2000M": [
+        75.777,
+        76.836,
+        76.767,
+        75.97
+      ],
+      "minimumVertexGroundRH2000M": 75.777,
+      "maximumVertexGroundRH2000M": 76.836
+    },
+    {
+      "id": "w464931480",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -542.2,
+          -422.1
+        ],
+        [
+          -533.9,
+          -434.9
+        ],
+        [
+          -512.5,
+          -421
+        ],
+        [
+          -520.8,
+          -408.2
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -542.2,
+          422.1
+        ],
+        [
+          -533.9,
+          434.9
+        ],
+        [
+          -512.5,
+          421
+        ],
+        [
+          -520.8,
+          408.2
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -542.2,
+        "maxX": -512.5,
+        "minZ": -434.9,
+        "maxZ": -408.2
+      },
+      "areaM2": 389.29,
+      "anchorLocalXZ": [
+        -527.35,
+        -421.55
+      ],
+      "anchorBlenderXY": [
+        -527.35,
+        421.55
+      ],
+      "anchorGroundRH2000M": 76.247,
+      "vertexGroundRH2000M": [
+        76.373,
+        76.718,
+        75.59,
+        75.033
+      ],
+      "minimumVertexGroundRH2000M": 75.033,
+      "maximumVertexGroundRH2000M": 76.718
+    },
+    {
+      "id": "w464931481",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -479.3,
+          -438.5
+        ],
+        [
+          -459.2,
+          -462.2
+        ],
+        [
+          -444.8,
+          -450.1
+        ],
+        [
+          -464.8,
+          -426.3
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -479.3,
+          438.5
+        ],
+        [
+          -459.2,
+          462.2
+        ],
+        [
+          -444.8,
+          450.1
+        ],
+        [
+          -464.8,
+          426.3
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -479.3,
+        "maxX": -444.8,
+        "minZ": -462.2,
+        "maxZ": -426.3
+      },
+      "areaM2": 586.795,
+      "anchorLocalXZ": [
+        -462.025,
+        -444.275
+      ],
+      "anchorBlenderXY": [
+        -462.025,
+        444.275
+      ],
+      "anchorGroundRH2000M": 75.953,
+      "vertexGroundRH2000M": [
+        75.722,
+        75.672,
+        75.658,
+        75.423
+      ],
+      "minimumVertexGroundRH2000M": 75.423,
+      "maximumVertexGroundRH2000M": 75.722
+    },
+    {
+      "id": "w464931487",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -404.4,
+          -758.9
+        ],
+        [
+          -393.4,
+          -753.5
+        ],
+        [
+          -404.5,
+          -731.1
+        ],
+        [
+          -415.5,
+          -736.5
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -404.4,
+          758.9
+        ],
+        [
+          -393.4,
+          753.5
+        ],
+        [
+          -404.5,
+          731.1
+        ],
+        [
+          -415.5,
+          736.5
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -415.5,
+        "maxX": -393.4,
+        "minZ": -758.9,
+        "maxZ": -731.1
+      },
+      "areaM2": 306.34,
+      "anchorLocalXZ": [
+        -404.45,
+        -745
+      ],
+      "anchorBlenderXY": [
+        -404.45,
+        745
+      ],
+      "anchorGroundRH2000M": 80.809,
+      "vertexGroundRH2000M": [
+        82.257,
+        79.556,
+        79.302,
+        82.45
+      ],
+      "minimumVertexGroundRH2000M": 79.302,
+      "maximumVertexGroundRH2000M": 82.45
+    },
+    {
+      "id": "w464931488",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -426,
+          -712.3
+        ],
+        [
+          -418.4,
+          -725.2
+        ],
+        [
+          -407.7,
+          -718.9
+        ],
+        [
+          -415.3,
+          -706
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -426,
+          712.3
+        ],
+        [
+          -418.4,
+          725.2
+        ],
+        [
+          -407.7,
+          718.9
+        ],
+        [
+          -415.3,
+          706
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -426,
+        "maxX": -407.7,
+        "minZ": -725.2,
+        "maxZ": -706
+      },
+      "areaM2": 185.91,
+      "anchorLocalXZ": [
+        -416.85,
+        -715.6
+      ],
+      "anchorBlenderXY": [
+        -416.85,
+        715.6
+      ],
+      "anchorGroundRH2000M": 80.83,
+      "vertexGroundRH2000M": [
+        81.232,
+        82.173,
+        79.435,
+        79.962
+      ],
+      "minimumVertexGroundRH2000M": 79.435,
+      "maximumVertexGroundRH2000M": 82.173
+    },
+    {
+      "id": "w464931489",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -417.7,
+          -687.3
+        ],
+        [
+          -411.9,
+          -694.4
+        ],
+        [
+          -396.7,
+          -682.2
+        ],
+        [
+          -402.4,
+          -675.1
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -417.7,
+          687.3
+        ],
+        [
+          -411.9,
+          694.4
+        ],
+        [
+          -396.7,
+          682.2
+        ],
+        [
+          -402.4,
+          675.1
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -417.7,
+        "maxX": -396.7,
+        "minZ": -694.4,
+        "maxZ": -675.1
+      },
+      "areaM2": 178.425,
+      "anchorLocalXZ": [
+        -407.175,
+        -684.75
+      ],
+      "anchorBlenderXY": [
+        -407.175,
+        684.75
+      ],
+      "anchorGroundRH2000M": 78.954,
+      "vertexGroundRH2000M": [
+        79.315,
+        79.301,
+        78.25,
+        78.297
+      ],
+      "minimumVertexGroundRH2000M": 78.25,
+      "maximumVertexGroundRH2000M": 79.315
+    },
+    {
+      "id": "w464931490",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -372.5,
+          -745.5
+        ],
+        [
+          -359.4,
+          -735.8
+        ],
+        [
+          -385.5,
+          -701
+        ],
+        [
+          -398.5,
+          -710.7
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -372.5,
+          745.5
+        ],
+        [
+          -359.4,
+          735.8
+        ],
+        [
+          -385.5,
+          701
+        ],
+        [
+          -398.5,
+          710.7
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -398.5,
+        "maxX": -359.4,
+        "minZ": -745.5,
+        "maxZ": -701
+      },
+      "areaM2": 706.825,
+      "anchorLocalXZ": [
+        -378.975,
+        -723.25
+      ],
+      "anchorBlenderXY": [
+        -378.975,
+        723.25
+      ],
+      "anchorGroundRH2000M": 78.255,
+      "vertexGroundRH2000M": [
+        78.173,
+        77.889,
+        77.95,
+        78.25
+      ],
+      "minimumVertexGroundRH2000M": 77.889,
+      "maximumVertexGroundRH2000M": 78.25
+    },
+    {
+      "id": "w464931491",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -340.4,
+          -673.9
+        ],
+        [
+          -334,
+          -669.2
+        ],
+        [
+          -338,
+          -663.8
+        ],
+        [
+          -344.4,
+          -668.5
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -340.4,
+          673.9
+        ],
+        [
+          -334,
+          669.2
+        ],
+        [
+          -338,
+          663.8
+        ],
+        [
+          -344.4,
+          668.5
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -344.4,
+        "maxX": -334,
+        "minZ": -673.9,
+        "maxZ": -663.8
+      },
+      "areaM2": 53.36,
+      "anchorLocalXZ": [
+        -339.2,
+        -668.85
+      ],
+      "anchorBlenderXY": [
+        -339.2,
+        668.85
+      ],
+      "anchorGroundRH2000M": 76.375,
+      "vertexGroundRH2000M": [
+        76.588,
+        76.1,
+        76.486,
+        76.856
+      ],
+      "minimumVertexGroundRH2000M": 76.1,
+      "maximumVertexGroundRH2000M": 76.856
+    },
+    {
+      "id": "w464931492",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -351.5,
+          -651.3
+        ],
+        [
+          -343.2,
+          -662.6
+        ],
+        [
+          -326.1,
+          -650.1
+        ],
+        [
+          -334.4,
+          -638.8
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -351.5,
+          651.3
+        ],
+        [
+          -343.2,
+          662.6
+        ],
+        [
+          -326.1,
+          650.1
+        ],
+        [
+          -334.4,
+          638.8
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -351.5,
+        "maxX": -326.1,
+        "minZ": -662.6,
+        "maxZ": -638.8
+      },
+      "areaM2": 296.98,
+      "anchorLocalXZ": [
+        -338.8,
+        -650.7
+      ],
+      "anchorBlenderXY": [
+        -338.8,
+        650.7
+      ],
+      "anchorGroundRH2000M": 75.859,
+      "vertexGroundRH2000M": [
+        76.791,
+        76.887,
+        75.052,
+        73.678
+      ],
+      "minimumVertexGroundRH2000M": 73.678,
+      "maximumVertexGroundRH2000M": 76.887
+    },
+    {
+      "id": "w464931493",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -351.6,
+          -710.7
+        ],
+        [
+          -340,
+          -702
+        ],
+        [
+          -388,
+          -638.3
+        ],
+        [
+          -399.7,
+          -647
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -351.6,
+          710.7
+        ],
+        [
+          -340,
+          702
+        ],
+        [
+          -388,
+          638.3
+        ],
+        [
+          -399.7,
+          647
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -399.7,
+        "maxX": -340,
+        "minZ": -710.7,
+        "maxZ": -638.3
+      },
+      "areaM2": 1160.14,
+      "anchorLocalXZ": [
+        -369.825,
+        -674.5
+      ],
+      "anchorBlenderXY": [
+        -369.825,
+        674.5
+      ],
+      "anchorGroundRH2000M": 77.981,
+      "vertexGroundRH2000M": [
+        77.78,
+        77.71,
+        77.371,
+        78.044
+      ],
+      "minimumVertexGroundRH2000M": 77.371,
+      "maximumVertexGroundRH2000M": 78.044
+    },
+    {
+      "id": "w464931494",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -450,
+          -646.8
+        ],
+        [
+          -431.1,
+          -671.5
+        ],
+        [
+          -413.8,
+          -658.3
+        ],
+        [
+          -432.7,
+          -633.6
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -450,
+          646.8
+        ],
+        [
+          -431.1,
+          671.5
+        ],
+        [
+          -413.8,
+          658.3
+        ],
+        [
+          -432.7,
+          633.6
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -450,
+        "maxX": -413.8,
+        "minZ": -671.5,
+        "maxZ": -633.6
+      },
+      "areaM2": 676.79,
+      "anchorLocalXZ": [
+        -431.9,
+        -652.55
+      ],
+      "anchorBlenderXY": [
+        -431.9,
+        652.55
+      ],
+      "anchorGroundRH2000M": 78.336,
+      "vertexGroundRH2000M": [
+        78.202,
+        78.597,
+        78.02,
+        77.886
+      ],
+      "minimumVertexGroundRH2000M": 77.886,
+      "maximumVertexGroundRH2000M": 78.597
+    },
+    {
+      "id": "w464931495",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -433.8,
+          -563.7
+        ],
+        [
+          -411.9,
+          -544.6
+        ],
+        [
+          -424.6,
+          -530
+        ],
+        [
+          -446.6,
+          -549.1
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -433.8,
+          563.7
+        ],
+        [
+          -411.9,
+          544.6
+        ],
+        [
+          -424.6,
+          530
+        ],
+        [
+          -446.6,
+          549.1
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -446.6,
+        "maxX": -411.9,
+        "minZ": -563.7,
+        "maxZ": -530
+      },
+      "areaM2": 563.995,
+      "anchorLocalXZ": [
+        -429.225,
+        -546.85
+      ],
+      "anchorBlenderXY": [
+        -429.225,
+        546.85
+      ],
+      "anchorGroundRH2000M": 76.765,
+      "vertexGroundRH2000M": [
+        77.118,
+        76.243,
+        75.922,
+        77.074
+      ],
+      "minimumVertexGroundRH2000M": 75.922,
+      "maximumVertexGroundRH2000M": 77.118
+    },
+    {
+      "id": "w464931496",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -387,
+          -631.7
+        ],
+        [
+          -380.1,
+          -640.1
+        ],
+        [
+          -373.1,
+          -634.4
+        ],
+        [
+          -370,
+          -638.2
+        ],
+        [
+          -351.4,
+          -622.8
+        ],
+        [
+          -361.5,
+          -610.7
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -387,
+          631.7
+        ],
+        [
+          -380.1,
+          640.1
+        ],
+        [
+          -373.1,
+          634.4
+        ],
+        [
+          -370,
+          638.2
+        ],
+        [
+          -351.4,
+          622.8
+        ],
+        [
+          -361.5,
+          610.7
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -387,
+        "maxX": -351.4,
+        "minZ": -640.1,
+        "maxZ": -610.7
+      },
+      "areaM2": 478.515,
+      "anchorLocalXZ": [
+        -370.517,
+        -629.65
+      ],
+      "anchorBlenderXY": [
+        -370.517,
+        629.65
+      ],
+      "anchorGroundRH2000M": 76.209,
+      "vertexGroundRH2000M": [
+        76.13,
+        76.06,
+        76.273,
+        76.496,
+        76.15,
+        76.33
+      ],
+      "minimumVertexGroundRH2000M": 76.06,
+      "maximumVertexGroundRH2000M": 76.496
+    },
+    {
+      "id": "w464931497",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -333.6,
+          -583.3
+        ],
+        [
+          -326.6,
+          -591.8
+        ],
+        [
+          -314.1,
+          -581.4
+        ],
+        [
+          -321.1,
+          -573
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -333.6,
+          583.3
+        ],
+        [
+          -326.6,
+          591.8
+        ],
+        [
+          -314.1,
+          581.4
+        ],
+        [
+          -321.1,
+          573
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -333.6,
+        "maxX": -314.1,
+        "minZ": -591.8,
+        "maxZ": -573
+      },
+      "areaM2": 178.075,
+      "anchorLocalXZ": [
+        -323.85,
+        -582.375
+      ],
+      "anchorBlenderXY": [
+        -323.85,
+        582.375
+      ],
+      "anchorGroundRH2000M": 71.515,
+      "vertexGroundRH2000M": [
+        73.296,
+        72.605,
+        71.356,
+        71.153
+      ],
+      "minimumVertexGroundRH2000M": 71.153,
+      "maximumVertexGroundRH2000M": 73.296
+    },
+    {
+      "id": "w464931498",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -333.1,
+          -575
+        ],
+        [
+          -320.3,
+          -565.2
+        ],
+        [
+          -332.6,
+          -549.3
+        ],
+        [
+          -345.3,
+          -559.1
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -333.1,
+          575
+        ],
+        [
+          -320.3,
+          565.2
+        ],
+        [
+          -332.6,
+          549.3
+        ],
+        [
+          -345.3,
+          559.1
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -345.3,
+        "maxX": -320.3,
+        "minZ": -575,
+        "maxZ": -549.3
+      },
+      "areaM2": 322.775,
+      "anchorLocalXZ": [
+        -332.825,
+        -562.15
+      ],
+      "anchorBlenderXY": [
+        -332.825,
+        562.15
+      ],
+      "anchorGroundRH2000M": 72.502,
+      "vertexGroundRH2000M": [
+        72.656,
+        71.308,
+        71.828,
+        72.596
+      ],
+      "minimumVertexGroundRH2000M": 71.308,
+      "maximumVertexGroundRH2000M": 72.656
+    },
+    {
+      "id": "w464931499",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -429,
+          -511.9
+        ],
+        [
+          -365.6,
+          -593
+        ],
+        [
+          -342.5,
+          -575
+        ],
+        [
+          -405.9,
+          -493.9
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -429,
+          511.9
+        ],
+        [
+          -365.6,
+          593
+        ],
+        [
+          -342.5,
+          575
+        ],
+        [
+          -405.9,
+          493.9
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -429,
+        "maxX": -342.5,
+        "minZ": -593,
+        "maxZ": -493.9
+      },
+      "areaM2": 3014.61,
+      "anchorLocalXZ": [
+        -385.75,
+        -543.45
+      ],
+      "anchorBlenderXY": [
+        -385.75,
+        543.45
+      ],
+      "anchorGroundRH2000M": 74.832,
+      "vertexGroundRH2000M": [
+        75.864,
+        75.876,
+        73.495,
+        75.436
+      ],
+      "minimumVertexGroundRH2000M": 73.495,
+      "maximumVertexGroundRH2000M": 75.876
+    },
+    {
+      "id": "w464931501",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -134.5,
+          -912.2
+        ],
+        [
+          -101.9,
+          -886.2
+        ],
+        [
+          -106.2,
+          -880.8
+        ],
+        [
+          -138.9,
+          -906.8
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -134.5,
+          912.2
+        ],
+        [
+          -101.9,
+          886.2
+        ],
+        [
+          -106.2,
+          880.8
+        ],
+        [
+          -138.9,
+          906.8
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -138.9,
+        "maxX": -101.9,
+        "minZ": -912.2,
+        "maxZ": -880.8
+      },
+      "areaM2": 289.41,
+      "anchorLocalXZ": [
+        -120.375,
+        -896.5
+      ],
+      "anchorBlenderXY": [
+        -120.375,
+        896.5
+      ],
+      "anchorGroundRH2000M": 73.907,
+      "vertexGroundRH2000M": [
+        73.94,
+        73.806,
+        73.796,
+        73.845
+      ],
+      "minimumVertexGroundRH2000M": 73.796,
+      "maximumVertexGroundRH2000M": 73.94
+    },
+    {
+      "id": "w464931502",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -202,
+          -893.7
+        ],
+        [
+          -197.1,
+          -899.9
+        ],
+        [
+          -190.4,
+          -894.5
+        ],
+        [
+          -195.3,
+          -888.4
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -202,
+          893.7
+        ],
+        [
+          -197.1,
+          899.9
+        ],
+        [
+          -190.4,
+          894.5
+        ],
+        [
+          -195.3,
+          888.4
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -202,
+        "maxX": -190.4,
+        "minZ": -899.9,
+        "maxZ": -888.4
+      },
+      "areaM2": 67.42,
+      "anchorLocalXZ": [
+        -196.2,
+        -894.125
+      ],
+      "anchorBlenderXY": [
+        -196.2,
+        894.125
+      ],
+      "anchorGroundRH2000M": 76.32,
+      "vertexGroundRH2000M": [
+        76.158,
+        76.158,
+        76.168,
+        76.317
+      ],
+      "minimumVertexGroundRH2000M": 76.158,
+      "maximumVertexGroundRH2000M": 76.317
+    },
+    {
+      "id": "w464931503",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -302.8,
+          -927.4
+        ],
+        [
+          -311.2,
+          -931.8
+        ],
+        [
+          -289.7,
+          -972.7
+        ],
+        [
+          -281.2,
+          -968.3
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -302.8,
+          927.4
+        ],
+        [
+          -311.2,
+          931.8
+        ],
+        [
+          -289.7,
+          972.7
+        ],
+        [
+          -281.2,
+          968.3
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -311.2,
+        "maxX": -281.2,
+        "minZ": -972.7,
+        "maxZ": -927.4
+      },
+      "areaM2": 440.425,
+      "anchorLocalXZ": [
+        -296.225,
+        -950.05
+      ],
+      "anchorBlenderXY": [
+        -296.225,
+        950.05
+      ],
+      "anchorGroundRH2000M": 79.8,
+      "vertexGroundRH2000M": [
+        79.702,
+        79.896,
+        79.706,
+        79.4
+      ],
+      "minimumVertexGroundRH2000M": 79.4,
+      "maximumVertexGroundRH2000M": 79.896
+    },
+    {
+      "id": "w464931504",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -250.4,
+          -944.2
+        ],
+        [
+          -256.8,
+          -928
+        ],
+        [
+          -271.2,
+          -933.6
+        ],
+        [
+          -264.9,
+          -949.9
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -250.4,
+          944.2
+        ],
+        [
+          -256.8,
+          928
+        ],
+        [
+          -271.2,
+          933.6
+        ],
+        [
+          -264.9,
+          949.9
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -271.2,
+        "maxX": -250.4,
+        "minZ": -949.9,
+        "maxZ": -928
+      },
+      "areaM2": 270.69,
+      "anchorLocalXZ": [
+        -260.825,
+        -938.925
+      ],
+      "anchorBlenderXY": [
+        -260.825,
+        938.925
+      ],
+      "anchorGroundRH2000M": 79.087,
+      "vertexGroundRH2000M": [
+        78.892,
+        79.136,
+        79.243,
+        78.95
+      ],
+      "minimumVertexGroundRH2000M": 78.892,
+      "maximumVertexGroundRH2000M": 79.243
+    },
+    {
+      "id": "w464931505",
+      "kind": "yes",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "surrounding-context",
+      "source": "OpenStreetMap footprint; no measured architectural height",
+      "confidence": "unreviewed-osm",
+      "legacyWallHeightEstimateM": null,
+      "legacyDimensionsEstimateM": null,
+      "legacyRuntimeRotationRadians": null,
+      "legacyBlenderRotationRadians": null,
+      "ringLocalXZ": [
+        [
+          -318.3,
+          -630.7
+        ],
+        [
+          -192.5,
+          -796.6
+        ],
+        [
+          -177.4,
+          -785.1
+        ],
+        [
+          -171.8,
+          -792.5
+        ],
+        [
+          -163.6,
+          -786.2
+        ],
+        [
+          -168.8,
+          -779.4
+        ],
+        [
+          -156.6,
+          -770.2
+        ],
+        [
+          -218.6,
+          -688.5
+        ],
+        [
+          -211.8,
+          -683.4
+        ],
+        [
+          -235.1,
+          -652.6
+        ],
+        [
+          -239.5,
+          -656
+        ],
+        [
+          -259.5,
+          -629.6
+        ],
+        [
+          -264.4,
+          -633.3
+        ],
+        [
+          -285.3,
+          -605.8
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -318.3,
+          630.7
+        ],
+        [
+          -192.5,
+          796.6
+        ],
+        [
+          -177.4,
+          785.1
+        ],
+        [
+          -171.8,
+          792.5
+        ],
+        [
+          -163.6,
+          786.2
+        ],
+        [
+          -168.8,
+          779.4
+        ],
+        [
+          -156.6,
+          770.2
+        ],
+        [
+          -218.6,
+          688.5
+        ],
+        [
+          -211.8,
+          683.4
+        ],
+        [
+          -235.1,
+          652.6
+        ],
+        [
+          -239.5,
+          656
+        ],
+        [
+          -259.5,
+          629.6
+        ],
+        [
+          -264.4,
+          633.3
+        ],
+        [
+          -285.3,
+          605.8
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -318.3,
+        "maxX": -156.6,
+        "minZ": -796.6,
+        "maxZ": -605.8
+      },
+      "areaM2": 9691.445,
+      "anchorLocalXZ": [
+        -218.8,
+        -706.421
+      ],
+      "anchorBlenderXY": [
+        -218.8,
+        706.421
+      ],
+      "anchorGroundRH2000M": 72.056,
+      "vertexGroundRH2000M": [
+        74.052,
+        73.153,
+        72.53,
+        72.38,
+        72.37,
+        72.492,
+        72.392,
+        72.505,
+        71.468,
+        71.451,
+        71.795,
+        71.533,
+        71.761,
+        72.263
+      ],
+      "minimumVertexGroundRH2000M": 71.451,
+      "maximumVertexGroundRH2000M": 74.052
+    },
+    {
+      "id": "ribbingsfors-clubhouse-provisional",
+      "kind": "house",
+      "name": "Ribbingsfors Golf & Kultur",
+      "amenity": "clubhouse",
+      "modelPriority": "facilities",
+      "source": "the pale-roofed building at the clubhouse POI, read off Esri z18 orthoimagery (trace-buildings.mjs, 2026-09-05); the POI placeholder it replaces lay 8.5 m away and 63 deg across this axis, half on lawn. Dimensions +-2 m; a terrace cannot be told from roof at 0.31 m/px",
+      "confidence": "medium",
+      "legacyWallHeightEstimateM": 4.2,
+      "legacyDimensionsEstimateM": [
+        17,
+        8.5
+      ],
+      "legacyRuntimeRotationRadians": 0.31,
+      "legacyBlenderRotationRadians": -0.31,
+      "ringLocalXZ": [
+        [
+          472.2,
+          -463.1
+        ],
+        [
+          488.4,
+          -458
+        ],
+        [
+          485.8,
+          -449.9
+        ],
+        [
+          469.6,
+          -455
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          472.2,
+          463.1
+        ],
+        [
+          488.4,
+          458
+        ],
+        [
+          485.8,
+          449.9
+        ],
+        [
+          469.6,
+          455
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 469.6,
+        "maxX": 488.4,
+        "minZ": -463.1,
+        "maxZ": -449.9
+      },
+      "areaM2": 144.48,
+      "anchorLocalXZ": [
+        479,
+        -456.5
+      ],
+      "anchorBlenderXY": [
+        479,
+        456.5
+      ],
+      "anchorGroundRH2000M": 77.23,
+      "vertexGroundRH2000M": [
+        76.353,
+        77.294,
+        76.94,
+        76.606
+      ],
+      "minimumVertexGroundRH2000M": 76.353,
+      "maximumVertexGroundRH2000M": 77.294
+    },
+    {
+      "id": "ribbingsfors-clubhouse-annex",
+      "kind": "house",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "dark-roofed building 8 m north of the clubhouse, read off Esri z18 orthoimagery on the same alignment as the clubhouse roof (trace-buildings.mjs review crops, 2026-09-05); dimensions +-2 m",
+      "confidence": "medium",
+      "legacyWallHeightEstimateM": 4.2,
+      "legacyDimensionsEstimateM": [
+        15,
+        9
+      ],
+      "legacyRuntimeRotationRadians": 0.31,
+      "legacyBlenderRotationRadians": -0.31,
+      "ringLocalXZ": [
+        [
+          472.9,
+          -471.1
+        ],
+        [
+          487.2,
+          -466.5
+        ],
+        [
+          484.5,
+          -457.9
+        ],
+        [
+          470.2,
+          -462.5
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          472.9,
+          471.1
+        ],
+        [
+          487.2,
+          466.5
+        ],
+        [
+          484.5,
+          457.9
+        ],
+        [
+          470.2,
+          462.5
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 470.2,
+        "maxX": 487.2,
+        "minZ": -471.1,
+        "maxZ": -457.9
+      },
+      "areaM2": 135.4,
+      "anchorLocalXZ": [
+        478.7,
+        -464.5
+      ],
+      "anchorBlenderXY": [
+        478.7,
+        464.5
+      ],
+      "anchorGroundRH2000M": 76.858,
+      "vertexGroundRH2000M": [
+        76.596,
+        77.397,
+        77.324,
+        76.209
+      ],
+      "minimumVertexGroundRH2000M": 76.209,
+      "maximumVertexGroundRH2000M": 77.397
+    },
+    {
+      "id": "ribbingsfors-manor-farm-0",
+      "kind": "barn",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (29.5x9.5 m, fill 1.01) whose boundary carries a hard brightness step (22), grown to the rectangle where that step peaks (62); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+      "confidence": "medium",
+      "legacyWallHeightEstimateM": 7,
+      "legacyDimensionsEstimateM": [
+        36.9,
+        19
+      ],
+      "legacyRuntimeRotationRadians": 0.246,
+      "legacyBlenderRotationRadians": -0.246,
+      "ringLocalXZ": [
+        [
+          714.3,
+          -507.5
+        ],
+        [
+          750.1,
+          -498.5
+        ],
+        [
+          745.5,
+          -480.1
+        ],
+        [
+          709.7,
+          -489.1
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          714.3,
+          507.5
+        ],
+        [
+          750.1,
+          498.5
+        ],
+        [
+          745.5,
+          480.1
+        ],
+        [
+          709.7,
+          489.1
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 709.7,
+        "maxX": 750.1,
+        "minZ": -507.5,
+        "maxZ": -480.1
+      },
+      "areaM2": 700.12,
+      "anchorLocalXZ": [
+        729.9,
+        -493.8
+      ],
+      "anchorBlenderXY": [
+        729.9,
+        493.8
+      ],
+      "anchorGroundRH2000M": 80.681,
+      "vertexGroundRH2000M": [
+        80.725,
+        79.611,
+        79.967,
+        79.6
+      ],
+      "minimumVertexGroundRH2000M": 79.6,
+      "maximumVertexGroundRH2000M": 80.725
+    },
+    {
+      "id": "ribbingsfors-manor-farm-1",
+      "kind": "house",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (33.2x6.2 m, fill 0.98) whose boundary carries a hard brightness step (33), grown to the rectangle where that step peaks (50); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+      "confidence": "medium",
+      "legacyWallHeightEstimateM": 4.5,
+      "legacyDimensionsEstimateM": [
+        26.6,
+        7.8
+      ],
+      "legacyRuntimeRotationRadians": -1.298,
+      "legacyBlenderRotationRadians": 1.298,
+      "ringLocalXZ": [
+        [
+          744.7,
+          -457.8
+        ],
+        [
+          751.8,
+          -483.5
+        ],
+        [
+          759.3,
+          -481.4
+        ],
+        [
+          752.2,
+          -455.7
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          744.7,
+          457.8
+        ],
+        [
+          751.8,
+          483.5
+        ],
+        [
+          759.3,
+          481.4
+        ],
+        [
+          752.2,
+          455.7
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 744.7,
+        "maxX": 759.3,
+        "minZ": -483.5,
+        "maxZ": -455.7
+      },
+      "areaM2": 207.66,
+      "anchorLocalXZ": [
+        752,
+        -469.6
+      ],
+      "anchorBlenderXY": [
+        752,
+        469.6
+      ],
+      "anchorGroundRH2000M": 80.02,
+      "vertexGroundRH2000M": [
+        80.036,
+        79.931,
+        79.009,
+        79.028
+      ],
+      "minimumVertexGroundRH2000M": 79.009,
+      "maximumVertexGroundRH2000M": 80.036
+    },
+    {
+      "id": "ribbingsfors-manor-farm-2",
+      "kind": "house",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (10.8x7.9 m, fill 0.74) whose boundary carries a hard brightness step (19), grown to the rectangle where that step peaks (44); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+      "confidence": "medium",
+      "legacyWallHeightEstimateM": 4.5,
+      "legacyDimensionsEstimateM": [
+        10.8,
+        14.2
+      ],
+      "legacyRuntimeRotationRadians": -0.18,
+      "legacyBlenderRotationRadians": 0.18,
+      "ringLocalXZ": [
+        [
+          708.7,
+          -482.4
+        ],
+        [
+          719.3,
+          -484.4
+        ],
+        [
+          721.9,
+          -470.4
+        ],
+        [
+          711.3,
+          -468.4
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          708.7,
+          482.4
+        ],
+        [
+          719.3,
+          484.4
+        ],
+        [
+          721.9,
+          470.4
+        ],
+        [
+          711.3,
+          468.4
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 708.7,
+        "maxX": 721.9,
+        "minZ": -484.4,
+        "maxZ": -468.4
+      },
+      "areaM2": 153.6,
+      "anchorLocalXZ": [
+        715.3,
+        -476.4
+      ],
+      "anchorBlenderXY": [
+        715.3,
+        476.4
+      ],
+      "anchorGroundRH2000M": 79.655,
+      "vertexGroundRH2000M": [
+        79.533,
+        79.817,
+        80.288,
+        80.545
+      ],
+      "minimumVertexGroundRH2000M": 79.533,
+      "maximumVertexGroundRH2000M": 80.545
+    },
+    {
+      "id": "ribbingsfors-manor-farm-3",
+      "kind": "house",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (15.3x2.7 m, fill 0.83) whose boundary carries a hard brightness step (26), grown to the rectangle where that step peaks (76); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+      "confidence": "medium",
+      "legacyWallHeightEstimateM": 4.5,
+      "legacyDimensionsEstimateM": [
+        24.5,
+        7
+      ],
+      "legacyRuntimeRotationRadians": 0.25,
+      "legacyBlenderRotationRadians": -0.25,
+      "ringLocalXZ": [
+        [
+          707.9,
+          -470.3
+        ],
+        [
+          731.6,
+          -464.3
+        ],
+        [
+          729.9,
+          -457.5
+        ],
+        [
+          706.2,
+          -463.5
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          707.9,
+          470.3
+        ],
+        [
+          731.6,
+          464.3
+        ],
+        [
+          729.9,
+          457.5
+        ],
+        [
+          706.2,
+          463.5
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 706.2,
+        "maxX": 731.6,
+        "minZ": -470.3,
+        "maxZ": -457.5
+      },
+      "areaM2": 171.36,
+      "anchorLocalXZ": [
+        718.9,
+        -463.9
+      ],
+      "anchorBlenderXY": [
+        718.9,
+        463.9
+      ],
+      "anchorGroundRH2000M": 80.808,
+      "vertexGroundRH2000M": [
+        80.42,
+        80.351,
+        81.066,
+        80.486
+      ],
+      "minimumVertexGroundRH2000M": 80.351,
+      "maximumVertexGroundRH2000M": 81.066
+    },
+    {
+      "id": "ribbingsfors-manor-farm-4",
+      "kind": "house",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (9.7x4.1 m, fill 0.82) whose boundary carries a hard brightness step (22), grown to the rectangle where that step peaks (51); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+      "confidence": "medium",
+      "legacyWallHeightEstimateM": 4.5,
+      "legacyDimensionsEstimateM": [
+        19.4,
+        10.7
+      ],
+      "legacyRuntimeRotationRadians": -1.253,
+      "legacyBlenderRotationRadians": 1.253,
+      "ringLocalXZ": [
+        [
+          750.5,
+          -451.4
+        ],
+        [
+          756.5,
+          -469.8
+        ],
+        [
+          766.7,
+          -466.4
+        ],
+        [
+          760.7,
+          -448
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          750.5,
+          451.4
+        ],
+        [
+          756.5,
+          469.8
+        ],
+        [
+          766.7,
+          466.4
+        ],
+        [
+          760.7,
+          448
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 750.5,
+        "maxX": 766.7,
+        "minZ": -469.8,
+        "maxZ": -448
+      },
+      "areaM2": 208.08,
+      "anchorLocalXZ": [
+        758.6,
+        -458.9
+      ],
+      "anchorBlenderXY": [
+        758.6,
+        458.9
+      ],
+      "anchorGroundRH2000M": 78.31,
+      "vertexGroundRH2000M": [
+        78.802,
+        79.864,
+        78.617,
+        78.452
+      ],
+      "minimumVertexGroundRH2000M": 78.452,
+      "maximumVertexGroundRH2000M": 79.864
+    },
+    {
+      "id": "ribbingsfors-manor-farm-5",
+      "kind": "barn",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (30.6x9.8 m, fill 0.91) whose boundary carries a hard brightness step (20), grown to the rectangle where that step peaks (51); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+      "confidence": "medium",
+      "legacyWallHeightEstimateM": 7,
+      "legacyDimensionsEstimateM": [
+        30.6,
+        22.5
+      ],
+      "legacyRuntimeRotationRadians": 0.236,
+      "legacyBlenderRotationRadians": -0.236,
+      "ringLocalXZ": [
+        [
+          702.2,
+          -470.9
+        ],
+        [
+          731.9,
+          -463.8
+        ],
+        [
+          726.6,
+          -441.9
+        ],
+        [
+          696.9,
+          -449
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          702.2,
+          470.9
+        ],
+        [
+          731.9,
+          463.8
+        ],
+        [
+          726.6,
+          441.9
+        ],
+        [
+          696.9,
+          449
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 696.9,
+        "maxX": 731.9,
+        "minZ": -470.9,
+        "maxZ": -441.9
+      },
+      "areaM2": 688.06,
+      "anchorLocalXZ": [
+        714.4,
+        -456.4
+      ],
+      "anchorBlenderXY": [
+        714.4,
+        456.4
+      ],
+      "anchorGroundRH2000M": 80.702,
+      "vertexGroundRH2000M": [
+        80.119,
+        80.322,
+        80.075,
+        79.964
+      ],
+      "minimumVertexGroundRH2000M": 79.964,
+      "maximumVertexGroundRH2000M": 80.322
+    },
+    {
+      "id": "ribbingsfors-yard-0",
+      "kind": "shed",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "greenkeeping yard trace; satellite interpretation",
+      "confidence": "high",
+      "legacyWallHeightEstimateM": 6,
+      "legacyDimensionsEstimateM": [
+        15,
+        28
+      ],
+      "legacyRuntimeRotationRadians": 0.06,
+      "legacyBlenderRotationRadians": -0.06,
+      "ringLocalXZ": [
+        [
+          -358.6,
+          145.6
+        ],
+        [
+          -343.7,
+          146.5
+        ],
+        [
+          -345.4,
+          174.4
+        ],
+        [
+          -360.3,
+          173.5
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -358.6,
+          -145.6
+        ],
+        [
+          -343.7,
+          -146.5
+        ],
+        [
+          -345.4,
+          -174.4
+        ],
+        [
+          -360.3,
+          -173.5
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -360.3,
+        "maxX": -343.7,
+        "minZ": 145.6,
+        "maxZ": 174.4
+      },
+      "areaM2": 417.24,
+      "anchorLocalXZ": [
+        -352,
+        160
+      ],
+      "anchorBlenderXY": [
+        -352,
+        -160
+      ],
+      "anchorGroundRH2000M": 81.59,
+      "vertexGroundRH2000M": [
+        81.402,
+        81.635,
+        81.559,
+        81.229
+      ],
+      "minimumVertexGroundRH2000M": 81.229,
+      "maximumVertexGroundRH2000M": 81.635
+    },
+    {
+      "id": "ribbingsfors-yard-1",
+      "kind": "shed",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "greenkeeping yard trace; satellite interpretation",
+      "confidence": "high",
+      "legacyWallHeightEstimateM": 4,
+      "legacyDimensionsEstimateM": [
+        8,
+        18
+      ],
+      "legacyRuntimeRotationRadians": 0.06,
+      "legacyBlenderRotationRadians": -0.06,
+      "ringLocalXZ": [
+        [
+          -364.5,
+          186.8
+        ],
+        [
+          -356.5,
+          187.3
+        ],
+        [
+          -357.5,
+          205.2
+        ],
+        [
+          -365.5,
+          204.7
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -364.5,
+          -186.8
+        ],
+        [
+          -356.5,
+          -187.3
+        ],
+        [
+          -357.5,
+          -205.2
+        ],
+        [
+          -365.5,
+          -204.7
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -365.5,
+        "maxX": -356.5,
+        "minZ": 186.8,
+        "maxZ": 205.2
+      },
+      "areaM2": 143.7,
+      "anchorLocalXZ": [
+        -361,
+        196
+      ],
+      "anchorBlenderXY": [
+        -361,
+        -196
+      ],
+      "anchorGroundRH2000M": 80.65,
+      "vertexGroundRH2000M": [
+        80.625,
+        80.966,
+        80.565,
+        80.445
+      ],
+      "minimumVertexGroundRH2000M": 80.445,
+      "maximumVertexGroundRH2000M": 80.966
+    },
+    {
+      "id": "ribbingsfors-yard-2",
+      "kind": "shed",
+      "name": null,
+      "amenity": null,
+      "modelPriority": "facilities",
+      "source": "greenkeeping yard trace; satellite interpretation",
+      "confidence": "high",
+      "legacyWallHeightEstimateM": 4,
+      "legacyDimensionsEstimateM": [
+        9,
+        13
+      ],
+      "legacyRuntimeRotationRadians": 0.06,
+      "legacyBlenderRotationRadians": -0.06,
+      "ringLocalXZ": [
+        [
+          -354.1,
+          221.2
+        ],
+        [
+          -345.1,
+          221.8
+        ],
+        [
+          -345.9,
+          234.8
+        ],
+        [
+          -354.9,
+          234.2
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -354.1,
+          -221.2
+        ],
+        [
+          -345.1,
+          -221.8
+        ],
+        [
+          -345.9,
+          -234.8
+        ],
+        [
+          -354.9,
+          -234.2
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -354.9,
+        "maxX": -345.1,
+        "minZ": 221.2,
+        "maxZ": 234.8
+      },
+      "areaM2": 117.48,
+      "anchorLocalXZ": [
+        -350,
+        228
+      ],
+      "anchorBlenderXY": [
+        -350,
+        -228
+      ],
+      "anchorGroundRH2000M": 80.63,
+      "vertexGroundRH2000M": [
+        80.534,
+        80.88,
+        80.772,
+        80.426
+      ],
+      "minimumVertexGroundRH2000M": 80.426,
+      "maximumVertexGroundRH2000M": 80.88
+    }
+  ],
+  "practiceGreens": [
+    {
+      "id": "ribbingsfors-practice-green-0",
+      "source": "the putting green beside the clubhouse, MEASURED: excess green 109 inside against 78 in its own 3-8 m collar (contrast 31, where the nine surveyed greens read 3-45 with a median 18) and laser-flat at 0.17 m over 5x5 against their median 0.18; the green grower accepts 604 m2 here (set B, solidity 0.965, centroid 1.8 m off the centre). Radius from that area (trace-practice.mjs 2026-09-05)",
+      "shapeStatus": "Circle derived from detected area; boundary is not a traced green contour",
+      "ringLocalXZ": [
+        [
+          524.3,
+          -451.3
+        ],
+        [
+          522.9,
+          -445.3
+        ],
+        [
+          519.1,
+          -440.4
+        ],
+        [
+          513.5,
+          -437.7
+        ],
+        [
+          507.3,
+          -437.7
+        ],
+        [
+          501.7,
+          -440.4
+        ],
+        [
+          497.9,
+          -445.3
+        ],
+        [
+          496.5,
+          -451.3
+        ],
+        [
+          497.9,
+          -457.3
+        ],
+        [
+          501.7,
+          -462.2
+        ],
+        [
+          507.3,
+          -464.9
+        ],
+        [
+          513.5,
+          -464.9
+        ],
+        [
+          519.1,
+          -462.2
+        ],
+        [
+          522.9,
+          -457.3
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          524.3,
+          451.3
+        ],
+        [
+          522.9,
+          445.3
+        ],
+        [
+          519.1,
+          440.4
+        ],
+        [
+          513.5,
+          437.7
+        ],
+        [
+          507.3,
+          437.7
+        ],
+        [
+          501.7,
+          440.4
+        ],
+        [
+          497.9,
+          445.3
+        ],
+        [
+          496.5,
+          451.3
+        ],
+        [
+          497.9,
+          457.3
+        ],
+        [
+          501.7,
+          462.2
+        ],
+        [
+          507.3,
+          464.9
+        ],
+        [
+          513.5,
+          464.9
+        ],
+        [
+          519.1,
+          462.2
+        ],
+        [
+          522.9,
+          457.3
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 496.5,
+        "maxX": 524.3,
+        "minZ": -464.9,
+        "maxZ": -437.7
+      },
+      "areaM2": 588.28,
+      "anchorLocalXZ": [
+        510.4,
+        -451.3
+      ],
+      "anchorBlenderXY": [
+        510.4,
+        451.3
+      ],
+      "anchorGroundRH2000M": 77.775,
+      "vertexGroundRH2000M": [
+        78.081,
+        78.029,
+        77.884,
+        77.564,
+        77.339,
+        77.228,
+        77.313,
+        77.542,
+        77.799,
+        77.957,
+        78.009,
+        78.013,
+        78.052,
+        78.05
+      ],
+      "minimumVertexGroundRH2000M": 77.228,
+      "maximumVertexGroundRH2000M": 78.081
+    }
+  ],
+  "drivingRange": {
+    "id": "ribbingsfors-driving-range",
+    "ringLocalXZ": [
+      [
+        642,
+        -432
+      ],
+      [
+        676,
+        -432
+      ],
+      [
+        676,
+        -420
+      ],
+      [
+        680,
+        -420
+      ],
+      [
+        680,
+        -404
+      ],
+      [
+        684,
+        -404
+      ],
+      [
+        684,
+        -396
+      ],
+      [
+        688,
+        -396
+      ],
+      [
+        688,
+        -388
+      ],
+      [
+        692,
+        -388
+      ],
+      [
+        692,
+        -372
+      ],
+      [
+        696,
+        -372
+      ],
+      [
+        700,
+        -364
+      ],
+      [
+        704,
+        -364
+      ],
+      [
+        704,
+        -344
+      ],
+      [
+        708,
+        -344
+      ],
+      [
+        708,
+        -336
+      ],
+      [
+        700,
+        -332
+      ],
+      [
+        700,
+        -320
+      ],
+      [
+        704,
+        -320
+      ],
+      [
+        708,
+        -312
+      ],
+      [
+        712,
+        -312
+      ],
+      [
+        712,
+        -280
+      ],
+      [
+        715,
+        -280
+      ],
+      [
+        710,
+        -256
+      ],
+      [
+        708,
+        -252
+      ],
+      [
+        704,
+        -252
+      ],
+      [
+        704,
+        -248
+      ],
+      [
+        700,
+        -248
+      ],
+      [
+        700,
+        -228
+      ],
+      [
+        696,
+        -224
+      ],
+      [
+        692,
+        -209
+      ],
+      [
+        684,
+        -208
+      ],
+      [
+        684,
+        -204
+      ],
+      [
+        680,
+        -204
+      ],
+      [
+        680,
+        -188
+      ],
+      [
+        672,
+        -188
+      ],
+      [
+        668,
+        -196
+      ],
+      [
+        656,
+        -196
+      ],
+      [
+        652,
+        -188
+      ],
+      [
+        644,
+        -188
+      ],
+      [
+        644,
+        -180
+      ],
+      [
+        628,
+        -180
+      ],
+      [
+        628,
+        -172
+      ],
+      [
+        615,
+        -172
+      ],
+      [
+        618,
+        -180
+      ],
+      [
+        625,
+        -180
+      ],
+      [
+        627,
+        -190
+      ],
+      [
+        637,
+        -190
+      ],
+      [
+        643,
+        -194
+      ],
+      [
+        643,
+        -202
+      ],
+      [
+        629,
+        -212
+      ],
+      [
+        612,
+        -215
+      ],
+      [
+        612,
+        -204
+      ],
+      [
+        588,
+        -204
+      ],
+      [
+        588,
+        -200
+      ],
+      [
+        577,
+        -200
+      ],
+      [
+        577,
+        -204
+      ],
+      [
+        568,
+        -208
+      ],
+      [
+        568,
+        -224
+      ],
+      [
+        560,
+        -224
+      ],
+      [
+        560,
+        -218
+      ],
+      [
+        553,
+        -218
+      ],
+      [
+        544,
+        -229
+      ],
+      [
+        533,
+        -233
+      ],
+      [
+        527,
+        -246
+      ],
+      [
+        523,
+        -276
+      ],
+      [
+        521,
+        -281
+      ],
+      [
+        518,
+        -281
+      ],
+      [
+        515,
+        -318
+      ],
+      [
+        512,
+        -319
+      ],
+      [
+        513,
+        -333
+      ],
+      [
+        507,
+        -335
+      ],
+      [
+        504,
+        -350
+      ],
+      [
+        506,
+        -409
+      ],
+      [
+        529,
+        -411
+      ],
+      [
+        533,
+        -418
+      ],
+      [
+        560,
+        -418
+      ]
+    ],
+    "footprintBlenderXY": [
+      [
+        642,
+        432
+      ],
+      [
+        676,
+        432
+      ],
+      [
+        676,
+        420
+      ],
+      [
+        680,
+        420
+      ],
+      [
+        680,
+        404
+      ],
+      [
+        684,
+        404
+      ],
+      [
+        684,
+        396
+      ],
+      [
+        688,
+        396
+      ],
+      [
+        688,
+        388
+      ],
+      [
+        692,
+        388
+      ],
+      [
+        692,
+        372
+      ],
+      [
+        696,
+        372
+      ],
+      [
+        700,
+        364
+      ],
+      [
+        704,
+        364
+      ],
+      [
+        704,
+        344
+      ],
+      [
+        708,
+        344
+      ],
+      [
+        708,
+        336
+      ],
+      [
+        700,
+        332
+      ],
+      [
+        700,
+        320
+      ],
+      [
+        704,
+        320
+      ],
+      [
+        708,
+        312
+      ],
+      [
+        712,
+        312
+      ],
+      [
+        712,
+        280
+      ],
+      [
+        715,
+        280
+      ],
+      [
+        710,
+        256
+      ],
+      [
+        708,
+        252
+      ],
+      [
+        704,
+        252
+      ],
+      [
+        704,
+        248
+      ],
+      [
+        700,
+        248
+      ],
+      [
+        700,
+        228
+      ],
+      [
+        696,
+        224
+      ],
+      [
+        692,
+        209
+      ],
+      [
+        684,
+        208
+      ],
+      [
+        684,
+        204
+      ],
+      [
+        680,
+        204
+      ],
+      [
+        680,
+        188
+      ],
+      [
+        672,
+        188
+      ],
+      [
+        668,
+        196
+      ],
+      [
+        656,
+        196
+      ],
+      [
+        652,
+        188
+      ],
+      [
+        644,
+        188
+      ],
+      [
+        644,
+        180
+      ],
+      [
+        628,
+        180
+      ],
+      [
+        628,
+        172
+      ],
+      [
+        615,
+        172
+      ],
+      [
+        618,
+        180
+      ],
+      [
+        625,
+        180
+      ],
+      [
+        627,
+        190
+      ],
+      [
+        637,
+        190
+      ],
+      [
+        643,
+        194
+      ],
+      [
+        643,
+        202
+      ],
+      [
+        629,
+        212
+      ],
+      [
+        612,
+        215
+      ],
+      [
+        612,
+        204
+      ],
+      [
+        588,
+        204
+      ],
+      [
+        588,
+        200
+      ],
+      [
+        577,
+        200
+      ],
+      [
+        577,
+        204
+      ],
+      [
+        568,
+        208
+      ],
+      [
+        568,
+        224
+      ],
+      [
+        560,
+        224
+      ],
+      [
+        560,
+        218
+      ],
+      [
+        553,
+        218
+      ],
+      [
+        544,
+        229
+      ],
+      [
+        533,
+        233
+      ],
+      [
+        527,
+        246
+      ],
+      [
+        523,
+        276
+      ],
+      [
+        521,
+        281
+      ],
+      [
+        518,
+        281
+      ],
+      [
+        515,
+        318
+      ],
+      [
+        512,
+        319
+      ],
+      [
+        513,
+        333
+      ],
+      [
+        507,
+        335
+      ],
+      [
+        504,
+        350
+      ],
+      [
+        506,
+        409
+      ],
+      [
+        529,
+        411
+      ],
+      [
+        533,
+        418
+      ],
+      [
+        560,
+        418
+      ]
+    ],
+    "boundsLocalXZ": {
+      "minX": 504,
+      "maxX": 715,
+      "minZ": -432,
+      "maxZ": -172
+    },
+    "areaM2": 40162.5,
+    "anchorLocalXZ": [
+      633.744,
+      -277.397
+    ],
+    "anchorBlenderXY": [
+      633.744,
+      277.397
+    ],
+    "anchorGroundRH2000M": 76.298,
+    "vertexGroundRH2000M": [
+      77.9,
+      77.87,
+      77.75,
+      77.91,
+      77.78,
+      77.91,
+      77.9,
+      77.93,
+      77.83,
+      77.9,
+      77.72,
+      77.77,
+      77.74,
+      77.82,
+      77.8,
+      78.14,
+      78.21,
+      77.57,
+      77.44,
+      77.61,
+      77.6,
+      77.66,
+      77.21,
+      77.38,
+      77.97,
+      77.45,
+      76.67,
+      76.87,
+      76.66,
+      76.91,
+      76.3,
+      76.48,
+      75.66,
+      76.3,
+      76.13,
+      77.66,
+      77.56,
+      76.32,
+      76.37,
+      76.14,
+      76.41,
+      76.7,
+      76.44,
+      76.59,
+      76.46,
+      76.35,
+      76.43,
+      76.14,
+      76.3,
+      76.25,
+      75.8,
+      75.93,
+      76.87,
+      76.49,
+      75.92,
+      76.07,
+      75.87,
+      75.99,
+      75.89,
+      76.23,
+      76.03,
+      75.99,
+      75.8,
+      75.7,
+      75.57,
+      75.55,
+      75.53,
+      75.49,
+      75.42,
+      75.67,
+      75.64,
+      75.86,
+      75.82,
+      75.91,
+      77.09,
+      77.7,
+      78.11,
+      78.78
+    ],
+    "minimumVertexGroundRH2000M": 75.42,
+    "maximumVertexGroundRH2000M": 78.78,
+    "source": "the practice field east of the 1st, MEASURED as the open ground the model does not otherwise claim: not forest in the tree-cover raster, not water, not inside a green/fairway/tee/bunker ring, not within 25 m of a hole line, not within 8 m of a road, track or path — the component containing a seed read off the OWNER’S OWN MARK on the app overhead (converted through the clubhouse, parking and manor footprints visible in the same frame), opened 2 m, closed 3 m, simplified to 2 m. 40,163 m2 over x 504-715, z -432..-172, bounded by the estate track north, the treeline east, the 1st’s corridor west and the wood south (trace-practice.mjs 2026-09-05). It replaces a 6,541 m2 strip of DORMANT ground between the 9th and the 1st, 180 m west, which an earlier pass classified as the range because it was the most striking thing in the capture and the eye-traced ring lay near it: a dormant strip here is a hayfield. The club’s own overview agrees with the owner — registered on its nine numbered discs the map is rotated -149 deg, and its DRIVING RANGE and OVNINGSOMRADE labels then fall east and south-east of KLUBBHUS.",
+    "areaFromSourceM2": 40163,
+    "rangeTee": null,
+    "rangeFacilities": null,
+    "baysStatus": "Unresolved: raw bench candidate [600.5,-446.2] was rejected by reviewed surroundings-traces.json",
+    "baysNote": "NOT measured: a tee line is a built platform, but this pasture is flat everywhere (5,719 of 11,822 cells at the north end read flat to 0.12 m over 5x5, 3,787 at the south), so the bench test that worked on the dormant strip identifies nothing here. The engine’s own rule stands — the bays are the end of the field you walk to from the clubhouse, which is the north end, and the shot line runs south down the field away from the clubhouse and the 1st.",
+    "deprecatedSourceRing": {
+      "ring": [
+        [
+          396,
+          -368
+        ],
+        [
+          446,
+          -372
+        ],
+        [
+          470,
+          -300
+        ],
+        [
+          468,
+          -210
+        ],
+        [
+          432,
+          -196
+        ],
+        [
+          402,
+          -252
+        ]
+      ],
+      "bays": [
+        450,
+        -204
+      ],
+      "loneOak": [
+        478,
+        -288
+      ],
+      "prov": "satellite interpretation of the mown practice block between holes 9 and 1, corroborated by the club's own range photographs (bays at the south end, a mature oak standing in the field); club confirmation pending",
+      "note": "the eye-traced ring this replaced, kept so trace-practice.mjs can state the correction on a rerun"
+    },
+    "caution": "Correct field is EAST of hole 1. Deprecated field between holes 9 and 1 was a hayfield and must not be restored."
+  },
+  "parking": [
+    {
+      "id": "w292826741",
+      "surface": null,
+      "ringLocalXZ": [
+        [
+          -1074.1,
+          -2607.3
+        ],
+        [
+          -1064.7,
+          -2610.8
+        ],
+        [
+          -1061.7,
+          -2589.9
+        ],
+        [
+          -1076.9,
+          -2588.2
+        ],
+        [
+          -1079,
+          -2606.8
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -1074.1,
+          2607.3
+        ],
+        [
+          -1064.7,
+          2610.8
+        ],
+        [
+          -1061.7,
+          2589.9
+        ],
+        [
+          -1076.9,
+          2588.2
+        ],
+        [
+          -1079,
+          2606.8
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -1079,
+        "maxX": -1061.7,
+        "minZ": -2610.8,
+        "maxZ": -2588.2
+      },
+      "areaM2": 292.355,
+      "anchorLocalXZ": [
+        -1071.28,
+        -2600.6
+      ],
+      "anchorBlenderXY": [
+        -1071.28,
+        2600.6
+      ],
+      "anchorGroundRH2000M": null,
+      "vertexGroundRH2000M": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "minimumVertexGroundRH2000M": null,
+      "maximumVertexGroundRH2000M": null
+    },
+    {
+      "id": "w464931486",
+      "surface": null,
+      "ringLocalXZ": [
+        [
+          -325.2,
+          -867.3
+        ],
+        [
+          -298.3,
+          -846.5
+        ],
+        [
+          -372.1,
+          -751.7
+        ],
+        [
+          -398.9,
+          -772.5
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -325.2,
+          867.3
+        ],
+        [
+          -298.3,
+          846.5
+        ],
+        [
+          -372.1,
+          751.7
+        ],
+        [
+          -398.9,
+          772.5
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -398.9,
+        "maxX": -298.3,
+        "minZ": -867.3,
+        "maxZ": -751.7
+      },
+      "areaM2": 4079.38,
+      "anchorLocalXZ": [
+        -348.625,
+        -809.5
+      ],
+      "anchorBlenderXY": [
+        -348.625,
+        809.5
+      ],
+      "anchorGroundRH2000M": 80.185,
+      "vertexGroundRH2000M": [
+        80.965,
+        79.656,
+        79.324,
+        81.358
+      ],
+      "minimumVertexGroundRH2000M": 79.324,
+      "maximumVertexGroundRH2000M": 81.358
+    },
+    {
+      "id": "w663893681",
+      "surface": null,
+      "ringLocalXZ": [
+        [
+          -230.4,
+          -2285.1
+        ],
+        [
+          -227.2,
+          -2304
+        ],
+        [
+          -233.2,
+          -2305.1
+        ],
+        [
+          -236.5,
+          -2286.1
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -230.4,
+          2285.1
+        ],
+        [
+          -227.2,
+          2304
+        ],
+        [
+          -233.2,
+          2305.1
+        ],
+        [
+          -236.5,
+          2286.1
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -236.5,
+        "maxX": -227.2,
+        "minZ": -2305.1,
+        "maxZ": -2285.1
+      },
+      "areaM2": 118.06,
+      "anchorLocalXZ": [
+        -231.825,
+        -2295.075
+      ],
+      "anchorBlenderXY": [
+        -231.825,
+        2295.075
+      ],
+      "anchorGroundRH2000M": null,
+      "vertexGroundRH2000M": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "minimumVertexGroundRH2000M": null,
+      "maximumVertexGroundRH2000M": null
+    },
+    {
+      "id": "w663893684",
+      "surface": null,
+      "ringLocalXZ": [
+        [
+          -97.8,
+          -2153.9
+        ],
+        [
+          -69.3,
+          -2149.8
+        ],
+        [
+          -70,
+          -2144.7
+        ],
+        [
+          -77.6,
+          -2145.8
+        ],
+        [
+          -79.6,
+          -2131.8
+        ],
+        [
+          -100.5,
+          -2134.7
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -97.8,
+          2153.9
+        ],
+        [
+          -69.3,
+          2149.8
+        ],
+        [
+          -70,
+          2144.7
+        ],
+        [
+          -77.6,
+          2145.8
+        ],
+        [
+          -79.6,
+          2131.8
+        ],
+        [
+          -100.5,
+          2134.7
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -100.5,
+        "maxX": -69.3,
+        "minZ": -2153.9,
+        "maxZ": -2131.8
+      },
+      "areaM2": 447.835,
+      "anchorLocalXZ": [
+        -82.467,
+        -2143.45
+      ],
+      "anchorBlenderXY": [
+        -82.467,
+        2143.45
+      ],
+      "anchorGroundRH2000M": null,
+      "vertexGroundRH2000M": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "minimumVertexGroundRH2000M": null,
+      "maximumVertexGroundRH2000M": null
+    },
+    {
+      "id": "w663899717",
+      "surface": null,
+      "ringLocalXZ": [
+        [
+          -130.1,
+          -2294.6
+        ],
+        [
+          -133.2,
+          -2285.3
+        ],
+        [
+          -103.5,
+          -2275.3
+        ],
+        [
+          -102,
+          -2279.9
+        ],
+        [
+          -107,
+          -2281.6
+        ],
+        [
+          -96.4,
+          -2312.9
+        ],
+        [
+          -126.8,
+          -2323.1
+        ],
+        [
+          -133.6,
+          -2302.7
+        ],
+        [
+          -128,
+          -2300.8
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          -130.1,
+          2294.6
+        ],
+        [
+          -133.2,
+          2285.3
+        ],
+        [
+          -103.5,
+          2275.3
+        ],
+        [
+          -102,
+          2279.9
+        ],
+        [
+          -107,
+          2281.6
+        ],
+        [
+          -96.4,
+          2312.9
+        ],
+        [
+          -126.8,
+          2323.1
+        ],
+        [
+          -133.6,
+          2302.7
+        ],
+        [
+          -128,
+          2300.8
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": -133.6,
+        "maxX": -96.4,
+        "minZ": -2323.1,
+        "maxZ": -2275.3
+      },
+      "areaM2": 1140.725,
+      "anchorLocalXZ": [
+        -117.844,
+        -2295.133
+      ],
+      "anchorBlenderXY": [
+        -117.844,
+        2295.133
+      ],
+      "anchorGroundRH2000M": null,
+      "vertexGroundRH2000M": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "minimumVertexGroundRH2000M": null,
+      "maximumVertexGroundRH2000M": null
+    },
+    {
+      "id": "ribbingsfors-parking-0",
+      "surface": "gravel",
+      "ringLocalXZ": [
+        [
+          694,
+          -442
+        ],
+        [
+          726,
+          -436
+        ],
+        [
+          722,
+          -394
+        ],
+        [
+          692,
+          -400
+        ]
+      ],
+      "footprintBlenderXY": [
+        [
+          694,
+          442
+        ],
+        [
+          726,
+          436
+        ],
+        [
+          722,
+          394
+        ],
+        [
+          692,
+          400
+        ]
+      ],
+      "boundsLocalXZ": {
+        "minX": 692,
+        "maxX": 726,
+        "minZ": -442,
+        "maxZ": -394
+      },
+      "areaM2": 1320,
+      "anchorLocalXZ": [
+        708.5,
+        -418
+      ],
+      "anchorBlenderXY": [
+        708.5,
+        418
+      ],
+      "anchorGroundRH2000M": 79.755,
+      "vertexGroundRH2000M": [
+        79.44,
+        79.99,
+        79.36,
+        78.05
+      ],
+      "minimumVertexGroundRH2000M": 78.05,
+      "maximumVertexGroundRH2000M": 79.99
+    }
+  ],
+  "maintenanceYard": {
+    "id": "ribbingsfors-maintenance-yard",
+    "source": "greenkeeping yard south-west of hole 5: machine hall, two sheds, hardstanding with machinery and material piles",
+    "ringLocalXZ": [
+      [
+        -384,
+        126
+      ],
+      [
+        -330,
+        128
+      ],
+      [
+        -320,
+        200
+      ],
+      [
+        -336,
+        244
+      ],
+      [
+        -378,
+        242
+      ],
+      [
+        -386,
+        180
+      ]
+    ],
+    "footprintBlenderXY": [
+      [
+        -384,
+        -126
+      ],
+      [
+        -330,
+        -128
+      ],
+      [
+        -320,
+        -200
+      ],
+      [
+        -336,
+        -244
+      ],
+      [
+        -378,
+        -242
+      ],
+      [
+        -386,
+        -180
+      ]
+    ],
+    "boundsLocalXZ": {
+      "minX": -386,
+      "maxX": -320,
+      "minZ": 126,
+      "maxZ": 244
+    },
+    "areaM2": 6642,
+    "anchorLocalXZ": [
+      -355.667,
+      186.667
+    ],
+    "anchorBlenderXY": [
+      -355.667,
+      -186.667
+    ],
+    "anchorGroundRH2000M": 81.031,
+    "vertexGroundRH2000M": [
+      77.83,
+      81.6,
+      81.79,
+      81.17,
+      80.21,
+      79.84
+    ],
+    "minimumVertexGroundRH2000M": 77.83,
+    "maximumVertexGroundRH2000M": 81.79
+  },
+  "manorPrecinct": {
+    "id": "ribbingsfors-manor-precinct",
+    "source": "the Ribbingsfors manor lawns and gardens: manor house with two wings, outbuildings, kitchen-garden enclosure at [478,-550]..[502,-533]; keeps the planter and scatter off the estate grounds",
+    "buildingStatus": "Precinct landuse is present, but manor house and wings have no model.infra.buildings polygons in this snapshot.",
+    "ringLocalXZ": [
+      [
+        420,
+        -640
+      ],
+      [
+        560,
+        -655
+      ],
+      [
+        600,
+        -560
+      ],
+      [
+        560,
+        -505
+      ],
+      [
+        455,
+        -498
+      ],
+      [
+        415,
+        -560
+      ]
+    ],
+    "footprintBlenderXY": [
+      [
+        420,
+        640
+      ],
+      [
+        560,
+        655
+      ],
+      [
+        600,
+        560
+      ],
+      [
+        560,
+        505
+      ],
+      [
+        455,
+        498
+      ],
+      [
+        415,
+        560
+      ]
+    ],
+    "boundsLocalXZ": {
+      "minX": 415,
+      "maxX": 600,
+      "minZ": -655,
+      "maxZ": -498
+    },
+    "areaM2": 22832.5,
+    "anchorLocalXZ": [
+      501.667,
+      -569.667
+    ],
+    "anchorBlenderXY": [
+      501.667,
+      569.667
+    ],
+    "anchorGroundRH2000M": 78.067,
+    "vertexGroundRH2000M": [
+      69.34,
+      72.66,
+      78.21,
+      79.11,
+      75.36,
+      69.34
+    ],
+    "minimumVertexGroundRH2000M": 69.34,
+    "maximumVertexGroundRH2000M": 79.11
+  },
+  "roads": [
+    {
+      "id": "w37796876",
+      "line": [
+        [
+          -243.3,
+          -31.5
+        ],
+        [
+          -248.8,
+          -22.8
+        ],
+        [
+          -277.6,
+          65.8
+        ],
+        [
+          -324,
+          229.9
+        ],
+        [
+          -345.7,
+          267.3
+        ],
+        [
+          -461.8,
+          426.4
+        ],
+        [
+          -489.9,
+          471.4
+        ],
+        [
+          -514.5,
+          523
+        ],
+        [
+          -562.8,
+          607.8
+        ],
+        [
+          -565.2,
+          625.3
+        ],
+        [
+          -561.9,
+          644
+        ],
+        [
+          -546.9,
+          774.9
+        ],
+        [
+          -550.9,
+          813.3
+        ],
+        [
+          -567.5,
+          838.7
+        ],
+        [
+          -696.2,
+          929.2
+        ]
+      ],
+      "kind": "unclassified",
+      "surface": null,
+      "name": null,
+      "ref": null,
+      "lanes": null,
+      "oneway": false,
+      "maxspeed": null,
+      "lit": false,
+      "lineLocalXZ": [
+        [
+          -243.3,
+          -31.5
+        ],
+        [
+          -248.8,
+          -22.8
+        ],
+        [
+          -277.6,
+          65.8
+        ],
+        [
+          -324,
+          229.9
+        ],
+        [
+          -345.7,
+          267.3
+        ],
+        [
+          -461.8,
+          426.4
+        ],
+        [
+          -489.9,
+          471.4
+        ],
+        [
+          -514.5,
+          523
+        ],
+        [
+          -562.8,
+          607.8
+        ],
+        [
+          -565.2,
+          625.3
+        ],
+        [
+          -561.9,
+          644
+        ],
+        [
+          -546.9,
+          774.9
+        ],
+        [
+          -550.9,
+          813.3
+        ],
+        [
+          -567.5,
+          838.7
+        ],
+        [
+          -696.2,
+          929.2
+        ]
+      ],
+      "lineBlenderXY": [
+        [
+          -243.3,
+          31.5
+        ],
+        [
+          -248.8,
+          22.8
+        ],
+        [
+          -277.6,
+          -65.8
+        ],
+        [
+          -324,
+          -229.9
+        ],
+        [
+          -345.7,
+          -267.3
+        ],
+        [
+          -461.8,
+          -426.4
+        ],
+        [
+          -489.9,
+          -471.4
+        ],
+        [
+          -514.5,
+          -523
+        ],
+        [
+          -562.8,
+          -607.8
+        ],
+        [
+          -565.2,
+          -625.3
+        ],
+        [
+          -561.9,
+          -644
+        ],
+        [
+          -546.9,
+          -774.9
+        ],
+        [
+          -550.9,
+          -813.3
+        ],
+        [
+          -567.5,
+          -838.7
+        ],
+        [
+          -696.2,
+          -929.2
+        ]
+      ],
+      "vertexGroundRH2000M": [
+        78.733,
+        78.978,
+        80.405,
+        81.841,
+        79.999,
+        78.484,
+        81.664,
+        84.36,
+        85.828,
+        85.335,
+        84.947,
+        83.5,
+        83.84,
+        83.61,
+        83.457
+      ]
+    },
+    {
+      "id": "w124869662",
+      "line": [
+        [
+          661.1,
+          -96.4
+        ],
+        [
+          661.3,
+          -105.4
+        ],
+        [
+          679.8,
+          -162.1
+        ],
+        [
+          711.6,
+          -235.9
+        ],
+        [
+          721.4,
+          -267.2
+        ],
+        [
+          729.4,
+          -303.5
+        ],
+        [
+          736,
+          -324.4
+        ],
+        [
+          858.8,
+          -588.9
+        ],
+        [
+          865.7,
+          -602.2
+        ],
+        [
+          878.9,
+          -617.1
+        ],
+        [
+          923.5,
+          -645.5
+        ],
+        [
+          951.8,
+          -666.4
+        ],
+        [
+          971.6,
+          -675.4
+        ],
+        [
+          1003.2,
+          -683.1
+        ],
+        [
+          1039,
+          -688.4
+        ],
+        [
+          1076.9,
+          -689.5
+        ],
+        [
+          1241.8,
+          -680.8
+        ],
+        [
+          1315.4,
+          -673.8
+        ],
+        [
+          1329.2,
+          -675.1
+        ],
+        [
+          1349.8,
+          -680.4
+        ],
+        [
+          1371.7,
+          -691.8
+        ],
+        [
+          1411,
+          -722.4
+        ],
+        [
+          1747.8,
+          -1007.1
+        ],
+        [
+          1758.4,
+          -1019.2
+        ],
+        [
+          1764,
+          -1031
+        ],
+        [
+          1779.2,
+          -1103.6
+        ],
+        [
+          1796.8,
+          -1152.8
+        ],
+        [
+          1805.7,
+          -1182.5
+        ],
+        [
+          1813.9,
+          -1203.8
+        ],
+        [
+          1819.4,
+          -1213.8
+        ],
+        [
+          1828.9,
+          -1223.6
+        ],
+        [
+          1886.1,
+          -1266.6
+        ],
+        [
+          1938.1,
+          -1309.5
+        ],
+        [
+          1968.9,
+          -1330.9
+        ],
+        [
+          2031.9,
+          -1369.9
+        ],
+        [
+          2054.1,
+          -1378.6
+        ],
+        [
+          2067.4,
+          -1380.4
+        ],
+        [
+          2097.3,
+          -1380.4
+        ],
+        [
+          2163,
+          -1376.6
+        ],
+        [
+          2189.9,
+          -1372.8
+        ],
+        [
+          2276.4,
+          -1354.9
+        ],
+        [
+          2301.7,
+          -1354.6
+        ],
+        [
+          2311,
+          -1357.9
+        ],
+        [
+          2319,
+          -1363.7
+        ],
+        [
+          2365.8,
+          -1428.1
+        ],
+        [
+          2401.1,
+          -1459.8
+        ],
+        [
+          2442.4,
+          -1492.4
+        ],
+        [
+          2453.6,
+          -1498.7
+        ],
+        [
+          2465.7,
+          -1503.5
+        ],
+        [
+          2476.4,
+          -1505
+        ],
+        [
+          2597.2,
+          -1501.8
+        ],
+        [
+          2614.6,
+          -1504.8
+        ],
+        [
+          2626.9,
+          -1510.1
+        ],
+        [
+          2638.7,
+          -1517.9
+        ],
+        [
+          2651.9,
+          -1530.4
+        ],
+        [
+          2693.9,
+          -1575.5
+        ],
+        [
+          2804,
+          -1755.2
+        ],
+        [
+          2854.2,
+          -1831.4
+        ],
+        [
+          2863.2,
+          -1840.4
+        ],
+        [
+          2875.7,
+          -1848.4
+        ],
+        [
+          2889.7,
+          -1853.3
+        ],
+        [
+          2902.6,
+          -1854.3
+        ],
+        [
+          2917.3,
+          -1852.9
+        ],
+        [
+          3054.8,
+          -1830.8
+        ],
+        [
+          3075,
+          -1831.1
+        ],
+        [
+          3092.4,
+          -1834.9
+        ],
+        [
+          3301.4,
+          -1919.3
+        ],
+        [
+          3500.1,
+          -2004.6
+        ],
+        [
+          3524,
+          -2008.6
+        ],
+        [
+          3557.4,
+          -2007.8
+        ],
+        [
+          3574.8,
+          -1997.8
+        ],
+        [
+          3579.9,
+          -1991.3
+        ],
+        [
+          3582.6,
+          -1984.6
+        ],
+        [
+          3583.5,
+          -1976.3
+        ],
+        [
+          3579.9,
+          -1933.6
+        ],
+        [
+          3581.5,
+          -1916.6
+        ],
+        [
+          3591.5,
+          -1906.7
+        ],
+        [
+          3626.1,
+          -1890.2
+        ],
+        [
+          3638.5,
+          -1878
+        ],
+        [
+          3653,
+          -1860.3
+        ],
+        [
+          3667.1,
+          -1854
+        ],
+        [
+          3683.8,
+          -1851.1
+        ],
+        [
+          4010.1,
+          -1819.2
+        ],
+        [
+          4047.7,
+          -1818.8
+        ],
+        [
+          4083.9,
+          -1823.2
+        ],
+        [
+          4185.1,
+          -1846.3
+        ],
+        [
+          4299,
+          -1879.6
+        ],
+        [
+          4318.4,
+          -1881.2
+        ],
+        [
+          4330.4,
+          -1877.1
+        ],
+        [
+          4347.4,
+          -1861.9
+        ],
+        [
+          4353.9,
+          -1849.3
+        ],
+        [
+          4356.6,
+          -1834.3
+        ],
+        [
+          4357.4,
+          -1819.2
+        ],
+        [
+          4351.8,
+          -1747.8
+        ],
+        [
+          4353.5,
+          -1733.7
+        ],
+        [
+          4356.1,
+          -1728.1
+        ],
+        [
+          4361.1,
+          -1721.4
+        ],
+        [
+          4375.8,
+          -1716.6
+        ],
+        [
+          4419.7,
+          -1729.7
+        ],
+        [
+          4442.3,
+          -1730.6
+        ],
+        [
+          4462.9,
+          -1723.2
+        ],
+        [
+          4476.3,
+          -1715
+        ],
+        [
+          4484.7,
+          -1707.3
+        ],
+        [
+          4493.8,
+          -1688.1
+        ],
+        [
+          4505,
+          -1640.1
+        ],
+        [
+          4519,
+          -1607.4
+        ],
+        [
+          4541.9,
+          -1561.6
+        ],
+        [
+          4545,
+          -1546.9
+        ],
+        [
+          4536.6,
+          -1421
+        ],
+        [
+          4535.9,
+          -1380.6
+        ],
+        [
+          4539.1,
+          -1310.9
+        ],
+        [
+          4538.6,
+          -1190.4
+        ],
+        [
+          4545.2,
+          -1136.1
+        ],
+        [
+          4549.1,
+          -1123.3
+        ],
+        [
+          4555.9,
+          -1118
+        ]
+      ],
+      "kind": "unclassified",
+      "surface": "compacted",
+      "name": null,
+      "ref": null,
+      "lanes": null,
+      "oneway": false,
+      "maxspeed": null,
+      "lit": false,
+      "lineLocalXZ": [
+        [
+          661.1,
+          -96.4
+        ],
+        [
+          661.3,
+          -105.4
+        ],
+        [
+          679.8,
+          -162.1
+        ],
+        [
+          711.6,
+          -235.9
+        ],
+        [
+          721.4,
+          -267.2
+        ],
+        [
+          729.4,
+          -303.5
+        ],
+        [
+          736,
+          -324.4
+        ],
+        [
+          858.8,
+          -588.9
+        ],
+        [
+          865.7,
+          -602.2
+        ],
+        [
+          878.9,
+          -617.1
+        ],
+        [
+          923.5,
+          -645.5
+        ],
+        [
+          951.8,
+          -666.4
+        ],
+        [
+          971.6,
+          -675.4
+        ],
+        [
+          1003.2,
+          -683.1
+        ],
+        [
+          1039,
+          -688.4
+        ],
+        [
+          1076.9,
+          -689.5
+        ],
+        [
+          1241.8,
+          -680.8
+        ],
+        [
+          1315.4,
+          -673.8
+        ],
+        [
+          1329.2,
+          -675.1
+        ],
+        [
+          1349.8,
+          -680.4
+        ],
+        [
+          1371.7,
+          -691.8
+        ],
+        [
+          1411,
+          -722.4
+        ],
+        [
+          1747.8,
+          -1007.1
+        ],
+        [
+          1758.4,
+          -1019.2
+        ],
+        [
+          1764,
+          -1031
+        ],
+        [
+          1779.2,
+          -1103.6
+        ],
+        [
+          1796.8,
+          -1152.8
+        ],
+        [
+          1805.7,
+          -1182.5
+        ],
+        [
+          1813.9,
+          -1203.8
+        ],
+        [
+          1819.4,
+          -1213.8
+        ],
+        [
+          1828.9,
+          -1223.6
+        ],
+        [
+          1886.1,
+          -1266.6
+        ],
+        [
+          1938.1,
+          -1309.5
+        ],
+        [
+          1968.9,
+          -1330.9
+        ],
+        [
+          2031.9,
+          -1369.9
+        ],
+        [
+          2054.1,
+          -1378.6
+        ],
+        [
+          2067.4,
+          -1380.4
+        ],
+        [
+          2097.3,
+          -1380.4
+        ],
+        [
+          2163,
+          -1376.6
+        ],
+        [
+          2189.9,
+          -1372.8
+        ],
+        [
+          2276.4,
+          -1354.9
+        ],
+        [
+          2301.7,
+          -1354.6
+        ],
+        [
+          2311,
+          -1357.9
+        ],
+        [
+          2319,
+          -1363.7
+        ],
+        [
+          2365.8,
+          -1428.1
+        ],
+        [
+          2401.1,
+          -1459.8
+        ],
+        [
+          2442.4,
+          -1492.4
+        ],
+        [
+          2453.6,
+          -1498.7
+        ],
+        [
+          2465.7,
+          -1503.5
+        ],
+        [
+          2476.4,
+          -1505
+        ],
+        [
+          2597.2,
+          -1501.8
+        ],
+        [
+          2614.6,
+          -1504.8
+        ],
+        [
+          2626.9,
+          -1510.1
+        ],
+        [
+          2638.7,
+          -1517.9
+        ],
+        [
+          2651.9,
+          -1530.4
+        ],
+        [
+          2693.9,
+          -1575.5
+        ],
+        [
+          2804,
+          -1755.2
+        ],
+        [
+          2854.2,
+          -1831.4
+        ],
+        [
+          2863.2,
+          -1840.4
+        ],
+        [
+          2875.7,
+          -1848.4
+        ],
+        [
+          2889.7,
+          -1853.3
+        ],
+        [
+          2902.6,
+          -1854.3
+        ],
+        [
+          2917.3,
+          -1852.9
+        ],
+        [
+          3054.8,
+          -1830.8
+        ],
+        [
+          3075,
+          -1831.1
+        ],
+        [
+          3092.4,
+          -1834.9
+        ],
+        [
+          3301.4,
+          -1919.3
+        ],
+        [
+          3500.1,
+          -2004.6
+        ],
+        [
+          3524,
+          -2008.6
+        ],
+        [
+          3557.4,
+          -2007.8
+        ],
+        [
+          3574.8,
+          -1997.8
+        ],
+        [
+          3579.9,
+          -1991.3
+        ],
+        [
+          3582.6,
+          -1984.6
+        ],
+        [
+          3583.5,
+          -1976.3
+        ],
+        [
+          3579.9,
+          -1933.6
+        ],
+        [
+          3581.5,
+          -1916.6
+        ],
+        [
+          3591.5,
+          -1906.7
+        ],
+        [
+          3626.1,
+          -1890.2
+        ],
+        [
+          3638.5,
+          -1878
+        ],
+        [
+          3653,
+          -1860.3
+        ],
+        [
+          3667.1,
+          -1854
+        ],
+        [
+          3683.8,
+          -1851.1
+        ],
+        [
+          4010.1,
+          -1819.2
+        ],
+        [
+          4047.7,
+          -1818.8
+        ],
+        [
+          4083.9,
+          -1823.2
+        ],
+        [
+          4185.1,
+          -1846.3
+        ],
+        [
+          4299,
+          -1879.6
+        ],
+        [
+          4318.4,
+          -1881.2
+        ],
+        [
+          4330.4,
+          -1877.1
+        ],
+        [
+          4347.4,
+          -1861.9
+        ],
+        [
+          4353.9,
+          -1849.3
+        ],
+        [
+          4356.6,
+          -1834.3
+        ],
+        [
+          4357.4,
+          -1819.2
+        ],
+        [
+          4351.8,
+          -1747.8
+        ],
+        [
+          4353.5,
+          -1733.7
+        ],
+        [
+          4356.1,
+          -1728.1
+        ],
+        [
+          4361.1,
+          -1721.4
+        ],
+        [
+          4375.8,
+          -1716.6
+        ],
+        [
+          4419.7,
+          -1729.7
+        ],
+        [
+          4442.3,
+          -1730.6
+        ],
+        [
+          4462.9,
+          -1723.2
+        ],
+        [
+          4476.3,
+          -1715
+        ],
+        [
+          4484.7,
+          -1707.3
+        ],
+        [
+          4493.8,
+          -1688.1
+        ],
+        [
+          4505,
+          -1640.1
+        ],
+        [
+          4519,
+          -1607.4
+        ],
+        [
+          4541.9,
+          -1561.6
+        ],
+        [
+          4545,
+          -1546.9
+        ],
+        [
+          4536.6,
+          -1421
+        ],
+        [
+          4535.9,
+          -1380.6
+        ],
+        [
+          4539.1,
+          -1310.9
+        ],
+        [
+          4538.6,
+          -1190.4
+        ],
+        [
+          4545.2,
+          -1136.1
+        ],
+        [
+          4549.1,
+          -1123.3
+        ],
+        [
+          4555.9,
+          -1118
+        ]
+      ],
+      "lineBlenderXY": [
+        [
+          661.1,
+          96.4
+        ],
+        [
+          661.3,
+          105.4
+        ],
+        [
+          679.8,
+          162.1
+        ],
+        [
+          711.6,
+          235.9
+        ],
+        [
+          721.4,
+          267.2
+        ],
+        [
+          729.4,
+          303.5
+        ],
+        [
+          736,
+          324.4
+        ],
+        [
+          858.8,
+          588.9
+        ],
+        [
+          865.7,
+          602.2
+        ],
+        [
+          878.9,
+          617.1
+        ],
+        [
+          923.5,
+          645.5
+        ],
+        [
+          951.8,
+          666.4
+        ],
+        [
+          971.6,
+          675.4
+        ],
+        [
+          1003.2,
+          683.1
+        ],
+        [
+          1039,
+          688.4
+        ],
+        [
+          1076.9,
+          689.5
+        ],
+        [
+          1241.8,
+          680.8
+        ],
+        [
+          1315.4,
+          673.8
+        ],
+        [
+          1329.2,
+          675.1
+        ],
+        [
+          1349.8,
+          680.4
+        ],
+        [
+          1371.7,
+          691.8
+        ],
+        [
+          1411,
+          722.4
+        ],
+        [
+          1747.8,
+          1007.1
+        ],
+        [
+          1758.4,
+          1019.2
+        ],
+        [
+          1764,
+          1031
+        ],
+        [
+          1779.2,
+          1103.6
+        ],
+        [
+          1796.8,
+          1152.8
+        ],
+        [
+          1805.7,
+          1182.5
+        ],
+        [
+          1813.9,
+          1203.8
+        ],
+        [
+          1819.4,
+          1213.8
+        ],
+        [
+          1828.9,
+          1223.6
+        ],
+        [
+          1886.1,
+          1266.6
+        ],
+        [
+          1938.1,
+          1309.5
+        ],
+        [
+          1968.9,
+          1330.9
+        ],
+        [
+          2031.9,
+          1369.9
+        ],
+        [
+          2054.1,
+          1378.6
+        ],
+        [
+          2067.4,
+          1380.4
+        ],
+        [
+          2097.3,
+          1380.4
+        ],
+        [
+          2163,
+          1376.6
+        ],
+        [
+          2189.9,
+          1372.8
+        ],
+        [
+          2276.4,
+          1354.9
+        ],
+        [
+          2301.7,
+          1354.6
+        ],
+        [
+          2311,
+          1357.9
+        ],
+        [
+          2319,
+          1363.7
+        ],
+        [
+          2365.8,
+          1428.1
+        ],
+        [
+          2401.1,
+          1459.8
+        ],
+        [
+          2442.4,
+          1492.4
+        ],
+        [
+          2453.6,
+          1498.7
+        ],
+        [
+          2465.7,
+          1503.5
+        ],
+        [
+          2476.4,
+          1505
+        ],
+        [
+          2597.2,
+          1501.8
+        ],
+        [
+          2614.6,
+          1504.8
+        ],
+        [
+          2626.9,
+          1510.1
+        ],
+        [
+          2638.7,
+          1517.9
+        ],
+        [
+          2651.9,
+          1530.4
+        ],
+        [
+          2693.9,
+          1575.5
+        ],
+        [
+          2804,
+          1755.2
+        ],
+        [
+          2854.2,
+          1831.4
+        ],
+        [
+          2863.2,
+          1840.4
+        ],
+        [
+          2875.7,
+          1848.4
+        ],
+        [
+          2889.7,
+          1853.3
+        ],
+        [
+          2902.6,
+          1854.3
+        ],
+        [
+          2917.3,
+          1852.9
+        ],
+        [
+          3054.8,
+          1830.8
+        ],
+        [
+          3075,
+          1831.1
+        ],
+        [
+          3092.4,
+          1834.9
+        ],
+        [
+          3301.4,
+          1919.3
+        ],
+        [
+          3500.1,
+          2004.6
+        ],
+        [
+          3524,
+          2008.6
+        ],
+        [
+          3557.4,
+          2007.8
+        ],
+        [
+          3574.8,
+          1997.8
+        ],
+        [
+          3579.9,
+          1991.3
+        ],
+        [
+          3582.6,
+          1984.6
+        ],
+        [
+          3583.5,
+          1976.3
+        ],
+        [
+          3579.9,
+          1933.6
+        ],
+        [
+          3581.5,
+          1916.6
+        ],
+        [
+          3591.5,
+          1906.7
+        ],
+        [
+          3626.1,
+          1890.2
+        ],
+        [
+          3638.5,
+          1878
+        ],
+        [
+          3653,
+          1860.3
+        ],
+        [
+          3667.1,
+          1854
+        ],
+        [
+          3683.8,
+          1851.1
+        ],
+        [
+          4010.1,
+          1819.2
+        ],
+        [
+          4047.7,
+          1818.8
+        ],
+        [
+          4083.9,
+          1823.2
+        ],
+        [
+          4185.1,
+          1846.3
+        ],
+        [
+          4299,
+          1879.6
+        ],
+        [
+          4318.4,
+          1881.2
+        ],
+        [
+          4330.4,
+          1877.1
+        ],
+        [
+          4347.4,
+          1861.9
+        ],
+        [
+          4353.9,
+          1849.3
+        ],
+        [
+          4356.6,
+          1834.3
+        ],
+        [
+          4357.4,
+          1819.2
+        ],
+        [
+          4351.8,
+          1747.8
+        ],
+        [
+          4353.5,
+          1733.7
+        ],
+        [
+          4356.1,
+          1728.1
+        ],
+        [
+          4361.1,
+          1721.4
+        ],
+        [
+          4375.8,
+          1716.6
+        ],
+        [
+          4419.7,
+          1729.7
+        ],
+        [
+          4442.3,
+          1730.6
+        ],
+        [
+          4462.9,
+          1723.2
+        ],
+        [
+          4476.3,
+          1715
+        ],
+        [
+          4484.7,
+          1707.3
+        ],
+        [
+          4493.8,
+          1688.1
+        ],
+        [
+          4505,
+          1640.1
+        ],
+        [
+          4519,
+          1607.4
+        ],
+        [
+          4541.9,
+          1561.6
+        ],
+        [
+          4545,
+          1546.9
+        ],
+        [
+          4536.6,
+          1421
+        ],
+        [
+          4535.9,
+          1380.6
+        ],
+        [
+          4539.1,
+          1310.9
+        ],
+        [
+          4538.6,
+          1190.4
+        ],
+        [
+          4545.2,
+          1136.1
+        ],
+        [
+          4549.1,
+          1123.3
+        ],
+        [
+          4555.9,
+          1118
+        ]
+      ],
+      "vertexGroundRH2000M": [
+        78.313,
+        78.2,
+        77.948,
+        77.909,
+        78.242,
+        78.084,
+        78.048,
+        79.247,
+        79.23,
+        79.148,
+        78.597,
+        76.095,
+        74.585,
+        73.298,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "id": "w1135143747",
+      "line": [
+        [
+          -243.3,
+          -31.5
+        ],
+        [
+          -205.5,
+          -8.8
+        ],
+        [
+          -189.7,
+          -5.1
+        ],
+        [
+          -176.3,
+          -4.2
+        ],
+        [
+          265.4,
+          -12.4
+        ],
+        [
+          287.5,
+          -15.3
+        ],
+        [
+          313.6,
+          -21.1
+        ],
+        [
+          458.1,
+          -57.9
+        ],
+        [
+          513.6,
+          -74.2
+        ],
+        [
+          545,
+          -80.7
+        ],
+        [
+          675.8,
+          -98.2
+        ],
+        [
+          729,
+          -103
+        ],
+        [
+          763.8,
+          -100.3
+        ],
+        [
+          860.3,
+          -86.7
+        ],
+        [
+          1085.8,
+          -51.4
+        ],
+        [
+          1111.1,
+          -43.3
+        ],
+        [
+          1121.5,
+          -37.2
+        ],
+        [
+          1151.6,
+          -14.3
+        ],
+        [
+          1228.7,
+          54.5
+        ],
+        [
+          1307.6,
+          120.3
+        ],
+        [
+          1364.7,
+          163
+        ],
+        [
+          1396.8,
+          179.7
+        ],
+        [
+          1575.1,
+          239.3
+        ],
+        [
+          1635.6,
+          264.4
+        ],
+        [
+          1660.1,
+          276.9
+        ],
+        [
+          1733.8,
+          323
+        ],
+        [
+          1844.2,
+          383.6
+        ],
+        [
+          1898.2,
+          408.2
+        ],
+        [
+          1975.6,
+          436.4
+        ],
+        [
+          2014.3,
+          446
+        ],
+        [
+          2062.1,
+          450.3
+        ],
+        [
+          2200.7,
+          452.6
+        ],
+        [
+          2214.5,
+          454.4
+        ],
+        [
+          2309.2,
+          474.5
+        ],
+        [
+          2345.2,
+          484.5
+        ],
+        [
+          2445.7,
+          524.6
+        ],
+        [
+          2482.1,
+          541.8
+        ],
+        [
+          2508.6,
+          557.5
+        ],
+        [
+          2537.4,
+          581.3
+        ],
+        [
+          2580,
+          624.5
+        ],
+        [
+          2618.7,
+          660.3
+        ],
+        [
+          2646.3,
+          682.4
+        ],
+        [
+          2811.5,
+          802.7
+        ],
+        [
+          2824.8,
+          808.7
+        ],
+        [
+          2858.8,
+          818.3
+        ],
+        [
+          2932.9,
+          834.5
+        ],
+        [
+          3027.9,
+          867.3
+        ],
+        [
+          3091.3,
+          883.8
+        ],
+        [
+          3123.2,
+          888.6
+        ],
+        [
+          3155.6,
+          889.9
+        ],
+        [
+          3188.2,
+          889.7
+        ],
+        [
+          3245.9,
+          886.3
+        ],
+        [
+          3625.4,
+          832.1
+        ],
+        [
+          3671.5,
+          823.6
+        ],
+        [
+          3823.6,
+          801.7
+        ],
+        [
+          4359.1,
+          775.5
+        ],
+        [
+          4453.3,
+          776.7
+        ],
+        [
+          4547.2,
+          790.7
+        ],
+        [
+          4570.1,
+          789
+        ],
+        [
+          4600,
+          779.2
+        ]
+      ],
+      "kind": "tertiary",
+      "surface": "asphalt",
+      "name": null,
+      "ref": "O 2997",
+      "lanes": null,
+      "oneway": false,
+      "maxspeed": 70,
+      "lit": false,
+      "lineLocalXZ": [
+        [
+          -243.3,
+          -31.5
+        ],
+        [
+          -205.5,
+          -8.8
+        ],
+        [
+          -189.7,
+          -5.1
+        ],
+        [
+          -176.3,
+          -4.2
+        ],
+        [
+          265.4,
+          -12.4
+        ],
+        [
+          287.5,
+          -15.3
+        ],
+        [
+          313.6,
+          -21.1
+        ],
+        [
+          458.1,
+          -57.9
+        ],
+        [
+          513.6,
+          -74.2
+        ],
+        [
+          545,
+          -80.7
+        ],
+        [
+          675.8,
+          -98.2
+        ],
+        [
+          729,
+          -103
+        ],
+        [
+          763.8,
+          -100.3
+        ],
+        [
+          860.3,
+          -86.7
+        ],
+        [
+          1085.8,
+          -51.4
+        ],
+        [
+          1111.1,
+          -43.3
+        ],
+        [
+          1121.5,
+          -37.2
+        ],
+        [
+          1151.6,
+          -14.3
+        ],
+        [
+          1228.7,
+          54.5
+        ],
+        [
+          1307.6,
+          120.3
+        ],
+        [
+          1364.7,
+          163
+        ],
+        [
+          1396.8,
+          179.7
+        ],
+        [
+          1575.1,
+          239.3
+        ],
+        [
+          1635.6,
+          264.4
+        ],
+        [
+          1660.1,
+          276.9
+        ],
+        [
+          1733.8,
+          323
+        ],
+        [
+          1844.2,
+          383.6
+        ],
+        [
+          1898.2,
+          408.2
+        ],
+        [
+          1975.6,
+          436.4
+        ],
+        [
+          2014.3,
+          446
+        ],
+        [
+          2062.1,
+          450.3
+        ],
+        [
+          2200.7,
+          452.6
+        ],
+        [
+          2214.5,
+          454.4
+        ],
+        [
+          2309.2,
+          474.5
+        ],
+        [
+          2345.2,
+          484.5
+        ],
+        [
+          2445.7,
+          524.6
+        ],
+        [
+          2482.1,
+          541.8
+        ],
+        [
+          2508.6,
+          557.5
+        ],
+        [
+          2537.4,
+          581.3
+        ],
+        [
+          2580,
+          624.5
+        ],
+        [
+          2618.7,
+          660.3
+        ],
+        [
+          2646.3,
+          682.4
+        ],
+        [
+          2811.5,
+          802.7
+        ],
+        [
+          2824.8,
+          808.7
+        ],
+        [
+          2858.8,
+          818.3
+        ],
+        [
+          2932.9,
+          834.5
+        ],
+        [
+          3027.9,
+          867.3
+        ],
+        [
+          3091.3,
+          883.8
+        ],
+        [
+          3123.2,
+          888.6
+        ],
+        [
+          3155.6,
+          889.9
+        ],
+        [
+          3188.2,
+          889.7
+        ],
+        [
+          3245.9,
+          886.3
+        ],
+        [
+          3625.4,
+          832.1
+        ],
+        [
+          3671.5,
+          823.6
+        ],
+        [
+          3823.6,
+          801.7
+        ],
+        [
+          4359.1,
+          775.5
+        ],
+        [
+          4453.3,
+          776.7
+        ],
+        [
+          4547.2,
+          790.7
+        ],
+        [
+          4570.1,
+          789
+        ],
+        [
+          4600,
+          779.2
+        ]
+      ],
+      "lineBlenderXY": [
+        [
+          -243.3,
+          31.5
+        ],
+        [
+          -205.5,
+          8.8
+        ],
+        [
+          -189.7,
+          5.1
+        ],
+        [
+          -176.3,
+          4.2
+        ],
+        [
+          265.4,
+          12.4
+        ],
+        [
+          287.5,
+          15.3
+        ],
+        [
+          313.6,
+          21.1
+        ],
+        [
+          458.1,
+          57.9
+        ],
+        [
+          513.6,
+          74.2
+        ],
+        [
+          545,
+          80.7
+        ],
+        [
+          675.8,
+          98.2
+        ],
+        [
+          729,
+          103
+        ],
+        [
+          763.8,
+          100.3
+        ],
+        [
+          860.3,
+          86.7
+        ],
+        [
+          1085.8,
+          51.4
+        ],
+        [
+          1111.1,
+          43.3
+        ],
+        [
+          1121.5,
+          37.2
+        ],
+        [
+          1151.6,
+          14.3
+        ],
+        [
+          1228.7,
+          -54.5
+        ],
+        [
+          1307.6,
+          -120.3
+        ],
+        [
+          1364.7,
+          -163
+        ],
+        [
+          1396.8,
+          -179.7
+        ],
+        [
+          1575.1,
+          -239.3
+        ],
+        [
+          1635.6,
+          -264.4
+        ],
+        [
+          1660.1,
+          -276.9
+        ],
+        [
+          1733.8,
+          -323
+        ],
+        [
+          1844.2,
+          -383.6
+        ],
+        [
+          1898.2,
+          -408.2
+        ],
+        [
+          1975.6,
+          -436.4
+        ],
+        [
+          2014.3,
+          -446
+        ],
+        [
+          2062.1,
+          -450.3
+        ],
+        [
+          2200.7,
+          -452.6
+        ],
+        [
+          2214.5,
+          -454.4
+        ],
+        [
+          2309.2,
+          -474.5
+        ],
+        [
+          2345.2,
+          -484.5
+        ],
+        [
+          2445.7,
+          -524.6
+        ],
+        [
+          2482.1,
+          -541.8
+        ],
+        [
+          2508.6,
+          -557.5
+        ],
+        [
+          2537.4,
+          -581.3
+        ],
+        [
+          2580,
+          -624.5
+        ],
+        [
+          2618.7,
+          -660.3
+        ],
+        [
+          2646.3,
+          -682.4
+        ],
+        [
+          2811.5,
+          -802.7
+        ],
+        [
+          2824.8,
+          -808.7
+        ],
+        [
+          2858.8,
+          -818.3
+        ],
+        [
+          2932.9,
+          -834.5
+        ],
+        [
+          3027.9,
+          -867.3
+        ],
+        [
+          3091.3,
+          -883.8
+        ],
+        [
+          3123.2,
+          -888.6
+        ],
+        [
+          3155.6,
+          -889.9
+        ],
+        [
+          3188.2,
+          -889.7
+        ],
+        [
+          3245.9,
+          -886.3
+        ],
+        [
+          3625.4,
+          -832.1
+        ],
+        [
+          3671.5,
+          -823.6
+        ],
+        [
+          3823.6,
+          -801.7
+        ],
+        [
+          4359.1,
+          -775.5
+        ],
+        [
+          4453.3,
+          -776.7
+        ],
+        [
+          4547.2,
+          -790.7
+        ],
+        [
+          4570.1,
+          -789
+        ],
+        [
+          4600,
+          -779.2
+        ]
+      ],
+      "vertexGroundRH2000M": [
+        78.733,
+        78.656,
+        78.472,
+        78.178,
+        81.444,
+        81.199,
+        80.06,
+        76.623,
+        77.85,
+        78.174,
+        78.412,
+        80.71,
+        82.37,
+        81.471,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "tracks": [
+    {
+      "id": "w779344824",
+      "line": [
+        [
+          490.3,
+          -442.6
+        ],
+        [
+          555.8,
+          -425.9
+        ],
+        [
+          685.2,
+          -446.4
+        ],
+        [
+          712.1,
+          -383
+        ],
+        [
+          723.7,
+          -313.3
+        ],
+        [
+          729.4,
+          -303.5
+        ]
+      ],
+      "kind": "service",
+      "surface": null,
+      "lineLocalXZ": [
+        [
+          490.3,
+          -442.6
+        ],
+        [
+          555.8,
+          -425.9
+        ],
+        [
+          685.2,
+          -446.4
+        ],
+        [
+          712.1,
+          -383
+        ],
+        [
+          723.7,
+          -313.3
+        ],
+        [
+          729.4,
+          -303.5
+        ]
+      ],
+      "lineBlenderXY": [
+        [
+          490.3,
+          442.6
+        ],
+        [
+          555.8,
+          425.9
+        ],
+        [
+          685.2,
+          446.4
+        ],
+        [
+          712.1,
+          383
+        ],
+        [
+          723.7,
+          313.3
+        ],
+        [
+          729.4,
+          303.5
+        ]
+      ],
+      "vertexGroundRH2000M": [
+        76.917,
+        78.866,
+        79.021,
+        79.186,
+        78.154,
+        78.084
+      ]
+    }
+  ],
+  "paths": [],
+  "walls": [
+    {
+      "id": "ribbingsfors-wall-0",
+      "line": [
+        [
+          285,
+          -120
+        ],
+        [
+          462,
+          -118
+        ]
+      ],
+      "prov": "straight field boundary with bank/stone wall character along the north side of hole 8",
+      "confidence": "low",
+      "lineBlenderXY": [
+        [
+          285,
+          120
+        ],
+        [
+          462,
+          118
+        ]
+      ],
+      "vertexGroundRH2000M": [
+        79.84,
+        74.33
+      ]
+    },
+    {
+      "id": "ribbingsfors-wall-1",
+      "line": [
+        [
+          178,
+          433
+        ],
+        [
+          578,
+          428
+        ]
+      ],
+      "prov": "straight old property boundary with wall and track behind green 3",
+      "confidence": "medium",
+      "lineBlenderXY": [
+        [
+          178,
+          -433
+        ],
+        [
+          578,
+          -428
+        ]
+      ],
+      "vertexGroundRH2000M": [
+        84.7,
+        82.61
+      ]
+    }
+  ]
+}

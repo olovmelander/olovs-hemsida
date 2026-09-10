@@ -1,0 +1,570 @@
+{
+  "schemaVersion": 1,
+  "groundId": "ribbingsfors",
+  "observedAt": "2026-09-10T08:38:08.508653+00:00",
+  "source": "Lantmateriet Ortofoto Nedladdning",
+  "collection": "orto-k2-2024",
+  "nativeResolutionMetres": 0.16,
+  "frame": {
+    "originEpsg3006": [
+      448975.5,
+      6536024.5
+    ],
+    "terrainTileInternalOriginHeightRH2000": 69.14,
+    "unit": "metre",
+    "blender": "X=easting-448975.5; Y=northing-6536024.5; Z=absolute heightRH2000",
+    "engine": "x=easting-448975.5; z=6536024.5-northing; y=absolute heightRH2000",
+    "note": "Canonical grid frame. Facility heights are absolute RH2000. The renderer restores the terrain tile internal 69.14 m origin before scene composition. No geographic flat-earth conversion or meridian convergence correction."
+  },
+  "panels": [
+    {
+      "id": "site-overview",
+      "purpose": "All facilities including southwest maintenance yard, range and estate",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/site-overview.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/site-overview.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/site-overview.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/site-overview.prj",
+      "pngSha256": "cba5fd5792ffd949e1d27f2437f254ae12fcf2c33342d15332cb85c30470735f",
+      "tifSha256": "4b06f2aa95afd2026c709eb1637bf498d1da327771f6c32a3c7799671bbf7569",
+      "width": 1588,
+      "height": 1301,
+      "boundsEpsg3006": [
+        448555.2,
+        6535704.0,
+        449825.60000000003,
+        6536744.8
+      ],
+      "pixelSizeMetres": 0.8,
+      "nativePixels": false,
+      "resampling": "average",
+      "cornersBlenderXY": [
+        [
+          -420.29999999998836,
+          -320.5
+        ],
+        [
+          850.1000000000349,
+          -320.5
+        ],
+        [
+          850.1000000000349,
+          720.2999999998137
+        ],
+        [
+          -420.29999999998836,
+          720.2999999998137
+        ]
+      ],
+      "boundsEngineXZ": [
+        -420.29999999998836,
+        -720.2999999998137,
+        850.1000000000349,
+        320.5
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114633_3060",
+          "capturedAt": "2024-05-17T11:46:33Z",
+          "fraction": 0.5443421
+        },
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114640_3061",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "fraction": 0.4556579
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    },
+    {
+      "id": "campus-native",
+      "purpose": "Clubhouse, practice green, entire range and nearby estate",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/campus-native.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/campus-native.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/campus-native.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/campus-native.prj",
+      "pngSha256": "c6cb1285d26aeb01137ead412639bb0060136db8a9c9667f28aaa8c34cc04787",
+      "tifSha256": "ffb17b7719a53c301957f8b0a0a397878bf79a719ece5d3399b43d9dde41b484",
+      "width": 2876,
+      "height": 3376,
+      "boundsEpsg3006": [
+        449360.48,
+        6536144.4799999995,
+        449820.63999999996,
+        6536684.64
+      ],
+      "pixelSizeMetres": 0.16,
+      "nativePixels": true,
+      "resampling": "nearest",
+      "cornersBlenderXY": [
+        [
+          384.9799999999814,
+          119.97999999951571
+        ],
+        [
+          845.1399999999558,
+          119.97999999951571
+        ],
+        [
+          845.1399999999558,
+          660.1399999996647
+        ],
+        [
+          384.9799999999814,
+          660.1399999996647
+        ]
+      ],
+      "boundsEngineXZ": [
+        384.9799999999814,
+        -660.1399999996647,
+        845.1399999999558,
+        -119.97999999951571
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114633_3060",
+          "capturedAt": "2024-05-17T11:46:33Z",
+          "fraction": 0.13774663
+        },
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114640_3061",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "fraction": 0.86225337
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    },
+    {
+      "id": "clubhouse-close",
+      "purpose": "Clubhouse, annex, courtyard, practice green and access",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-close.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-close.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-close.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-close.prj",
+      "pngSha256": "b9972d582dd5155d4611fda77492a7e3ec8867ea6ea5840abeab69fad1f4de28",
+      "tifSha256": "9d8c1b3876a6a0f1bf9f19253d91e72d8a803b41a0500d912c2f158183074d6d",
+      "width": 751,
+      "height": 813,
+      "boundsEpsg3006": [
+        449405.44,
+        6536409.4399999995,
+        449525.6,
+        6536539.52
+      ],
+      "pixelSizeMetres": 0.16,
+      "nativePixels": true,
+      "resampling": "nearest",
+      "cornersBlenderXY": [
+        [
+          429.9400000000023,
+          384.93999999947846
+        ],
+        [
+          550.0999999999767,
+          384.93999999947846
+        ],
+        [
+          550.0999999999767,
+          515.019999999553
+        ],
+        [
+          429.9400000000023,
+          515.019999999553
+        ]
+      ],
+      "boundsEngineXZ": [
+        429.9400000000023,
+        -515.019999999553,
+        550.0999999999767,
+        -384.93999999947846
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114640_3061",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "fraction": 1.0
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    },
+    {
+      "id": "range-tee-close",
+      "purpose": "Northern range end, candidate hitting line, access and adjacent estate road",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/range-tee-close.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/range-tee-close.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/range-tee-close.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/range-tee-close.prj",
+      "pngSha256": "07b4acb108890c19ea60d11d2fc848a187dff0c61d03f794fa55be01e600561a",
+      "tifSha256": "dfe2385d89a38b67b7cd4d03b779c97dd957722617218ad1971a71db71501e95",
+      "width": 1470,
+      "height": 845,
+      "boundsEpsg3006": [
+        449455.36,
+        6536354.399999999,
+        449690.56,
+        6536489.6
+      ],
+      "pixelSizeMetres": 0.16,
+      "nativePixels": true,
+      "resampling": "nearest",
+      "cornersBlenderXY": [
+        [
+          479.85999999998603,
+          329.8999999994412
+        ],
+        [
+          715.0599999999977,
+          329.8999999994412
+        ],
+        [
+          715.0599999999977,
+          465.09999999962747
+        ],
+        [
+          479.85999999998603,
+          465.09999999962747
+        ]
+      ],
+      "boundsEngineXZ": [
+        479.85999999998603,
+        -465.09999999962747,
+        715.0599999999977,
+        -329.8999999994412
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114640_3061",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "fraction": 1.0
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    },
+    {
+      "id": "estate-close",
+      "purpose": "Estate farm courtyard and surrounding roofs",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/estate-close.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/estate-close.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/estate-close.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/estate-close.prj",
+      "pngSha256": "0edff2d852fb1ac0feb6224c2aca0a48bee54f4db795e723bf8e754fe305af0b",
+      "tifSha256": "e103e9c9fc1edd525840d59ef991fe6e5d23e132c8b97a3488685dacf6c68f3a",
+      "width": 876,
+      "height": 845,
+      "boundsEpsg3006": [
+        449650.4,
+        6536449.4399999995,
+        449790.56,
+        6536584.64
+      ],
+      "pixelSizeMetres": 0.16,
+      "nativePixels": true,
+      "resampling": "nearest",
+      "cornersBlenderXY": [
+        [
+          674.9000000000233,
+          424.93999999947846
+        ],
+        [
+          815.0599999999977,
+          424.93999999947846
+        ],
+        [
+          815.0599999999977,
+          560.1399999996647
+        ],
+        [
+          674.9000000000233,
+          560.1399999996647
+        ]
+      ],
+      "boundsEngineXZ": [
+        674.9000000000233,
+        -560.1399999996647,
+        815.0599999999977,
+        -424.93999999947846
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114640_3061",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "fraction": 1.0
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    },
+    {
+      "id": "maintenance-close",
+      "purpose": "Southwest maintenance yard with all visible sheds and hardstanding",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/maintenance-close.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/maintenance-close.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/maintenance-close.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/maintenance-close.prj",
+      "pngSha256": "53eb5f6eec4e7877eaa288a7d335b63e5eecf6cbbea073635c5470bb9f360ba1",
+      "tifSha256": "83e0bbebfaeb47ef1cd06fbbde4772e386a5ca6ab47f6b7422cdc8591a64e919",
+      "width": 1001,
+      "height": 1095,
+      "boundsEpsg3006": [
+        448555.36,
+        6535754.399999999,
+        448715.51999999996,
+        6535929.6
+      ],
+      "pixelSizeMetres": 0.16,
+      "nativePixels": true,
+      "resampling": "nearest",
+      "cornersBlenderXY": [
+        [
+          -420.14000000001397,
+          -270.1000000005588
+        ],
+        [
+          -259.9800000000396,
+          -270.1000000005588
+        ],
+        [
+          -259.9800000000396,
+          -94.90000000037253
+        ],
+        [
+          -420.14000000001397,
+          -94.90000000037253
+        ]
+      ],
+      "boundsEngineXZ": [
+        -420.14000000001397,
+        94.90000000037253,
+        -259.9800000000396,
+        270.1000000005588
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114633_3060",
+          "capturedAt": "2024-05-17T11:46:33Z",
+          "fraction": 1.0
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    },
+    {
+      "id": "manor-close",
+      "purpose": "Manor main house, wings, estate garden buildings, boathouse and pier",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/manor-close.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/manor-close.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/manor-close.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/manor-close.prj",
+      "pngSha256": "f302402f8183bec46d74106d10843dc19018b481edf8e73cb4601abff7f34b8c",
+      "tifSha256": "f6be21dd0126a8ebbbee40f30df03f5e59bf7ae6a5c8b495c06efcd62e7359c1",
+      "width": 1158,
+      "height": 1158,
+      "boundsEpsg3006": [
+        449415.36,
+        6536499.359999999,
+        449600.64,
+        6536684.64
+      ],
+      "pixelSizeMetres": 0.16,
+      "nativePixels": true,
+      "resampling": "nearest",
+      "cornersBlenderXY": [
+        [
+          439.85999999998603,
+          474.85999999940395
+        ],
+        [
+          625.140000000014,
+          474.85999999940395
+        ],
+        [
+          625.140000000014,
+          660.1399999996647
+        ],
+        [
+          439.85999999998603,
+          660.1399999996647
+        ]
+      ],
+      "boundsEngineXZ": [
+        439.85999999998603,
+        -660.1399999996647,
+        625.140000000014,
+        -474.85999999940395
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114640_3061",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "fraction": 1.0
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    },
+    {
+      "id": "estate-north-close",
+      "purpose": "Northern estate outbuildings",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/estate-north-close.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/estate-north-close.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/estate-north-close.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/estate-north-close.prj",
+      "pngSha256": "599daa400534da0594bafa319140b5dced6a65ee775533833ad98cbcc32a4e86",
+      "tifSha256": "5a624028f04e523b25f90f8bf7c8f3fd1ada37ec88b1bb9a6c11b0c3e5eeba62",
+      "width": 876,
+      "height": 783,
+      "boundsEpsg3006": [
+        449650.4,
+        6536559.359999999,
+        449790.56,
+        6536684.64
+      ],
+      "pixelSizeMetres": 0.16,
+      "nativePixels": true,
+      "resampling": "nearest",
+      "cornersBlenderXY": [
+        [
+          674.9000000000233,
+          534.859999999404
+        ],
+        [
+          815.0599999999977,
+          534.859999999404
+        ],
+        [
+          815.0599999999977,
+          660.1399999996647
+        ],
+        [
+          674.9000000000233,
+          660.1399999996647
+        ]
+      ],
+      "boundsEngineXZ": [
+        674.9000000000233,
+        -660.1399999996647,
+        815.0599999999977,
+        -534.859999999404
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114640_3061",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "fraction": 1.0
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    },
+    {
+      "id": "range-mats-detail",
+      "purpose": "Native pixels of shelter, open mat row and apron",
+      "png": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/range-mats-detail.png",
+      "tif": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/range-mats-detail.tif",
+      "worldfile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/range-mats-detail.pgw",
+      "projectionFile": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/range-mats-detail.prj",
+      "pngSha256": "999e1fcc47483a7f9830e56ee37f1144784db540c57cd373d384e381a533c250",
+      "tifSha256": "0f8fa339bf1ef05042bd40ce88e0101677380c4ed54aeca0f8218f1a0f0d4620",
+      "width": 389,
+      "height": 157,
+      "boundsEpsg3006": [
+        449590.4,
+        6536445.4399999995,
+        449652.64,
+        6536470.56
+      ],
+      "pixelSizeMetres": 0.16,
+      "nativePixels": true,
+      "resampling": "nearest",
+      "cornersBlenderXY": [
+        [
+          614.9000000000233,
+          420.93999999947846
+        ],
+        [
+          677.140000000014,
+          420.93999999947846
+        ],
+        [
+          677.140000000014,
+          446.0599999995902
+        ],
+        [
+          614.9000000000233,
+          446.0599999995902
+        ]
+      ],
+      "boundsEngineXZ": [
+        614.9000000000233,
+        -446.0599999995902,
+        677.140000000014,
+        -420.93999999947846
+      ],
+      "sourceCaptureDates": [
+        "2024-05-17"
+      ],
+      "contributingImages": [
+        {
+          "sourceId": "o65350_4475_25_mr24",
+          "imageId": "24k215ss15_42~2024-05-17_114640_3061",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "fraction": 1.0
+        }
+      ],
+      "captureCoverageFraction": 1.0,
+      "validFraction": 1.0
+    }
+  ],
+  "sourceMetadata": [
+    {
+      "id": "o65350_4475_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_K2/o65350_4475_25_mr24_flygbild.json",
+      "file": "ribbingsforsbuild/cache/facilities-reference-2026-09-10/ortho/o65350_4475_25_mr24-flygbild.json",
+      "sha256": "9f04ee35a746a2e7e8045eca2a8771a621b18c0ae4da5f642d3c84df7ef3d387"
+    }
+  ],
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0.",
+  "limitations": [
+    "Capture year 2024; retrieved in 2026. No newer published imagery intersects this AOI in the live catalogue.",
+    "16 cm ground sample distance is not surveyed building-position accuracy. Roof edges include overhang and relief displacement.",
+    "Orthophotos provide plan shape and surface evidence; roof height and facade detail require laser or ground photos.",
+    "Native TIFF bands are RGBI with explicit validity; PNG reference is RGB only. Raw pixels remain local reference assets."
+  ]
+}

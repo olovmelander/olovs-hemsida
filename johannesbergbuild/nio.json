@@ -10,5 +10,6 @@
   "note": "Johannesberg Golf & CC, niohalsbanan -- a full-length Donald Steel nine WEST and NORTH-WEST of the manor, the club being 27 holes in total. Environment shared verbatim with the eighteen (johannesbergbuild/course-model.json); the eighteen is carried here as scenery. Hole routing from published GPS routes that form a closed nine-hole loop; hole lengths exact from the club card; greens, fairways and tee pads synthesised and marked prov:\"synth\", except the greens and bunkers johannesbergbuild/trace-nine.mjs measured off the z18 tiles and ACCEPTED by rule (prov:\"sat\").",
   "shapes": "johannesbergbuild/nine-sat-shapes.json",
   "laserShapes": "johannesbergbuild/nine-laser-shapes.json",
-  "orthophotoReviews": ["johannesbergbuild/mapping/lm-review-nine.json"]
+  "orthophotoReviews": ["johannesbergbuild/mapping/lm-review-nine.json"],
+  "teePlacementReview": "johannesbergbuild/mapping/tee-placement-nine-review.json"
 }

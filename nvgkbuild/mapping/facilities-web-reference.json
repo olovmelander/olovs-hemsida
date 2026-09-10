@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "kind": "facility-photographic-reference-intake",
+  "reviewedOn": "2026-09-10",
+  "galleryPath": "nvgkbuild/cache/facilities-reference/reference-gallery.html",
+  "referenceCount": 9,
+  "role": "Architectural appearance evidence. Use the separate orthophoto/laser reference for placement, footprint and height.",
+  "rights": "Publicly accessible reference images; no redistribution licence was established. Downloaded photos remain in ignored cache and are not runtime textures or published assets.",
+  "references": [
+    {
+      "id": "official-clubhouse-east-20200819",
+      "title": "Main clubhouse and detached north pavilion",
+      "category": "golf-campus",
+      "provider": "Norrfällsvikens GK",
+      "mediaId": 124,
+      "dimensions": [
+        1723,
+        969
+      ],
+      "captureDate": "2020-08-19",
+      "captureDateStatus": "inferred-from-filename",
+      "dateNote": "Filename 20200819_181403; no EXIF capture timestamp in the public media record. The 2024 upload date is not the capture date.",
+      "subject": "Course-facing main clubhouse on the left; detached pavilion/annex on the right.",
+      "associatedFeatures": [
+        "clubhouse-main-roof-native",
+        "clubhouse-cross-roof-native",
+        "clubhouse-north-annex-roof"
+      ],
+      "observations": [
+        "Red timber walls, red tiled/profiled main roof and white bargeboards/fascia.",
+        "The main building has a projecting glazed cross-gable: tall rectangular glazing below the eaves and triangular glazing up to its ridge, divided by white mullions.",
+        "A narrow white-framed side window is visible left of the glazed projection. The detached pavilion has its own gable, pale closed front screens/glazing and a timber deck railing."
+      ],
+      "limitations": [
+        "Photograph is older than the June 2024 orthophoto. Hidden/rear elevations and current solar panels cannot be read here.",
+        "Pavilion use is not captioned. Pale front panels cannot reliably be distinguished as blinds, curtains or fixed infill. No dimension or colour calibration is implied."
+      ],
+      "pageUrl": "https://nvgk.se/20200819_181403/",
+      "imageUrl": "https://nvgk.se/wp-content/uploads/2024/04/20200819_181403.jpg",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/official-clubhouse-east-20200819.jpg",
+      "accessedAt": "2026-09-10T07:03:04.578Z",
+      "bytes": 681831,
+      "sha256": "64529d03294c48191a0e64003c03fae6f17245f5d7e8981e03a96a3c4ac7b3cd",
+      "contentType": "image/jpeg",
+      "httpLastModified": "Sat, 26 Apr 2025 10:46:12 GMT",
+      "metadataUrl": "https://nvgk.se/wp-json/wp/v2/media/124",
+      "uploadedAt": "2024-04-01T13:08:44",
+      "publicImageMetadata": {
+        "aperture": "0",
+        "credit": "",
+        "camera": "",
+        "caption": "",
+        "created_timestamp": "0",
+        "copyright": "",
+        "focal_length": "0",
+        "iso": "0",
+        "shutter_speed": "0",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      },
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    },
+    {
+      "id": "official-range-20250528",
+      "title": "Range building, mat strip and gravel circulation",
+      "category": "golf-campus",
+      "provider": "Norrfällsvikens GK",
+      "mediaId": 804,
+      "dimensions": [
+        2560,
+        1927
+      ],
+      "captureDate": "2025-05-28",
+      "captureDateStatus": "filename-and-public-image-metadata-agree",
+      "dateNote": "PXL filename and public WordPress image_meta.created_timestamp=1748447434 agree on the date; upload 2025-06-10. Camera timezone is not separately supplied.",
+      "subject": "Building immediately beside the driving-range hitting mats; not the main clubhouse.",
+      "associatedFeatures": [
+        "lm-range-shelter",
+        "lm-range-hardstanding"
+      ],
+      "observations": [
+        "Red vertical timber siding; a red profiled/tile-effect gable roof; white fascia, gutter, corner trim and downpipe.",
+        "A broad central opening has a rolled-up grey cover. A white-framed glazed door and separate small window stand to its right.",
+        "Individual green mats and black ball trays line a raised pale concrete strip; the circulation surface is pinkish gravel. A low bench and K BYGG sign are visible."
+      ],
+      "limitations": [
+        "People hide parts of the facade. Rear elevations, opening dimensions and interior function are not fully visible.",
+        "Do not turn the whole mat strip into a covered driving range: this photograph shows outdoor mats beside a separate building."
+      ],
+      "pageUrl": "https://nvgk.se/",
+      "imageUrl": "https://nvgk.se/storage/2025/06/PXL_20250528_135034875-3-scaled.jpg",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/official-range-20250528.jpg",
+      "accessedAt": "2026-09-10T06:58:13.788Z",
+      "bytes": 1300455,
+      "sha256": "a1067221da38ce60620a5a3d042def34cd73bc4781f1c62d1341eadfc302052f",
+      "contentType": "image/jpeg",
+      "httpLastModified": "Tue, 10 Jun 2025 16:59:54 GMT",
+      "metadataUrl": "https://nvgk.se/wp-json/wp/v2/media/804",
+      "uploadedAt": "2025-06-10T18:59:54",
+      "publicImageMetadata": {
+        "aperture": "1.68",
+        "credit": "",
+        "camera": "Pixel 9 Pro XL",
+        "caption": "",
+        "created_timestamp": "1748447434",
+        "copyright": "",
+        "focal_length": "6.9",
+        "iso": "21",
+        "shutter_speed": "0.001058",
+        "title": "",
+        "orientation": "1",
+        "keywords": []
+      },
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    },
+    {
+      "id": "official-entrance-practice-20160825",
+      "title": "Historical entrance hut and course information board",
+      "category": "golf-campus-historical",
+      "provider": "Norrfällsvikens GK",
+      "mediaId": 128,
+      "dimensions": [
+        2560,
+        1920
+      ],
+      "captureDate": "2016-08-25",
+      "captureDateStatus": "public-image-metadata",
+      "dateNote": "Public WordPress image_meta.created_timestamp=1472112368; camera Nexus 6P. Capture timezone is not separately supplied. Uploaded 2024-04-01.",
+      "subject": "Small red hut by the practice/entrance area, photographed from the clubhouse side of the road.",
+      "associatedFeatures": [],
+      "historicalSubjectId": "historical-entrance-hut-2016",
+      "observations": [
+        "Small red timber gabled hut with a white glazed door, small side window and a shallow dark roof.",
+        "Two white flagpoles, a large course map beneath a small dark protective roof, low timber roadside rail, picnic seating and rock-edged planting are visible."
+      ],
+      "limitations": [
+        "This historical entrance hut is explicitly NOT identified with lm-practice-shed, whose current orthophoto/laser roof geometry differs.",
+        "Do not add a present-day building at this position without reconciling the 2016 photograph against 2024 orthophoto and current laser evidence."
+      ],
+      "pageUrl": "https://nvgk.se/puttinggreen/",
+      "imageUrl": "https://nvgk.se/wp-content/uploads/2024/04/Puttinggreen-scaled.jpg",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/official-entrance-practice-20160825.jpg",
+      "accessedAt": "2026-09-10T07:03:04.904Z",
+      "bytes": 1025697,
+      "sha256": "9f27671523d72b1adb08f60bee57408a59f449203cfb94dfeaeecfe7a9b901b5",
+      "contentType": "image/jpeg",
+      "httpLastModified": "Sat, 26 Apr 2025 10:46:31 GMT",
+      "metadataUrl": "https://nvgk.se/wp-json/wp/v2/media/128",
+      "uploadedAt": "2024-04-01T13:09:15",
+      "publicImageMetadata": {
+        "aperture": "2",
+        "credit": "",
+        "camera": "Nexus 6P",
+        "caption": "",
+        "created_timestamp": "1472112368",
+        "copyright": "",
+        "focal_length": "4.67",
+        "iso": "60",
+        "shutter_speed": "0.00098039215686275",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      },
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    },
+    {
+      "id": "official-cafe",
+      "title": "Café 19:e hålet and golf shop interior",
+      "category": "golf-campus",
+      "provider": "Norrfällsvikens GK",
+      "mediaId": 336,
+      "dimensions": [
+        1456,
+        1456
+      ],
+      "captureDate": null,
+      "captureDateStatus": "unknown",
+      "dateNote": "Uploaded 2024-05-24; the photograph itself has no capture timestamp in the public media metadata.",
+      "subject": "Shared café/shop counter inside the golf clubhouse, published on the official café page.",
+      "associatedFeatures": [],
+      "observations": [
+        "Cream/white sloped boarded ceiling, exposed natural wood posts and suspended timber shelf, dark counter fronts, glazed food display, clothing racks and golf caps share the room."
+      ],
+      "limitations": [
+        "Supports the shared café/shop identity and interior character only; no outside elevation, exact room plan or separate restaurant building is established."
+      ],
+      "pageUrl": "https://nvgk.se/cafe/",
+      "imageUrl": "https://nvgk.se/storage/2024/05/441068694_1000755035383229_4897430598240486413_n.jpg",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/official-cafe.jpg",
+      "accessedAt": "2026-09-10T06:58:13.660Z",
+      "bytes": 604242,
+      "sha256": "4078e96ad90a325a07491c8d9a1bdaf072321df9ccf4884c425084b53e45a39a",
+      "contentType": "image/jpeg",
+      "httpLastModified": "Sat, 26 Apr 2025 10:46:36 GMT",
+      "metadataUrl": "https://nvgk.se/wp-json/wp/v2/media/336",
+      "uploadedAt": "2024-05-24T08:59:47",
+      "publicImageMetadata": {
+        "aperture": "0",
+        "credit": "",
+        "camera": "",
+        "caption": "",
+        "created_timestamp": "0",
+        "copyright": "",
+        "focal_length": "0",
+        "iso": "0",
+        "shutter_speed": "0",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      },
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    },
+    {
+      "id": "padel-court22",
+      "title": "Padel court and timber seating deck",
+      "category": "golf-campus",
+      "provider": "Court22 venue listing",
+      "dimensions": [
+        612,
+        343
+      ],
+      "captureDate": null,
+      "captureDateStatus": "unknown",
+      "dateNote": "The image URL query and HTTP modification date are delivery metadata, not evidence of when the photograph was taken.",
+      "subject": "The outdoor Norrfällsviken Padel court at Storsandsvägen 30, with campus buildings behind it.",
+      "associatedFeatures": [
+        "lm-padel-court"
+      ],
+      "observations": [
+        "Blue playing surface, black mesh/glass enclosure and tall dark light poles.",
+        "Pale timber deck outside the enclosure with a slatted privacy screen, movable tables and chairs; red gabled campus buildings appear behind the court."
+      ],
+      "limitations": [
+        "Small image; fence mesh, glare and trees obscure the buildings. Do not derive window counts, roof materials or heights from the background."
+      ],
+      "pageUrl": "https://www.court22.com/sv/venues/caf26ad1-7e4a-459c-9d10-b667cc93c4cf/norrfallsviken-padel",
+      "imageUrl": "https://court22storageprod.blob.core.windows.net/public-images/facilities/images/Logo_caf26ad1-7e4a-459c-9d10-b667cc93c4cf_cover_c514157292b34d28ba2effeacfeea22d.webp?1779797567541",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/padel-court22.webp",
+      "accessedAt": "2026-09-10T07:06:36.700Z",
+      "bytes": 62696,
+      "sha256": "5835540ee616b9b7d785c7da3c6a944ab18ab64fb5e11f23db37582d8a1d2453",
+      "contentType": "application/octet-stream",
+      "httpLastModified": "Tue, 26 May 2026 12:12:47 GMT",
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    },
+    {
+      "id": "official-camper-map",
+      "title": "Official campus and camper-pitch schematic",
+      "category": "golf-campus-map",
+      "provider": "Norrfällsvikens GK",
+      "dimensions": [
+        5327,
+        3002
+      ],
+      "captureDate": null,
+      "captureDateStatus": "not-a-photograph",
+      "dateNote": "Published under a 2025/03 storage path. It is a stylised visitor map, not an orthophoto or a measured plan.",
+      "subject": "Schematic relationship of clubhouse, padel court, range, practice area, parking and seven numbered camper pitches.",
+      "associatedFeatures": [],
+      "observations": [
+        "Labels the clubhouse separately from the range and practice buildings; distinguishes parking from camper pitches."
+      ],
+      "limitations": [
+        "No georeference or scale. Building shapes, road widths, trees and pitch positions must not replace measured orthophoto geometry."
+      ],
+      "pageUrl": "https://nvgk.se/487-2/",
+      "imageUrl": "https://nvgk.se/storage/2025/03/Norrfallsvikens_GK_stallplatskarta_1280x720.png",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/official-camper-map.png",
+      "accessedAt": "2026-09-10T06:58:13.660Z",
+      "bytes": 683322,
+      "sha256": "954be6337299c35f6d7063c06aad6a05f39e7f3429c155ea7bd26c57b62cbd8e",
+      "contentType": "image/png",
+      "httpLastModified": "Sat, 26 Apr 2025 10:46:41 GMT",
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    },
+    {
+      "id": "camping-6692275",
+      "title": "Waterfront accommodation buildings",
+      "category": "nearby-marina-context",
+      "provider": "Höga Kusten tourism / Citybreak",
+      "dimensions": [
+        1600,
+        1200
+      ],
+      "captureDate": null,
+      "captureDateStatus": "unknown",
+      "dateNote": "No photographer or capture date supplied on the tourism page.",
+      "subject": "Accommodation buildings on the camping/marina waterfront; individual unit/footprint identity unresolved.",
+      "associatedFeatures": [],
+      "observations": [
+        "Red vertical cladding, dark ribbed gable roofs, white windows, small porch canopies and a broad timber waterfront deck."
+      ],
+      "limitations": [
+        "Context only; these are not clubhouse cabins. Do not copy this elevation onto an unidentified course building."
+      ],
+      "pageUrl": "https://www.hogakusten.com/sv/norrfallsvikens-camping-stugby-marina",
+      "imageUrl": "https://www.hogakusten.com/sites/cb_hogakusten/files/styles/cbis_product_large/http/images.citybreak.com/6692275.jpeg.webp?itok=jVn2PrqQ",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/camping-6692275.webp",
+      "accessedAt": "2026-09-10T07:06:35.725Z",
+      "bytes": 127476,
+      "sha256": "e3fc31851b6de50a5d892bb1f2a67bf8fe5d94d1302dc4eee0b052d25a373175",
+      "contentType": "image/webp",
+      "httpLastModified": "Tue, 01 Oct 2024 10:32:45 GMT",
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    },
+    {
+      "id": "camping-6692281",
+      "title": "Marina restaurant and service frontage",
+      "category": "nearby-marina-context",
+      "provider": "Höga Kusten tourism / Citybreak",
+      "dimensions": [
+        1600,
+        1200
+      ],
+      "captureDate": null,
+      "captureDateStatus": "unknown",
+      "dateNote": "No capture date supplied. Association with Kompassen is plausible from the marina context, not a verified footprint match.",
+      "subject": "Red gabled restaurant/service-front complex at the marina; precise building attribution remains provisional.",
+      "associatedFeatures": [],
+      "observations": [
+        "Red timber gables, dark roofs, white trim, striped window awnings and a raised timber dining terrace beside moorings."
+      ],
+      "limitations": [
+        "A nearby waterfront establishment, not the golf café. Its current extent and exact function by wing are unverified."
+      ],
+      "pageUrl": "https://www.hogakusten.com/sv/norrfallsvikens-camping-stugby-marina",
+      "imageUrl": "https://www.hogakusten.com/sites/cb_hogakusten/files/styles/cbis_product_large/http/images.citybreak.com/6692281.jpeg.webp?itok=ao6uduoA",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/camping-6692281.webp",
+      "accessedAt": "2026-09-10T07:06:36.222Z",
+      "bytes": 274004,
+      "sha256": "569dd2c36e2d79fb8614ec6286f28bee4216a5be6951facb1cdad64de0407d6e",
+      "contentType": "image/webp",
+      "httpLastModified": "Tue, 01 Oct 2024 10:32:46 GMT",
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    },
+    {
+      "id": "camping-6692273",
+      "title": "Camping pool and waterfront background",
+      "category": "nearby-marina-context",
+      "provider": "Höga Kusten tourism / Citybreak",
+      "dimensions": [
+        1600,
+        1200
+      ],
+      "captureDate": null,
+      "captureDateStatus": "unknown",
+      "dateNote": "No capture date supplied on the tourism page.",
+      "subject": "Camping swimming pool; red waterfront building in the background is not individually identified.",
+      "associatedFeatures": [],
+      "observations": [
+        "Rounded pool edge with pale coping and metal access ladders; background red gabled building has white trim and a waterside veranda."
+      ],
+      "limitations": [
+        "Pool belongs to the nearby camping context, not the golf clubhouse. No present-day geometry or facility ownership is inferred from this historical-looking undated photo."
+      ],
+      "pageUrl": "https://www.hogakusten.com/sv/norrfallsvikens-camping-stugby-marina",
+      "imageUrl": "https://www.hogakusten.com/sites/cb_hogakusten/files/styles/cbis_product_large/http/images.citybreak.com/6692273.jpeg.webp?itok=kYd5jmfU",
+      "localPath": "nvgkbuild/cache/facilities-reference/web/camping-6692273.webp",
+      "accessedAt": "2026-09-10T07:06:35.564Z",
+      "bytes": 180032,
+      "sha256": "91419c4bf70732810e991851e97b56fd7e5386bf41383dad09a56db0693c87fb",
+      "contentType": "image/webp",
+      "httpLastModified": "Tue, 01 Oct 2024 10:32:46 GMT",
+      "inspected": true,
+      "inspection": "Downloaded image visually inspected; observations are not image-search captions."
+    }
+  ],
+  "functionEvidence": [
+    {
+      "pageUrl": "https://nvgk.se/klubbhus/",
+      "observedOn": "2026-09-10",
+      "finding": "The clubhouse contains the club office and Café/Shop 19:e hålet; the official address is Storsandsvägen 30."
+    },
+    {
+      "pageUrl": "https://nvgk.se/cafe/",
+      "observedOn": "2026-09-10",
+      "finding": "The café also operates the golf shop; this does not establish a separate restaurant building."
+    },
+    {
+      "pageUrl": "https://nvgk.se/487-2/",
+      "observedOn": "2026-09-10",
+      "finding": "The club describes seven gravel camper pitches with electricity, nearby changing rooms/toilets/showers, and drinking water/waste facilities at the clubhouse and servicehouse; exact servicehouse footprint is unlabelled."
+    },
+    {
+      "pageUrl": "https://nvgk.se/mat-boende-nara-golfbanan/",
+      "observedOn": "2026-09-10",
+      "finding": "Kompassen, Fiskarfänget and Norrfällsvikens Camping/Stugby are nearby hospitality facilities, separately listed from the golf café."
+    }
+  ],
+  "unresolved": [
+    "Detached north pavilion use and hidden/rear facade detail.",
+    "Current identification and facade of lm-practice-shed.",
+    "The footprint containing changing rooms/showers and the named servicehouse.",
+    "Photo-to-footprint assignment of individual nearby cabins and marina restaurant wings.",
+    "Dates and currentness of tourism/Court22 photographs; dates inferred from filenames are explicitly marked."
+  ],
+  "excludedReferences": [
+    "Official media item693 is a course advertisement without a facility view; item564 is a group photograph on a green.",
+    "Tourism golf images890452/890445 show golf/pond scenes without useful architecture.",
+    "Stock tennis-club/portrait/illustration assets in the WordPress media library were not treated as photographs of this course.",
+    "Search results for Veckefjärden, Norrmjöle, Måviken and private Lostigen properties were not used as clubhouse evidence."
+  ],
+  "validation": {
+    "checkedImageBytesAndSha256": true,
+    "visuallyInspectedCuratedReferences": true,
+    "noRuntimeOrGeometryEdits": true
+  }
+}

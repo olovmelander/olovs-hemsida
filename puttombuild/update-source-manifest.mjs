@@ -19,6 +19,10 @@ const files = {
   model: 'puttombuild/course-model.json',
   migrated: BASE + 'migration/course-model.epsg3006.json',
   residuals: BASE + 'migration/residual-report.json',
+  teeDiscovery: 'puttombuild/mapping/lm-tee-2022-discovery.json',
+  teePlan: 'puttombuild/mapping/lm-tee-2022-plan.json',
+  teeCacheAcquisition: 'puttombuild/cache/lm-ortho/tee-2022-acquisition.json',
+  teeAcquisition: BASE + 'acquisition/tee-2022-review.json',
 };
 const absolute = p => path.join(ROOT, p);
 const has = p => fs.existsSync(absolute(p));
@@ -77,6 +81,45 @@ for (const window of plan.windows) {
   if (has(cachedRaster)) assert(rawHash(cachedRaster) === record.sha256, `Cached orthophoto hash changed: ${window.id}`);
 }
 
+// Morning/midday images from the earlier campaign clarify shadows; retain their actual
+// capture dates and separate acquisition evidence instead of relabelling 2022.
+const sourceGroups = [{ plan, items: discovery.orthophoto.items, acquisitionFile: files.acquisition }];
+let teeIntake = null;
+if (has(files.teePlan)) {
+  const p = read(files.teePlan), d = read(files.teeDiscovery);
+  const file = has(files.teeCacheAcquisition) ? files.teeCacheAcquisition : files.teeAcquisition;
+  const a = read(file);
+  assert(p.groundId === 'puttom' && d.groundId === 'puttom' && p.collection === 'orto-u2-2022' &&
+    p.collection === d.collection && p.horizontalCrs === 'EPSG:3006' && p.resolutionMetres === .16 &&
+    p.discoverySha256 === hash(JSON.stringify(d)), 'Unbound earlier tee imagery plan');
+  assert(a.groundId === 'puttom' && a.collection === p.collection && a.state === 'acquired-for-review' &&
+    a.planSha256 === rawHash(files.teePlan) && a.access?.authorized && a.rawImageryRedistributed === false &&
+    a.geometryChanged === false && sameIds(a.windows.map(w => w.id), p.windows.map(w => w.id)) &&
+    sameIds(a.selectedWindows, p.windows.map(w => w.id)) &&
+    sameIds(a.access.assets.map(s => s.id), p.sources.map(s => s.id)) &&
+    a.access.assets.every(s => s.status === 206 && s.readable && !s.error), 'Incomplete earlier tee imagery acquisition');
+  assert(sameIds(p.windows.map(w => w.hole), Array.from({length:18}, (_, i) => i + 1)), 'Earlier tee imagery must cover all eighteen holes');
+  for (const s of p.sources) {
+    const item = d.items.find(i => i.id === s.id);
+    assert(item && item.assets.data.href === s.href && item.assets.data.bytes === s.bytes &&
+      item.capturedAt === s.capturedAt && nearArray(item.projBbox, s.boundsEpsg3006) &&
+      item.assets.data.projShape[0] === s.height && item.assets.data.projShape[1] === s.width, `Earlier source changed: ${s.id}`);
+  }
+  for (const w of p.windows) {
+    const r = a.windows.find(r => r.id === w.id);
+    assert(r && SHA256.test(r.sha256) && SHA256.test(r.requestSha256) && r.validFraction === 1 &&
+      r.width === w.width && r.height === w.height && r.rasterFile === `${w.id}.tif` &&
+      nearArray(r.boundsEpsg3006, w.boundsEpsg3006) &&
+      nearArray(r.geoTransform, [w.boundsEpsg3006[0], .16, 0, w.boundsEpsg3006[3], 0, -.16]) &&
+      sameIds(r.sources.map(s => s.id), w.sourceIds) &&
+      r.sources.every(s => s.capturedAt === p.sources.find(v => v.id === s.id)?.capturedAt), `Earlier native grid changed: ${w.id}`);
+    const raster = `puttombuild/cache/lm-ortho/${r.rasterFile}`;
+    if (has(raster)) assert(rawHash(raster) === r.sha256, `Earlier TIFF hash changed: ${w.id}`);
+  }
+  teeIntake = { plan: p, discovery: d, acquisition: a, acquisitionPath: file };
+  sourceGroups.push({ plan: p, items: d.items, acquisitionFile: files.teeAcquisition });
+}
+
 const artifact = (id, kind, file, derivedFrom, notes, use = 'discovery-evidence') => {
   if (!has(file)) return;
   const value = { id, kind, path: file, sha256: sha256File(absolute(file)), derivedFrom: [...new Set(derivedFrom)], use, notes };
@@ -93,31 +136,41 @@ const checksumReason = 'Only bounded native image windows were acquired and indi
 Object.assign(imagery, { lifecycle: 'planned', acquiredAt: null, capturedAt: capturedOn,
   localPath: null, checksum: null, checksumReason,
   notes: `Authenticated ${plan.collection} access verified ${acquiredOn}: ${plan.windows.length} RGBI windows at 0.16 m, all fully valid, cover all eighteen holes and facilities. The provider product/full-TIFF lifecycle remains planned because only bounded windows were acquired. Source imagery remains outside Git and the app; image interpretation and independent survey approval are separate.` });
-for (const source of plan.sources) {
+for (const group of sourceGroups) for (const source of group.plan.sources) {
   const id = `imagery-lm-${source.id.replaceAll('_', '-')}`;
   const existing = manifest.sources.find(s => s.id === id);
   if (existing) assert(existing.sourceUri === source.href, `Source identity changed: ${id}`);
-  const item = discovery.orthophoto.items.find(i => i.id === source.id);
+  const item = group.items.find(i => i.id === source.id);
   const value = { id, productId: 'lantmateriet-ortofoto', roles: ['imagery', 'surface'],
     lifecycle: 'planned', use: 'candidate', sourceUri: source.href, localPath: null,
     bboxWgs84: item.bboxWgs84, acquiredAt: null, capturedAt: source.capturedAt.slice(0, 10),
-    checksum: null, checksumReason, replacementSourceId: null, accuracyTier: 'B',
+    checksum: null, checksumReason: `Only bounded native windows were acquired and individually hashed; see ${group.acquisitionFile}. Complete provider TIFFs were not downloaded or hashed.`, replacementSourceId: null, accuracyTier: 'B',
     horizontalAccuracyMetres: null, verticalAccuracyMetres: null,
     notes: `${source.id}: ${source.width} by ${source.height} native EPSG:3006 RGBI pixels, ${source.bytes} provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control.` };
   if (existing) Object.assign(existing, value); else manifest.sources.push(value);
   imageSourceIds.push(id);
 }
 const imageryLineage = ['imagery-lm-ortho', ...imageSourceIds];
+const primaryLineage = ['imagery-lm-ortho', ...plan.sources.map(s => `imagery-lm-${s.id.replaceAll('_', '-')}`)];
 
 // Preserve exact evidence bytes only after all inventory, access, grid and hash
 // checks pass. Never regenerate or rewrite the plan used by this acquisition.
 if (acquisitionPath !== files.acquisition) fs.copyFileSync(absolute(acquisitionPath), absolute(files.acquisition));
-artifact('orthophoto-catalogue-verification', 'acquisition', files.discovery, imageryLineage,
+artifact('orthophoto-catalogue-verification', 'acquisition', files.discovery, primaryLineage,
   `Official STAC search observed ${discovery.observedAt.slice(0, 10)}: latest complete Puttom campaign ${plan.collection}, captured ${capturedOn}; four exact RGBI tile identities and native grids. Existing D2 discovery remains as baseline evidence.`);
-artifact('authenticated-ortho-review-plan', 'acquisition', files.plan, imageryLineage,
+artifact('authenticated-ortho-review-plan', 'acquisition', files.plan, primaryLineage,
   `The exact acquired plan bytes: ${plan.windows.length} native-grid windows, eighteen tee areas, eighteen greens and ${plan.summary.contextWindows} continuous whole-course context windows. Extents do not establish feature boundaries or survey accuracy.`);
-artifact('authenticated-ortho-acquisition', 'acquisition', files.acquisition, imageryLineage,
+artifact('authenticated-ortho-acquisition', 'acquisition', files.acquisition, primaryLineage,
   `${acquisition.windows.length}/${plan.windows.length} windows acquired with valid fraction 1, authenticated TIFF byte access, exact transforms and per-window SHA-256 hashes. Bound to plan SHA-256 ${acquisition.planSha256}. Source pixels are not committed or shipped.`);
+if (teeIntake) {
+  if (teeIntake.acquisitionPath !== files.teeAcquisition) fs.copyFileSync(absolute(teeIntake.acquisitionPath), absolute(files.teeAcquisition));
+  const lineage = teeIntake.plan.sources.map(s => `imagery-lm-${s.id.replaceAll('_', '-')}`);
+  const note = 'Morning 3 July and midday 24 June 2022 imagery corroborates tee platforms hidden by afternoon shadows in 2024. Each source retains its actual capture timestamp; continuity and numbered identity require explicit review.';
+  artifact('tee-2022-catalogue', 'acquisition', files.teeDiscovery, lineage, note);
+  artifact('tee-2022-native-plan', 'acquisition', files.teePlan, lineage, note);
+  artifact('tee-2022-acquisition', 'acquisition', files.teeAcquisition, lineage,
+    `${teeIntake.acquisition.windows.length} native windows, all fully valid, with verified TIFF bytes, grids and hashes. ${note}`);
+}
 
 const review = has(files.review) ? read(files.review) : null;
 let reviewCounts = null;
@@ -127,7 +180,7 @@ if (review) {
   for (const [key, source] of Object.entries(review.sources)) {
     const ids = source.sourceIds ?? source.sources?.map(s => s.id);
     assert(SHA256.test(source.sha256) && SHA256.test(source.requestSha256) && source.horizontalCrs === 'EPSG:3006' &&
-      ids?.length && ids.every(id => plan.sources.some(s => s.id === id)), `Unbound aggregate review image: ${key}`);
+      ids?.length && ids.every(id => sourceGroups.some(g => g.plan.sources.some(s => s.id === id))), `Unbound aggregate review image: ${key}`);
   }
   reviewCounts = { holes: review.holes?.length || 0,
     greens: (review.holes || []).filter(h => h.green).length,
@@ -138,7 +191,7 @@ if (review) {
     bunkers: (review.holes || []).reduce((n, h) => n + (Array.isArray(h.bunkers) ? h.bunkers.length : h.bunkers?.accepted?.length || 0), 0),
     water: review.water?.length || 0, paths: review.paths?.length || 0 };
   artifact('orthophoto-boundary-review-2024', 'control', files.review, [...imageryLineage, 'club-guide-legacy'],
-    `Machine visual interpretation of ${capturedOn} native image pixels: ${reviewCounts.greens} greens, ${reviewCounts.teePlatforms} tee platforms, ${reviewCounts.cameraReferences} numbered virtual tee references, ${reviewCounts.fairways} fairway polygons, ${reviewCounts.bunkers} bunkers, ${reviewCounts.water} water polygons and ${reviewCounts.paths} paths. Per-feature pixel vertices and source hashes are retained; ambiguous boundaries and independent registration remain unresolved. This is not human survey approval.`);
+    `Machine visual interpretation of native image pixels from the primary ${capturedOn} campaign and explicitly attributed older tee corroboration: ${reviewCounts.greens} greens, ${reviewCounts.teePlatforms} tee platforms, ${reviewCounts.cameraReferences} numbered virtual tee references, ${reviewCounts.fairways} fairway polygons, ${reviewCounts.bunkers} bunkers, ${reviewCounts.water} water polygons and ${reviewCounts.paths} paths. Per-feature pixel vertices, capture dates and source hashes are retained; ambiguous boundaries and independent registration remain unresolved. This is not human survey approval.`);
 }
 
 const model = read(files.model);
@@ -167,9 +220,13 @@ if (review) {
 }
 artifact('orthophoto-alignment-audit', 'control', 'puttombuild/mapping/alignment-audit.json', modelLineage,
   'Source-pixel agreement, runtime-frame residuals, geometry topology and all 72 tee reference statuses. Software validation and machine interpretation, not survey approval.');
+artifact('tee-coordinate-report', 'control', 'puttombuild/mapping/tee-coordinate-report.json', modelLineage,
+  'All 72 tee references with native image, geographic and runtime coordinates, platform containment and decorative marker placement checks. Individual uncertainty and source dates are retained.');
+artifact('tee-coordinate-inventory', 'control', 'puttombuild/mapping/tee-coordinates.csv', modelLineage,
+  'Reviewable coordinate inventory for all 72 numbered virtual tee starts, including source dates and placement status; not a current survey of daily movable markers.');
 artifact('orthophoto-open-water-candidate', 'surface', 'puttombuild/mapping/review-water.json', imageryLineage,
   'Unadopted spectral open-water candidate excluding reeds and occluded banks. The runtime hydrological outline and water levels retain their previous source; this candidate does not replace them.');
 fs.writeFileSync(absolute(files.manifest), JSON.stringify(manifest, null, 2) + '\n');
 console.log(JSON.stringify({ groundId: 'puttom', sources: manifest.sources.length, artifacts: manifest.artifacts.length,
-  acquiredWindows: acquisition.windows.length, reviewed: reviewCounts, migrationCurrent,
+  acquiredWindows: acquisition.windows.length, teeCorroborationWindows: teeIntake?.acquisition.windows.length ?? 0, reviewed: reviewCounts, migrationCurrent,
   openGates: manifest.blockers.length, canonicalOriginStatus: manifest.canonicalFrame.originStatus }));

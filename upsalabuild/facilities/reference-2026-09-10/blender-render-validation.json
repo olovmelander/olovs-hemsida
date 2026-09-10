@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "method": "Independent background Blender opened the saved scene, verified geometry/packed images/source metadata, then rendered the map.",
+  "blenderVersion": "4.5.9 LTS",
+  "scene": "Upsala GK | Facility references 2026-09-10",
+  "footprints": 19,
+  "maximumStoredVertexErrorMetres": 8.3587481467898e-06,
+  "packedReferenceImages": 18,
+  "laserReferencePoints": 99607,
+  "allBuildingReferencesInsideCamera": true,
+  "blendPath": "upsalabuild/cache/facilities-2026-09-10/upsala-facility-references.blend",
+  "blendSha256": "04300c9dc3e938f1242eb2acff3585d2632200cfc97f7ed0ace9017d02cdbf1a",
+  "opensWithReferenceSceneActive": true,
+  "previewPath": "upsalabuild/cache/facilities-2026-09-10/blender-map-preview.png",
+  "previewSha256": "1e053db80c6ef55894f30097e2f4a48b3a8cb1891df4ad97660a950c7a1ea0f6",
+  "referenceOnly": true,
+  "finishedArchitecture": false
+}

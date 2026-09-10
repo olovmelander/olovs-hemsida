@@ -10,7 +10,7 @@ export function runtimeScenery(model) {
   const { sourceFeatures, retiredSourceFeatures, ...rendered } = scenery;
   if (scenery.mappedFeatures) rendered.mappedFeatures = scenery.mappedFeatures.map(feature =>
     Object.fromEntries(['id', 'kind', 'rings', 'material', 'parentFacilityId',
-      'prov', 'sourceId', 'sourceSha256', 'observedYear', 'notSurveyed']
+      'prov', 'sourceId', 'sourceSha256', 'observedYear', 'notSurveyed', 'hole', 'sourceEpoch', 'sourceReview']
       .filter(key => feature[key] !== undefined).map(key => [key, feature[key]])));
   return rendered;
 }

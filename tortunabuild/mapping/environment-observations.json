@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "observedOn": "2026-09-09",
+  "sourceId": "imagery-lm-ortho",
+  "sourceReceipt": "geo_data/course-v2/tortuna/acquisition/orthophoto-review.json",
+  "reviewStatus": "two-agent visual review; human survey/accuracy review pending",
+  "independentReview": {
+    "reviewedOn": "2026-09-09",
+    "reviewer": "tortuna_sources",
+    "method": "Compared every projected pixel trace with the unchanged retained source-grid overlays.",
+    "frontPaths": "Four visible segments align with observed routes at their stated uncertainty; no joins added through tree cover.",
+    "backPaths": "Both western branches retraced along visible pale cart paths. Shared road-access stem is recorded once; rough-area extensions removed.",
+    "omitted": [{"featureId": "tortuna-harvested-ground-east", "reason": "Old polygon covered standing/thinned woodland. Clear slash ground farther southeast has an irregular canopy-interrupted boundary; no replacement emitted in this bounded review."}],
+    "limitations": ["Source samples and interpreted full widths do not constitute field surveying.", "Ground disturbance farther southeast remains an unmapped source observation; remaining measured canopy is unchanged."]
+  },
+  "coordinateMeaning": "pixel-edge coordinates on the declared review grids",
+  "grids": {
+    "front-nine-paths": {"boundsEpsg3006": [597100, 6613850, 597800, 6614900], "width": 1050, "height": 1575, "sourceWindows": ["north", "south"]},
+    "back-nine-paths": {"boundsEpsg3006": [597050, 6615350, 597800, 6615950], "width": 1200, "height": 960, "sourceWindows": ["north"]},
+    "south-overview": {"boundsEpsg3006": [596880, 6613600, 598160, 6614880], "width": 1600, "height": 1600, "sourceWindows": ["south"]}
+  },
+  "features": [
+    {"id": "tortuna-path-front-north", "grid": "front-nine-paths", "kind": "path", "geometryType": "LineString", "surface": "compacted", "widthMetres": 2.4, "horizontalUncertaintyMetres": 2, "pixels": [[781,14],[799,64],[812,105],[812,156],[800,183],[782,199],[742,216],[704,239],[677,266],[657,288],[642,322],[629,351],[616,386],[606,421],[596,457],[582,493],[570,527]], "note": "Visible pale route through the front-nine corridor. Stops where canopy obscures the continuation; surface and full width are image interpretations."},
+    {"id": "tortuna-path-front-central-visible", "grid": "front-nine-paths", "kind": "path", "geometryType": "LineString", "surface": "compacted", "widthMetres": 2.0, "horizontalUncertaintyMetres": 2.5, "pixels": [[553,611],[547,643],[543,670],[548,704],[553,737],[552,767],[551,790]], "note": "Separately visible segment; no line joins across the intervening tree shadow."},
+    {"id": "tortuna-path-front-east", "grid": "front-nine-paths", "kind": "path", "geometryType": "LineString", "surface": "compacted", "widthMetres": 2.4, "horizontalUncertaintyMetres": 2, "pixels": [[746,498],[747,542],[748,590],[750,633],[751,680],[755,719],[760,754],[757,792],[751,827],[747,857],[740,890],[724,916]], "note": "Visible path alongside the eastern tree belt and green complexes; no invented joins under crowns."},
+    {"id": "tortuna-path-front-south-visible", "grid": "front-nine-paths", "kind": "path", "geometryType": "LineString", "surface": "ground", "widthMetres": 1.8, "horizontalUncertaintyMetres": 2.5, "pixels": [[247,1372],[242,1349],[246,1323],[256,1297],[273,1273],[286,1254],[303,1231]], "note": "Visible southern path segment beside woodland; width/material remain rendering interpretations."},
+    {"id": "tortuna-path-back-west-loop", "grid": "back-nine-paths", "kind": "path", "geometryType": "LineString", "surface": "compacted", "widthMetres": 2.8, "horizontalUncertaintyMetres": 2, "pixels": [[334,785],[351,770],[371,750],[387,727],[372,720],[357,706],[345,688],[333,668],[324,649],[320,636],[318,625]], "note": "Visible road-access stem and curving western cart-path branch, independently retraced on source pixels. Stops at the visible northern terminus; former road-shoulder rough extension removed."},
+    {"id": "tortuna-path-back-west-inner", "grid": "back-nine-paths", "kind": "path", "geometryType": "LineString", "surface": "compacted", "widthMetres": 2.8, "horizontalUncertaintyMetres": 2, "pixels": [[387,727],[408,716],[429,704],[448,689],[463,674],[477,658],[488,644],[497,630],[502,619]], "note": "Observed northeastern branch follows the pale path along the disturbed-ground edge. Starts at the visible fork; shared road-access stem is recorded only in the western branch. Former diagonal through rough removed."}
+  ]
+}

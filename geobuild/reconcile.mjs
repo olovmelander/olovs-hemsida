@@ -132,17 +132,11 @@ function rawLine(n) {
   return { line: [tee, grn], src: 'gps-straight' };
 }
 
-/* The card length is the distance from the back tee to the green along the playing
-   line, so the length is a statement about where the back tee is. Every drawn line
-   comes out a few percent short of its card, and systematically so, because the
-   survey's back-tee point is one point on a tee complex that can be thirty metres
-   deep and because several holes have a championship tee behind the one the survey
-   recorded. The green and the dogleg are the surveyed geometry and are left alone;
-   the tee end slides back along its own axis until the polyline measures what the
-   club prints. That is where a back tee is by definition.
-
-   The slide is then checked against the mapped tee pads: if OSM has a pad sitting
-   where this says the back tee should be, two independent records agree. */
+/* Historical baseline heuristic: put a virtual start on the route at the card
+   distance. A distance alone cannot locate a physical tee; this can place the
+   reference in rough, trees or water. Keep this deterministic baseline for the
+   pinned review ledger, whose explicit platform associations override it after
+   fusion. Official card values remain separate from reviewed routing lengths. */
 function fitLength(line, target) {
   const L = line.map(p => p.slice());
   const rest = polyLen(L.slice(1));
@@ -218,13 +212,11 @@ function greenFor(n) {
 }
 
 /* --- tees --------------------------------------------------------------------- */
-/* Two different things share the name. The PADS are the mown decks you stand on, and
-   OSM has 53 of them drawn as they really are; they get rendered as they are drawn.
-   The MARKS are the six card distances, which are measurements rather than places:
-   each is the point on the playing line that far from the green, and that is where a
-   set of tee markers goes. Where a hole has no mapped pad near a mark -- the six holes
-   OSM never mapped -- a pad is built around the mark, because the card length is
-   measured from a tee that must therefore exist there. */
+/* Baseline pads combine historical OSM/terrain outlines with synthetic rectangles.
+   Baseline marks are virtual positions inferred from card distances, not observed
+   marker coordinates. The final orthophoto review replaces inventories and moves
+   only explicitly associated references onto source-backed decks. It suppresses
+   runtime rectangle inference even where a reference remains unresolved. */
 function teesFor(n, line) {
   const pads = (tee.out[n] || []).map(t => ({ ring: t.ring, c: (t.c || centroid(t.ring)).map(r1), prov: 'osm', id: t.id }));
   /* the flat decks the laser terrain shows under card marks OSM never mapped: a

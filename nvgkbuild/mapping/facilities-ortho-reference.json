@@ -1,0 +1,4868 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "kind": "facility-modelling-orthophoto-reference",
+  "reviewedOn": "2026-09-10",
+  "source": {
+    "window": {
+      "id": "facilities-range",
+      "rasterFile": "facilities-range.tif",
+      "rgbFile": "facilities-range.png",
+      "sha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+      "rgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "requestSha256": "6e83badbc12c391fe27c06fe713fb892a75614aa75b96f23d318add0985820f2",
+      "bytes": 12234409,
+      "boundsEpsg3006": [
+        678519.36,
+        6988208.319999999,
+        678929.6,
+        6988451.68
+      ],
+      "geoTransform": [
+        678519.36,
+        0.16,
+        0.0,
+        6988451.68,
+        0.0,
+        -0.16
+      ],
+      "width": 2564,
+      "height": 1521,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:56:57.921924+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    "rasterPath": "nvgkbuild/cache/lm-ortho/facilities-range.tif",
+    "rgbPath": "nvgkbuild/cache/lm-ortho/facilities-range.png",
+    "captureEvidence": {
+      "id": "facilities-range",
+      "boundsEpsg3006": [
+        678519.36,
+        6988208.32,
+        678929.6,
+        6988451.68
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 35607.6451,
+          "windowFraction": 0.35666135
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 64228.3613,
+          "windowFraction": 0.64333865
+        }
+      ]
+    },
+    "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0"
+  },
+  "coordinateFrame": {
+    "horizontalCrs": "EPSG:3006",
+    "origin": {
+      "lat": 62.9825,
+      "lon": 18.5325
+    },
+    "mPerLon": 50568.51,
+    "mPerLat": 111320,
+    "localXZ": "After EPSG:3006 -> EPSG:4326: x=(lon-origin.lon)*mPerLon; z=(origin.lat-lat)*mPerLat. East +x; north -z.",
+    "blender": "For local Three.js x,y,z use Blender x,-z,y. Reference-plane horizontal coordinates are x,-z. Heights are not included in this orthophoto evidence.",
+    "pixelEdges": "E=geoTransform[0]+column*geoTransform[1]; N=geoTransform[3]+row*geoTransform[5]. Add 0.5 for pixel centres.",
+    "gridBearing": "Undirected EPSG:3006 grid bearing, clockwise from grid north, modulo 180. Do not substitute directly for a true-north runtime yaw."
+  },
+  "limitations": [
+    "Native ground sample distance is 0.16 m; visual envelope tracing is approximately 0.4–0.8 m, not a survey accuracy statement.",
+    "Roofs may lean relative to ground/walls in an orthophoto. No wall footprint is corrected from roof pixels.",
+    "Orthophoto cannot measure eave/ridge heights or identify windows/doors and hidden facades.",
+    "The image captures June 2024; future planned buildings are separate from the as-photographed facility inventory.",
+    "Building names other than the mapped clubhouse are provisional until confirmed from club sources."
+  ],
+  "additionalSources": [
+    {
+      "window": {
+        "id": "southern-maintenance-context",
+        "rasterFile": "southern-maintenance-context.tif",
+        "rgbFile": "southern-maintenance-context.png",
+        "sha256": "23d2b5286d7f7530116695e1a5a0c76b79bf8440972beaa750ed6a39149bd087",
+        "rgbSha256": "fbd05fea83d5bad3e7345b149833b5d9d79e82e61cc0541be78133a1d4d71dc1",
+        "requestSha256": "3442b84bef0c2d8b183d6b9ba3799447cead4f8413f5a435a7632dc85c319730",
+        "bytes": 1544805,
+        "boundsEpsg3006": [
+          678640.0,
+          6988140.0,
+          678750.08,
+          6988250.08
+        ],
+        "geoTransform": [
+          678640.0,
+          0.16,
+          0.0,
+          6988250.08,
+          0.0,
+          -0.16
+        ],
+        "width": 688,
+        "height": 688,
+        "resolutionMetres": 0.16,
+        "resampling": "nearest",
+        "validFraction": 1.0,
+        "bands": [
+          "red",
+          "green",
+          "blue",
+          "near infrared"
+        ],
+        "mask": "explicit dataset validity; NIR is not alpha",
+        "acquiredAt": "2026-09-10T07:05:46.125507+00:00",
+        "sources": [
+          {
+            "id": "o69875_6775_25_mr24",
+            "capturedAt": "2024-06-27T13:42:21Z",
+            "captureStart": "2024-06-27T13:42:14Z",
+            "captureEnd": "2024-06-27T14:03:03Z"
+          }
+        ]
+      },
+      "rasterPath": "nvgkbuild/cache/facilities-reference/ortho-extra/southern-maintenance-context.tif",
+      "rgbPath": "nvgkbuild/cache/facilities-reference/ortho-extra/southern-maintenance-context.png",
+      "role": "surrounding-context-use-and-ownership-unconfirmed",
+      "notes": "Pale rectangular construction/roof surfaces among detached residential-looking buildings. The initial acquisition filename is a search label, not an identified maintenance building.",
+      "captureEvidence": {
+        "coverageFraction": 1.0,
+        "contributingImages": [
+          {
+            "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+            "capturedAt": "2024-06-27T13:42:14Z",
+            "windowFraction": 1.0
+          }
+        ]
+      }
+    }
+  ],
+  "panels": [
+    {
+      "id": "campus-overview",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/campus-overview.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sourceCropPixelEdges": [
+        0,
+        0,
+        2564,
+        1521
+      ],
+      "displayWidth": 2564,
+      "displayHeight": 1521,
+      "displayScale": 1,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678519.36,
+        0.16,
+        0,
+        6988451.68,
+        0,
+        -0.16
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678519.36,
+          6988451.68
+        ],
+        [
+          678929.6,
+          6988451.68
+        ],
+        [
+          678929.6,
+          6988208.319999999
+        ],
+        [
+          678519.36,
+          6988208.319999999
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -455.1281,
+          79.9468
+        ],
+        [
+          -46.6009,
+          102.4138
+        ],
+        [
+          -59.9238,
+          345.1006
+        ],
+        [
+          -468.4206,
+          322.6357
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -455.1281,
+          -79.9468
+        ],
+        [
+          -46.6009,
+          -102.4138
+        ],
+        [
+          -59.9238,
+          -345.1006
+        ],
+        [
+          -468.4206,
+          -322.6357
+        ]
+      ],
+      "widthMetres": 410.24,
+      "heightMetres": 243.36
+    },
+    {
+      "id": "clubhouse-campus",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/clubhouse-campus.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "66e39b3a3c50c227f3683d6d7c17ec7bb1002846869064488c18a754bcd96e4d",
+      "sourceCropPixelEdges": [
+        100,
+        100,
+        550,
+        440
+      ],
+      "displayWidth": 900,
+      "displayHeight": 680,
+      "displayScale": 2,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678535.36,
+        0.08,
+        0,
+        6988435.68,
+        0,
+        -0.08
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678535.36,
+          6988435.68
+        ],
+        [
+          678607.36,
+          6988435.68
+        ],
+        [
+          678607.36,
+          6988381.279999999
+        ],
+        [
+          678535.36,
+          6988381.279999999
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -440.0688,
+          96.7779
+        ],
+        [
+          -368.3694,
+          100.7177
+        ],
+        [
+          -371.3424,
+          154.9675
+        ],
+        [
+          -443.0406,
+          151.0279
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -440.0688,
+          -96.7779
+        ],
+        [
+          -368.3694,
+          -100.7177
+        ],
+        [
+          -371.3424,
+          -154.9675
+        ],
+        [
+          -443.0406,
+          -151.0279
+        ]
+      ],
+      "widthMetres": 72.0,
+      "heightMetres": 54.4
+    },
+    {
+      "id": "clubhouse-detail",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/clubhouse-detail.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "87b39cc8a13d0c34362cdc6764bcfec7f3aca24899d159566baab7aba5a91f36",
+      "sourceCropPixelEdges": [
+        290,
+        215,
+        470,
+        385
+      ],
+      "displayWidth": 720,
+      "displayHeight": 680,
+      "displayScale": 4,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678565.76,
+        0.04,
+        0,
+        6988417.279999999,
+        0,
+        -0.04
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678565.76,
+          6988417.279999999
+        ],
+        [
+          678594.56,
+          6988417.279999999
+        ],
+        [
+          678594.56,
+          6988390.079999999
+        ],
+        [
+          678565.76,
+          6988390.079999999
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -410.8011,
+          116.7904
+        ],
+        [
+          -382.1214,
+          118.3664
+        ],
+        [
+          -383.6078,
+          145.4913
+        ],
+        [
+          -412.2872,
+          143.9154
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -410.8011,
+          -116.7904
+        ],
+        [
+          -382.1214,
+          -118.3664
+        ],
+        [
+          -383.6078,
+          -145.4913
+        ],
+        [
+          -412.2872,
+          -143.9154
+        ]
+      ],
+      "widthMetres": 28.8,
+      "heightMetres": 27.2
+    },
+    {
+      "id": "north-annex-detail",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/north-annex-detail.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "ab5cd8c4ba415c3486d1cd96ab4a8b0553af419aacb14990aad349d95be054fb",
+      "sourceCropPixelEdges": [
+        275,
+        140,
+        410,
+        265
+      ],
+      "displayWidth": 540,
+      "displayHeight": 500,
+      "displayScale": 4,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678563.36,
+        0.04,
+        0,
+        6988429.279999999,
+        0,
+        -0.04
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678563.36,
+          6988429.279999999
+        ],
+        [
+          678584.96,
+          6988429.279999999
+        ],
+        [
+          678584.96,
+          6988409.279999999
+        ],
+        [
+          678563.36,
+          6988409.279999999
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -412.5354,
+          104.6922
+        ],
+        [
+          -391.0256,
+          105.8741
+        ],
+        [
+          -392.1185,
+          125.819
+        ],
+        [
+          -413.6281,
+          124.637
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -412.5354,
+          -104.6922
+        ],
+        [
+          -391.0256,
+          -105.8741
+        ],
+        [
+          -392.1185,
+          -125.819
+        ],
+        [
+          -413.6281,
+          -124.637
+        ]
+      ],
+      "widthMetres": 21.6,
+      "heightMetres": 20.0
+    },
+    {
+      "id": "practice-shed-detail",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/practice-shed-detail.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "7bb8604602feb1be1568144309660adc59aeab384d3d526c0f40a9cbe5992b9f",
+      "sourceCropPixelEdges": [
+        680,
+        550,
+        800,
+        670
+      ],
+      "displayWidth": 480,
+      "displayHeight": 480,
+      "displayScale": 4,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678628.16,
+        0.04,
+        0,
+        6988363.68,
+        0,
+        -0.04
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678628.16,
+          6988363.68
+        ],
+        [
+          678647.36,
+          6988363.68
+        ],
+        [
+          678647.36,
+          6988344.4799999995
+        ],
+        [
+          678628.16,
+          6988344.4799999995
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -351.5915,
+          173.6574
+        ],
+        [
+          -332.4721,
+          174.7083
+        ],
+        [
+          -333.5216,
+          193.8553
+        ],
+        [
+          -352.6409,
+          192.8044
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -351.5915,
+          -173.6574
+        ],
+        [
+          -332.4721,
+          -174.7083
+        ],
+        [
+          -333.5216,
+          -193.8553
+        ],
+        [
+          -352.6409,
+          -192.8044
+        ]
+      ],
+      "widthMetres": 19.2,
+      "heightMetres": 19.2
+    },
+    {
+      "id": "range-shelter-detail",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/range-shelter-detail.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "0fbd3e1bdc80150a3a2ba6a25063d394cf6b2723131c187f5325404a293fda44",
+      "sourceCropPixelEdges": [
+        550,
+        890,
+        720,
+        1040
+      ],
+      "displayWidth": 680,
+      "displayHeight": 600,
+      "displayScale": 4,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678607.36,
+        0.04,
+        0,
+        6988309.279999999,
+        0,
+        -0.04
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678607.36,
+          6988309.279999999
+        ],
+        [
+          678634.5599999999,
+          6988309.279999999
+        ],
+        [
+          678634.5599999999,
+          6988285.279999999
+        ],
+        [
+          678607.36,
+          6988285.279999999
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -375.2771,
+          226.7689
+        ],
+        [
+          -348.1917,
+          228.2575
+        ],
+        [
+          -349.5034,
+          252.1913
+        ],
+        [
+          -376.5886,
+          250.7026
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -375.2771,
+          -226.7689
+        ],
+        [
+          -348.1917,
+          -228.2575
+        ],
+        [
+          -349.5034,
+          -252.1913
+        ],
+        [
+          -376.5886,
+          -250.7026
+        ]
+      ],
+      "widthMetres": 27.2,
+      "heightMetres": 24.0
+    },
+    {
+      "id": "range-pads",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/range-pads.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "ff9175d16e4106c51c64993fdf1f4dea5467b2b0701ac93e73954d742c730d2c",
+      "sourceCropPixelEdges": [
+        585,
+        750,
+        735,
+        1025
+      ],
+      "displayWidth": 450,
+      "displayHeight": 825,
+      "displayScale": 3,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678612.96,
+        0.05333333333333334,
+        0,
+        6988331.68,
+        0,
+        -0.05333333333333334
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678612.96,
+          6988331.68
+        ],
+        [
+          678636.96,
+          6988331.68
+        ],
+        [
+          678636.96,
+          6988287.68
+        ],
+        [
+          678612.96,
+          6988287.68
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -368.4765,
+          204.7371
+        ],
+        [
+          -344.5775,
+          206.0507
+        ],
+        [
+          -346.9824,
+          249.9293
+        ],
+        [
+          -370.8811,
+          248.6157
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -368.4765,
+          -204.7371
+        ],
+        [
+          -344.5775,
+          -206.0507
+        ],
+        [
+          -346.9824,
+          -249.9293
+        ],
+        [
+          -370.8811,
+          -248.6157
+        ]
+      ],
+      "widthMetres": 24.0,
+      "heightMetres": 44.0
+    },
+    {
+      "id": "padel-court",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/padel-court.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "ad139a635f528a00bc08c5eaae6c6d95980c4efea68a7efe9c8faf615d15b99c",
+      "sourceCropPixelEdges": [
+        120,
+        175,
+        225,
+        340
+      ],
+      "displayWidth": 420,
+      "displayHeight": 660,
+      "displayScale": 4,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678538.5599999999,
+        0.04,
+        0,
+        6988423.68,
+        0,
+        -0.04
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678538.5599999999,
+          6988423.68
+        ],
+        [
+          678555.36,
+          6988423.68
+        ],
+        [
+          678555.36,
+          6988397.279999999
+        ],
+        [
+          678538.5599999999,
+          6988397.279999999
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -437.5377,
+          108.9199
+        ],
+        [
+          -420.8079,
+          109.839
+        ],
+        [
+          -422.2503,
+          136.1662
+        ],
+        [
+          -438.98,
+          135.2471
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -437.5377,
+          -108.9199
+        ],
+        [
+          -420.8079,
+          -109.839
+        ],
+        [
+          -422.2503,
+          -136.1662
+        ],
+        [
+          -438.98,
+          -135.2471
+        ]
+      ],
+      "widthMetres": 16.8,
+      "heightMetres": 26.400000000000002
+    },
+    {
+      "id": "parking-and-range-entrance",
+      "path": "nvgkbuild/cache/facilities-reference/ortho/parking-and-range-entrance.png",
+      "sourceWindow": "facilities-range",
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sha256": "5d2cf85446b33b71e810e7f2a480303d56d3b2e4995b7e7c76b29c3fef8d6399",
+      "sourceCropPixelEdges": [
+        220,
+        460,
+        760,
+        1050
+      ],
+      "displayWidth": 1080,
+      "displayHeight": 1180,
+      "displayScale": 2,
+      "resampling": "nearest; enlargement creates no new source resolution",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678554.5599999999,
+        0.08,
+        0,
+        6988378.08,
+        0,
+        -0.08
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678554.5599999999,
+          6988378.08
+        ],
+        [
+          678640.96,
+          6988378.08
+        ],
+        [
+          678640.96,
+          6988283.68
+        ],
+        [
+          678554.5599999999,
+          6988283.68
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -424.0959,
+          155.2695
+        ],
+        [
+          -338.0582,
+          159.9977
+        ],
+        [
+          -343.2179,
+          254.1372
+        ],
+        [
+          -429.2531,
+          249.4091
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -424.0959,
+          -155.2695
+        ],
+        [
+          -338.0582,
+          -159.9977
+        ],
+        [
+          -343.2179,
+          -254.1372
+        ],
+        [
+          -429.2531,
+          -249.4091
+        ]
+      ],
+      "widthMetres": 86.4,
+      "heightMetres": 94.4
+    },
+    {
+      "id": "southern-construction-context",
+      "path": "nvgkbuild/cache/facilities-reference/ortho-extra/southern-maintenance-context.png",
+      "sourceWindow": "southern-maintenance-context",
+      "sourceRgbSha256": "fbd05fea83d5bad3e7345b149833b5d9d79e82e61cc0541be78133a1d4d71dc1",
+      "sha256": "fbd05fea83d5bad3e7345b149833b5d9d79e82e61cc0541be78133a1d4d71dc1",
+      "sourceCropPixelEdges": [
+        0,
+        0,
+        688,
+        688
+      ],
+      "displayWidth": 688,
+      "displayHeight": 688,
+      "displayScale": 1,
+      "resampling": "native nearest",
+      "horizontalCrs": "EPSG:3006",
+      "geoTransform": [
+        678640.0,
+        0.16,
+        0.0,
+        6988250.08,
+        0.0,
+        -0.16
+      ],
+      "sourceResolutionMetres": 0.16,
+      "cornerOrder": [
+        "top-left",
+        "top-right",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "cornersEpsg3006": [
+        [
+          678640.0,
+          6988250.08
+        ],
+        [
+          678750.08,
+          6988250.08
+        ],
+        [
+          678750.08,
+          6988140.0
+        ],
+        [
+          678640.0,
+          6988140.0
+        ]
+      ],
+      "cornersLocalXZ": [
+        [
+          -346.0103,
+          287.5919
+        ],
+        [
+          -236.3965,
+          293.619
+        ],
+        [
+          -242.4163,
+          403.395
+        ],
+        [
+          -352.0264,
+          397.3681
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -346.0103,
+          -287.5919
+        ],
+        [
+          -236.3965,
+          -293.619
+        ],
+        [
+          -242.4163,
+          -403.395
+        ],
+        [
+          -352.0264,
+          -397.3681
+        ]
+      ],
+      "widthMetres": 110.08,
+      "heightMetres": 110.08,
+      "role": "context-only; no confirmed golf-facility identity"
+    }
+  ],
+  "features": [
+    {
+      "id": "clubhouse-main-roof-native",
+      "label": "Clubhouse main roof",
+      "kind": "roof-envelope",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          324,
+          276
+        ],
+        [
+          386,
+          236
+        ],
+        [
+          438,
+          318
+        ],
+        [
+          373,
+          356
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678571.2,
+          6988407.52
+        ],
+        [
+          678581.12,
+          6988413.92
+        ],
+        [
+          678589.44,
+          6988400.8
+        ],
+        [
+          678579.04,
+          6988394.72
+        ]
+      ],
+      "review": "native-pixel-review-2026-09-10",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Two roof planes, red roof and two dark solar arrays on the southwest-facing plane. Native envelope refines the earlier half-size trace; roof lean and eaves must not be used to shift the OSM wall footprint. Ridge endpoints are approximate visible-plan interpretation.",
+      "ridgePixels": [
+        [
+          355,
+          257
+        ],
+        [
+          408,
+          337
+        ]
+      ],
+      "centreEpsg3006": [
+        678580.2425,
+        6988404.2363
+      ],
+      "ringLocalXZ": [
+        [
+          -405.9171,
+          126.8212
+        ],
+        [
+          -395.6889,
+          120.9816
+        ],
+        [
+          -388.1206,
+          134.5207
+        ],
+        [
+          -398.8093,
+          140.0148
+        ]
+      ],
+      "centreLocalXZ": [
+        -397.0918,
+        130.5906
+      ],
+      "areaSquareMetres": 182.09,
+      "minimumRectangleMetres": [
+        15.54,
+        12.04
+      ],
+      "longAxisGridBearingDegrees": 147.62,
+      "ridgeEpsg3006": [
+        [
+          678576.16,
+          6988410.56
+        ],
+        [
+          678584.64,
+          6988397.76
+        ]
+      ],
+      "ridgeLocalXZ": [
+        [
+          -400.8117,
+          124.0609
+        ],
+        [
+          -393.0666,
+          137.2897
+        ]
+      ],
+      "ridgeGridBearingDegrees": 146.48
+    },
+    {
+      "id": "clubhouse-cross-roof-native",
+      "label": "Clubhouse cross roof",
+      "kind": "roof-envelope",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          382,
+          258
+        ],
+        [
+          420,
+          237
+        ],
+        [
+          452,
+          288
+        ],
+        [
+          415,
+          311
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678580.48,
+          6988410.4
+        ],
+        [
+          678586.56,
+          6988413.76
+        ],
+        [
+          678591.68,
+          6988405.6
+        ],
+        [
+          678585.76,
+          6988401.92
+        ]
+      ],
+      "review": "native-pixel-review-2026-09-10",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Gable projecting northeast/east from the main roof; overlapping roof edges at the intersection are partly hidden. Perpendicular ridge interpretation must be checked against oblique photographs.",
+      "ridgePixels": [
+        [
+          399,
+          286
+        ],
+        [
+          436,
+          263
+        ]
+      ],
+      "centreEpsg3006": [
+        678586.1039,
+        6988407.9059
+      ],
+      "ringLocalXZ": [
+        [
+          -396.5185,
+          124.4569
+        ],
+        [
+          -390.2803,
+          121.4389
+        ],
+        [
+          -385.6277,
+          129.8565
+        ],
+        [
+          -391.724,
+          133.2024
+        ]
+      ],
+      "centreLocalXZ": [
+        -391.0544,
+        127.2518
+      ],
+      "areaSquareMetres": 68.22,
+      "minimumRectangleMetres": [
+        9.99,
+        6.97
+      ],
+      "longAxisGridBearingDegrees": 148.09,
+      "ridgeEpsg3006": [
+        [
+          678583.2,
+          6988405.92
+        ],
+        [
+          678589.12,
+          6988409.6
+        ]
+      ],
+      "ridgeLocalXZ": [
+        [
+          -394.0547,
+          129.0734
+        ],
+        [
+          -387.9584,
+          125.7275
+        ]
+      ],
+      "ridgeGridBearingDegrees": 58.13
+    },
+    {
+      "id": "clubhouse-north-annex-roof",
+      "label": "Detached building north of clubhouse",
+      "kind": "roof-envelope",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          303,
+          202
+        ],
+        [
+          365,
+          164
+        ],
+        [
+          390,
+          207
+        ],
+        [
+          328,
+          245
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678567.84,
+          6988419.36
+        ],
+        [
+          678577.76,
+          6988425.44
+        ],
+        [
+          678581.76,
+          6988418.56
+        ],
+        [
+          678571.84,
+          6988412.48
+        ]
+      ],
+      "review": "native-pixel-review-2026-09-10",
+      "confidence": "roof-envelope-visible-roof-form-uncertain",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Detached roof, absent from the previous model. Red western portion and dark eastern portion/projection are visible. Roof-plane division, building use, wall line and dark eastern projection require oblique-photo/LiDAR confirmation; do not invent a full symmetric roof from this envelope.",
+      "centreEpsg3006": [
+        678574.8,
+        6988418.96
+      ],
+      "ringLocalXZ": [
+        [
+          -408.6161,
+          114.83
+        ],
+        [
+          -398.4053,
+          109.3095
+        ],
+        [
+          -394.798,
+          116.3894
+        ],
+        [
+          -405.0087,
+          121.9099
+        ]
+      ],
+      "centreLocalXZ": [
+        -401.707,
+        115.6097
+      ],
+      "areaSquareMetres": 92.57,
+      "minimumRectangleMetres": [
+        11.82,
+        7.96
+      ],
+      "longAxisGridBearingDegrees": 58.5
+    },
+    {
+      "id": "clubhouse-main-solar-north-native",
+      "label": "Northern clubhouse solar array",
+      "kind": "roof-solar",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          330,
+          274
+        ],
+        [
+          354,
+          260
+        ],
+        [
+          369,
+          282
+        ],
+        [
+          344,
+          298
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678572.16,
+          6988407.84
+        ],
+        [
+          678576.0,
+          6988410.08
+        ],
+        [
+          678578.4,
+          6988406.56
+        ],
+        [
+          678574.4,
+          6988404.0
+        ]
+      ],
+      "review": "native-pixel-review-2026-09-10",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Dark panel group visibly resolved; perimeter is a manual approximation, not a panel count or electrical specification.",
+      "centreEpsg3006": [
+        678575.2387,
+        6988407.0909
+      ],
+      "ringLocalXZ": [
+        [
+          -404.9436,
+          126.5546
+        ],
+        [
+          -400.9973,
+          124.5309
+        ],
+        [
+          -398.7996,
+          128.1725
+        ],
+        [
+          -402.9228,
+          130.5065
+        ]
+      ],
+      "centreLocalXZ": [
+        -401.9188,
+        127.4701
+      ],
+      "areaSquareMetres": 19.99,
+      "minimumRectangleMetres": [
+        4.75,
+        4.45
+      ],
+      "longAxisGridBearingDegrees": 59.75
+    },
+    {
+      "id": "clubhouse-main-solar-south-native",
+      "label": "Southern clubhouse solar array",
+      "kind": "roof-solar",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          346,
+          309
+        ],
+        [
+          374,
+          292
+        ],
+        [
+          406,
+          338
+        ],
+        [
+          377,
+          354
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678574.72,
+          6988402.24
+        ],
+        [
+          678579.2,
+          6988404.96
+        ],
+        [
+          678584.32,
+          6988397.6
+        ],
+        [
+          678579.68,
+          6988395.04
+        ]
+      ],
+      "review": "native-pixel-review-2026-09-10",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Dark panel group visibly resolved; perimeter is a manual approximation, not a panel count or electrical specification.",
+      "centreEpsg3006": [
+        678579.4927,
+        6988399.9608
+      ],
+      "ringLocalXZ": [
+        [
+          -402.7003,
+          132.2792
+        ],
+        [
+          -398.0904,
+          129.8118
+        ],
+        [
+          -393.394,
+          137.4317
+        ],
+        [
+          -398.1545,
+          139.7307
+        ]
+      ],
+      "centreLocalXZ": [
+        -398.0722,
+        134.8133
+      ],
+      "areaSquareMetres": 46.5,
+      "minimumRectangleMetres": [
+        9.27,
+        5.27
+      ],
+      "longAxisGridBearingDegrees": 145.43
+    },
+    {
+      "id": "lm-range-field",
+      "label": "lm-range-field",
+      "kind": "range",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          672.0000000001164,
+          777.4888312502299
+        ],
+        [
+          718.0000000000291,
+          731.5190562454518
+        ],
+        [
+          798.0000000003201,
+          683.5505937458947
+        ],
+        [
+          890.0000000001455,
+          631.5847562509589
+        ],
+        [
+          986.0000000000582,
+          575.6215500005055
+        ],
+        [
+          1086.0000000000582,
+          523.6557187454309
+        ],
+        [
+          1190.0000000001455,
+          473.6885687452741
+        ],
+        [
+          1298.0000000003201,
+          437.7122187463101
+        ],
+        [
+          1408.0000000001746,
+          413.72798749944195
+        ],
+        [
+          1520.0000000004366,
+          401.7358749988489
+        ],
+        [
+          1630.000000000291,
+          379.75033124675974
+        ],
+        [
+          1730.000000000291,
+          357.7647812489886
+        ],
+        [
+          1823.9999999997963,
+          345.7726687483955
+        ],
+        [
+          1904.0000000000873,
+          363.7608437507879
+        ],
+        [
+          1968.000000000029,
+          409.7306187497452
+        ],
+        [
+          2004.0000000000873,
+          479.68462499557063
+        ],
+        [
+          2016.0000000003492,
+          563.6294374999125
+        ],
+        [
+          2018.000000000029,
+          657.5676749984268
+        ],
+        [
+          2023.9999999997963,
+          753.5045999975409
+        ],
+        [
+          2018.000000000029,
+          849.4415249966551
+        ],
+        [
+          2002.0000000004075,
+          925.3915874985978
+        ],
+        [
+          1968.000000000029,
+          979.3561124999542
+        ],
+        [
+          1900.0,
+          1017.3311437480152
+        ],
+        [
+          1812.000000000262,
+          1041.315375000704
+        ],
+        [
+          1712.000000000262,
+          1061.3022312463727
+        ],
+        [
+          1600.0,
+          1069.296974997269
+        ],
+        [
+          1490.0000000001455,
+          1071.2956624978688
+        ],
+        [
+          1380.000000000291,
+          1077.2917187481653
+        ],
+        [
+          1272.0000000001164,
+          1085.2864624990616
+        ],
+        [
+          1163.9999999999418,
+          1093.281206249958
+        ],
+        [
+          1059.9999999998545,
+          1097.2785812453367
+        ],
+        [
+          962.0000000002619,
+          1095.2798937505577
+        ],
+        [
+          870.0000000004366,
+          1081.2890937493648
+        ],
+        [
+          795.9999999999127,
+          1051.3088062463794
+        ],
+        [
+          745.9999999999127,
+          1005.3390249959193
+        ],
+        [
+          712.0000000002619,
+          945.3784499957692
+        ],
+        [
+          690.0000000001455,
+          877.4231249990407
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678626.88,
+          6988327.281787
+        ],
+        [
+          678634.24,
+          6988334.636951
+        ],
+        [
+          678647.04,
+          6988342.311905
+        ],
+        [
+          678661.76,
+          6988350.626439
+        ],
+        [
+          678677.12,
+          6988359.580552
+        ],
+        [
+          678693.12,
+          6988367.895085
+        ],
+        [
+          678709.76,
+          6988375.889829
+        ],
+        [
+          678727.04,
+          6988381.646045
+        ],
+        [
+          678744.64,
+          6988385.483522
+        ],
+        [
+          678762.56,
+          6988387.40226
+        ],
+        [
+          678780.16,
+          6988390.919947
+        ],
+        [
+          678796.16,
+          6988394.437635
+        ],
+        [
+          678811.2,
+          6988396.356373
+        ],
+        [
+          678824.0,
+          6988393.478265
+        ],
+        [
+          678834.24,
+          6988386.123101
+        ],
+        [
+          678840.0,
+          6988374.93046
+        ],
+        [
+          678841.92,
+          6988361.49929
+        ],
+        [
+          678842.24,
+          6988346.469172
+        ],
+        [
+          678843.2,
+          6988331.119264
+        ],
+        [
+          678842.24,
+          6988315.769356
+        ],
+        [
+          678839.68,
+          6988303.617346
+        ],
+        [
+          678834.24,
+          6988294.983022
+        ],
+        [
+          678823.36,
+          6988288.907017
+        ],
+        [
+          678809.28,
+          6988285.06954
+        ],
+        [
+          678793.28,
+          6988281.871643
+        ],
+        [
+          678775.36,
+          6988280.592484
+        ],
+        [
+          678757.76,
+          6988280.272694
+        ],
+        [
+          678740.16,
+          6988279.313325
+        ],
+        [
+          678722.88,
+          6988278.034166
+        ],
+        [
+          678705.6,
+          6988276.755007
+        ],
+        [
+          678688.96,
+          6988276.115427
+        ],
+        [
+          678673.28,
+          6988276.435217
+        ],
+        [
+          678658.56,
+          6988278.673745
+        ],
+        [
+          678646.72,
+          6988283.470591
+        ],
+        [
+          678638.72,
+          6988290.825756
+        ],
+        [
+          678633.28,
+          6988300.419448
+        ],
+        [
+          678629.76,
+          6988311.2923
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678745.3211,
+        6988330.4203
+      ],
+      "ringLocalXZ": [
+        [
+          -354.8555,
+          209.8851
+        ],
+        [
+          -347.1244,
+          202.9531
+        ],
+        [
+          -333.9588,
+          195.9999
+        ],
+        [
+          -318.8462,
+          188.5141
+        ],
+        [
+          -303.0612,
+          180.4257
+        ],
+        [
+          -286.6739,
+          173.0101
+        ],
+        [
+          -269.6666,
+          165.9486
+        ],
+        [
+          -252.1444,
+          161.1546
+        ],
+        [
+          -234.4083,
+          158.2916
+        ],
+        [
+          -216.4586,
+          157.3597
+        ],
+        [
+          -198.74,
+          154.8158
+        ],
+        [
+          -182.6147,
+          152.1844
+        ],
+        [
+          -167.5328,
+          151.095
+        ],
+        [
+          -154.944,
+          154.6665
+        ],
+        [
+          -145.1495,
+          162.5624
+        ],
+        [
+          -140.0261,
+          174.0398
+        ],
+        [
+          -138.8492,
+          187.539
+        ],
+        [
+          -139.3529,
+          202.5451
+        ],
+        [
+          -139.2369,
+          217.9052
+        ],
+        [
+          -141.0328,
+          233.1601
+        ],
+        [
+          -144.2469,
+          245.1382
+        ],
+        [
+          -150.1364,
+          253.4506
+        ],
+        [
+          -161.3028,
+          258.9136
+        ],
+        [
+          -175.5332,
+          261.9691
+        ],
+        [
+          -191.6405,
+          264.2816
+        ],
+        [
+          -209.5547,
+          264.5755
+        ],
+        [
+          -227.0978,
+          263.9304
+        ],
+        [
+          -244.6758,
+          263.9232
+        ],
+        [
+          -261.9527,
+          264.2525
+        ],
+        [
+          -279.2296,
+          264.5819
+        ],
+        [
+          -295.8342,
+          264.3086
+        ],
+        [
+          -311.4304,
+          263.1312
+        ],
+        [
+          -325.9659,
+          260.093
+        ],
+        [
+          -337.4937,
+          254.6613
+        ],
+        [
+          -345.0579,
+          246.8885
+        ],
+        [
+          -349.9506,
+          237.0236
+        ],
+        [
+          -352.8615,
+          225.9881
+        ]
+      ],
+      "centreLocalXZ": [
+        -236.7416,
+        213.24
+      ],
+      "areaSquareMetres": 19774.83,
+      "minimumRectangleMetres": [
+        218.13,
+        110.41
+      ],
+      "longAxisGridBearingDegrees": 80.14
+    },
+    {
+      "id": "lm-practice-green",
+      "label": "lm-practice-green",
+      "kind": "practice_green",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          548.0000000003201,
+          543.6425749969203
+        ],
+        [
+          570.0000000004366,
+          533.6491437454242
+        ],
+        [
+          594.0000000002328,
+          535.647831246024
+        ],
+        [
+          613.9999999999418,
+          553.6360062484164
+        ],
+        [
+          623.9999999997963,
+          577.6202374952845
+        ],
+        [
+          622.0000000001164,
+          607.60052499827
+        ],
+        [
+          609.9999999998545,
+          635.5821312463377
+        ],
+        [
+          591.9999999998254,
+          655.568987497827
+        ],
+        [
+          568.0000000000291,
+          663.5637312487233
+        ],
+        [
+          550.0,
+          655.568987497827
+        ],
+        [
+          540.0000000001455,
+          641.5781874966342
+        ],
+        [
+          540.0000000001455,
+          621.5913249994628
+        ],
+        [
+          548.0000000003201,
+          599.6057812473737
+        ],
+        [
+          555.9999999997672,
+          573.6228624999058
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678607.04,
+          6988364.697188
+        ],
+        [
+          678610.56,
+          6988366.296137
+        ],
+        [
+          678614.4,
+          6988365.976347
+        ],
+        [
+          678617.6,
+          6988363.098239
+        ],
+        [
+          678619.2,
+          6988359.260762
+        ],
+        [
+          678618.88,
+          6988354.463916
+        ],
+        [
+          678616.96,
+          6988349.986859
+        ],
+        [
+          678614.08,
+          6988346.788962
+        ],
+        [
+          678610.24,
+          6988345.509803
+        ],
+        [
+          678607.36,
+          6988346.788962
+        ],
+        [
+          678605.76,
+          6988349.02749
+        ],
+        [
+          678605.76,
+          6988352.225388
+        ],
+        [
+          678607.04,
+          6988355.743075
+        ],
+        [
+          678608.32,
+          6988359.900342
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678612.3469,
+        6988355.9839
+      ],
+      "ringLocalXZ": [
+        [
+          -372.5673,
+          171.4871
+        ],
+        [
+          -368.9747,
+          170.0852
+        ],
+        [
+          -365.1683,
+          170.6143
+        ],
+        [
+          -362.139,
+          173.6596
+        ],
+        [
+          -360.7554,
+          177.574
+        ],
+        [
+          -361.3362,
+          182.3401
+        ],
+        [
+          -363.4929,
+          186.6997
+        ],
+        [
+          -366.5355,
+          189.7312
+        ],
+        [
+          -370.4293,
+          190.7966
+        ],
+        [
+          -373.2273,
+          189.3634
+        ],
+        [
+          -374.6982,
+          187.0435
+        ],
+        [
+          -374.5235,
+          183.8544
+        ],
+        [
+          -373.0566,
+          180.4165
+        ],
+        [
+          -371.5548,
+          176.3407
+        ]
+      ],
+      "centreLocalXZ": [
+        -367.7588,
+        180.4668
+      ],
+      "areaSquareMetres": 207.68,
+      "minimumRectangleMetres": [
+        20.78,
+        12.82
+      ],
+      "longAxisGridBearingDegrees": 5.86
+    },
+    {
+      "id": "lm-range-hardstanding",
+      "label": "lm-range-hardstanding",
+      "kind": "paved_path",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          630.000000000291,
+          789.4809437508229
+        ],
+        [
+          645.9999999999127,
+          785.4835749953054
+        ],
+        [
+          658.0000000001746,
+          821.4599187485874
+        ],
+        [
+          666.0000000003492,
+          869.4283812481444
+        ],
+        [
+          681.9999999999709,
+          917.3968437477015
+        ],
+        [
+          713.9999999999418,
+          981.3547937490512
+        ],
+        [
+          698.0000000003201,
+          991.3482250005472
+        ],
+        [
+          673.9999999997963,
+          943.3797625009902
+        ],
+        [
+          654.0000000000873,
+          895.4112999956124
+        ],
+        [
+          644.0000000002328,
+          847.4428374960553
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678620.16,
+          6988325.363049
+        ],
+        [
+          678622.72,
+          6988326.002628
+        ],
+        [
+          678624.64,
+          6988320.246413
+        ],
+        [
+          678625.92,
+          6988312.571459
+        ],
+        [
+          678628.48,
+          6988304.896505
+        ],
+        [
+          678633.6,
+          6988294.663233
+        ],
+        [
+          678631.04,
+          6988293.064284
+        ],
+        [
+          678627.2,
+          6988300.739238
+        ],
+        [
+          678624.0,
+          6988308.414192
+        ],
+        [
+          678622.4,
+          6988316.089146
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678626.1117,
+        6988309.3778
+      ],
+      "ringLocalXZ": [
+        [
+          -361.652,
+          211.4307
+        ],
+        [
+          -359.0679,
+          210.933
+        ],
+        [
+          -357.4705,
+          216.7784
+        ],
+        [
+          -356.6154,
+          224.5023
+        ],
+        [
+          -354.4856,
+          232.2961
+        ],
+        [
+          -349.9465,
+          242.7814
+        ],
+        [
+          -352.5831,
+          244.2358
+        ],
+        [
+          -355.9875,
+          236.3719
+        ],
+        [
+          -358.7545,
+          228.543
+        ],
+        [
+          -359.9283,
+          220.8016
+        ]
+      ],
+      "centreLocalXZ": [
+        -356.599,
+        227.6976
+      ],
+      "areaSquareMetres": 99.31,
+      "minimumRectangleMetres": [
+        34.08,
+        4.56
+      ],
+      "longAxisGridBearingDegrees": 160.85
+    },
+    {
+      "id": "lm-range-mat-01",
+      "label": "lm-range-mat-01",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          648.9999999997963,
+          794.9999999953434
+        ],
+        [
+          647.5400000002992,
+          798.5400000005029
+        ],
+        [
+          644.0000000002328,
+          800.0
+        ],
+        [
+          640.4600000001665,
+          798.5400000005029
+        ],
+        [
+          638.9999999999418,
+          794.9999999953434
+        ],
+        [
+          640.4600000001665,
+          791.4599999960046
+        ],
+        [
+          644.0000000002328,
+          789.9999999965075
+        ],
+        [
+          647.5400000002992,
+          791.4599999960046
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678623.2,
+          6988324.48
+        ],
+        [
+          678622.9664,
+          6988323.9136
+        ],
+        [
+          678622.4,
+          6988323.68
+        ],
+        [
+          678621.8336,
+          6988323.9136
+        ],
+        [
+          678621.6,
+          6988324.48
+        ],
+        [
+          678621.8336,
+          6988325.0464
+        ],
+        [
+          678622.4,
+          6988325.28
+        ],
+        [
+          678622.9664,
+          6988325.0464
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678622.4,
+        6988324.48
+      ],
+      "ringLocalXZ": [
+        [
+          -358.6731,
+          212.4777
+        ],
+        [
+          -358.9367,
+          213.0298
+        ],
+        [
+          -359.5135,
+          213.2317
+        ],
+        [
+          -360.0647,
+          212.9678
+        ],
+        [
+          -360.2664,
+          212.3901
+        ],
+        [
+          -360.0028,
+          211.8381
+        ],
+        [
+          -359.426,
+          211.6361
+        ],
+        [
+          -358.8748,
+          211.9001
+        ]
+      ],
+      "centreLocalXZ": [
+        -359.4697,
+        212.4339
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 112.41
+    },
+    {
+      "id": "lm-range-mat-02",
+      "label": "lm-range-mat-02",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          652.0000000004075,
+          811.9999999995343
+        ],
+        [
+          650.5400000001828,
+          815.5399999988731
+        ],
+        [
+          647.0000000001164,
+          816.9999999983702
+        ],
+        [
+          643.4600000000501,
+          815.5399999988731
+        ],
+        [
+          641.9999999998254,
+          811.9999999995343
+        ],
+        [
+          643.4600000000501,
+          808.4600000001956
+        ],
+        [
+          647.0000000001164,
+          807.0000000006985
+        ],
+        [
+          650.5400000001828,
+          808.4600000001956
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678623.68,
+          6988321.76
+        ],
+        [
+          678623.4464,
+          6988321.1936
+        ],
+        [
+          678622.88,
+          6988320.96
+        ],
+        [
+          678622.3136,
+          6988321.1936
+        ],
+        [
+          678622.08,
+          6988321.76
+        ],
+        [
+          678622.3136,
+          6988322.3264
+        ],
+        [
+          678622.88,
+          6988322.56
+        ],
+        [
+          678623.4464,
+          6988322.3264
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678622.88,
+        6988321.76
+      ],
+      "ringLocalXZ": [
+        [
+          -358.3438,
+          215.2165
+        ],
+        [
+          -358.6073,
+          215.7685
+        ],
+        [
+          -359.1841,
+          215.9705
+        ],
+        [
+          -359.7354,
+          215.7065
+        ],
+        [
+          -359.937,
+          215.1289
+        ],
+        [
+          -359.6735,
+          214.5769
+        ],
+        [
+          -359.0967,
+          214.3749
+        ],
+        [
+          -358.5454,
+          214.6389
+        ]
+      ],
+      "centreLocalXZ": [
+        -359.1404,
+        215.1727
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 22.41
+    },
+    {
+      "id": "lm-range-mat-03",
+      "label": "lm-range-mat-03",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          655.9999999997672,
+          828.9999999979045
+        ],
+        [
+          654.5400000002701,
+          832.5399999972433
+        ],
+        [
+          651.0000000002037,
+          833.9999999967404
+        ],
+        [
+          647.4600000001374,
+          832.5399999972433
+        ],
+        [
+          645.9999999999127,
+          828.9999999979045
+        ],
+        [
+          647.4600000001374,
+          825.4599999985658
+        ],
+        [
+          651.0000000002037,
+          823.9999999990687
+        ],
+        [
+          654.5400000002701,
+          825.4599999985658
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678624.32,
+          6988319.04
+        ],
+        [
+          678624.0864,
+          6988318.4736
+        ],
+        [
+          678623.52,
+          6988318.24
+        ],
+        [
+          678622.9536,
+          6988318.4736
+        ],
+        [
+          678622.72,
+          6988319.04
+        ],
+        [
+          678622.9536,
+          6988319.6064
+        ],
+        [
+          678623.52,
+          6988319.84
+        ],
+        [
+          678624.0864,
+          6988319.6064
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678623.52,
+        6988319.04
+      ],
+      "ringLocalXZ": [
+        [
+          -357.8551,
+          217.964
+        ],
+        [
+          -358.1187,
+          218.5161
+        ],
+        [
+          -358.6955,
+          218.718
+        ],
+        [
+          -359.2467,
+          218.4541
+        ],
+        [
+          -359.4484,
+          217.8764
+        ],
+        [
+          -359.1848,
+          217.3244
+        ],
+        [
+          -358.608,
+          217.1224
+        ],
+        [
+          -358.0568,
+          217.3864
+        ]
+      ],
+      "centreLocalXZ": [
+        -358.6518,
+        217.9202
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 22.41
+    },
+    {
+      "id": "lm-range-mat-04",
+      "label": "lm-range-mat-04",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          661.0000000000582,
+          845.9999999962747
+        ],
+        [
+          659.5399999998335,
+          849.5399999956135
+        ],
+        [
+          655.9999999997672,
+          851.0000000009313
+        ],
+        [
+          652.4600000004284,
+          849.5399999956135
+        ],
+        [
+          651.0000000002037,
+          845.9999999962747
+        ],
+        [
+          652.4600000004284,
+          842.459999996936
+        ],
+        [
+          655.9999999997672,
+          840.9999999974389
+        ],
+        [
+          659.5399999998335,
+          842.459999996936
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678625.12,
+          6988316.32
+        ],
+        [
+          678624.8864,
+          6988315.7536
+        ],
+        [
+          678624.32,
+          6988315.52
+        ],
+        [
+          678623.7536,
+          6988315.7536
+        ],
+        [
+          678623.52,
+          6988316.32
+        ],
+        [
+          678623.7536,
+          6988316.8864
+        ],
+        [
+          678624.32,
+          6988317.12
+        ],
+        [
+          678624.8864,
+          6988316.8864
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678624.32,
+        6988316.32
+      ],
+      "ringLocalXZ": [
+        [
+          -357.2072,
+          220.7203
+        ],
+        [
+          -357.4707,
+          221.2723
+        ],
+        [
+          -358.0475,
+          221.4743
+        ],
+        [
+          -358.5988,
+          221.2103
+        ],
+        [
+          -358.8004,
+          220.6327
+        ],
+        [
+          -358.5368,
+          220.0807
+        ],
+        [
+          -357.9601,
+          219.8787
+        ],
+        [
+          -357.4088,
+          220.1427
+        ]
+      ],
+      "centreLocalXZ": [
+        -358.0038,
+        220.6765
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 157.59
+    },
+    {
+      "id": "lm-range-mat-05",
+      "label": "lm-range-mat-05",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          665.0000000001455,
+          861.9999999995343
+        ],
+        [
+          663.5399999999208,
+          865.5399999988731
+        ],
+        [
+          659.9999999998545,
+          866.9999999983702
+        ],
+        [
+          656.4599999997881,
+          865.5399999988731
+        ],
+        [
+          655.000000000291,
+          861.9999999995343
+        ],
+        [
+          656.4599999997881,
+          858.4600000001956
+        ],
+        [
+          659.9999999998545,
+          857.0000000006985
+        ],
+        [
+          663.5399999999208,
+          858.4600000001956
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678625.76,
+          6988313.76
+        ],
+        [
+          678625.5264,
+          6988313.1936
+        ],
+        [
+          678624.96,
+          6988312.96
+        ],
+        [
+          678624.3936,
+          6988313.1936
+        ],
+        [
+          678624.16,
+          6988313.76
+        ],
+        [
+          678624.3936,
+          6988314.3264
+        ],
+        [
+          678624.96,
+          6988314.56
+        ],
+        [
+          678625.5264,
+          6988314.3264
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678624.96,
+        6988313.76
+      ],
+      "ringLocalXZ": [
+        [
+          -356.7098,
+          223.3082
+        ],
+        [
+          -356.9733,
+          223.8603
+        ],
+        [
+          -357.5501,
+          224.0622
+        ],
+        [
+          -358.1014,
+          223.7983
+        ],
+        [
+          -358.303,
+          223.2207
+        ],
+        [
+          -358.0394,
+          222.6686
+        ],
+        [
+          -357.4627,
+          222.4667
+        ],
+        [
+          -356.9114,
+          222.7306
+        ]
+      ],
+      "centreLocalXZ": [
+        -357.5064,
+        223.2645
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 22.41
+    },
+    {
+      "id": "lm-range-mat-06",
+      "label": "lm-range-mat-06",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          670.9999999999127,
+          880.9999999997672
+        ],
+        [
+          669.5400000004156,
+          884.5399999991059
+        ],
+        [
+          666.0000000003492,
+          885.999999998603
+        ],
+        [
+          662.4600000002829,
+          884.5399999991059
+        ],
+        [
+          661.0000000000582,
+          880.9999999997672
+        ],
+        [
+          662.4600000002829,
+          877.4600000004284
+        ],
+        [
+          666.0000000003492,
+          876.0000000009313
+        ],
+        [
+          669.5400000004156,
+          877.4600000004284
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678626.72,
+          6988310.72
+        ],
+        [
+          678626.4864,
+          6988310.1536
+        ],
+        [
+          678625.92,
+          6988309.92
+        ],
+        [
+          678625.3536,
+          6988310.1536
+        ],
+        [
+          678625.12,
+          6988310.72
+        ],
+        [
+          678625.3536,
+          6988311.2864
+        ],
+        [
+          678625.92,
+          6988311.52
+        ],
+        [
+          678626.4864,
+          6988311.2864
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678625.92,
+        6988310.72
+      ],
+      "ringLocalXZ": [
+        [
+          -355.9199,
+          226.3924
+        ],
+        [
+          -356.1835,
+          226.9444
+        ],
+        [
+          -356.7603,
+          227.1464
+        ],
+        [
+          -357.3115,
+          226.8824
+        ],
+        [
+          -357.5132,
+          226.3048
+        ],
+        [
+          -357.2496,
+          225.7528
+        ],
+        [
+          -356.6729,
+          225.5508
+        ],
+        [
+          -356.1216,
+          225.8148
+        ]
+      ],
+      "centreLocalXZ": [
+        -356.7166,
+        226.3486
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 112.41
+    },
+    {
+      "id": "lm-range-mat-07",
+      "label": "lm-range-mat-07",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          676.0000000002037,
+          896.999999997206
+        ],
+        [
+          674.539999999979,
+          900.5399999965448
+        ],
+        [
+          670.9999999999127,
+          901.9999999960419
+        ],
+        [
+          667.4599999998463,
+          900.5399999965448
+        ],
+        [
+          666.0000000003492,
+          896.999999997206
+        ],
+        [
+          667.4599999998463,
+          893.4599999978673
+        ],
+        [
+          670.9999999999127,
+          891.9999999983702
+        ],
+        [
+          674.539999999979,
+          893.4599999978673
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678627.52,
+          6988308.16
+        ],
+        [
+          678627.2864,
+          6988307.5936
+        ],
+        [
+          678626.72,
+          6988307.36
+        ],
+        [
+          678626.1536,
+          6988307.5936
+        ],
+        [
+          678625.92,
+          6988308.16
+        ],
+        [
+          678626.1536,
+          6988308.7264
+        ],
+        [
+          678626.72,
+          6988308.96
+        ],
+        [
+          678627.2864,
+          6988308.7264
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678626.72,
+        6988308.16
+      ],
+      "ringLocalXZ": [
+        [
+          -355.2632,
+          228.9891
+        ],
+        [
+          -355.5268,
+          229.5412
+        ],
+        [
+          -356.1036,
+          229.7431
+        ],
+        [
+          -356.6548,
+          229.4792
+        ],
+        [
+          -356.8565,
+          228.9015
+        ],
+        [
+          -356.5929,
+          228.3495
+        ],
+        [
+          -356.0161,
+          228.1475
+        ],
+        [
+          -355.4649,
+          228.4115
+        ]
+      ],
+      "centreLocalXZ": [
+        -356.0599,
+        228.9453
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 112.41
+    },
+    {
+      "id": "lm-range-mat-08",
+      "label": "lm-range-mat-08",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          681.9999999999709,
+          913.0000000004657
+        ],
+        [
+          680.5399999997462,
+          916.5399999998044
+        ],
+        [
+          677.0000000004075,
+          917.9999999993015
+        ],
+        [
+          673.4600000003411,
+          916.5399999998044
+        ],
+        [
+          672.0000000001164,
+          913.0000000004657
+        ],
+        [
+          673.4600000003411,
+          909.4599999953061
+        ],
+        [
+          677.0000000004075,
+          907.999999995809
+        ],
+        [
+          680.5399999997462,
+          909.4599999953061
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678628.48,
+          6988305.6
+        ],
+        [
+          678628.2464,
+          6988305.0336
+        ],
+        [
+          678627.68,
+          6988304.8
+        ],
+        [
+          678627.1136,
+          6988305.0336
+        ],
+        [
+          678626.88,
+          6988305.6
+        ],
+        [
+          678627.1136,
+          6988306.1664
+        ],
+        [
+          678627.68,
+          6988306.4
+        ],
+        [
+          678628.2464,
+          6988306.1664
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678627.68,
+        6988305.6
+      ],
+      "ringLocalXZ": [
+        [
+          -354.4472,
+          231.5946
+        ],
+        [
+          -354.7108,
+          232.1466
+        ],
+        [
+          -355.2875,
+          232.3486
+        ],
+        [
+          -355.8388,
+          232.0846
+        ],
+        [
+          -356.0404,
+          231.507
+        ],
+        [
+          -355.7769,
+          230.955
+        ],
+        [
+          -355.2001,
+          230.753
+        ],
+        [
+          -354.6489,
+          231.017
+        ]
+      ],
+      "centreLocalXZ": [
+        -355.2438,
+        231.5508
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 22.41
+    },
+    {
+      "id": "lm-range-mat-09",
+      "label": "lm-range-mat-09",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          688.9999999999418,
+          930.9999999997672
+        ],
+        [
+          687.5400000004447,
+          934.5399999991059
+        ],
+        [
+          684.0000000003783,
+          935.999999998603
+        ],
+        [
+          680.460000000312,
+          934.5399999991059
+        ],
+        [
+          679.0000000000873,
+          930.9999999997672
+        ],
+        [
+          680.460000000312,
+          927.4600000004284
+        ],
+        [
+          684.0000000003783,
+          926.0000000009313
+        ],
+        [
+          687.5400000004447,
+          927.4600000004284
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678629.6,
+          6988302.72
+        ],
+        [
+          678629.3664,
+          6988302.1536
+        ],
+        [
+          678628.8,
+          6988301.92
+        ],
+        [
+          678628.2336,
+          6988302.1536
+        ],
+        [
+          678628.0,
+          6988302.72
+        ],
+        [
+          678628.2336,
+          6988303.2864
+        ],
+        [
+          678628.8,
+          6988303.52
+        ],
+        [
+          678629.3664,
+          6988303.2864
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678628.8,
+        6988302.72
+      ],
+      "ringLocalXZ": [
+        [
+          -353.4893,
+          234.5279
+        ],
+        [
+          -353.7529,
+          235.08
+        ],
+        [
+          -354.3297,
+          235.282
+        ],
+        [
+          -354.8809,
+          235.018
+        ],
+        [
+          -355.0826,
+          234.4404
+        ],
+        [
+          -354.819,
+          233.8883
+        ],
+        [
+          -354.2422,
+          233.6864
+        ],
+        [
+          -353.691,
+          233.9503
+        ]
+      ],
+      "centreLocalXZ": [
+        -354.2859,
+        234.4842
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 112.41
+    },
+    {
+      "id": "lm-range-mat-10",
+      "label": "lm-range-mat-10",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          695.9999999999127,
+          947.9999999981374
+        ],
+        [
+          694.5400000004156,
+          951.5399999974761
+        ],
+        [
+          691.0000000003492,
+          952.9999999969732
+        ],
+        [
+          687.4600000002829,
+          951.5399999974761
+        ],
+        [
+          686.0000000000582,
+          947.9999999981374
+        ],
+        [
+          687.4600000002829,
+          944.4599999987986
+        ],
+        [
+          691.0000000003492,
+          942.9999999993015
+        ],
+        [
+          694.5400000004156,
+          944.4599999987986
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678630.72,
+          6988300.0
+        ],
+        [
+          678630.4864,
+          6988299.4336
+        ],
+        [
+          678629.92,
+          6988299.2
+        ],
+        [
+          678629.3536,
+          6988299.4336
+        ],
+        [
+          678629.12,
+          6988300.0
+        ],
+        [
+          678629.3536,
+          6988300.5664
+        ],
+        [
+          678629.92,
+          6988300.8
+        ],
+        [
+          678630.4864,
+          6988300.5664
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678629.92,
+        6988300.0
+      ],
+      "ringLocalXZ": [
+        [
+          -352.5227,
+          237.3017
+        ],
+        [
+          -352.7863,
+          237.8538
+        ],
+        [
+          -353.363,
+          238.0557
+        ],
+        [
+          -353.9143,
+          237.7918
+        ],
+        [
+          -354.1159,
+          237.2142
+        ],
+        [
+          -353.8524,
+          236.6621
+        ],
+        [
+          -353.2756,
+          236.4602
+        ],
+        [
+          -352.7244,
+          236.7241
+        ]
+      ],
+      "centreLocalXZ": [
+        -353.3193,
+        237.258
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 112.41
+    },
+    {
+      "id": "lm-range-mat-11",
+      "label": "lm-range-mat-11",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          705.000000000291,
+          966.9999999983702
+        ],
+        [
+          703.5400000000664,
+          970.539999997709
+        ],
+        [
+          700.0,
+          971.999999997206
+        ],
+        [
+          696.4599999999336,
+          970.539999997709
+        ],
+        [
+          695.0000000004366,
+          966.9999999983702
+        ],
+        [
+          696.4599999999336,
+          963.4599999990314
+        ],
+        [
+          700.0,
+          961.9999999995343
+        ],
+        [
+          703.5400000000664,
+          963.4599999990314
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678632.16,
+          6988296.96
+        ],
+        [
+          678631.9264,
+          6988296.3936
+        ],
+        [
+          678631.36,
+          6988296.16
+        ],
+        [
+          678630.7936,
+          6988296.3936
+        ],
+        [
+          678630.56,
+          6988296.96
+        ],
+        [
+          678630.7936,
+          6988297.5264
+        ],
+        [
+          678631.36,
+          6988297.76
+        ],
+        [
+          678631.9264,
+          6988297.5264
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678631.36,
+        6988296.96
+      ],
+      "ringLocalXZ": [
+        [
+          -351.2549,
+          240.4122
+        ],
+        [
+          -351.5185,
+          240.9642
+        ],
+        [
+          -352.0953,
+          241.1662
+        ],
+        [
+          -352.6465,
+          240.9022
+        ],
+        [
+          -352.8482,
+          240.3246
+        ],
+        [
+          -352.5846,
+          239.7725
+        ],
+        [
+          -352.0078,
+          239.5706
+        ],
+        [
+          -351.4566,
+          239.8345
+        ]
+      ],
+      "centreLocalXZ": [
+        -352.0515,
+        240.3684
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 112.41
+    },
+    {
+      "id": "lm-range-mat-12",
+      "label": "lm-range-mat-12",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          712.0000000002619,
+          982.999999995809
+        ],
+        [
+          710.5400000000373,
+          986.5400000009686
+        ],
+        [
+          706.9999999999709,
+          988.0000000004657
+        ],
+        [
+          703.4599999999045,
+          986.5400000009686
+        ],
+        [
+          702.0000000004075,
+          982.999999995809
+        ],
+        [
+          703.4599999999045,
+          979.4599999964703
+        ],
+        [
+          706.9999999999709,
+          977.9999999969732
+        ],
+        [
+          710.5400000000373,
+          979.4599999964703
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678633.28,
+          6988294.4
+        ],
+        [
+          678633.0464,
+          6988293.8336
+        ],
+        [
+          678632.48,
+          6988293.6
+        ],
+        [
+          678631.9136,
+          6988293.8336
+        ],
+        [
+          678631.68,
+          6988294.4
+        ],
+        [
+          678631.9136,
+          6988294.9664
+        ],
+        [
+          678632.48,
+          6988295.2
+        ],
+        [
+          678633.0464,
+          6988294.9664
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678632.48,
+        6988294.4
+      ],
+      "ringLocalXZ": [
+        [
+          -350.2796,
+          243.0264
+        ],
+        [
+          -350.5431,
+          243.5785
+        ],
+        [
+          -351.1199,
+          243.7804
+        ],
+        [
+          -351.6712,
+          243.5165
+        ],
+        [
+          -351.8728,
+          242.9388
+        ],
+        [
+          -351.6092,
+          242.3868
+        ],
+        [
+          -351.0325,
+          242.1848
+        ],
+        [
+          -350.4812,
+          242.4488
+        ]
+      ],
+      "centreLocalXZ": [
+        -351.0762,
+        242.9826
+      ],
+      "areaSquareMetres": 1.81,
+      "minimumRectangleMetres": [
+        1.48,
+        1.48
+      ],
+      "longAxisGridBearingDegrees": 22.41
+    },
+    {
+      "id": "lm-range-target-near",
+      "label": "lm-range-target-near",
+      "kind": "range_target_surface",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          930.000000000291,
+          881.4205000002403
+        ],
+        [
+          952.0000000004075,
+          875.4244437499437
+        ],
+        [
+          976.0000000002037,
+          883.41918750084
+        ],
+        [
+          981.9999999999709,
+          899.4086749968119
+        ],
+        [
+          972.0000000001164,
+          915.3981624986045
+        ],
+        [
+          950.0,
+          917.3968437477015
+        ],
+        [
+          930.000000000291,
+          903.4060437465087
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678668.16,
+          6988310.65272
+        ],
+        [
+          678671.68,
+          6988311.612089
+        ],
+        [
+          678675.52,
+          6988310.33293
+        ],
+        [
+          678676.48,
+          6988307.774612
+        ],
+        [
+          678674.88,
+          6988305.216294
+        ],
+        [
+          678671.36,
+          6988304.896505
+        ],
+        [
+          678668.16,
+          6988307.135033
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678672.1379,
+        6988308.2571
+      ],
+      "ringLocalXZ": [
+        [
+          -314.6583,
+          228.7279
+        ],
+        [
+          -311.1007,
+          227.9639
+        ],
+        [
+          -307.3468,
+          229.4497
+        ],
+        [
+          -306.5307,
+          232.0535
+        ],
+        [
+          -308.2638,
+          234.5172
+        ],
+        [
+          -311.7865,
+          234.6434
+        ],
+        [
+          -314.8506,
+          232.2359
+        ]
+      ],
+      "centreLocalXZ": [
+        -310.8281,
+        231.3346
+      ],
+      "areaSquareMetres": 42.57,
+      "minimumRectangleMetres": [
+        8.34,
+        6.66
+      ],
+      "longAxisGridBearingDegrees": 84.81
+    },
+    {
+      "id": "lm-range-target-centre",
+      "label": "lm-range-target-centre",
+      "kind": "range_target_surface",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          1037.999999999738,
+          651.5716187481303
+        ],
+        [
+          1112.000000000262,
+          633.5834437457379
+        ],
+        [
+          1127.9999999998836,
+          687.5479624955915
+        ],
+        [
+          1052.0000000004075,
+          705.5361374979839
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678685.44,
+          6988347.428541
+        ],
+        [
+          678697.28,
+          6988350.306649
+        ],
+        [
+          678699.84,
+          6988341.672326
+        ],
+        [
+          678687.68,
+          6988338.794218
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678692.5733,
+        6988344.5344
+      ],
+      "ringLocalXZ": [
+        [
+          -295.4406,
+          192.9996
+        ],
+        [
+          -283.493,
+          190.7778
+        ],
+        [
+          -281.4159,
+          199.5284
+        ],
+        [
+          -293.6821,
+          201.7328
+        ]
+      ],
+      "centreLocalXZ": [
+        -288.4955,
+        196.2763
+      ],
+      "areaSquareMetres": 110.52,
+      "minimumRectangleMetres": [
+        12.63,
+        8.99
+      ],
+      "longAxisGridBearingDegrees": 76.34
+    },
+    {
+      "id": "lm-range-target-far-strip",
+      "label": "lm-range-target-far-strip",
+      "kind": "range_target_surface",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          1644.0000000002328,
+          645.575556246331
+        ],
+        [
+          1830.000000000291,
+          633.5834437457379
+        ],
+        [
+          1834.0000000003783,
+          665.5624187493231
+        ],
+        [
+          1648.0000000003201,
+          677.5545312499162
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678782.4,
+          6988348.387911
+        ],
+        [
+          678812.16,
+          6988350.306649
+        ],
+        [
+          678812.8,
+          6988345.190013
+        ],
+        [
+          678783.04,
+          6988343.271275
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678797.6,
+        6988346.789
+      ],
+      "ringLocalXZ": [
+        [
+          -198.836,
+          197.3531
+        ],
+        [
+          -169.0963,
+          197.0701
+        ],
+        [
+          -168.739,
+          202.2076
+        ],
+        [
+          -198.4786,
+          202.4906
+        ]
+      ],
+      "centreLocalXZ": [
+        -183.7875,
+        199.7803
+      ],
+      "areaSquareMetres": 153.5,
+      "minimumRectangleMetres": [
+        30.13,
+        5.15
+      ],
+      "longAxisGridBearingDegrees": 86.31
+    },
+    {
+      "id": "lm-padel-court",
+      "label": "lm-padel-court",
+      "kind": "sports_court",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          136.0000000000582,
+          207.86333750002086
+        ],
+        [
+          198.00000000032014,
+          201.86728124972433
+        ],
+        [
+          209.99999999985448,
+          323.7871249963064
+        ],
+        [
+          148.00000000032014,
+          329.7831812466029
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678541.12,
+          6988418.421866
+        ],
+        [
+          678551.04,
+          6988419.381235
+        ],
+        [
+          678552.96,
+          6988399.87406
+        ],
+        [
+          678543.04,
+          6988398.914691
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678547.04,
+        6988409.148
+      ],
+      "ringLocalXZ": [
+        [
+          -435.2757,
+          114.3036
+        ],
+        [
+          -425.3447,
+          113.8896
+        ],
+        [
+          -424.4985,
+          133.448
+        ],
+        [
+          -434.4294,
+          133.862
+        ]
+      ],
+      "centreLocalXZ": [
+        -429.8871,
+        123.8758
+      ],
+      "areaSquareMetres": 195.35,
+      "minimumRectangleMetres": [
+        19.62,
+        9.97
+      ],
+      "longAxisGridBearingDegrees": 174.38
+    },
+    {
+      "id": "lm-clubhouse-main-roof",
+      "label": "lm-clubhouse-main-roof",
+      "kind": "clubhouse_roof_section",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          323.9999999997963,
+          277.8173437458463
+        ],
+        [
+          377.9999999998836,
+          247.83705624868162
+        ],
+        [
+          427.9999999998836,
+          333.78054999629967
+        ],
+        [
+          373.9999999997963,
+          365.7595249998849
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678571.2,
+          6988407.229225
+        ],
+        [
+          678579.84,
+          6988412.026071
+        ],
+        [
+          678587.84,
+          6988398.275112
+        ],
+        [
+          678579.2,
+          6988393.158476
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. Superseded as a roof/solar plan reference by the corresponding native review above; retained for comparison.",
+      "centreEpsg3006": [
+        678579.5182,
+        6988402.6465
+      ],
+      "ringLocalXZ": [
+        [
+          -405.933,
+          127.1111
+        ],
+        [
+          -397.067,
+          122.8003
+        ],
+        [
+          -389.8519,
+          136.9511
+        ],
+        [
+          -398.7353,
+          141.5808
+        ]
+      ],
+      "centreLocalXZ": [
+        -397.8999,
+        132.1363
+      ],
+      "areaSquareMetres": 159.84,
+      "minimumRectangleMetres": [
+        16.19,
+        10.04
+      ],
+      "longAxisGridBearingDegrees": 150.38
+    },
+    {
+      "id": "lm-clubhouse-cross-roof",
+      "label": "lm-clubhouse-cross-roof",
+      "kind": "clubhouse_roof_section",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          381.9999999999709,
+          257.8304875001777
+        ],
+        [
+          420.00000000043656,
+          237.84362499718554
+        ],
+        [
+          452.00000000040745,
+          289.80946249794215
+        ],
+        [
+          413.9999999999418,
+          313.79369375063106
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678580.48,
+          6988410.427122
+        ],
+        [
+          678586.56,
+          6988413.62502
+        ],
+        [
+          678591.68,
+          6988405.310486
+        ],
+        [
+          678585.6,
+          6988401.473009
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. Superseded as a roof/solar plan reference by the corresponding native review above; retained for comparison.",
+      "centreEpsg3006": [
+        678586.0719,
+        6988407.6593
+      ],
+      "ringLocalXZ": [
+        [
+          -396.517,
+          124.4298
+        ],
+        [
+          -390.2877,
+          121.5735
+        ],
+        [
+          -385.6435,
+          130.1453
+        ],
+        [
+          -391.9077,
+          133.6394
+        ]
+      ],
+      "centreLocalXZ": [
+        -391.0998,
+        127.496
+      ],
+      "areaSquareMetres": 70.51,
+      "minimumRectangleMetres": [
+        10.31,
+        7.18
+      ],
+      "longAxisGridBearingDegrees": 150.24
+    },
+    {
+      "id": "lm-clubhouse-solar-north",
+      "label": "lm-clubhouse-solar-north",
+      "kind": "roof_solar",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          334.00000000037835,
+          283.8134062476456
+        ],
+        [
+          354.0000000000873,
+          273.81997499614954
+        ],
+        [
+          368.0000000000291,
+          297.80420624883845
+        ],
+        [
+          348.00000000032014,
+          307.79763750033453
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678572.8,
+          6988406.269855
+        ],
+        [
+          678576.0,
+          6988407.868804
+        ],
+        [
+          678578.24,
+          6988404.031327
+        ],
+        [
+          678575.04,
+          6988402.432378
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. Superseded as a roof/solar plan reference by the corresponding native review above; retained for comparison.",
+      "centreEpsg3006": [
+        678575.52,
+        6988405.1506
+      ],
+      "ringLocalXZ": [
+        [
+          -404.3921,
+          128.1554
+        ],
+        [
+          -401.1181,
+          126.736
+        ],
+        [
+          -399.0972,
+          130.6854
+        ],
+        [
+          -402.3711,
+          132.1049
+        ]
+      ],
+      "centreLocalXZ": [
+        -401.7446,
+        129.4204
+      ],
+      "areaSquareMetres": 15.86,
+      "minimumRectangleMetres": [
+        4.68,
+        3.57
+      ],
+      "longAxisGridBearingDegrees": 149.72
+    },
+    {
+      "id": "lm-clubhouse-solar-south",
+      "label": "lm-clubhouse-solar-south",
+      "kind": "roof_solar",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          354.0000000000873,
+          315.79238124541007
+        ],
+        [
+          373.9999999997963,
+          305.79894999973476
+        ],
+        [
+          394.00000000023283,
+          337.7779249974992
+        ],
+        [
+          373.9999999997963,
+          349.7700374980923
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678576.0,
+          6988401.153219
+        ],
+        [
+          678579.2,
+          6988402.752168
+        ],
+        [
+          678582.4,
+          6988397.635532
+        ],
+        [
+          678579.2,
+          6988395.716794
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. Superseded as a roof/solar plan reference by the corresponding native review above; retained for comparison.",
+      "centreEpsg3006": [
+        678579.2,
+        6988399.2878
+      ],
+      "ringLocalXZ": [
+        [
+          -401.485,
+          133.433
+        ],
+        [
+          -398.2111,
+          132.0136
+        ],
+        [
+          -395.304,
+          137.2912
+        ],
+        [
+          -398.5955,
+          139.0295
+        ]
+      ],
+      "centreLocalXZ": [
+        -398.4004,
+        135.4684
+      ],
+      "areaSquareMetres": 22.51,
+      "minimumRectangleMetres": [
+        6.31,
+        3.73
+      ],
+      "longAxisGridBearingDegrees": 149.08
+    },
+    {
+      "id": "lm-clubhouse-terrace",
+      "label": "lm-clubhouse-terrace",
+      "kind": "terrace",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          426.0000000002037,
+          301.8015749985352
+        ],
+        [
+          441.9999999998254,
+          293.8068312476389
+        ],
+        [
+          459.9999999998545,
+          323.7871249963064
+        ],
+        [
+          437.99999999973807,
+          337.7779249974992
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678587.52,
+          6988403.391748
+        ],
+        [
+          678590.08,
+          6988404.670907
+        ],
+        [
+          678592.96,
+          6988399.87406
+        ],
+        [
+          678589.44,
+          6988397.635532
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678590.0574,
+        6988401.2243
+      ],
+      "ringLocalXZ": [
+        [
+          -389.8909,
+          131.831
+        ],
+        [
+          -387.2717,
+          130.6955
+        ],
+        [
+          -384.6659,
+          135.6367
+        ],
+        [
+          -388.2935,
+          137.6764
+        ]
+      ],
+      "centreLocalXZ": [
+        -387.4826,
+        134.1314
+      ],
+      "areaSquareMetres": 20.26,
+      "minimumRectangleMetres": [
+        5.92,
+        4.17
+      ],
+      "longAxisGridBearingDegrees": 149.02
+    },
+    {
+      "id": "lm-range-shelter",
+      "label": "lm-range-shelter",
+      "kind": "building",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          609.9999999998545,
+          915.3981624986045
+        ],
+        [
+          684.0000000003783,
+          963.3666249981616
+        ],
+        [
+          641.9999999998254,
+          1019.3298312486149
+        ],
+        [
+          570.0000000004366,
+          969.3626812484581
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678616.96,
+          6988305.216294
+        ],
+        [
+          678628.8,
+          6988297.54134
+        ],
+        [
+          678622.08,
+          6988288.587227
+        ],
+        [
+          678610.56,
+          6988296.581971
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678619.642,
+        6988296.9587
+      ],
+      "ringLocalXZ": [
+        [
+          -365.9396,
+          231.3467
+        ],
+        [
+          -354.569,
+          239.6485
+        ],
+        [
+          -361.75,
+          248.2101
+        ],
+        [
+          -372.7845,
+          239.607
+        ]
+      ],
+      "centreLocalXZ": [
+        -363.7202,
+        239.7284
+      ],
+      "areaSquareMetres": 154.11,
+      "minimumRectangleMetres": [
+        14.44,
+        11.19
+      ],
+      "longAxisGridBearingDegrees": 124.76
+    },
+    {
+      "id": "lm-practice-shed",
+      "label": "lm-practice-shed",
+      "kind": "building",
+      "sourceId": "facilities-range",
+      "sourcePixels": [
+        [
+          709.9999999998545,
+          579.6189249958843
+        ],
+        [
+          763.9999999999418,
+          597.6070937467739
+        ],
+        [
+          745.9999999999127,
+          651.5716187481303
+        ],
+        [
+          694.0000000002328,
+          633.5834437457379
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678632.96,
+          6988358.940972
+        ],
+        [
+          678641.6,
+          6988356.062865
+        ],
+        [
+          678638.72,
+          6988347.428541
+        ],
+        [
+          678630.4,
+          6988350.306649
+        ]
+      ],
+      "review": "retained-half-size-review-2026-09-09",
+      "confidence": "visible-outline",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retained source trace. Any height in the old review was a display estimate. ",
+      "centreEpsg3006": [
+        678635.9358,
+        6988353.2066
+      ],
+      "ringLocalXZ": [
+        [
+          -347.0707,
+          178.6461
+        ],
+        [
+          -338.6243,
+          181.9891
+        ],
+        [
+          -341.9641,
+          190.442
+        ],
+        [
+          -350.0919,
+          187.1164
+        ]
+      ],
+      "centreLocalXZ": [
+        -344.4209,
+        184.5275
+      ],
+      "areaSquareMetres": 81.05,
+      "minimumRectangleMetres": [
+        9.11,
+        9.1
+      ],
+      "longAxisGridBearingDegrees": 108.42
+    },
+    {
+      "id": "w1205924894",
+      "label": "Existing OSM clubhouse wall footprint",
+      "kind": "wall-footprint",
+      "sourceId": "legacy-osm",
+      "ringEpsg3006": [
+        [
+          678580.378847,
+          6988410.752329
+        ],
+        [
+          678570.395772,
+          6988404.187952
+        ],
+        [
+          678578.384676,
+          6988392.191998
+        ],
+        [
+          678588.273143,
+          6988398.650929
+        ],
+        [
+          678586.417513,
+          6988401.356851
+        ],
+        [
+          678590.874851,
+          6988404.308915
+        ],
+        [
+          678586.280354,
+          6988411.176439
+        ],
+        [
+          678582.017774,
+          6988408.335343
+        ]
+      ],
+      "sourcePixels": [
+        [
+          381.3677968282718,
+          255.79794657533057
+        ],
+        [
+          318.97357524358085,
+          296.82529933634214
+        ],
+        [
+          368.90422253200086,
+          371.80001031956635
+        ],
+        [
+          430.7071467388596,
+          331.4316914882511
+        ],
+        [
+          419.10945541530964,
+          314.5196843659505
+        ],
+        [
+          446.9678214423766,
+          296.0692788939923
+        ],
+        [
+          418.25221496328595,
+          253.1472563103307
+        ],
+        [
+          391.61108453627094,
+          270.9041031252127
+        ]
+      ],
+      "review": "existing-model-reference",
+      "confidence": "inherited-osm-not-surveyed",
+      "heightsMeasuredByOrthophoto": false,
+      "notes": "Retain separately from visible roof outlines. Existing OSM footprint is not an independently surveyed wall line.",
+      "centreEpsg3006": [
+        678580.7674,
+        6988402.4326
+      ],
+      "ringLocalXZ": [
+        [
+          -396.6,
+          124.1
+        ],
+        [
+          -406.9,
+          130.1
+        ],
+        [
+          -399.6,
+          142.5
+        ],
+        [
+          -389.4,
+          136.6
+        ],
+        [
+          -391.1,
+          133.8
+        ],
+        [
+          -386.5,
+          131.1
+        ],
+        [
+          -390.7,
+          124.0
+        ],
+        [
+          -395.1,
+          126.6
+        ]
+      ],
+      "centreLocalXZ": [
+        -396.6676,
+        132.418
+      ],
+      "areaSquareMetres": 214.49,
+      "minimumRectangleMetres": [
+        17.18,
+        14.45
+      ],
+      "longAxisGridBearingDegrees": 56.67
+    }
+  ]
+}

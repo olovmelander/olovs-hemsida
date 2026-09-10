@@ -1,0 +1,2227 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "kind": "independent-orthophoto-geometry-verification",
+  "observedAt": "2026-09-09T21:08:31.077308+00:00",
+  "state": "passed",
+  "method": "Independent Shapely topology and PROJ conversion from frozen model scales; no fitted image registration.",
+  "modelSha256": "9868d54c21abf6533368ac7de0790347a439383b42462d98189cf6aea0c423fd",
+  "baselineSha256": "d1fc506227d7bcba85ae540ab48a9cfb11e0ea761e6897def747d8c1593fcecb",
+  "reviewFiles": [
+    {
+      "path": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "sha256": "b2dca3f168b21ea8e385a83776542fcadca2b802698af6cd573d2d825fc2d988"
+    },
+    {
+      "path": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "sha256": "a8859d3b1d371b6af35286097f2bf2ff62fa7d17b2b7011d20835565977ee75c"
+    },
+    {
+      "path": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "sha256": "f326032f52349e4f2758e15edfa733d419af0891d0fc738b2379ec6841014785"
+    },
+    {
+      "path": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "sha256": "7e3057b5461a704eb55dbfcbaf409faee1a6fc88e434fc8d085496136e4fd7de"
+    }
+  ],
+  "verifiedSourceWindows": [
+    {
+      "id": "ground-overview",
+      "sha256": "6458540fb8be86ad8c1e3c0b1adb2046ac91b3fe921065651506253c6f28504a"
+    },
+    {
+      "id": "norrfallsviken-01-hole",
+      "sha256": "c5988b63faeb69c976944c7eb90b604e81201a504f3e17c8940c6f9f3eb5935c"
+    },
+    {
+      "id": "norrfallsviken-02-hole",
+      "sha256": "8e7d88a50bf5ea339604101b5811e1056210965de4a2c9fdada439acf24358e8"
+    },
+    {
+      "id": "norrfallsviken-03-hole",
+      "sha256": "5b321b8d07920329f33a4c8f89f58892fab480efbc3a37a37bc6a8bbadd8ffcc"
+    },
+    {
+      "id": "norrfallsviken-04-hole",
+      "sha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f"
+    },
+    {
+      "id": "norrfallsviken-05-hole",
+      "sha256": "7d2fb9cefbcf3c621f7229dd43e1eb038c14c38048b839b25e9af75593624260"
+    },
+    {
+      "id": "norrfallsviken-06-hole",
+      "sha256": "827db256765d89d8376d92aa8172286d244aeb35501a6aacff350df2e7c2a228"
+    },
+    {
+      "id": "norrfallsviken-07-hole",
+      "sha256": "edcb3c3d0143c95d17f4217ea9bae8237e4493a35ceb6882479edad3c26adf9c"
+    },
+    {
+      "id": "norrfallsviken-08-hole",
+      "sha256": "26d4d5295f19cf075949c894547bf59b81cdee52650d33bc32fedd57ab0f1ddb"
+    },
+    {
+      "id": "norrfallsviken-09-hole",
+      "sha256": "49726480abd6880f215fffacccb66f2017184abbeb93dcbc0418bf733999cfbf"
+    },
+    {
+      "id": "norrfallsviken-10-hole",
+      "sha256": "5f113cbfd8316473cfa16d9152f94c04feb028858857caf42d6f9360cdfc95fc"
+    },
+    {
+      "id": "norrfallsviken-11-hole",
+      "sha256": "a7f9f22d442305cff9e40b433fbf610653d8a4cd5c3c8b27d80897db9cc25b9d"
+    },
+    {
+      "id": "norrfallsviken-12-hole",
+      "sha256": "9c4f89a01dd096b184ed946013dd22d0dfcd7143f30f186dd61de3590233429d"
+    },
+    {
+      "id": "norrfallsviken-13-hole",
+      "sha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d"
+    },
+    {
+      "id": "norrfallsviken-14-hole",
+      "sha256": "c930181e399f45235f8330c6155dc2694de47d3bf9458502ce238d5c1039265b"
+    },
+    {
+      "id": "norrfallsviken-15-hole",
+      "sha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7"
+    },
+    {
+      "id": "norrfallsviken-16-hole",
+      "sha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483"
+    },
+    {
+      "id": "norrfallsviken-17-hole",
+      "sha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d"
+    },
+    {
+      "id": "norrfallsviken-18-hole",
+      "sha256": "7a56f9aa451e3132aa1968aaa2b38ade2cbb654b7f2dd45f3ffc728b47f79b61"
+    },
+    {
+      "id": "facilities-range",
+      "sha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34"
+    },
+    {
+      "id": "storsanden-beach",
+      "sha256": "64a5628d3f102b62dec182e57cdb88b7c6f5cf9c652063f0a62bce8225f61c70"
+    },
+    {
+      "id": "east-coast-north",
+      "sha256": "0f77c01d52158cb45be09cb01be7b3a596dff6aea4ffc594c995bd6cc80c80a2"
+    },
+    {
+      "id": "east-coast-south",
+      "sha256": "582747da49363f5a3cd128fd23958872c05d4ccd7c7cfcc41c11017967be4019"
+    }
+  ],
+  "verifiedPanelAffines": [
+    {
+      "file": "nvgkbuild/cache/lm-review/01-green.json",
+      "sha256": "ac8e76e232a8e1ea65e0f621b84c3b85b4cec40b3d07e775e3598c6a6e8730d5",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/01-hole.json",
+      "sha256": "fb4c512fc1fe42080e7626d45c664252302fd688856f19561a8d72c99104c129",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/01-tees.json",
+      "sha256": "03bd1a600594d4da2382d9bd45be0d7fe10ad3e502a996b781dbba3d0f5df8f8",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/02-green.json",
+      "sha256": "07e83b0f35379677f63b290df14cb6f3bfcfe4bc5f518b64ada83708eb614a04",
+      "maxAffineDifference": 2.7755575615628914e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/02-hole.json",
+      "sha256": "a83abb7c4d1955a7b72d0c31f811394603fa70e8e35b39857508109662563df3",
+      "maxAffineDifference": 2.7755575615628914e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/02-tees.json",
+      "sha256": "054c70a173bec47206b2ee78c82ed45e554dae610508fec9acb6bc8eebb80caf",
+      "maxAffineDifference": 2.7755575615628914e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/03-green.json",
+      "sha256": "5e59ded7398e4ae965b679e3cb981e9f3df58d6df05f108d7b793179826f65df",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/03-hole.json",
+      "sha256": "2a63965c3e3568877dde72252090d8affd85a5f638b9cded556dd2ce223efc53",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/03-tees.json",
+      "sha256": "ec4340b468ccb7d111c0c0bbe14d9854a8ab7aa5a0a065acf2367fe96ed025a7",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/04-green.json",
+      "sha256": "9dcf9c558e7592d1e3e4abcf7c5caf9e5f4ac434b6787cd5272ab8af20092c1d",
+      "maxAffineDifference": 2.7755575615628914e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/04-hole.json",
+      "sha256": "3f6ac89976e73b90b785022119c9491a32642d72addb90b54c99c2c3d799098f",
+      "maxAffineDifference": 5.551115123125783e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/04-tees.json",
+      "sha256": "d8ebc66dd40dc0679f27c3db5b4f188f19d95543f8dadda9cbc8ddfcb8635547",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/05-green.json",
+      "sha256": "88f4b0cd9b666af867f7c50b43a0c526b2ba6840abc2ef238b45ad42d150159a",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/05-hole.json",
+      "sha256": "6f662fdcc416c97ea3d2ca8ebd2b0a68058b429e12c392df8184f562f51aa448",
+      "maxAffineDifference": 5.551115123125783e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/05-tees.json",
+      "sha256": "425ea60aade192e2ff8eea1d4dfa0bd43df0a888bbe4c02c21378e64f22ad2c4",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/06-green.json",
+      "sha256": "818def772ad907469933a24a6405b8f948e13a1fd2b84350c4cfc2e192165547",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/06-hole.json",
+      "sha256": "5d236345e115e1c9c17ccdb32e347717c7c134aaad5c701e6f7d4b66091b8a9c",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/06-tees.json",
+      "sha256": "0a57b7f46a3db8692294fac0f581d808894b75e06d66974ddb7f9278d7585c1a",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/07-green.json",
+      "sha256": "36e1e98f805579afb01c071c609337f7932d3af34ed0f72adbd92ac8c4642a37",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/07-hole.json",
+      "sha256": "5c1d2975aa1b395b16b0f1530b1788446458ada9b9e613a6b0c502d5da6b77e8",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/07-tees.json",
+      "sha256": "de365bcfeebbcf1be81e7672c206487c4dcfd07d40d576903a64db4804550e61",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/08-green.json",
+      "sha256": "7d535f622bd0226f36b68643511ef6ac03b7325844bc28c3d3bcdb822ba26bff",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/08-hole.json",
+      "sha256": "444cce062d65de3d1ac827bc067344af5b0fa00e3b087623a5bf7a969eee65f6",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/08-tees.json",
+      "sha256": "749b9a96e41de6e8c48185498947a2212b0165e505457dd6b1a79b8483e3a5d5",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/09-green.json",
+      "sha256": "9b643162bf335c3f8c1c55290b846b0cf2539873f0a78a37e4b4723378633213",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/09-hole.json",
+      "sha256": "3b2a43293afffc64ab62a75ecdead2ee1f1aed241e8562d7bf35c9d8e8cf065b",
+      "maxAffineDifference": 5.551115123125783e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/09-tees.json",
+      "sha256": "725cc540c1756625c14b530667703985bdcde12bbe2b9040a11f3319d97da156",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/10-green.json",
+      "sha256": "6eff1df29a07f75db7638776959de9dcb4514a7e116a8eb689a529ef8dd596c2",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/10-hole.json",
+      "sha256": "b79bbc88114609736203d390da84351e162ed791dbd218078e6a3a82fe0da0d2",
+      "maxAffineDifference": 5.551115123125783e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/10-tees.json",
+      "sha256": "ac38e271e761104b2ac195381a89c01f41cb3a7eac52f404f6c0ef3c49381069",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/11-green.json",
+      "sha256": "21ff841e9af72656e9b9d39dde136880245b97c90ff1f3f1710b9bacc8dc67cb",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/11-hole.json",
+      "sha256": "8a49a449102da17f7db555c4b3191cb1b2862034d569eff8e708adbd9162acfe",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/11-tees.json",
+      "sha256": "71416dfed42e9cc4b84fe6313f77d34bbc188ee58f862d938e70c8f448aef2c9",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/12-green.json",
+      "sha256": "c44efc53977cfcc16e88fb65ecec0289c7852a0744dbc6614c2f01d83cc77732",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/12-hole.json",
+      "sha256": "e1a18b38c5e775fcd5080902c99be5ee34e6121762d97e0ff2379ed4c52f990c",
+      "maxAffineDifference": 2.7755575615628914e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/12-tees.json",
+      "sha256": "ffdb693714bcdf626f4fd904669e7e3159309567fc689ea1e6ad8ebfaff265de",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/13-green.json",
+      "sha256": "63f4756028c6134cb085da36ccded739293eed94f7fdaa15505c7f3cecd38f38",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/13-hole.json",
+      "sha256": "a41772627a2ce44982f03790e7048750119bbe21d6f0164aa57e46ca43c96b0e",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/13-tees.json",
+      "sha256": "7e8b2ab38c7f7f6b95c34fac446a694a4afa9881c6f0d0301156cd71bed80fa0",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/14-green.json",
+      "sha256": "e2f850d5970393175713f64c21020864c639ff68a0fea049de5d6032ae18dffc",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/14-hole.json",
+      "sha256": "28f9e67ae54dbf15236ae530ef1ce88b4869b1b3dd1b86e6d989fdd520e89bc2",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/14-tees.json",
+      "sha256": "a78a8b7e7729ea3837dee32651c6ee327522a4009d742329831f87b77523b4d2",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/15-green.json",
+      "sha256": "1b5c5ad924a0e3f77d9cd4da04a08d9be1a86c7e1e60c8e542ee31a42ca2a604",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/15-hole.json",
+      "sha256": "b3665542b25f0278d2184ba5870388d2ceefe9f5dd53dcc44947337ad257bc82",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/15-tees.json",
+      "sha256": "d0850d2c8d8ac0939db32b972a462e169ab270074a3d760b7453290a29af4725",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/16-green.json",
+      "sha256": "3c3e3ee00f8634d71fbaa9227ba629ca277e1f1a20cd717fa91069fd29983990",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/16-hole.json",
+      "sha256": "d2d873a4db92ae78f130695a857d4c3b9f818212c1cc543c6ab5474803f9c1ff",
+      "maxAffineDifference": 5.551115123125783e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/16-tees.json",
+      "sha256": "1596d93c600e2f6e0aae8ae04995a140bfc166eb80da2da0d16e1cd47051b366",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/17-green.json",
+      "sha256": "fca815d375390e1cb120a8a6a922440d2fa1e2235199fcba8de6c3f38a58a4a2",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/17-hole.json",
+      "sha256": "57491c65b3cd3dc8e19e20fce4f490f17c5e39f0d9021d7d9b850cf7718786fb",
+      "maxAffineDifference": 2.7755575615628914e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/17-tees.json",
+      "sha256": "11a309067e952c3d0111fe88376f00ea61d48efba88605af741ffc88b29e85ea",
+      "maxAffineDifference": 2.7755575615628914e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/18-green.json",
+      "sha256": "d363826a47fc0bfbeef3f8dd981158ea253c31f395de519f3af0d3e0fab89dca",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/18-hole.json",
+      "sha256": "7e620ff77b3a490e58ea0e9ef14c04bccb245cc81a1e4e6a83292d554351c3b9",
+      "maxAffineDifference": 5.551115123125783e-17
+    },
+    {
+      "file": "nvgkbuild/cache/lm-review/18-tees.json",
+      "sha256": "5ff92b65bdcbfbb51e1e90004d384c08cb75c6a7654ac2cb823a44e60572ac24",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-ortho/review/ground-overview-panel.json",
+      "sha256": "ca56db572189553d725908d4bb9c2a0125fd7ec608855447c7f6b8067bc12c26",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-ortho/review/mats-native.json",
+      "sha256": "728c2b00c06529ba5bbc6117eaf3b177ff33b242d746446e0c5ba110856caae0",
+      "maxAffineDifference": 0.0
+    },
+    {
+      "file": "nvgkbuild/cache/lm-ortho/review/norrfallsviken-01-hole-overlay-panel.json",
+      "sha256": "39156f01fd7ecdd05166387c615c6fb444e03ab10900ca7f66e690d55d0bba24",
+      "maxAffineDifference": 0.0
+    }
+  ],
+  "features": [
+    {
+      "id": "lm-h01-green",
+      "hole": 1,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/0/green",
+      "sourceId": "norrfallsviken-01-hole",
+      "valid": true,
+      "areaSquareMetres": 279.27,
+      "vertices": 18,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0013277717413551385,
+      "change": {
+        "previousAreaSquareMetres": 343.034,
+        "newAreaSquareMetres": 279.27,
+        "centroidShiftMetres": 1.114,
+        "boundaryHausdorffMetres": 4.54,
+        "intersectionOverUnion": 0.74069
+      }
+    },
+    {
+      "id": "lm-h01-bunker",
+      "hole": 1,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/0/bunkers/0",
+      "sourceId": "norrfallsviken-01-hole",
+      "valid": true,
+      "areaSquareMetres": 63.782,
+      "vertices": 18,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012336325528239744,
+      "change": null
+    },
+    {
+      "id": "lm-h01-tee-1",
+      "hole": 1,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/0/tees/0",
+      "sourceId": "norrfallsviken-01-hole",
+      "valid": true,
+      "areaSquareMetres": 75.955,
+      "vertices": 11,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0014036006304621682,
+      "change": {
+        "previousAreaSquareMetres": 90.276,
+        "newAreaSquareMetres": 75.955,
+        "centroidShiftMetres": 0.654,
+        "boundaryHausdorffMetres": 2.087,
+        "intersectionOverUnion": 0.729811
+      }
+    },
+    {
+      "id": "lm-h02-green",
+      "hole": 2,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/1/green",
+      "sourceId": "norrfallsviken-02-hole",
+      "valid": true,
+      "areaSquareMetres": 199.13,
+      "vertices": 15,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012388946400984275,
+      "change": {
+        "previousAreaSquareMetres": 321.589,
+        "newAreaSquareMetres": 199.13,
+        "centroidShiftMetres": 1.13,
+        "boundaryHausdorffMetres": 3.995,
+        "intersectionOverUnion": 0.619205
+      }
+    },
+    {
+      "id": "lm-h02-tee-1",
+      "hole": 2,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/1/tees/0",
+      "sourceId": "norrfallsviken-02-hole",
+      "valid": true,
+      "areaSquareMetres": 105.498,
+      "vertices": 12,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012547706215102414,
+      "change": {
+        "previousAreaSquareMetres": 141.519,
+        "newAreaSquareMetres": 105.498,
+        "centroidShiftMetres": 0.737,
+        "boundaryHausdorffMetres": 3.002,
+        "intersectionOverUnion": 0.716458
+      }
+    },
+    {
+      "id": "lm-h02-tee-2",
+      "hole": 2,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/1/tees/1",
+      "sourceId": "norrfallsviken-02-hole",
+      "valid": true,
+      "areaSquareMetres": 21.184,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012682792558646047,
+      "change": {
+        "previousAreaSquareMetres": 23.854,
+        "newAreaSquareMetres": 21.184,
+        "centroidShiftMetres": 0.225,
+        "boundaryHausdorffMetres": 1.172,
+        "intersectionOverUnion": 0.813365
+      }
+    },
+    {
+      "id": "lm-h03-green",
+      "hole": 3,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/2/green",
+      "sourceId": "norrfallsviken-03-hole",
+      "valid": true,
+      "areaSquareMetres": 238.31,
+      "vertices": 17,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.001311447297912919,
+      "change": {
+        "previousAreaSquareMetres": 382.224,
+        "newAreaSquareMetres": 238.31,
+        "centroidShiftMetres": 0.821,
+        "boundaryHausdorffMetres": 4.959,
+        "intersectionOverUnion": 0.620997
+      }
+    },
+    {
+      "id": "lm-h03-tee-1",
+      "hole": 3,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/2/tees/0",
+      "sourceId": "norrfallsviken-03-hole",
+      "valid": true,
+      "areaSquareMetres": 126.682,
+      "vertices": 15,
+      "projectionRoundtripMetres": 1.877140660839749e-09,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.0010904012076386918,
+      "change": {
+        "previousAreaSquareMetres": 142.292,
+        "newAreaSquareMetres": 126.682,
+        "centroidShiftMetres": 1.871,
+        "boundaryHausdorffMetres": 3.098,
+        "intersectionOverUnion": 0.725095
+      }
+    },
+    {
+      "id": "lm-shared-green-04-08",
+      "hole": 4,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/3/green",
+      "sourceId": "norrfallsviken-04-hole",
+      "valid": true,
+      "areaSquareMetres": 771.584,
+      "vertices": 28,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013552311019782927,
+      "change": {
+        "previousAreaSquareMetres": 345.462,
+        "newAreaSquareMetres": 771.584,
+        "centroidShiftMetres": 2.036,
+        "boundaryHausdorffMetres": 13.785,
+        "intersectionOverUnion": 0.382494
+      }
+    },
+    {
+      "id": "lm-h04-tee-1",
+      "hole": 4,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/3/tees/0",
+      "sourceId": "norrfallsviken-04-hole",
+      "valid": true,
+      "areaSquareMetres": 98.342,
+      "vertices": 11,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012801737764513736,
+      "change": {
+        "previousAreaSquareMetres": 154.731,
+        "newAreaSquareMetres": 98.342,
+        "centroidShiftMetres": 1.246,
+        "boundaryHausdorffMetres": 5.533,
+        "intersectionOverUnion": 0.603081
+      }
+    },
+    {
+      "id": "lm-h04-tee-2",
+      "hole": 4,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/3/tees/1",
+      "sourceId": "norrfallsviken-04-hole",
+      "valid": true,
+      "areaSquareMetres": 53.619,
+      "vertices": 10,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012107361993545132,
+      "change": {
+        "previousAreaSquareMetres": 154.731,
+        "newAreaSquareMetres": 53.619,
+        "centroidShiftMetres": 45.19,
+        "boundaryHausdorffMetres": 48.258,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h05-green",
+      "hole": 5,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/4/green",
+      "sourceId": "norrfallsviken-05-hole",
+      "valid": true,
+      "areaSquareMetres": 565.133,
+      "vertices": 29,
+      "projectionRoundtripMetres": 2.8036522163991574e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013338978730240145,
+      "change": {
+        "previousAreaSquareMetres": 557.022,
+        "newAreaSquareMetres": 565.133,
+        "centroidShiftMetres": 0.792,
+        "boundaryHausdorffMetres": 5.758,
+        "intersectionOverUnion": 0.700032
+      }
+    },
+    {
+      "id": "lm-h05-tee-1",
+      "hole": 5,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/4/tees/0",
+      "sourceId": "norrfallsviken-05-hole",
+      "valid": true,
+      "areaSquareMetres": 49.203,
+      "vertices": 10,
+      "projectionRoundtripMetres": 9.313225746154785e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012404034597643784,
+      "change": {
+        "previousAreaSquareMetres": 24.276,
+        "newAreaSquareMetres": 49.203,
+        "centroidShiftMetres": 6.06,
+        "boundaryHausdorffMetres": 8.249,
+        "intersectionOverUnion": 0.133431
+      }
+    },
+    {
+      "id": "lm-h05-tee-2",
+      "hole": 5,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/4/tees/1",
+      "sourceId": "norrfallsviken-05-hole",
+      "valid": true,
+      "areaSquareMetres": 54.195,
+      "vertices": 10,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0010434470804500744,
+      "change": {
+        "previousAreaSquareMetres": 24.276,
+        "newAreaSquareMetres": 54.195,
+        "centroidShiftMetres": 20.542,
+        "boundaryHausdorffMetres": 22.716,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h06-green",
+      "hole": 6,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/5/green",
+      "sourceId": "norrfallsviken-06-hole",
+      "valid": true,
+      "areaSquareMetres": 258.56,
+      "vertices": 18,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.001128190039458028,
+      "change": {
+        "previousAreaSquareMetres": 412.331,
+        "newAreaSquareMetres": 258.56,
+        "centroidShiftMetres": 0.322,
+        "boundaryHausdorffMetres": 4.654,
+        "intersectionOverUnion": 0.627069
+      }
+    },
+    {
+      "id": "lm-h06-tee-1",
+      "hole": 6,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/5/tees/0",
+      "sourceId": "norrfallsviken-06-hole",
+      "valid": true,
+      "areaSquareMetres": 137.178,
+      "vertices": 12,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0009836696098477129,
+      "change": {
+        "previousAreaSquareMetres": 361.137,
+        "newAreaSquareMetres": 137.178,
+        "centroidShiftMetres": 3.115,
+        "boundaryHausdorffMetres": 10.58,
+        "intersectionOverUnion": 0.374198
+      }
+    },
+    {
+      "id": "lm-h06-tee-2",
+      "hole": 6,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/5/tees/1",
+      "sourceId": "norrfallsviken-06-hole",
+      "valid": true,
+      "areaSquareMetres": 58.176,
+      "vertices": 10,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012528757317734117,
+      "change": {
+        "previousAreaSquareMetres": 168.793,
+        "newAreaSquareMetres": 58.176,
+        "centroidShiftMetres": 2.927,
+        "boundaryHausdorffMetres": 7.745,
+        "intersectionOverUnion": 0.342598
+      }
+    },
+    {
+      "id": "lm-h07-green",
+      "hole": 7,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/6/green",
+      "sourceId": "norrfallsviken-07-hole",
+      "valid": true,
+      "areaSquareMetres": 395.917,
+      "vertices": 21,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013654608730739933,
+      "change": {
+        "previousAreaSquareMetres": 620.247,
+        "newAreaSquareMetres": 395.917,
+        "centroidShiftMetres": 1.66,
+        "boundaryHausdorffMetres": 6.008,
+        "intersectionOverUnion": 0.638321
+      }
+    },
+    {
+      "id": "lm-h07-tee-1",
+      "hole": 7,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/6/tees/0",
+      "sourceId": "norrfallsviken-07-hole",
+      "valid": true,
+      "areaSquareMetres": 172.877,
+      "vertices": 16,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.001209480605744287,
+      "change": {
+        "previousAreaSquareMetres": 429.438,
+        "newAreaSquareMetres": 172.877,
+        "centroidShiftMetres": 1.857,
+        "boundaryHausdorffMetres": 9.533,
+        "intersectionOverUnion": 0.392511
+      }
+    },
+    {
+      "id": "lm-shared-green-04-08",
+      "hole": 8,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/7/green",
+      "sourceId": "norrfallsviken-04-hole",
+      "valid": true,
+      "areaSquareMetres": 771.584,
+      "vertices": 28,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013552311019782927,
+      "change": {
+        "previousAreaSquareMetres": 225.215,
+        "newAreaSquareMetres": 771.584,
+        "centroidShiftMetres": 37.375,
+        "boundaryHausdorffMetres": 47.908,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h08-tee-1",
+      "hole": 8,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/7/tees/0",
+      "sourceId": "norrfallsviken-08-hole",
+      "valid": true,
+      "areaSquareMetres": 75.955,
+      "vertices": 10,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0009563950859287095,
+      "change": {
+        "previousAreaSquareMetres": 30.163,
+        "newAreaSquareMetres": 75.955,
+        "centroidShiftMetres": 1.986,
+        "boundaryHausdorffMetres": 3.652,
+        "intersectionOverUnion": 0.341957
+      }
+    },
+    {
+      "id": "lm-h08-tee-2",
+      "hole": 8,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/7/tees/1",
+      "sourceId": "norrfallsviken-08-hole",
+      "valid": true,
+      "areaSquareMetres": 52.506,
+      "vertices": 10,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013281342233842884,
+      "change": {
+        "previousAreaSquareMetres": 30.163,
+        "newAreaSquareMetres": 52.506,
+        "centroidShiftMetres": 57.148,
+        "boundaryHausdorffMetres": 58.338,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h09-green",
+      "hole": 9,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/8/green",
+      "sourceId": "norrfallsviken-09-hole",
+      "valid": true,
+      "areaSquareMetres": 320.397,
+      "vertices": 21,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013144138908455583,
+      "change": {
+        "previousAreaSquareMetres": 672.329,
+        "newAreaSquareMetres": 320.397,
+        "centroidShiftMetres": 2.925,
+        "boundaryHausdorffMetres": 10.774,
+        "intersectionOverUnion": 0.476548
+      }
+    },
+    {
+      "id": "lm-h09-tee-1",
+      "hole": 9,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/8/tees/0",
+      "sourceId": "norrfallsviken-09-hole",
+      "valid": true,
+      "areaSquareMetres": 59.507,
+      "vertices": 11,
+      "projectionRoundtripMetres": 9.313225746154785e-10,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.0011762537977031543,
+      "change": {
+        "previousAreaSquareMetres": 280.858,
+        "newAreaSquareMetres": 59.507,
+        "centroidShiftMetres": 51.74,
+        "boundaryHausdorffMetres": 56.29,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h09-tee-2",
+      "hole": 9,
+      "review": "nvgkbuild/mapping/review-front9-2026-09-09.json",
+      "path": "/holes/8/tees/1",
+      "sourceId": "norrfallsviken-09-hole",
+      "valid": true,
+      "areaSquareMetres": 60.493,
+      "vertices": 11,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.00122484723925699,
+      "change": {
+        "previousAreaSquareMetres": 280.858,
+        "newAreaSquareMetres": 60.493,
+        "centroidShiftMetres": 1.666,
+        "boundaryHausdorffMetres": 9.108,
+        "intersectionOverUnion": 0.215385
+      }
+    },
+    {
+      "id": "lm-h10-green-1",
+      "hole": 10,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/0/green",
+      "sourceId": "norrfallsviken-10-hole",
+      "valid": true,
+      "areaSquareMetres": 225.088,
+      "vertices": 16,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012935118498195253,
+      "change": {
+        "previousAreaSquareMetres": 444.058,
+        "newAreaSquareMetres": 225.088,
+        "centroidShiftMetres": 0.63,
+        "boundaryHausdorffMetres": 6.764,
+        "intersectionOverUnion": 0.506888
+      }
+    },
+    {
+      "id": "lm-h10-tee-1",
+      "hole": 10,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/0/tees/0",
+      "sourceId": "norrfallsviken-10-hole",
+      "valid": true,
+      "areaSquareMetres": 131.955,
+      "vertices": 12,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.001370423254493667,
+      "change": {
+        "previousAreaSquareMetres": 220.221,
+        "newAreaSquareMetres": 131.955,
+        "centroidShiftMetres": 0.345,
+        "boundaryHausdorffMetres": 4.572,
+        "intersectionOverUnion": 0.599193
+      }
+    },
+    {
+      "id": "lm-h10-tee-2",
+      "hole": 10,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/0/tees/1",
+      "sourceId": "norrfallsviken-10-hole",
+      "valid": true,
+      "areaSquareMetres": 64.678,
+      "vertices": 10,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012974022416105287,
+      "change": {
+        "previousAreaSquareMetres": 220.221,
+        "newAreaSquareMetres": 64.678,
+        "centroidShiftMetres": 47.282,
+        "boundaryHausdorffMetres": 52.628,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h11-green-1",
+      "hole": 11,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/1/green",
+      "sourceId": "norrfallsviken-11-hole",
+      "valid": true,
+      "areaSquareMetres": 191.872,
+      "vertices": 17,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012167698086305578,
+      "change": {
+        "previousAreaSquareMetres": 390.206,
+        "newAreaSquareMetres": 191.872,
+        "centroidShiftMetres": 2.787,
+        "boundaryHausdorffMetres": 6.53,
+        "intersectionOverUnion": 0.477905
+      }
+    },
+    {
+      "id": "lm-h11-bunker-1",
+      "hole": 11,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/1/bunkers/0",
+      "sourceId": "norrfallsviken-11-hole",
+      "valid": true,
+      "areaSquareMetres": 24.845,
+      "vertices": 10,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0009529363175972761,
+      "change": null
+    },
+    {
+      "id": "lm-h11-tee-1",
+      "hole": 11,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/1/tees/0",
+      "sourceId": "norrfallsviken-11-hole",
+      "valid": true,
+      "areaSquareMetres": 122.33,
+      "vertices": 15,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0013721180640884126,
+      "change": {
+        "previousAreaSquareMetres": 156.698,
+        "newAreaSquareMetres": 122.33,
+        "centroidShiftMetres": 0.102,
+        "boundaryHausdorffMetres": 2.487,
+        "intersectionOverUnion": 0.780088
+      }
+    },
+    {
+      "id": "lm-h12-green-1",
+      "hole": 12,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/2/green",
+      "sourceId": "norrfallsviken-12-hole",
+      "valid": true,
+      "areaSquareMetres": 587.008,
+      "vertices": 22,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0011879321435590282,
+      "change": {
+        "previousAreaSquareMetres": 863.482,
+        "newAreaSquareMetres": 587.008,
+        "centroidShiftMetres": 2.512,
+        "boundaryHausdorffMetres": 6.821,
+        "intersectionOverUnion": 0.594992
+      }
+    },
+    {
+      "id": "lm-h12-tee-1",
+      "hole": 12,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/2/tees/0",
+      "sourceId": "norrfallsviken-12-hole",
+      "valid": true,
+      "areaSquareMetres": 89.882,
+      "vertices": 12,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013289960829132267,
+      "change": {
+        "previousAreaSquareMetres": 154.106,
+        "newAreaSquareMetres": 89.882,
+        "centroidShiftMetres": 0.586,
+        "boundaryHausdorffMetres": 4.057,
+        "intersectionOverUnion": 0.582295
+      }
+    },
+    {
+      "id": "lm-h12-tee-2",
+      "hole": 12,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/2/tees/1",
+      "sourceId": "norrfallsviken-12-hole",
+      "valid": true,
+      "areaSquareMetres": 55.642,
+      "vertices": 11,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012690766200579202,
+      "change": {
+        "previousAreaSquareMetres": 154.106,
+        "newAreaSquareMetres": 55.642,
+        "centroidShiftMetres": 68.96,
+        "boundaryHausdorffMetres": 71.006,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h13-green-1",
+      "hole": 13,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/3/green",
+      "sourceId": "norrfallsviken-13-hole",
+      "valid": true,
+      "areaSquareMetres": 396.851,
+      "vertices": 19,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0011724131161970927,
+      "change": {
+        "previousAreaSquareMetres": 518.863,
+        "newAreaSquareMetres": 396.851,
+        "centroidShiftMetres": 2.141,
+        "boundaryHausdorffMetres": 7.517,
+        "intersectionOverUnion": 0.725657
+      }
+    },
+    {
+      "id": "lm-h13-tee-1",
+      "hole": 13,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/3/tees/0",
+      "sourceId": "norrfallsviken-13-hole",
+      "valid": true,
+      "areaSquareMetres": 90.982,
+      "vertices": 12,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.00120112451326768,
+      "change": {
+        "previousAreaSquareMetres": 252.698,
+        "newAreaSquareMetres": 90.982,
+        "centroidShiftMetres": 1.536,
+        "boundaryHausdorffMetres": 7.487,
+        "intersectionOverUnion": 0.360045
+      }
+    },
+    {
+      "id": "lm-h13-tee-2",
+      "hole": 13,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/3/tees/1",
+      "sourceId": "norrfallsviken-13-hole",
+      "valid": true,
+      "areaSquareMetres": 63.872,
+      "vertices": 11,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.001089943504501932,
+      "change": {
+        "previousAreaSquareMetres": 252.698,
+        "newAreaSquareMetres": 63.872,
+        "centroidShiftMetres": 35.414,
+        "boundaryHausdorffMetres": 39.64,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h13-tee-3",
+      "hole": 13,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/3/tees/2",
+      "sourceId": "norrfallsviken-13-hole",
+      "valid": true,
+      "areaSquareMetres": 41.152,
+      "vertices": 9,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012987442600943136,
+      "change": {
+        "previousAreaSquareMetres": 252.698,
+        "newAreaSquareMetres": 41.152,
+        "centroidShiftMetres": 77.486,
+        "boundaryHausdorffMetres": 83.127,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h14-green-1",
+      "hole": 14,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/4/green",
+      "sourceId": "norrfallsviken-14-hole",
+      "valid": true,
+      "areaSquareMetres": 295.898,
+      "vertices": 18,
+      "projectionRoundtripMetres": 2.8036522163991574e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012000814472498849,
+      "change": {
+        "previousAreaSquareMetres": 700.653,
+        "newAreaSquareMetres": 295.898,
+        "centroidShiftMetres": 1.683,
+        "boundaryHausdorffMetres": 7.691,
+        "intersectionOverUnion": 0.422317
+      }
+    },
+    {
+      "id": "lm-h14-tee-1",
+      "hole": 14,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/4/tees/0",
+      "sourceId": "norrfallsviken-14-hole",
+      "valid": true,
+      "areaSquareMetres": 138.534,
+      "vertices": 14,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.001016060595351839,
+      "change": {
+        "previousAreaSquareMetres": 193.395,
+        "newAreaSquareMetres": 138.534,
+        "centroidShiftMetres": 1.499,
+        "boundaryHausdorffMetres": 4.219,
+        "intersectionOverUnion": 0.610115
+      }
+    },
+    {
+      "id": "lm-h15-green-1",
+      "hole": 15,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/5/green",
+      "sourceId": "norrfallsviken-15-hole",
+      "valid": true,
+      "areaSquareMetres": 320.909,
+      "vertices": 18,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0010421771565178827,
+      "change": {
+        "previousAreaSquareMetres": 420.973,
+        "newAreaSquareMetres": 320.909,
+        "centroidShiftMetres": 2.859,
+        "boundaryHausdorffMetres": 5.609,
+        "intersectionOverUnion": 0.680152
+      }
+    },
+    {
+      "id": "lm-h15-bunker-1",
+      "hole": 15,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/5/bunkers/0",
+      "sourceId": "norrfallsviken-15-hole",
+      "valid": true,
+      "areaSquareMetres": 47.181,
+      "vertices": 15,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0007522789414173239,
+      "change": null
+    },
+    {
+      "id": "lm-h15-tee-1",
+      "hole": 15,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/5/tees/0",
+      "sourceId": "norrfallsviken-15-hole",
+      "valid": true,
+      "areaSquareMetres": 124.749,
+      "vertices": 15,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013192526053689663,
+      "change": {
+        "previousAreaSquareMetres": 208.944,
+        "newAreaSquareMetres": 124.749,
+        "centroidShiftMetres": 18.137,
+        "boundaryHausdorffMetres": 20.634,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h15-tee-2",
+      "hole": 15,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/5/tees/1",
+      "sourceId": "norrfallsviken-15-hole",
+      "valid": true,
+      "areaSquareMetres": 46.912,
+      "vertices": 10,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 0.0,
+      "adoptionErrorMetres": 0.0010934584488012612,
+      "change": {
+        "previousAreaSquareMetres": 208.944,
+        "newAreaSquareMetres": 46.912,
+        "centroidShiftMetres": 15.992,
+        "boundaryHausdorffMetres": 21.929,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h16-green-1",
+      "hole": 16,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/6/green",
+      "sourceId": "norrfallsviken-16-hole",
+      "valid": true,
+      "areaSquareMetres": 236.582,
+      "vertices": 18,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.0013386394199149292,
+      "change": {
+        "previousAreaSquareMetres": 251.8,
+        "newAreaSquareMetres": 236.582,
+        "centroidShiftMetres": 1.762,
+        "boundaryHausdorffMetres": 2.994,
+        "intersectionOverUnion": 0.694402
+      }
+    },
+    {
+      "id": "lm-h16-bunker-1",
+      "hole": 16,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/6/bunkers/0",
+      "sourceId": "norrfallsviken-16-hole",
+      "valid": true,
+      "areaSquareMetres": 19.84,
+      "vertices": 13,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.0012380312279029464,
+      "change": null
+    },
+    {
+      "id": "lm-h16-tee-1",
+      "hole": 16,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/6/tees/0",
+      "sourceId": "norrfallsviken-16-hole",
+      "valid": true,
+      "areaSquareMetres": 68.403,
+      "vertices": 13,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.001137423759379919,
+      "change": {
+        "previousAreaSquareMetres": 84.324,
+        "newAreaSquareMetres": 68.403,
+        "centroidShiftMetres": 7.533,
+        "boundaryHausdorffMetres": 8.543,
+        "intersectionOverUnion": 0.200054
+      }
+    },
+    {
+      "id": "lm-h16-tee-2",
+      "hole": 16,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/6/tees/1",
+      "sourceId": "norrfallsviken-16-hole",
+      "valid": true,
+      "areaSquareMetres": 92.749,
+      "vertices": 11,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0013319266807850767,
+      "change": {
+        "previousAreaSquareMetres": 144.556,
+        "newAreaSquareMetres": 92.749,
+        "centroidShiftMetres": 3.455,
+        "boundaryHausdorffMetres": 8.108,
+        "intersectionOverUnion": 0.349428
+      }
+    },
+    {
+      "id": "lm-h16-tee-3",
+      "hole": 16,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/6/tees/2",
+      "sourceId": "norrfallsviken-16-hole",
+      "valid": true,
+      "areaSquareMetres": 17.946,
+      "vertices": 9,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012663443651049022,
+      "change": {
+        "previousAreaSquareMetres": 56.217,
+        "newAreaSquareMetres": 17.946,
+        "centroidShiftMetres": 1.264,
+        "boundaryHausdorffMetres": 4.113,
+        "intersectionOverUnion": 0.319221
+      }
+    },
+    {
+      "id": "lm-h17-green-1",
+      "hole": 17,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/7/green",
+      "sourceId": "norrfallsviken-17-hole",
+      "valid": true,
+      "areaSquareMetres": 267.84,
+      "vertices": 18,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.0012476173527689088,
+      "change": {
+        "previousAreaSquareMetres": 479.721,
+        "newAreaSquareMetres": 267.84,
+        "centroidShiftMetres": 3.841,
+        "boundaryHausdorffMetres": 11.488,
+        "intersectionOverUnion": 0.548977
+      }
+    },
+    {
+      "id": "lm-h17-tee-1",
+      "hole": 17,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/7/tees/0",
+      "sourceId": "norrfallsviken-17-hole",
+      "valid": true,
+      "areaSquareMetres": 124.07,
+      "vertices": 14,
+      "projectionRoundtripMetres": 1.877140660839749e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012012051517432442,
+      "change": {
+        "previousAreaSquareMetres": 144.269,
+        "newAreaSquareMetres": 124.07,
+        "centroidShiftMetres": 2.209,
+        "boundaryHausdorffMetres": 4.775,
+        "intersectionOverUnion": 0.480419
+      }
+    },
+    {
+      "id": "lm-h17-tee-2",
+      "hole": 17,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/7/tees/1",
+      "sourceId": "norrfallsviken-17-hole",
+      "valid": true,
+      "areaSquareMetres": 35.098,
+      "vertices": 9,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012942783602617504,
+      "change": {
+        "previousAreaSquareMetres": 48.29,
+        "newAreaSquareMetres": 35.098,
+        "centroidShiftMetres": 28.614,
+        "boundaryHausdorffMetres": 28.94,
+        "intersectionOverUnion": 0.0
+      }
+    },
+    {
+      "id": "lm-h18-green-1",
+      "hole": 18,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/8/green",
+      "sourceId": "norrfallsviken-18-hole",
+      "valid": true,
+      "areaSquareMetres": 292.378,
+      "vertices": 18,
+      "projectionRoundtripMetres": 1.877140660839749e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.001077675705440166,
+      "change": {
+        "previousAreaSquareMetres": 478.816,
+        "newAreaSquareMetres": 292.378,
+        "centroidShiftMetres": 1.068,
+        "boundaryHausdorffMetres": 5.745,
+        "intersectionOverUnion": 0.610627
+      }
+    },
+    {
+      "id": "lm-h18-tee-1",
+      "hole": 18,
+      "review": "nvgkbuild/mapping/review-back9-2026-09-09.json",
+      "path": "/holes/8/tees/0",
+      "sourceId": "norrfallsviken-18-hole",
+      "valid": true,
+      "areaSquareMetres": 48.269,
+      "vertices": 10,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0011586882165676477,
+      "change": {
+        "previousAreaSquareMetres": 121.048,
+        "newAreaSquareMetres": 48.269,
+        "centroidShiftMetres": 0.204,
+        "boundaryHausdorffMetres": 4.061,
+        "intersectionOverUnion": 0.398758
+      }
+    },
+    {
+      "id": "lm-h01-fairway",
+      "hole": 1,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/0/fairways/0",
+      "sourceId": "norrfallsviken-01-hole",
+      "valid": true,
+      "areaSquareMetres": 2952.255,
+      "vertices": 30,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 4.4051557779312134e-07,
+      "adoptionErrorMetres": 0.0013046516416548707,
+      "change": {
+        "previousAreaSquareMetres": 8966.28,
+        "newAreaSquareMetres": 2952.255,
+        "centroidShiftMetres": 40.599,
+        "boundaryHausdorffMetres": 83.243,
+        "intersectionOverUnion": 0.308053
+      }
+    },
+    {
+      "id": "lm-h02-fairway",
+      "hole": 2,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/1/fairways/0",
+      "sourceId": "norrfallsviken-02-hole",
+      "valid": true,
+      "areaSquareMetres": 992.956,
+      "vertices": 21,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 4.931353032588959e-07,
+      "adoptionErrorMetres": 0.0013588064502283277,
+      "change": null
+    },
+    {
+      "id": "lm-h03-fairway",
+      "hole": 3,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/2/fairways/0",
+      "sourceId": "norrfallsviken-03-hole",
+      "valid": true,
+      "areaSquareMetres": 2772.568,
+      "vertices": 32,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 4.807952791452408e-07,
+      "adoptionErrorMetres": 0.0012027608815670854,
+      "change": {
+        "previousAreaSquareMetres": 5386.809,
+        "newAreaSquareMetres": 2772.568,
+        "centroidShiftMetres": 65.487,
+        "boundaryHausdorffMetres": 109.445,
+        "intersectionOverUnion": 0.325268
+      }
+    },
+    {
+      "id": "lm-h04-fairway",
+      "hole": 4,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/3/fairways/0",
+      "sourceId": "norrfallsviken-04-hole",
+      "valid": true,
+      "areaSquareMetres": 5508.868,
+      "vertices": 36,
+      "projectionRoundtripMetres": 1.877140660839749e-09,
+      "traceAffineErrorMetres": 4.4447467445189755e-07,
+      "adoptionErrorMetres": 0.0010012930153106647,
+      "change": {
+        "previousAreaSquareMetres": 5210.276,
+        "newAreaSquareMetres": 5508.868,
+        "centroidShiftMetres": 46.822,
+        "boundaryHausdorffMetres": 41.104,
+        "intersectionOverUnion": 0.296329
+      }
+    },
+    {
+      "id": "lm-h05-fairway",
+      "hole": 5,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/4/fairways/0",
+      "sourceId": "norrfallsviken-05-hole",
+      "valid": true,
+      "areaSquareMetres": 3069.333,
+      "vertices": 30,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 4.936009645462036e-07,
+      "adoptionErrorMetres": 0.0011784662496598368,
+      "change": {
+        "previousAreaSquareMetres": 3767.473,
+        "newAreaSquareMetres": 3069.333,
+        "centroidShiftMetres": 15.816,
+        "boundaryHausdorffMetres": 67.745,
+        "intersectionOverUnion": 0.391356
+      }
+    },
+    {
+      "id": "lm-h06-fairway",
+      "hole": 6,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/5/fairways/0",
+      "sourceId": "norrfallsviken-06-hole",
+      "valid": true,
+      "areaSquareMetres": 4440.366,
+      "vertices": 33,
+      "projectionRoundtripMetres": 3.727108843992958e-09,
+      "traceAffineErrorMetres": 4.7660523749761043e-07,
+      "adoptionErrorMetres": 0.0012028280472865852,
+      "change": {
+        "previousAreaSquareMetres": 10807.713,
+        "newAreaSquareMetres": 4440.366,
+        "centroidShiftMetres": 16.169,
+        "boundaryHausdorffMetres": 24.197,
+        "intersectionOverUnion": 0.374619
+      }
+    },
+    {
+      "id": "lm-h07-fairway",
+      "hole": 7,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/6/fairways/0",
+      "sourceId": "norrfallsviken-07-hole",
+      "valid": true,
+      "areaSquareMetres": 573.314,
+      "vertices": 23,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 4.5727938413619995e-07,
+      "adoptionErrorMetres": 0.0013234503274585905,
+      "change": {
+        "previousAreaSquareMetres": 591.42,
+        "newAreaSquareMetres": 573.314,
+        "centroidShiftMetres": 30.074,
+        "boundaryHausdorffMetres": 41.936,
+        "intersectionOverUnion": 0.076274
+      }
+    },
+    {
+      "id": "lm-h08-fairway",
+      "hole": 8,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/7/fairways/0",
+      "sourceId": "norrfallsviken-08-hole",
+      "valid": true,
+      "areaSquareMetres": 3838.005,
+      "vertices": 33,
+      "projectionRoundtripMetres": 1.877140660839749e-09,
+      "traceAffineErrorMetres": 4.925541071241098e-07,
+      "adoptionErrorMetres": 0.0012197289381750923,
+      "change": {
+        "previousAreaSquareMetres": 6124.514,
+        "newAreaSquareMetres": 3838.005,
+        "centroidShiftMetres": 15.765,
+        "boundaryHausdorffMetres": 66.169,
+        "intersectionOverUnion": 0.460438
+      }
+    },
+    {
+      "id": "lm-h09-fairway",
+      "hole": 9,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/8/fairways/0",
+      "sourceId": "norrfallsviken-09-hole",
+      "valid": true,
+      "areaSquareMetres": 5713.974,
+      "vertices": 40,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 4.9639493227005e-07,
+      "adoptionErrorMetres": 0.0013509802520275116,
+      "change": {
+        "previousAreaSquareMetres": 5005.084,
+        "newAreaSquareMetres": 5713.974,
+        "centroidShiftMetres": 11.033,
+        "boundaryHausdorffMetres": 63.605,
+        "intersectionOverUnion": 0.517638
+      }
+    },
+    {
+      "id": "lm-h10-fairway",
+      "hole": 10,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/9/fairways/0",
+      "sourceId": "norrfallsviken-10-hole",
+      "valid": true,
+      "areaSquareMetres": 6101.008,
+      "vertices": 46,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 4.795147106051445e-07,
+      "adoptionErrorMetres": 0.0013151224392876006,
+      "change": {
+        "previousAreaSquareMetres": 14403.638,
+        "newAreaSquareMetres": 6101.008,
+        "centroidShiftMetres": 46.44,
+        "boundaryHausdorffMetres": 89.284,
+        "intersectionOverUnion": 0.28526
+      }
+    },
+    {
+      "id": "lm-h11-fairway",
+      "hole": 11,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/10/fairways/0",
+      "sourceId": "norrfallsviken-11-hole",
+      "valid": true,
+      "areaSquareMetres": 354.611,
+      "vertices": 20,
+      "projectionRoundtripMetres": 3.727108843992958e-09,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012721315534133444,
+      "change": {
+        "previousAreaSquareMetres": 747.358,
+        "newAreaSquareMetres": 354.611,
+        "centroidShiftMetres": 25.304,
+        "boundaryHausdorffMetres": 37.051,
+        "intersectionOverUnion": 0.038069
+      }
+    },
+    {
+      "id": "lm-h12-fairway",
+      "hole": 12,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/11/fairways/0",
+      "sourceId": "norrfallsviken-12-hole",
+      "valid": true,
+      "areaSquareMetres": 3365.189,
+      "vertices": 44,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 4.923203960061073e-07,
+      "adoptionErrorMetres": 0.001267527185657178,
+      "change": {
+        "previousAreaSquareMetres": 7475.604,
+        "newAreaSquareMetres": 3365.189,
+        "centroidShiftMetres": 72.223,
+        "boundaryHausdorffMetres": 136.009,
+        "intersectionOverUnion": 0.298753
+      }
+    },
+    {
+      "id": "lm-h13-fairway",
+      "hole": 13,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/12/fairways/0",
+      "sourceId": "norrfallsviken-13-hole",
+      "valid": true,
+      "areaSquareMetres": 4900.872,
+      "vertices": 40,
+      "projectionRoundtripMetres": 3.727108843992958e-09,
+      "traceAffineErrorMetres": 4.593748599290848e-07,
+      "adoptionErrorMetres": 0.0009528417209027547,
+      "change": {
+        "previousAreaSquareMetres": 11775.419,
+        "newAreaSquareMetres": 4900.872,
+        "centroidShiftMetres": 43.558,
+        "boundaryHausdorffMetres": 111.784,
+        "intersectionOverUnion": 0.41301
+      }
+    },
+    {
+      "id": "lm-h15-fairway",
+      "hole": 15,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/13/fairways/0",
+      "sourceId": "norrfallsviken-15-hole",
+      "valid": true,
+      "areaSquareMetres": 2626.386,
+      "vertices": 44,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 4.983739927411079e-07,
+      "adoptionErrorMetres": 0.001368281861723333,
+      "change": {
+        "previousAreaSquareMetres": 11726.204,
+        "newAreaSquareMetres": 2626.386,
+        "centroidShiftMetres": 40.903,
+        "boundaryHausdorffMetres": 86.369,
+        "intersectionOverUnion": 0.079922
+      }
+    },
+    {
+      "id": "lm-h16-fairway",
+      "hole": 16,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/14/fairways/0",
+      "sourceId": "norrfallsviken-16-hole",
+      "valid": true,
+      "areaSquareMetres": 3151.184,
+      "vertices": 35,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 4.85801137983799e-07,
+      "adoptionErrorMetres": 0.0009708825567606065,
+      "change": {
+        "previousAreaSquareMetres": 7522.083,
+        "newAreaSquareMetres": 3151.184,
+        "centroidShiftMetres": 30.154,
+        "boundaryHausdorffMetres": 73.941,
+        "intersectionOverUnion": 0.399348
+      }
+    },
+    {
+      "id": "lm-h17-fairway",
+      "hole": 17,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/15/fairways/0",
+      "sourceId": "norrfallsviken-17-hole",
+      "valid": true,
+      "areaSquareMetres": 3219.78,
+      "vertices": 55,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 4.845205694437027e-07,
+      "adoptionErrorMetres": 0.0011406897560009125,
+      "change": {
+        "previousAreaSquareMetres": 2790.233,
+        "newAreaSquareMetres": 3219.78,
+        "centroidShiftMetres": 21.531,
+        "boundaryHausdorffMetres": 24.515,
+        "intersectionOverUnion": 0.103697
+      }
+    },
+    {
+      "id": "lm-h18-fairway",
+      "hole": 18,
+      "review": "nvgkbuild/mapping/review-fairways-2026-09-09.json",
+      "path": "/holes/16/fairways/0",
+      "sourceId": "norrfallsviken-18-hole",
+      "valid": true,
+      "areaSquareMetres": 2456.556,
+      "vertices": 47,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 4.7404320477389054e-07,
+      "adoptionErrorMetres": 0.0013365287018867254,
+      "change": {
+        "previousAreaSquareMetres": 12376.818,
+        "newAreaSquareMetres": 2456.556,
+        "centroidShiftMetres": 64.796,
+        "boundaryHausdorffMetres": 94.708,
+        "intersectionOverUnion": 0.143546
+      }
+    },
+    {
+      "id": "lm-range-field",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/0",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 19774.826,
+      "vertices": 37,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 4.4051557779312134e-07,
+      "adoptionErrorMetres": 0.001315101046331883,
+      "change": null
+    },
+    {
+      "id": "lm-practice-green",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/1",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 207.684,
+      "vertices": 14,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 3.948807716369629e-07,
+      "adoptionErrorMetres": 0.0009628145533884495,
+      "change": null
+    },
+    {
+      "id": "lm-range-hardstanding",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/2",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 99.314,
+      "vertices": 10,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 4.116445779800415e-07,
+      "adoptionErrorMetres": 0.0012693327627155253,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-01",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/3",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 1.862645149230957e-09,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.001360556041520461,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-02",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/4",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0011448739198426068,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-03",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/5",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.001122241492374847,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-04",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/6",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0013016986860967213,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-05",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/7",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0013777903755062574,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-06",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/8",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0012759163550053495,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-07",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/9",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.0009717017626498523,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-08",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/10",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.000990735145177993,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-09",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/11",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 9.385703304198744e-10,
+      "adoptionErrorMetres": 0.0010987311102835223,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-10",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/12",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.0012529480372678444,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-11",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/13",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 1.1641532182693481e-10,
+      "adoptionErrorMetres": 0.000922100708475437,
+      "change": null
+    },
+    {
+      "id": "lm-range-mat-12",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/14",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 1.812,
+      "vertices": 8,
+      "projectionRoundtripMetres": 9.599853366654507e-10,
+      "traceAffineErrorMetres": 9.313225746154785e-10,
+      "adoptionErrorMetres": 0.0012598508652802958,
+      "change": null
+    },
+    {
+      "id": "lm-range-target-near",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/15",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 42.57,
+      "vertices": 7,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 4.0140002965927124e-07,
+      "adoptionErrorMetres": 0.001258057931172108,
+      "change": null
+    },
+    {
+      "id": "lm-range-target-centre",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/16",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 110.519,
+      "vertices": 4,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 3.9301812648773193e-07,
+      "adoptionErrorMetres": 0.0012363935687597384,
+      "change": null
+    },
+    {
+      "id": "lm-range-target-far-strip",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/17",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 153.499,
+      "vertices": 4,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 3.6135315895080566e-07,
+      "adoptionErrorMetres": 0.0009541051672670574,
+      "change": null
+    },
+    {
+      "id": "lm-padel-court",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/18",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 195.353,
+      "vertices": 4,
+      "projectionRoundtripMetres": 1.8662795822463695e-09,
+      "traceAffineErrorMetres": 4.461035132408142e-07,
+      "adoptionErrorMetres": 0.0010290492512077863,
+      "change": null
+    },
+    {
+      "id": "lm-range-access-path",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/19",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 0.0,
+      "vertices": 4,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 3.7997961044311523e-07,
+      "adoptionErrorMetres": 0.0013580498322363676,
+      "change": null
+    },
+    {
+      "id": "lm-range-drain",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/20",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 0.0,
+      "vertices": 10,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 4.507601261138916e-07,
+      "adoptionErrorMetres": 0.0014239411223434335,
+      "change": null
+    },
+    {
+      "id": "lm-clubhouse-main-roof",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/21",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 159.844,
+      "vertices": 4,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 3.1013041734695435e-07,
+      "adoptionErrorMetres": 0.0012306663663431278,
+      "change": null
+    },
+    {
+      "id": "lm-clubhouse-cross-roof",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/22",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 70.507,
+      "vertices": 4,
+      "projectionRoundtripMetres": 9.385703304198744e-10,
+      "traceAffineErrorMetres": 2.89641344100775e-07,
+      "adoptionErrorMetres": 0.0010689460889646463,
+      "change": null
+    },
+    {
+      "id": "lm-clubhouse-solar-north",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/23",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 15.862,
+      "vertices": 4,
+      "projectionRoundtripMetres": 1.1641532182693481e-10,
+      "traceAffineErrorMetres": 4.526227862342285e-07,
+      "adoptionErrorMetres": 0.001153990947756326,
+      "change": null
+    },
+    {
+      "id": "lm-clubhouse-solar-south",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/24",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 22.513,
+      "vertices": 4,
+      "projectionRoundtripMetres": 9.313225746154785e-10,
+      "traceAffineErrorMetres": 4.470348358154297e-07,
+      "adoptionErrorMetres": 0.000921367873397343,
+      "change": null
+    },
+    {
+      "id": "lm-clubhouse-terrace",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/25",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 20.262,
+      "vertices": 4,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 4.461035132408142e-07,
+      "adoptionErrorMetres": 0.0010752431047284696,
+      "change": null
+    },
+    {
+      "id": "lm-range-shelter",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/26",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 154.113,
+      "vertices": 4,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 3.4924596548080444e-07,
+      "adoptionErrorMetres": 0.0013276952305459402,
+      "change": null
+    },
+    {
+      "id": "lm-practice-shed",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/27",
+      "sourceId": "facilities-range",
+      "valid": true,
+      "areaSquareMetres": 81.048,
+      "vertices": 4,
+      "projectionRoundtripMetres": 9.313225746154785e-10,
+      "traceAffineErrorMetres": 4.041939973831177e-07,
+      "adoptionErrorMetres": 0.0010197361132509614,
+      "change": null
+    },
+    {
+      "id": "lm-pond-14",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/28",
+      "sourceId": "norrfallsviken-14-hole",
+      "valid": true,
+      "areaSquareMetres": 3246.313,
+      "vertices": 51,
+      "projectionRoundtripMetres": 2.796391991308032e-09,
+      "traceAffineErrorMetres": 4.89410012960434e-07,
+      "adoptionErrorMetres": 0.001197650825689734,
+      "change": null
+    },
+    {
+      "id": "lm-pond-17",
+      "hole": null,
+      "review": "nvgkbuild/mapping/review-environment-2026-09-09.json",
+      "path": "/features/29",
+      "sourceId": "norrfallsviken-17-hole",
+      "valid": true,
+      "areaSquareMetres": 1719.282,
+      "vertices": 24,
+      "projectionRoundtripMetres": 2.7939677238464355e-09,
+      "traceAffineErrorMetres": 4.94765117764473e-07,
+      "adoptionErrorMetres": 0.0013985744848774534,
+      "change": null
+    }
+  ],
+  "greenBunkerIntersections": [],
+  "errors": [],
+  "limitations": [
+    "Geometric and source consistency does not measure survey accuracy or guarantee semantic boundary interpretation.",
+    "2024 imagery cannot establish 2026 construction, current movable tee markers, building facade dimensions or current forest changes."
+  ]
+}

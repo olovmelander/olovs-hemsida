@@ -14,6 +14,16 @@ import {
 
 const ORIGIN = { originEasting: 697000, originNorthing: 7025100 };
 
+test('named practice greens exclude canopy even when generic scenery greens are empty', () => {
+  const green = [[697010, 7025090], [697020, 7025090], [697020, 7025080], [697010, 7025080]];
+  const features = courseExclusionFeatures({ holes: [], scenery: { greens: [], practiceGreens: [green] } });
+  const exclusion = rasterizeExclusions(raster(), features);
+  assert.equal(exclusion.mask[15 * 40 + 15], 1);
+  assert.equal(exclusion.reason[15 * 40 + 15], reasonForKind('practice').code);
+  assert.equal(exclusion.mask[35 * 40 + 35], 0);
+  assert.deepEqual(courseExclusionFeatures({ holes: [], scenery: { greens: [] } }), []);
+});
+
 function raster(width = 40, height = 40, spacing = 1, fill = 0) {
   return createRaster({ width, height, sampleSpacingMetres: spacing, ...ORIGIN, fill });
 }

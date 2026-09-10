@@ -23,6 +23,32 @@ Object.assign(source, {
   notes: 'Authenticated native 0.16 m RGBI windows cover all 27 green complexes and mapped bunkers plus all 27 tee sites; a 0.8 m overview covers the shared playing ground. Published mosaic seam metadata dates every native window to 2025-06-14; the broader overview also includes 2025-04-25 imagery. The registered target bbox is wider than the acquired playing-ground windows; exact acquired bounds and capture times are in reference/. Reviewed surface vectors and bounded tee navigation-reference corrections are applied to both courses; raw imagery stays in ignored local cache. Absolute horizontal accuracy and independent control approval remain unestablished.',
 });
 const entries = [
+  ...[
+    ['lm-tee-site-review-stora-2026-09-09', 'surface', 'migration-only'],
+    ['lm-tee-site-review-mellan-2026-09-09', 'surface', 'migration-only'],
+    ['lm-tee-points-stora-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['lm-tee-visible-interior-stora-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['lm-mellan-orange-remaining-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['lm-remaining17-validation-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['tee-site-coordinate-contract-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['lm-remaining17-runtime-2026-09-09', 'acquisition', 'discovery-evidence'],
+  ].map(([id, kind, use]) => ({ id, kind, use,
+    path: `upsalabuild/mapping/${id}.json`,
+    notes: 'Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.',
+  })),
+  ...[
+    ['lm-stora-tee-platform-followup-2026-09-09', 'surface', 'migration-only'],
+    ['lm-tee-followup-stora-2026-09-09', 'surface', 'migration-only'],
+    ['lm-tee-followup-mellan-2026-09-09', 'surface', 'migration-only'],
+    ['lm-mellan-published-tee-evidence-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['lm-mellan-tee-followup-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['lm-tee-followup-validation-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['lm-tee-followup-runtime-2026-09-09', 'acquisition', 'discovery-evidence'],
+    ['tee-coordinate-contract-2026-09-09', 'acquisition', 'discovery-evidence'],
+  ].map(([id, kind, use]) => ({ id, kind, use,
+    path: `upsalabuild/mapping/${id}.json`,
+    notes: 'Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.',
+  })),
   ...['plan', 'acquisition', 'capture', 'validation'].map(part => ({
     id: `lm-tee-${part}-2026-09-09`, kind: 'acquisition',
     path: `${prefix}reference/lm-tee-${part}-2026-09-09.json`, use: 'discovery-evidence',

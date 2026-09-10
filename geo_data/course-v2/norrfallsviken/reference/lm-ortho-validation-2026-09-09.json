@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "kind": "orthophoto-offline-verification",
+  "observedAt": "2026-09-09T19:59:49.784252+00:00",
+  "state": "passed",
+  "planSha256": "bdf732a055cc8b56566fdc86c4f98dc63436791b574c9666d09482a73c26b720",
+  "acquisitionSha256": "6a4054e6a45282bfe413d5456b5f2f42b4a2bf23177e66835b7f3483d91a47c2",
+  "validatedWindows": 23,
+  "nativeWindows": 22,
+  "pixels": 112862612,
+  "nativeOverlapChecks": [
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "norrfallsviken-02-hole",
+      "pixels": 887997,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "norrfallsviken-04-hole",
+      "pixels": 566770,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "norrfallsviken-05-hole",
+      "pixels": 276702,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "norrfallsviken-08-hole",
+      "pixels": 266004,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "norrfallsviken-09-hole",
+      "pixels": 3021480,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "norrfallsviken-10-hole",
+      "pixels": 1424800,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 705888,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "norrfallsviken-18-hole",
+      "pixels": 2027696,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-01-hole",
+      "right": "facilities-range",
+      "pixels": 1429199,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "norrfallsviken-03-hole",
+      "pixels": 242436,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "norrfallsviken-04-hole",
+      "pixels": 865095,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "norrfallsviken-05-hole",
+      "pixels": 90383,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "norrfallsviken-08-hole",
+      "pixels": 124024,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "norrfallsviken-09-hole",
+      "pixels": 830010,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "norrfallsviken-10-hole",
+      "pixels": 193700,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 248913,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "norrfallsviken-18-hole",
+      "pixels": 435501,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-02-hole",
+      "right": "facilities-range",
+      "pixels": 1061658,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-03-hole",
+      "right": "norrfallsviken-04-hole",
+      "pixels": 2235840,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-03-hole",
+      "right": "norrfallsviken-07-hole",
+      "pixels": 216062,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-03-hole",
+      "right": "norrfallsviken-08-hole",
+      "pixels": 1054100,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-03-hole",
+      "right": "facilities-range",
+      "pixels": 94350,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-04-hole",
+      "right": "norrfallsviken-05-hole",
+      "pixels": 1192148,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-04-hole",
+      "right": "norrfallsviken-07-hole",
+      "pixels": 437778,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-04-hole",
+      "right": "norrfallsviken-08-hole",
+      "pixels": 3004250,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-04-hole",
+      "right": "norrfallsviken-09-hole",
+      "pixels": 455609,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-04-hole",
+      "right": "norrfallsviken-10-hole",
+      "pixels": 28743,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-04-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 549480,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-04-hole",
+      "right": "norrfallsviken-18-hole",
+      "pixels": 129998,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-04-hole",
+      "right": "facilities-range",
+      "pixels": 146016,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-05-hole",
+      "right": "norrfallsviken-06-hole",
+      "pixels": 1052436,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-05-hole",
+      "right": "norrfallsviken-08-hole",
+      "pixels": 1548027,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-05-hole",
+      "right": "norrfallsviken-09-hole",
+      "pixels": 174365,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-05-hole",
+      "right": "norrfallsviken-16-hole",
+      "pixels": 340442,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-05-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 940680,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-05-hole",
+      "right": "east-coast-south",
+      "pixels": 2170462,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-06-hole",
+      "right": "norrfallsviken-07-hole",
+      "pixels": 395416,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-06-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 33210,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-06-hole",
+      "right": "east-coast-south",
+      "pixels": 3030879,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-07-hole",
+      "right": "norrfallsviken-08-hole",
+      "pixels": 276800,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-07-hole",
+      "right": "east-coast-south",
+      "pixels": 258609,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-08-hole",
+      "right": "norrfallsviken-09-hole",
+      "pixels": 167860,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-08-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 566178,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-08-hole",
+      "right": "east-coast-south",
+      "pixels": 524600,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-09-hole",
+      "right": "norrfallsviken-10-hole",
+      "pixels": 2789713,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-09-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 951318,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-09-hole",
+      "right": "norrfallsviken-18-hole",
+      "pixels": 3543200,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-09-hole",
+      "right": "facilities-range",
+      "pixels": 1538720,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-10-hole",
+      "right": "norrfallsviken-11-hole",
+      "pixels": 1561824,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-10-hole",
+      "right": "norrfallsviken-12-hole",
+      "pixels": 891216,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-10-hole",
+      "right": "norrfallsviken-13-hole",
+      "pixels": 566202,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-10-hole",
+      "right": "norrfallsviken-14-hole",
+      "pixels": 100128,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-10-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 384475,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-10-hole",
+      "right": "norrfallsviken-18-hole",
+      "pixels": 4940920,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-10-hole",
+      "right": "facilities-range",
+      "pixels": 463918,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-11-hole",
+      "right": "norrfallsviken-12-hole",
+      "pixels": 690693,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-11-hole",
+      "right": "norrfallsviken-13-hole",
+      "pixels": 210322,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-11-hole",
+      "right": "norrfallsviken-18-hole",
+      "pixels": 341649,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-12-hole",
+      "right": "norrfallsviken-13-hole",
+      "pixels": 1905640,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-12-hole",
+      "right": "norrfallsviken-14-hole",
+      "pixels": 316296,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-12-hole",
+      "right": "storsanden-beach",
+      "pixels": 385781,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-13-hole",
+      "right": "norrfallsviken-14-hole",
+      "pixels": 1482120,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-13-hole",
+      "right": "norrfallsviken-15-hole",
+      "pixels": 689000,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-13-hole",
+      "right": "storsanden-beach",
+      "pixels": 743850,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-14-hole",
+      "right": "norrfallsviken-15-hole",
+      "pixels": 667368,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-15-hole",
+      "right": "norrfallsviken-16-hole",
+      "pixels": 214630,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-15-hole",
+      "right": "east-coast-north",
+      "pixels": 2315040,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-16-hole",
+      "right": "norrfallsviken-17-hole",
+      "pixels": 1222419,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-16-hole",
+      "right": "east-coast-north",
+      "pixels": 1569406,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-16-hole",
+      "right": "east-coast-south",
+      "pixels": 1061378,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-17-hole",
+      "right": "norrfallsviken-18-hole",
+      "pixels": 754257,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-17-hole",
+      "right": "facilities-range",
+      "pixels": 46208,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-17-hole",
+      "right": "east-coast-north",
+      "pixels": 1028180,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-17-hole",
+      "right": "east-coast-south",
+      "pixels": 965608,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "norrfallsviken-18-hole",
+      "right": "facilities-range",
+      "pixels": 957201,
+      "state": "identical-RGBI"
+    }
+  ],
+  "checks": [
+    "all expected windows present",
+    "raster and RGB checksums",
+    "EPSG:3006 and exact planned pixel-edge grid",
+    "explicit RGBI band interpretation with independent validity mask",
+    "all pixels valid",
+    "PNG RGB values exactly match GeoTIFF",
+    "worldfile pixel centres",
+    "complete source-image capture-date coverage",
+    "all 18 complete holes at native resolution",
+    "source tile seams coincide with all review pixel grids",
+    "all overlapping native windows have identical RGBI values"
+  ],
+  "limitations": [
+    "Internal coordinate consistency does not measure absolute geolocation accuracy.",
+    "Image verification does not accept any feature geometry."
+  ]
+}

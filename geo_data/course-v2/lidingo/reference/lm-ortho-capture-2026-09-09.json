@@ -1,0 +1,1345 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "orthophoto-window-capture-evidence",
+  "observedAt": "2026-09-09T20:32:21.637382+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-o2-2025",
+  "planSha256": "8584c48257c1948850ea74b008caca2452c33449ec4f006c8091ed550a498c20",
+  "method": "Intersect native EPSG:3006 review pixel-edge bounds with published flygbild mosaic source polygons.",
+  "sourceMetadata": [
+    {
+      "id": "o65850_6750_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25_flygbild.json",
+      "bytes": 147760,
+      "sha256": "6632aeec2462d4e6f19b29d6207016e81e72f541ad787c3da54f3d4859a7e2b7",
+      "features": 18
+    },
+    {
+      "id": "o65850_6775_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25_flygbild.json",
+      "bytes": 144000,
+      "sha256": "5a1beb6bc2773224966d3f576d914b8467c1f4015c14419c8ecc2d6cdf590f58",
+      "features": 15
+    }
+  ],
+  "windows": [
+    {
+      "id": "lidingo-01-tees",
+      "boundsEpsg3006": [
+        677623.36,
+        6586332.32,
+        677724.0,
+        6586459.36
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 12785.3056,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "lidingo-02-tees",
+      "boundsEpsg3006": [
+        677747.36,
+        6586114.56,
+        677897.76,
+        6586332.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 32775.168,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "lidingo-03-tees",
+      "boundsEpsg3006": [
+        677999.04,
+        6585843.52,
+        678130.24,
+        6585993.28
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:19Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082719_2143",
+          "capturedAt": "2025-05-31T08:27:19Z",
+          "intersectionSquareMetres": 13260.613,
+          "windowFraction": 0.67489146
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 6387.899,
+          "windowFraction": 0.32510854
+        }
+      ]
+    },
+    {
+      "id": "lidingo-04-tees",
+      "boundsEpsg3006": [
+        677785.12,
+        6586109.6,
+        677986.56,
+        6586342.08
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 46830.7712,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "lidingo-05-tees",
+      "boundsEpsg3006": [
+        677536.96,
+        6586342.4,
+        677639.2,
+        6586457.6
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 976.9024,
+          "windowFraction": 0.08294264
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 10801.1456,
+          "windowFraction": 0.91705736
+        }
+      ]
+    },
+    {
+      "id": "lidingo-06-tees",
+      "boundsEpsg3006": [
+        677422.24,
+        6586126.08,
+        677556.16,
+        6586242.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 9045.0432,
+          "windowFraction": 0.58064516
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 6532.5312,
+          "windowFraction": 0.41935484
+        }
+      ]
+    },
+    {
+      "id": "lidingo-07-tees",
+      "boundsEpsg3006": [
+        677532.32,
+        6585979.36,
+        677700.16,
+        6586113.76
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:19Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082719_2143",
+          "capturedAt": "2025-05-31T08:27:19Z",
+          "intersectionSquareMetres": 372.6714,
+          "windowFraction": 0.01652081
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 22185.0246,
+          "windowFraction": 0.98347919
+        }
+      ]
+    },
+    {
+      "id": "lidingo-08-tees",
+      "boundsEpsg3006": [
+        677222.72,
+        6586133.28,
+        677394.88,
+        6586284.32
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:43Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081843_2065",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "intersectionSquareMetres": 11276.8354,
+          "windowFraction": 0.43367362
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 14726.211,
+          "windowFraction": 0.56632638
+        }
+      ]
+    },
+    {
+      "id": "lidingo-09-tees",
+      "boundsEpsg3006": [
+        677471.04,
+        6586363.84,
+        677615.36,
+        6586492.8
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 1970.2634,
+          "windowFraction": 0.10586264
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 1764.4182,
+          "windowFraction": 0.09480254
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 5688.8431,
+          "windowFraction": 0.30566268
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 9187.9825,
+          "windowFraction": 0.49367213
+        }
+      ]
+    },
+    {
+      "id": "lidingo-10-tees",
+      "boundsEpsg3006": [
+        677259.04,
+        6586189.28,
+        677419.84,
+        6586436.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:43Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081843_2065",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "intersectionSquareMetres": 20687.98,
+          "windowFraction": 0.52045547
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 19061.78,
+          "windowFraction": 0.47954453
+        }
+      ]
+    },
+    {
+      "id": "lidingo-11-tees",
+      "boundsEpsg3006": [
+        677169.12,
+        6586778.4,
+        677261.12,
+        6586894.88
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:48Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 4168.5109,
+          "windowFraction": 0.38899297
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 6547.6491,
+          "windowFraction": 0.61100703
+        }
+      ]
+    },
+    {
+      "id": "lidingo-12-tees",
+      "boundsEpsg3006": [
+        677121.28,
+        6586880.0,
+        677301.76,
+        6587036.64
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:48Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081852_2067",
+          "capturedAt": "2025-05-31T08:18:52Z",
+          "intersectionSquareMetres": 63.8688,
+          "windowFraction": 0.00225921
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 13875.7861,
+          "windowFraction": 0.49082405
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082707_2140",
+          "capturedAt": "2025-05-31T08:27:07Z",
+          "intersectionSquareMetres": 5184.9068,
+          "windowFraction": 0.18340417
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 9145.8255,
+          "windowFraction": 0.32351257
+        }
+      ]
+    },
+    {
+      "id": "lidingo-13-tees",
+      "boundsEpsg3006": [
+        677443.36,
+        6586671.84,
+        677638.88,
+        6586784.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 6352.7424,
+          "windowFraction": 0.28968903
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 15576.7808,
+          "windowFraction": 0.71031097
+        }
+      ]
+    },
+    {
+      "id": "lidingo-14-tees",
+      "boundsEpsg3006": [
+        677216.64,
+        6586693.28,
+        677397.76,
+        6586802.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:48Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 13730.3429,
+          "windowFraction": 0.69370414
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 6062.4507,
+          "windowFraction": 0.30629586
+        }
+      ]
+    },
+    {
+      "id": "lidingo-15-tees",
+      "boundsEpsg3006": [
+        677581.44,
+        6586512.96,
+        677701.76,
+        6586704.64
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 23062.9376,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "lidingo-16-tees",
+      "boundsEpsg3006": [
+        677732.96,
+        6586726.88,
+        677851.52,
+        6586908.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 21473.5872,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "lidingo-17-tees",
+      "boundsEpsg3006": [
+        677608.16,
+        6586544.48,
+        677834.08,
+        6586694.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 33869.9264,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "lidingo-18-tees",
+      "boundsEpsg3006": [
+        677948.8,
+        6586476.0,
+        678188.48,
+        6586617.44
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 27038.0668,
+          "windowFraction": 0.79757511
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 6862.2724,
+          "windowFraction": 0.20242489
+        }
+      ]
+    },
+    {
+      "id": "lidingo-ground-overview",
+      "boundsEpsg3006": [
+        677060.8,
+        6585732.8,
+        678248.8,
+        6587096.8
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:39Z",
+        "last": "2025-05-31T08:27:19Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081843_2065",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "intersectionSquareMetres": 144491.5094,
+          "windowFraction": 0.08916851
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081852_2067",
+          "capturedAt": "2025-05-31T08:18:52Z",
+          "intersectionSquareMetres": 4601.0786,
+          "windowFraction": 0.00283941
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 96223.0769,
+          "windowFraction": 0.05938113
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 128282.2625,
+          "windowFraction": 0.07916547
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082707_2140",
+          "capturedAt": "2025-05-31T08:27:07Z",
+          "intersectionSquareMetres": 32972.1963,
+          "windowFraction": 0.02034778
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082719_2143",
+          "capturedAt": "2025-05-31T08:27:19Z",
+          "intersectionSquareMetres": 61655.1437,
+          "windowFraction": 0.03804858
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081839_2064",
+          "capturedAt": "2025-05-31T08:18:39Z",
+          "intersectionSquareMetres": 36913.0278,
+          "windowFraction": 0.02277975
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 93930.5049,
+          "windowFraction": 0.05796634
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 385036.9801,
+          "windowFraction": 0.23761378
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082707_2140",
+          "capturedAt": "2025-05-31T08:27:07Z",
+          "intersectionSquareMetres": 72190.1413,
+          "windowFraction": 0.04454994
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082719_2143",
+          "capturedAt": "2025-05-31T08:27:19Z",
+          "intersectionSquareMetres": 170579.3388,
+          "windowFraction": 0.10526782
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 393556.7398,
+          "windowFraction": 0.24287149
+        }
+      ]
+    },
+    {
+      "id": "lidingo-01-hole",
+      "boundsEpsg3006": [
+        677603.36,
+        6586178.08,
+        677793.76,
+        6586479.36
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 323.4266,
+          "windowFraction": 0.00563817
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 57040.2854,
+          "windowFraction": 0.99436183
+        }
+      ]
+    },
+    {
+      "id": "lidingo-02-hole",
+      "boundsEpsg3006": [
+        677727.36,
+        6585773.28,
+        678115.68,
+        6586352.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:19Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082719_2143",
+          "capturedAt": "2025-05-31T08:27:19Z",
+          "intersectionSquareMetres": 67764.1041,
+          "windowFraction": 0.30128769
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 157150.8399,
+          "windowFraction": 0.69871231
+        }
+      ]
+    },
+    {
+      "id": "lidingo-03-hole",
+      "boundsEpsg3006": [
+        677885.28,
+        6585823.52,
+        678150.24,
+        6586119.2
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:19Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082719_2143",
+          "capturedAt": "2025-05-31T08:27:19Z",
+          "intersectionSquareMetres": 29723.2191,
+          "windowFraction": 0.37939673
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 48620.1537,
+          "windowFraction": 0.62060327
+        }
+      ]
+    },
+    {
+      "id": "lidingo-04-hole",
+      "boundsEpsg3006": [
+        677630.88,
+        6586089.6,
+        678006.56,
+        6586538.88
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 19515.4347,
+          "windowFraction": 0.11562269
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 149270.0757,
+          "windowFraction": 0.88437731
+        }
+      ]
+    },
+    {
+      "id": "lidingo-05-hole",
+      "boundsEpsg3006": [
+        677363.36,
+        6586156.64,
+        677659.2,
+        6586477.6
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:43Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081843_2065",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "intersectionSquareMetres": 1003.8142,
+          "windowFraction": 0.01057172
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 40005.0288,
+          "windowFraction": 0.42131487
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 2847.1313,
+          "windowFraction": 0.0299847
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 3951.4662,
+          "windowFraction": 0.04161505
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 47145.3658,
+          "windowFraction": 0.49651366
+        }
+      ]
+    },
+    {
+      "id": "lidingo-06-hole",
+      "boundsEpsg3006": [
+        677402.24,
+        6586025.6,
+        677686.72,
+        6586262.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 23149.568,
+          "windowFraction": 0.34364454
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 44215.296,
+          "windowFraction": 0.65635546
+        }
+      ]
+    },
+    {
+      "id": "lidingo-07-hole",
+      "boundsEpsg3006": [
+        677307.84,
+        6585959.36,
+        677720.16,
+        6586292.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:43Z",
+        "last": "2025-05-31T08:27:19Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081843_2065",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "intersectionSquareMetres": 735.4667,
+          "windowFraction": 0.00536234
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 60268.4434,
+          "windowFraction": 0.4394213
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082719_2143",
+          "capturedAt": "2025-05-31T08:27:19Z",
+          "intersectionSquareMetres": 2916.1923,
+          "windowFraction": 0.02126216
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082719_2143",
+          "capturedAt": "2025-05-31T08:27:19Z",
+          "intersectionSquareMetres": 3464.1395,
+          "windowFraction": 0.02525728
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 69769.8829,
+          "windowFraction": 0.50869693
+        }
+      ]
+    },
+    {
+      "id": "lidingo-08-hole",
+      "boundsEpsg3006": [
+        677202.72,
+        6586113.28,
+        677611.36,
+        6586466.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:43Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081843_2065",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "intersectionSquareMetres": 44977.8178,
+          "windowFraction": 0.31155767
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 58209.8868,
+          "windowFraction": 0.40321514
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 1835.3738,
+          "windowFraction": 0.01271348
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 2728.3816,
+          "windowFraction": 0.01889928
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 36612.8792,
+          "windowFraction": 0.25361443
+        }
+      ]
+    },
+    {
+      "id": "lidingo-09-hole",
+      "boundsEpsg3006": [
+        677367.68,
+        6586273.12,
+        677635.36,
+        6586512.8
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:43Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081843_2065",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "intersectionSquareMetres": 578.2853,
+          "windowFraction": 0.00901352
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 23694.447,
+          "windowFraction": 0.36931662
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 7441.7253,
+          "windowFraction": 0.11599143
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 8491.7796,
+          "windowFraction": 0.13235824
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 23951.3052,
+          "windowFraction": 0.37332018
+        }
+      ]
+    },
+    {
+      "id": "lidingo-10-hole",
+      "boundsEpsg3006": [
+        677186.4,
+        6586169.28,
+        677469.12,
+        6586746.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:43Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081843_2065",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "intersectionSquareMetres": 57796.3177,
+          "windowFraction": 0.35412544
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 37515.4598,
+          "windowFraction": 0.22986203
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 44752.9479,
+          "windowFraction": 0.27420704
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 23143.8763,
+          "windowFraction": 0.14180549
+        }
+      ]
+    },
+    {
+      "id": "lidingo-11-hole",
+      "boundsEpsg3006": [
+        677117.12,
+        6586758.4,
+        677281.12,
+        6587026.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:48Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081852_2067",
+          "capturedAt": "2025-05-31T08:18:52Z",
+          "intersectionSquareMetres": 1.3309,
+          "windowFraction": 3.026e-05
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 16774.036,
+          "windowFraction": 0.38141672
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082707_2140",
+          "capturedAt": "2025-05-31T08:27:07Z",
+          "intersectionSquareMetres": 3003.1363,
+          "windowFraction": 0.06828687
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 24199.7368,
+          "windowFraction": 0.55026615
+        }
+      ]
+    },
+    {
+      "id": "lidingo-12-hole",
+      "boundsEpsg3006": [
+        677101.28,
+        6586719.36,
+        677651.84,
+        6587056.64
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:48Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081852_2067",
+          "capturedAt": "2025-05-31T08:18:52Z",
+          "intersectionSquareMetres": 778.7869,
+          "windowFraction": 0.00419395
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 79772.2656,
+          "windowFraction": 0.42959249
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082707_2140",
+          "capturedAt": "2025-05-31T08:27:07Z",
+          "intersectionSquareMetres": 18376.5256,
+          "windowFraction": 0.09896193
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 35552.7035,
+          "windowFraction": 0.19145971
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 41230.0365,
+          "windowFraction": 0.22203348
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082707_2140",
+          "capturedAt": "2025-05-31T08:27:07Z",
+          "intersectionSquareMetres": 9982.5587,
+          "windowFraction": 0.05375844
+        }
+      ]
+    },
+    {
+      "id": "lidingo-13-hole",
+      "boundsEpsg3006": [
+        677200.64,
+        6586651.84,
+        677658.88,
+        6586871.2
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:48Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 52917.9508,
+          "windowFraction": 0.52644449
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 12749.6588,
+          "windowFraction": 0.12683763
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 34851.9168,
+          "windowFraction": 0.34671788
+        }
+      ]
+    },
+    {
+      "id": "lidingo-14-hole",
+      "boundsEpsg3006": [
+        677196.64,
+        6586607.68,
+        677648.0,
+        6586822.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:18:48Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 48307.8759,
+          "windowFraction": 0.49807974
+        },
+        {
+          "sourceId": "o65850_6750_25_mr25",
+          "imageId": "25o215ss97_32~2025-05-31_081848_2066",
+          "capturedAt": "2025-05-31T08:18:48Z",
+          "intersectionSquareMetres": 16878.1209,
+          "windowFraction": 0.17402235
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 31802.24,
+          "windowFraction": 0.32789791
+        }
+      ]
+    },
+    {
+      "id": "lidingo-15-hole",
+      "boundsEpsg3006": [
+        677561.44,
+        6586492.96,
+        677856.32,
+        6586970.24
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 140624.8366,
+          "windowFraction": 0.99917941
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 115.4898,
+          "windowFraction": 0.00082059
+        }
+      ]
+    },
+    {
+      "id": "lidingo-16-hole",
+      "boundsEpsg3006": [
+        677696.16,
+        6586598.56,
+        677871.52,
+        6586928.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:11Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 57770.5984,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "lidingo-17-hole",
+      "boundsEpsg3006": [
+        677588.16,
+        6586481.44,
+        678154.4,
+        6586714.4
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 125746.6336,
+          "windowFraction": 0.95326679
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 6164.6368,
+          "windowFraction": 0.04673321
+        }
+      ]
+    },
+    {
+      "id": "lidingo-18-hole",
+      "boundsEpsg3006": [
+        677654.56,
+        6586393.12,
+        678208.48,
+        6586637.44
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "intersectionSquareMetres": 79695.5187,
+          "windowFraction": 0.5888814
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "intersectionSquareMetres": 55638.2157,
+          "windowFraction": 0.4111186
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Capture dates describe source pixels, not dates of course construction or change.",
+    "Ground sample distance does not establish absolute positional accuracy."
+  ]
+}

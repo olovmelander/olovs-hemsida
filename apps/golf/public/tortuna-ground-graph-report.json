@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "kind": "tortuna-ground-graph",
+  "state": "published-provisional",
+  "provisionalReasons": [
+    "independent-horizontal-and-vertical-controls-pending",
+    "source-derived-playing-surfaces-not-surveyed",
+    "coloured-tee-and-daily-flag-positions-unverified",
+    "current-tree-and-facility-completeness-unverified"
+  ],
+  "source": {
+    "terrainItem": "661_59",
+    "terrainFloat32Sha256": "86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1",
+    "sampleSpacingMetres": 1
+  },
+  "frame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "origin": {
+      "easting": 597400.5,
+      "northing": 6614899.5,
+      "heightRH2000": 16.31
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "fingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f"
+  },
+  "terrain": {
+    "sourceSamples": 16785409,
+    "finiteSamples": 16785409,
+    "tileChunks": 341,
+    "rootTiles": 1,
+    "uniqueChunks": 342,
+    "encodedBytes": 23367033,
+    "decodedBytes": 45177516,
+    "shellEncodedBytes": 100431,
+    "shellDecodedBytes": 132098,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 256,
+        "encodedBytes": 16624498,
+        "decodedBytes": 33817088
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 64,
+        "encodedBytes": 4814185,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 16,
+        "encodedBytes": 1354728,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 4,
+        "encodedBytes": 372771,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 4,
+        "sampleSpacingMetres": 16,
+        "tiles": 1,
+        "encodedBytes": 100420,
+        "decodedBytes": 132098
+      }
+    ]
+  },
+  "graph": {
+    "slug": "tortuna",
+    "groundId": "tortuna",
+    "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+    "rootBytes": 604,
+    "rootSha256": "3c6f6a17dec5282bc51e88bb973f27ac366e3815661ad46a577e9708057b7112",
+    "courseManifestSha256": "23e28266ed2359f7f23e96744aa29234350edaadfb53624072b5cb0e2808be83",
+    "groundManifestSha256": "6d433ed80fd7ce00f975dfcb8d8af75f0b7d3e89783c083e586647bfaae804f7",
+    "routingSha256": "a690baffe5130dbdff205dd6c81355b390e1c236b55e0e42ec3232fb08fb8de9",
+    "holes": 18,
+    "tiles": 341,
+    "finestTiles": 256,
+    "shellBytes": 100431,
+    "chunks": 463,
+    "encodedChunkBytes": 24029147,
+    "decodedChunkBytes": 47146178,
+    "holeTileBufferMetres": 90
+  }
+}

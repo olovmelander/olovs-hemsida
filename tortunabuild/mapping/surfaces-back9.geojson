@@ -1,0 +1,8354 @@
+{
+  "type": "FeatureCollection",
+  "name": "Tortuna back nine provisional observed surfaces",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "horizontalCrs": "EPSG:3006",
+  "notes": [
+    "No human approval, stem survey or current coloured tee census is claimed.",
+    "H12 and H15 tee pads remain unresolved here; source reference positions must not generate synthetic pads.",
+    "H11/H16 partial green shadows are explicit interpreted closures."
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "tortuna-h10-green-01",
+      "properties": {
+        "id": "tortuna-h10-green-01",
+        "kind": "green",
+        "hole": 10,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h10-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-10.png",
+        "sourceCropSha256": "644e8070f463bd0c74f7260229d843be824abcdaabfc5ee10f17d090f395cf67",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 411.28,
+        "originalPixels": [
+          [
+            260,
+            205
+          ],
+          [
+            277,
+            207
+          ],
+          [
+            291,
+            216
+          ],
+          [
+            299,
+            231
+          ],
+          [
+            299,
+            252
+          ],
+          [
+            289,
+            271
+          ],
+          [
+            272,
+            285
+          ],
+          [
+            251,
+            296
+          ],
+          [
+            229,
+            304
+          ],
+          [
+            213,
+            296
+          ],
+          [
+            204,
+            280
+          ],
+          [
+            207,
+            257
+          ],
+          [
+            217,
+            235
+          ],
+          [
+            236,
+            216
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597711.601785257,
+          6615331.946667154,
+          597839.601785257,
+          6615459.946667154
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597776.602,
+              6615408.697
+            ],
+            [
+              597780.852,
+              6615408.197
+            ],
+            [
+              597784.352,
+              6615405.947
+            ],
+            [
+              597786.352,
+              6615402.197
+            ],
+            [
+              597786.352,
+              6615396.947
+            ],
+            [
+              597783.852,
+              6615392.197
+            ],
+            [
+              597779.602,
+              6615388.697
+            ],
+            [
+              597774.352,
+              6615385.947
+            ],
+            [
+              597768.852,
+              6615383.947
+            ],
+            [
+              597764.852,
+              6615385.947
+            ],
+            [
+              597762.602,
+              6615389.947
+            ],
+            [
+              597763.352,
+              6615395.697
+            ],
+            [
+              597765.852,
+              6615401.197
+            ],
+            [
+              597770.602,
+              6615405.947
+            ],
+            [
+              597776.602,
+              6615408.697
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h11-green-01",
+      "properties": {
+        "id": "tortuna-h11-green-01",
+        "kind": "green",
+        "hole": 11,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h11-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-11.png",
+        "sourceCropSha256": "6d47497a88d7717a737a287b4f921eda7bcbe2f65525c3ab74f721ae09e88700",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 4,
+        "boundaryNote": "West and south boundary partly hidden in tree shadow; conservative interpreted closure pending human review.",
+        "areaSquareMetres": 333.81,
+        "originalPixels": [
+          [
+            239,
+            222
+          ],
+          [
+            259,
+            220
+          ],
+          [
+            277,
+            227
+          ],
+          [
+            294,
+            242
+          ],
+          [
+            305,
+            263
+          ],
+          [
+            300,
+            282
+          ],
+          [
+            283,
+            294
+          ],
+          [
+            260,
+            301
+          ],
+          [
+            239,
+            296
+          ],
+          [
+            220,
+            280
+          ],
+          [
+            215,
+            257
+          ],
+          [
+            223,
+            236
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597530.0543267665,
+          6615318.305763711,
+          597658.0543267665,
+          6615446.305763711
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597589.804,
+              6615390.806
+            ],
+            [
+              597594.804,
+              6615391.306
+            ],
+            [
+              597599.304,
+              6615389.556
+            ],
+            [
+              597603.554,
+              6615385.806
+            ],
+            [
+              597606.304,
+              6615380.556
+            ],
+            [
+              597605.054,
+              6615375.806
+            ],
+            [
+              597600.804,
+              6615372.806
+            ],
+            [
+              597595.054,
+              6615371.056
+            ],
+            [
+              597589.804,
+              6615372.306
+            ],
+            [
+              597585.054,
+              6615376.306
+            ],
+            [
+              597583.804,
+              6615382.056
+            ],
+            [
+              597585.804,
+              6615387.306
+            ],
+            [
+              597589.804,
+              6615390.806
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h12-green-01",
+      "properties": {
+        "id": "tortuna-h12-green-01",
+        "kind": "green",
+        "hole": 12,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h12-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-12.png",
+        "sourceCropSha256": "2bcd107ba1ca8d2dac12589d80a66c4dc43933ab2c1180b016e1c7625ed85579",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 411.09,
+        "originalPixels": [
+          [
+            222,
+            208
+          ],
+          [
+            247,
+            206
+          ],
+          [
+            270,
+            214
+          ],
+          [
+            286,
+            230
+          ],
+          [
+            293,
+            249
+          ],
+          [
+            291,
+            271
+          ],
+          [
+            283,
+            292
+          ],
+          [
+            267,
+            307
+          ],
+          [
+            247,
+            310
+          ],
+          [
+            232,
+            301
+          ],
+          [
+            221,
+            284
+          ],
+          [
+            214,
+            262
+          ],
+          [
+            210,
+            241
+          ],
+          [
+            214,
+            221
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597592.6189488543,
+          6615669.318611041,
+          597720.6189488543,
+          6615797.318611041
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597648.119,
+              6615745.319
+            ],
+            [
+              597654.369,
+              6615745.819
+            ],
+            [
+              597660.119,
+              6615743.819
+            ],
+            [
+              597664.119,
+              6615739.819
+            ],
+            [
+              597665.869,
+              6615735.069
+            ],
+            [
+              597665.369,
+              6615729.569
+            ],
+            [
+              597663.369,
+              6615724.319
+            ],
+            [
+              597659.369,
+              6615720.569
+            ],
+            [
+              597654.369,
+              6615719.819
+            ],
+            [
+              597650.619,
+              6615722.069
+            ],
+            [
+              597647.869,
+              6615726.319
+            ],
+            [
+              597646.119,
+              6615731.819
+            ],
+            [
+              597645.119,
+              6615737.069
+            ],
+            [
+              597646.119,
+              6615742.069
+            ],
+            [
+              597648.119,
+              6615745.319
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h13-green-01",
+      "properties": {
+        "id": "tortuna-h13-green-01",
+        "kind": "green",
+        "hole": 13,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h13-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-13.png",
+        "sourceCropSha256": "d6ddcc87ae01e0817ad9528f99c11c1e771b77f281bd884a01a34b681d6850d6",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 401.78,
+        "originalPixels": [
+          [
+            234,
+            214
+          ],
+          [
+            252,
+            211
+          ],
+          [
+            271,
+            220
+          ],
+          [
+            288,
+            237
+          ],
+          [
+            299,
+            260
+          ],
+          [
+            299,
+            281
+          ],
+          [
+            287,
+            296
+          ],
+          [
+            268,
+            303
+          ],
+          [
+            247,
+            303
+          ],
+          [
+            227,
+            294
+          ],
+          [
+            213,
+            281
+          ],
+          [
+            208,
+            263
+          ],
+          [
+            210,
+            243
+          ],
+          [
+            219,
+            225
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597065.3130491306,
+          6615806.640682386,
+          597193.3130491306,
+          6615934.640682386
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597123.813,
+              6615881.141
+            ],
+            [
+              597128.313,
+              6615881.891
+            ],
+            [
+              597133.063,
+              6615879.641
+            ],
+            [
+              597137.313,
+              6615875.391
+            ],
+            [
+              597140.063,
+              6615869.641
+            ],
+            [
+              597140.063,
+              6615864.391
+            ],
+            [
+              597137.063,
+              6615860.641
+            ],
+            [
+              597132.313,
+              6615858.891
+            ],
+            [
+              597127.063,
+              6615858.891
+            ],
+            [
+              597122.063,
+              6615861.141
+            ],
+            [
+              597118.563,
+              6615864.391
+            ],
+            [
+              597117.313,
+              6615868.891
+            ],
+            [
+              597117.813,
+              6615873.891
+            ],
+            [
+              597120.063,
+              6615878.391
+            ],
+            [
+              597123.813,
+              6615881.141
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h14-green-01",
+      "properties": {
+        "id": "tortuna-h14-green-01",
+        "kind": "green",
+        "hole": 14,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h14-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-14.png",
+        "sourceCropSha256": "aa311c867819862961e5d7828a9bb774687fddf22512d393037782309fe623ee",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 421.81,
+        "originalPixels": [
+          [
+            235,
+            206
+          ],
+          [
+            255,
+            208
+          ],
+          [
+            273,
+            222
+          ],
+          [
+            286,
+            245
+          ],
+          [
+            291,
+            269
+          ],
+          [
+            282,
+            293
+          ],
+          [
+            266,
+            310
+          ],
+          [
+            247,
+            315
+          ],
+          [
+            225,
+            309
+          ],
+          [
+            212,
+            293
+          ],
+          [
+            206,
+            270
+          ],
+          [
+            211,
+            248
+          ],
+          [
+            221,
+            225
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597064.6903428962,
+          6615608.4875869695,
+          597192.6903428962,
+          6615736.4875869695
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597123.44,
+              6615684.988
+            ],
+            [
+              597128.44,
+              6615684.488
+            ],
+            [
+              597132.94,
+              6615680.988
+            ],
+            [
+              597136.19,
+              6615675.238
+            ],
+            [
+              597137.44,
+              6615669.238
+            ],
+            [
+              597135.19,
+              6615663.238
+            ],
+            [
+              597131.19,
+              6615658.988
+            ],
+            [
+              597126.44,
+              6615657.738
+            ],
+            [
+              597120.94,
+              6615659.238
+            ],
+            [
+              597117.69,
+              6615663.238
+            ],
+            [
+              597116.19,
+              6615668.988
+            ],
+            [
+              597117.44,
+              6615674.488
+            ],
+            [
+              597119.94,
+              6615680.238
+            ],
+            [
+              597123.44,
+              6615684.988
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h15-green-01",
+      "properties": {
+        "id": "tortuna-h15-green-01",
+        "kind": "green",
+        "hole": 15,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h15-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-15.png",
+        "sourceCropSha256": "de11c44c78e00214e4f1c536d2afa2eb172bfe6d171b1d56680b65113e64c7f8",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 558.78,
+        "originalPixels": [
+          [
+            226,
+            225
+          ],
+          [
+            247,
+            215
+          ],
+          [
+            270,
+            213
+          ],
+          [
+            287,
+            223
+          ],
+          [
+            300,
+            244
+          ],
+          [
+            302,
+            264
+          ],
+          [
+            296,
+            286
+          ],
+          [
+            281,
+            303
+          ],
+          [
+            258,
+            312
+          ],
+          [
+            234,
+            313
+          ],
+          [
+            209,
+            305
+          ],
+          [
+            190,
+            291
+          ],
+          [
+            181,
+            273
+          ],
+          [
+            186,
+            254
+          ],
+          [
+            205,
+            237
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597359.8087635776,
+          6615681.822264163,
+          597487.8087635776,
+          6615809.822264163
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597416.309,
+              6615753.572
+            ],
+            [
+              597421.559,
+              6615756.072
+            ],
+            [
+              597427.309,
+              6615756.572
+            ],
+            [
+              597431.559,
+              6615754.072
+            ],
+            [
+              597434.809,
+              6615748.822
+            ],
+            [
+              597435.309,
+              6615743.822
+            ],
+            [
+              597433.809,
+              6615738.322
+            ],
+            [
+              597430.059,
+              6615734.072
+            ],
+            [
+              597424.309,
+              6615731.822
+            ],
+            [
+              597418.309,
+              6615731.572
+            ],
+            [
+              597412.059,
+              6615733.572
+            ],
+            [
+              597407.309,
+              6615737.072
+            ],
+            [
+              597405.059,
+              6615741.572
+            ],
+            [
+              597406.309,
+              6615746.322
+            ],
+            [
+              597411.059,
+              6615750.572
+            ],
+            [
+              597416.309,
+              6615753.572
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h16-green-01",
+      "properties": {
+        "id": "tortuna-h16-green-01",
+        "kind": "green",
+        "hole": 16,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h16-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-16.png",
+        "sourceCropSha256": "19193d5ce5409aa9304abc2ad77c5fd50b3bcd325f10874e4cf25efa784836b8",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 3,
+        "boundaryNote": "Western green edge partly shadowed by adjacent trees; provisional interpretation.",
+        "areaSquareMetres": 442.03,
+        "originalPixels": [
+          [
+            235,
+            220
+          ],
+          [
+            260,
+            215
+          ],
+          [
+            284,
+            220
+          ],
+          [
+            302,
+            235
+          ],
+          [
+            308,
+            255
+          ],
+          [
+            301,
+            275
+          ],
+          [
+            285,
+            291
+          ],
+          [
+            263,
+            301
+          ],
+          [
+            240,
+            303
+          ],
+          [
+            220,
+            296
+          ],
+          [
+            205,
+            283
+          ],
+          [
+            200,
+            266
+          ],
+          [
+            207,
+            245
+          ],
+          [
+            220,
+            230
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597151.0360361349,
+          6615518.236362931,
+          597279.0360361349,
+          6615646.236362931
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597209.786,
+              6615591.236
+            ],
+            [
+              597216.036,
+              6615592.486
+            ],
+            [
+              597222.036,
+              6615591.236
+            ],
+            [
+              597226.536,
+              6615587.486
+            ],
+            [
+              597228.036,
+              6615582.486
+            ],
+            [
+              597226.286,
+              6615577.486
+            ],
+            [
+              597222.286,
+              6615573.486
+            ],
+            [
+              597216.786,
+              6615570.986
+            ],
+            [
+              597211.036,
+              6615570.486
+            ],
+            [
+              597206.036,
+              6615572.236
+            ],
+            [
+              597202.286,
+              6615575.486
+            ],
+            [
+              597201.036,
+              6615579.736
+            ],
+            [
+              597202.786,
+              6615584.986
+            ],
+            [
+              597206.036,
+              6615588.736
+            ],
+            [
+              597209.786,
+              6615591.236
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h17-green-01",
+      "properties": {
+        "id": "tortuna-h17-green-01",
+        "kind": "green",
+        "hole": 17,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h17-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-17.png",
+        "sourceCropSha256": "b40462bca12ffa20920844bbb205b72085ce99ebcde69caf56e8bf91de03ac3c",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 567.56,
+        "originalPixels": [
+          [
+            228,
+            216
+          ],
+          [
+            251,
+            209
+          ],
+          [
+            272,
+            212
+          ],
+          [
+            291,
+            225
+          ],
+          [
+            301,
+            244
+          ],
+          [
+            302,
+            264
+          ],
+          [
+            291,
+            285
+          ],
+          [
+            276,
+            299
+          ],
+          [
+            255,
+            308
+          ],
+          [
+            234,
+            312
+          ],
+          [
+            209,
+            308
+          ],
+          [
+            190,
+            299
+          ],
+          [
+            181,
+            287
+          ],
+          [
+            185,
+            268
+          ],
+          [
+            196,
+            246
+          ],
+          [
+            212,
+            229
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597522.5564178122,
+          6615570.1722112475,
+          597650.5564178122,
+          6615698.1722112475
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597579.556,
+              6615644.172
+            ],
+            [
+              597585.306,
+              6615645.922
+            ],
+            [
+              597590.556,
+              6615645.172
+            ],
+            [
+              597595.306,
+              6615641.922
+            ],
+            [
+              597597.806,
+              6615637.172
+            ],
+            [
+              597598.056,
+              6615632.172
+            ],
+            [
+              597595.306,
+              6615626.922
+            ],
+            [
+              597591.556,
+              6615623.422
+            ],
+            [
+              597586.306,
+              6615621.172
+            ],
+            [
+              597581.056,
+              6615620.172
+            ],
+            [
+              597574.806,
+              6615621.172
+            ],
+            [
+              597570.056,
+              6615623.422
+            ],
+            [
+              597567.806,
+              6615626.422
+            ],
+            [
+              597568.806,
+              6615631.172
+            ],
+            [
+              597571.556,
+              6615636.672
+            ],
+            [
+              597575.556,
+              6615640.922
+            ],
+            [
+              597579.556,
+              6615644.172
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h18-green-01",
+      "properties": {
+        "id": "tortuna-h18-green-01",
+        "kind": "green",
+        "hole": 18,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h18-green-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-18.png",
+        "sourceCropSha256": "6d34e5ff1dffa359a1a6757c123f71d5c9b7dc37fff157e263d4b6969beddd8d",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 249.56,
+        "originalPixels": [
+          [
+            252,
+            225
+          ],
+          [
+            271,
+            219
+          ],
+          [
+            285,
+            228
+          ],
+          [
+            290,
+            244
+          ],
+          [
+            283,
+            265
+          ],
+          [
+            271,
+            288
+          ],
+          [
+            253,
+            302
+          ],
+          [
+            236,
+            300
+          ],
+          [
+            223,
+            288
+          ],
+          [
+            219,
+            272
+          ],
+          [
+            224,
+            253
+          ],
+          [
+            237,
+            236
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597371.5563647551,
+          6615264.538135834,
+          597499.5563647551,
+          6615392.538135834
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597434.556,
+              6615336.288
+            ],
+            [
+              597439.306,
+              6615337.788
+            ],
+            [
+              597442.806,
+              6615335.538
+            ],
+            [
+              597444.056,
+              6615331.538
+            ],
+            [
+              597442.306,
+              6615326.288
+            ],
+            [
+              597439.306,
+              6615320.538
+            ],
+            [
+              597434.806,
+              6615317.038
+            ],
+            [
+              597430.556,
+              6615317.538
+            ],
+            [
+              597427.306,
+              6615320.538
+            ],
+            [
+              597426.306,
+              6615324.538
+            ],
+            [
+              597427.556,
+              6615329.288
+            ],
+            [
+              597430.806,
+              6615333.538
+            ],
+            [
+              597434.556,
+              6615336.288
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h10-bunker-01",
+      "properties": {
+        "id": "tortuna-h10-bunker-01",
+        "kind": "bunker",
+        "hole": 10,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h10-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-10.png",
+        "sourceCropSha256": "644e8070f463bd0c74f7260229d843be824abcdaabfc5ee10f17d090f395cf67",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 64.12,
+        "originalPixels": [
+          [
+            169,
+            246
+          ],
+          [
+            180,
+            246
+          ],
+          [
+            184,
+            253
+          ],
+          [
+            180,
+            265
+          ],
+          [
+            171,
+            277
+          ],
+          [
+            163,
+            290
+          ],
+          [
+            154,
+            292
+          ],
+          [
+            148,
+            286
+          ],
+          [
+            148,
+            274
+          ],
+          [
+            153,
+            261
+          ],
+          [
+            160,
+            251
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597711.601785257,
+          6615331.946667154,
+          597839.601785257,
+          6615459.946667154
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597753.852,
+              6615398.447
+            ],
+            [
+              597756.602,
+              6615398.447
+            ],
+            [
+              597757.602,
+              6615396.697
+            ],
+            [
+              597756.602,
+              6615393.697
+            ],
+            [
+              597754.352,
+              6615390.697
+            ],
+            [
+              597752.352,
+              6615387.447
+            ],
+            [
+              597750.102,
+              6615386.947
+            ],
+            [
+              597748.602,
+              6615388.447
+            ],
+            [
+              597748.602,
+              6615391.447
+            ],
+            [
+              597749.852,
+              6615394.697
+            ],
+            [
+              597751.602,
+              6615397.197
+            ],
+            [
+              597753.852,
+              6615398.447
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h10-bunker-02",
+      "properties": {
+        "id": "tortuna-h10-bunker-02",
+        "kind": "bunker",
+        "hole": 10,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h10-bunker-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-10.png",
+        "sourceCropSha256": "644e8070f463bd0c74f7260229d843be824abcdaabfc5ee10f17d090f395cf67",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 66.0,
+        "originalPixels": [
+          [
+            235,
+            321
+          ],
+          [
+            243,
+            322
+          ],
+          [
+            247,
+            329
+          ],
+          [
+            246,
+            342
+          ],
+          [
+            239,
+            354
+          ],
+          [
+            227,
+            362
+          ],
+          [
+            213,
+            367
+          ],
+          [
+            203,
+            367
+          ],
+          [
+            198,
+            362
+          ],
+          [
+            200,
+            355
+          ],
+          [
+            211,
+            351
+          ],
+          [
+            220,
+            347
+          ],
+          [
+            226,
+            337
+          ],
+          [
+            229,
+            327
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597711.601785257,
+          6615331.946667154,
+          597839.601785257,
+          6615459.946667154
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597770.352,
+              6615379.697
+            ],
+            [
+              597772.352,
+              6615379.447
+            ],
+            [
+              597773.352,
+              6615377.697
+            ],
+            [
+              597773.102,
+              6615374.447
+            ],
+            [
+              597771.352,
+              6615371.447
+            ],
+            [
+              597768.352,
+              6615369.447
+            ],
+            [
+              597764.852,
+              6615368.197
+            ],
+            [
+              597762.352,
+              6615368.197
+            ],
+            [
+              597761.102,
+              6615369.447
+            ],
+            [
+              597761.602,
+              6615371.197
+            ],
+            [
+              597764.352,
+              6615372.197
+            ],
+            [
+              597766.602,
+              6615373.197
+            ],
+            [
+              597768.102,
+              6615375.697
+            ],
+            [
+              597768.852,
+              6615378.197
+            ],
+            [
+              597770.352,
+              6615379.697
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h11-bunker-01",
+      "properties": {
+        "id": "tortuna-h11-bunker-01",
+        "kind": "bunker",
+        "hole": 11,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h11-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-11.png",
+        "sourceCropSha256": "6d47497a88d7717a737a287b4f921eda7bcbe2f65525c3ab74f721ae09e88700",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2.5,
+        "boundaryNote": "Northwest bunker margin meets tree shadow.",
+        "areaSquareMetres": 80.88,
+        "originalPixels": [
+          [
+            323,
+            288
+          ],
+          [
+            331,
+            289
+          ],
+          [
+            335,
+            295
+          ],
+          [
+            331,
+            304
+          ],
+          [
+            326,
+            316
+          ],
+          [
+            323,
+            327
+          ],
+          [
+            316,
+            332
+          ],
+          [
+            304,
+            329
+          ],
+          [
+            292,
+            324
+          ],
+          [
+            282,
+            317
+          ],
+          [
+            284,
+            311
+          ],
+          [
+            298,
+            305
+          ],
+          [
+            311,
+            295
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597530.0543267665,
+          6615318.305763711,
+          597658.0543267665,
+          6615446.305763711
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597610.804,
+              6615374.306
+            ],
+            [
+              597612.804,
+              6615374.056
+            ],
+            [
+              597613.804,
+              6615372.556
+            ],
+            [
+              597612.804,
+              6615370.306
+            ],
+            [
+              597611.554,
+              6615367.306
+            ],
+            [
+              597610.804,
+              6615364.556
+            ],
+            [
+              597609.054,
+              6615363.306
+            ],
+            [
+              597606.054,
+              6615364.056
+            ],
+            [
+              597603.054,
+              6615365.306
+            ],
+            [
+              597600.554,
+              6615367.056
+            ],
+            [
+              597601.054,
+              6615368.556
+            ],
+            [
+              597604.554,
+              6615370.056
+            ],
+            [
+              597607.804,
+              6615372.556
+            ],
+            [
+              597610.804,
+              6615374.306
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h12-bunker-01",
+      "properties": {
+        "id": "tortuna-h12-bunker-01",
+        "kind": "bunker",
+        "hole": 12,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h12-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-12.png",
+        "sourceCropSha256": "2bcd107ba1ca8d2dac12589d80a66c4dc43933ab2c1180b016e1c7625ed85579",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 97.59,
+        "originalPixels": [
+          [
+            186,
+            223
+          ],
+          [
+            193,
+            221
+          ],
+          [
+            198,
+            228
+          ],
+          [
+            199,
+            250
+          ],
+          [
+            201,
+            273
+          ],
+          [
+            211,
+            293
+          ],
+          [
+            215,
+            306
+          ],
+          [
+            211,
+            313
+          ],
+          [
+            203,
+            315
+          ],
+          [
+            194,
+            311
+          ],
+          [
+            190,
+            303
+          ],
+          [
+            189,
+            281
+          ],
+          [
+            184,
+            254
+          ],
+          [
+            181,
+            235
+          ],
+          [
+            181,
+            229
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597592.6189488543,
+          6615669.318611041,
+          597720.6189488543,
+          6615797.318611041
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597639.119,
+              6615741.569
+            ],
+            [
+              597640.869,
+              6615742.069
+            ],
+            [
+              597642.119,
+              6615740.319
+            ],
+            [
+              597642.369,
+              6615734.819
+            ],
+            [
+              597642.869,
+              6615729.069
+            ],
+            [
+              597645.369,
+              6615724.069
+            ],
+            [
+              597646.369,
+              6615720.819
+            ],
+            [
+              597645.369,
+              6615719.069
+            ],
+            [
+              597643.369,
+              6615718.569
+            ],
+            [
+              597641.119,
+              6615719.569
+            ],
+            [
+              597640.119,
+              6615721.569
+            ],
+            [
+              597639.869,
+              6615727.069
+            ],
+            [
+              597638.619,
+              6615733.819
+            ],
+            [
+              597637.869,
+              6615738.569
+            ],
+            [
+              597637.869,
+              6615740.069
+            ],
+            [
+              597639.119,
+              6615741.569
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h12-bunker-02",
+      "properties": {
+        "id": "tortuna-h12-bunker-02",
+        "kind": "bunker",
+        "hole": 12,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h12-bunker-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-12.png",
+        "sourceCropSha256": "2bcd107ba1ca8d2dac12589d80a66c4dc43933ab2c1180b016e1c7625ed85579",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 51.12,
+        "originalPixels": [
+          [
+            299,
+            292
+          ],
+          [
+            308,
+            291
+          ],
+          [
+            320,
+            285
+          ],
+          [
+            331,
+            286
+          ],
+          [
+            337,
+            292
+          ],
+          [
+            336,
+            301
+          ],
+          [
+            330,
+            307
+          ],
+          [
+            316,
+            311
+          ],
+          [
+            302,
+            311
+          ],
+          [
+            296,
+            306
+          ],
+          [
+            295,
+            299
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597592.6189488543,
+          6615669.318611041,
+          597720.6189488543,
+          6615797.318611041
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597667.369,
+              6615724.319
+            ],
+            [
+              597669.619,
+              6615724.569
+            ],
+            [
+              597672.619,
+              6615726.069
+            ],
+            [
+              597675.369,
+              6615725.819
+            ],
+            [
+              597676.869,
+              6615724.319
+            ],
+            [
+              597676.619,
+              6615722.069
+            ],
+            [
+              597675.119,
+              6615720.569
+            ],
+            [
+              597671.619,
+              6615719.569
+            ],
+            [
+              597668.119,
+              6615719.569
+            ],
+            [
+              597666.619,
+              6615720.819
+            ],
+            [
+              597666.369,
+              6615722.569
+            ],
+            [
+              597667.369,
+              6615724.319
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h13-bunker-01",
+      "properties": {
+        "id": "tortuna-h13-bunker-01",
+        "kind": "bunker",
+        "hole": 13,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h13-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-13.png",
+        "sourceCropSha256": "d6ddcc87ae01e0817ad9528f99c11c1e771b77f281bd884a01a34b681d6850d6",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 47.47,
+        "originalPixels": [
+          [
+            250,
+            318
+          ],
+          [
+            263,
+            316
+          ],
+          [
+            277,
+            316
+          ],
+          [
+            289,
+            313
+          ],
+          [
+            296,
+            314
+          ],
+          [
+            299,
+            321
+          ],
+          [
+            295,
+            328
+          ],
+          [
+            281,
+            331
+          ],
+          [
+            267,
+            330
+          ],
+          [
+            254,
+            332
+          ],
+          [
+            246,
+            329
+          ],
+          [
+            243,
+            324
+          ],
+          [
+            245,
+            320
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597065.3130491306,
+          6615806.640682386,
+          597193.3130491306,
+          6615934.640682386
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597127.813,
+              6615855.141
+            ],
+            [
+              597131.063,
+              6615855.641
+            ],
+            [
+              597134.563,
+              6615855.641
+            ],
+            [
+              597137.563,
+              6615856.391
+            ],
+            [
+              597139.313,
+              6615856.141
+            ],
+            [
+              597140.063,
+              6615854.391
+            ],
+            [
+              597139.063,
+              6615852.641
+            ],
+            [
+              597135.563,
+              6615851.891
+            ],
+            [
+              597132.063,
+              6615852.141
+            ],
+            [
+              597128.813,
+              6615851.641
+            ],
+            [
+              597126.813,
+              6615852.391
+            ],
+            [
+              597126.063,
+              6615853.641
+            ],
+            [
+              597126.563,
+              6615854.641
+            ],
+            [
+              597127.813,
+              6615855.141
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h14-bunker-01",
+      "properties": {
+        "id": "tortuna-h14-bunker-01",
+        "kind": "bunker",
+        "hole": 14,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h14-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-14.png",
+        "sourceCropSha256": "aa311c867819862961e5d7828a9bb774687fddf22512d393037782309fe623ee",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 44.69,
+        "originalPixels": [
+          [
+            323,
+            218
+          ],
+          [
+            332,
+            209
+          ],
+          [
+            338,
+            207
+          ],
+          [
+            342,
+            216
+          ],
+          [
+            338,
+            229
+          ],
+          [
+            331,
+            242
+          ],
+          [
+            325,
+            245
+          ],
+          [
+            315,
+            242
+          ],
+          [
+            309,
+            236
+          ],
+          [
+            310,
+            229
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597064.6903428962,
+          6615608.4875869695,
+          597192.6903428962,
+          6615736.4875869695
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597145.44,
+              6615681.988
+            ],
+            [
+              597147.69,
+              6615684.238
+            ],
+            [
+              597149.19,
+              6615684.738
+            ],
+            [
+              597150.19,
+              6615682.488
+            ],
+            [
+              597149.19,
+              6615679.238
+            ],
+            [
+              597147.44,
+              6615675.988
+            ],
+            [
+              597145.94,
+              6615675.238
+            ],
+            [
+              597143.44,
+              6615675.988
+            ],
+            [
+              597141.94,
+              6615677.488
+            ],
+            [
+              597142.19,
+              6615679.238
+            ],
+            [
+              597145.44,
+              6615681.988
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h14-bunker-02",
+      "properties": {
+        "id": "tortuna-h14-bunker-02",
+        "kind": "bunker",
+        "hole": 14,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h14-bunker-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-14.png",
+        "sourceCropSha256": "aa311c867819862961e5d7828a9bb774687fddf22512d393037782309fe623ee",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 54.69,
+        "originalPixels": [
+          [
+            194,
+            295
+          ],
+          [
+            201,
+            296
+          ],
+          [
+            210,
+            306
+          ],
+          [
+            220,
+            315
+          ],
+          [
+            228,
+            326
+          ],
+          [
+            229,
+            332
+          ],
+          [
+            223,
+            337
+          ],
+          [
+            214,
+            337
+          ],
+          [
+            205,
+            331
+          ],
+          [
+            199,
+            321
+          ],
+          [
+            191,
+            311
+          ],
+          [
+            189,
+            302
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597064.6903428962,
+          6615608.4875869695,
+          597192.6903428962,
+          6615736.4875869695
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597113.19,
+              6615662.738
+            ],
+            [
+              597114.94,
+              6615662.488
+            ],
+            [
+              597117.19,
+              6615659.988
+            ],
+            [
+              597119.69,
+              6615657.738
+            ],
+            [
+              597121.69,
+              6615654.988
+            ],
+            [
+              597121.94,
+              6615653.488
+            ],
+            [
+              597120.44,
+              6615652.238
+            ],
+            [
+              597118.19,
+              6615652.238
+            ],
+            [
+              597115.94,
+              6615653.738
+            ],
+            [
+              597114.44,
+              6615656.238
+            ],
+            [
+              597112.44,
+              6615658.738
+            ],
+            [
+              597111.94,
+              6615660.988
+            ],
+            [
+              597113.19,
+              6615662.738
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h15-bunker-01",
+      "properties": {
+        "id": "tortuna-h15-bunker-01",
+        "kind": "bunker",
+        "hole": 15,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h15-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-15.png",
+        "sourceCropSha256": "de11c44c78e00214e4f1c536d2afa2eb172bfe6d171b1d56680b65113e64c7f8",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 41.62,
+        "originalPixels": [
+          [
+            211,
+            198
+          ],
+          [
+            217,
+            190
+          ],
+          [
+            225,
+            190
+          ],
+          [
+            231,
+            198
+          ],
+          [
+            230,
+            205
+          ],
+          [
+            223,
+            211
+          ],
+          [
+            214,
+            215
+          ],
+          [
+            204,
+            225
+          ],
+          [
+            198,
+            225
+          ],
+          [
+            194,
+            219
+          ],
+          [
+            195,
+            212
+          ],
+          [
+            200,
+            208
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597359.8087635776,
+          6615681.822264163,
+          597487.8087635776,
+          6615809.822264163
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597412.559,
+              6615760.322
+            ],
+            [
+              597414.059,
+              6615762.322
+            ],
+            [
+              597416.059,
+              6615762.322
+            ],
+            [
+              597417.559,
+              6615760.322
+            ],
+            [
+              597417.309,
+              6615758.572
+            ],
+            [
+              597415.559,
+              6615757.072
+            ],
+            [
+              597413.309,
+              6615756.072
+            ],
+            [
+              597410.809,
+              6615753.572
+            ],
+            [
+              597409.309,
+              6615753.572
+            ],
+            [
+              597408.309,
+              6615755.072
+            ],
+            [
+              597408.559,
+              6615756.822
+            ],
+            [
+              597409.809,
+              6615757.822
+            ],
+            [
+              597412.559,
+              6615760.322
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h15-bunker-02",
+      "properties": {
+        "id": "tortuna-h15-bunker-02",
+        "kind": "bunker",
+        "hole": 15,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h15-bunker-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-15.png",
+        "sourceCropSha256": "de11c44c78e00214e4f1c536d2afa2eb172bfe6d171b1d56680b65113e64c7f8",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 130.06,
+        "originalPixels": [
+          [
+            191,
+            319
+          ],
+          [
+            209,
+            320
+          ],
+          [
+            229,
+            322
+          ],
+          [
+            254,
+            322
+          ],
+          [
+            274,
+            320
+          ],
+          [
+            283,
+            318
+          ],
+          [
+            288,
+            324
+          ],
+          [
+            287,
+            334
+          ],
+          [
+            283,
+            340
+          ],
+          [
+            274,
+            343
+          ],
+          [
+            253,
+            342
+          ],
+          [
+            228,
+            341
+          ],
+          [
+            208,
+            340
+          ],
+          [
+            189,
+            340
+          ],
+          [
+            183,
+            335
+          ],
+          [
+            183,
+            328
+          ],
+          [
+            186,
+            322
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597359.8087635776,
+          6615681.822264163,
+          597487.8087635776,
+          6615809.822264163
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597407.559,
+              6615730.072
+            ],
+            [
+              597412.059,
+              6615729.822
+            ],
+            [
+              597417.059,
+              6615729.322
+            ],
+            [
+              597423.309,
+              6615729.322
+            ],
+            [
+              597428.309,
+              6615729.822
+            ],
+            [
+              597430.559,
+              6615730.322
+            ],
+            [
+              597431.809,
+              6615728.822
+            ],
+            [
+              597431.559,
+              6615726.322
+            ],
+            [
+              597430.559,
+              6615724.822
+            ],
+            [
+              597428.309,
+              6615724.072
+            ],
+            [
+              597423.059,
+              6615724.322
+            ],
+            [
+              597416.809,
+              6615724.572
+            ],
+            [
+              597411.809,
+              6615724.822
+            ],
+            [
+              597407.059,
+              6615724.822
+            ],
+            [
+              597405.559,
+              6615726.072
+            ],
+            [
+              597405.559,
+              6615727.822
+            ],
+            [
+              597406.309,
+              6615729.322
+            ],
+            [
+              597407.559,
+              6615730.072
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h16-bunker-01",
+      "properties": {
+        "id": "tortuna-h16-bunker-01",
+        "kind": "bunker",
+        "hole": 16,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h16-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-16.png",
+        "sourceCropSha256": "19193d5ce5409aa9304abc2ad77c5fd50b3bcd325f10874e4cf25efa784836b8",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 31.16,
+        "originalPixels": [
+          [
+            279,
+            178
+          ],
+          [
+            287,
+            178
+          ],
+          [
+            296,
+            183
+          ],
+          [
+            302,
+            191
+          ],
+          [
+            306,
+            200
+          ],
+          [
+            305,
+            205
+          ],
+          [
+            300,
+            207
+          ],
+          [
+            293,
+            203
+          ],
+          [
+            286,
+            197
+          ],
+          [
+            279,
+            190
+          ],
+          [
+            275,
+            184
+          ],
+          [
+            276,
+            180
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597151.0360361349,
+          6615518.236362931,
+          597279.0360361349,
+          6615646.236362931
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597220.786,
+              6615601.736
+            ],
+            [
+              597222.786,
+              6615601.736
+            ],
+            [
+              597225.036,
+              6615600.486
+            ],
+            [
+              597226.536,
+              6615598.486
+            ],
+            [
+              597227.536,
+              6615596.236
+            ],
+            [
+              597227.286,
+              6615594.986
+            ],
+            [
+              597226.036,
+              6615594.486
+            ],
+            [
+              597224.286,
+              6615595.486
+            ],
+            [
+              597222.536,
+              6615596.986
+            ],
+            [
+              597220.786,
+              6615598.736
+            ],
+            [
+              597219.786,
+              6615600.236
+            ],
+            [
+              597220.036,
+              6615601.236
+            ],
+            [
+              597220.786,
+              6615601.736
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h16-bunker-02",
+      "properties": {
+        "id": "tortuna-h16-bunker-02",
+        "kind": "bunker",
+        "hole": 16,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h16-bunker-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-16.png",
+        "sourceCropSha256": "19193d5ce5409aa9304abc2ad77c5fd50b3bcd325f10874e4cf25efa784836b8",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 41.03,
+        "originalPixels": [
+          [
+            331,
+            271
+          ],
+          [
+            339,
+            272
+          ],
+          [
+            346,
+            279
+          ],
+          [
+            351,
+            290
+          ],
+          [
+            354,
+            299
+          ],
+          [
+            352,
+            305
+          ],
+          [
+            346,
+            310
+          ],
+          [
+            340,
+            307
+          ],
+          [
+            335,
+            300
+          ],
+          [
+            332,
+            291
+          ],
+          [
+            325,
+            281
+          ],
+          [
+            326,
+            275
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597151.0360361349,
+          6615518.236362931,
+          597279.0360361349,
+          6615646.236362931
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597233.786,
+              6615578.486
+            ],
+            [
+              597235.786,
+              6615578.236
+            ],
+            [
+              597237.536,
+              6615576.486
+            ],
+            [
+              597238.786,
+              6615573.736
+            ],
+            [
+              597239.536,
+              6615571.486
+            ],
+            [
+              597239.036,
+              6615569.986
+            ],
+            [
+              597237.536,
+              6615568.736
+            ],
+            [
+              597236.036,
+              6615569.486
+            ],
+            [
+              597234.786,
+              6615571.236
+            ],
+            [
+              597234.036,
+              6615573.486
+            ],
+            [
+              597232.286,
+              6615575.986
+            ],
+            [
+              597232.536,
+              6615577.486
+            ],
+            [
+              597233.786,
+              6615578.486
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h17-bunker-01",
+      "properties": {
+        "id": "tortuna-h17-bunker-01",
+        "kind": "bunker",
+        "hole": 17,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h17-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-17.png",
+        "sourceCropSha256": "b40462bca12ffa20920844bbb205b72085ce99ebcde69caf56e8bf91de03ac3c",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 71.31,
+        "originalPixels": [
+          [
+            172,
+            317
+          ],
+          [
+            180,
+            316
+          ],
+          [
+            193,
+            320
+          ],
+          [
+            205,
+            324
+          ],
+          [
+            214,
+            329
+          ],
+          [
+            217,
+            334
+          ],
+          [
+            214,
+            341
+          ],
+          [
+            208,
+            346
+          ],
+          [
+            198,
+            348
+          ],
+          [
+            183,
+            344
+          ],
+          [
+            172,
+            339
+          ],
+          [
+            166,
+            332
+          ],
+          [
+            164,
+            325
+          ],
+          [
+            166,
+            320
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597522.5564178122,
+          6615570.1722112475,
+          597650.5564178122,
+          6615698.1722112475
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597565.556,
+              6615618.922
+            ],
+            [
+              597567.556,
+              6615619.172
+            ],
+            [
+              597570.806,
+              6615618.172
+            ],
+            [
+              597573.806,
+              6615617.172
+            ],
+            [
+              597576.056,
+              6615615.922
+            ],
+            [
+              597576.806,
+              6615614.672
+            ],
+            [
+              597576.056,
+              6615612.922
+            ],
+            [
+              597574.556,
+              6615611.672
+            ],
+            [
+              597572.056,
+              6615611.172
+            ],
+            [
+              597568.306,
+              6615612.172
+            ],
+            [
+              597565.556,
+              6615613.422
+            ],
+            [
+              597564.056,
+              6615615.172
+            ],
+            [
+              597563.556,
+              6615616.922
+            ],
+            [
+              597564.056,
+              6615618.172
+            ],
+            [
+              597565.556,
+              6615618.922
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h18-bunker-01",
+      "properties": {
+        "id": "tortuna-h18-bunker-01",
+        "kind": "bunker",
+        "hole": 18,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h18-bunker-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-18.png",
+        "sourceCropSha256": "6d34e5ff1dffa359a1a6757c123f71d5c9b7dc37fff157e263d4b6969beddd8d",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 1.5,
+        "boundaryNote": null,
+        "areaSquareMetres": 87.16,
+        "originalPixels": [
+          [
+            299,
+            250
+          ],
+          [
+            307,
+            251
+          ],
+          [
+            316,
+            258
+          ],
+          [
+            318,
+            265
+          ],
+          [
+            314,
+            273
+          ],
+          [
+            306,
+            283
+          ],
+          [
+            302,
+            298
+          ],
+          [
+            296,
+            307
+          ],
+          [
+            288,
+            311
+          ],
+          [
+            279,
+            308
+          ],
+          [
+            276,
+            302
+          ],
+          [
+            278,
+            293
+          ],
+          [
+            284,
+            282
+          ],
+          [
+            288,
+            269
+          ],
+          [
+            292,
+            255
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597371.5563647551,
+          6615264.538135834,
+          597499.5563647551,
+          6615392.538135834
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597446.306,
+              6615330.038
+            ],
+            [
+              597448.306,
+              6615329.788
+            ],
+            [
+              597450.556,
+              6615328.038
+            ],
+            [
+              597451.056,
+              6615326.288
+            ],
+            [
+              597450.056,
+              6615324.288
+            ],
+            [
+              597448.056,
+              6615321.788
+            ],
+            [
+              597447.056,
+              6615318.038
+            ],
+            [
+              597445.556,
+              6615315.788
+            ],
+            [
+              597443.556,
+              6615314.788
+            ],
+            [
+              597441.306,
+              6615315.538
+            ],
+            [
+              597440.556,
+              6615317.038
+            ],
+            [
+              597441.056,
+              6615319.288
+            ],
+            [
+              597442.556,
+              6615322.038
+            ],
+            [
+              597443.556,
+              6615325.288
+            ],
+            [
+              597444.556,
+              6615328.788
+            ],
+            [
+              597446.306,
+              6615330.038
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h10-bunker-03",
+      "properties": {
+        "id": "tortuna-h10-bunker-03",
+        "kind": "bunker",
+        "hole": 10,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h10-bunker-03",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-10.png",
+        "sourceCropSha256": "6d00d27cb75f6c14fba86d12020464770c9c429cc6eb4df81ed6365e1b9d2cdb",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 81.75,
+        "originalPixels": [
+          [
+            312,
+            326
+          ],
+          [
+            323,
+            325
+          ],
+          [
+            329,
+            327
+          ],
+          [
+            331,
+            330
+          ],
+          [
+            326,
+            332
+          ],
+          [
+            314,
+            332
+          ],
+          [
+            309,
+            330
+          ],
+          [
+            309,
+            328
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597432.1234248918,
+          6615157.897754514,
+          597855.601785257,
+          6615581.376114878
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597690.181,
+              6615311.74
+            ],
+            [
+              597699.279,
+              6615312.567
+            ],
+            [
+              597704.241,
+              6615310.912
+            ],
+            [
+              597705.896,
+              6615308.431
+            ],
+            [
+              597701.76,
+              6615306.777
+            ],
+            [
+              597691.835,
+              6615306.777
+            ],
+            [
+              597687.699,
+              6615308.431
+            ],
+            [
+              597687.699,
+              6615310.085
+            ],
+            [
+              597690.181,
+              6615311.74
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h12-bunker-03",
+      "properties": {
+        "id": "tortuna-h12-bunker-03",
+        "kind": "bunker",
+        "hole": 12,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h12-bunker-03",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-12.png",
+        "sourceCropSha256": "66906f2fc8aa67b3838ef0e75a69382c92181191927d771e0afd8b3dd3d8be1a",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 140.92,
+        "originalPixels": [
+          [
+            337,
+            270
+          ],
+          [
+            341,
+            270
+          ],
+          [
+            343,
+            274
+          ],
+          [
+            344,
+            279
+          ],
+          [
+            348,
+            282
+          ],
+          [
+            350,
+            287
+          ],
+          [
+            347,
+            290
+          ],
+          [
+            343,
+            289
+          ],
+          [
+            341,
+            284
+          ],
+          [
+            337,
+            281
+          ],
+          [
+            335,
+            275
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597341.8977313515,
+          6615310.2986883875,
+          597844.9176540048,
+          6615813.318611041
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597672.987,
+              6615548.054
+            ],
+            [
+              597676.917,
+              6615548.054
+            ],
+            [
+              597678.882,
+              6615544.124
+            ],
+            [
+              597679.864,
+              6615539.212
+            ],
+            [
+              597683.794,
+              6615536.265
+            ],
+            [
+              597685.759,
+              6615531.352
+            ],
+            [
+              597682.812,
+              6615528.405
+            ],
+            [
+              597678.882,
+              6615529.387
+            ],
+            [
+              597676.917,
+              6615534.3
+            ],
+            [
+              597672.987,
+              6615537.247
+            ],
+            [
+              597671.022,
+              6615543.142
+            ],
+            [
+              597672.987,
+              6615548.054
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h12-bunker-04",
+      "properties": {
+        "id": "tortuna-h12-bunker-04",
+        "kind": "bunker",
+        "hole": 12,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h12-bunker-04",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-12.png",
+        "sourceCropSha256": "66906f2fc8aa67b3838ef0e75a69382c92181191927d771e0afd8b3dd3d8be1a",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 96.04,
+        "originalPixels": [
+          [
+            383,
+            256
+          ],
+          [
+            386,
+            258
+          ],
+          [
+            387,
+            264
+          ],
+          [
+            389,
+            270
+          ],
+          [
+            391,
+            273
+          ],
+          [
+            391,
+            277
+          ],
+          [
+            388,
+            278
+          ],
+          [
+            385,
+            274
+          ],
+          [
+            383,
+            268
+          ],
+          [
+            382,
+            261
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597341.8977313515,
+          6615310.2986883875,
+          597844.9176540048,
+          6615813.318611041
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597718.18,
+              6615561.809
+            ],
+            [
+              597721.128,
+              6615559.844
+            ],
+            [
+              597722.11,
+              6615553.949
+            ],
+            [
+              597724.075,
+              6615548.054
+            ],
+            [
+              597726.04,
+              6615545.107
+            ],
+            [
+              597726.04,
+              6615541.177
+            ],
+            [
+              597723.093,
+              6615540.195
+            ],
+            [
+              597720.145,
+              6615544.124
+            ],
+            [
+              597718.18,
+              6615550.019
+            ],
+            [
+              597717.198,
+              6615556.896
+            ],
+            [
+              597718.18,
+              6615561.809
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h13-bunker-02",
+      "properties": {
+        "id": "tortuna-h13-bunker-02",
+        "kind": "bunker",
+        "hole": 13,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h13-bunker-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-13.png",
+        "sourceCropSha256": "cebc31b207db44679c5eb2fde1b57868f7737cf2a51e0cbf41eabe796aa3fb27",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 47.83,
+        "originalPixels": [
+          [
+            134,
+            207
+          ],
+          [
+            139,
+            207
+          ],
+          [
+            142,
+            209
+          ],
+          [
+            140,
+            212
+          ],
+          [
+            135,
+            212
+          ],
+          [
+            133,
+            210
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597049.3130491306,
+          6615512.4980520215,
+          597643.6479349658,
+          6616106.832937857
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597204.862,
+              6615866.545
+            ],
+            [
+              597210.666,
+              6615866.545
+            ],
+            [
+              597214.148,
+              6615864.224
+            ],
+            [
+              597211.826,
+              6615860.741
+            ],
+            [
+              597206.022,
+              6615860.741
+            ],
+            [
+              597203.701,
+              6615863.063
+            ],
+            [
+              597204.862,
+              6615866.545
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h13-bunker-03",
+      "properties": {
+        "id": "tortuna-h13-bunker-03",
+        "kind": "bunker",
+        "hole": 13,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h13-bunker-03",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-13.png",
+        "sourceCropSha256": "cebc31b207db44679c5eb2fde1b57868f7737cf2a51e0cbf41eabe796aa3fb27",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 60.63,
+        "originalPixels": [
+          [
+            118,
+            227
+          ],
+          [
+            122,
+            228
+          ],
+          [
+            125,
+            231
+          ],
+          [
+            125,
+            234
+          ],
+          [
+            121,
+            235
+          ],
+          [
+            118,
+            232
+          ],
+          [
+            116,
+            230
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597049.3130491306,
+          6615512.4980520215,
+          597643.6479349658,
+          6616106.832937857
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597186.289,
+              6615843.329
+            ],
+            [
+              597190.932,
+              6615842.168
+            ],
+            [
+              597194.414,
+              6615838.686
+            ],
+            [
+              597194.414,
+              6615835.203
+            ],
+            [
+              597189.771,
+              6615834.043
+            ],
+            [
+              597186.289,
+              6615837.525
+            ],
+            [
+              597183.967,
+              6615839.847
+            ],
+            [
+              597186.289,
+              6615843.329
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h13-bunker-04",
+      "properties": {
+        "id": "tortuna-h13-bunker-04",
+        "kind": "bunker",
+        "hole": 13,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h13-bunker-04",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-13.png",
+        "sourceCropSha256": "cebc31b207db44679c5eb2fde1b57868f7737cf2a51e0cbf41eabe796aa3fb27",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 86.91,
+        "originalPixels": [
+          [
+            130,
+            228
+          ],
+          [
+            135,
+            228
+          ],
+          [
+            140,
+            230
+          ],
+          [
+            142,
+            233
+          ],
+          [
+            139,
+            235
+          ],
+          [
+            135,
+            234
+          ],
+          [
+            130,
+            233
+          ],
+          [
+            128,
+            230
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597049.3130491306,
+          6615512.4980520215,
+          597643.6479349658,
+          6616106.832937857
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597200.218,
+              6615842.168
+            ],
+            [
+              597206.022,
+              6615842.168
+            ],
+            [
+              597211.826,
+              6615839.847
+            ],
+            [
+              597214.148,
+              6615836.364
+            ],
+            [
+              597210.666,
+              6615834.043
+            ],
+            [
+              597206.022,
+              6615835.203
+            ],
+            [
+              597200.218,
+              6615836.364
+            ],
+            [
+              597197.897,
+              6615839.847
+            ],
+            [
+              597200.218,
+              6615842.168
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h13-bunker-05",
+      "properties": {
+        "id": "tortuna-h13-bunker-05",
+        "kind": "bunker",
+        "hole": 13,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h13-bunker-05",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-13.png",
+        "sourceCropSha256": "cebc31b207db44679c5eb2fde1b57868f7737cf2a51e0cbf41eabe796aa3fb27",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 137.45,
+        "originalPixels": [
+          [
+            255,
+            227
+          ],
+          [
+            260,
+            226
+          ],
+          [
+            265,
+            229
+          ],
+          [
+            269,
+            231
+          ],
+          [
+            267,
+            234
+          ],
+          [
+            262,
+            234
+          ],
+          [
+            258,
+            232
+          ],
+          [
+            253,
+            234
+          ],
+          [
+            249,
+            233
+          ],
+          [
+            250,
+            230
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597049.3130491306,
+          6615512.4980520215,
+          597643.6479349658,
+          6616106.832937857
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597345.32,
+              6615843.329
+            ],
+            [
+              597351.124,
+              6615844.49
+            ],
+            [
+              597356.928,
+              6615841.007
+            ],
+            [
+              597361.571,
+              6615838.686
+            ],
+            [
+              597359.249,
+              6615835.203
+            ],
+            [
+              597353.445,
+              6615835.203
+            ],
+            [
+              597348.802,
+              6615837.525
+            ],
+            [
+              597342.998,
+              6615835.203
+            ],
+            [
+              597338.355,
+              6615836.364
+            ],
+            [
+              597339.516,
+              6615839.847
+            ],
+            [
+              597345.32,
+              6615843.329
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h15-bunker-03",
+      "properties": {
+        "id": "tortuna-h15-bunker-03",
+        "kind": "bunker",
+        "hole": 15,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h15-bunker-03",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-15.png",
+        "sourceCropSha256": "e7933c550f7b6420073c9a849755c37939db6fcc060dc3d5f981bbe9c536e856",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 87.33,
+        "originalPixels": [
+          [
+            299,
+            181
+          ],
+          [
+            303,
+            180
+          ],
+          [
+            308,
+            182
+          ],
+          [
+            311,
+            187
+          ],
+          [
+            312,
+            191
+          ],
+          [
+            309,
+            194
+          ],
+          [
+            305,
+            192
+          ],
+          [
+            303,
+            189
+          ],
+          [
+            299,
+            186
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597049.6407847852,
+          6615456.95174071,
+          597503.8087635776,
+          6615911.119719502
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597314.868,
+              6615750.564
+            ],
+            [
+              597318.416,
+              6615751.451
+            ],
+            [
+              597322.851,
+              6615749.677
+            ],
+            [
+              597325.512,
+              6615745.242
+            ],
+            [
+              597326.399,
+              6615741.694
+            ],
+            [
+              597323.738,
+              6615739.033
+            ],
+            [
+              597320.19,
+              6615740.807
+            ],
+            [
+              597318.416,
+              6615743.468
+            ],
+            [
+              597314.868,
+              6615746.129
+            ],
+            [
+              597314.868,
+              6615750.564
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h17-bunker-02",
+      "properties": {
+        "id": "tortuna-h17-bunker-02",
+        "kind": "bunker",
+        "hole": 17,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h17-bunker-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-17.png",
+        "sourceCropSha256": "9965c65c43a9f3aeaaaf95b50f958014f34ac2f6ac794199c95539f49389bf6f",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 83.14,
+        "originalPixels": [
+          [
+            249,
+            182
+          ],
+          [
+            253,
+            182
+          ],
+          [
+            256,
+            185
+          ],
+          [
+            261,
+            188
+          ],
+          [
+            263,
+            192
+          ],
+          [
+            260,
+            195
+          ],
+          [
+            256,
+            195
+          ],
+          [
+            253,
+            192
+          ],
+          [
+            249,
+            189
+          ],
+          [
+            248,
+            186
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597232.1497650346,
+          6615339.513495423,
+          597666.5564178122,
+          6615773.920148201
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597443.414,
+              6615619.502
+            ],
+            [
+              597446.808,
+              6615619.502
+            ],
+            [
+              597449.353,
+              6615616.957
+            ],
+            [
+              597453.595,
+              6615614.411
+            ],
+            [
+              597455.292,
+              6615611.018
+            ],
+            [
+              597452.747,
+              6615608.472
+            ],
+            [
+              597449.353,
+              6615608.472
+            ],
+            [
+              597446.808,
+              6615611.018
+            ],
+            [
+              597443.414,
+              6615613.563
+            ],
+            [
+              597442.565,
+              6615616.108
+            ],
+            [
+              597443.414,
+              6615619.502
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h10-tee-01",
+      "properties": {
+        "id": "tortuna-h10-tee-01",
+        "kind": "tee",
+        "hole": 10,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h10-tee-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-10.png",
+        "sourceCropSha256": "d4da295699d1a4ea224011408f1eda59ada2e8bee056c3d7ca23e53765a51a43",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": "Back10 platform observed along south edge of the tree belt; source tee reference is nearby, not a surveyed marker.",
+        "areaSquareMetres": 147.72,
+        "originalPixels": [
+          [
+            226,
+            267
+          ],
+          [
+            252,
+            263
+          ],
+          [
+            282,
+            265
+          ],
+          [
+            310,
+            267
+          ],
+          [
+            338,
+            267
+          ],
+          [
+            347,
+            273
+          ],
+          [
+            346,
+            284
+          ],
+          [
+            330,
+            287
+          ],
+          [
+            300,
+            286
+          ],
+          [
+            272,
+            285
+          ],
+          [
+            248,
+            286
+          ],
+          [
+            228,
+            283
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597448.123424892,
+          6615279.327202238,
+          597576.123424892,
+          6615407.327202238
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597504.623,
+              6615340.577
+            ],
+            [
+              597511.123,
+              6615341.577
+            ],
+            [
+              597518.623,
+              6615341.077
+            ],
+            [
+              597525.623,
+              6615340.577
+            ],
+            [
+              597532.623,
+              6615340.577
+            ],
+            [
+              597534.873,
+              6615339.077
+            ],
+            [
+              597534.623,
+              6615336.327
+            ],
+            [
+              597530.623,
+              6615335.577
+            ],
+            [
+              597523.123,
+              6615335.827
+            ],
+            [
+              597516.123,
+              6615336.077
+            ],
+            [
+              597510.123,
+              6615335.827
+            ],
+            [
+              597505.123,
+              6615336.577
+            ],
+            [
+              597504.623,
+              6615340.577
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h10-tee-02",
+      "properties": {
+        "id": "tortuna-h10-tee-02",
+        "kind": "tee",
+        "hole": 10,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h10-tee-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-10.png",
+        "sourceCropSha256": "d4da295699d1a4ea224011408f1eda59ada2e8bee056c3d7ca23e53765a51a43",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 132.69,
+        "originalPixels": [
+          [
+            364,
+            267
+          ],
+          [
+            401,
+            264
+          ],
+          [
+            432,
+            259
+          ],
+          [
+            455,
+            260
+          ],
+          [
+            470,
+            268
+          ],
+          [
+            469,
+            277
+          ],
+          [
+            449,
+            282
+          ],
+          [
+            420,
+            286
+          ],
+          [
+            393,
+            285
+          ],
+          [
+            366,
+            280
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597448.123424892,
+          6615279.327202238,
+          597576.123424892,
+          6615407.327202238
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597539.123,
+              6615340.577
+            ],
+            [
+              597548.373,
+              6615341.327
+            ],
+            [
+              597556.123,
+              6615342.577
+            ],
+            [
+              597561.873,
+              6615342.327
+            ],
+            [
+              597565.623,
+              6615340.327
+            ],
+            [
+              597565.373,
+              6615338.077
+            ],
+            [
+              597560.373,
+              6615336.827
+            ],
+            [
+              597553.123,
+              6615335.827
+            ],
+            [
+              597546.373,
+              6615336.077
+            ],
+            [
+              597539.623,
+              6615337.327
+            ],
+            [
+              597539.123,
+              6615340.577
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h11-tee-01",
+      "properties": {
+        "id": "tortuna-h11-tee-01",
+        "kind": "tee",
+        "hole": 11,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h11-tee-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-11.png",
+        "sourceCropSha256": "f8ac4f3b953d0afca72977b382d1e38c93cfe43cb13647aeb1670fe1e020774e",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 148.84,
+        "originalPixels": [
+          [
+            158,
+            265
+          ],
+          [
+            182,
+            261
+          ],
+          [
+            215,
+            258
+          ],
+          [
+            248,
+            253
+          ],
+          [
+            262,
+            256
+          ],
+          [
+            265,
+            264
+          ],
+          [
+            259,
+            273
+          ],
+          [
+            234,
+            279
+          ],
+          [
+            201,
+            283
+          ],
+          [
+            173,
+            287
+          ],
+          [
+            158,
+            282
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597679.176731396,
+          6615361.577488226,
+          597807.176731396,
+          6615489.577488226
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597718.677,
+              6615423.327
+            ],
+            [
+              597724.677,
+              6615424.327
+            ],
+            [
+              597732.927,
+              6615425.077
+            ],
+            [
+              597741.177,
+              6615426.327
+            ],
+            [
+              597744.677,
+              6615425.577
+            ],
+            [
+              597745.427,
+              6615423.577
+            ],
+            [
+              597743.927,
+              6615421.327
+            ],
+            [
+              597737.677,
+              6615419.827
+            ],
+            [
+              597729.427,
+              6615418.827
+            ],
+            [
+              597722.427,
+              6615417.827
+            ],
+            [
+              597718.677,
+              6615419.077
+            ],
+            [
+              597718.677,
+              6615423.327
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h13-tee-01",
+      "properties": {
+        "id": "tortuna-h13-tee-01",
+        "kind": "tee",
+        "hole": 13,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h13-tee-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-13.png",
+        "sourceCropSha256": "359fc8fc6d38a90b2844bc45525051680590e71e332e329b276570b69947e999",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 3,
+        "boundaryNote": "Observed southeast-of-pond platform with angled footprint. Colour and source tee point reconciliation remain open.",
+        "areaSquareMetres": 185.53,
+        "originalPixels": [
+          [
+            149,
+            291
+          ],
+          [
+            176,
+            300
+          ],
+          [
+            199,
+            317
+          ],
+          [
+            225,
+            340
+          ],
+          [
+            240,
+            352
+          ],
+          [
+            245,
+            366
+          ],
+          [
+            238,
+            375
+          ],
+          [
+            227,
+            373
+          ],
+          [
+            208,
+            359
+          ],
+          [
+            187,
+            341
+          ],
+          [
+            166,
+            326
+          ],
+          [
+            146,
+            312
+          ],
+          [
+            140,
+            302
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597499.6479349657,
+          6615684.690307492,
+          597627.6479349657,
+          6615812.690307492
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597536.898,
+              6615739.94
+            ],
+            [
+              597543.648,
+              6615737.69
+            ],
+            [
+              597549.398,
+              6615733.44
+            ],
+            [
+              597555.898,
+              6615727.69
+            ],
+            [
+              597559.648,
+              6615724.69
+            ],
+            [
+              597560.898,
+              6615721.19
+            ],
+            [
+              597559.148,
+              6615718.94
+            ],
+            [
+              597556.398,
+              6615719.44
+            ],
+            [
+              597551.648,
+              6615722.94
+            ],
+            [
+              597546.398,
+              6615727.44
+            ],
+            [
+              597541.148,
+              6615731.19
+            ],
+            [
+              597536.148,
+              6615734.69
+            ],
+            [
+              597534.648,
+              6615737.19
+            ],
+            [
+              597536.898,
+              6615739.94
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h14-tee-01",
+      "properties": {
+        "id": "tortuna-h14-tee-01",
+        "kind": "tee",
+        "hole": 14,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h14-tee-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-14.png",
+        "sourceCropSha256": "db5e8e1259e0d4c9e7fbca3b51e6766f676b9a9b140e8cc94e734a5196bc0ee3",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 121.72,
+        "originalPixels": [
+          [
+            241,
+            210
+          ],
+          [
+            255,
+            208
+          ],
+          [
+            262,
+            214
+          ],
+          [
+            261,
+            242
+          ],
+          [
+            263,
+            270
+          ],
+          [
+            261,
+            300
+          ],
+          [
+            250,
+            303
+          ],
+          [
+            242,
+            294
+          ],
+          [
+            240,
+            262
+          ],
+          [
+            239,
+            234
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597023.2647188897,
+          6615753.1752125295,
+          597151.2647188897,
+          6615881.1752125295
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597083.515,
+              6615828.675
+            ],
+            [
+              597087.015,
+              6615829.175
+            ],
+            [
+              597088.765,
+              6615827.675
+            ],
+            [
+              597088.515,
+              6615820.675
+            ],
+            [
+              597089.015,
+              6615813.675
+            ],
+            [
+              597088.515,
+              6615806.175
+            ],
+            [
+              597085.765,
+              6615805.425
+            ],
+            [
+              597083.765,
+              6615807.675
+            ],
+            [
+              597083.265,
+              6615815.675
+            ],
+            [
+              597083.015,
+              6615822.675
+            ],
+            [
+              597083.515,
+              6615828.675
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h14-tee-02",
+      "properties": {
+        "id": "tortuna-h14-tee-02",
+        "kind": "tee",
+        "hole": 14,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h14-tee-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-14.png",
+        "sourceCropSha256": "db5e8e1259e0d4c9e7fbca3b51e6766f676b9a9b140e8cc94e734a5196bc0ee3",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 94.47,
+        "originalPixels": [
+          [
+            334,
+            357
+          ],
+          [
+            346,
+            354
+          ],
+          [
+            352,
+            361
+          ],
+          [
+            351,
+            391
+          ],
+          [
+            356,
+            414
+          ],
+          [
+            353,
+            436
+          ],
+          [
+            344,
+            441
+          ],
+          [
+            337,
+            435
+          ],
+          [
+            336,
+            410
+          ],
+          [
+            332,
+            386
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597023.2647188897,
+          6615753.1752125295,
+          597151.2647188897,
+          6615881.1752125295
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597106.765,
+              6615791.925
+            ],
+            [
+              597109.765,
+              6615792.675
+            ],
+            [
+              597111.265,
+              6615790.925
+            ],
+            [
+              597111.015,
+              6615783.425
+            ],
+            [
+              597112.265,
+              6615777.675
+            ],
+            [
+              597111.515,
+              6615772.175
+            ],
+            [
+              597109.265,
+              6615770.925
+            ],
+            [
+              597107.515,
+              6615772.425
+            ],
+            [
+              597107.265,
+              6615778.675
+            ],
+            [
+              597106.265,
+              6615784.675
+            ],
+            [
+              597106.765,
+              6615791.925
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h16-tee-01",
+      "properties": {
+        "id": "tortuna-h16-tee-01",
+        "kind": "tee",
+        "hole": 16,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h16-tee-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-16.png",
+        "sourceCropSha256": "02857726205f06f1306a0335742ace0f7023e34ba1f4278debea59589b77f2a5",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 3,
+        "boundaryNote": "Southwest-of-pond observed platform; displaced from GolfTraxx source back-tee point.",
+        "areaSquareMetres": 206.5,
+        "originalPixels": [
+          [
+            187,
+            326
+          ],
+          [
+            216,
+            316
+          ],
+          [
+            247,
+            302
+          ],
+          [
+            276,
+            289
+          ],
+          [
+            295,
+            291
+          ],
+          [
+            302,
+            301
+          ],
+          [
+            296,
+            312
+          ],
+          [
+            267,
+            326
+          ],
+          [
+            240,
+            340
+          ],
+          [
+            212,
+            349
+          ],
+          [
+            191,
+            344
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597449.2363100818,
+          6615682.334620461,
+          597577.2363100818,
+          6615810.334620461
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597495.986,
+              6615728.835
+            ],
+            [
+              597503.236,
+              6615731.335
+            ],
+            [
+              597510.986,
+              6615734.835
+            ],
+            [
+              597518.236,
+              6615738.085
+            ],
+            [
+              597522.986,
+              6615737.585
+            ],
+            [
+              597524.736,
+              6615735.085
+            ],
+            [
+              597523.236,
+              6615732.335
+            ],
+            [
+              597515.986,
+              6615728.835
+            ],
+            [
+              597509.236,
+              6615725.335
+            ],
+            [
+              597502.236,
+              6615723.085
+            ],
+            [
+              597496.986,
+              6615724.335
+            ],
+            [
+              597495.986,
+              6615728.835
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h17-tee-01",
+      "properties": {
+        "id": "tortuna-h17-tee-01",
+        "kind": "tee",
+        "hole": 17,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h17-tee-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-17.png",
+        "sourceCropSha256": "1a88e7bea82061b008e815d3dce905440923d76c0d75f937ca6350d2fb96bbbb",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 255.69,
+        "originalPixels": [
+          [
+            165,
+            289
+          ],
+          [
+            191,
+            277
+          ],
+          [
+            218,
+            261
+          ],
+          [
+            245,
+            245
+          ],
+          [
+            271,
+            232
+          ],
+          [
+            286,
+            233
+          ],
+          [
+            297,
+            243
+          ],
+          [
+            294,
+            253
+          ],
+          [
+            266,
+            268
+          ],
+          [
+            238,
+            285
+          ],
+          [
+            211,
+            302
+          ],
+          [
+            190,
+            311
+          ],
+          [
+            172,
+            308
+          ],
+          [
+            164,
+            300
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597248.1497650346,
+          6615415.261432378,
+          597376.1497650346,
+          6615543.261432378
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597289.4,
+              6615471.011
+            ],
+            [
+              597295.9,
+              6615474.011
+            ],
+            [
+              597302.65,
+              6615478.011
+            ],
+            [
+              597309.4,
+              6615482.011
+            ],
+            [
+              597315.9,
+              6615485.261
+            ],
+            [
+              597319.65,
+              6615485.011
+            ],
+            [
+              597322.4,
+              6615482.511
+            ],
+            [
+              597321.65,
+              6615480.011
+            ],
+            [
+              597314.65,
+              6615476.261
+            ],
+            [
+              597307.65,
+              6615472.011
+            ],
+            [
+              597300.9,
+              6615467.761
+            ],
+            [
+              597295.65,
+              6615465.511
+            ],
+            [
+              597291.15,
+              6615466.261
+            ],
+            [
+              597289.15,
+              6615468.261
+            ],
+            [
+              597289.4,
+              6615471.011
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h17-tee-02",
+      "properties": {
+        "id": "tortuna-h17-tee-02",
+        "kind": "tee",
+        "hole": 17,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h17-tee-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-17.png",
+        "sourceCropSha256": "1a88e7bea82061b008e815d3dce905440923d76c0d75f937ca6350d2fb96bbbb",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 202.75,
+        "originalPixels": [
+          [
+            368,
+            151
+          ],
+          [
+            392,
+            134
+          ],
+          [
+            418,
+            118
+          ],
+          [
+            445,
+            103
+          ],
+          [
+            462,
+            102
+          ],
+          [
+            472,
+            110
+          ],
+          [
+            468,
+            121
+          ],
+          [
+            444,
+            137
+          ],
+          [
+            419,
+            154
+          ],
+          [
+            395,
+            170
+          ],
+          [
+            378,
+            175
+          ],
+          [
+            368,
+            167
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597248.1497650346,
+          6615415.261432378,
+          597376.1497650346,
+          6615543.261432378
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597340.15,
+              6615505.511
+            ],
+            [
+              597346.15,
+              6615509.761
+            ],
+            [
+              597352.65,
+              6615513.761
+            ],
+            [
+              597359.4,
+              6615517.511
+            ],
+            [
+              597363.65,
+              6615517.761
+            ],
+            [
+              597366.15,
+              6615515.761
+            ],
+            [
+              597365.15,
+              6615513.011
+            ],
+            [
+              597359.15,
+              6615509.011
+            ],
+            [
+              597352.9,
+              6615504.761
+            ],
+            [
+              597346.9,
+              6615500.761
+            ],
+            [
+              597342.65,
+              6615499.511
+            ],
+            [
+              597340.15,
+              6615501.511
+            ],
+            [
+              597340.15,
+              6615505.511
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h18-tee-01",
+      "properties": {
+        "id": "tortuna-h18-tee-01",
+        "kind": "tee",
+        "hole": 18,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h18-tee-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-18.png",
+        "sourceCropSha256": "3d63a59d685a9f0658936d7da98402fec0d4e65a0aff4245a85e19415594f842",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 2,
+        "boundaryNote": null,
+        "areaSquareMetres": 147.12,
+        "originalPixels": [
+          [
+            221,
+            264
+          ],
+          [
+            234,
+            248
+          ],
+          [
+            255,
+            233
+          ],
+          [
+            276,
+            220
+          ],
+          [
+            287,
+            223
+          ],
+          [
+            293,
+            235
+          ],
+          [
+            287,
+            247
+          ],
+          [
+            268,
+            262
+          ],
+          [
+            246,
+            279
+          ],
+          [
+            230,
+            286
+          ],
+          [
+            221,
+            280
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597598.3282173765,
+          6615543.770079818,
+          597726.3282173765,
+          6615671.770079818
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597653.578,
+              6615605.77
+            ],
+            [
+              597656.828,
+              6615609.77
+            ],
+            [
+              597662.078,
+              6615613.52
+            ],
+            [
+              597667.328,
+              6615616.77
+            ],
+            [
+              597670.078,
+              6615616.02
+            ],
+            [
+              597671.578,
+              6615613.02
+            ],
+            [
+              597670.078,
+              6615610.02
+            ],
+            [
+              597665.328,
+              6615606.27
+            ],
+            [
+              597659.828,
+              6615602.02
+            ],
+            [
+              597655.828,
+              6615600.27
+            ],
+            [
+              597653.578,
+              6615601.77
+            ],
+            [
+              597653.578,
+              6615605.77
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h18-tee-02",
+      "properties": {
+        "id": "tortuna-h18-tee-02",
+        "kind": "tee",
+        "hole": 18,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h18-tee-02",
+        "sourceCrop": "tortunabuild/cache/mapping-review/tee-18.png",
+        "sourceCropSha256": "3d63a59d685a9f0658936d7da98402fec0d4e65a0aff4245a85e19415594f842",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 3,
+        "boundaryNote": "Narrow forward platform beside the cart path; interpreted maintained edge.",
+        "areaSquareMetres": 81.09,
+        "originalPixels": [
+          [
+            230,
+            132
+          ],
+          [
+            241,
+            135
+          ],
+          [
+            248,
+            150
+          ],
+          [
+            249,
+            171
+          ],
+          [
+            245,
+            190
+          ],
+          [
+            236,
+            200
+          ],
+          [
+            226,
+            194
+          ],
+          [
+            224,
+            174
+          ],
+          [
+            226,
+            151
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597598.3282173765,
+          6615543.770079818,
+          597726.3282173765,
+          6615671.770079818
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597655.828,
+              6615638.77
+            ],
+            [
+              597658.578,
+              6615638.02
+            ],
+            [
+              597660.328,
+              6615634.27
+            ],
+            [
+              597660.578,
+              6615629.02
+            ],
+            [
+              597659.578,
+              6615624.27
+            ],
+            [
+              597657.328,
+              6615621.77
+            ],
+            [
+              597654.828,
+              6615623.27
+            ],
+            [
+              597654.328,
+              6615628.27
+            ],
+            [
+              597654.828,
+              6615634.02
+            ],
+            [
+              597655.828,
+              6615638.77
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h10-fairway-01",
+      "properties": {
+        "id": "tortuna-h10-fairway-01",
+        "kind": "fairway",
+        "hole": 10,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h10-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-10.png",
+        "sourceCropSha256": "6d00d27cb75f6c14fba86d12020464770c9c429cc6eb4df81ed6365e1b9d2cdb",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 5,
+        "boundaryNote": "Conservative maintained strip around the southern edge of the hole; dry spring grass makes its inner rough transition uncertain.",
+        "areaSquareMetres": 3325.08,
+        "originalPixels": [
+          [
+            177,
+            307
+          ],
+          [
+            192,
+            297
+          ],
+          [
+            211,
+            294
+          ],
+          [
+            230,
+            300
+          ],
+          [
+            251,
+            308
+          ],
+          [
+            273,
+            311
+          ],
+          [
+            294,
+            309
+          ],
+          [
+            315,
+            298
+          ],
+          [
+            337,
+            285
+          ],
+          [
+            356,
+            272
+          ],
+          [
+            370,
+            257
+          ],
+          [
+            381,
+            244
+          ],
+          [
+            389,
+            236
+          ],
+          [
+            399,
+            239
+          ],
+          [
+            399,
+            251
+          ],
+          [
+            391,
+            267
+          ],
+          [
+            379,
+            280
+          ],
+          [
+            364,
+            294
+          ],
+          [
+            346,
+            309
+          ],
+          [
+            326,
+            320
+          ],
+          [
+            304,
+            327
+          ],
+          [
+            285,
+            329
+          ],
+          [
+            264,
+            326
+          ],
+          [
+            244,
+            321
+          ],
+          [
+            225,
+            316
+          ],
+          [
+            204,
+            313
+          ],
+          [
+            185,
+            315
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597432.1234248918,
+          6615157.897754514,
+          597855.601785257,
+          6615581.376114878
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597578.521,
+              6615327.455
+            ],
+            [
+              597590.928,
+              6615335.726
+            ],
+            [
+              597606.643,
+              6615338.207
+            ],
+            [
+              597622.358,
+              6615333.244
+            ],
+            [
+              597639.727,
+              6615326.627
+            ],
+            [
+              597657.923,
+              6615324.146
+            ],
+            [
+              597675.293,
+              6615325.8
+            ],
+            [
+              597692.662,
+              6615334.898
+            ],
+            [
+              597710.858,
+              6615345.651
+            ],
+            [
+              597726.573,
+              6615356.403
+            ],
+            [
+              597738.153,
+              6615368.81
+            ],
+            [
+              597747.251,
+              6615379.562
+            ],
+            [
+              597753.868,
+              6615386.179
+            ],
+            [
+              597762.139,
+              6615383.698
+            ],
+            [
+              597762.139,
+              6615373.772
+            ],
+            [
+              597755.522,
+              6615360.539
+            ],
+            [
+              597745.597,
+              6615349.786
+            ],
+            [
+              597733.19,
+              6615338.207
+            ],
+            [
+              597718.302,
+              6615325.8
+            ],
+            [
+              597701.76,
+              6615316.702
+            ],
+            [
+              597683.564,
+              6615310.912
+            ],
+            [
+              597667.849,
+              6615309.258
+            ],
+            [
+              597650.479,
+              6615311.74
+            ],
+            [
+              597633.937,
+              6615315.875
+            ],
+            [
+              597618.222,
+              6615320.011
+            ],
+            [
+              597600.853,
+              6615322.492
+            ],
+            [
+              597585.138,
+              6615320.838
+            ],
+            [
+              597578.521,
+              6615327.455
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h11-fairway-01",
+      "properties": {
+        "id": "tortuna-h11-fairway-01",
+        "kind": "fairway",
+        "hole": 11,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h11-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-11.png",
+        "sourceCropSha256": "4838374a3d4850ca41199fab8ada9f98482ba7d5bacc4dfb60e8e99c9d92e622",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 4,
+        "boundaryNote": "Short approach apron adjacent to partly shadowed green; no invented full-length par3 fairway.",
+        "areaSquareMetres": 379.28,
+        "originalPixels": [
+          [
+            132,
+            286
+          ],
+          [
+            141,
+            279
+          ],
+          [
+            151,
+            279
+          ],
+          [
+            162,
+            287
+          ],
+          [
+            166,
+            299
+          ],
+          [
+            163,
+            310
+          ],
+          [
+            152,
+            318
+          ],
+          [
+            141,
+            316
+          ],
+          [
+            132,
+            307
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597514.0543267666,
+          6615249.380423654,
+          597823.176731396,
+          6615558.502828283
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597593.75,
+              6615385.829
+            ],
+            [
+              597599.184,
+              6615390.055
+            ],
+            [
+              597605.221,
+              6615390.055
+            ],
+            [
+              597611.863,
+              6615385.225
+            ],
+            [
+              597614.278,
+              6615377.98
+            ],
+            [
+              597612.466,
+              6615371.339
+            ],
+            [
+              597605.825,
+              6615366.509
+            ],
+            [
+              597599.184,
+              6615367.716
+            ],
+            [
+              597593.75,
+              6615373.15
+            ],
+            [
+              597593.75,
+              6615385.829
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h12-fairway-01",
+      "properties": {
+        "id": "tortuna-h12-fairway-01",
+        "kind": "fairway",
+        "hole": 12,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h12-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-12.png",
+        "sourceCropSha256": "66906f2fc8aa67b3838ef0e75a69382c92181191927d771e0afd8b3dd3d8be1a",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 4,
+        "boundaryNote": "Two-leg maintained corridor follows current imagery around dogleg; adjoining rough is not promoted to fairway.",
+        "areaSquareMetres": 7809.67,
+        "originalPixels": [
+          [
+            282,
+            363
+          ],
+          [
+            294,
+            352
+          ],
+          [
+            309,
+            344
+          ],
+          [
+            324,
+            334
+          ],
+          [
+            338,
+            323
+          ],
+          [
+            352,
+            315
+          ],
+          [
+            364,
+            309
+          ],
+          [
+            368,
+            302
+          ],
+          [
+            366,
+            293
+          ],
+          [
+            359,
+            281
+          ],
+          [
+            350,
+            269
+          ],
+          [
+            341,
+            255
+          ],
+          [
+            334,
+            237
+          ],
+          [
+            329,
+            215
+          ],
+          [
+            328,
+            195
+          ],
+          [
+            323,
+            177
+          ],
+          [
+            316,
+            159
+          ],
+          [
+            311,
+            140
+          ],
+          [
+            309,
+            120
+          ],
+          [
+            313,
+            102
+          ],
+          [
+            326,
+            101
+          ],
+          [
+            334,
+            114
+          ],
+          [
+            339,
+            133
+          ],
+          [
+            344,
+            150
+          ],
+          [
+            350,
+            169
+          ],
+          [
+            357,
+            186
+          ],
+          [
+            363,
+            206
+          ],
+          [
+            367,
+            227
+          ],
+          [
+            374,
+            245
+          ],
+          [
+            385,
+            262
+          ],
+          [
+            393,
+            282
+          ],
+          [
+            391,
+            297
+          ],
+          [
+            382,
+            311
+          ],
+          [
+            365,
+            323
+          ],
+          [
+            348,
+            336
+          ],
+          [
+            331,
+            349
+          ],
+          [
+            310,
+            363
+          ],
+          [
+            295,
+            371
+          ],
+          [
+            286,
+            371
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597341.8977313515,
+          6615310.2986883875,
+          597844.9176540048,
+          6615813.318611041
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597618.952,
+              6615456.685
+            ],
+            [
+              597630.741,
+              6615467.492
+            ],
+            [
+              597645.478,
+              6615475.352
+            ],
+            [
+              597660.215,
+              6615485.177
+            ],
+            [
+              597673.969,
+              6615495.984
+            ],
+            [
+              597687.724,
+              6615503.843
+            ],
+            [
+              597699.513,
+              6615509.738
+            ],
+            [
+              597703.443,
+              6615516.615
+            ],
+            [
+              597701.478,
+              6615525.458
+            ],
+            [
+              597694.601,
+              6615537.247
+            ],
+            [
+              597685.759,
+              6615549.037
+            ],
+            [
+              597676.917,
+              6615562.791
+            ],
+            [
+              597670.04,
+              6615580.475
+            ],
+            [
+              597665.127,
+              6615602.09
+            ],
+            [
+              597664.145,
+              6615621.739
+            ],
+            [
+              597659.233,
+              6615639.423
+            ],
+            [
+              597652.355,
+              6615657.107
+            ],
+            [
+              597647.443,
+              6615675.774
+            ],
+            [
+              597645.478,
+              6615695.423
+            ],
+            [
+              597649.408,
+              6615713.108
+            ],
+            [
+              597662.18,
+              6615714.09
+            ],
+            [
+              597670.04,
+              6615701.318
+            ],
+            [
+              597674.952,
+              6615682.651
+            ],
+            [
+              597679.864,
+              6615665.949
+            ],
+            [
+              597685.759,
+              6615647.283
+            ],
+            [
+              597692.636,
+              6615630.581
+            ],
+            [
+              597698.531,
+              6615610.932
+            ],
+            [
+              597702.461,
+              6615590.3
+            ],
+            [
+              597709.338,
+              6615572.616
+            ],
+            [
+              597720.145,
+              6615555.914
+            ],
+            [
+              597728.005,
+              6615536.265
+            ],
+            [
+              597726.04,
+              6615521.528
+            ],
+            [
+              597717.198,
+              6615507.773
+            ],
+            [
+              597700.496,
+              6615495.984
+            ],
+            [
+              597683.794,
+              6615483.212
+            ],
+            [
+              597667.092,
+              6615470.44
+            ],
+            [
+              597646.461,
+              6615456.685
+            ],
+            [
+              597631.724,
+              6615448.826
+            ],
+            [
+              597622.882,
+              6615448.826
+            ],
+            [
+              597618.952,
+              6615456.685
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h13-fairway-01",
+      "properties": {
+        "id": "tortuna-h13-fairway-01",
+        "kind": "fairway",
+        "hole": 13,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h13-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-13.png",
+        "sourceCropSha256": "cebc31b207db44679c5eb2fde1b57868f7737cf2a51e0cbf41eabe796aa3fb27",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 4,
+        "boundaryNote": null,
+        "areaSquareMetres": 10347.29,
+        "originalPixels": [
+          [
+            93,
+            196
+          ],
+          [
+            115,
+            197
+          ],
+          [
+            139,
+            198
+          ],
+          [
+            160,
+            199
+          ],
+          [
+            183,
+            200
+          ],
+          [
+            208,
+            196
+          ],
+          [
+            231,
+            195
+          ],
+          [
+            254,
+            192
+          ],
+          [
+            272,
+            198
+          ],
+          [
+            293,
+            207
+          ],
+          [
+            312,
+            219
+          ],
+          [
+            329,
+            231
+          ],
+          [
+            347,
+            242
+          ],
+          [
+            366,
+            253
+          ],
+          [
+            382,
+            263
+          ],
+          [
+            392,
+            271
+          ],
+          [
+            385,
+            281
+          ],
+          [
+            373,
+            281
+          ],
+          [
+            356,
+            275
+          ],
+          [
+            338,
+            266
+          ],
+          [
+            320,
+            254
+          ],
+          [
+            302,
+            246
+          ],
+          [
+            281,
+            236
+          ],
+          [
+            263,
+            223
+          ],
+          [
+            249,
+            218
+          ],
+          [
+            231,
+            219
+          ],
+          [
+            214,
+            224
+          ],
+          [
+            192,
+            227
+          ],
+          [
+            169,
+            225
+          ],
+          [
+            150,
+            221
+          ],
+          [
+            130,
+            217
+          ],
+          [
+            111,
+            215
+          ],
+          [
+            94,
+            214
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597049.3130491306,
+          6615512.4980520215,
+          597643.6479349658,
+          6616106.832937857
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597157.268,
+              6615879.314
+            ],
+            [
+              597182.806,
+              6615878.153
+            ],
+            [
+              597210.666,
+              6615876.992
+            ],
+            [
+              597235.043,
+              6615875.832
+            ],
+            [
+              597261.741,
+              6615874.671
+            ],
+            [
+              597290.762,
+              6615879.314
+            ],
+            [
+              597317.46,
+              6615880.475
+            ],
+            [
+              597344.159,
+              6615883.957
+            ],
+            [
+              597365.053,
+              6615876.992
+            ],
+            [
+              597389.43,
+              6615866.545
+            ],
+            [
+              597411.486,
+              6615852.615
+            ],
+            [
+              597431.22,
+              6615838.686
+            ],
+            [
+              597452.114,
+              6615825.917
+            ],
+            [
+              597474.17,
+              6615813.148
+            ],
+            [
+              597492.743,
+              6615801.54
+            ],
+            [
+              597504.351,
+              6615792.253
+            ],
+            [
+              597496.225,
+              6615780.645
+            ],
+            [
+              597482.295,
+              6615780.645
+            ],
+            [
+              597462.562,
+              6615787.61
+            ],
+            [
+              597441.667,
+              6615798.057
+            ],
+            [
+              597420.772,
+              6615811.987
+            ],
+            [
+              597399.878,
+              6615821.274
+            ],
+            [
+              597375.501,
+              6615832.882
+            ],
+            [
+              597354.606,
+              6615847.972
+            ],
+            [
+              597338.355,
+              6615853.776
+            ],
+            [
+              597317.46,
+              6615852.615
+            ],
+            [
+              597297.726,
+              6615846.811
+            ],
+            [
+              597272.189,
+              6615843.329
+            ],
+            [
+              597245.49,
+              6615845.651
+            ],
+            [
+              597223.435,
+              6615850.294
+            ],
+            [
+              597200.218,
+              6615854.937
+            ],
+            [
+              597178.163,
+              6615857.259
+            ],
+            [
+              597158.429,
+              6615858.42
+            ],
+            [
+              597157.268,
+              6615879.314
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h14-fairway-01",
+      "properties": {
+        "id": "tortuna-h14-fairway-01",
+        "kind": "fairway",
+        "hole": 14,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h14-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/green-14.png",
+        "sourceCropSha256": "aa311c867819862961e5d7828a9bb774687fddf22512d393037782309fe623ee",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 3,
+        "boundaryNote": "Short visible approach between pond and green; overlaps green priority area at southern edge.",
+        "areaSquareMetres": 189.44,
+        "originalPixels": [
+          [
+            206,
+            183
+          ],
+          [
+            225,
+            181
+          ],
+          [
+            246,
+            186
+          ],
+          [
+            265,
+            195
+          ],
+          [
+            281,
+            211
+          ],
+          [
+            289,
+            229
+          ],
+          [
+            289,
+            247
+          ],
+          [
+            275,
+            250
+          ],
+          [
+            259,
+            235
+          ],
+          [
+            241,
+            222
+          ],
+          [
+            219,
+            215
+          ],
+          [
+            206,
+            199
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597064.6903428962,
+          6615608.4875869695,
+          597192.6903428962,
+          6615736.4875869695
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597116.19,
+              6615690.738
+            ],
+            [
+              597120.94,
+              6615691.238
+            ],
+            [
+              597126.19,
+              6615689.988
+            ],
+            [
+              597130.94,
+              6615687.738
+            ],
+            [
+              597134.94,
+              6615683.738
+            ],
+            [
+              597136.94,
+              6615679.238
+            ],
+            [
+              597136.94,
+              6615674.738
+            ],
+            [
+              597133.44,
+              6615673.988
+            ],
+            [
+              597129.44,
+              6615677.738
+            ],
+            [
+              597124.94,
+              6615680.988
+            ],
+            [
+              597119.44,
+              6615682.738
+            ],
+            [
+              597116.19,
+              6615686.738
+            ],
+            [
+              597116.19,
+              6615690.738
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h15-fairway-01",
+      "properties": {
+        "id": "tortuna-h15-fairway-01",
+        "kind": "fairway",
+        "hole": 15,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h15-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-15.png",
+        "sourceCropSha256": "e7933c550f7b6420073c9a849755c37939db6fcc060dc3d5f981bbe9c536e856",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 4,
+        "boundaryNote": "Observed dogleg around rough/construction land; exact spring cut transition provisional.",
+        "areaSquareMetres": 4232.13,
+        "originalPixels": [
+          [
+            157,
+            238
+          ],
+          [
+            165,
+            220
+          ],
+          [
+            174,
+            197
+          ],
+          [
+            186,
+            176
+          ],
+          [
+            201,
+            160
+          ],
+          [
+            219,
+            150
+          ],
+          [
+            237,
+            149
+          ],
+          [
+            253,
+            154
+          ],
+          [
+            271,
+            162
+          ],
+          [
+            289,
+            167
+          ],
+          [
+            308,
+            171
+          ],
+          [
+            327,
+            177
+          ],
+          [
+            348,
+            183
+          ],
+          [
+            369,
+            182
+          ],
+          [
+            386,
+            183
+          ],
+          [
+            394,
+            193
+          ],
+          [
+            387,
+            203
+          ],
+          [
+            373,
+            206
+          ],
+          [
+            355,
+            202
+          ],
+          [
+            334,
+            197
+          ],
+          [
+            312,
+            190
+          ],
+          [
+            291,
+            184
+          ],
+          [
+            271,
+            180
+          ],
+          [
+            249,
+            179
+          ],
+          [
+            231,
+            176
+          ],
+          [
+            215,
+            176
+          ],
+          [
+            201,
+            188
+          ],
+          [
+            190,
+            205
+          ],
+          [
+            181,
+            224
+          ],
+          [
+            172,
+            242
+          ],
+          [
+            161,
+            247
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597049.6407847852,
+          6615456.95174071,
+          597503.8087635776,
+          6615911.119719502
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597188.907,
+              6615700.003
+            ],
+            [
+              597196.004,
+              6615715.969
+            ],
+            [
+              597203.987,
+              6615736.371
+            ],
+            [
+              597214.631,
+              6615754.999
+            ],
+            [
+              597227.937,
+              6615769.192
+            ],
+            [
+              597243.904,
+              6615778.063
+            ],
+            [
+              597259.871,
+              6615778.95
+            ],
+            [
+              597274.064,
+              6615774.515
+            ],
+            [
+              597290.03,
+              6615767.418
+            ],
+            [
+              597305.997,
+              6615762.983
+            ],
+            [
+              597322.851,
+              6615759.435
+            ],
+            [
+              597339.705,
+              6615754.112
+            ],
+            [
+              597358.333,
+              6615748.79
+            ],
+            [
+              597376.961,
+              6615749.677
+            ],
+            [
+              597392.041,
+              6615748.79
+            ],
+            [
+              597399.137,
+              6615739.92
+            ],
+            [
+              597392.928,
+              6615731.049
+            ],
+            [
+              597380.509,
+              6615728.388
+            ],
+            [
+              597364.542,
+              6615731.936
+            ],
+            [
+              597345.914,
+              6615736.371
+            ],
+            [
+              597326.399,
+              6615742.581
+            ],
+            [
+              597307.771,
+              6615747.903
+            ],
+            [
+              597290.03,
+              6615751.451
+            ],
+            [
+              597270.515,
+              6615752.338
+            ],
+            [
+              597254.549,
+              6615754.999
+            ],
+            [
+              597240.356,
+              6615754.999
+            ],
+            [
+              597227.937,
+              6615744.355
+            ],
+            [
+              597218.18,
+              6615729.275
+            ],
+            [
+              597210.196,
+              6615712.421
+            ],
+            [
+              597202.213,
+              6615696.454
+            ],
+            [
+              597192.455,
+              6615692.019
+            ],
+            [
+              597188.907,
+              6615700.003
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h16-fairway-01",
+      "properties": {
+        "id": "tortuna-h16-fairway-01",
+        "kind": "fairway",
+        "hole": 16,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h16-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-16.png",
+        "sourceCropSha256": "dd341927750d85d56e2640b3dc41d68dead00cca904b8e9366d1cceaa6fdb4d4",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 4,
+        "boundaryNote": null,
+        "areaSquareMetres": 7061.83,
+        "originalPixels": [
+          [
+            129,
+            333
+          ],
+          [
+            151,
+            326
+          ],
+          [
+            177,
+            311
+          ],
+          [
+            202,
+            296
+          ],
+          [
+            226,
+            282
+          ],
+          [
+            248,
+            269
+          ],
+          [
+            271,
+            254
+          ],
+          [
+            294,
+            239
+          ],
+          [
+            317,
+            225
+          ],
+          [
+            338,
+            211
+          ],
+          [
+            359,
+            195
+          ],
+          [
+            380,
+            181
+          ],
+          [
+            398,
+            172
+          ],
+          [
+            414,
+            164
+          ],
+          [
+            427,
+            165
+          ],
+          [
+            433,
+            171
+          ],
+          [
+            428,
+            180
+          ],
+          [
+            410,
+            189
+          ],
+          [
+            392,
+            201
+          ],
+          [
+            371,
+            216
+          ],
+          [
+            350,
+            232
+          ],
+          [
+            330,
+            249
+          ],
+          [
+            308,
+            264
+          ],
+          [
+            284,
+            280
+          ],
+          [
+            258,
+            295
+          ],
+          [
+            232,
+            310
+          ],
+          [
+            207,
+            325
+          ],
+          [
+            182,
+            341
+          ],
+          [
+            157,
+            351
+          ],
+          [
+            137,
+            349
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597135.0360361349,
+          6615435.185354723,
+          597593.2363100818,
+          6615893.385628669
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597250.481,
+              6615595.376
+            ],
+            [
+              597270.169,
+              6615601.641
+            ],
+            [
+              597293.437,
+              6615615.065
+            ],
+            [
+              597315.81,
+              6615628.489
+            ],
+            [
+              597337.289,
+              6615641.018
+            ],
+            [
+              597356.977,
+              6615652.652
+            ],
+            [
+              597377.56,
+              6615666.075
+            ],
+            [
+              597398.143,
+              6615679.499
+            ],
+            [
+              597418.726,
+              6615692.028
+            ],
+            [
+              597437.52,
+              6615704.557
+            ],
+            [
+              597456.313,
+              6615718.876
+            ],
+            [
+              597475.107,
+              6615731.405
+            ],
+            [
+              597491.215,
+              6615739.459
+            ],
+            [
+              597505.534,
+              6615746.618
+            ],
+            [
+              597517.168,
+              6615745.723
+            ],
+            [
+              597522.537,
+              6615740.354
+            ],
+            [
+              597518.063,
+              6615732.3
+            ],
+            [
+              597501.954,
+              6615724.245
+            ],
+            [
+              597485.846,
+              6615713.506
+            ],
+            [
+              597467.052,
+              6615700.082
+            ],
+            [
+              597448.259,
+              6615685.764
+            ],
+            [
+              597430.36,
+              6615670.55
+            ],
+            [
+              597410.672,
+              6615657.126
+            ],
+            [
+              597389.194,
+              6615642.807
+            ],
+            [
+              597365.926,
+              6615629.384
+            ],
+            [
+              597342.658,
+              6615615.96
+            ],
+            [
+              597320.285,
+              6615602.536
+            ],
+            [
+              597297.912,
+              6615588.217
+            ],
+            [
+              597275.539,
+              6615579.268
+            ],
+            [
+              597257.64,
+              6615581.058
+            ],
+            [
+              597250.481,
+              6615595.376
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h17-fairway-01",
+      "properties": {
+        "id": "tortuna-h17-fairway-01",
+        "kind": "fairway",
+        "hole": 17,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h17-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-17.png",
+        "sourceCropSha256": "9965c65c43a9f3aeaaaf95b50f958014f34ac2f6ac794199c95539f49389bf6f",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 5,
+        "boundaryNote": "Conservative current mowing strip north of water-edge tree belt; dry spring cut transition remains provisional.",
+        "areaSquareMetres": 4708.69,
+        "originalPixels": [
+          [
+            157,
+            278
+          ],
+          [
+            171,
+            259
+          ],
+          [
+            188,
+            242
+          ],
+          [
+            210,
+            224
+          ],
+          [
+            229,
+            211
+          ],
+          [
+            250,
+            202
+          ],
+          [
+            271,
+            190
+          ],
+          [
+            292,
+            179
+          ],
+          [
+            315,
+            169
+          ],
+          [
+            339,
+            159
+          ],
+          [
+            363,
+            150
+          ],
+          [
+            385,
+            149
+          ],
+          [
+            399,
+            155
+          ],
+          [
+            401,
+            165
+          ],
+          [
+            390,
+            172
+          ],
+          [
+            371,
+            174
+          ],
+          [
+            353,
+            179
+          ],
+          [
+            331,
+            185
+          ],
+          [
+            309,
+            193
+          ],
+          [
+            289,
+            205
+          ],
+          [
+            270,
+            216
+          ],
+          [
+            253,
+            228
+          ],
+          [
+            233,
+            245
+          ],
+          [
+            214,
+            259
+          ],
+          [
+            194,
+            275
+          ],
+          [
+            178,
+            284
+          ],
+          [
+            164,
+            286
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597232.1497650346,
+          6615339.513495423,
+          597666.5564178122,
+          6615773.920148201
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597365.356,
+              6615538.051
+            ],
+            [
+              597377.235,
+              6615554.171
+            ],
+            [
+              597391.658,
+              6615568.595
+            ],
+            [
+              597410.324,
+              6615583.867
+            ],
+            [
+              597426.445,
+              6615594.897
+            ],
+            [
+              597444.262,
+              6615602.533
+            ],
+            [
+              597462.08,
+              6615612.715
+            ],
+            [
+              597479.897,
+              6615622.048
+            ],
+            [
+              597499.412,
+              6615630.532
+            ],
+            [
+              597519.774,
+              6615639.017
+            ],
+            [
+              597540.137,
+              6615646.653
+            ],
+            [
+              597558.803,
+              6615647.501
+            ],
+            [
+              597570.682,
+              6615642.41
+            ],
+            [
+              597572.378,
+              6615633.926
+            ],
+            [
+              597563.045,
+              6615627.987
+            ],
+            [
+              597546.925,
+              6615626.29
+            ],
+            [
+              597531.653,
+              6615622.048
+            ],
+            [
+              597512.987,
+              6615616.957
+            ],
+            [
+              597494.321,
+              6615610.169
+            ],
+            [
+              597477.352,
+              6615599.988
+            ],
+            [
+              597461.231,
+              6615590.655
+            ],
+            [
+              597446.808,
+              6615580.473
+            ],
+            [
+              597429.839,
+              6615566.05
+            ],
+            [
+              597413.718,
+              6615554.171
+            ],
+            [
+              597396.749,
+              6615540.596
+            ],
+            [
+              597383.174,
+              6615532.96
+            ],
+            [
+              597371.296,
+              6615531.263
+            ],
+            [
+              597365.356,
+              6615538.051
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h18-fairway-01",
+      "properties": {
+        "id": "tortuna-h18-fairway-01",
+        "kind": "fairway",
+        "hole": 18,
+        "sourceId": "imagery-lm-ortho",
+        "sourceFeatureId": "tortuna-h18-fairway-01",
+        "sourceCrop": "tortunabuild/cache/mapping-review/hole-18.png",
+        "sourceCropSha256": "45d15d1b07f14471e9b54c28727d5b2901fd98d429b8cf404ba17c47f0326475",
+        "sourceWindows": [
+          "north"
+        ],
+        "method": "manual-orthophoto-interpretation",
+        "observedOn": "2026-09-09",
+        "reviewStatus": "agent-visual-review; human-review-pending",
+        "accuracyStatus": "interpretation-estimate; not-surveyed",
+        "horizontalUncertaintyMetres": 5,
+        "boundaryNote": "Observed diagonal mowing corridor west of cart path and east of pond; spring grass cut transition provisional.",
+        "areaSquareMetres": 7727.88,
+        "originalPixels": [
+          [
+            145,
+            365
+          ],
+          [
+            139,
+            353
+          ],
+          [
+            146,
+            337
+          ],
+          [
+            159,
+            319
+          ],
+          [
+            171,
+            300
+          ],
+          [
+            183,
+            282
+          ],
+          [
+            199,
+            264
+          ],
+          [
+            214,
+            246
+          ],
+          [
+            229,
+            226
+          ],
+          [
+            245,
+            205
+          ],
+          [
+            264,
+            183
+          ],
+          [
+            281,
+            164
+          ],
+          [
+            297,
+            149
+          ],
+          [
+            313,
+            133
+          ],
+          [
+            326,
+            126
+          ],
+          [
+            334,
+            136
+          ],
+          [
+            331,
+            151
+          ],
+          [
+            322,
+            170
+          ],
+          [
+            307,
+            190
+          ],
+          [
+            290,
+            211
+          ],
+          [
+            274,
+            231
+          ],
+          [
+            258,
+            250
+          ],
+          [
+            241,
+            272
+          ],
+          [
+            224,
+            293
+          ],
+          [
+            207,
+            315
+          ],
+          [
+            190,
+            337
+          ],
+          [
+            174,
+            360
+          ],
+          [
+            158,
+            372
+          ]
+        ],
+        "cropBoundsEpsg3006": [
+          597329.326319074,
+          6615248.538135834,
+          597768.5582630576,
+          6615687.770079818
+        ],
+        "cropSize": [
+          512,
+          512
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597453.718,
+              6615374.646
+            ],
+            [
+              597448.571,
+              6615384.94
+            ],
+            [
+              597454.576,
+              6615398.666
+            ],
+            [
+              597465.728,
+              6615414.108
+            ],
+            [
+              597476.023,
+              6615430.408
+            ],
+            [
+              597486.317,
+              6615445.849
+            ],
+            [
+              597500.043,
+              6615461.291
+            ],
+            [
+              597512.912,
+              6615476.733
+            ],
+            [
+              597525.78,
+              6615493.89
+            ],
+            [
+              597539.506,
+              6615511.906
+            ],
+            [
+              597555.805,
+              6615530.779
+            ],
+            [
+              597570.389,
+              6615547.079
+            ],
+            [
+              597584.115,
+              6615559.947
+            ],
+            [
+              597597.841,
+              6615573.673
+            ],
+            [
+              597608.994,
+              6615579.678
+            ],
+            [
+              597615.857,
+              6615571.099
+            ],
+            [
+              597613.283,
+              6615558.231
+            ],
+            [
+              597605.562,
+              6615541.931
+            ],
+            [
+              597592.694,
+              6615524.774
+            ],
+            [
+              597578.11,
+              6615506.758
+            ],
+            [
+              597564.384,
+              6615489.601
+            ],
+            [
+              597550.658,
+              6615473.301
+            ],
+            [
+              597536.074,
+              6615454.428
+            ],
+            [
+              597521.49,
+              6615436.413
+            ],
+            [
+              597506.906,
+              6615417.539
+            ],
+            [
+              597492.323,
+              6615398.666
+            ],
+            [
+              597478.597,
+              6615378.935
+            ],
+            [
+              597464.871,
+              6615368.641
+            ],
+            [
+              597453.718,
+              6615374.646
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "schemaVersion": 1,
+  "groundId": "ribbingsfors",
+  "auditedUtc": "2026-09-10T08:39:32.035Z",
+  "scope": "Independent filesystem/source audit; no Blender or runtime model mutation",
+  "status": "passed",
+  "checksPassed": 75,
+  "checksTotal": 75,
+  "checks": [
+    {
+      "label": "Ground export is absolute RH2000",
+      "pass": true
+    },
+    {
+      "label": "Orthophoto manifest does not subtract terrain tile origin from Blender height",
+      "pass": true,
+      "evidence": "X=easting-448975.5; Y=northing-6536024.5; Z=absolute heightRH2000"
+    },
+    {
+      "label": "Orthophoto manifest does not subtract terrain tile origin from scene height",
+      "pass": true,
+      "evidence": "x=easting-448975.5; z=6536024.5-northing; y=absolute heightRH2000"
+    },
+    {
+      "label": "site-overview: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "site-overview: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "site-overview: raster extent",
+      "pass": true
+    },
+    {
+      "label": "site-overview: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "site-overview: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "campus-native: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "campus-native: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "campus-native: raster extent",
+      "pass": true
+    },
+    {
+      "label": "campus-native: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "campus-native: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "clubhouse-close: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "clubhouse-close: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "clubhouse-close: raster extent",
+      "pass": true
+    },
+    {
+      "label": "clubhouse-close: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "clubhouse-close: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "range-tee-close: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "range-tee-close: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "range-tee-close: raster extent",
+      "pass": true
+    },
+    {
+      "label": "range-tee-close: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "range-tee-close: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "estate-close: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "estate-close: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "estate-close: raster extent",
+      "pass": true
+    },
+    {
+      "label": "estate-close: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "estate-close: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "maintenance-close: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "maintenance-close: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "maintenance-close: raster extent",
+      "pass": true
+    },
+    {
+      "label": "maintenance-close: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "maintenance-close: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "manor-close: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "manor-close: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "manor-close: raster extent",
+      "pass": true
+    },
+    {
+      "label": "manor-close: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "manor-close: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "estate-north-close: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "estate-north-close: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "estate-north-close: raster extent",
+      "pass": true
+    },
+    {
+      "label": "estate-north-close: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "estate-north-close: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "range-mats-detail: PNG hash",
+      "pass": true
+    },
+    {
+      "label": "range-mats-detail: PNG dimensions",
+      "pass": true
+    },
+    {
+      "label": "range-mats-detail: raster extent",
+      "pass": true
+    },
+    {
+      "label": "range-mats-detail: runtime bounds",
+      "pass": true
+    },
+    {
+      "label": "range-mats-detail: worldfile pixel centers",
+      "pass": true
+    },
+    {
+      "label": "clubhouse-range-estate: ground dimensions",
+      "pass": true
+    },
+    {
+      "label": "clubhouse-range-estate: finite ground",
+      "pass": true
+    },
+    {
+      "label": "maintenance-yard: ground dimensions",
+      "pass": true
+    },
+    {
+      "label": "maintenance-yard: finite ground",
+      "pass": true
+    },
+    {
+      "label": "Extracted ground matches authoritative tile source within rounding",
+      "pass": true,
+      "evidence": {
+        "compared": 1309,
+        "largestError": 0.000003662109378410605
+      }
+    },
+    {
+      "label": "ribbingsfors-clubhouse-provisional: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-clubhouse-provisional: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-clubhouse-annex: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-clubhouse-annex: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-0: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-0: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-1: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-1: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-2: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-2: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-3: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-3: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-4: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-4: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-5: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-manor-farm-5: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-yard-0: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-yard-0: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-yard-1: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-yard-1: anchor terrain",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-yard-2: source-ground panel coverage",
+      "pass": true
+    },
+    {
+      "label": "ribbingsfors-yard-2: anchor terrain",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,468 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-09-10",
+  "groundId": "puttom",
+  "source": "Lantmäteriet orto-u2-2024",
+  "captureDate": "2024-06-27",
+  "attribution": "Lantmäteriet, CC BY 4.0",
+  "pixelSpacingIsNotPositionalAccuracy": true,
+  "horizontalCrs": "EPSG:3006",
+  "blenderFrame": {
+    "originEpsg3006": [
+      697365.0,
+      7025190.0
+    ],
+    "axes": "X east, Y grid north, Z up",
+    "unit": "metre"
+  },
+  "legacyFrame": {
+    "origin": {
+      "lat": 63.2992,
+      "lon": 18.9413
+    },
+    "mPerLon": 50019.58,
+    "mPerLat": 111320,
+    "conversion": "lon=origin.lon+x/mPerLon; lat=origin.lat-z/mPerLat; project EPSG:4326 to EPSG:3006",
+    "note": "Never add legacy local x/z directly to projected origin: grid convergence is about 3.5 degrees."
+  },
+  "panels": [
+    {
+      "id": "facilities-overview",
+      "png": "puttombuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview.png",
+      "tif": "puttombuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview.tif",
+      "worldfile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview.pgw",
+      "projectionFile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview.prj",
+      "width": 2782,
+      "height": 2251,
+      "horizontalCrs": "EPSG:3006",
+      "pixelSizeMetres": 0.16,
+      "boundsEpsg3006": [
+        697204.96,
+        7025089.92,
+        697650.08,
+        7025450.08
+      ],
+      "geoTransform": [
+        697204.96,
+        0.16,
+        0.0,
+        7025450.08,
+        0.0,
+        -0.16
+      ],
+      "cornersEpsg3006": [
+        [
+          697204.96,
+          7025089.92
+        ],
+        [
+          697650.08,
+          7025089.92
+        ],
+        [
+          697650.08,
+          7025450.08
+        ],
+        [
+          697204.96,
+          7025450.08
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -160.04000000003725,
+          -100.0800000000745
+        ],
+        [
+          285.0799999999581,
+          -100.0800000000745
+        ],
+        [
+          285.0799999999581,
+          260.0800000000745
+        ],
+        [
+          -160.04000000003725,
+          260.0800000000745
+        ]
+      ],
+      "sourceInputs": [
+        {
+          "id": "context-0-0",
+          "sha256": "b1e8d35aa6be7a0c5854b35b6c933091c8cc513f90b840b3b8623c428a296ea0",
+          "file": "puttombuild/cache/lm-ortho/context-0-0.tif"
+        },
+        {
+          "id": "context-0-1",
+          "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe",
+          "file": "puttombuild/cache/lm-ortho/context-0-1.tif"
+        },
+        {
+          "id": "context-1-0",
+          "sha256": "ce7481a267983e3d11899da2c21a345d85032c53419148d59f063bba556eb9be",
+          "file": "puttombuild/cache/lm-ortho/context-1-0.tif"
+        },
+        {
+          "id": "context-1-1",
+          "sha256": "c8eaccef0ff7e77c859e3ab92c2256117d4428da5bafb2300fb2524cff43c6da",
+          "file": "puttombuild/cache/lm-ortho/context-1-1.tif"
+        }
+      ],
+      "captures": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z",
+        "2024-06-27T15:19:09Z"
+      ],
+      "pngSha256": "d9aa89a812728c70c3ccd026bf0b2010760642856c159b4453e0f60dd272e3cc",
+      "tifSha256": "062421f6c3a901903cff7223925c15ec8e1074668c1f6bf2267a25b89b19c79b",
+      "bands": "TIFF: RGBI; PNG: RGB",
+      "validFraction": 1.0,
+      "inheritedOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-inherited-overlay.png",
+      "reviewOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-review-overlay.png"
+    },
+    {
+      "id": "clubhouse-courtyard",
+      "png": "puttombuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-courtyard.png",
+      "tif": "puttombuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-courtyard.tif",
+      "worldfile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-courtyard.pgw",
+      "projectionFile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-courtyard.prj",
+      "width": 501,
+      "height": 625,
+      "horizontalCrs": "EPSG:3006",
+      "pixelSizeMetres": 0.16,
+      "boundsEpsg3006": [
+        697314.88,
+        7025140.0,
+        697395.04,
+        7025240.0
+      ],
+      "geoTransform": [
+        697314.88,
+        0.16,
+        0.0,
+        7025240.0,
+        0.0,
+        -0.16
+      ],
+      "cornersEpsg3006": [
+        [
+          697314.88,
+          7025140.0
+        ],
+        [
+          697395.04,
+          7025140.0
+        ],
+        [
+          697395.04,
+          7025240.0
+        ],
+        [
+          697314.88,
+          7025240.0
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -50.11999999999534,
+          -50.0
+        ],
+        [
+          30.040000000037253,
+          -50.0
+        ],
+        [
+          30.040000000037253,
+          50.0
+        ],
+        [
+          -50.11999999999534,
+          50.0
+        ]
+      ],
+      "sourceInputs": [
+        {
+          "id": "context-0-0",
+          "sha256": "b1e8d35aa6be7a0c5854b35b6c933091c8cc513f90b840b3b8623c428a296ea0",
+          "file": "puttombuild/cache/lm-ortho/context-0-0.tif"
+        },
+        {
+          "id": "context-0-1",
+          "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe",
+          "file": "puttombuild/cache/lm-ortho/context-0-1.tif"
+        },
+        {
+          "id": "context-1-0",
+          "sha256": "ce7481a267983e3d11899da2c21a345d85032c53419148d59f063bba556eb9be",
+          "file": "puttombuild/cache/lm-ortho/context-1-0.tif"
+        },
+        {
+          "id": "context-1-1",
+          "sha256": "c8eaccef0ff7e77c859e3ab92c2256117d4428da5bafb2300fb2524cff43c6da",
+          "file": "puttombuild/cache/lm-ortho/context-1-1.tif"
+        }
+      ],
+      "captures": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z",
+        "2024-06-27T15:19:09Z"
+      ],
+      "pngSha256": "4700ad345010e10dedbd2800356b168155a3c5be29be9ca2c48ee92b42bd02ed",
+      "tifSha256": "b3882d50370022e382f6f1db242a43fa838fec0f46d224468ba6ee1c639c58e6",
+      "bands": "TIFF: RGBI; PNG: RGB",
+      "validFraction": 1.0,
+      "inheritedOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-courtyard-inherited-overlay.png",
+      "reviewOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-courtyard-review-overlay.png"
+    },
+    {
+      "id": "western-cabins",
+      "png": "puttombuild/cache/facilities-reference-2026-09-10/ortho/western-cabins.png",
+      "tif": "puttombuild/cache/facilities-reference-2026-09-10/ortho/western-cabins.tif",
+      "worldfile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/western-cabins.pgw",
+      "projectionFile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/western-cabins.prj",
+      "width": 532,
+      "height": 657,
+      "horizontalCrs": "EPSG:3006",
+      "pixelSizeMetres": 0.16,
+      "boundsEpsg3006": [
+        697224.96,
+        7025120.0,
+        697310.08,
+        7025225.12
+      ],
+      "geoTransform": [
+        697224.96,
+        0.16,
+        0.0,
+        7025225.12,
+        0.0,
+        -0.16
+      ],
+      "cornersEpsg3006": [
+        [
+          697224.96,
+          7025120.0
+        ],
+        [
+          697310.08,
+          7025120.0
+        ],
+        [
+          697310.08,
+          7025225.12
+        ],
+        [
+          697224.96,
+          7025225.12
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -140.04000000003725,
+          -70.0
+        ],
+        [
+          -54.92000000004191,
+          -70.0
+        ],
+        [
+          -54.92000000004191,
+          35.12000000011176
+        ],
+        [
+          -140.04000000003725,
+          35.12000000011176
+        ]
+      ],
+      "sourceInputs": [
+        {
+          "id": "context-0-0",
+          "sha256": "b1e8d35aa6be7a0c5854b35b6c933091c8cc513f90b840b3b8623c428a296ea0",
+          "file": "puttombuild/cache/lm-ortho/context-0-0.tif"
+        },
+        {
+          "id": "context-1-0",
+          "sha256": "ce7481a267983e3d11899da2c21a345d85032c53419148d59f063bba556eb9be",
+          "file": "puttombuild/cache/lm-ortho/context-1-0.tif"
+        }
+      ],
+      "captures": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:08:07Z"
+      ],
+      "pngSha256": "1428f77aafe57354ed175424d8cbb8f5775a812fd468bfcc87b9afff41d04cda",
+      "tifSha256": "1153c2eab35669b5378316505ce50fc5d1dfdf865b06bba62c71a5db686fa4a6",
+      "bands": "TIFF: RGBI; PNG: RGB",
+      "validFraction": 1.0,
+      "inheritedOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/western-cabins-inherited-overlay.png",
+      "reviewOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/western-cabins-review-overlay.png"
+    },
+    {
+      "id": "range-buildings",
+      "png": "puttombuild/cache/facilities-reference-2026-09-10/ortho/range-buildings.png",
+      "tif": "puttombuild/cache/facilities-reference-2026-09-10/ortho/range-buildings.tif",
+      "worldfile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/range-buildings.pgw",
+      "projectionFile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/range-buildings.prj",
+      "width": 876,
+      "height": 719,
+      "horizontalCrs": "EPSG:3006",
+      "pixelSizeMetres": 0.16,
+      "boundsEpsg3006": [
+        697364.96,
+        7025204.96,
+        697505.12,
+        7025320.0
+      ],
+      "geoTransform": [
+        697364.96,
+        0.16,
+        0.0,
+        7025320.0,
+        0.0,
+        -0.16
+      ],
+      "cornersEpsg3006": [
+        [
+          697364.96,
+          7025204.96
+        ],
+        [
+          697505.12,
+          7025204.96
+        ],
+        [
+          697505.12,
+          7025320.0
+        ],
+        [
+          697364.96,
+          7025320.0
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          -0.0400000000372529,
+          14.959999999962747
+        ],
+        [
+          140.11999999999534,
+          14.959999999962747
+        ],
+        [
+          140.11999999999534,
+          130.0
+        ],
+        [
+          -0.0400000000372529,
+          130.0
+        ]
+      ],
+      "sourceInputs": [
+        {
+          "id": "context-0-1",
+          "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe",
+          "file": "puttombuild/cache/lm-ortho/context-0-1.tif"
+        },
+        {
+          "id": "context-1-1",
+          "sha256": "c8eaccef0ff7e77c859e3ab92c2256117d4428da5bafb2300fb2524cff43c6da",
+          "file": "puttombuild/cache/lm-ortho/context-1-1.tif"
+        }
+      ],
+      "captures": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z",
+        "2024-06-27T15:19:09Z"
+      ],
+      "pngSha256": "939f04347f51550232675e1052fa647ae0a2fac597d3e03286baf990b514f6a0",
+      "tifSha256": "40eab5d5fda5360ac50325f16351401e5b2950432cfc627604422b09d604e2cf",
+      "bands": "TIFF: RGBI; PNG: RGB",
+      "validFraction": 1.0,
+      "inheritedOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-inherited-overlay.png",
+      "reviewOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-review-overlay.png"
+    },
+    {
+      "id": "maintenance-yard",
+      "png": "puttombuild/cache/facilities-reference-2026-09-10/ortho/maintenance-yard.png",
+      "tif": "puttombuild/cache/facilities-reference-2026-09-10/ortho/maintenance-yard.tif",
+      "worldfile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/maintenance-yard.pgw",
+      "projectionFile": "puttombuild/cache/facilities-reference-2026-09-10/ortho/maintenance-yard.prj",
+      "width": 626,
+      "height": 719,
+      "horizontalCrs": "EPSG:3006",
+      "pixelSizeMetres": 0.16,
+      "boundsEpsg3006": [
+        697514.88,
+        7025324.96,
+        697615.04,
+        7025440.0
+      ],
+      "geoTransform": [
+        697514.88,
+        0.16,
+        0.0,
+        7025440.0,
+        0.0,
+        -0.16
+      ],
+      "cornersEpsg3006": [
+        [
+          697514.88,
+          7025324.96
+        ],
+        [
+          697615.04,
+          7025324.96
+        ],
+        [
+          697615.04,
+          7025440.0
+        ],
+        [
+          697514.88,
+          7025440.0
+        ]
+      ],
+      "cornersBlenderXY": [
+        [
+          149.88000000000466,
+          134.95999999996275
+        ],
+        [
+          250.04000000003725,
+          134.95999999996275
+        ],
+        [
+          250.04000000003725,
+          250.0
+        ],
+        [
+          149.88000000000466,
+          250.0
+        ]
+      ],
+      "sourceInputs": [
+        {
+          "id": "context-0-1",
+          "sha256": "3821b1731a7a75acf17c0557d135c264806e5d9dd67be15e73143a091811e6fe",
+          "file": "puttombuild/cache/lm-ortho/context-0-1.tif"
+        }
+      ],
+      "captures": [
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "pngSha256": "67851bd932f8ad11543d9ca3276de4ee60f42ec43ce8f6006e41ee1d09c35855",
+      "tifSha256": "ed776ac4b47ce7fc6d61ad715681e97a213d2af08724d3f8e1c06cc6ac097fd8",
+      "bands": "TIFF: RGBI; PNG: RGB",
+      "validFraction": 1.0,
+      "inheritedOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/maintenance-yard-inherited-overlay.png",
+      "reviewOverlay": "puttombuild/cache/facilities-reference-2026-09-10/ortho/maintenance-yard-review-overlay.png"
+    }
+  ],
+  "observationFile": "puttombuild/facilities/orthophoto-reference.observations.json",
+  "inventoryFile": "puttombuild/facilities/facility-inventory.json"
+}

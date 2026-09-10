@@ -1,0 +1,632 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "createdAt": "2026-09-10T07:36:34.894832+00:00",
+  "state": "georeferenced-reference-ready-not-current-survey",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613 / RH2000",
+  "blenderOriginEpsg3006RH2000": [
+    677700.5,
+    6586399.5,
+    25.0
+  ],
+  "blenderConvention": "X=E-677700.5; Y=N-6586399.5; Z=RH2000-25.0; 1 Blender unit=1 metre",
+  "applicationConvention": "X=E-677700.5; Y=RH2000; Z=6586399.5-N; add 25 m vertical offset when importing the Blender GLB",
+  "pixelConvention": "North-up; bounds are pixel outer edges. Pixel centre E=minE+(col+0.5)*resolution; N=maxN-(row+0.5)*resolution.",
+  "sourcePixelsStoredUnderIgnoredCache": true,
+  "rawImageryRedistributed": false,
+  "windows": [
+    {
+      "id": "facilities-overview-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677500.0,
+        6586029.92,
+        677730.08,
+        6586570.08
+      ],
+      "resolutionMetres": 0.16,
+      "width": 1438,
+      "height": 3376,
+      "geoTransform": [
+        677500.0,
+        0.16,
+        0.0,
+        6586570.08,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "87ae40e2e2fff7d1bad40c811f517a8e80ac1f4019a89b5815c992e6654146a7",
+      "rasterSha256": "84b089d954913eb77497aee0d72eadc4691210434b712d371c0b79697731c1a9",
+      "worldFileSha256": "a6c56186011060ed0f6fb543b170cca3abb226364fc92862e16f8b0810430a15",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "Complete clubhouse, parking, range and south-practice corridor",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "windowFraction": 0.198600213
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 0.801399787
+        }
+      ]
+    },
+    {
+      "id": "facilities-overview-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677500.0,
+        6586029.58,
+        677730.5,
+        6586570.08
+      ],
+      "resolutionMetres": 0.5,
+      "width": 461,
+      "height": 1081,
+      "geoTransform": [
+        677500.0,
+        0.5,
+        0.0,
+        6586570.08,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "9ff82b854d3a3b7e004eba403acd926e8c223e86ed71736010058422fa424dd5",
+      "rasterSha256": "e318bbe3bd2517291ab418243978aeffa48f83aa896172f776223520d2c059ea",
+      "worldFileSha256": "90b7cddad0ccf0ad7faf599a48fcef1f1845263dd9a9abded0be676d7bb443df",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "Complete clubhouse, parking, range and south-practice corridor; historical comparator"
+    },
+    {
+      "id": "clubhouse-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677600.0,
+        6586409.92,
+        677705.12,
+        6586550.08
+      ],
+      "resolutionMetres": 0.16,
+      "width": 657,
+      "height": 876,
+      "geoTransform": [
+        677600.0,
+        0.16,
+        0.0,
+        6586550.08,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "f385e390cccfe24be8e4f08b53a8ce63dcae22930e6d6db1f2b024d5e398c9e1",
+      "rasterSha256": "3ffe4d5f5ebe71f6c18618f9ae74cd069d21471925ac72d65a420ed7ae73d06c",
+      "worldFileSha256": "14324b645c99e9058f03df893d67ac10f4514b056bb3d4de1322a23345c50b2b",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "Clubhouse, south annex, north facility, courtyard and putting greens",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "windowFraction": 0.497323349
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 0.502676651
+        }
+      ]
+    },
+    {
+      "id": "clubhouse-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677600.0,
+        6586409.58,
+        677705.5,
+        6586550.08
+      ],
+      "resolutionMetres": 0.5,
+      "width": 211,
+      "height": 281,
+      "geoTransform": [
+        677600.0,
+        0.5,
+        0.0,
+        6586550.08,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "8e5f943aba837c72b3cfd5ddf0d0a6f875b5537acdbb05f296ef6b2a4fbdc263",
+      "rasterSha256": "3c30e27255888c062110da1a0120ad88dc73c91ed693e0915ba44ff4b22ce92e",
+      "worldFileSha256": "3beb6ef7434187453f6152dcd7bafcdf9b2247cd12e335218359aae9e2e44104",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "Clubhouse, south annex, north facility, courtyard and putting greens; historical comparator"
+    },
+    {
+      "id": "upper-parking-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677500.0,
+        6586429.92,
+        677625.12,
+        6586545.12
+      ],
+      "resolutionMetres": 0.16,
+      "width": 782,
+      "height": 720,
+      "geoTransform": [
+        677500.0,
+        0.16,
+        0.0,
+        6586545.12,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "ee5f7902bca2909e6bfa3b631e4c20b772ec24cd565b6609dc6d8f3ef943aeb3",
+      "rasterSha256": "c717dc8a6a6e1d6c514b2daf8636717fffd2e69b3bcc5dd9c4ea890485e3f717",
+      "worldFileSha256": "b855ef46d9e4b5e9fb42fdac950deb0401815a625dcde7a635b8b69c0f61e905",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "Both upper parking zones and practice-area change search",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "windowFraction": 0.85183585
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 0.14816415
+        }
+      ]
+    },
+    {
+      "id": "upper-parking-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677500.0,
+        6586429.62,
+        677625.5,
+        6586545.12
+      ],
+      "resolutionMetres": 0.5,
+      "width": 251,
+      "height": 231,
+      "geoTransform": [
+        677500.0,
+        0.5,
+        0.0,
+        6586545.12,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "0334b0ea1b4c741fedf85f8f08ff8e5eef080a227fa43e60a2adbd6f4e82ceb9",
+      "rasterSha256": "4d4dc64ea0eb72c46f02f4b996d46f121373bc903e99b4d957d7875d7eb9b6e3",
+      "worldFileSha256": "7165c71864a27abf4a85a3dbc41e167e225ee0d2b3e0bdfac7955ac2e3233bb0",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "Both upper parking zones and practice-area change search; historical comparator"
+    },
+    {
+      "id": "range-north-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677564.96,
+        6586344.96,
+        677655.0399999999,
+        6586410.08
+      ],
+      "resolutionMetres": 0.16,
+      "width": 563,
+      "height": 407,
+      "geoTransform": [
+        677564.96,
+        0.16,
+        0.0,
+        6586410.08,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "08e885b531df8f1ba126e4400b51b285c4ff360fe43caebc3b70a2eb4c5cab9d",
+      "rasterSha256": "bca9f695669d9550bfc12e94022ad64e6f76a00a17f76906184f171eb240428d",
+      "worldFileSha256": "756a841d24c1abba45b47171e1e93e325e39727a43707909a076397eb0f09454",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "North range teeing apron, hardstanding and nearby paths",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "range-north-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677564.96,
+        6586344.58,
+        677655.46,
+        6586410.08
+      ],
+      "resolutionMetres": 0.5,
+      "width": 181,
+      "height": 131,
+      "geoTransform": [
+        677564.96,
+        0.5,
+        0.0,
+        6586410.08,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "09f3a87203294b49120486dd2578d542a9e01587baa6aceb47b06b4df159ebb4",
+      "rasterSha256": "06734acd742540cbb35e067b50b1371663be7b2ea78b67728f76122d9d7246e4",
+      "worldFileSha256": "3dac26a5106108e21c732ee787bf5fcb9636e31138451c3dd18460f326537a5b",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "North range teeing apron, hardstanding and nearby paths; historical comparator"
+    },
+    {
+      "id": "range-buildings-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677609.92,
+        6586180.0,
+        677710.0800000001,
+        6586320.0
+      ],
+      "resolutionMetres": 0.16,
+      "width": 626,
+      "height": 875,
+      "geoTransform": [
+        677609.92,
+        0.16,
+        0.0,
+        6586320.0,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "e76a23c023101119859a59c49577e330e73b27f82f78cb3590b4a381e49dfca2",
+      "rasterSha256": "ffe57882f025dc0f1c0ea67030ab3b38745b53b6a4769a8a6f65a60a1cb65201",
+      "worldFileSha256": "64a69cdce682207459bbf3b436889b78d8c9f496bf969336da3b4074f32c4540",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "West and east range buildings, small shed, strips and southern parking",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "range-buildings-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677609.92,
+        6586180.0,
+        677710.42,
+        6586320.0
+      ],
+      "resolutionMetres": 0.5,
+      "width": 201,
+      "height": 280,
+      "geoTransform": [
+        677609.92,
+        0.5,
+        0.0,
+        6586320.0,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "af930e10617ed8ad14cc5ea3cdc8e008857a5b82a2627cf9f3a6148cb2f4d14b",
+      "rasterSha256": "94ac8447fde4530d2fe1d70bba2ad3ad46c92d1cb7b7c8a90ea13f76fc7a92ab",
+      "worldFileSha256": "1029cc9a117ce0da3ce0608e3fa7fa41df0619286b86e8ff9ca676a72c5c71ae",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "West and east range buildings, small shed, strips and southern parking; historical comparator"
+    },
+    {
+      "id": "range-south-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677524.96,
+        6586034.88,
+        677710.08,
+        6586200.0
+      ],
+      "resolutionMetres": 0.16,
+      "width": 1157,
+      "height": 1032,
+      "geoTransform": [
+        677524.96,
+        0.16,
+        0.0,
+        6586200.0,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "f60e63ca68d8b4c137c9b40095556f785efc35a8c7801f387af9b6051b374022",
+      "rasterSha256": "845d8e13f8c2a7e97578cd526b85e99dd5c7b692aea821b804d7a850cb4de268",
+      "worldFileSha256": "809b71d0234b7afae32db181e7032dd41a179a8b0184526d54600279f6b74fbb",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "South range shelter/apron, support building and south practice green",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "range-south-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677524.96,
+        6586034.5,
+        677710.46,
+        6586200.0
+      ],
+      "resolutionMetres": 0.5,
+      "width": 371,
+      "height": 331,
+      "geoTransform": [
+        677524.96,
+        0.5,
+        0.0,
+        6586200.0,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "134059d5449e18a660e157e6f6fd9bbfcace49b9b4d6d2332c28f8423f1ee911",
+      "rasterSha256": "1de910fc07452a10ffe476acb339e902377ecdd4e32d5334f0f8c352b4c28e5d",
+      "worldFileSha256": "3f95c813578e8cfd37402f217fe36caa820de00470d8fa29084521100086dfda",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "South range shelter/apron, support building and south practice green; historical comparator"
+    }
+  ],
+  "sources": [
+    {
+      "id": "lm-orto-o2-2025",
+      "provider": "Lantmäteriet",
+      "collection": "orto-o2-2025",
+      "captureDate": "2025-05-31",
+      "nativeResolutionMetres": 0.16,
+      "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0",
+      "termsUrl": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf",
+      "catalogEvidencePath": "geo_data/course-v2/lidingo/reference/lm-ortho-catalog-2026-09-09.json",
+      "assets": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+          "bytes": 631294152,
+          "boundsEpsg3006": [
+            675000,
+            6585000,
+            677500,
+            6587500
+          ],
+          "width": 15625,
+          "height": 15625,
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25.tif",
+          "bytes": 680391390,
+          "boundsEpsg3006": [
+            677500,
+            6585000,
+            680000,
+            6587500
+          ],
+          "width": 15625,
+          "height": 15625,
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "imagery-municipal-2019",
+      "provider": "Lidingö stad",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "licence": "CC0-1.0",
+      "serviceUrl": "https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata",
+      "layer": "theme-ortofoto2019_i1",
+      "termsEvidencePath": "geo_data/course-v2/lidingo/mapping/municipal-ortho-2019-licence.json",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "sourceSampleSpacingMetres": 0.5,
+      "sourceProductGsdMetres": null
+    }
+  ],
+  "limitations": [
+    "2025-05-31 is the newest retained orthophoto capture, not a 2026 as-built survey.",
+    "Ground sample distance does not establish absolute horizontal accuracy.",
+    "Elevated roof outlines can be displaced from wall footprints in orthophotos; use facade photos and laser evidence to resolve.",
+    "Municipal comparator is a 2019 campaign with unknown exact date and source GSD.",
+    "Facades, current equipment, net heights and dimensions require independent evidence."
+  ]
+}

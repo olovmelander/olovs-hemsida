@@ -1,33 +1,33 @@
 # Lidingö mapping completeness audit
 
-Geometry preservation: **passed**. This checks retained source vertices against the served pack; it does not establish current completeness or survey accuracy. Both 2025 Lantmäteriet orthophoto tiles have been read and all 110 outlines have spectral measurements. This geometry audit does not substitute for a visual image-overlay review; see [the new imagery review](ortho-2025-review.md).
+Geometry preservation: **passed**. This checks retained source vertices against the served pack; it does not establish current completeness or survey accuracy. The earlier spectral review measured 110 historical outlines. All 18 tee areas now have native 2025-05-31 visual traces and explicit colour associations; see [the tee and OB alignment review](tee-native-alignment-review-2026-09-09.md). Other playing surfaces retain their previous source epochs.
 
-110 adopted playing outlines and 14 facility features retain their physical ownership through packing, including interior islands. 562 building footprints and 27 vegetation context polygons retain their source geometry.
+128 adopted playing outlines and 14 facility features retain their physical ownership through packing, including interior islands. 562 building footprints and 27 vegetation context polygons retain their source geometry.
 
 ## Every-hole review queue
 
-Counts describe adopted outlines, not the actual number present today. Zero does not mean a feature is absent. Par-3 holes need not have a fairway. Every hole still needs a current-image census and alignment review.
+Counts describe adopted outlines, not the actual number present today. Zero does not mean a feature is absent. Par-3 holes need not have a fairway. Tee areas have completed this machine visual review; other playing surfaces, hidden tee edges and unresolved Orange starts remain in the review queue.
 
 | Hole | Par | Greens | Tees | Fairways | Bunkers | Recorded issue / next review |
 |---|---|---|---|---|---|---|
-| 1 | 3 | 1 | 1 | 0 | 3 | additional-forward-platform-not-adopted |
-| 2 | 5 | 1 | 3 | 1 | 1 | Current-image review required |
+| 1 | 3 | 1 | 2 | 0 | 3 | additional-forward-platform-not-adopted |
+| 2 | 5 | 1 | 5 | 1 | 1 | Current-image review required |
 | 3 | 3 | 1 | 3 | 0 | 1 | Current-image review required |
-| 4 | 4 | 1 | 3 | 1 | 2 | Current-image review required |
-| 5 | 4 | 1 | 1 | 1 | 2 | Current-image review required |
-| 6 | 3 | 1 | 1 | 0 | 1 | Current-image review required |
-| 7 | 4 | 1 | 2 | 2 | 4 | Current-image review required |
-| 8 | 4 | 1 | 2 | 1 | 3 | Current-image review required |
-| 9 | 3 | 1 | 2 | 0 | 1 | Current-image review required |
+| 4 | 4 | 1 | 4 | 1 | 2 | Current-image review required |
+| 5 | 4 | 1 | 2 | 1 | 2 | Current-image review required |
+| 6 | 3 | 1 | 4 | 0 | 1 | Current-image review required |
+| 7 | 4 | 1 | 3 | 2 | 4 | Current-image review required |
+| 8 | 4 | 1 | 4 | 1 | 3 | Current-image review required |
+| 9 | 3 | 1 | 3 | 0 | 1 | Current-image review required |
 | 10 | 5 | 1 | 3 | 1 | 5 | Current-image review required |
-| 11 | 3 | 1 | 1 | 0 | 3 | Current-image review required |
-| 12 | 5 | 1 | 1 | 1 | 2 | Current-image review required |
-| 13 | 4 | 1 | 1 | 1 | 0 | western-fragment-rejected-after-overlay; 2025-reported-change-unmapped |
-| 14 | 4 | 1 | 1 | 1 | 2 | Current-image review required |
+| 11 | 3 | 1 | 2 | 0 | 3 | Current-image review required |
+| 12 | 5 | 1 | 2 | 1 | 2 | Current-image review required |
+| 13 | 4 | 1 | 3 | 1 | 0 | western-fragment-rejected-after-overlay; 2025-reported-change-unmapped |
+| 14 | 4 | 1 | 2 | 1 | 2 | Current-image review required |
 | 15 | 4 | 1 | 3 | 1 | 1 | Current-image review required |
 | 16 | 3 | 1 | 3 | 0 | 3 | Current-image review required |
 | 17 | 5 | 1 | 3 | 1 | 2 | Current-image review required |
-| 18 | 4 | 1 | 2 | 1 | 1 | ambiguous-bare-soil-patch-not-adopted |
+| 18 | 4 | 1 | 3 | 1 | 1 | ambiguous-bare-soil-patch-not-adopted |
 
 Two greens, one tee and three bunkers are unassigned to playing holes. The greens have named practice-facility owners; unassigned context must not be silently reassigned to reach a target count.
 

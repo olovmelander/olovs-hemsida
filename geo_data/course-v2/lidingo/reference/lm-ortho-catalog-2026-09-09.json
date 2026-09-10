@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "orthophoto-live-catalog-recheck",
+  "observedAt": "2026-09-09T20:27:30.207Z",
+  "endpoint": "https://api.lantmateriet.se/stac-bild/v1/",
+  "bboxWgs84": [
+    18.1093219082564,
+    59.36909583539647,
+    18.147022734124498,
+    59.38833274716611
+  ],
+  "bboxEpsg3006": [
+    676676,
+    6585375,
+    678725,
+    6587424
+  ],
+  "sourceDiscoverySha256": "092a9e3a79254e2907f833630d6a62776edb3c3eed6ecdf13c4449890f0f4d13",
+  "collection": "orto-o2-2025",
+  "coverage": {
+    "requiredSquareMetres": 4198401,
+    "coveredSquareMetres": 4198401,
+    "ratio": 1,
+    "complete": true
+  },
+  "fallbackCollections": [],
+  "campaigns": [
+    {
+      "collection": "orto-o2-2025",
+      "rank": "2025-12-31",
+      "itemCount": 2,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-o2-2023",
+      "rank": "2023-12-31",
+      "itemCount": 2,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-o2-2021",
+      "rank": "2021-12-31",
+      "itemCount": 2,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-o2-2019",
+      "rank": "2019-12-31",
+      "itemCount": 2,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-o2-2017",
+      "rank": "2017-12-31",
+      "itemCount": 4,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-o2-2015",
+      "rank": "2015-12-31",
+      "itemCount": 4,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-o2-2013",
+      "rank": "2013-12-31",
+      "itemCount": 4,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-o2-2011",
+      "rank": "2011-12-31",
+      "itemCount": 2,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-storstockholm-2009",
+      "rank": "2009-12-31",
+      "itemCount": 4,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-e-2008",
+      "rank": "2008-12-31",
+      "itemCount": 1,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    },
+    {
+      "collection": "orto-e3-2008",
+      "rank": "2008-12-31",
+      "itemCount": 1,
+      "coverage": {
+        "requiredSquareMetres": 4198401,
+        "coveredSquareMetres": 4198401,
+        "ratio": 1,
+        "complete": true
+      }
+    }
+  ],
+  "selectedAssetsChanged": false,
+  "items": [
+    {
+      "id": "o65850_6750_25_mr25",
+      "collection": "orto-o2-2025",
+      "bboxWgs84": [
+        18.079570640519076,
+        59.36625088790875,
+        18.1255528601265,
+        59.389713901893636
+      ],
+      "projCode": "EPSG:3006",
+      "projBbox": [
+        675000,
+        6585000,
+        677500,
+        6587500
+      ],
+      "capturedAt": "2025-05-31T08:18:43Z",
+      "captureStart": "2025-05-31T08:01:24Z",
+      "captureEnd": "2025-05-31T08:27:23Z",
+      "modifiedAt": null,
+      "resolutionMetres": 0.16,
+      "horizontalUncertaintyMetres": null,
+      "verticalUncertaintyMetres": null,
+      "pointDensityPerSquareMetre": null,
+      "pointCount": null,
+      "spectralType": "rgbi",
+      "assets": {
+        "data": {
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "title": "o65850_6750_25_mr25",
+          "roles": [
+            "data"
+          ],
+          "bytes": 631294152,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": "EPSG:3006",
+          "projBbox": [
+            675000,
+            6585000,
+            677500,
+            6587500
+          ],
+          "projShape": [
+            15625,
+            15625
+          ]
+        },
+        "metadata": {
+          "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25_flygbild.json",
+          "type": "application/geo+json",
+          "title": "o65850_6750_25_mr25_flygbild",
+          "roles": [
+            "metadata"
+          ],
+          "bytes": null,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        },
+        "thumbnail": {
+          "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25_thumbnail.jpg",
+          "type": "image/jpeg",
+          "title": "o65850_6750_25_mr25_thumbnail",
+          "roles": [
+            "overview",
+            "thumbnail"
+          ],
+          "bytes": null,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        }
+      }
+    },
+    {
+      "id": "o65850_6775_25_mr25",
+      "collection": "orto-o2-2025",
+      "bboxWgs84": [
+        18.123489194838612,
+        59.3651909411038,
+        18.169497113632236,
+        59.388667799900055
+      ],
+      "projCode": "EPSG:3006",
+      "projBbox": [
+        677500,
+        6585000,
+        680000,
+        6587500
+      ],
+      "capturedAt": "2025-05-31T08:45:47Z",
+      "captureStart": "2025-05-31T08:27:03Z",
+      "captureEnd": "2025-05-31T08:46:03Z",
+      "modifiedAt": null,
+      "resolutionMetres": 0.16,
+      "horizontalUncertaintyMetres": null,
+      "verticalUncertaintyMetres": null,
+      "pointDensityPerSquareMetre": null,
+      "pointCount": null,
+      "spectralType": "rgbi",
+      "assets": {
+        "data": {
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25.tif",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "title": "o65850_6775_25_mr25",
+          "roles": [
+            "data"
+          ],
+          "bytes": 680391390,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": "EPSG:3006",
+          "projBbox": [
+            677500,
+            6585000,
+            680000,
+            6587500
+          ],
+          "projShape": [
+            15625,
+            15625
+          ]
+        },
+        "metadata": {
+          "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25_flygbild.json",
+          "type": "application/geo+json",
+          "title": "o65850_6775_25_mr25_flygbild",
+          "roles": [
+            "metadata"
+          ],
+          "bytes": null,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        },
+        "thumbnail": {
+          "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25_thumbnail.jpg",
+          "type": "image/jpeg",
+          "title": "o65850_6775_25_mr25_thumbnail",
+          "roles": [
+            "overview",
+            "thumbnail"
+          ],
+          "bytes": null,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Catalog discovery does not establish pixel access; authenticated acquisition has its own byte and grid checks.",
+    "Capture datetime on a tile is representative; contributing source images can have a wider capture range."
+  ]
+}

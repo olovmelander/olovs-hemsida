@@ -1,0 +1,986 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-09T21:59:23.790Z",
+  "course": "norrfallsviken",
+  "sourceMainSha256": "86537b6a06a5df63aa0fbcad3945f094b217ad791c49fea82b03e3040fa1f94a",
+  "oceanAsset": {
+    "url": "courses/norrfallsviken/environment-ocean-7f7d8ec406b62ad829b40c06f5e0574b0615033d615454733bf880b955b022e3.json.gz",
+    "bytes": 3329560,
+    "sha256": "7f7d8ec406b62ad829b40c06f5e0574b0615033d615454733bf880b955b022e3",
+    "compression": "gzip",
+    "decodedBytes": 12344911,
+    "decodedSha256": "4c125b5e918cf0d1f44a814f7b0fbad4893a09aef579b7afba1aab5c8ac5d777"
+  },
+  "command": "node nvgkbuild/mapping/check-environment.mjs --url http://127.0.0.1:8638 [--webgl] --out nvgkbuild/cache/environment-accepted-{webgpu,webgl}",
+  "visualReview": {
+    "method": "Direct inspection of saved browser images by root and independent coastal audit agent",
+    "findings": [
+      "No angular ocean cutoff or campaign-boundary surf in reviewed coastal views",
+      "Continuous sea colour, no obvious shoreline bleed or offshore false-land speckling",
+      "Storsanden sand reaches the water and blends into surrounding terrain",
+      "WebGL lower sky meets distant terrain without a green stripe"
+    ],
+    "scope": "Coastal, offshore, beach, harbour and inland-pond views; dated source interpretation, not a claim of survey-perfect detail"
+  },
+  "focusedJavascriptTests": 65,
+  "pythonTopologyTests": 3,
+  "productionBuild": "passed",
+  "runs": [
+    {
+      "backend": "webgpu",
+      "reportPath": "nvgkbuild/cache/environment-accepted-webgpu/report.json",
+      "reportSha256": "f34078568724b8e5c0398b9918e25791f53603da3b9a83b35eff3f1cdc956c83",
+      "ocean": "source-ocean",
+      "seaWorldLevel": 20.3132,
+      "oceanTriangles": 366121,
+      "mappedIslands": 57,
+      "mappedIslandProbes": 7,
+      "vistaTreesOnSea": 0,
+      "remainingFlatWater": [
+        {
+          "hectares": 0.8016,
+          "level": 30.32,
+          "surface": 30.06,
+          "known": 499,
+          "uncovered": 2,
+          "bounds": {
+            "x0": -231.125,
+            "x1": -67.125,
+            "z0": -606.8660000003874,
+            "z1": -466.86600000038743
+          }
+        }
+      ],
+      "errors": [],
+      "consoleErrors": [],
+      "views": [
+        {
+          "id": "north-coast",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              2043.7484464735917,
+              1119.9991714525822,
+              2203.5687653833
+            ],
+            "look": [
+              0,
+              30,
+              -1300
+            ],
+            "ground": 20.3032
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              2043.7484464735917,
+              1119.9991714525822,
+              2203.5687653833
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/north-coast-golden.png",
+          "imageSha256": "fcf2216d92957b3767f2f1e37b919c79a4fd676fea95961edb45a433e5ccbec2"
+        },
+        {
+          "id": "offshore",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              644.5541144114873,
+              1194.18354771722,
+              1391.956703107639
+            ],
+            "look": [
+              1700.0000000000002,
+              20.000000000000004,
+              -2500
+            ],
+            "ground": 22.950311763349344
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              644.5541144114873,
+              1194.18354771722,
+              1391.956703107639
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/offshore-golden.png",
+          "imageSha256": "c8a7006c15f2d58bb8291a86ec0933801aaf7c079fbb05b7dfd90d684a2ec7a1"
+        },
+        {
+          "id": "cape",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              2499.9999999999995,
+              1049.9999999999998,
+              -2100.0000000000005
+            ],
+            "look": [
+              -200,
+              40,
+              400
+            ],
+            "ground": 20.383200000000002
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              2499.9999999999995,
+              1049.9999999999998,
+              -2100.0000000000005
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/cape-golden.png",
+          "imageSha256": "8d6f82702becf08e09189e7406ac6ee2f95a2f0a62394d1d4dcb5031f9c29298"
+        },
+        {
+          "id": "shore",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              520,
+              100.00000000000006,
+              -250.00000000000006
+            ],
+            "look": [
+              1200,
+              20,
+              -550
+            ],
+            "ground": 21.239124699592963
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              520,
+              100.00000000000006,
+              -250.00000000000006
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/shore-golden.png",
+          "imageSha256": "df4c97a1f385b31fdd279e816eee8fe26c17ab64951a076ae28eca55c1e7a814"
+        },
+        {
+          "id": "storsanden",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              449.9999999999999,
+              260,
+              -1400
+            ],
+            "look": [
+              -230,
+              25,
+              -770
+            ],
+            "ground": 20.3232
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              449.9999999999999,
+              260,
+              -1400
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/storsanden-golden.png",
+          "imageSha256": "3c7f70eac23ec48f33cc42de58374d2b76e67ff50bcaadeec9bc0d75c94ad4eb"
+        },
+        {
+          "id": "harbour",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              -1350,
+              220,
+              1699.9999999999995
+            ],
+            "look": [
+              -500.0000000000001,
+              22,
+              1100
+            ],
+            "ground": 44.696185347855106
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -1350,
+              220,
+              1699.9999999999995
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/harbour-golden.png",
+          "imageSha256": "a05b98f8c10e2993b0100f972dfee5cbb49dbafc638f76be5228f4c39b54a92d"
+        },
+        {
+          "id": "pond-14",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              299.99999999999994,
+              154.99999999999997,
+              -550
+            ],
+            "look": [
+              160,
+              33,
+              -280
+            ],
+            "ground": 26.44753921922191
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              299.99999999999994,
+              154.99999999999997,
+              -550
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/pond-14-golden.png",
+          "imageSha256": "373bb56c6db9f07201a9872f924b7f61fa373825c6d9ead10341aa1de0d4f972"
+        },
+        {
+          "id": "north-coast",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              2043.7484464735917,
+              1119.9991714525822,
+              2203.5687653833
+            ],
+            "look": [
+              0,
+              30,
+              -1300
+            ],
+            "ground": 20.3032
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              2043.7484464735917,
+              1119.9991714525822,
+              2203.5687653833
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/north-coast-noon.png",
+          "imageSha256": "32f4ff747c48e0edbb2e3cef0774ff5737f99e8beba9a76370d6fdce6545e4e8"
+        },
+        {
+          "id": "offshore",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              644.5541144114873,
+              1194.18354771722,
+              1391.956703107639
+            ],
+            "look": [
+              1700.0000000000002,
+              20.000000000000004,
+              -2500
+            ],
+            "ground": 22.950311763349344
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              644.5541144114873,
+              1194.18354771722,
+              1391.956703107639
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/offshore-noon.png",
+          "imageSha256": "a36f201429553f7edc2d37c76669cf89a84b177adaf39146761ae6014b46ca92"
+        },
+        {
+          "id": "cape",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              2499.9999999999995,
+              1049.9999999999998,
+              -2100.0000000000005
+            ],
+            "look": [
+              -200,
+              40,
+              400
+            ],
+            "ground": 20.383200000000002
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              2499.9999999999995,
+              1049.9999999999998,
+              -2100.0000000000005
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/cape-noon.png",
+          "imageSha256": "f3dd7309729af4346840083934c4c2d1e7c0ac8dd4e8717387af7b1f08cf16f7"
+        },
+        {
+          "id": "shore",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              520,
+              100.00000000000006,
+              -250.00000000000006
+            ],
+            "look": [
+              1200,
+              20,
+              -550
+            ],
+            "ground": 21.239124699592963
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              520,
+              100.00000000000006,
+              -250.00000000000006
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/shore-noon.png",
+          "imageSha256": "f535a25f17f3c497435a1ec16206586c46337605970291511987f0872800e87f"
+        },
+        {
+          "id": "storsanden",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              449.9999999999999,
+              260,
+              -1400
+            ],
+            "look": [
+              -230,
+              25,
+              -770
+            ],
+            "ground": 20.3232
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              449.9999999999999,
+              260,
+              -1400
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/storsanden-noon.png",
+          "imageSha256": "31f483fb8b81b2223d9a7e5dd0ccb8fdd1f70f7aed915e9430e82136b3946f7e"
+        },
+        {
+          "id": "harbour",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              -1350,
+              220,
+              1699.9999999999995
+            ],
+            "look": [
+              -500.0000000000001,
+              22,
+              1100
+            ],
+            "ground": 44.696185347855106
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -1350,
+              220,
+              1699.9999999999995
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/harbour-noon.png",
+          "imageSha256": "4b6f4316450a8807ce60f26e3f1d74053e70f510b55e33e1c59665ee08fa20b0"
+        },
+        {
+          "id": "pond-14",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              299.99999999999994,
+              154.99999999999997,
+              -550
+            ],
+            "look": [
+              160,
+              33,
+              -280
+            ],
+            "ground": 26.44753921922191
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              299.99999999999994,
+              154.99999999999997,
+              -550
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgpu/pond-14-noon.png",
+          "imageSha256": "13f0e3b69d09c0ff8c57385fd12167003ac45d835b2759e17f8820f71380fd56"
+        }
+      ]
+    },
+    {
+      "backend": "webgl2",
+      "reportPath": "nvgkbuild/cache/environment-accepted-webgl/report.json",
+      "reportSha256": "b0c59a33b55e23a8bbe29ef9924e2a94a330711498f804f68bf3a6ba274eb273",
+      "ocean": "source-ocean",
+      "seaWorldLevel": 20.3132,
+      "oceanTriangles": 366121,
+      "mappedIslands": 57,
+      "mappedIslandProbes": 7,
+      "vistaTreesOnSea": 0,
+      "remainingFlatWater": [
+        {
+          "hectares": 0.8016,
+          "level": 30.32,
+          "surface": 30.06,
+          "known": 499,
+          "uncovered": 2,
+          "bounds": {
+            "x0": -231.125,
+            "x1": -67.125,
+            "z0": -606.8660000003874,
+            "z1": -466.86600000038743
+          }
+        }
+      ],
+      "errors": [],
+      "consoleErrors": [],
+      "views": [
+        {
+          "id": "north-coast",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              2043.7484464735917,
+              1119.9991714525822,
+              2203.5687653833
+            ],
+            "look": [
+              0,
+              30,
+              -1300
+            ],
+            "ground": 20.3032
+          },
+          "depth": {
+            "fov": 48,
+            "near": 94.32743023894582,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              2043.7484464735917,
+              1119.9991714525822,
+              2203.5687653833
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/north-coast-golden.png",
+          "imageSha256": "065fae2522ce9483c26e421913948d34fb27b59bd56d888787f60d39d96263db"
+        },
+        {
+          "id": "offshore",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              644.5541144114873,
+              1194.18354771722,
+              1391.956703107639
+            ],
+            "look": [
+              1700.0000000000002,
+              20.000000000000004,
+              -2500
+            ],
+            "ground": 22.950311763349344
+          },
+          "depth": {
+            "fov": 48,
+            "near": 103.60047727202556,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              644.5541144114873,
+              1194.18354771722,
+              1391.956703107639
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/offshore-golden.png",
+          "imageSha256": "dbc47422fa10d98bd67aabd560ac588343064d91eed14d580d8e4fe11e1445ea"
+        },
+        {
+          "id": "cape",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              2499.9999999999995,
+              1049.9999999999998,
+              -2100.0000000000005
+            ],
+            "look": [
+              -200,
+              40,
+              400
+            ],
+            "ground": 20.383200000000002
+          },
+          "depth": {
+            "fov": 48,
+            "near": 85.57753380737302,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              2499.9999999999995,
+              1049.9999999999998,
+              -2100.0000000000005
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/cape-golden.png",
+          "imageSha256": "c6b868cf2ff46bd2856c0e95f376b78119f169acede5360685c4a96f57b92fe1"
+        },
+        {
+          "id": "shore",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              520,
+              100.00000000000006,
+              -250.00000000000006
+            ],
+            "look": [
+              1200,
+              20,
+              -550
+            ],
+            "ground": 21.239124699592963
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              520,
+              100.00000000000006,
+              -250.00000000000006
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/shore-golden.png",
+          "imageSha256": "f10da488237fa3033fee1260026c7c1b8993164d96d86b59a48e4dad8943ffdc"
+        },
+        {
+          "id": "storsanden",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              449.9999999999999,
+              260,
+              -1400
+            ],
+            "look": [
+              -230,
+              25,
+              -770
+            ],
+            "ground": 20.3232
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              449.9999999999999,
+              260,
+              -1400
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/storsanden-golden.png",
+          "imageSha256": "ba582ad7682277c883762bdf93259ed2c206a932060c22baabbfb970f64c768b"
+        },
+        {
+          "id": "harbour",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              -1350,
+              220,
+              1699.9999999999995
+            ],
+            "look": [
+              -500.0000000000001,
+              22,
+              1100
+            ],
+            "ground": 44.696185347855106
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              -1350,
+              220,
+              1699.9999999999995
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/harbour-golden.png",
+          "imageSha256": "16f5acb93f64fbb8ed718148962bb7dce6140c6ccd1d54bcfafadcf0dafd6687"
+        },
+        {
+          "id": "pond-14",
+          "lighting": "golden",
+          "camera": {
+            "pos": [
+              299.99999999999994,
+              154.99999999999997,
+              -550
+            ],
+            "look": [
+              160,
+              33,
+              -280
+            ],
+            "ground": 26.44753921922191
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              299.99999999999994,
+              154.99999999999997,
+              -550
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/pond-14-golden.png",
+          "imageSha256": "6c06639d053effa0b7e5e7ba88addf4106187b5b6e0a1c81c8cccc495461681f"
+        },
+        {
+          "id": "north-coast",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              2043.7484464735917,
+              1119.9991714525822,
+              2203.5687653833
+            ],
+            "look": [
+              0,
+              30,
+              -1300
+            ],
+            "ground": 20.3032
+          },
+          "depth": {
+            "fov": 48,
+            "near": 94.32743023894582,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              2043.7484464735917,
+              1119.9991714525822,
+              2203.5687653833
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/north-coast-noon.png",
+          "imageSha256": "bf0a4489385d2eeb9b66389c19aee5171608fbcbfba9d44c4705e40d10442e10"
+        },
+        {
+          "id": "offshore",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              644.5541144114873,
+              1194.18354771722,
+              1391.956703107639
+            ],
+            "look": [
+              1700.0000000000002,
+              20.000000000000004,
+              -2500
+            ],
+            "ground": 22.950311763349344
+          },
+          "depth": {
+            "fov": 48,
+            "near": 103.60047727202556,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              644.5541144114873,
+              1194.18354771722,
+              1391.956703107639
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/offshore-noon.png",
+          "imageSha256": "6fde8fecbbf723c2a2d974373ae21bbbb62cc8fc14268a3028f1cf75677203ab"
+        },
+        {
+          "id": "cape",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              2499.9999999999995,
+              1049.9999999999998,
+              -2100.0000000000005
+            ],
+            "look": [
+              -200,
+              40,
+              400
+            ],
+            "ground": 20.383200000000002
+          },
+          "depth": {
+            "fov": 48,
+            "near": 85.57753380737302,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              2499.9999999999995,
+              1049.9999999999998,
+              -2100.0000000000005
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/cape-noon.png",
+          "imageSha256": "3a2c98758d2f677056cd07ea527ba06dc95f0bc89a7ecf85df99434b6bc54174"
+        },
+        {
+          "id": "shore",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              520,
+              100.00000000000006,
+              -250.00000000000006
+            ],
+            "look": [
+              1200,
+              20,
+              -550
+            ],
+            "ground": 21.239124699592963
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              520,
+              100.00000000000006,
+              -250.00000000000006
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/shore-noon.png",
+          "imageSha256": "d19ab25943dd37c111564df3d30c7a2f4ca7acbd904d35132ba73f64354d797c"
+        },
+        {
+          "id": "storsanden",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              449.9999999999999,
+              260,
+              -1400
+            ],
+            "look": [
+              -230,
+              25,
+              -770
+            ],
+            "ground": 20.3232
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              449.9999999999999,
+              260,
+              -1400
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/storsanden-noon.png",
+          "imageSha256": "bdefe1fe9f03fff305a395237aad40f000386cb6f008326769cd4bdf776fc727"
+        },
+        {
+          "id": "harbour",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              -1350,
+              220,
+              1699.9999999999995
+            ],
+            "look": [
+              -500.0000000000001,
+              22,
+              1100
+            ],
+            "ground": 44.696185347855106
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              -1350,
+              220,
+              1699.9999999999995
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/harbour-noon.png",
+          "imageSha256": "bedffc58e6ab57769383562307d9d6db4da36fa2c457bdf45e1b3f1be0a71a71"
+        },
+        {
+          "id": "pond-14",
+          "lighting": "noon",
+          "camera": {
+            "pos": [
+              299.99999999999994,
+              154.99999999999997,
+              -550
+            ],
+            "look": [
+              160,
+              33,
+              -280
+            ],
+            "ground": 26.44753921922191
+          },
+          "depth": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.6,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              299.99999999999994,
+              154.99999999999997,
+              -550
+            ]
+          },
+          "imagePath": "nvgkbuild/cache/environment-accepted-webgl/pond-14-noon.png",
+          "imageSha256": "8c20beaf0a650c4946d23ee121c0031daa87876357bc99f25cc7b644a188dfba"
+        }
+      ]
+    }
+  ]
+}

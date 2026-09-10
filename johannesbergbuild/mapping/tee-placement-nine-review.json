@@ -1,0 +1,1138 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "course": "johannesberg-9",
+  "reviewedOn": "2026-09-09",
+  "sourceCaptureDate": "2025-06-14",
+  "frame": {
+    "origin": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "mPerLat": 111320,
+    "mPerLon": 56118.16,
+    "axis": "east +x, north -z"
+  },
+  "scope": "Nominal tee references on already reviewed physical platforms. All colour ownership is explicitly inferred. This ledger does not locate daily marker balls or establish surveyed tee lengths.",
+  "policy": {
+    "unresolvedMarksDoNotRenderPhysicalMarkers": true,
+    "doNotInferAdditionalPads": true,
+    "preserveOfficialCard": true,
+    "doNotUseNearestPadSnapping": true,
+    "doNotTreatInferredColourOwnershipAsSurvey": true
+  },
+  "sources": [
+    {
+      "id": "native-physical-platform-review",
+      "path": "johannesbergbuild/mapping/lm-review-nine.json",
+      "sha256": "09474acfff42200b76c7d55abd8c6c858cdafe6bc523b9a0052b844c4e632be3",
+      "meaning": "Pins all 15 platform boundaries, native 0.16 m images and source capture date."
+    },
+    {
+      "id": "published-nine-card",
+      "path": "johannesbergbuild/card-9.json",
+      "sha256": "37bd2bbb363f86ac158775fb155a146075a3a4ef862493a3ef309b31ad04b27f",
+      "url": "https://www.golfisverige.com/klubb/johannesberg-golfklubb/",
+      "checkedOn": "2026-09-09",
+      "meaning": "Web read confirms all nine Yellow/Red length pairs. Secondary scorecard source establishes colour order only, not coordinates."
+    },
+    {
+      "id": "club-guide-availability",
+      "url": "https://johannesbergsgolf.se/vara-banor/banguide/",
+      "snapshotPath": "johannesbergbuild/cache/tee-nine-review/banguide.html",
+      "sha256": "a53d75ac047707db1a1aa2a8ad71c2445d775e9383244ac2fcda899cd371f0f7",
+      "checkedOn": "2026-09-09",
+      "meaning": "Current club guide links overview and Bana 1 through 18 of the main course; no nine-hole colour guide found on this page."
+    },
+    {
+      "id": "club-course-page",
+      "url": "https://johannesbergsgolf.se/vara-banor/",
+      "snapshotPath": "johannesbergbuild/cache/tee-nine-review/vara-banor.html",
+      "sha256": "d2b068776601024d5bb8904bc231c6b2129c4b33c512be0c071911d76b0cf41e",
+      "checkedOn": "2026-09-09",
+      "meaning": "Current club course page checked for nine-hole-specific guide links."
+    }
+  ],
+  "holes": [
+    {
+      "hole": 1,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-01-pad-01",
+          "ringSha256": "2d188f1532d324f226ccd0d2f4927ce56bf77baa6ea83d580a4504ee6b81b8bb"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 302,
+          "originalReference": [
+            -269.1,
+            -809.7
+          ],
+          "status": "unresolved-colour-platform",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-01-actual-tees.tif",
+                "sha256": "9c12329ae6654381d2bf5c89681ac720127d1ccd5aef9d3732427e9619080b24"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-01-actual-tees.png",
+                "sha256": "74b59eab1999f5b6e8a19a28af86d4b2f058630a935f43ce3d5ac48484d3ee6b"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              679056.64,
+              6626086.239999999,
+              679207.2000000001,
+              6626236.64
+            ],
+            "sourcePanelPixelSize": [
+              941,
+              940
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "The single fully visible rectangular mat is on the first-hole access strip. Its distance to the reviewed green is about 260 m, consistent with Red 261 m. A separate mat-like square under canopy farther east is a candidate back tee, but neither platform boundary nor colour ownership is established; do not move Yellow to the Red mat.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false
+          },
+          "placementPolicy": "retain-original-nominal-reference-without-displayC; do not render a physical colour-marker pair; do not synthesize a platform",
+          "needs": "club-confirmed tee-to-platform association or an independently identifiable back mat/platform"
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 261,
+          "originalReference": [
+            -310,
+            -813.3
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-01-actual-tees.tif",
+                "sha256": "9c12329ae6654381d2bf5c89681ac720127d1ccd5aef9d3732427e9619080b24"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-01-actual-tees.png",
+                "sha256": "74b59eab1999f5b6e8a19a28af86d4b2f058630a935f43ce3d5ac48484d3ee6b"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              679056.64,
+              6626086.239999999,
+              679207.2000000001,
+              6626236.64
+            ],
+            "sourcePanelPixelSize": [
+              941,
+              940
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "The single fully visible rectangular mat is on the first-hole access strip. Its distance to the reviewed green is about 260 m, consistent with Red 261 m. A separate mat-like square under canopy farther east is a candidate back tee, but neither platform boundary nor colour ownership is established; do not move Yellow to the Red mat.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              413,
+              473
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 1.273,
+            "directDistanceToReviewedGreenM": 260.3
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-01-pad-01",
+          "c": [
+            -298.754,
+            -811.472
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    },
+    {
+      "hole": 2,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-02-pad-01",
+          "ringSha256": "4f05efd49eb647e4f3e50c8b6ab67f4f6381bc39b15f338a86dd9dcd96b35ee1"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 270,
+          "originalReference": [
+            -595.1,
+            -826.7
+          ],
+          "status": "unresolved-colour-platform",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-02-actual-tees.tif",
+                "sha256": "b551d933e54a3a4fae9e781c3cad0831d3a9e99fc1a44cd11568d8eb1e410e1c"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-02-actual-tees.png",
+                "sha256": "b4d960037ae494d65615701939494796826712031a32a391f54b129a43120a7f"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678744.96,
+              6626076.640000001,
+              678885.44,
+              6626217.28
+            ],
+            "sourcePanelPixelSize": [
+              878,
+              879
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "The western visible mat points down the second-hole corridor. Its continuation to the green is about 233 m, consistent with Red 234 m. Other mats belong to a shared access cluster with hole 5; no visible back mat can be uniquely assigned to Yellow from this source.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false
+          },
+          "placementPolicy": "retain-original-nominal-reference-without-displayC; do not render a physical colour-marker pair; do not synthesize a platform",
+          "needs": "club-confirmed tee-to-platform association or an independently identifiable back mat/platform"
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 234,
+          "originalReference": [
+            -616.7,
+            -797.9
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-02-actual-tees.tif",
+                "sha256": "b551d933e54a3a4fae9e781c3cad0831d3a9e99fc1a44cd11568d8eb1e410e1c"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-02-actual-tees.png",
+                "sha256": "b4d960037ae494d65615701939494796826712031a32a391f54b129a43120a7f"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678744.96,
+              6626076.640000001,
+              678885.44,
+              6626217.28
+            ],
+            "sourcePanelPixelSize": [
+              878,
+              879
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "The western visible mat points down the second-hole corridor. Its continuation to the green is about 233 m, consistent with Red 234 m. Other mats belong to a shared access cluster with hole 5; no visible back mat can be uniquely assigned to Yellow from this source.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              441,
+              596
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 1.127,
+            "directDistanceToReviewedGreenM": 231.9
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-02-pad-01",
+          "c": [
+            -606.772,
+            -787.239
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    },
+    {
+      "hole": 3,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-03-pad-01",
+          "ringSha256": "3eff7be1236c20090c8e8ccee46acf96b1eacb680cde3d4803a5b1ff673ca1cc"
+        },
+        {
+          "padIndex": 1,
+          "padId": "johannesberg-9-hole-03-pad-02",
+          "ringSha256": "d26a6e3f3139e2f4966f666eebec9c939c25547f1f9e74d940466be9e8c497bc"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 248,
+          "originalReference": [
+            -779.5,
+            -637.4
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-03-actual-tees.tif",
+                "sha256": "6c6ee59feb7694b9a6e187eedac4fc1876eaa2c63aead2a654ac51b841ff7aa1"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-03-actual-tees.png",
+                "sha256": "7bc225ea4dadea4fd16dbc419a58f7d1a94600d32c4fc2f16de3c765b880fc78"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678576.96,
+              6625909.12,
+              678726.24,
+              6626058.4
+            ],
+            "sourcePanelPixelSize": [
+              933,
+              933
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "Two separate mats follow the same west-side path and hole corridor. The southern mat (pad 1) is the back position, with about 247 m through the first route bend; the northern mat (pad 0) is about 207 m. Their roughly 40 m difference supports Yellow 248 m / Red 208 m. This corrects both colours being collapsed onto pad 0.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              445,
+              744
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 0.927,
+            "directDistanceToReviewedGreenM": 243.9
+          },
+          "padIndex": 1,
+          "sourcePadId": "johannesberg-9-hole-03-pad-02",
+          "c": [
+            -782.284,
+            -613.045
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 208,
+          "originalReference": [
+            -773.9,
+            -677
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-03-actual-tees.tif",
+                "sha256": "6c6ee59feb7694b9a6e187eedac4fc1876eaa2c63aead2a654ac51b841ff7aa1"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-03-actual-tees.png",
+                "sha256": "7bc225ea4dadea4fd16dbc419a58f7d1a94600d32c4fc2f16de3c765b880fc78"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678576.96,
+              6625909.12,
+              678726.24,
+              6626058.4
+            ],
+            "sourcePanelPixelSize": [
+              933,
+              933
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "Two separate mats follow the same west-side path and hole corridor. The southern mat (pad 1) is the back position, with about 247 m through the first route bend; the northern mat (pad 0) is about 207 m. Their roughly 40 m difference supports Yellow 248 m / Red 208 m. This corrects both colours being collapsed onto pad 0.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              475,
+              491
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 3.346,
+            "directDistanceToReviewedGreenM": 203.2
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-03-pad-01",
+          "c": [
+            -775.566,
+            -653.218
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    },
+    {
+      "hole": 4,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-04-pad-01",
+          "ringSha256": "3fa1fd366f721ac744c9074ff9565b95a857acb3ac1f58d9749a5409e23e7416"
+        },
+        {
+          "padIndex": 1,
+          "padId": "johannesberg-9-hole-04-pad-02",
+          "ringSha256": "64e94f3f23ed23436d3506123a128d632127c45a8ebc4a896864fbb5fb37af40"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 126,
+          "originalReference": [
+            -755.9,
+            -884.8
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-04-actual-tees.tif",
+                "sha256": "d9dc0862a920573d1273282b9419da6e644bed28a6f784edf65937246359fe16"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-04-actual-tees.png",
+                "sha256": "c2ce0d391621b093f6f7ab1a63d0802fea7be5213a5df09655a0459ffa8353d4"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678607.04,
+              6626137.76,
+              678746.88,
+              6626277.6
+            ],
+            "sourcePanelPixelSize": [
+              874,
+              874
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "Two prepared pads and central mats flank the northern access path. The west/north pad is about 127 m directly from the reviewed green, the east/south pad about 95 m. Their order and roughly 32 m length difference support Yellow 126 m / Red 94 m.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              355,
+              352
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 2.67,
+            "directDistanceToReviewedGreenM": 126.8
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-04-pad-01",
+          "c": [
+            -753.184,
+            -893.672
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 94,
+          "originalReference": [
+            -725.7,
+            -874.2
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-04-actual-tees.tif",
+                "sha256": "d9dc0862a920573d1273282b9419da6e644bed28a6f784edf65937246359fe16"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-04-actual-tees.png",
+                "sha256": "c2ce0d391621b093f6f7ab1a63d0802fea7be5213a5df09655a0459ffa8353d4"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678607.04,
+              6626137.76,
+              678746.88,
+              6626277.6
+            ],
+            "sourcePanelPixelSize": [
+              874,
+              874
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "Two prepared pads and central mats flank the northern access path. The west/north pad is about 127 m directly from the reviewed green, the east/south pad about 95 m. Their order and roughly 32 m length difference support Yellow 126 m / Red 94 m.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              515,
+              514
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 2.416,
+            "directDistanceToReviewedGreenM": 94.9
+          },
+          "padIndex": 1,
+          "sourcePadId": "johannesberg-9-hole-04-pad-02",
+          "c": [
+            -728.91,
+            -866.576
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    },
+    {
+      "hole": 5,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-05-pad-01",
+          "ringSha256": "7d3d1fc673ee9b888598160c2fc35761ff12325e2e5cbdc779dc6026f75da27e"
+        },
+        {
+          "padIndex": 1,
+          "padId": "johannesberg-9-hole-05-pad-02",
+          "ringSha256": "cb4a207d07a81f43e52f6d55a1eadb4971242cc7dc1c899619e391019b0e05f9"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 271,
+          "originalReference": [
+            -558.3,
+            -769.7
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-05-actual-tees.tif",
+                "sha256": "95c88b42f175a035767cf9d2ae7eb5ac2ad210eb0c6e43edaa328ec866e04bd9"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-05-actual-tees.png",
+                "sha256": "259abbd1893e1d653dab8dbcf4b0fb14f70511a6113688bec2f05c1b91ef09e1"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678810.24,
+              6626038.399999999,
+              678950.4,
+              6626178.72
+            ],
+            "sourcePanelPixelSize": [
+              876,
+              877
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "The two east-facing mats beside the fifth-hole corridor have a back/front separation of roughly 31 m, matching the published Yellow/Red difference. Associate the larger western platform with Yellow and the eastern mat with Red. The cluster also borders hole 2, so this colour and hole ownership remains a reviewed inference, not club-confirmed use; absolute route lengths do not agree closely enough to be a survey check.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              160,
+              372
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 5.33,
+            "directDistanceToReviewedGreenM": 251.7
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-05-pad-01",
+          "c": [
+            -586.652,
+            -783.551
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 240,
+          "originalReference": [
+            -527.4,
+            -771.9
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-05-actual-tees.tif",
+                "sha256": "95c88b42f175a035767cf9d2ae7eb5ac2ad210eb0c6e43edaa328ec866e04bd9"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-05-actual-tees.png",
+                "sha256": "259abbd1893e1d653dab8dbcf4b0fb14f70511a6113688bec2f05c1b91ef09e1"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678810.24,
+              6626038.399999999,
+              678950.4,
+              6626178.72
+            ],
+            "sourcePanelPixelSize": [
+              876,
+              877
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "The two east-facing mats beside the fifth-hole corridor have a back/front separation of roughly 31 m, matching the published Yellow/Red difference. Associate the larger western platform with Yellow and the eastern mat with Red. The cluster also borders hole 2, so this colour and hole ownership remains a reviewed inference, not club-confirmed use; absolute route lengths do not agree closely enough to be a survey check.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              343,
+              423
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 1.267,
+            "directDistanceToReviewedGreenM": 222.6
+          },
+          "padIndex": 1,
+          "sourcePadId": "johannesberg-9-hole-05-pad-02",
+          "c": [
+            -557.863,
+            -774.003
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    },
+    {
+      "hole": 6,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-06-pad-01",
+          "ringSha256": "8aa7adaf4be6727e65feeaf4e0118fc17813650d2c167749cf9c0d4bfdc991e3"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 319,
+          "originalReference": [
+            -258.3,
+            -767
+          ],
+          "status": "unresolved-colour-platform",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-06-actual-tees.tif",
+                "sha256": "861103b236763a57e30f1554c9e4b73d31909dc3188741dedbc9757e4adb26bb"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-06-actual-tees.png",
+                "sha256": "bc0c5f0ab4f82f1e69cc2302aa2fdcb6904b53439d7a635c498084200596334e"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              679078.24,
+              6626040.4799999995,
+              679220.32,
+              6626182.56
+            ],
+            "sourcePanelPixelSize": [
+              888,
+              888
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "One prepared pad with a central mat is unambiguous at the sixth-hole corridor. Through the retained first dogleg its route is about 282 m, consistent with Red 284 m. No separate back platform is established for Yellow 319 m; the old Yellow point falls close to the ninth green and cannot establish a physical tee.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false
+          },
+          "placementPolicy": "retain-original-nominal-reference-without-displayC; do not render a physical colour-marker pair; do not synthesize a platform",
+          "needs": "club-confirmed tee-to-platform association or an independently identifiable back mat/platform"
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 284,
+          "originalReference": [
+            -291.1,
+            -754.7
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-06-actual-tees.tif",
+                "sha256": "861103b236763a57e30f1554c9e4b73d31909dc3188741dedbc9757e4adb26bb"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-06-actual-tees.png",
+                "sha256": "bc0c5f0ab4f82f1e69cc2302aa2fdcb6904b53439d7a635c498084200596334e"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              679078.24,
+              6626040.4799999995,
+              679220.32,
+              6626182.56
+            ],
+            "sourcePanelPixelSize": [
+              888,
+              888
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "One prepared pad with a central mat is unambiguous at the sixth-hole corridor. Through the retained first dogleg its route is about 282 m, consistent with Red 284 m. No separate back platform is established for Yellow 319 m; the old Yellow point falls close to the ninth green and cannot establish a physical tee.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              260,
+              628
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 3.143,
+            "directDistanceToReviewedGreenM": 253.9
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-06-pad-01",
+          "c": [
+            -305.405,
+            -732.883
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    },
+    {
+      "hole": 7,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-07-pad-01",
+          "ringSha256": "47d352093be29e76f373b88ffb25fb94d2291b4715253a7c21b2fe0db35a9748"
+        },
+        {
+          "padIndex": 1,
+          "padId": "johannesberg-9-hole-07-pad-02",
+          "ringSha256": "4b11168f08fba9e521da1fe4781394ff4359f3d175a2047b793aa95ae2a0ba63"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 161,
+          "originalReference": [
+            -597.9,
+            -730.2
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-07-actual-tees.tif",
+                "sha256": "8bac6a10634d2035a513ae653f462489dedd8593affe00457ec5e40aee7154fa"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-07-actual-tees.png",
+                "sha256": "e9a4c85c4417c70f0bb1ce565c687158172393a3149b2879fa74439b2e5db6c4"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678752.8,
+              6625988.319999999,
+              678885.28,
+              6626120.8
+            ],
+            "sourcePanelPixelSize": [
+              828,
+              828
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "Two distinct mat platforms are aligned on the seventh-hole corridor. Back and forward platform centres measure approximately 161 m and 134 m directly to the green, supporting Yellow 161 m and Red 134 m.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              454,
+              338
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 3.23,
+            "directDistanceToReviewedGreenM": 161.1
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-07-pad-01",
+          "c": [
+            -599.527,
+            -731.67
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 134,
+          "originalReference": [
+            -615.2,
+            -709.4
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-07-actual-tees.tif",
+                "sha256": "8bac6a10634d2035a513ae653f462489dedd8593affe00457ec5e40aee7154fa"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-07-actual-tees.png",
+                "sha256": "e9a4c85c4417c70f0bb1ce565c687158172393a3149b2879fa74439b2e5db6c4"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678752.8,
+              6625988.319999999,
+              678885.28,
+              6626120.8
+            ],
+            "sourcePanelPixelSize": [
+              828,
+              828
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "Two distinct mat platforms are aligned on the seventh-hole corridor. Back and forward platform centres measure approximately 161 m and 134 m directly to the green, supporting Yellow 161 m and Red 134 m.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              407,
+              517
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 3.183,
+            "directDistanceToReviewedGreenM": 134.1
+          },
+          "padIndex": 1,
+          "sourcePadId": "johannesberg-9-hole-07-pad-02",
+          "c": [
+            -608.391,
+            -703.446
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    },
+    {
+      "hole": 8,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-08-pad-01",
+          "ringSha256": "80fa3c52b975c646761b2e50dfbb1cb2331418c83f93b2c0b07650762109eb68"
+        },
+        {
+          "padIndex": 1,
+          "padId": "johannesberg-9-hole-08-pad-02",
+          "ringSha256": "100377b72c8212ae755057f7a05e0091770828e41afee16cdcd5075b897d9213"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 399,
+          "originalReference": [
+            -655.3,
+            -588
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-08-actual-tees.tif",
+                "sha256": "edc72b6d503c5abafd7e6278008e97c0381d9e8d5766f92187be196a9196dcc2"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-08-actual-tees.png",
+                "sha256": "e87af07078b6cbe98a8f8242adfd565d1fa9fce81df9344989d157476bb06a9b"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678721.92,
+              6625838.88,
+              678880,
+              6625996.96
+            ],
+            "sourcePanelPixelSize": [
+              988,
+              988
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "The two clear rectangular mat bases lie on the same access strip. The western back mat and eastern forward mat differ by about 49 m in remaining distance to the green, matching Yellow 399 m versus Red 350 m. Ground outside the mat bases is not asserted to be a broader prepared platform.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              368,
+              507
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 1.438,
+            "directDistanceToReviewedGreenM": 394.3
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-08-pad-01",
+          "c": [
+            -651.229,
+            -583.22
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 350,
+          "originalReference": [
+            -606.8,
+            -580.6
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-08-actual-tees.tif",
+                "sha256": "edc72b6d503c5abafd7e6278008e97c0381d9e8d5766f92187be196a9196dcc2"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-08-actual-tees.png",
+                "sha256": "e87af07078b6cbe98a8f8242adfd565d1fa9fce81df9344989d157476bb06a9b"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              678721.92,
+              6625838.88,
+              678880,
+              6625996.96
+            ],
+            "sourcePanelPixelSize": [
+              988,
+              988
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "The two clear rectangular mat bases lie on the same access strip. The western back mat and eastern forward mat differ by about 49 m in remaining distance to the green, matching Yellow 399 m versus Red 350 m. Ground outside the mat bases is not asserted to be a broader prepared platform.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              679,
+              520
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 1.223,
+            "directDistanceToReviewedGreenM": 344.7
+          },
+          "padIndex": 1,
+          "sourcePadId": "johannesberg-9-hole-08-pad-02",
+          "c": [
+            -601.742,
+            -578.76
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    },
+    {
+      "hole": 9,
+      "pads": [
+        {
+          "padIndex": 0,
+          "padId": "johannesberg-9-hole-09-pad-01",
+          "ringSha256": "49f1d67bfff423df957ad903712ab15d59cf7719a02c852201e090c92c4436c2"
+        },
+        {
+          "padIndex": 1,
+          "padId": "johannesberg-9-hole-09-pad-02",
+          "ringSha256": "63661bf3f89a72ea785554d9e1e7f4bbf0bd1488a77abb3ed988cc34492696e6"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "teeName": "Gul",
+          "cardMetres": 163,
+          "originalReference": [
+            -260.3,
+            -625
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-09-actual-tees.tif",
+                "sha256": "d7a670f05a25fc465e1ea61e97893bf4a6f102bf07881edb4e13a707fb7590cb"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-09-actual-tees.png",
+                "sha256": "9341e693ac034122df0654f58ab65e57a3b027c73c41f3bca6f43c0d7f637bb2"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              679085.44,
+              6625921.76,
+              679253.7599999999,
+              6626090.08
+            ],
+            "sourcePanelPixelSize": [
+              1052,
+              1052
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "Two mat bases occupy the strip between ponds. The southern back mat is approximately 162 m directly from the green; the northern forward mat approximately 105 m, supporting Yellow 163 m and Red 104 m. Keep both references on these separate physical mats, not the previous scorecard-generated points.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              525,
+              807
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 1.682,
+            "directDistanceToReviewedGreenM": 162.2
+          },
+          "padIndex": 0,
+          "sourcePadId": "johannesberg-9-hole-09-pad-01",
+          "c": [
+            -261.781,
+            -609.617
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        },
+        {
+          "teeIndex": 1,
+          "teeName": "Röd",
+          "cardMetres": 104,
+          "originalReference": [
+            -258.5,
+            -683.9
+          ],
+          "status": "accepted-inferred-platform-reference",
+          "evidence": {
+            "sourceFiles": [
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-09-actual-tees.tif",
+                "sha256": "d7a670f05a25fc465e1ea61e97893bf4a6f102bf07881edb4e13a707fb7590cb"
+              },
+              {
+                "path": "johannesbergbuild/cache/lm-ortho/nine-09-actual-tees.png",
+                "sha256": "9341e693ac034122df0654f58ab65e57a3b027c73c41f3bca6f43c0d7f637bb2"
+              }
+            ],
+            "sourceCaptureDate": "2025-06-14",
+            "sourcePanelExtent": [
+              679085.44,
+              6625921.76,
+              679253.7599999999,
+              6626090.08
+            ],
+            "sourcePanelPixelSize": [
+              1052,
+              1052
+            ],
+            "sourcePixelConvention": "Pixel-edge coordinates, E=xOrigin+x*0.16, N=yOrigin-y*0.16; then pyproj EPSG:3006 to EPSG:4326 and the declared local frame.",
+            "note": "Two mat bases occupy the strip between ponds. The southern back mat is approximately 162 m directly from the green; the northern forward mat approximately 105 m, supporting Yellow 163 m and Red 104 m. Keep both references on these separate physical mats, not the previous scorecard-generated points.",
+            "ownershipBasis": "visual corridor association plus published Yellow/Red ordering and pad-distance evidence; no official nine-hole colour map found",
+            "dailyMarkerPositionsObserved": false,
+            "sourcePixel": [
+              570,
+              448
+            ],
+            "physicalAnchorInterpretationUncertaintyM": 0.5,
+            "clearanceToExistingPadBoundaryM": 1.52,
+            "directDistanceToReviewedGreenM": 105.2
+          },
+          "padIndex": 1,
+          "sourcePadId": "johannesberg-9-hole-09-pad-02",
+          "c": [
+            -251.853,
+            -666.6
+          ],
+          "referenceSurfaceKind": "tee",
+          "positionKind": "nominal-reference-at-visible-mat-centre",
+          "colourOwnershipVerifiedByClub": false
+        }
+      ],
+      "preservePlatformGeometry": true
+    }
+  ],
+  "validation": {
+    "physicalPadsReferencedOnce": 15,
+    "acceptedInferredReferences": 15,
+    "unresolvedReferences": 3,
+    "unresolved": [
+      "hole 1 Yellow",
+      "hole 2 Yellow",
+      "hole 6 Yellow"
+    ],
+    "allAcceptedCentresInsideDeclaredExistingPad": true,
+    "minimumCentreClearanceM": 0.927,
+    "sourceHashesVerified": 18,
+    "sourcePixelReadBackVisual": "johannesbergbuild/cache/tee-nine-review/contact.png",
+    "proposedSharedRenderer": {
+      "renderedPairs": 15,
+      "renderedBalls": 30,
+      "minimumBallCentreClearanceM": 0.182978536,
+      "minimumInterColourBallDistanceM": 28.009220167,
+      "allReferencedPadHashesMatchCurrentModel": true
+    }
+  }
+}

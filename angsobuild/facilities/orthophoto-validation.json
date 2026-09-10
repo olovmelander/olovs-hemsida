@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "inventorySha256": "365c1dfb80e1a211af8c2e68a3dfe69e341d9552451b9a3be2be7d2f50cb38f9",
+  "panels": [
+    {
+      "id": "facility-overview",
+      "pixels": 609750,
+      "rgbGeotiffEqual": true,
+      "hashesValid": true,
+      "worldFileValid": true,
+      "coverageComplete": true
+    },
+    {
+      "id": "campus-native",
+      "pixels": 2186970,
+      "rgbGeotiffEqual": true,
+      "hashesValid": true,
+      "worldFileValid": true,
+      "coverageComplete": true
+    },
+    {
+      "id": "range-native",
+      "pixels": 4192016,
+      "rgbGeotiffEqual": true,
+      "hashesValid": true,
+      "worldFileValid": true,
+      "coverageComplete": true
+    },
+    {
+      "id": "clubhouse-detail",
+      "pixels": 316969,
+      "rgbGeotiffEqual": true,
+      "hashesValid": true,
+      "worldFileValid": true,
+      "coverageComplete": true
+    },
+    {
+      "id": "northern-service-native",
+      "pixels": 997094,
+      "rgbGeotiffEqual": true,
+      "hashesValid": true,
+      "worldFileValid": true,
+      "coverageComplete": true
+    },
+    {
+      "id": "northern-neighbours-native",
+      "pixels": 1162922,
+      "rgbGeotiffEqual": true,
+      "hashesValid": true,
+      "worldFileValid": true,
+      "coverageComplete": true
+    },
+    {
+      "id": "western-hole18-context",
+      "pixels": 2023266,
+      "rgbGeotiffEqual": true,
+      "hashesValid": true,
+      "worldFileValid": true,
+      "coverageComplete": true
+    }
+  ],
+  "outlines": 24,
+  "existingModelContext": 21,
+  "coordinateMappingVerified": true,
+  "manualOverlayReview": "campus-native, clubhouse-detail and northern-service-native overlays viewed; roof edges align with visible roof silhouettes; functions and uncertainties retained",
+  "unchangedInventory": true
+}

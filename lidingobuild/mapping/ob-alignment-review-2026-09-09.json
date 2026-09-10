@@ -1,0 +1,718 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "reviewedOn": "2026-09-09",
+  "kind": "orthophoto-road-edge-ob-display-review",
+  "horizontalCrs": "EPSG:3006",
+  "pixelConvention": "pixel-edge",
+  "captureDate": "2025-05-31",
+  "frame": {
+    "easting": 677700.5,
+    "northing": 6586399.5,
+    "origin": {
+      "lat": 59.378715385375614,
+      "lon": 18.12816746741512
+    },
+    "localX": "east",
+    "localZ": "south"
+  },
+  "sources": {
+    "imagery": {
+      "sourceId": "imagery-lm-ortho",
+      "plan": "geo_data/course-v2/lidingo/reference/lm-ortho-plan-2026-09-09.json",
+      "collection": "orto-o2-2025",
+      "nativeResolutionMetres": 0.16,
+      "latestAvailableVerifiedOn": "2026-09-09",
+      "rawImageryRedistributed": false
+    },
+    "localRules": {
+      "sourceId": "club-local-rules-2026",
+      "url": "https://www.lidingogk.se/media/tl1nt1n3/lidingoe-gk-lokala-regler-2026-03-16.pdf",
+      "parentUrl": "https://www.lidingogk.se/banan/slope-lokala-regler-aeven-scorekort/",
+      "approvedOn": "2026-03-16",
+      "verifiedOn": "2026-09-09",
+      "sha256": "9b33c6f175931c4261fc80331bc0ed358e635dd74ba7ead1ce4ba5515dc57acf",
+      "page": 1,
+      "interpretation": "The course-side asphalt edge defines OB on the named roads. A ball wholly on or beyond the road is OB. Elsewhere the rules use white stakes, plates and lines."
+    }
+  },
+  "method": {
+    "boundary": "Manual observations of the course-side asphalt edge on native 2025 orthophotos. Pixel observations retain their original source window. No OSM centreline offset or property-boundary substitution.",
+    "posts": "Illustrative display posts sampled at at most 12 m along each accepted road-edge run, including endpoints. Locations and dimensions of physical stakes are unobserved.",
+    "physicalPostPositionsObserved": false,
+    "terrainModified": false,
+    "independentSurvey": false
+  },
+  "rules": [
+    {
+      "id": "h2-road",
+      "holes": [
+        2
+      ],
+      "road": "Kyttingevägen",
+      "location": "right of green"
+    },
+    {
+      "id": "h11-road",
+      "holes": [
+        11
+      ],
+      "road": "Kyttingevägen",
+      "location": "left of the hole"
+    },
+    {
+      "id": "h12-h14-road",
+      "holes": [
+        12,
+        14
+      ],
+      "road": "Trolldalsvägen",
+      "location": "behind greens"
+    },
+    {
+      "id": "h15-road",
+      "holes": [
+        15
+      ],
+      "road": "Trolldalsvägen",
+      "location": "left of the hole"
+    }
+  ],
+  "sourceWindows": [
+    {
+      "id": "hole-02-boundary-west",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-02-boundary-west.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-02-boundary-west.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-02-boundary-west-review.png",
+      "sha256": "8296f4906392469a539a600ce2c96e60e5dd3a57e4753b6f3650bbec38861356",
+      "boundsEpsg3006": [
+        677920,
+        6585789.92,
+        678045.12,
+        6585920
+      ],
+      "geoTransform": [
+        677920,
+        0.16,
+        0,
+        6585920,
+        0,
+        -0.16
+      ],
+      "width": 782,
+      "height": 813,
+      "resolutionMetres": 0.16,
+      "validFraction": 1,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:59.329387+00:00"
+    },
+    {
+      "id": "hole-11-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-11-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-11-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-11-boundary-review.png",
+      "sha256": "98ef608094c47eb384c48c47ae29d0575f71814bde6c81f7e489b1a7d3f8afcf",
+      "boundsEpsg3006": [
+        677132,
+        6586771.52,
+        677270.56,
+        6587008.96
+      ],
+      "geoTransform": [
+        677132,
+        0.16,
+        0,
+        6587008.96,
+        0,
+        -0.16
+      ],
+      "width": 866,
+      "height": 1484,
+      "resolutionMetres": 0.16,
+      "validFraction": 1,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:34.868566+00:00"
+    },
+    {
+      "id": "hole-12-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-12-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-12-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-12-boundary-review.png",
+      "sha256": "46da9baf754f13942a3b6e50b0865366aa01e039548395e4e7031b37bd49f460",
+      "boundsEpsg3006": [
+        677518.56,
+        6586734.239999999,
+        677646.88,
+        6586868.64
+      ],
+      "geoTransform": [
+        677518.56,
+        0.16,
+        0,
+        6586868.64,
+        0,
+        -0.16
+      ],
+      "width": 802,
+      "height": 840,
+      "resolutionMetres": 0.16,
+      "validFraction": 1,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:29.292396+00:00"
+    },
+    {
+      "id": "hole-14-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-14-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-14-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-14-boundary-review.png",
+      "sha256": "d2deb9309a2f03a3e67037f2a6306fd112a343cfc2c80e8a9f4f173198c354f0",
+      "boundsEpsg3006": [
+        677498.24,
+        6586612.64,
+        677637.44,
+        6586748
+      ],
+      "geoTransform": [
+        677498.24,
+        0.16,
+        0,
+        6586748,
+        0,
+        -0.16
+      ],
+      "width": 870,
+      "height": 846,
+      "resolutionMetres": 0.16,
+      "validFraction": 1,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25",
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:35.616009+00:00"
+    },
+    {
+      "id": "hole-15-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-15-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-15-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-15-boundary-review.png",
+      "sha256": "922304ea5611160fb33aac6d94537a1e6ff9fc5e29e0d84d809b84d6b367d921",
+      "boundsEpsg3006": [
+        677572.64,
+        6586508,
+        677834.56,
+        6586954.24
+      ],
+      "geoTransform": [
+        677572.64,
+        0.16,
+        0,
+        6586954.24,
+        0,
+        -0.16
+      ],
+      "width": 1637,
+      "height": 2789,
+      "resolutionMetres": 0.16,
+      "validFraction": 1,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:37.627483+00:00"
+    }
+  ],
+  "features": [
+    {
+      "id": "lidingo-ob-h02-kyttinge-2025",
+      "hole": 2,
+      "ruleId": "h2-road",
+      "road": "Kyttingevägen",
+      "sourceWindowId": "hole-02-boundary-west",
+      "edgeSide": "east-northeast",
+      "status": "accepted-road-edge-display",
+      "pixels": [
+        [
+          333,
+          430
+        ],
+        [
+          351,
+          450
+        ],
+        [
+          371,
+          475
+        ],
+        [
+          392,
+          500
+        ],
+        [
+          411,
+          525
+        ],
+        [
+          430,
+          550
+        ],
+        [
+          447,
+          575
+        ],
+        [
+          463,
+          600
+        ],
+        [
+          480,
+          625
+        ],
+        [
+          495,
+          650
+        ],
+        [
+          508,
+          675
+        ],
+        [
+          520,
+          700
+        ],
+        [
+          533,
+          725
+        ],
+        [
+          544,
+          750
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Continuously visible curved asphalt edge to the right of the green. The northern approach is obscured by tree crowns and is omitted. This bounded run does not establish connections to other white-marked boundaries."
+    },
+    {
+      "id": "lidingo-ob-h11-kyttinge-2025",
+      "hole": 11,
+      "ruleId": "h11-road",
+      "road": "Kyttingevägen",
+      "sourceWindowId": "hole-11-boundary",
+      "edgeSide": "east",
+      "status": "accepted-road-edge-display",
+      "pixels": [
+        [
+          54,
+          215
+        ],
+        [
+          71,
+          258
+        ],
+        [
+          91,
+          309
+        ],
+        [
+          112,
+          362
+        ],
+        [
+          129,
+          414
+        ],
+        [
+          140,
+          472
+        ],
+        [
+          147,
+          531
+        ],
+        [
+          151,
+          584
+        ],
+        [
+          153,
+          631
+        ],
+        [
+          161,
+          660
+        ],
+        [
+          174,
+          684
+        ],
+        [
+          196,
+          704
+        ],
+        [
+          224,
+          736
+        ],
+        [
+          248,
+          769
+        ],
+        [
+          270,
+          806
+        ],
+        [
+          284,
+          840
+        ],
+        [
+          294,
+          879
+        ],
+        [
+          304,
+          918
+        ],
+        [
+          316,
+          958
+        ],
+        [
+          334,
+          1000
+        ],
+        [
+          347,
+          1040
+        ],
+        [
+          360,
+          1080
+        ],
+        [
+          374,
+          1120
+        ],
+        [
+          388,
+          1160
+        ],
+        [
+          399,
+          1200
+        ],
+        [
+          406,
+          1220
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Eastern asphalt edge from beyond the green to south of the tee platforms; the western pavement and road centreline are excluded. Tree shadows reduce precision on the southern half."
+    },
+    {
+      "id": "lidingo-ob-h12-trolldal-2025",
+      "hole": 12,
+      "ruleId": "h12-h14-road",
+      "road": "Trolldalsvägen",
+      "sourceWindowId": "hole-12-boundary",
+      "edgeSide": "west",
+      "status": "accepted-road-edge-display",
+      "pixels": [
+        [
+          692,
+          319
+        ],
+        [
+          685,
+          360
+        ],
+        [
+          674,
+          407
+        ],
+        [
+          664,
+          452
+        ],
+        [
+          652,
+          505
+        ],
+        [
+          641,
+          556
+        ],
+        [
+          631,
+          602
+        ],
+        [
+          618,
+          657
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Western asphalt edge behind the green, observed between the wooded northern approach and the southern footpath approach. Endpoint connections to other boundary markings are unknown."
+    },
+    {
+      "id": "lidingo-ob-h14-trolldal-2025",
+      "hole": 14,
+      "ruleId": "h12-h14-road",
+      "road": "Trolldalsvägen",
+      "sourceWindowId": "hole-14-boundary",
+      "edgeSide": "west",
+      "status": "accepted-road-edge-display",
+      "pixels": [
+        [
+          670,
+          306
+        ],
+        [
+          667,
+          344
+        ],
+        [
+          664,
+          383
+        ],
+        [
+          661,
+          429
+        ],
+        [
+          660,
+          478
+        ],
+        [
+          660,
+          524
+        ],
+        [
+          661,
+          573
+        ],
+        [
+          663,
+          618
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Western asphalt edge behind the green. The short footpath mouth is crossed using the adjoining roadway edge direction; it does not extend the road boundary along the footpath."
+    },
+    {
+      "id": "lidingo-ob-h15-trolldal-2025",
+      "hole": 15,
+      "ruleId": "h15-road",
+      "road": "Trolldalsvägen",
+      "sourceWindowId": "hole-15-boundary",
+      "edgeSide": "east",
+      "status": "accepted-road-edge-display",
+      "pixels": [
+        [
+          419,
+          760
+        ],
+        [
+          412,
+          800
+        ],
+        [
+          408,
+          850
+        ],
+        [
+          398,
+          900
+        ],
+        [
+          387,
+          950
+        ],
+        [
+          376,
+          1000
+        ],
+        [
+          365,
+          1050
+        ],
+        [
+          355,
+          1100
+        ],
+        [
+          343,
+          1150
+        ],
+        [
+          332,
+          1200
+        ],
+        [
+          322,
+          1250
+        ],
+        [
+          312,
+          1300
+        ],
+        [
+          304,
+          1350
+        ],
+        [
+          296,
+          1400
+        ],
+        [
+          287,
+          1450
+        ],
+        [
+          279,
+          1500
+        ],
+        [
+          272,
+          1550
+        ],
+        [
+          267,
+          1600
+        ],
+        [
+          260,
+          1650
+        ],
+        [
+          255,
+          1700
+        ],
+        [
+          253,
+          1750
+        ],
+        [
+          251,
+          1800
+        ],
+        [
+          251,
+          1850
+        ],
+        [
+          252,
+          1900
+        ],
+        [
+          256,
+          1950
+        ],
+        [
+          261,
+          2010
+        ],
+        [
+          264,
+          2100
+        ],
+        [
+          273,
+          2200
+        ],
+        [
+          278,
+          2250
+        ],
+        [
+          282,
+          2300
+        ],
+        [
+          286,
+          2350
+        ],
+        [
+          288,
+          2400
+        ],
+        [
+          293,
+          2450
+        ],
+        [
+          297,
+          2500
+        ]
+      ],
+      "uncertaintyMetres": 1.5,
+      "note": "Eastern edge of the vehicle road beside the tees and fairway. The parallel footpath is distinct; at path junctions the adjoining roadway edge continues. The wooded northern section toward the green is omitted because the edge is hidden by canopy."
+    }
+  ],
+  "postPlacement": {
+    "kind": "illustrative-road-boundary-reference",
+    "maximumSpacingMetres": 12,
+    "physicalPostPositionsObserved": false
+  },
+  "unresolved": [
+    {
+      "holes": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        13,
+        16,
+        17,
+        18
+      ],
+      "issue": "Individual white stakes, plates and painted boundary lines were not established. No boundary runs are inferred from the golf property perimeter.",
+      "status": "unknown-not-absent"
+    },
+    {
+      "holes": [
+        2,
+        11,
+        12,
+        14,
+        15
+      ],
+      "issue": "Actual individual stake positions, marker dimensions, endpoints and connections of white-marked runs, and any 2026 temporary rules remain unverified.",
+      "status": "unknown-not-absent"
+    },
+    {
+      "holes": [
+        15
+      ],
+      "issue": "The northern road edge toward the green is hidden by tree canopy. The road rule applies there, but no display posts are placed on this untraced section.",
+      "status": "canopy-occluded-geometry-omitted"
+    },
+    {
+      "holes": [
+        2
+      ],
+      "issue": "Tree crowns hide the northern continuation of the road edge beside the green. The visible curved section is traced; no posts are inferred through the hidden section.",
+      "status": "canopy-occluded-geometry-omitted"
+    }
+  ],
+  "review": {
+    "type": "machine-visual-review",
+    "completePhysicalStakeCensus": false,
+    "legalBoundarySurvey": false,
+    "confidence": "Rule-named road identity plus image-observed road edge; illustrative post distribution."
+  }
+}

@@ -1,0 +1,3454 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "reviewedOn": "2026-09-09",
+  "captureDate": "2024-06-27",
+  "sources": [
+    {
+      "id": "facilities-range",
+      "rasterFile": "facilities-range.tif",
+      "rgbFile": "facilities-range.png",
+      "sha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+      "rgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "requestSha256": "6e83badbc12c391fe27c06fe713fb892a75614aa75b96f23d318add0985820f2",
+      "bytes": 12234409,
+      "boundsEpsg3006": [
+        678519.36,
+        6988208.319999999,
+        678929.6,
+        6988451.68
+      ],
+      "geoTransform": [
+        678519.36,
+        0.16,
+        0.0,
+        6988451.68,
+        0.0,
+        -0.16
+      ],
+      "width": 2564,
+      "height": 1521,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:56:57.921924+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-14-hole",
+      "rasterFile": "norrfallsviken-14-hole.tif",
+      "rgbFile": "norrfallsviken-14-hole.png",
+      "sha256": "c930181e399f45235f8330c6155dc2694de47d3bf9458502ce238d5c1039265b",
+      "rgbSha256": "992faac0f36b1eef10cf9e8a9e589fce2fb8d22f46a044081816041915df9c50",
+      "requestSha256": "5c455f2953aad1e7a47df3326e41efa1c056d8a0355c81ce28229827997af8b5",
+      "bytes": 4974459,
+      "boundsEpsg3006": [
+        678865.6,
+        6988841.92,
+        679021.28,
+        6989106.88
+      ],
+      "geoTransform": [
+        678865.6,
+        0.16,
+        0.0,
+        6989106.88,
+        0.0,
+        -0.16
+      ],
+      "width": 973,
+      "height": 1656,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:04.180907+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-17-hole",
+      "rasterFile": "norrfallsviken-17-hole.tif",
+      "rgbFile": "norrfallsviken-17-hole.png",
+      "sha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+      "rgbSha256": "2984edb028bc8280d33b5e5415c3a0da0cd32943721344e5b2a9788cfea05c2d",
+      "requestSha256": "29ec155b7c0f9621a8a6ab06a04db2cd541892ec8b6c3f0fd72ded91c856aa35",
+      "bytes": 17352243,
+      "boundsEpsg3006": [
+        678909.12,
+        6988393.92,
+        679277.92,
+        6988774.08
+      ],
+      "geoTransform": [
+        678909.12,
+        0.16,
+        0.0,
+        6988774.08,
+        0.0,
+        -0.16
+      ],
+      "width": 2305,
+      "height": 2376,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:12.437714+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "lm-range-field",
+      "kind": "range",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          336,
+          389
+        ],
+        [
+          359,
+          366
+        ],
+        [
+          399,
+          342
+        ],
+        [
+          445,
+          316
+        ],
+        [
+          493,
+          288
+        ],
+        [
+          543,
+          262
+        ],
+        [
+          595,
+          237
+        ],
+        [
+          649,
+          219
+        ],
+        [
+          704,
+          207
+        ],
+        [
+          760,
+          201
+        ],
+        [
+          815,
+          190
+        ],
+        [
+          865,
+          179
+        ],
+        [
+          912,
+          173
+        ],
+        [
+          952,
+          182
+        ],
+        [
+          984,
+          205
+        ],
+        [
+          1002,
+          240
+        ],
+        [
+          1008,
+          282
+        ],
+        [
+          1009,
+          329
+        ],
+        [
+          1012,
+          377
+        ],
+        [
+          1009,
+          425
+        ],
+        [
+          1001,
+          463
+        ],
+        [
+          984,
+          490
+        ],
+        [
+          950,
+          509
+        ],
+        [
+          906,
+          521
+        ],
+        [
+          856,
+          531
+        ],
+        [
+          800,
+          535
+        ],
+        [
+          745,
+          536
+        ],
+        [
+          690,
+          539
+        ],
+        [
+          636,
+          543
+        ],
+        [
+          582,
+          547
+        ],
+        [
+          530,
+          549
+        ],
+        [
+          481,
+          548
+        ],
+        [
+          435,
+          541
+        ],
+        [
+          398,
+          526
+        ],
+        [
+          373,
+          503
+        ],
+        [
+          356,
+          473
+        ],
+        [
+          345,
+          439
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678626.88,
+          6988327.281787
+        ],
+        [
+          678634.24,
+          6988334.636951
+        ],
+        [
+          678647.04,
+          6988342.311905
+        ],
+        [
+          678661.76,
+          6988350.626439
+        ],
+        [
+          678677.12,
+          6988359.580552
+        ],
+        [
+          678693.12,
+          6988367.895085
+        ],
+        [
+          678709.76,
+          6988375.889829
+        ],
+        [
+          678727.04,
+          6988381.646045
+        ],
+        [
+          678744.64,
+          6988385.483522
+        ],
+        [
+          678762.56,
+          6988387.40226
+        ],
+        [
+          678780.16,
+          6988390.919947
+        ],
+        [
+          678796.16,
+          6988394.437635
+        ],
+        [
+          678811.2,
+          6988396.356373
+        ],
+        [
+          678824.0,
+          6988393.478265
+        ],
+        [
+          678834.24,
+          6988386.123101
+        ],
+        [
+          678840.0,
+          6988374.93046
+        ],
+        [
+          678841.92,
+          6988361.49929
+        ],
+        [
+          678842.24,
+          6988346.469172
+        ],
+        [
+          678843.2,
+          6988331.119264
+        ],
+        [
+          678842.24,
+          6988315.769356
+        ],
+        [
+          678839.68,
+          6988303.617346
+        ],
+        [
+          678834.24,
+          6988294.983022
+        ],
+        [
+          678823.36,
+          6988288.907017
+        ],
+        [
+          678809.28,
+          6988285.06954
+        ],
+        [
+          678793.28,
+          6988281.871643
+        ],
+        [
+          678775.36,
+          6988280.592484
+        ],
+        [
+          678757.76,
+          6988280.272694
+        ],
+        [
+          678740.16,
+          6988279.313325
+        ],
+        [
+          678722.88,
+          6988278.034166
+        ],
+        [
+          678705.6,
+          6988276.755007
+        ],
+        [
+          678688.96,
+          6988276.115427
+        ],
+        [
+          678673.28,
+          6988276.435217
+        ],
+        [
+          678658.56,
+          6988278.673745
+        ],
+        [
+          678646.72,
+          6988283.470591
+        ],
+        [
+          678638.72,
+          6988290.825756
+        ],
+        [
+          678633.28,
+          6988300.419448
+        ],
+        [
+          678629.76,
+          6988311.2923
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image."
+    },
+    {
+      "id": "lm-practice-green",
+      "kind": "practice_green",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          274,
+          272
+        ],
+        [
+          285,
+          267
+        ],
+        [
+          297,
+          268
+        ],
+        [
+          307,
+          277
+        ],
+        [
+          312,
+          289
+        ],
+        [
+          311,
+          304
+        ],
+        [
+          305,
+          318
+        ],
+        [
+          296,
+          328
+        ],
+        [
+          284,
+          332
+        ],
+        [
+          275,
+          328
+        ],
+        [
+          270,
+          321
+        ],
+        [
+          270,
+          311
+        ],
+        [
+          274,
+          300
+        ],
+        [
+          278,
+          287
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678607.04,
+          6988364.697188
+        ],
+        [
+          678610.56,
+          6988366.296137
+        ],
+        [
+          678614.4,
+          6988365.976347
+        ],
+        [
+          678617.6,
+          6988363.098239
+        ],
+        [
+          678619.2,
+          6988359.260762
+        ],
+        [
+          678618.88,
+          6988354.463916
+        ],
+        [
+          678616.96,
+          6988349.986859
+        ],
+        [
+          678614.08,
+          6988346.788962
+        ],
+        [
+          678610.24,
+          6988345.509803
+        ],
+        [
+          678607.36,
+          6988346.788962
+        ],
+        [
+          678605.76,
+          6988349.02749
+        ],
+        [
+          678605.76,
+          6988352.225388
+        ],
+        [
+          678607.04,
+          6988355.743075
+        ],
+        [
+          678608.32,
+          6988359.900342
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image."
+    },
+    {
+      "id": "lm-range-hardstanding",
+      "kind": "paved_path",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          315,
+          395
+        ],
+        [
+          323,
+          393
+        ],
+        [
+          329,
+          411
+        ],
+        [
+          333,
+          435
+        ],
+        [
+          341,
+          459
+        ],
+        [
+          357,
+          491
+        ],
+        [
+          349,
+          496
+        ],
+        [
+          337,
+          472
+        ],
+        [
+          327,
+          448
+        ],
+        [
+          322,
+          424
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678620.16,
+          6988325.363049
+        ],
+        [
+          678622.72,
+          6988326.002628
+        ],
+        [
+          678624.64,
+          6988320.246413
+        ],
+        [
+          678625.92,
+          6988312.571459
+        ],
+        [
+          678628.48,
+          6988304.896505
+        ],
+        [
+          678633.6,
+          6988294.663233
+        ],
+        [
+          678631.04,
+          6988293.064284
+        ],
+        [
+          678627.2,
+          6988300.739238
+        ],
+        [
+          678624.0,
+          6988308.414192
+        ],
+        [
+          678622.4,
+          6988316.089146
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "unverified-hard-surface"
+    },
+    {
+      "id": "lm-range-mat-01",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          79.0,
+          35.0
+        ],
+        [
+          77.54,
+          38.54
+        ],
+        [
+          74.0,
+          40.0
+        ],
+        [
+          70.46,
+          38.54
+        ],
+        [
+          69.0,
+          35.0
+        ],
+        [
+          70.46,
+          31.46
+        ],
+        [
+          74.0,
+          30.0
+        ],
+        [
+          77.54,
+          31.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678623.2,
+          6988324.48
+        ],
+        [
+          678622.9664,
+          6988323.9136
+        ],
+        [
+          678622.4,
+          6988323.68
+        ],
+        [
+          678621.8336,
+          6988323.9136
+        ],
+        [
+          678621.6,
+          6988324.48
+        ],
+        [
+          678621.8336,
+          6988325.0464
+        ],
+        [
+          678622.4,
+          6988325.28
+        ],
+        [
+          678622.9664,
+          6988325.0464
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-02",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          82.0,
+          52.0
+        ],
+        [
+          80.54,
+          55.54
+        ],
+        [
+          77.0,
+          57.0
+        ],
+        [
+          73.46,
+          55.54
+        ],
+        [
+          72.0,
+          52.0
+        ],
+        [
+          73.46,
+          48.46
+        ],
+        [
+          77.0,
+          47.0
+        ],
+        [
+          80.54,
+          48.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678623.68,
+          6988321.76
+        ],
+        [
+          678623.4464,
+          6988321.1936
+        ],
+        [
+          678622.88,
+          6988320.96
+        ],
+        [
+          678622.3136,
+          6988321.1936
+        ],
+        [
+          678622.08,
+          6988321.76
+        ],
+        [
+          678622.3136,
+          6988322.3264
+        ],
+        [
+          678622.88,
+          6988322.56
+        ],
+        [
+          678623.4464,
+          6988322.3264
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-03",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          86.0,
+          69.0
+        ],
+        [
+          84.54,
+          72.54
+        ],
+        [
+          81.0,
+          74.0
+        ],
+        [
+          77.46,
+          72.54
+        ],
+        [
+          76.0,
+          69.0
+        ],
+        [
+          77.46,
+          65.46
+        ],
+        [
+          81.0,
+          64.0
+        ],
+        [
+          84.54,
+          65.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678624.32,
+          6988319.04
+        ],
+        [
+          678624.0864,
+          6988318.4736
+        ],
+        [
+          678623.52,
+          6988318.24
+        ],
+        [
+          678622.9536,
+          6988318.4736
+        ],
+        [
+          678622.72,
+          6988319.04
+        ],
+        [
+          678622.9536,
+          6988319.6064
+        ],
+        [
+          678623.52,
+          6988319.84
+        ],
+        [
+          678624.0864,
+          6988319.6064
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-04",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          91.0,
+          86.0
+        ],
+        [
+          89.54,
+          89.54
+        ],
+        [
+          86.0,
+          91.0
+        ],
+        [
+          82.46,
+          89.54
+        ],
+        [
+          81.0,
+          86.0
+        ],
+        [
+          82.46,
+          82.46
+        ],
+        [
+          86.0,
+          81.0
+        ],
+        [
+          89.54,
+          82.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678625.12,
+          6988316.32
+        ],
+        [
+          678624.8864,
+          6988315.7536
+        ],
+        [
+          678624.32,
+          6988315.52
+        ],
+        [
+          678623.7536,
+          6988315.7536
+        ],
+        [
+          678623.52,
+          6988316.32
+        ],
+        [
+          678623.7536,
+          6988316.8864
+        ],
+        [
+          678624.32,
+          6988317.12
+        ],
+        [
+          678624.8864,
+          6988316.8864
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-05",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          95.0,
+          102.0
+        ],
+        [
+          93.54,
+          105.54
+        ],
+        [
+          90.0,
+          107.0
+        ],
+        [
+          86.46,
+          105.54
+        ],
+        [
+          85.0,
+          102.0
+        ],
+        [
+          86.46,
+          98.46
+        ],
+        [
+          90.0,
+          97.0
+        ],
+        [
+          93.54,
+          98.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678625.76,
+          6988313.76
+        ],
+        [
+          678625.5264,
+          6988313.1936
+        ],
+        [
+          678624.96,
+          6988312.96
+        ],
+        [
+          678624.3936,
+          6988313.1936
+        ],
+        [
+          678624.16,
+          6988313.76
+        ],
+        [
+          678624.3936,
+          6988314.3264
+        ],
+        [
+          678624.96,
+          6988314.56
+        ],
+        [
+          678625.5264,
+          6988314.3264
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-06",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          101.0,
+          121.0
+        ],
+        [
+          99.54,
+          124.54
+        ],
+        [
+          96.0,
+          126.0
+        ],
+        [
+          92.46,
+          124.54
+        ],
+        [
+          91.0,
+          121.0
+        ],
+        [
+          92.46,
+          117.46
+        ],
+        [
+          96.0,
+          116.0
+        ],
+        [
+          99.54,
+          117.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678626.72,
+          6988310.72
+        ],
+        [
+          678626.4864,
+          6988310.1536
+        ],
+        [
+          678625.92,
+          6988309.92
+        ],
+        [
+          678625.3536,
+          6988310.1536
+        ],
+        [
+          678625.12,
+          6988310.72
+        ],
+        [
+          678625.3536,
+          6988311.2864
+        ],
+        [
+          678625.92,
+          6988311.52
+        ],
+        [
+          678626.4864,
+          6988311.2864
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-07",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          106.0,
+          137.0
+        ],
+        [
+          104.54,
+          140.54
+        ],
+        [
+          101.0,
+          142.0
+        ],
+        [
+          97.46,
+          140.54
+        ],
+        [
+          96.0,
+          137.0
+        ],
+        [
+          97.46,
+          133.46
+        ],
+        [
+          101.0,
+          132.0
+        ],
+        [
+          104.54,
+          133.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678627.52,
+          6988308.16
+        ],
+        [
+          678627.2864,
+          6988307.5936
+        ],
+        [
+          678626.72,
+          6988307.36
+        ],
+        [
+          678626.1536,
+          6988307.5936
+        ],
+        [
+          678625.92,
+          6988308.16
+        ],
+        [
+          678626.1536,
+          6988308.7264
+        ],
+        [
+          678626.72,
+          6988308.96
+        ],
+        [
+          678627.2864,
+          6988308.7264
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-08",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          112.0,
+          153.0
+        ],
+        [
+          110.54,
+          156.54
+        ],
+        [
+          107.0,
+          158.0
+        ],
+        [
+          103.46,
+          156.54
+        ],
+        [
+          102.0,
+          153.0
+        ],
+        [
+          103.46,
+          149.46
+        ],
+        [
+          107.0,
+          148.0
+        ],
+        [
+          110.54,
+          149.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678628.48,
+          6988305.6
+        ],
+        [
+          678628.2464,
+          6988305.0336
+        ],
+        [
+          678627.68,
+          6988304.8
+        ],
+        [
+          678627.1136,
+          6988305.0336
+        ],
+        [
+          678626.88,
+          6988305.6
+        ],
+        [
+          678627.1136,
+          6988306.1664
+        ],
+        [
+          678627.68,
+          6988306.4
+        ],
+        [
+          678628.2464,
+          6988306.1664
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-09",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          119.0,
+          171.0
+        ],
+        [
+          117.54,
+          174.54
+        ],
+        [
+          114.0,
+          176.0
+        ],
+        [
+          110.46,
+          174.54
+        ],
+        [
+          109.0,
+          171.0
+        ],
+        [
+          110.46,
+          167.46
+        ],
+        [
+          114.0,
+          166.0
+        ],
+        [
+          117.54,
+          167.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678629.6,
+          6988302.72
+        ],
+        [
+          678629.3664,
+          6988302.1536
+        ],
+        [
+          678628.8,
+          6988301.92
+        ],
+        [
+          678628.2336,
+          6988302.1536
+        ],
+        [
+          678628.0,
+          6988302.72
+        ],
+        [
+          678628.2336,
+          6988303.2864
+        ],
+        [
+          678628.8,
+          6988303.52
+        ],
+        [
+          678629.3664,
+          6988303.2864
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-10",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          126.0,
+          188.0
+        ],
+        [
+          124.54,
+          191.54
+        ],
+        [
+          121.0,
+          193.0
+        ],
+        [
+          117.46,
+          191.54
+        ],
+        [
+          116.0,
+          188.0
+        ],
+        [
+          117.46,
+          184.46
+        ],
+        [
+          121.0,
+          183.0
+        ],
+        [
+          124.54,
+          184.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678630.72,
+          6988300.0
+        ],
+        [
+          678630.4864,
+          6988299.4336
+        ],
+        [
+          678629.92,
+          6988299.2
+        ],
+        [
+          678629.3536,
+          6988299.4336
+        ],
+        [
+          678629.12,
+          6988300.0
+        ],
+        [
+          678629.3536,
+          6988300.5664
+        ],
+        [
+          678629.92,
+          6988300.8
+        ],
+        [
+          678630.4864,
+          6988300.5664
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-11",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          135.0,
+          207.0
+        ],
+        [
+          133.54,
+          210.54
+        ],
+        [
+          130.0,
+          212.0
+        ],
+        [
+          126.46,
+          210.54
+        ],
+        [
+          125.0,
+          207.0
+        ],
+        [
+          126.46,
+          203.46
+        ],
+        [
+          130.0,
+          202.0
+        ],
+        [
+          133.54,
+          203.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678632.16,
+          6988296.96
+        ],
+        [
+          678631.9264,
+          6988296.3936
+        ],
+        [
+          678631.36,
+          6988296.16
+        ],
+        [
+          678630.7936,
+          6988296.3936
+        ],
+        [
+          678630.56,
+          6988296.96
+        ],
+        [
+          678630.7936,
+          6988297.5264
+        ],
+        [
+          678631.36,
+          6988297.76
+        ],
+        [
+          678631.9264,
+          6988297.5264
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-mat-12",
+      "kind": "range_mat",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678610.5599999999,
+          0.16,
+          0,
+          6988330.08,
+          0,
+          -0.16
+        ],
+        "width": 170,
+        "height": 250,
+        "sourcePixelWindow": [
+          570,
+          760,
+          170,
+          250
+        ]
+      },
+      "ringPixels": [
+        [
+          142.0,
+          223.0
+        ],
+        [
+          140.54,
+          226.54
+        ],
+        [
+          137.0,
+          228.0
+        ],
+        [
+          133.46,
+          226.54
+        ],
+        [
+          132.0,
+          223.0
+        ],
+        [
+          133.46,
+          219.46
+        ],
+        [
+          137.0,
+          218.0
+        ],
+        [
+          140.54,
+          219.46
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678633.28,
+          6988294.4
+        ],
+        [
+          678633.0464,
+          6988293.8336
+        ],
+        [
+          678632.48,
+          6988293.6
+        ],
+        [
+          678631.9136,
+          6988293.8336
+        ],
+        [
+          678631.68,
+          6988294.4
+        ],
+        [
+          678631.9136,
+          6988294.9664
+        ],
+        [
+          678632.48,
+          6988295.2
+        ],
+        [
+          678633.0464,
+          6988294.9664
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "green-artificial-turf"
+    },
+    {
+      "id": "lm-range-target-near",
+      "kind": "range_target_surface",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          465,
+          441
+        ],
+        [
+          476,
+          438
+        ],
+        [
+          488,
+          442
+        ],
+        [
+          491,
+          450
+        ],
+        [
+          486,
+          458
+        ],
+        [
+          475,
+          459
+        ],
+        [
+          465,
+          452
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678668.16,
+          6988310.65272
+        ],
+        [
+          678671.68,
+          6988311.612089
+        ],
+        [
+          678675.52,
+          6988310.33293
+        ],
+        [
+          678676.48,
+          6988307.774612
+        ],
+        [
+          678674.88,
+          6988305.216294
+        ],
+        [
+          678671.36,
+          6988304.896505
+        ],
+        [
+          678668.16,
+          6988307.135033
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "unverified-turf-surface"
+    },
+    {
+      "id": "lm-range-target-centre",
+      "kind": "range_target_surface",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          519,
+          326
+        ],
+        [
+          556,
+          317
+        ],
+        [
+          564,
+          344
+        ],
+        [
+          526,
+          353
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678685.44,
+          6988347.428541
+        ],
+        [
+          678697.28,
+          6988350.306649
+        ],
+        [
+          678699.84,
+          6988341.672326
+        ],
+        [
+          678687.68,
+          6988338.794218
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "unverified-turf-surface"
+    },
+    {
+      "id": "lm-range-target-far-strip",
+      "kind": "range_target_surface",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          822,
+          323
+        ],
+        [
+          915,
+          317
+        ],
+        [
+          917,
+          333
+        ],
+        [
+          824,
+          339
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678782.4,
+          6988348.387911
+        ],
+        [
+          678812.16,
+          6988350.306649
+        ],
+        [
+          678812.8,
+          6988345.190013
+        ],
+        [
+          678783.04,
+          6988343.271275
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "unverified-turf-surface"
+    },
+    {
+      "id": "lm-padel-court",
+      "kind": "sports_court",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          68,
+          104
+        ],
+        [
+          99,
+          101
+        ],
+        [
+          105,
+          162
+        ],
+        [
+          74,
+          165
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678541.12,
+          6988418.421866
+        ],
+        [
+          678551.04,
+          6988419.381235
+        ],
+        [
+          678552.96,
+          6988399.87406
+        ],
+        [
+          678543.04,
+          6988398.914691
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "material": "blue-sports-surface"
+    },
+    {
+      "id": "lm-range-access-path",
+      "kind": "path",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "linePixels": [
+        [
+          347,
+          353
+        ],
+        [
+          348,
+          369
+        ],
+        [
+          328,
+          389
+        ],
+        [
+          313,
+          395
+        ]
+      ],
+      "lineEpsg3006": [
+        [
+          678630.4,
+          6988338.794218
+        ],
+        [
+          678630.72,
+          6988333.677582
+        ],
+        [
+          678624.32,
+          6988327.281787
+        ],
+        [
+          678619.52,
+          6988325.363049
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "width": 1.5
+    },
+    {
+      "id": "lm-range-drain",
+      "kind": "ditch",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "linePixels": [
+        [
+          925,
+          150
+        ],
+        [
+          971,
+          163
+        ],
+        [
+          1016,
+          183
+        ],
+        [
+          1031,
+          230
+        ],
+        [
+          1040,
+          277
+        ],
+        [
+          1043,
+          330
+        ],
+        [
+          1044,
+          386
+        ],
+        [
+          1036,
+          446
+        ],
+        [
+          1019,
+          493
+        ],
+        [
+          993,
+          525
+        ]
+      ],
+      "lineEpsg3006": [
+        [
+          678815.36,
+          6988403.711537
+        ],
+        [
+          678830.08,
+          6988399.554271
+        ],
+        [
+          678844.48,
+          6988393.158476
+        ],
+        [
+          678849.28,
+          6988378.128357
+        ],
+        [
+          678852.16,
+          6988363.098239
+        ],
+        [
+          678853.12,
+          6988346.149382
+        ],
+        [
+          678853.44,
+          6988328.241156
+        ],
+        [
+          678850.88,
+          6988309.053771
+        ],
+        [
+          678845.44,
+          6988294.023653
+        ],
+        [
+          678837.12,
+          6988283.790381
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "width": 1.0
+    },
+    {
+      "id": "lm-clubhouse-main-roof",
+      "kind": "clubhouse_roof_section",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          162,
+          139
+        ],
+        [
+          189,
+          124
+        ],
+        [
+          214,
+          167
+        ],
+        [
+          187,
+          183
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678571.2,
+          6988407.229225
+        ],
+        [
+          678579.84,
+          6988412.026071
+        ],
+        [
+          678587.84,
+          6988398.275112
+        ],
+        [
+          678579.2,
+          6988393.158476
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "ridgeAxis": "long",
+      "eaveHeight": 3.6,
+      "ridgeHeight": 5.8
+    },
+    {
+      "id": "lm-clubhouse-cross-roof",
+      "kind": "clubhouse_roof_section",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          191,
+          129
+        ],
+        [
+          210,
+          119
+        ],
+        [
+          226,
+          145
+        ],
+        [
+          207,
+          157
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678580.48,
+          6988410.427122
+        ],
+        [
+          678586.56,
+          6988413.62502
+        ],
+        [
+          678591.68,
+          6988405.310486
+        ],
+        [
+          678585.6,
+          6988401.473009
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "ridgeAxis": "short",
+      "eaveHeight": 3.6,
+      "ridgeHeight": 5.7
+    },
+    {
+      "id": "lm-clubhouse-solar-north",
+      "kind": "roof_solar",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          167,
+          142
+        ],
+        [
+          177,
+          137
+        ],
+        [
+          184,
+          149
+        ],
+        [
+          174,
+          154
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678572.8,
+          6988406.269855
+        ],
+        [
+          678576.0,
+          6988407.868804
+        ],
+        [
+          678578.24,
+          6988404.031327
+        ],
+        [
+          678575.04,
+          6988402.432378
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image."
+    },
+    {
+      "id": "lm-clubhouse-solar-south",
+      "kind": "roof_solar",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          177,
+          158
+        ],
+        [
+          187,
+          153
+        ],
+        [
+          197,
+          169
+        ],
+        [
+          187,
+          175
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678576.0,
+          6988401.153219
+        ],
+        [
+          678579.2,
+          6988402.752168
+        ],
+        [
+          678582.4,
+          6988397.635532
+        ],
+        [
+          678579.2,
+          6988395.716794
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image."
+    },
+    {
+      "id": "lm-clubhouse-terrace",
+      "kind": "terrace",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          213,
+          151
+        ],
+        [
+          221,
+          147
+        ],
+        [
+          230,
+          162
+        ],
+        [
+          219,
+          169
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678587.52,
+          6988403.391748
+        ],
+        [
+          678590.08,
+          6988404.670907
+        ],
+        [
+          678592.96,
+          6988399.87406
+        ],
+        [
+          678589.44,
+          6988397.635532
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "height": 0.7
+    },
+    {
+      "id": "lm-range-shelter",
+      "kind": "building",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          305,
+          458
+        ],
+        [
+          342,
+          482
+        ],
+        [
+          321,
+          510
+        ],
+        [
+          285,
+          485
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678616.96,
+          6988305.216294
+        ],
+        [
+          678628.8,
+          6988297.54134
+        ],
+        [
+          678622.08,
+          6988288.587227
+        ],
+        [
+          678610.56,
+          6988296.581971
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "height": 3.0,
+      "roofHeight": 4.7
+    },
+    {
+      "id": "lm-practice-shed",
+      "kind": "building",
+      "sourceId": "facilities-range",
+      "panel": {
+        "id": "facilities-range-environment",
+        "sourceId": "facilities-range",
+        "sourceSha256": "acaea91ce6a0c9f2df3277bac57abe41b9e97c7e52c4074f026151fe40763d34",
+        "geoTransform": [
+          678519.36,
+          0.32,
+          0,
+          6988451.68,
+          0,
+          -0.31978975032851514
+        ],
+        "width": 1282,
+        "height": 761,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2564,
+          1521
+        ]
+      },
+      "ringPixels": [
+        [
+          355,
+          290
+        ],
+        [
+          382,
+          299
+        ],
+        [
+          373,
+          326
+        ],
+        [
+          347,
+          317
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678632.96,
+          6988358.940972
+        ],
+        [
+          678641.6,
+          6988356.062865
+        ],
+        [
+          678638.72,
+          6988347.428541
+        ],
+        [
+          678630.4,
+          6988350.306649
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "height": 2.5,
+      "roofHeight": 3.8
+    },
+    {
+      "id": "lm-pond-14",
+      "kind": "water",
+      "sourceId": "norrfallsviken-14-hole",
+      "panel": {
+        "id": "14-hole",
+        "sourceId": "norrfallsviken-14-hole",
+        "sourceSha256": "c930181e399f45235f8330c6155dc2694de47d3bf9458502ce238d5c1039265b",
+        "geoTransform": [
+          678865.6,
+          0.16561702127659575,
+          0.0,
+          6989106.88,
+          0.0,
+          -0.1656
+        ],
+        "width": 940,
+        "height": 1600,
+        "sourcePixelWindow": [
+          0,
+          0,
+          973,
+          1656
+        ]
+      },
+      "ringPixels": [
+        [
+          359,
+          585
+        ],
+        [
+          380,
+          568
+        ],
+        [
+          410,
+          578
+        ],
+        [
+          448,
+          603
+        ],
+        [
+          480,
+          620
+        ],
+        [
+          511,
+          647
+        ],
+        [
+          519,
+          682
+        ],
+        [
+          523,
+          726
+        ],
+        [
+          538,
+          752
+        ],
+        [
+          570,
+          778
+        ],
+        [
+          607,
+          797
+        ],
+        [
+          641,
+          814
+        ],
+        [
+          682,
+          832
+        ],
+        [
+          717,
+          852
+        ],
+        [
+          746,
+          878
+        ],
+        [
+          772,
+          909
+        ],
+        [
+          798,
+          945
+        ],
+        [
+          817,
+          976
+        ],
+        [
+          815,
+          1007
+        ],
+        [
+          795,
+          1014
+        ],
+        [
+          773,
+          993
+        ],
+        [
+          750,
+          970
+        ],
+        [
+          722,
+          947
+        ],
+        [
+          692,
+          931
+        ],
+        [
+          665,
+          925
+        ],
+        [
+          639,
+          939
+        ],
+        [
+          623,
+          969
+        ],
+        [
+          607,
+          1003
+        ],
+        [
+          588,
+          1043
+        ],
+        [
+          570,
+          1074
+        ],
+        [
+          549,
+          1083
+        ],
+        [
+          526,
+          1078
+        ],
+        [
+          509,
+          1056
+        ],
+        [
+          499,
+          1028
+        ],
+        [
+          488,
+          1003
+        ],
+        [
+          470,
+          988
+        ],
+        [
+          448,
+          975
+        ],
+        [
+          426,
+          953
+        ],
+        [
+          407,
+          938
+        ],
+        [
+          384,
+          937
+        ],
+        [
+          359,
+          943
+        ],
+        [
+          337,
+          940
+        ],
+        [
+          319,
+          922
+        ],
+        [
+          307,
+          894
+        ],
+        [
+          302,
+          861
+        ],
+        [
+          302,
+          825
+        ],
+        [
+          309,
+          788
+        ],
+        [
+          321,
+          752
+        ],
+        [
+          335,
+          716
+        ],
+        [
+          346,
+          680
+        ],
+        [
+          350,
+          640
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678925.056511,
+          6989010.004
+        ],
+        [
+          678928.534468,
+          6989012.8192
+        ],
+        [
+          678933.502979,
+          6989011.1632
+        ],
+        [
+          678939.796426,
+          6989007.0232
+        ],
+        [
+          678945.09617,
+          6989004.208
+        ],
+        [
+          678950.230298,
+          6988999.7368
+        ],
+        [
+          678951.555234,
+          6988993.9408
+        ],
+        [
+          678952.217702,
+          6988986.6544
+        ],
+        [
+          678954.701957,
+          6988982.3488
+        ],
+        [
+          678960.001702,
+          6988978.0432
+        ],
+        [
+          678966.129532,
+          6988974.8968
+        ],
+        [
+          678971.760511,
+          6988972.0816
+        ],
+        [
+          678978.550809,
+          6988969.1008
+        ],
+        [
+          678984.347404,
+          6988965.7888
+        ],
+        [
+          678989.150298,
+          6988961.4832
+        ],
+        [
+          678993.45634,
+          6988956.3496
+        ],
+        [
+          678997.762383,
+          6988950.388
+        ],
+        [
+          679000.909106,
+          6988945.2544
+        ],
+        [
+          679000.577872,
+          6988940.1208
+        ],
+        [
+          678997.265532,
+          6988938.9616
+        ],
+        [
+          678993.621957,
+          6988942.4392
+        ],
+        [
+          678989.812766,
+          6988946.248
+        ],
+        [
+          678985.175489,
+          6988950.0568
+        ],
+        [
+          678980.206979,
+          6988952.7064
+        ],
+        [
+          678975.735319,
+          6988953.7
+        ],
+        [
+          678971.429277,
+          6988951.3816
+        ],
+        [
+          678968.779404,
+          6988946.4136
+        ],
+        [
+          678966.129532,
+          6988940.7832
+        ],
+        [
+          678962.982809,
+          6988934.1592
+        ],
+        [
+          678960.001702,
+          6988929.0256
+        ],
+        [
+          678956.523745,
+          6988927.5352
+        ],
+        [
+          678952.714553,
+          6988928.3632
+        ],
+        [
+          678949.899064,
+          6988932.0064
+        ],
+        [
+          678948.242894,
+          6988936.6432
+        ],
+        [
+          678946.421106,
+          6988940.7832
+        ],
+        [
+          678943.44,
+          6988943.2672
+        ],
+        [
+          678939.796426,
+          6988945.42
+        ],
+        [
+          678936.152851,
+          6988949.0632
+        ],
+        [
+          678933.006128,
+          6988951.5472
+        ],
+        [
+          678929.196936,
+          6988951.7128
+        ],
+        [
+          678925.056511,
+          6988950.7192
+        ],
+        [
+          678921.412936,
+          6988951.216
+        ],
+        [
+          678918.43183,
+          6988954.1968
+        ],
+        [
+          678916.444426,
+          6988958.8336
+        ],
+        [
+          678915.61634,
+          6988964.2984
+        ],
+        [
+          678915.61634,
+          6988970.26
+        ],
+        [
+          678916.77566,
+          6988976.3872
+        ],
+        [
+          678918.763064,
+          6988982.3488
+        ],
+        [
+          678921.081702,
+          6988988.3104
+        ],
+        [
+          678922.903489,
+          6988994.272
+        ],
+        [
+          678923.565957,
+          6989000.896
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "replaceNearHole": 14
+    },
+    {
+      "id": "lm-pond-17",
+      "kind": "water",
+      "sourceId": "norrfallsviken-17-hole",
+      "panel": {
+        "id": "17-hole",
+        "sourceId": "norrfallsviken-17-hole",
+        "sourceSha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+        "geoTransform": [
+          678909.12,
+          0.23762886597938146,
+          0.0,
+          6988774.08,
+          0.0,
+          -0.23760000000000003
+        ],
+        "width": 1552,
+        "height": 1600,
+        "sourcePixelWindow": [
+          0,
+          0,
+          2305,
+          2376
+        ]
+      },
+      "ringPixels": [
+        [
+          918,
+          1039
+        ],
+        [
+          937,
+          1023
+        ],
+        [
+          965,
+          1009
+        ],
+        [
+          998,
+          988
+        ],
+        [
+          1025,
+          988
+        ],
+        [
+          1049,
+          1001
+        ],
+        [
+          1058,
+          1029
+        ],
+        [
+          1063,
+          1064
+        ],
+        [
+          1073,
+          1098
+        ],
+        [
+          1082,
+          1132
+        ],
+        [
+          1089,
+          1166
+        ],
+        [
+          1101,
+          1196
+        ],
+        [
+          1106,
+          1220
+        ],
+        [
+          1098,
+          1238
+        ],
+        [
+          1079,
+          1247
+        ],
+        [
+          1055,
+          1247
+        ],
+        [
+          1026,
+          1240
+        ],
+        [
+          1003,
+          1228
+        ],
+        [
+          985,
+          1205
+        ],
+        [
+          972,
+          1177
+        ],
+        [
+          960,
+          1150
+        ],
+        [
+          950,
+          1122
+        ],
+        [
+          937,
+          1096
+        ],
+        [
+          921,
+          1073
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          679127.263299,
+          6988527.2136
+        ],
+        [
+          679131.778247,
+          6988531.0152
+        ],
+        [
+          679138.431856,
+          6988534.3416
+        ],
+        [
+          679146.273608,
+          6988539.3312
+        ],
+        [
+          679152.689588,
+          6988539.3312
+        ],
+        [
+          679158.39268,
+          6988536.2424
+        ],
+        [
+          679160.53134,
+          6988529.5896
+        ],
+        [
+          679161.719485,
+          6988521.2736
+        ],
+        [
+          679164.095773,
+          6988513.1952
+        ],
+        [
+          679166.234433,
+          6988505.1168
+        ],
+        [
+          679167.897835,
+          6988497.0384
+        ],
+        [
+          679170.749381,
+          6988489.9104
+        ],
+        [
+          679171.937526,
+          6988484.208
+        ],
+        [
+          679170.036495,
+          6988479.9312
+        ],
+        [
+          679165.521546,
+          6988477.7928
+        ],
+        [
+          679159.818454,
+          6988477.7928
+        ],
+        [
+          679152.927216,
+          6988479.456
+        ],
+        [
+          679147.461753,
+          6988482.3072
+        ],
+        [
+          679143.184433,
+          6988487.772
+        ],
+        [
+          679140.095258,
+          6988494.4248
+        ],
+        [
+          679137.243711,
+          6988500.84
+        ],
+        [
+          679134.867423,
+          6988507.4928
+        ],
+        [
+          679131.778247,
+          6988513.6704
+        ],
+        [
+          679127.976186,
+          6988519.1352
+        ]
+      ],
+      "evidence": "Manual trace of visible 2024-06-27 orthophoto boundaries; heights and obscured details are not measured by this image.",
+      "replaceNearHole": 17
+    }
+  ],
+  "retainedObservations": [
+    "Storsanden beach and the eastern rocky coastline agree with the OSM broad outlines in the inspected native orthophotos; shoreline remains a dated waterline, not a survey control.",
+    "The 2025 laser individual crowns and stand fields already cover the course forest; no invented individual trees are introduced.",
+    "Range target shapes are observed surfaces; their current range distances and target labels are not identified.",
+    "Clubhouse wall footprint remains OSM because roof lean cannot determine a footprint correction. Roof geometry is an image-based display model; heights, windows and terrace elevation remain estimates."
+  ]
+}

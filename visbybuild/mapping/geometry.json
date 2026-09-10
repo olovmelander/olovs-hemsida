@@ -262,9 +262,51 @@
           "tee-41": [
             687174.75,
             6370836.5
+          ],
+          "tee-63": [
+            687168.4722272442,
+            6370778.328708114
           ]
         },
-        "referenceMethod": "Numbered platform identity checked against the Caddee hole-1 plan and the three observed coastal platforms. References stay inside their associated platform; daily marker positions and current surveyed coordinates are unknown."
+        "referenceMethod": "Numbered platform identity checked against the Caddee hole-1 plan and the three observed coastal platforms. References stay inside their associated platform; daily marker positions and current surveyed coordinates are unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Three coastal rectangles: rear63/59, middle55/51, front46/41. Existing platform assignments corroborated.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Three coastal rectangles: rear63/59, middle55/51, front46/41. Existing platform assignments corroborated.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Three coastal rectangles: rear63/59, middle55/51, front46/41. Existing platform assignments corroborated.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Three coastal rectangles: rear63/59, middle55/51, front46/41. Existing platform assignments corroborated.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Three coastal rectangles: rear63/59, middle55/51, front46/41. Existing platform assignments corroborated.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "Three coastal rectangles: rear63/59, middle55/51, front46/41. Existing platform assignments corroborated.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": []
@@ -550,8 +592,8 @@
       "n": 2,
       "line": [
         [
-          687214.314,
-          6370894.328
+          687213.28,
+          6370870.4
         ],
         [
           687325.25,
@@ -801,20 +843,53 @@
               "visby-municipal-ortho-2022"
             ],
             "reviewId": "hole-02-additional-platform-03-2022"
+          },
+          {
+            "ring": [
+              [
+                687209.76,
+                6370876.16
+              ],
+              [
+                687219.8400000001,
+                6370871.04
+              ],
+              [
+                687215.36,
+                6370864.64
+              ],
+              [
+                687206.7200000001,
+                6370868.8
+              ],
+              [
+                687207.36,
+                6370872.32
+              ],
+              [
+                687209.76,
+                6370876.16
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26"
+            ],
+            "reviewId": "lm-2026-09-09-h02-rear-63",
+            "interpretationUncertaintyMetres": 1.5
           }
         ],
         "references": {
           "tee-59": [
-            687227.67341775,
-            6370915.502009249
+            687214.4,
+            6370894.56
           ],
           "tee-55": [
             687234.7243395001,
             6370925.97766475
           ],
           "tee-51": [
-            687281.5481912501,
-            6370976.04878875
+            687252.48,
+            6370953.92
           ],
           "tee-46": [
             687285.5259307501,
@@ -823,9 +898,51 @@
           "tee-41": [
             687285.5259307501,
             6370982.738623
+          ],
+          "tee-63": [
+            687213.28,
+            6370870.4
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Five successive tee rectangles northeast along the path: the newly recorded southernmost platform is63; oldpad0 is59; oldpad1 is55; oldpad2 is51; oldpad3 is46/41. Pond, path, preceding-green and rear-bunker relationships distinguish the missing back platform.",
+            "targetPadIndex": 4,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Five successive tee rectangles northeast along the path: the newly recorded southernmost platform is63; oldpad0 is59; oldpad1 is55; oldpad2 is51; oldpad3 is46/41. Pond, path, preceding-green and rear-bunker relationships distinguish the missing back platform.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Five successive tee rectangles northeast along the path: the newly recorded southernmost platform is63; oldpad0 is59; oldpad1 is55; oldpad2 is51; oldpad3 is46/41. Pond, path, preceding-green and rear-bunker relationships distinguish the missing back platform.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Five successive tee rectangles northeast along the path: the newly recorded southernmost platform is63; oldpad0 is59; oldpad1 is55; oldpad2 is51; oldpad3 is46/41. Pond, path, preceding-green and rear-bunker relationships distinguish the missing back platform.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Five successive tee rectangles northeast along the path: the newly recorded southernmost platform is63; oldpad0 is59; oldpad1 is55; oldpad2 is51; oldpad3 is46/41. Pond, path, preceding-green and rear-bunker relationships distinguish the missing back platform.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "Five successive tee rectangles northeast along the path: the newly recorded southernmost platform is63; oldpad0 is59; oldpad1 is55; oldpad2 is51; oldpad3 is46/41. Pond, path, preceding-green and rear-bunker relationships distinguish the missing back platform.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -1737,7 +1854,53 @@
           "tee-51": [
             687399.6799999999,
             6371393.279999999
+          ],
+          "tee-46": [
+            687408.6012449786,
+            6371429.3848293135
+          ],
+          "tee-41": [
+            687415.1716574774,
+            6371448.2747652475
           ]
+        },
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "The three re-traced post-rebuild rectangles correspond to63,59/55,51. Guide46 and41 are farther forward on the short-cut corridor; distinct current tee-turf edges cannot be isolated from the April image.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "The three re-traced post-rebuild rectangles correspond to63,59/55,51. Guide46 and41 are farther forward on the short-cut corridor; distinct current tee-turf edges cannot be isolated from the April image.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "The three re-traced post-rebuild rectangles correspond to63,59/55,51. Guide46 and41 are farther forward on the short-cut corridor; distinct current tee-turf edges cannot be isolated from the April image.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "The three re-traced post-rebuild rectangles correspond to63,59/55,51. Guide46 and41 are farther forward on the short-cut corridor; distinct current tee-turf edges cannot be isolated from the April image.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "retained-unresolved",
+            "reason": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "retained-unresolved",
+            "reason": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          }
         }
       },
       "fairway": {
@@ -2984,9 +3147,63 @@
           "tee-46": [
             687637.6914175,
             6371772.69993075
+          ],
+          "tee-63": [
+            687690.1881748519,
+            6371743.867032393
+          ],
+          "tee-59": [
+            687671.0004005996,
+            6371756.549114541
+          ],
+          "tee-55": [
+            687671.0004005996,
+            6371756.549114541
+          ],
+          "tee-41": [
+            687611.7691154939,
+            6371795.698250735
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Three separated rectangles correspond to63,59/55,51/46. Guide41 lies within the start of the broad fairway rather than a separable observed tee rectangle.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Three separated rectangles correspond to63,59/55,51/46. Guide41 lies within the start of the broad fairway rather than a separable observed tee rectangle.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Three separated rectangles correspond to63,59/55,51/46. Guide41 lies within the start of the broad fairway rather than a separable observed tee rectangle.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Three separated rectangles correspond to63,59/55,51/46. Guide41 lies within the start of the broad fairway rather than a separable observed tee rectangle.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Three separated rectangles correspond to63,59/55,51/46. Guide41 lies within the start of the broad fairway rather than a separable observed tee rectangle.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "retained-unresolved",
+            "reason": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -3795,6 +4012,35 @@
               "visby-municipal-ortho-2022"
             ],
             "reviewId": "hole-05-additional-platform-03-2022"
+          },
+          {
+            "ring": [
+              [
+                687357.44,
+                6371845.12
+              ],
+              [
+                687368.32,
+                6371843.68
+              ],
+              [
+                687366.72,
+                6371830.24
+              ],
+              [
+                687357.2799999999,
+                6371831.2
+              ],
+              [
+                687357.44,
+                6371845.12
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26"
+            ],
+            "reviewId": "lm-2026-09-09-h05-cross-path-55",
+            "interpretationUncertaintyMetres": 1
           }
         ],
         "references": {
@@ -3809,9 +4055,59 @@
           "tee-41": [
             687350.4006862501,
             6371786.6099735
+          ],
+          "tee-63": [
+            687348.3549136786,
+            6371857.251992032
+          ],
+          "tee-55": [
+            687361.92,
+            6371837.6
+          ],
+          "tee-51": [
+            687346.4,
+            6371832.48
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Rear coastal rectangle carries63/59;51 and46 are the two succeeding west-of-path rectangles. Tee55 occupies the separate east-of-path rectangle, and41 the farther south east-of-path front rectangle.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Rear coastal rectangle carries63/59;51 and46 are the two succeeding west-of-path rectangles. Tee55 occupies the separate east-of-path rectangle, and41 the farther south east-of-path front rectangle.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Rear coastal rectangle carries63/59;51 and46 are the two succeeding west-of-path rectangles. Tee55 occupies the separate east-of-path rectangle, and41 the farther south east-of-path front rectangle.",
+            "targetPadIndex": 4,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Rear coastal rectangle carries63/59;51 and46 are the two succeeding west-of-path rectangles. Tee55 occupies the separate east-of-path rectangle, and41 the farther south east-of-path front rectangle.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Rear coastal rectangle carries63/59;51 and46 are the two succeeding west-of-path rectangles. Tee55 occupies the separate east-of-path rectangle, and41 the farther south east-of-path front rectangle.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "Rear coastal rectangle carries63/59;51 and46 are the two succeeding west-of-path rectangles. Tee55 occupies the separate east-of-path rectangle, and41 the farther south east-of-path front rectangle.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": []
@@ -4081,8 +4377,8 @@
       "n": 6,
       "line": [
         [
-          687383.659,
-          6371655.53
+          687400.64,
+          6371685.12
         ],
         [
           687350.25,
@@ -4336,12 +4632,41 @@
               "visby-municipal-ortho-2022"
             ],
             "reviewId": "hole-06-additional-platform-02-2022"
+          },
+          {
+            "ring": [
+              [
+                687398.72,
+                6371692.96
+              ],
+              [
+                687408.48,
+                6371687.840000001
+              ],
+              [
+                687402.24,
+                6371677.44
+              ],
+              [
+                687393.12,
+                6371681.12
+              ],
+              [
+                687398.72,
+                6371692.96
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26"
+            ],
+            "reviewId": "lm-2026-09-09-h06-rear-63",
+            "interpretationUncertaintyMetres": 1.5
           }
         ],
         "references": {
           "tee-59": [
-            687377.059976,
-            6371629.24805875
+            687383.52,
+            6371655.52
           ],
           "tee-55": [
             687375.8332017501,
@@ -4354,9 +4679,55 @@
           "tee-46": [
             687364.44108375,
             6371590.2798645
+          ],
+          "tee-63": [
+            687400.64,
+            6371685.12
+          ],
+          "tee-41": [
+            687358.4166521098,
+            6371545.385144559
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Five groups in the guide:63 at the rear rectangle beside the preceding green;59 at oldpad0;55 at oldpad1;51/46 at oldpad2;41 farther forward where the short turf joins the fairway.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Five groups in the guide:63 at the rear rectangle beside the preceding green;59 at oldpad0;55 at oldpad1;51/46 at oldpad2;41 farther forward where the short turf joins the fairway.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Five groups in the guide:63 at the rear rectangle beside the preceding green;59 at oldpad0;55 at oldpad1;51/46 at oldpad2;41 farther forward where the short turf joins the fairway.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Five groups in the guide:63 at the rear rectangle beside the preceding green;59 at oldpad0;55 at oldpad1;51/46 at oldpad2;41 farther forward where the short turf joins the fairway.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Five groups in the guide:63 at the rear rectangle beside the preceding green;59 at oldpad0;55 at oldpad1;51/46 at oldpad2;41 farther forward where the short turf joins the fairway.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "retained-unresolved",
+            "reason": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -5214,9 +5585,55 @@
           "tee-46": [
             687450.3782555,
             6371291.3828405
+          ],
+          "tee-63": [
+            687392.4027501657,
+            6371278.500497018
+          ],
+          "tee-41": [
+            687475.5149627608,
+            6371307.420609365
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "retained-unresolved",
+            "reason": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "retained-unresolved",
+            "reason": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "The guide separates63 and59, then55/51/46 and41. The large rear mapped patch is connected turf with shadow and cannot confidently establish separate63/59 deck extents; preserve these two references as unresolved. The clearly separate eastern rectangle supports55/51/46. No distinct41 platform edge is visible in the April fairway.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "The guide separates63 and59, then55/51/46 and41. The large rear mapped patch is connected turf with shadow and cannot confidently establish separate63/59 deck extents; preserve these two references as unresolved. The clearly separate eastern rectangle supports55/51/46. No distinct41 platform edge is visible in the April fairway.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "The guide separates63 and59, then55/51/46 and41. The large rear mapped patch is connected turf with shadow and cannot confidently establish separate63/59 deck extents; preserve these two references as unresolved. The clearly separate eastern rectangle supports55/51/46. No distinct41 platform edge is visible in the April fairway.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "retained-unresolved",
+            "reason": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": []
@@ -5796,9 +6213,55 @@
           "tee-41": [
             687523.8078409999,
             6371190.59889575
+          ],
+          "tee-63": [
+            687595.8927145709,
+            6371349.191117764
+          ],
+          "tee-55": [
+            687563.2421347345,
+            6371288.4051026255
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Guide has separate63 and59;55,51/46,41 continue south along the road. Four existing separated rectangles corroborate63,55,51/46,41. The indicated59 area is the mown spur beside the green/bunker, with no defensible separate tee edge in April; the current59 point on63 is not independently verified.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "retained-unresolved",
+            "reason": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Guide has separate63 and59;55,51/46,41 continue south along the road. Four existing separated rectangles corroborate63,55,51/46,41. The indicated59 area is the mown spur beside the green/bunker, with no defensible separate tee edge in April; the current59 point on63 is not independently verified.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Guide has separate63 and59;55,51/46,41 continue south along the road. Four existing separated rectangles corroborate63,55,51/46,41. The indicated59 area is the mown spur beside the green/bunker, with no defensible separate tee edge in April; the current59 point on63 is not independently verified.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Guide has separate63 and59;55,51/46,41 continue south along the road. Four existing separated rectangles corroborate63,55,51/46,41. The indicated59 area is the mown spur beside the green/bunker, with no defensible separate tee edge in April; the current59 point on63 is not independently verified.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "Guide has separate63 and59;55,51/46,41 continue south along the road. Four existing separated rectangles corroborate63,55,51/46,41. The indicated59 area is the mown spur beside the green/bunker, with no defensible separate tee edge in April; the current59 point on63 is not independently verified.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -6256,9 +6719,51 @@
           "tee-41": [
             687394.62,
             6370930.85
+          ],
+          "tee-63": [
+            687480.5,
+            6371041.5
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Roadside sequence corroborates63 east of road,59/55 at the first west-side rectangle,51/46 at the next rectangle,41 at the southern front rectangle.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Roadside sequence corroborates63 east of road,59/55 at the first west-side rectangle,51/46 at the next rectangle,41 at the southern front rectangle.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Roadside sequence corroborates63 east of road,59/55 at the first west-side rectangle,51/46 at the next rectangle,41 at the southern front rectangle.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Roadside sequence corroborates63 east of road,59/55 at the first west-side rectangle,51/46 at the next rectangle,41 at the southern front rectangle.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Roadside sequence corroborates63 east of road,59/55 at the first west-side rectangle,51/46 at the next rectangle,41 at the southern front rectangle.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "Roadside sequence corroborates63 east of road,59/55 at the first west-side rectangle,51/46 at the next rectangle,41 at the southern front rectangle.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -6931,8 +7436,8 @@
       "n": 10,
       "line": [
         [
-          687364.692,
-          6370770.544
+          687299.36,
+          6370756.64
         ],
         [
           687525.25,
@@ -7126,8 +7631,140 @@
             "sourceIds": [
               "visby-municipal-ortho-2022"
             ]
+          },
+          {
+            "ring": [
+              [
+                687292.48,
+                6370760
+              ],
+              [
+                687294.24,
+                6370762.08
+              ],
+              [
+                687318.88,
+                6370764.96
+              ],
+              [
+                687321.2799999999,
+                6370753.76
+              ],
+              [
+                687295.0399999999,
+                6370749.76
+              ],
+              [
+                687292.48,
+                6370752
+              ],
+              [
+                687292.48,
+                6370760
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26",
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h10-rear-2026",
+            "interpretationUncertaintyMetres": 2
+          },
+          {
+            "ring": [
+              [
+                687393.12,
+                6370787.5200000005
+              ],
+              [
+                687406.3999999999,
+                6370790.4
+              ],
+              [
+                687408.96,
+                6370780.96
+              ],
+              [
+                687395.5199999999,
+                6370777.600000001
+              ],
+              [
+                687393.12,
+                6370787.5200000005
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26",
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h10-front-2026",
+            "interpretationUncertaintyMetres": 2
           }
-        ]
+        ],
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "The original route start is on the middle 55/51 deck. The guide groups 63 and 59 near the starter building, 55/51 on the next deck and 46/41 on the front deck. An extra native crop extends 60 m west to include the entire rear platform. These are representative turf positions, not daily marker coordinates.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "The original route start is on the middle 55/51 deck. The guide groups 63 and 59 near the starter building, 55/51 on the next deck and 46/41 on the front deck. An extra native crop extends 60 m west to include the entire rear platform. These are representative turf positions, not daily marker coordinates.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "The original route start is on the middle 55/51 deck. The guide groups 63 and 59 near the starter building, 55/51 on the next deck and 46/41 on the front deck. An extra native crop extends 60 m west to include the entire rear platform. These are representative turf positions, not daily marker coordinates.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "The original route start is on the middle 55/51 deck. The guide groups 63 and 59 near the starter building, 55/51 on the next deck and 46/41 on the front deck. An extra native crop extends 60 m west to include the entire rear platform. These are representative turf positions, not daily marker coordinates.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "The original route start is on the middle 55/51 deck. The guide groups 63 and 59 near the starter building, 55/51 on the next deck and 46/41 on the front deck. An extra native crop extends 60 m west to include the entire rear platform. These are representative turf positions, not daily marker coordinates.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "The original route start is on the middle 55/51 deck. The guide groups 63 and 59 near the starter building, 55/51 on the next deck and 46/41 on the front deck. An extra native crop extends 60 m west to include the entire rear platform. These are representative turf positions, not daily marker coordinates.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        },
+        "references": {
+          "tee-63": [
+            687299.36,
+            6370756.64
+          ],
+          "tee-59": [
+            687312.32,
+            6370758.24
+          ],
+          "tee-55": [
+            687364.64,
+            6370770.4
+          ],
+          "tee-51": [
+            687364.64,
+            6370770.4
+          ],
+          "tee-46": [
+            687401.28,
+            6370784.16
+          ],
+          "tee-41": [
+            687401.28,
+            6370784.16
+          ]
+        }
       },
       "fairway": {
         "rings": [
@@ -7754,8 +8391,8 @@
       "n": 11,
       "line": [
         [
-          687826.113,
-          6370571.825
+          687793.6,
+          6370567.68
         ],
         [
           687940.25,
@@ -7949,19 +8586,131 @@
               "visby-municipal-ortho-2022"
             ],
             "reviewId": "hole-11-additional-platform-01-2022"
+          },
+          {
+            "ring": [
+              [
+                687783.6799999999,
+                6370574.4
+              ],
+              [
+                687790.5599999999,
+                6370578.24
+              ],
+              [
+                687803.52,
+                6370562.5600000005
+              ],
+              [
+                687795.2,
+                6370558.88
+              ],
+              [
+                687783.6799999999,
+                6370574.4
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h11-rear-2026",
+            "interpretationUncertaintyMetres": 2
+          },
+          {
+            "ring": [
+              [
+                687897.76,
+                6370621.28
+              ],
+              [
+                687906.72,
+                6370624.8
+              ],
+              [
+                687911.0399999999,
+                6370616.48
+              ],
+              [
+                687901.44,
+                6370612.96
+              ],
+              [
+                687897.76,
+                6370621.28
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h11-front-2026",
+            "interpretationUncertaintyMetres": 2
           }
         ],
         "references": {
           "tee-59": [
-            687830.4961105,
-            6370578.84971025
+            687826.4,
+            6370570.88
           ],
           "tee-55": [
-            687830.4961105,
-            6370578.84971025
+            687826.4,
+            6370570.88
+          ],
+          "tee-63": [
+            687793.6,
+            6370567.68
+          ],
+          "tee-51": [
+            687882.72,
+            6370582.88
+          ],
+          "tee-46": [
+            687882.72,
+            6370582.88
+          ],
+          "tee-41": [
+            687904.48,
+            6370618.56
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Four separate physical platforms are visible. The original back reference was on the second platform. Guide labels and the coastal path/water-crossing topology identify rear 63, second 59/55, third 51/46 and front 41. No global registration adjustment is needed.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Four separate physical platforms are visible. The original back reference was on the second platform. Guide labels and the coastal path/water-crossing topology identify rear 63, second 59/55, third 51/46 and front 41. No global registration adjustment is needed.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Four separate physical platforms are visible. The original back reference was on the second platform. Guide labels and the coastal path/water-crossing topology identify rear 63, second 59/55, third 51/46 and front 41. No global registration adjustment is needed.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Four separate physical platforms are visible. The original back reference was on the second platform. Guide labels and the coastal path/water-crossing topology identify rear 63, second 59/55, third 51/46 and front 41. No global registration adjustment is needed.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Four separate physical platforms are visible. The original back reference was on the second platform. Guide labels and the coastal path/water-crossing topology identify rear 63, second 59/55, third 51/46 and front 41. No global registration adjustment is needed.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "Four separate physical platforms are visible. The original back reference was on the second platform. Guide labels and the coastal path/water-crossing topology identify rear 63, second 59/55, third 51/46 and front 41. No global registration adjustment is needed.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -8583,7 +9332,45 @@
         "sourceIds": [
           "visby-municipal-ortho-2022"
         ],
-        "note": "Approximate flyover start on observed maintained fairway; physical tee platform unresolved. No inferred platform or numeric marker coordinates."
+        "note": "Approximate flyover start on observed maintained fairway; physical tee platform unresolved. No inferred platform or numeric marker coordinates.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "retained-unresolved",
+            "reason": "All six existing references coincide at the forward mown corridor. The guide places 63/59/55 southeast of that point near the H11 green and forest edge, 51 beside the bunker farther northwest and 46/41 in the forward corridor. April imagery shows continuous mown turf and a visible green mat near native pixel1368,1325; separate platform boundaries are not established. No proposed ring or reference is adopted from an invented rectangle. Candidate rear locality is retained separately for further review.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "retained-unresolved",
+            "reason": "All six existing references coincide at the forward mown corridor. The guide places 63/59/55 southeast of that point near the H11 green and forest edge, 51 beside the bunker farther northwest and 46/41 in the forward corridor. April imagery shows continuous mown turf and a visible green mat near native pixel1368,1325; separate platform boundaries are not established. No proposed ring or reference is adopted from an invented rectangle. Candidate rear locality is retained separately for further review.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "retained-unresolved",
+            "reason": "All six existing references coincide at the forward mown corridor. The guide places 63/59/55 southeast of that point near the H11 green and forest edge, 51 beside the bunker farther northwest and 46/41 in the forward corridor. April imagery shows continuous mown turf and a visible green mat near native pixel1368,1325; separate platform boundaries are not established. No proposed ring or reference is adopted from an invented rectangle. Candidate rear locality is retained separately for further review.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "retained-unresolved",
+            "reason": "All six existing references coincide at the forward mown corridor. The guide places 63/59/55 southeast of that point near the H11 green and forest edge, 51 beside the bunker farther northwest and 46/41 in the forward corridor. April imagery shows continuous mown turf and a visible green mat near native pixel1368,1325; separate platform boundaries are not established. No proposed ring or reference is adopted from an invented rectangle. Candidate rear locality is retained separately for further review.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "retained-unresolved",
+            "reason": "All six existing references coincide at the forward mown corridor. The guide places 63/59/55 southeast of that point near the H11 green and forest edge, 51 beside the bunker farther northwest and 46/41 in the forward corridor. April imagery shows continuous mown turf and a visible green mat near native pixel1368,1325; separate platform boundaries are not established. No proposed ring or reference is adopted from an invented rectangle. Candidate rear locality is retained separately for further review.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "retained-unresolved",
+            "reason": "All six existing references coincide at the forward mown corridor. The guide places 63/59/55 southeast of that point near the H11 green and forest edge, 51 beside the bunker farther northwest and 46/41 in the forward corridor. April imagery shows continuous mown turf and a visible green mat near native pixel1368,1325; separate platform boundaries are not established. No proposed ring or reference is adopted from an invented rectangle. Candidate rear locality is retained separately for further review.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -9016,7 +9803,71 @@
               "visby-municipal-ortho-2022"
             ]
           }
-        ]
+        ],
+        "referenceReview": {
+          "tee-63": {
+            "status": "retained-unresolved",
+            "reason": "The rear area and connected mowing were inspected. Guide separately draws 63,59,55 while the current scorecard gives 59 and55 the same length. The existing rear ring covers only part of the visible turf. Number-to-platform correspondence and connected forward platforms remain unresolved; no route-offset placement is adopted.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "retained-unresolved",
+            "reason": "The rear area and connected mowing were inspected. Guide separately draws 63,59,55 while the current scorecard gives 59 and55 the same length. The existing rear ring covers only part of the visible turf. Number-to-platform correspondence and connected forward platforms remain unresolved; no route-offset placement is adopted.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "retained-unresolved",
+            "reason": "The rear area and connected mowing were inspected. Guide separately draws 63,59,55 while the current scorecard gives 59 and55 the same length. The existing rear ring covers only part of the visible turf. Number-to-platform correspondence and connected forward platforms remain unresolved; no route-offset placement is adopted.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "retained-unresolved",
+            "reason": "The rear area and connected mowing were inspected. Guide separately draws 63,59,55 while the current scorecard gives 59 and55 the same length. The existing rear ring covers only part of the visible turf. Number-to-platform correspondence and connected forward platforms remain unresolved; no route-offset placement is adopted.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "retained-unresolved",
+            "reason": "The rear area and connected mowing were inspected. Guide separately draws 63,59,55 while the current scorecard gives 59 and55 the same length. The existing rear ring covers only part of the visible turf. Number-to-platform correspondence and connected forward platforms remain unresolved; no route-offset placement is adopted.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "retained-unresolved",
+            "reason": "The rear area and connected mowing were inspected. Guide separately draws 63,59,55 while the current scorecard gives 59 and55 the same length. The existing rear ring covers only part of the visible turf. Number-to-platform correspondence and connected forward platforms remain unresolved; no route-offset placement is adopted.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        },
+        "references": {
+          "tee-63": [
+            688010.5653477218,
+            6370925.998201439
+          ],
+          "tee-59": [
+            688018.134812922,
+            6370921.12960855
+          ],
+          "tee-55": [
+            688018.134812922,
+            6370921.12960855
+          ],
+          "tee-51": [
+            688066.9170571542,
+            6370889.756169981
+          ],
+          "tee-46": [
+            688100.4050304522,
+            6370873.299281364
+          ],
+          "tee-41": [
+            688100.4050304522,
+            6370873.299281364
+          ]
+        }
       },
       "fairway": {
         "rings": [
@@ -9604,31 +10455,224 @@
           {
             "ring": [
               [
-                688174.25,
-                6371011.75
+                688162.5599999999,
+                6371027.52
               ],
               [
-                688182.75,
-                6371007.25
+                688164.96,
+                6371031.68
               ],
               [
-                688186.75,
-                6371016.25
+                688169.44,
+                6371036
               ],
               [
-                688177.75,
-                6371020.75
+                688174.08,
+                6371033.28
               ],
               [
-                688174.25,
-                6371011.75
+                688176.32,
+                6371029.92
+              ],
+              [
+                688175.2,
+                6371026.24
+              ],
+              [
+                688173.76,
+                6371020.32
+              ],
+              [
+                688176.1599999999,
+                6371016.96
+              ],
+              [
+                688184.48,
+                6371010.88
+              ],
+              [
+                688181.28,
+                6371004.96
+              ],
+              [
+                688177.6,
+                6371006.399999999
+              ],
+              [
+                688168.96,
+                6371012.8
+              ],
+              [
+                688163.0399999999,
+                6371017.12
+              ],
+              [
+                688161.28,
+                6371019.68
+              ],
+              [
+                688162.5599999999,
+                6371027.52
               ]
             ],
             "sourceIds": [
-              "visby-municipal-ortho-2022"
-            ]
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h14-main-2026",
+            "interpretationUncertaintyMetres": 2
+          },
+          {
+            "ring": [
+              [
+                688189.6,
+                6370973.12
+              ],
+              [
+                688195.36,
+                6370976.8
+              ],
+              [
+                688200.7999999999,
+                6370967.2
+              ],
+              [
+                688195.2,
+                6370963.68
+              ],
+              [
+                688189.6,
+                6370973.12
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h14-rear-2026",
+            "interpretationUncertaintyMetres": 2
+          },
+          {
+            "ring": [
+              [
+                688177.28,
+                6370987.68
+              ],
+              [
+                688182.4,
+                6370991.84
+              ],
+              [
+                688188.32,
+                6370985.12
+              ],
+              [
+                688183.2,
+                6370980.64
+              ],
+              [
+                688177.28,
+                6370987.68
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h14-second-2026",
+            "interpretationUncertaintyMetres": 2
+          },
+          {
+            "ring": [
+              [
+                688156.96,
+                6371069.76
+              ],
+              [
+                688160.48,
+                6371071.04
+              ],
+              [
+                688165.12,
+                6371059.2
+              ],
+              [
+                688161.6,
+                6371057.76
+              ],
+              [
+                688156.96,
+                6371069.76
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h14-front-2026",
+            "interpretationUncertaintyMetres": 2
           }
-        ]
+        ],
+        "referenceReview": {
+          "tee-63": {
+            "status": "retained-unresolved",
+            "reason": "Four physical turf areas form the guide sequence: rear63, second59, connected55+51/46, narrow front41. The front41 reference currently falls on a bunker. Current public guide still prints distinct59/55 distances while the structured scorecard has equal59/55 lengths; preserve this conflict and keep numbered identities provisional. Footprints are source-pixel interpretations, not drawing registration.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "retained-unresolved",
+            "reason": "Four physical turf areas form the guide sequence: rear63, second59, connected55+51/46, narrow front41. The front41 reference currently falls on a bunker. Current public guide still prints distinct59/55 distances while the structured scorecard has equal59/55 lengths; preserve this conflict and keep numbered identities provisional. Footprints are source-pixel interpretations, not drawing registration.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Four physical turf areas form the guide sequence: rear63, second59, connected55+51/46, narrow front41. The front41 reference currently falls on a bunker. Current public guide still prints distinct59/55 distances while the structured scorecard has equal59/55 lengths; preserve this conflict and keep numbered identities provisional. Footprints are source-pixel interpretations, not drawing registration.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "Four physical turf areas form the guide sequence: rear63, second59, connected55+51/46, narrow front41. The front41 reference currently falls on a bunker. Current public guide still prints distinct59/55 distances while the structured scorecard has equal59/55 lengths; preserve this conflict and keep numbered identities provisional. Footprints are source-pixel interpretations, not drawing registration.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Four physical turf areas form the guide sequence: rear63, second59, connected55+51/46, narrow front41. The front41 reference currently falls on a bunker. Current public guide still prints distinct59/55 distances while the structured scorecard has equal59/55 lengths; preserve this conflict and keep numbered identities provisional. Footprints are source-pixel interpretations, not drawing registration.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "Four physical turf areas form the guide sequence: rear63, second59, connected55+51/46, narrow front41. The front41 reference currently falls on a bunker. Current public guide still prints distinct59/55 distances while the structured scorecard has equal59/55 lengths; preserve this conflict and keep numbered identities provisional. Footprints are source-pixel interpretations, not drawing registration.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        },
+        "references": {
+          "tee-63": [
+            688180.4068627451,
+            6371014.0264705885
+          ],
+          "tee-59": [
+            688165.2507064677,
+            6371025.484695886
+          ],
+          "tee-55": [
+            688179.52,
+            6371011.2
+          ],
+          "tee-51": [
+            688169.28,
+            6371027.04
+          ],
+          "tee-46": [
+            688169.28,
+            6371027.04
+          ],
+          "tee-41": [
+            688160.96,
+            6371064.32
+          ]
+        }
       },
       "fairway": {
         "rings": []
@@ -10219,9 +11263,67 @@
           "tee-59": [
             688017.5659232499,
             6371181.83232575
+          ],
+          "tee-63": [
+            688054.0316317626,
+            6371187.418848167
+          ],
+          "tee-55": [
+            687993.1569275243,
+            6371203.644457061
+          ],
+          "tee-51": [
+            687961.7241841947,
+            6371215.517463633
+          ],
+          "tee-46": [
+            687961.7241841947,
+            6371215.517463633
+          ],
+          "tee-41": [
+            687940.1888154533,
+            6371230.085507194
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "retained-unresolved",
+            "reason": "Two separate rear platforms remain visible and consistent with the broad guide order. The forward55,51/46 and41 locations are in connected mowing without defensible standalone boundaries in this leaf-off image. Do not turn route-distance candidates into fabricated tee rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "retained-unresolved",
+            "reason": "Two separate rear platforms remain visible and consistent with the broad guide order. The forward55,51/46 and41 locations are in connected mowing without defensible standalone boundaries in this leaf-off image. Do not turn route-distance candidates into fabricated tee rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "retained-unresolved",
+            "reason": "Two separate rear platforms remain visible and consistent with the broad guide order. The forward55,51/46 and41 locations are in connected mowing without defensible standalone boundaries in this leaf-off image. Do not turn route-distance candidates into fabricated tee rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "retained-unresolved",
+            "reason": "Two separate rear platforms remain visible and consistent with the broad guide order. The forward55,51/46 and41 locations are in connected mowing without defensible standalone boundaries in this leaf-off image. Do not turn route-distance candidates into fabricated tee rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "retained-unresolved",
+            "reason": "Two separate rear platforms remain visible and consistent with the broad guide order. The forward55,51/46 and41 locations are in connected mowing without defensible standalone boundaries in this leaf-off image. Do not turn route-distance candidates into fabricated tee rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "retained-unresolved",
+            "reason": "Two separate rear platforms remain visible and consistent with the broad guide order. The forward55,51/46 and41 locations are in connected mowing without defensible standalone boundaries in this leaf-off image. Do not turn route-distance candidates into fabricated tee rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -10774,9 +11876,51 @@
           "tee-41": [
             687820.99206475,
             6371143.96338525
+          ],
+          "tee-63": [
+            687764.0802118172,
+            6371222.554793757
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Existing numbered platform corroborated by native 2026 imagery, retained 2022 image and guide topology; see lm-tee-back9-followup-2026-09-09.json. Daily markers remain unverified.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Existing numbered platform corroborated by native 2026 imagery, retained 2022 image and guide topology; see lm-tee-back9-followup-2026-09-09.json. Daily markers remain unverified.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Existing numbered platform corroborated by native 2026 imagery, retained 2022 image and guide topology; see lm-tee-back9-followup-2026-09-09.json. Daily markers remain unverified.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "retained-unresolved",
+            "reason": "Rear and middle turf are continuous and partly under trees. The four existing polygons are spatially plausible but the numbered order, particularly51 versus the front46/41 deck, is not independently resolved. Existing membership alone does not verify the numbered association.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "Existing numbered platform corroborated by native 2026 imagery, retained 2022 image and guide topology; see lm-tee-back9-followup-2026-09-09.json. Daily markers remain unverified.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "Existing numbered platform corroborated by native 2026 imagery, retained 2022 image and guide topology; see lm-tee-back9-followup-2026-09-09.json. Daily markers remain unverified.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [
@@ -11650,23 +12794,102 @@
               "visby-municipal-ortho-2022"
             ],
             "reviewId": "hole-17-additional-platform-03-2022"
+          },
+          {
+            "ring": [
+              [
+                687873.12,
+                6370704.96
+              ],
+              [
+                687880.64,
+                6370700.48
+              ],
+              [
+                687876.16,
+                6370691.36
+              ],
+              [
+                687868.8,
+                6370695.680000001
+              ],
+              [
+                687873.12,
+                6370704.96
+              ]
+            ],
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ],
+            "reviewId": "h17-front-2026",
+            "interpretationUncertaintyMetres": 2
           }
         ],
         "references": {
           "tee-59": [
-            687896.93581825,
-            6370746.026036
+            687906.88,
+            6370765.12
           ],
           "tee-51": [
-            687882.5728225,
-            6370718.28995675
+            687887.36,
+            6370729.28
           ],
           "tee-46": [
-            687881.9277452499,
-            6370717.3581782505
+            687884.8,
+            6370718.56
+          ],
+          "tee-63": [
+            687907.5,
+            6370765.25
+          ],
+          "tee-55": [
+            687894.08,
+            6370742.72
+          ],
+          "tee-41": [
+            687874.72,
+            6370698.08
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "retained-unresolved",
+            "reason": "A distinct front platform south of the crossing track supports41. The guide shows six numbered groups, while only five separate turf areas can be bounded confidently in this view. The guide places63 adjacent to the rear bunker, with59/55/51/46 on the four subsequent rectangles and41 beyond the road. The current assignment starts one platform too far forward for59/55/51. Reassign those observed platform groups by guide topology; leave63 unresolved because its rear turf cannot be bounded independently. The card is a disagreement check, never the coordinate source.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "A distinct front platform south of the crossing track supports41. The guide shows six numbered groups, while only five separate turf areas can be bounded confidently in this view. The guide places63 adjacent to the rear bunker, with59/55/51/46 on the four subsequent rectangles and41 beyond the road. The current assignment starts one platform too far forward for59/55/51. Reassign those observed platform groups by guide topology; leave63 unresolved because its rear turf cannot be bounded independently. The card is a disagreement check, never the coordinate source.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "A distinct front platform south of the crossing track supports41. The guide shows six numbered groups, while only five separate turf areas can be bounded confidently in this view. The guide places63 adjacent to the rear bunker, with59/55/51/46 on the four subsequent rectangles and41 beyond the road. The current assignment starts one platform too far forward for59/55/51. Reassign those observed platform groups by guide topology; leave63 unresolved because its rear turf cannot be bounded independently. The card is a disagreement check, never the coordinate source.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "source-corroborated",
+            "reason": "A distinct front platform south of the crossing track supports41. The guide shows six numbered groups, while only five separate turf areas can be bounded confidently in this view. The guide places63 adjacent to the rear bunker, with59/55/51/46 on the four subsequent rectangles and41 beyond the road. The current assignment starts one platform too far forward for59/55/51. Reassign those observed platform groups by guide topology; leave63 unresolved because its rear turf cannot be bounded independently. The card is a disagreement check, never the coordinate source.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "source-corroborated",
+            "reason": "A distinct front platform south of the crossing track supports41. The guide shows six numbered groups, while only five separate turf areas can be bounded confidently in this view. The guide places63 adjacent to the rear bunker, with59/55/51/46 on the four subsequent rectangles and41 beyond the road. The current assignment starts one platform too far forward for59/55/51. Reassign those observed platform groups by guide topology; leave63 unresolved because its rear turf cannot be bounded independently. The card is a disagreement check, never the coordinate source.",
+            "targetPadIndex": 3,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "source-corroborated",
+            "reason": "A distinct front platform south of the crossing track supports41. The guide shows six numbered groups, while only five separate turf areas can be bounded confidently in this view. The guide places63 adjacent to the rear bunker, with59/55/51/46 on the four subsequent rectangles and41 beyond the road. The current assignment starts one platform too far forward for59/55/51. Reassign those observed platform groups by guide topology; leave63 unresolved because its rear turf cannot be bounded independently. The card is a disagreement check, never the coordinate source.",
+            "targetPadIndex": 4,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": []
@@ -12319,9 +13542,67 @@
           "tee-55": [
             687701.1655155,
             6370649.3191395
+          ],
+          "tee-63": [
+            687765,
+            6370598.25
+          ],
+          "tee-59": [
+            687736.04977658,
+            6370624.382060078
+          ],
+          "tee-51": [
+            687673.5130314486,
+            6370675.8728280915
+          ],
+          "tee-46": [
+            687673.5130314486,
+            6370675.8728280915
+          ],
+          "tee-41": [
+            687619.2613656378,
+            6370684.914772394
           ]
         },
-        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown."
+        "referenceMethod": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
+        "referenceReview": {
+          "tee-63": {
+            "status": "source-corroborated",
+            "reason": "Existing numbered platform corroborated by native 2026 imagery, retained 2022 image and guide topology; see lm-tee-back9-followup-2026-09-09.json. Daily markers remain unverified.",
+            "targetPadIndex": 0,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-59": {
+            "status": "source-corroborated",
+            "reason": "Existing numbered platform corroborated by native 2026 imagery, retained 2022 image and guide topology; see lm-tee-back9-followup-2026-09-09.json. Daily markers remain unverified.",
+            "targetPadIndex": 1,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-55": {
+            "status": "source-corroborated",
+            "reason": "Existing numbered platform corroborated by native 2026 imagery, retained 2022 image and guide topology; see lm-tee-back9-followup-2026-09-09.json. Daily markers remain unverified.",
+            "targetPadIndex": 2,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-51": {
+            "status": "retained-unresolved",
+            "reason": "Three rear coastal platforms are visible and retain their geometry. The guide places51/46 beside the path farther west and41 on the forward mown area, but current imagery does not establish separate physical front pad boundaries. Retain those references as unresolved rather than tracing arbitrary fairway rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-46": {
+            "status": "retained-unresolved",
+            "reason": "Three rear coastal platforms are visible and retain their geometry. The guide places51/46 beside the path farther west and41 on the forward mown area, but current imagery does not establish separate physical front pad boundaries. Retain those references as unresolved rather than tracing arbitrary fairway rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          },
+          "tee-41": {
+            "status": "retained-unresolved",
+            "reason": "Three rear coastal platforms are visible and retain their geometry. The guide places51/46 beside the path farther west and41 on the forward mown area, but current imagery does not establish separate physical front pad boundaries. Retain those references as unresolved rather than tracing arbitrary fairway rectangles.",
+            "targetPadIndex": null,
+            "review": "tee-alignment-review-2026-09-09"
+          }
+        }
       },
       "fairway": {
         "rings": [

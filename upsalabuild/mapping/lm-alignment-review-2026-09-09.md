@@ -1,13 +1,33 @@
 # Upsala orthophoto alignment update — 9 September 2026
 
-**Latest tee follow-up:** 83 tee-selection coordinates have now been aligned
+**Latest tee checkpoint:** all seventeen previously unresolved navigation
+references have explicit source reviews: **16 moved and Stora H15 tee 62 was
+confirmed without movement**. The current total is **136 platform-associated
+references plus 17 reviewed tee/fairway-site references**. Read the
+[remaining seventeen review](remaining17-tee-review-2026-09-09.md) first.
+Six fairway entries are approximate, with 12–15 m interpretation allowances;
+complete H13 forward and H15 upper platform boundaries remain provisional.
+Daily marker positions remain unverified.
+
+Final verification passes all 306 main-app selections across both courses in
+required-v2 and GPK1 modes: 272 earlier platform checks and 34 site checks.
+The standalone passes all 108 Stora selections, and all 64 focused tests pass.
+Both browser proofs report no errors. The
+[permanent coordinate gate](tee-site-coordinate-contract-2026-09-09.json)
+checks the accepted source decisions through the published consumers.
+
+**Historical coordinate follow-up:** the standalone camera's 7 m setback was
+fixed, missing Stora H6/H18 platforms were added, and eleven further references
+were corrected. See the [earlier coordinate follow-up](lm-tee-coordinate-followup-2026-09-09.md).
+
+**Historical initial tee pass:** 83 tee-selection coordinates were aligned
 with the photographed platforms (60 Stora, 23 Mellan). Nine corresponding
-Stora route starts follow the corrected positions. All 78 pad outlines were
-reviewed and retained; 27 uncertain reference decisions remain unchanged.
+Stora route starts followed the corrected positions. At that stage all 78 pad
+outlines were retained and 27 uncertain reference decisions remained unchanged.
 See the [tee alignment review](lm-tee-alignment-review-2026-09-09.md) and
 [before/after reference sheet](lm-tee-reference-changes-2026-09-09.svg).
-The green/bunker report below records the earlier pass; its unchanged-route
-and unchanged-marker statements apply to that pass before this tee correction.
+The green/bunker report below records an earlier pass; its original counts,
+unchanged-route and unchanged-marker statements apply to that historical stage.
 
 Both Stora banan and Mellanbanan now use the accepted boundary corrections from
 authenticated Lantmäteriet imagery captured **14 June 2025**. The live catalogue

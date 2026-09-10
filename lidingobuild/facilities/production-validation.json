@@ -1,0 +1,97 @@
+{
+  "status": "passed",
+  "blendPath": "lidingobuild/cache/facilities-model-2026-09-10/lidingo-facilities-authored-r2.blend",
+  "blendSha256": "66ab7567b85f4899775827106118c01c0a7839836353e692d60cb8a3ef1c57b8",
+  "asset": {
+    "url": "models/lidingo/facilities-2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a.glb",
+    "sha256": "2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a",
+    "bytes": 6192028
+  },
+  "facilityCount": 21,
+  "triangles": 78148,
+  "meshCount": 191,
+  "sourceBuildingIds": [
+    "way/221846983",
+    "way/26408210",
+    "way/26408211",
+    "way/32262169",
+    "way/32262176",
+    "way/32262183",
+    "way/40895787"
+  ],
+  "sourceImagesExported": false,
+  "renders": [
+    "lidingobuild/cache/facilities-model-2026-09-10/clubhouse-render.png",
+    "lidingobuild/cache/facilities-model-2026-09-10/courtyard-render.png",
+    "lidingobuild/cache/facilities-model-2026-09-10/range-render.png",
+    "lidingobuild/cache/facilities-model-2026-09-10/south-range-render.png",
+    "lidingobuild/cache/facilities-model-2026-09-10/cafe-9-render.png",
+    "lidingobuild/cache/facilities-model-2026-09-10/toilet-15-render.png"
+  ],
+  "modules": [
+    {
+      "path": "lidingobuild/facilities/model-clubhouse.py",
+      "sha256": "67addcee3d206e8277e5a2f02bb4d02da80f519321c0eab4352e4b926b5c5a1c",
+      "result": {
+        "authoredTriangles": 42092,
+        "parts": {
+          "restaurant": 9176,
+          "pavilion": 13040,
+          "annex": 5768,
+          "terrace": 6980,
+          "courtyard": 7128
+        },
+        "sourceShells": "imported separately; retained measured roof/wall baseline",
+        "evidence": "lidingobuild/facilities/web-reference.json"
+      }
+    },
+    {
+      "path": "lidingobuild/facilities/model-range.py",
+      "sha256": "1f8c69ca36eab17feec6d3d9ceb289fc7d4ddae4d785d48f2bcaab2254aff0f3",
+      "result": {
+        "module": "range-facilities",
+        "layoutPath": "lidingobuild/facilities/authored-layout.json",
+        "layoutSha256": "9d2c057f797da3d415b32180321d3a0ad87b451503b85f4fbfd5dd89c09ef122",
+        "sourceBarns": 2,
+        "sourceSmallBuildings": 2,
+        "tracedCanopies": 2,
+        "tracedHuts": 2,
+        "exposedMats": 18,
+        "coveredBaysEstimated": 14,
+        "netPolesEstimated": 40,
+        "parkingMarkingBanks": 1,
+        "deliberatelyUnlocated": [
+          "Kiosk between9and10",
+          "Toilet at15tee",
+          "B2/B3/B4 interior functions and EV-bay identity beyond referenced appearance"
+        ],
+        "geometryAuthority": "appearance model; measurements and estimates remain distinguished in facility metadata"
+      }
+    },
+    {
+      "path": "lidingobuild/facilities/model-ancillary.py",
+      "sha256": "abefb4c4cfd43e0b88765312b0d60dfcadfaf4af9ff78fd945fb9bdf799710ef",
+      "result": {
+        "facilities": [
+          {
+            "id": "cafe-9",
+            "triangles": 196,
+            "meshes": 16,
+            "floorRh2000M": 25.204,
+            "sourceBuildingIds": []
+          },
+          {
+            "id": "toilet-15",
+            "triangles": 136,
+            "meshes": 11,
+            "floorRh2000M": 22.938,
+            "sourceBuildingIds": []
+          }
+        ],
+        "triangles": 332,
+        "meshes": 27,
+        "basis": "Reviewed 2025 roof traces with source-confirmed facility identity; conservative appearance estimates."
+      }
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "groundId": "lidingo",
   "state": "provisional-measured-stand-fields",
-  "observedOn": "2026-09-07",
+  "observedOn": "2026-09-10",
   "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
   "campaignId": "21c031-658_67",
   "capturedAt": "2021-03-23",
@@ -16,7 +16,7 @@
   "inputs": [
     {
       "path": "lidingobuild/mapping/playing-surfaces.geojson",
-      "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29"
+      "sha256": "90833ea594d4af811e16dae1d5c77dfd95b1b230bb1e0b19944982a6118348dc"
     },
     {
       "path": "lidingobuild/mapping/facilities.geojson",
@@ -43,16 +43,16 @@
   "canopyThresholdMetres": 2,
   "stands": {
     "tiles": 64,
-    "encodedBytes": 580917,
+    "encodedBytes": 580979,
     "measuredCells": 256229,
-    "closedCanopyCells": 135823,
-    "excludedCells": 61219
+    "closedCanopyCells": 135833,
+    "excludedCells": 61366
   },
   "individualObjectRecords": 0,
   "exclusions": {
-    "features": 1124,
-    "cells": 1291337,
-    "fraction": 0.3078787326812744,
+    "features": 1143,
+    "cells": 1293204,
+    "fraction": 0.30832386016845703,
     "byKind": {
       "building": {
         "features": 562,
@@ -66,17 +66,17 @@
       },
       "green": {
         "features": 35,
-        "excludedCells": 14640,
+        "excludedCells": 15162,
         "bufferMetres": 2
       },
       "tee": {
-        "features": 56,
-        "excludedCells": 9824,
+        "features": 74,
+        "excludedCells": 11717,
         "bufferMetres": 2
       },
       "bunker": {
-        "features": 53,
-        "excludedCells": 4129,
+        "features": 54,
+        "excludedCells": 4208,
         "bufferMetres": 2
       },
       "fairway": {
@@ -162,13 +162,13 @@
       "unknownGroundCells": 0,
       "belowVegetationElevationThresholdCells": 2,
       "minimumVegetationGroundRH2000": 0,
-      "excludedAdditionalCells": 271548
+      "excludedAdditionalCells": 271179
     }
   },
   "uncertainty": {
     "treeStemPositions": "not-measured-no-individual-records",
     "captureDate": "2021-03-23",
-    "currentPresence": "not-confirmed-against-newest2025imagery",
+    "currentPresence": "stand edges not fully reviewed; tee exclusions include the 2025 orthophoto review",
     "canopyHorizontalAccuracyMetres": null,
     "canopyVerticalAccuracyMetres": null,
     "sourcePulseDensityPerSquareMetre": 1.24,
@@ -177,11 +177,11 @@
   },
   "layerIndex": {
     "path": "lidingobuild/cache/vegetation/stands-stage/layer-index.json",
-    "sha256": "472dbb5a65318464c9997b3494dfe28e2ee354cecda4f64c7d631f958fd5bb7b"
+    "sha256": "6c93b7ffbc939af525f3ff341bbeba7fcb3242edf46ebe2abc1013e80b34553e"
   },
   "limitations": [
     "Stand cells encode measured canopy fraction and heights; rendered representatives are not individually positioned surveyed trees.",
-    "The2021scan and provisional2019surface/OSMexclusions require current imagery/site review.",
+    "The 2021 scan uses mixed 2019 municipal, reviewed 2025 tee and supplementary OSM exclusions; other current surface and stand edges still need review.",
     "No individual crown records or procedural large-object claims were added.",
     "Polygon holes are preserved before applying documented exclusion buffer bands."
   ]

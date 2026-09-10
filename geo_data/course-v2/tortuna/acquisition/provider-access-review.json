@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "reviewedAt": "2026-09-09T17:04:46.093950+00:00",
+  "reviewer": "Codex source acquisition review",
+  "documents": [
+    {
+      "id": "terrain-product",
+      "url": "https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/",
+      "resolvedUrl": "https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/",
+      "status": 200,
+      "contentType": "text/html",
+      "lastModified": "Mon, 15 Jun 2026 05:19:47 GMT",
+      "bytes": 50393,
+      "sha256": "d844be5fd77d413031fa4bb11f674a4e241b31368b3a59e7f80e44c68b009621",
+      "localPath": "tortunabuild/cache/provider-terms/terrain-product.html"
+    },
+    {
+      "id": "laser-product",
+      "url": "https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/",
+      "resolvedUrl": "https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/",
+      "status": 200,
+      "contentType": "text/html",
+      "lastModified": "Mon, 29 Jun 2026 09:40:39 GMT",
+      "bytes": 33387,
+      "sha256": "566122954b7efd43f410db5a6ea660581a467e14f8231bfa858bdb0496b84ef6",
+      "localPath": "tortunabuild/cache/provider-terms/laser-product.html"
+    },
+    {
+      "id": "orthophoto-product",
+      "url": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "resolvedUrl": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "status": 200,
+      "contentType": "text/html",
+      "lastModified": "Mon, 07 Sep 2026 06:15:38 GMT",
+      "bytes": 16262,
+      "sha256": "8921091487ed4577dd7e54ccf31dc8fa2baf4fd74b814d6c536767115207cf7b",
+      "localPath": "tortunabuild/cache/provider-terms/orthophoto-product.html"
+    },
+    {
+      "id": "terrain-terms",
+      "url": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder.pdf",
+      "resolvedUrl": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "lastModified": "Wed, 22 Oct 2025 07:42:09 GMT",
+      "bytes": 68556,
+      "sha256": "8017fed096569198001949a259d96a95d9aa2f09e1a974df7acb14c0a7d6216d",
+      "localPath": "tortunabuild/cache/provider-terms/terrain-terms.pdf"
+    },
+    {
+      "id": "laser-terms",
+      "url": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf",
+      "resolvedUrl": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "lastModified": "Fri, 29 May 2026 13:04:48 GMT",
+      "bytes": 136091,
+      "sha256": "ab05f8a2333fee8ad6902342b3167bec486a5820ca663155d91d7452919274d1",
+      "localPath": "tortunabuild/cache/provider-terms/laser-terms.pdf"
+    },
+    {
+      "id": "orthophoto-personal-data-terms",
+      "url": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf",
+      "resolvedUrl": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "lastModified": "Wed, 22 Oct 2025 07:42:17 GMT",
+      "bytes": 76521,
+      "sha256": "44fe3e9048448b8af88ff5dbd2a16a75727083b71f70fa05c435340556026321",
+      "localPath": "tortunabuild/cache/provider-terms/orthophoto-personal-data-terms.pdf"
+    }
+  ],
+  "findings": [
+    {
+      "product": "Markhojdmodell Nedladdning",
+      "licence": "CC-BY-4.0",
+      "termsVersion": "LM2025/009266 version1.0 2025-02-01",
+      "access": "Free order; Basic or OAuth2 authentication; STAC-hojd",
+      "data": "1m native terrain grid,10x10km items,SWEREF99TM and RH2000",
+      "decision": "Publish attributed derived terrain and water; retain source receipts."
+    },
+    {
+      "product": "Laserdata Nedladdning, skog",
+      "licence": "CC-BY-4.0",
+      "termsVersion": "LM2026/077164 version1.0 2026-05-20",
+      "access": "Order; Basic or OAuth2 authentication; STAC-hojd",
+      "data": "Classified COPC point clouds; typical density1-2 points/m2",
+      "decision": "Publish attributed derived canopy evidence; retain unknown cells and 2021 capture limits."
+    },
+    {
+      "product": "Ortofoto Nedladdning",
+      "licence": "CC-BY-4.0 plus product access and personal-data terms",
+      "productVersion": "2025.02",
+      "access": "User-provided existing access succeeds; product page still requires legal/GDPR review and special terms on order.",
+      "decision": "Original RGBI GeoTIFFs and review PNGs remain in ignored private cache; derived semantic geometry retains attribution.",
+      "limits": "Authenticated byte access confirms access, not independent survey registration or a field inspection.",
+      "termsVersion": "LM2025/009269 version1.1 2025-03-04"
+    }
+  ],
+  "attributionRequirement": [
+    "product name",
+    "Copyright Lantmateriet",
+    "processed-information statement when modified",
+    "CC-BY-4.0"
+  ],
+  "accessEvidence": [
+    "terrain-window.json",
+    "orthophoto-review.json",
+    "orthophoto-native-crops.json",
+    "../vegetation/canopy-evidence.json",
+    "water-evidence.json"
+  ]
+}

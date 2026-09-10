@@ -6,6 +6,7 @@ import { applyReviewedFacilities } from './mapping/reviewed-facilities.mjs';
 import { applyReviewedTeePlatforms } from './mapping/reviewed-tee-platforms.mjs';
 import { applyReviewedEnvironment } from './mapping/reviewed-environment.mjs';
 import { applyReviewedOrthophoto } from './mapping/reviewed-orthophoto.mjs';
+import { applyReviewedTeeAlignment } from './mapping/reviewed-tee-alignment.mjs';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -61,42 +62,27 @@ function pointAlong(line, arc) {
   return [...line.at(-1)];
 }
 
-/* WHERE THE SIX NUMBERED TEES STAND.
-
-   They used to share ONE point, and the card spans 6230 m to 4216 m -- about
-   112 m a hole -- so five of every six cameras stood up to 172 m from the tee
-   whose number the HUD was printing, and the rangefinder measured the same
-   distance to the green from all six against a card printed beside it.
-
-   The 2026 national orthophoto was asked to resolve the physical decks and
-   could not: `mapping/tee-decks.json` records what it can and cannot see, and
-   `mapping/trace-tees.py` records why (an absolute colour cut keeping 90% of
-   the mapped mown turf also keeps 51% of everything else, and the Ribbingsfors
-   laser-flatness rule says nothing on a links where 35% of the played box is
-   flatter than 0.10 m over 5 m). So the position is DERIVED -- and derived in
-   the one way that needs no extrapolation and no invented platform: hold the
-   back tee exactly where the observed platform is, and walk each shorter tee
-   UP the observed route by the card's OWN DIFFERENCE from the back tee.
-
-   Only differences are used, never absolute route length. A route may fall
-   short of its card -- this one does, by a median 8% -- without the gaps
-   between its tees being wrong, and the two faults have different causes. The
-   walk is clamped inside the measured line and stops 20 m short of its end, so
-   nothing is placed on ground the route never covered. What is derived is a
-   camera and a rangefinder origin: `inferPads` stays false, no pad is
-   synthesised, and no daily marker is claimed.
-
-   It lives here, exported, because the committed model and this generator must
-   not be able to disagree -- `visbybuild/mapping/apply-tee-marks.mjs` and
-   `course.node-test.mjs` both call THIS function. */
-export function teeMarks({ line, lineLen, lengths, nearest, pads, unresolvedPlatform, references, hole }) {
+/* Numbered references come from the dated native-image/guide review. An
+   unresolved association retains its prior provisional position explicitly,
+   so correcting a rear platform cannot slide every shorter tee along the route.
+   Physical polygons never come from card lengths. The historical card-offset
+   fallback remains for unreviewed authoring inputs; it carries no identity claim.
+   This shared function is used by both generators and the publication checks. */
+export function teeMarks({ line, lineLen, lengths, nearest, pads, unresolvedPlatform, references, referenceReview, hole }) {
   const anchorArc = unresolvedPlatform ? 0 : arcAlong(line, nearest);
   const walkLimit = Math.max(0, lineLen - anchorArc - 20);
   return lengths.map((metres, number) => {
     const reference = references?.[number];
     if (reference) {
+      const review = referenceReview?.[number];
+      if (review?.status === 'retained-unresolved') {
+        if (!review.reason || !reference.every(Number.isFinite) || reference.some(value => Math.abs(value) > 2048)) throw new Error(`Hole ${hole} retained tee reference requires bounded coordinates and an unresolved reason`);
+        return { c: [...reference], b: 0, m: metres, placement: 'retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified' };
+      }
       if (!unresolvedPlatform && !pads.some(pad => pointInPoly(...reference, pad.ring))) throw new Error(`Hole ${hole} camera reference leaves observed tee platforms`);
-      return { c: [...reference], b: 0, m: metres, placement: 'source-declared-camera-reference; daily marker location unverified' };
+      return { c: [...reference], b: 0, m: metres, placement: review?.status === 'source-corroborated'
+        ? 'source-corroborated-numbered-platform-camera-reference; daily marker location unverified'
+        : 'source-declared-camera-reference; daily marker location unverified' };
     }
     const forward = lengths[0] - metres;
     if (unresolvedPlatform || !(forward > 0) || forward > walkLimit) {
@@ -240,7 +226,8 @@ export function buildHoles(card, geometry, heightAt, notes = null) {
       if (reference !== undefined && !point(reference)) throw new Error(`Hole ${row.number} has an invalid tee reference`);
       return reference ? local(reference) : null;
     });
-    const marks = teeMarks({ line, lineLen, lengths: t, nearest, pads, unresolvedPlatform, references, hole: row.number });
+    const referenceReview = card.tees.map(tee => input.tees.referenceReview?.[tee.id] ?? null);
+    const marks = teeMarks({ line, lineLen, lengths: t, nearest, pads, unresolvedPlatform, references, referenceReview, hole: row.number });
     const teeHeight = heightAt(...marks[1].c), greenHeight = heightAt(...pin);
     return { n: row.number, par: row.par, idx: row.index, t, line, lineLen, pin,
       green: { ring: greenRing, c: pin, sourceIds: input.green.sourceIds ?? [] },
@@ -271,7 +258,7 @@ export async function buildCourse() {
   const fine = new Float32Array(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
   const heightAt = makeHeightSampler(fine);
   const card = await json('visbybuild/reference/club-scorecard.json');
-  const geometry = applyReviewedOrthophoto(applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(await json('visbybuild/mapping/geometry.json'), await json('visbybuild/mapping/facilities-review.json')), await json('visbybuild/mapping/tee-platform-review.json')), await json('visbybuild/mapping/environment-surfaces-review.json')), await json('visbybuild/mapping/orthophoto-review-2026.json'));
+  const geometry = applyReviewedTeeAlignment(applyReviewedOrthophoto(applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(await json('visbybuild/mapping/geometry.json'), await json('visbybuild/mapping/facilities-review.json')), await json('visbybuild/mapping/tee-platform-review.json')), await json('visbybuild/mapping/environment-surfaces-review.json')), await json('visbybuild/mapping/orthophoto-review-2026.json')));
   const holes = buildHoles(card, geometry, heightAt, holeNotes(await json('visbybuild/guide-notes.json')));
   const context = projectedFeatures(await json(geometry.contextPath ?? 'geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson'), 'Visby context');
   const { vegetation, landuse } = vistaLandcover(await json(geometry.vistaLandcoverPath ?? 'geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson'));

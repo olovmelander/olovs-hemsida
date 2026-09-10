@@ -1,0 +1,189 @@
+{
+  "groundId": "norrfallsviken",
+  "groundManifest": {
+    "bytes": 526497,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171",
+    "url": "grounds/norrfallsviken/ground-v2-6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171.json"
+  },
+  "treeTotal": 13050,
+  "standTotal": 306279,
+  "treeConflicts": [
+    {
+      "tree": {
+        "accuracyTier": "C",
+        "capturedAt": "2025-06-05",
+        "class": "tree",
+        "confidence": 0.76,
+        "easting": 679113.894,
+        "groundId": "norrfallsviken",
+        "headingDegrees": 42.57,
+        "heightRH2000": 12.807,
+        "horizontalAccuracyMetres": 1.5,
+        "id": "tree-norrfallsviken-010616",
+        "northing": 6988547.859,
+        "objectHeightMetres": 15.638,
+        "placementMethod": "derived-lidar",
+        "radiusMetres": 4.514,
+        "reviewStatus": "approved",
+        "sourceId": "laser-lm-skog-25f014-698-67",
+        "subtype": null,
+        "truthZone": "A",
+        "verticalAccuracyMetres": 1.5
+      },
+      "surfaces": [
+        {
+          "id": "lm-h17-fairway",
+          "hole": 17,
+          "kind": "fairway"
+        }
+      ]
+    },
+    {
+      "tree": {
+        "accuracyTier": "C",
+        "capturedAt": "2025-06-05",
+        "class": "tree",
+        "confidence": 0.759,
+        "easting": 678986.198,
+        "groundId": "norrfallsviken",
+        "headingDegrees": 349.24,
+        "heightRH2000": 15.548,
+        "horizontalAccuracyMetres": 1.5,
+        "id": "tree-norrfallsviken-009828",
+        "northing": 6988170.792,
+        "objectHeightMetres": 15.464,
+        "placementMethod": "derived-lidar",
+        "radiusMetres": 5.528,
+        "reviewStatus": "approved",
+        "sourceId": "laser-lm-skog-25f014-698-67",
+        "subtype": null,
+        "truthZone": "A",
+        "verticalAccuracyMetres": 1.5
+      },
+      "surfaces": [
+        {
+          "id": "lm-h04-fairway",
+          "hole": 4,
+          "kind": "fairway"
+        }
+      ]
+    }
+  ],
+  "standConflicts": [
+    {
+      "id": "l0/6/4/61/48",
+      "centreEpsg3006": [
+        678697.5,
+        6988781.5
+      ],
+      "canopyFraction": 1,
+      "p95HeightMetres": 9.5,
+      "surfaces": [
+        {
+          "id": "lm-h11-fairway",
+          "hole": 11,
+          "kind": "fairway"
+        }
+      ]
+    },
+    {
+      "id": "l0/6/4/58/49",
+      "centreEpsg3006": [
+        678685.5,
+        6988777.5
+      ],
+      "canopyFraction": 0.501960813999176,
+      "p95HeightMetres": 9.5,
+      "surfaces": [
+        {
+          "id": "lm-h11-fairway",
+          "hole": 11,
+          "kind": "fairway"
+        }
+      ]
+    },
+    {
+      "id": "l0/6/4/59/49",
+      "centreEpsg3006": [
+        678689.5,
+        6988777.5
+      ],
+      "canopyFraction": 0.501960813999176,
+      "p95HeightMetres": 9.75,
+      "surfaces": [
+        {
+          "id": "lm-h11-fairway",
+          "hole": 11,
+          "kind": "fairway"
+        }
+      ]
+    },
+    {
+      "id": "l0/8/5/33/31",
+      "centreEpsg3006": [
+        679097.5,
+        6988593.5
+      ],
+      "canopyFraction": 0.3764705955982208,
+      "p95HeightMetres": 11,
+      "surfaces": [
+        {
+          "id": "lm-h17-fairway",
+          "hole": 17,
+          "kind": "fairway"
+        }
+      ]
+    },
+    {
+      "id": "l0/6/6/45/5",
+      "centreEpsg3006": [
+        678633.5,
+        6988441.5
+      ],
+      "canopyFraction": 0.6235294342041016,
+      "p95HeightMetres": 10,
+      "surfaces": [
+        {
+          "id": "lm-h09-fairway",
+          "hole": 9,
+          "kind": "fairway"
+        }
+      ]
+    },
+    {
+      "id": "l0/8/7/5/14",
+      "centreEpsg3006": [
+        678985.5,
+        6988149.5
+      ],
+      "canopyFraction": 0.2862745225429535,
+      "p95HeightMetres": 13.75,
+      "surfaces": [
+        {
+          "id": "lm-h04-fairway",
+          "hole": 4,
+          "kind": "fairway"
+        }
+      ]
+    }
+  ],
+  "visualReview": {
+    "reviewedOn": "2026-09-09",
+    "captureDate": "2024-06-27",
+    "method": "Inspect all eight candidate locations in native 400 by 400 pixel crops from their retained source GeoTIFF transforms.",
+    "decision": "Retain all measured vegetation. Both individual-tree locations show canopy at the fairway edge. The six stand-cell locations lie along tree rows, canopy edges or shadowed rough beside the mown corridor; the 4 m cell and crown overhang are not equivalent to an obstruction on the putting surface.",
+    "candidateIds": [
+      "tree-norrfallsviken-010616",
+      "tree-norrfallsviken-009828",
+      "l0/6/4/61/48",
+      "l0/6/4/58/49",
+      "l0/6/4/59/49",
+      "l0/8/5/33/31",
+      "l0/6/6/45/5",
+      "l0/8/7/5/14"
+    ],
+    "uncertainty": "Coarse fairway-edge interpretation can include narrow rough fingers around trunks. These remain boundary uncertainty, not evidence for deleting the newer laser measurements."
+  },
+  "interpretation": "Geometric review candidates only. Measured crown centres and 4 m canopy cells can legitimately overlap grass. The 2025 laser is newer than the June 2024 imagery; preserve measurements until individual source review supports a change."
+}

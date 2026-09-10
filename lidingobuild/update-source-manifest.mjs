@@ -10,13 +10,14 @@ const m = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const has = p => fs.existsSync(path.join(ROOT, p));
 const read = p => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const lineage = ['terrain-lm-1m', 'water-breaks-lm-1m', 'laser-lm-skog', 'lidingo-osm-2026-09-07', 'imagery-municipal-2019', 'club-scorecard'];
+if (has('lidingobuild/mapping/tee-native-alignment-review-2026-09-09.json')) lineage.push('imagery-lm-ortho');
 if (has('lidingobuild/course-model.json')) {
   const model = read('lidingobuild/course-model.json');
   m.legacyFrame = {
     buildDirectory: 'lidingobuild', originWgs84: { latitude: FRAME.latitude, longitude: FRAME.longitude },
     metresPerLatitude: model.mPerLat, metresPerLongitude: model.mPerLon,
     heightReference: 'Absolute RH 2000 from retained Lantmäteriet 1 m DTM; independent local residual checks pending',
-    frame: 'exact local metres from EPSG:3006; east +x, north -z',
+    frame: model.frame,
     projectedOriginEpsg3006: { easting: FRAME.easting, northing: FRAME.northing,
       axisMapping: { worldX: 'easting - originEasting', worldZ: 'originNorthing - northing' } },
   };
@@ -47,6 +48,22 @@ if (has(base + 'acquisition/ortho-2025-surface-audit.json')) {
   artifact('ortho-2025-surface-audit', 'acquisition', base + 'acquisition/ortho-2025-surface-audit.json', ['imagery-lm-ortho'], 'Actual authenticated RGBI reads and per-feature statistics; no raw pixels, automatic boundary edits or visual approval.');
   artifact('ortho-2025-review', 'control', 'lidingobuild/mapping/ortho-2025-review.json', ['imagery-lm-ortho'], 'Spectral review priorities against current adopted outlines; flags are not confirmed geometry changes.');
 }
+if (has(base + 'reference/lm-ortho-validation-2026-09-09.json')) {
+  const validation = read(base + 'reference/lm-ortho-validation-2026-09-09.json');
+  const imagery = m.sources.find(s => s.id === 'imagery-lm-ortho');
+  imagery.lifecycle = 'acquired';
+  imagery.acquiredAt = '2026-09-09';
+  imagery.capturedAt = '2025-05-31';
+  imagery.localPath = base + 'reference/lm-ortho-acquisition-2026-09-09.json';
+  imagery.checksum = sha256File(path.join(ROOT, imagery.localPath));
+  imagery.checksumReason = null;
+  imagery.notes = 'The checksum identifies the local bounded-acquisition ledger, which records individual retained TIFF/RGB window hashes; it is not a whole-source COG checksum. Live STAC recheck confirms orto-o2-2025 remains the newest complete campaign. 37 georeferenced review windows acquired; all 18 tee corridors and full-hole boundary views use native 0.16 m samples captured 2025-05-31. Reviewed tee boundaries and road-defined OB segments are retained as provisional vectors; daily marker positions and absolute survey accuracy remain unverified.';
+  for (const [suffix, kind] of [['catalog', 'acquisition'], ['plan', 'acquisition'], ['acquisition', 'acquisition'], ['capture', 'control'], ['validation', 'control']]) {
+    artifact(`lm-alignment-${suffix}`, kind, `${base}reference/lm-ortho-${suffix}-2026-09-09.json`, ['imagery-lm-ortho'], 'Native imagery source identity, grid and acquisition-date evidence for the 2026-09-09 tee and OB alignment review. Raw pixels remain local.');
+  }
+  artifact('tee-alignment-review-2026', 'control', 'lidingobuild/mapping/tee-native-alignment-review-2026-09-09.json', ['imagery-lm-ortho', 'club-scorecard'], 'All 18 tee areas visually reviewed; pixel traces, representative colour associations and explicitly unresolved starts. No daily-marker survey is claimed.');
+  artifact('ob-placement-review-2026', 'control', 'lidingobuild/mapping/ob-placement-review.json', ['imagery-lm-ortho', 'club-scorecard'], 'Club-rule boundaries traced along visible asphalt edges. Virtual map lines are separate from unverified individual physical stakes.');
+}
 artifact('environment-water-acquisition', 'acquisition', base + 'acquisition/environment-water.json', ['water-breaks-lm-1m'], 'Nine source items, original file checksums and 16 km crop. Varying water vertex heights and all island holes preserved.');
 artifact('environment-water-geometry', 'topography', base + 'acquisition/environment-water.geojson', ['water-breaks-lm-1m'], '144 source water polygons outside the original course window with 180 interior rings. Six non-flat features retain source vertex heights.');
 artifact('environment-water-validation', 'control', 'lidingobuild/mapping/environment-water-validation.json', ['water-breaks-lm-1m'], 'Independent triangle-union comparison to source polygons including islands/core exclusion; not browser visual approval.');
@@ -58,6 +75,21 @@ artifact('canopy-raster-acquisition', 'canopy', base + 'vegetation/canopy-eviden
 artifact('canopy-stand-compilation', 'canopy', base + 'vegetation/stand-evidence.json', ['laser-lm-skog', ...lineage], 'Measured 4 m stand fields and semantic exclusions; no individual-tree registry or stem survey.');
 artifact('playing-surface-candidates', 'surface', 'lidingobuild/mapping/playing-surfaces.geojson', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Per-feature observed geometry and uncertainty; source polygons and 2019 CC0 image traces; machine review only.');
 artifact('playing-surface-review', 'control', 'lidingobuild/mapping/playing-surfaces-review.json', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Per-polygon source, geometry, association and omission review; explicit retained source hashes and unknown registration accuracy.');
+artifact('putting-cuts-2025-review', 'control', 'lidingobuild/mapping/putting-cuts-2025.json', ['imagery-lm-ortho'], 'Fourteen manually reviewed putting cuts with original boundaries, source pixels, May 2025 capture identity and interpretation uncertainty. Four shaded greens remain unchanged.');
+artifact('approaches-2025-review', 'surface', 'lidingobuild/mapping/approaches-2025.geojson', ['imagery-lm-ortho'], 'Six observed par-three mown approaches; semi-rough is a display class, not a measured mowing height.');
+artifact('bunker-additions-2025', 'surface', 'lidingobuild/mapping/bunker-additions-2025.geojson', ['imagery-lm-ortho'], 'Accepted hole 13 bunker polygon from the completed September 8 branch; imagery and club-record dating retained separately.');
+artifact('bunker-additions-2025-evidence', 'control', 'lidingobuild/mapping/surface-additions-2025.json', ['imagery-lm-ortho', 'imagery-municipal-2019'], 'Bounded source component and dated club-record evidence for the hole 13 greenside bunker.');
+artifact('surface-change-dating-2025', 'control', 'lidingobuild/mapping/change-dating.json', ['imagery-lm-ortho', 'imagery-municipal-2019'], 'Retained branch comparison of historical and May 2025 imagery; does not upgrade independent survey status.');
+artifact('canopy-floor-2025', 'canopy', 'lidingobuild/tree-cover.json', ['imagery-lm-ortho'], 'Two-bit May 2025 canopy appearance raster. Existing measured-only vegetation and reviewed LiDAR stand graph remain authoritative for tree placement.');
+artifact('canopy-floor-2025-evidence', 'control', 'lidingobuild/mapping/tree-cover-2025.json', ['imagery-lm-ortho'], 'Retained raster classification evidence from the completed Lidingö branch; canopy floor appearance does not establish individual stems.');
+artifact('review-integration-2026', 'control', 'lidingobuild/mapping/alignment-integration-2026-09-10.json', lineage, 'Completed reviews integrated onto the newer local model. Pins unreviewed model fields and all terrain, tee, OB, water and building geometry. Current stand sources are recompiled against the adopted surface exclusions.');
+for (const id of ['playing-surface-candidates', 'playing-surface-review']) {
+  const entry = m.artifacts.find(a => a.id === id);
+  if (entry && lineage.includes('imagery-lm-ortho')) {
+    entry.derivedFrom.push('imagery-lm-ortho');
+    entry.notes += ' Tee polygons and fourteen putting cuts use their separate 2025-05-31 reviews; one dated hole 13 bunker is added. Other playing surfaces retain their previous source epochs.';
+  }
+}
 artifact('facility-surface-candidates', 'surface', 'lidingobuild/mapping/facilities.geojson', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Named practice greens, range field and platforms, courtyard paving with turf island, and observed parking. One runtime owner per physical surface; generic material where unknown.');
 artifact('facility-surface-review', 'control', 'lidingobuild/mapping/facilities-review.json', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Source identities, valid polygons, retained interior rings, qualified building clips and pending current facility alterations.');
 artifact('facility-pixel-traces', 'surface', 'lidingobuild/mapping/facility-traces-2019.json', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Reproducible source-pixel authoring and explicit OSM facility associations; no invented furniture, bay spacing or tree locations.');
@@ -78,7 +110,7 @@ artifact('runtime-contract', 'control', 'lidingobuild/mapping/runtime-contract.j
 // Existing immutable acquisition evidence is checked too; don't silently repair
 // checksums on files not generated by this continuation.
 const incomplete = m.blockers.find(b => b.id === 'incomplete-playing-geometry');
-incomplete.description = 'The provisional model uses observed 2019/source polygons; completeness and current 2024–2026 alterations are not independently approved.';
+incomplete.description = 'All 18 tee areas have a 2025-05-31 native orthophoto review. Unresolved colour starts, shadowed edges, other playing surfaces and changes after the imagery remain unapproved; individual OB stakes are not surveyed.';
 m.blockers.find(b => b.id === 'vegetation-and-stable-objects-pending').description =
   'Measured 2021 canopy stands, clipped national water and supplementary OSM facilities are acquired. Contemporary stand boundaries, individual large objects and local residuals remain unapproved.';
 if (process.argv.includes('--runtime-validated')) {

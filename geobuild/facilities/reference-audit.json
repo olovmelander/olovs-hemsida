@@ -1,0 +1,183 @@
+{
+  "passed": true,
+  "auditedAtUtc": "2026-09-10T07:01:18+00:00",
+  "counts": {
+    "sourceTiffs": 4,
+    "panels": 6,
+    "rgbPixelSamples": 486,
+    "reviewedFeatures": 25,
+    "contextFeatures": 16,
+    "coordinateVertices": 256,
+    "photos": 11
+  },
+  "maximumDifferences": {
+    "legacyRoundTripMetres": 0.000668913083053175,
+    "blenderXYDifferenceMetres": 4.6193804337235633e-10,
+    "pixelTraceDifferenceMetres": 9.313225746154785e-10
+  },
+  "failures": [],
+  "checks": [
+    "Actual TIFF, metadata, panel and photograph SHA256",
+    "EPSG3006 CRS, full bounds coverage, dimensions, pixel-centre worldfiles",
+    "81 independent original-TIFF RGB samples per panel",
+    "Polygon validity, area and minimum-rectangle dimensions",
+    "Pixel traces, Blender east/north offsets and full geographic legacy round trip",
+    "Photo dimensions and nested EXIF DateTimeOriginal, excluding modification dates"
+  ],
+  "limits": [
+    "Arithmetic agreement does not establish source absolute positional accuracy.",
+    "Image edge review does not prove wall bases, roof heights or roof pitches.",
+    "Photo capture times are camera-clock values; timezone and clock accuracy are unverified.",
+    "Native overlays were separately visually inspected for plausible roof/surface alignment."
+  ],
+  "checkedInputs": [
+    {
+      "path": "geobuild/facilities/inventory.json",
+      "sha256": "001792758cf7eb29ee1befe3dfba12472f041faf48be7e4786d0327cd03bacb9"
+    },
+    {
+      "path": "geobuild/facilities/photo-sources.json",
+      "sha256": "dad26102d2c7a229536bfe4693bc84a2a87afeb4a9b19398122024d475c7bee5"
+    },
+    {
+      "path": "geobuild/course-model.json",
+      "sha256": "66885fa4e54d3c240f717800e27035262c82c48e0eea3002b7afbbf0da0997fd"
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+      "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2"
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-1.json",
+      "sha256": "fd2efd6667bcf2a8d25ce487aa73f4902fc94b0a5f2d38e2308c0c65fd132bbc"
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+      "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e"
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-2.json",
+      "sha256": "6ddeac14ff412061b5d531c8aa1fe45b54da27d4ab1cb0152d4060c3de418ff8"
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-1.tif",
+      "sha256": "7ade0afbf202e5d05c8f3784fc2f4a9243870ce6a90586774b68bfff0091ab20"
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-1.json",
+      "sha256": "9eb6dfdd2febe5c0ca3116d417092d3d6e6f34a9f8e1d01385f06e1da0dc4a34"
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-2.tif",
+      "sha256": "e235a3eab4b4bc131d0c79138ae3a5138789f3fc9464b629e50a4cdacd01b524"
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-2.json",
+      "sha256": "f83c1565e99959efac3ac0bcb0a064ae449db09824e6b66a9ba7f03278a3f231"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/facility-overview.png",
+      "sha256": "429da2ee9a57c335ccc8a8ac271e8f38193b77dc1802a24451ba903b77124942"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/campus-native.png",
+      "sha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/western-buildings-native.png",
+      "sha256": "2398a3447fa8fc9338001af2c8a349376100f0136e049feddc056235dea3ab7b"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/northern-neighbours-native.png",
+      "sha256": "3465d6b9279144e892a1e818819f9c6b4e0349fa844c5ed34e4a4b401ad19a0a"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/range-tee-native.png",
+      "sha256": "afa576a2be8a765c525e2854aa1331a6782beb536c2a22f25320e26dc16b6da5"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/range-practice-context.png",
+      "sha256": "4b8648976505e4c91723eaa3297eeec64bcc8b9c6449b173910a4b3e4c54ebb9"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2041.jpg",
+      "sha256": "66df8920ea3fc96008019e468f3bc87dc260e54c9b17442995b02652fdacebc6"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2041.wordpress.json",
+      "sha256": "ad48c655c8b703fc4b16572d241445afce398347db644307b297193eb4a455c2"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2485.jpg",
+      "sha256": "3d22db67aa74a1add0bff6c62e542d6906d57a3aa8171f26230d0c19bb9ba7e9"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2485.wordpress.json",
+      "sha256": "e060f03efe0cc049103a7bb628c2ba5a5bc9c1cd9bc0141ac7d3ba28134d17d5"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-172.jpg",
+      "sha256": "f18b59ba79ec50b9eedd20544eca0aff74cbe563483871d3e324851a99e2c8d0"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-172.wordpress.json",
+      "sha256": "d340f5dc58dc63c1e3cb4b967ceaee4837c6f6ad67491402dde387b766269c45"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-149.jpg",
+      "sha256": "c7e4893affb79464be579d2627a6291f970d02f14e144619fd1ad5c9d6d22809"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-149.wordpress.json",
+      "sha256": "a2e6036ef0275fa2b200c44ab0c8d8fe0bd7fbe12bcf8a62e13868c8b45bf9cc"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-155.jpg",
+      "sha256": "8d8387398d7dccba0a3344892461c5e58697f63cd2502291a9f213274ae1da49"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-155.wordpress.json",
+      "sha256": "f787be805cda4b9b7646edbe2c7571e174082f98e6e4569c50332787116eb394"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-92.jpg",
+      "sha256": "25b6ea9ee277c63dec9c3af0eb282b21f41d51f9e78c29369473c38282f88256"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-92.wordpress.json",
+      "sha256": "2c49262aca8cd9393acc6e55494a6a2ee0fdda6af7d91ae972a4533212689eb4"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2527.jpg",
+      "sha256": "9436361c19991ce1a58c7bbc76cc737ad0ee47e1a0a9771b8a2a6cfedb717d4f"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2527.wordpress.json",
+      "sha256": "9893761b68b0608e4e5803a3161be2c1bae2d24b68404e13d59ec4d4be6abb3d"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hotel-167.jpg",
+      "sha256": "04d92110e6f38a0b16dd2be88897098e042555891e057084758e96375e3b777a"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hotel-167.wordpress.json",
+      "sha256": "dd584f906de8e6697137fc4af315b22702d5ceb174c6058fddef0eed01077102"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hotel-797.jpg",
+      "sha256": "838b31d1f7b1b9125b81446829aba8365e400667ef485daf5c00448b061d93fd"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hotel-797.wordpress.json",
+      "sha256": "7c05be3b61c2efb2ab0517d1cd3806aaafac68c228aa0f0de1cd6b94dcfaabc3"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/shop-training.jpg",
+      "sha256": "ab0f96aba87ec80e22d4a6f6cec9c3a538cc0a2f617f4ba33f9224de37aff0c8"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hemnet-aerial.jpg",
+      "sha256": "edb6fd86d1c06680976ec9e373dc5fe4a02914f95661d1c10b7e0413a0104293"
+    }
+  ]
+}

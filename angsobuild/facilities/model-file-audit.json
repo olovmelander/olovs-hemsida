@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "auditedAt": "2026-09-10T08:33:25.084127+00:00",
+  "method": "Independent background Blender reopen; source file not modified",
+  "savedBlendPath": "angsobuild/cache/facilities-model-2026-09-10/angso-facilities-v4.blend",
+  "revision": 4,
+  "blendSha256": "f71cc6e8d768ade51b4d9af452e5c445ffc7e20e95c0b90c6f96dd7c74f54a87",
+  "blenderVersion": "4.5.9 LTS",
+  "sceneCount": 1,
+  "scene": "Angso | Facility architecture v4",
+  "facilityRoots": [
+    "B01",
+    "B03",
+    "B04",
+    "B04a",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B09",
+    "B10",
+    "B11",
+    "B12",
+    "B13",
+    "S01",
+    "S02",
+    "S04",
+    "S05",
+    "S06",
+    "S07"
+  ],
+  "facilityRootCount": 19,
+  "editableMeshes": 255,
+  "editableVertices": 51807,
+  "normalDocumentStartupVerified": true,
+  "activeCamera": "ANG MODEL 4 | Courtyard",
+  "metricFrameAndOriginVerified": true,
+  "unconfirmedB02Excluded": true,
+  "siteCirculationS07Included": true,
+  "finiteGeometryAndSingleMaterialMeshesVerified": true,
+  "referenceImagesUsedAsArchitectureTextures": false,
+  "packedModelingProvenanceMatchesBuildReport": true,
+  "sourceInputHashesMatchCurrentFiles": true,
+  "runtimeManifestMatchesSourceIdentity": true,
+  "groundSurfaceRingCountsMatchSource": {
+    "S06": 1,
+    "S07": 1,
+    "S01": 15,
+    "S02": 9,
+    "S04": 1,
+    "S05": 1
+  },
+  "groundSurfaceRingCount": 28,
+  "groundOverlaySmoothNormalsVerified": true,
+  "runtimeAssetSha256": "03ec1d92965315bef789d2fab2a3ab33f7d8c4d48c4be2a81830139860cc1ce6",
+  "sourceAttribution": "Ortofoto Nedladdning and Laserdata Nedladdning skog © Lantmäteriet, bearbetad information, CC BY 4.0",
+  "liveSessionPreservation": {
+    "basis": "Live builder recorded before/after object-transform, active-scene, current-file and selection checks; this audit only opens a separate background process",
+    "reportedPreserved": true,
+    "preservedActiveScene": "Tortuna facility | entry-outbuilding"
+  },
+  "visualReview": {
+    "views": [
+      {
+        "view": "courtyard",
+        "path": "angsobuild/cache/facilities-model-2026-09-10/courtyard.png",
+        "sha256": "0494379a4d2bd352c26759daa983af3683087f5e696aa1844899b496fb4706a3"
+      },
+      {
+        "view": "restaurant-rear",
+        "path": "angsobuild/cache/facilities-model-2026-09-10/restaurant-rear.png",
+        "sha256": "f3f74761906d4df07d6034b7d75ee844e090ad2ae5eff2eaabcb34285e7dea81"
+      }
+    ],
+    "passed": true,
+    "status": "reviewed",
+    "observations": "Reviewed revision 4 courtyard and restaurant rear renders. Rear glazing remains clear, roof joins and dormer materials are coherent, and terrace, porch, annex balcony and stair are intact. Ground surfaces show smoother shading without architectural changes.",
+    "limitations": "Visual reconstruction review does not establish survey accuracy of hidden facade details or exact finished-floor and eave heights."
+  },
+  "sourceFileUnchangedByAudit": true
+}

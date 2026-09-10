@@ -1,0 +1,3285 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "axisOrder": [
+    "easting",
+    "northing"
+  ],
+  "groundId": "tortuna",
+  "status": "provisional-observed-additions-and-explicit-replacements",
+  "integration": "Remove each listed replacesFeatureIds exactly once before adding features; forward-observed-platform does not resolve an unseen back tee.",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "tortuna-h04-tee-forward-observed-2026",
+      "properties": {
+        "hole": 4,
+        "kind": "tee",
+        "replacesFeatureIds": [],
+        "boundaryInterpretationUncertaintyMetres": 1.0,
+        "interpretation": "Visible oval maintained platform beyond the original 128 m tee crop; its worn centre and outer cut edge are distinguishable in the retained 0.32 m overview. Does not resolve the shadowed back platform or current colours.",
+        "teeRole": "forward-observed-platform",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/south.tif",
+          "sourceRasterSha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f",
+          "sourcePixelWindow": [
+            1593,
+            1062,
+            470,
+            688
+          ],
+          "geoTransform": [
+            597389.76,
+            0.32,
+            0.0,
+            6614540.16,
+            0.0,
+            -0.32
+          ],
+          "width": 470,
+          "height": 688,
+          "resolutionMetres": 0.32,
+          "resampling": "average from 0.16 m source",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/h04-tees-wide-source.png",
+          "reviewImageSha256": "4986393c6625afb8d3b631907bbb766db36b07ef75137b7a63d6f91db629599e"
+        },
+        "tracePixels": [
+          [
+            253,
+            446
+          ],
+          [
+            260,
+            436
+          ],
+          [
+            274,
+            435
+          ],
+          [
+            286,
+            443
+          ],
+          [
+            292,
+            462
+          ],
+          [
+            290,
+            483
+          ],
+          [
+            284,
+            501
+          ],
+          [
+            273,
+            511
+          ],
+          [
+            257,
+            507
+          ],
+          [
+            247,
+            495
+          ],
+          [
+            245,
+            475
+          ],
+          [
+            248,
+            455
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 283.904
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597470.72,
+              6614397.44
+            ],
+            [
+              597472.96,
+              6614400.64
+            ],
+            [
+              597477.44,
+              6614400.96
+            ],
+            [
+              597481.28,
+              6614398.4
+            ],
+            [
+              597483.2,
+              6614392.32
+            ],
+            [
+              597482.56,
+              6614385.6
+            ],
+            [
+              597480.64,
+              6614379.84
+            ],
+            [
+              597477.12,
+              6614376.64
+            ],
+            [
+              597472.0,
+              6614377.92
+            ],
+            [
+              597468.8,
+              6614381.76
+            ],
+            [
+              597468.16,
+              6614388.16
+            ],
+            [
+              597469.12,
+              6614394.56
+            ],
+            [
+              597470.72,
+              6614397.44
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h07-tee-forward-observed-2026",
+      "properties": {
+        "hole": 7,
+        "kind": "tee",
+        "replacesFeatureIds": [],
+        "boundaryInterpretationUncertaintyMetres": 1.0,
+        "interpretation": "Separate maintained platform north of the previously mapped tee. The full visible cut platform is retained, including its worn central turf. Current tee colours are unverified.",
+        "teeRole": "forward-observed-platform",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-07-tee.tif",
+          "sourceRasterSha256": "0004b8268254b9539c6d01296174d40657df431e5d17f459c316aa0b129fe2e0",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597539.36,
+            0.16,
+            0.0,
+            6614355.68,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-07-tee-source.png",
+          "reviewImageSha256": "ff4a40e7f6647774286bc0a23a5079733b4fc6dce95d0689e5c6fae566493fe2"
+        },
+        "tracePixels": [
+          [
+            436,
+            95
+          ],
+          [
+            467,
+            95
+          ],
+          [
+            480,
+            105
+          ],
+          [
+            486,
+            129
+          ],
+          [
+            485,
+            163
+          ],
+          [
+            481,
+            192
+          ],
+          [
+            476,
+            218
+          ],
+          [
+            432,
+            225
+          ],
+          [
+            421,
+            211
+          ],
+          [
+            425,
+            179
+          ],
+          [
+            431,
+            142
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 172.608
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597609.12,
+              6614340.48
+            ],
+            [
+              597614.08,
+              6614340.48
+            ],
+            [
+              597616.16,
+              6614338.88
+            ],
+            [
+              597617.12,
+              6614335.04
+            ],
+            [
+              597616.96,
+              6614329.6
+            ],
+            [
+              597616.32,
+              6614324.96
+            ],
+            [
+              597615.52,
+              6614320.8
+            ],
+            [
+              597608.48,
+              6614319.68
+            ],
+            [
+              597606.72,
+              6614321.92
+            ],
+            [
+              597607.36,
+              6614327.04
+            ],
+            [
+              597608.32,
+              6614332.96
+            ],
+            [
+              597609.12,
+              6614340.48
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h01-green-native-detail",
+      "properties": {
+        "hole": 1,
+        "kind": "green",
+        "replacesFeatureIds": [
+          "tortuna-h01-green-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.0,
+        "interpretation": "Native-pixel putting-surface boundary; excludes the darker collar and adjacent bunker.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-01-green.tif",
+          "sourceRasterSha256": "440a35de267203229a2045a9ac44b4dc8cbfe746edaf7cbed2bcc9f1d2184c7d",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597526.08,
+            0.16,
+            0.0,
+            6614850.08,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-01-green-source.png",
+          "reviewImageSha256": "75b91db2672af3d049b48af660284ca6171dbda91b4e8c52f1756133b37e9235"
+        },
+        "tracePixels": [
+          [
+            354,
+            332
+          ],
+          [
+            382,
+            333
+          ],
+          [
+            412,
+            348
+          ],
+          [
+            431,
+            371
+          ],
+          [
+            445,
+            400
+          ],
+          [
+            451,
+            430
+          ],
+          [
+            441,
+            455
+          ],
+          [
+            421,
+            472
+          ],
+          [
+            397,
+            479
+          ],
+          [
+            370,
+            469
+          ],
+          [
+            348,
+            449
+          ],
+          [
+            332,
+            419
+          ],
+          [
+            319,
+            389
+          ],
+          [
+            317,
+            365
+          ],
+          [
+            328,
+            343
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 359.462
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597582.72,
+              6614796.96
+            ],
+            [
+              597587.2,
+              6614796.8
+            ],
+            [
+              597592.0,
+              6614794.4
+            ],
+            [
+              597595.04,
+              6614790.72
+            ],
+            [
+              597597.28,
+              6614786.08
+            ],
+            [
+              597598.24,
+              6614781.28
+            ],
+            [
+              597596.64,
+              6614777.28
+            ],
+            [
+              597593.44,
+              6614774.56
+            ],
+            [
+              597589.6,
+              6614773.44
+            ],
+            [
+              597585.28,
+              6614775.04
+            ],
+            [
+              597581.76,
+              6614778.24
+            ],
+            [
+              597579.2,
+              6614783.04
+            ],
+            [
+              597577.12,
+              6614787.84
+            ],
+            [
+              597576.8,
+              6614791.68
+            ],
+            [
+              597578.56,
+              6614795.2
+            ],
+            [
+              597582.72,
+              6614796.96
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h02-green-native-detail",
+      "properties": {
+        "hole": 2,
+        "kind": "green",
+        "replacesFeatureIds": [
+          "tortuna-h02-green-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "interpretation": "Native-pixel putting-surface boundary. Thin branch shadows cross the western edge; interpolation is limited to the contiguous visible mowing transition.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-02-green.tif",
+          "sourceRasterSha256": "63300e6c121d1605e7202af3f5014c4f201fbfdd527300dfaf47d2e2a3fc8d29",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597261.12,
+            0.16,
+            0.0,
+            6614628.32,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-02-green-source.png",
+          "reviewImageSha256": "690bcf8c442df03b6bcd752cd27f26acf787538779207f92f49bf3c14797a631"
+        },
+        "tracePixels": [
+          [
+            376,
+            345
+          ],
+          [
+            403,
+            348
+          ],
+          [
+            430,
+            361
+          ],
+          [
+            454,
+            379
+          ],
+          [
+            468,
+            403
+          ],
+          [
+            470,
+            425
+          ],
+          [
+            458,
+            443
+          ],
+          [
+            432,
+            456
+          ],
+          [
+            402,
+            464
+          ],
+          [
+            374,
+            462
+          ],
+          [
+            350,
+            449
+          ],
+          [
+            332,
+            433
+          ],
+          [
+            325,
+            412
+          ],
+          [
+            326,
+            389
+          ],
+          [
+            343,
+            365
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 329.037
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597321.28,
+              6614573.12
+            ],
+            [
+              597325.6,
+              6614572.64
+            ],
+            [
+              597329.92,
+              6614570.56
+            ],
+            [
+              597333.76,
+              6614567.68
+            ],
+            [
+              597336.0,
+              6614563.84
+            ],
+            [
+              597336.32,
+              6614560.32
+            ],
+            [
+              597334.4,
+              6614557.44
+            ],
+            [
+              597330.24,
+              6614555.36
+            ],
+            [
+              597325.44,
+              6614554.08
+            ],
+            [
+              597320.96,
+              6614554.4
+            ],
+            [
+              597317.12,
+              6614556.48
+            ],
+            [
+              597314.24,
+              6614559.04
+            ],
+            [
+              597313.12,
+              6614562.4
+            ],
+            [
+              597313.28,
+              6614566.08
+            ],
+            [
+              597316.0,
+              6614569.92
+            ],
+            [
+              597321.28,
+              6614573.12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h06-green-native-detail",
+      "properties": {
+        "hole": 6,
+        "kind": "green",
+        "replacesFeatureIds": [
+          "tortuna-h06-green-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.0,
+        "interpretation": "Visible native-pixel putting-surface edge; darker surrounding apron is separate.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-06-green.tif",
+          "sourceRasterSha256": "a92091615ec9c2b1a1eae400ef1ec93d6e1f5be6d79682cd459ce475422d7bad",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597471.84,
+            0.16,
+            0.0,
+            6614325.12,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-06-green-source.png",
+          "reviewImageSha256": "6bb6508382342293324fc9f8583b1aaf5c55d9606e856213f3dd9857f801583b"
+        },
+        "tracePixels": [
+          [
+            404,
+            324
+          ],
+          [
+            427,
+            326
+          ],
+          [
+            449,
+            339
+          ],
+          [
+            464,
+            354
+          ],
+          [
+            473,
+            378
+          ],
+          [
+            473,
+            400
+          ],
+          [
+            460,
+            423
+          ],
+          [
+            441,
+            442
+          ],
+          [
+            416,
+            456
+          ],
+          [
+            388,
+            466
+          ],
+          [
+            363,
+            461
+          ],
+          [
+            345,
+            450
+          ],
+          [
+            333,
+            433
+          ],
+          [
+            326,
+            411
+          ],
+          [
+            327,
+            389
+          ],
+          [
+            343,
+            367
+          ],
+          [
+            369,
+            344
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 385.946
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597536.48,
+              6614273.28
+            ],
+            [
+              597540.16,
+              6614272.96
+            ],
+            [
+              597543.68,
+              6614270.88
+            ],
+            [
+              597546.08,
+              6614268.48
+            ],
+            [
+              597547.52,
+              6614264.64
+            ],
+            [
+              597547.52,
+              6614261.12
+            ],
+            [
+              597545.44,
+              6614257.44
+            ],
+            [
+              597542.4,
+              6614254.4
+            ],
+            [
+              597538.4,
+              6614252.16
+            ],
+            [
+              597533.92,
+              6614250.56
+            ],
+            [
+              597529.92,
+              6614251.36
+            ],
+            [
+              597527.04,
+              6614253.12
+            ],
+            [
+              597525.12,
+              6614255.84
+            ],
+            [
+              597524.0,
+              6614259.36
+            ],
+            [
+              597524.16,
+              6614262.88
+            ],
+            [
+              597526.72,
+              6614266.4
+            ],
+            [
+              597530.88,
+              6614270.08
+            ],
+            [
+              597536.48,
+              6614273.28
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h07-green-native-detail",
+      "properties": {
+        "hole": 7,
+        "kind": "green",
+        "replacesFeatureIds": [
+          "tortuna-h07-green-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.0,
+        "interpretation": "Visible native-pixel putting-surface edge beneath power lines; no inferred circular geometry.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-07-green.tif",
+          "sourceRasterSha256": "e6376c0e68ac83d712fe4d540538b93669e550116cae98f798f97f705578a07c",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597522.88,
+            0.16,
+            0.0,
+            6614619.84,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-07-green-source.png",
+          "reviewImageSha256": "fcf918ba7744ecedd80ee048291542dc2d58489ae00ca302126a53db80d51da1"
+        },
+        "tracePixels": [
+          [
+            384,
+            338
+          ],
+          [
+            407,
+            341
+          ],
+          [
+            428,
+            355
+          ],
+          [
+            445,
+            374
+          ],
+          [
+            455,
+            398
+          ],
+          [
+            454,
+            423
+          ],
+          [
+            446,
+            447
+          ],
+          [
+            429,
+            465
+          ],
+          [
+            407,
+            475
+          ],
+          [
+            384,
+            479
+          ],
+          [
+            364,
+            474
+          ],
+          [
+            349,
+            460
+          ],
+          [
+            338,
+            442
+          ],
+          [
+            332,
+            417
+          ],
+          [
+            331,
+            391
+          ],
+          [
+            339,
+            367
+          ],
+          [
+            357,
+            347
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 346.931
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597584.32,
+              6614565.76
+            ],
+            [
+              597588.0,
+              6614565.28
+            ],
+            [
+              597591.36,
+              6614563.04
+            ],
+            [
+              597594.08,
+              6614560.0
+            ],
+            [
+              597595.68,
+              6614556.16
+            ],
+            [
+              597595.52,
+              6614552.16
+            ],
+            [
+              597594.24,
+              6614548.32
+            ],
+            [
+              597591.52,
+              6614545.44
+            ],
+            [
+              597588.0,
+              6614543.84
+            ],
+            [
+              597584.32,
+              6614543.2
+            ],
+            [
+              597581.12,
+              6614544.0
+            ],
+            [
+              597578.72,
+              6614546.24
+            ],
+            [
+              597576.96,
+              6614549.12
+            ],
+            [
+              597576.0,
+              6614553.12
+            ],
+            [
+              597575.84,
+              6614557.28
+            ],
+            [
+              597577.12,
+              6614561.12
+            ],
+            [
+              597580.0,
+              6614564.32
+            ],
+            [
+              597584.32,
+              6614565.76
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h08-green-native-detail",
+      "properties": {
+        "hole": 8,
+        "kind": "green",
+        "replacesFeatureIds": [
+          "tortuna-h08-green-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "interpretation": "Native-pixel putting-surface edge. Thin western branch shadows remain an interpretation limitation; the unobservable outer tree boundaries are not traced.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-08-green.tif",
+          "sourceRasterSha256": "01b774d805eeb6482adfdd0a83ac87b09d190a435e787c632e074b32f1427303",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597684.48,
+            0.16,
+            0.0,
+            6614774.4,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-08-green-source.png",
+          "reviewImageSha256": "4d4f501b05da4da1ec0d7d69c51a89a7e775f6b4b89a02dce3f029aa99c1dc51"
+        },
+        "tracePixels": [
+          [
+            374,
+            347
+          ],
+          [
+            405,
+            349
+          ],
+          [
+            429,
+            358
+          ],
+          [
+            450,
+            376
+          ],
+          [
+            461,
+            395
+          ],
+          [
+            462,
+            421
+          ],
+          [
+            452,
+            447
+          ],
+          [
+            435,
+            459
+          ],
+          [
+            407,
+            466
+          ],
+          [
+            377,
+            463
+          ],
+          [
+            348,
+            452
+          ],
+          [
+            329,
+            434
+          ],
+          [
+            323,
+            411
+          ],
+          [
+            326,
+            388
+          ],
+          [
+            342,
+            365
+          ],
+          [
+            359,
+            353
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 331.328
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597744.32,
+              6614718.88
+            ],
+            [
+              597749.28,
+              6614718.56
+            ],
+            [
+              597753.12,
+              6614717.12
+            ],
+            [
+              597756.48,
+              6614714.24
+            ],
+            [
+              597758.24,
+              6614711.2
+            ],
+            [
+              597758.4,
+              6614707.04
+            ],
+            [
+              597756.8,
+              6614702.88
+            ],
+            [
+              597754.08,
+              6614700.96
+            ],
+            [
+              597749.6,
+              6614699.84
+            ],
+            [
+              597744.8,
+              6614700.32
+            ],
+            [
+              597740.16,
+              6614702.08
+            ],
+            [
+              597737.12,
+              6614704.96
+            ],
+            [
+              597736.16,
+              6614708.64
+            ],
+            [
+              597736.64,
+              6614712.32
+            ],
+            [
+              597739.2,
+              6614716.0
+            ],
+            [
+              597741.92,
+              6614717.92
+            ],
+            [
+              597744.32,
+              6614718.88
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h09-green-native-detail",
+      "properties": {
+        "hole": 9,
+        "kind": "green",
+        "replacesFeatureIds": [
+          "tortuna-h09-green-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.0,
+        "interpretation": "Native-pixel putting-surface edge between source pond and sand; does not use the daily flag or change the current short-hole routing.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-09-green.tif",
+          "sourceRasterSha256": "1ecd7083b2ef4feeca1970314de1b8ccc5052490b324465577bb6107057ca4c8",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597452.16,
+            0.16,
+            0.0,
+            6615088.640000001,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-09-green-source.png",
+          "reviewImageSha256": "7def2d52486f0b1f80dd1c7b87e1ffb8919a0aff402abdbd86c4bd404e58cc04"
+        },
+        "tracePixels": [
+          [
+            368,
+            328
+          ],
+          [
+            389,
+            326
+          ],
+          [
+            413,
+            338
+          ],
+          [
+            435,
+            358
+          ],
+          [
+            449,
+            383
+          ],
+          [
+            454,
+            410
+          ],
+          [
+            450,
+            433
+          ],
+          [
+            437,
+            451
+          ],
+          [
+            417,
+            464
+          ],
+          [
+            394,
+            470
+          ],
+          [
+            371,
+            464
+          ],
+          [
+            350,
+            451
+          ],
+          [
+            338,
+            430
+          ],
+          [
+            329,
+            402
+          ],
+          [
+            328,
+            376
+          ],
+          [
+            338,
+            352
+          ],
+          [
+            353,
+            336
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 349.44
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597511.04,
+              6615036.16
+            ],
+            [
+              597514.4,
+              6615036.48
+            ],
+            [
+              597518.24,
+              6615034.56
+            ],
+            [
+              597521.76,
+              6615031.36
+            ],
+            [
+              597524.0,
+              6615027.36
+            ],
+            [
+              597524.8,
+              6615023.04
+            ],
+            [
+              597524.16,
+              6615019.36
+            ],
+            [
+              597522.08,
+              6615016.48
+            ],
+            [
+              597518.88,
+              6615014.4
+            ],
+            [
+              597515.2,
+              6615013.44
+            ],
+            [
+              597511.52,
+              6615014.4
+            ],
+            [
+              597508.16,
+              6615016.48
+            ],
+            [
+              597506.24,
+              6615019.84
+            ],
+            [
+              597504.8,
+              6615024.32
+            ],
+            [
+              597504.64,
+              6615028.48
+            ],
+            [
+              597506.24,
+              6615032.32
+            ],
+            [
+              597508.64,
+              6615034.88
+            ],
+            [
+              597511.04,
+              6615036.16
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h01-bunker-native-detail",
+      "properties": {
+        "hole": 1,
+        "kind": "bunker",
+        "replacesFeatureIds": [
+          "tortuna-h01-bunker-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.75,
+        "interpretation": "Visible sand edge; turf bank excluded.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-01-green.tif",
+          "sourceRasterSha256": "440a35de267203229a2045a9ac44b4dc8cbfe746edaf7cbed2bcc9f1d2184c7d",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597526.08,
+            0.16,
+            0.0,
+            6614850.08,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-01-green-source.png",
+          "reviewImageSha256": "75b91db2672af3d049b48af660284ca6171dbda91b4e8c52f1756133b37e9235"
+        },
+        "tracePixels": [
+          [
+            363,
+            291
+          ],
+          [
+            381,
+            276
+          ],
+          [
+            397,
+            271
+          ],
+          [
+            413,
+            272
+          ],
+          [
+            431,
+            280
+          ],
+          [
+            451,
+            294
+          ],
+          [
+            466,
+            307
+          ],
+          [
+            473,
+            317
+          ],
+          [
+            471,
+            324
+          ],
+          [
+            465,
+            329
+          ],
+          [
+            450,
+            331
+          ],
+          [
+            431,
+            327
+          ],
+          [
+            410,
+            320
+          ],
+          [
+            388,
+            317
+          ],
+          [
+            373,
+            316
+          ],
+          [
+            363,
+            311
+          ],
+          [
+            359,
+            303
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 110.118
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597584.16,
+              6614803.52
+            ],
+            [
+              597587.04,
+              6614805.92
+            ],
+            [
+              597589.6,
+              6614806.72
+            ],
+            [
+              597592.16,
+              6614806.56
+            ],
+            [
+              597595.04,
+              6614805.28
+            ],
+            [
+              597598.24,
+              6614803.04
+            ],
+            [
+              597600.64,
+              6614800.96
+            ],
+            [
+              597601.76,
+              6614799.36
+            ],
+            [
+              597601.44,
+              6614798.24
+            ],
+            [
+              597600.48,
+              6614797.44
+            ],
+            [
+              597598.08,
+              6614797.12
+            ],
+            [
+              597595.04,
+              6614797.76
+            ],
+            [
+              597591.68,
+              6614798.88
+            ],
+            [
+              597588.16,
+              6614799.36
+            ],
+            [
+              597585.76,
+              6614799.52
+            ],
+            [
+              597584.16,
+              6614800.32
+            ],
+            [
+              597583.52,
+              6614801.6
+            ],
+            [
+              597584.16,
+              6614803.52
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h02-bunker-north-native-detail",
+      "properties": {
+        "hole": 2,
+        "kind": "bunker",
+        "replacesFeatureIds": [
+          "tortuna-h02-bunker-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.75,
+        "interpretation": "Visible northern sand edge; turf bank excluded.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-02-green.tif",
+          "sourceRasterSha256": "63300e6c121d1605e7202af3f5014c4f201fbfdd527300dfaf47d2e2a3fc8d29",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597261.12,
+            0.16,
+            0.0,
+            6614628.32,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-02-green-source.png",
+          "reviewImageSha256": "690bcf8c442df03b6bcd752cd27f26acf787538779207f92f49bf3c14797a631"
+        },
+        "tracePixels": [
+          [
+            411,
+            303
+          ],
+          [
+            425,
+            299
+          ],
+          [
+            445,
+            302
+          ],
+          [
+            465,
+            311
+          ],
+          [
+            482,
+            321
+          ],
+          [
+            491,
+            331
+          ],
+          [
+            491,
+            341
+          ],
+          [
+            486,
+            347
+          ],
+          [
+            475,
+            349
+          ],
+          [
+            461,
+            343
+          ],
+          [
+            449,
+            336
+          ],
+          [
+            434,
+            330
+          ],
+          [
+            419,
+            325
+          ],
+          [
+            409,
+            321
+          ],
+          [
+            406,
+            314
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 60.25
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597326.88,
+              6614579.84
+            ],
+            [
+              597329.12,
+              6614580.48
+            ],
+            [
+              597332.32,
+              6614580.0
+            ],
+            [
+              597335.52,
+              6614578.56
+            ],
+            [
+              597338.24,
+              6614576.96
+            ],
+            [
+              597339.68,
+              6614575.36
+            ],
+            [
+              597339.68,
+              6614573.76
+            ],
+            [
+              597338.88,
+              6614572.8
+            ],
+            [
+              597337.12,
+              6614572.48
+            ],
+            [
+              597334.88,
+              6614573.44
+            ],
+            [
+              597332.96,
+              6614574.56
+            ],
+            [
+              597330.56,
+              6614575.52
+            ],
+            [
+              597328.16,
+              6614576.32
+            ],
+            [
+              597326.56,
+              6614576.96
+            ],
+            [
+              597326.08,
+              6614578.08
+            ],
+            [
+              597326.88,
+              6614579.84
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h02-bunker-south-native-detail",
+      "properties": {
+        "hole": 2,
+        "kind": "bunker",
+        "replacesFeatureIds": [
+          "tortuna-h02-bunker-2"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.75,
+        "interpretation": "Visible southern sand edge; turf bank excluded.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-02-green.tif",
+          "sourceRasterSha256": "63300e6c121d1605e7202af3f5014c4f201fbfdd527300dfaf47d2e2a3fc8d29",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597261.12,
+            0.16,
+            0.0,
+            6614628.32,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-02-green-source.png",
+          "reviewImageSha256": "690bcf8c442df03b6bcd752cd27f26acf787538779207f92f49bf3c14797a631"
+        },
+        "tracePixels": [
+          [
+            481,
+            454
+          ],
+          [
+            498,
+            448
+          ],
+          [
+            509,
+            449
+          ],
+          [
+            515,
+            456
+          ],
+          [
+            515,
+            467
+          ],
+          [
+            509,
+            480
+          ],
+          [
+            500,
+            489
+          ],
+          [
+            487,
+            496
+          ],
+          [
+            473,
+            498
+          ],
+          [
+            460,
+            494
+          ],
+          [
+            452,
+            488
+          ],
+          [
+            452,
+            479
+          ],
+          [
+            460,
+            470
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 54.387
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597338.08,
+              6614555.68
+            ],
+            [
+              597340.8,
+              6614556.64
+            ],
+            [
+              597342.56,
+              6614556.48
+            ],
+            [
+              597343.52,
+              6614555.36
+            ],
+            [
+              597343.52,
+              6614553.6
+            ],
+            [
+              597342.56,
+              6614551.52
+            ],
+            [
+              597341.12,
+              6614550.08
+            ],
+            [
+              597339.04,
+              6614548.96
+            ],
+            [
+              597336.8,
+              6614548.64
+            ],
+            [
+              597334.72,
+              6614549.28
+            ],
+            [
+              597333.44,
+              6614550.24
+            ],
+            [
+              597333.44,
+              6614551.68
+            ],
+            [
+              597334.72,
+              6614553.12
+            ],
+            [
+              597338.08,
+              6614555.68
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h03-bunker-native-detail",
+      "properties": {
+        "hole": 3,
+        "kind": "bunker",
+        "replacesFeatureIds": [
+          "tortuna-h03-bunker-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.75,
+        "interpretation": "Visible sand boundary; the heavily shadowed putting green is deliberately left unchanged.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-03-green.tif",
+          "sourceRasterSha256": "3f0699bbd75a92b05e5abe7a46d7c38b8724cfa4291e1b1f41edab4321270a25",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597331.68,
+            0.16,
+            0.0,
+            6614449.92,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-03-green-source.png",
+          "reviewImageSha256": "dd778f39059a7d785e833c5d7c1d9a4e575b797d1a9f33249d7e5784594929ff"
+        },
+        "tracePixels": [
+          [
+            424,
+            237
+          ],
+          [
+            435,
+            236
+          ],
+          [
+            445,
+            241
+          ],
+          [
+            453,
+            251
+          ],
+          [
+            464,
+            268
+          ],
+          [
+            474,
+            290
+          ],
+          [
+            481,
+            311
+          ],
+          [
+            480,
+            324
+          ],
+          [
+            473,
+            333
+          ],
+          [
+            463,
+            339
+          ],
+          [
+            453,
+            338
+          ],
+          [
+            446,
+            331
+          ],
+          [
+            438,
+            320
+          ],
+          [
+            425,
+            310
+          ],
+          [
+            413,
+            303
+          ],
+          [
+            408,
+            297
+          ],
+          [
+            406,
+            286
+          ],
+          [
+            408,
+            268
+          ],
+          [
+            413,
+            252
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 125.888
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597399.52,
+              6614412.0
+            ],
+            [
+              597401.28,
+              6614412.16
+            ],
+            [
+              597402.88,
+              6614411.36
+            ],
+            [
+              597404.16,
+              6614409.76
+            ],
+            [
+              597405.92,
+              6614407.04
+            ],
+            [
+              597407.52,
+              6614403.52
+            ],
+            [
+              597408.64,
+              6614400.16
+            ],
+            [
+              597408.48,
+              6614398.08
+            ],
+            [
+              597407.36,
+              6614396.64
+            ],
+            [
+              597405.76,
+              6614395.68
+            ],
+            [
+              597404.16,
+              6614395.84
+            ],
+            [
+              597403.04,
+              6614396.96
+            ],
+            [
+              597401.76,
+              6614398.72
+            ],
+            [
+              597399.68,
+              6614400.32
+            ],
+            [
+              597397.76,
+              6614401.44
+            ],
+            [
+              597396.96,
+              6614402.4
+            ],
+            [
+              597396.64,
+              6614404.16
+            ],
+            [
+              597396.96,
+              6614407.04
+            ],
+            [
+              597397.76,
+              6614409.6
+            ],
+            [
+              597399.52,
+              6614412.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h04-bunker-native-detail",
+      "properties": {
+        "hole": 4,
+        "kind": "bunker",
+        "replacesFeatureIds": [
+          "tortuna-h04-bunker-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.75,
+        "interpretation": "Visible sand boundary, separate from path and turf; shadowed green remains unchanged.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-04-green.tif",
+          "sourceRasterSha256": "56bf7650d628e615377faf7d93e4a9d6333c9f2d93990e3613777df628f5f16d",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597217.4400000001,
+            0.16,
+            0.0,
+            6614140.48,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-04-green-source.png",
+          "reviewImageSha256": "de5a0e4458338b5c7078d5f2fa5c74033f302b18705472e07e4150142e8f1fcf"
+        },
+        "tracePixels": [
+          [
+            511,
+            299
+          ],
+          [
+            531,
+            301
+          ],
+          [
+            551,
+            307
+          ],
+          [
+            563,
+            316
+          ],
+          [
+            567,
+            328
+          ],
+          [
+            562,
+            341
+          ],
+          [
+            551,
+            353
+          ],
+          [
+            536,
+            368
+          ],
+          [
+            520,
+            381
+          ],
+          [
+            500,
+            393
+          ],
+          [
+            488,
+            395
+          ],
+          [
+            481,
+            388
+          ],
+          [
+            478,
+            374
+          ],
+          [
+            476,
+            354
+          ],
+          [
+            477,
+            332
+          ],
+          [
+            483,
+            315
+          ],
+          [
+            494,
+            302
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 155.558
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597299.2,
+              6614092.64
+            ],
+            [
+              597302.4,
+              6614092.32
+            ],
+            [
+              597305.6,
+              6614091.36
+            ],
+            [
+              597307.52,
+              6614089.92
+            ],
+            [
+              597308.16,
+              6614088.0
+            ],
+            [
+              597307.36,
+              6614085.92
+            ],
+            [
+              597305.6,
+              6614084.0
+            ],
+            [
+              597303.2,
+              6614081.6
+            ],
+            [
+              597300.64,
+              6614079.52
+            ],
+            [
+              597297.44,
+              6614077.6
+            ],
+            [
+              597295.52,
+              6614077.28
+            ],
+            [
+              597294.4,
+              6614078.4
+            ],
+            [
+              597293.92,
+              6614080.64
+            ],
+            [
+              597293.6,
+              6614083.84
+            ],
+            [
+              597293.76,
+              6614087.36
+            ],
+            [
+              597294.72,
+              6614090.08
+            ],
+            [
+              597296.48,
+              6614092.16
+            ],
+            [
+              597299.2,
+              6614092.64
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h07-bunker-native-detail",
+      "properties": {
+        "hole": 7,
+        "kind": "bunker",
+        "replacesFeatureIds": [
+          "tortuna-h07-bunker-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.75,
+        "interpretation": "Visible elongated sand boundary; turf bank excluded.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-07-green.tif",
+          "sourceRasterSha256": "e6376c0e68ac83d712fe4d540538b93669e550116cae98f798f97f705578a07c",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597522.88,
+            0.16,
+            0.0,
+            6614619.84,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-07-green-source.png",
+          "reviewImageSha256": "fcf918ba7744ecedd80ee048291542dc2d58489ae00ca302126a53db80d51da1"
+        },
+        "tracePixels": [
+          [
+            307,
+            433
+          ],
+          [
+            315,
+            434
+          ],
+          [
+            321,
+            440
+          ],
+          [
+            327,
+            454
+          ],
+          [
+            337,
+            471
+          ],
+          [
+            344,
+            484
+          ],
+          [
+            346,
+            493
+          ],
+          [
+            341,
+            501
+          ],
+          [
+            332,
+            503
+          ],
+          [
+            325,
+            500
+          ],
+          [
+            317,
+            492
+          ],
+          [
+            308,
+            478
+          ],
+          [
+            300,
+            464
+          ],
+          [
+            293,
+            452
+          ],
+          [
+            294,
+            442
+          ],
+          [
+            300,
+            435
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 50.893
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597572.0,
+              6614550.56
+            ],
+            [
+              597573.28,
+              6614550.4
+            ],
+            [
+              597574.24,
+              6614549.44
+            ],
+            [
+              597575.2,
+              6614547.2
+            ],
+            [
+              597576.8,
+              6614544.48
+            ],
+            [
+              597577.92,
+              6614542.4
+            ],
+            [
+              597578.24,
+              6614540.96
+            ],
+            [
+              597577.44,
+              6614539.68
+            ],
+            [
+              597576.0,
+              6614539.36
+            ],
+            [
+              597574.88,
+              6614539.84
+            ],
+            [
+              597573.6,
+              6614541.12
+            ],
+            [
+              597572.16,
+              6614543.36
+            ],
+            [
+              597570.88,
+              6614545.6
+            ],
+            [
+              597569.76,
+              6614547.52
+            ],
+            [
+              597569.92,
+              6614549.12
+            ],
+            [
+              597570.88,
+              6614550.24
+            ],
+            [
+              597572.0,
+              6614550.56
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h09-bunker-north-native-detail",
+      "properties": {
+        "hole": 9,
+        "kind": "bunker",
+        "replacesFeatureIds": [
+          "tortuna-h09-bunker-1"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.75,
+        "interpretation": "Visible northern sand boundary; path excluded.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-09-green.tif",
+          "sourceRasterSha256": "1ecd7083b2ef4feeca1970314de1b8ccc5052490b324465577bb6107057ca4c8",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597452.16,
+            0.16,
+            0.0,
+            6615088.640000001,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-09-green-source.png",
+          "reviewImageSha256": "7def2d52486f0b1f80dd1c7b87e1ffb8919a0aff402abdbd86c4bd404e58cc04"
+        },
+        "tracePixels": [
+          [
+            434,
+            252
+          ],
+          [
+            451,
+            252
+          ],
+          [
+            471,
+            257
+          ],
+          [
+            478,
+            264
+          ],
+          [
+            475,
+            279
+          ],
+          [
+            470,
+            293
+          ],
+          [
+            470,
+            302
+          ],
+          [
+            476,
+            315
+          ],
+          [
+            480,
+            324
+          ],
+          [
+            477,
+            331
+          ],
+          [
+            470,
+            331
+          ],
+          [
+            457,
+            321
+          ],
+          [
+            442,
+            312
+          ],
+          [
+            430,
+            300
+          ],
+          [
+            425,
+            285
+          ],
+          [
+            426,
+            269
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 76.198
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597521.6,
+              6615048.32
+            ],
+            [
+              597524.32,
+              6615048.32
+            ],
+            [
+              597527.52,
+              6615047.52
+            ],
+            [
+              597528.64,
+              6615046.4
+            ],
+            [
+              597528.16,
+              6615044.0
+            ],
+            [
+              597527.36,
+              6615041.76
+            ],
+            [
+              597527.36,
+              6615040.32
+            ],
+            [
+              597528.32,
+              6615038.24
+            ],
+            [
+              597528.96,
+              6615036.8
+            ],
+            [
+              597528.48,
+              6615035.68
+            ],
+            [
+              597527.36,
+              6615035.68
+            ],
+            [
+              597525.28,
+              6615037.28
+            ],
+            [
+              597522.88,
+              6615038.72
+            ],
+            [
+              597520.96,
+              6615040.64
+            ],
+            [
+              597520.16,
+              6615043.04
+            ],
+            [
+              597520.32,
+              6615045.6
+            ],
+            [
+              597521.6,
+              6615048.32
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h09-bunker-east-native-detail",
+      "properties": {
+        "hole": 9,
+        "kind": "bunker",
+        "replacesFeatureIds": [
+          "tortuna-h09-bunker-2"
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.75,
+        "interpretation": "Visible eastern sand boundary; path and grass bank excluded.",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-09-green.tif",
+          "sourceRasterSha256": "1ecd7083b2ef4feeca1970314de1b8ccc5052490b324465577bb6107057ca4c8",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597452.16,
+            0.16,
+            0.0,
+            6615088.640000001,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-09-green-source.png",
+          "reviewImageSha256": "7def2d52486f0b1f80dd1c7b87e1ffb8919a0aff402abdbd86c4bd404e58cc04"
+        },
+        "tracePixels": [
+          [
+            513,
+            385
+          ],
+          [
+            532,
+            384
+          ],
+          [
+            550,
+            384
+          ],
+          [
+            560,
+            390
+          ],
+          [
+            564,
+            402
+          ],
+          [
+            563,
+            421
+          ],
+          [
+            565,
+            435
+          ],
+          [
+            569,
+            448
+          ],
+          [
+            568,
+            455
+          ],
+          [
+            560,
+            461
+          ],
+          [
+            553,
+            461
+          ],
+          [
+            546,
+            457
+          ],
+          [
+            539,
+            447
+          ],
+          [
+            527,
+            444
+          ],
+          [
+            515,
+            438
+          ],
+          [
+            506,
+            427
+          ],
+          [
+            500,
+            414
+          ],
+          [
+            498,
+            402
+          ],
+          [
+            502,
+            391
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 98.637
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597534.24,
+              6615027.04
+            ],
+            [
+              597537.28,
+              6615027.2
+            ],
+            [
+              597540.16,
+              6615027.2
+            ],
+            [
+              597541.76,
+              6615026.24
+            ],
+            [
+              597542.4,
+              6615024.32
+            ],
+            [
+              597542.24,
+              6615021.28
+            ],
+            [
+              597542.56,
+              6615019.04
+            ],
+            [
+              597543.2,
+              6615016.96
+            ],
+            [
+              597543.04,
+              6615015.84
+            ],
+            [
+              597541.76,
+              6615014.88
+            ],
+            [
+              597540.64,
+              6615014.88
+            ],
+            [
+              597539.52,
+              6615015.52
+            ],
+            [
+              597538.4,
+              6615017.12
+            ],
+            [
+              597536.48,
+              6615017.6
+            ],
+            [
+              597534.56,
+              6615018.56
+            ],
+            [
+              597533.12,
+              6615020.32
+            ],
+            [
+              597532.16,
+              6615022.4
+            ],
+            [
+              597531.84,
+              6615024.32
+            ],
+            [
+              597532.48,
+              6615026.08
+            ],
+            [
+              597534.24,
+              6615027.04
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h06-fairway-green-apron-observed-2026",
+      "properties": {
+        "hole": 6,
+        "kind": "fairway",
+        "replacesFeatureIds": [],
+        "boundaryInterpretationUncertaintyMetres": 1.0,
+        "interpretation": "Only the distinguishable darker close-cut apron immediately around the putting surface. Intentionally overlaps the green, whose surface class has priority. No width or corridor buffer is inferred.",
+        "surfaceRole": "green-apron",
+        "coverageStatus": "green-apron-only; hole-long-fairway-unresolved",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-native-pixel-visual-review",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceGrid": {
+          "sourceRasterPath": "tortunabuild/cache/orthophoto/crops/hole-06-green.tif",
+          "sourceRasterSha256": "a92091615ec9c2b1a1eae400ef1ec93d6e1f5be6d79682cd459ce475422d7bad",
+          "sourcePixelWindow": [
+            0,
+            0,
+            800,
+            800
+          ],
+          "geoTransform": [
+            597471.84,
+            0.16,
+            0.0,
+            6614325.12,
+            0.0,
+            -0.16
+          ],
+          "width": 800,
+          "height": 800,
+          "resolutionMetres": 0.16,
+          "resampling": "none; native source pixel copy",
+          "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+          "reviewImagePath": "tortunabuild/cache/front9-improvements/hole-06-green-source.png",
+          "reviewImageSha256": "6bb6508382342293324fc9f8583b1aaf5c55d9606e856213f3dd9857f801583b"
+        },
+        "tracePixels": [
+          [
+            403,
+            314
+          ],
+          [
+            433,
+            318
+          ],
+          [
+            460,
+            331
+          ],
+          [
+            478,
+            353
+          ],
+          [
+            484,
+            377
+          ],
+          [
+            484,
+            402
+          ],
+          [
+            472,
+            430
+          ],
+          [
+            449,
+            451
+          ],
+          [
+            422,
+            466
+          ],
+          [
+            391,
+            478
+          ],
+          [
+            364,
+            475
+          ],
+          [
+            340,
+            464
+          ],
+          [
+            322,
+            445
+          ],
+          [
+            316,
+            420
+          ],
+          [
+            316,
+            393
+          ],
+          [
+            328,
+            368
+          ],
+          [
+            353,
+            343
+          ],
+          [
+            382,
+            322
+          ]
+        ],
+        "terrainModified": false,
+        "currentTeeColours": "unverified",
+        "uncertaintyStatus": "visual boundary interpretation allowance; not source positional accuracy",
+        "areaSquareMetres": 529.485
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597536.32,
+              6614274.88
+            ],
+            [
+              597541.12,
+              6614274.24
+            ],
+            [
+              597545.44,
+              6614272.16
+            ],
+            [
+              597548.32,
+              6614268.64
+            ],
+            [
+              597549.28,
+              6614264.8
+            ],
+            [
+              597549.28,
+              6614260.8
+            ],
+            [
+              597547.36,
+              6614256.32
+            ],
+            [
+              597543.68,
+              6614252.96
+            ],
+            [
+              597539.36,
+              6614250.56
+            ],
+            [
+              597534.4,
+              6614248.64
+            ],
+            [
+              597530.08,
+              6614249.12
+            ],
+            [
+              597526.24,
+              6614250.88
+            ],
+            [
+              597523.36,
+              6614253.92
+            ],
+            [
+              597522.4,
+              6614257.92
+            ],
+            [
+              597522.4,
+              6614262.24
+            ],
+            [
+              597524.32,
+              6614266.24
+            ],
+            [
+              597528.32,
+              6614270.24
+            ],
+            [
+              597532.96,
+              6614273.6
+            ],
+            [
+              597536.32,
+              6614274.88
+            ]
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    {
+      "hole": 4,
+      "kind": "tee",
+      "status": "back-platform-unresolved",
+      "reason": "Historical back reference remains in tree shadow. New forward platform must not be interpreted as a surveyed back tee or assigned a colour."
+    },
+    {
+      "hole": 6,
+      "kind": "tee",
+      "status": "unresolved",
+      "reason": "Native 128 m crop and additional 150 x 230 m retained overview inspect the historical start and forward corridor; no complete platform boundary can be distinguished from shadows/rough."
+    },
+    {
+      "hole": 6,
+      "kind": "fairway",
+      "status": "only-green-apron-added",
+      "reason": "Dormant May grass shows mowing texture beside the pond but no defensible complete fairway cut line. The new apron does not claim full fairway coverage."
+    },
+    {
+      "holes": [
+        3,
+        4,
+        5
+      ],
+      "kind": "green",
+      "status": "existing-source-trace-retained",
+      "reason": "Large tree shadows hide substantial putting boundaries; no higher-precision outline claimed."
+    },
+    {
+      "holes": [
+        1,
+        2,
+        4,
+        7,
+        8
+      ],
+      "kind": "fairway",
+      "status": "existing-partial-traces-retained",
+      "reason": "Hole-wide strips were reviewed against the retained south/north raster. Remaining May fairway/rough transitions are too weak for a defensible larger perimeter."
+    },
+    {
+      "holes": [
+        1,
+        2,
+        3,
+        5,
+        8,
+        9
+      ],
+      "kind": "tee",
+      "status": "existing-observed-platforms-retained",
+      "reason": "No additional complete platform perimeter was sufficiently distinct in the reviewed native crops; colours and complete tee census remain unverified."
+    }
+  ]
+}

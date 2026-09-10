@@ -1,0 +1,1412 @@
+{
+  "type": "FeatureCollection",
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "sourceCapture": {
+    "schemaVersion": 1,
+    "groundId": "lidingo",
+    "sourceId": "imagery-lm-ortofoto-0p16",
+    "provider": "Lantmäteriet",
+    "product": "Ortofoto",
+    "service": "https://minkarta.lantmateriet.se/map/ortofoto/",
+    "layer": "Ortofoto_0.16",
+    "retrievedAt": "2026-09-08T07:32:45.837516+00:00",
+    "horizontalCrs": "EPSG:3006",
+    "windowEpsg3006": {
+      "minEasting": 677056.0,
+      "minNorthing": 6585728.0,
+      "maxEasting": 678252.8,
+      "maxNorthing": 6587100.8
+    },
+    "sampleSpacingMetres": 0.16,
+    "nativeSpacingMetres": 0.16,
+    "nativeSpacingEvidence": "the service does not interpolate past native: a request at 0.04 m returns an exact 4x nearest-neighbour upsample of a 0.16 m grid",
+    "width": 7480,
+    "height": 8580,
+    "bands": "RGB",
+    "captureDate": "2025-05-31",
+    "captureDateEvidence": "read, not assumed: the Ortofoto_0.16_fs layer draws the image seams over this ground labelled with their flight timestamps, and Ortofoto_0.16_meta prints the flight year. Both were fetched over a 2.5 km box centred on the course and are retained beside the image.",
+    "path": "lidingobuild/cache/lm-ortho-2025/lidingo-lm-0p16m.png",
+    "worldfilePath": "lidingobuild/cache/lm-ortho-2025/lidingo-lm-0p16m.pgw",
+    "bytes": 72628052,
+    "sha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+    "requests": [
+      {
+        "row": 0,
+        "column": 0,
+        "bboxEpsg3006": [
+          677056.0,
+          6586445.44,
+          677711.36,
+          6587100.8
+        ],
+        "widthPixels": 4096,
+        "heightPixels": 4096,
+        "bytes": 2263101,
+        "sha256": "f320bbc944d6deaddaf708202cb818471f8076d4090b041d918eba7f2ab43c50"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bboxEpsg3006": [
+          677711.36,
+          6586445.44,
+          678252.8,
+          6587100.8
+        ],
+        "widthPixels": 3384,
+        "heightPixels": 4096,
+        "bytes": 1928612,
+        "sha256": "83a2252c7943273e810f1c183afbab5615faa79956a11081332acc1abbb1ec00"
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bboxEpsg3006": [
+          677056.0,
+          6585790.08,
+          677711.36,
+          6586445.44
+        ],
+        "widthPixels": 4096,
+        "heightPixels": 4096,
+        "bytes": 2253606,
+        "sha256": "f6acef22b590361d3a80372daa275418b9637ea606aa270fece1a6fc92a4d19a"
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bboxEpsg3006": [
+          677711.36,
+          6585790.08,
+          678252.8,
+          6586445.44
+        ],
+        "widthPixels": 3384,
+        "heightPixels": 4096,
+        "bytes": 2005547,
+        "sha256": "7b3cd79ce9d47afbba9cfbf201ce33bf8e4a9b8ffe43265998222cf3b7f763c1"
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bboxEpsg3006": [
+          677056.0,
+          6585728.0,
+          677711.36,
+          6585790.08
+        ],
+        "widthPixels": 4096,
+        "heightPixels": 388,
+        "bytes": 246860,
+        "sha256": "3ad2535373433b558cebdca66eaf1d414f4b87d58d12f08aea9dab703a13285a"
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bboxEpsg3006": [
+          677711.36,
+          6585728.0,
+          678252.8,
+          6585790.08
+        ],
+        "widthPixels": 3384,
+        "heightPixels": 388,
+        "bytes": 208134,
+        "sha256": "3124bd5bfb7015f4a313be2b21f5931cab46f78179841b1407447e319e5c9fb1"
+      }
+    ],
+    "sidecars": [
+      {
+        "layer": "Ortofoto_0.16_fs",
+        "path": "lidingobuild/cache/lm-ortho-2025/seams.png",
+        "sha256": "a284ff65c1ce335f159b6cac3b20ab591d80a447bc893eb00370933d4bdbc6bf"
+      },
+      {
+        "layer": "Ortofoto_0.16_meta",
+        "path": "lidingobuild/cache/lm-ortho-2025/meta.png",
+        "sha256": "4d3ad234121d9aa226e7fb4c7cf825e9b9f9f62f640be4bda0f68470fbd779da"
+      }
+    ],
+    "licence": {
+      "id": "CC-BY-4.0",
+      "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0",
+      "url": "https://www.lantmateriet.se/sv/kartor/vara-karttjanster/min-karta/",
+      "note": "Lantmäteriet permits publishing images and screen clips from Min karta with that attribution, and explicitly contemplates processed information. The pixels are not redistributed by this repository; derived vector geometry is, carrying the attribution. Whether bulk programmatic tiling of the e-service backend is acceptable SERVICE USAGE is a separate question from the licence and is not settled here, which is why the whole window is six requests."
+    },
+    "limitations": [
+      "RGB only on this route; the 0.16 m NIR band is download-only behind a Geotorget entitlement.",
+      "One capture date over the whole course, but the mosaic is a national product and a seam could fall inside a future window; the _fs sidecar is what would show it.",
+      "Orthorectification is to the terrain, so anything standing above it leans radially away from nadir - a roof outline overstates its footprint."
+    ]
+  },
+  "state": "reviewed-provisional-geometry-not-surveyed",
+  "reviewedOn": "2026-09-08",
+  "interpretation": "Only visible mown approach footprints. Semi-rough is a display class; no mowing-height or fairway-grade measurement. Gaps between tees and approach remain rough. Separate mapped greens, bunkers, paths and water retain priority.",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "lidingo-mown-approach-01-2025",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677693.97,
+              6586328.119
+            ],
+            [
+              677699.47,
+              6586327.118
+            ],
+            [
+              677704.469,
+              6586322.613
+            ],
+            [
+              677705.968,
+              6586316.607
+            ],
+            [
+              677703.969,
+              6586309.099
+            ],
+            [
+              677705.968,
+              6586303.093
+            ],
+            [
+              677714.967,
+              6586299.089
+            ],
+            [
+              677721.966,
+              6586293.082
+            ],
+            [
+              677724.965,
+              6586286.576
+            ],
+            [
+              677723.465,
+              6586277.566
+            ],
+            [
+              677724.465,
+              6586271.56
+            ],
+            [
+              677729.964,
+              6586266.054
+            ],
+            [
+              677732.464,
+              6586257.045
+            ],
+            [
+              677730.964,
+              6586249.037
+            ],
+            [
+              677726.965,
+              6586241.529
+            ],
+            [
+              677719.466,
+              6586236.023
+            ],
+            [
+              677714.967,
+              6586238.526
+            ],
+            [
+              677711.967,
+              6586245.533
+            ],
+            [
+              677708.468,
+              6586255.043
+            ],
+            [
+              677705.968,
+              6586267.556
+            ],
+            [
+              677706.468,
+              6586274.563
+            ],
+            [
+              677704.469,
+              6586283.072
+            ],
+            [
+              677700.969,
+              6586292.081
+            ],
+            [
+              677694.97,
+              6586297.587
+            ],
+            [
+              677688.471,
+              6586301.591
+            ],
+            [
+              677683.472,
+              6586308.098
+            ],
+            [
+              677680.973,
+              6586317.107
+            ],
+            [
+              677683.472,
+              6586323.114
+            ],
+            [
+              677688.971,
+              6586326.617
+            ],
+            [
+              677693.97,
+              6586328.119
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "mown_approach",
+        "hole": 1,
+        "sourceId": "imagery-lm-ortho",
+        "captureDate": "2025-05-31",
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "material": "mown-turf-cut-height-unmeasured",
+        "displayClass": "semi-rough",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 1826.1,
+        "sourceCrop": {
+          "hole": 1,
+          "left": 3640,
+          "top": 4103,
+          "width": 728,
+          "height": 1439,
+          "displayWidth": 233,
+          "displayHeight": 460,
+          "worldfile": [
+            0.16,
+            0.0,
+            0.0,
+            -0.16,
+            677056.08,
+            6587100.72
+          ]
+        },
+        "displayPixels": [
+          [
+            111,
+            232
+          ],
+          [
+            122,
+            234
+          ],
+          [
+            132,
+            243
+          ],
+          [
+            135,
+            255
+          ],
+          [
+            131,
+            270
+          ],
+          [
+            135,
+            282
+          ],
+          [
+            153,
+            290
+          ],
+          [
+            167,
+            302
+          ],
+          [
+            173,
+            315
+          ],
+          [
+            170,
+            333
+          ],
+          [
+            172,
+            345
+          ],
+          [
+            183,
+            356
+          ],
+          [
+            188,
+            374
+          ],
+          [
+            185,
+            390
+          ],
+          [
+            177,
+            405
+          ],
+          [
+            162,
+            416
+          ],
+          [
+            153,
+            411
+          ],
+          [
+            147,
+            397
+          ],
+          [
+            140,
+            378
+          ],
+          [
+            135,
+            353
+          ],
+          [
+            136,
+            339
+          ],
+          [
+            132,
+            322
+          ],
+          [
+            125,
+            304
+          ],
+          [
+            113,
+            293
+          ],
+          [
+            100,
+            285
+          ],
+          [
+            90,
+            272
+          ],
+          [
+            85,
+            254
+          ],
+          [
+            90,
+            242
+          ],
+          [
+            101,
+            235
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-mown-approach-03-2025",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677976.463,
+              6586019.597
+            ],
+            [
+              677982.971,
+              6586018.098
+            ],
+            [
+              677994.484,
+              6586009.6
+            ],
+            [
+              678008.5,
+              6585998.603
+            ],
+            [
+              678014.506,
+              6585992.104
+            ],
+            [
+              678016.509,
+              6585987.106
+            ],
+            [
+              678014.006,
+              6585982.107
+            ],
+            [
+              678005.496,
+              6585979.608
+            ],
+            [
+              677991.48,
+              6585980.108
+            ],
+            [
+              677982.47,
+              6585983.607
+            ],
+            [
+              677979.467,
+              6585990.605
+            ],
+            [
+              677977.965,
+              6585999.602
+            ],
+            [
+              677975.462,
+              6586008.1
+            ],
+            [
+              677976.463,
+              6586019.597
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "mown_approach",
+        "hole": 3,
+        "sourceId": "imagery-lm-ortho",
+        "captureDate": "2025-05-31",
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "material": "mown-turf-cut-height-unmeasured",
+        "displayClass": "semi-rough",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 988.37,
+        "sourceCrop": {
+          "hole": 3,
+          "left": 5402,
+          "top": 6354,
+          "width": 1217,
+          "height": 1409,
+          "displayWidth": 389,
+          "displayHeight": 451,
+          "worldfile": [
+            0.16,
+            0.0,
+            0.0,
+            -0.16,
+            677056.08,
+            6587100.72
+          ]
+        },
+        "displayPixels": [
+          [
+            112,
+            129
+          ],
+          [
+            125,
+            132
+          ],
+          [
+            148,
+            149
+          ],
+          [
+            176,
+            171
+          ],
+          [
+            188,
+            184
+          ],
+          [
+            192,
+            194
+          ],
+          [
+            187,
+            204
+          ],
+          [
+            170,
+            209
+          ],
+          [
+            142,
+            208
+          ],
+          [
+            124,
+            201
+          ],
+          [
+            118,
+            187
+          ],
+          [
+            115,
+            169
+          ],
+          [
+            110,
+            152
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-mown-approach-06-2025",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677584.251,
+              6586121.729
+            ],
+            [
+              677591.246,
+              6586120.729
+            ],
+            [
+              677598.241,
+              6586115.226
+            ],
+            [
+              677606.734,
+              6586107.722
+            ],
+            [
+              677614.729,
+              6586106.222
+            ],
+            [
+              677620.724,
+              6586110.724
+            ],
+            [
+              677625.72,
+              6586110.724
+            ],
+            [
+              677629.218,
+              6586107.222
+            ],
+            [
+              677629.717,
+              6586100.719
+            ],
+            [
+              677626.22,
+              6586093.215
+            ],
+            [
+              677620.224,
+              6586085.712
+            ],
+            [
+              677611.231,
+              6586082.71
+            ],
+            [
+              677602.238,
+              6586082.21
+            ],
+            [
+              677591.746,
+              6586084.711
+            ],
+            [
+              677582.752,
+              6586086.712
+            ],
+            [
+              677570.261,
+              6586086.212
+            ],
+            [
+              677561.268,
+              6586088.713
+            ],
+            [
+              677556.272,
+              6586093.716
+            ],
+            [
+              677555.772,
+              6586100.719
+            ],
+            [
+              677559.769,
+              6586107.222
+            ],
+            [
+              677567.763,
+              6586112.225
+            ],
+            [
+              677575.757,
+              6586114.226
+            ],
+            [
+              677580.754,
+              6586118.227
+            ],
+            [
+              677584.251,
+              6586121.729
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "mown_approach",
+        "hole": 6,
+        "sourceId": "imagery-lm-ortho",
+        "captureDate": "2025-05-31",
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "material": "mown-turf-cut-height-unmeasured",
+        "displayClass": "semi-rough",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 1918.14,
+        "sourceCrop": {
+          "hole": 6,
+          "left": 2383,
+          "top": 5459,
+          "width": 1349,
+          "height": 1038,
+          "displayWidth": 432,
+          "displayHeight": 332,
+          "worldfile": [
+            0.16,
+            0.0,
+            0.0,
+            -0.16,
+            677056.08,
+            6587100.72
+          ]
+        },
+        "displayPixels": [
+          [
+            294,
+            211
+          ],
+          [
+            308,
+            213
+          ],
+          [
+            322,
+            224
+          ],
+          [
+            339,
+            239
+          ],
+          [
+            355,
+            242
+          ],
+          [
+            367,
+            233
+          ],
+          [
+            377,
+            233
+          ],
+          [
+            384,
+            240
+          ],
+          [
+            385,
+            253
+          ],
+          [
+            378,
+            268
+          ],
+          [
+            366,
+            283
+          ],
+          [
+            348,
+            289
+          ],
+          [
+            330,
+            290
+          ],
+          [
+            309,
+            285
+          ],
+          [
+            291,
+            281
+          ],
+          [
+            266,
+            282
+          ],
+          [
+            248,
+            277
+          ],
+          [
+            238,
+            267
+          ],
+          [
+            237,
+            253
+          ],
+          [
+            245,
+            240
+          ],
+          [
+            261,
+            230
+          ],
+          [
+            277,
+            226
+          ],
+          [
+            287,
+            218
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-mown-approach-09-2025",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677413.74,
+              6586376.528
+            ],
+            [
+              677421.24,
+              6586381.035
+            ],
+            [
+              677433.74,
+              6586382.037
+            ],
+            [
+              677445.74,
+              6586387.044
+            ],
+            [
+              677453.74,
+              6586394.055
+            ],
+            [
+              677460.24,
+              6586398.061
+            ],
+            [
+              677468.74,
+              6586397.56
+            ],
+            [
+              677476.24,
+              6586392.552
+            ],
+            [
+              677479.24,
+              6586384.54
+            ],
+            [
+              677476.74,
+              6586376.028
+            ],
+            [
+              677470.74,
+              6586370.519
+            ],
+            [
+              677461.74,
+              6586369.017
+            ],
+            [
+              677450.74,
+              6586368.516
+            ],
+            [
+              677442.24,
+              6586366.513
+            ],
+            [
+              677436.24,
+              6586360.504
+            ],
+            [
+              677430.74,
+              6586354.996
+            ],
+            [
+              677422.74,
+              6586352.993
+            ],
+            [
+              677414.74,
+              6586355.497
+            ],
+            [
+              677411.74,
+              6586361.005
+            ],
+            [
+              677411.74,
+              6586369.518
+            ],
+            [
+              677413.74,
+              6586376.528
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "mown_approach",
+        "hole": 9,
+        "sourceId": "imagery-lm-ortho",
+        "captureDate": "2025-05-31",
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "material": "mown-turf-cut-height-unmeasured",
+        "displayClass": "semi-rough",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 1591.4,
+        "sourceCrop": {
+          "hole": 9,
+          "left": 2101,
+          "top": 3894,
+          "width": 1300,
+          "height": 917,
+          "displayWidth": 416,
+          "displayHeight": 293,
+          "worldfile": [
+            0.16,
+            0.0,
+            0.0,
+            -0.16,
+            677056.08,
+            6587100.72
+          ]
+        },
+        "displayPixels": [
+          [
+            43,
+            202
+          ],
+          [
+            58,
+            193
+          ],
+          [
+            83,
+            191
+          ],
+          [
+            107,
+            181
+          ],
+          [
+            123,
+            167
+          ],
+          [
+            136,
+            159
+          ],
+          [
+            153,
+            160
+          ],
+          [
+            168,
+            170
+          ],
+          [
+            174,
+            186
+          ],
+          [
+            169,
+            203
+          ],
+          [
+            157,
+            214
+          ],
+          [
+            139,
+            217
+          ],
+          [
+            117,
+            218
+          ],
+          [
+            100,
+            222
+          ],
+          [
+            88,
+            234
+          ],
+          [
+            77,
+            245
+          ],
+          [
+            61,
+            249
+          ],
+          [
+            45,
+            244
+          ],
+          [
+            39,
+            233
+          ],
+          [
+            39,
+            216
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-mown-approach-11-2025",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677197.046,
+              6586938.93
+            ],
+            [
+              677201.556,
+              6586936.432
+            ],
+            [
+              677204.062,
+              6586931.435
+            ],
+            [
+              677205.566,
+              6586924.939
+            ],
+            [
+              677204.062,
+              6586919.442
+            ],
+            [
+              677199.552,
+              6586916.944
+            ],
+            [
+              677195.041,
+              6586918.443
+            ],
+            [
+              677192.535,
+              6586922.441
+            ],
+            [
+              677193.037,
+              6586927.937
+            ],
+            [
+              677194.54,
+              6586933.434
+            ],
+            [
+              677197.046,
+              6586938.93
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "mown_approach",
+        "hole": 11,
+        "sourceId": "imagery-lm-ortho",
+        "captureDate": "2025-05-31",
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "material": "mown-turf-cut-height-unmeasured",
+        "displayClass": "semi-rough",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 200.34,
+        "sourceCrop": {
+          "hole": 11,
+          "left": 596,
+          "top": 702,
+          "width": 592,
+          "height": 1218,
+          "displayWidth": 189,
+          "displayHeight": 390,
+          "worldfile": [
+            0.16,
+            0.0,
+            0.0,
+            -0.16,
+            677056.08,
+            6587100.72
+          ]
+        },
+        "displayPixels": [
+          [
+            91,
+            99
+          ],
+          [
+            100,
+            104
+          ],
+          [
+            105,
+            114
+          ],
+          [
+            108,
+            127
+          ],
+          [
+            105,
+            138
+          ],
+          [
+            96,
+            143
+          ],
+          [
+            87,
+            140
+          ],
+          [
+            82,
+            132
+          ],
+          [
+            83,
+            121
+          ],
+          [
+            86,
+            110
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-mown-approach-16-2025",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677780.803,
+              6586734.917
+            ],
+            [
+              677787.816,
+              6586732.917
+            ],
+            [
+              677795.329,
+              6586727.419
+            ],
+            [
+              677799.336,
+              6586720.42
+            ],
+            [
+              677800.337,
+              6586711.922
+            ],
+            [
+              677799.336,
+              6586702.924
+            ],
+            [
+              677795.329,
+              6586694.926
+            ],
+            [
+              677787.816,
+              6586687.428
+            ],
+            [
+              677785.812,
+              6586682.929
+            ],
+            [
+              677788.317,
+              6586675.931
+            ],
+            [
+              677788.317,
+              6586667.433
+            ],
+            [
+              677783.809,
+              6586658.935
+            ],
+            [
+              677776.797,
+              6586654.935
+            ],
+            [
+              677771.287,
+              6586657.935
+            ],
+            [
+              677766.779,
+              6586664.433
+            ],
+            [
+              677767.28,
+              6586671.931
+            ],
+            [
+              677770.285,
+              6586678.43
+            ],
+            [
+              677775.294,
+              6586684.928
+            ],
+            [
+              677779.301,
+              6586689.427
+            ],
+            [
+              677777.297,
+              6586695.926
+            ],
+            [
+              677770.285,
+              6586698.425
+            ],
+            [
+              677763.273,
+              6586698.925
+            ],
+            [
+              677759.767,
+              6586702.424
+            ],
+            [
+              677760.268,
+              6586709.923
+            ],
+            [
+              677763.273,
+              6586718.421
+            ],
+            [
+              677768.282,
+              6586726.419
+            ],
+            [
+              677775.294,
+              6586732.917
+            ],
+            [
+              677780.803,
+              6586734.917
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "mown_approach",
+        "hole": 16,
+        "sourceId": "imagery-lm-ortho",
+        "captureDate": "2025-05-31",
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "material": "mown-turf-cut-height-unmeasured",
+        "displayClass": "semi-rough",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 1861.44,
+        "sourceCrop": {
+          "hole": 16,
+          "left": 4301,
+          "top": 1299,
+          "width": 576,
+          "height": 1609,
+          "displayWidth": 184,
+          "displayHeight": 515,
+          "worldfile": [
+            0.16,
+            0.0,
+            0.0,
+            -0.16,
+            677056.08,
+            6587100.72
+          ]
+        },
+        "displayPixels": [
+          [
+            73,
+            316
+          ],
+          [
+            87,
+            320
+          ],
+          [
+            102,
+            331
+          ],
+          [
+            110,
+            345
+          ],
+          [
+            112,
+            362
+          ],
+          [
+            110,
+            380
+          ],
+          [
+            102,
+            396
+          ],
+          [
+            87,
+            411
+          ],
+          [
+            83,
+            420
+          ],
+          [
+            88,
+            434
+          ],
+          [
+            88,
+            451
+          ],
+          [
+            79,
+            468
+          ],
+          [
+            65,
+            476
+          ],
+          [
+            54,
+            470
+          ],
+          [
+            45,
+            457
+          ],
+          [
+            46,
+            442
+          ],
+          [
+            52,
+            429
+          ],
+          [
+            62,
+            416
+          ],
+          [
+            70,
+            407
+          ],
+          [
+            66,
+            394
+          ],
+          [
+            52,
+            389
+          ],
+          [
+            38,
+            388
+          ],
+          [
+            31,
+            381
+          ],
+          [
+            32,
+            366
+          ],
+          [
+            38,
+            349
+          ],
+          [
+            48,
+            333
+          ],
+          [
+            62,
+            320
+          ]
+        ]
+      }
+    }
+  ]
+}

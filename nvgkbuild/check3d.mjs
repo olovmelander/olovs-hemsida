@@ -2,8 +2,8 @@
    would make the page state a falsehood about the real course:
 
    1. the card in the page is the club's card — 144 values, exact
-   2. every drawn hole line measures its card length to 0.5%
-   3. every green ring contains its GPS-surveyed centre, at a sane area
+   2. reviewed route endpoints match observed surfaces; inherited routes match card length
+   3. every green ring contains its reference centre, at a sane area
    4. no green or tee sits at or below the water that surrounds it
    5. the heightfields in the page decode to exactly what geobuild encoded
    6. the page's embedded block is current with the committed model
@@ -58,7 +58,22 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     const dev = Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] * 100;
     if (dev > worst) { worst = dev; worstN = h.n; }
   }
-  gate(worst <= 0.5, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}), gate 0.5%`);
+  const bad = vec.holes.filter(h => {
+    const original = model.holes.find(q => q.n === h.n);
+    if (original.lineSrc !== 'orthophoto-reviewed-endpoints') return Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] > .005;
+    return JSON.stringify(h.line[0]) !== JSON.stringify(h.tees.marks[0].c) ||
+      JSON.stringify(h.line.at(-1)) !== JSON.stringify(h.green.c) || h.tees.inferPads !== false;
+  });
+  gate(bad.length === 0, 'routes: reviewed endpoints preserved without scorecard-distance fitting');
+  console.log(`       card-distance difference ${worst.toFixed(3)}% (hole ${worstN}); metadata, not a registration gate`);
+  let missed = 0;
+  for (const h of vec.holes) for (const m of h.tees.marks) {
+    if (m.orthophotoReference?.kind === 'unresolved-guide-tee-reference') continue;
+    const pad = h.tees.pads.find(p => (p.id ?? p.reviewId) === m.sourcePadId);
+    if (!pad || !pointInPoly(...m.c, pad.ring)) missed++;
+  }
+  gate(missed === 0, `tee references: accepted references contained in nominated reviewed platforms (${missed} outside)`);
+  gate(JSON.stringify(vec.holes[3].green.ring) === JSON.stringify(vec.holes[7].green.ring), 'holes 4 and 8 share the reviewed putting surface');
 }
 
 /* --- 3: greens ---------------------------------------------------------------- */
@@ -70,7 +85,7 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     if (a < 150) small++;
     if (a > 1200) big++;
   }
-  gate(out === 0, `greens: every surveyed centre inside its traced ring (${out} outside)`);
+  gate(out === 0, `greens: every reference centre inside its traced ring (${out} outside)`);
   gate(small === 0 && big === 0, `green areas within 150–1200 m² (${small} small, ${big} large)`);
 }
 

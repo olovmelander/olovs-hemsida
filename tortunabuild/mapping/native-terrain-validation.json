@@ -1,0 +1,453 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "passed",
+  "method": "runtime-verified-asset-loader-and-render-resource-sampler-versus-native-DTM-bilinear-controls",
+  "sourceSha256": "86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1",
+  "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+  "groundManifest": {
+    "bytes": 305155,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "6d433ed80fd7ce00f975dfcb8d8af75f0b7d3e89783c083e586647bfaae804f7",
+    "url": "grounds/tortuna/ground-v2-6d433ed80fd7ce00f975dfcb8d8af75f0b7d3e89783c083e586647bfaae804f7.json"
+  },
+  "controlCount": 36,
+  "loadedTiles": 17,
+  "maximumDifferenceMetres": 0.002851405324864942,
+  "toleranceMetres": 0.005000001,
+  "interpretation": "Encoding consistency only; source-derived references are not independent positional accuracy controls.",
+  "controls": [
+    {
+      "hole": 1,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597434.672,
+        6615037.118
+      ],
+      "tileId": "l0/8/7",
+      "sourceHeightRH2000": 30.198909177646016,
+      "publishedHeightRH2000": 30.198702960004077,
+      "differenceMetres": 0.0002062176419386219
+    },
+    {
+      "hole": 1,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597587.517,
+        6614785.588
+      ],
+      "tileId": "l0/8/8",
+      "sourceHeightRH2000": 31.636639743721588,
+      "publishedHeightRH2000": 31.63562991997742,
+      "differenceMetres": 0.00100982374416958
+    },
+    {
+      "hole": 2,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597553.35,
+        6614744.611
+      ],
+      "tileId": "l0/8/8",
+      "sourceHeightRH2000": 32.645548835565414,
+      "publishedHeightRH2000": 32.64622300000261,
+      "differenceMetres": 0.0006741644371928146
+    },
+    {
+      "hole": 2,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597324.414,
+        6614563.259
+      ],
+      "tileId": "l0/7/9",
+      "sourceHeightRH2000": 31.43745413139558,
+      "publishedHeightRH2000": 31.436162740011163,
+      "differenceMetres": 0.0012913913844165847
+    },
+    {
+      "hole": 3,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597325.18,
+        6614525.273
+      ],
+      "tileId": "l0/7/9",
+      "sourceHeightRH2000": 31.947525138930153,
+      "publishedHeightRH2000": 31.946809999998656,
+      "differenceMetres": 0.0007151389314969947
+    },
+    {
+      "hole": 3,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597395.124,
+        6614384.882
+      ],
+      "tileId": "l0/7/10",
+      "sourceHeightRH2000": 33.68600225622689,
+      "publishedHeightRH2000": 33.68608367999995,
+      "differenceMetres": 0.00008142377306086246
+    },
+    {
+      "hole": 4,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597464.72,
+        6614467.541
+      ],
+      "tileId": "l0/8/9",
+      "sourceHeightRH2000": 32.25245328451677,
+      "publishedHeightRH2000": 32.25525079998602,
+      "differenceMetres": 0.002797515469254108
+    },
+    {
+      "hole": 4,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597281.206,
+        6614075.41
+      ],
+      "tileId": "l0/7/11",
+      "sourceHeightRH2000": 33.87720206404999,
+      "publishedHeightRH2000": 33.877119999993596,
+      "differenceMetres": 0.00008206405639299419
+    },
+    {
+      "hole": 5,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597258.216,
+        6614020.452
+      ],
+      "tileId": "l0/7/11",
+      "sourceHeightRH2000": 36.12320947632195,
+      "publishedHeightRH2000": 36.12339104000466,
+      "differenceMetres": 0.00018156368271604606
+    },
+    {
+      "hole": 5,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597260.439,
+        6613883.432
+      ],
+      "tileId": "l0/7/11",
+      "sourceHeightRH2000": 35.953506826980124,
+      "publishedHeightRH2000": 35.95081999999937,
+      "differenceMetres": 0.002686826980756507
+    },
+    {
+      "hole": 6,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597297.509,
+        6613868.622
+      ],
+      "tileId": "l0/7/12",
+      "sourceHeightRH2000": 35.956849543490726,
+      "publishedHeightRH2000": 35.95623901998721,
+      "differenceMetres": 0.000610523503517868
+    },
+    {
+      "hole": 6,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597535.831,
+        6614261.809
+      ],
+      "tileId": "l0/8/10",
+      "sourceHeightRH2000": 32.391092052785446,
+      "publishedHeightRH2000": 32.39260442002637,
+      "differenceMetres": 0.0015123672409274036
+    },
+    {
+      "hole": 7,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597603.655,
+        6614291.069
+      ],
+      "tileId": "l0/8/10",
+      "sourceHeightRH2000": 32.986959460829205,
+      "publishedHeightRH2000": 32.987409999999215,
+      "differenceMetres": 0.00045053917001069976
+    },
+    {
+      "hole": 7,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597585.551,
+        6614554.454
+      ],
+      "tileId": "l0/8/9",
+      "sourceHeightRH2000": 32.56879553786448,
+      "publishedHeightRH2000": 32.57041615999964,
+      "differenceMetres": 0.0016206221351566796
+    },
+    {
+      "hole": 8,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597510.414,
+        6614566.051
+      ],
+      "tileId": "l0/8/9",
+      "sourceHeightRH2000": 31.19320238633709,
+      "publishedHeightRH2000": 31.193424559999915,
+      "differenceMetres": 0.0002221736628236215
+    },
+    {
+      "hole": 8,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597747.372,
+        6614709.217
+      ],
+      "tileId": "l0/9/8",
+      "sourceHeightRH2000": 32.07848895779408,
+      "publishedHeightRH2000": 32.07835775999989,
+      "differenceMetres": 0.00013119779418957478
+    },
+    {
+      "hole": 9,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597574.89,
+        6614938.982
+      ],
+      "tileId": "l0/8/7",
+      "sourceHeightRH2000": 31.134586734314215,
+      "publishedHeightRH2000": 31.133820799999462,
+      "differenceMetres": 0.0007659343147530251
+    },
+    {
+      "hole": 9,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597514.523,
+        6615024.849
+      ],
+      "tileId": "l0/8/7",
+      "sourceHeightRH2000": 28.25706320399531,
+      "publishedHeightRH2000": 28.259608650009717,
+      "differenceMetres": 0.0025454460144089808
+    },
+    {
+      "hole": 10,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597518.886,
+        6615338.37
+      ],
+      "tileId": "l0/8/6",
+      "sourceHeightRH2000": 31.13735703792606,
+      "publishedHeightRH2000": 31.13563819999979,
+      "differenceMetres": 0.0017188379262691456
+    },
+    {
+      "hole": 10,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597774.576,
+        6615396.559
+      ],
+      "tileId": "l0/9/6",
+      "sourceHeightRH2000": 22.00076891469248,
+      "publishedHeightRH2000": 22.003620320017344,
+      "differenceMetres": 0.002851405324864942
+    },
+    {
+      "hole": 11,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597731.157,
+        6615422.187
+      ],
+      "tileId": "l0/9/5",
+      "sourceHeightRH2000": 21.579601425348926,
+      "publishedHeightRH2000": 21.578689230004954,
+      "differenceMetres": 0.000912195343971689
+    },
+    {
+      "hole": 11,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597594.727,
+        6615381.079
+      ],
+      "tileId": "l0/8/6",
+      "sourceHeightRH2000": 23.491447787026544,
+      "publishedHeightRH2000": 23.48947701000317,
+      "differenceMetres": 0.001970777023373671
+    },
+    {
+      "hole": 12,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597530.196,
+        6615390.299
+      ],
+      "tileId": "l0/8/6",
+      "sourceHeightRH2000": 27.357392924772473,
+      "publishedHeightRH2000": 27.359865840104266,
+      "differenceMetres": 0.0024729153317935015
+    },
+    {
+      "hole": 12,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597656.125,
+        6615733.82
+      ],
+      "tileId": "l0/8/4",
+      "sourceHeightRH2000": 20.455882797252844,
+      "publishedHeightRH2000": 20.45820000001229,
+      "differenceMetres": 0.0023172027594462463
+    },
+    {
+      "hole": 13,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597547.255,
+        6615729.964
+      ],
+      "tileId": "l0/8/4",
+      "sourceHeightRH2000": 22.20519688766988,
+      "publishedHeightRH2000": 22.2068496000054,
+      "differenceMetres": 0.0016527123355167816
+    },
+    {
+      "hole": 13,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597128.82,
+        6615870.297
+      ],
+      "tileId": "l0/6/4",
+      "sourceHeightRH2000": 29.13213924879861,
+      "publishedHeightRH2000": 29.133749999988357,
+      "differenceMetres": 0.001610751189748072
+    },
+    {
+      "hole": 14,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597085.844,
+        6615817.4
+      ],
+      "tileId": "l0/6/4",
+      "sourceHeightRH2000": 29.392027345274375,
+      "publishedHeightRH2000": 29.390655999997513,
+      "differenceMetres": 0.0013713452768620016
+    },
+    {
+      "hole": 14,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597127.234,
+        6615670.477
+      ],
+      "tileId": "l0/6/4",
+      "sourceHeightRH2000": 28.738616493080603,
+      "publishedHeightRH2000": 28.73734000000055,
+      "differenceMetres": 0.0012764930800521768
+    },
+    {
+      "hole": 15,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597129.641,
+        6615622.249
+      ],
+      "tileId": "l0/6/5",
+      "sourceHeightRH2000": 28.75785732206954,
+      "publishedHeightRH2000": 28.756386089999896,
+      "differenceMetres": 0.0014712320696439463
+    },
+    {
+      "hole": 15,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597420.653,
+        6615743.585
+      ],
+      "tileId": "l0/8/4",
+      "sourceHeightRH2000": 24.742575468970145,
+      "publishedHeightRH2000": 24.74417010000058,
+      "differenceMetres": 0.001594631030435778
+    },
+    {
+      "hole": 16,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597509.071,
+        6615730.555
+      ],
+      "tileId": "l0/8/4",
+      "sourceHeightRH2000": 22.868636585962328,
+      "publishedHeightRH2000": 22.869685950001703,
+      "differenceMetres": 0.0010493640393747228
+    },
+    {
+      "hole": 16,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597214.523,
+        6615581.431
+      ],
+      "tileId": "l0/7/5",
+      "sourceHeightRH2000": 26.760515301559124,
+      "publishedHeightRH2000": 26.7588341299977,
+      "differenceMetres": 0.0016811715614224454
+    },
+    {
+      "hole": 17,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597305.607,
+        6615475.216
+      ],
+      "tileId": "l0/7/5",
+      "sourceHeightRH2000": 24.818229946697667,
+      "publishedHeightRH2000": 24.816444479996477,
+      "differenceMetres": 0.0017854667011896197
+    },
+    {
+      "hole": 17,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597583.422,
+        6615631.86
+      ],
+      "tileId": "l0/8/5",
+      "sourceHeightRH2000": 21.98291705749095,
+      "publishedHeightRH2000": 21.98130239999447,
+      "differenceMetres": 0.0016146574964821525
+    },
+    {
+      "hole": 18,
+      "kind": "tee",
+      "coordinateEpsg3006": [
+        597662.374,
+        6615608.183
+      ],
+      "tileId": "l0/9/5",
+      "sourceHeightRH2000": 21.15961694543132,
+      "publishedHeightRH2000": 21.159292319992588,
+      "differenceMetres": 0.00032462543873279515
+    },
+    {
+      "hole": 18,
+      "kind": "green",
+      "coordinateEpsg3006": [
+        597435.27,
+        6615327.877
+      ],
+      "tileId": "l0/8/6",
+      "sourceHeightRH2000": 25.08565461170768,
+      "publishedHeightRH2000": 25.084722899988922,
+      "differenceMetres": 0.0009317117187599422
+    }
+  ]
+}

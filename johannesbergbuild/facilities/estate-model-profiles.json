@@ -1,0 +1,4305 @@
+{
+  "schemaVersion": 1,
+  "courseId": "johannesberg",
+  "createdOn": "2026-09-10",
+  "status": "modelable-inferred-estate-profiles-not-surveyed-architecture",
+  "purpose": "Actual Blender estate modelling input for21 non-clubhouse buildings; clubhouse has separate authored profile.",
+  "coordinates": {
+    "horizontal": "EPSG:3006",
+    "vertical": "EPSG:5613 / RH2000",
+    "units": "metres",
+    "boxColumns": [
+      "centerE",
+      "centerN",
+      "length",
+      "width",
+      "axisDegGridNorth",
+      "estimatedEaveRH2000",
+      "estimatedRidgeRH2000"
+    ]
+  },
+  "sourceInventory": {
+    "path": "johannesbergbuild/facilities/site-inventory.json",
+    "sha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae"
+  },
+  "sourcePanelIndex": {
+    "path": "johannesbergbuild/facilities/orthophoto-panels.json",
+    "sha256": "69c2d61474605e1428f912f3d5aaeb77439a80639eb9f7cba78a323215a7f236"
+  },
+  "sourceWebIndex": {
+    "path": "johannesbergbuild/facilities/web-reference-sources.json",
+    "sha256": "2dfc197ba85b24c4244b44fc04c6199b79a68947998d907e27a0fef86c8e794c"
+  },
+  "limitations": [
+    "All final architectural dimensions/heights are estimates, not surveyed values.",
+    "Use outside-ground samples for foundation skirts. Ground/floor reference differs from downhill terrain.",
+    "Image-derived component boxes are massing guides; inherited footprints stay the wall-position contract.",
+    "Old-stable/current unknown service roles remain uncertain; no labels invented from roof appearance.",
+    "trace-tower305 has an estimated7.5 m visible rectangular mass supported by spatially matched roof candidates; role, precise height and construction remain unverified."
+  ],
+  "materialPalette": {
+    "manor-blush": {
+      "baseColorHex": "#e2c4b4",
+      "roughness": 0.88,
+      "description": "Warm pale pink/cream rendered plaster"
+    },
+    "warm-plaster": {
+      "baseColorHex": "#e7decb",
+      "roughness": 0.88,
+      "description": "Warm cream rendered plaster"
+    },
+    "barn-red": {
+      "baseColorHex": "#793029",
+      "roughness": 0.9,
+      "description": "Conservative muted red timber/barn wall"
+    },
+    "dark-timber": {
+      "baseColorHex": "#3d3730",
+      "roughness": 0.94,
+      "description": "Dark weathered timber; uncertain hidden hut facade"
+    },
+    "weathered-timber": {
+      "baseColorHex": "#675a48",
+      "roughness": 0.96,
+      "description": "Neutral utility-placeholder material, not confirmed identity"
+    },
+    "utility-brown": {
+      "baseColorHex": "#966b56",
+      "roughness": 0.94,
+      "description": "Warm brown appearance of unidentified vertical structure; brick/timber construction not established"
+    },
+    "tile-red": {
+      "baseColorHex": "#a95336",
+      "roughness": 0.86,
+      "description": "Orange/red roof tiles; texture and exact tile size unmeasured"
+    },
+    "charcoal-metal": {
+      "baseColorHex": "#283039",
+      "roughness": 0.62,
+      "metallic": 0.15,
+      "description": "Dark standing-seam-looking roof"
+    },
+    "pale-metal": {
+      "baseColorHex": "#adb5b4",
+      "roughness": 0.64,
+      "metallic": 0.12,
+      "description": "Light sheet roof"
+    },
+    "zinc-grey": {
+      "baseColorHex": "#98aab0",
+      "roughness": 0.58,
+      "metallic": 0.22,
+      "description": "Pale grey/zinc appearance on event building"
+    },
+    "off-white": {
+      "baseColorHex": "#eeeade",
+      "roughness": 0.86,
+      "description": "Pale frame, cornice and pilaster trim"
+    },
+    "foundation-grey": {
+      "baseColorHex": "#68675f",
+      "roughness": 0.96,
+      "description": "Dark grey lower foundation/skirt"
+    },
+    "blue-grey-glass": {
+      "baseColorHex": "#465d62",
+      "roughness": 0.24,
+      "metallic": 0.08,
+      "description": "Muted reflective glazing; no photographic texture"
+    }
+  },
+  "profiles": [
+    {
+      "facilityId": "johannesberg-building-w296165889",
+      "label": "Building 126",
+      "sourceBuildingId": "w296165889",
+      "modelBuildingIndex": 126,
+      "role": "Unknown current role",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679578.334,
+          6626048.988
+        ],
+        "axisDegGridNorth": 166.27,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679594.566,
+            6626057.462
+          ],
+          [
+            679598.316,
+            6626042.113
+          ],
+          [
+            679568.461,
+            6626034.862
+          ],
+          [
+            679559.842,
+            6626070.016
+          ],
+          [
+            679565.396,
+            6626071.386
+          ],
+          [
+            679570.164,
+            6626051.577
+          ]
+        ],
+        "ringLocal": [
+          [
+            166.5,
+            -685.5
+          ],
+          [
+            169.5,
+            -670
+          ],
+          [
+            139.4,
+            -664.2
+          ],
+          [
+            132.5,
+            -699.7
+          ],
+          [
+            138.1,
+            -700.8
+          ],
+          [
+            141.9,
+            -680.8
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 17.25,
+        "floorReferenceRh2000M": 17.25,
+        "eaveRh2000M": 21.65,
+        "ridgeRh2000M": 22.9,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 15.86,
+          "p05": 16.228,
+          "p25": 16.59,
+          "median": 17.27,
+          "p75": 17.61,
+          "p95": 18.42,
+          "max": 18.85
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 19.05,
+          "p05": 21.94,
+          "p25": 22.22,
+          "median": 22.425,
+          "p75": 22.62,
+          "p95": 22.808,
+          "max": 22.89
+        },
+        "laserCandidateCount": 584,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-service-hall-evidence.json",
+          "sha256": "1bc7b034fe56f42cae1e36ed84827ce27b1a48f59128079a416eb3e4bbec1c8a"
+        }
+      },
+      "roof": {
+        "type": "compound-gable",
+        "ridgeAxisDegreesGridNorth": 166.27,
+        "components": [
+          {
+            "id": "main-hall",
+            "centerEPSG3006": [
+              679581.49,
+              6626046.182
+            ],
+            "lengthM": 30.8,
+            "widthM": 15.85,
+            "axisDegGridNorth": 76.27,
+            "eaveRh2000M": 21.65,
+            "ridgeRh2000M": 22.9,
+            "type": "gable",
+            "box": [
+              679581.49,
+              6626046.182,
+              30.8,
+              15.85,
+              76.27,
+              21.65,
+              22.9
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          },
+          {
+            "id": "north-wing",
+            "centerEPSG3006": [
+              679565.003,
+              6626060.786
+            ],
+            "lengthM": 20.35,
+            "widthM": 5.7,
+            "axisDegGridNorth": 166.27,
+            "eaveRh2000M": 21.5,
+            "ridgeRh2000M": 22.25,
+            "type": "gable",
+            "box": [
+              679565.003,
+              6626060.786,
+              20.35,
+              5.7,
+              166.27,
+              21.5,
+              22.25
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "barn-red",
+        "roof": "pale-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-126",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165889-native.png",
+          "sha256": "1889c9c392815b037f411da46bd07b4243e9a7593387b2d1677cce89ea4884da",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-building-w296165889-native"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-manor",
+      "label": "Johannesbergs Slott",
+      "sourceBuildingId": "w296165891",
+      "modelBuildingIndex": 127,
+      "role": "Hotel main building, reception and restaurant",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679313.921,
+          6626345.543
+        ],
+        "axisDegGridNorth": 53.42,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679307.71,
+            6626325.59
+          ],
+          [
+            679292.804,
+            6626345.512
+          ],
+          [
+            679312.281,
+            6626359.876
+          ],
+          [
+            679318.286,
+            6626351.849
+          ],
+          [
+            679323.809,
+            6626355.922
+          ],
+          [
+            679319.836,
+            6626361.342
+          ],
+          [
+            679326.226,
+            6626366.158
+          ],
+          [
+            679334.917,
+            6626354.453
+          ],
+          [
+            679325.715,
+            6626347.597
+          ],
+          [
+            679329.798,
+            6626341.983
+          ]
+        ],
+        "ringLocal": [
+          [
+            -106.5,
+            -966.9
+          ],
+          [
+            -120.4,
+            -987.5
+          ],
+          [
+            -100.3,
+            -1000.9
+          ],
+          [
+            -94.7,
+            -992.6
+          ],
+          [
+            -89,
+            -996.4
+          ],
+          [
+            -92.7,
+            -1002
+          ],
+          [
+            -86.1,
+            -1006.5
+          ],
+          [
+            -78,
+            -994.4
+          ],
+          [
+            -87.5,
+            -988
+          ],
+          [
+            -83.7,
+            -982.2
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 28.7,
+        "floorReferenceRh2000M": 28.7,
+        "eaveRh2000M": 35.6,
+        "ridgeRh2000M": 40.5,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 16.35,
+          "p05": 19.812,
+          "p25": 26.17,
+          "median": 26.76,
+          "p75": 28.44,
+          "p95": 28.59,
+          "max": 29.36
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 28.52,
+          "p05": 30.062,
+          "p25": 32.58,
+          "median": 32.96,
+          "p75": 36.26,
+          "p95": 40.398,
+          "max": 42.22
+        },
+        "laserCandidateCount": 565,
+        "estimationBasis": "Spatial check of retained candidate CSV on native ortho separates the ~32.7 m glazed northwest conservatory from >38 m main roof returns. Main eaves/ridge and three roof components are inferred from those locations and official facade proportions; no single whole-building percentile is used.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "compound-mansard",
+        "ridgeAxisDegreesGridNorth": 53.42,
+        "components": [
+          {
+            "id": "main-manor",
+            "centerEPSG3006": [
+              679313.288,
+              6626341.026
+            ],
+            "lengthM": 27.6,
+            "widthM": 18.1,
+            "axisDegGridNorth": 53.42,
+            "eaveRh2000M": 35.6,
+            "ridgeRh2000M": 40.5,
+            "type": "mansard",
+            "box": [
+              679313.288,
+              6626341.026,
+              27.6,
+              18.1,
+              53.42,
+              35.6,
+              40.5
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.8,
+            "lowerPitchDegrees": 61,
+            "breakHeightRh2000M": 38.8
+          },
+          {
+            "id": "northeast-wing",
+            "centerEPSG3006": [
+              679324.633,
+              6626355.859
+            ],
+            "lengthM": 14.9,
+            "widthM": 14.6,
+            "axisDegGridNorth": 53.42,
+            "eaveRh2000M": 31.7,
+            "ridgeRh2000M": 35.2,
+            "type": "hipped",
+            "box": [
+              679324.633,
+              6626355.859,
+              14.9,
+              14.6,
+              53.42,
+              31.7,
+              35.2
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          },
+          {
+            "id": "northwest-conservatory",
+            "centerEPSG3006": [
+              679304.503,
+              6626350.011
+            ],
+            "lengthM": 24.2,
+            "widthM": 6.8,
+            "axisDegGridNorth": 53.42,
+            "eaveRh2000M": 30.4,
+            "ridgeRh2000M": 33.2,
+            "type": "glazed-hipped",
+            "box": [
+              679304.503,
+              6626350.011,
+              24.2,
+              6.8,
+              53.42,
+              30.4,
+              33.2
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.8,
+        "lowerPitchDegrees": 61,
+        "breakHeightRh2000M": 38.8,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "manor-blush",
+        "roof": "charcoal-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "portico",
+          "centerUVMetres": [
+            -3.2,
+            12.3
+          ],
+          "facing": "positive-v",
+          "widthMetresEstimate": 7.0,
+          "depthMetresEstimate": 2.7,
+          "floorRh2000M": 29.0,
+          "topRh2000M": 32.9,
+          "columnCount": 4,
+          "columnSection": "square",
+          "columnWidthMetresEstimate": 0.42,
+          "detail": "Three arches on four square pale piers, flat balcony roof and dark iron balustrade; central stair approach."
+        },
+        {
+          "kind": "frontGables",
+          "count": 3,
+          "side": "positive-v",
+          "detail": "Curved pale gables with round/oval upper windows; central gable larger; slim roof finials simplified."
+        },
+        {
+          "kind": "cupola",
+          "centerUVMetres": [
+            -3.2,
+            3.2
+          ],
+          "widthMetresEstimate": 2.0,
+          "baseRh2000M": 40.2,
+          "topRh2000M": 42.2,
+          "detail": "Small open dark cupola at central roof crown; height/position estimated from facade and oblique sources."
+        },
+        {
+          "kind": "conservatory",
+          "componentId": "northwest-conservatory",
+          "detail": "Pale glazed frame with repeated vertical mullions and polygonal/hipped glazed roof; not opaque white box."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-127",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-manor-native.png",
+          "sha256": "8cdfa10e7c9cb899677ccfbc8b615d035f7e7769ea41a168f492c0173163c2ee",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-manor-native"
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0004",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+          "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0004_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0011",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0011.jpg",
+          "sha256": "1dddf3a8e307bb20b939138ad38e8416c230af9560e1104dbc3898669cea9a79",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0011_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "20210617-p1022081-hdr-enhanced",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/20210617-p1022081-hdr-enhanced.jpg",
+          "sha256": "9f5c99f242f1343362f3d0705e15ef4ae37f10e40877d848bef4549fcc7c346e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/20210617-p1022081-hdr-enhanced_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-old-stable",
+      "label": "Red courtyard building",
+      "sourceBuildingId": "w296165892",
+      "modelBuildingIndex": 128,
+      "role": "Unknown current role; old stable in historical local dossier",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679330.426,
+          6626157.654
+        ],
+        "axisDegGridNorth": 143.48,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679355.674,
+            6626167.187
+          ],
+          [
+            679363.93,
+            6626158.267
+          ],
+          [
+            679339.052,
+            6626141.439
+          ],
+          [
+            679324.979,
+            6626141.964
+          ],
+          [
+            679300.188,
+            6626175.437
+          ],
+          [
+            679308.723,
+            6626181.559
+          ],
+          [
+            679330.109,
+            6626152.13
+          ],
+          [
+            679335.572,
+            6626151.19
+          ]
+        ],
+        "ringLocal": [
+          [
+            -66.3,
+            -806.5
+          ],
+          [
+            -58.5,
+            -797.2
+          ],
+          [
+            -84.1,
+            -781.6
+          ],
+          [
+            -98.1,
+            -782.8
+          ],
+          [
+            -121.2,
+            -817.4
+          ],
+          [
+            -112.4,
+            -823.1
+          ],
+          [
+            -92.5,
+            -792.7
+          ],
+          [
+            -87.1,
+            -791.5
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 20.2,
+        "floorReferenceRh2000M": 20.2,
+        "eaveRh2000M": 23.25,
+        "ridgeRh2000M": 26.8,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 17.87,
+          "p05": 18.63,
+          "p25": 19.34,
+          "median": 20.26,
+          "p75": 21.36,
+          "p95": 22.354,
+          "max": 23.23
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 22.05,
+          "p05": 22.92,
+          "p25": 24.03,
+          "median": 25.23,
+          "p75": 25.97,
+          "p95": 26.66,
+          "max": 26.82
+        },
+        "laserCandidateCount": 1416,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "compound-gable",
+        "ridgeAxisDegreesGridNorth": 143.48,
+        "components": [
+          {
+            "id": "long-courtyard-wing",
+            "centerEPSG3006": [
+              679316.851,
+              6626161.787
+            ],
+            "lengthM": 41.6,
+            "widthM": 10.5,
+            "axisDegGridNorth": 143.48,
+            "eaveRh2000M": 23.25,
+            "ridgeRh2000M": 26.8,
+            "type": "gable",
+            "box": [
+              679316.851,
+              6626161.787,
+              41.6,
+              10.5,
+              143.48,
+              23.25,
+              26.8
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          },
+          {
+            "id": "cross-courtyard-wing",
+            "centerEPSG3006": [
+              679347.964,
+              6626153.967
+            ],
+            "lengthM": 30.8,
+            "widthM": 12.0,
+            "axisDegGridNorth": 53.48,
+            "eaveRh2000M": 23.1,
+            "ridgeRh2000M": 26.8,
+            "type": "gable",
+            "box": [
+              679347.964,
+              6626153.967,
+              30.8,
+              12.0,
+              53.48,
+              23.1,
+              26.8
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          },
+          {
+            "id": "hipped-corner-junction",
+            "centerEPSG3006": [
+              679331.736,
+              6626144.626
+            ],
+            "lengthM": 13.9,
+            "widthM": 14.0,
+            "axisDegGridNorth": 143.48,
+            "eaveRh2000M": 23.2,
+            "ridgeRh2000M": 26.8,
+            "type": "hipped",
+            "box": [
+              679331.736,
+              6626144.626,
+              13.9,
+              14.0,
+              143.48,
+              23.2,
+              26.8
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "barn-red",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-128",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-old-stable-native.png",
+          "sha256": "5341621c11e419607d559dbcd7b85a135798547a0e5cbe5f230e397b90f6ea1d",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-old-stable-native"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-east-slottsvilla",
+      "label": "Östra Slottsvillan",
+      "sourceBuildingId": "w296165893",
+      "modelBuildingIndex": 129,
+      "role": "Hotel rooms 74–88",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679390.582,
+          6626261.197
+        ],
+        "axisDegGridNorth": 147.6,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679389.344,
+            6626251.469
+          ],
+          [
+            679381.201,
+            6626264.302
+          ],
+          [
+            679391.819,
+            6626270.926
+          ],
+          [
+            679399.962,
+            6626258.092
+          ]
+        ],
+        "ringLocal": [
+          [
+            -28.7,
+            -889
+          ],
+          [
+            -36.2,
+            -902.2
+          ],
+          [
+            -25.3,
+            -908.3
+          ],
+          [
+            -17.8,
+            -895.1
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 24.1,
+        "floorReferenceRh2000M": 24.1,
+        "eaveRh2000M": 30.5,
+        "ridgeRh2000M": 35.3,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 21.19,
+          "p05": 21.6,
+          "p25": 22.31,
+          "median": 23.46,
+          "p75": 24.15,
+          "p95": 24.6,
+          "max": 24.78
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 24.97,
+          "p05": 29.956,
+          "p25": 33.78,
+          "median": 34.4,
+          "p75": 34.86,
+          "p95": 35.182,
+          "max": 35.76
+        },
+        "laserCandidateCount": 477,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "mansard",
+        "ridgeAxisDegreesGridNorth": 147.6,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679390.582,
+              6626261.197
+            ],
+            "lengthM": 15.3,
+            "widthM": 12.51,
+            "axisDegGridNorth": 147.6,
+            "eaveRh2000M": 30.5,
+            "ridgeRh2000M": 35.3,
+            "type": "mansard",
+            "box": [
+              679390.582,
+              6626261.197,
+              15.3,
+              12.51,
+              147.6,
+              30.5,
+              35.3
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.72,
+            "lowerPitchDegrees": 65,
+            "breakHeightRh2000M": 34.2
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.72,
+        "lowerPitchDegrees": 65,
+        "breakHeightRh2000M": 34.2,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "dormerRows",
+          "countPerLongSideEstimate": 2,
+          "widthMetresEstimate": 1.0,
+          "heightMetresEstimate": 1.3,
+          "exactCountVerified": false,
+          "basis": "Repeated dormers visible in official photos/native roof; count and metric placement regularized for modelling."
+        },
+        {
+          "kind": "centralFacadeGable",
+          "side": "both-long-sides",
+          "widthMetresEstimate": 4.0,
+          "detail": "Pale curved central frontispiece with arched window; side balconies and white trim.",
+          "exactPlacementVerified": false
+        },
+        {
+          "kind": "balconies",
+          "levelsEstimate": 2,
+          "widthMetresEstimate": 3.0,
+          "depthMetresEstimate": 0.8,
+          "detail": "Central iron-railed balconies supported by official villa style photo; exact east/west facade layout unresolved."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-129",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-slottsvilla-native.png",
+          "sha256": "4d25066d55684aa1163bb8d016deda948c91b1a97c54a0a96c652631b87a59c2",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-east-slottsvilla-native"
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0004",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+          "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0004_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "img-3042",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/img-3042.jpg",
+          "sha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/img-3042_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-east-wing",
+      "label": "Östra Flygeln",
+      "sourceBuildingId": "w296165894",
+      "modelBuildingIndex": 130,
+      "role": "Hotel rooms 1–28",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679347.695,
+          6626335.766
+        ],
+        "axisDegGridNorth": 141.22,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679352.871,
+            6626321.251
+          ],
+          [
+            679334.617,
+            6626344.018
+          ],
+          [
+            679342.442,
+            6626350.306
+          ],
+          [
+            679360.796,
+            6626327.544
+          ]
+        ],
+        "ringLocal": [
+          [
+            -61.7,
+            -960.4
+          ],
+          [
+            -78.8,
+            -984
+          ],
+          [
+            -70.7,
+            -989.9
+          ],
+          [
+            -53.5,
+            -966.3
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 28.4,
+        "floorReferenceRh2000M": 28.4,
+        "eaveRh2000M": 32.1,
+        "ridgeRh2000M": 36.1,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 23.8,
+          "p05": 24.99,
+          "p25": 26.06,
+          "median": 27.07,
+          "p75": 28.4,
+          "p95": 28.61,
+          "max": 28.81
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 32.75,
+          "p05": 34.63,
+          "p25": 34.97,
+          "median": 35.44,
+          "p75": 35.78,
+          "p95": 36.0,
+          "max": 36.09
+        },
+        "laserCandidateCount": 497,
+        "estimationBasis": "Courtyard-side terrain/floor is about28.4 m; downhill facade has exposed lower wall. Shallow upper mansard returns at35–36 m do not justify a simple shallow gable.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "mansard",
+        "ridgeAxisDegreesGridNorth": 141.22,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679347.695,
+              6626335.766
+            ],
+            "lengthM": 29.24,
+            "widthM": 10.12,
+            "axisDegGridNorth": 141.22,
+            "eaveRh2000M": 32.1,
+            "ridgeRh2000M": 36.1,
+            "type": "mansard",
+            "box": [
+              679347.695,
+              6626335.766,
+              29.24,
+              10.12,
+              141.22,
+              32.1,
+              36.1
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.74,
+            "lowerPitchDegrees": 65,
+            "breakHeightRh2000M": 34.9
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.74,
+        "lowerPitchDegrees": 65,
+        "breakHeightRh2000M": 34.9,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "charcoal-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "dormerRows",
+          "countPerLongSideEstimate": 5,
+          "widthMetresEstimate": 1.0,
+          "heightMetresEstimate": 1.3,
+          "exactCountVerified": false,
+          "basis": "Repeated dormers visible in official photos/native roof; count and metric placement regularized for modelling."
+        },
+        {
+          "kind": "centralEntrance",
+          "side": "courtyard-facing",
+          "widthMetresEstimate": 3.7,
+          "projectionMetresEstimate": 1.2,
+          "detail": "Raised pale gable over small porch; white vertical pilasters, red/brown foundation band and entrance steps."
+        },
+        {
+          "kind": "solarPanels",
+          "placement": "shallow upper roof plane",
+          "coverageFractionEstimate": 0.6,
+          "panelCountVerified": false,
+          "detail": "Dark rectangular array visible on2025 native ortho; continuous simplified array rather than invented exact module count."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-130",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-wing-native.png",
+          "sha256": "5300a5f25aacccdbeebc1e43a964de712bf50a9ab40ac4652b054e8a67e45c04",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-east-wing-native"
+        },
+        {
+          "id": "stra-flygeln-1",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/stra-flygeln-1.jpg",
+          "sha256": "d7a0e30ec5ef2f3955538757f1f19e42fa736d1d2b2d4ef70251aed62f22bd46",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/edited/stra-flygeln-1.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-clubhouse-shed",
+      "label": "Clubhouse terrace pavilion",
+      "sourceBuildingId": "w296165897",
+      "modelBuildingIndex": 132,
+      "role": "Open roofed clubhouse terrace pavilion",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679210.426,
+          6626151.344
+        ],
+        "axisDegGridNorth": 51.38,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679207.781,
+            6626146.042
+          ],
+          [
+            679204.681,
+            6626150.001
+          ],
+          [
+            679213.092,
+            6626156.618
+          ],
+          [
+            679216.188,
+            6626152.759
+          ]
+        ],
+        "ringLocal": [
+          [
+            -214.7,
+            -792.5
+          ],
+          [
+            -217.6,
+            -796.6
+          ],
+          [
+            -208.9,
+            -802.8
+          ],
+          [
+            -206,
+            -798.8
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 18.2,
+        "floorReferenceRh2000M": 18.2,
+        "eaveRh2000M": 20.25,
+        "ridgeRh2000M": 21.9,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 16.9,
+          "p05": 17.26,
+          "p25": 18.03,
+          "median": 18.16,
+          "p75": 18.38,
+          "p95": 18.76,
+          "max": 19.52
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 20.74,
+          "p05": 20.906,
+          "p25": 21.235,
+          "median": 21.555,
+          "p75": 21.673,
+          "p95": 21.87,
+          "max": 21.9
+        },
+        "laserCandidateCount": 34,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "hipped",
+        "ridgeAxisDegreesGridNorth": 51.38,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679210.426,
+              6626151.344
+            ],
+            "lengthM": 10.76,
+            "widthM": 5.03,
+            "axisDegGridNorth": 51.38,
+            "eaveRh2000M": 20.25,
+            "ridgeRh2000M": 21.9,
+            "type": "hipped",
+            "box": [
+              679210.426,
+              6626151.344,
+              10.76,
+              5.03,
+              51.38,
+              20.25,
+              21.9
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "off-white",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "openPavilion",
+          "postCountEstimate": 8,
+          "wallStyle": "none",
+          "postSectionMetresEstimate": 0.13,
+          "detail": "Open hip-roof terrace pavilion beside clubhouse, confirmed by2018front and2024opposite-gable photographs; not a closed shed. Actual geometry belongs to clubhouse profile."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-132",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-shed-native.png",
+          "sha256": "0a7ee4888e422c4b8aff29f14821e0cc001854eb0c288e6d956f0541c0d0a9ca",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-clubhouse-shed-native"
+        },
+        {
+          "id": "club-media-4558-original",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/club-media-4558-original.jpg",
+          "sha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132",
+          "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2023/08/Johannesberg-2.jpg",
+          "captureDate": "2018-09-19",
+          "metricCalibration": false
+        },
+        {
+          "id": "club-media-3970-original",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3970-original.jpg",
+          "sha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879",
+          "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2023/06/Johannesberg-4.jpg",
+          "captureDate": "2018-09-19",
+          "metricCalibration": false
+        },
+        {
+          "id": "club-media-6642-original",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6642-original.jpg",
+          "sha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95",
+          "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/20241030_084907.jpg",
+          "captureDate": "2024-10-30",
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Open posts and hipped roof only, no opaque wall box; avoid duplicate geometry already authored with clubhouse.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true,
+        "geometryOwner": "clubhouse-model-profile",
+        "emitEstateGeometry": false
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-west-slottsvilla",
+      "label": "Västra Slottsvillan",
+      "sourceBuildingId": "w296165898",
+      "modelBuildingIndex": 133,
+      "role": "Hotel rooms 59–73",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679369.025,
+          6626244.178
+        ],
+        "axisDegGridNorth": 146.03,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679378.861,
+            6626242.047
+          ],
+          [
+            679367.294,
+            6626234.276
+          ],
+          [
+            679359.189,
+            6626246.31
+          ],
+          [
+            679370.756,
+            6626254.081
+          ]
+        ],
+        "ringLocal": [
+          [
+            -39.6,
+            -880.1
+          ],
+          [
+            -51.5,
+            -872.9
+          ],
+          [
+            -59,
+            -885.3
+          ],
+          [
+            -47.1,
+            -892.5
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 24.0,
+        "floorReferenceRh2000M": 24.0,
+        "eaveRh2000M": 30.5,
+        "ridgeRh2000M": 35.3,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 21.46,
+          "p05": 21.81,
+          "p25": 22.2,
+          "median": 23.0,
+          "p75": 23.717,
+          "p95": 24.09,
+          "max": 24.35
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 24.58,
+          "p05": 27.084,
+          "p25": 33.583,
+          "median": 34.305,
+          "p75": 34.78,
+          "p95": 35.15,
+          "max": 35.57
+        },
+        "laserCandidateCount": 522,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "mansard",
+        "ridgeAxisDegreesGridNorth": 146.03,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679369.025,
+              6626244.178
+            ],
+            "lengthM": 14.53,
+            "widthM": 13.93,
+            "axisDegGridNorth": 146.03,
+            "eaveRh2000M": 30.5,
+            "ridgeRh2000M": 35.3,
+            "type": "mansard",
+            "box": [
+              679369.025,
+              6626244.178,
+              14.53,
+              13.93,
+              146.03,
+              30.5,
+              35.3
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.74,
+            "lowerPitchDegrees": 65,
+            "breakHeightRh2000M": 34.2
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.74,
+        "lowerPitchDegrees": 65,
+        "breakHeightRh2000M": 34.2,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "dormerRows",
+          "countPerLongSideEstimate": 2,
+          "widthMetresEstimate": 1.0,
+          "heightMetresEstimate": 1.3,
+          "exactCountVerified": false,
+          "basis": "Repeated dormers visible in official photos/native roof; count and metric placement regularized for modelling."
+        },
+        {
+          "kind": "centralFacadeGable",
+          "side": "both-long-sides",
+          "widthMetresEstimate": 4.0,
+          "detail": "Pale curved central frontispiece with arched window; side balconies and white trim.",
+          "exactPlacementVerified": false
+        },
+        {
+          "kind": "balconies",
+          "levelsEstimate": 2,
+          "widthMetresEstimate": 3.0,
+          "depthMetresEstimate": 0.8,
+          "detail": "Central iron-railed balconies supported by official villa style photo; exact east/west facade layout unresolved."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-133",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-slottsvilla-native.png",
+          "sha256": "876c4e903e83371ca591bac052237306aec6b2291fccc4f60fc0f752229b6314",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-west-slottsvilla-native"
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0004",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+          "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0004_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "img-3042",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/img-3042.jpg",
+          "sha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/img-3042_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-karolinerhuset",
+      "label": "Karolinerhuset",
+      "sourceBuildingId": "w296165899",
+      "modelBuildingIndex": 134,
+      "role": "Hotel rooms 89–124; conference building",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679382.468,
+          6626326.534
+        ],
+        "axisDegGridNorth": 141.52,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679385.374,
+            6626310.994
+          ],
+          [
+            679367.963,
+            6626332.899
+          ],
+          [
+            679379.562,
+            6626342.075
+          ],
+          [
+            679396.973,
+            6626320.169
+          ]
+        ],
+        "ringLocal": [
+          [
+            -29.8,
+            -948.6
+          ],
+          [
+            -46.1,
+            -971.3
+          ],
+          [
+            -34.1,
+            -979.9
+          ],
+          [
+            -17.8,
+            -957.2
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 26.7,
+        "floorReferenceRh2000M": 26.7,
+        "eaveRh2000M": 31.8,
+        "ridgeRh2000M": 36.2,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 14.68,
+          "p05": 17.36,
+          "p25": 19.19,
+          "median": 22.29,
+          "p75": 26.08,
+          "p95": 26.33,
+          "max": 27.47
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 26.82,
+          "p05": 29.153,
+          "p25": 35.035,
+          "median": 35.45,
+          "p75": 35.78,
+          "p95": 36.137,
+          "max": 36.76
+        },
+        "laserCandidateCount": 607,
+        "estimationBasis": "Front/courtyard-side terrain is about26.7 m, with substantial downslope ground variation. Main roof candidates constrain35–36 m upper planes; tower top is a separate photographic estimate outside reliable roof-return support.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "mansard",
+        "ridgeAxisDegreesGridNorth": 141.52,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679382.468,
+              6626326.534
+            ],
+            "lengthM": 28.02,
+            "widthM": 14.79,
+            "axisDegGridNorth": 141.52,
+            "eaveRh2000M": 31.8,
+            "ridgeRh2000M": 36.2,
+            "type": "mansard",
+            "box": [
+              679382.468,
+              6626326.534,
+              28.02,
+              14.79,
+              141.52,
+              31.8,
+              36.2
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.8,
+            "lowerPitchDegrees": 65,
+            "breakHeightRh2000M": 34.9
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.8,
+        "lowerPitchDegrees": 65,
+        "breakHeightRh2000M": 34.9,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "manor-blush",
+        "roof": "charcoal-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "dormerRows",
+          "countPerLongSideEstimate": 4,
+          "widthMetresEstimate": 1.0,
+          "heightMetresEstimate": 1.3,
+          "exactCountVerified": false,
+          "basis": "Repeated dormers visible in official photos/native roof; count and metric placement regularized for modelling."
+        },
+        {
+          "kind": "tower",
+          "id": "northwest-tower",
+          "centerEPSG3006": [
+            679372.303,
+            6626332.251
+          ],
+          "lengthM": 5.4,
+          "widthM": 5.6,
+          "axisDegGridNorth": 141.52,
+          "eaveRh2000M": 37.0,
+          "ridgeRh2000M": 39.0,
+          "type": "pyramidal",
+          "box": [
+            679372.303,
+            6626332.251,
+            5.4,
+            5.6,
+            141.52,
+            37.0,
+            39.0
+          ],
+          "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+          "dimensionsMeasured": false,
+          "baseRh2000M": 31.8,
+          "placementConfidence": "medium-low",
+          "detail": "Pale square tower and dark pyramidal cap at northwest/front corner, visible official Karolinerhuset photo. Main wall footprint retained; feature bounded inside existing footprint."
+        },
+        {
+          "kind": "frontVeranda",
+          "side": "positive-v",
+          "widthMetresEstimate": 13,
+          "depthMetresEstimate": 2.5,
+          "floorRh2000M": 26.7,
+          "topRh2000M": 29.9,
+          "postsEstimate": 4,
+          "detail": "Long shaded entrance veranda with slender pale supports, dark roof and central entrance steps."
+        },
+        {
+          "kind": "centralFacadeGable",
+          "side": "positive-v",
+          "widthMetresEstimate": 7,
+          "detail": "Broad low curved central dormer/frontispiece with paired windows."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-134",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-karolinerhuset-native.png",
+          "sha256": "fd19d7d1914cf9a4bb14b5ca7cc98f263f9fb43a53fe1760f40d60e1e37de1c4",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-karolinerhuset-native"
+        },
+        {
+          "id": "jbs-54_orig",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/jbs-54_orig.jpg",
+          "sha256": "1dac5b87af2bf4a97d8b8d5c539d98c7dfeef46784e514548ba8064365969498",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/jbs-54_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0004",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+          "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0004_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-building-w296165900",
+      "label": "Building 135",
+      "sourceBuildingId": "w296165900",
+      "modelBuildingIndex": 135,
+      "role": "Unknown current role",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679612.671,
+          6626172.29
+        ],
+        "axisDegGridNorth": 162.16,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679588.841,
+            6626211.586
+          ],
+          [
+            679612.654,
+            6626219.247
+          ],
+          [
+            679638.13,
+            6626140.42
+          ],
+          [
+            679600.779,
+            6626128.399
+          ],
+          [
+            679595.937,
+            6626143.495
+          ],
+          [
+            679609.474,
+            6626147.855
+          ]
+        ],
+        "ringLocal": [
+          [
+            168.2,
+            -839.6
+          ],
+          [
+            192.3,
+            -846.1
+          ],
+          [
+            213.9,
+            -766.2
+          ],
+          [
+            176.1,
+            -756
+          ],
+          [
+            172,
+            -771.3
+          ],
+          [
+            185.7,
+            -775
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 22.2,
+        "floorReferenceRh2000M": 22.2,
+        "eaveRh2000M": 28.9,
+        "ridgeRh2000M": 31.6,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 21.39,
+          "p05": 21.55,
+          "p25": 21.94,
+          "median": 22.75,
+          "p75": 24.16,
+          "p95": 25.58,
+          "max": 26.11
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 28.91,
+          "p05": 29.43,
+          "p25": 29.88,
+          "median": 30.4,
+          "p75": 30.96,
+          "p95": 31.39,
+          "max": 33.71
+        },
+        "laserCandidateCount": 1341,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "compound-gable",
+        "ridgeAxisDegreesGridNorth": 162.16,
+        "components": [
+          {
+            "id": "long-hall",
+            "centerEPSG3006": [
+              679613.516,
+              6626176.029
+            ],
+            "lengthM": 82.8,
+            "widthM": 25.1,
+            "axisDegGridNorth": 162.16,
+            "eaveRh2000M": 28.9,
+            "ridgeRh2000M": 31.6,
+            "type": "gable",
+            "box": [
+              679613.516,
+              6626176.029,
+              82.8,
+              25.1,
+              162.16,
+              28.9,
+              31.6
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          },
+          {
+            "id": "end-cross-wing",
+            "centerEPSG3006": [
+              679617.021,
+              6626141.964
+            ],
+            "lengthM": 39.3,
+            "widthM": 15.8,
+            "axisDegGridNorth": 72.16,
+            "eaveRh2000M": 27.5,
+            "ridgeRh2000M": 30.4,
+            "type": "gable",
+            "box": [
+              679617.021,
+              6626141.964,
+              39.3,
+              15.8,
+              72.16,
+              27.5,
+              30.4
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "barn-red",
+        "roof": "pale-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-135",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165900-native.png",
+          "sha256": "68fcba561b3937aaf43668d743ddcb3e024c506365a239789394a185512fe327",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-building-w296165900-native"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-west-wing",
+      "label": "Västra Flygeln",
+      "sourceBuildingId": "w296165901",
+      "modelBuildingIndex": 136,
+      "role": "Hotel rooms 29–50; yoga/conference rooms",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679307.514,
+          6626304.422
+        ],
+        "axisDegGridNorth": 143.77,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679312.575,
+            6626289.153
+          ],
+          [
+            679294.525,
+            6626313.934
+          ],
+          [
+            679302.374,
+            6626319.722
+          ],
+          [
+            679320.524,
+            6626294.946
+          ]
+        ],
+        "ringLocal": [
+          [
+            -103.4,
+            -930.3
+          ],
+          [
+            -120.2,
+            -955.9
+          ],
+          [
+            -112.1,
+            -961.3
+          ],
+          [
+            -95.2,
+            -935.7
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 28.4,
+        "floorReferenceRh2000M": 28.4,
+        "eaveRh2000M": 32.1,
+        "ridgeRh2000M": 36.1,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 18.5,
+          "p05": 19.62,
+          "p25": 21.78,
+          "median": 24.09,
+          "p75": 26.74,
+          "p95": 28.42,
+          "max": 28.58
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 25.75,
+          "p05": 27.35,
+          "p25": 34.76,
+          "median": 35.18,
+          "p75": 35.58,
+          "p95": 35.96,
+          "max": 36.06
+        },
+        "laserCandidateCount": 461,
+        "estimationBasis": "Use courtyard-side floor about28.4 m and extend a foundation/lower storey down the slope. Surrounding-ground median24.09 m is not the courtyard floor. Roof elevations match east wing.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "mansard",
+        "ridgeAxisDegreesGridNorth": 143.77,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679307.514,
+              6626304.422
+            ],
+            "lengthM": 30.71,
+            "widthM": 9.84,
+            "axisDegGridNorth": 143.77,
+            "eaveRh2000M": 32.1,
+            "ridgeRh2000M": 36.1,
+            "type": "mansard",
+            "box": [
+              679307.514,
+              6626304.422,
+              30.71,
+              9.84,
+              143.77,
+              32.1,
+              36.1
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.74,
+            "lowerPitchDegrees": 65,
+            "breakHeightRh2000M": 34.9
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.74,
+        "lowerPitchDegrees": 65,
+        "breakHeightRh2000M": 34.9,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "charcoal-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "dormerRows",
+          "countPerLongSideEstimate": 5,
+          "widthMetresEstimate": 1.0,
+          "heightMetresEstimate": 1.3,
+          "exactCountVerified": false,
+          "basis": "Repeated dormers visible in official photos/native roof; count and metric placement regularized for modelling."
+        },
+        {
+          "kind": "centralEntrance",
+          "side": "courtyard-facing",
+          "widthMetresEstimate": 3.7,
+          "projectionMetresEstimate": 1.2,
+          "detail": "Raised pale gable over small porch; white vertical pilasters, red/brown foundation band and entrance steps."
+        },
+        {
+          "kind": "solarPanels",
+          "placement": "shallow upper roof plane",
+          "coverageFractionEstimate": 0.6,
+          "panelCountVerified": false,
+          "detail": "Dark rectangular array visible on2025 native ortho; continuous simplified array rather than invented exact module count."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-136",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-wing-native.png",
+          "sha256": "b09ba60c6e7f9d97a504e8544b195b763678dca3967147fb1f6b09fd8f823826",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-west-wing-native"
+        },
+        {
+          "id": "v-stra-flygeln-2",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/v-stra-flygeln-2.jpg",
+          "sha256": "7840c811b352a94f5cf0883a1609ecbf8bfcc72bc5b23e327186020b13ca5d2c",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/edited/v-stra-flygeln-2.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-building-w296165903",
+      "label": "Building 137",
+      "sourceBuildingId": "w296165903",
+      "modelBuildingIndex": 137,
+      "role": "Unknown current role",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679404.615,
+          6626182.319
+        ],
+        "axisDegGridNorth": 54.95,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679390.151,
+            6626178.466
+          ],
+          [
+            679413.155,
+            6626194.603
+          ],
+          [
+            679419.08,
+            6626186.172
+          ],
+          [
+            679396.076,
+            6626170.035
+          ]
+        ],
+        "ringLocal": [
+          [
+            -31.4,
+            -816.1
+          ],
+          [
+            -7.7,
+            -831.1
+          ],
+          [
+            -2.2,
+            -822.4
+          ],
+          [
+            -25.9,
+            -807.4
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 23.8,
+        "floorReferenceRh2000M": 23.8,
+        "eaveRh2000M": 30.7,
+        "ridgeRh2000M": 34.15,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 22.05,
+          "p05": 22.42,
+          "p25": 23.24,
+          "median": 23.92,
+          "p75": 24.48,
+          "p95": 26.27,
+          "max": 27.42
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 25.64,
+          "p05": 30.81,
+          "p25": 31.88,
+          "median": 32.84,
+          "p75": 33.57,
+          "p95": 34.09,
+          "max": 34.82
+        },
+        "laserCandidateCount": 737,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "gable",
+        "ridgeAxisDegreesGridNorth": 54.95,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679404.615,
+              6626182.319
+            ],
+            "lengthM": 28.11,
+            "widthM": 10.3,
+            "axisDegGridNorth": 54.95,
+            "eaveRh2000M": 30.7,
+            "ridgeRh2000M": 34.15,
+            "type": "gable",
+            "box": [
+              679404.615,
+              6626182.319,
+              28.11,
+              10.3,
+              54.95,
+              30.7,
+              34.15
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-137",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165903-native.png",
+          "sha256": "fb0e50322484bc17e5ba37d60b2985672e37a5e7d30902e44f99dae371311c1c",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-building-w296165903-native"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-johannesbergsvillan",
+      "label": "Johannesbergs Villan",
+      "sourceBuildingId": "w296165904",
+      "modelBuildingIndex": 138,
+      "role": "Hotel rooms 51–58; spa, gym and pool",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679342.809,
+          6626248.96
+        ],
+        "axisDegGridNorth": 143.05,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679341.754,
+            6626239.559
+          ],
+          [
+            679333.396,
+            6626250.578
+          ],
+          [
+            679343.857,
+            6626258.396
+          ],
+          [
+            679352.219,
+            6626247.277
+          ]
+        ],
+        "ringLocal": [
+          [
+            -76.7,
+            -879.4
+          ],
+          [
+            -84.5,
+            -890.8
+          ],
+          [
+            -73.7,
+            -898.1
+          ],
+          [
+            -65.9,
+            -886.6
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 23.7,
+        "floorReferenceRh2000M": 23.7,
+        "eaveRh2000M": 26.5,
+        "ridgeRh2000M": 30.7,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 20.09,
+          "p05": 20.51,
+          "p25": 22.557,
+          "median": 23.32,
+          "p75": 23.67,
+          "p95": 23.93,
+          "max": 24.46
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 27.11,
+          "p05": 27.276,
+          "p25": 29.6,
+          "median": 30.0,
+          "p75": 30.3,
+          "p95": 30.587,
+          "max": 30.68
+        },
+        "laserCandidateCount": 367,
+        "estimationBasis": "Upper approach-side floor estimated23.7 m. Extend lower/basement walls toward20–21 m ground where visible; do not use one mean surrounding height as every facade floor.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "mansard",
+        "ridgeAxisDegreesGridNorth": 143.05,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679342.809,
+              6626248.96
+            ],
+            "lengthM": 13.95,
+            "widthM": 13.06,
+            "axisDegGridNorth": 143.05,
+            "eaveRh2000M": 26.5,
+            "ridgeRh2000M": 30.7,
+            "type": "mansard",
+            "box": [
+              679342.809,
+              6626248.96,
+              13.95,
+              13.06,
+              143.05,
+              26.5,
+              30.7
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.8,
+            "lowerPitchDegrees": 66,
+            "breakHeightRh2000M": 29.5
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.8,
+        "lowerPitchDegrees": 66,
+        "breakHeightRh2000M": 29.5,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "dormerRows",
+          "countPerLongSideEstimate": 3,
+          "widthMetresEstimate": 1.0,
+          "heightMetresEstimate": 1.3,
+          "exactCountVerified": false,
+          "basis": "Repeated dormers visible in official photos/native roof; count and metric placement regularized for modelling."
+        },
+        {
+          "kind": "spaAnnex",
+          "detail": "Separate low red mansard block adjoining large event building, with dormers, chimney and pale walls. Preserve both source footprints; no invented connecting wall footprint."
+        },
+        {
+          "kind": "poolDeckContext",
+          "modelAsBuilding": false,
+          "detail": "Outdoor rectangular pool and deck visible southwest of annex in official aerial; handled by site builder, not by extending building walls."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-138",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsvillan-native.png",
+          "sha256": "52b9cd32b1015c318fced756034560e4e0a4cb2846273f054b9a8c622769a1de",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-johannesbergsvillan-native"
+        },
+        {
+          "id": "jbs-flygbild-spa-1080",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/jbs-flygbild-spa-1080.jpg",
+          "sha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/jbs-flygbild-spa-1080_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0004",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+          "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0004_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-johannesbergsflygeln",
+      "label": "Johannesbergs Flygel",
+      "sourceBuildingId": "w296165905",
+      "modelBuildingIndex": 139,
+      "role": "Event building / Johannesbergssalen",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679323.149,
+          6626260.205
+        ],
+        "axisDegGridNorth": 56.38,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679305.666,
+            6626259.664
+          ],
+          [
+            679330.362,
+            6626276.082
+          ],
+          [
+            679340.633,
+            6626260.746
+          ],
+          [
+            679315.937,
+            6626244.327
+          ]
+        ],
+        "ringLocal": [
+          [
+            -111.7,
+            -901.2
+          ],
+          [
+            -86.3,
+            -916.4
+          ],
+          [
+            -76.8,
+            -900.6
+          ],
+          [
+            -102.2,
+            -885.4
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 24.0,
+        "floorReferenceRh2000M": 24.0,
+        "eaveRh2000M": 33.8,
+        "ridgeRh2000M": 38.7,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 16.84,
+          "p05": 17.43,
+          "p25": 19.02,
+          "median": 21.39,
+          "p75": 23.82,
+          "p95": 25.04,
+          "max": 25.76
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 23.73,
+          "p05": 30.306,
+          "p25": 37.267,
+          "median": 37.8,
+          "p75": 38.25,
+          "p95": 38.638,
+          "max": 41.12
+        },
+        "laserCandidateCount": 1424,
+        "estimationBasis": "Upper street-side floor estimated24.0 m; golf/pool side terrain is lower. Multiple visible storeys and stepped foundation are required. Main roof38.7 m and small rear turret41.0 m are separate approximate components.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "mansard",
+        "ridgeAxisDegreesGridNorth": 56.38,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679323.149,
+              6626260.205
+            ],
+            "lengthM": 29.72,
+            "widthM": 18.46,
+            "axisDegGridNorth": 56.38,
+            "eaveRh2000M": 33.8,
+            "ridgeRh2000M": 38.7,
+            "type": "mansard",
+            "box": [
+              679323.149,
+              6626260.205,
+              29.72,
+              18.46,
+              56.38,
+              33.8,
+              38.7
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.82,
+            "lowerPitchDegrees": 65,
+            "breakHeightRh2000M": 37.3
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.82,
+        "lowerPitchDegrees": 65,
+        "breakHeightRh2000M": 37.3,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "zinc-grey",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "dormerRows",
+          "countPerLongSideEstimate": 3,
+          "widthMetresEstimate": 1.0,
+          "heightMetresEstimate": 1.3,
+          "exactCountVerified": false,
+          "basis": "Repeated dormers visible in official photos/native roof; count and metric placement regularized for modelling."
+        },
+        {
+          "kind": "tower",
+          "id": "rear-roof-turret",
+          "centerEPSG3006": [
+            679328.958,
+            6626270.432
+          ],
+          "lengthM": 6.0,
+          "widthM": 6.0,
+          "axisDegGridNorth": 56.38,
+          "eaveRh2000M": 37.2,
+          "ridgeRh2000M": 41.0,
+          "type": "pyramidal",
+          "box": [
+            679328.958,
+            6626270.432,
+            6.0,
+            6.0,
+            56.38,
+            37.2,
+            41.0
+          ],
+          "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+          "dimensionsMeasured": false,
+          "baseRh2000M": 35.7,
+          "placementConfidence": "medium-low",
+          "detail": "Small pale/zinc rear roof turret with pyramidal cap, subordinate to the large event-building roof."
+        },
+        {
+          "kind": "solarPanels",
+          "placement": "upper mansard fields",
+          "coverageFractionEstimate": 0.52,
+          "panelCountVerified": false
+        },
+        {
+          "kind": "facadeBands",
+          "levelsEstimate": 3,
+          "detail": "Pale plaster, warm exposed timber/orange-brown trim bands, corner framing and repeated tall rectangular windows."
+        },
+        {
+          "kind": "exteriorStair",
+          "placement": "golf-facing lower facade",
+          "detail": "Visible multi-level outside stair and terrace connection; precise tread geometry and route remain an appearance approximation."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-139",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsflygeln-native.png",
+          "sha256": "c6ef3119c98e01e3dff9fc686e254dcf769e4327324de9afe6ee9627295333c2",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-johannesbergsflygeln-native"
+        },
+        {
+          "id": "jbs-flygbild-spa-1080",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/jbs-flygbild-spa-1080.jpg",
+          "sha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/jbs-flygbild-spa-1080_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-building-w296165906",
+      "label": "Building 140",
+      "sourceBuildingId": "w296165906",
+      "modelBuildingIndex": 140,
+      "role": "Unknown current role",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679340.464,
+          6626201.412
+        ],
+        "axisDegGridNorth": 144.75,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679342.502,
+            6626186.492
+          ],
+          [
+            679327.099,
+            6626208.394
+          ],
+          [
+            679338.356,
+            6626216.35
+          ],
+          [
+            679353.859,
+            6626194.453
+          ]
+        ],
+        "ringLocal": [
+          [
+            -78.5,
+            -826.4
+          ],
+          [
+            -92.8,
+            -849
+          ],
+          [
+            -81.2,
+            -856.4
+          ],
+          [
+            -66.8,
+            -833.8
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 21.4,
+        "floorReferenceRh2000M": 21.4,
+        "eaveRh2000M": 27.55,
+        "ridgeRh2000M": 31.9,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 18.22,
+          "p05": 18.84,
+          "p25": 19.86,
+          "median": 21.01,
+          "p75": 21.42,
+          "p95": 21.64,
+          "max": 22.26
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 22.52,
+          "p05": 27.45,
+          "p25": 28.69,
+          "median": 30.305,
+          "p75": 31.12,
+          "p95": 31.75,
+          "max": 31.91
+        },
+        "laserCandidateCount": 832,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "gable",
+        "ridgeAxisDegreesGridNorth": 144.75,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679340.464,
+              6626201.412
+            ],
+            "lengthM": 26.83,
+            "widthM": 13.87,
+            "axisDegGridNorth": 144.75,
+            "eaveRh2000M": 27.55,
+            "ridgeRh2000M": 31.9,
+            "type": "gable",
+            "box": [
+              679340.464,
+              6626201.412,
+              26.83,
+              13.87,
+              144.75,
+              27.55,
+              31.9
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "barn-red",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-140",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165906-native.png",
+          "sha256": "2ad17fb0ebbd0c8aa21ba305bd41f73c1cef9513a2bf7c359471e3b2250cbd9a",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-building-w296165906-native"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-building-w296165907",
+      "label": "Building 141",
+      "sourceBuildingId": "w296165907",
+      "modelBuildingIndex": 141,
+      "role": "Unknown current role",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679512.785,
+          6626111.533
+        ],
+        "axisDegGridNorth": 75.3,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679539.481,
+            6626126.045
+          ],
+          [
+            679543.168,
+            6626111.995
+          ],
+          [
+            679486.09,
+            6626097.021
+          ],
+          [
+            679482.403,
+            6626111.071
+          ]
+        ],
+        "ringLocal": [
+          [
+            114.9,
+            -756.6
+          ],
+          [
+            117.9,
+            -742.4
+          ],
+          [
+            60.3,
+            -730.2
+          ],
+          [
+            57.3,
+            -744.4
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 21.4,
+        "floorReferenceRh2000M": 21.4,
+        "eaveRh2000M": 26.3,
+        "ridgeRh2000M": 29.3,
+        "confidence": "low",
+        "estimatedVerticalUncertaintyMetres": 3.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 19.98,
+          "p05": 20.28,
+          "p25": 21.19,
+          "median": 21.85,
+          "p75": 22.32,
+          "p95": 23.094,
+          "max": 23.69
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 31.58,
+          "p05": 33.863,
+          "p25": 33.915,
+          "median": 34.26,
+          "p75": 34.635,
+          "p95": 34.758,
+          "max": 34.86
+        },
+        "laserCandidateCount": 27,
+        "estimationBasis": "Only27 candidate returns cover this large dark roof. Their34.8 m high group is rejected as an unsupported overall roof height. Conservative visible-barn envelope is ground21.4/eave26.3/ridge29.3 m; vertical uncertainty approximately3 m.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "gable",
+        "ridgeAxisDegreesGridNorth": 75.3,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679512.785,
+              6626111.533
+            ],
+            "lengthM": 59.01,
+            "widthM": 14.53,
+            "axisDegGridNorth": 75.3,
+            "eaveRh2000M": 26.3,
+            "ridgeRh2000M": 29.3,
+            "type": "gable",
+            "box": [
+              679512.785,
+              6626111.533,
+              59.01,
+              14.53,
+              75.3,
+              26.3,
+              29.3
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "barn-red",
+        "roof": "charcoal-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-141",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165907-native.png",
+          "sha256": "97c0d82e03857cfacca825f44255018201612e5500da410088a0686e58df32ba",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-building-w296165907-native"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-building-w296165908",
+      "label": "Building 142",
+      "sourceBuildingId": "w296165908",
+      "modelBuildingIndex": 142,
+      "role": "Unknown current role",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679387.462,
+          6626299.923
+        ],
+        "axisDegGridNorth": 57.7,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679385.434,
+            6626295.166
+          ],
+          [
+            679382.285,
+            6626300.124
+          ],
+          [
+            679389.491,
+            6626304.679
+          ],
+          [
+            679392.639,
+            6626299.721
+          ]
+        ],
+        "ringLocal": [
+          [
+            -30.5,
+            -932.8
+          ],
+          [
+            -33.4,
+            -937.9
+          ],
+          [
+            -26,
+            -942.1
+          ],
+          [
+            -23.1,
+            -937
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 24.35,
+        "floorReferenceRh2000M": 24.35,
+        "eaveRh2000M": 27.15,
+        "ridgeRh2000M": 28.15,
+        "confidence": "low-medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 21.1,
+          "p05": 22.052,
+          "p25": 24.06,
+          "median": 24.43,
+          "p75": 25.04,
+          "p95": 26.2,
+          "max": 27.5
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 27.27,
+          "p05": 27.331,
+          "p25": 27.435,
+          "median": 27.63,
+          "p75": 27.86,
+          "p95": 28.069,
+          "max": 28.15
+        },
+        "laserCandidateCount": 83,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "hipped",
+        "ridgeAxisDegreesGridNorth": 57.7,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679387.462,
+              6626299.923
+            ],
+            "lengthM": 8.54,
+            "widthM": 5.87,
+            "axisDegGridNorth": 57.7,
+            "eaveRh2000M": 27.15,
+            "ridgeRh2000M": 28.15,
+            "type": "hipped",
+            "box": [
+              679387.462,
+              6626299.923,
+              8.54,
+              5.87,
+              57.7,
+              27.15,
+              28.15
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-142",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165908-native.png",
+          "sha256": "f21f3e60088b843a52ae40723e9316a425072e4270af1091c8ef480a8a4fb5ce",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-building-w296165908-native"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-private-residence",
+      "label": "Private residence",
+      "sourceBuildingId": "w296165909",
+      "modelBuildingIndex": 143,
+      "role": "Private residence",
+      "roleConfidence": "high",
+      "detailFrame": {
+        "originEPSG3006": [
+          679395.371,
+          6626285.725
+        ],
+        "axisDegGridNorth": 143.74,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679395.515,
+            6626277.516
+          ],
+          [
+            679387.568,
+            6626288.355
+          ],
+          [
+            679395.226,
+            6626293.934
+          ],
+          [
+            679403.173,
+            6626283.095
+          ]
+        ],
+        "ringLocal": [
+          [
+            -21.3,
+            -914.7
+          ],
+          [
+            -28.7,
+            -925.9
+          ],
+          [
+            -20.8,
+            -931.1
+          ],
+          [
+            -13.4,
+            -919.9
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 24.3,
+        "floorReferenceRh2000M": 24.3,
+        "eaveRh2000M": 27.4,
+        "ridgeRh2000M": 31.3,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 22.13,
+          "p05": 23.09,
+          "p25": 24.01,
+          "median": 24.21,
+          "p75": 24.38,
+          "p95": 24.99,
+          "max": 25.44
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 27.31,
+          "p05": 27.64,
+          "p25": 28.472,
+          "median": 30.325,
+          "p75": 30.81,
+          "p95": 31.17,
+          "max": 31.25
+        },
+        "laserCandidateCount": 266,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "mansard",
+        "ridgeAxisDegreesGridNorth": 143.74,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679395.371,
+              6626285.725
+            ],
+            "lengthM": 13.47,
+            "widthM": 9.47,
+            "axisDegGridNorth": 143.74,
+            "eaveRh2000M": 27.4,
+            "ridgeRh2000M": 31.3,
+            "type": "mansard",
+            "box": [
+              679395.371,
+              6626285.725,
+              13.47,
+              9.47,
+              143.74,
+              27.4,
+              31.3
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false,
+            "breakpointRatio": 0.7,
+            "lowerPitchDegrees": 65,
+            "breakHeightRh2000M": 30.5
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture.",
+        "breakpointRatio": 0.7,
+        "lowerPitchDegrees": 65,
+        "breakHeightRh2000M": 30.5,
+        "breakpointRatioMeaning": "Inner half-width at mansard break divided by half-width at eaves; explicit break/eave/ridge heights override rounded pitch."
+      },
+      "materials": {
+        "wall": "warm-plaster",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "dormerRows",
+          "countPerLongSideEstimate": 2,
+          "widthMetresEstimate": 1.0,
+          "heightMetresEstimate": 1.3,
+          "exactCountVerified": false,
+          "basis": "Repeated dormers visible in official photos/native roof; count and metric placement regularized for modelling."
+        },
+        {
+          "kind": "chimneys",
+          "countEstimate": 2,
+          "exactCountVerified": false,
+          "detail": "Small dark chimney features visible among tree-obscured red roof planes."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-143",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-private-residence-native.png",
+          "sha256": "7ede293e5a8af0a1e6729fd516907814a4c655bb9877d60ca872214773a17702",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-private-residence-native"
+        },
+        {
+          "id": "dji-0003",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+          "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        },
+        {
+          "id": "dji-0004",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+          "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+          "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0004_orig.jpg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-range-hut",
+      "label": "Building beside northern range bays",
+      "sourceBuildingId": "w378922988",
+      "modelBuildingIndex": 186,
+      "role": "Range-side hut; function unverified",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679190.286,
+          6626300.694
+        ],
+        "axisDegGridNorth": 73.57,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679185.362,
+            6626303.37
+          ],
+          [
+            679187.534,
+            6626295.76
+          ],
+          [
+            679195.251,
+            6626298.035
+          ],
+          [
+            679192.979,
+            6626305.64
+          ]
+        ],
+        "ringLocal": [
+          [
+            -229.5,
+            -950.6
+          ],
+          [
+            -227.7,
+            -942.9
+          ],
+          [
+            -219.9,
+            -944.8
+          ],
+          [
+            -221.8,
+            -952.5
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 11.3,
+        "floorReferenceRh2000M": 11.3,
+        "eaveRh2000M": 13.65,
+        "ridgeRh2000M": 15.15,
+        "confidence": "low",
+        "estimatedVerticalUncertaintyMetres": 1.5,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 10.8,
+          "p05": 11.18,
+          "p25": 11.28,
+          "median": 11.33,
+          "p75": 11.39,
+          "p95": 11.644,
+          "max": 12.05
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 14.79,
+          "p05": 14.814,
+          "p25": 14.89,
+          "median": 14.92,
+          "p75": 15.01,
+          "p95": 15.05,
+          "max": 15.07
+        },
+        "laserCandidateCount": 9,
+        "estimationBasis": "Nine roof candidates weakly support15 m RH2000 top. Small dark roof is tree-occluded. Adopt low hut massing, without a dispensing/shop role claim.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "hipped",
+        "ridgeAxisDegreesGridNorth": 73.57,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679190.286,
+              6626300.694
+            ],
+            "lengthM": 8.05,
+            "widthM": 7.94,
+            "axisDegGridNorth": 73.57,
+            "eaveRh2000M": 13.65,
+            "ridgeRh2000M": 15.15,
+            "type": "hipped",
+            "box": [
+              679190.286,
+              6626300.694,
+              8.05,
+              7.94,
+              73.57,
+              13.65,
+              15.15
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "dark-timber",
+        "roof": "charcoal-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-186",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-hut-native.png",
+          "sha256": "dbaa4ed6ac679c694013835b021c3db1ca04d736b58e04159041a8af6ec6f933",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-range-hut-native"
+        },
+        {
+          "id": "club-media-6713-original",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+          "sha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+          "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/20241030_082741.jpg",
+          "captureDate": "2024-10-30",
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-building-w426174582",
+      "label": "Building 270",
+      "sourceBuildingId": "w426174582",
+      "modelBuildingIndex": 270,
+      "role": "Unknown current role",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679488.771,
+          6626204.211
+        ],
+        "axisDegGridNorth": 63.82,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679483.401,
+            6626204.901
+          ],
+          [
+            679486.069,
+            6626199.519
+          ],
+          [
+            679494.104,
+            6626203.513
+          ],
+          [
+            679491.537,
+            6626208.9
+          ]
+        ],
+        "ringLocal": [
+          [
+            62.8,
+            -838
+          ],
+          [
+            65.2,
+            -832.5
+          ],
+          [
+            73.4,
+            -836.1
+          ],
+          [
+            71.1,
+            -841.6
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 16.95,
+        "floorReferenceRh2000M": 16.95,
+        "eaveRh2000M": 19.1,
+        "ridgeRh2000M": 19.95,
+        "confidence": "medium",
+        "estimatedVerticalUncertaintyMetres": 1.0,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 16.23,
+          "p05": 16.53,
+          "p25": 16.72,
+          "median": 17.12,
+          "p75": 19.21,
+          "p95": 21.46,
+          "max": 21.78
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 18.68,
+          "p05": 19.47,
+          "p25": 19.513,
+          "median": 19.59,
+          "p75": 19.73,
+          "p95": 19.85,
+          "max": 19.94
+        },
+        "laserCandidateCount": 186,
+        "estimationBasis": "Approximate eave/ridge envelope inferred jointly from native roof appearance, inherited width and2021 candidate-plane elevation/slope; candidates are unclassified and eaves are not measured.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "gable",
+        "ridgeAxisDegreesGridNorth": 63.82,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679488.771,
+              6626204.211
+            ],
+            "lengthM": 9.07,
+            "widthM": 6.01,
+            "axisDegGridNorth": 63.82,
+            "eaveRh2000M": 19.1,
+            "ridgeRh2000M": 19.95,
+            "type": "gable",
+            "box": [
+              679488.771,
+              6626204.211,
+              9.07,
+              6.01,
+              63.82,
+              19.1,
+              19.95
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "barn-red",
+        "roof": "tile-red",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": "blue-grey-glass",
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [],
+      "evidence": [
+        {
+          "id": "ortho-270",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w426174582-native.png",
+          "sha256": "a639ade5c6172b6ee192a7bb0e2fb7c90526b3fa270bb9fa7b517111b542b714",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-building-w426174582-native"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-building-trace-tower",
+      "label": "Building 305",
+      "sourceBuildingId": "trace-tower",
+      "modelBuildingIndex": 305,
+      "role": "Unknown current role",
+      "roleConfidence": "unverified",
+      "detailFrame": {
+        "originEPSG3006": [
+          679374.115,
+          6626113.469
+        ],
+        "axisDegGridNorth": 177.24,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679371.468,
+            6626116.348
+          ],
+          [
+            679376.473,
+            6626116.589
+          ],
+          [
+            679376.762,
+            6626110.591
+          ],
+          [
+            679371.757,
+            6626110.35
+          ]
+        ],
+        "ringLocal": [
+          [
+            -53,
+            -755
+          ],
+          [
+            -48,
+            -755
+          ],
+          [
+            -48,
+            -749
+          ],
+          [
+            -53,
+            -749
+          ]
+        ],
+        "status": "inherited-model-footprint-not-wall-verified",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 23.5,
+        "floorReferenceRh2000M": 23.5,
+        "eaveRh2000M": 29.0,
+        "ridgeRh2000M": 31.0,
+        "confidence": "low",
+        "estimatedVerticalUncertaintyMetres": 1.5,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 22.03,
+          "p05": 22.403,
+          "p25": 22.97,
+          "median": 23.15,
+          "p75": 23.38,
+          "p95": 23.66,
+          "max": 23.86
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 25.12,
+          "p05": 25.464,
+          "p25": 28.73,
+          "median": 29.85,
+          "p75": 30.38,
+          "p95": 30.906,
+          "max": 30.98
+        },
+        "laserCandidateCount": 29,
+        "estimationBasis": "Legacy trace-tower identity and10 m height remain unverified. Spatially overlaid2021 candidates above29 m align the isolated dark roof in2025 imagery, with no nearby tree crown; its long narrow shadow corroborates a taller object. Use neutral rectangular mass ground23.5/eave29.0/ridge31.0 m, approximately7.5 m total, without claiming surveyed height or utility function.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "gable",
+        "ridgeAxisDegreesGridNorth": 177.24,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679374.115,
+              6626113.469
+            ],
+            "lengthM": 6.01,
+            "widthM": 5.01,
+            "axisDegGridNorth": 177.24,
+            "eaveRh2000M": 29.0,
+            "ridgeRh2000M": 31.0,
+            "type": "gable",
+            "box": [
+              679374.115,
+              6626113.469,
+              6.01,
+              5.01,
+              177.24,
+              29.0,
+              31.0
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "utility-brown",
+        "roof": "charcoal-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": null,
+        "confidence": "roof colour observed; wall material conservative contextual estimate"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "unidentifiedVerticalStructure",
+          "detail": "Plain narrow rectangular warm-brown mass with dark pitched roof. No invented doors, windows, tower legs, spire or utility-purpose label. Estimated7.5 m total height replaces unsupported10 m legacy assumption."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-305",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-trace-tower-native.png",
+          "sha256": "775bfe00dbf75212ba45b8c920bd9d44aa92b1435dc667326f3fc5e6248f3a91",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-building-trace-tower-native"
+        },
+        {
+          "id": "trace-tower-spatial-height-check",
+          "kind": "annotated-2021-candidates-on-2025-native-ortho",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/trace-tower-height-check.png",
+          "sha256": "74f667ff668843ee2429b59eb598884de9e69b5897915619b95753e136119ab6",
+          "note": "Red points>=29mRH2000 align isolated roof, yellow lower returns; enlarged analytical overlay only."
+        },
+        {
+          "id": "trace-tower-candidate-points",
+          "kind": "retained-2021-point-locations",
+          "path": "johannesbergbuild/cache/facilities-reference/laser/trace-tower-candidate-points.csv",
+          "sha256": "3f1bd7d57c6caa1eebe393d261c434a79a585c6d42de92da41b9a49d9900543d"
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions.",
+        "Identity unresolved: rectangular visible object may be modelled, but its purpose and exact architectural detail remain unknown."
+      ]
+    },
+    {
+      "facilityId": "johannesberg-range-shelter",
+      "label": "Range shelter",
+      "sourceBuildingId": "trace-range-shelter",
+      "modelBuildingIndex": 306,
+      "role": "Small roof shelter beside southern range bays",
+      "roleConfidence": "medium",
+      "detailFrame": {
+        "originEPSG3006": [
+          679218.481,
+          6626242.959
+        ],
+        "axisDegGridNorth": 98.75,
+        "originMeaning": "Centroid of retained source footprint, not bounding-box centre.",
+        "uAxis": "[sin(bearing),cos(bearing)] in EPSG:3006 east/north",
+        "vAxis": "[cos(bearing),-sin(bearing)] in EPSG:3006 east/north; right side of positive-u axis",
+        "pointFormula": "EPSG = origin + uMetres*uAxis + vMetres*vAxis"
+      },
+      "footprint": {
+        "ringEPSG3006": [
+          [
+            679216.478,
+            6626244.961
+          ],
+          [
+            679220.643,
+            6626244.32
+          ],
+          [
+            679220.483,
+            6626240.956
+          ],
+          [
+            679216.319,
+            6626241.597
+          ]
+        ],
+        "ringLocal": [
+          [
+            -201.29,
+            -890.81
+          ],
+          [
+            -197.17,
+            -889.97
+          ],
+          [
+            -197.49,
+            -886.62
+          ],
+          [
+            -201.61,
+            -887.46
+          ]
+        ],
+        "status": "reviewed-2025-roof-edge-reference",
+        "source": "site-inventory.json",
+        "wallFootprintNewlyMeasured": false,
+        "policy": "Preserve inherited wall-context outline; component boxes guide roof/massing only. Range shelter footprint is a reviewed roof perimeter, so its poles/walls remain inferred."
+      },
+      "heights": {
+        "groundRh2000M": 12.7,
+        "floorReferenceRh2000M": 12.7,
+        "eaveRh2000M": 15.0,
+        "ridgeRh2000M": 15.35,
+        "confidence": "low",
+        "estimatedVerticalUncertaintyMetres": 1.5,
+        "measured": false,
+        "groundMeaning": "Estimated upper entrance/floor reference, not lowest terrain, not a surveyed floor. Foundation/lower walls must follow retained exterior terrain.",
+        "laserGroundAnnulusQuantiles": {
+          "min": 12.02,
+          "p05": 12.219,
+          "p25": 12.49,
+          "median": 12.67,
+          "p75": 12.87,
+          "p95": 13.06,
+          "max": 13.17
+        },
+        "laserRoofCandidateQuantiles": {
+          "min": 15.05,
+          "p05": 15.66,
+          "p25": 17.757,
+          "median": 18.845,
+          "p75": 19.287,
+          "p95": 19.415,
+          "max": 19.44
+        },
+        "laserCandidateCount": 6,
+        "estimationBasis": "Six candidate returns are too sparse and potentially vegetated to define height. Use low shelter envelope about2.3–2.65 m above ground, consistent with visible small shelter. Existing reviewed roof perimeter retained; ground walls/poles remain inferred.",
+        "source": {
+          "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+          "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+        }
+      },
+      "roof": {
+        "type": "lean-to",
+        "ridgeAxisDegreesGridNorth": 98.75,
+        "components": [
+          {
+            "id": "main",
+            "centerEPSG3006": [
+              679218.481,
+              6626242.959
+            ],
+            "lengthM": 4.57,
+            "widthM": 3.35,
+            "axisDegGridNorth": 98.75,
+            "eaveRh2000M": 15.0,
+            "ridgeRh2000M": 15.35,
+            "type": "lean-to",
+            "box": [
+              679218.481,
+              6626242.959,
+              4.57,
+              3.35,
+              98.75,
+              15.0,
+              15.35
+            ],
+            "geometryBasis": "Approximate oriented massing box within/along inherited footprint; preserve original wall ring and clip overlapping component walls.",
+            "dimensionsMeasured": false
+          }
+        ],
+        "overhangMetresEstimate": 0.25,
+        "ridgeAxisConvention": "Clockwise from EPSG:3006 grid north, undirected modulo180 degrees.",
+        "geometryStatus": "Inferred model roof; pixel-visible appearance and laser support do not constitute measured architecture."
+      },
+      "materials": {
+        "wall": "barn-red",
+        "roof": "pale-metal",
+        "trim": "off-white",
+        "foundation": "foundation-grey",
+        "windows": null,
+        "confidence": "photo-supported appearance"
+      },
+      "distinctiveFeatures": [
+        {
+          "kind": "shelterPosts",
+          "countEstimate": 4,
+          "sectionMetresEstimate": 0.1,
+          "detail": "Conservative open shelter; perimeter/poles inferred, not measured walls."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ortho-306",
+          "kind": "native-2025-orthophoto",
+          "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-shelter-native.png",
+          "sha256": "12d24be0e884e2ddc11c4decb2a6fa81b7b6cf2383d091c54a57f4319c4137e9",
+          "captureDate": "2025-06-14",
+          "panelId": "johannesberg-range-shelter-native"
+        },
+        {
+          "id": "club-media-6713-original",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+          "sha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+          "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/20241030_082741.jpg",
+          "captureDate": "2024-10-30",
+          "metricCalibration": false
+        },
+        {
+          "id": "club-media-5983-original",
+          "kind": "official-reference-photo",
+          "path": "johannesbergbuild/cache/facilities-reference/web/club-media-5983-original.jpeg",
+          "sha256": "846151cf05fbff789b688f7c7472792ade0be7f650ea77eff656dbc16b7e58d0",
+          "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2025/03/rangen-oppen.jpeg",
+          "captureDate": null,
+          "metricCalibration": false
+        }
+      ],
+      "implementation": {
+        "wallPolicy": "Use components for differing-height compound masses and clip to inherited footprint; never extrude conservatory/annex to highest main eave.",
+        "terrainPolicy": "Extend foundation downward to per-vertex exterior-ground sampling; do not flatten sloping site or use lowest ground as every entrance floor.",
+        "facadePolicy": "Repeated window/dormer positions and all metric ornament dimensions are modelling approximations, not surveyed openings.",
+        "replacementEligible": true
+      },
+      "gaps": [
+        "2021 laser and2025 orthophoto predate possible later changes.",
+        "No surveyed eaves, ridge, roof pitch or facade opening dimensions."
+      ]
+    }
+  ]
+}

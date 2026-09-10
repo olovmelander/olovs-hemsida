@@ -92,7 +92,7 @@
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Verified 0.16 m RGBI imagery covers every hole; a 0.8 m overview provides context. Mosaic source polygons date every window to 2025-04-24. The accepted review replaces 18 greens, 16 fairway/approach outlines, 50 physical tee platforms, 33 bunkers and eight pond edges. Exact source pixels, capture evidence and uncertainties are retained. Fairway cuts on par-3 holes 12 and 15 remain legacy because spring imagery does not resolve them confidently. Colour identities of tee platforms remain unverified. Imagery is measurement input, never a runtime texture; independent control and absolute positional accuracy are not established."
+      "notes": "Verified 0.16 m RGBI imagery covers every hole; a 0.8 m overview provides context. Mosaic source polygons date every window to 2025-04-24. The accepted review replaces 18 greens, 16 fairway/approach outlines, 52 physical tee platforms, 33 bunkers and eight pond edges. Exact source pixels, capture evidence and uncertainties are retained. Fairway cuts on par-3 holes 12 and 15 remain legacy because spring imagery does not resolve them confidently. Tee colour references use a separate club-guide and native-orthophoto correspondence review; unresolved identities are explicitly retained. Imagery is measurement input, never a runtime texture; independent control and absolute positional accuracy are not established."
     },
     {
       "id": "laser-lm-skog",
@@ -300,18 +300,18 @@
       ],
       "lifecycle": "legacy",
       "use": "reference-only",
-      "sourceUri": "project://course-guide-register/angso",
+      "sourceUri": "https://courses.livecaddie.com/course-info.php?course=649",
       "localPath": null,
       "bboxWgs84": null,
-      "acquiredAt": null,
+      "acquiredAt": "2026-09-09",
       "capturedAt": null,
       "checksum": null,
-      "checksumReason": "Raw guide editions and permissions are not yet registered as immutable assets.",
+      "checksumReason": "The source is a collection of historical guide assets, not one geographic dataset. All 18 schematic image versions and supporting club pages are individually SHA-256 registered in angsobuild/mapping/tee-source-evidence.json.",
       "replacementSourceId": null,
       "accuracyTier": "D",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Supports card, routing and interpretation; it does not establish survey accuracy."
+      "notes": "The current club website links this guide. Its colour topology supports manual orthophoto correspondence; image modification dates do not establish geometry currency. Hole 1 has documented layout conflicts. Representative game references are not surveyed rating points or current daily markers."
     }
   ],
   "artifacts": [
@@ -319,7 +319,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "35fdadaed2cb45f0347c277d995f3e71a4af4f1d8f71a5bcf7f8d40e13d69d91",
+      "sha256": "43bd0a4441d8a9b128b49a9163195dd845807ba555706d0738c719fb4644cf9b",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -328,7 +328,7 @@
         "imagery-lm-ortho"
       ],
       "use": "migration-only",
-      "notes": "Composite compatibility model with explicit Lantmateriet image-reviewed playing boundaries and pond edges. Terrain retains its measured RH 2000 source. Published scorecard values are separate from physical route length; inferred tee references retain uncertainty."
+      "notes": "Composite compatibility model with explicit Lantmateriet image-reviewed playing boundaries and pond edges. Terrain retains its measured RH 2000 source. Published scorecard values are separate from physical route length; guide-matched representative tee references retain evidence and explicit unresolved identities."
     },
     {
       "id": "legacy-heightfields",
@@ -368,7 +368,7 @@
       "id": "legacy-marking",
       "kind": "composite",
       "path": "angsobuild/marking.json",
-      "sha256": "76ba4e926ccc7af1fde6b703eb599b1999058b2dcd3ffece2db03a6d8a7fe86e",
+      "sha256": "c0a3d8867a1d234319df115936abf3cbdd9f4f8e94c34ac41daf596caa3c987f",
       "derivedFrom": [
         "club-guide-legacy",
         "esri-imagery-legacy",
@@ -416,7 +416,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
-      "sha256": "46656d463ea41ace12c8e9ef8b914d18c74f1c84ea66c5d2f233f0fb0b7486ad",
+      "sha256": "1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -445,7 +445,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/angso/migration/residual-report.json",
-      "sha256": "0b53bf4d63ae551c11dfc9c4333b79dca6695d34c8cfe763bd53a20fbe56c717",
+      "sha256": "c1c67de2b487bcaf3f86cf1a495ac853a19804951106a531d09c3db3240d93e5",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -574,9 +574,10 @@
       "path": "angsobuild/mapping/orthophoto-review.json",
       "use": "migration-only",
       "notes": "Combined explicit pixel-edge boundary decisions with native image hashes, exact affines, per-part provenance and review limitations.",
-      "sha256": "d1f8f27dbe72135af15a05b87f071dfc8880ad54c3f70dad52c2f82460e1165f",
+      "sha256": "d09ddf3811bdab7c1bb6dcbbac0b4d6f41dbdd382e00a6dbf7727c02778d8a7c",
       "derivedFrom": [
-        "imagery-lm-ortho"
+        "imagery-lm-ortho",
+        "club-guide-legacy"
       ]
     },
     {
@@ -640,9 +641,57 @@
       "path": "angsobuild/mapping/alignment-report.json",
       "use": "discovery-evidence",
       "notes": "Independent PROJ verification of pixel-to-model coordinates, ring topology, reviewed/retained class inventory and explicit unresolved tee references. Numerical transform accuracy is not field survey accuracy.",
-      "sha256": "7a9aed8d7dac5fb1f47de32cc22d7835bcca523af154e5711f3bc8dbbda337f5",
+      "sha256": "84b90c6218029350d64c06dc22cc29ec30f52db023e9eccfda0bb550d7b814b1",
       "derivedFrom": [
         "imagery-lm-ortho"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-review-part-6",
+      "kind": "control",
+      "path": "angsobuild/mapping/tee-source-evidence.json",
+      "use": "discovery-evidence",
+      "notes": "Club-linked guide assets and supporting club pages with exact hashes, edition conflicts, observed colour topology and explicit geographic limits.",
+      "sha256": "1889db64f7baac63cbe99aae93f28e22468ec4825f66c64ff327f81bcc4aed19",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-guide-legacy"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-review-part-7",
+      "kind": "surface",
+      "path": "angsobuild/mapping/tee-placement-front9.json",
+      "use": "migration-only",
+      "notes": "Independent feature-class review containing original pixel decisions and interpretation notes.",
+      "sha256": "4bc9a5a0f31bea0d3d2e43e9c882484c394696f53d2a340e667f518ae51074a1",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-guide-legacy"
+      ]
+    },
+    {
+      "id": "lm-orthophoto-review-part-8",
+      "kind": "surface",
+      "path": "angsobuild/mapping/tee-placement-back9.json",
+      "use": "migration-only",
+      "notes": "Independent feature-class review containing original pixel decisions and interpretation notes.",
+      "sha256": "ff13221567255743e282a3f450b227cc1b32105b5d71516645d7888d095f310b",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-guide-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-coordinate-audit",
+      "kind": "control",
+      "path": "angsobuild/mapping/tee-coordinate-audit.json",
+      "use": "discovery-evidence",
+      "notes": "Independent native-pixel, PROJ, pack, camera and routing checks for all colour references; checks actual rendered marker pairs against the assigned mown surface. Explicit unresolved identities remain documented.",
+      "sha256": "8970b342b0ce6e7a54890fc23f755855f1ce1acc79898a63d611b19741d72432",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-guide-legacy"
       ]
     }
   ],

@@ -1,0 +1,4392 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "reviewedOn": "2026-09-09",
+  "captureDate": "2024-06-27",
+  "sources": [
+    {
+      "id": "norrfallsviken-01-hole",
+      "rasterFile": "norrfallsviken-01-hole.tif",
+      "rgbFile": "norrfallsviken-01-hole.png",
+      "sha256": "c5988b63faeb69c976944c7eb90b604e81201a504f3e17c8940c6f9f3eb5935c",
+      "rgbSha256": "54ab88a7912c2c4cd0b4a847f6bdc94236407b1c59897c985648d3604ea30546",
+      "requestSha256": "317bf9e848bc0dabb36cb62318711d225a585309fd1671395fa3abd05463daec",
+      "bytes": 10244331,
+      "boundsEpsg3006": [
+        678604.32,
+        6988339.2,
+        679039.84,
+        6988532.16
+      ],
+      "geoTransform": [
+        678604.32,
+        0.16,
+        0.0,
+        6988532.16,
+        0.0,
+        -0.16
+      ],
+      "width": 2722,
+      "height": 1206,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:30.541511+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-02-hole",
+      "rasterFile": "norrfallsviken-02-hole.tif",
+      "rgbFile": "norrfallsviken-02-hole.png",
+      "sha256": "8e7d88a50bf5ea339604101b5811e1056210965de4a2c9fdada439acf24358e8",
+      "rgbSha256": "f0aaca1a632f739dca2b3ac14e2fc74dec2db4a79a9f6e88a53eb01df0eb45dd",
+      "requestSha256": "703a0841b267022514da3538a9314fa2b8cb5c88645fd8bea629313a68f85056",
+      "bytes": 6061163,
+      "boundsEpsg3006": [
+        678817.92,
+        6988196.0,
+        678999.8400000001,
+        6988464.16
+      ],
+      "geoTransform": [
+        678817.92,
+        0.16,
+        0.0,
+        6988464.16,
+        0.0,
+        -0.16
+      ],
+      "width": 1137,
+      "height": 1676,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:31.861444+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-03-hole",
+      "rasterFile": "norrfallsviken-03-hole.tif",
+      "rgbFile": "norrfallsviken-03-hole.png",
+      "sha256": "5b321b8d07920329f33a4c8f89f58892fab480efbc3a37a37bc6a8bbadd8ffcc",
+      "rgbSha256": "fa307bf16f1f91c60bf981a185fc833be04ab995b61878a5da40474ab23457c5",
+      "requestSha256": "15dd64a0b9a05775c91fd07e9544dae7055a686428d78e9aec50db0b2d093e7f",
+      "bytes": 11294019,
+      "boundsEpsg3006": [
+        678828.96,
+        6987885.44,
+        679089.6,
+        6988232.32
+      ],
+      "geoTransform": [
+        678828.96,
+        0.16,
+        0.0,
+        6988232.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1629,
+      "height": 2168,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:36.654704+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-04-hole",
+      "rasterFile": "norrfallsviken-04-hole.tif",
+      "rgbFile": "norrfallsviken-04-hole.png",
+      "sha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f",
+      "rgbSha256": "6d6504318ccf239659312f523f3073957745d171621dcf9934f9a8b8aa3c3c49",
+      "requestSha256": "ec281465364f8a2d9cfad42d692bf2eb5f7c345f9fbc32fc5509b1686a2841c0",
+      "bytes": 15590295,
+      "boundsEpsg3006": [
+        678914.24,
+        6987905.92,
+        679145.6,
+        6988454.72
+      ],
+      "geoTransform": [
+        678914.24,
+        0.16,
+        0.0,
+        6988454.72,
+        0.0,
+        -0.16
+      ],
+      "width": 1446,
+      "height": 3430,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:40.448543+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-05-hole",
+      "rasterFile": "norrfallsviken-05-hole.tif",
+      "rgbFile": "norrfallsviken-05-hole.png",
+      "sha256": "7d2fb9cefbcf3c621f7229dd43e1eb038c14c38048b839b25e9af75593624260",
+      "rgbSha256": "d5aa2214fe3732edb2d06f69e0dead9387b6cf3327aa06a1f5c388461e0dd3d8",
+      "requestSha256": "5991d6dd58a799d40734c75c1b72769ff786b0c04d15ec29c4e94b1c90f4da29",
+      "bytes": 11141111,
+      "boundsEpsg3006": [
+        678988.48,
+        6988260.48,
+        679406.08,
+        6988477.12
+      ],
+      "geoTransform": [
+        678988.48,
+        0.16,
+        0.0,
+        6988477.12,
+        0.0,
+        -0.16
+      ],
+      "width": 2610,
+      "height": 1354,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:42.685542+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-06-hole",
+      "rasterFile": "norrfallsviken-06-hole.tif",
+      "rgbFile": "norrfallsviken-06-hole.png",
+      "sha256": "827db256765d89d8376d92aa8172286d244aeb35501a6aacff350df2e7c2a228",
+      "rgbSha256": "05ba47d7646de3f930a2a610dd9f9b9a39ed6903cb2a1175027321f044664565",
+      "requestSha256": "16837c7d745cfd3a3d56f0f42cbb52c1dfa4cde33e0379ea4c4dbf82b5ab2c08",
+      "bytes": 10898445,
+      "boundsEpsg3006": [
+        679218.88,
+        6987919.04,
+        679401.12,
+        6988408.32
+      ],
+      "geoTransform": [
+        679218.88,
+        0.16,
+        0.0,
+        6988408.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1139,
+      "height": 3058,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:44.731202+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-07-hole",
+      "rasterFile": "norrfallsviken-07-hole.tif",
+      "rgbFile": "norrfallsviken-07-hole.png",
+      "sha256": "edcb3c3d0143c95d17f4217ea9bae8237e4493a35ceb6882479edad3c26adf9c",
+      "rgbSha256": "c55388e4ddfdf4ab50d4ff578451a10b0a903e8607950ec9b973e66b86623aa7",
+      "requestSha256": "3bec9eca050b479b100d0420b0676d28b306a88e9b50a333cd0d9fc29bad2eb1",
+      "bytes": 4994327,
+      "boundsEpsg3006": [
+        679049.12,
+        6987871.5200000005,
+        679317.12,
+        6988022.08
+      ],
+      "geoTransform": [
+        679049.12,
+        0.16,
+        0.0,
+        6988022.08,
+        0.0,
+        -0.16
+      ],
+      "width": 1675,
+      "height": 941,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:45.543593+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-08-hole",
+      "rasterFile": "norrfallsviken-08-hole.tif",
+      "rgbFile": "norrfallsviken-08-hole.png",
+      "sha256": "26d4d5295f19cf075949c894547bf59b81cdee52650d33bc32fedd57ab0f1ddb",
+      "rgbSha256": "189b977de97fd27a55003be0097a81271720a9c4525d24ff48b9aad70d0692a9",
+      "requestSha256": "d57d27aaccaff90305e1cb50521864e07a76bdf37fc37c48bb746f9a6f8d447f",
+      "bytes": 11685873,
+      "boundsEpsg3006": [
+        678988.0,
+        6987966.72,
+        679177.12,
+        6988470.56
+      ],
+      "geoTransform": [
+        678988.0,
+        0.16,
+        0.0,
+        6988470.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1182,
+      "height": 3149,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:47.386234+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-09-hole",
+      "rasterFile": "norrfallsviken-09-hole.tif",
+      "rgbFile": "norrfallsviken-09-hole.png",
+      "sha256": "49726480abd6880f215fffacccb66f2017184abbeb93dcbc0418bf733999cfbf",
+      "rgbSha256": "3d79f5d936648be4f18ba7b867bd437b23ade7b0aeed9f042e4c538c60267524",
+      "requestSha256": "89c57efdee9168278b86a66e991f1ac97ffba981852ee1c68f63195653452068",
+      "bytes": 15099847,
+      "boundsEpsg3006": [
+        678552.0,
+        6988347.36,
+        679022.88,
+        6988608.0
+      ],
+      "geoTransform": [
+        678552.0,
+        0.16,
+        0.0,
+        6988608.0,
+        0.0,
+        -0.16
+      ],
+      "width": 2943,
+      "height": 1629,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:50.316532+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    }
+  ],
+  "holes": [
+    {
+      "hole": 1,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed. Card references 1,2 have no distinct visible platform; no synthetic platform is created.",
+      "green": {
+        "id": "lm-h01-green",
+        "sourceId": "norrfallsviken-01-hole",
+        "evidence": "Manual trace of the putting-surface mowing break; surrounding collar is excluded.",
+        "panel": {
+          "id": "01-green",
+          "sourceId": "norrfallsviken-01-hole",
+          "sourceSha256": "c5988b63faeb69c976944c7eb90b604e81201a504f3e17c8940c6f9f3eb5935c",
+          "geoTransform": [
+            678944.0,
+            0.16,
+            0.0,
+            6988504.640000001,
+            0.0,
+            -0.16
+          ],
+          "width": 436,
+          "height": 450,
+          "sourcePixelWindow": [
+            2123,
+            172,
+            436,
+            450
+          ]
+        },
+        "ringPixels": [
+          [
+            159,
+            181
+          ],
+          [
+            169,
+            169
+          ],
+          [
+            188,
+            158
+          ],
+          [
+            210,
+            157
+          ],
+          [
+            230,
+            165
+          ],
+          [
+            243,
+            181
+          ],
+          [
+            252,
+            204
+          ],
+          [
+            259,
+            232
+          ],
+          [
+            265,
+            258
+          ],
+          [
+            260,
+            278
+          ],
+          [
+            249,
+            291
+          ],
+          [
+            232,
+            300
+          ],
+          [
+            214,
+            299
+          ],
+          [
+            198,
+            289
+          ],
+          [
+            184,
+            268
+          ],
+          [
+            174,
+            244
+          ],
+          [
+            165,
+            220
+          ],
+          [
+            157,
+            198
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678969.44,
+            6988475.68
+          ],
+          [
+            678971.04,
+            6988477.6
+          ],
+          [
+            678974.08,
+            6988479.36
+          ],
+          [
+            678977.6,
+            6988479.52
+          ],
+          [
+            678980.8,
+            6988478.24
+          ],
+          [
+            678982.88,
+            6988475.68
+          ],
+          [
+            678984.32,
+            6988472.0
+          ],
+          [
+            678985.44,
+            6988467.52
+          ],
+          [
+            678986.4,
+            6988463.36
+          ],
+          [
+            678985.6,
+            6988460.16
+          ],
+          [
+            678983.84,
+            6988458.08
+          ],
+          [
+            678981.12,
+            6988456.64
+          ],
+          [
+            678978.24,
+            6988456.8
+          ],
+          [
+            678975.68,
+            6988458.4
+          ],
+          [
+            678973.44,
+            6988461.76
+          ],
+          [
+            678971.84,
+            6988465.6
+          ],
+          [
+            678970.4,
+            6988469.44
+          ],
+          [
+            678969.12,
+            6988472.96
+          ]
+        ]
+      },
+      "bunkers": [
+        {
+          "id": "lm-h01-bunker",
+          "sourceId": "norrfallsviken-01-hole",
+          "evidence": "Clearly bounded pale sand immediately southwest of H1 green, with a recessed face and rounded edge. The old model omitted this bunker.",
+          "panel": {
+            "id": "01-green",
+            "sourceId": "norrfallsviken-01-hole",
+            "sourceSha256": "c5988b63faeb69c976944c7eb90b604e81201a504f3e17c8940c6f9f3eb5935c",
+            "geoTransform": [
+              678944.0,
+              0.16,
+              0.0,
+              6988504.640000001,
+              0.0,
+              -0.16
+            ],
+            "width": 436,
+            "height": 450,
+            "sourcePixelWindow": [
+              2123,
+              172,
+              436,
+              450
+            ]
+          },
+          "ringPixels": [
+            [
+              120,
+              274
+            ],
+            [
+              124,
+              268
+            ],
+            [
+              135,
+              265
+            ],
+            [
+              145,
+              267
+            ],
+            [
+              154,
+              272
+            ],
+            [
+              162,
+              280
+            ],
+            [
+              174,
+              283
+            ],
+            [
+              182,
+              289
+            ],
+            [
+              187,
+              299
+            ],
+            [
+              183,
+              309
+            ],
+            [
+              173,
+              316
+            ],
+            [
+              161,
+              320
+            ],
+            [
+              150,
+              319
+            ],
+            [
+              142,
+              312
+            ],
+            [
+              135,
+              308
+            ],
+            [
+              128,
+              306
+            ],
+            [
+              122,
+              300
+            ],
+            [
+              119,
+              291
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678963.2,
+              6988460.8
+            ],
+            [
+              678963.84,
+              6988461.76
+            ],
+            [
+              678965.6,
+              6988462.24
+            ],
+            [
+              678967.2,
+              6988461.92
+            ],
+            [
+              678968.64,
+              6988461.12
+            ],
+            [
+              678969.92,
+              6988459.84
+            ],
+            [
+              678971.84,
+              6988459.36
+            ],
+            [
+              678973.12,
+              6988458.4
+            ],
+            [
+              678973.92,
+              6988456.8
+            ],
+            [
+              678973.28,
+              6988455.2
+            ],
+            [
+              678971.68,
+              6988454.08
+            ],
+            [
+              678969.76,
+              6988453.44
+            ],
+            [
+              678968.0,
+              6988453.6
+            ],
+            [
+              678966.72,
+              6988454.72
+            ],
+            [
+              678965.6,
+              6988455.36
+            ],
+            [
+              678964.48,
+              6988455.68
+            ],
+            [
+              678963.52,
+              6988456.64
+            ],
+            [
+              678963.04,
+              6988458.08
+            ]
+          ]
+        }
+      ],
+      "tees": [
+        {
+          "id": "lm-h01-tee-1",
+          "sourceId": "norrfallsviken-01-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "01-tees",
+            "sourceId": "norrfallsviken-01-hole",
+            "sourceSha256": "c5988b63faeb69c976944c7eb90b604e81201a504f3e17c8940c6f9f3eb5935c",
+            "geoTransform": [
+              678629.2799999999,
+              0.16,
+              0.0,
+              6988462.24,
+              0.0,
+              -0.16
+            ],
+            "width": 1095,
+            "height": 613,
+            "sourcePixelWindow": [
+              156,
+              437,
+              1095,
+              613
+            ]
+          },
+          "ringPixels": [
+            [
+              163,
+              416
+            ],
+            [
+              177,
+              410
+            ],
+            [
+              207,
+              403
+            ],
+            [
+              233,
+              401
+            ],
+            [
+              247,
+              406
+            ],
+            [
+              250,
+              418
+            ],
+            [
+              244,
+              429
+            ],
+            [
+              222,
+              438
+            ],
+            [
+              193,
+              446
+            ],
+            [
+              173,
+              448
+            ],
+            [
+              163,
+              441
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678655.36,
+              6988395.68
+            ],
+            [
+              678657.6,
+              6988396.64
+            ],
+            [
+              678662.4,
+              6988397.76
+            ],
+            [
+              678666.56,
+              6988398.08
+            ],
+            [
+              678668.8,
+              6988397.28
+            ],
+            [
+              678669.28,
+              6988395.36
+            ],
+            [
+              678668.32,
+              6988393.6
+            ],
+            [
+              678664.8,
+              6988392.16
+            ],
+            [
+              678660.16,
+              6988390.88
+            ],
+            [
+              678656.96,
+              6988390.56
+            ],
+            [
+              678655.36,
+              6988391.68
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h01-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        1,
+        2
+      ]
+    },
+    {
+      "hole": 2,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed.",
+      "green": {
+        "id": "lm-h02-green",
+        "sourceId": "norrfallsviken-02-hole",
+        "evidence": "Manual trace of the putting-surface mowing break; surrounding collar is excluded.",
+        "panel": {
+          "id": "02-green",
+          "sourceId": "norrfallsviken-02-hole",
+          "sourceSha256": "8e7d88a50bf5ea339604101b5811e1056210965de4a2c9fdada439acf24358e8",
+          "geoTransform": [
+            678844.0,
+            0.16,
+            0.0,
+            6988291.5200000005,
+            0.0,
+            -0.16
+          ],
+          "width": 430,
+          "height": 435,
+          "sourcePixelWindow": [
+            163,
+            1079,
+            430,
+            435
+          ]
+        },
+        "ringPixels": [
+          [
+            166,
+            187
+          ],
+          [
+            185,
+            176
+          ],
+          [
+            208,
+            173
+          ],
+          [
+            231,
+            178
+          ],
+          [
+            251,
+            188
+          ],
+          [
+            264,
+            204
+          ],
+          [
+            269,
+            225
+          ],
+          [
+            263,
+            244
+          ],
+          [
+            248,
+            260
+          ],
+          [
+            231,
+            271
+          ],
+          [
+            211,
+            269
+          ],
+          [
+            192,
+            259
+          ],
+          [
+            178,
+            246
+          ],
+          [
+            167,
+            228
+          ],
+          [
+            162,
+            206
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678870.56,
+            6988261.6
+          ],
+          [
+            678873.6,
+            6988263.36
+          ],
+          [
+            678877.28,
+            6988263.84
+          ],
+          [
+            678880.96,
+            6988263.04
+          ],
+          [
+            678884.16,
+            6988261.44
+          ],
+          [
+            678886.24,
+            6988258.88
+          ],
+          [
+            678887.04,
+            6988255.52
+          ],
+          [
+            678886.08,
+            6988252.48
+          ],
+          [
+            678883.68,
+            6988249.92
+          ],
+          [
+            678880.96,
+            6988248.16
+          ],
+          [
+            678877.76,
+            6988248.48
+          ],
+          [
+            678874.72,
+            6988250.08
+          ],
+          [
+            678872.48,
+            6988252.16
+          ],
+          [
+            678870.72,
+            6988255.04
+          ],
+          [
+            678869.92,
+            6988258.56
+          ]
+        ]
+      },
+      "tees": [
+        {
+          "id": "lm-h02-tee-1",
+          "sourceId": "norrfallsviken-02-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "02-tees",
+            "sourceId": "norrfallsviken-02-hole",
+            "sourceSha256": "8e7d88a50bf5ea339604101b5811e1056210965de4a2c9fdada439acf24358e8",
+            "geoTransform": [
+              678905.28,
+              0.16,
+              0.0,
+              6988439.2,
+              0.0,
+              -0.16
+            ],
+            "width": 435,
+            "height": 454,
+            "sourcePixelWindow": [
+              546,
+              156,
+              435,
+              454
+            ]
+          },
+          "ringPixels": [
+            [
+              201,
+              199
+            ],
+            [
+              212,
+              180
+            ],
+            [
+              230,
+              165
+            ],
+            [
+              248,
+              168
+            ],
+            [
+              263,
+              181
+            ],
+            [
+              261,
+              202
+            ],
+            [
+              250,
+              222
+            ],
+            [
+              237,
+              244
+            ],
+            [
+              223,
+              256
+            ],
+            [
+              207,
+              253
+            ],
+            [
+              198,
+              240
+            ],
+            [
+              197,
+              221
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678937.44,
+              6988407.36
+            ],
+            [
+              678939.2,
+              6988410.4
+            ],
+            [
+              678942.08,
+              6988412.8
+            ],
+            [
+              678944.96,
+              6988412.32
+            ],
+            [
+              678947.36,
+              6988410.24
+            ],
+            [
+              678947.04,
+              6988406.88
+            ],
+            [
+              678945.28,
+              6988403.68
+            ],
+            [
+              678943.2,
+              6988400.16
+            ],
+            [
+              678940.96,
+              6988398.24
+            ],
+            [
+              678938.4,
+              6988398.72
+            ],
+            [
+              678936.96,
+              6988400.8
+            ],
+            [
+              678936.8,
+              6988403.84
+            ]
+          ]
+        },
+        {
+          "id": "lm-h02-tee-2",
+          "sourceId": "norrfallsviken-02-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "02-tees",
+            "sourceId": "norrfallsviken-02-hole",
+            "sourceSha256": "8e7d88a50bf5ea339604101b5811e1056210965de4a2c9fdada439acf24358e8",
+            "geoTransform": [
+              678905.28,
+              0.16,
+              0.0,
+              6988439.2,
+              0.0,
+              -0.16
+            ],
+            "width": 435,
+            "height": 454,
+            "sourcePixelWindow": [
+              546,
+              156,
+              435,
+              454
+            ]
+          },
+          "ringPixels": [
+            [
+              164,
+              265
+            ],
+            [
+              171,
+              256
+            ],
+            [
+              185,
+              260
+            ],
+            [
+              190,
+              272
+            ],
+            [
+              182,
+              289
+            ],
+            [
+              173,
+              296
+            ],
+            [
+              162,
+              290
+            ],
+            [
+              159,
+              279
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678931.52,
+              6988396.8
+            ],
+            [
+              678932.64,
+              6988398.24
+            ],
+            [
+              678934.88,
+              6988397.6
+            ],
+            [
+              678935.68,
+              6988395.68
+            ],
+            [
+              678934.4,
+              6988392.96
+            ],
+            [
+              678932.96,
+              6988391.84
+            ],
+            [
+              678931.2,
+              6988392.8
+            ],
+            [
+              678930.72,
+              6988394.56
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h02-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h02-tee-2",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        },
+        {
+          "index": 2,
+          "padId": "lm-h02-tee-2",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        }
+      ],
+      "unresolvedTeeReferences": []
+    },
+    {
+      "hole": 3,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed.",
+      "green": {
+        "id": "lm-h03-green",
+        "sourceId": "norrfallsviken-03-hole",
+        "evidence": "Manual trace of the putting-surface mowing break; surrounding collar is excluded.",
+        "panel": {
+          "id": "03-green",
+          "sourceId": "norrfallsviken-03-hole",
+          "sourceSha256": "5b321b8d07920329f33a4c8f89f58892fab480efbc3a37a37bc6a8bbadd8ffcc",
+          "geoTransform": [
+            678961.2799999999,
+            0.16,
+            0.0,
+            6987983.680000001,
+            0.0,
+            -0.16
+          ],
+          "width": 430,
+          "height": 452,
+          "sourcePixelWindow": [
+            827,
+            1554,
+            430,
+            452
+          ]
+        },
+        "ringPixels": [
+          [
+            157,
+            198
+          ],
+          [
+            174,
+            188
+          ],
+          [
+            196,
+            182
+          ],
+          [
+            222,
+            181
+          ],
+          [
+            245,
+            187
+          ],
+          [
+            261,
+            201
+          ],
+          [
+            267,
+            220
+          ],
+          [
+            267,
+            240
+          ],
+          [
+            259,
+            258
+          ],
+          [
+            243,
+            271
+          ],
+          [
+            222,
+            279
+          ],
+          [
+            199,
+            279
+          ],
+          [
+            180,
+            273
+          ],
+          [
+            165,
+            262
+          ],
+          [
+            155,
+            248
+          ],
+          [
+            150,
+            231
+          ],
+          [
+            150,
+            214
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678986.4,
+            6987952.0
+          ],
+          [
+            678989.12,
+            6987953.6
+          ],
+          [
+            678992.64,
+            6987954.56
+          ],
+          [
+            678996.8,
+            6987954.72
+          ],
+          [
+            679000.48,
+            6987953.76
+          ],
+          [
+            679003.04,
+            6987951.52
+          ],
+          [
+            679004.0,
+            6987948.48
+          ],
+          [
+            679004.0,
+            6987945.28
+          ],
+          [
+            679002.72,
+            6987942.4
+          ],
+          [
+            679000.16,
+            6987940.32
+          ],
+          [
+            678996.8,
+            6987939.04
+          ],
+          [
+            678993.12,
+            6987939.04
+          ],
+          [
+            678990.08,
+            6987940.0
+          ],
+          [
+            678987.68,
+            6987941.76
+          ],
+          [
+            678986.08,
+            6987944.0
+          ],
+          [
+            678985.28,
+            6987946.72
+          ],
+          [
+            678985.28,
+            6987949.44
+          ]
+        ]
+      },
+      "tees": [
+        {
+          "id": "lm-h03-tee-1",
+          "sourceId": "norrfallsviken-03-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "03-tees",
+            "sourceId": "norrfallsviken-03-hole",
+            "sourceSha256": "5b321b8d07920329f33a4c8f89f58892fab480efbc3a37a37bc6a8bbadd8ffcc",
+            "geoTransform": [
+              678854.08,
+              0.16,
+              0.0,
+              6988207.2,
+              0.0,
+              -0.16
+            ],
+            "width": 415,
+            "height": 453,
+            "sourcePixelWindow": [
+              157,
+              157,
+              415,
+              453
+            ]
+          },
+          "ringPixels": [
+            [
+              158,
+              157
+            ],
+            [
+              174,
+              144
+            ],
+            [
+              184,
+              146
+            ],
+            [
+              198,
+              165
+            ],
+            [
+              209,
+              190
+            ],
+            [
+              222,
+              218
+            ],
+            [
+              239,
+              245
+            ],
+            [
+              250,
+              269
+            ],
+            [
+              242,
+              281
+            ],
+            [
+              226,
+              284
+            ],
+            [
+              211,
+              270
+            ],
+            [
+              199,
+              249
+            ],
+            [
+              189,
+              224
+            ],
+            [
+              177,
+              200
+            ],
+            [
+              164,
+              177
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678879.36,
+              6988182.08
+            ],
+            [
+              678881.92,
+              6988184.16
+            ],
+            [
+              678883.52,
+              6988183.84
+            ],
+            [
+              678885.76,
+              6988180.8
+            ],
+            [
+              678887.52,
+              6988176.8
+            ],
+            [
+              678889.6,
+              6988172.32
+            ],
+            [
+              678892.32,
+              6988168.0
+            ],
+            [
+              678894.08,
+              6988164.16
+            ],
+            [
+              678892.8,
+              6988162.24
+            ],
+            [
+              678890.24,
+              6988161.76
+            ],
+            [
+              678887.84,
+              6988164.0
+            ],
+            [
+              678885.92,
+              6988167.36
+            ],
+            [
+              678884.32,
+              6988171.36
+            ],
+            [
+              678882.4,
+              6988175.2
+            ],
+            [
+              678880.32,
+              6988178.88
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h03-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h03-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        },
+        {
+          "index": 2,
+          "padId": "lm-h03-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        }
+      ],
+      "unresolvedTeeReferences": []
+    },
+    {
+      "hole": 4,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed. Shared H4/H8 putting surface; reference is the centre of its respective lobe, not a verified daily cup. Card references 2 have no distinct visible platform; no synthetic platform is created.",
+      "green": {
+        "id": "lm-shared-green-04-08",
+        "sourceId": "norrfallsviken-04-hole",
+        "evidence": "One continuous bean-shaped putting surface with two lobes and a mown connecting neck. The club local rules independently identify the shared H4/H8 green.",
+        "panel": {
+          "id": "04-green",
+          "sourceId": "norrfallsviken-04-hole",
+          "sourceSha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f",
+          "geoTransform": [
+            678997.6,
+            0.16,
+            0.0,
+            6988428.8,
+            0.0,
+            -0.16
+          ],
+          "width": 416,
+          "height": 460,
+          "sourcePixelWindow": [
+            521,
+            162,
+            416,
+            460
+          ]
+        },
+        "ringPixels": [
+          [
+            77,
+            222
+          ],
+          [
+            93,
+            202
+          ],
+          [
+            119,
+            184
+          ],
+          [
+            143,
+            173
+          ],
+          [
+            165,
+            153
+          ],
+          [
+            185,
+            135
+          ],
+          [
+            211,
+            127
+          ],
+          [
+            237,
+            131
+          ],
+          [
+            264,
+            142
+          ],
+          [
+            287,
+            162
+          ],
+          [
+            304,
+            184
+          ],
+          [
+            314,
+            209
+          ],
+          [
+            315,
+            238
+          ],
+          [
+            307,
+            260
+          ],
+          [
+            291,
+            281
+          ],
+          [
+            274,
+            295
+          ],
+          [
+            252,
+            296
+          ],
+          [
+            230,
+            287
+          ],
+          [
+            207,
+            279
+          ],
+          [
+            188,
+            276
+          ],
+          [
+            169,
+            279
+          ],
+          [
+            149,
+            291
+          ],
+          [
+            130,
+            301
+          ],
+          [
+            108,
+            303
+          ],
+          [
+            90,
+            293
+          ],
+          [
+            78,
+            276
+          ],
+          [
+            72,
+            256
+          ],
+          [
+            72,
+            240
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            679009.92,
+            6988393.28
+          ],
+          [
+            679012.48,
+            6988396.48
+          ],
+          [
+            679016.64,
+            6988399.36
+          ],
+          [
+            679020.48,
+            6988401.12
+          ],
+          [
+            679024.0,
+            6988404.32
+          ],
+          [
+            679027.2,
+            6988407.2
+          ],
+          [
+            679031.36,
+            6988408.48
+          ],
+          [
+            679035.52,
+            6988407.84
+          ],
+          [
+            679039.84,
+            6988406.08
+          ],
+          [
+            679043.52,
+            6988402.88
+          ],
+          [
+            679046.24,
+            6988399.36
+          ],
+          [
+            679047.84,
+            6988395.36
+          ],
+          [
+            679048.0,
+            6988390.72
+          ],
+          [
+            679046.72,
+            6988387.2
+          ],
+          [
+            679044.16,
+            6988383.84
+          ],
+          [
+            679041.44,
+            6988381.6
+          ],
+          [
+            679037.92,
+            6988381.44
+          ],
+          [
+            679034.4,
+            6988382.88
+          ],
+          [
+            679030.72,
+            6988384.16
+          ],
+          [
+            679027.68,
+            6988384.64
+          ],
+          [
+            679024.64,
+            6988384.16
+          ],
+          [
+            679021.44,
+            6988382.24
+          ],
+          [
+            679018.4,
+            6988380.64
+          ],
+          [
+            679014.88,
+            6988380.32
+          ],
+          [
+            679012.0,
+            6988381.92
+          ],
+          [
+            679010.08,
+            6988384.64
+          ],
+          [
+            679009.12,
+            6988387.84
+          ],
+          [
+            679009.12,
+            6988390.4
+          ]
+        ],
+        "pointPixels": [
+          242,
+          214
+        ],
+        "pointEpsg3006": [
+          679036.32,
+          6988394.56
+        ]
+      },
+      "tees": [
+        {
+          "id": "lm-h04-tee-1",
+          "sourceId": "norrfallsviken-04-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "04-tees",
+            "sourceId": "norrfallsviken-04-hole",
+            "sourceSha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f",
+            "geoTransform": [
+              678989.44,
+              0.16,
+              0.0,
+              6988145.76,
+              0.0,
+              -0.16
+            ],
+            "width": 819,
+            "height": 1343,
+            "sourcePixelWindow": [
+              470,
+              1931,
+              819,
+              1343
+            ]
+          },
+          "ringPixels": [
+            [
+              425,
+              967
+            ],
+            [
+              434,
+              951
+            ],
+            [
+              452,
+              952
+            ],
+            [
+              470,
+              966
+            ],
+            [
+              483,
+              992
+            ],
+            [
+              485,
+              1015
+            ],
+            [
+              477,
+              1030
+            ],
+            [
+              461,
+              1037
+            ],
+            [
+              444,
+              1031
+            ],
+            [
+              431,
+              1014
+            ],
+            [
+              425,
+              989
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679057.44,
+              6987991.04
+            ],
+            [
+              679058.88,
+              6987993.6
+            ],
+            [
+              679061.76,
+              6987993.44
+            ],
+            [
+              679064.64,
+              6987991.2
+            ],
+            [
+              679066.72,
+              6987987.04
+            ],
+            [
+              679067.04,
+              6987983.36
+            ],
+            [
+              679065.76,
+              6987980.96
+            ],
+            [
+              679063.2,
+              6987979.84
+            ],
+            [
+              679060.48,
+              6987980.8
+            ],
+            [
+              679058.4,
+              6987983.52
+            ],
+            [
+              679057.44,
+              6987987.52
+            ]
+          ]
+        },
+        {
+          "id": "lm-h04-tee-2",
+          "sourceId": "norrfallsviken-04-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "04-tees",
+            "sourceId": "norrfallsviken-04-hole",
+            "sourceSha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f",
+            "geoTransform": [
+              678989.44,
+              0.16,
+              0.0,
+              6988145.76,
+              0.0,
+              -0.16
+            ],
+            "width": 819,
+            "height": 1343,
+            "sourcePixelWindow": [
+              470,
+              1931,
+              819,
+              1343
+            ]
+          },
+          "ringPixels": [
+            [
+              416,
+              691
+            ],
+            [
+              426,
+              679
+            ],
+            [
+              440,
+              678
+            ],
+            [
+              451,
+              689
+            ],
+            [
+              457,
+              708
+            ],
+            [
+              454,
+              727
+            ],
+            [
+              446,
+              741
+            ],
+            [
+              433,
+              744
+            ],
+            [
+              422,
+              734
+            ],
+            [
+              416,
+              715
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679056.0,
+              6988035.2
+            ],
+            [
+              679057.6,
+              6988037.12
+            ],
+            [
+              679059.84,
+              6988037.28
+            ],
+            [
+              679061.6,
+              6988035.52
+            ],
+            [
+              679062.56,
+              6988032.48
+            ],
+            [
+              679062.08,
+              6988029.44
+            ],
+            [
+              679060.8,
+              6988027.2
+            ],
+            [
+              679058.72,
+              6988026.72
+            ],
+            [
+              679056.96,
+              6988028.32
+            ],
+            [
+              679056.0,
+              6988031.36
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h04-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h04-tee-2",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        2
+      ]
+    },
+    {
+      "hole": 5,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed. Card references 1,2 have no distinct visible platform; no synthetic platform is created. The second visible pad lies too close to the rear deck to establish the 63 m shorter Red/Orange reference; its colour ownership remains unresolved.",
+      "green": {
+        "id": "lm-h05-green",
+        "sourceId": "norrfallsviken-05-hole",
+        "evidence": "Manual trace of the putting-surface mowing break; surrounding collar is excluded.",
+        "panel": {
+          "id": "05-green",
+          "sourceId": "norrfallsviken-05-hole",
+          "sourceSha256": "7d2fb9cefbcf3c621f7229dd43e1eb038c14c38048b839b25e9af75593624260",
+          "geoTransform": [
+            679293.12,
+            0.16,
+            0.0,
+            6988436.16,
+            0.0,
+            -0.16
+          ],
+          "width": 544,
+          "height": 450,
+          "sourcePixelWindow": [
+            1904,
+            256,
+            544,
+            450
+          ]
+        },
+        "ringPixels": [
+          [
+            120,
+            236
+          ],
+          [
+            136,
+            224
+          ],
+          [
+            160,
+            218
+          ],
+          [
+            191,
+            211
+          ],
+          [
+            229,
+            207
+          ],
+          [
+            260,
+            201
+          ],
+          [
+            285,
+            183
+          ],
+          [
+            310,
+            165
+          ],
+          [
+            336,
+            156
+          ],
+          [
+            359,
+            154
+          ],
+          [
+            379,
+            162
+          ],
+          [
+            392,
+            178
+          ],
+          [
+            400,
+            202
+          ],
+          [
+            399,
+            222
+          ],
+          [
+            391,
+            240
+          ],
+          [
+            377,
+            252
+          ],
+          [
+            354,
+            264
+          ],
+          [
+            331,
+            272
+          ],
+          [
+            300,
+            273
+          ],
+          [
+            271,
+            270
+          ],
+          [
+            247,
+            268
+          ],
+          [
+            225,
+            271
+          ],
+          [
+            203,
+            278
+          ],
+          [
+            181,
+            283
+          ],
+          [
+            158,
+            289
+          ],
+          [
+            143,
+            287
+          ],
+          [
+            131,
+            278
+          ],
+          [
+            123,
+            263
+          ],
+          [
+            119,
+            250
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            679312.32,
+            6988398.4
+          ],
+          [
+            679314.88,
+            6988400.32
+          ],
+          [
+            679318.72,
+            6988401.28
+          ],
+          [
+            679323.68,
+            6988402.4
+          ],
+          [
+            679329.76,
+            6988403.04
+          ],
+          [
+            679334.72,
+            6988404.0
+          ],
+          [
+            679338.72,
+            6988406.88
+          ],
+          [
+            679342.72,
+            6988409.76
+          ],
+          [
+            679346.88,
+            6988411.2
+          ],
+          [
+            679350.56,
+            6988411.52
+          ],
+          [
+            679353.76,
+            6988410.24
+          ],
+          [
+            679355.84,
+            6988407.68
+          ],
+          [
+            679357.12,
+            6988403.84
+          ],
+          [
+            679356.96,
+            6988400.64
+          ],
+          [
+            679355.68,
+            6988397.76
+          ],
+          [
+            679353.44,
+            6988395.84
+          ],
+          [
+            679349.76,
+            6988393.92
+          ],
+          [
+            679346.08,
+            6988392.64
+          ],
+          [
+            679341.12,
+            6988392.48
+          ],
+          [
+            679336.48,
+            6988392.96
+          ],
+          [
+            679332.64,
+            6988393.28
+          ],
+          [
+            679329.12,
+            6988392.8
+          ],
+          [
+            679325.6,
+            6988391.68
+          ],
+          [
+            679322.08,
+            6988390.88
+          ],
+          [
+            679318.4,
+            6988389.92
+          ],
+          [
+            679316.0,
+            6988390.24
+          ],
+          [
+            679314.08,
+            6988391.68
+          ],
+          [
+            679312.8,
+            6988394.08
+          ],
+          [
+            679312.16,
+            6988396.16
+          ]
+        ]
+      },
+      "tees": [
+        {
+          "id": "lm-h05-tee-1",
+          "sourceId": "norrfallsviken-05-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "05-tees",
+            "sourceId": "norrfallsviken-05-hole",
+            "sourceSha256": "7d2fb9cefbcf3c621f7229dd43e1eb038c14c38048b839b25e9af75593624260",
+            "geoTransform": [
+              679013.44,
+              0.16,
+              0.0,
+              6988452.16,
+              0.0,
+              -0.16
+            ],
+            "width": 674,
+            "height": 475,
+            "sourcePixelWindow": [
+              156,
+              156,
+              674,
+              475
+            ]
+          },
+          "ringPixels": [
+            [
+              247,
+              188
+            ],
+            [
+              258,
+              188
+            ],
+            [
+              272,
+              197
+            ],
+            [
+              288,
+              213
+            ],
+            [
+              302,
+              233
+            ],
+            [
+              301,
+              244
+            ],
+            [
+              286,
+              255
+            ],
+            [
+              273,
+              244
+            ],
+            [
+              259,
+              225
+            ],
+            [
+              248,
+              208
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679052.96,
+              6988422.08
+            ],
+            [
+              679054.72,
+              6988422.08
+            ],
+            [
+              679056.96,
+              6988420.64
+            ],
+            [
+              679059.52,
+              6988418.08
+            ],
+            [
+              679061.76,
+              6988414.88
+            ],
+            [
+              679061.6,
+              6988413.12
+            ],
+            [
+              679059.2,
+              6988411.36
+            ],
+            [
+              679057.12,
+              6988413.12
+            ],
+            [
+              679054.88,
+              6988416.16
+            ],
+            [
+              679053.12,
+              6988418.88
+            ]
+          ]
+        },
+        {
+          "id": "lm-h05-tee-2",
+          "sourceId": "norrfallsviken-05-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "05-tees",
+            "sourceId": "norrfallsviken-05-hole",
+            "sourceSha256": "7d2fb9cefbcf3c621f7229dd43e1eb038c14c38048b839b25e9af75593624260",
+            "geoTransform": [
+              679013.44,
+              0.16,
+              0.0,
+              6988452.16,
+              0.0,
+              -0.16
+            ],
+            "width": 674,
+            "height": 475,
+            "sourcePixelWindow": [
+              156,
+              156,
+              674,
+              475
+            ]
+          },
+          "ringPixels": [
+            [
+              311,
+              266
+            ],
+            [
+              322,
+              256
+            ],
+            [
+              339,
+              261
+            ],
+            [
+              356,
+              277
+            ],
+            [
+              369,
+              295
+            ],
+            [
+              365,
+              308
+            ],
+            [
+              351,
+              315
+            ],
+            [
+              334,
+              310
+            ],
+            [
+              321,
+              297
+            ],
+            [
+              314,
+              282
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679063.2,
+              6988409.6
+            ],
+            [
+              679064.96,
+              6988411.2
+            ],
+            [
+              679067.68,
+              6988410.4
+            ],
+            [
+              679070.4,
+              6988407.84
+            ],
+            [
+              679072.48,
+              6988404.96
+            ],
+            [
+              679071.84,
+              6988402.88
+            ],
+            [
+              679069.6,
+              6988401.76
+            ],
+            [
+              679066.88,
+              6988402.56
+            ],
+            [
+              679064.8,
+              6988404.64
+            ],
+            [
+              679063.68,
+              6988407.04
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h05-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        1,
+        2
+      ]
+    },
+    {
+      "hole": 6,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed. Card references 2 have no distinct visible platform; no synthetic platform is created.",
+      "green": {
+        "id": "lm-h06-green",
+        "sourceId": "norrfallsviken-06-hole",
+        "evidence": "Manual trace of the putting-surface mowing break; surrounding collar is excluded.",
+        "panel": {
+          "id": "06-green",
+          "sourceId": "norrfallsviken-06-hole",
+          "sourceSha256": "827db256765d89d8376d92aa8172286d244aeb35501a6aacff350df2e7c2a228",
+          "geoTransform": [
+            679264.16,
+            0.16,
+            0.0,
+            6988019.680000001,
+            0.0,
+            -0.16
+          ],
+          "width": 433,
+          "height": 466,
+          "sourcePixelWindow": [
+            283,
+            2429,
+            433,
+            466
+          ]
+        },
+        "ringPixels": [
+          [
+            176,
+            191
+          ],
+          [
+            189,
+            179
+          ],
+          [
+            207,
+            174
+          ],
+          [
+            225,
+            176
+          ],
+          [
+            241,
+            185
+          ],
+          [
+            253,
+            200
+          ],
+          [
+            263,
+            221
+          ],
+          [
+            270,
+            245
+          ],
+          [
+            267,
+            269
+          ],
+          [
+            257,
+            286
+          ],
+          [
+            241,
+            297
+          ],
+          [
+            222,
+            300
+          ],
+          [
+            202,
+            296
+          ],
+          [
+            184,
+            285
+          ],
+          [
+            174,
+            271
+          ],
+          [
+            169,
+            251
+          ],
+          [
+            168,
+            228
+          ],
+          [
+            170,
+            207
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            679292.32,
+            6987989.12
+          ],
+          [
+            679294.4,
+            6987991.04
+          ],
+          [
+            679297.28,
+            6987991.84
+          ],
+          [
+            679300.16,
+            6987991.52
+          ],
+          [
+            679302.72,
+            6987990.08
+          ],
+          [
+            679304.64,
+            6987987.68
+          ],
+          [
+            679306.24,
+            6987984.32
+          ],
+          [
+            679307.36,
+            6987980.48
+          ],
+          [
+            679306.88,
+            6987976.64
+          ],
+          [
+            679305.28,
+            6987973.92
+          ],
+          [
+            679302.72,
+            6987972.16
+          ],
+          [
+            679299.68,
+            6987971.68
+          ],
+          [
+            679296.48,
+            6987972.32
+          ],
+          [
+            679293.6,
+            6987974.08
+          ],
+          [
+            679292.0,
+            6987976.32
+          ],
+          [
+            679291.2,
+            6987979.52
+          ],
+          [
+            679291.04,
+            6987983.2
+          ],
+          [
+            679291.36,
+            6987986.56
+          ]
+        ]
+      },
+      "tees": [
+        {
+          "id": "lm-h06-tee-1",
+          "sourceId": "norrfallsviken-06-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "06-tees",
+            "sourceId": "norrfallsviken-06-hole",
+            "sourceSha256": "827db256765d89d8376d92aa8172286d244aeb35501a6aacff350df2e7c2a228",
+            "geoTransform": [
+              679274.88,
+              0.16,
+              0.0,
+              6988383.2,
+              0.0,
+              -0.16
+            ],
+            "width": 632,
+            "height": 1086,
+            "sourcePixelWindow": [
+              350,
+              157,
+              632,
+              1086
+            ]
+          },
+          "ringPixels": [
+            [
+              388,
+              186
+            ],
+            [
+              410,
+              173
+            ],
+            [
+              431,
+              177
+            ],
+            [
+              455,
+              190
+            ],
+            [
+              457,
+              204
+            ],
+            [
+              442,
+              230
+            ],
+            [
+              423,
+              253
+            ],
+            [
+              406,
+              266
+            ],
+            [
+              387,
+              259
+            ],
+            [
+              373,
+              249
+            ],
+            [
+              371,
+              231
+            ],
+            [
+              378,
+              207
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679336.96,
+              6988353.44
+            ],
+            [
+              679340.48,
+              6988355.52
+            ],
+            [
+              679343.84,
+              6988354.88
+            ],
+            [
+              679347.68,
+              6988352.8
+            ],
+            [
+              679348.0,
+              6988350.56
+            ],
+            [
+              679345.6,
+              6988346.4
+            ],
+            [
+              679342.56,
+              6988342.72
+            ],
+            [
+              679339.84,
+              6988340.64
+            ],
+            [
+              679336.8,
+              6988341.76
+            ],
+            [
+              679334.56,
+              6988343.36
+            ],
+            [
+              679334.24,
+              6988346.24
+            ],
+            [
+              679335.36,
+              6988350.08
+            ]
+          ]
+        },
+        {
+          "id": "lm-h06-tee-2",
+          "sourceId": "norrfallsviken-06-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "06-tees",
+            "sourceId": "norrfallsviken-06-hole",
+            "sourceSha256": "827db256765d89d8376d92aa8172286d244aeb35501a6aacff350df2e7c2a228",
+            "geoTransform": [
+              679274.88,
+              0.16,
+              0.0,
+              6988383.2,
+              0.0,
+              -0.16
+            ],
+            "width": 632,
+            "height": 1086,
+            "sourcePixelWindow": [
+              350,
+              157,
+              632,
+              1086
+            ]
+          },
+          "ringPixels": [
+            [
+              239,
+              339
+            ],
+            [
+              254,
+              330
+            ],
+            [
+              268,
+              340
+            ],
+            [
+              270,
+              355
+            ],
+            [
+              265,
+              380
+            ],
+            [
+              257,
+              400
+            ],
+            [
+              243,
+              404
+            ],
+            [
+              228,
+              395
+            ],
+            [
+              227,
+              380
+            ],
+            [
+              232,
+              359
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679313.12,
+              6988328.96
+            ],
+            [
+              679315.52,
+              6988330.4
+            ],
+            [
+              679317.76,
+              6988328.8
+            ],
+            [
+              679318.08,
+              6988326.4
+            ],
+            [
+              679317.28,
+              6988322.4
+            ],
+            [
+              679316.0,
+              6988319.2
+            ],
+            [
+              679313.76,
+              6988318.56
+            ],
+            [
+              679311.36,
+              6988320.0
+            ],
+            [
+              679311.2,
+              6988322.4
+            ],
+            [
+              679312.0,
+              6988325.76
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h06-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h06-tee-2",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        2
+      ]
+    },
+    {
+      "hole": 7,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed. Card references 0,1,2 have no distinct visible platform; no synthetic platform is created. The clearly visible rear deck is approximately 143 m from the green, versus 110/91/72 m on the later card. It remains a physical platform with unresolved colour ownership. Retain inherited navigation references without drawing physical markers at them.",
+      "green": {
+        "id": "lm-h07-green",
+        "sourceId": "norrfallsviken-07-hole",
+        "evidence": "Manual trace of the putting-surface mowing break; surrounding collar is excluded.",
+        "panel": {
+          "id": "07-green",
+          "sourceId": "norrfallsviken-07-hole",
+          "sourceSha256": "edcb3c3d0143c95d17f4217ea9bae8237e4493a35ceb6882479edad3c26adf9c",
+          "geoTransform": [
+            679075.2,
+            0.16,
+            0.0,
+            6987969.28,
+            0.0,
+            -0.16
+          ],
+          "width": 536,
+          "height": 449,
+          "sourcePixelWindow": [
+            163,
+            330,
+            536,
+            449
+          ]
+        },
+        "ringPixels": [
+          [
+            179,
+            189
+          ],
+          [
+            198,
+            179
+          ],
+          [
+            225,
+            173
+          ],
+          [
+            254,
+            166
+          ],
+          [
+            281,
+            160
+          ],
+          [
+            305,
+            159
+          ],
+          [
+            328,
+            166
+          ],
+          [
+            343,
+            181
+          ],
+          [
+            349,
+            198
+          ],
+          [
+            347,
+            216
+          ],
+          [
+            337,
+            231
+          ],
+          [
+            316,
+            246
+          ],
+          [
+            293,
+            258
+          ],
+          [
+            267,
+            267
+          ],
+          [
+            240,
+            272
+          ],
+          [
+            216,
+            270
+          ],
+          [
+            195,
+            263
+          ],
+          [
+            178,
+            252
+          ],
+          [
+            168,
+            238
+          ],
+          [
+            165,
+            222
+          ],
+          [
+            169,
+            207
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            679103.84,
+            6987939.04
+          ],
+          [
+            679106.88,
+            6987940.64
+          ],
+          [
+            679111.2,
+            6987941.6
+          ],
+          [
+            679115.84,
+            6987942.72
+          ],
+          [
+            679120.16,
+            6987943.68
+          ],
+          [
+            679124.0,
+            6987943.84
+          ],
+          [
+            679127.68,
+            6987942.72
+          ],
+          [
+            679130.08,
+            6987940.32
+          ],
+          [
+            679131.04,
+            6987937.6
+          ],
+          [
+            679130.72,
+            6987934.72
+          ],
+          [
+            679129.12,
+            6987932.32
+          ],
+          [
+            679125.76,
+            6987929.92
+          ],
+          [
+            679122.08,
+            6987928.0
+          ],
+          [
+            679117.92,
+            6987926.56
+          ],
+          [
+            679113.6,
+            6987925.76
+          ],
+          [
+            679109.76,
+            6987926.08
+          ],
+          [
+            679106.4,
+            6987927.2
+          ],
+          [
+            679103.68,
+            6987928.96
+          ],
+          [
+            679102.08,
+            6987931.2
+          ],
+          [
+            679101.6,
+            6987933.76
+          ],
+          [
+            679102.24,
+            6987936.16
+          ]
+        ]
+      },
+      "tees": [
+        {
+          "id": "lm-h07-tee-1",
+          "sourceId": "norrfallsviken-07-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "07-tees",
+            "sourceId": "norrfallsviken-07-hole",
+            "sourceSha256": "edcb3c3d0143c95d17f4217ea9bae8237e4493a35ceb6882479edad3c26adf9c",
+            "geoTransform": [
+              679153.92,
+              0.16,
+              0.0,
+              6987996.16,
+              0.0,
+              -0.16
+            ],
+            "width": 863,
+            "height": 436,
+            "sourcePixelWindow": [
+              655,
+              162,
+              863,
+              436
+            ]
+          },
+          "ringPixels": [
+            [
+              506,
+              193
+            ],
+            [
+              534,
+              187
+            ],
+            [
+              576,
+              184
+            ],
+            [
+              616,
+              183
+            ],
+            [
+              651,
+              187
+            ],
+            [
+              674,
+              197
+            ],
+            [
+              684,
+              209
+            ],
+            [
+              682,
+              223
+            ],
+            [
+              670,
+              232
+            ],
+            [
+              651,
+              234
+            ],
+            [
+              624,
+              229
+            ],
+            [
+              596,
+              223
+            ],
+            [
+              569,
+              221
+            ],
+            [
+              544,
+              223
+            ],
+            [
+              520,
+              222
+            ],
+            [
+              505,
+              215
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679234.88,
+              6987965.28
+            ],
+            [
+              679239.36,
+              6987966.24
+            ],
+            [
+              679246.08,
+              6987966.72
+            ],
+            [
+              679252.48,
+              6987966.88
+            ],
+            [
+              679258.08,
+              6987966.24
+            ],
+            [
+              679261.76,
+              6987964.64
+            ],
+            [
+              679263.36,
+              6987962.72
+            ],
+            [
+              679263.04,
+              6987960.48
+            ],
+            [
+              679261.12,
+              6987959.04
+            ],
+            [
+              679258.08,
+              6987958.72
+            ],
+            [
+              679253.76,
+              6987959.52
+            ],
+            [
+              679249.28,
+              6987960.48
+            ],
+            [
+              679244.96,
+              6987960.8
+            ],
+            [
+              679240.96,
+              6987960.48
+            ],
+            [
+              679237.12,
+              6987960.64
+            ],
+            [
+              679234.72,
+              6987961.76
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [],
+      "unresolvedTeeReferences": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "hole": 8,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed. Shared H4/H8 putting surface; reference is the centre of its respective lobe, not a verified daily cup. Card references 2 have no distinct visible platform; no synthetic platform is created.",
+      "green": {
+        "id": "lm-shared-green-04-08",
+        "sourceId": "norrfallsviken-04-hole",
+        "evidence": "One continuous bean-shaped putting surface with two lobes and a mown connecting neck. The club local rules independently identify the shared H4/H8 green.",
+        "panel": {
+          "id": "04-green",
+          "sourceId": "norrfallsviken-04-hole",
+          "sourceSha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f",
+          "geoTransform": [
+            678997.6,
+            0.16,
+            0.0,
+            6988428.8,
+            0.0,
+            -0.16
+          ],
+          "width": 416,
+          "height": 460,
+          "sourcePixelWindow": [
+            521,
+            162,
+            416,
+            460
+          ]
+        },
+        "ringPixels": [
+          [
+            77,
+            222
+          ],
+          [
+            93,
+            202
+          ],
+          [
+            119,
+            184
+          ],
+          [
+            143,
+            173
+          ],
+          [
+            165,
+            153
+          ],
+          [
+            185,
+            135
+          ],
+          [
+            211,
+            127
+          ],
+          [
+            237,
+            131
+          ],
+          [
+            264,
+            142
+          ],
+          [
+            287,
+            162
+          ],
+          [
+            304,
+            184
+          ],
+          [
+            314,
+            209
+          ],
+          [
+            315,
+            238
+          ],
+          [
+            307,
+            260
+          ],
+          [
+            291,
+            281
+          ],
+          [
+            274,
+            295
+          ],
+          [
+            252,
+            296
+          ],
+          [
+            230,
+            287
+          ],
+          [
+            207,
+            279
+          ],
+          [
+            188,
+            276
+          ],
+          [
+            169,
+            279
+          ],
+          [
+            149,
+            291
+          ],
+          [
+            130,
+            301
+          ],
+          [
+            108,
+            303
+          ],
+          [
+            90,
+            293
+          ],
+          [
+            78,
+            276
+          ],
+          [
+            72,
+            256
+          ],
+          [
+            72,
+            240
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            679009.92,
+            6988393.28
+          ],
+          [
+            679012.48,
+            6988396.48
+          ],
+          [
+            679016.64,
+            6988399.36
+          ],
+          [
+            679020.48,
+            6988401.12
+          ],
+          [
+            679024.0,
+            6988404.32
+          ],
+          [
+            679027.2,
+            6988407.2
+          ],
+          [
+            679031.36,
+            6988408.48
+          ],
+          [
+            679035.52,
+            6988407.84
+          ],
+          [
+            679039.84,
+            6988406.08
+          ],
+          [
+            679043.52,
+            6988402.88
+          ],
+          [
+            679046.24,
+            6988399.36
+          ],
+          [
+            679047.84,
+            6988395.36
+          ],
+          [
+            679048.0,
+            6988390.72
+          ],
+          [
+            679046.72,
+            6988387.2
+          ],
+          [
+            679044.16,
+            6988383.84
+          ],
+          [
+            679041.44,
+            6988381.6
+          ],
+          [
+            679037.92,
+            6988381.44
+          ],
+          [
+            679034.4,
+            6988382.88
+          ],
+          [
+            679030.72,
+            6988384.16
+          ],
+          [
+            679027.68,
+            6988384.64
+          ],
+          [
+            679024.64,
+            6988384.16
+          ],
+          [
+            679021.44,
+            6988382.24
+          ],
+          [
+            679018.4,
+            6988380.64
+          ],
+          [
+            679014.88,
+            6988380.32
+          ],
+          [
+            679012.0,
+            6988381.92
+          ],
+          [
+            679010.08,
+            6988384.64
+          ],
+          [
+            679009.12,
+            6988387.84
+          ],
+          [
+            679009.12,
+            6988390.4
+          ]
+        ],
+        "pointPixels": [
+          127,
+          249
+        ],
+        "pointEpsg3006": [
+          679017.92,
+          6988388.96
+        ]
+      },
+      "tees": [
+        {
+          "id": "lm-h08-tee-1",
+          "sourceId": "norrfallsviken-08-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "08-tees",
+            "sourceId": "norrfallsviken-08-hole",
+            "sourceSha256": "26d4d5295f19cf075949c894547bf59b81cdee52650d33bc32fedd57ab0f1ddb",
+            "geoTransform": [
+              679066.24,
+              0.16,
+              0.0,
+              6988173.76,
+              0.0,
+              -0.16
+            ],
+            "width": 528,
+            "height": 1138,
+            "sourcePixelWindow": [
+              489,
+              1855,
+              528,
+              1138
+            ]
+          },
+          "ringPixels": [
+            [
+              210,
+              877
+            ],
+            [
+              216,
+              866
+            ],
+            [
+              239,
+              862
+            ],
+            [
+              255,
+              869
+            ],
+            [
+              264,
+              883
+            ],
+            [
+              263,
+              905
+            ],
+            [
+              254,
+              922
+            ],
+            [
+              235,
+              926
+            ],
+            [
+              214,
+              923
+            ],
+            [
+              208,
+              911
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679099.84,
+              6988033.44
+            ],
+            [
+              679100.8,
+              6988035.2
+            ],
+            [
+              679104.48,
+              6988035.84
+            ],
+            [
+              679107.04,
+              6988034.72
+            ],
+            [
+              679108.48,
+              6988032.48
+            ],
+            [
+              679108.32,
+              6988028.96
+            ],
+            [
+              679106.88,
+              6988026.24
+            ],
+            [
+              679103.84,
+              6988025.6
+            ],
+            [
+              679100.48,
+              6988026.08
+            ],
+            [
+              679099.52,
+              6988028.0
+            ]
+          ]
+        },
+        {
+          "id": "lm-h08-tee-2",
+          "sourceId": "norrfallsviken-08-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "08-tees",
+            "sourceId": "norrfallsviken-08-hole",
+            "sourceSha256": "26d4d5295f19cf075949c894547bf59b81cdee52650d33bc32fedd57ab0f1ddb",
+            "geoTransform": [
+              679066.24,
+              0.16,
+              0.0,
+              6988173.76,
+              0.0,
+              -0.16
+            ],
+            "width": 528,
+            "height": 1138,
+            "sourcePixelWindow": [
+              489,
+              1855,
+              528,
+              1138
+            ]
+          },
+          "ringPixels": [
+            [
+              336,
+              551
+            ],
+            [
+              345,
+              539
+            ],
+            [
+              359,
+              537
+            ],
+            [
+              371,
+              545
+            ],
+            [
+              377,
+              559
+            ],
+            [
+              375,
+              580
+            ],
+            [
+              366,
+              592
+            ],
+            [
+              349,
+              597
+            ],
+            [
+              337,
+              589
+            ],
+            [
+              332,
+              572
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679120.0,
+              6988085.6
+            ],
+            [
+              679121.44,
+              6988087.52
+            ],
+            [
+              679123.68,
+              6988087.84
+            ],
+            [
+              679125.6,
+              6988086.56
+            ],
+            [
+              679126.56,
+              6988084.32
+            ],
+            [
+              679126.24,
+              6988080.96
+            ],
+            [
+              679124.8,
+              6988079.04
+            ],
+            [
+              679122.08,
+              6988078.24
+            ],
+            [
+              679120.16,
+              6988079.52
+            ],
+            [
+              679119.36,
+              6988082.24
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h08-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h08-tee-2",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        2
+      ]
+    },
+    {
+      "hole": 9,
+      "notes": "Visible mowing boundaries reviewed in the 2024-06-27 orthophoto. Movable tee colours and daily cup positions are not surveyed. Card references 2 have no distinct visible platform; no synthetic platform is created.",
+      "green": {
+        "id": "lm-h09-green",
+        "sourceId": "norrfallsviken-09-hole",
+        "evidence": "Manual trace of the putting-surface mowing break; surrounding collar is excluded.",
+        "panel": {
+          "id": "09-green",
+          "sourceId": "norrfallsviken-09-hole",
+          "sourceSha256": "49726480abd6880f215fffacccb66f2017184abbeb93dcbc0418bf733999cfbf",
+          "geoTransform": [
+            678577.92,
+            0.16,
+            0.0,
+            6988451.36,
+            0.0,
+            -0.16
+          ],
+          "width": 493,
+          "height": 487,
+          "sourcePixelWindow": [
+            162,
+            979,
+            493,
+            487
+          ]
+        },
+        "ringPixels": [
+          [
+            166,
+            249
+          ],
+          [
+            178,
+            231
+          ],
+          [
+            195,
+            214
+          ],
+          [
+            216,
+            195
+          ],
+          [
+            235,
+            188
+          ],
+          [
+            253,
+            190
+          ],
+          [
+            270,
+            201
+          ],
+          [
+            285,
+            222
+          ],
+          [
+            300,
+            239
+          ],
+          [
+            309,
+            257
+          ],
+          [
+            308,
+            276
+          ],
+          [
+            299,
+            289
+          ],
+          [
+            283,
+            295
+          ],
+          [
+            265,
+            296
+          ],
+          [
+            243,
+            295
+          ],
+          [
+            218,
+            298
+          ],
+          [
+            197,
+            307
+          ],
+          [
+            180,
+            306
+          ],
+          [
+            166,
+            296
+          ],
+          [
+            159,
+            281
+          ],
+          [
+            160,
+            264
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678604.48,
+            6988411.52
+          ],
+          [
+            678606.4,
+            6988414.4
+          ],
+          [
+            678609.12,
+            6988417.12
+          ],
+          [
+            678612.48,
+            6988420.16
+          ],
+          [
+            678615.52,
+            6988421.28
+          ],
+          [
+            678618.4,
+            6988420.96
+          ],
+          [
+            678621.12,
+            6988419.2
+          ],
+          [
+            678623.52,
+            6988415.84
+          ],
+          [
+            678625.92,
+            6988413.12
+          ],
+          [
+            678627.36,
+            6988410.24
+          ],
+          [
+            678627.2,
+            6988407.2
+          ],
+          [
+            678625.76,
+            6988405.12
+          ],
+          [
+            678623.2,
+            6988404.16
+          ],
+          [
+            678620.32,
+            6988404.0
+          ],
+          [
+            678616.8,
+            6988404.16
+          ],
+          [
+            678612.8,
+            6988403.68
+          ],
+          [
+            678609.44,
+            6988402.24
+          ],
+          [
+            678606.72,
+            6988402.4
+          ],
+          [
+            678604.48,
+            6988404.0
+          ],
+          [
+            678603.36,
+            6988406.4
+          ],
+          [
+            678603.52,
+            6988409.12
+          ]
+        ]
+      },
+      "tees": [
+        {
+          "id": "lm-h09-tee-1",
+          "sourceId": "norrfallsviken-09-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "09-tees",
+            "sourceId": "norrfallsviken-09-hole",
+            "sourceSha256": "49726480abd6880f215fffacccb66f2017184abbeb93dcbc0418bf733999cfbf",
+            "geoTransform": [
+              678818.72,
+              0.16,
+              0.0,
+              6988576.8,
+              0.0,
+              -0.16
+            ],
+            "width": 1119,
+            "height": 472,
+            "sourcePixelWindow": [
+              1667,
+              195,
+              1119,
+              472
+            ]
+          },
+          "ringPixels": [
+            [
+              916,
+              255
+            ],
+            [
+              930,
+              251
+            ],
+            [
+              953,
+              254
+            ],
+            [
+              978,
+              263
+            ],
+            [
+              994,
+              274
+            ],
+            [
+              998,
+              283
+            ],
+            [
+              988,
+              292
+            ],
+            [
+              970,
+              292
+            ],
+            [
+              947,
+              287
+            ],
+            [
+              928,
+              283
+            ],
+            [
+              916,
+              274
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678965.28,
+              6988536.0
+            ],
+            [
+              678967.52,
+              6988536.64
+            ],
+            [
+              678971.2,
+              6988536.16
+            ],
+            [
+              678975.2,
+              6988534.72
+            ],
+            [
+              678977.76,
+              6988532.96
+            ],
+            [
+              678978.4,
+              6988531.52
+            ],
+            [
+              678976.8,
+              6988530.08
+            ],
+            [
+              678973.92,
+              6988530.08
+            ],
+            [
+              678970.24,
+              6988530.88
+            ],
+            [
+              678967.2,
+              6988531.52
+            ],
+            [
+              678965.28,
+              6988532.96
+            ]
+          ]
+        },
+        {
+          "id": "lm-h09-tee-2",
+          "sourceId": "norrfallsviken-09-hole",
+          "evidence": "Visible closely mown platform edge, traced independently of the old rectangle and scorecard distances; shaded edge interpretation remains approximate.",
+          "panel": {
+            "id": "09-tees",
+            "sourceId": "norrfallsviken-09-hole",
+            "sourceSha256": "49726480abd6880f215fffacccb66f2017184abbeb93dcbc0418bf733999cfbf",
+            "geoTransform": [
+              678818.72,
+              0.16,
+              0.0,
+              6988576.8,
+              0.0,
+              -0.16
+            ],
+            "width": 1119,
+            "height": 472,
+            "sourcePixelWindow": [
+              1667,
+              195,
+              1119,
+              472
+            ]
+          },
+          "ringPixels": [
+            [
+              603,
+              250
+            ],
+            [
+              616,
+              242
+            ],
+            [
+              635,
+              242
+            ],
+            [
+              655,
+              249
+            ],
+            [
+              673,
+              258
+            ],
+            [
+              680,
+              269
+            ],
+            [
+              675,
+              279
+            ],
+            [
+              658,
+              284
+            ],
+            [
+              637,
+              282
+            ],
+            [
+              617,
+              277
+            ],
+            [
+              605,
+              268
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678915.2,
+              6988536.8
+            ],
+            [
+              678917.28,
+              6988538.08
+            ],
+            [
+              678920.32,
+              6988538.08
+            ],
+            [
+              678923.52,
+              6988536.96
+            ],
+            [
+              678926.4,
+              6988535.52
+            ],
+            [
+              678927.52,
+              6988533.76
+            ],
+            [
+              678926.72,
+              6988532.16
+            ],
+            [
+              678924.0,
+              6988531.36
+            ],
+            [
+              678920.64,
+              6988531.68
+            ],
+            [
+              678917.44,
+              6988532.48
+            ],
+            [
+              678915.52,
+              6988533.92
+            ]
+          ]
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h09-tee-1",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h09-tee-2",
+          "evidence": "Explicit navigation association to the visible rear/forward platform in this hole corridor; tee colour and movable marker location are not independently resolved in the orthophoto."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        2
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1008 @@
+{
+  "schemaVersion": 1,
+  "facilityId": "johannesberg-clubhouse",
+  "sourceBuildingId": "w296165896",
+  "createdOn": "2026-09-10",
+  "status": "modelable-evidence-informed-estimate",
+  "surveyed": false,
+  "frame": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "verticalDatum": "RH2000",
+    "originEPSG3006": [
+      679204.0327521876,
+      6626167.160650728
+    ],
+    "axisU": [
+      0.8163677771702246,
+      0.5775323821208179
+    ],
+    "axisV": [
+      -0.5775323821208179,
+      0.8163677771702246
+    ],
+    "axisZ": [
+      0,
+      0,
+      1
+    ],
+    "axisUDirection": "Northeast along long ridges; left to right when facing front from course",
+    "axisVDirection": "Northwest toward rear and driving range",
+    "frontDirection": "-V southeast toward practice ground and terrace",
+    "transform": "E,N = origin + U*axisU + V*axisV; Z is absolute RH2000. Subtract scene height origin once when placing in Blender.",
+    "handedness": "right-handed U,V,Z"
+  },
+  "sources": [
+    {
+      "id": "club-media-4558-original",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-4558-original.jpg",
+      "sha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2023/08/Johannesberg-2.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/johannesberg-2-3/",
+      "captureDate": "2018-09-19",
+      "width": 5333,
+      "height": 3000
+    },
+    {
+      "id": "club-media-3970-original",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3970-original.jpg",
+      "sha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2023/06/Johannesberg-4.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/spela-golf/johannesberg-4/",
+      "captureDate": "2018-09-19",
+      "width": 5333,
+      "height": 3000
+    },
+    {
+      "id": "club-media-6642-original",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6642-original.jpg",
+      "sha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/20241030_084907.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/20241030_084907/",
+      "captureDate": "2024-10-30",
+      "width": 4000,
+      "height": 1800
+    },
+    {
+      "id": "club-media-6713-original",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+      "sha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/20241030_082741.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/sugen-pa-att-svinga-klubban/20241030_082741/",
+      "captureDate": "2024-10-30",
+      "width": 4000,
+      "height": 3000
+    },
+    {
+      "id": "native-ortho",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-native.png",
+      "sha256": "80b452d6aed2d9e31d19ee9257591a20309bd92cfc4632af5a0059fe1f9ef147"
+    },
+    {
+      "id": "orthophoto-index",
+      "path": "johannesbergbuild/facilities/orthophoto-panels.json",
+      "sha256": "69c2d61474605e1428f912f3d5aaeb77439a80639eb9f7cba78a323215a7f236"
+    },
+    {
+      "id": "height-evidence",
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+    },
+    {
+      "id": "inherited-inventory",
+      "path": "johannesbergbuild/facilities/site-inventory.json",
+      "sha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae"
+    },
+    {
+      "id": "ground-evidence",
+      "path": "johannesbergbuild/facilities/model-ground.json",
+      "sha256": "f76475d08db1c3a9daf72b4281f232edfccffe673ac81ddd1c0977bdcb7e0252"
+    },
+    {
+      "id": "descriptive-plane-fit",
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-axis-plane-fit.json",
+      "sha256": "7cb13d261de13ec67bf9ad3642dea309f2ce5d1f6077ce703ba88ec6d6d63d3b"
+    },
+    {
+      "id": "full-window-sections",
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-full-window-sections.png",
+      "sha256": "78f1e588508513754434c32003a1de56824bbb183544635e3ef3059978a37f87"
+    },
+    {
+      "id": "roof-envelope-overlay",
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-proposed-roof-envelope.png",
+      "sha256": "248734c9c764a06f8c69cd8756eab62ac86b404b1280f1c2e5cdad66fcc0fa58"
+    }
+  ],
+  "evidenceHierarchy": [
+    "2025 native orthophoto constrains roof shape, component arrangement and orientation.",
+    "2021 coherent unclassified laser planes constrain historical roof surfaces; full window avoids inherited-mask truncation.",
+    "2018 front and 2024 gable/rear photos identify storeys, materials and openings.",
+    "Inherited OSM footprint is a comparison anchor; walls are estimated inside the supported roof envelope.",
+    "Opening dimensions and unseen construction details remain modelling choices with uncertainty."
+  ],
+  "inheritedFootprint": {
+    "ringUV": [
+      [
+        -6.536346226211907,
+        -5.633121799925499
+      ],
+      [
+        -6.5513827900442525,
+        -2.300452163881945
+      ],
+      [
+        -16.916539172627026,
+        -2.338163773974438
+      ],
+      [
+        -16.945110185006186,
+        5.633121800014428
+      ],
+      [
+        16.93177811627269,
+        5.633121800014428
+      ],
+      [
+        16.94511018515709,
+        -5.531821202683727
+      ]
+    ],
+    "dimensionsM": [
+      33.89,
+      11.27
+    ],
+    "policy": "Retained as provenance. Do not stretch full roof into narrower inherited ring; proposed roof envelope checked separately against imagery."
+  },
+  "components": [
+    {
+      "id": "clubhouse-main-walls",
+      "kind": "wall-mass",
+      "centerUV": [
+        7.5,
+        1.8
+      ],
+      "centerEPSG3006": [
+        679209.116,
+        6626172.962
+      ],
+      "boundsUV": [
+        -4.4,
+        19.4,
+        -4.35,
+        7.95
+      ],
+      "lengthM": 23.8,
+      "widthM": 12.3,
+      "axisDegGridNorth": 54.72283,
+      "baseRH2000M": 15.4,
+      "eaveRH2000M": 21.6,
+      "ridgeRH2000M": null,
+      "roofType": "none",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "floorsRH2000M": [
+        15.6,
+        18.55,
+        21.55
+      ],
+      "notes": [
+        "Rear lower floor is exposed; front ground is approximately 18.13 RH2000 so much of the lower wall is buried.",
+        "Walls inset approximately 0.4-0.6 m from supported roof envelope; wall edge is not directly surveyed."
+      ]
+    },
+    {
+      "id": "clubhouse-main-roof",
+      "kind": "roof-only",
+      "centerUV": [
+        7.5,
+        1.7
+      ],
+      "centerEPSG3006": [
+        679209.174,
+        6626172.88
+      ],
+      "boundsUV": [
+        -4.9,
+        19.9,
+        -4.9,
+        8.3
+      ],
+      "lengthM": 24.8,
+      "widthM": 13.2,
+      "axisDegGridNorth": 54.72283,
+      "baseRH2000M": 21.6,
+      "eaveRH2000M": 21.6,
+      "ridgeRH2000M": 26.8,
+      "roofType": "gable",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "ridgeV": 1.7,
+      "pitchDegrees": 38.23,
+      "overhangApproxM": 0.45,
+      "notes": [
+        "Coherent 2021 roof support gives approximately 38-40 degrees. Plane intersection predicts V 1.75, Z 26.82.",
+        "Roof envelope agrees visually with 2025 native orthophoto; it differs from inherited OSM selection ring."
+      ]
+    },
+    {
+      "id": "clubhouse-southwest-annex-walls",
+      "kind": "wall-mass",
+      "centerUV": [
+        -10.025,
+        4.125
+      ],
+      "centerEPSG3006": [
+        679193.466,
+        6626164.738
+      ],
+      "boundsUV": [
+        -15.65,
+        -4.4,
+        0.4,
+        7.85
+      ],
+      "lengthM": 11.25,
+      "widthM": 7.45,
+      "axisDegGridNorth": 54.72283,
+      "baseRH2000M": 15.4,
+      "eaveRH2000M": 20.9,
+      "ridgeRH2000M": null,
+      "roofType": "none",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "floorsRH2000M": [
+        15.6,
+        18.55
+      ]
+    },
+    {
+      "id": "clubhouse-southwest-annex-roof",
+      "kind": "roof-only",
+      "centerUV": [
+        -10.5,
+        4.15
+      ],
+      "centerEPSG3006": [
+        679193.064,
+        6626164.484
+      ],
+      "boundsUV": [
+        -16.1,
+        -4.9,
+        0,
+        8.3
+      ],
+      "lengthM": 11.2,
+      "widthM": 8.3,
+      "axisDegGridNorth": 54.72283,
+      "baseRH2000M": 20.9,
+      "eaveRH2000M": 20.9,
+      "ridgeRH2000M": 24.2,
+      "roofType": "gable",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "ridgeV": 4.15,
+      "pitchDegrees": 38.49
+    },
+    {
+      "id": "clubhouse-central-front-crossgable",
+      "kind": "crossgable",
+      "centerUV": [
+        6.8,
+        -1.7
+      ],
+      "centerEPSG3006": [
+        679210.566,
+        6626169.7
+      ],
+      "boundsUV": [
+        4.1,
+        9.5,
+        -5.1,
+        1.7
+      ],
+      "lengthM": 6.8,
+      "widthM": 5.4,
+      "axisDegGridNorth": 144.72,
+      "baseRH2000M": 21.5,
+      "eaveRH2000M": 24.55,
+      "ridgeRH2000M": 26.8,
+      "roofType": "gable",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "ridgeDirection": "V",
+      "gableWidthU": 5.4,
+      "gableDepthV": 6.8,
+      "roofIntersectionPolicy": "Merge or clip into main roof; avoid coplanar duplicate surfaces."
+    },
+    {
+      "id": "clubhouse-central-rear-crossgable",
+      "kind": "crossgable",
+      "centerUV": [
+        6.8,
+        5.1
+      ],
+      "centerEPSG3006": [
+        679206.639,
+        6626175.251
+      ],
+      "boundsUV": [
+        4.1,
+        9.5,
+        1.7,
+        8.5
+      ],
+      "lengthM": 6.8,
+      "widthM": 5.4,
+      "axisDegGridNorth": 144.72,
+      "baseRH2000M": 21.5,
+      "eaveRH2000M": 24.55,
+      "ridgeRH2000M": 26.8,
+      "roofType": "gable",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "ridgeDirection": "V",
+      "gableWidthU": 5.4,
+      "gableDepthV": 6.8,
+      "roofIntersectionPolicy": "Merge or clip into main roof; avoid coplanar duplicate surfaces."
+    },
+    {
+      "id": "clubhouse-front-balcony",
+      "kind": "balcony",
+      "centerUV": [
+        6.8,
+        -5.525
+      ],
+      "centerEPSG3006": [
+        679212.775,
+        6626166.577
+      ],
+      "boundsUV": [
+        4.65,
+        8.95,
+        -6.8,
+        -4.25
+      ],
+      "lengthM": 4.3,
+      "widthM": 2.55,
+      "axisDegGridNorth": 54.72283,
+      "baseRH2000M": 21.45,
+      "eaveRH2000M": 22.5,
+      "ridgeRH2000M": null,
+      "roofType": "none",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "deckThicknessM": 0.18,
+      "railHeightM": 1.05,
+      "railStyle": "Dark square timber posts and X braces",
+      "supportPosts": [
+        {
+          "uv": [
+            4.85,
+            -6.45
+          ],
+          "baseRH2000M": 18.25,
+          "topRH2000M": 21.45
+        },
+        {
+          "uv": [
+            8.75,
+            -6.45
+          ],
+          "baseRH2000M": 18.25,
+          "topRH2000M": 21.45
+        }
+      ],
+      "notes": [
+        "Balcony shades entrance below; do not add an unrelated entrance canopy."
+      ]
+    },
+    {
+      "id": "clubhouse-northeast-side-veranda",
+      "kind": "veranda",
+      "centerUV": [
+        20.85,
+        1.8
+      ],
+      "centerEPSG3006": [
+        679220.014,
+        6626180.672
+      ],
+      "boundsUV": [
+        19.4,
+        22.3,
+        -4.35,
+        7.95
+      ],
+      "lengthM": 2.9,
+      "widthM": 12.3,
+      "axisDegGridNorth": 54.72283,
+      "baseRH2000M": 15.45,
+      "eaveRH2000M": 20.5,
+      "ridgeRH2000M": 21.5,
+      "roofType": "lean-to",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "deckRH2000M": 18.55,
+      "roofHighEdge": "-U",
+      "roofLowEdge": "+U",
+      "roofThicknessM": 0.18,
+      "frontHalfOpen": true,
+      "rearHalfEnclosed": true,
+      "notes": [
+        "2018 front/right view shows open white-post porch; 2024 reverse view shows glazed rear portion and red lower wall with doors."
+      ]
+    },
+    {
+      "id": "clubhouse-annex-front-deck",
+      "kind": "deck",
+      "centerUV": [
+        -10.25,
+        -2.1
+      ],
+      "centerEPSG3006": [
+        679196.878,
+        6626159.527
+      ],
+      "boundsUV": [
+        -16.05,
+        -4.45,
+        -4.65,
+        0.45
+      ],
+      "lengthM": 11.6,
+      "widthM": 5.1,
+      "axisDegGridNorth": 54.72283,
+      "baseRH2000M": 18.75,
+      "eaveRH2000M": 18.9,
+      "ridgeRH2000M": null,
+      "roofType": "none",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "railHeightM": 1.0,
+      "railStyle": "Dark X-braced timber with optional translucent wind panels",
+      "notes": [
+        "Boundary is inferred; keep paved apron and pavilion separate.",
+        "2026-09-10 visible-terrain fit raises estimated slab centre by 0.25m (top 18.84), within 0.35m floor uncertainty; terrace entrance follows the slab, main/rear floors stay at source profile estimates."
+      ],
+      "slabThicknessM": 0.18,
+      "entranceThresholdRH2000M": 18.84,
+      "entranceHeightM": 1.85
+    },
+    {
+      "id": "clubhouse-terrace-pavilion",
+      "kind": "open-pavilion",
+      "centerUV": [
+        -3.9,
+        -16.75
+      ],
+      "centerEPSG3006": [
+        679210.523,
+        6626151.234
+      ],
+      "boundsUV": [
+        -9.3,
+        1.5,
+        -19.35,
+        -14.15
+      ],
+      "lengthM": 10.8,
+      "widthM": 5.2,
+      "axisDegGridNorth": 51.38,
+      "baseRH2000M": 18.5,
+      "eaveRH2000M": 20.55,
+      "ridgeRH2000M": 22.2,
+      "roofType": "hip",
+      "frontSide": "-V",
+      "confidence": "moderate",
+      "dimensionStatus": "Inferred modelling estimate, not surveyed",
+      "sourceBuildingId": "w296165897",
+      "sourceInventoryRole": "Previously clubhouse-shed; official front photographs support open terrace pavilion here.",
+      "posts": 8,
+      "postSectionM": 0.16,
+      "wallPolicy": "Open posts and low rail/counter panels; no full opaque walls.",
+      "notes": [
+        "Separate inherited footprint supplies location; front 2018 and gable 2024 views identify appearance.",
+        "2021 roof candidates reach 21.90 RH2000; eave/ridge remain estimates.",
+        "2026-09-10 visible-terrain fit raises this estimated open structure rigidly by 0.30m, retaining headroom. Ridge is now 0.30m above the 2021 candidate maximum, within the 0.45m eave/ridge uncertainty; this is not new roof evidence."
+      ]
+    }
+  ],
+  "facadeFeatures": [
+    {
+      "id": "front-main-window-1",
+      "side": "front",
+      "t": 0.19,
+      "centerU": 0.122,
+      "kind": "window",
+      "widthM": 1.05,
+      "heightM": 1.75,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured",
+      "mullions": "Vertical centre plus two horizontal bars"
+    },
+    {
+      "id": "front-main-window-2",
+      "side": "front",
+      "t": 0.285,
+      "centerU": 2.383,
+      "kind": "window",
+      "widthM": 1.05,
+      "heightM": 1.75,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured",
+      "mullions": "Vertical centre plus two horizontal bars"
+    },
+    {
+      "id": "front-main-window-3",
+      "side": "front",
+      "t": 0.65,
+      "centerU": 11.07,
+      "kind": "window",
+      "widthM": 1.05,
+      "heightM": 1.75,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured",
+      "mullions": "Vertical centre plus two horizontal bars"
+    },
+    {
+      "id": "front-main-window-4",
+      "side": "front",
+      "t": 0.755,
+      "centerU": 13.569,
+      "kind": "window",
+      "widthM": 1.05,
+      "heightM": 1.75,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured",
+      "mullions": "Vertical centre plus two horizontal bars"
+    },
+    {
+      "id": "front-main-window-5",
+      "side": "front",
+      "t": 0.86,
+      "centerU": 16.068,
+      "kind": "window",
+      "widthM": 1.05,
+      "heightM": 1.75,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured",
+      "mullions": "Vertical centre plus two horizontal bars"
+    },
+    {
+      "id": "front-west-door",
+      "side": "front",
+      "t": 0.09,
+      "centerU": -2.258,
+      "kind": "door",
+      "widthM": 1.0,
+      "heightM": 2.25,
+      "bottomRH2000M": 18.4,
+      "status": "Visible feature with approximate placement, not measured",
+      "glazed": true
+    },
+    {
+      "id": "front-main-entry",
+      "side": "front",
+      "t": 0.46,
+      "centerU": 6.548,
+      "kind": "door",
+      "widthM": 1.6,
+      "heightM": 2.25,
+      "bottomRH2000M": 18.4,
+      "status": "Visible feature with approximate placement, not measured",
+      "glazed": true
+    },
+    {
+      "id": "balcony-double-door",
+      "side": "front",
+      "t": 0.46,
+      "centerU": 6.548,
+      "kind": "door",
+      "widthM": 1.65,
+      "heightM": 2.15,
+      "bottomRH2000M": 21.55,
+      "status": "Visible feature with approximate placement, not measured",
+      "glazed": true
+    },
+    {
+      "id": "rear-upper-window-1",
+      "side": "rear",
+      "t": 0.11,
+      "centerU": -1.782,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.7,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-upper-window-2",
+      "side": "rear",
+      "t": 0.205,
+      "centerU": 0.479,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.7,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-upper-window-3",
+      "side": "rear",
+      "t": 0.335,
+      "centerU": 3.573,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.7,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-upper-window-4",
+      "side": "rear",
+      "t": 0.49,
+      "centerU": 7.262,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.7,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-upper-window-5",
+      "side": "rear",
+      "t": 0.625,
+      "centerU": 10.475,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.7,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-upper-window-6",
+      "side": "rear",
+      "t": 0.78,
+      "centerU": 14.164,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.7,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-upper-window-7",
+      "side": "rear",
+      "t": 0.9,
+      "centerU": 17.02,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.7,
+      "bottomRH2000M": 19.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-lower-window-1",
+      "side": "rear",
+      "t": 0.11,
+      "centerU": -1.782,
+      "kind": "window",
+      "widthM": 0.9,
+      "heightM": 1.6,
+      "bottomRH2000M": 16.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-lower-window-2",
+      "side": "rear",
+      "t": 0.625,
+      "centerU": 10.475,
+      "kind": "window",
+      "widthM": 0.9,
+      "heightM": 1.6,
+      "bottomRH2000M": 16.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-lower-window-3",
+      "side": "rear",
+      "t": 0.78,
+      "centerU": 14.164,
+      "kind": "window",
+      "widthM": 0.9,
+      "heightM": 1.6,
+      "bottomRH2000M": 16.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-lower-window-4",
+      "side": "rear",
+      "t": 0.9,
+      "centerU": 17.02,
+      "kind": "window",
+      "widthM": 0.9,
+      "heightM": 1.6,
+      "bottomRH2000M": 16.0,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-lower-entry",
+      "side": "rear",
+      "t": 0.27,
+      "centerU": 2.026,
+      "kind": "door",
+      "widthM": 1.6,
+      "heightM": 2.2,
+      "bottomRH2000M": 15.6,
+      "status": "Visible feature with approximate placement, not measured",
+      "glazed": true,
+      "smallGableCanopy": {
+        "widthM": 3.2,
+        "depthM": 1.7,
+        "eaveRH2000M": 17.9,
+        "ridgeRH2000M": 18.8
+      }
+    },
+    {
+      "id": "rear-central-attic-window-1",
+      "side": "rear",
+      "t": 0.405,
+      "centerU": 5.239,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.85,
+      "bottomRH2000M": 22.1,
+      "status": "Visible feature with approximate placement, not measured"
+    },
+    {
+      "id": "rear-central-attic-window-2",
+      "side": "rear",
+      "t": 0.495,
+      "centerU": 7.381,
+      "kind": "window",
+      "widthM": 1.0,
+      "heightM": 1.85,
+      "bottomRH2000M": 22.1,
+      "status": "Visible feature with approximate placement, not measured"
+    }
+  ],
+  "dormers": [
+    {
+      "id": "front-small-dormer-1",
+      "side": "front",
+      "t": 0.225,
+      "centerUV": [
+        0.955,
+        -3.3
+      ],
+      "widthU": 2.0,
+      "depthV": 2.6,
+      "faceBottomRH2000M": 22.65,
+      "faceEaveRH2000M": 24.4,
+      "ridgeRH2000M": 25.3,
+      "roofType": "gable",
+      "ridgeDirection": "V",
+      "window": {
+        "widthM": 1.0,
+        "heightM": 1.2,
+        "bottomRH2000M": 22.9
+      },
+      "status": "Visible paired small dormers flanking large crossgable; dimensions approximate"
+    },
+    {
+      "id": "front-small-dormer-2",
+      "side": "front",
+      "t": 0.765,
+      "centerUV": [
+        13.807,
+        -3.3
+      ],
+      "widthU": 2.0,
+      "depthV": 2.6,
+      "faceBottomRH2000M": 22.65,
+      "faceEaveRH2000M": 24.4,
+      "ridgeRH2000M": 25.3,
+      "roofType": "gable",
+      "ridgeDirection": "V",
+      "window": {
+        "widthM": 1.0,
+        "heightM": 1.2,
+        "bottomRH2000M": 22.9
+      },
+      "status": "Visible paired small dormers flanking large crossgable; dimensions approximate"
+    },
+    {
+      "id": "rear-small-dormer-1",
+      "side": "rear",
+      "t": 0.225,
+      "centerUV": [
+        0.955,
+        7.0
+      ],
+      "widthU": 2.0,
+      "depthV": 2.6,
+      "faceBottomRH2000M": 22.65,
+      "faceEaveRH2000M": 24.4,
+      "ridgeRH2000M": 25.3,
+      "roofType": "gable",
+      "ridgeDirection": "V",
+      "window": {
+        "widthM": 1.0,
+        "heightM": 1.2,
+        "bottomRH2000M": 22.9
+      },
+      "status": "Visible paired small dormers flanking large crossgable; dimensions approximate"
+    },
+    {
+      "id": "rear-small-dormer-2",
+      "side": "rear",
+      "t": 0.765,
+      "centerUV": [
+        13.807,
+        7.0
+      ],
+      "widthU": 2.0,
+      "depthV": 2.6,
+      "faceBottomRH2000M": 22.65,
+      "faceEaveRH2000M": 24.4,
+      "ridgeRH2000M": 25.3,
+      "roofType": "gable",
+      "ridgeDirection": "V",
+      "window": {
+        "widthM": 1.0,
+        "heightM": 1.2,
+        "bottomRH2000M": 22.9
+      },
+      "status": "Visible paired small dormers flanking large crossgable; dimensions approximate"
+    }
+  ],
+  "gableEnds": [
+    {
+      "side": "northeast",
+      "U": 19.4,
+      "atticWindows": [
+        {
+          "V": -0.6,
+          "bottomRH2000M": 22.1,
+          "widthM": 1.0,
+          "heightM": 1.55
+        },
+        {
+          "V": 3.2,
+          "bottomRH2000M": 22.1,
+          "widthM": 1.0,
+          "heightM": 1.55
+        }
+      ],
+      "notes": "Two attic windows visible; lower veranda portion has glazing and two small basement doors in rear view."
+    },
+    {
+      "side": "southwest-annex",
+      "U": -15.65,
+      "upperWindows": [
+        {
+          "V": 2.2,
+          "bottomRH2000M": 19.0,
+          "widthM": 1.15,
+          "heightM": 1.65
+        },
+        {
+          "V": 5.35,
+          "bottomRH2000M": 19.0,
+          "widthM": 1.15,
+          "heightM": 1.65
+        }
+      ],
+      "notes": "Two tall upper windows in 2024 hole9 view. Lower construction hidden by reeds; avoid invented unseen doors."
+    }
+  ],
+  "roofDetails": {
+    "vents": [
+      {
+        "centerUV": [
+          17.3,
+          -2.0
+        ],
+        "widthM": 0.8,
+        "depthM": 0.7,
+        "heightAboveRoofM": 1.1,
+        "material": "dark metal",
+        "evidence": "Large front NE roof vent in 2018"
+      },
+      {
+        "centerUV": [
+          10.7,
+          2.0
+        ],
+        "widthM": 0.8,
+        "depthM": 0.8,
+        "heightAboveRoofM": 0.9,
+        "material": "light metal cap with darker stack",
+        "evidence": "Ridge chimney visible in 2018/2024"
+      }
+    ],
+    "rearRectangularRoofModules": {
+      "status": "optional visual detail only",
+      "evidence": "2025 ortho shows repeated dark rectangular panels with light edges; exact function/count unverified.",
+      "placementPolicy": "Restrained strips between dormers only if ortho agreement maintained; no photovoltaic specification asserted."
+    }
+  },
+  "materials": {
+    "walls": {
+      "appearance": "Swedish red vertical timber",
+      "baseColorHex": "#8D3028",
+      "roughness": 0.82,
+      "boardPitchM": 0.15,
+      "boardPitchStatus": "visual approximation"
+    },
+    "roof": {
+      "appearance": "Warm red-brown terracotta tile courses",
+      "baseColorHex": "#8B4935",
+      "roughness": 0.88,
+      "tileCourseM": 0.32,
+      "tileCourseStatus": "visual approximation"
+    },
+    "trim": {
+      "appearance": "Warm white fascia, corners, window frames and rear floor bands",
+      "baseColorHex": "#E8E5D8",
+      "trimWidthM": 0.11
+    },
+    "glazing": {
+      "baseColorHex": "#6F817B",
+      "roughness": 0.22,
+      "policy": "Subdued glass; source photos are not textures."
+    },
+    "balconyTimber": {
+      "baseColorHex": "#4A4032"
+    },
+    "foundation": {
+      "baseColorHex": "#B7AD95"
+    }
+  },
+  "heightChoices": {
+    "lowerFinishedFloorRH2000M": 15.6,
+    "upperEntryFloorRH2000M": 18.55,
+    "mainAtticFloorRH2000M": 21.55,
+    "frontGroundRH2000M": 18.13,
+    "rearGroundRH2000M": 15.51,
+    "groundSampling": "Retained 2021 class2 medians, main U[-3,15], front V[-9,-6], rear V[6,9]",
+    "mainRidgePlaneIntersection": {
+      "V": 1.75,
+      "RH2000M": 26.82
+    },
+    "eaveRidgeUncertaintyM": 0.45,
+    "floorUncertaintyM": 0.35,
+    "wallPositionUncertaintyM": 0.65,
+    "openingPositionUncertaintyM": 0.65,
+    "openingSizeUncertaintyM": 0.3
+  },
+  "validation": {
+    "roofEnvelopeVisuallyCheckedAgainst2025Native": true,
+    "fourFacadeReferencesInspected": true,
+    "roofProfileUsesFullWindowBeyondInheritedMask": true,
+    "profileIsSurvey": false
+  },
+  "limitations": [
+    "Detailed facade photos precede reported 2025 renovation; exact current opening layout not guaranteed.",
+    "Class1 returns are unclassified; coherent planes supply descriptive support, not survey observations.",
+    "Floor/eave/roof-edge dimensions are estimates with uncertainty.",
+    "Do not publish source photos as model textures; create original geometry/materials.",
+    "Foundation must follow slope. A single 18.599m IDW anchor would bury the rear lower floor.",
+    "Keep pavilion component/sourceBuildingId distinct to avoid a duplicate legacy box."
+  ],
+  "terrainFitReview": {
+    "path": "johannesbergbuild/facilities/deck-clearance-review.json",
+    "sha256": "fdd9963333959ad6cdbdf63a881a104d796bd7be7fb1b4eba52c191b26b41a53"
+  }
+}

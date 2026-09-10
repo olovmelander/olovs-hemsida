@@ -1,0 +1,497 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "output": {
+    "path": "tortunabuild/mapping/environment.geojson",
+    "sha256": "0eb9d4ccc2bdd24f9ae5c82d053f3aa04ac2e442718a1b490ef01a0d511b44a1"
+  },
+  "rawSource": {
+    "path": "tortunabuild/cache/reference/osm.xml",
+    "sha256": "452faf832c519d3f30a4494a1ea4255b98c8d89bff4377f0ee09de9bc7b8cdb4"
+  },
+  "counts": {
+    "path": 115,
+    "landuse": 86,
+    "watercourse": 10,
+    "railway": 13,
+    "power_support": 11,
+    "power_line": 2
+  },
+  "pathNetworks": {
+    "roads": 41,
+    "paths": 26,
+    "tracks": 48
+  },
+  "polygonTopology": [
+    {
+      "sourceFeatureId": "way/153384177",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/170092505",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1315905781",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1315908683",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1315908774",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1315914725",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1329841127",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1337709821",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1337715758",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1338706246",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1338706249",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1349180282",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1349180287",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1349180475",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1349180648",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1369002268",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384964024",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384965173",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384965174",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384971770",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384988020",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384988021",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384988022",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384988128",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384988669",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384988670",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443645911",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443645912",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443645913",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443645917",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443645919",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443646003",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443647129",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502766447",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502766462",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1526367956",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1526395619",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1526402825",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1529985749",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1551138485",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1315905723",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1315905961",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1334174323",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1334174989",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1334175190",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1334175276",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1336476815",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1336477458",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1336477684",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1336491443",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1337719953",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1337966548",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1338595432",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1338595539",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1338595711",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1338595933",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1384964958",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1385031279",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443645910",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443646877",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1443646879",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1491097742",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1491097743",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1491097744",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1491097746",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1491097747",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1491872454",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502761727",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502765431",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502766476",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502771005",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502771060",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502774290",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502774354",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502774459",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1502774529",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1509967065",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1509967066",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1510725488",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1510725489",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1510725490",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1510725491",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1510725492",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1510725495",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1513723684",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "way/1549573825",
+      "pieces": 1,
+      "areaDifferenceSquareMetres": 0.0
+    }
+  ],
+  "omitted": [
+    {
+      "id": "way/4798910",
+      "reason": "covered/noncurrent route or bridge deck without verified elevation"
+    },
+    {
+      "id": "way/153384221",
+      "reason": "covered watercourse; no open channel inferred"
+    },
+    {
+      "id": "way/804759867",
+      "reason": "covered/noncurrent route or bridge deck without verified elevation"
+    },
+    {
+      "id": "way/1026847691",
+      "reason": "covered/noncurrent route or bridge deck without verified elevation"
+    },
+    {
+      "id": "way/204964678",
+      "reason": "bridge/tunnel elevation and deck not verified"
+    },
+    {
+      "id": "way/506221009",
+      "reason": "covered/noncurrent route or bridge deck without verified elevation"
+    },
+    {
+      "id": "way/804759869",
+      "reason": "bridge/tunnel elevation and deck not verified"
+    },
+    {
+      "id": "way/804759870",
+      "reason": "bridge/tunnel elevation and deck not verified"
+    }
+  ],
+  "limitations": [
+    "Widths and seasonal materials remain estimates unless explicitly observed/tagged.",
+    "Watercourses are source centrelines, not measured banks or water levels.",
+    "Railway masts, covered routes and bridge elevations are not inferred.",
+    "Harvested ground changes floor appearance only; remaining canopy is retained."
+  ]
+}

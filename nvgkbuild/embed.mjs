@@ -25,7 +25,7 @@ const vec = {
     line: h.line, lineLen: h.lineLen, pin: h.pin,
     green: { ring: h.green.ring, c: h.green.c },
     fairway: { rings: h.fairway.rings },
-    tees: { pads: h.tees.pads.map(p => ({ ring: p.ring })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })) },
+    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), ...(h.tees.status ? { status: h.tees.status } : {}), ...(h.tees.markerLayout ? { markerLayout: h.tees.markerLayout } : {}), ...(h.tees.markerPlacement ? { markerPlacement: h.tees.markerPlacement } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}), ...(p.reviewId !== undefined && h.tees.marks.some(m => m.sourcePadId === p.reviewId) ? { reviewId: p.reviewId } : {}), ...(p.id !== undefined && h.tees.marks.some(m => m.sourcePadId === p.id) ? { id: p.id } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.referenceSurfaceKind ? { referenceSurfaceKind: m.referenceSurfaceKind } : {}), ...(m.referenceSurfaceRing ? { referenceSurfaceRing: m.referenceSurfaceRing } : {}), ...(m.orthophotoReference ? { orthophotoReference: m.orthophotoReference } : {}), ...(m.displayC !== undefined ? { displayC: m.displayC } : {}), ...(m.sourcePadId !== undefined ? { sourcePadId: m.sourcePadId } : {}) })) },
     bunkers: h.bunkers.map(b => ({ ring: b.ring })),
     elev: h.elev, tiers: h.tiers,
     name: h.name, note: h.note, shape: h.shape,

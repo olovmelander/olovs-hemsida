@@ -1,0 +1,2901 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-09",
+  "reviewKind": "back-nine-native-orthophoto-tee-audit",
+  "baselineModelSha256": "f424be0ad18158715c3a9a188527081984064747879a73fc83e8770e9739c7d2",
+  "frame": {
+    "easting": 687748.5,
+    "northing": 6370951.5,
+    "horizontalCrs": "EPSG:3006",
+    "localAxes": "east+x,north-z"
+  },
+  "status": "proposed-for-integration; physical outlines and numbered identities remain provisional image interpretation",
+  "sourceEpoch": "2026-04-10",
+  "pixelConvention": "Native source TIFF pixel edges: E=GT0+column*GT1+row*GT2; N=GT3+column*GT4+row*GT5. No half-pixel offset is added to manually selected edge coordinates.",
+  "methods": [
+    "Native EPSG:3006 source pixels, no whole-course translation or rotation.",
+    "Caddee supports topology and numbered grouping only; diagram pixels are never transformed into map coordinates.",
+    "Representative camera points selected inside observed turf. No scorecard-distance placement.",
+    "Raw imagery and local overlays remain in ignored cache."
+  ],
+  "guideSource": {
+    "page": "https://www.caddee.se/klubb/visby-golfklubb",
+    "courseId": "c33d3bba-77d2-4ba6-8f88-9723bd3a23ec",
+    "retrievedAt": "2026-09-09T19:39:43.005Z"
+  },
+  "holes": [
+    {
+      "hole": 10,
+      "sourceImage": {
+        "id": "hole-10-tees-extended",
+        "sha256": "6b7fe2da2b6d180e8bbbd1ffce14c83a6990b1a37fe0eee739bcc0cbcb47255a",
+        "rasterFile": "hole-10-tees-extended.tif",
+        "boundsEpsg3006": [
+          687251.2,
+          6370719.680000001,
+          687512.6399999999,
+          6370831.2
+        ],
+        "width": 1634,
+        "height": 697,
+        "geoTransform": [
+          687251.2,
+          0.16,
+          0.0,
+          6370831.2,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6850_25_mr26",
+            "capturedAt": "2026-04-10T08:17:31Z"
+          },
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "5ce99f8f6c70b15ce987229717de709605784d206a8f0f2856a27b53baf4efc9"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/17e0b754-1577-42eb-adc3-6a1f7baaeb93/hole-normal_web_xA83ZJZ.png",
+        "sha256": "eef15d04c84995ff917a2ab2b1036b57363f8ad0f881bcd4dc6774bbadfa0e1f",
+        "numberedLabelPixels": {
+          "63": [
+            389,
+            924
+          ],
+          "59": [
+            381,
+            896
+          ],
+          "55": [
+            343,
+            829
+          ],
+          "51": [
+            363,
+            829
+          ],
+          "46": [
+            309,
+            775
+          ],
+          "41": [
+            330,
+            775
+          ]
+        }
+      },
+      "note": "The original route start is on the middle 55/51 deck. The guide groups 63 and 59 near the starter building, 55/51 on the next deck and 46/41 on the front deck. An extra native crop extends 60 m west to include the entire rear platform. These are representative turf positions, not daily marker coordinates.",
+      "existingPads": [
+        {
+          "index": 0,
+          "ringLocal": [
+            [
+              -392.25,
+              177.75
+            ],
+            [
+              -377.75,
+              175.75
+            ],
+            [
+              -374.75,
+              183.25
+            ],
+            [
+              -389.75,
+              186.75
+            ],
+            [
+              -392.25,
+              177.75
+            ]
+          ],
+          "areaSquareMetres": 129.25,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        }
+      ],
+      "proposedPads": [
+        {
+          "id": "h10-rear-2026",
+          "action": "add",
+          "replacePadIndex": null,
+          "sourceWindow": "hole-10-tees-extended",
+          "pixels": [
+            [
+              258,
+              445
+            ],
+            [
+              269,
+              432
+            ],
+            [
+              423,
+              414
+            ],
+            [
+              438,
+              484
+            ],
+            [
+              274,
+              509
+            ],
+            [
+              258,
+              495
+            ],
+            [
+              258,
+              445
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              687292.48,
+              6370760.0
+            ],
+            [
+              687294.24,
+              6370762.08
+            ],
+            [
+              687318.88,
+              6370764.96
+            ],
+            [
+              687321.28,
+              6370753.76
+            ],
+            [
+              687295.04,
+              6370749.76
+            ],
+            [
+              687292.48,
+              6370752.0
+            ],
+            [
+              687292.48,
+              6370760.0
+            ]
+          ],
+          "ringLocal": [
+            [
+              -456.02,
+              191.5
+            ],
+            [
+              -454.26,
+              189.42
+            ],
+            [
+              -429.62,
+              186.54
+            ],
+            [
+              -427.22,
+              197.74
+            ],
+            [
+              -453.46,
+              201.74
+            ],
+            [
+              -456.02,
+              199.5
+            ],
+            [
+              -456.02,
+              191.5
+            ]
+          ],
+          "areaSquareMetres": 326.592,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Large rear tee complex south of the starter building. Its long axis supports two representative positions; daily markers are not read."
+        },
+        {
+          "id": "h10-front-2026",
+          "action": "add",
+          "replacePadIndex": null,
+          "sourceWindow": "hole-10-tees-extended",
+          "pixels": [
+            [
+              887,
+              273
+            ],
+            [
+              970,
+              255
+            ],
+            [
+              986,
+              314
+            ],
+            [
+              902,
+              335
+            ],
+            [
+              887,
+              273
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              687393.12,
+              6370787.52
+            ],
+            [
+              687406.4,
+              6370790.4
+            ],
+            [
+              687408.96,
+              6370780.96
+            ],
+            [
+              687395.52,
+              6370777.6
+            ],
+            [
+              687393.12,
+              6370787.52
+            ]
+          ],
+          "ringLocal": [
+            [
+              -355.38,
+              163.98
+            ],
+            [
+              -342.1,
+              161.1
+            ],
+            [
+              -339.54,
+              170.54
+            ],
+            [
+              -352.98,
+              173.9
+            ],
+            [
+              -355.38,
+              163.98
+            ]
+          ],
+          "areaSquareMetres": 137.062,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Front platform in the narrow wooded corridor. Right edge is shadow affected; conservative visible mowing footprint."
+        }
+      ],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            -383.8077047066409,
+            180.95567375886526
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            -449.14,
+            194.86
+          ],
+          "displacementMetres": 66.796,
+          "targetPadId": "h10-rear-2026",
+          "targetSourcePixel": [
+            301,
+            466
+          ],
+          "interiorClearanceMetres": 5.998,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            -371.94175617389817,
+            179.16702468878353
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            -436.18,
+            193.26
+          ],
+          "displacementMetres": 65.766,
+          "targetPadId": "h10-rear-2026",
+          "targetSourcePixel": [
+            382,
+            456
+          ],
+          "interiorClearanceMetres": 5.779,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            -320.5228258245298,
+            171.41501838545778
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            -383.86,
+            181.1
+          ],
+          "displacementMetres": 64.073,
+          "targetPadId": "existing:0",
+          "targetSourcePixel": [
+            709,
+            380
+          ],
+          "interiorClearanceMetres": 4.164,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            -320.5228258245298,
+            171.41501838545778
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            -383.86,
+            181.1
+          ],
+          "displacementMetres": 64.073,
+          "targetPadId": "existing:0",
+          "targetSourcePixel": [
+            709,
+            380
+          ],
+          "interiorClearanceMetres": 4.164,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            -280.96980247886177,
+            165.45193661366878
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            -347.22,
+            167.34
+          ],
+          "displacementMetres": 66.277,
+          "targetPadId": "h10-front-2026",
+          "targetSourcePixel": [
+            938,
+            294
+          ],
+          "interiorClearanceMetres": 4.967,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            -280.96980247886177,
+            165.45193661366878
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            -347.22,
+            167.34
+          ],
+          "displacementMetres": 66.277,
+          "targetPadId": "h10-front-2026",
+          "targetSourcePixel": [
+            938,
+            294
+          ],
+          "interiorClearanceMetres": 4.967,
+          "confidence": "high for platform group; provisional representative point"
+        }
+      ],
+      "maximumProposedMovementMetres": 66.796
+    },
+    {
+      "hole": 11,
+      "sourceImage": {
+        "id": "hole-11-tees",
+        "sha256": "7629456cce9fc5e58f2897043e36b141f7b44f5dd7df04cbebf9a1c93adc394f",
+        "rasterFile": "hole-11-tees.tif",
+        "boundsEpsg3006": [
+          687770.72,
+          6370517.600000001,
+          687971.2,
+          6370685.12
+        ],
+        "width": 1253,
+        "height": 1047,
+        "geoTransform": [
+          687770.72,
+          0.16,
+          0.0,
+          6370685.12,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "e26bb530e397ed87ef072ba960024625a55bc0aefda5bf4ec2426ca48e637338"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/28d5cbcb-297c-46eb-9025-9f55651f066b/hole-normal_web_gbzA7Jo.png",
+        "sha256": "7a93277555da6fa95e2141231aad87214bab4b0fb9cbdb282eb8e3deb004307f",
+        "numberedLabelPixels": {
+          "63": [
+            439,
+            847
+          ],
+          "59": [
+            438,
+            781
+          ],
+          "55": [
+            459,
+            781
+          ],
+          "51": [
+            444,
+            663
+          ],
+          "46": [
+            466,
+            663
+          ],
+          "41": [
+            367,
+            599
+          ]
+        }
+      },
+      "note": "Four separate physical platforms are visible. The original back reference was on the second platform. Guide labels and the coastal path/water-crossing topology identify rear 63, second 59/55, third 51/46 and front 41. No global registration adjustment is needed.",
+      "existingPads": [
+        {
+          "index": 0,
+          "ringLocal": [
+            [
+              67.25,
+              376.75
+            ],
+            [
+              82.75,
+              370.75
+            ],
+            [
+              88.25,
+              382.25
+            ],
+            [
+              72.25,
+              388.75
+            ],
+            [
+              67.25,
+              376.75
+            ]
+          ],
+          "areaSquareMetres": 217.875,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 1,
+          "ringLocal": [
+            [
+              126.82999999995809,
+              366.0599999995902
+            ],
+            [
+              137.5799999999581,
+              362.0599999995902
+            ],
+            [
+              141.5799999999581,
+              369.5599999995902
+            ],
+            [
+              130.0799999999581,
+              374.3099999995902
+            ],
+            [
+              126.82999999995809,
+              366.0599999995902
+            ]
+          ],
+          "areaSquareMetres": 103.469,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        }
+      ],
+      "proposedPads": [
+        {
+          "id": "h11-rear-2026",
+          "action": "add",
+          "replacePadIndex": null,
+          "sourceWindow": "hole-11-tees",
+          "pixels": [
+            [
+              81,
+              692
+            ],
+            [
+              124,
+              668
+            ],
+            [
+              205,
+              766
+            ],
+            [
+              153,
+              789
+            ],
+            [
+              81,
+              692
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              687783.68,
+              6370574.4
+            ],
+            [
+              687790.56,
+              6370578.24
+            ],
+            [
+              687803.52,
+              6370562.56
+            ],
+            [
+              687795.2,
+              6370558.88
+            ],
+            [
+              687783.68,
+              6370574.4
+            ]
+          ],
+          "ringLocal": [
+            [
+              35.18,
+              377.1
+            ],
+            [
+              42.06,
+              373.26
+            ],
+            [
+              55.02,
+              388.94
+            ],
+            [
+              46.7,
+              392.62
+            ],
+            [
+              35.18,
+              377.1
+            ]
+          ],
+          "areaSquareMetres": 164.582,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Rear coastal platform before the existing 59/55 platform; guide distinguishes it from the other three physical decks."
+        },
+        {
+          "id": "h11-front-2026",
+          "action": "add",
+          "replacePadIndex": null,
+          "sourceWindow": "hole-11-tees",
+          "pixels": [
+            [
+              794,
+              399
+            ],
+            [
+              850,
+              377
+            ],
+            [
+              877,
+              429
+            ],
+            [
+              817,
+              451
+            ],
+            [
+              794,
+              399
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              687897.76,
+              6370621.28
+            ],
+            [
+              687906.72,
+              6370624.8
+            ],
+            [
+              687911.04,
+              6370616.48
+            ],
+            [
+              687901.44,
+              6370612.96
+            ],
+            [
+              687897.76,
+              6370621.28
+            ]
+          ],
+          "ringLocal": [
+            [
+              149.26,
+              330.22
+            ],
+            [
+              158.22,
+              326.7
+            ],
+            [
+              162.54,
+              335.02
+            ],
+            [
+              152.94,
+              338.54
+            ],
+            [
+              149.26,
+              330.22
+            ]
+          ],
+          "areaSquareMetres": 91.29,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Forward platform north of the water crossing; distinct dark rectangular turf."
+        }
+      ],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            77.61345381526104,
+            379.6745553643144
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            45.1,
+            383.82
+          ],
+          "displacementMetres": 32.777,
+          "targetPadId": "h11-rear-2026",
+          "targetSourcePixel": [
+            143,
+            734
+          ],
+          "interiorClearanceMetres": 3.96,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            81.99611049995292,
+            372.65028974972665
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            77.9,
+            380.62
+          ],
+          "displacementMetres": 8.961,
+          "targetPadId": "existing:0",
+          "targetSourcePixel": [
+            348,
+            714
+          ],
+          "interiorClearanceMetres": 5.406,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            81.99611049995292,
+            372.65028974972665
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            77.9,
+            380.62
+          ],
+          "displacementMetres": 8.961,
+          "targetPadId": "existing:0",
+          "targetSourcePixel": [
+            348,
+            714
+          ],
+          "interiorClearanceMetres": 5.406,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            147.81296396468562,
+            331.7472273061676
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            134.22,
+            368.62
+          ],
+          "displacementMetres": 39.298,
+          "targetPadId": "existing:1",
+          "targetSourcePixel": [
+            700,
+            639
+          ],
+          "interiorClearanceMetres": 3.679,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            147.81296396468562,
+            331.7472273061676
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            134.22,
+            368.62
+          ],
+          "displacementMetres": 39.298,
+          "targetPadId": "existing:1",
+          "targetSourcePixel": [
+            700,
+            639
+          ],
+          "interiorClearanceMetres": 3.679,
+          "confidence": "high for platform group; provisional representative point"
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            177.5444946181761,
+            311.44855530525683
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            155.98,
+            332.94
+          ],
+          "displacementMetres": 30.445,
+          "targetPadId": "h11-front-2026",
+          "targetSourcePixel": [
+            836,
+            416
+          ],
+          "interiorClearanceMetres": 4.211,
+          "confidence": "high for platform group; provisional representative point"
+        }
+      ],
+      "maximumProposedMovementMetres": 39.298
+    },
+    {
+      "hole": 12,
+      "sourceImage": {
+        "id": "hole-12-tees",
+        "sha256": "e34c8be7f91f57c7cb4e8578adcf4a76f8159a95c14a82c9fcd74ffde6254034",
+        "rasterFile": "hole-12-tees.tif",
+        "boundsEpsg3006": [
+          687892.64,
+          6370584.64,
+          688192.8,
+          6370884.8
+        ],
+        "width": 1876,
+        "height": 1876,
+        "geoTransform": [
+          687892.64,
+          0.16,
+          0.0,
+          6370884.8,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "a9e70c8fa7c0a95d0d7142638445b7d2bba7ea3915bcfc747fc5a6db65551b24"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/c896f09e-19d4-4cc3-9f07-1e031a252d22/hole-normal_web_50cT2y8.png",
+        "sha256": "35eee1d4b7278e45b015c5c36a4c17be61d1bda9362ca94e38d9f264c00fcb11"
+      },
+      "note": "All six existing references coincide at the forward mown corridor. The guide places 63/59/55 southeast of that point near the H11 green and forest edge, 51 beside the bunker farther northwest and 46/41 in the forward corridor. April imagery shows continuous mown turf and a visible green mat near native pixel1368,1325; separate platform boundaries are not established. No proposed ring or reference is adopted from an invented rectangle. Candidate rear locality is retained separately for further review.",
+      "existingPads": [],
+      "proposedPads": [],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            294.25,
+            216.75
+          ],
+          "displacementMetres": 0
+        }
+      ],
+      "unadoptedCandidate": {
+        "sourcePixel": [
+          1368,
+          1325
+        ],
+        "local": [
+          363.02,
+          278.7
+        ],
+        "meaning": "Visible mat within the rear tee locality; not a claim for a numbered marker or physical turf boundary.",
+        "distanceFromOldMetres": 92.559
+      },
+      "maximumProposedMovementMetres": 0
+    },
+    {
+      "hole": 13,
+      "sourceImage": {
+        "id": "hole-13-tees",
+        "sha256": "51b080e875a94b2a2ed70a6f71b7f790ab811475e41a98ba7fdbabf2971ce9f5",
+        "rasterFile": "hole-13-tees.tif",
+        "boundsEpsg3006": [
+          687957.6,
+          6370828.16,
+          688145.44,
+          6370977.28
+        ],
+        "width": 1174,
+        "height": 932,
+        "geoTransform": [
+          687957.6,
+          0.16,
+          0.0,
+          6370977.28,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "ba19eb654a882f376fa84e871d67ffb75f94bf470b1c220d7d6a43534f6f6989"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/f4f8b1eb-2897-4b00-893d-366bfa1ae8d1/hole-normal_web_u4fQ1bo.png",
+        "sha256": "98887f4109cb8e6caee256af1935056c9922914f4bdbbad14bc1cba71b7f6f39"
+      },
+      "note": "The rear area and connected mowing were inspected. Guide separately draws 63,59,55 while the current scorecard gives 59 and55 the same length. The existing rear ring covers only part of the visible turf. Number-to-platform correspondence and connected forward platforms remain unresolved; no route-offset placement is adopted.",
+      "existingPads": [
+        {
+          "index": 0,
+          "ringLocal": [
+            [
+              254.25,
+              25.25
+            ],
+            [
+              260.25,
+              19.25
+            ],
+            [
+              269.25,
+              23.75
+            ],
+            [
+              264.25,
+              32.75
+            ],
+            [
+              254.25,
+              25.25
+            ]
+          ],
+          "areaSquareMetres": 104.25,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        }
+      ],
+      "proposedPads": [],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            262.06534772182255,
+            25.50179856115108
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            262.06534772182255,
+            25.50179856115108
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            269.63481292193933,
+            30.370391449454466
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            269.63481292193933,
+            30.370391449454466
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            269.63481292193933,
+            30.370391449454466
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            269.63481292193933,
+            30.370391449454466
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            318.41705715420346,
+            61.7438300187878
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            318.41705715420346,
+            61.7438300187878
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            351.905030452153,
+            78.20071863602186
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            351.905030452153,
+            78.20071863602186
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            351.905030452153,
+            78.20071863602186
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            351.905030452153,
+            78.20071863602186
+          ],
+          "displacementMetres": 0
+        }
+      ],
+      "maximumProposedMovementMetres": 0
+    },
+    {
+      "hole": 14,
+      "sourceImage": {
+        "id": "hole-14-tees",
+        "sha256": "303927acfd0b62be6fd0fc8c61e46ce0c95cd93ed020d740a76d8c33914a7bdf",
+        "rasterFile": "hole-14-tees.tif",
+        "boundsEpsg3006": [
+          688086.72,
+          6370962.24,
+          688231.84,
+          6371095.84
+        ],
+        "width": 907,
+        "height": 835,
+        "geoTransform": [
+          688086.72,
+          0.16,
+          0.0,
+          6371095.84,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "b690b429aba03a297f6897749151c008697b5080739d609c064e7d5d9515d7dc"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/63918526-80d8-49be-9890-6b4a86b4f13f/hole-normal_web_L5JJa6A.png",
+        "sha256": "567ab8ed775ba2fdca98c34b0e518be589de24bd383208843823cddddcdf2c06",
+        "numberedLabelPixels": {
+          "63": [
+            257,
+            900
+          ],
+          "59": [
+            238,
+            826
+          ],
+          "55": [
+            320,
+            771
+          ],
+          "51": [
+            338,
+            710
+          ],
+          "46": [
+            359,
+            710
+          ],
+          "41": [
+            439,
+            581
+          ]
+        }
+      },
+      "note": "Four physical turf areas form the guide sequence: rear63, second59, connected55+51/46, narrow front41. The front41 reference currently falls on a bunker. Current public guide still prints distinct59/55 distances while the structured scorecard has equal59/55 lengths; preserve this conflict and keep numbered identities provisional. Footprints are source-pixel interpretations, not drawing registration.",
+      "existingPads": [
+        {
+          "index": 0,
+          "ringLocal": [
+            [
+              425.75,
+              -60.25
+            ],
+            [
+              434.25,
+              -55.75
+            ],
+            [
+              438.25,
+              -64.75
+            ],
+            [
+              429.25,
+              -69.25
+            ],
+            [
+              425.75,
+              -60.25
+            ]
+          ],
+          "areaSquareMetres": 95.625,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        }
+      ],
+      "proposedPads": [
+        {
+          "id": "h14-main-2026",
+          "action": "replace",
+          "replacePadIndex": 0,
+          "sourceWindow": "hole-14-tees",
+          "pixels": [
+            [
+              474,
+              427
+            ],
+            [
+              489,
+              401
+            ],
+            [
+              517,
+              374
+            ],
+            [
+              546,
+              391
+            ],
+            [
+              560,
+              412
+            ],
+            [
+              553,
+              435
+            ],
+            [
+              544,
+              472
+            ],
+            [
+              559,
+              493
+            ],
+            [
+              611,
+              531
+            ],
+            [
+              591,
+              568
+            ],
+            [
+              568,
+              559
+            ],
+            [
+              514,
+              519
+            ],
+            [
+              477,
+              492
+            ],
+            [
+              466,
+              476
+            ],
+            [
+              474,
+              427
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              688162.56,
+              6371027.52
+            ],
+            [
+              688164.96,
+              6371031.68
+            ],
+            [
+              688169.44,
+              6371036.0
+            ],
+            [
+              688174.08,
+              6371033.28
+            ],
+            [
+              688176.32,
+              6371029.92
+            ],
+            [
+              688175.2,
+              6371026.24
+            ],
+            [
+              688173.76,
+              6371020.32
+            ],
+            [
+              688176.16,
+              6371016.96
+            ],
+            [
+              688184.48,
+              6371010.88
+            ],
+            [
+              688181.28,
+              6371004.96
+            ],
+            [
+              688177.6,
+              6371006.4
+            ],
+            [
+              688168.96,
+              6371012.8
+            ],
+            [
+              688163.04,
+              6371017.12
+            ],
+            [
+              688161.28,
+              6371019.68
+            ],
+            [
+              688162.56,
+              6371027.52
+            ]
+          ],
+          "ringLocal": [
+            [
+              414.06,
+              -76.02
+            ],
+            [
+              416.46,
+              -80.18
+            ],
+            [
+              420.94,
+              -84.5
+            ],
+            [
+              425.58,
+              -81.78
+            ],
+            [
+              427.82,
+              -78.42
+            ],
+            [
+              426.7,
+              -74.74
+            ],
+            [
+              425.26,
+              -68.82
+            ],
+            [
+              427.66,
+              -65.46
+            ],
+            [
+              435.98,
+              -59.38
+            ],
+            [
+              432.78,
+              -53.46
+            ],
+            [
+              429.1,
+              -54.9
+            ],
+            [
+              420.46,
+              -61.3
+            ],
+            [
+              414.54,
+              -65.62
+            ],
+            [
+              412.78,
+              -68.18
+            ],
+            [
+              414.06,
+              -76.02
+            ]
+          ],
+          "areaSquareMetres": 329.805,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Connected middle tee turf, including the old small pad and the long northern leg. No artificial subdivision between 55 and 51/46."
+        },
+        {
+          "id": "h14-rear-2026",
+          "action": "add",
+          "replacePadIndex": null,
+          "sourceWindow": "hole-14-tees",
+          "pixels": [
+            [
+              643,
+              767
+            ],
+            [
+              679,
+              744
+            ],
+            [
+              713,
+              804
+            ],
+            [
+              678,
+              826
+            ],
+            [
+              643,
+              767
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              688189.6,
+              6370973.12
+            ],
+            [
+              688195.36,
+              6370976.8
+            ],
+            [
+              688200.8,
+              6370967.2
+            ],
+            [
+              688195.2,
+              6370963.68
+            ],
+            [
+              688189.6,
+              6370973.12
+            ]
+          ],
+          "ringLocal": [
+            [
+              441.1,
+              -21.62
+            ],
+            [
+              446.86,
+              -25.3
+            ],
+            [
+              452.3,
+              -15.7
+            ],
+            [
+              446.7,
+              -12.18
+            ],
+            [
+              441.1,
+              -21.62
+            ]
+          ],
+          "areaSquareMetres": 73.946,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Rear visible mown rectangle, partly under pine shadow; drawn conservatively on the visible footprint."
+        },
+        {
+          "id": "h14-second-2026",
+          "action": "add",
+          "replacePadIndex": null,
+          "sourceWindow": "hole-14-tees",
+          "pixels": [
+            [
+              566,
+              676
+            ],
+            [
+              598,
+              650
+            ],
+            [
+              635,
+              692
+            ],
+            [
+              603,
+              720
+            ],
+            [
+              566,
+              676
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              688177.28,
+              6370987.68
+            ],
+            [
+              688182.4,
+              6370991.84
+            ],
+            [
+              688188.32,
+              6370985.12
+            ],
+            [
+              688183.2,
+              6370980.64
+            ],
+            [
+              688177.28,
+              6370987.68
+            ]
+          ],
+          "ringLocal": [
+            [
+              428.78,
+              -36.18
+            ],
+            [
+              433.9,
+              -40.34
+            ],
+            [
+              439.82,
+              -33.62
+            ],
+            [
+              434.7,
+              -29.14
+            ],
+            [
+              428.78,
+              -36.18
+            ]
+          ],
+          "areaSquareMetres": 60.8,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Second rectangle south of the path loop and north of the rear platform."
+        },
+        {
+          "id": "h14-front-2026",
+          "action": "add",
+          "replacePadIndex": null,
+          "sourceWindow": "hole-14-tees",
+          "pixels": [
+            [
+              439,
+              163
+            ],
+            [
+              461,
+              155
+            ],
+            [
+              490,
+              229
+            ],
+            [
+              468,
+              238
+            ],
+            [
+              439,
+              163
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              688156.96,
+              6371069.76
+            ],
+            [
+              688160.48,
+              6371071.04
+            ],
+            [
+              688165.12,
+              6371059.2
+            ],
+            [
+              688161.6,
+              6371057.76
+            ],
+            [
+              688156.96,
+              6371069.76
+            ]
+          ],
+          "ringLocal": [
+            [
+              408.46,
+              -118.26
+            ],
+            [
+              411.98,
+              -119.54
+            ],
+            [
+              416.62,
+              -107.7
+            ],
+            [
+              413.1,
+              -106.26
+            ],
+            [
+              408.46,
+              -118.26
+            ]
+          ],
+          "areaSquareMetres": 48.269,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Narrow front platform north of the path fork. The previous 41 reference lies on the large bunker west of this platform."
+        }
+      ],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            431.90686274509807,
+            -62.52647058823529
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            431.90686274509807,
+            -62.52647058823529
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            416.7507064677015,
+            -73.98469588627995
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            416.7507064677015,
+            -73.98469588627995
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            416.7507064677015,
+            -73.98469588627995
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            431.02,
+            -59.7
+          ],
+          "displacementMetres": 20.191,
+          "targetPadId": "h14-main-2026",
+          "targetSourcePixel": [
+            580,
+            529
+          ],
+          "interiorClearanceMetres": 2.668,
+          "confidence": "moderate"
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            403.9877760981079,
+            -83.63392426894895
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            420.78,
+            -75.54
+          ],
+          "displacementMetres": 18.641,
+          "targetPadId": "h14-main-2026",
+          "targetSourcePixel": [
+            516,
+            430
+          ],
+          "interiorClearanceMetres": 5.941,
+          "confidence": "moderate"
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            403.9877760981079,
+            -83.63392426894895
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            420.78,
+            -75.54
+          ],
+          "displacementMetres": 18.641,
+          "targetPadId": "h14-main-2026",
+          "targetSourcePixel": [
+            516,
+            430
+          ],
+          "interiorClearanceMetres": 5.941,
+          "confidence": "moderate"
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            383.2480142475182,
+            -99.31392039078605
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            412.46,
+            -112.82
+          ],
+          "displacementMetres": 32.183,
+          "targetPadId": "h14-front-2026",
+          "targetSourcePixel": [
+            464,
+            197
+          ],
+          "interiorClearanceMetres": 1.769,
+          "confidence": "moderate"
+        }
+      ],
+      "unadoptedReferenceAlternatives": [
+        {
+          "tee": "63",
+          "targetPadId": "h14-rear-2026",
+          "sourcePixel": [
+            679,
+            790
+          ],
+          "local": [
+            446.86,
+            -17.94
+          ],
+          "reason": "Current guide and structured scorecard disagree on the two rear numbered assignments. Retained as an alternative only, not a reference correction."
+        },
+        {
+          "tee": "59",
+          "targetPadId": "h14-second-2026",
+          "sourcePixel": [
+            600,
+            685
+          ],
+          "local": [
+            434.22,
+            -34.74
+          ],
+          "reason": "Current guide and structured scorecard disagree on the two rear numbered assignments. Retained as an alternative only, not a reference correction."
+        }
+      ],
+      "maximumProposedMovementMetres": 32.183
+    },
+    {
+      "hole": 15,
+      "sourceImage": {
+        "id": "hole-15-tees",
+        "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+        "rasterFile": "hole-15-tees.tif",
+        "boundsEpsg3006": [
+          687895.04,
+          6371129.600000001,
+          688106.4,
+          6371275.2
+        ],
+        "width": 1321,
+        "height": 910,
+        "geoTransform": [
+          687895.04,
+          0.16,
+          0.0,
+          6371275.2,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "3b724ba37cc7630ed7327c289d9fff0586eb8ab8d5cfce7476513b1b7ae93b06"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/34decda0-478b-487c-a1fa-2712cacd5960/hole-normal_web_DBSrNpJ.png",
+        "sha256": "07505a4ee6698cd60ed5c331767ce25308026198c9d2fc6c8b8f446ee5e0d6ca"
+      },
+      "note": "Two separate rear platforms remain visible and consistent with the broad guide order. The forward55,51/46 and41 locations are in connected mowing without defensible standalone boundaries in this leaf-off image. Do not turn route-distance candidates into fabricated tee rectangles.",
+      "existingPads": [
+        {
+          "index": 0,
+          "ringLocal": [
+            [
+              298.25,
+              -235.75
+            ],
+            [
+              304.25,
+              -242.25
+            ],
+            [
+              312.75,
+              -236.75
+            ],
+            [
+              306.75,
+              -229.25
+            ],
+            [
+              298.25,
+              -235.75
+            ]
+          ],
+          "areaSquareMetres": 95.5,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 1,
+          "ringLocal": [
+            [
+              266.60999999998603,
+              -234
+            ],
+            [
+              275.10999999998603,
+              -227.75
+            ],
+            [
+              271.10999999998603,
+              -223.25
+            ],
+            [
+              263.35999999998603,
+              -230
+            ],
+            [
+              266.60999999998603,
+              -234
+            ]
+          ],
+          "areaSquareMetres": 58.094,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        }
+      ],
+      "proposedPads": [],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            305.5316317626527,
+            -235.91884816753927
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            305.5316317626527,
+            -235.91884816753927
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            269.0659232499311,
+            -230.33232575003058
+          ],
+          "oldPadIndices": [
+            1
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            269.0659232499311,
+            -230.33232575003058
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            244.6569275242882,
+            -252.1444570605822
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            244.6569275242882,
+            -252.1444570605822
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            213.22418419466115,
+            -264.01746363302334
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            213.22418419466115,
+            -264.01746363302334
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            213.22418419466115,
+            -264.01746363302334
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            213.22418419466115,
+            -264.01746363302334
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            191.68881545333412,
+            -278.58550719333283
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            191.68881545333412,
+            -278.58550719333283
+          ],
+          "displacementMetres": 0
+        }
+      ],
+      "maximumProposedMovementMetres": 0
+    },
+    {
+      "hole": 16,
+      "sourceImage": {
+        "id": "hole-16-tees",
+        "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+        "rasterFile": "hole-16-tees.tif",
+        "boundsEpsg3006": [
+          687708.16,
+          6371096.64,
+          687872.16,
+          6371279.84
+        ],
+        "width": 1025,
+        "height": 1145,
+        "geoTransform": [
+          687708.16,
+          0.16,
+          0.0,
+          6371279.84,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "afbd80eb07036e7d6c4525f2edbc7f9edc2caa9150eba0762f125c2ac4e3b29b"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/1e4f30ef-5522-4021-b6f2-bf472d2685cb/hole-normal_web_hpXWF9x.png",
+        "sha256": "73ea5adea6e28e7010235bb617c6491ba5d0b0c0f3cd39e22becedde8ca66c7c"
+      },
+      "note": "Rear and middle turf are continuous and partly under trees. The four existing polygons are spatially plausible but the numbered order, particularly51 versus the front46/41 deck, is not independently resolved. Existing membership alone does not verify the numbered association.",
+      "existingPads": [
+        {
+          "index": 0,
+          "ringLocal": [
+            [
+              4.75,
+              -280.25
+            ],
+            [
+              10.75,
+              -283.25
+            ],
+            [
+              26.25,
+              -263.25
+            ],
+            [
+              19.75,
+              -258.75
+            ],
+            [
+              4.75,
+              -280.25
+            ]
+          ],
+          "areaSquareMetres": 186.875,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 1,
+          "ringLocal": [
+            [
+              26.400000000023283,
+              -254.75
+            ],
+            [
+              31.150000000023283,
+              -257.5
+            ],
+            [
+              38.15000000002328,
+              -248
+            ],
+            [
+              33.40000000002328,
+              -244.75
+            ],
+            [
+              26.400000000023283,
+              -254.75
+            ]
+          ],
+          "areaSquareMetres": 67.312,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 2,
+          "ringLocal": [
+            [
+              34.65000000002328,
+              -244.5
+            ],
+            [
+              38.90000000002328,
+              -246.75
+            ],
+            [
+              42.15000000002328,
+              -242
+            ],
+            [
+              37.90000000002328,
+              -238.75
+            ],
+            [
+              34.65000000002328,
+              -244.5
+            ]
+          ],
+          "areaSquareMetres": 31.25,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 3,
+          "ringLocal": [
+            [
+              66.90000000002328,
+              -196.75
+            ],
+            [
+              73.40000000002328,
+              -203.75
+            ],
+            [
+              78.65000000002328,
+              -196.5
+            ],
+            [
+              72.40000000002328,
+              -190.25
+            ],
+            [
+              66.90000000002328,
+              -196.75
+            ]
+          ],
+          "areaSquareMetres": 79.438,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        }
+      ],
+      "proposedPads": [],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            15.580211817168339,
+            -271.0547937569677
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            15.580211817168339,
+            -271.0547937569677
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            28.56632600002922,
+            -254.27093899995089
+          ],
+          "oldPadIndices": [
+            1
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            28.56632600002922,
+            -254.27093899995089
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            38.35782825003844,
+            -240.98842175025493
+          ],
+          "oldPadIndices": [
+            2
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            38.35782825003844,
+            -240.98842175025493
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            69.9862500000745,
+            -197.86923374980688
+          ],
+          "oldPadIndices": [
+            3
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            69.9862500000745,
+            -197.86923374980688
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            72.49206475005485,
+            -192.46338525041938
+          ],
+          "oldPadIndices": [
+            3
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            72.49206475005485,
+            -192.46338525041938
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            72.49206475005485,
+            -192.46338525041938
+          ],
+          "oldPadIndices": [
+            3
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            72.49206475005485,
+            -192.46338525041938
+          ],
+          "displacementMetres": 0
+        }
+      ],
+      "maximumProposedMovementMetres": 0
+    },
+    {
+      "hole": 17,
+      "sourceImage": {
+        "id": "hole-17-tees",
+        "sha256": "8dcc0159eb2cb7384a3f80ad45e7006f8e62ec5427a80acad90a0c927cd67a92",
+        "rasterFile": "hole-17-tees.tif",
+        "boundsEpsg3006": [
+          687816.8,
+          6370640.32,
+          687958.4,
+          6370816.32
+        ],
+        "width": 885,
+        "height": 1100,
+        "geoTransform": [
+          687816.8,
+          0.16,
+          0.0,
+          6370816.32,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "66fe8332d72d54851cdb71f55e56cde15b99f33ff3370a15f9ad042e4fff4789"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/2d50b0a9-5bb1-4c86-a458-b4d27da17514/hole-normal_web_Bo6uDtH.png",
+        "sha256": "2ca590d4c92e15f850d8b300ff88a84b02f0ce822e8ddb7aa8012d9a3ecf0056",
+        "numberedLabelPixels": {
+          "63": [
+            373,
+            925
+          ],
+          "59": [
+            389,
+            849
+          ],
+          "55": [
+            392,
+            787
+          ],
+          "51": [
+            348,
+            734
+          ],
+          "46": [
+            355,
+            690
+          ],
+          "41": [
+            345,
+            619
+          ]
+        }
+      },
+      "note": "A distinct front platform south of the crossing track supports41. The guide shows six numbered groups, while only five separate turf areas can be bounded confidently in this view. The guide places63 adjacent to the rear bunker, with59/55/51/46 on the four subsequent rectangles and41 beyond the road. The current assignment starts one platform too far forward for59/55/51. Reassign those observed platform groups by guide topology; leave63 unresolved because its rear turf cannot be bounded independently. The card is a disagreement check, never the coordinate source.",
+      "existingPads": [
+        {
+          "index": 0,
+          "ringLocal": [
+            [
+              157.25,
+              180.25
+            ],
+            [
+              164.75,
+              183.25
+            ],
+            [
+              160.75,
+              192.25
+            ],
+            [
+              153.25,
+              189.25
+            ],
+            [
+              157.25,
+              180.25
+            ]
+          ],
+          "areaSquareMetres": 79.5,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 1,
+          "ringLocal": [
+            [
+              145.45999999996275,
+              202.45999999996275
+            ],
+            [
+              151.45999999996275,
+              205.20999999996275
+            ],
+            [
+              146.45999999996275,
+              214.95999999996275
+            ],
+            [
+              140.20999999996275,
+              212.20999999996275
+            ],
+            [
+              145.45999999996275,
+              202.45999999996275
+            ]
+          ],
+          "areaSquareMetres": 73.812,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 2,
+          "ringLocal": [
+            [
+              138.45999999996275,
+              216.95999999996275
+            ],
+            [
+              143.45999999996275,
+              219.70999999996275
+            ],
+            [
+              139.45999999996275,
+              227.20999999996275
+            ],
+            [
+              134.95999999996275,
+              224.45999999996275
+            ],
+            [
+              138.45999999996275,
+              216.95999999996275
+            ]
+          ],
+          "areaSquareMetres": 45.938,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 3,
+          "ringLocal": [
+            [
+              135.70999999996275,
+              228.20999999996275
+            ],
+            [
+              140.70999999996275,
+              230.95999999996275
+            ],
+            [
+              136.70999999996275,
+              237.45999999996275
+            ],
+            [
+              131.20999999996275,
+              234.70999999996275
+            ],
+            [
+              135.70999999996275,
+              228.20999999996275
+            ]
+          ],
+          "areaSquareMetres": 45.812,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        }
+      ],
+      "proposedPads": [
+        {
+          "id": "h17-front-2026",
+          "action": "add",
+          "replacePadIndex": null,
+          "sourceWindow": "hole-17-tees",
+          "pixels": [
+            [
+              352,
+              696
+            ],
+            [
+              399,
+              724
+            ],
+            [
+              371,
+              781
+            ],
+            [
+              325,
+              754
+            ],
+            [
+              352,
+              696
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              687873.12,
+              6370704.96
+            ],
+            [
+              687880.64,
+              6370700.48
+            ],
+            [
+              687876.16,
+              6370691.36
+            ],
+            [
+              687868.8,
+              6370695.68
+            ],
+            [
+              687873.12,
+              6370704.96
+            ]
+          ],
+          "ringLocal": [
+            [
+              124.62,
+              246.54
+            ],
+            [
+              132.14,
+              251.02
+            ],
+            [
+              127.66,
+              260.14
+            ],
+            [
+              120.3,
+              255.82
+            ],
+            [
+              124.62,
+              246.54
+            ]
+          ],
+          "areaSquareMetres": 87.808,
+          "interpretation": "visually traced mown turf boundary; provisional, not a survey",
+          "interpretationUncertaintyMetres": 2,
+          "note": "Distinct front platform immediately south of the crossing track, between the two water bodies."
+        }
+      ],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            159,
+            186.25
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            159,
+            186.25
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            148.4358182499418,
+            205.47396400012076
+          ],
+          "oldPadIndices": [
+            1
+          ],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            158.38,
+            186.38
+          ],
+          "displacementMetres": 21.528,
+          "targetPadId": "existing:0",
+          "targetSourcePixel": [
+            563,
+            320
+          ],
+          "interiorClearanceMetres": 3.522,
+          "confidence": "moderate"
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            140.17064248411987,
+            219.25689769637808
+          ],
+          "oldPadIndices": [
+            2
+          ],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            145.58,
+            208.78
+          ],
+          "displacementMetres": 11.791,
+          "targetPadId": "existing:1",
+          "targetSourcePixel": [
+            483,
+            460
+          ],
+          "interiorClearanceMetres": 3.102,
+          "confidence": "moderate"
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            134.07282250002027,
+            233.2100432496518
+          ],
+          "oldPadIndices": [
+            3
+          ],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            138.86,
+            222.22
+          ],
+          "displacementMetres": 11.987,
+          "targetPadId": "existing:2",
+          "targetSourcePixel": [
+            441,
+            544
+          ],
+          "interiorClearanceMetres": 2.587,
+          "confidence": "moderate"
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            133.4277452499373,
+            234.14182174950838
+          ],
+          "oldPadIndices": [
+            3
+          ],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            136.3,
+            232.94
+          ],
+          "displacementMetres": 3.114,
+          "targetPadId": "existing:3",
+          "targetSourcePixel": [
+            425,
+            611
+          ],
+          "interiorClearanceMetres": 2.718,
+          "confidence": "moderate"
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            113.41313443523754,
+            266.16143652807324
+          ],
+          "oldPadIndices": [],
+          "action": "propose-source-derived-reference",
+          "numberedAssociation": "provisional guide-topology association; not surveyed or daily markers",
+          "targetReferenceLocal": [
+            126.22,
+            253.42
+          ],
+          "displacementMetres": 18.065,
+          "targetPadId": "h17-front-2026",
+          "targetSourcePixel": [
+            362,
+            739
+          ],
+          "interiorClearanceMetres": 4.255,
+          "confidence": "moderate"
+        }
+      ],
+      "maximumProposedMovementMetres": 21.528
+    },
+    {
+      "hole": 18,
+      "sourceImage": {
+        "id": "hole-18-tees",
+        "sha256": "d864ce6ee50df1973f3228ecf4494eb6d3647c7e803023e83f64de86e9b022a7",
+        "rasterFile": "hole-18-tees.tif",
+        "boundsEpsg3006": [
+          687574.24,
+          6370545.12,
+          687820.32,
+          6370729.92
+        ],
+        "width": 1538,
+        "height": 1155,
+        "geoTransform": [
+          687574.24,
+          0.16,
+          0.0,
+          6370729.92,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "96ce07d41c2367a33ad5f70134b1bdb8ebb09ae9c50e2fb1236c185c9dd06da5"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/9acbb318-57f8-44f4-8fdd-e1dd8853a994/hole-normal_web_wo5YnWQ.png",
+        "sha256": "089533633a6ef1f536b78a7625eec452bda3806936228cf2e0b514fa78ef798c"
+      },
+      "note": "Three rear coastal platforms are visible and retain their geometry. The guide places51/46 beside the path farther west and41 on the forward mown area, but current imagery does not establish separate physical front pad boundaries. Retain those references as unresolved rather than tracing arbitrary fairway rectangles.",
+      "existingPads": [
+        {
+          "index": 0,
+          "ringLocal": [
+            [
+              11.25,
+              345.25
+            ],
+            [
+              26.75,
+              352.25
+            ],
+            [
+              21.75,
+              361.25
+            ],
+            [
+              6.25,
+              354.25
+            ],
+            [
+              11.25,
+              345.25
+            ]
+          ],
+          "areaSquareMetres": 174.5,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 1,
+          "ringLocal": [
+            [
+              -14.869999999995343,
+              320.9199999999255
+            ],
+            [
+              -4.869999999995343,
+              326.6699999999255
+            ],
+            [
+              -8.869999999995343,
+              332.1699999999255
+            ],
+            [
+              -18.619999999995343,
+              326.4199999999255
+            ],
+            [
+              -14.869999999995343,
+              320.9199999999255
+            ]
+          ],
+          "areaSquareMetres": 76.594,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        },
+        {
+          "index": 2,
+          "ringLocal": [
+            [
+              -55.36999999999534,
+              296.9199999999255
+            ],
+            [
+              -45.36999999999534,
+              301.4199999999255
+            ],
+            [
+              -48.61999999999534,
+              308.9199999999255
+            ],
+            [
+              -58.86999999999534,
+              304.6699999999255
+            ],
+            [
+              -55.36999999999534,
+              296.9199999999255
+            ]
+          ],
+          "areaSquareMetres": 91.969,
+          "review": "Reviewed against native 2026 image; retained unless an explicit replacement is proposed."
+        }
+      ],
+      "proposedPads": [],
+      "references": [
+        {
+          "tee": "63",
+          "oldReferenceLocal": [
+            16.5,
+            353.25
+          ],
+          "oldPadIndices": [
+            0
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            16.5,
+            353.25
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "59",
+          "oldReferenceLocal": [
+            -12.45022341999864,
+            327.11793992177115
+          ],
+          "oldPadIndices": [
+            1
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            -12.45022341999864,
+            327.11793992177115
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "55",
+          "oldReferenceLocal": [
+            -47.3344844999956,
+            302.1808604998514
+          ],
+          "oldPadIndices": [
+            2
+          ],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            -47.3344844999956,
+            302.1808604998514
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "51",
+          "oldReferenceLocal": [
+            -74.98696855142431,
+            275.62717190809593
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            -74.98696855142431,
+            275.62717190809593
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "46",
+          "oldReferenceLocal": [
+            -74.98696855142431,
+            275.62717190809593
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            -74.98696855142431,
+            275.62717190809593
+          ],
+          "displacementMetres": 0
+        },
+        {
+          "tee": "41",
+          "oldReferenceLocal": [
+            -129.23863436219222,
+            266.5852276063013
+          ],
+          "oldPadIndices": [],
+          "action": "retain-unresolved",
+          "numberedAssociation": "unresolved; membership is not identity",
+          "targetReferenceLocal": [
+            -129.23863436219222,
+            266.5852276063013
+          ],
+          "displacementMetres": 0
+        }
+      ],
+      "maximumProposedMovementMetres": 0
+    }
+  ],
+  "summary": {
+    "holes": 9,
+    "existingPlatforms": 18,
+    "newPlatforms": 8,
+    "replacedPlatforms": 1,
+    "proposedReferences": 21,
+    "unresolvedReferences": 33,
+    "maximumProposedMovementMetres": 66.796
+  },
+  "validation": {
+    "validClosedProposedRings": 9,
+    "sourceRasterChecksumsVerified": 9,
+    "nativeGridResolutionMetres": 0.16,
+    "allProposedPointsInsideAssignedPad": true,
+    "minimumProposedPointClearanceMetres": 1.769,
+    "waterBuildingGreenBunkerOverlaps": [],
+    "rawImageryRedistributed": false,
+    "modelChanged": false
+  }
+}

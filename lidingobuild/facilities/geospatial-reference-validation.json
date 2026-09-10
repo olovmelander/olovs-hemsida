@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "checkedAt": "2026-09-10T07:45:56.724644+00:00",
+  "state": "pass",
+  "imagery": [
+    {
+      "id": "facilities-overview-lm-2025",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 1438,
+      "height": 3376
+    },
+    {
+      "id": "facilities-overview-municipal-2019",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 461,
+      "height": 1081
+    },
+    {
+      "id": "clubhouse-detail-lm-2025",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 657,
+      "height": 876
+    },
+    {
+      "id": "clubhouse-detail-municipal-2019",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 211,
+      "height": 281
+    },
+    {
+      "id": "upper-parking-detail-lm-2025",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 782,
+      "height": 720
+    },
+    {
+      "id": "upper-parking-detail-municipal-2019",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 251,
+      "height": 231
+    },
+    {
+      "id": "range-north-detail-lm-2025",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 563,
+      "height": 407
+    },
+    {
+      "id": "range-north-detail-municipal-2019",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 181,
+      "height": 131
+    },
+    {
+      "id": "range-buildings-detail-lm-2025",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 626,
+      "height": 875
+    },
+    {
+      "id": "range-buildings-detail-municipal-2019",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 201,
+      "height": 280
+    },
+    {
+      "id": "range-south-detail-lm-2025",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 1157,
+      "height": 1032
+    },
+    {
+      "id": "range-south-detail-municipal-2019",
+      "checksums": true,
+      "epsg3006": true,
+      "rgbExact": true,
+      "worldFilePixelCentres": true,
+      "width": 371,
+      "height": 331
+    }
+  ],
+  "mappedFeatures": 34,
+  "exactSourceGeometryJoins": true,
+  "duplicateFeatureIds": false,
+  "unresolvedEntriesWithoutInventedFootprints": 16,
+  "currentCatalogMatchesRetained2025Sources": true,
+  "limitation": "Checks establish file integrity, coordinate consistency and faithful source joins; they do not measure absolute geolocation accuracy or establish current facility conditions."
+}

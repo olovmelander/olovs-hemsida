@@ -1,0 +1,24 @@
+{
+  "width": 491,
+  "height": 261,
+  "originEasting": 687100.5,
+  "originNorthing": 6371179.5,
+  "originConvention": "northwest sample centre",
+  "sampleSpacingMetres": 2,
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "source": "visbybuild/cache/terrain-review/terrain-1m.f32",
+  "sourceSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+  "file": "visbybuild/facilities/reference/facility-ground-rh2000-2m.f32",
+  "sha256": "a4374f8840f9787f4ec39805467c13ca7ca7b8d7aa08dd11f5e07f65e6dc00cc",
+  "blenderFrame": {
+    "originEpsg3006": [
+      687748.5,
+      6370951.5
+    ],
+    "axes": "Blender X east, Y grid north, Z up",
+    "verticalDatum": "RH2000",
+    "zConvention": "Absolute RH2000 metres, no subtraction of the runtime frame 0.10m offset",
+    "runtimeConversion": "runtime x=blender X; runtime z=-blender Y; runtime elevation handled by loader"
+  }
+}

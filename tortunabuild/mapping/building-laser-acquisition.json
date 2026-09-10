@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "bounded-point-window-retained",
+  "retrievedAt": "2026-09-09T19:29:30.919Z",
+  "capturedAt": "2021-04-05T12:00:00Z",
+  "captureStart": "2021-04-01T00:00:00Z",
+  "captureEnd": "2021-04-10T00:00:00Z",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "bboxEpsg3006": [
+    597260,
+    6614860,
+    597760,
+    6615360
+  ],
+  "source": {
+    "sourceId": "laser-lm-skog",
+    "itemId": "21c035-661_59",
+    "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c035/m21c035-661_59.copc.laz",
+    "catalogueSha256": "4354289e6e6e5c0e42188f62bda0400997e121704dc85a98d88e68b231508b45",
+    "etag": "\"7d86f795fa4de9dc942c815bdbdaeee5\"",
+    "bytes": 930359431,
+    "fullAssetSha256Verified": false
+  },
+  "rasterlessPoints": {
+    "path": "tortunabuild/cache/buildings/laser-2021-points.json",
+    "bytes": 31151685,
+    "sha256": "ff07c4e622e8c5ddfb26472d0407f67e7c6c14687e9af93c916df51f9c79ea00"
+  },
+  "statistics": {
+    "nodes": 59,
+    "decodedPoints": 1479571,
+    "pointsInWindow": 664799,
+    "firstReturns": 617638,
+    "byClass": {
+      "1": 130467,
+      "2": 534242,
+      "7": 35,
+      "17": 55
+    },
+    "nodeCountsExact": true
+  },
+  "transfer": {
+    "requests": 171,
+    "bytes": 8235233
+  },
+  "method": "All intersecting COPC hierarchy nodes with exact decoded counts; original points/classes retained within the bounded500m square.",
+  "limitations": [
+    "Class1 includes vegetation and roofs; no building classification is inferred from a source footprint.",
+    "The2021 campaign must be compared with2026 roof outlines before present-day reuse.",
+    "The full930359431-byte source hash was not recomputed; bounded payload, source size, ETag and exact node counts are retained."
+  ]
+}

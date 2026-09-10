@@ -35,10 +35,13 @@ const REGISTRY = {
      a few lines each. */
   angso: () => import('./angso.js'),
   upsala: () => import('./upsala.js'),
+  'upsala-mellanbanan': () => import('./upsala.js'),
   puttom: () => import('./puttom.js'),
   johannesberg: () => import('./johannesberg.js'),
+  'johannesberg-9': () => import('./johannesberg.js'),
   ribbingsfors: () => import('./ribbingsfors.js'),
   lidingo: () => import('./lidingo.js'),
+  tortuna: () => import('./tortuna.js'),
   /* Visby carries a clubhouse spec, a species rule and one landmark: the 1936
      concrete tower of Skansudde fyr, which stands twenty metres from the 1st
      tee -- the first thing the app shows -- and is too small for OSM to have

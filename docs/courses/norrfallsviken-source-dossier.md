@@ -1,5 +1,7 @@
 # Norrfällsvikens Golfklubb — source dossier
 
+2026-09-09 update: [the Lantmateriet alignment review](norrfallsviken-orthophoto-alignment.md) supersedes the earlier geometry status below. It resolves the shared hole-4/8 putting surface, replaces the reviewed playing-surface outlines and adds explicit range/facility geometry. Historical evidence and unresolved survey controls remain recorded here.
+
 > Status: intake record and v2 implementation dossier, first edition, 2026-09-04.
 >
 > This file records the public evidence found for Norrfällsvikens GK and what
@@ -269,6 +271,26 @@ Driving range (open around the clock in season, clubs to borrow), putting green,
 övningsområde with närspel, an övningsbunker, Café 19:e Hålet with a golf shop,
 a conference room, and cart hire at 450 kr/round. **No korthålsbana or par-3
 course exists** — do not infer one.
+
+### 2026-09-10: measured facility modelling references
+
+The [Blender facility workspace](../../nvgkbuild/facilities/README.md) now brings
+together ten native orthophoto panels from June 2024, June 2025 laser roof/ground
+measurements, and nine curated photographic/schematic references. It contains
+editable initial clubhouse, cross-gable, detached pavilion and range forms;
+measured geometry is separate from estimated walls and glazing. The missing
+detached pavilion and incorrect earlier roof traces are documented. Unresolved
+practice-roof geometry, unseen façades, historical entrance-hut identity and
+nearby buildings of unknown ownership remain explicit.
+
+The application now loads an architecture-only export of those four assemblies.
+It replaces the earlier clubhouse and range placeholders, adds the detached
+pavilion, registers the solar arrays to the measured roof and sets the small
+terrace at measured ground level. The established EPSG:3006-to-legacy bridge
+and RH2000 +20.3432 m conversion keep roofs aligned with the 1 m terrain;
+sampled foundations extend down to the ground. The practice shed remains on
+its existing model. Reference photos, point clouds and the Blender workspace's
+2 m context terrain are excluded from the application asset.
 
 ## 10. Open items, worst first
 

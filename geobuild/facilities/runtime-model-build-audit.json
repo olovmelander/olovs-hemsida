@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "asset": {
+    "url": "models/veckefjarden/facilities-v1.glb",
+    "sha256": "b912895fd3b9f99d2f98797a4b50f21c5550ff4caf4a5fcfd3aff5e3d194b54f",
+    "bytes": 2766160
+  },
+  "manifest": {
+    "path": "apps/golf/public/models/veckefjarden/facilities-v1.json",
+    "sha256": "a6238f887f4f242e4dc03314b2252f7e080446e9fcc7a98fc327638c3ab5df51",
+    "bytes": 50152
+  },
+  "staticFootprints": {
+    "path": "apps/golf/src/engine/scenery/veckefjarden-facility-footprints.json",
+    "sha256": "ea1a94dfa4af81397ae2d023ca15c36bab868ca9598c71a744b09c827bdd16cc",
+    "bytes": 10758
+  },
+  "source": {
+    "path": "geobuild/cache/facilities-model-2026-09-10/veckefjarden-facilities.glb",
+    "sha256": "c3e2363a198909fa8e314e1f3bf3871721a35c57a36b2054cab0830d35fcaa28",
+    "bytes": 4658128
+  },
+  "builder": {
+    "path": "geobuild/facilities/prepare-runtime-models.py",
+    "sha256": "ede4faab334aa93e255c3a75dacf06f75442c4e6b8d658e8f4c16a98e296b413",
+    "bytes": 22867
+  },
+  "sourceObjects": 2083,
+  "sourceVertices": 100817,
+  "outputVertices": 100817,
+  "sourceTriangles": 44422,
+  "outputTriangles": 44422,
+  "outputFeatureGroups": 20,
+  "sourceMaterialDraws": 2083,
+  "outputMaterialDraws": 89,
+  "drawCallReductionPercent": 95.727,
+  "sourceBytes": 4658128,
+  "outputBytes": 2766160,
+  "materialsPreserved": true,
+  "images": 0,
+  "positionFloat32MaximumErrorMetres": 3.3000986271592495e-05,
+  "independentInverseProjectionMaximumErrorMetres": 3.301456967712334e-05,
+  "normalLengthMaximumError": 5.960464477539063e-08,
+  "normalJacobianStepCrosscheckMaximumDifference": 8.243289424019787e-09,
+  "replacementBuildingIndices": [
+    0,
+    1,
+    3,
+    4,
+    5,
+    6,
+    24,
+    25,
+    26,
+    28
+  ],
+  "replacementParkingIndices": [
+    0,
+    1,
+    3
+  ],
+  "bothPackInfrastructureIdentical": true,
+  "groundContactSourceNodes": [
+    {
+      "id": "S01",
+      "sourceNodeName": "VECK MODEL | Clubhouse / S01 ground dining paving.001",
+      "vertices": 1178,
+      "triangles": 394,
+      "minimumAbsoluteNormalY": 0.9661335803128664,
+      "sourceNormalDirection": "upward"
+    },
+    {
+      "id": "S08",
+      "sourceNodeName": "VECK MODEL | S08_curved_apron.001",
+      "vertices": 5447,
+      "triangles": 1830,
+      "minimumAbsoluteNormalY": 0.9878184619662175,
+      "sourceNormalDirection": "upward"
+    },
+    {
+      "id": "S04",
+      "sourceNodeName": "VECK MODEL | S04_reviewed_parking_surface.001",
+      "vertices": 8156,
+      "triangles": 2764,
+      "minimumAbsoluteNormalY": 0.9576997659298354,
+      "sourceNormalDirection": "downward; source double-sided material retained"
+    },
+    {
+      "id": "S05",
+      "sourceNodeName": "VECK MODEL | S05_reviewed_parking_surface.001",
+      "vertices": 10653,
+      "triangles": 3604,
+      "minimumAbsoluteNormalY": 0.9381018248039413,
+      "sourceNormalDirection": "downward; source double-sided material retained"
+    },
+    {
+      "id": "S06",
+      "sourceNodeName": "VECK MODEL | S06_reviewed_parking_surface.001",
+      "vertices": 12552,
+      "triangles": 4248,
+      "minimumAbsoluteNormalY": 0.9490295422978968,
+      "sourceNormalDirection": "upward"
+    },
+    {
+      "id": "S07",
+      "sourceNodeName": "VECK MODEL | S07_entrance_island.001",
+      "vertices": 406,
+      "triangles": 136,
+      "minimumAbsoluteNormalY": 0.9969837841848196,
+      "sourceNormalDirection": "upward"
+    }
+  ],
+  "groundContactMeshes": 6,
+  "groundContactBakeHeightAdjustmentMetres": 0,
+  "notes": [
+    "Arithmetic precision does not establish survey accuracy.",
+    "All source triangles and PBR materials retained; source nodes merged by feature, material and ground-contact status only.",
+    "Northern neighboring buildings and the broad legacy hotel parking polygon remain outside the replacement set."
+  ]
+}

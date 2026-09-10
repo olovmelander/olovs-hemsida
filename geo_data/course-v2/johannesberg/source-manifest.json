@@ -93,7 +93,7 @@
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "74 authenticated RGBI review windows cover both courses and estate facilities. Native source pixels are 0.16 m; whole-hole context is 0.32 m and the estate overview is 0.8 m. Published mosaic seam metadata dates all acquired pixels to 2025-06-14. Reviewed vector corrections are applied before both compatibility models are written. Raw imagery remains in the ignored local cache. Ground sample distance is not absolute positional accuracy; no independent horizontal controls or daily tee-colour survey are claimed."
+      "notes": "The initial 74 authenticated RGBI review windows cover both courses and estate facilities; supplementary tee-platform and OB windows are pinned in their separate review/acquisition artifacts. Native source pixels are 0.16 m; whole-hole context is 0.32 m and the estate overview is 0.8 m. Reviewed pixels are dated 2025-06-14. Both compatibility models consume the reviewed geometry and explicit tee references. Raw imagery remains in the ignored local cache. Ground sample distance is not absolute positional accuracy; tee-colour ownership is reviewed or explicitly inferred, while daily tee-marker and individual OB-post positions are not surveyed."
     },
     {
       "id": "laser-lm-skog",
@@ -301,18 +301,18 @@
       ],
       "lifecycle": "legacy",
       "use": "reference-only",
-      "sourceUri": "project://course-guide-register/johannesberg",
+      "sourceUri": "https://johannesbergsgolf.se/vara-banor/banguide/",
       "localPath": null,
       "bboxWgs84": null,
-      "acquiredAt": null,
+      "acquiredAt": "2026-09-09",
       "capturedAt": null,
       "checksum": null,
-      "checksumReason": "Raw guide editions and permissions are not yet registered as immutable assets.",
+      "checksumReason": "Individual club hole-plan snapshots and current local-rules page hashes are retained in the tee and OB review ledgers; there is no single combined guide asset checksum.",
       "replacementSourceId": null,
       "accuracyTier": "D",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Supports the 18-hole card and both routings; the nine-hole routing remains provisional."
+      "notes": "The club plans support the main course tee-colour topology and five reviewed OB display corridors. They do not establish daily marker positions, individual post spacing or surveyed boundary vertices. No club nine-hole colour map was found; its 15 accepted colour references are explicitly inferred from visible mat locations, corridor association and published Yellow/Red order."
     }
   ],
   "artifacts": [
@@ -320,7 +320,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "johannesbergbuild/course-model.json",
-      "sha256": "edc5b8dd6be0b0e3c7a91e7bb3fd4acf0d680f0f361af13f755a3cff1c7032a0",
+      "sha256": "d8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -329,7 +329,7 @@
         "imagery-lm-ortho"
       ],
       "use": "migration-only",
-      "notes": "Legacy compatibility model with reviewed 2025 Lantmateriet playing-surface geometry. Official card values and unresolved tee-marker assignments remain separate from photographed physical surface boundaries."
+      "notes": "Compatibility model with reviewed 2025 Lantmateriet surfaces and explicit tee references. Accepted mark.c values follow placement ledgers; inherited coordinates remain in orthophotoReference.originalReference.c. Across both courses there are 50+15 physical/inherited platforms, 98 accepted references (88 tee, eight fairway, two bounded mown areas), 196 illustrative marker balls and ten unresolved references without physical markers. Official card values are preserved. Five reviewed main-course OB display corridors carry 101 illustrative posts; hole 3, the northern continuation of hole 18 beyond the dry bank and nine-hole-specific OB remain unresolved."
     },
     {
       "id": "legacy-heightfields",
@@ -381,7 +381,7 @@
       "id": "legacy-nine-model",
       "kind": "composite",
       "path": "johannesbergbuild/nio.json",
-      "sha256": "be1af1416acfcda39f0bf3ec77d04b75085ba9dccb551fc04e9302ab2409de03",
+      "sha256": "8c4b6134a15a4c3cdd1eda64a1d207be16999ccdc3ca82ea703512a094ea44e3",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -395,7 +395,7 @@
       "id": "legacy-nine-course-model",
       "kind": "composite",
       "path": "johannesberg9build/course-model.json",
-      "sha256": "4d8f51cbecfd14843e4e91a7af02199a34403de24aa816688318bc7f55359f76",
+      "sha256": "6d8af299e4a3a2f69b8304dcc0c123d2b26f3f77bd1ea44c29603a784d6b0cc3",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -404,7 +404,7 @@
         "imagery-lm-ortho"
       ],
       "use": "migration-only",
-      "notes": "Legacy compatibility model with reviewed 2025 Lantmateriet playing-surface geometry. Official card values and unresolved tee-marker assignments remain separate from photographed physical surface boundaries."
+      "notes": "Compatibility model with reviewed 2025 Lantmateriet surfaces and explicit tee references. Accepted mark.c values follow placement ledgers; inherited coordinates remain in orthophotoReference.originalReference.c. Across both courses there are 50+15 physical/inherited platforms, 98 accepted references (88 tee, eight fairway, two bounded mown areas), 196 illustrative marker balls and ten unresolved references without physical markers. Official card values are preserved. Five reviewed main-course OB display corridors carry 101 illustrative posts; hole 3, the northern continuation of hole 18 beyond the dry bank and nine-hole-specific OB remain unresolved."
     },
     {
       "id": "legacy-nine-routes",
@@ -422,7 +422,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json",
-      "sha256": "960f06c033e37f8ec5e103a20e8482ea0f13c3345b605727407eac85281947a4",
+      "sha256": "1fbfc8dac4b330ef5181a2ab72e786ba9a32e8bd7b3683b5d7a42ca1eb7eea7b",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -436,7 +436,7 @@
       "id": "migration-nine-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/johannesberg/migration/nine-course-model.epsg3006.json",
-      "sha256": "5492a759ae427af24a3458fa350b3aab79df0f0df4a8bb66f84e488db0419ed7",
+      "sha256": "4b1253f96523618a6ac8b0e873f5b5b3445e797213bb6bacffb6e0944f64df6e",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -450,7 +450,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/johannesberg/migration/residual-report.json",
-      "sha256": "ce6c068d8373da84fd8e228b298070459d60a5546d6600de0a86d87102c22253",
+      "sha256": "00be9c86908db465b90f887a82ffebad0d09f09b307e0b14582ef3b834cd06b7",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -668,12 +668,12 @@
       "id": "lm-alignment-validation",
       "kind": "control",
       "path": "johannesbergbuild/mapping/lm-alignment-validation.json",
-      "sha256": "0c3370a1df6d5da9eafdcd572a96de52067d92df5d60a664106899ffcf3e89c2",
+      "sha256": "01e539819c6198e46df0ec110a45ccb6ccdcb680e04555bd2eac0ca64c8d6486",
       "derivedFrom": [
         "imagery-lm-ortho"
       ],
       "use": "discovery-evidence",
-      "notes": "Source byte checks, pixel-to-vector round trips, actual generated model identity, valid targets, and exact shared scenery. Mechanical registration only; not independently surveyed absolute accuracy."
+      "notes": "Source byte checks, pixel-to-vector round trips, generated model identity, accepted/unresolved tee policy, actual marker-ball containment and colour separation, reviewed OB corridor/post policy, valid targets and shared scenery. Mechanical registration only; not independently surveyed absolute accuracy."
     },
     {
       "id": "lm-vegetation-surface-audit",
@@ -707,6 +707,64 @@
       ],
       "use": "discovery-evidence",
       "notes": "Exactly four exclusion flag bytes changed across three stand chunks; all tree objects, measurements, terrain, frame and other cells are preserved."
+    },
+    {
+      "id": "lm-orthophoto-review-tee-platforms",
+      "kind": "surface",
+      "path": "johannesbergbuild/mapping/lm-review-tee-platforms.json",
+      "sha256": "f12af8ec7bfdc5a7d43fd700ac73a050114561730062f6b55371ef47d191cdc9",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "migration-only",
+      "notes": "Explicit visually reviewed vector boundaries with original-geometry pins, source hashes, capture dates, source-pixel coordinates and interpretation uncertainty. Compatibility geometry; no surveyed canonical-origin claim."
+    },
+    {
+      "id": "lm-tee-placement-review",
+      "kind": "routing",
+      "path": "johannesbergbuild/mapping/tee-placement-review.json",
+      "sha256": "127fc3a44da9e9d74621aab1f26ce0c86b984b97cac4edd15446e7a2b195af5e",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Explicit main-course tee references: 73 on nominated physical platforms, eight on fairway, two inside bounded mown-ground review areas, and seven unresolved references that cannot render physical markers. Club-guide topology supports colour associations; daily marker positions remain illustrative."
+    },
+    {
+      "id": "lm-nine-tee-placement-review",
+      "kind": "routing",
+      "path": "johannesbergbuild/mapping/tee-placement-nine-review.json",
+      "sha256": "1a3abe7215001c7f7598c81b879e7ef01f3c6833738bda13af667aaf899a488a",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Fifteen visible-mat references with explicitly inferred Yellow/Red ownership and unique platform identities. Yellow on holes 1, 2 and 6 remains unresolved and produces no physical marker. Original inherited references are retained as provenance, not used for nearest-platform snapping."
+    },
+    {
+      "id": "lm-ob-placement-review",
+      "kind": "topography",
+      "path": "johannesbergbuild/mapping/ob-placement-review.json",
+      "sha256": "0c3c09123169dec2042ee5d80f193c44eaed2effa15fabfc3d34f5f2beb53d39",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Five club-guide-supported OB display corridors on holes 2, 4, 10, 16 and 18, aligned to visible landscape features. The 101 posts use illustrative 12 m spacing plus line corners; no individual post survey or legal-boundary measurement is claimed. Hole 3 remains unpublished. Hole 18 stops at the reviewed dry bank, with its northern continuation through the open-water junction unresolved. No new nine-hole OB is inferred."
+    },
+    {
+      "id": "lm-ob-orthophoto-acquisition",
+      "kind": "acquisition",
+      "path": "johannesbergbuild/mapping/ob-orthophoto-acquisition.json",
+      "sha256": "a3169b31a3be7d8bdfb39044e7afaf75dbe4d7677201c5438017bf69c918d354",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Authenticated supplemental native 0.16 m RGBI window for the hole-3 OB review, with source identities, byte/image hashes, grid, mask and 2025-06-14 capture evidence. Acquisition did not resolve the corridor, which remains unpublished."
     }
   ],
   "blockers": [
@@ -719,13 +777,13 @@
     {
       "id": "authoritative-assets",
       "severity": "release-blocking",
-      "description": "Shared 1 m RH 2000 terrain and 2021 Laserdata Skog are acquired. Authenticated 2025 orthophoto windows have been acquired, checked and used for reviewed playing surfaces and estate corrections. Topografi 10 remains unacquired; the independent canonical-origin gate is unchanged.",
+      "description": "Shared 1 m RH 2000 terrain and 2021 Laserdata Skog are acquired. Authenticated 2025 orthophoto windows support reviewed playing surfaces, explicit tee references, five OB display corridors and estate corrections. Ten tee references, the hole-3 OB corridor and the northern hole-18 continuation beyond the dry bank remain unresolved; daily markers and individual posts are not surveyed. Topografi 10 remains unacquired; the independent canonical-origin gate is unchanged.",
       "exitGate": "Acquire any remaining required source windows and complete independent controls before claiming a surveyed canonical model. Retain source-specific redistribution terms."
     },
     {
       "id": "nine-hole-routing",
       "severity": "release-blocking",
-      "description": "All nine putting surfaces are now traced from 2025 orthophotos, including large corrections to inherited GPS/laser placeholders. Official tee-colour ownership, canopy-obscured platforms and independent route controls remain unresolved.",
+      "description": "All nine putting surfaces and 15 physical platforms are traced from 2025 orthophotos. Fifteen accepted Yellow/Red mat references have explicitly inferred ownership; Yellow on holes 1, 2 and 6 remains unresolved. Accepted back-tee references update route starts without altering the official card. Club-confirmed colour ownership, remaining back platforms and independent route controls are still required.",
       "exitGate": "Acquire club/field routing evidence and approve all nine tees, centres and greens without invention."
     },
     {

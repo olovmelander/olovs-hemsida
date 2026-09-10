@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "state": "acquired-for-review",
+  "observedAt": "2026-09-10T06:49:26.798533+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-o2-2025",
+  "nativeResolutionMetres": 0.16,
+  "planSha256": "5a040fbc4473ddb4d0e10757d0f80f69732cba31a8ac679dc67de26f8000113e",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o66350_6375_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o66350_6400_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "facilities-campus-native",
+      "rasterFile": "facilities-campus-native.tif",
+      "rgbFile": "facilities-campus-native.png",
+      "sha256": "80ba6cc36226244c7303543bbdbbf7d9dcef59f4c482f32b74f0f19c37a4fa88",
+      "rgbSha256": "b88aeeb5ef9a0fa93fa09eb42a5265642c9eef83c9f4fc24d98dc752ae5b1d89",
+      "requestSha256": "4d5d44329c949ff8967aae782a996640fb828f485b523fd6da361a3bc41d2b93",
+      "bytes": 17515548,
+      "boundsEpsg3006": [
+        639740.0,
+        6636120.0,
+        640120.0,
+        6636540.0
+      ],
+      "geoTransform": [
+        639740.0,
+        0.16,
+        0.0,
+        6636540.0,
+        0.0,
+        -0.16
+      ],
+      "width": 2375,
+      "height": 2625,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T06:48:42.484101+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "facilities-range-native",
+      "rasterFile": "facilities-range-native.tif",
+      "rgbFile": "facilities-range-native.png",
+      "sha256": "f3cfec204391a068524fd8d0c744c31bd4e8c59d3aebba851f2c830f40e62370",
+      "rgbSha256": "2d2cfc74845d1225fca36d69255d3d9f22852274d833d1fb1ffb9d744b5a55db",
+      "requestSha256": "0a4d229cdb8c4a30598aeb94b27ba2940dc87f2c26ea03d9dfa3352acf89bdd0",
+      "bytes": 4201712,
+      "boundsEpsg3006": [
+        639589.92,
+        6636189.92,
+        639850.0800000001,
+        6636345.12
+      ],
+      "geoTransform": [
+        639589.92,
+        0.16,
+        0.0,
+        6636345.12,
+        0.0,
+        -0.16
+      ],
+      "width": 1626,
+      "height": 970,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T06:49:29.087807+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ]
+    },
+    {
+      "id": "facilities-range-overview",
+      "rasterFile": "facilities-range-overview.tif",
+      "rgbFile": "facilities-range-overview.png",
+      "sha256": "b3b959bc98ae2d16e6fe8b6e349eac0b514543a9b56363c66a5d417068b23f2f",
+      "rgbSha256": "f9136010dbb681dd0b783ad4b7eb36d049cc75791c128907699ed19e84c84f68",
+      "requestSha256": "ae519c839439382aa668eb6d4713ffabba2ec762c67dc4e1c725139f981e5232",
+      "bytes": 3573112,
+      "boundsEpsg3006": [
+        639459.68,
+        6635859.5200000005,
+        640140.0,
+        6636560.32
+      ],
+      "geoTransform": [
+        639459.68,
+        0.64,
+        0.0,
+        6636560.32,
+        0.0,
+        -0.64
+      ],
+      "width": 1063,
+      "height": 1095,
+      "resolutionMetres": 0.64,
+      "resampling": "average",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T06:48:46.327882+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        },
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "o66350_6375_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66350_6375_25_mr25.tif",
+      "bytes": 639759353,
+      "boundsEpsg3006": [
+        637500,
+        6635000,
+        640000,
+        6637500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T09:25:58Z",
+      "captureStart": "2025-06-14T09:25:42Z",
+      "captureEnd": "2025-06-15T09:30:32Z"
+    },
+    {
+      "id": "o66350_6400_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66350_6400_25_mr25.tif",
+      "bytes": 680411854,
+      "boundsEpsg3006": [
+        640000,
+        6635000,
+        642500,
+        6637500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T09:25:50Z",
+      "captureStart": "2025-04-25T07:36:44Z",
+      "captureEnd": "2025-06-14T09:26:06Z"
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false,
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0.",
+  "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf"
+}

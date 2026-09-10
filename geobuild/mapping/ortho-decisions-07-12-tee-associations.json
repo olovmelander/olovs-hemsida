@@ -1,0 +1,2276 @@
+{
+  "schemaVersion": 1,
+  "report": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+  "baselineCommit": "7aac4d4495e78d9321889273b34ad6d1bb12290a",
+  "baselinePath": "geobuild/course-model.json",
+  "reviewedOn": "2026-09-09",
+  "suppressInferredTeeHoles": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "semantics": "Manual source-backed physical-platform inventory and provisional reference associations. Unresolved references remain explicit; historical contours retain original provenance and are not newly traced. No daily tee markers inferred.",
+  "features": [
+    {
+      "id": "lm-2024-h07-tee-associations",
+      "hole": 7,
+      "kind": "tee-set",
+      "uncertaintyM": 1.5,
+      "note": "Rear physical platform identity is corroborated by the long mown corridor and the hole guide topology. Three overlapping original DTM contours describe this single complex; only original pad1 is retained, unchanged, as historical geometry because tree shadows conceal its western edge. The visible worn forward platform east of the path is traced independently of the two duplicated synthetic footprints west of it. First four virtual references associate provisionally with the rear platform and the last two with the forward platform. This is a partial inventory; no daily tee-marker positions or full perimeter accuracy are asserted.",
+      "referencePads": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "pads": [
+        {
+          "id": "lm-2024-h07-rear-platform-historical",
+          "panel": "h07-tee-01",
+          "retainedOriginalPadIndex": 1,
+          "uncertaintyM": 3,
+          "note": "Historical original DTM pad1 retained exactly as the single rear platform contour. Its west edge is hidden by trees; it is not a traced orthophoto boundary. The overlapping original DTM pads0 and2 do not establish additional physical decks."
+        },
+        {
+          "id": "lm-2024-h07-forward-platform",
+          "panel": "h07-tee-03",
+          "pixels": [
+            [
+              487,
+              419
+            ],
+            [
+              600,
+              458
+            ],
+            [
+              590,
+              526
+            ],
+            [
+              585,
+              568
+            ],
+            [
+              574,
+              582
+            ],
+            [
+              518,
+              570
+            ],
+            [
+              432,
+              518
+            ],
+            [
+              451,
+              465
+            ]
+          ],
+          "note": "Visible worn short-mown platform east of the path, including its green centre and dry perimeter. Traced directly from orthophoto; excludes the surrounding sloping collar and replaces the duplicated synthetic footprints offset to the west."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h08-tee-associations",
+      "hole": 8,
+      "kind": "tee-set",
+      "uncertaintyM": 1,
+      "note": "Three distinct visible platforms have accepted orthophoto contours reused exactly. Rear platform original1 supports references1-2, middle original0 supports references3-4, and forward original2 supports references5-6. Several original references are outside the physical turf. Associations establish provisional platform-backed course references only; daily tee allocation is not observable.",
+      "referencePads": [
+        1,
+        1,
+        0,
+        0,
+        2,
+        2
+      ],
+      "pads": [
+        {
+          "id": "lm-2024-h08-tee-1",
+          "panel": "h08-tee-00",
+          "pixels": [
+            [
+              306,
+              345
+            ],
+            [
+              366,
+              303
+            ],
+            [
+              499,
+              480
+            ],
+            [
+              428,
+              533
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Existing OSM pad association retained; the deck extends south of the old northern edge."
+        },
+        {
+          "id": "lm-2024-h08-tee-2",
+          "panel": "h08-tee-01",
+          "pixels": [
+            [
+              289,
+              354
+            ],
+            [
+              349,
+              319
+            ],
+            [
+              490,
+              492
+            ],
+            [
+              434,
+              548
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Existing OSM pad association retained; rectangular top traced rather than surrounding berm."
+        },
+        {
+          "id": "lm-2024-h08-tee-3",
+          "panel": "h08-tee-02",
+          "pixels": [
+            [
+              320,
+              383
+            ],
+            [
+              395,
+              337
+            ],
+            [
+              463,
+              441
+            ],
+            [
+              382,
+              493
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Small deck southeast of the rear tees; markers are not moved from imagery."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h09-tee-associations",
+      "hole": 9,
+      "kind": "tee-set",
+      "uncertaintyM": 1.5,
+      "note": "Rear platform original1 and forward platform original0 reuse accepted visible contours. Original OSM2 is the same-hole intermediate platform but its southern perimeter is shadowed, so its exact historical contour and provenance are retained with 3m interpretation uncertainty. The original synthetic pad3 lies in ordinary fairway without a distinct deck and is omitted. References1-2 associate to rear1, references3-4 to historical middle2, and reference5 to forward0. Reference6 has no source-backed physical deck association and remains unresolved. Partial physical inventory only.",
+      "referencePads": [
+        1,
+        1,
+        2,
+        2,
+        0,
+        null
+      ],
+      "pads": [
+        {
+          "id": "lm-2024-h09-tee-1",
+          "panel": "h09-tee-00",
+          "pixels": [
+            [
+              318,
+              386
+            ],
+            [
+              377,
+              347
+            ],
+            [
+              443,
+              414
+            ],
+            [
+              396,
+              459
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Small deck beside the path; no marker reassignment."
+        },
+        {
+          "id": "lm-2024-h09-tee-2",
+          "panel": "h09-tee-01",
+          "pixels": [
+            [
+              239,
+              343
+            ],
+            [
+              271,
+              319
+            ],
+            [
+              327,
+              361
+            ],
+            [
+              366,
+              394
+            ],
+            [
+              401,
+              414
+            ],
+            [
+              435,
+              424
+            ],
+            [
+              474,
+              433
+            ],
+            [
+              512,
+              452
+            ],
+            [
+              538,
+              477
+            ],
+            [
+              524,
+              493
+            ],
+            [
+              498,
+              492
+            ],
+            [
+              458,
+              471
+            ],
+            [
+              416,
+              447
+            ],
+            [
+              378,
+              432
+            ],
+            [
+              351,
+              425
+            ],
+            [
+              331,
+              425
+            ],
+            [
+              307,
+              436
+            ],
+            [
+              288,
+              451
+            ],
+            [
+              256,
+              419
+            ],
+            [
+              224,
+              386
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Connected irregular rear tee surface; the narrow join and two lobes are visible."
+        },
+        {
+          "id": "lm-2024-h09-middle-platform-historical",
+          "panel": "h09-tee-02",
+          "retainedOriginalPadIndex": 2,
+          "uncertaintyM": 3,
+          "note": "Historical original OSM w1527482102 contour retained exactly. The middle platform is identifiable but tree shadow conceals its southern perimeter; no newly traced or survey-accurate contour is claimed."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h10-tee-associations",
+      "hole": 10,
+      "kind": "tee-set",
+      "uncertaintyM": 1,
+      "note": "Four distinct physical platforms reuse their accepted visible contours. References1,2,3-4,5 associate respectively to original pads2,3,0,1. The original DTM pad4 near the crossing path does not have a separately readable physical deck in the imagery and is omitted from the source-backed inventory. Reference6 there remains unresolved without an invented rectangle. Daily markers and a complete inventory are not asserted.",
+      "referencePads": [
+        2,
+        3,
+        0,
+        0,
+        1,
+        null
+      ],
+      "pads": [
+        {
+          "id": "lm-2024-h10-tee-1",
+          "panel": "h10-tee-00",
+          "pixels": [
+            [
+              311,
+              343
+            ],
+            [
+              369,
+              313
+            ],
+            [
+              497,
+              500
+            ],
+            [
+              438,
+              536
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Long rectangular existing deck west of the trees; browned top edges are included."
+        },
+        {
+          "id": "lm-2024-h10-tee-2",
+          "panel": "h10-tee-01",
+          "pixels": [
+            [
+              329,
+              399
+            ],
+            [
+              402,
+              365
+            ],
+            [
+              414,
+              369
+            ],
+            [
+              465,
+              458
+            ],
+            [
+              464,
+              473
+            ],
+            [
+              408,
+              506
+            ],
+            [
+              397,
+              504
+            ],
+            [
+              331,
+              414
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Small forward rectangular deck with slightly rounded corners."
+        },
+        {
+          "id": "lm-2024-h10-tee-3",
+          "panel": "h10-tee-02",
+          "pixels": [
+            [
+              333,
+              406
+            ],
+            [
+              403,
+              376
+            ],
+            [
+              452,
+              469
+            ],
+            [
+              383,
+              496
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Southern of the two small rear decks near the building, maintaining its existing pad index."
+        },
+        {
+          "id": "lm-2024-h10-tee-4",
+          "panel": "h10-tee-03",
+          "pixels": [
+            [
+              334,
+              402
+            ],
+            [
+              397,
+              368
+            ],
+            [
+              450,
+              446
+            ],
+            [
+              378,
+              484
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Middle small deck between the long tee and the rear small deck; visible mowing corners traced."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h11-tee-associations",
+      "hole": 11,
+      "kind": "tee-set",
+      "uncertaintyM": 1.5,
+      "note": "Three physical platforms are identifiable in the imagery and corroborated by the hole guide topology. Original OSM0 is a worn small forward platform with an indistinct perimeter; original DTM2 is the rear long platform with shadow along its southwest side. Both exact historical rings and provenance are retained with 3m interpretation uncertainty. Accepted middle pad1 contour is reused exactly. References1-3 associate provisionally to rear2, reference4 to middle1, reference5 to forward0. Original synthetic pad3 in the fairway approach is omitted and reference6 remains unresolved. This does not claim newly traced historical perimeters or daily marker coordinates.",
+      "referencePads": [
+        2,
+        2,
+        2,
+        1,
+        0,
+        null
+      ],
+      "pads": [
+        {
+          "id": "lm-2024-h11-forward-platform-historical",
+          "panel": "h11-tee-00",
+          "retainedOriginalPadIndex": 0,
+          "uncertaintyM": 3,
+          "note": "Historical original OSM w1527482080 contour retained exactly. The small worn platform is identifiable beside the hut and path, but its mowing/collar edge is indistinct; no newly traced perimeter is claimed."
+        },
+        {
+          "id": "lm-2024-h11-tee-2",
+          "panel": "h11-tee-01",
+          "pixels": [
+            [
+              267,
+              356
+            ],
+            [
+              304,
+              327
+            ],
+            [
+              497,
+              467
+            ],
+            [
+              459,
+              530
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Long deck beside the northern side of the path; existing OSM association retained."
+        },
+        {
+          "id": "lm-2024-h11-rear-platform-historical",
+          "panel": "h11-tee-02",
+          "retainedOriginalPadIndex": 2,
+          "uncertaintyM": 3,
+          "note": "Historical original DTM pad2 contour retained exactly. The rear long physical platform is visible beside the path, but tree shadow conceals its southwest edge; no newly traced perimeter is claimed."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h12-tee-associations",
+      "hole": 12,
+      "kind": "tee-set",
+      "uncertaintyM": 1,
+      "note": "All three physical platforms reuse their accepted visible contours. Rear original0 is south of the crossing path; middle original1 is beyond that crossing; small forward original2 is west of the path. Imagery plus hole guide topology support references1-2 on rear0, references3-4 on middle1 and references5-6 on forward2. The existing middle references are offset onto the path corridor. These are provisional platform-backed references, not daily marker positions.",
+      "referencePads": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "pads": [
+        {
+          "id": "lm-2024-h12-tee-1",
+          "panel": "h12-tee-00",
+          "pixels": [
+            [
+              279,
+              414
+            ],
+            [
+              334,
+              336
+            ],
+            [
+              499,
+              442
+            ],
+            [
+              451,
+              528
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Long rear deck south of the crossing path; grass top traced, surrounding berm excluded."
+        },
+        {
+          "id": "lm-2024-h12-tee-2",
+          "panel": "h12-tee-01",
+          "pixels": [
+            [
+              249,
+              430
+            ],
+            [
+              285,
+              342
+            ],
+            [
+              499,
+              438
+            ],
+            [
+              468,
+              495
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Long deck north of the east-west path; existing hole association retained although card marker allocation is not established by the photo."
+        },
+        {
+          "id": "lm-2024-h12-tee-3",
+          "panel": "h12-tee-02",
+          "pixels": [
+            [
+              319,
+              449
+            ],
+            [
+              350,
+              381
+            ],
+            [
+              455,
+              424
+            ],
+            [
+              424,
+              489
+            ]
+          ],
+          "note": "Visible short-mown physical tee deck, including worn turf on its top and excluding the surrounding sloping collar. Small rectangular deck west of the north-south path; no daily tee-marker position inferred."
+        }
+      ]
+    }
+  ],
+  "reviewNotes": [
+    {
+      "hole": 7,
+      "baselinePadCount": 5,
+      "retainedInventoryCount": 2,
+      "baselineReferences": [
+        [
+          -528.9,
+          -753.1
+        ],
+        [
+          -524.8,
+          -760
+        ],
+        [
+          -520.6,
+          -766.8
+        ],
+        [
+          -514.4,
+          -777.1
+        ],
+        [
+          -493.8,
+          -811.4
+        ],
+        [
+          -493.8,
+          -811.4
+        ]
+      ],
+      "referencePads": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "inventoryComplete": false,
+      "note": "Rear physical platform identity is corroborated by the long mown corridor and the hole guide topology. Three overlapping original DTM contours describe this single complex; only original pad1 is retained, unchanged, as historical geometry because tree shadows conceal its western edge. The visible worn forward platform east of the path is traced independently of the two duplicated synthetic footprints west of it. First four virtual references associate provisionally with the rear platform and the last two with the forward platform. This is a partial inventory; no daily tee-marker positions or full perimeter accuracy are asserted.",
+      "panels": [
+        {
+          "id": "h07-tee-00",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h07-tee-00-plain.png",
+          "plainSha256": "ba7e7322dc7a695148c58c89ee9ac7fa28785e0b594303afdbe88e0c1f755ea1",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683581.1198953505,
+            7023259.141246188,
+            683651.1198953505,
+            7023329.141246188
+          ],
+          "geoTransform": [
+            683581.1198953505,
+            0.0875,
+            0.0,
+            7023329.141246188,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h07-tee-01",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h07-tee-01-plain.png",
+          "plainSha256": "faddd35f31a290039de8fdf75ba6f77d94c3f4661249cb5ea575692b8a2ddb7c",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683584.2968750088,
+            7023265.039824677,
+            683654.2968750088,
+            7023335.039824677
+          ],
+          "geoTransform": [
+            683584.2968750088,
+            0.0875,
+            0.0,
+            7023335.039824677,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h07-tee-02",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h07-tee-02-plain.png",
+          "plainSha256": "1376a8f86f5b5abbb9dbe1d47096c15a893e1fa8b33f60cbbb5072eeea3a82a7",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683587.4881072432,
+            7023268.933295983,
+            683657.4881072432,
+            7023338.933295983
+          ],
+          "geoTransform": [
+            683587.4881072432,
+            0.0875,
+            0.0,
+            7023338.933295983,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h07-tee-03",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h07-tee-03-plain.png",
+          "plainSha256": "330f317de8b827b64eb47b2042915d54d236ed26bfd500f3635b17fd800ce938",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683608.088098737,
+            7023312.536858344,
+            683678.088098737,
+            7023382.536858344
+          ],
+          "geoTransform": [
+            683608.088098737,
+            0.0875,
+            0.0,
+            7023382.536858344,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h07-tee-04",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h07-tee-04-plain.png",
+          "plainSha256": "330f317de8b827b64eb47b2042915d54d236ed26bfd500f3635b17fd800ce938",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683608.088098737,
+            7023312.536858344,
+            683678.088098737,
+            7023382.536858344
+          ],
+          "geoTransform": [
+            683608.088098737,
+            0.0875,
+            0.0,
+            7023382.536858344,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        }
+      ],
+      "corroboration": [
+        "banguide/maps/hole_07.jpg"
+      ],
+      "corroborationUse": "Hole/platform topology only; guide images are not georeferenced and supply no coordinates"
+    },
+    {
+      "hole": 8,
+      "baselinePadCount": 3,
+      "retainedInventoryCount": 3,
+      "baselineReferences": [
+        [
+          -474.8,
+          -1089.9
+        ],
+        [
+          -471.8,
+          -1085.9
+        ],
+        [
+          -448.7,
+          -1055.7
+        ],
+        [
+          -442.6,
+          -1047.8
+        ],
+        [
+          -407.4,
+          -1001.7
+        ],
+        [
+          -407.4,
+          -1001.7
+        ]
+      ],
+      "referencePads": [
+        1,
+        1,
+        0,
+        0,
+        2,
+        2
+      ],
+      "inventoryComplete": false,
+      "note": "Three distinct visible platforms have accepted orthophoto contours reused exactly. Rear platform original1 supports references1-2, middle original0 supports references3-4, and forward original2 supports references5-6. Several original references are outside the physical turf. Associations establish provisional platform-backed course references only; daily tee allocation is not observable.",
+      "panels": [
+        {
+          "id": "h08-tee-00",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-00-plain.png",
+          "plainSha256": "5c7f77e39dc852845fdb027b2e0ce805d391ccbc27a48784e8543893607b0ab7",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683637.0098352624,
+            7023552.896860016,
+            683707.0098352624,
+            7023622.896860016
+          ],
+          "geoTransform": [
+            683637.0098352624,
+            0.0875,
+            0.0,
+            7023622.896860016,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h08-tee-01",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-01-plain.png",
+          "plainSha256": "6eeb287f54cee155fba5d1be46029f882b288e619ff8f48833e143b80da34f8a",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683605.5669563815,
+            7023584.797685787,
+            683675.5669563815,
+            7023654.797685787
+          ],
+          "geoTransform": [
+            683605.5669563815,
+            0.0875,
+            0.0,
+            7023654.797685787,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h08-tee-02",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h08-tee-02-plain.png",
+          "plainSha256": "d3f6dbc36aeec1d695a2528ef233201c4abcda0f9aee86e559ec0b14d0d5e2cc",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683691.3046114824,
+            7023514.681463055,
+            683761.3046114824,
+            7023584.681463055
+          ],
+          "geoTransform": [
+            683691.3046114824,
+            0.0875,
+            0.0,
+            7023584.681463055,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        }
+      ],
+      "corroboration": [],
+      "corroborationUse": "Hole/platform topology only; guide images are not georeferenced and supply no coordinates"
+    },
+    {
+      "hole": 9,
+      "baselinePadCount": 4,
+      "retainedInventoryCount": 3,
+      "baselineReferences": [
+        [
+          -157.7,
+          -800.3
+        ],
+        [
+          -144.4,
+          -786.7
+        ],
+        [
+          -104,
+          -745.1
+        ],
+        [
+          -97.7,
+          -738.6
+        ],
+        [
+          -60.8,
+          -700.6
+        ],
+        [
+          -14.8,
+          -653.3
+        ]
+      ],
+      "referencePads": [
+        1,
+        1,
+        2,
+        2,
+        0,
+        null
+      ],
+      "inventoryComplete": false,
+      "note": "Rear platform original1 and forward platform original0 reuse accepted visible contours. Original OSM2 is the same-hole intermediate platform but its southern perimeter is shadowed, so its exact historical contour and provenance are retained with 3m interpretation uncertainty. The original synthetic pad3 lies in ordinary fairway without a distinct deck and is omitted. References1-2 associate to rear1, references3-4 to historical middle2, and reference5 to forward0. Reference6 has no source-backed physical deck association and remains unresolved. Partial physical inventory only.",
+      "panels": [
+        {
+          "id": "h09-tee-00",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-00-plain.png",
+          "plainSha256": "ee89bcdfed4a76e444c8f14bbda0df6292db7d69364e69021f99d6286ae3ffd8",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            684047.3495644092,
+            7023227.164341764,
+            684117.3495644092,
+            7023297.164341764
+          ],
+          "geoTransform": [
+            684047.3495644092,
+            0.0875,
+            0.0,
+            7023297.164341764,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h09-tee-01",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-01-plain.png",
+          "plainSha256": "ff8fa31068bd08d43998ecab26ec64c777a5bb54c970fa2d75eb19390b9f6425",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683947.0408338059,
+            7023309.475771076,
+            684017.0408338059,
+            7023379.475771076
+          ],
+          "geoTransform": [
+            683947.0408338059,
+            0.0875,
+            0.0,
+            7023379.475771076,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h09-tee-02",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-02-plain.png",
+          "plainSha256": "e7f46a795dc6d2f14db41fa5f4dcccdb2b7edc60f693e7ccdd26b4a00fa79a81",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            684000.5236349123,
+            7023262.793550178,
+            684070.5236349123,
+            7023332.793550178
+          ],
+          "geoTransform": [
+            684000.5236349123,
+            0.0875,
+            0.0,
+            7023332.793550178,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h09-tee-03",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-03-plain.png",
+          "plainSha256": "2b07c455dd65c9e78e47eb0d6f1553f72b6d5da0226a27c2a5711ecd16c77977",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            684096.5341331908,
+            7023181.942152962,
+            684166.5341331908,
+            7023251.942152962
+          ],
+          "geoTransform": [
+            684096.5341331908,
+            0.0875,
+            0.0,
+            7023251.942152962,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            },
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+              "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                684164.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                684164.96,
+                7022747.04,
+                684804.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        }
+      ],
+      "corroboration": [],
+      "corroborationUse": "Hole/platform topology only; guide images are not georeferenced and supply no coordinates"
+    },
+    {
+      "hole": 10,
+      "baselinePadCount": 5,
+      "retainedInventoryCount": 4,
+      "baselineReferences": [
+        [
+          160.8,
+          -556
+        ],
+        [
+          148.6,
+          -571.8
+        ],
+        [
+          134.5,
+          -590
+        ],
+        [
+          129,
+          -597.1
+        ],
+        [
+          91.6,
+          -645.3
+        ],
+        [
+          53,
+          -695.1
+        ]
+      ],
+      "referencePads": [
+        2,
+        3,
+        0,
+        0,
+        1,
+        null
+      ],
+      "inventoryComplete": false,
+      "note": "Four distinct physical platforms reuse their accepted visible contours. References1,2,3-4,5 associate respectively to original pads2,3,0,1. The original DTM pad4 near the crossing path does not have a separately readable physical deck in the imagery and is omitted from the source-backed inventory. Reference6 there remains unresolved without an invented rectangle. Daily markers and a complete inventory are not asserted.",
+      "panels": [
+        {
+          "id": "h10-tee-00",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-00-plain.png",
+          "plainSha256": "229a6c720bc2f4a2d2e7157d50cc6b12616b0f6833352847aa2040dcdfa1d968",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            684239.9007404629,
+            7023126.377704657,
+            684309.9007404629,
+            7023196.377704657
+          ],
+          "geoTransform": [
+            684239.9007404629,
+            0.0875,
+            0.0,
+            7023196.377704657,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+              "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                684164.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                684164.96,
+                7022747.04,
+                684804.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h10-tee-01",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-01-plain.png",
+          "plainSha256": "37fdf92e434e9a91a5050e5b5582238806d8c4a71c476934e69486d4f0b39ca5",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            684199.7228693537,
+            7023177.330169636,
+            684269.7228693537,
+            7023247.330169636
+          ],
+          "geoTransform": [
+            684199.7228693537,
+            0.0875,
+            0.0,
+            7023247.330169636,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+              "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                684164.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                684164.96,
+                7022747.04,
+                684804.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h10-tee-02",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-02-plain.png",
+          "plainSha256": "98d1f6e1b8db38832781260d6ee7a28f8245e6cd2d3220e93c2c21015ef54c1f",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            684271.7526649658,
+            7023089.29032369,
+            684341.7526649658,
+            7023159.29032369
+          ],
+          "geoTransform": [
+            684271.7526649658,
+            0.0875,
+            0.0,
+            7023159.29032369,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+              "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                684164.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                684164.96,
+                7022747.04,
+                684804.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h10-tee-03",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-03-plain.png",
+          "plainSha256": "21dd2441fdec7e997bc8bb27412cc4884effbc706acb8dd639e506a7e6b34c24",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            684262.8817896434,
+            7023105.631175554,
+            684332.8817896434,
+            7023175.631175554
+          ],
+          "geoTransform": [
+            684262.8817896434,
+            0.0875,
+            0.0,
+            7023175.631175554,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+              "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                684164.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                684164.96,
+                7022747.04,
+                684804.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h10-tee-04",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-04-plain.png",
+          "plainSha256": "75cfef6dace6448b419b283ce3bd701e608f65dcd3e0a5493c7ee5ff4621b89d",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            684160.7795746753,
+            7023222.536616257,
+            684230.7795746753,
+            7023292.536616257
+          ],
+          "geoTransform": [
+            684160.7795746753,
+            0.0875,
+            0.0,
+            7023292.536616257,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+              "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7022747.04,
+                684164.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            },
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+              "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                684164.96,
+                0.16,
+                0.0,
+                7023387.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                684164.96,
+                7022747.04,
+                684804.96,
+                7023387.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        }
+      ],
+      "corroboration": [],
+      "corroborationUse": "Hole/platform topology only; guide images are not georeferenced and supply no coordinates"
+    },
+    {
+      "hole": 11,
+      "baselinePadCount": 4,
+      "retainedInventoryCount": 3,
+      "baselineReferences": [
+        [
+          -256.4,
+          -982.7
+        ],
+        [
+          -260.1,
+          -986
+        ],
+        [
+          -264.6,
+          -990
+        ],
+        [
+          -291.4,
+          -1013.9
+        ],
+        [
+          -330.3,
+          -1048.6
+        ],
+        [
+          -357.9,
+          -1073.2
+        ]
+      ],
+      "referencePads": [
+        2,
+        2,
+        2,
+        1,
+        0,
+        null
+      ],
+      "inventoryComplete": false,
+      "note": "Three physical platforms are identifiable in the imagery and corroborated by the hole guide topology. Original OSM0 is a worn small forward platform with an indistinct perimeter; original DTM2 is the rear long platform with shadow along its southwest side. Both exact historical rings and provenance are retained with 3m interpretation uncertainty. Accepted middle pad1 contour is reused exactly. References1-3 associate provisionally to rear2, reference4 to middle1, reference5 to forward0. Original synthetic pad3 in the fairway approach is omitted and reference6 remains unresolved. This does not claim newly traced historical perimeters or daily marker coordinates.",
+      "panels": [
+        {
+          "id": "h11-tee-00",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-00-plain.png",
+          "plainSha256": "a734221ced7a9641f797901b196dc7448716458c1559ff6d5c2b3f290efe3214",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683772.2526912191,
+            7023577.386887732,
+            683842.2526912191,
+            7023647.386887732
+          ],
+          "geoTransform": [
+            683772.2526912191,
+            0.0875,
+            0.0,
+            7023647.386887732,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h11-tee-01",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-01-plain.png",
+          "plainSha256": "ae73bade1f7a20a810adbbbb357ba5045f3ea6346c9037b0841abaa6668f66d1",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683807.0432870985,
+            7023536.151067966,
+            683877.0432870985,
+            7023606.151067966
+          ],
+          "geoTransform": [
+            683807.0432870985,
+            0.0875,
+            0.0,
+            7023606.151067966,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h11-tee-02",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-02-plain.png",
+          "plainSha256": "98686df1f15a98e359738dccb690c793f06c71102e1c035777d0c75b7fb75c16",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683830.8549173151,
+            7023497.295668846,
+            683900.8549173151,
+            7023567.295668846
+          ],
+          "geoTransform": [
+            683830.8549173151,
+            0.0875,
+            0.0,
+            7023567.295668846,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h11-tee-03",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-03-plain.png",
+          "plainSha256": "3892f637da3dcc8360dc81a61b3c1f8d298a928a2f27d82e967d8212fbb0937f",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683729.1156743105,
+            7023582.038422094,
+            683799.1156743105,
+            7023652.038422094
+          ],
+          "geoTransform": [
+            683729.1156743105,
+            0.0875,
+            0.0,
+            7023652.038422094,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        }
+      ],
+      "corroboration": [
+        "banguide/maps/hole_11.jpg"
+      ],
+      "corroborationUse": "Hole/platform topology only; guide images are not georeferenced and supply no coordinates"
+    },
+    {
+      "hole": 12,
+      "baselinePadCount": 3,
+      "retainedInventoryCount": 3,
+      "baselineReferences": [
+        [
+          -506.3,
+          -1046.3
+        ],
+        [
+          -512.8,
+          -1051
+        ],
+        [
+          -523.3,
+          -1058.6
+        ],
+        [
+          -532.2,
+          -1065.1
+        ],
+        [
+          -549.2,
+          -1077.4
+        ],
+        [
+          -549.2,
+          -1077.4
+        ]
+      ],
+      "referencePads": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "inventoryComplete": false,
+      "note": "All three physical platforms reuse their accepted visible contours. Rear original0 is south of the crossing path; middle original1 is beyond that crossing; small forward original2 is west of the path. Imagery plus hole guide topology support references1-2 on rear0, references3-4 on middle1 and references5-6 on forward2. The existing middle references are offset onto the path corridor. These are provisional platform-backed references, not daily marker positions.",
+      "panels": [
+        {
+          "id": "h12-tee-00",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-00-plain.png",
+          "plainSha256": "22ac446e516936f09430ddda0c03f938994a62bc1097b2552d22989edbc79f34",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683581.4037399869,
+            7023549.114192869,
+            683651.4037399869,
+            7023619.114192869
+          ],
+          "geoTransform": [
+            683581.4037399869,
+            0.0875,
+            0.0,
+            7023619.114192869,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h12-tee-01",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-01-plain.png",
+          "plainSha256": "df1f8496b3d781bd2f188388e5028f984babdde403407c787385cd38cce660e0",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683572.7434297415,
+            7023579.409858364,
+            683642.7434297415,
+            7023649.409858364
+          ],
+          "geoTransform": [
+            683572.7434297415,
+            0.0875,
+            0.0,
+            7023649.409858364,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        },
+        {
+          "id": "h12-tee-02",
+          "plainPath": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-review-turf-07-12/h12-tee-02-plain.png",
+          "plainSha256": "b5417ada8c919570f5ffc0ebc95568471be9bfaf52468d54303291752106f54c",
+          "pixelSize": [
+            800,
+            800
+          ],
+          "extentEPSG3006": [
+            683547.2853444458,
+            7023589.187115886,
+            683617.2853444458,
+            7023659.187115886
+          ],
+          "geoTransform": [
+            683547.2853444458,
+            0.0875,
+            0.0,
+            7023659.187115886,
+            0.0,
+            -0.0875
+          ],
+          "sources": [
+            {
+              "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-0-1.tif",
+              "sha256": "c20a65ff2a2ed2cbc3caf1c82031d084701243c9a69077acd3ed90973112572c",
+              "crs": "EPSG:3006",
+              "width": 4000,
+              "height": 4000,
+              "geoTransform": [
+                683524.96,
+                0.16,
+                0.0,
+                7024027.04,
+                0.0,
+                -0.16
+              ],
+              "boundsEPSG3006": [
+                683524.96,
+                7023387.04,
+                684164.96,
+                7024027.04
+              ],
+              "resolutionM": [
+                0.16,
+                0.16
+              ],
+              "colourInterpretation": [
+                "red",
+                "green",
+                "blue",
+                "alpha"
+              ],
+              "nodata": null
+            }
+          ]
+        }
+      ],
+      "corroboration": [
+        "banguide/maps/hole_12.jpg"
+      ],
+      "corroborationUse": "Hole/platform topology only; guide images are not georeferenced and supply no coordinates"
+    }
+  ]
+}

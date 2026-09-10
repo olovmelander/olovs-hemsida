@@ -1,0 +1,1519 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "provisional-roof-correspondence-observations",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "reviewedOn": "2026-09-09",
+  "reviewer": "assistant source-image interpretation",
+  "humanAccepted": false,
+  "inputs": [
+    {
+      "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+      "bytes": 1857744,
+      "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98"
+    },
+    {
+      "path": "tortunabuild/cache/buildings/service-yard.tif",
+      "bytes": 7227885,
+      "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63"
+    },
+    {
+      "path": "tortunabuild/cache/buildings/nearby-houses.tif",
+      "bytes": 1776376,
+      "sha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/reference/osm-context-epsg3006.geojson",
+      "bytes": 519569,
+      "sha256": "69e9deeb00686fba8d3b86a9734aa6f2dac5ea4fd7baa08c0c72afafe66a1e6a"
+    }
+  ],
+  "sourceIds": [
+    "imagery-lm-ortho",
+    "laser-lm-skog",
+    "tortuna-osm-2026-09-09",
+    "club-photo-17",
+    "club-photo-65"
+  ],
+  "buildings": [
+    {
+      "id": "tortuna-clubhouse-main-roof",
+      "associatedBuildingId": "way/1163533127",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597457.76,
+              6615089.92
+            ],
+            [
+              597479.04,
+              6615072.0
+            ],
+            [
+              597470.72,
+              6615062.4
+            ],
+            [
+              597468.0,
+              6615062.72
+            ],
+            [
+              597466.4,
+              6615064.64
+            ],
+            [
+              597464.8,
+              6615065.76
+            ],
+            [
+              597461.6,
+              6615066.4
+            ],
+            [
+              597455.2,
+              6615071.68
+            ],
+            [
+              597455.04,
+              6615073.12
+            ],
+            [
+              597455.84,
+              6615074.08
+            ],
+            [
+              597452.8,
+              6615076.64
+            ],
+            [
+              597452.32,
+              6615076.0
+            ],
+            [
+              597449.92,
+              6615078.4
+            ],
+            [
+              597449.44,
+              6615079.84
+            ],
+            [
+              597457.76,
+              6615089.92
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 398.554,
+      "tracePixels": [
+        [
+          319,
+          310
+        ],
+        [
+          452,
+          422
+        ],
+        [
+          400,
+          482
+        ],
+        [
+          383,
+          480
+        ],
+        [
+          373,
+          468
+        ],
+        [
+          363,
+          461
+        ],
+        [
+          343,
+          457
+        ],
+        [
+          303,
+          424
+        ],
+        [
+          302,
+          415
+        ],
+        [
+          307,
+          409
+        ],
+        [
+          288,
+          393
+        ],
+        [
+          285,
+          397
+        ],
+        [
+          270,
+          382
+        ],
+        [
+          267,
+          373
+        ]
+      ],
+      "sourceGrid": {
+        "id": "clubhouse",
+        "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+        "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "west": 597406.72,
+        "north": 6615139.52,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Intersecting brown pitched/hipped roofs of the photographed ochre clubhouse; low pond-facing extension excluded.",
+      "roofColourDisplayEstimateHex": "68574b",
+      "facadeColourDisplayEstimateHex": "d4b156",
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1163533127",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597456.4375891666,
+              6615080.249255985
+            ],
+            [
+              597465.8373463623,
+              6615089.875217443
+            ],
+            [
+              597485.2013246167,
+              6615071.038758873
+            ],
+            [
+              597475.8018554914,
+              6615061.401615222
+            ],
+            [
+              597456.4375891666,
+              6615080.249255985
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 363.615,
+        "centroidDifferenceMetres": 7.058,
+        "roofOverlapFraction": 0.506,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-clubhouse-low-extension",
+      "associatedBuildingId": "way/1163533127",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597477.6,
+              6615069.28
+            ],
+            [
+              597483.04,
+              6615064.32
+            ],
+            [
+              597472.8,
+              6615053.92
+            ],
+            [
+              597464.32,
+              6615059.36
+            ],
+            [
+              597465.44,
+              6615061.12
+            ],
+            [
+              597470.08,
+              6615058.4
+            ],
+            [
+              597477.6,
+              6615069.28
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 102.528,
+      "tracePixels": [
+        [
+          443,
+          439
+        ],
+        [
+          477,
+          470
+        ],
+        [
+          413,
+          535
+        ],
+        [
+          360,
+          501
+        ],
+        [
+          367,
+          490
+        ],
+        [
+          396,
+          507
+        ]
+      ],
+      "sourceGrid": {
+        "id": "clubhouse",
+        "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+        "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "west": 597406.72,
+        "north": 6615139.52,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Lower pond-facing terrace/extension envelope; chairs and terrace fixtures may cause non-planar returns, so retain measurement rejection if unsupported.",
+      "roofColourDisplayEstimateHex": "8b8176",
+      "facadeColourDisplayEstimateHex": "d4b156",
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1163533127",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597456.4375891666,
+              6615080.249255985
+            ],
+            [
+              597465.8373463623,
+              6615089.875217443
+            ],
+            [
+              597485.2013246167,
+              6615071.038758873
+            ],
+            [
+              597475.8018554914,
+              6615061.401615222
+            ],
+            [
+              597456.4375891666,
+              6615080.249255985
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 363.615,
+        "centroidDifferenceMetres": 15.054,
+        "roofOverlapFraction": 0.247,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-clubhouse-west-outbuilding-roof",
+      "associatedBuildingId": "way/1163533128",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597440.16,
+              6615078.72
+            ],
+            [
+              597445.92,
+              6615074.08
+            ],
+            [
+              597438.24,
+              6615066.72
+            ],
+            [
+              597433.6,
+              6615071.2
+            ],
+            [
+              597440.16,
+              6615078.72
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 71.155,
+      "tracePixels": [
+        [
+          209,
+          380
+        ],
+        [
+          245,
+          409
+        ],
+        [
+          197,
+          455
+        ],
+        [
+          168,
+          427
+        ]
+      ],
+      "sourceGrid": {
+        "id": "clubhouse",
+        "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+        "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "west": 597406.72,
+        "north": 6615139.52,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Detached red/brown roof immediately west of the clubhouse; official club photos show a low outbuilding in this location.",
+      "roofColourDisplayEstimateHex": "a7725f",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1163533128",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597438.1671592292,
+              6615071.406005093
+            ],
+            [
+              597445.0378344741,
+              6615078.147264689
+            ],
+            [
+              597449.2297628733,
+              6615073.900273672
+            ],
+            [
+              597442.3650100573,
+              6615067.1480195
+            ],
+            [
+              597438.1671592292,
+              6615071.406005093
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 57.507,
+        "centroidDifferenceMetres": 4.115,
+        "roofOverlapFraction": 0.3516,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-clubhouse-southwest-shed-roof",
+      "associatedBuildingId": null,
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597442.88,
+              6615064.96
+            ],
+            [
+              597447.84,
+              6615064.64
+            ],
+            [
+              597447.68,
+              6615060.96
+            ],
+            [
+              597442.88,
+              6615061.12
+            ],
+            [
+              597442.88,
+              6615064.96
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 18.368,
+      "tracePixels": [
+        [
+          226,
+          466
+        ],
+        [
+          257,
+          468
+        ],
+        [
+          256,
+          491
+        ],
+        [
+          226,
+          490
+        ]
+      ],
+      "sourceGrid": {
+        "id": "clubhouse",
+        "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+        "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "west": 597406.72,
+        "north": 6615139.52,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Small detached roof beside the west path, omitted from retained OSM buildings; use remains unknown.",
+      "roofColourDisplayEstimateHex": "796b66",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": null,
+      "sourceFootprintGeometryEpsg3006": null,
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ]
+    },
+    {
+      "id": "tortuna-range-service-barn-roof",
+      "associatedBuildingId": "way/1163533113",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597434.72,
+              6615260.32
+            ],
+            [
+              597462.72,
+              6615278.72
+            ],
+            [
+              597469.28,
+              6615269.44
+            ],
+            [
+              597440.96,
+              6615250.88
+            ],
+            [
+              597434.72,
+              6615260.32
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 381.85,
+      "tracePixels": [
+        [
+          967,
+          623
+        ],
+        [
+          1142,
+          508
+        ],
+        [
+          1183,
+          566
+        ],
+        [
+          1006,
+          682
+        ]
+      ],
+      "sourceGrid": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Long unobscured red roof north of the range; two pitched planes visible.",
+      "roofColourDisplayEstimateHex": "ad7160",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1163533113",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597440.858285969,
+              6615259.719130327
+            ],
+            [
+              597468.1509374862,
+              6615277.911184541
+            ],
+            [
+              597474.2391463643,
+              6615268.811497658
+            ],
+            [
+              597446.940820849,
+              6615250.619252719
+            ],
+            [
+              597440.858285969,
+              6615259.719130327
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 359.089,
+        "centroidDifferenceMetres": 5.643,
+        "roofOverlapFraction": 0.5729,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-range-small-outbuilding-roof",
+      "associatedBuildingId": "way/1163533114",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597435.04,
+              6615275.68
+            ],
+            [
+              597440.48,
+              6615279.36
+            ],
+            [
+              597445.12,
+              6615273.6
+            ],
+            [
+              597439.36,
+              6615269.76
+            ],
+            [
+              597435.04,
+              6615275.68
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 49.549,
+      "tracePixels": [
+        [
+          969,
+          527
+        ],
+        [
+          1003,
+          504
+        ],
+        [
+          1032,
+          540
+        ],
+        [
+          996,
+          564
+        ]
+      ],
+      "sourceGrid": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Detached small red pitched roof northwest of the long service barn.",
+      "roofColourDisplayEstimateHex": "995f52",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1163533114",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597440.9833500367,
+              6615274.818820926
+            ],
+            [
+              597446.3203706024,
+              6615278.534266398
+            ],
+            [
+              597450.0558043123,
+              6615273.194681058
+            ],
+            [
+              597444.7187793319,
+              6615269.479230318
+            ],
+            [
+              597440.9833500367,
+              6615274.818820926
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 42.376,
+        "centroidDifferenceMetres": 5.527,
+        "roofOverlapFraction": 0.1735,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-range-west-barn-roof",
+      "associatedBuildingId": "way/1163533115",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597398.88,
+              6615286.08
+            ],
+            [
+              597406.88,
+              6615291.2
+            ],
+            [
+              597415.36,
+              6615279.04
+            ],
+            [
+              597409.6,
+              6615273.28
+            ],
+            [
+              597398.88,
+              6615286.08
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 138.086,
+      "tracePixels": [
+        [
+          743,
+          462
+        ],
+        [
+          793,
+          430
+        ],
+        [
+          846,
+          506
+        ],
+        [
+          810,
+          542
+        ]
+      ],
+      "sourceGrid": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Red pitched roof beside the service-yard access; northeast slope is shaded.",
+      "roofColourDisplayEstimateHex": "a97360",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1163533115",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597405.0819214887,
+              6615284.801793473
+            ],
+            [
+              597412.869313894,
+              6615289.661732454
+            ],
+            [
+              597420.6971724451,
+              6615277.175776189
+            ],
+            [
+              597412.9100527498,
+              6615272.304687407
+            ],
+            [
+              597405.0819214887,
+              6615284.801793473
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 135.362,
+        "centroidDifferenceMetres": 5.616,
+        "roofOverlapFraction": 0.4305,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-carpark-west-north-barn-roof",
+      "associatedBuildingId": "way/1163533123",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597287.68,
+              6615157.6
+            ],
+            [
+              597309.44,
+              6615172.96
+            ],
+            [
+              597315.68,
+              6615166.56
+            ],
+            [
+              597293.6,
+              6615150.88
+            ],
+            [
+              597287.68,
+              6615157.6
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 238.157,
+      "tracePixels": [
+        [
+          48,
+          1265
+        ],
+        [
+          184,
+          1169
+        ],
+        [
+          223,
+          1209
+        ],
+        [
+          85,
+          1307
+        ]
+      ],
+      "sourceGrid": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Long dark roof northwest of the car park; small light roof section at southwest end is retained in selection.",
+      "roofColourDisplayEstimateHex": "77716b",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1163533123",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597294.613129284,
+              6615157.199059606
+            ],
+            [
+              597298.8783226163,
+              6615150.992953237
+            ],
+            [
+              597321.7682804526,
+              6615166.651663968
+            ],
+            [
+              597317.5027747377,
+              6615172.868878246
+            ],
+            [
+              597294.613129284,
+              6615157.199059606
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 208.997,
+        "centroidDifferenceMetres": 6.6,
+        "roofOverlapFraction": 0.4097,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-house-near-hole9-roof",
+      "associatedBuildingId": "way/1163607303",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597609.92,
+              6614925.12
+            ],
+            [
+              597616.48,
+              6614929.12
+            ],
+            [
+              597616.16,
+              6614931.68
+            ],
+            [
+              597621.76,
+              6614934.88
+            ],
+            [
+              597628.64,
+              6614924.96
+            ],
+            [
+              597621.92,
+              6614920.64
+            ],
+            [
+              597613.44,
+              6614919.2
+            ],
+            [
+              597609.92,
+              6614925.12
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 160.256,
+      "tracePixels": [
+        [
+          162,
+          618
+        ],
+        [
+          203,
+          593
+        ],
+        [
+          201,
+          577
+        ],
+        [
+          236,
+          557
+        ],
+        [
+          279,
+          619
+        ],
+        [
+          237,
+          646
+        ],
+        [
+          184,
+          655
+        ]
+      ],
+      "sourceGrid": {
+        "id": "nearby-houses",
+        "path": "tortunabuild/cache/buildings/nearby-houses.tif",
+        "sha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+        "west": 597584,
+        "north": 6615024,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Red/brown intersecting house roof east of the current hole 9 tee; use beyond mapped building remains unverified.",
+      "roofColourDisplayEstimateHex": "ab715a",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1163607303",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597621.1113193831,
+              6614930.271460164
+            ],
+            [
+              597619.5898685977,
+              6614932.838802562
+            ],
+            [
+              597624.8863001335,
+              6614935.962941706
+            ],
+            [
+              597631.1382931299,
+              6614925.374825321
+            ],
+            [
+              597626.4578664739,
+              6614922.623281566
+            ],
+            [
+              597624.8596857982,
+              6614925.322314255
+            ],
+            [
+              597616.6427491963,
+              6614920.484164442
+            ],
+            [
+              597613.510986918,
+              6614925.783653083
+            ],
+            [
+              597621.1113193831,
+              6614930.271460164
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 127.67,
+        "centroidDifferenceMetres": 3.586,
+        "roofOverlapFraction": 0.5697,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-house-east-roof",
+      "associatedBuildingId": "way/1384988126",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597677.12,
+              6614975.36
+            ],
+            [
+              597687.04,
+              6614984.16
+            ],
+            [
+              597693.92,
+              6614978.88
+            ],
+            [
+              597692.8,
+              6614977.44
+            ],
+            [
+              597696.32,
+              6614972.48
+            ],
+            [
+              597691.2,
+              6614968.0
+            ],
+            [
+              597688.32,
+              6614968.96
+            ],
+            [
+              597687.04,
+              6614967.52
+            ],
+            [
+              597677.12,
+              6614975.36
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 175.514,
+      "tracePixels": [
+        [
+          582,
+          304
+        ],
+        [
+          644,
+          249
+        ],
+        [
+          687,
+          282
+        ],
+        [
+          680,
+          291
+        ],
+        [
+          702,
+          322
+        ],
+        [
+          670,
+          350
+        ],
+        [
+          652,
+          344
+        ],
+        [
+          644,
+          353
+        ]
+      ],
+      "sourceGrid": {
+        "id": "nearby-houses",
+        "path": "tortunabuild/cache/buildings/nearby-houses.tif",
+        "sha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+        "west": 597584,
+        "north": 6615024,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Dark intersecting house roof east of the course, excluding the bright open terrace to its northwest.",
+      "roofColourDisplayEstimateHex": "535c5e",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1384988126",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597687.4253755801,
+              6614964.9258132465
+            ],
+            [
+              597677.2022442158,
+              6614974.095430494
+            ],
+            [
+              597683.3433674441,
+              6614980.91834962
+            ],
+            [
+              597684.6248131352,
+              6614979.770848312
+            ],
+            [
+              597688.5798541172,
+              6614984.174712963
+            ],
+            [
+              597693.6022065843,
+              6614979.660004128
+            ],
+            [
+              597690.2713407323,
+              6614975.963201467
+            ],
+            [
+              597694.1909621297,
+              6614972.444683353
+            ],
+            [
+              597687.4253755801,
+              6614964.9258132465
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 170.919,
+        "centroidDifferenceMetres": 1.146,
+        "roofOverlapFraction": 0.8133,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-house-east-garage-roof",
+      "associatedBuildingId": "way/1384988127",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597689.28,
+              6614961.12
+            ],
+            [
+              597695.36,
+              6614966.88
+            ],
+            [
+              597700.8,
+              6614961.44
+            ],
+            [
+              597695.52,
+              6614955.68
+            ],
+            [
+              597689.28,
+              6614961.12
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 64.538,
+      "tracePixels": [
+        [
+          658,
+          393
+        ],
+        [
+          696,
+          357
+        ],
+        [
+          730,
+          391
+        ],
+        [
+          697,
+          427
+        ]
+      ],
+      "sourceGrid": {
+        "id": "nearby-houses",
+        "path": "tortunabuild/cache/buildings/nearby-houses.tif",
+        "sha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+        "west": 597584,
+        "north": 6615024,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Detached dark garage roof southeast of the house; current roof association only.",
+      "roofColourDisplayEstimateHex": "596061",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "way/1384988127",
+      "sourceFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597693.333412644,
+              6614965.782064792
+            ],
+            [
+              597688.0942719029,
+              6614960.252801557
+            ],
+            [
+              597693.5154354363,
+              6614955.146880407
+            ],
+            [
+              597698.7489426141,
+              6614960.676004024
+            ],
+            [
+              597693.333412644,
+              6614965.782064792
+            ]
+          ]
+        ]
+      },
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ],
+      "osmImageComparison": {
+        "osmAreaSquareMetres": 56.696,
+        "centroidDifferenceMetres": 1.93,
+        "roofOverlapFraction": 0.6553,
+        "status": "OSM ground hypothesis and roof outline retained independently; no blanket translation applied"
+      }
+    },
+    {
+      "id": "tortuna-range-shelter-roof",
+      "associatedBuildingId": "tortuna-range-shelter",
+      "operation": "attach-measured-roof-if-supported",
+      "replacesGroundFootprint": false,
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597472.64,
+              6615173.76
+            ],
+            [
+              597478.08,
+              6615168.8
+            ],
+            [
+              597472.96,
+              6615163.2
+            ],
+            [
+              597467.52,
+              6615168.32
+            ],
+            [
+              597472.64,
+              6615173.76
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 55.834,
+      "tracePixels": [
+        [
+          1204,
+          1164
+        ],
+        [
+          1238,
+          1195
+        ],
+        [
+          1206,
+          1230
+        ],
+        [
+          1172,
+          1198
+        ]
+      ],
+      "sourceGrid": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "sourceId": "imagery-lm-ortho",
+      "captureDate": "2026-05-02",
+      "observedAppearance": "Bright small range shelter roof beside the sand practice bunker; no additional netting or supports inferred.",
+      "roofColourDisplayEstimateHex": "deded6",
+      "facadeColourDisplayEstimateHex": null,
+      "interpretationUncertaintyMetres": 1.2,
+      "horizontalStatus": "observed image roof silhouette, not surveyed ground/wall footprint",
+      "sourceFootprintId": "tortuna-range-shelter",
+      "sourceFootprintGeometryEpsg3006": null,
+      "originalGroundFootprintRetained": true,
+      "roofHeightRH2000": null,
+      "wallHeightMetres": null,
+      "measuredHeightStatus": "pending bounded point/roof correspondence review",
+      "limitations": [
+        "Roof overhang and image displacement are not ground-footprint measurements.",
+        "2026 roof appearance and April 2021 laser returns are different observation epochs.",
+        "Colours are display estimates from illumination-dependent imagery."
+      ]
+    }
+  ],
+  "groundFootprintReplacements": [],
+  "interpretation": "Source geometry first: visible roof selection rings constrain a separately measured source-return surface; they never replace surveyed or OSM ground footprints."
+}

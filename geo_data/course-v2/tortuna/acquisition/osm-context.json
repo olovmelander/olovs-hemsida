@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "sourceId": "tortuna-osm-2026-09-09",
+  "sourceUrl": "https://api.openstreetmap.org/api/0.6/map?bbox=16.71,59.651,16.744,59.674",
+  "acquiredAt": "2026-09-09T16:57:54.706937+00:00",
+  "sourceBytes": 822499,
+  "sourceSha256": "452faf832c519d3f30a4494a1ea4255b98c8d89bff4377f0ee09de9bc7b8cdb4",
+  "sourceCrs": "OGC:CRS84",
+  "horizontalCrs": "EPSG:3006",
+  "transform": {
+    "engine": "pyproj/PROJ",
+    "projVersion": "9.8.1",
+    "alwaysXY": true
+  },
+  "outputPath": "geo_data/course-v2/tortuna/reference/osm-context-epsg3006.geojson",
+  "outputSha256": "69e9deeb00686fba8d3b86a9734aa6f2dac5ea4fd7baa08c0c72afafe66a1e6a",
+  "featureCounts": {
+    "LineString": 74,
+    "Polygon": 202,
+    "MultiPolygon": 1
+  },
+  "skipped": [
+    "relation/73534:incomplete-members",
+    "relation/3109703:unclosed-or-invalid-source-rings",
+    "relation/3109709:unclosed-or-invalid-source-rings",
+    "relation/7478677:unclosed-or-invalid-source-rings",
+    "relation/13751149:incomplete-members",
+    "relation/19170589:incomplete-members",
+    "relation/19338841:incomplete-members"
+  ],
+  "licence": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "limitations": [
+    "No golf hole, green, tee, fairway or bunker outlines are present in this extract.",
+    "Database edit dates are not capture dates or current-condition verification.",
+    "Open paths remain lines; tagged/default widths and building heights need separate review."
+  ]
+}

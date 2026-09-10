@@ -93,7 +93,14 @@ export function applyUpsalaLmTeeReferences(model, inputReviews) {
         assert.deepEqual(pad.ring, decision.originalPadRing, `H${hole.n}: reviewed platform boundary changed`);
         assert(Number.isFinite(decision.maxShiftMetres) && decision.maxShiftMetres >= 0,
           `H${hole.n}: explicit maximum reference shift required`);
-        const position = interiorTeeReference(mark.c, pad.ring), shift = distance(position, mark.c);
+        let position;
+        if (decision.reviewedPosition !== undefined) {
+          assert(point(decision.reviewedPosition), `H${hole.n}: explicit reviewed position must be a finite local point`);
+          assert(ringClearance(decision.reviewedPosition, pad.ring) >= CLEARANCE,
+            `H${hole.n}: explicit reviewed position must be at least 1 m inside its reviewed platform`);
+          position = [...decision.reviewedPosition];
+        } else position = interiorTeeReference(mark.c, pad.ring);
+        const shift = distance(position, mark.c);
         assert(shift <= decision.maxShiftMetres + 1e-9, `H${hole.n}/${decision.markIndex}: reference shift ${shift.toFixed(3)} m exceeds reviewed limit`);
         mark.c = position;
         mark.referencePlacement = { method: 'reviewed-observed-platform-navigation-reference',
@@ -101,6 +108,7 @@ export function applyUpsalaLmTeeReferences(model, inputReviews) {
           padSourceId: pad.sourceId, boundaryClearanceMetres: CLEARANCE,
           shiftMetres: Number(shift.toFixed(3)), dailyMarkerPositionVerified: false,
           teeColourAssociationVerified: false,
+          ...(decision.reviewedPosition === undefined ? {} : { explicitReviewedPosition: true }),
           note: 'Navigation reference associated with an observed platform; daily marker position and tee colour are unverified.' };
         if (shift > 0) moved.push(decision.markIndex);
       }
@@ -108,15 +116,16 @@ export function applyUpsalaLmTeeReferences(model, inputReviews) {
       const movedStart = moved.includes(0) && distance(record.originalMarks[0].c, record.originalLine[0]) <= 0.2;
       if (movedStart) line[0] = [...marks[0].c];
       changes.push({ hole, marks, line, movedStart, moved, reviewedAt: review.reviewedAt,
+        unresolvedCount: marks.filter(mark => !mark.referencePlacement).length,
         retainedCount: record.referenceDecisions.filter(d => d.status === 'retain').length });
     }
   }
   for (const change of changes) {
-    const { hole, marks, line, movedStart, moved, reviewedAt, retainedCount } = change;
+    const { hole, marks, line, movedStart, moved, reviewedAt, retainedCount, unresolvedCount } = change;
     hole.tees = { ...hole.tees, marks,
       markProvenance: 'Reviewed navigation references on explicitly associated observed platforms; unresolved scorecard-inferred references retained. Daily marker positions and tee colours unverified.',
       referenceReview: { reviewedAt, movedReferenceCount: moved.length, retainedReferenceCount: retainedCount,
-        unresolvedReferencesRetained: retainedCount > 0,
+        unresolvedReferencesRetained: unresolvedCount > 0,
         dailyMarkerPositionsVerified: false } };
     if (movedStart) {
       hole.line = line;

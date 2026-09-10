@@ -1,0 +1,1597 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "observedAt": "2026-09-09T20:37:42.085980+00:00",
+  "source": "LM orto-o2-2025; source capture 2025-05-31; live catalog checked 2026-09-09",
+  "reviewer": "Codex manual image interpretation",
+  "coordinateConvention": "Native PNG pixel edges; apply the image GDAL geoTransform; local x=E-677700.5, z=6586399.5-N.",
+  "markerMethod": "Club guide associates white/yellow/blue/red with observed physical platforms. Pixels are conservative representative positions within those platforms; individual movable marker pairs and their current daily positions are not surveyed or confirmed from the orthophoto.",
+  "limitations": [
+    "Orange locations are not shown by the retained club guides and remain unresolved.",
+    "Canopy-obscured edges are identified per platform; uncertainty is interpretation uncertainty, not a survey accuracy claim."
+  ],
+  "holes": [
+    {
+      "hole": 13,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/hole-13-tees.png",
+        "sha256": "93b6033ac2cf79c4bbe56c7106892c052f45b0c3022012b5e7a34f5d052ddf19",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677383.2,
+          0.16,
+          0.0,
+          6586802.88,
+          0.0,
+          -0.16
+        ],
+        "width": 1630,
+        "height": 850,
+        "resolutionMetres": 0.16
+      },
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924727_Lidingo_13.webp",
+        "sha256": "e3ab9f931e6cc9b3844c48e5f1d8efadb6d0b672004b2e8496bc6ca3de15592d",
+        "url": "https://banguider.se/lidingo-golfklubb/18-halsbanan"
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-13-a-lm2025",
+          "pixels": [
+            [
+              1307,
+              516
+            ],
+            [
+              1328,
+              520
+            ],
+            [
+              1343,
+              533
+            ],
+            [
+              1349,
+              548
+            ],
+            [
+              1344,
+              563
+            ],
+            [
+              1330,
+              575
+            ],
+            [
+              1308,
+              578
+            ],
+            [
+              1292,
+              572
+            ],
+            [
+              1283,
+              561
+            ],
+            [
+              1279,
+              546
+            ],
+            [
+              1283,
+              531
+            ],
+            [
+              1293,
+              519
+            ]
+          ],
+          "note": "Separate rear white platform west of Trolldalsvagen; visible maintained edge.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-13-b-lm2025",
+          "pixels": [
+            [
+              1050,
+              313
+            ],
+            [
+              1075,
+              304
+            ],
+            [
+              1103,
+              306
+            ],
+            [
+              1129,
+              313
+            ],
+            [
+              1150,
+              322
+            ],
+            [
+              1160,
+              332
+            ],
+            [
+              1150,
+              347
+            ],
+            [
+              1128,
+              356
+            ],
+            [
+              1104,
+              358
+            ],
+            [
+              1078,
+              353
+            ],
+            [
+              1060,
+              345
+            ],
+            [
+              1048,
+              332
+            ]
+          ],
+          "note": "Middle yellow/blue platform inside the path loop. Southern edge is partly shaded; visible north mowing boundary constrains its position.",
+          "uncertaintyMetres": 2.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-13-c-lm2025",
+          "pixels": [
+            [
+              892,
+              268
+            ],
+            [
+              915,
+              271
+            ],
+            [
+              931,
+              282
+            ],
+            [
+              938,
+              301
+            ],
+            [
+              936,
+              319
+            ],
+            [
+              924,
+              334
+            ],
+            [
+              902,
+              337
+            ],
+            [
+              881,
+              333
+            ],
+            [
+              868,
+              326
+            ],
+            [
+              862,
+              312
+            ],
+            [
+              865,
+              294
+            ],
+            [
+              876,
+              276
+            ]
+          ],
+          "note": "Separate forward red platform west of the middle platform and south of the bunker.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-13-a-lm2025",
+          "pixel": [
+            1313,
+            548
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-13-b-lm2025",
+          "pixel": [
+            1132,
+            335
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2.5
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-13-b-lm2025",
+          "pixel": [
+            1073,
+            329
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2.5
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-13-c-lm2025",
+          "pixel": [
+            900,
+            305
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "padId": null,
+          "pixel": null,
+          "note": "Orange is absent from the club guide; scorecard length alone does not establish its physical platform or marker location."
+        }
+      ],
+      "overlayReview": {
+        "path": "lidingobuild/cache/lm-ortho/hole-13-back6-verified-overlay.png",
+        "sha256": "5ceb2293a379b70776c8305260f363eb9e7cfe317f43c672e288daa911bab73e",
+        "completed": true,
+        "checkedAt": "2026-09-09T20:45:03.340801+00:00",
+        "method": "Manually inspected the rendered full-resolution overlay against the RGB image and full club guide."
+      }
+    },
+    {
+      "hole": 14,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/hole-14-tees.png",
+        "sha256": "4c324f0a9950d2dd73dfa4933efb3711d0c516054dbfad5849c8dc74f547fdf4",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677211.68,
+          0.16,
+          0.0,
+          6586807.68,
+          0.0,
+          -0.16
+        ],
+        "width": 1584,
+        "height": 859,
+        "resolutionMetres": 0.16
+      },
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924727_Lidingo_14.webp",
+        "sha256": "244bd491acb18ace7f2595a6d8c5ca332c8c7623bed397e172b1acdb3f9f86c3",
+        "url": "https://banguider.se/lidingo-golfklubb/18-halsbanan"
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-14-a-lm2025",
+          "pixels": [
+            [
+              235,
+              254
+            ],
+            [
+              255,
+              250
+            ],
+            [
+              278,
+              255
+            ],
+            [
+              304,
+              270
+            ],
+            [
+              329,
+              282
+            ],
+            [
+              359,
+              288
+            ],
+            [
+              390,
+              295
+            ],
+            [
+              420,
+              304
+            ],
+            [
+              443,
+              316
+            ],
+            [
+              455,
+              331
+            ],
+            [
+              460,
+              348
+            ],
+            [
+              454,
+              365
+            ],
+            [
+              440,
+              374
+            ],
+            [
+              422,
+              375
+            ],
+            [
+              403,
+              369
+            ],
+            [
+              379,
+              355
+            ],
+            [
+              354,
+              343
+            ],
+            [
+              326,
+              333
+            ],
+            [
+              298,
+              326
+            ],
+            [
+              269,
+              314
+            ],
+            [
+              244,
+              303
+            ],
+            [
+              231,
+              290
+            ],
+            [
+              228,
+              273
+            ]
+          ],
+          "note": "One continuous elongated white/yellow/blue platform north of the road. The narrow middle section is maintained turf connecting both wider ends.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-14-b-lm2025",
+          "pixels": [
+            [
+              819,
+              467
+            ],
+            [
+              839,
+              464
+            ],
+            [
+              860,
+              470
+            ],
+            [
+              877,
+              483
+            ],
+            [
+              883,
+              502
+            ],
+            [
+              880,
+              520
+            ],
+            [
+              868,
+              534
+            ],
+            [
+              850,
+              539
+            ],
+            [
+              829,
+              534
+            ],
+            [
+              810,
+              523
+            ],
+            [
+              801,
+              507
+            ],
+            [
+              801,
+              490
+            ],
+            [
+              808,
+              476
+            ]
+          ],
+          "note": "Separate forward red platform south of the path, east of the pond.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-14-a-lm2025",
+          "pixel": [
+            253,
+            279
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-14-a-lm2025",
+          "pixel": [
+            336,
+            310
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-14-a-lm2025",
+          "pixel": [
+            424,
+            336
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-14-b-lm2025",
+          "pixel": [
+            839,
+            500
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "padId": null,
+          "pixel": null,
+          "note": "Orange is absent from the club guide; scorecard length alone does not establish its physical platform or marker location."
+        }
+      ],
+      "overlayReview": {
+        "path": "lidingobuild/cache/lm-ortho/hole-14-back6-verified-overlay.png",
+        "sha256": "a76d61e570e0181eaefbb8b3f235d899eb078e039a0c6f27f48e8a62d6232f7e",
+        "completed": true,
+        "checkedAt": "2026-09-09T20:45:03.340801+00:00",
+        "method": "Manually inspected the rendered full-resolution overlay against the RGB image and full club guide."
+      }
+    },
+    {
+      "hole": 15,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/hole-15-tees.png",
+        "sha256": "cbfcfa94923cdae1639c8f98a38dcc1aff9ff617cb83e731d26b8b729bb65312",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677576.48,
+          0.16,
+          0.0,
+          6586769.44,
+          0.0,
+          -0.16
+        ],
+        "width": 939,
+        "height": 1635,
+        "resolutionMetres": 0.16
+      },
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924727_Lidingo_15.webp",
+        "sha256": "9ecada3ef64769b5f9a40cac1cb2cb6bc11fa0f9a4bc9dbfdde0b7f094f18611",
+        "url": "https://banguider.se/lidingo-golfklubb/18-halsbanan"
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-15-a-lm2025",
+          "pixels": [
+            [
+              281,
+              1229
+            ],
+            [
+              289,
+              1214
+            ],
+            [
+              304,
+              1211
+            ],
+            [
+              322,
+              1218
+            ],
+            [
+              337,
+              1237
+            ],
+            [
+              343,
+              1260
+            ],
+            [
+              344,
+              1290
+            ],
+            [
+              343,
+              1324
+            ],
+            [
+              337,
+              1341
+            ],
+            [
+              325,
+              1353
+            ],
+            [
+              308,
+              1356
+            ],
+            [
+              295,
+              1350
+            ],
+            [
+              285,
+              1337
+            ],
+            [
+              280,
+              1315
+            ],
+            [
+              280,
+              1286
+            ],
+            [
+              276,
+              1260
+            ]
+          ],
+          "note": "Rear white/yellow platform beside the road. Eastern margin is partly canopy-obscured. This physical platform also carries hole 17 white.",
+          "uncertaintyMetres": 2.5,
+          "sharedPhysicalPlatformId": "lidingo-shared-tee-15-17-rear-lm2025",
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-15-b-lm2025",
+          "pixels": [
+            [
+              310,
+              934
+            ],
+            [
+              333,
+              936
+            ],
+            [
+              353,
+              946
+            ],
+            [
+              365,
+              963
+            ],
+            [
+              364,
+              986
+            ],
+            [
+              357,
+              1016
+            ],
+            [
+              350,
+              1059
+            ],
+            [
+              348,
+              1090
+            ],
+            [
+              343,
+              1112
+            ],
+            [
+              331,
+              1128
+            ],
+            [
+              312,
+              1131
+            ],
+            [
+              295,
+              1124
+            ],
+            [
+              287,
+              1109
+            ],
+            [
+              286,
+              1085
+            ],
+            [
+              287,
+              1050
+            ],
+            [
+              289,
+              1015
+            ],
+            [
+              291,
+              984
+            ],
+            [
+              292,
+              957
+            ]
+          ],
+          "note": "Long intermediate blue platform beside the road, west of the rock outcrop.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-15-c-lm2025",
+          "pixels": [
+            [
+              350,
+              789
+            ],
+            [
+              368,
+              797
+            ],
+            [
+              373,
+              811
+            ],
+            [
+              365,
+              834
+            ],
+            [
+              359,
+              853
+            ],
+            [
+              351,
+              866
+            ],
+            [
+              332,
+              872
+            ],
+            [
+              316,
+              868
+            ],
+            [
+              308,
+              855
+            ],
+            [
+              308,
+              838
+            ],
+            [
+              312,
+              815
+            ],
+            [
+              319,
+              799
+            ]
+          ],
+          "note": "Separate forward red platform immediately south of the path curve.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-15-a-lm2025",
+          "pixel": [
+            306,
+            1324
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2.5
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-15-a-lm2025",
+          "pixel": [
+            305,
+            1233
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2.5
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-15-b-lm2025",
+          "pixel": [
+            324,
+            1022
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-15-c-lm2025",
+          "pixel": [
+            339,
+            831
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "padId": null,
+          "pixel": null,
+          "note": "Orange is absent from the club guide; scorecard length alone does not establish its physical platform or marker location."
+        }
+      ],
+      "overlayReview": {
+        "path": "lidingobuild/cache/lm-ortho/hole-15-back6-verified-overlay.png",
+        "sha256": "a46644e4b4cf42bcbf6babce1440575d5e010b85f482be6cad4825072169e8d8",
+        "completed": true,
+        "checkedAt": "2026-09-09T20:45:03.340801+00:00",
+        "method": "Manually inspected the rendered full-resolution overlay against the RGB image and full club guide."
+      }
+    },
+    {
+      "hole": 16,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/hole-16-tees.png",
+        "sha256": "c592115e2e6a689d8c158a7c176974826556b7bb5db9547be91bafccac495a3a",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677728.0,
+          0.16,
+          0.0,
+          6586912.96,
+          0.0,
+          -0.16
+        ],
+        "width": 803,
+        "height": 1666,
+        "resolutionMetres": 0.16
+      },
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924728_Lidingo_16.webp",
+        "sha256": "8c60f3e913dc3de742eff9b080328d55343e9ed7a65587b464605122bfe0ddc4",
+        "url": "https://banguider.se/lidingo-golfklubb/18-halsbanan"
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-16-a-lm2025",
+          "pixels": [
+            [
+              479.0,
+              352.7
+            ],
+            [
+              458.5,
+              361.3
+            ],
+            [
+              427.3,
+              347.5
+            ],
+            [
+              429.7,
+              317.0
+            ],
+            [
+              449.0,
+              281.8
+            ],
+            [
+              475.3,
+              285.5
+            ],
+            [
+              484.4,
+              315.5
+            ]
+          ],
+          "note": "White platform is substantially canopy-obscured. Existing OSM way/331796648 edge is retained as the prior where hidden; LM confirms location and visible west turf, not a new precise complete outline.",
+          "uncertaintyMetres": 3.0,
+          "geometryMethod": "retained-OSM-edge-under-canopy-with-LM-location-review",
+          "retainedSourceFeatureId": "way/331796648"
+        },
+        {
+          "id": "lidingo-tee-16-b-lm2025",
+          "pixels": [
+            [
+              287,
+              455
+            ],
+            [
+              305,
+              458
+            ],
+            [
+              316,
+              474
+            ],
+            [
+              318,
+              505
+            ],
+            [
+              324,
+              535
+            ],
+            [
+              336,
+              566
+            ],
+            [
+              355,
+              599
+            ],
+            [
+              365,
+              619
+            ],
+            [
+              363,
+              632
+            ],
+            [
+              350,
+              640
+            ],
+            [
+              334,
+              642
+            ],
+            [
+              311,
+              636
+            ],
+            [
+              292,
+              621
+            ],
+            [
+              280,
+              597
+            ],
+            [
+              273,
+              568
+            ],
+            [
+              269,
+              536
+            ],
+            [
+              268,
+              500
+            ],
+            [
+              273,
+              473
+            ]
+          ],
+          "note": "Curved continuous yellow/blue platform west of the path and the rock face. Northern tip is partly shaded; visible mowing edges followed around the rock.",
+          "uncertaintyMetres": 2.0,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-16-c-lm2025",
+          "pixels": [
+            [
+              470,
+              706
+            ],
+            [
+              487,
+              708
+            ],
+            [
+              501,
+              717
+            ],
+            [
+              510,
+              731
+            ],
+            [
+              510,
+              749
+            ],
+            [
+              503,
+              761
+            ],
+            [
+              486,
+              765
+            ],
+            [
+              470,
+              760
+            ],
+            [
+              460,
+              750
+            ],
+            [
+              459,
+              734
+            ],
+            [
+              464,
+              716
+            ]
+          ],
+          "note": "Separate forward red platform east of the path. East edge is shaded; no turf extended into the tree canopy.",
+          "uncertaintyMetres": 2.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-16-a-lm2025",
+          "pixel": [
+            452,
+            322
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 3.0
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-16-b-lm2025",
+          "pixel": [
+            291,
+            486
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-16-b-lm2025",
+          "pixel": [
+            335,
+            611
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-16-c-lm2025",
+          "pixel": [
+            482,
+            739
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2.5
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "padId": null,
+          "pixel": null,
+          "note": "Orange is absent from the club guide; scorecard length alone does not establish its physical platform or marker location."
+        }
+      ],
+      "overlayReview": {
+        "path": "lidingobuild/cache/lm-ortho/hole-16-back6-verified-overlay.png",
+        "sha256": "44d918eec3a0270864b391329879cc123f6119656f9193b8b508ddff098f5e76",
+        "completed": true,
+        "checkedAt": "2026-09-09T20:45:03.340801+00:00",
+        "method": "Manually inspected the rendered full-resolution overlay against the RGB image and full club guide."
+      }
+    },
+    {
+      "hole": 17,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/hole-17-tees.png",
+        "sha256": "8286b389f253cf5efbd28116f05d277463e72f7388b640fcd000b03e67370a2a",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677603.2,
+          0.16,
+          0.0,
+          6586699.36,
+          0.0,
+          -0.16
+        ],
+        "width": 1699,
+        "height": 999,
+        "resolutionMetres": 0.16
+      },
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924728_Lidingo_17.webp",
+        "sha256": "d0b726c5c9cd5d127b359a761a69b485ed93444a9d106ea6e1fb67c2f743d040",
+        "url": "https://banguider.se/lidingo-golfklubb/18-halsbanan"
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-17-a-lm2025",
+          "pixels": [
+            [
+              114,
+              791
+            ],
+            [
+              122,
+              776
+            ],
+            [
+              137,
+              773
+            ],
+            [
+              155,
+              780
+            ],
+            [
+              170,
+              799
+            ],
+            [
+              176,
+              822
+            ],
+            [
+              177,
+              852
+            ],
+            [
+              176,
+              886
+            ],
+            [
+              170,
+              903
+            ],
+            [
+              158,
+              915
+            ],
+            [
+              141,
+              918
+            ],
+            [
+              128,
+              912
+            ],
+            [
+              118,
+              899
+            ],
+            [
+              113,
+              877
+            ],
+            [
+              113,
+              848
+            ],
+            [
+              109,
+              822
+            ]
+          ],
+          "note": "Shared physical rear platform with hole 15 white/yellow, independently associated with hole 17 white by the club guide. Canopy partly obscures its eastern edge.",
+          "uncertaintyMetres": 2.5,
+          "sharedPhysicalPlatformId": "lidingo-shared-tee-15-17-rear-lm2025",
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-17-b-lm2025",
+          "pixels": [
+            [
+              318,
+              645
+            ],
+            [
+              346,
+              646
+            ],
+            [
+              371,
+              652
+            ],
+            [
+              388,
+              664
+            ],
+            [
+              393,
+              681
+            ],
+            [
+              389,
+              695
+            ],
+            [
+              375,
+              704
+            ],
+            [
+              351,
+              708
+            ],
+            [
+              322,
+              705
+            ],
+            [
+              307,
+              697
+            ],
+            [
+              299,
+              684
+            ],
+            [
+              297,
+              668
+            ],
+            [
+              305,
+              653
+            ]
+          ],
+          "note": "Separate yellow/blue platform in the open area south of the path; the long platforms north of the path are practice facilities.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-17-c-lm2025",
+          "pixels": [
+            [
+              630,
+              576
+            ],
+            [
+              651,
+              579
+            ],
+            [
+              676,
+              587
+            ],
+            [
+              686,
+              602
+            ],
+            [
+              686,
+              618
+            ],
+            [
+              676,
+              633
+            ],
+            [
+              660,
+              638
+            ],
+            [
+              638,
+              634
+            ],
+            [
+              619,
+              628
+            ],
+            [
+              612,
+              615
+            ],
+            [
+              612,
+              600
+            ],
+            [
+              619,
+              584
+            ]
+          ],
+          "note": "Separate red platform east of the yellow/blue platform and south of the path.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-17-a-lm2025",
+          "pixel": [
+            144,
+            863
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2.5
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-17-b-lm2025",
+          "pixel": [
+            317,
+            678
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-17-b-lm2025",
+          "pixel": [
+            370,
+            679
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-17-c-lm2025",
+          "pixel": [
+            650,
+            608
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "padId": null,
+          "pixel": null,
+          "note": "Orange is absent from the club guide; scorecard length alone does not establish its physical platform or marker location."
+        }
+      ],
+      "overlayReview": {
+        "path": "lidingobuild/cache/lm-ortho/hole-17-back6-verified-overlay.png",
+        "sha256": "d4cd308f2dfbe90e601df75d7b2ab9c8630e52882b1c6f7a7f194e84cf5b9cc4",
+        "completed": true,
+        "checkedAt": "2026-09-09T20:45:03.340801+00:00",
+        "method": "Manually inspected the rendered full-resolution overlay against the RGB image and full club guide."
+      }
+    },
+    {
+      "hole": 18,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/hole-18-tees.png",
+        "sha256": "3264821ed74e6456ba297c421c0beade0e9fe78827e15939145617a98a016141",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677937.28,
+          0.16,
+          0.0,
+          6586622.4,
+          0.0,
+          -0.16
+        ],
+        "width": 1601,
+        "height": 962,
+        "resolutionMetres": 0.16
+      },
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924728_Lidingo_18.webp",
+        "sha256": "87a6f3e53ffc78df0735df820b895bc34460ea43e1cbc72a9d08dab7124847f9",
+        "url": "https://banguider.se/lidingo-golfklubb/18-halsbanan"
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-18-a-lm2025",
+          "pixels": [
+            [
+              1261,
+              288
+            ],
+            [
+              1278,
+              286
+            ],
+            [
+              1293,
+              294
+            ],
+            [
+              1300,
+              309
+            ],
+            [
+              1297,
+              325
+            ],
+            [
+              1286,
+              337
+            ],
+            [
+              1270,
+              340
+            ],
+            [
+              1256,
+              333
+            ],
+            [
+              1249,
+              318
+            ],
+            [
+              1251,
+              302
+            ]
+          ],
+          "note": "Separate rear white platform at the end of the eastern path spur; canopy shadows affect the northeast edge.",
+          "uncertaintyMetres": 2.0,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-18-b-lm2025",
+          "pixels": [
+            [
+              900,
+              376
+            ],
+            [
+              930,
+              370
+            ],
+            [
+              954,
+              373
+            ],
+            [
+              968,
+              385
+            ],
+            [
+              974,
+              404
+            ],
+            [
+              972,
+              418
+            ],
+            [
+              960,
+              430
+            ],
+            [
+              934,
+              436
+            ],
+            [
+              907,
+              441
+            ],
+            [
+              891,
+              435
+            ],
+            [
+              883,
+              423
+            ],
+            [
+              882,
+              407
+            ],
+            [
+              887,
+              391
+            ]
+          ],
+          "note": "Distinct middle yellow/blue platform inside the path loop, southeast of the previous green.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        },
+        {
+          "id": "lidingo-tee-18-c-lm2025",
+          "pixels": [
+            [
+              488,
+              682
+            ],
+            [
+              507,
+              677
+            ],
+            [
+              526,
+              679
+            ],
+            [
+              536,
+              690
+            ],
+            [
+              539,
+              708
+            ],
+            [
+              533,
+              720
+            ],
+            [
+              513,
+              729
+            ],
+            [
+              492,
+              733
+            ],
+            [
+              478,
+              727
+            ],
+            [
+              472,
+              715
+            ],
+            [
+              473,
+              700
+            ],
+            [
+              479,
+              689
+            ]
+          ],
+          "note": "Separate forward red platform south of the forked path. Eastern edge is partly tree shaded.",
+          "uncertaintyMetres": 1.5,
+          "geometryMethod": "manual-LM-2025-mowing-edge-trace"
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-18-a-lm2025",
+          "pixel": [
+            1276,
+            313
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-18-b-lm2025",
+          "pixel": [
+            949,
+            405
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-18-b-lm2025",
+          "pixel": [
+            905,
+            415
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-18-c-lm2025",
+          "pixel": [
+            505,
+            706
+          ],
+          "note": "Guide-associated representative position inside observed platform; exact movable marker-pair position is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "padId": null,
+          "pixel": null,
+          "note": "Orange is absent from the club guide; scorecard length alone does not establish its physical platform or marker location."
+        }
+      ],
+      "overlayReview": {
+        "path": "lidingobuild/cache/lm-ortho/hole-18-back6-verified-overlay.png",
+        "sha256": "b354a506d6f19fa91342aed52b1bcac10684f1932a678908f793fc9e6bb92805",
+        "completed": true,
+        "checkedAt": "2026-09-09T20:45:03.340801+00:00",
+        "method": "Manually inspected the rendered full-resolution overlay against the RGB image and full club guide."
+      }
+    }
+  ],
+  "validation": {
+    "state": "passed",
+    "validSimplePolygons": 17,
+    "representativeMarksStrictlyInsideAssociatedPads": 24,
+    "manuallyInspectedOverlays": 6,
+    "unresolvedOrangeMarks": 6
+  }
+}

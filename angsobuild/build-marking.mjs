@@ -25,7 +25,7 @@
 
      node angsobuild/build-marking.mjs                                        */
 import path from 'node:path';
-import { readJSON, writeJSON, bbox } from './lib.mjs';
+import { readJSON, writeJSON, bbox, pointInPoly } from './lib.mjs';
 import { HERE } from './lib-v2.mjs';
 
 const model = readJSON(path.join(HERE, 'course-model.json'));
@@ -138,6 +138,21 @@ fence(15, 'left', 0.0, 0.9, 'Lokala regler 2026: white-stake out of bounds share
    5th, immovable obstructions from the 6th; the nearest colour the engine has */
 runs.push({ color: 'w', hole: 5, rule: 'edge', side: 'left', pts: edgeRun({ hole: 5, side: 'left', from: 0.1, to: 0.85, margin: 8 }),
   basis: 'Lokala regler 2026: vit-svarta pinnar mot hål 6 är out of bounds från hål 5 (oflyttbara hindrande föremål från hål 6)' });
+
+// These stakes are inferred decoration, not surveyed boundary controls. A
+// centreline offset must not place one inside a reviewed physical tee deck.
+const reviewedPads = model.holes.flatMap(h => h.tees.pads.filter(p => p.prov === 'lm-orthophoto')
+  .map(p => ({ hole: h.n, ...p })));
+for (const run of runs) {
+  const excluded = [];
+  run.pts = run.pts.filter(point => {
+    const pad = reviewedPads.find(p => pointInPoly(...point, p.ring));
+    if (!pad) return true;
+    excluded.push({ point, hole: pad.hole, padReviewId: pad.reviewId });
+    return false;
+  });
+  if (excluded.length) run.excludedOnReviewedTees = excluded;
+}
 
 const out = {
   source: 'Ängsö GK Lokala regler 2026 and the club\'s hole texts (guide-notes.json) for WHICH sides are marked and in what colour; positions by the rules stated in build-marking.mjs -- pond margins from the model\'s own rings, fairway edges from the traced fairways, the fence and property line at the satellite tree-cover raster\'s woodland edge. No stake here is surveyed.',

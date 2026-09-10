@@ -23,6 +23,20 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def retained_pad_index(part, pads):
+    index = part.get('retainedOriginalPadIndex', part.get('sourceOriginalPadIndex'))
+    if (type(index) is not int or index < 0 or index >= len(pads) or
+            ('retainedOriginalPadIndex' in part and 'sourceOriginalPadIndex' in part and
+             part['retainedOriginalPadIndex'] != part['sourceOriginalPadIndex'])):
+        raise ValueError('Historical retention needs one valid original pad index')
+    return index
+
+
+def historical_pad_identity(old, index):
+    source_id = old.get('sourceId') or old.get('id')
+    return {'sourceId': source_id} if source_id is not None else {'sourceOriginalPadIndex': index}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('decisions', type=Path)
@@ -76,8 +90,9 @@ def main():
             raise ValueError('Nonempty parts are supported only for full fairway replacement')
         traced = []
         for part in parts:
-            if kind == 'tee-set' and 'retainedOriginalPadIndex' in part:
-                old = hole['tees']['pads'][part['retainedOriginalPadIndex']]
+            if kind == 'tee-set' and ('retainedOriginalPadIndex' in part or 'sourceOriginalPadIndex' in part):
+                original_index = retained_pad_index(part, hole['tees']['pads'])
+                old = hole['tees']['pads'][original_index]
                 if old.get('prov') == 'synth' or not part.get('note') or part.get('uncertaintyM', 0) < 3:
                     raise ValueError('Historical retention excludes synthetic pads and requires a note and uncertainty of at least 3 metres')
                 panel, plain = read_panel(part, default_report)
@@ -85,7 +100,7 @@ def main():
                     'panel': panel['id'], 'sourceFiles': panel['sources'],
                     'panelExtent': panel['extentEPSG3006'], 'panelPixelSize': panel['pixelSize'],
                     'panelGeoTransform': panel['geoTransform'], 'panelImageSha256': sha(plain),
-                    'retainedOriginalPadIndex': part['retainedOriginalPadIndex'],
+                    'retainedOriginalPadIndex': original_index,
                     'retainedHistorical': True, 'note': part['note'],
                     'uncertaintyM': part['uncertaintyM'],
                     'acceptance': 'Historical boundary retained unchanged; orthophoto does not resolve the obscured perimeter',
@@ -125,8 +140,9 @@ def main():
                 pad = {key: part[key] for key in ['id', 'note'] if key in part}
                 pad['ring'] = ring
                 if evidence.get('retainedHistorical'):
-                    old = hole['tees']['pads'][part['retainedOriginalPadIndex']]
-                    pad.update(retainedHistorical=True, prov=old.get('prov'), sourceId=old.get('id'),
+                    original_index = retained_pad_index(part, hole['tees']['pads'])
+                    old = hole['tees']['pads'][original_index]
+                    pad.update(retainedHistorical=True, prov=old.get('prov'), **historical_pad_identity(old, original_index),
                                boundaryInterpretationUncertaintyMetres=part['uncertaintyM'])
                 pads.append(pad)
             geometry = {'pads': pads}
@@ -149,6 +165,8 @@ def main():
             feature['evidence']['sourcePanels'] = [evidence for _, evidence in traced]
             feature['evidence']['sourcePixelRings'] = [evidence.get('sourcePixelRing') for _, evidence in traced]
             feature['evidence']['sourceRingsEPSG3006'] = [evidence.get('sourceRingEPSG3006') for _, evidence in traced]
+        if 'corroboratingDocuments' in decision:
+            feature['evidence']['corroboratingDocuments'] = decision['corroboratingDocuments']
         features.append(feature)
     result = dict(schemaVersion=1, groundId='veckefjarden', frame=frame,
                   reviewedOn='2026-09-09', features=features)

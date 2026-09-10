@@ -1,0 +1,4164 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "scope": "Unresolved references after the accepted platform followup; read-only snapshot, not an adoption ledger.",
+  "counts": {
+    "references": 17,
+    "courses": [
+      {
+        "slug": "upsala",
+        "unresolvedReferences": 12,
+        "frame": {
+          "origin": {
+            "lat": 59.839,
+            "lon": 17.4952
+          },
+          "mPerLat": 111320,
+          "mPerLon": 55930.68
+        }
+      },
+      {
+        "slug": "upsala-mellanbanan",
+        "unresolvedReferences": 5,
+        "frame": {
+          "origin": {
+            "lat": 59.839,
+            "lon": 17.4952
+          },
+          "mPerLat": 111320,
+          "mPerLon": 55930.68
+        }
+      }
+    ],
+    "provisionalTeeAreaReferences": 3,
+    "insideSameHoleFairway": 3,
+    "insideAnySameHolePad": 1
+  },
+  "sources": [
+    {
+      "path": "apps/golf/public/courses/index.json",
+      "sha256": "5813fe4475507b4798cdb3c771bf526e7124af94d126db9633398632bc11011a"
+    },
+    {
+      "path": "upsalabuild/mapping/stora-tees-13-18-2025.json",
+      "sha256": "60cf8182c878f5247641c9d952544bd5daabec317a5f617693fdfbda97cd4baf"
+    },
+    {
+      "path": "upsalabuild/course-model.json",
+      "sha256": "934e80e2a69110971a48096899886a4c7bc644346634e04c8733b1d702c15b6d"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+      "sha256": "679317bf8e56797efe83dac5057e9fb7df795aec0b90c42752e051b1fac7c450"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+      "sha256": "2eee1088a6ba885df48d043520d69c1e8ad9ecab6a71d216a243520fb1af3f8f"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-followup-stora-2026-09-09.json",
+      "sha256": "de5e4e0e1b7eecd6287ccb1ebf86bbb717a05d5dc1fff0ec7314375861366291"
+    },
+    {
+      "path": "upsalamellanbuild/course-model.json",
+      "sha256": "fadeb7e11dc994946a3fdd61dedf8fe01161d794e8bbbe16dccdbae3fb2deabc"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+      "sha256": "21320b7931377da280ee816a84af3d60b9a03f1ad4f3fb89643368a12b63a4fe"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-followup-mellan-2026-09-09.json",
+      "sha256": "10da5b3560bdefbce607a40ac3236f9357da4d26733f7cc69c9ace31b390561c"
+    }
+  ],
+  "points": [
+    {
+      "slug": "upsala",
+      "hole": 3,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 207,
+      "referenceLocalXZ": [
+        405.9,
+        -11
+      ],
+      "wgs84LongitudeLatitude": [
+        17.502457197659673,
+        59.839098814229246
+      ],
+      "epsg3006EastingNorthing": [
+        640236.4182093345,
+        6636140.731901685
+      ],
+      "currentMark": {
+        "c": [
+          405.9,
+          -11
+        ],
+        "b": 177.4,
+        "m": 207
+      },
+      "currentRouteStart": [
+        387.6,
+        -126.4
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-03-front",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 72.342194,
+          "signedBoundaryDistanceMetres": 72.342194,
+          "centreLocal": [
+            405.449503,
+            -87.874105
+          ],
+          "ringLocal": [
+            [
+              402.535,
+              -91.652
+            ],
+            [
+              404.815,
+              -92.565
+            ],
+            [
+              407.289,
+              -91.972
+            ],
+            [
+              409.476,
+              -90.389
+            ],
+            [
+              410.369,
+              -87.605
+            ],
+            [
+              409.537,
+              -85.386
+            ],
+            [
+              407.227,
+              -83.724
+            ],
+            [
+              404.467,
+              -83.328
+            ],
+            [
+              402.261,
+              -84.412
+            ],
+            [
+              400.832,
+              -86.216
+            ],
+            [
+              400.936,
+              -88.962
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.25
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-stora-tee-03-rear",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 101.125139,
+          "signedBoundaryDistanceMetres": 101.125139,
+          "centreLocal": [
+            387.931154,
+            -121.436044
+          ],
+          "ringLocal": [
+            [
+              382.31,
+              -131.17
+            ],
+            [
+              384.84,
+              -132.074
+            ],
+            [
+              387.323,
+              -131.73
+            ],
+            [
+              389.712,
+              -128.89
+            ],
+            [
+              391.814,
+              -125.06
+            ],
+            [
+              395.087,
+              -119.185
+            ],
+            [
+              396.662,
+              -114.626
+            ],
+            [
+              395.331,
+              -112.426
+            ],
+            [
+              392.792,
+              -111.272
+            ],
+            [
+              389.829,
+              -112.134
+            ],
+            [
+              386.415,
+              -114.263
+            ],
+            [
+              383.269,
+              -116.883
+            ],
+            [
+              381.628,
+              -119.695
+            ],
+            [
+              380.56,
+              -124.486
+            ],
+            [
+              380.73,
+              -128.979
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 7.784668,
+        "signedBoundaryDistanceMetres": 7.784668
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+          "status": "retain",
+          "reason": "This forward nominal reference lies beyond the last observed tee stage on fairway/path/rough. The source does not establish an associated physical platform; retain explicitly unresolved instead of moving it backward to an unrelated deck."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 4,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 248,
+      "referenceLocalXZ": [
+        251.7,
+        123
+      ],
+      "wgs84LongitudeLatitude": [
+        17.49970021347854,
+        59.83789507725476
+      ],
+      "epsg3006EastingNorthing": [
+        640087.0243336358,
+        6636000.9078575075
+      ],
+      "currentMark": {
+        "c": [
+          251.7,
+          123
+        ],
+        "b": -59,
+        "m": 248
+      },
+      "currentRouteStart": [
+        383,
+        191
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 3,
+          "sourceId": "upsala-stora-tee-04-front",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 49.840277,
+          "signedBoundaryDistanceMetres": 49.840277,
+          "centreLocal": [
+            274.712617,
+            175.492783
+          ],
+          "ringLocal": [
+            [
+              271.669,
+              168.665
+            ],
+            [
+              274.161,
+              168.759
+            ],
+            [
+              277.833,
+              170.648
+            ],
+            [
+              280.481,
+              173.249
+            ],
+            [
+              281.854,
+              176.551
+            ],
+            [
+              281.003,
+              179.269
+            ],
+            [
+              278.934,
+              181.191
+            ],
+            [
+              275.905,
+              182.076
+            ],
+            [
+              272.444,
+              181.195
+            ],
+            [
+              269.769,
+              179.344
+            ],
+            [
+              268.367,
+              176.791
+            ],
+            [
+              268.241,
+              173.536
+            ],
+            [
+              269.35,
+              170.578
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.25
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "upsala-stora-tee-04-middle-front",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 72.82061,
+          "signedBoundaryDistanceMetres": 72.82061,
+          "centreLocal": [
+            307.565865,
+            181.004152
+          ],
+          "ringLocal": [
+            [
+              304.425,
+              173.654
+            ],
+            [
+              307.157,
+              174.008
+            ],
+            [
+              310.82,
+              176.146
+            ],
+            [
+              314.206,
+              179.025
+            ],
+            [
+              315.588,
+              182.077
+            ],
+            [
+              314.977,
+              185.054
+            ],
+            [
+              312.668,
+              186.717
+            ],
+            [
+              309.141,
+              187.584
+            ],
+            [
+              305.173,
+              186.934
+            ],
+            [
+              302.238,
+              185.322
+            ],
+            [
+              300.597,
+              182.51
+            ],
+            [
+              300.212,
+              179.495
+            ],
+            [
+              301.072,
+              176.528
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.25
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-04-middle-rear",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 106.240654,
+          "signedBoundaryDistanceMetres": 106.240654,
+          "centreLocal": [
+            348.937051,
+            184.937275
+          ],
+          "ringLocal": [
+            [
+              341.611,
+              180.311
+            ],
+            [
+              345.637,
+              179.464
+            ],
+            [
+              351.138,
+              179.172
+            ],
+            [
+              355.088,
+              180.321
+            ],
+            [
+              357.256,
+              182.404
+            ],
+            [
+              358.131,
+              185.687
+            ],
+            [
+              357.538,
+              188.165
+            ],
+            [
+              355.22,
+              190.077
+            ],
+            [
+              351.693,
+              190.944
+            ],
+            [
+              347.465,
+              190.534
+            ],
+            [
+              343.515,
+              189.384
+            ],
+            [
+              340.341,
+              187.514
+            ],
+            [
+              339.448,
+              184.73
+            ],
+            [
+              340.05,
+              182.003
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 2
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-stora-tee-04-rear",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 136.693624,
+          "signedBoundaryDistanceMetres": 136.693624,
+          "centreLocal": [
+            379.45368,
+            187.64851
+          ],
+          "ringLocal": [
+            [
+              377.011,
+              181.401
+            ],
+            [
+              380.481,
+              182.032
+            ],
+            [
+              383.674,
+              183.403
+            ],
+            [
+              385.592,
+              185.476
+            ],
+            [
+              385.968,
+              188.74
+            ],
+            [
+              384.619,
+              191.44
+            ],
+            [
+              382.31,
+              193.102
+            ],
+            [
+              378.783,
+              193.969
+            ],
+            [
+              376.328,
+              192.876
+            ],
+            [
+              374.161,
+              190.794
+            ],
+            [
+              373.267,
+              188.01
+            ],
+            [
+              373.639,
+              184.774
+            ],
+            [
+              374.96,
+              182.823
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 2
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 0.71706,
+        "signedBoundaryDistanceMetres": 0.71706
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+          "status": "retain",
+          "reason": "This forward nominal reference lies beyond the last observed tee stage on fairway/path/rough. The source does not establish an associated physical platform; retain explicitly unresolved instead of moving it backward to an unrelated deck."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 5,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 337,
+      "referenceLocalXZ": [
+        126.5,
+        194.5
+      ],
+      "wgs84LongitudeLatitude": [
+        17.497461728267922,
+        59.837252784764644
+      ],
+      "epsg3006EastingNorthing": [
+        639964.3117250463,
+        6635924.6811802685
+      ],
+      "currentMark": {
+        "c": [
+          126.5,
+          194.5
+        ],
+        "b": -178,
+        "m": 337
+      },
+      "currentRouteStart": [
+        107.336,
+        51.34
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 3,
+          "sourceId": "upsala-stora-tee-05-front",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 48.202719,
+          "signedBoundaryDistanceMetres": 48.202719,
+          "centreLocal": [
+            107.743121,
+            143.221278
+          ],
+          "ringLocal": [
+            [
+              105.904,
+              136.649
+            ],
+            [
+              108.646,
+              136.752
+            ],
+            [
+              111.082,
+              138.344
+            ],
+            [
+              112.464,
+              141.397
+            ],
+            [
+              112.554,
+              145.65
+            ],
+            [
+              111.453,
+              148.359
+            ],
+            [
+              109.163,
+              149.523
+            ],
+            [
+              106.671,
+              149.428
+            ],
+            [
+              104.466,
+              148.345
+            ],
+            [
+              103.055,
+              146.042
+            ],
+            [
+              102.956,
+              142.038
+            ],
+            [
+              103.826,
+              138.82
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "upsala-stora-tee-05-middle-front",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 70.246449,
+          "signedBoundaryDistanceMetres": 70.246449,
+          "centreLocal": [
+            118.290394,
+            117.865697
+          ],
+          "ringLocal": [
+            [
+              116.611,
+              110.801
+            ],
+            [
+              119.103,
+              110.895
+            ],
+            [
+              121.539,
+              112.488
+            ],
+            [
+              123.209,
+              114.551
+            ],
+            [
+              123.843,
+              117.575
+            ],
+            [
+              123.472,
+              120.811
+            ],
+            [
+              121.883,
+              123.251
+            ],
+            [
+              119.085,
+              124.646
+            ],
+            [
+              116.343,
+              124.542
+            ],
+            [
+              114.406,
+              122.969
+            ],
+            [
+              113.004,
+              120.416
+            ],
+            [
+              112.877,
+              117.161
+            ],
+            [
+              114.015,
+              113.453
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.75
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-05-middle-rear",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 104.838209,
+          "signedBoundaryDistanceMetres": 104.838209,
+          "centreLocal": [
+            111.818492,
+            83.486462
+          ],
+          "ringLocal": [
+            [
+              110.929,
+              76.084
+            ],
+            [
+              113.901,
+              76.697
+            ],
+            [
+              116.558,
+              79.047
+            ],
+            [
+              117.913,
+              82.849
+            ],
+            [
+              117.8,
+              85.845
+            ],
+            [
+              116.22,
+              88.035
+            ],
+            [
+              113.643,
+              90.188
+            ],
+            [
+              110.873,
+              90.833
+            ],
+            [
+              108.419,
+              89.74
+            ],
+            [
+              106.759,
+              87.428
+            ],
+            [
+              105.884,
+              84.144
+            ],
+            [
+              106.255,
+              80.908
+            ],
+            [
+              108.122,
+              77.728
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-stora-tee-05-rear",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 139.479181,
+          "signedBoundaryDistanceMetres": 139.479181,
+          "centreLocal": [
+            102.470498,
+            50.068113
+          ],
+          "ringLocal": [
+            [
+              101.693,
+              42.983
+            ],
+            [
+              104.185,
+              43.077
+            ],
+            [
+              106.861,
+              44.929
+            ],
+            [
+              108.253,
+              47.731
+            ],
+            [
+              108.361,
+              51.486
+            ],
+            [
+              107.261,
+              54.194
+            ],
+            [
+              105.441,
+              56.126
+            ],
+            [
+              102.911,
+              57.03
+            ],
+            [
+              99.93,
+              56.668
+            ],
+            [
+              97.743,
+              55.085
+            ],
+            [
+              96.609,
+              52.042
+            ],
+            [
+              96.741,
+              48.547
+            ],
+            [
+              98.119,
+              45.099
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 5.437029,
+        "signedBoundaryDistanceMetres": 5.437029
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+          "status": "retain",
+          "reason": "This forward nominal reference lies beyond the last observed tee stage on fairway/path/rough. The source does not establish an associated physical platform; retain explicitly unresolved instead of moving it backward to an unrelated deck."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 7,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 243,
+      "referenceLocalXZ": [
+        -343.8,
+        279.2
+      ],
+      "wgs84LongitudeLatitude": [
+        17.489053105308216,
+        59.836491915199424
+      ],
+      "epsg3006EastingNorthing": [
+        639496.4006052573,
+        6635822.251081261
+      ],
+      "currentMark": {
+        "c": [
+          -343.8,
+          279.2
+        ],
+        "b": -16.7,
+        "m": 243
+      },
+      "currentRouteStart": [
+        -263.166,
+        430.292
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-stora-tee-07-front-north-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 43.492915,
+          "signedBoundaryDistanceMetres": 43.492915,
+          "centreLocal": [
+            -338.264594,
+            331.49448
+          ],
+          "ringLocal": [
+            [
+              -342.608,
+              323.248
+            ],
+            [
+              -340.586,
+              322.574
+            ],
+            [
+              -338.381,
+              323.657
+            ],
+            [
+              -336.49,
+              326.479
+            ],
+            [
+              -334.656,
+              330.798
+            ],
+            [
+              -332.591,
+              335.626
+            ],
+            [
+              -332.675,
+              337.873
+            ],
+            [
+              -333.728,
+              339.333
+            ],
+            [
+              -335.999,
+              339.998
+            ],
+            [
+              -338.214,
+              339.164
+            ],
+            [
+              -339.883,
+              337.101
+            ],
+            [
+              -341.497,
+              333.54
+            ],
+            [
+              -343.101,
+              329.73
+            ],
+            [
+              -343.727,
+              326.456
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-07-middle-north-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 112.764601,
+          "signedBoundaryDistanceMetres": 112.764601,
+          "centreLocal": [
+            -295.996067,
+            387.876698
+          ],
+          "ringLocal": [
+            [
+              -300.966,
+              384.07
+            ],
+            [
+              -298.916,
+              382.647
+            ],
+            [
+              -296.184,
+              383
+            ],
+            [
+              -293.758,
+              384.841
+            ],
+            [
+              -291.867,
+              387.663
+            ],
+            [
+              -290.715,
+              390.206
+            ],
+            [
+              -291.537,
+              392.176
+            ],
+            [
+              -293.329,
+              393.358
+            ],
+            [
+              -295.793,
+              392.515
+            ],
+            [
+              -298.229,
+              390.923
+            ],
+            [
+              -299.889,
+              388.611
+            ],
+            [
+              -301.051,
+              386.317
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "upsala-stora-tee-07-middle-south-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 125.034161,
+          "signedBoundaryDistanceMetres": 125.034161,
+          "centreLocal": [
+            -288.063553,
+            399.71748
+          ],
+          "ringLocal": [
+            [
+              -291.815,
+              392.915
+            ],
+            [
+              -289.304,
+              392.51
+            ],
+            [
+              -287.127,
+              394.342
+            ],
+            [
+              -284.996,
+              397.422
+            ],
+            [
+              -282.645,
+              401.261
+            ],
+            [
+              -282.498,
+              404.017
+            ],
+            [
+              -283.81,
+              405.717
+            ],
+            [
+              -286.09,
+              406.632
+            ],
+            [
+              -288.554,
+              405.789
+            ],
+            [
+              -290.473,
+              403.716
+            ],
+            [
+              -292.345,
+              400.396
+            ],
+            [
+              -293.211,
+              396.863
+            ],
+            [
+              -293.117,
+              394.366
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 3,
+          "sourceId": "upsala-stora-tee-07-back-east-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 162.854828,
+          "signedBoundaryDistanceMetres": 162.854828,
+          "centreLocal": [
+            -260.162588,
+            429.065273
+          ],
+          "ringLocal": [
+            [
+              -263.669,
+              420.977
+            ],
+            [
+              -261.158,
+              420.572
+            ],
+            [
+              -258.713,
+              421.914
+            ],
+            [
+              -256.841,
+              425.235
+            ],
+            [
+              -255.247,
+              429.295
+            ],
+            [
+              -254.64,
+              433.068
+            ],
+            [
+              -254.992,
+              435.805
+            ],
+            [
+              -256.553,
+              437.496
+            ],
+            [
+              -259.064,
+              437.902
+            ],
+            [
+              -261.26,
+              436.569
+            ],
+            [
+              -262.892,
+              433.507
+            ],
+            [
+              -264.726,
+              429.188
+            ],
+            [
+              -266.081,
+              425.387
+            ],
+            [
+              -265.987,
+              422.89
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 0.256137,
+        "signedBoundaryDistanceMetres": 0.256137
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+          "status": "retain",
+          "reason": "This forward nominal reference lies beyond the last observed tee stage on fairway/path/rough. The source does not establish an associated physical platform; retain explicitly unresolved instead of moving it backward to an unrelated deck."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 8,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 316,
+      "referenceLocalXZ": [
+        -414.1,
+        -125.3
+      ],
+      "wgs84LongitudeLatitude": [
+        17.487796192286595,
+        59.840125583902264
+      ],
+      "epsg3006EastingNorthing": [
+        639410.7859562535,
+        6636224.079659119
+      ],
+      "currentMark": {
+        "c": [
+          -414.1,
+          -125.3
+        ],
+        "b": 31.3,
+        "m": 316
+      },
+      "currentRouteStart": [
+        -508.172,
+        -12.11
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 2,
+          "sourceId": "upsala-stora-tee-08-front-northeast-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 45.416858,
+          "signedBoundaryDistanceMetres": 45.416858,
+          "centreLocal": [
+            -429.740278,
+            -75.180497
+          ],
+          "ringLocal": [
+            [
+              -432.33,
+              -79.404
+            ],
+            [
+              -430.022,
+              -81.067
+            ],
+            [
+              -428,
+              -81.741
+            ],
+            [
+              -425.766,
+              -81.407
+            ],
+            [
+              -424.308,
+              -80.352
+            ],
+            [
+              -423.386,
+              -78.318
+            ],
+            [
+              -423.978,
+              -75.84
+            ],
+            [
+              -425.576,
+              -73.15
+            ],
+            [
+              -427.913,
+              -70.737
+            ],
+            [
+              -430.48,
+              -68.834
+            ],
+            [
+              -432.752,
+              -68.169
+            ],
+            [
+              -434.459,
+              -69.234
+            ],
+            [
+              -435.649,
+              -70.778
+            ],
+            [
+              -435.823,
+              -72.785
+            ],
+            [
+              -434.723,
+              -75.494
+            ],
+            [
+              -433.642,
+              -77.703
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-stora-hole8-tee-complex-ne-ortho2024",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 85.774022,
+          "signedBoundaryDistanceMetres": 85.774022,
+          "centreLocal": [
+            -468.968557,
+            -47.363285
+          ],
+          "ringLocal": [
+            [
+              -474.602,
+              -48.252
+            ],
+            [
+              -473.174,
+              -50.118
+            ],
+            [
+              -471.108,
+              -51.96
+            ],
+            [
+              -468.966,
+              -53.72
+            ],
+            [
+              -467.007,
+              -54.846
+            ],
+            [
+              -465.148,
+              -55.416
+            ],
+            [
+              -463.402,
+              -55.111
+            ],
+            [
+              -462.08,
+              -54.181
+            ],
+            [
+              -461.173,
+              -52.787
+            ],
+            [
+              -460.755,
+              -51.171
+            ],
+            [
+              -460.977,
+              -49.499
+            ],
+            [
+              -461.758,
+              -47.848
+            ],
+            [
+              -462.937,
+              -46.213
+            ],
+            [
+              -464.586,
+              -44.835
+            ],
+            [
+              -466.398,
+              -43.383
+            ],
+            [
+              -468.375,
+              -41.777
+            ],
+            [
+              -470.184,
+              -40.405
+            ],
+            [
+              -472.131,
+              -39.598
+            ],
+            [
+              -474.134,
+              -39.433
+            ],
+            [
+              -475.708,
+              -40.053
+            ],
+            [
+              -476.789,
+              -41.053
+            ],
+            [
+              -477.379,
+              -42.356
+            ],
+            [
+              -477.245,
+              -43.791
+            ],
+            [
+              -476.624,
+              -45.447
+            ],
+            [
+              -475.607,
+              -47.009
+            ]
+          ],
+          "observedYear": null,
+          "boundaryInterpretationUncertaintyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-hole8-tee-sw-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 127.3971,
+          "signedBoundaryDistanceMetres": 127.3971,
+          "centreLocal": [
+            -508.176801,
+            -20.220841
+          ],
+          "ringLocal": [
+            [
+              -503.566,
+              -31.98
+            ],
+            [
+              -501.025,
+              -31.564
+            ],
+            [
+              -498.686,
+              -30.036
+            ],
+            [
+              -497.01,
+              -27.893
+            ],
+            [
+              -496.467,
+              -25.312
+            ],
+            [
+              -497.201,
+              -22.78
+            ],
+            [
+              -498.892,
+              -20.283
+            ],
+            [
+              -501.393,
+              -17.497
+            ],
+            [
+              -504.218,
+              -14.563
+            ],
+            [
+              -507.534,
+              -11.328
+            ],
+            [
+              -510.649,
+              -9.205
+            ],
+            [
+              -513.722,
+              -8.2
+            ],
+            [
+              -515.777,
+              -8.757
+            ],
+            [
+              -517.803,
+              -10.114
+            ],
+            [
+              -519.167,
+              -12.085
+            ],
+            [
+              -519.721,
+              -14.346
+            ],
+            [
+              -519.306,
+              -16.891
+            ],
+            [
+              -517.597,
+              -19.867
+            ],
+            [
+              -514.931,
+              -22.807
+            ],
+            [
+              -512.265,
+              -25.746
+            ],
+            [
+              -508.937,
+              -29.302
+            ],
+            [
+              -506.142,
+              -31.437
+            ]
+          ],
+          "observedYear": null,
+          "boundaryInterpretationUncertaintyMetres": null
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 2.935075,
+        "signedBoundaryDistanceMetres": 2.935075
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+          "status": "retain",
+          "reason": "This forward nominal reference lies beyond the last observed tee stage on fairway/path/rough. The source does not establish an associated physical platform; retain explicitly unresolved instead of moving it backward to an unrelated deck."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 11,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 248,
+      "referenceLocalXZ": [
+        164.4,
+        -561.2
+      ],
+      "wgs84LongitudeLatitude": [
+        17.498139352784555,
+        59.84404132231405
+      ],
+      "epsg3006EastingNorthing": [
+        639973.7706518449,
+        6636681.762782375
+      ],
+      "currentMark": {
+        "c": [
+          164.4,
+          -561.2
+        ],
+        "b": -107.7,
+        "m": 248
+      },
+      "currentRouteStart": [
+        290.1,
+        -580.592
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-stora-tee-11-front-west-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 33.789613,
+          "signedBoundaryDistanceMetres": 33.789613,
+          "centreLocal": [
+            199.373864,
+            -576.219017
+          ],
+          "ringLocal": [
+            [
+              198.045,
+              -580.168
+            ],
+            [
+              200.058,
+              -580.592
+            ],
+            [
+              201.775,
+              -579.777
+            ],
+            [
+              202.965,
+              -578.232
+            ],
+            [
+              203.388,
+              -576.216
+            ],
+            [
+              203.064,
+              -574.228
+            ],
+            [
+              201.761,
+              -572.777
+            ],
+            [
+              199.978,
+              -571.844
+            ],
+            [
+              198.003,
+              -572.419
+            ],
+            [
+              196.286,
+              -573.234
+            ],
+            [
+              195.345,
+              -574.77
+            ],
+            [
+              195.43,
+              -577.017
+            ],
+            [
+              196.253,
+              -578.986
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 89.209459,
+          "signedBoundaryDistanceMetres": 89.209459,
+          "centreLocal": [
+            271.796722,
+            -582.806724
+          ],
+          "ringLocal": [
+            [
+              253.577,
+              -585.389
+            ],
+            [
+              255.944,
+              -586.369
+            ],
+            [
+              263.154,
+              -587.069
+            ],
+            [
+              272.777,
+              -587.385
+            ],
+            [
+              281.43,
+              -587.739
+            ],
+            [
+              286.475,
+              -587.645
+            ],
+            [
+              290.233,
+              -586.92
+            ],
+            [
+              292.114,
+              -585.293
+            ],
+            [
+              293.006,
+              -583.217
+            ],
+            [
+              292.642,
+              -581.287
+            ],
+            [
+              291.428,
+              -579.971
+            ],
+            [
+              288.774,
+              -579.099
+            ],
+            [
+              284.691,
+              -578.962
+            ],
+            [
+              279.747,
+              -579.149
+            ],
+            [
+              274.893,
+              -579.138
+            ],
+            [
+              270.035,
+              -579.03
+            ],
+            [
+              264.979,
+              -578.832
+            ],
+            [
+              260.659,
+              -577.537
+            ],
+            [
+              257.326,
+              -576.691
+            ],
+            [
+              254.616,
+              -576.891
+            ],
+            [
+              252.624,
+              -578.133
+            ],
+            [
+              251.623,
+              -579.921
+            ],
+            [
+              251.804,
+              -582.15
+            ],
+            [
+              252.556,
+              -584.066
+            ]
+          ],
+          "observedYear": 2023,
+          "boundaryInterpretationUncertaintyMetres": 3
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 3.211926,
+        "signedBoundaryDistanceMetres": 3.211926
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+          "status": "retain",
+          "reason": "Long rear platform and round west platform agree with image; rear south edge is shadowed. Forward 42 reference is on short grass beyond any distinct platform."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 12,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 356,
+      "referenceLocalXZ": [
+        -161.1,
+        -538
+      ],
+      "wgs84LongitudeLatitude": [
+        17.492319648822434,
+        59.84383291412145
+      ],
+      "epsg3006EastingNorthing": [
+        639648.6607012037,
+        6636646.28128072
+      ],
+      "currentMark": {
+        "c": [
+          -161.1,
+          -538
+        ],
+        "b": -118.2,
+        "m": 356
+      },
+      "currentRouteStart": [
+        -10.045,
+        -603.795
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-12-front-southwest-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 27.726,
+          "signedBoundaryDistanceMetres": 27.726,
+          "centreLocal": [
+            -134.557758,
+            -558.004455
+          ],
+          "ringLocal": [
+            [
+              -137.879,
+              -562.346
+            ],
+            [
+              -135.598,
+              -563.26
+            ],
+            [
+              -132.607,
+              -563.147
+            ],
+            [
+              -130.41,
+              -561.814
+            ],
+            [
+              -129.229,
+              -560.019
+            ],
+            [
+              -129.074,
+              -557.513
+            ],
+            [
+              -129.916,
+              -555.045
+            ],
+            [
+              -131.726,
+              -553.363
+            ],
+            [
+              -134.257,
+              -552.459
+            ],
+            [
+              -136.98,
+              -553.061
+            ],
+            [
+              -138.918,
+              -554.634
+            ],
+            [
+              -140.08,
+              -556.928
+            ],
+            [
+              -139.986,
+              -559.425
+            ],
+            [
+              -138.914,
+              -561.385
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "upsala-stora-tee-12-middle-archive-2023",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 99.930802,
+          "signedBoundaryDistanceMetres": 99.930802,
+          "centreLocal": [
+            -61.240295,
+            -574.225593
+          ],
+          "ringLocal": [
+            [
+              -66.253,
+              -576.396
+            ],
+            [
+              -64.296,
+              -578.666
+            ],
+            [
+              -60.98,
+              -579.713
+            ],
+            [
+              -57.726,
+              -579.121
+            ],
+            [
+              -55.693,
+              -577.169
+            ],
+            [
+              -55.097,
+              -574.334
+            ],
+            [
+              -56.372,
+              -571.57
+            ],
+            [
+              -58.788,
+              -569.551
+            ],
+            [
+              -62.104,
+              -568.504
+            ],
+            [
+              -65.098,
+              -569.789
+            ],
+            [
+              -67.122,
+              -571.975
+            ],
+            [
+              -67.501,
+              -574.333
+            ]
+          ],
+          "observedYear": 2023,
+          "boundaryInterpretationUncertaintyMetres": 2
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-stora-tee-12-back-northeast-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 143.707244,
+          "signedBoundaryDistanceMetres": 143.707244,
+          "centreLocal": [
+            -18.063828,
+            -604.416298
+          ],
+          "ringLocal": [
+            [
+              -30.783,
+              -602.309
+            ],
+            [
+              -29.442,
+              -604.759
+            ],
+            [
+              -25.896,
+              -606.125
+            ],
+            [
+              -20.826,
+              -608.184
+            ],
+            [
+              -14.999,
+              -610.464
+            ],
+            [
+              -10.197,
+              -612.033
+            ],
+            [
+              -7.464,
+              -611.68
+            ],
+            [
+              -5.277,
+              -610.098
+            ],
+            [
+              -4.623,
+              -607.573
+            ],
+            [
+              -5.465,
+              -605.104
+            ],
+            [
+              -8.023,
+              -603.451
+            ],
+            [
+              -13.084,
+              -601.642
+            ],
+            [
+              -18.652,
+              -599.602
+            ],
+            [
+              -23.723,
+              -597.543
+            ],
+            [
+              -27.758,
+              -596.445
+            ],
+            [
+              -30.213,
+              -597.538
+            ],
+            [
+              -31.375,
+              -599.832
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": true,
+        "distanceMetres": 0,
+        "signedBoundaryDistanceMetres": -1.57942
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+          "status": "retain",
+          "reason": "Rear elongated, middle round and front round platforms match imagery. Middle south edge under tree shadow. Shortest forward reference has no distinct pad."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 13,
+      "markIndex": 3,
+      "teeName": "51",
+      "cardDistanceMetres": 265,
+      "referenceLocalXZ": [
+        -338.3,
+        -271.4
+      ],
+      "wgs84LongitudeLatitude": [
+        17.489151441319862,
+        59.841438016528926
+      ],
+      "epsg3006EastingNorthing": [
+        639481.2164922545,
+        6636373.023285684
+      ],
+      "currentMark": {
+        "c": [
+          -338.3,
+          -271.4
+        ],
+        "b": 59.6,
+        "m": 265
+      },
+      "currentRouteStart": [
+        -398.3,
+        -239.2
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 0,
+          "sourceId": null,
+          "observedBoundary": false,
+          "provenance": "legacy-boundary-unverified",
+          "inside": false,
+          "distanceMetres": 0.786857,
+          "signedBoundaryDistanceMetres": 0.786857,
+          "centreLocal": [
+            -342.4,
+            -269
+          ],
+          "ringLocal": [
+            [
+              -342.1,
+              -276.6
+            ],
+            [
+              -335.8,
+              -265.3
+            ],
+            [
+              -342.7,
+              -261.4
+            ],
+            [
+              -349,
+              -272.7
+            ]
+          ],
+          "observedYear": null,
+          "boundaryInterpretationUncertaintyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-13-rear-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 49.552447,
+          "signedBoundaryDistanceMetres": 49.552447,
+          "centreLocal": [
+            -392.512022,
+            -241.066536
+          ],
+          "ringLocal": [
+            [
+              -404.127,
+              -239.103
+            ],
+            [
+              -401.042,
+              -241.487
+            ],
+            [
+              -396.96,
+              -243.834
+            ],
+            [
+              -391.853,
+              -246.892
+            ],
+            [
+              -387.79,
+              -248.739
+            ],
+            [
+              -384.781,
+              -249.126
+            ],
+            [
+              -382.565,
+              -248.292
+            ],
+            [
+              -381.135,
+              -246.488
+            ],
+            [
+              -380.712,
+              -244.472
+            ],
+            [
+              -381.535,
+              -242.503
+            ],
+            [
+              -383.594,
+              -240.83
+            ],
+            [
+              -387.168,
+              -238.715
+            ],
+            [
+              -392.007,
+              -236.147
+            ],
+            [
+              -396.338,
+              -233.81
+            ],
+            [
+              -399.376,
+              -232.674
+            ],
+            [
+              -401.36,
+              -232.998
+            ],
+            [
+              -403.04,
+              -234.812
+            ],
+            [
+              -404.211,
+              -236.856
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 39.48105,
+        "signedBoundaryDistanceMetres": 39.48105
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+          "status": "retain",
+          "reason": "Rear oval is supported and matches imagery. Original forward rectangle has only provisional geometry: a rounded platform lies partly northeast under canopy. New image and archived 2023 detail do not establish its complete hidden edge. Retain uncertainty; no reference snap to the unreviewed rectangle. Shortest reference has no distinct pad."
+        }
+      ],
+      "investigationCategory": "tee-area-with-incomplete-platform-boundary",
+      "provisionalPhysicalHistory": {
+        "path": "upsalabuild/mapping/stora-tees-13-18-2025.json",
+        "hole": 13,
+        "retainedOriginalPadIndices": [
+          2
+        ],
+        "notes": [
+          "One elongated rear platform is visible in both imagery years and corroborated by the laser plateau. It replaces two overlapping scorecard-axis rectangles.",
+          "The small forward platform at the old pad2 vicinity is partly covered by tree canopy/shadow in both years. Its full boundary is unresolved; old pad2 remains explicitly provisional.",
+          "The furthest short-tee card reference falls in the fairway; no separate physical deck is established there."
+        ],
+        "nativeReviewPath": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json"
+      },
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 13,
+      "markIndex": 4,
+      "teeName": "47",
+      "cardDistanceMetres": 265,
+      "referenceLocalXZ": [
+        -338.3,
+        -271.4
+      ],
+      "wgs84LongitudeLatitude": [
+        17.489151441319862,
+        59.841438016528926
+      ],
+      "epsg3006EastingNorthing": [
+        639481.2164922545,
+        6636373.023285684
+      ],
+      "currentMark": {
+        "c": [
+          -338.3,
+          -271.4
+        ],
+        "b": 59.6,
+        "m": 265
+      },
+      "currentRouteStart": [
+        -398.3,
+        -239.2
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 0,
+          "sourceId": null,
+          "observedBoundary": false,
+          "provenance": "legacy-boundary-unverified",
+          "inside": false,
+          "distanceMetres": 0.786857,
+          "signedBoundaryDistanceMetres": 0.786857,
+          "centreLocal": [
+            -342.4,
+            -269
+          ],
+          "ringLocal": [
+            [
+              -342.1,
+              -276.6
+            ],
+            [
+              -335.8,
+              -265.3
+            ],
+            [
+              -342.7,
+              -261.4
+            ],
+            [
+              -349,
+              -272.7
+            ]
+          ],
+          "observedYear": null,
+          "boundaryInterpretationUncertaintyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-13-rear-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 49.552447,
+          "signedBoundaryDistanceMetres": 49.552447,
+          "centreLocal": [
+            -392.512022,
+            -241.066536
+          ],
+          "ringLocal": [
+            [
+              -404.127,
+              -239.103
+            ],
+            [
+              -401.042,
+              -241.487
+            ],
+            [
+              -396.96,
+              -243.834
+            ],
+            [
+              -391.853,
+              -246.892
+            ],
+            [
+              -387.79,
+              -248.739
+            ],
+            [
+              -384.781,
+              -249.126
+            ],
+            [
+              -382.565,
+              -248.292
+            ],
+            [
+              -381.135,
+              -246.488
+            ],
+            [
+              -380.712,
+              -244.472
+            ],
+            [
+              -381.535,
+              -242.503
+            ],
+            [
+              -383.594,
+              -240.83
+            ],
+            [
+              -387.168,
+              -238.715
+            ],
+            [
+              -392.007,
+              -236.147
+            ],
+            [
+              -396.338,
+              -233.81
+            ],
+            [
+              -399.376,
+              -232.674
+            ],
+            [
+              -401.36,
+              -232.998
+            ],
+            [
+              -403.04,
+              -234.812
+            ],
+            [
+              -404.211,
+              -236.856
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 39.48105,
+        "signedBoundaryDistanceMetres": 39.48105
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+          "status": "retain",
+          "reason": "Rear oval is supported and matches imagery. Original forward rectangle has only provisional geometry: a rounded platform lies partly northeast under canopy. New image and archived 2023 detail do not establish its complete hidden edge. Retain uncertainty; no reference snap to the unreviewed rectangle. Shortest reference has no distinct pad."
+        }
+      ],
+      "investigationCategory": "tee-area-with-incomplete-platform-boundary",
+      "provisionalPhysicalHistory": {
+        "path": "upsalabuild/mapping/stora-tees-13-18-2025.json",
+        "hole": 13,
+        "retainedOriginalPadIndices": [
+          2
+        ],
+        "notes": [
+          "One elongated rear platform is visible in both imagery years and corroborated by the laser plateau. It replaces two overlapping scorecard-axis rectangles.",
+          "The small forward platform at the old pad2 vicinity is partly covered by tree canopy/shadow in both years. Its full boundary is unresolved; old pad2 remains explicitly provisional.",
+          "The furthest short-tee card reference falls in the fairway; no separate physical deck is established there."
+        ],
+        "nativeReviewPath": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json"
+      },
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 13,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 223,
+      "referenceLocalXZ": [
+        -302.1,
+        -292.6
+      ],
+      "wgs84LongitudeLatitude": [
+        17.48979867106926,
+        59.84162845849802
+      ],
+      "epsg3006EastingNorthing": [
+        639516.6761242519,
+        6636395.584897969
+      ],
+      "currentMark": {
+        "c": [
+          -302.1,
+          -292.6
+        ],
+        "b": 59.6,
+        "m": 223
+      },
+      "currentRouteStart": [
+        -398.3,
+        -239.2
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 0,
+          "sourceId": null,
+          "observedBoundary": false,
+          "provenance": "legacy-boundary-unverified",
+          "inside": false,
+          "distanceMetres": 42.728363,
+          "signedBoundaryDistanceMetres": 42.728363,
+          "centreLocal": [
+            -342.4,
+            -269
+          ],
+          "ringLocal": [
+            [
+              -342.1,
+              -276.6
+            ],
+            [
+              -335.8,
+              -265.3
+            ],
+            [
+              -342.7,
+              -261.4
+            ],
+            [
+              -349,
+              -272.7
+            ]
+          ],
+          "observedYear": null,
+          "boundaryInterpretationUncertaintyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-13-rear-2025",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 91.503266,
+          "signedBoundaryDistanceMetres": 91.503266,
+          "centreLocal": [
+            -392.512022,
+            -241.066536
+          ],
+          "ringLocal": [
+            [
+              -404.127,
+              -239.103
+            ],
+            [
+              -401.042,
+              -241.487
+            ],
+            [
+              -396.96,
+              -243.834
+            ],
+            [
+              -391.853,
+              -246.892
+            ],
+            [
+              -387.79,
+              -248.739
+            ],
+            [
+              -384.781,
+              -249.126
+            ],
+            [
+              -382.565,
+              -248.292
+            ],
+            [
+              -381.135,
+              -246.488
+            ],
+            [
+              -380.712,
+              -244.472
+            ],
+            [
+              -381.535,
+              -242.503
+            ],
+            [
+              -383.594,
+              -240.83
+            ],
+            [
+              -387.168,
+              -238.715
+            ],
+            [
+              -392.007,
+              -236.147
+            ],
+            [
+              -396.338,
+              -233.81
+            ],
+            [
+              -399.376,
+              -232.674
+            ],
+            [
+              -401.36,
+              -232.998
+            ],
+            [
+              -403.04,
+              -234.812
+            ],
+            [
+              -404.211,
+              -236.856
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": true,
+        "distanceMetres": 0,
+        "signedBoundaryDistanceMetres": -2.467996
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+          "status": "retain",
+          "reason": "Rear oval is supported and matches imagery. Original forward rectangle has only provisional geometry: a rounded platform lies partly northeast under canopy. New image and archived 2023 detail do not establish its complete hidden edge. Retain uncertainty; no reference snap to the unreviewed rectangle. Shortest reference has no distinct pad."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 15,
+      "markIndex": 0,
+      "teeName": "62",
+      "cardDistanceMetres": 337,
+      "referenceLocalXZ": [
+        -111.4,
+        -245.5
+      ],
+      "wgs84LongitudeLatitude": [
+        17.493208248782242,
+        59.841205353934605
+      ],
+      "epsg3006EastingNorthing": [
+        639709.4463444912,
+        6636355.673739049
+      ],
+      "currentMark": {
+        "c": [
+          -111.4,
+          -245.5
+        ],
+        "b": -122.9,
+        "m": 337
+      },
+      "currentRouteStart": [
+        -111.3,
+        -245.5
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 0,
+          "sourceId": null,
+          "observedBoundary": false,
+          "provenance": "legacy-boundary-unverified",
+          "inside": true,
+          "distanceMetres": 0,
+          "signedBoundaryDistanceMetres": -3.60533,
+          "centreLocal": [
+            -110.2,
+            -246.2
+          ],
+          "ringLocal": [
+            [
+              -110.3,
+              -237.2
+            ],
+            [
+              -118.5,
+              -249.8
+            ],
+            [
+              -110.1,
+              -255.2
+            ],
+            [
+              -101.9,
+              -242.6
+            ]
+          ],
+          "observedYear": null,
+          "boundaryInterpretationUncertaintyMetres": null
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-15-lower-archive-2023",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 7.881722,
+          "signedBoundaryDistanceMetres": 7.881722,
+          "centreLocal": [
+            -122.023717,
+            -238.221895
+          ],
+          "ringLocal": [
+            [
+              -125.755,
+              -240.337
+            ],
+            [
+              -124.146,
+              -241.631
+            ],
+            [
+              -122.126,
+              -242.804
+            ],
+            [
+              -120.241,
+              -243.15
+            ],
+            [
+              -118.61,
+              -242.255
+            ],
+            [
+              -117.734,
+              -240.66
+            ],
+            [
+              -117.712,
+              -238.471
+            ],
+            [
+              -118.518,
+              -236.418
+            ],
+            [
+              -120.054,
+              -234.288
+            ],
+            [
+              -121.862,
+              -233.211
+            ],
+            [
+              -123.724,
+              -233.489
+            ],
+            [
+              -125.346,
+              -234.592
+            ],
+            [
+              -126.322,
+              -236.296
+            ],
+            [
+              -126.56,
+              -238.284
+            ]
+          ],
+          "observedYear": 2023,
+          "boundaryInterpretationUncertaintyMetres": 2.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 100.395143,
+        "signedBoundaryDistanceMetres": 100.395143
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+          "status": "retain",
+          "reason": "Lower rounded platform matches visible turf; two reference groups sit near its edge. Upper original rectangle is provisional: northern visible turf and substantial southeast canopy do not establish the complete perimeter. Keep upper reference and footprint uncertain. Shortest reference is much farther along fairway, not on lower platform."
+        }
+      ],
+      "investigationCategory": "tee-area-with-incomplete-platform-boundary",
+      "provisionalPhysicalHistory": {
+        "path": "upsalabuild/mapping/stora-tees-13-18-2025.json",
+        "hole": 15,
+        "retainedOriginalPadIndices": [
+          0,
+          1
+        ],
+        "notes": [
+          "Both rear candidate deck lobes are corroborated by terrain, but canopy and shadow hide their connecting and eastern material boundaries in both imagery years. No closed ring is adopted.",
+          "Old pad2 is a scorecard-axis rectangle within the continuous fairway. Neither 2024 nor 2025 shows a separate deck boundary; the terrain does not establish a distinct flat platform there. Retire only this unsupported pad footprint; its route and card reference remain untouched."
+        ],
+        "nativeReviewPath": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json"
+      },
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala",
+      "hole": 15,
+      "markIndex": 5,
+      "teeName": "42",
+      "cardDistanceMetres": 224,
+      "referenceLocalXZ": [
+        -205.7,
+        -183.3
+      ],
+      "wgs84LongitudeLatitude": [
+        17.49152223316434,
+        59.84064660438376
+      ],
+      "epsg3006EastingNorthing": [
+        639617.3382356908,
+        6636289.923123053
+      ],
+      "currentMark": {
+        "c": [
+          -205.7,
+          -183.3
+        ],
+        "b": -125.4,
+        "m": 224
+      },
+      "currentRouteStart": [
+        -111.3,
+        -245.5
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-stora-tee-15-lower-archive-2023",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 95.329086,
+          "signedBoundaryDistanceMetres": 95.329086,
+          "centreLocal": [
+            -122.023717,
+            -238.221895
+          ],
+          "ringLocal": [
+            [
+              -125.755,
+              -240.337
+            ],
+            [
+              -124.146,
+              -241.631
+            ],
+            [
+              -122.126,
+              -242.804
+            ],
+            [
+              -120.241,
+              -243.15
+            ],
+            [
+              -118.61,
+              -242.255
+            ],
+            [
+              -117.734,
+              -240.66
+            ],
+            [
+              -117.712,
+              -238.471
+            ],
+            [
+              -118.518,
+              -236.418
+            ],
+            [
+              -120.054,
+              -234.288
+            ],
+            [
+              -121.862,
+              -233.211
+            ],
+            [
+              -123.724,
+              -233.489
+            ],
+            [
+              -125.346,
+              -234.592
+            ],
+            [
+              -126.322,
+              -236.296
+            ],
+            [
+              -126.56,
+              -238.284
+            ]
+          ],
+          "observedYear": 2023,
+          "boundaryInterpretationUncertaintyMetres": 2.5
+        },
+        {
+          "padIndex": 0,
+          "sourceId": null,
+          "observedBoundary": false,
+          "provenance": "legacy-boundary-unverified",
+          "inside": false,
+          "distanceMetres": 109.358584,
+          "signedBoundaryDistanceMetres": 109.358584,
+          "centreLocal": [
+            -110.2,
+            -246.2
+          ],
+          "ringLocal": [
+            [
+              -110.3,
+              -237.2
+            ],
+            [
+              -118.5,
+              -249.8
+            ],
+            [
+              -110.1,
+              -255.2
+            ],
+            [
+              -101.9,
+              -242.6
+            ]
+          ],
+          "observedYear": null,
+          "boundaryInterpretationUncertaintyMetres": null
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": true,
+        "distanceMetres": 0,
+        "signedBoundaryDistanceMetres": -12.54497
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+          "status": "retain",
+          "reason": "Lower rounded platform matches visible turf; two reference groups sit near its edge. Upper original rectangle is provisional: northern visible turf and substantial southeast canopy do not establish the complete perimeter. Keep upper reference and footprint uncertain. Shortest reference is much farther along fairway, not on lower platform."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "hole": 2,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "cardDistanceMetres": 220,
+      "referenceLocalXZ": [
+        550.3,
+        -261
+      ],
+      "wgs84LongitudeLatitude": [
+        17.505038964947325,
+        59.84134459216673
+      ],
+      "epsg3006EastingNorthing": [
+        640371.5974751735,
+        6636396.182800368
+      ],
+      "currentMark": {
+        "teeIdx": 4,
+        "m": 220,
+        "c": [
+          550.3,
+          -261
+        ],
+        "b": 114.9
+      },
+      "currentRouteStart": [
+        458.7,
+        -303.6
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-02-pondside",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 58.443681,
+          "signedBoundaryDistanceMetres": 58.443681,
+          "centreLocal": [
+            488.105268,
+            -282.764286
+          ],
+          "ringLocal": [
+            [
+              483.647,
+              -289.845
+            ],
+            [
+              485.66,
+              -290.268
+            ],
+            [
+              488.115,
+              -289.175
+            ],
+            [
+              491.012,
+              -286.565
+            ],
+            [
+              493.382,
+              -283.225
+            ],
+            [
+              494.764,
+              -280.173
+            ],
+            [
+              494.44,
+              -278.185
+            ],
+            [
+              492.619,
+              -276.254
+            ],
+            [
+              490.099,
+              -275.599
+            ],
+            [
+              487.883,
+              -276.433
+            ],
+            [
+              485.697,
+              -278.016
+            ],
+            [
+              484.027,
+              -280.079
+            ],
+            [
+              482.626,
+              -282.633
+            ],
+            [
+              481.991,
+              -285.657
+            ],
+            [
+              482.335,
+              -288.144
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-02-northwest",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 100.06271,
+          "signedBoundaryDistanceMetres": 100.06271,
+          "centreLocal": [
+            452.38132,
+            -306.878831
+          ],
+          "ringLocal": [
+            [
+              443.955,
+              -309.599
+            ],
+            [
+              445.536,
+              -311.789
+            ],
+            [
+              448.565,
+              -312.674
+            ],
+            [
+              452.543,
+              -312.274
+            ],
+            [
+              456.734,
+              -310.865
+            ],
+            [
+              459.889,
+              -308.495
+            ],
+            [
+              460.782,
+              -305.711
+            ],
+            [
+              459.71,
+              -303.752
+            ],
+            [
+              456.883,
+              -301.609
+            ],
+            [
+              454.344,
+              -300.455
+            ],
+            [
+              451.611,
+              -300.808
+            ],
+            [
+              448.686,
+              -302.669
+            ],
+            [
+              446.278,
+              -305.01
+            ],
+            [
+              444.618,
+              -307.323
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 6.782731,
+        "signedBoundaryDistanceMetres": 6.782731
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "hole": 3,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "cardDistanceMetres": 288,
+      "referenceLocalXZ": [
+        893.1,
+        -287.3
+      ],
+      "wgs84LongitudeLatitude": [
+        17.511167980364267,
+        59.84158084800575
+      ],
+      "epsg3006EastingNorthing": [
+        640713.9350945984,
+        6636435.484197339
+      ],
+      "currentMark": {
+        "teeIdx": 4,
+        "m": 288,
+        "c": [
+          893.1,
+          -287.3
+        ],
+        "b": 112.1
+      },
+      "currentRouteStart": [
+        767.7,
+        -338.3
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-03-southeast",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 32.843196,
+          "signedBoundaryDistanceMetres": 32.843196,
+          "centreLocal": [
+            856.478291,
+            -302.222405
+          ],
+          "ringLocal": [
+            [
+              851.435,
+              -305.9
+            ],
+            [
+              853.246,
+              -307.581
+            ],
+            [
+              855.748,
+              -307.736
+            ],
+            [
+              858.442,
+              -306.384
+            ],
+            [
+              861.099,
+              -304.033
+            ],
+            [
+              862.74,
+              -301.22
+            ],
+            [
+              862.405,
+              -298.983
+            ],
+            [
+              860.604,
+              -297.551
+            ],
+            [
+              858.083,
+              -296.897
+            ],
+            [
+              855.609,
+              -297.491
+            ],
+            [
+              853.404,
+              -298.575
+            ],
+            [
+              851.725,
+              -300.389
+            ],
+            [
+              850.555,
+              -302.433
+            ],
+            [
+              850.362,
+              -303.941
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-03-northwest",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 98.412902,
+          "signedBoundaryDistanceMetres": 98.412902,
+          "centreLocal": [
+            788.650626,
+            -330.84667
+          ],
+          "ringLocal": [
+            [
+              776.037,
+              -338.514
+            ],
+            [
+              777.119,
+              -340.723
+            ],
+            [
+              779.88,
+              -341.119
+            ],
+            [
+              783.839,
+              -340.218
+            ],
+            [
+              788.509,
+              -338.291
+            ],
+            [
+              793.16,
+              -335.864
+            ],
+            [
+              797.552,
+              -333.197
+            ],
+            [
+              800.2,
+              -330.597
+            ],
+            [
+              802.099,
+              -328.024
+            ],
+            [
+              802.513,
+              -325.759
+            ],
+            [
+              801.44,
+              -323.799
+            ],
+            [
+              799.38,
+              -322.127
+            ],
+            [
+              797.099,
+              -321.214
+            ],
+            [
+              793.859,
+              -321.337
+            ],
+            [
+              790.158,
+              -322.477
+            ],
+            [
+              785.737,
+              -324.395
+            ],
+            [
+              782.074,
+              -326.534
+            ],
+            [
+              779.168,
+              -328.895
+            ],
+            [
+              777.268,
+              -331.467
+            ],
+            [
+              775.886,
+              -334.52
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 12.979761,
+        "signedBoundaryDistanceMetres": 12.979761
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "hole": 4,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "cardDistanceMetres": 178,
+      "referenceLocalXZ": [
+        1033.7,
+        -116.4
+      ],
+      "wgs84LongitudeLatitude": [
+        17.513681806407504,
+        59.84004563420769
+      ],
+      "epsg3006EastingNorthing": [
+        640861.239712191,
+        6636269.939044373
+      ],
+      "currentMark": {
+        "teeIdx": 4,
+        "m": 178,
+        "c": [
+          1033.7,
+          -116.4
+        ],
+        "b": -83.6
+      },
+      "currentRouteStart": [
+        1158.9,
+        -102.4
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-04-northwest",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 65.509962,
+          "signedBoundaryDistanceMetres": 65.509962,
+          "centreLocal": [
+            1104.244162,
+            -137.681874
+          ],
+          "ringLocal": [
+            [
+              1097.304,
+              -141.295
+            ],
+            [
+              1099.374,
+              -143.216
+            ],
+            [
+              1102.144,
+              -143.861
+            ],
+            [
+              1105.393,
+              -143.987
+            ],
+            [
+              1108.346,
+              -142.875
+            ],
+            [
+              1111.031,
+              -141.273
+            ],
+            [
+              1112.442,
+              -138.969
+            ],
+            [
+              1112.596,
+              -136.463
+            ],
+            [
+              1111.265,
+              -134.263
+            ],
+            [
+              1108.946,
+              -132.351
+            ],
+            [
+              1106.166,
+              -131.457
+            ],
+            [
+              1102.917,
+              -131.331
+            ],
+            [
+              1100.453,
+              -132.174
+            ],
+            [
+              1098.017,
+              -133.767
+            ],
+            [
+              1096.339,
+              -135.581
+            ],
+            [
+              1095.935,
+              -138.097
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-04-east",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 113.067775,
+          "signedBoundaryDistanceMetres": 113.067775,
+          "centreLocal": [
+            1156.713924,
+            -106.141392
+          ],
+          "ringLocal": [
+            [
+              1146.468,
+              -108.172
+            ],
+            [
+              1148.317,
+              -110.852
+            ],
+            [
+              1151.143,
+              -112.995
+            ],
+            [
+              1154.44,
+              -114.369
+            ],
+            [
+              1157.441,
+              -114.505
+            ],
+            [
+              1160.662,
+              -113.883
+            ],
+            [
+              1163.337,
+              -112.031
+            ],
+            [
+              1165.486,
+              -109.449
+            ],
+            [
+              1166.618,
+              -106.405
+            ],
+            [
+              1166.255,
+              -103.419
+            ],
+            [
+              1165.173,
+              -101.21
+            ],
+            [
+              1162.605,
+              -99.308
+            ],
+            [
+              1159.807,
+              -97.914
+            ],
+            [
+              1156.548,
+              -97.538
+            ],
+            [
+              1153.345,
+              -98.66
+            ],
+            [
+              1150.411,
+              -100.272
+            ],
+            [
+              1148.004,
+              -102.613
+            ],
+            [
+              1146.843,
+              -104.908
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 3.534269,
+        "signedBoundaryDistanceMetres": 3.534269
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "hole": 6,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "cardDistanceMetres": 308,
+      "referenceLocalXZ": [
+        667.8,
+        200.6
+      ],
+      "wgs84LongitudeLatitude": [
+        17.50713977974164,
+        59.837197987782965
+      ],
+      "epsg3006EastingNorthing": [
+        640506.7549533483,
+        6635939.068635433
+      ],
+      "currentMark": {
+        "teeIdx": 4,
+        "m": 308,
+        "c": [
+          667.8,
+          200.6
+        ],
+        "b": -119.9
+      },
+      "currentRouteStart": [
+        765.9,
+        144.1
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 3,
+          "sourceId": "upsala-mellanbanan-tee-06-southwest",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 30.178939,
+          "signedBoundaryDistanceMetres": 30.178939,
+          "centreLocal": [
+            703.983331,
+            197.342022
+          ],
+          "ringLocal": [
+            [
+              698.415,
+              196.079
+            ],
+            [
+              699.765,
+              193.38
+            ],
+            [
+              701.834,
+              191.458
+            ],
+            [
+              704.373,
+              190.304
+            ],
+            [
+              706.616,
+              190.389
+            ],
+            [
+              708.572,
+              191.464
+            ],
+            [
+              709.752,
+              193.258
+            ],
+            [
+              710.166,
+              195.524
+            ],
+            [
+              709.564,
+              198.252
+            ],
+            [
+              708.223,
+              200.701
+            ],
+            [
+              706.643,
+              202.891
+            ],
+            [
+              704.592,
+              204.314
+            ],
+            [
+              702.331,
+              204.728
+            ],
+            [
+              700.365,
+              203.903
+            ],
+            [
+              698.936,
+              202.099
+            ],
+            [
+              698.024,
+              199.814
+            ],
+            [
+              697.85,
+              197.807
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 2,
+          "sourceId": "upsala-mellanbanan-tee-06-west-of-path",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 77.07701,
+          "signedBoundaryDistanceMetres": 77.07701,
+          "centreLocal": [
+            732.111104,
+            146.500163
+          ],
+          "ringLocal": [
+            [
+              726.104,
+              143.625
+            ],
+            [
+              727.934,
+              141.445
+            ],
+            [
+              729.975,
+              140.272
+            ],
+            [
+              732.477,
+              140.117
+            ],
+            [
+              734.969,
+              140.211
+            ],
+            [
+              737.174,
+              141.295
+            ],
+            [
+              738.604,
+              143.099
+            ],
+            [
+              738.998,
+              145.865
+            ],
+            [
+              738.396,
+              148.592
+            ],
+            [
+              736.816,
+              150.782
+            ],
+            [
+              734.765,
+              152.204
+            ],
+            [
+              732.226,
+              153.358
+            ],
+            [
+              729.983,
+              153.273
+            ],
+            [
+              727.777,
+              152.189
+            ],
+            [
+              726.348,
+              150.385
+            ],
+            [
+              725.446,
+              147.851
+            ],
+            [
+              725.281,
+              145.594
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 2
+        },
+        {
+          "padIndex": 1,
+          "sourceId": "upsala-mellanbanan-tee-06-northeast-lower",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 105.241075,
+          "signedBoundaryDistanceMetres": 105.241075,
+          "centreLocal": [
+            764.481371,
+            149.719489
+          ],
+          "ringLocal": [
+            [
+              760.624,
+              148.185
+            ],
+            [
+              762.186,
+              146.494
+            ],
+            [
+              763.958,
+              145.812
+            ],
+            [
+              765.943,
+              146.137
+            ],
+            [
+              767.65,
+              147.202
+            ],
+            [
+              768.59,
+              148.738
+            ],
+            [
+              768.524,
+              150.485
+            ],
+            [
+              767.461,
+              152.195
+            ],
+            [
+              765.918,
+              153.387
+            ],
+            [
+              764.155,
+              153.82
+            ],
+            [
+              762.439,
+              153.005
+            ],
+            [
+              760.99,
+              151.699
+            ],
+            [
+              760.318,
+              149.674
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 116.985963,
+          "signedBoundaryDistanceMetres": 116.985963,
+          "centreLocal": [
+            770.367433,
+            137.559731
+          ],
+          "ringLocal": [
+            [
+              767.087,
+              135.68
+            ],
+            [
+              768.639,
+              134.238
+            ],
+            [
+              770.642,
+              134.064
+            ],
+            [
+              772.608,
+              134.889
+            ],
+            [
+              773.807,
+              136.185
+            ],
+            [
+              774.239,
+              137.951
+            ],
+            [
+              773.435,
+              139.421
+            ],
+            [
+              771.883,
+              140.862
+            ],
+            [
+              770.119,
+              141.295
+            ],
+            [
+              768.403,
+              140.48
+            ],
+            [
+              767.214,
+              138.935
+            ],
+            [
+              766.522,
+              137.408
+            ]
+          ],
+          "observedYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 1.5
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 46.748982,
+        "signedBoundaryDistanceMetres": 46.748982
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one."
+        },
+        {
+          "path": "upsalabuild/mapping/lm-tee-followup-mellan-2026-09-09.json",
+          "status": "retain",
+          "reason": "Orange remains unresolved: the published Intermediate source has no Orange tee coordinate and the imagery does not identify an Orange platform or position."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "hole": 8,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "cardDistanceMetres": 285,
+      "referenceLocalXZ": [
+        513.9,
+        147.7
+      ],
+      "wgs84LongitudeLatitude": [
+        17.50438815934296,
+        59.83767319439454
+      ],
+      "epsg3006EastingNorthing": [
+        640350.5952005701,
+        6635986.132121528
+      ],
+      "currentMark": {
+        "teeIdx": 4,
+        "m": 285,
+        "c": [
+          513.9,
+          147.7
+        ],
+        "b": 20.7
+      },
+      "currentRouteStart": [
+        503.4,
+        175.7
+      ],
+      "sameHolePads": [
+        {
+          "padIndex": 1,
+          "sourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+          "observedBoundary": true,
+          "provenance": "dated-orthophoto-trace",
+          "inside": false,
+          "distanceMetres": 17.583533,
+          "signedBoundaryDistanceMetres": 17.583533,
+          "centreLocal": [
+            492.894181,
+            154.506976
+          ],
+          "ringLocal": [
+            [
+              489.765,
+              149.098
+            ],
+            [
+              491.277,
+              149.433
+            ],
+            [
+              493.163,
+              150.893
+            ],
+            [
+              495.772,
+              153.423
+            ],
+            [
+              497.78,
+              155.305
+            ],
+            [
+              498.9,
+              156.875
+            ],
+            [
+              498.581,
+              157.974
+            ],
+            [
+              497.301,
+              158.828
+            ],
+            [
+              495.485,
+              159.176
+            ],
+            [
+              494.042,
+              158.844
+            ],
+            [
+              492.207,
+              157.872
+            ],
+            [
+              490.576,
+              156.976
+            ],
+            [
+              488.972,
+              155.388
+            ],
+            [
+              488.069,
+              153.617
+            ],
+            [
+              487.785,
+              151.94
+            ],
+            [
+              488.328,
+              150.432
+            ]
+          ],
+          "observedYear": 2015,
+          "boundaryInterpretationUncertaintyMetres": 2.5
+        },
+        {
+          "padIndex": 0,
+          "sourceId": "mellan-8-tee-upper",
+          "observedBoundary": true,
+          "provenance": "ortho-trace",
+          "inside": false,
+          "distanceMetres": 26.074707,
+          "signedBoundaryDistanceMetres": 26.074707,
+          "centreLocal": [
+            499.321902,
+            173.711224
+          ],
+          "ringLocal": [
+            [
+              495.727,
+              170.395
+            ],
+            [
+              498.257,
+              169.49
+            ],
+            [
+              500.97,
+              170.343
+            ],
+            [
+              502.898,
+              172.166
+            ],
+            [
+              503.81,
+              174.451
+            ],
+            [
+              503.707,
+              177.197
+            ],
+            [
+              502.423,
+              178.149
+            ],
+            [
+              499.71,
+              177.296
+            ],
+            [
+              497.504,
+              176.212
+            ],
+            [
+              495.529,
+              175.637
+            ],
+            [
+              494.598,
+              173.852
+            ],
+            [
+              494.415,
+              172.095
+            ]
+          ],
+          "observedYear": 2024,
+          "boundaryInterpretationUncertaintyMetres": 2
+        }
+      ],
+      "nearestSameHoleFairway": {
+        "ringIndex": 0,
+        "inside": false,
+        "distanceMetres": 45.365086,
+        "signedBoundaryDistanceMetres": 45.365086
+      },
+      "reviewHistory": [
+        {
+          "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+          "status": "retain",
+          "reason": "No separately identifiable physical platform supports this forward reference. Retain the nominal reference rather than invent a platform or assign a distant one."
+        },
+        {
+          "path": "upsalabuild/mapping/lm-tee-followup-mellan-2026-09-09.json",
+          "status": "retain",
+          "reason": "Orange remains unresolved: the published Intermediate source has no Orange tee coordinate and the imagery does not identify an Orange platform or position."
+        }
+      ],
+      "investigationCategory": "forward-reference-without-associated-platform",
+      "coordinateAccuracy": "Unverified scorecard-inferred navigation reference. Numerical projection does not establish physical or daily-marker accuracy."
+    }
+  ],
+  "proposedReviewContract": {
+    "scope": "Separate third-phase point ledger. It changes explicitly reviewed navigation references and never creates or modifies a rendered platform ring.",
+    "siteClasses": [
+      "tee",
+      "fairway"
+    ],
+    "requiredEvidence": [
+      "Exact original mark and card arrays, source frame and any coincident route start.",
+      "Explicit reviewedPosition plus independently verified published WGS84/EPSG/local source point when available; source feature identity and file checksum.",
+      "Dated native-image source hashes and a small evidence-only support footprint whose visible surface is classified as tee or fairway. It is not a claimed complete platform boundary.",
+      "Reviewed upper bounds for movement from both the original reference and the source coordinate; source uncertainty and any adjustment are stated separately."
+    ],
+    "guards": [
+      "Reject unsupported source identity, wrong axis/scale, stale original coordinates, source-image transform mismatch, or an explicit point outside the reviewed support footprint.",
+      "Require a reviewed inset/clearance appropriate to the visible support area. Reject pond, bunker, mapped building or path overlap unless evidence explicitly corrects that conflicting source.",
+      "Preserve physical pads, fairways, card lengths and later route vertices. Move a formerly coincident route start only under a separate explicit decision.",
+      "Store compact point provenance with siteClass and daily-marker/colour verification false; raw EPSG and pixel evidence stay in mapping ledgers.",
+      "Only mark a reference resolved when positive source evidence supports its point. A retain decision, containment in an old provisional rectangle or a scorecard-distance match is insufficient."
+    ],
+    "implementationSuggestion": "A separate applyUpsalaReviewedTeeSites helper after the accepted pad-association chain avoids weakening the current physical-pad contract. The coordinate checker should read the third-phase ledger as an explicit additional stage."
+  }
+}

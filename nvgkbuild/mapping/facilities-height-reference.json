@@ -1,0 +1,2326 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "measuredOn": "2026-09-10",
+  "source": {
+    "schemaVersion": 1,
+    "groundId": "norrfallsviken",
+    "acquiredOn": "2026-09-10",
+    "sourceId": "25f014-698_67",
+    "capturedAt": "2025-06-05T00:00:00Z",
+    "sourceUrl": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/25f014/m25f014-698_67.copc.laz",
+    "sourceSha256": "93b5ae9f60ad7c0e9757ef738a08dcaab7acec563141f70ebef85070399ebc4d",
+    "sourceChecksumVerification": "Pinned catalog SHA-256; focused HTTP range reads do not verify the full 1.91 GB source checksum.",
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalDatum": "RH2000",
+    "licence": "CC-BY-4.0",
+    "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0",
+    "boundsEpsg3006": [
+      678520,
+      6988200,
+      678690,
+      6988460
+    ],
+    "statistics": {
+      "nodes": 36,
+      "decodedPoints": 803808,
+      "pointsInWindow": 190926,
+      "firstReturns": 145529,
+      "byClass": {
+        "1": 70822,
+        "2": 120104
+      },
+      "nodeCountsExact": true
+    },
+    "transfer": {
+      "requests": 168,
+      "bytes": 5650755
+    },
+    "localPointsSha256": "490eb8c7edf9bfcbb2e9589b6daff2bcdae80c499f3f8a8f08d2321b9e486d26",
+    "localPointsPath": "nvgkbuild/cache/facilities-reference/laser/points.json"
+  },
+  "method": {
+    "algorithm": "deterministic RANSAC then linear least-squares, up to 3 roof planes per supplied envelope",
+    "seed": 20260910,
+    "iterations": 1800,
+    "inlierVerticalResidualMetres": 0.13,
+    "sourceSelection": "first-return, unclassified, 1.8–8 m above nearby ground plane; 1.5 m envelope query buffer",
+    "publication": "Aggregate roof and ground measurements only; raw returns remain in ignored local cache."
+  },
+  "facilities": [
+    {
+      "id": "clubhouse-main-roof-native",
+      "sourceFeatureId": "clubhouse-main-roof-native",
+      "sourceGeometry": "2024 ortho envelope plus 1.5 m query buffer; plane geometry comes from 2025 laser coordinates",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        678580.2425,
+        6988404.2363
+      ],
+      "originLocalXZ": [
+        -397.0918,
+        130.5906
+      ],
+      "allCandidateRoofReturns": 722,
+      "planes": [
+        {
+          "id": "clubhouse-main-roof-native-plane-1",
+          "supportCount": 332,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            0.4401918,
+            0.2710667,
+            38.6380705
+          ],
+          "slopeDegrees": 27.34,
+          "residualRmseMetres": 0.043,
+          "residualP95AbsoluteMetres": 0.08,
+          "supportHeightQuantilesRH2000": {
+            "min": 35.26,
+            "p05": 35.366,
+            "p50": 36.905,
+            "p95": 38.319,
+            "max": 38.39
+          },
+          "supportHullEpsg3006": [
+            [
+              678578.24,
+              6988395.04
+            ],
+            [
+              678577.16,
+              6988396.75
+            ],
+            [
+              678575.83,
+              6988398.86
+            ],
+            [
+              678571.79,
+              6988405.42
+            ],
+            [
+              678570.33,
+              6988408.01
+            ],
+            [
+              678571.6,
+              6988408.97
+            ],
+            [
+              678575.1,
+              6988411.13
+            ],
+            [
+              678575.63,
+              6988410.91
+            ],
+            [
+              678576.97,
+              6988408.81
+            ],
+            [
+              678578.09,
+              6988407.04
+            ],
+            [
+              678582.04,
+              6988400.64
+            ],
+            [
+              678582.84,
+              6988399.21
+            ],
+            [
+              678582.86,
+              6988397.8
+            ],
+            [
+              678581.47,
+              6988396.85
+            ],
+            [
+              678579.1,
+              6988395.4
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -399.5885,
+              139.6519
+            ],
+            [
+              -400.5705,
+              137.8876
+            ],
+            [
+              -401.7796,
+              135.7106
+            ],
+            [
+              -405.4443,
+              128.9476
+            ],
+            [
+              -406.7567,
+              126.2849
+            ],
+            [
+              -405.4395,
+              125.397
+            ],
+            [
+              -401.8361,
+              123.4345
+            ],
+            [
+              -401.3204,
+              123.6829
+            ],
+            [
+              -400.1007,
+              125.8504
+            ],
+            [
+              -399.0821,
+              127.6768
+            ],
+            [
+              -395.4984,
+              134.2753
+            ],
+            [
+              -394.7799,
+              135.7452
+            ],
+            [
+              -394.837,
+              137.1524
+            ],
+            [
+              -396.2731,
+              138.0237
+            ],
+            [
+              -398.7124,
+              139.34
+            ]
+          ]
+        },
+        {
+          "id": "clubhouse-main-roof-native-plane-2",
+          "supportCount": 249,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            -0.4309129,
+            -0.2668062,
+            38.1848524
+          ],
+          "slopeDegrees": 26.88,
+          "residualRmseMetres": 0.028,
+          "residualP95AbsoluteMetres": 0.056,
+          "supportHeightQuantilesRH2000": {
+            "min": 35.26,
+            "p05": 35.488,
+            "p50": 37.1,
+            "p95": 38.19,
+            "max": 38.35
+          },
+          "supportHullEpsg3006": [
+            [
+              678583.93,
+              6988398.42
+            ],
+            [
+              678582.79,
+              6988399.57
+            ],
+            [
+              678578.93,
+              6988405.81
+            ],
+            [
+              678575.76,
+              6988411.13
+            ],
+            [
+              678576.78,
+              6988412.08
+            ],
+            [
+              678579.66,
+              6988414.04
+            ],
+            [
+              678580.43,
+              6988414.41
+            ],
+            [
+              678581.0,
+              6988413.88
+            ],
+            [
+              678581.26,
+              6988413.62
+            ],
+            [
+              678588.0,
+              6988402.62
+            ],
+            [
+              678588.01,
+              6988401.19
+            ],
+            [
+              678587.35,
+              6988400.49
+            ],
+            [
+              678584.6,
+              6988398.77
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -393.7376,
+              136.5926
+            ],
+            [
+              -394.81,
+              135.3834
+            ],
+            [
+              -398.3128,
+              128.9494
+            ],
+            [
+              -401.1789,
+              123.4706
+            ],
+            [
+              -400.1113,
+              122.5791
+            ],
+            [
+              -397.1362,
+              120.7821
+            ],
+            [
+              -396.3492,
+              120.4552
+            ],
+            [
+              -395.8105,
+              121.0149
+            ],
+            [
+              -395.5658,
+              121.2885
+            ],
+            [
+              -389.4551,
+              132.6269
+            ],
+            [
+              -389.5233,
+              134.0535
+            ],
+            [
+              -390.2188,
+              134.7155
+            ],
+            [
+              -393.0513,
+              136.2803
+            ]
+          ]
+        },
+        {
+          "id": "clubhouse-main-roof-native-plane-3",
+          "supportCount": 64,
+          "interpretation": "minor planar subset; may be a connected or neighbouring roof rather than part of the dominant gable",
+          "coefficientsLocalEN": [
+            0.2484686,
+            -0.4191189,
+            38.1514
+          ],
+          "slopeDegrees": 25.98,
+          "residualRmseMetres": 0.04,
+          "residualP95AbsoluteMetres": 0.084,
+          "supportHeightQuantilesRH2000": {
+            "min": 35.34,
+            "p05": 35.654,
+            "p50": 36.855,
+            "p95": 37.578,
+            "max": 37.62
+          },
+          "supportHullEpsg3006": [
+            [
+              678581.08,
+              6988406.24
+            ],
+            [
+              678581.33,
+              6988407.37
+            ],
+            [
+              678581.72,
+              6988409.11
+            ],
+            [
+              678582.62,
+              6988412.37
+            ],
+            [
+              678583.77,
+              6988411.99
+            ],
+            [
+              678584.39,
+              6988411.47
+            ],
+            [
+              678585.6,
+              6988409.53
+            ],
+            [
+              678585.61,
+              6988408.7
+            ],
+            [
+              678584.51,
+              6988407.9
+            ],
+            [
+              678582.7,
+              6988406.83
+            ],
+            [
+              678581.77,
+              6988406.47
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -396.1483,
+              128.6382
+            ],
+            [
+              -395.8376,
+              127.525
+            ],
+            [
+              -395.3542,
+              125.8112
+            ],
+            [
+              -394.2798,
+              122.6094
+            ],
+            [
+              -393.1554,
+              123.0513
+            ],
+            [
+              -392.5664,
+              123.6038
+            ],
+            [
+              -391.4675,
+              125.6047
+            ],
+            [
+              -391.5029,
+              126.4329
+            ],
+            [
+              -392.642,
+              127.1705
+            ],
+            [
+              -394.5029,
+              128.1385
+            ],
+            [
+              -395.4487,
+              128.4466
+            ]
+          ]
+        }
+      ],
+      "nearbyGround": {
+        "pointCount": 1845,
+        "heightAtOriginRH2000": 32.471,
+        "heightQuantilesRH2000": {
+          "p05": 31.79,
+          "p50": 32.56,
+          "p95": 32.84
+        },
+        "fittedSlopeDegrees": 0.66,
+        "residualP95AbsoluteMetres": 0.571
+      },
+      "limitations": [
+        "Roof support hull is an inner envelope of sampled roof returns; it is not a wall outline.",
+        "Ground fit uses the surrounding five metre window, not a measured entrance threshold.",
+        "Roof eave and ridge ends are undersampled; allow about 0.5–1 m horizontal uncertainty."
+      ],
+      "roofSupportRectangle": {
+        "ringEpsg3006": [
+          [
+            678578.385,
+            6988394.991
+          ],
+          [
+            678570.299,
+            6988408.086
+          ],
+          [
+            678580.489,
+            6988414.378
+          ],
+          [
+            678588.575,
+            6988401.283
+          ]
+        ],
+        "ringLocalXZ": [
+          [
+            -399.4469,
+            139.7085
+          ],
+          [
+            -406.7831,
+            126.2073
+          ],
+          [
+            -396.2921,
+            120.4904
+          ],
+          [
+            -388.9559,
+            133.9916
+          ]
+        ],
+        "lengthMetres": 15.39,
+        "widthMetres": 11.98,
+        "eavePlaneHeightsRH2000": [
+          35.314,
+          35.305,
+          35.373,
+          35.382
+        ],
+        "meaning": "1st–99th percentile support projected on fitted ridge; sampled inner roof envelope, not a survey of walls/eaves"
+      },
+      "ridge": {
+        "endpointsEpsg3006": [
+          [
+            678583.486,
+            6988398.141
+          ],
+          [
+            678575.4,
+            6988411.236
+          ]
+        ],
+        "endpointsLocalXZ": [
+          [
+            -394.1951,
+            136.8466
+          ],
+          [
+            -401.5313,
+            123.3455
+          ]
+        ],
+        "heightsRH2000": [
+          38.414,
+          38.404
+        ],
+        "heightAboveNearbyGroundMetres": 5.938,
+        "gridBearingDegrees": 148.31,
+        "status": "intersection of the two largest fitted roof planes; validate roof assembly and endpoint extent with photographs",
+        "suggestedVerticalToleranceMetres": 0.2
+      }
+    },
+    {
+      "id": "clubhouse-cross-roof-native",
+      "sourceFeatureId": "clubhouse-cross-roof-native",
+      "sourceGeometry": "2024 ortho envelope plus 1.5 m query buffer; plane geometry comes from 2025 laser coordinates",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        678586.1039,
+        6988407.9059
+      ],
+      "originLocalXZ": [
+        -391.0544,
+        127.2518
+      ],
+      "allCandidateRoofReturns": 324,
+      "planes": [
+        {
+          "id": "clubhouse-cross-roof-native-plane-1",
+          "supportCount": 130,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            0.2560435,
+            -0.4237498,
+            38.1041594
+          ],
+          "slopeDegrees": 26.34,
+          "residualRmseMetres": 0.035,
+          "residualP95AbsoluteMetres": 0.077,
+          "supportHeightQuantilesRH2000": {
+            "min": 35.34,
+            "p05": 35.439,
+            "p50": 36.63,
+            "p95": 37.58,
+            "max": 37.62
+          },
+          "supportHullEpsg3006": [
+            [
+              678581.77,
+              6988406.47
+            ],
+            [
+              678581.33,
+              6988406.72
+            ],
+            [
+              678581.07,
+              6988406.92
+            ],
+            [
+              678581.06,
+              6988408.29
+            ],
+            [
+              678581.31,
+              6988409.42
+            ],
+            [
+              678581.92,
+              6988411.81
+            ],
+            [
+              678582.62,
+              6988412.37
+            ],
+            [
+              678585.51,
+              6988413.98
+            ],
+            [
+              678585.93,
+              6988414.06
+            ],
+            [
+              678586.86,
+              6988413.66
+            ],
+            [
+              678587.17,
+              6988413.23
+            ],
+            [
+              678588.58,
+              6988410.74
+            ],
+            [
+              678587.81,
+              6988410.19
+            ],
+            [
+              678585.03,
+              6988408.28
+            ],
+            [
+              678582.7,
+              6988406.83
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -395.4487,
+              128.4466
+            ],
+            [
+              -395.8732,
+              128.1733
+            ],
+            [
+              -396.1211,
+              127.9596
+            ],
+            [
+              -396.0562,
+              126.5928
+            ],
+            [
+              -395.7455,
+              125.4796
+            ],
+            [
+              -395.0075,
+              123.1296
+            ],
+            [
+              -394.2798,
+              122.6094
+            ],
+            [
+              -391.3139,
+              121.162
+            ],
+            [
+              -390.8913,
+              121.1052
+            ],
+            [
+              -389.9871,
+              121.555
+            ],
+            [
+              -389.7019,
+              122.0008
+            ],
+            [
+              -388.4338,
+              124.5611
+            ],
+            [
+              -389.2307,
+              125.0674
+            ],
+            [
+              -392.1034,
+              126.82
+            ],
+            [
+              -394.5029,
+              128.1385
+            ]
+          ]
+        },
+        {
+          "id": "clubhouse-cross-roof-native-plane-2",
+          "supportCount": 107,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            -0.2683709,
+            0.4455484,
+            37.1060906
+          ],
+          "slopeDegrees": 27.48,
+          "residualRmseMetres": 0.04,
+          "residualP95AbsoluteMetres": 0.075,
+          "supportHeightQuantilesRH2000": {
+            "min": 35.31,
+            "p05": 35.403,
+            "p50": 36.51,
+            "p95": 37.424,
+            "max": 37.56
+          },
+          "supportHullEpsg3006": [
+            [
+              678586.06,
+              6988404.34
+            ],
+            [
+              678582.73,
+              6988405.16
+            ],
+            [
+              678581.98,
+              6988405.51
+            ],
+            [
+              678581.78,
+              6988405.77
+            ],
+            [
+              678581.97,
+              6988406.37
+            ],
+            [
+              678587.87,
+              6988409.94
+            ],
+            [
+              678588.6,
+              6988409.96
+            ],
+            [
+              678589.14,
+              6988409.52
+            ],
+            [
+              678590.25,
+              6988408.05
+            ],
+            [
+              678590.37,
+              6988407.84
+            ],
+            [
+              678590.54,
+              6988407.44
+            ],
+            [
+              678590.56,
+              6988406.59
+            ],
+            [
+              678587.96,
+              6988404.92
+            ],
+            [
+              678586.99,
+              6988404.55
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -391.293,
+              130.8055
+            ],
+            [
+              -394.5643,
+              129.8056
+            ],
+            [
+              -395.292,
+              129.4155
+            ],
+            [
+              -395.477,
+              129.1453
+            ],
+            [
+              -395.255,
+              128.5573
+            ],
+            [
+              -389.1846,
+              125.32
+            ],
+            [
+              -388.4565,
+              125.34
+            ],
+            [
+              -387.9428,
+              125.8084
+            ],
+            [
+              -386.9178,
+              127.335
+            ],
+            [
+              -386.8098,
+              127.551
+            ],
+            [
+              -386.6624,
+              127.9592
+            ],
+            [
+              -386.6889,
+              128.808
+            ],
+            [
+              -389.3693,
+              130.3311
+            ],
+            [
+              -390.3554,
+              130.647
+            ]
+          ]
+        },
+        {
+          "id": "clubhouse-cross-roof-native-plane-3",
+          "supportCount": 85,
+          "interpretation": "minor planar subset; may be a connected or neighbouring roof rather than part of the dominant gable",
+          "coefficientsLocalEN": [
+            -0.4326552,
+            -0.2674415,
+            34.668201
+          ],
+          "slopeDegrees": 26.96,
+          "residualRmseMetres": 0.017,
+          "residualP95AbsoluteMetres": 0.03,
+          "supportHeightQuantilesRH2000": {
+            "min": 35.26,
+            "p05": 35.38,
+            "p50": 36.37,
+            "p95": 37.08,
+            "max": 37.17
+          },
+          "supportHullEpsg3006": [
+            [
+              678585.73,
+              6988400.57
+            ],
+            [
+              678585.14,
+              6988400.61
+            ],
+            [
+              678584.61,
+              6988401.05
+            ],
+            [
+              678584.34,
+              6988401.43
+            ],
+            [
+              678579.72,
+              6988409.18
+            ],
+            [
+              678579.7,
+              6988410.54
+            ],
+            [
+              678579.69,
+              6988411.25
+            ],
+            [
+              678580.47,
+              6988411.95
+            ],
+            [
+              678581.66,
+              6988412.48
+            ],
+            [
+              678581.91,
+              6988412.53
+            ],
+            [
+              678588.0,
+              6988402.62
+            ],
+            [
+              678588.0,
+              6988401.92
+            ],
+            [
+              678587.92,
+              6988401.6
+            ],
+            [
+              678586.6,
+              6988400.68
+            ],
+            [
+              678586.49,
+              6988400.63
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -391.8276,
+              134.5471
+            ],
+            [
+              -392.413,
+              134.4749
+            ],
+            [
+              -392.9167,
+              134.0071
+            ],
+            [
+              -393.1648,
+              133.6134
+            ],
+            [
+              -397.342,
+              125.6319
+            ],
+            [
+              -397.2876,
+              124.2746
+            ],
+            [
+              -397.2588,
+              123.566
+            ],
+            [
+              -396.4438,
+              122.9106
+            ],
+            [
+              -395.2298,
+              122.4472
+            ],
+            [
+              -394.9781,
+              122.411
+            ],
+            [
+              -389.4551,
+              132.6269
+            ],
+            [
+              -389.4934,
+              133.325
+            ],
+            [
+              -389.5905,
+              133.6397
+            ],
+            [
+              -390.9553,
+              134.485
+            ],
+            [
+              -391.0675,
+              134.5288
+            ]
+          ]
+        }
+      ],
+      "nearbyGround": {
+        "pointCount": 894,
+        "heightAtOriginRH2000": 32.617,
+        "heightQuantilesRH2000": {
+          "p05": 31.646,
+          "p50": 32.6,
+          "p95": 32.83
+        },
+        "fittedSlopeDegrees": 4.06,
+        "residualP95AbsoluteMetres": 0.535
+      },
+      "limitations": [
+        "Roof support hull is an inner envelope of sampled roof returns; it is not a wall outline.",
+        "Ground fit uses the surrounding five metre window, not a measured entrance threshold.",
+        "Roof eave and ridge ends are undersampled; allow about 0.5–1 m horizontal uncertainty."
+      ],
+      "roofSupportRectangle": {
+        "ringEpsg3006": [
+          [
+            678579.195,
+            6988410.174
+          ],
+          [
+            678586.356,
+            6988414.494
+          ],
+          [
+            678590.968,
+            6988406.85
+          ],
+          [
+            678583.807,
+            6988402.53
+          ]
+        ],
+        "ringLocalXZ": [
+          [
+            -397.8103,
+            124.612
+          ],
+          [
+            -390.4429,
+            120.6957
+          ],
+          [
+            -386.2684,
+            128.5713
+          ],
+          [
+            -393.6357,
+            132.4876
+          ]
+        ],
+        "lengthMetres": 8.36,
+        "widthMetres": 8.93,
+        "eavePlaneHeightsRH2000": [
+          35.374,
+          35.377,
+          35.33,
+          35.327
+        ],
+        "meaning": "1st–99th percentile support projected on fitted ridge; sampled inner roof envelope, not a survey of walls/eaves"
+      },
+      "ridge": {
+        "endpointsEpsg3006": [
+          [
+            678581.534,
+            6988406.297
+          ],
+          [
+            678588.695,
+            6988410.617
+          ]
+        ],
+        "endpointsLocalXZ": [
+          [
+            -395.6932,
+            128.6061
+          ],
+          [
+            -388.3258,
+            124.6897
+          ]
+        ],
+        "heightsRH2000": [
+          37.616,
+          37.619
+        ],
+        "heightAboveNearbyGroundMetres": 5.0,
+        "gridBearingDegrees": 58.9,
+        "status": "intersection of the two largest fitted roof planes; validate roof assembly and endpoint extent with photographs",
+        "suggestedVerticalToleranceMetres": 0.2
+      }
+    },
+    {
+      "id": "clubhouse-north-annex-roof",
+      "sourceFeatureId": "clubhouse-north-annex-roof",
+      "sourceGeometry": "2024 ortho envelope plus 1.5 m query buffer; plane geometry comes from 2025 laser coordinates",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        678574.8,
+        6988418.96
+      ],
+      "originLocalXZ": [
+        -401.707,
+        115.6097
+      ],
+      "allCandidateRoofReturns": 275,
+      "planes": [
+        {
+          "id": "clubhouse-north-annex-roof-plane-1",
+          "supportCount": 138,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            0.2609267,
+            -0.4204375,
+            37.7153372
+          ],
+          "slopeDegrees": 26.33,
+          "residualRmseMetres": 0.041,
+          "residualP95AbsoluteMetres": 0.087,
+          "supportHeightQuantilesRH2000": {
+            "min": 35.19,
+            "p05": 35.277,
+            "p50": 36.275,
+            "p95": 37.27,
+            "max": 37.3
+          },
+          "supportHullEpsg3006": [
+            [
+              678569.29,
+              6988416.39
+            ],
+            [
+              678568.31,
+              6988417.32
+            ],
+            [
+              678566.68,
+              6988419.76
+            ],
+            [
+              678569.19,
+              6988421.66
+            ],
+            [
+              678574.04,
+              6988424.45
+            ],
+            [
+              678574.26,
+              6988424.23
+            ],
+            [
+              678575.5,
+              6988422.43
+            ],
+            [
+              678576.27,
+              6988421.14
+            ],
+            [
+              678575.51,
+              6988420.4
+            ],
+            [
+              678573.84,
+              6988419.13
+            ],
+            [
+              678570.77,
+              6988417.25
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -407.3344,
+              117.8711
+            ],
+            [
+              -408.2595,
+              116.8901
+            ],
+            [
+              -409.7494,
+              114.3676
+            ],
+            [
+              -407.1461,
+              112.6102
+            ],
+            [
+              -402.1639,
+              110.0933
+            ],
+            [
+              -401.9568,
+              110.3247
+            ],
+            [
+              -400.8204,
+              112.1876
+            ],
+            [
+              -400.1241,
+              113.5162
+            ],
+            [
+              -400.9213,
+              114.2125
+            ],
+            [
+              -402.6537,
+              115.3876
+            ],
+            [
+              -405.8136,
+              117.0945
+            ]
+          ]
+        },
+        {
+          "id": "clubhouse-north-annex-roof-plane-2",
+          "supportCount": 125,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            -0.2716318,
+            0.4437422,
+            36.9298514
+          ],
+          "slopeDegrees": 27.49,
+          "residualRmseMetres": 0.039,
+          "residualP95AbsoluteMetres": 0.072,
+          "supportHeightQuantilesRH2000": {
+            "min": 35.11,
+            "p05": 35.232,
+            "p50": 36.21,
+            "p95": 37.154,
+            "max": 37.24
+          },
+          "supportHullEpsg3006": [
+            [
+              678571.52,
+              6988413.07
+            ],
+            [
+              678570.24,
+              6988413.99
+            ],
+            [
+              678570.05,
+              6988414.33
+            ],
+            [
+              678569.14,
+              6988415.97
+            ],
+            [
+              678569.85,
+              6988416.49
+            ],
+            [
+              678574.96,
+              6988419.77
+            ],
+            [
+              678576.28,
+              6988420.47
+            ],
+            [
+              678576.64,
+              6988420.65
+            ],
+            [
+              678577.89,
+              6988418.54
+            ],
+            [
+              678578.45,
+              6988417.33
+            ],
+            [
+              678575.6,
+              6988415.35
+            ],
+            [
+              678572.41,
+              6988413.47
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -405.2952,
+              121.304
+            ],
+            [
+              -406.5195,
+              120.3165
+            ],
+            [
+              -406.6902,
+              119.967
+            ],
+            [
+              -407.5068,
+              118.2817
+            ],
+            [
+              -406.7713,
+              117.802
+            ],
+            [
+              -401.5034,
+              114.8107
+            ],
+            [
+              -400.1507,
+              114.1849
+            ],
+            [
+              -399.7824,
+              114.025
+            ],
+            [
+              -398.6529,
+              116.1976
+            ],
+            [
+              -398.1614,
+              117.4349
+            ],
+            [
+              -401.1076,
+              119.2535
+            ],
+            [
+              -404.387,
+              120.9538
+            ]
+          ]
+        }
+      ],
+      "nearbyGround": {
+        "pointCount": 1294,
+        "heightAtOriginRH2000": 32.382,
+        "heightQuantilesRH2000": {
+          "p05": 32.03,
+          "p50": 32.2,
+          "p95": 32.84
+        },
+        "fittedSlopeDegrees": 1.68,
+        "residualP95AbsoluteMetres": 0.412
+      },
+      "limitations": [
+        "Roof support hull is an inner envelope of sampled roof returns; it is not a wall outline.",
+        "Ground fit uses the surrounding five metre window, not a measured entrance threshold.",
+        "Roof eave and ridge ends are undersampled; allow about 0.5–1 m horizontal uncertainty."
+      ],
+      "roofSupportRectangle": {
+        "ringEpsg3006": [
+          [
+            678566.703,
+            6988419.855
+          ],
+          [
+            678574.215,
+            6988424.485
+          ],
+          [
+            678578.618,
+            6988417.341
+          ],
+          [
+            678571.106,
+            6988412.712
+          ]
+        ],
+        "ringLocalXZ": [
+          [
+            -409.7209,
+            114.2737
+          ],
+          [
+            -401.9872,
+            110.0681
+          ],
+          [
+            -397.9938,
+            117.4327
+          ],
+          [
+            -405.7275,
+            121.6383
+          ]
+        ],
+        "lengthMetres": 8.82,
+        "widthMetres": 8.39,
+        "eavePlaneHeightsRH2000": [
+          35.226,
+          35.24,
+          35.175,
+          35.161
+        ],
+        "meaning": "1st–99th percentile support projected on fitted ridge; sampled inner roof envelope, not a survey of walls/eaves"
+      },
+      "ridge": {
+        "endpointsEpsg3006": [
+          [
+            678568.926,
+            6988416.249
+          ],
+          [
+            678576.438,
+            6988420.878
+          ]
+        ],
+        "endpointsLocalXZ": [
+          [
+            -407.7047,
+            117.9918
+          ],
+          [
+            -399.9711,
+            113.7863
+          ]
+        ],
+        "heightsRH2000": [
+          37.322,
+          37.336
+        ],
+        "heightAboveNearbyGroundMetres": 4.947,
+        "gridBearingDegrees": 58.36,
+        "status": "intersection of the two largest fitted roof planes; validate roof assembly and endpoint extent with photographs",
+        "suggestedVerticalToleranceMetres": 0.2
+      }
+    },
+    {
+      "id": "lm-range-shelter",
+      "sourceFeatureId": "lm-range-shelter",
+      "sourceGeometry": "2024 ortho envelope plus 1.5 m query buffer; plane geometry comes from 2025 laser coordinates",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        678619.642,
+        6988296.9587
+      ],
+      "originLocalXZ": [
+        -363.7202,
+        239.7284
+      ],
+      "allCandidateRoofReturns": 474,
+      "planes": [
+        {
+          "id": "lm-range-shelter-plane-1",
+          "supportCount": 259,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            -0.2535158,
+            -0.3111177,
+            35.1517959
+          ],
+          "slopeDegrees": 21.87,
+          "residualRmseMetres": 0.024,
+          "residualP95AbsoluteMetres": 0.05,
+          "supportHeightQuantilesRH2000": {
+            "min": 33.59,
+            "p05": 33.68,
+            "p50": 34.73,
+            "p95": 35.8,
+            "max": 35.85
+          },
+          "supportHullEpsg3006": [
+            [
+              678622.48,
+              6988292.33
+            ],
+            [
+              678620.12,
+              6988294.2
+            ],
+            [
+              678613.82,
+              6988299.37
+            ],
+            [
+              678613.14,
+              6988300.19
+            ],
+            [
+              678613.8,
+              6988301.45
+            ],
+            [
+              678615.6,
+              6988303.64
+            ],
+            [
+              678616.45,
+              6988304.39
+            ],
+            [
+              678618.25,
+              6988303.03
+            ],
+            [
+              678625.6,
+              6988297.11
+            ],
+            [
+              678626.1,
+              6988296.67
+            ],
+            [
+              678624.69,
+              6988294.84
+            ],
+            [
+              678623.53,
+              6988293.37
+            ],
+            [
+              678622.81,
+              6988292.5
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -361.1471,
+              244.4996
+            ],
+            [
+              -363.395,
+              242.5056
+            ],
+            [
+              -369.3859,
+              237.005
+            ],
+            [
+              -370.0182,
+              236.1501
+            ],
+            [
+              -369.2921,
+              234.9297
+            ],
+            [
+              -367.38,
+              232.8442
+            ],
+            [
+              -366.4926,
+              232.1428
+            ],
+            [
+              -364.7745,
+              233.5976
+            ],
+            [
+              -357.779,
+              239.9035
+            ],
+            [
+              -357.3052,
+              240.3697
+            ],
+            [
+              -358.8093,
+              242.1175
+            ],
+            [
+              -360.0447,
+              243.5199
+            ],
+            [
+              -360.8092,
+              244.3481
+            ]
+          ]
+        },
+        {
+          "id": "lm-range-shelter-plane-2",
+          "supportCount": 215,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            0.2531807,
+            0.3168647,
+            36.5225455
+          ],
+          "slopeDegrees": 22.08,
+          "residualRmseMetres": 0.02,
+          "residualP95AbsoluteMetres": 0.038,
+          "supportHeightQuantilesRH2000": {
+            "min": 33.66,
+            "p05": 33.777,
+            "p50": 34.66,
+            "p95": 35.646,
+            "max": 35.77
+          },
+          "supportHullEpsg3006": [
+            [
+              678619.61,
+              6988288.85
+            ],
+            [
+              678618.42,
+              6988289.48
+            ],
+            [
+              678615.77,
+              6988291.21
+            ],
+            [
+              678613.94,
+              6988292.51
+            ],
+            [
+              678611.01,
+              6988294.65
+            ],
+            [
+              678610.68,
+              6988295.17
+            ],
+            [
+              678610.55,
+              6988295.39
+            ],
+            [
+              678610.53,
+              6988296.78
+            ],
+            [
+              678610.53,
+              6988297.45
+            ],
+            [
+              678611.55,
+              6988298.68
+            ],
+            [
+              678612.7,
+              6988300.02
+            ],
+            [
+              678615.61,
+              6988297.69
+            ],
+            [
+              678620.95,
+              6988293.41
+            ],
+            [
+              678622.02,
+              6988292.4
+            ],
+            [
+              678622.17,
+              6988291.99
+            ],
+            [
+              678622.03,
+              6988291.74
+            ],
+            [
+              678621.01,
+              6988289.98
+            ],
+            [
+              678620.22,
+              6988289.1
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -364.1952,
+              247.8129
+            ],
+            [
+              -365.3457,
+              247.1195
+            ],
+            [
+              -367.89,
+              245.2493
+            ],
+            [
+              -369.6412,
+              243.8527
+            ],
+            [
+              -372.4419,
+              241.5582
+            ],
+            [
+              -372.7421,
+              241.0216
+            ],
+            [
+              -372.8596,
+              240.7951
+            ],
+            [
+              -372.8035,
+              239.4078
+            ],
+            [
+              -372.7669,
+              238.7397
+            ],
+            [
+              -371.684,
+              237.5689
+            ],
+            [
+              -370.4656,
+              236.2955
+            ],
+            [
+              -367.6952,
+              238.7784
+            ],
+            [
+              -362.6116,
+              243.3388
+            ],
+            [
+              -361.6014,
+              244.4046
+            ],
+            [
+              -361.4744,
+              244.8217
+            ],
+            [
+              -361.6275,
+              245.0633
+            ],
+            [
+              -362.7393,
+              246.7626
+            ],
+            [
+              -363.5741,
+              247.597
+            ]
+          ]
+        }
+      ],
+      "nearbyGround": {
+        "pointCount": 1950,
+        "heightAtOriginRH2000": 30.397,
+        "heightQuantilesRH2000": {
+          "p05": 30.07,
+          "p50": 30.42,
+          "p95": 30.64
+        },
+        "fittedSlopeDegrees": 0.95,
+        "residualP95AbsoluteMetres": 0.249
+      },
+      "limitations": [
+        "Roof support hull is an inner envelope of sampled roof returns; it is not a wall outline.",
+        "Ground fit uses the surrounding five metre window, not a measured entrance threshold.",
+        "Roof eave and ridge ends are undersampled; allow about 0.5–1 m horizontal uncertainty."
+      ],
+      "roofSupportRectangle": {
+        "ringEpsg3006": [
+          [
+            678616.327,
+            6988304.531
+          ],
+          [
+            678626.129,
+            6988296.621
+          ],
+          [
+            678619.396,
+            6988288.276
+          ],
+          [
+            678609.593,
+            6988296.185
+          ]
+        ],
+        "ringLocalXZ": [
+          [
+            -366.6076,
+            231.9957
+          ],
+          [
+            -357.2785,
+            240.4198
+          ],
+          [
+            -364.4399,
+            248.3737
+          ],
+          [
+            -373.769,
+            239.9496
+          ]
+        ],
+        "lengthMetres": 12.6,
+        "widthMetres": 10.72,
+        "eavePlaneHeightsRH2000": [
+          33.636,
+          33.612,
+          33.709,
+          33.733
+        ],
+        "meaning": "1st–99th percentile support projected on fitted ridge; sampled inner roof envelope, not a survey of walls/eaves"
+      },
+      "ridge": {
+        "endpointsEpsg3006": [
+          [
+            678612.867,
+            6988300.243
+          ],
+          [
+            678622.669,
+            6988292.333
+          ]
+        ],
+        "endpointsLocalXZ": [
+          [
+            -370.2874,
+            236.0827
+          ],
+          [
+            -360.9583,
+            244.5068
+          ]
+        ],
+        "heightsRH2000": [
+          35.848,
+          35.823
+        ],
+        "heightAboveNearbyGroundMetres": 5.439,
+        "gridBearingDegrees": 128.9,
+        "status": "intersection of the two largest fitted roof planes; validate roof assembly and endpoint extent with photographs",
+        "suggestedVerticalToleranceMetres": 0.2
+      }
+    },
+    {
+      "id": "lm-practice-shed",
+      "sourceFeatureId": "lm-practice-shed",
+      "sourceGeometry": "2024 ortho envelope plus 1.5 m query buffer; plane geometry comes from 2025 laser coordinates",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        678635.9358,
+        6988353.2066
+      ],
+      "originLocalXZ": [
+        -344.4209,
+        184.5275
+      ],
+      "allCandidateRoofReturns": 218,
+      "planes": [
+        {
+          "id": "lm-practice-shed-plane-1",
+          "supportCount": 85,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            -0.1571894,
+            0.0489124,
+            33.7702671
+          ],
+          "slopeDegrees": 9.35,
+          "residualRmseMetres": 0.054,
+          "residualP95AbsoluteMetres": 0.106,
+          "supportHeightQuantilesRH2000": {
+            "min": 33.11,
+            "p05": 33.232,
+            "p50": 33.6,
+            "p95": 34.674,
+            "max": 34.74
+          },
+          "supportHullEpsg3006": [
+            [
+              678638.11,
+              6988349.82
+            ],
+            [
+              678633.62,
+              6988350.49
+            ],
+            [
+              678633.39,
+              6988350.58
+            ],
+            [
+              678630.37,
+              6988353.21
+            ],
+            [
+              678630.36,
+              6988353.99
+            ],
+            [
+              678630.37,
+              6988354.15
+            ],
+            [
+              678631.62,
+              6988358.46
+            ],
+            [
+              678635.19,
+              6988358.56
+            ],
+            [
+              678638.63,
+              6988357.62
+            ],
+            [
+              678639.66,
+              6988357.18
+            ],
+            [
+              678640.4,
+              6988356.72
+            ],
+            [
+              678640.42,
+              6988355.29
+            ],
+            [
+              678640.36,
+              6988355.03
+            ],
+            [
+              678639.71,
+              6988353.29
+            ],
+            [
+              678638.72,
+              6988350.92
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -342.4409,
+              188.0237
+            ],
+            [
+              -346.8754,
+              187.1098
+            ],
+            [
+              -347.0995,
+              187.0075
+            ],
+            [
+              -349.963,
+              184.2194
+            ],
+            [
+              -349.9304,
+              183.441
+            ],
+            [
+              -349.9117,
+              183.282
+            ],
+            [
+              -348.4314,
+              179.0524
+            ],
+            [
+              -344.8709,
+              179.148
+            ],
+            [
+              -341.4967,
+              180.2737
+            ],
+            [
+              -340.4951,
+              180.7689
+            ],
+            [
+              -339.7833,
+              181.2681
+            ],
+            [
+              -339.8416,
+              182.6953
+            ],
+            [
+              -339.9155,
+              182.9513
+            ],
+            [
+              -340.6579,
+              184.6509
+            ],
+            [
+              -341.7733,
+              186.9602
+            ]
+          ]
+        },
+        {
+          "id": "lm-practice-shed-plane-2",
+          "supportCount": 47,
+          "interpretation": "dominant roof plane",
+          "coefficientsLocalEN": [
+            0.0815403,
+            0.0386437,
+            34.5021584
+          ],
+          "slopeDegrees": 5.16,
+          "residualRmseMetres": 0.063,
+          "residualP95AbsoluteMetres": 0.108,
+          "supportHeightQuantilesRH2000": {
+            "min": 33.93,
+            "p05": 33.972,
+            "p50": 34.36,
+            "p95": 34.69,
+            "max": 34.76
+          },
+          "supportHullEpsg3006": [
+            [
+              678634.51,
+              6988350.69
+            ],
+            [
+              678631.72,
+              6988351.07
+            ],
+            [
+              678631.22,
+              6988351.16
+            ],
+            [
+              678630.4,
+              6988351.5
+            ],
+            [
+              678629.71,
+              6988351.81
+            ],
+            [
+              678630.55,
+              6988355.81
+            ],
+            [
+              678631.14,
+              6988356.54
+            ],
+            [
+              678634.38,
+              6988357.75
+            ],
+            [
+              678637.04,
+              6988356.4
+            ],
+            [
+              678637.1,
+              6988356.02
+            ],
+            [
+              678637.11,
+              6988355.25
+            ],
+            [
+              678635.3,
+              6988350.86
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -345.9782,
+              186.9591
+            ],
+            [
+              -348.7357,
+              186.4274
+            ],
+            [
+              -349.2287,
+              186.3103
+            ],
+            [
+              -350.0266,
+              185.9264
+            ],
+            [
+              -350.6968,
+              185.5795
+            ],
+            [
+              -349.6417,
+              181.6365
+            ],
+            [
+              -349.0143,
+              180.9408
+            ],
+            [
+              -345.7218,
+              179.9115
+            ],
+            [
+              -343.1467,
+              181.4033
+            ],
+            [
+              -343.1077,
+              181.7856
+            ],
+            [
+              -343.1399,
+              182.554
+            ],
+            [
+              -345.1822,
+              186.8328
+            ]
+          ]
+        },
+        {
+          "id": "lm-practice-shed-plane-3",
+          "supportCount": 33,
+          "interpretation": "minor planar subset; may be a connected or neighbouring roof rather than part of the dominant gable",
+          "coefficientsLocalEN": [
+            -0.0315303,
+            -0.0955147,
+            34.5463279
+          ],
+          "slopeDegrees": 5.74,
+          "residualRmseMetres": 0.065,
+          "residualP95AbsoluteMetres": 0.113,
+          "supportHeightQuantilesRH2000": {
+            "min": 33.95,
+            "p05": 34.02,
+            "p50": 34.61,
+            "p95": 34.744,
+            "max": 34.77
+          },
+          "supportHullEpsg3006": [
+            [
+              678634.95,
+              6988352.01
+            ],
+            [
+              678634.2,
+              6988352.11
+            ],
+            [
+              678632.0,
+              6988352.95
+            ],
+            [
+              678631.7,
+              6988353.15
+            ],
+            [
+              678631.18,
+              6988353.69
+            ],
+            [
+              678630.36,
+              6988354.69
+            ],
+            [
+              678630.37,
+              6988354.88
+            ],
+            [
+              678637.01,
+              6988358.07
+            ],
+            [
+              678637.08,
+              6988358.1
+            ],
+            [
+              678638.0,
+              6988357.91
+            ],
+            [
+              678636.04,
+              6988352.08
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -345.4679,
+              185.6668
+            ],
+            [
+              -346.2093,
+              185.526
+            ],
+            [
+              -348.3541,
+              184.5679
+            ],
+            [
+              -348.6419,
+              184.3521
+            ],
+            [
+              -349.1302,
+              183.7851
+            ],
+            [
+              -349.8921,
+              182.743
+            ],
+            [
+              -349.8718,
+              182.5541
+            ],
+            [
+              -343.0853,
+              179.7363
+            ],
+            [
+              -343.014,
+              179.7102
+            ],
+            [
+              -342.1082,
+              179.9501
+            ],
+            [
+              -344.3786,
+              185.6567
+            ]
+          ]
+        }
+      ],
+      "nearbyGround": {
+        "pointCount": 1129,
+        "heightAtOriginRH2000": 30.163,
+        "heightQuantilesRH2000": {
+          "p05": 29.88,
+          "p50": 30.16,
+          "p95": 30.366
+        },
+        "fittedSlopeDegrees": 0.4,
+        "residualP95AbsoluteMetres": 0.274
+      },
+      "limitations": [
+        "Roof support hull is an inner envelope of sampled roof returns; it is not a wall outline.",
+        "Ground fit uses the surrounding five metre window, not a measured entrance threshold.",
+        "Roof eave and ridge ends are undersampled; allow about 0.5–1 m horizontal uncertainty."
+      ],
+      "roofInterpretation": {
+        "status": "unresolved-low-pitch-roof",
+        "observedSurfaceHeightRH2000": [
+          33.312,
+          34.27,
+          34.73
+        ],
+        "reason": "Dominant planar subsets are shallow, do not form a supported convex gable, and contain discontinuities. Do not turn their intersection into a ridge.",
+        "modelRecommendation": "Use photographs to establish roof type; retain measured roof return height envelope approximately 33.2–34.8 m RH2000."
+      }
+    }
+  ],
+  "limitations": [
+    "The source is June 2025 airborne laser at roughly metre horizontal sampling, not a facade survey.",
+    "Planar fit residual is internal scatter, not total survey accuracy.",
+    "Windows, doors, terrace elevation, materials and present-day changes require photographic or field evidence.",
+    "Do not move measured roofs to match relief-displaced aerial image roof outlines."
+  ],
+  "surroundingConstruction": {
+    "id": "southern-residential-context-2025",
+    "useAndOwnership": "unconfirmed; do not classify as golf maintenance",
+    "source": {
+      "schemaVersion": 1,
+      "groundId": "norrfallsviken",
+      "acquiredOn": "2026-09-10",
+      "sourceId": "25f014-698_67",
+      "capturedAt": "2025-06-05T00:00:00Z",
+      "sourceUrl": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/25f014/m25f014-698_67.copc.laz",
+      "sourceSha256": "93b5ae9f60ad7c0e9757ef738a08dcaab7acec563141f70ebef85070399ebc4d",
+      "sourceChecksumVerification": "Pinned catalog SHA-256; focused HTTP range reads do not verify the full 1.91 GB source checksum.",
+      "compoundCrs": "EPSG:5845",
+      "horizontalCrs": "EPSG:3006",
+      "verticalDatum": "RH2000",
+      "licence": "CC-BY-4.0",
+      "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0",
+      "boundsEpsg3006": [
+        678660,
+        6988190,
+        678710,
+        6988240
+      ],
+      "statistics": {
+        "nodes": 15,
+        "decodedPoints": 334409,
+        "pointsInWindow": 9160,
+        "firstReturns": 8052,
+        "byClass": {
+          "1": 2181,
+          "2": 6979
+        },
+        "nodeCountsExact": true
+      },
+      "transfer": {
+        "requests": 147,
+        "bytes": 3473956
+      },
+      "localPointsSha256": "656f654272dd850517aab91af5e5f9a77fadd99d692556e0caa204e07d683eac",
+      "localPointsPath": "nvgkbuild/cache/facilities-reference/laser-southern-context/points.json"
+    },
+    "observation": "White slab visible in June 2024 orthophoto has a substantial elevated structure in June 2025 laser.",
+    "querySlabRingEpsg3006": [
+      [
+        678676.96,
+        6988219.5200000005
+      ],
+      [
+        678684.0,
+        6988225.44
+      ],
+      [
+        678694.56,
+        6988212.48
+      ],
+      [
+        678687.84,
+        6988206.5600000005
+      ]
+    ],
+    "returnsInsideOldSlabEnvelope": 830,
+    "returnsMoreThan1p8MetresAboveNearbyGround": 507,
+    "elevatedHeightQuantilesRH2000": {
+      "p05": 33.823,
+      "p50": 35.07,
+      "p95": 36.234,
+      "max": 36.35
+    },
+    "nearbyGroundMedianRH2000": 30.68,
+    "groundSupportCount": 2450,
+    "inference": "The height distribution and 2024 construction context strongly support a completed building by the laser capture; facade, roof form and use remain unverified."
+  }
+}

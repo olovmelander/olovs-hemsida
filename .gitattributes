@@ -4,6 +4,8 @@ apps/golf/public/grounds/puttom/*.json text eol=lf
 geo_data/**/*.json text eol=lf
 geobuild/*.json text eol=lf
 *build/*.json text eol=lf
+# Johannesberg review ledgers retain dated byte hashes, including original newlines.
+johannesbergbuild/mapping/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 apps/golf/public/courses/*/intake-*.json text eol=lf
 # Retained acquisition/trace byte identities are also referenced by raw SHA
 # evidence. Preserve their dated bytes across Windows and Linux checkouts.
@@ -14,8 +16,13 @@ lidingobuild/mapping/playing-surfaces.geojson -text
 lidingobuild/mapping/facilities.geojson -text
 lidingobuild/mapping/infrastructure.geojson -text
 lidingobuild/mapping/*.json text eol=lf
+puttombuild/mapping/*.json text eol=lf
 apps/golf/public/grounds/lidingo/*.json text eol=lf
 apps/golf/public/courses/lidingo/course-v2-*.json text eol=lf
+apps/golf/public/courses/lidingo/environment-water-*.geojson text eol=lf
+# These retained water bytes also carry a raw runtime SHA-256 identity.
+geo_data/course-v2/lidingo/acquisition/environment-water.geojson -text
+apps/golf/public/courses/lidingo/environment-water-22d904c63d31ccb7a331e1a0f4f177398f26632c20edb31cbc56774a475e14e3.geojson -text
 geo_data/course-v2/visby/**/*.geojson -text
 visbybuild/**/*.geojson -text
 visbybuild/**/*.json text eol=lf
@@ -25,3 +32,30 @@ geo_data/course-v2/visby/**/*.py text eol=lf
 geo_data/course-v2/visby/**/*.mjs text eol=lf
 apps/golf/public/grounds/visby/*.json text eol=lf
 apps/golf/public/courses/visby/course-v2-*.json text eol=lf
+angsobuild/mapping/*.json text eol=lf
+apps/golf/public/courses/angso/course-v2-*.json text eol=lf
+# Tortuna source receipts and traced vectors carry exact byte identities.
+tortunabuild/**/*.json text eol=lf
+tortunabuild/**/*.geojson -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+tortunabuild/**/*.mjs text eol=lf
+tortunabuild/**/*.py text eol=lf
+geo_data/course-v2/tortuna/**/*.geojson -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+geo_data/course-v2/tortuna/**/*.mjs text eol=lf
+apps/golf/public/grounds/tortuna/*.json text eol=lf
+apps/golf/public/courses/tortuna/course-v2-*.json text eol=lf
+# Content-addressed surrounding water must retain the exact published bytes.
+apps/golf/public/courses/lidingo/environment-water-*.geojson -text
+# The source-input ledger pins the retained review's original CRLF bytes.
+tortunabuild/reference/clubhouse-review.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Johannesberg facility evidence and Blender input retain their pinned bytes.
+johannesbergbuild/facilities/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+johannesbergbuild/facilities/*.py text eol=lf
+johannesbergbuild/facilities/*.mjs text eol=lf
+apps/golf/public/models/johannesberg/*.json text eol=lf
+# These two directories hold evidence whose sha256 is RECORDED in other
+# committed files, exactly like the mapping ledgers pinned above -- and both
+# were missing a rule, so a Windows checkout hashed CRLF bytes that no Linux
+# checkout can reproduce. That is how upsala-tee-coordinate-contract and the
+# Lidingo practice-surface pin came to fail in CI while passing locally.
+upsalabuild/mapping/*.json text eol=lf
+lidingobuild/facilities/*.json text eol=lf

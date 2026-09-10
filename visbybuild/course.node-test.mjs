@@ -13,24 +13,29 @@ import { local } from './frame.mjs';
 import { applyReviewedFacilities, facilityPoint } from './mapping/reviewed-facilities.mjs';
 import { applyReviewedTeePlatforms } from './mapping/reviewed-tee-platforms.mjs';
 import { applyReviewedEnvironment } from './mapping/reviewed-environment.mjs';
+import { applyReviewedOrthophoto } from './mapping/reviewed-orthophoto.mjs';
+import { applyReviewedTeeAlignment } from './mapping/reviewed-tee-alignment.mjs';
 
 const bytes = relative => readFileSync(new URL(relative, import.meta.url));
 const json = relative => JSON.parse(bytes(relative));
+const applyCurrentReviews = geometry => applyReviewedTeeAlignment(applyReviewedOrthophoto(
+  applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(geometry,
+    json('./mapping/facilities-review.json')), json('./mapping/tee-platform-review.json')),
+  json('./mapping/environment-surfaces-review.json')), json('./mapping/orthophoto-review-2026.json')));
 
 test('expanded tee inventory survives regeneration and keeps reviewed cameras on real turf', () => {
   const geometry = json('./mapping/geometry.json'), model = json('./course-model.json');
   const review = json('./mapping/tee-platform-review.json');
   assert.equal(Object.keys(review.sources).length, 18);
-  assert.deepEqual(applyReviewedTeePlatforms(geometry, review), geometry);
+  assert.deepEqual(applyCurrentReviews(geometry), geometry);
   const unreviewed = structuredClone(geometry);
   for (const entry of review.holes) {
     const hole = unreviewed.holes[entry.n - 1];
-    const ids = new Set(entry.additionalPads.map(pad => pad.id));
-    hole.tees.pads = hole.tees.pads.filter(pad => !ids.has(pad.reviewId));
     for (const tee of Object.keys(entry.cameraReferencesPixels)) delete hole.tees.references[tee];
   }
-  assert.deepEqual(applyReviewedTeePlatforms(unreviewed, review), geometry, 'source overlay reconstructs the adopted authoring geometry');
-  assert.equal(model.holes.reduce((n, hole) => n + hole.tees.pads.length, 0), 48);
+  assert.deepEqual(applyCurrentReviews(unreviewed), geometry, 'ordered source overlays reconstruct the current accepted references');
+  assert.equal(model.holes.reduce((n, hole) => n + hole.tees.pads.length, 0),
+    geometry.holes.reduce((n, hole) => n + hole.tees.pads.length, 0));
   for (const entry of review.holes) {
     const hole = model.holes[entry.n - 1], source = review.sources[entry.sourceKey];
     for (const pad of entry.additionalPads) {
@@ -39,12 +44,15 @@ test('expanded tee inventory survives regeneration and keeps reviewed cameras on
     }
     for (const move of entry.cameraMoves) {
       const index = [63, 59, 55, 51, 46, 41].indexOf(move.tee), mark = hole.tees.marks[index];
-      const distance = Math.hypot(mark.c[0] - move.fromLocal[0], mark.c[1] - move.fromLocal[1]);
+      // Historical move limits validate that historical decision. A later
+      // source review can identify a different numbered platform.
+      const historicalPoint = local(facilityPoint({ source }, entry.cameraReferencesPixels[`tee-${move.tee}`]));
+      const distance = Math.hypot(historicalPoint[0] - move.fromLocal[0], historicalPoint[1] - move.fromLocal[1]);
       if (move.assignment === 'caddee-platform-identity') {
         assert.ok(entry.numberedPlatformReview, 'a larger move requires independent numbered-platform evidence');
       } else assert.ok(distance <= review.method.maxCameraMoveMetres + 1e-6);
       assert.ok(Math.abs(distance - move.distanceMetres) < 0.001);
-      assert.ok(hole.tees.pads.some(p => pointInPoly(...mark.c, p.ring)));
+      assert.ok(hole.tees.pads.some(p => pointInPoly(...historicalPoint, p.ring)));
       assert.ok(mark.placement.includes('daily marker location unverified'));
     }
   }
@@ -101,7 +109,7 @@ test('range-side greens retain source outlines and regenerate without duplicatio
 test('reviewed clubhouse practice green and first-hole cameras retain image registration and observed platforms', () => {
   const geometry = json('./mapping/geometry.json'), model = json('./course-model.json');
   const review = json('./mapping/facilities-review.json');
-  assert.deepEqual(applyReviewedFacilities(geometry, review), geometry, 'review adoption is idempotent');
+  assert.deepEqual(applyCurrentReviews(geometry), geometry, 'ordered review adoption is idempotent');
   assert.deepEqual(facilityPoint(review, [0, 0]), [687105.5, 6370936.5]);
   assert.deepEqual(facilityPoint(review, [880, 880]), [687325.5, 6370716.5]);
   assert.deepEqual(model.scenery.greens, geometry.scenery.greens.map(ring => ring.map(local)));
@@ -116,7 +124,7 @@ test('reviewed clubhouse practice green and first-hole cameras retain image regi
   delete withoutReview.scenery.reviewedPracticeGreenIndex;
   const reapplied = applyReviewedFacilities(withoutReview, review);
   assert.deepEqual(reapplied.holes.slice(1), geometry.holes.slice(1), 'no other hole changes during adoption');
-  assert.deepEqual(reapplied.holes[0].tees, geometry.holes[0].tees);
+  assert.deepEqual(applyCurrentReviews({ ...reapplied, scenery: structuredClone(geometry.scenery) }).holes[0].tees, geometry.holes[0].tees);
 });
 
 test('Visby published compatibility pack preserves canonical observed geometry and all official card values', () => {
@@ -139,18 +147,19 @@ test('Visby published compatibility pack preserves canonical observed geometry a
       assert.ok(hole.tees.marks.every(mark => hole.fairway.rings.some(ring => pointInPoly(...mark.c, ring))));
     } else {
       assert.ok(hole.tees.pads.length > 0);
-      /* The BACK tee is the observed platform and must stay on it. The five
-         shorter ones no longer can: this hole's card spans up to 176 m and one
-         platform 7-32 m long cannot hold six tees, which is why all six used to
-         share one point and every camera but one stood at the wrong tee. They
-         are walked up the observed route by the card's own difference from the
-         back tee -- see `teeMarks` for why that needs no extrapolation and
-         infers no platform -- so containment is asserted where it is true and
-         the derivation is re-derived below where it is not. */
-      assert.ok(hole.tees.pads.some(pad => pointInPoly(...hole.tees.marks[0].c, pad.ring)));
-      assert.equal(hole.tees.marks[0].placement, source.tees.references?.['tee-63']
-        ? 'source-declared-camera-reference; daily marker location unverified'
-        : 'observed-tee-platform; the card back tee, whose platform this is');
+      for (const [i, tee] of card.tees.entries()) {
+        const review = source.tees.referenceReview[tee.id];
+        assert.ok(['source-corroborated', 'retained-unresolved'].includes(review?.status));
+        assert.ok(source.tees.references[tee.id], 'every resolved-platform hole has an explicit navigation reference');
+        assert.ok(!hole.tees.marks[i].placement.startsWith('card-offset'), 'reviewed holes cannot regenerate card-offset cameras');
+        if (review.status === 'source-corroborated') {
+          assert.ok(hole.tees.pads.some(pad => pointInPoly(...hole.tees.marks[i].c, pad.ring)));
+          assert.match(hole.tees.marks[i].placement, /source-corroborated/);
+        } else {
+          assert.ok(review.reason);
+          assert.match(hole.tees.marks[i].placement, /numbered platform unresolved/);
+        }
+      }
     }
     /* The model and its generator must not be able to disagree. `build-course`
        cannot run in a checkout without the acquired 1 m raster it pins by
@@ -165,7 +174,8 @@ test('Visby published compatibility pack preserves canonical observed geometry a
     assert.deepEqual(hole.tees.marks, teeMarks({
       line: hole.line, lineLen: polyLen(hole.line), lengths: hole.t, nearest, pads: hole.tees.pads,
       unresolvedPlatform: hole.tees.status === 'unresolved-physical-platform',
-      references: card.tees.map(tee => source.tees.references?.[tee.id] ? local(source.tees.references[tee.id]) : null), hole: hole.n,
+      references: card.tees.map(tee => source.tees.references?.[tee.id] ? local(source.tees.references[tee.id]) : null),
+      referenceReview: card.tees.map(tee => source.tees.referenceReview?.[tee.id] ?? null), hole: hole.n,
     }));
     assert.deepEqual(hole.tees.marks.map(mark => mark.m), hole.t);
     assert.ok(pointInPoly(...hole.pin, hole.green.ring));
@@ -173,8 +183,10 @@ test('Visby published compatibility pack preserves canonical observed geometry a
   /* The tee dimension exists: 108 numbered tees used to stand on 18 points, so
      `?tee=N` moved nothing and the rangefinder read one distance to the green
      for all six against the card printed beside it. */
-const teePoints = new Set(model.holes.flatMap(hole => hole.tees.marks.map(mark => mark.c.join(','))));
-  assert.equal(teePoints.size, 80);
+  const teePoints = new Set(model.holes.flatMap(hole => hole.tees.marks.map(mark => mark.c.join(','))));
+  const authoredTeePoints = new Set(geometry.holes.flatMap(hole => Object.values(Object.keys(hole.tees.references ?? {}).length
+    ? hole.tees.references : { unresolved: hole.tees.cameraReference }).map(point => local(point).join(','))));
+  assert.equal(teePoints.size, authoredTeePoints.size, 'published cameras retain the distinct source references without synthesizing locations');
   assert.equal(model.holes.filter(hole => new Set(hole.tees.marks.map(mark => mark.c.join(','))).size === 1).length, 1,
     'only hole 12, whose platform is unresolved, may still share one point across all six tees');
   /* The horizon's land cover is the committed OSM artifact and nothing else --
@@ -205,28 +217,15 @@ const teePoints = new Set(model.holes.flatMap(hole => hole.tees.marks.map(mark =
   assert.equal(clubhouses.length, 1);
   assert.equal(clubhouses[0].id, geometry.clubhouseWayId);
   assert.match(clubhouses[0].name, /klubbhus/i);
-  /* THE CLUB DRAWS ITS OWN TEES, and the derivation is checked against that.
-     Caddee's eighteen hole plans put a numbered disc on every tee: all 18 draw
-     six, and 16 group them at exactly as many distinct places as the card has
-     distinct lengths, in that order from the back tee to the front -- which is
-     the shape `teeMarks` derives. Nothing is READ off the plans, which are
-     stylised illustrations and are not registered; what is counted is
-     structure, which is falsifiable and was falsified twice: holes 13 and 14
-     draw at separate places two tees the card gives one length, and on 14 the
-     plan's PRINTED distances agree with its own drawing against the card. Those
-     two are recorded, not resolved. */
+  /* Retain the historical diagram census and its disagreements. The later
+     numbered-platform review reads source labels and native image geometry;
+     the earlier group count cannot force camera positions to fit card lengths. */
   const plans = json('./mapping/hole-plans.json');
   assert.equal(plans.summary.holesWhereThePlanDrawsSixTees, 18);
   assert.equal(plans.summary.holesWhereTheGroupingMatchesTheCard, 16);
   assert.deepEqual(plans.summary.disagreements.map(row => row.hole), [13, 14]);
-  for (const row of plans.holes) {
-    if (!row.matchesCardStructure) continue;
-    const hole = model.holes.find(candidate => candidate.n === row.hole);
-    const points = new Set(hole.tees.marks.map(mark => mark.c.join(','))).size;
-    if (hole.tees.status === 'unresolved-physical-platform') { assert.equal(points, 1); continue; }
-    assert.equal(points, row.planGroupSizesBackToFront.length,
-      `hole ${row.hole} must stand its tees at as many places as its own plan draws`);
-  }
+  // The old diagram-group census remains evidence. Native-image review owns
+  // current reference positions; a diagram group count cannot move them.
   /* ALL EIGHTEEN HOLES SHOWED THE SAME DISCLAIMER where every other course
      shows a description of the hole -- `note` is the line a player reads under
      the hole number. There is no club-authored text to use (Caddee's per-hole

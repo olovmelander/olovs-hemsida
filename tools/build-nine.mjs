@@ -33,10 +33,12 @@ import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { applyReviewedNineTees } from './apply-reviewed-nine-tees.mjs';
 import { applyUpsalaLmTeeReferences } from './apply-upsala-lm-tee-references.mjs';
+import { applyUpsalaReviewedTeeSites } from './apply-upsala-reviewed-tee-sites.mjs';
 import { applyReviewedNineFairways } from './apply-reviewed-nine-fairways.mjs';
 import { mergeMellanTeeReview20260907 } from './apply-mellan-tee-review-2026-09-07.mjs';
 import { applyOrthoReview, legacyHeightfieldSampler } from '../johannesbergbuild/mapping/apply-ortho-review.mjs';
 import { excludeOwnedScenery } from '../johannesbergbuild/mapping/scenery-ownership.mjs';
+import { applyTeePlacementReview } from '../johannesbergbuild/mapping/apply-tee-placement-review.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJSON = p => JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -263,8 +265,16 @@ if (cfg.reviewedFairways) {
 
 if (cfg.reviewedTeeReferences) {
   if (cfg.slug !== 'upsala-mellanbanan') throw new Error('reviewedTeeReferences currently requires the Upsala source frame');
-  holes = applyUpsalaLmTeeReferences({ origin: parent.origin, mPerLat: parent.mPerLat, mPerLon: parent.mPerLon, holes },
-    [readJSON(path.resolve(ROOT, cfg.reviewedTeeReferences))]).holes;
+  const reviews = Array.isArray(cfg.reviewedTeeReferences) ? cfg.reviewedTeeReferences : [cfg.reviewedTeeReferences];
+  for (const file of reviews) holes = applyUpsalaLmTeeReferences(
+    { origin: parent.origin, mPerLat: parent.mPerLat, mPerLon: parent.mPerLon, holes }, readJSON(path.resolve(ROOT, file))).holes;
+}
+
+if (cfg.reviewedTeeSites) {
+  if (cfg.slug !== 'upsala-mellanbanan') throw new Error('reviewedTeeSites currently requires the Upsala source frame');
+  const sites = Array.isArray(cfg.reviewedTeeSites) ? cfg.reviewedTeeSites : [cfg.reviewedTeeSites];
+  holes = applyUpsalaReviewedTeeSites({ origin: parent.origin, mPerLat: parent.mPerLat, mPerLon: parent.mPerLon, holes },
+    sites.map(file => readJSON(path.resolve(ROOT, file)))).holes;
 }
 
 const baselineHoles = cfg.orthophotoReviews ? structuredClone(holes) : [];
@@ -279,6 +289,8 @@ if (cfg.orthophotoReviews) {
     orthophotoModel = applyOrthoReview(orthophotoModel, readJSON(path.resolve(ROOT, filename)),
       {heightAt:legacyHeightfieldSampler(hf)});
   }
+  if (cfg.teePlacementReview) orthophotoModel = applyTeePlacementReview(orthophotoModel,
+    readJSON(path.resolve(ROOT, cfg.teePlacementReview)), { heightAt: legacyHeightfieldSampler(hf) });
   holes = orthophotoModel.holes;
 }
 

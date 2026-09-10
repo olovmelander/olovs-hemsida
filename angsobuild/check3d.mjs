@@ -146,20 +146,29 @@ gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
 if (model.orthophotoReview) {
   const review = readJSON(path.join(HERE, 'mapping/orthophoto-review.json'));
   gate(JSON.stringify(applyReviewedOrthophoto(model, review)) === JSON.stringify(model),
-    'orthophoto: current review reproduces accepted geometry, provenance and provisional tee references');
+    'orthophoto: current review reproduces accepted geometry, provenance and tee references');
   const surfaceShape = h => ({ green: { ring: h.green.ring, c: h.green.c }, fairways: h.fairway.rings,
-    tees: { pads: h.tees.pads.map(p => ({ ring: p.ring, preserveTerrain: p.preserveTerrain })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })),
+    tees: { pads: h.tees.pads.map(p => ({ ring: p.ring, preserveTerrain: p.preserveTerrain })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m,
+      sourcePadId: m.sourcePadId, referenceSurfaceKind: m.referenceSurfaceKind, orthophotoReference: m.orthophotoReference })),
       inferPads: h.tees.inferPads, status: h.tees.status }, bunkers: h.bunkers.map(b => b.ring) });
   gate(vec.holes.every(h => JSON.stringify(surfaceShape(h)) === JSON.stringify(surfaceShape(model.holes.find(m => m.n === h.n)))),
     'orthophoto: embedded green, fairway, tee and bunker geometry matches the current model');
   gate(JSON.stringify(vec.water.map(w => [w.ring, w.level])) === JSON.stringify(model.water.map(w => [w.ring, w.level])),
     'orthophoto: embedded water boundaries retain the current measured levels');
   gate(vec.infra.preserveMappedBoundaries === true, 'orthophoto: runtime preserves mapped surface boundaries');
+  gate(model.marking.every(run => run.pts.every(point => !model.holes.some(h =>
+    h.tees.pads.some(p => p.prov === 'lm-orthophoto' && pointInPoly(...point, p.ring))))),
+    'orthophoto: inferred penalty/OB stakes do not stand inside reviewed tee platforms');
   for (const entry of review.holes ?? []) if (entry.tees) {
     const hole = model.holes.find(h => h.n === entry.n);
     gate(hole.tees.inferPads === false && hole.tees.pads.every(p => p.preserveTerrain === true) && hole.tees.marks.every(mark => {
       const reference = mark.orthophotoReference;
       if (!reference) return false;
+      if (reference.kind === 'unresolved-guide-tee-reference') return reference.selectedPadReviewId === null &&
+        reference.identityStatus === 'unresolved' && JSON.stringify(mark.c) === JSON.stringify(reference.originalPosition);
+      if (reference.kind === 'guide-orthophoto-reference') return mark.referenceSurfaceKind === 'fairway'
+        ? hole.fairway.rings.some(r => pointInPoly(...mark.c, r)) && !mark.sourcePadId
+        : hole.tees.pads.some(p => p.reviewId === mark.sourcePadId && pointInPoly(...mark.c, p.ring));
       if (hole.tees.pads.some(p => pointInPoly(...mark.c, p.ring))) return reference.kind !== 'unresolved-virtual-tee-reference';
       return reference.kind === 'unresolved-virtual-tee-reference' && reference.selectedPadReviewId === null &&
         reference.identityStatus === 'unsupported-platform-association' && reference.positionStatus === 'retained-unverified-virtual-reference' &&

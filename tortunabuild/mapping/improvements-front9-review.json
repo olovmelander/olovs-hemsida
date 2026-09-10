@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "reviewedOn": "2026-09-09",
+  "method": "Direct visual trace of retained orthophoto pixel boundaries; explicit source grids and source checksums; no terrain or length-derived geometry.",
+  "script": "tortunabuild/mapping/trace-improvements-front9.py",
+  "outputPath": "tortunabuild/mapping/improvements-front9.geojson",
+  "outputSha256": "fc4e9f72f2041151dd377bcd543a98688d678a2d2b446a1544535172d0aa6faf",
+  "baselineInputs": [
+    {
+      "path": "tortunabuild/mapping/surfaces-front9.geojson",
+      "sha256": "6a0560e6d8456545c33e4d8d77a0f33397ed28bfe293ad20149ff2df905d253f"
+    },
+    {
+      "path": "tortunabuild/mapping/surfaces-front9-fairways.geojson",
+      "sha256": "b27324aa0db3aeb8b55a8f271322be15310078fc4cefad436f197d772cca159a"
+    }
+  ],
+  "acquisitionReceipts": [
+    {
+      "path": "geo_data/course-v2/tortuna/acquisition/orthophoto-native-crops.json",
+      "sha256LfNormalized": "e0253a03c004e10f37263ed836792997ce75769c9ba2fcbe40b13e486fe8d4a6"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/acquisition/orthophoto-review.json",
+      "sha256LfNormalized": "25dd5fdaac59cd4dde9f6a3961804a9b5a87cbeba7ca1ae7e0dc1be2cff4a6d5"
+    }
+  ],
+  "additionalReviewWindows": {
+    "h06-tees-wide": {
+      "sourceRasterPath": "tortunabuild/cache/orthophoto/south.tif",
+      "sourceRasterSha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f",
+      "sourcePixelWindow": [
+        1156,
+        2531,
+        469,
+        719
+      ],
+      "geoTransform": [
+        597249.92,
+        0.32,
+        0.0,
+        6614070.08,
+        0.0,
+        -0.32
+      ],
+      "width": 469,
+      "height": 719,
+      "resolutionMetres": 0.32,
+      "resampling": "average from 0.16 m source",
+      "pixelMeaning": "pixel edge; E=west+x*spacing, N=north-y*spacing",
+      "reviewImagePath": "tortunabuild/cache/front9-improvements/h06-tees-wide-source.png",
+      "reviewImageSha256": "63e6204dfe65c5a933824ad4a84188377bbb89a63f0313c741082f9e84cc78c0"
+    }
+  },
+  "features": 17,
+  "additions": 3,
+  "replacements": 14,
+  "countsByKind": {
+    "tee": 2,
+    "green": 6,
+    "bunker": 8,
+    "fairway": 1
+  },
+  "newTeeHoles": [
+    4,
+    7
+  ],
+  "newFairwayCoverage": {
+    "6": "only observed green apron; full fairway unresolved"
+  },
+  "checks": [
+    {
+      "id": "tortuna-h04-tee-forward-observed-2026",
+      "replacesFeatureIds": [],
+      "areaSquareMetres": 283.904,
+      "valid": true,
+      "vertices": 12,
+      "previousAreaSquareMetres": null,
+      "symmetricDifferenceSquareMetres": null,
+      "centroidShiftMetres": null
+    },
+    {
+      "id": "tortuna-h07-tee-forward-observed-2026",
+      "replacesFeatureIds": [],
+      "areaSquareMetres": 172.608,
+      "valid": true,
+      "vertices": 11,
+      "previousAreaSquareMetres": null,
+      "symmetricDifferenceSquareMetres": null,
+      "centroidShiftMetres": null
+    },
+    {
+      "id": "tortuna-h01-green-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h01-green-1"
+      ],
+      "areaSquareMetres": 359.462,
+      "valid": true,
+      "vertices": 15,
+      "previousAreaSquareMetres": 366.844,
+      "symmetricDifferenceSquareMetres": 38.42,
+      "centroidShiftMetres": 0.724
+    },
+    {
+      "id": "tortuna-h02-green-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h02-green-1"
+      ],
+      "areaSquareMetres": 329.037,
+      "valid": true,
+      "vertices": 15,
+      "previousAreaSquareMetres": 311.281,
+      "symmetricDifferenceSquareMetres": 34.521,
+      "centroidShiftMetres": 0.771
+    },
+    {
+      "id": "tortuna-h06-green-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h06-green-1"
+      ],
+      "areaSquareMetres": 385.946,
+      "valid": true,
+      "vertices": 17,
+      "previousAreaSquareMetres": 375.312,
+      "symmetricDifferenceSquareMetres": 33.032,
+      "centroidShiftMetres": 0.54
+    },
+    {
+      "id": "tortuna-h07-green-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h07-green-1"
+      ],
+      "areaSquareMetres": 346.931,
+      "valid": true,
+      "vertices": 17,
+      "previousAreaSquareMetres": 339.875,
+      "symmetricDifferenceSquareMetres": 22.908,
+      "centroidShiftMetres": 0.34
+    },
+    {
+      "id": "tortuna-h08-green-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h08-green-1"
+      ],
+      "areaSquareMetres": 331.328,
+      "valid": true,
+      "vertices": 16,
+      "previousAreaSquareMetres": 351.844,
+      "symmetricDifferenceSquareMetres": 32.448,
+      "centroidShiftMetres": 0.724
+    },
+    {
+      "id": "tortuna-h09-green-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h09-green-1"
+      ],
+      "areaSquareMetres": 349.44,
+      "valid": true,
+      "vertices": 17,
+      "previousAreaSquareMetres": 409.344,
+      "symmetricDifferenceSquareMetres": 66.794,
+      "centroidShiftMetres": 0.496
+    },
+    {
+      "id": "tortuna-h01-bunker-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h01-bunker-1"
+      ],
+      "areaSquareMetres": 110.118,
+      "valid": true,
+      "vertices": 17,
+      "previousAreaSquareMetres": 111.531,
+      "symmetricDifferenceSquareMetres": 7.617,
+      "centroidShiftMetres": 0.102
+    },
+    {
+      "id": "tortuna-h02-bunker-north-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h02-bunker-1"
+      ],
+      "areaSquareMetres": 60.25,
+      "valid": true,
+      "vertices": 15,
+      "previousAreaSquareMetres": 63.281,
+      "symmetricDifferenceSquareMetres": 9.991,
+      "centroidShiftMetres": 0.332
+    },
+    {
+      "id": "tortuna-h02-bunker-south-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h02-bunker-2"
+      ],
+      "areaSquareMetres": 54.387,
+      "valid": true,
+      "vertices": 13,
+      "previousAreaSquareMetres": 48.219,
+      "symmetricDifferenceSquareMetres": 6.722,
+      "centroidShiftMetres": 0.076
+    },
+    {
+      "id": "tortuna-h03-bunker-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h03-bunker-1"
+      ],
+      "areaSquareMetres": 125.888,
+      "valid": true,
+      "vertices": 19,
+      "previousAreaSquareMetres": 124.688,
+      "symmetricDifferenceSquareMetres": 17.407,
+      "centroidShiftMetres": 0.477
+    },
+    {
+      "id": "tortuna-h04-bunker-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h04-bunker-1"
+      ],
+      "areaSquareMetres": 155.558,
+      "valid": true,
+      "vertices": 17,
+      "previousAreaSquareMetres": 143.125,
+      "symmetricDifferenceSquareMetres": 18.338,
+      "centroidShiftMetres": 0.56
+    },
+    {
+      "id": "tortuna-h07-bunker-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h07-bunker-1"
+      ],
+      "areaSquareMetres": 50.893,
+      "valid": true,
+      "vertices": 16,
+      "previousAreaSquareMetres": 48.625,
+      "symmetricDifferenceSquareMetres": 3.501,
+      "centroidShiftMetres": 0.02
+    },
+    {
+      "id": "tortuna-h09-bunker-north-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h09-bunker-1"
+      ],
+      "areaSquareMetres": 76.198,
+      "valid": true,
+      "vertices": 16,
+      "previousAreaSquareMetres": 79.656,
+      "symmetricDifferenceSquareMetres": 12.199,
+      "centroidShiftMetres": 0.363
+    },
+    {
+      "id": "tortuna-h09-bunker-east-native-detail",
+      "replacesFeatureIds": [
+        "tortuna-h09-bunker-2"
+      ],
+      "areaSquareMetres": 98.637,
+      "valid": true,
+      "vertices": 19,
+      "previousAreaSquareMetres": 104.5,
+      "symmetricDifferenceSquareMetres": 11.491,
+      "centroidShiftMetres": 0.069
+    },
+    {
+      "id": "tortuna-h06-fairway-green-apron-observed-2026",
+      "replacesFeatureIds": [],
+      "areaSquareMetres": 529.485,
+      "valid": true,
+      "vertices": 18,
+      "previousAreaSquareMetres": null,
+      "symmetricDifferenceSquareMetres": null,
+      "centroidShiftMetres": null
+    }
+  ],
+  "allPolygonsValid": true,
+  "retainedGaps": [
+    {
+      "hole": 4,
+      "kind": "tee",
+      "status": "back-platform-unresolved",
+      "reason": "Historical back reference remains in tree shadow. New forward platform must not be interpreted as a surveyed back tee or assigned a colour."
+    },
+    {
+      "hole": 6,
+      "kind": "tee",
+      "status": "unresolved",
+      "reason": "Native 128 m crop and additional 150 x 230 m retained overview inspect the historical start and forward corridor; no complete platform boundary can be distinguished from shadows/rough."
+    },
+    {
+      "hole": 6,
+      "kind": "fairway",
+      "status": "only-green-apron-added",
+      "reason": "Dormant May grass shows mowing texture beside the pond but no defensible complete fairway cut line. The new apron does not claim full fairway coverage."
+    },
+    {
+      "holes": [
+        3,
+        4,
+        5
+      ],
+      "kind": "green",
+      "status": "existing-source-trace-retained",
+      "reason": "Large tree shadows hide substantial putting boundaries; no higher-precision outline claimed."
+    },
+    {
+      "holes": [
+        1,
+        2,
+        4,
+        7,
+        8
+      ],
+      "kind": "fairway",
+      "status": "existing-partial-traces-retained",
+      "reason": "Hole-wide strips were reviewed against the retained south/north raster. Remaining May fairway/rough transitions are too weak for a defensible larger perimeter."
+    },
+    {
+      "holes": [
+        1,
+        2,
+        3,
+        5,
+        8,
+        9
+      ],
+      "kind": "tee",
+      "status": "existing-observed-platforms-retained",
+      "reason": "No additional complete platform perimeter was sufficiently distinct in the reviewed native crops; colours and complete tee census remain unverified."
+    }
+  ],
+  "independentSurveyApproval": false,
+  "rawImageryRedistributed": false,
+  "terrainOrFrameChanged": false
+}

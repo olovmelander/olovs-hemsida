@@ -1,0 +1,216 @@
+{
+  "date": "2026-09-10",
+  "url": "http://localhost:5173/?bana=norrfallsviken&hal=12&vy=tee&ljus=kvall",
+  "change": "Blend the far tint source across 300 m before the near raster crop; area-weight and average sRGB texels in linear light.",
+  "baseline": {
+    "views": 6,
+    "errors": [],
+    "boundaryMaxSrgbByteJump": 37,
+    "boundary": [
+      {
+        "x": -1514,
+        "z": 500,
+        "h": 51.72,
+        "slope": 0.081,
+        "tintNear": [
+          116,
+          150,
+          73
+        ],
+        "tintFar": [
+          113,
+          149,
+          72
+        ],
+        "flat": false,
+        "water": false,
+        "ocean": false,
+        "island": false,
+        "rings": [],
+        "landuse": [],
+        "cover": 0
+      },
+      {
+        "x": -1538,
+        "z": 500,
+        "h": 53.54,
+        "slope": 0.116,
+        "tintNear": [
+          112,
+          149,
+          72
+        ],
+        "tintFar": [
+          94,
+          112,
+          61
+        ],
+        "flat": false,
+        "water": false,
+        "ocean": false,
+        "island": false,
+        "rings": [],
+        "landuse": [],
+        "cover": 0
+      }
+    ]
+  },
+  "accepted": {
+    "webgpu": {
+      "views": 6,
+      "pageErrors": [],
+      "boundaryMaxSrgbByteJump": 0,
+      "boundary": [
+        {
+          "x": -1514,
+          "z": 500,
+          "h": 51.72,
+          "slope": 0.081,
+          "tintNear": [
+            116,
+            150,
+            73
+          ],
+          "tintFar": [
+            94,
+            112,
+            61
+          ],
+          "flat": false,
+          "water": false,
+          "ocean": false,
+          "island": false,
+          "rings": [],
+          "landuse": [],
+          "cover": 0
+        },
+        {
+          "x": -1538,
+          "z": 500,
+          "h": 53.54,
+          "slope": 0.116,
+          "tintNear": [
+            112,
+            149,
+            72
+          ],
+          "tintFar": [
+            94,
+            112,
+            61
+          ],
+          "flat": false,
+          "water": false,
+          "ocean": false,
+          "island": false,
+          "rings": [],
+          "landuse": [],
+          "cover": 0
+        }
+      ]
+    },
+    "webgl2": {
+      "views": 6,
+      "errors": [],
+      "boundaryMaxSrgbByteJump": 0,
+      "terrainKind": "graph",
+      "terrainReady": true,
+      "courseSurfaceOverlayMeshes": 0
+    }
+  },
+  "unchangedHeights": {
+    "probeCount": 50,
+    "changed": 0
+  },
+  "verification": {
+    "tests": "16 passing: ground-tint-overview.test.mjs and material-style-data.test.mjs",
+    "build": "npm --prefix apps/golf run build: passed",
+    "visualReview": "West/golden and south/noon before/after boundaries blend continuously; no new shoreline discontinuity observed. WebGL west/golden also reviewed."
+  },
+  "evidence": [
+    {
+      "path": "nvgkbuild/cache/tint-before-report.json",
+      "sha256": "f76c8c21fc553aa7440ce3bfdae936bfbf14cc28e4a8fc4fb7d92dfe356129cf"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-after-report.json",
+      "sha256": "fd9c28dddc3f33cbd62ef2b20aa5e809701d69d0040758cb1ac8d8f35d082995"
+    },
+    {
+      "path": "nvgkbuild/cache/terrain-colours-webgl2/report.json",
+      "sha256": "615915b40a4d7ae18b101b32267784a6061854130bd903f1091c508eefe7b7bb"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-before-west-golden.png",
+      "sha256": "7941c909be62db6512ea95a01a846195beb7b3f4616d7e361788cd3d25fafad5"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-after-west-golden.png",
+      "sha256": "dd0618a57e7d3858b04ae3d508a80fce6efb8898a721753eac1fc5ed5a750cc3"
+    },
+    {
+      "path": "nvgkbuild/cache/terrain-colours-webgl2/west-golden.png",
+      "sha256": "1495e30cbcd1ee584c34269e4ed123d8d4a3037a26d14b3e0df10f29dda6ccfe"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-before-west-noon.png",
+      "sha256": "afd0c2395e8ba57dc7fee8e23dcec8d5c2bc60ea80d70726e4390371e3fa0ea6"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-after-west-noon.png",
+      "sha256": "358713b00281942456d0bc1ac180808c665e378bd435df72d5d9a7404eeb39d6"
+    },
+    {
+      "path": "nvgkbuild/cache/terrain-colours-webgl2/west-noon.png",
+      "sha256": "3091a92ea79b6497185ee37391cfc8136b49b6be15c8aba797ffd32a7356788b"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-before-south-golden.png",
+      "sha256": "43f52ea25a48fa25b8e869551eafb728df1d90dbb6d5a7800ce08e5721660749"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-after-south-golden.png",
+      "sha256": "dad6cdad9d716d2a80c00d218bc2701f38d73bcbce17e7d9f2a8d8b1bc0163ef"
+    },
+    {
+      "path": "nvgkbuild/cache/terrain-colours-webgl2/south-golden.png",
+      "sha256": "0217294af2fa8a42e494de2bbb7f71c1af4e2cd9575c8d348bf3675a6a2c4fde"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-before-south-noon.png",
+      "sha256": "3313ca2010b0a8aa764931a1db1e51ceb351becd3cda32462806e24726dbf9ba"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-after-south-noon.png",
+      "sha256": "3979419c903a924ee0176a4d0bb23b72ff071b2c659f3b377a6f9e324bbd0c81"
+    },
+    {
+      "path": "nvgkbuild/cache/terrain-colours-webgl2/south-noon.png",
+      "sha256": "ad1d102c18b9c7893d1b342ef49a06aae2afed5a6f5fd1b7de83f32a330942f3"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-before-southwest-golden.png",
+      "sha256": "c185501a85d0e47168ccc95f4852a99b2f43518f62ac11427c0c13133d038a35"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-after-southwest-golden.png",
+      "sha256": "03c04c00508aadb10aa00f1c230ab7393a867b42d8e69186c11c245bc5888d3b"
+    },
+    {
+      "path": "nvgkbuild/cache/terrain-colours-webgl2/southwest-golden.png",
+      "sha256": "8ffef9e3bafe2d2fd80e07a881cd68e404666010cf7b4ed416e5f97e49855d8f"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-before-southwest-noon.png",
+      "sha256": "3f356ace192705f326375ae3544e5e724858e1233303b0c16f958a8d9e5d4e2b"
+    },
+    {
+      "path": "nvgkbuild/cache/tint-after-southwest-noon.png",
+      "sha256": "5fa23d1b9fb08532d884797bba5dad6013d71a176681e8316ad2e5b69aa93a4d"
+    },
+    {
+      "path": "nvgkbuild/cache/terrain-colours-webgl2/southwest-noon.png",
+      "sha256": "9280e6b10fd559f05f4ae7fd4b567acd7e1819f084565f6f15c4d4918ede74ed"
+    }
+  ]
+}

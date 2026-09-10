@@ -109,8 +109,9 @@ def main():
             original=ref.get('originalPosition',old['tees']['marks'][i]['c'])
             point=Point(mark['c'])
             nearest=min(point.distance(Polygon(p['ring'])) for p in h['tees']['pads'])
-            unresolved=ref.get('kind')=='unresolved-virtual-tee-reference'
+            unresolved=ref.get('kind','').startswith('unresolved-')
             if unresolved:assert mark['c']==original
+            elif mark.get('referenceSurfaceKind')=='fairway':assert any(Polygon(r).covers(point) for r in h['fairway']['rings'])
             else:assert nearest<1e-8,(n,i,nearest)
             marker_rows.append(dict(hole=n,markIndex=i,kind=ref.get('kind'),identityStatus=ref.get('identityStatus'),
                 displacementMetres=math.dist(original,mark['c']),distanceToReviewedPadMetres=nearest,
@@ -205,8 +206,11 @@ def main():
             allReviewedPixelRingsInsideTheirSource=True,allGreenReferencesInsideTheirPuttingSurfaces=True),
         centroidDisplacements=dict(greenMetres=stats(green_shifts),definition='Projected polygon-area centroids; per-class values compare union centroids within a hole, not feature identities.'),
         teeReferences=dict(total=len(marker_rows),kinds=dict(marker_counts),displacementMetres=stats([r['displacementMetres'] for r in marker_rows]),
-            allUnresolvedOriginalPositionsRetained=True,allResolvedReferencesInsideReviewedPads=True,allPhysicalPadsPreserveMeasuredTerrain=True,
-            colourAssociationsVerified=sum(r['identityStatus']=='source-associated' for r in marker_rows),references=marker_rows),
+            allUnresolvedOriginalPositionsRetained=True,allResolvedReferencesInsideAssignedSurfaces=True,
+            allResolvedReferencesInsideReviewedPads=all(r['kind'].startswith('unresolved-') or r['distanceToReviewedPadMetres']<1e-8 for r in marker_rows),
+            allPhysicalPadsPreserveMeasuredTerrain=True,
+            guideAssociatedReferences=sum(r['identityStatus']=='guide-orthophoto-correspondence' for r in marker_rows),
+            surveyedCurrentMarkerPositionsVerified=0,references=marker_rows),
         waterLevels=dict(allRetained=True,values=water_levels),
         unchangedSourceClasses=dict(vegetation=model.get('vegetation')==baseline.get('vegetation'),streams=model.get('streams')==baseline.get('streams'),
             coast=model.get('coast')==baseline.get('coast'),scenery=model.get('scenery')==baseline.get('scenery'),
@@ -214,9 +218,9 @@ def main():
         limitations=['Fairways on par-three holes 12 and 15 retain legacy rings; the April image does not establish their cut boundary confidently.',
             'Tree shadows and dormant spring turf limit some interpreted edges, especially long fairway margins.',
             'The imagery is from 2025-04-24 and does not establish later construction, mowing, marker placement or water levels.',
-            'Physical tee platforms are visible; official tee-colour associations are unverified. Distant virtual references remain unresolved at their prior positions.',
+            'Guide topology and native imagery establish representative colour references; current daily marker positions are not surveyed. Explicit unresolved decisions retain their original references.',
             'Canopy, infrastructure, surrounding land cover and terrain are not re-surveyed by this surface review.',
-            'The retained malaren-1 shoreline has a pre-existing self-intersection; it is unchanged and is not among the 125 reviewed polygons.',
+            'The retained malaren-1 shoreline has a pre-existing self-intersection; it is unchanged and outside the reviewed polygon set.',
             '0.16 m ground sample distance and subpixel numerical registration do not establish absolute geodetic or manual tracing accuracy.',
             'Scorecard distances remain metadata; geometry and camera endpoints are not stretched to match card length.'],
         sources=source_checks,holes=holes,featureResiduals=feature_residuals,overlays=overlay_records)

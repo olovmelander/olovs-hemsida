@@ -1,0 +1,822 @@
+{
+  "schemaVersion": 1,
+  "id": "upsala-mellan-published-tee-followup-2026-09-09",
+  "reviewedAt": "2026-09-09",
+  "course": "mellan",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "baselineModelSha256": "cdbbd39d05116a06dcb1abbb6d9e82025edd32f5c6205df5b843e5186e0f6c9a",
+  "scope": "Five source-backed references on Mellan H6 and H8 after the initial 83-reference adoption.",
+  "applicationOrder": "Apply after lm-tee-review-mellan-2026-09-09.json; original marks/routes are the post-adoption model state.",
+  "publishedEvidence": {
+    "path": "upsalabuild/mapping/lm-mellan-published-tee-evidence-2026-09-09.json",
+    "sha256": "772b2b24d3167c4080efd95989f6468a614e52d85e96344730fbba309f0093fa"
+  },
+  "candidateEvidence": {
+    "path": "upsalabuild/mapping/lm-mellan-tee-followup-2026-09-09.json",
+    "sha256": "6ebec631bcd6c119f20a147cd6d3ccda6e1f87036f90b22b113f7b247ca382ca"
+  },
+  "sources": [
+    {
+      "id": "mellan-06-tees",
+      "rasterFile": "mellan-06-tees.tif",
+      "rgbFile": "mellan-06-tees.png",
+      "sha256": "272b42d7fdd9383ef24d5799c1832ac5472b8411386c0067a67ff747bb892447",
+      "rgbSha256": "167da746a04bfae5886db1ccb9bc88cc4654ce5b4d1471971f393a387a99a98d",
+      "requestSha256": "59fe30b4ab0dc1d6eb5d410607a4333541819cbcaa69100f8e031d69748108ac",
+      "bytes": 3838825,
+      "boundsEpsg3006": [
+        640466.72,
+        6635896.16,
+        640671.6799999999,
+        6636057.44
+      ],
+      "geoTransform": [
+        640466.72,
+        0.16,
+        0.0,
+        6636057.44,
+        0.0,
+        -0.16
+      ],
+      "width": 1281,
+      "height": 1008,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:12.610637+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    },
+    {
+      "id": "mellan-08-tees",
+      "rasterFile": "mellan-08-tees.tif",
+      "rgbFile": "mellan-08-tees.png",
+      "sha256": "f9f4d07af0f436378bc422ed249faf7415ca7c5993e768a988689992f903bd8b",
+      "rgbSha256": "403089f6c53eefd3c947f6794492858361623a1ed92ebad3c60bef90c487e7a3",
+      "requestSha256": "d852eb1e7ba8c9f20c5e5f9f4f2ce6c01af5c4cf515d959aaabdb0c58a06c894",
+      "bytes": 1542101,
+      "boundsEpsg3006": [
+        640284.48,
+        6635895.680000001,
+        640390.72,
+        6636026.24
+      ],
+      "geoTransform": [
+        640284.48,
+        0.16,
+        0.0,
+        6636026.24,
+        0.0,
+        -0.16
+      ],
+      "width": 664,
+      "height": 816,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:13.354202+00:00",
+      "sources": [
+        {
+          "id": "o66350_6400_25_mr25",
+          "capturedAt": "2025-06-14T09:25:50Z",
+          "captureStart": "2025-04-25T07:36:44Z",
+          "captureEnd": "2025-06-14T09:26:06Z"
+        }
+      ]
+    }
+  ],
+  "holes": [
+    {
+      "hole": 6,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 455,
+          "c": [
+            795.2,
+            127.2
+          ],
+          "b": -119.9
+        },
+        {
+          "teeIdx": 1,
+          "m": 442,
+          "c": [
+            783.9,
+            133.7
+          ],
+          "b": -119.9
+        },
+        {
+          "teeIdx": 2,
+          "m": 428,
+          "c": [
+            771.8,
+            140.7
+          ],
+          "b": -119.9
+        },
+        {
+          "teeIdx": 3,
+          "m": 368,
+          "c": [
+            707.858,
+            192.218
+          ],
+          "b": -119.9,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-mellan-tee-references-2026-09-09",
+            "padSourceId": "upsala-mellanbanan-tee-06-southwest",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 24.697,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "teeIdx": 4,
+          "m": 308,
+          "c": [
+            667.8,
+            200.6
+          ],
+          "b": -119.9
+        }
+      ],
+      "originalLine": [
+        [
+          765.9,
+          144.1
+        ],
+        [
+          603.2,
+          335.3
+        ],
+        [
+          425.7,
+          345.8
+        ],
+        [
+          414.6,
+          349.5
+        ],
+        [
+          400.9,
+          354.3
+        ]
+      ],
+      "originalDistances": [
+        455,
+        442,
+        428,
+        368,
+        308
+      ],
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+          "originalPadRing": [
+            [
+              767.087,
+              135.68
+            ],
+            [
+              768.639,
+              134.238
+            ],
+            [
+              770.642,
+              134.064
+            ],
+            [
+              772.608,
+              134.889
+            ],
+            [
+              773.807,
+              136.185
+            ],
+            [
+              774.239,
+              137.951
+            ],
+            [
+              773.435,
+              139.421
+            ],
+            [
+              771.883,
+              140.862
+            ],
+            [
+              770.119,
+              141.295
+            ],
+            [
+              768.403,
+              140.48
+            ],
+            [
+              767.214,
+              138.935
+            ],
+            [
+              766.522,
+              137.408
+            ]
+          ],
+          "maxShiftMetres": 29.3,
+          "reviewedPosition": [
+            772.849,
+            136.63
+          ],
+          "reason": "The directly published White/Yellow points sit on opposite edges of the northeast rear platform P0; Blue sits inside the smaller platform P1 immediately south. The 2025 native image shows both as distinct mown decks. This source evidence resolves the former rear-group ambiguity without assigning the larger west-side P2.",
+          "positionEvidence": "Fresh 18Birdies published teeGeoPoint identifies the source tee stage; 2025-06-14 native orthophoto confirms the explicitly chosen existing physical platform. Reviewed position is the published-coordinate anchor constrained to at least 1 m inside that platform; this does not verify a surveyed or daily marker position.",
+          "positionSource": {
+            "sourcePath": "upsalabuild/mapping/lm-mellan-published-tee-evidence-2026-09-09.json",
+            "sourceSha256": "772b2b24d3167c4080efd95989f6468a614e52d85e96344730fbba309f0093fa",
+            "sourceFeatureId": "/points/20",
+            "wgs84": [
+              17.509033990953167,
+              59.83778008346556
+            ],
+            "epsg3006": [
+              640610.423179212,
+              6636007.881220287
+            ],
+            "localXZ": [
+              773.7445211244572,
+              135.80110861368553
+            ],
+            "positionAdjustedForPadInterior": true,
+            "adjustmentDistanceMetres": 1.220253668158894,
+            "sourceRole": "white_tee",
+            "sourceTeeIndex": 12
+          },
+          "sourceCoordinateAbsoluteAccuracyMetres": null,
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 1,
+          "status": "align-to-observed-pad",
+          "padIndex": 0,
+          "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+          "originalPadRing": [
+            [
+              767.087,
+              135.68
+            ],
+            [
+              768.639,
+              134.238
+            ],
+            [
+              770.642,
+              134.064
+            ],
+            [
+              772.608,
+              134.889
+            ],
+            [
+              773.807,
+              136.185
+            ],
+            [
+              774.239,
+              137.951
+            ],
+            [
+              773.435,
+              139.421
+            ],
+            [
+              771.883,
+              140.862
+            ],
+            [
+              770.119,
+              141.295
+            ],
+            [
+              768.403,
+              140.48
+            ],
+            [
+              767.214,
+              138.935
+            ],
+            [
+              766.522,
+              137.408
+            ]
+          ],
+          "maxShiftMetres": 20.9,
+          "reviewedPosition": [
+            769.275,
+            139.782
+          ],
+          "reason": "The directly published White/Yellow points sit on opposite edges of the northeast rear platform P0; Blue sits inside the smaller platform P1 immediately south. The 2025 native image shows both as distinct mown decks. This source evidence resolves the former rear-group ambiguity without assigning the larger west-side P2.",
+          "positionEvidence": "Fresh 18Birdies published teeGeoPoint identifies the source tee stage; 2025-06-14 native orthophoto confirms the explicitly chosen existing physical platform. Reviewed position is the published-coordinate anchor constrained to at least 1 m inside that platform; this does not verify a surveyed or daily marker position.",
+          "positionSource": {
+            "sourcePath": "upsalabuild/mapping/lm-mellan-published-tee-evidence-2026-09-09.json",
+            "sourceSha256": "772b2b24d3167c4080efd95989f6468a614e52d85e96344730fbba309f0093fa",
+            "sourceFeatureId": "/points/21",
+            "wgs84": [
+              17.508940113637646,
+              59.83772954558565
+            ],
+            "epsg3006": [
+              640605.376923788,
+              6636002.056488871
+            ],
+            "localXZ": [
+              768.4938990307796,
+              141.4269854050005
+            ],
+            "positionAdjustedForPadInterior": true,
+            "adjustmentDistanceMetres": 1.8210150210203013,
+            "sourceRole": "yellow_tee",
+            "sourceTeeIndex": 14
+          },
+          "sourceCoordinateAbsoluteAccuracyMetres": null,
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "upsala-mellanbanan-tee-06-northeast-lower",
+          "originalPadRing": [
+            [
+              760.624,
+              148.185
+            ],
+            [
+              762.186,
+              146.494
+            ],
+            [
+              763.958,
+              145.812
+            ],
+            [
+              765.943,
+              146.137
+            ],
+            [
+              767.65,
+              147.202
+            ],
+            [
+              768.59,
+              148.738
+            ],
+            [
+              768.524,
+              150.485
+            ],
+            [
+              767.461,
+              152.195
+            ],
+            [
+              765.918,
+              153.387
+            ],
+            [
+              764.155,
+              153.82
+            ],
+            [
+              762.439,
+              153.005
+            ],
+            [
+              760.99,
+              151.699
+            ],
+            [
+              760.318,
+              149.674
+            ]
+          ],
+          "maxShiftMetres": 18.1,
+          "reviewedPosition": [
+            765.194,
+            151.929
+          ],
+          "reason": "The directly published White/Yellow points sit on opposite edges of the northeast rear platform P0; Blue sits inside the smaller platform P1 immediately south. The 2025 native image shows both as distinct mown decks. This source evidence resolves the former rear-group ambiguity without assigning the larger west-side P2.",
+          "positionEvidence": "Fresh 18Birdies published teeGeoPoint identifies the source tee stage; 2025-06-14 native orthophoto confirms the explicitly chosen existing physical platform. Reviewed position is the published-coordinate anchor constrained to at least 1 m inside that platform; this does not verify a surveyed or daily marker position.",
+          "positionSource": {
+            "sourcePath": "upsalabuild/mapping/lm-mellan-published-tee-evidence-2026-09-09.json",
+            "sourceSha256": "772b2b24d3167c4080efd95989f6468a614e52d85e96344730fbba309f0093fa",
+            "sourceFeatureId": "/points/22",
+            "wgs84": [
+              17.50888110503932,
+              59.83763520800459
+            ],
+            "epsg3006": [
+              640602.4688402882,
+              6635991.430332664
+            ],
+            "localXZ": [
+              765.1935080004681,
+              151.92864492867756
+            ],
+            "positionAdjustedForPadInterior": false,
+            "adjustmentDistanceMetres": 0.0006067447431662964,
+            "sourceRole": "blue_tee",
+            "sourceTeeIndex": 18
+          },
+          "sourceCoordinateAbsoluteAccuracyMetres": null,
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "retain",
+          "reason": "Preserve the already adopted and independently validated platform reference from the preceding review."
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "Orange remains unresolved: the published Intermediate source has no Orange tee coordinate and the imagery does not identify an Orange platform or position."
+        }
+      ],
+      "sourceWindowId": "mellan-06-tees",
+      "sourceRasterSha256": "272b42d7fdd9383ef24d5799c1832ac5472b8411386c0067a67ff747bb892447",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ]
+    },
+    {
+      "hole": 8,
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 338,
+          "c": [
+            501.622,
+            176.844
+          ],
+          "b": 20.7,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-mellan-tee-references-2026-09-09",
+            "padSourceId": "mellan-8-tee-upper",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 21.44,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "teeIdx": 1,
+          "m": 338,
+          "c": [
+            501.622,
+            176.844
+          ],
+          "b": 20.7,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-mellan-tee-references-2026-09-09",
+            "padSourceId": "mellan-8-tee-upper",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 21.44,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "teeIdx": 2,
+          "m": 320,
+          "c": [
+            501.6,
+            180.4
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 3,
+          "m": 320,
+          "c": [
+            501.6,
+            180.4
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 4,
+          "m": 285,
+          "c": [
+            513.9,
+            147.7
+          ],
+          "b": 20.7
+        }
+      ],
+      "originalLine": [
+        [
+          503.4,
+          175.7
+        ],
+        [
+          522.5,
+          -17.3
+        ],
+        [
+          606.3,
+          -108.2
+        ],
+        [
+          618.9,
+          -117.5
+        ],
+        [
+          614.5,
+          -119
+        ]
+      ],
+      "originalDistances": [
+        338,
+        338,
+        320,
+        320,
+        285
+      ],
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "retain",
+          "reason": "Preserve the already adopted and independently validated platform reference from the preceding review."
+        },
+        {
+          "markIndex": 1,
+          "status": "retain",
+          "reason": "Preserve the already adopted and independently validated platform reference from the preceding review."
+        },
+        {
+          "markIndex": 2,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+          "originalPadRing": [
+            [
+              489.765,
+              149.098
+            ],
+            [
+              491.277,
+              149.433
+            ],
+            [
+              493.163,
+              150.893
+            ],
+            [
+              495.772,
+              153.423
+            ],
+            [
+              497.78,
+              155.305
+            ],
+            [
+              498.9,
+              156.875
+            ],
+            [
+              498.581,
+              157.974
+            ],
+            [
+              497.301,
+              158.828
+            ],
+            [
+              495.485,
+              159.176
+            ],
+            [
+              494.042,
+              158.844
+            ],
+            [
+              492.207,
+              157.872
+            ],
+            [
+              490.576,
+              156.976
+            ],
+            [
+              488.972,
+              155.388
+            ],
+            [
+              488.069,
+              153.617
+            ],
+            [
+              487.785,
+              151.94
+            ],
+            [
+              488.328,
+              150.432
+            ]
+          ],
+          "maxShiftMetres": 28.7,
+          "reviewedPosition": [
+            497.799,
+            157.062
+          ],
+          "reason": "The published White/Yellow pair identifies the southern stage beside P0, and the Blue/Red pair identifies the separate northern stage beside P1. Native 2025 imagery and the 2015 archive show these two distinct physical decks along the same path. Blue/Red source points lie 4.8-6.9 m east of P1, so use them to identify the platform, not as exact playable marker positions.",
+          "positionEvidence": "Fresh 18Birdies published teeGeoPoint identifies the source tee stage; 2025-06-14 native orthophoto confirms the explicitly chosen existing physical platform. Reviewed position is the published-coordinate anchor constrained to at least 1 m inside that platform; this does not verify a surveyed or daily marker position.",
+          "positionSource": {
+            "sourcePath": "upsalabuild/mapping/lm-mellan-published-tee-evidence-2026-09-09.json",
+            "sourceSha256": "772b2b24d3167c4080efd95989f6468a614e52d85e96344730fbba309f0093fa",
+            "sourceFeatureId": "/points/30",
+            "wgs84": [
+              17.50420608110734,
+              59.83759343747427
+            ],
+            "epsg3006": [
+              640340.730115904,
+              6635976.867703463
+            ],
+            "localXZ": [
+              503.71624046871784,
+              156.57854036429
+            ],
+            "positionAdjustedForPadInterior": true,
+            "adjustmentDistanceMetres": 5.93695780547523,
+            "sourceRole": "blue_tee",
+            "sourceTeeIndex": 18
+          },
+          "sourceCoordinateAbsoluteAccuracyMetres": null,
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 1,
+          "padSourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+          "originalPadRing": [
+            [
+              489.765,
+              149.098
+            ],
+            [
+              491.277,
+              149.433
+            ],
+            [
+              493.163,
+              150.893
+            ],
+            [
+              495.772,
+              153.423
+            ],
+            [
+              497.78,
+              155.305
+            ],
+            [
+              498.9,
+              156.875
+            ],
+            [
+              498.581,
+              157.974
+            ],
+            [
+              497.301,
+              158.828
+            ],
+            [
+              495.485,
+              159.176
+            ],
+            [
+              494.042,
+              158.844
+            ],
+            [
+              492.207,
+              157.872
+            ],
+            [
+              490.576,
+              156.976
+            ],
+            [
+              488.972,
+              155.388
+            ],
+            [
+              488.069,
+              153.617
+            ],
+            [
+              487.785,
+              151.94
+            ],
+            [
+              488.328,
+              150.432
+            ]
+          ],
+          "maxShiftMetres": 28.7,
+          "reviewedPosition": [
+            497.799,
+            157.062
+          ],
+          "reason": "The published White/Yellow pair identifies the southern stage beside P0, and the Blue/Red pair identifies the separate northern stage beside P1. Native 2025 imagery and the 2015 archive show these two distinct physical decks along the same path. Blue/Red source points lie 4.8-6.9 m east of P1, so use them to identify the platform, not as exact playable marker positions.",
+          "positionEvidence": "Fresh 18Birdies published teeGeoPoint identifies the source tee stage; 2025-06-14 native orthophoto confirms the explicitly chosen existing physical platform. Reviewed position is the published-coordinate anchor constrained to at least 1 m inside that platform; this does not verify a surveyed or daily marker position.",
+          "positionSource": {
+            "sourcePath": "upsalabuild/mapping/lm-mellan-published-tee-evidence-2026-09-09.json",
+            "sourceSha256": "772b2b24d3167c4080efd95989f6468a614e52d85e96344730fbba309f0093fa",
+            "sourceFeatureId": "/points/31",
+            "wgs84": [
+              17.50422217436143,
+              59.83762578185844
+            ],
+            "epsg3006": [
+              640341.4955893599,
+              6635980.502124164
+            ],
+            "localXZ": [
+              504.6163471133483,
+              152.97796351807875
+            ],
+            "positionAdjustedForPadInterior": true,
+            "adjustmentDistanceMetres": 7.947048235007916,
+            "sourceRole": "red_tee",
+            "sourceTeeIndex": 20
+          },
+          "sourceCoordinateAbsoluteAccuracyMetres": null,
+          "dailyMarkerIdentityVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "retain",
+          "reason": "Orange remains unresolved: the published Intermediate source has no Orange tee coordinate and the imagery does not identify an Orange platform or position."
+        }
+      ],
+      "sourceWindowId": "mellan-08-tees",
+      "sourceRasterSha256": "f9f4d07af0f436378bc422ed249faf7415ca7c5993e768a988689992f903bd8b",
+      "sourceCaptureDates": [
+        "2025-06-14"
+      ]
+    }
+  ],
+  "features": [],
+  "summary": {
+    "reviewedHoles": 2,
+    "newlyAlignedReferences": 5,
+    "retainedWithinReviewedHoles": 5,
+    "physicalPadBoundaryChanges": 0
+  },
+  "limitations": [
+    "Third-party published colour roles identify reference stages, not surveyed or daily marker positions.",
+    "Orange references on H2, H3, H4, H6 and H8 remain unresolved because source coordinates are absent.",
+    "The positions use the existing physical boundaries and do not enlarge pads to include inaccurate source points."
+  ]
+}

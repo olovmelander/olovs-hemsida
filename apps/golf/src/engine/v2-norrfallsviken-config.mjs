@@ -134,10 +134,10 @@ export const NORRFALLSVIKEN_V2_CONFIG = Object.freeze({
      Veckefjärden, whose whole 64-tile level zero fits the budget. */
   expectedTileCount: 96,
   expectedSurfaceTileCount: 0,
-  /* REVIEWED — Norrfällsviken's played surfaces are Esri z18 orthoimagery
-     traces anchored on the club's own GPS survey, not an authoritative
-     surveyed intake, so the ground atlas keeps painting them and no v2 surface
-     layer is claimed. */
+  /* REVIEWED — 2024-06-27 Lantmateriet orthophotos now constrain the playing
+     surfaces through the unchanged legacy frame. Independent survey controls
+     remain pending, so the ground atlas continues to paint these vectors;
+     no authoritative v2 surface layer is claimed. */
   surfacePolicy: 'legacy-ground-atlas',
   /* DERIVED from the published ground manifest: seven levels, 469 tiles, a
      parent link on every one, reaching 16,384 m. Note this ground carries 469

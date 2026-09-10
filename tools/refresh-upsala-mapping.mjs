@@ -52,6 +52,7 @@ Rebuild local Stora and Mellanbanan artifacts from accepted mapping evidence:
   4. Rebind both published routing/fallback references while preserving the ground graph.
   5. Re-pin six registered artifacts and only the two Upsala hashes in each registry.
   6. Export geographic GeoJSON and render the overview and Stora tee comparison.
+  7. Check tee coordinates and platform identities across all published consumers.
 
 Default invocation writes local generated files. It performs no acquisition,
 dependency installation, Git commit, push or deployment. It aborts at the first
@@ -248,8 +249,10 @@ function main(args) {
     ...['01-06', '07-12', '13-18'].flatMap(range => ['--evidence', `upsalabuild/mapping/stora-tees-${range}-2025.json`]),
     '--followup', 'upsalabuild/mapping/stora-tees-followup-2026-09-06.json',
     '--followup', 'upsalabuild/mapping/stora-tees-review-2026-09-07.json',
+    '--followup', 'upsalabuild/mapping/lm-stora-tee-platform-followup-2026-09-09.json',
     '--out', 'upsalabuild/mapping/stora-tee-review.svg'], { label: 'render Stora tee comparison' });
   run(python, ['geobuild/render-stora-followup.py'], { label: 'render continued Stora mapping review' });
+  node('tools/check-upsala-tee-coordinates.mjs');
   console.log('\nUpsala models, packs, routing references, registries and geographic map refreshed. Run the project validation gates before committing.');
 }
 

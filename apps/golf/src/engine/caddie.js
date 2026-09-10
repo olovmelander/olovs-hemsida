@@ -1,6 +1,14 @@
 /* Pure caddie logic shared by the bag, GPS mode and the 3D strategy layer.
    There is deliberately no DOM or THREE here: club advice and coordinate
    conversion must be testable without starting the renderer. */
+import { latLonToSweref99Tm } from '../../../../packages/course-geo/chmv2/projection.mjs';
+/* The same exact pack/frame identity as the terrain bridge -- asserted
+   field-for-field against the v2 registry by gps-projected-frames.test.mjs
+   rather than imported from it, because this is player code and that import
+   pulled every v2 config module into the flagless bundle. Applies whether or
+   not terrain falls back to GPK1: a GPS fix is WGS84, and a grid-authored
+   pack's x/z axes are SWEREF99 TM. */
+import { PROJECTED_GPS_FRAMES } from './gps-projected-frames.mjs';
 
 const DEFAULT_CLUBS = [
   ['driver', 'Driver', 210],
@@ -85,6 +93,16 @@ export function gpsToLocal(coords, geo, metresPerLatitude = PACK_METRES_PER_LATI
   if (![latitude, longitude, lat0, lon0, metresPerLatitude, metresPerLongitude].every(Number.isFinite)) {
     throw new TypeError('GPS-fixen eller banans koordinatram är ofullständig');
   }
+  const projectedFrame = PROJECTED_GPS_FRAMES.find(config => config.packFrame === geo.frame);
+  if (projectedFrame) {
+    if (lat0 !== projectedFrame.packOriginWgs84.latitude || lon0 !== projectedFrame.packOriginWgs84.longitude ||
+        metresPerLongitude !== projectedFrame.packMetresPerLongitude) {
+      throw new TypeError('GPS-banans projicerade koordinatram stämmer inte med dess deklarerade ursprung');
+    }
+    const [easting, northing] = latLonToSweref99Tm(latitude, longitude);
+    const origin = projectedFrame.legacyOriginEpsg3006;
+    return [easting - origin.easting, origin.northing - northing];
+  }
   return [(longitude - lon0) * metresPerLongitude, (lat0 - latitude) * metresPerLatitude];
 }
 
@@ -130,6 +148,13 @@ function playableLine(hole, teeIndex) {
   const line = hole?.line || [];
   const origin = hole?.tees?.marks?.[teeIndex]?.c || hole?.tees?.marks?.[0]?.c || line[0];
   if (!origin || line.length < 2) return { origin, line: origin ? [origin] : [], total: 0 };
+  // A par-three shot goes directly from its selected tee to the green. A
+  // lateral tee must not acquire a fictitious leg back to the rear centreline.
+  if (hole.par <= 3) {
+    const target = hole.green?.c || hole.pin || line.at(-1);
+    return { origin: [...origin], line: [[...origin], [...target]],
+      total: Math.hypot(target[0] - origin[0], target[1] - origin[1]) };
+  }
   const hit = nearestPointOnLine(origin, line);
   const out = [[...origin]];
   if (hit.point && Math.hypot(origin[0] - hit.point[0], origin[1] - hit.point[1]) > 0.5) out.push(hit.point);

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-10",
+  "scope": "Modelling estimates adjusted for native terrain clearance; no runtime terrain changes.",
+  "beforeAssetSha256": "4ad3b1f24a3f06979c721714768ca9fc82f3b9a83adcfdc98f71da0da30cc3b2",
+  "sampling": {
+    "path": "johannesbergbuild/cache/facilities-model/deck-terrain-report.json",
+    "sha256": "aeb19b02f4e6d80ee2f2b9a86d11c446907ca244617b840b2f112bb19b9e0f05",
+    "points": 310,
+    "spacingM": 1,
+    "heightBridgeM": 5.6676
+  },
+  "changes": [
+    {
+      "component": "clubhouse-annex-front-deck",
+      "previousDeckTopRH2000M": 18.59,
+      "maximumSampledTerrainRH2000M": 18.7576,
+      "newDeckTopRH2000M": 18.84,
+      "localEntranceThresholdRH2000M": 18.84,
+      "estimatedFloorUncertaintyM": 0.35
+    },
+    {
+      "component": "clubhouse-terrace-pavilion",
+      "previousDeckTopRH2000M": 18.21,
+      "maximumSampledTerrainRH2000M": 18.4223,
+      "newDeckTopRH2000M": 18.51,
+      "rigidAdjustmentM": 0.3,
+      "newRidgeRH2000M": 22.2,
+      "historicalRoofCandidateMaximumRH2000M": 21.9,
+      "estimatedEaveRidgeUncertaintyM": 0.45
+    }
+  ],
+  "limits": [
+    "Approximately 1m sampling does not prove a continuous maximum; review final in-course frames.",
+    "The local terrace threshold is estimated independently of the main and rear floor levels.",
+    "Roof and floor levels remain appearance reconstruction estimates."
+  ]
+}

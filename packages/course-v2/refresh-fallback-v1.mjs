@@ -19,6 +19,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { canonicalJsonBytes } from './canonical-json.mjs';
+import { updateFileAtomically } from './atomic-file-node.mjs';
 import { sha256Bytes } from './chunk-node.mjs';
 import { assertValid, validateCourseManifest, validateRootIndex } from './schema.mjs';
 
@@ -27,50 +28,61 @@ const PUBLIC = path.join(ROOT, 'apps/golf/public');
 const slug = process.argv[2];
 if (!slug) { console.error('usage: refresh-fallback-v1.mjs <slug>'); process.exit(2); }
 
-const live = JSON.parse(await readFile(path.join(PUBLIC, 'courses/index.json'), 'utf8'))
-  .courses?.find(course => course.slug === slug);
-if (!live?.sha256) throw new Error(`live GPK1 manifest has no complete ${slug} entry`);
-const fallbackV1 = {
-  format: 1,
-  packUrl: String(live.packUrl).replace(/^\//, ''),
-  bytes: live.bytes,
-  sha256: live.sha256,
-};
-
 const rootPath = path.join(PUBLIC, 'courses/v2-index.json');
-const root = JSON.parse(await readFile(rootPath, 'utf8'));
-const entry = root.courses?.find(course => course.slug === slug);
-if (!entry) throw new Error(`v2 root index has no ${slug} entry`);
-if (entry.fallbackV1.sha256 === fallbackV1.sha256 && entry.fallbackV1.bytes === fallbackV1.bytes) {
-  console.log(`${slug}: fallbackV1 already matches the live pack; nothing to do`);
-  process.exit(0);
-}
+let newUrl;
+let fallbackV1;
+const updated = await updateFileAtomically(rootPath, async currentBytes => {
+  const live = JSON.parse(await readFile(path.join(PUBLIC, 'courses/index.json'), 'utf8'))
+    .courses?.find(course => course.slug === slug);
+  if (!live?.sha256) throw new Error(`live GPK1 manifest has no complete ${slug} entry`);
+  fallbackV1 = {
+    format: 1,
+    packUrl: String(live.packUrl).replace(/^\//, ''),
+    bytes: live.bytes,
+    sha256: live.sha256,
+  };
 
-const manifestPath = path.join(PUBLIC, entry.manifest.url);
-const manifestBytes = await readFile(manifestPath);
-if (sha256Bytes(manifestBytes) !== entry.manifest.sha256) {
-  throw new Error(`stored course manifest does not hash to the root's ${entry.manifest.sha256}`);
-}
-const manifest = JSON.parse(manifestBytes.toString('utf8'));
-manifest.fallbackV1 = fallbackV1;
-assertValid('course manifest', validateCourseManifest(manifest));
-const newBytes = canonicalJsonBytes(manifest);
-const newSha = sha256Bytes(newBytes);
-const newUrl = `courses/${slug}/course-v2-${newSha}.json`;
-await writeFile(path.join(PUBLIC, newUrl), newBytes, { flag: 'wx' }).catch(async error => {
-  if (error?.code !== 'EEXIST') throw error;
-  const existing = await readFile(path.join(PUBLIC, newUrl));
-  if (!existing.equals(Buffer.from(newBytes))) throw new Error(`content collision at ${newUrl}`);
+  if (!currentBytes) throw new Error(`v2 root index is missing: ${rootPath}`);
+  const root = JSON.parse(currentBytes.toString('utf8'));
+  if (!currentBytes.equals(Buffer.from(canonicalJsonBytes(root)))) {
+    throw new Error(`refusing to update a non-canonical v2 root ${rootPath}`);
+  }
+  assertValid('existing v2 root index', validateRootIndex(root));
+  const entry = root.courses?.find(course => course.slug === slug);
+  if (!entry) throw new Error(`v2 root index has no ${slug} entry`);
+  if (entry.fallbackV1.sha256 === fallbackV1.sha256 && entry.fallbackV1.bytes === fallbackV1.bytes) {
+    console.log(`${slug}: fallbackV1 already matches the live pack; nothing to do`);
+    return null;
+  }
+
+  const manifestPath = path.join(PUBLIC, entry.manifest.url);
+  const manifestBytes = await readFile(manifestPath);
+  if (sha256Bytes(manifestBytes) !== entry.manifest.sha256) {
+    throw new Error(`stored course manifest does not hash to the root's ${entry.manifest.sha256}`);
+  }
+  const manifest = JSON.parse(manifestBytes.toString('utf8'));
+  manifest.fallbackV1 = fallbackV1;
+  assertValid('course manifest', validateCourseManifest(manifest));
+  const newBytes = canonicalJsonBytes(manifest);
+  const newSha = sha256Bytes(newBytes);
+  newUrl = `courses/${slug}/course-v2-${newSha}.json`;
+  await writeFile(path.join(PUBLIC, newUrl), newBytes, { flag: 'wx' }).catch(async error => {
+    if (error?.code !== 'EEXIST') throw error;
+    const existing = await readFile(path.join(PUBLIC, newUrl));
+    if (!existing.equals(Buffer.from(newBytes))) throw new Error(`content collision at ${newUrl}`);
+  });
+
+  entry.fallbackV1 = fallbackV1;
+  entry.manifest = {
+    bytes: newBytes.length,
+    mediaType: entry.manifest.mediaType,
+    sha256: newSha,
+    url: newUrl,
+  };
+  assertValid('v2 root index', validateRootIndex(root));
+  return canonicalJsonBytes(root);
 });
-
-entry.fallbackV1 = fallbackV1;
-entry.manifest = {
-  bytes: newBytes.length,
-  mediaType: entry.manifest.mediaType,
-  sha256: newSha,
-  url: newUrl,
-};
-assertValid('v2 root index', validateRootIndex(root));
-await writeFile(rootPath, canonicalJsonBytes(root));
-console.log(`${slug}: fallbackV1 -> ${fallbackV1.sha256.slice(0, 16)}… (${fallbackV1.bytes} bytes)`);
-console.log(`course manifest -> ${newUrl}`);
+if (updated) {
+  console.log(`${slug}: fallbackV1 -> ${fallbackV1.sha256.slice(0, 16)}… (${fallbackV1.bytes} bytes)`);
+  console.log(`course manifest -> ${newUrl}`);
+}

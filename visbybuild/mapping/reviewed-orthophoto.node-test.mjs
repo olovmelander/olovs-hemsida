@@ -15,7 +15,8 @@ test('dated source traces survive reapplication and keep H9 target on the actual
   assert.deepEqual(h9.line.at(-1),h9.green.reference);
   assert.ok(pointInPoly(...h9.green.reference,h9.green.ring));
   assert.equal(pointInPoly(687205.25,6370789.75,h9.green.ring),false);
-  assert.equal(adopted.holes.reduce((s,h)=>s+h.tees.pads.length,0),48);
+  assert.equal(adopted.holes.reduce((s,h)=>s+h.tees.pads.length,0), geometry.holes.reduce((s,h)=>s+h.tees.pads.length,0), 'reapplying H3 traces preserves later reviewed tee additions');
+  assert.equal(adopted.holes[2].tees.pads.length, 3);
   assert.equal(adopted.holes.reduce((s,h)=>s+h.bunkers.length,0)+adopted.scenery.bunkers.length,84);
 });
 

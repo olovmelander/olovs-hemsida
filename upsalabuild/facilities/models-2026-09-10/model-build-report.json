@@ -1,0 +1,47 @@
+{
+  "sceneName": "UPSALA | Finished facilities | 2026-09-10.005",
+  "anchorLocalXZ": [
+    17.78293267410761,
+    -279.14314741547946
+  ],
+  "anchorHeightRH2000": 34.968,
+  "assets": 12,
+  "municipalParts": 19,
+  "triangles": 39479,
+  "trianglesByAsset": {
+    "upsala-clubhouse": 12313,
+    "upsala-north-small": 904,
+    "upsala-parking-barn": 3819,
+    "upsala-red-house": 2462,
+    "upsala-practice-building": 4349,
+    "upsala-range-shelter": 2392,
+    "upsala-service-long": 3210,
+    "upsala-service-light": 832,
+    "upsala-service-red": 3604,
+    "upsala-east-building": 1416,
+    "upsala-north-barn": 1952,
+    "upsala-north-outbuildings": 2226
+  },
+  "meshJsonBytes": 1242141,
+  "meshJsonSha256": "2f7105580c34071bb3a3101b594b6df34fb3d7a3d1ed6054d3d0d92b26920469",
+  "preservedLiveScene": true,
+  "preservedLiveFile": true,
+  "blendPath": "upsalabuild/facilities/models-2026-09-10/upsala-facilities.blend",
+  "blenderVersion": "4.5.9 LTS",
+  "savedAsNormalBlend": true,
+  "blenderMeshObjects": 293,
+  "glbPath": "upsalabuild/facilities/models-2026-09-10/upsala-facilities.glb",
+  "glbBytes": 2330160,
+  "blendBytes": 1133260,
+  "glbSha256": "e9287c055d805a968ab53045ee760f05a871b50550f6adc7e94dca4c03b03fbe",
+  "blendSha256": "08b8ce4ddbf595c68061d4fc54ace190008e58fa161c7f467e20ebfcba770477",
+  "previewRenders": [
+    "upsalabuild/cache/facilities-2026-09-10/model-renders/clubhouse-terrace.png",
+    "upsalabuild/cache/facilities-2026-09-10/model-renders/clubhouse-entrance.png",
+    "upsalabuild/cache/facilities-2026-09-10/model-renders/parking-barn.png",
+    "upsalabuild/cache/facilities-2026-09-10/model-renders/practice-building.png",
+    "upsalabuild/cache/facilities-2026-09-10/model-renders/campus.png",
+    "upsalabuild/cache/facilities-2026-09-10/model-renders/practice-range.png"
+  ],
+  "renderMethod": "Independent Blender4.5.9 Cycles render on native2m DTM review mesh. Terrain/light collection excluded from production exports."
+}

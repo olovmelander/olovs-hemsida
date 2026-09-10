@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Owned scenes and objects only",
+      "passed": true
+    },
+    {
+      "name": "Metre scale and east north up frame",
+      "passed": true
+    },
+    {
+      "name": "Exact architecture vertices triangles and part associations",
+      "passed": true
+    },
+    {
+      "name": "Exact terrain vertices and 120400 preview triangles",
+      "passed": true
+    },
+    {
+      "name": "Five source roof TINs preserve topology and unsupported holes",
+      "passed": true
+    },
+    {
+      "name": "Six exact primary building footprints",
+      "passed": true
+    },
+    {
+      "name": "Fourteen exact facility outlines and original interior ring",
+      "passed": true
+    },
+    {
+      "name": "Fourteen supplementary references retain exact line topology",
+      "passed": true
+    },
+    {
+      "name": "Outline inventory and uncertainty metadata",
+      "passed": true
+    },
+    {
+      "name": "Plan outlines retain matching horizontal placement and hole",
+      "passed": true
+    },
+    {
+      "name": "Unresolved facilities remain hidden search references only",
+      "passed": true
+    },
+    {
+      "name": "Twelve orthophotos and all preferred photos packed with exact bytes",
+      "passed": true
+    },
+    {
+      "name": "Georeferenced orthophoto placement and complete camera coverage",
+      "passed": true
+    },
+    {
+      "name": "All preferred photo boards fit the reference camera",
+      "passed": true
+    },
+    {
+      "name": "Finite coordinates packed brief and unchanged final file",
+      "passed": true
+    }
+  ],
+  "details": {
+    "file": {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/lidingo-facilities.blend",
+      "bytes": 71187078,
+      "sha256": "418d0a2bfbb0e50ef92177f462891a36794a9982fa89483d177c3d142063815a",
+      "blenderVersion": "4.5.9 LTS"
+    },
+    "Owned scenes and objects only": {
+      "model": 123,
+      "plan": 75,
+      "photos": 38
+    },
+    "Metre scale and east north up frame": {
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": "EPSG:5613 / RH2000",
+      "units": "metres",
+      "eastingOrigin": 677700.5,
+      "northingOrigin": 6586399.5,
+      "heightOriginRH2000": 25,
+      "axes": {
+        "X": "east",
+        "Y": "north",
+        "Z": "up"
+      },
+      "transform": "X=E-677700.5; Y=N-6586399.5; Z=heightRH2000-25",
+      "appTransform": "X=app.x; Y=-app.z; Z=app.y-25",
+      "appTerrainBridgeOriginHeightRH2000": -0.05,
+      "note": "The -0.05 m v2 bridge origin is metadata only; fixture heights already use RH2000. No extra -0.05 m shift."
+    },
+    "Exact architecture vertices triangles and part associations": {
+      "objects": 76,
+      "vertices": 6695,
+      "triangles": 6402,
+      "precision": "Exact vertex/index equality after required Blender float32 conversion"
+    },
+    "Exact terrain vertices and 120400 preview triangles": {
+      "objects": 1,
+      "vertices": 60696,
+      "triangles": 120400,
+      "precision": "Exact vertex/index equality after required Blender float32 conversion"
+    },
+    "Five source roof TINs preserve topology and unsupported holes": {
+      "objects": 5,
+      "vertices": 3881,
+      "triangles": 7069,
+      "precision": "Exact vertex/index equality after required Blender float32 conversion"
+    },
+    "Six exact primary building footprints": {
+      "objects": 6,
+      "vertices": 46,
+      "originallyClosedRings": 6,
+      "visualHeightOffsetMetres": 0.15,
+      "flatPlanHeightMetres": null
+    },
+    "Fourteen exact facility outlines and original interior ring": {
+      "objects": 15,
+      "vertices": 188,
+      "originallyClosedRings": 15,
+      "visualHeightOffsetMetres": 0.12,
+      "flatPlanHeightMetres": null
+    },
+    "Fourteen supplementary references retain exact line topology": {
+      "objects": 14,
+      "vertices": 88,
+      "originallyClosedRings": 3,
+      "visualHeightOffsetMetres": 0.15,
+      "flatPlanHeightMetres": null
+    },
+    "Outline inventory and uncertainty metadata": {
+      "primaryFootprints": 6,
+      "facilityFeatures": 14,
+      "facilityCurvesIncludingHole": 15,
+      "supplementaryFeatures": 14,
+      "supplementaryPolygons": 3
+    },
+    "Plan outlines retain matching horizontal placement and hole": {
+      "rings": 35,
+      "horizontalCoordinates": "Exact retained float32 values"
+    },
+    "Unresolved facilities remain hidden search references only": {
+      "objects": 4,
+      "vertices": 20,
+      "originallyClosedRings": 4,
+      "visualHeightOffsetMetres": 0,
+      "flatPlanHeightMetres": null,
+      "meaning": "Observation search rectangles only; explicitly not measured footprints"
+    },
+    "Twelve orthophotos and all preferred photos packed with exact bytes": {
+      "orthophotos": 12,
+      "preferredPhotos": 18,
+      "packedImages": 30,
+      "packedBytesMatchPinnedSources": true,
+      "uvOrientation": "North-up/east-right orthophotos; photo EXIF orientation independently derived from image-coordinate transforms"
+    },
+    "Georeferenced orthophoto placement and complete camera coverage": [
+      {
+        "id": "facilities-overview-lm-2025",
+        "x": [
+          0.18317925930023193,
+          0.8168207406997681
+        ],
+        "y": [
+          0.045454539358615875,
+          0.9545454978942871
+        ]
+      },
+      {
+        "id": "facilities-overview-municipal-2019",
+        "x": [
+          0.18280060589313507,
+          0.8171994090080261
+        ],
+        "y": [
+          0.04545453563332558,
+          0.9545454382896423
+        ]
+      },
+      {
+        "id": "clubhouse-detail-lm-2025",
+        "x": [
+          0.04545454680919647,
+          0.9545454382896423
+        ],
+        "y": [
+          0.12962962687015533,
+          0.8703703880310059
+        ]
+      },
+      {
+        "id": "clubhouse-detail-municipal-2019",
+        "x": [
+          0.04545455798506737,
+          0.9545454382896423
+        ],
+        "y": [
+          0.13006848096847534,
+          0.8699315190315247
+        ]
+      },
+      {
+        "id": "upper-parking-detail-lm-2025",
+        "x": [
+          0.04545457661151886,
+          0.9545454978942871
+        ],
+        "y": [
+          0.2442455291748047,
+          0.7557544708251953
+        ]
+      },
+      {
+        "id": "upper-parking-detail-municipal-2019",
+        "x": [
+          0.04545455425977707,
+          0.9545454382896423
+        ],
+        "y": [
+          0.2443559169769287,
+          0.7556440234184265
+        ]
+      },
+      {
+        "id": "range-north-detail-lm-2025",
+        "x": [
+          0.04545460268855095,
+          0.9545454978942871
+        ],
+        "y": [
+          0.29919081926345825,
+          0.700809121131897
+        ]
+      },
+      {
+        "id": "range-north-detail-municipal-2019",
+        "x": [
+          0.045454636216163635,
+          0.9545454382896423
+        ],
+        "y": [
+          0.29895642399787903,
+          0.7010435461997986
+        ]
+      },
+      {
+        "id": "range-buildings-detail-lm-2025",
+        "x": [
+          0.045454539358615875,
+          0.9545454382896423
+        ],
+        "y": [
+          0.1117323637008667,
+          0.8882676362991333
+        ]
+      },
+      {
+        "id": "range-buildings-detail-municipal-2019",
+        "x": [
+          0.04545455798506737,
+          0.9545454382896423
+        ],
+        "y": [
+          0.11304590106010437,
+          0.8869540691375732
+        ]
+      },
+      {
+        "id": "range-south-detail-lm-2025",
+        "x": [
+          0.04545460268855095,
+          0.9545454978942871
+        ],
+        "y": [
+          0.25223278999328613,
+          0.7477672100067139
+        ]
+      },
+      {
+        "id": "range-south-detail-municipal-2019",
+        "x": [
+          0.045454587787389755,
+          0.9545454382896423
+        ],
+        "y": [
+          0.2521713078022003,
+          0.7478287220001221
+        ]
+      }
+    ],
+    "All preferred photo boards fit the reference camera": {
+      "allBoardsFitCamera": true,
+      "boards": 18
+    },
+    "Finite coordinates packed brief and unchanged final file": {
+      "readOnlyAudit": true,
+      "finiteMeshCoordinates": true,
+      "packedBriefMatchesSpec": true
+    }
+  },
+  "limitations": [
+    "Validates the imported baseline and retained evidence, not a newly remodeled replica.",
+    "Cannot re-audit the live original Blender scene; scene isolation is verified in the final saved file.",
+    "Blender stores mesh/curve coordinates as float32; equality is checked after that explicit conversion."
+  ]
+}

@@ -1,0 +1,659 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "kind": "orthophoto-window-capture-evidence",
+  "observedAt": "2026-09-09T19:58:56.028547+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-u2-2024",
+  "planSha256": "bdf732a055cc8b56566fdc86c4f98dc63436791b574c9666d09482a73c26b720",
+  "method": "Intersect native EPSG:3006 review pixel-edge bounds with published flygbild mosaic source polygons.",
+  "sourceMetadata": [
+    {
+      "id": "o69875_6775_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o69875_6775_25_mr24_flygbild.json",
+      "bytes": 56947,
+      "sha256": "9156f63c70273a8d86c3a015ccfd094c9112df00c31a7d48ddc5f4fa2fa04fbf",
+      "features": 6
+    }
+  ],
+  "windows": [
+    {
+      "id": "ground-overview",
+      "boundsEpsg3006": [
+        678172.0,
+        6987820.8,
+        679755.2,
+        6989672.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T14:03:03Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_28~2024-06-27_140303_2196",
+          "capturedAt": "2024-06-27T14:03:03Z",
+          "intersectionSquareMetres": 23900.573,
+          "windowFraction": 0.00815491
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 598696.6775,
+          "windowFraction": 0.20427618
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 1727848.8346,
+          "windowFraction": 0.58954454
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134229_2071",
+          "capturedAt": "2024-06-27T13:42:29Z",
+          "intersectionSquareMetres": 367528.5632,
+          "windowFraction": 0.12540128
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_28~2024-06-27_140246_2194",
+          "capturedAt": "2024-06-27T14:02:46Z",
+          "intersectionSquareMetres": 118008.256,
+          "windowFraction": 0.04026459
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_28~2024-06-27_140254_2195",
+          "capturedAt": "2024-06-27T14:02:54Z",
+          "intersectionSquareMetres": 94836.9357,
+          "windowFraction": 0.0323585
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-01-hole",
+      "boundsEpsg3006": [
+        678604.32,
+        6988339.2,
+        679039.84,
+        6988532.16
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 84037.9392,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-02-hole",
+      "boundsEpsg3006": [
+        678817.92,
+        6988196.0,
+        678999.84,
+        6988464.16
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 14710.9732,
+          "windowFraction": 0.3015553
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 34072.694,
+          "windowFraction": 0.6984447
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-03-hole",
+      "boundsEpsg3006": [
+        678828.96,
+        6987885.44,
+        679089.6,
+        6988232.32
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 83013.8911,
+          "windowFraction": 0.91818553
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 7396.9121,
+          "windowFraction": 0.08181447
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-04-hole",
+      "boundsEpsg3006": [
+        678914.24,
+        6987905.92,
+        679145.6,
+        6988454.72
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 65674.4548,
+          "windowFraction": 0.51724238
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 61295.9132,
+          "windowFraction": 0.48275762
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-05-hole",
+      "boundsEpsg3006": [
+        678988.48,
+        6988260.48,
+        679406.08,
+        6988477.12
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 90468.864,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-06-hole",
+      "boundsEpsg3006": [
+        679218.88,
+        6987919.04,
+        679401.12,
+        6988408.32
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 40241.5717,
+          "windowFraction": 0.45130876
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 48924.8155,
+          "windowFraction": 0.54869124
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-07-hole",
+      "boundsEpsg3006": [
+        679049.12,
+        6987871.52,
+        679317.12,
+        6988022.08
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T13:42:14Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 40350.08,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-08-hole",
+      "boundsEpsg3006": [
+        678988.0,
+        6987966.72,
+        679177.12,
+        6988470.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 34472.248,
+          "windowFraction": 0.36177579
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 60813.9728,
+          "windowFraction": 0.63822421
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-09-hole",
+      "boundsEpsg3006": [
+        678552.0,
+        6988347.36,
+        679022.88,
+        6988608.0
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 122730.1632,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-10-hole",
+      "boundsEpsg3006": [
+        678521.76,
+        6988422.56,
+        678937.12,
+        6988877.76
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 189071.872,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-11-hole",
+      "boundsEpsg3006": [
+        678592.48,
+        6988708.8,
+        678829.12,
+        6988883.36
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 41307.8784,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-12-hole",
+      "boundsEpsg3006": [
+        678566.08,
+        6988808.64,
+        678896.16,
+        6989199.04
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 128863.232,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-13-hole",
+      "boundsEpsg3006": [
+        678771.2,
+        6988790.4,
+        679008.8,
+        6989257.28
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 110930.688,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-14-hole",
+      "boundsEpsg3006": [
+        678865.6,
+        6988841.92,
+        679021.28,
+        6989106.88
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 41248.9728,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-15-hole",
+      "boundsEpsg3006": [
+        678956.8,
+        6988796.64,
+        679289.76,
+        6989135.84
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 112940.032,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-16-hole",
+      "boundsEpsg3006": [
+        679188.16,
+        6988425.44,
+        679356.8,
+        6988850.72
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 71719.2192,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-17-hole",
+      "boundsEpsg3006": [
+        678909.12,
+        6988393.92,
+        679277.92,
+        6988774.08
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 140203.008,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-18-hole",
+      "boundsEpsg3006": [
+        678545.76,
+        6988387.84,
+        678964.0,
+        6988745.76
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 149696.4608,
+          "windowFraction": 1.0
+        }
+      ]
+    },
+    {
+      "id": "facilities-range",
+      "boundsEpsg3006": [
+        678519.36,
+        6988208.32,
+        678929.6,
+        6988451.68
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T13:42:21Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 35607.6451,
+          "windowFraction": 0.35666135
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 64228.3613,
+          "windowFraction": 0.64333865
+        }
+      ]
+    },
+    {
+      "id": "storsanden-beach",
+      "boundsEpsg3006": [
+        678272.32,
+        6989169.12,
+        678987.2,
+        6989571.36
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T13:42:29Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 178494.8726,
+          "windowFraction": 0.62073658
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134229_2071",
+          "capturedAt": "2024-06-27T13:42:29Z",
+          "intersectionSquareMetres": 109058.4586,
+          "windowFraction": 0.37926342
+        }
+      ]
+    },
+    {
+      "id": "east-coast-north",
+      "boundsEpsg3006": [
+        679115.04,
+        6988612.48,
+        679620.32,
+        6989216.48
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:21Z",
+        "last": "2024-06-27T14:02:46Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 305174.97,
+          "windowFraction": 0.99995364
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_28~2024-06-27_140246_2194",
+          "capturedAt": "2024-06-27T14:02:46Z",
+          "intersectionSquareMetres": 14.15,
+          "windowFraction": 4.636e-05
+        }
+      ]
+    },
+    {
+      "id": "east-coast-south",
+      "boundsEpsg3006": [
+        679149.6,
+        6987982.56,
+        679655.04,
+        6988586.56
+      ],
+      "coverageFraction": 1.0,
+      "captureRange": {
+        "first": "2024-06-27T13:42:14Z",
+        "last": "2024-06-27T14:02:54Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134214_2069",
+          "capturedAt": "2024-06-27T13:42:14Z",
+          "intersectionSquareMetres": 96413.6911,
+          "windowFraction": 0.31581457
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_27~2024-06-27_134221_2070",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "intersectionSquareMetres": 205258.6009,
+          "windowFraction": 0.67234908
+        },
+        {
+          "sourceId": "o69875_6775_25_mr24",
+          "imageId": "24u215ss15_28~2024-06-27_140254_2195",
+          "capturedAt": "2024-06-27T14:02:54Z",
+          "intersectionSquareMetres": 3613.468,
+          "windowFraction": 0.01183635
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Capture dates describe source pixels, not dates of course construction or change.",
+    "Ground sample distance does not establish absolute positional accuracy."
+  ]
+}

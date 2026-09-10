@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "groundId": "veckefjarden",
   "kind": "independent-orthophoto-alignment-evidence-audit",
-  "auditedAt": "2026-09-09T17:49:27.168786+00:00",
+  "auditedAt": "2026-09-09T20:08:26.622759+00:00",
   "state": "passed",
   "inputs": {
     "ledgerPath": "geobuild/mapping/lm-ortho-review.json",
-    "ledgerSha256": "538748e07382effa84e722cb09b0c935e1eace197a4c8af1ae2626df799a7cb2",
+    "ledgerSha256": "4d3f0edf8cdd0feb09e8c9248bdebd2702abaca9cc6cfa8f54e051e527b39d53",
     "modelPath": "geobuild/course-model.json",
-    "modelSha256": "a0a3cc41555672f9e84fc6962815d9488ee12aeaa5d60f0df9f757e4fc8f11b7",
+    "modelSha256": "66885fa4e54d3c240f717800e27035262c82c48e0eea3002b7afbbf0da0997fd",
     "baselineCommit": "7aac4d4495e78d9321889273b34ad6d1bb12290a",
     "baselineModelSha256": "938823c626068d8f464c7318dc84e95fa6c11711f215354b229c441b31fc1093"
   },
@@ -32,23 +32,23 @@
     "limitation": "Numerical source registration, pixel resolution and boundary interpretation uncertainty are distinct from absolute surveying accuracy. No daily marker positions are verified."
   },
   "summary": {
-    "features": 82,
-    "featuresPassed": 82,
+    "features": 67,
+    "featuresPassed": 67,
     "featureKinds": {
       "green": 16,
-      "tee-set": 6,
+      "tee-set": 18,
       "bunker": 30,
-      "tee": 27,
       "fairway": 3
     },
-    "sourceVerticesChecked": 1369,
-    "sourceTracedRings": 92,
-    "retainedHistoricalRings": 1,
+    "sourceVerticesChecked": 1389,
+    "sourceTracedRings": 96,
+    "retainedHistoricalRings": 7,
     "actualNativeTiffHashesVerified": 7,
-    "actualReviewPanelHashesVerified": 48,
-    "exactPanelRgbSamplesCompared": 432,
-    "provisionalPhysicalPlatformReferences": 28,
-    "unresolvedTeeReferences": 80,
+    "actualReviewPanelHashesVerified": 57,
+    "exactPanelRgbSamplesCompared": 513,
+    "provisionalPhysicalPlatformReferences": 87,
+    "unresolvedTeeReferences": 21,
+    "actualCorroboratingDocumentsVerified": 7,
     "errors": 0
   },
   "sources": [
@@ -581,6 +581,44 @@
       "maximumRgbChannelDifference": 0
     },
     {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h07-tee-01-plain.png",
+      "sha256": "faddd35f31a290039de8fdf75ba6f77d94c3f4661249cb5ea575692b8a2ddb7c",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683584.2968750088,
+        0.0875,
+        0,
+        7023335.039824677,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h07-tee-03-plain.png",
+      "sha256": "330f317de8b827b64eb47b2042915d54d236ed26bfd500f3635b17fd800ce938",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683608.088098737,
+        0.0875,
+        0,
+        7023382.536858344,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
       "path": "geobuild/cache/lm-ortho-review/greens-hole-08-plain.png",
       "sha256": "83e7c35b48246789c7afd83b16df98536cce3bc916ea823dfaae9a546a28590e",
       "reportPath": "geobuild/cache/lm-ortho-review/panels.json",
@@ -733,6 +771,25 @@
       "maximumRgbChannelDifference": 0
     },
     {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h09-tee-02-plain.png",
+      "sha256": "e7f46a795dc6d2f14db41fa5f4dcccdb2b7edc60f693e7ccdd26b4a00fa79a81",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684000.5236349123,
+        0.0875,
+        0,
+        7023332.793550178,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
       "path": "geobuild/cache/lm-ortho-review-turf-07-12/h10-tee-00-plain.png",
       "sha256": "229a6c720bc2f4a2d2e7157d50cc6b12616b0f6833352847aa2040dcdfa1d968",
       "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
@@ -847,6 +904,25 @@
       "maximumRgbChannelDifference": 0
     },
     {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-00-plain.png",
+      "sha256": "a734221ced7a9641f797901b196dc7448716458c1559ff6d5c2b3f290efe3214",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683772.2526912191,
+        0.0875,
+        0,
+        7023647.386887732,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
       "path": "geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-01-plain.png",
       "sha256": "ae73bade1f7a20a810adbbbb357ba5045f3ea6346c9037b0841abaa6668f66d1",
       "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
@@ -859,6 +935,25 @@
         0.0875,
         0,
         7023606.151067966,
+        0,
+        -0.0875
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-turf-07-12/h11-tee-02-plain.png",
+      "sha256": "98686df1f15a98e359738dccb690c793f06c71102e1c035777d0c75b7fb75c16",
+      "reportPath": "geobuild/cache/lm-ortho-review-turf-07-12/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683830.8549173151,
+        0.0875,
+        0,
+        7023567.295668846,
         0,
         -0.0875
       ],
@@ -942,6 +1037,25 @@
       "maximumRgbChannelDifference": 0
     },
     {
+      "path": "geobuild/cache/lm-ortho-after-13-18-turf/tees-hole-13-plain.png",
+      "sha256": "a18b1ede0b26af41d8179f2b47f2fc5f2b2822373e6ab48848815f9c7b409950",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18-turf/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        683326.9664640103,
+        0.29429904220916797,
+        0,
+        7023768.86687777,
+        0,
+        -0.2942990422085859
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
       "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-13-plain.png",
       "sha256": "008bd5a67772a01d9b463474b47c1a38dcc11eb120fd0e02d3fe6b345c5f0c23",
       "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
@@ -980,20 +1094,20 @@
       "maximumRgbChannelDifference": 0
     },
     {
-      "path": "geobuild/cache/lm-ortho-after-13-18-turf/tees-hole-13-plain.png",
-      "sha256": "a18b1ede0b26af41d8179f2b47f2fc5f2b2822373e6ab48848815f9c7b409950",
-      "reportPath": "geobuild/cache/lm-ortho-after-13-18-turf/panels.json",
+      "path": "geobuild/cache/lm-tee-associations-13-18-review/h14-west-plain.png",
+      "sha256": "f0e746f9cf8895fc5ce92388d2effba1d2d0c1db293738a2fad6ca24852e7803",
+      "reportPath": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
       "pixelSize": [
-        800,
-        800
+        1000,
+        1000
       ],
       "geoTransform": [
-        683326.9664640103,
-        0.29429904220916797,
+        683482.6809823171,
+        0.12,
         0,
-        7023768.86687777,
+        7023451.441916446,
         0,
-        -0.2942990422085859
+        -0.12
       ],
       "rgbSamplesCompared": 9,
       "maximumRgbChannelDifference": 0
@@ -1011,25 +1125,6 @@
         0.125,
         0,
         7023316.502790094,
-        0,
-        -0.125
-      ],
-      "rgbSamplesCompared": 9,
-      "maximumRgbChannelDifference": 0
-    },
-    {
-      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-15-plain.png",
-      "sha256": "a0d0f89c49fe1bb6778640acc6a13a640acc936e3204043b706027602ec256b0",
-      "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
-      "pixelSize": [
-        800,
-        800
-      ],
-      "geoTransform": [
-        683654.6046137325,
-        0.125,
-        0,
-        7023103.27585722,
         0,
         -0.125
       ],
@@ -1056,18 +1151,37 @@
       "maximumRgbChannelDifference": 0
     },
     {
-      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-16-plain.png",
-      "sha256": "c61f9239fdf5f17eeaff37bbe7f577f94a08761d1c5c8d5ec7535ea92eedfcdb",
+      "path": "geobuild/cache/lm-tee-associations-13-18-review/h15-peninsula-plain.png",
+      "sha256": "fdb35850300a4db630b56959d7d235a71ccef089d1e631e9594e0aa091ab2af8",
+      "reportPath": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
+      "pixelSize": [
+        1000,
+        1000
+      ],
+      "geoTransform": [
+        683528.6104203423,
+        0.085,
+        0,
+        7023263.439605066,
+        0,
+        -0.085
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-15-plain.png",
+      "sha256": "a0d0f89c49fe1bb6778640acc6a13a640acc936e3204043b706027602ec256b0",
       "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
       "pixelSize": [
         800,
         800
       ],
       "geoTransform": [
-        684139.5868975841,
+        683654.6046137325,
         0.125,
         0,
-        7023075.895234182,
+        7023103.27585722,
         0,
         -0.125
       ],
@@ -1094,18 +1208,18 @@
       "maximumRgbChannelDifference": 0
     },
     {
-      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-17-plain.png",
-      "sha256": "f436f9cf9a2724de1dee0983d991becaf87ed1edea1af5675d9780a1753be781",
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-16-plain.png",
+      "sha256": "c61f9239fdf5f17eeaff37bbe7f577f94a08761d1c5c8d5ec7535ea92eedfcdb",
       "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
       "pixelSize": [
         800,
         800
       ],
       "geoTransform": [
-        683668.6176316194,
+        684139.5868975841,
         0.125,
         0,
-        7023365.5505624795,
+        7023075.895234182,
         0,
         -0.125
       ],
@@ -1132,18 +1246,18 @@
       "maximumRgbChannelDifference": 0
     },
     {
-      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-18-plain.png",
-      "sha256": "e3838ea611907ee1dd9f29ec08b58b8440d03a191579007fdb3c637b72033b28",
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-17-plain.png",
+      "sha256": "f436f9cf9a2724de1dee0983d991becaf87ed1edea1af5675d9780a1753be781",
       "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
       "pixelSize": [
         800,
         800
       ],
       "geoTransform": [
-        684208.8444541492,
+        683668.6176316194,
         0.125,
         0,
-        7023092.2052936,
+        7023365.5505624795,
         0,
         -0.125
       ],
@@ -1168,6 +1282,100 @@
       ],
       "rgbSamplesCompared": 9,
       "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-associations-13-18-review/h18-middle-plain.png",
+      "sha256": "0762d3cc3efff413ca2aec02900bc12f18186974228c5a648c4dc55eaada5c54",
+      "reportPath": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
+      "pixelSize": [
+        1000,
+        1000
+      ],
+      "geoTransform": [
+        683826.0606974236,
+        0.06,
+        0,
+        7023347.600938749,
+        0,
+        -0.06
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-tee-associations-13-18-review/h18-front-plain.png",
+      "sha256": "daafd1fa9ecfd3059f2e8f1afc2bba5f5ca07fab557a678d4bec3417189cb4c1",
+      "reportPath": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
+      "pixelSize": [
+        1000,
+        1000
+      ],
+      "geoTransform": [
+        683875.9902373862,
+        0.06,
+        0,
+        7023303.320924258,
+        0,
+        -0.06
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-after-13-18/greens-hole-18-plain.png",
+      "sha256": "e3838ea611907ee1dd9f29ec08b58b8440d03a191579007fdb3c637b72033b28",
+      "reportPath": "geobuild/cache/lm-ortho-after-13-18/panels.json",
+      "pixelSize": [
+        800,
+        800
+      ],
+      "geoTransform": [
+        684208.8444541492,
+        0.125,
+        0,
+        7023092.2052936,
+        0,
+        -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    }
+  ],
+  "corroboratingDocuments": [
+    {
+      "path": "banguide/maps/hole_06.jpg",
+      "sha256": "39f9d282b2ceae109d4145dc7ee6b0d17c6a95d1b8be3fbbb9bed10a4c74b92e",
+      "note": "Club guide starts hole6 on the forest-side platform beside the road crossing, aiming toward the pond corridor. The diagram corroborates hole identity, not a coordinate fit or daily marker position."
+    },
+    {
+      "path": "banguide/maps/hole_16.jpg",
+      "sha256": "cb2c9b54c78629f379c36c2d75481769b3ac0639b15aba6b124ede53f686652d",
+      "note": "Club guide starts hole16 on the exposed roadside deck across the junction from its row of four main platforms. This distinguishes it from the adjacent forest-side hole6 tee."
+    },
+    {
+      "path": "banguide/maps/hole_13.jpg",
+      "sha256": "e982cad1a43aeb6ed2e5c259042762ae6e8835fcbd280d231ab57367e851dc6d",
+      "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+    },
+    {
+      "path": "banguide/maps/hole_14.jpg",
+      "sha256": "7541f2fb15a5bffcc5f717efab67fe66e1c1583b6d0ac1dc84444f77e9301e79",
+      "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+    },
+    {
+      "path": "banguide/maps/hole_15.jpg",
+      "sha256": "84511b9947609dd767fd86ab429871bbb42dc13361ec72c9689d9badd906f17e",
+      "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+    },
+    {
+      "path": "banguide/maps/hole_17.jpg",
+      "sha256": "2567c6a057557fae586d1df18f2e5e5fa7ce40b69006b83525323ccc27d2f39a",
+      "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+    },
+    {
+      "path": "banguide/maps/hole_18.jpg",
+      "sha256": "fee0eb77e6663a8e03f49f37dd4977bff65e5a181f36a2f07f4478c322db6099",
+      "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
     }
   ],
   "features": [
@@ -1538,18 +1746,18 @@
       "action": "replace",
       "state": "passed",
       "originalRingSha256": "b1b665adeed19c305bf088d8f6bbecb974c13fa9d2d6837dd19fd37561c93993",
-      "adoptedRings": 4,
-      "sourceTracedRings": 3,
+      "adoptedRings": 3,
+      "sourceTracedRings": 2,
       "retainedHistoricalRings": 1,
-      "sourceVerticesChecked": 20,
+      "sourceVerticesChecked": 16,
       "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
       "maximumStoredVertexQuantizationErrorMetres": 0.005489233936190399,
       "interpretationUncertaintyMetres": 3,
       "beforeAreaSquareMetres": 565.595,
-      "afterAreaSquareMetres": 259.368,
-      "areaChangeSquareMetres": -306.227,
-      "areaWeightedCentroidShiftMetres": 30.046
+      "afterAreaSquareMetres": 196.683,
+      "areaChangeSquareMetres": -368.912,
+      "areaWeightedCentroidShiftMetres": 20.924
     },
     {
       "id": "lm-2024-h07-bunker-1",
@@ -1612,6 +1820,26 @@
       "areaWeightedCentroidShiftMetres": 1.035
     },
     {
+      "id": "lm-2024-h07-tee-associations",
+      "hole": 7,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "565ad467f5c6ab1d1428f46eda31452ed906db8005dea05209fcacf28f6e6c91",
+      "adoptedRings": 2,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 1,
+      "sourceVerticesChecked": 8,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0055386681229685816,
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 889.2,
+      "afterAreaSquareMetres": 414.439,
+      "areaChangeSquareMetres": -474.761,
+      "areaWeightedCentroidShiftMetres": 7.452
+    },
+    {
       "id": "lm-2024-h08-bunker-1",
       "hole": 8,
       "kind": "bunker",
@@ -1652,64 +1880,24 @@
       "areaWeightedCentroidShiftMetres": 2.889
     },
     {
-      "id": "lm-2024-h08-tee-1",
+      "id": "lm-2024-h08-tee-associations",
       "hole": 8,
-      "kind": "tee",
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "68a2475145c3c27c4f7741feb211f40159f4c1841c632ca9ff1043fdd0da68c1",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
+      "originalRingSha256": "006a3065438aebd0230070cb91a40e0ccea5b3e1f2af53ad9655408f07ccd575",
+      "adoptedRings": 3,
+      "sourceTracedRings": 3,
       "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.004097961704426216,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 230.18,
-      "afterAreaSquareMetres": 137.352,
-      "areaChangeSquareMetres": -92.828,
-      "areaWeightedCentroidShiftMetres": 1.543
-    },
-    {
-      "id": "lm-2024-h08-tee-2",
-      "hole": 8,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "554d4858a8dbecececb74d428bd44dd3cb1bbbb5575066079afce212ab8764e6",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
+      "sourceVerticesChecked": 12,
       "maximumPixelAffineErrorMetres": 0.0,
       "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
       "maximumStoredVertexQuantizationErrorMetres": 0.006818116306288293,
       "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 143.07,
-      "afterAreaSquareMetres": 130.754,
-      "areaChangeSquareMetres": -12.316,
-      "areaWeightedCentroidShiftMetres": 2.76
-    },
-    {
-      "id": "lm-2024-h08-tee-3",
-      "hole": 8,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "50f0a52fcdd3f3b869b2e0e9f3c8309708476fdf6d9a60cb3940979705201ff0",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 1.1641532182693481e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.004380717562808142,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 63.03,
-      "afterAreaSquareMetres": 87.969,
-      "areaChangeSquareMetres": 24.939,
-      "areaWeightedCentroidShiftMetres": 1.5
+      "beforeAreaSquareMetres": 436.28,
+      "afterAreaSquareMetres": 356.075,
+      "areaChangeSquareMetres": -80.205,
+      "areaWeightedCentroidShiftMetres": 5.966
     },
     {
       "id": "lm-2024-h09-bunker-1",
@@ -1792,124 +1980,44 @@
       "areaWeightedCentroidShiftMetres": 3.342
     },
     {
-      "id": "lm-2024-h09-tee-1",
+      "id": "lm-2024-h09-tee-associations",
       "hole": 9,
-      "kind": "tee",
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "b12cad626a895060539c929c466540a16ec37ce130a45040485bde5e5951651c",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.004640245966495354,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 111.99,
-      "afterAreaSquareMetres": 51.412,
-      "areaChangeSquareMetres": -60.578,
-      "areaWeightedCentroidShiftMetres": 1.557
-    },
-    {
-      "id": "lm-2024-h09-tee-2",
-      "hole": 9,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "2b247a79c8dce87ff454ea9936552709542fa988a6a7f81d5afb465a42d9c12c",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 20,
+      "originalRingSha256": "a89caf2368d5d6dfd042dc41a9ba60f03e6c2fda18785fd5ee79ec5f1b28e6c9",
+      "adoptedRings": 3,
+      "sourceTracedRings": 2,
+      "retainedHistoricalRings": 1,
+      "sourceVerticesChecked": 24,
       "maximumPixelAffineErrorMetres": 0.0,
       "maximumProjectionRoundtripErrorMetres": 1.8662795822463695e-09,
       "maximumStoredVertexQuantizationErrorMetres": 0.0062798370785584505,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 224.135,
-      "afterAreaSquareMetres": 126.988,
-      "areaChangeSquareMetres": -97.147,
-      "areaWeightedCentroidShiftMetres": 4.396
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 595.12,
+      "afterAreaSquareMetres": 345.615,
+      "areaChangeSquareMetres": -249.505,
+      "areaWeightedCentroidShiftMetres": 22.237
     },
     {
-      "id": "lm-2024-h10-tee-1",
+      "id": "lm-2024-h10-tee-associations",
       "hole": 10,
-      "kind": "tee",
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "b963d6ec216d1049db4fc235637df001b92cbce27c56e70c373c0bba85916d92",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
+      "originalRingSha256": "0dbc513c7ffcd0493ed172dfc6a14fc8092d9b35afcede8c928750cd34806f7c",
+      "adoptedRings": 4,
+      "sourceTracedRings": 4,
       "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.006206118885125514,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 150.16,
-      "afterAreaSquareMetres": 116.815,
-      "areaChangeSquareMetres": -33.346,
-      "areaWeightedCentroidShiftMetres": 2.15
-    },
-    {
-      "id": "lm-2024-h10-tee-2",
-      "hole": 10,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "bcc93658f363aa2a7159235808244eee03d5946eb0bbbef091c52a6bcc3c9177",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 8,
+      "sourceVerticesChecked": 20,
       "maximumPixelAffineErrorMetres": 0.0,
       "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
       "maximumStoredVertexQuantizationErrorMetres": 0.006614346001033461,
       "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 78.855,
-      "afterAreaSquareMetres": 85.049,
-      "areaChangeSquareMetres": 6.194,
-      "areaWeightedCentroidShiftMetres": 2.96
-    },
-    {
-      "id": "lm-2024-h10-tee-3",
-      "hole": 10,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "64b1056e9c70a80331efa4d88495ad844df62469e1c4b1c8ed06b0b3adca754f",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.004031248427587538,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 53.3,
-      "afterAreaSquareMetres": 59.286,
-      "areaChangeSquareMetres": 5.986,
-      "areaWeightedCentroidShiftMetres": 3.231
-    },
-    {
-      "id": "lm-2024-h10-tee-4",
-      "hole": 10,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "edf689e0e019758e9f4468941a3224f00b3cb6d24f0a86803dcfd773de10ac1b",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.00470831745501205,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 78.595,
-      "afterAreaSquareMetres": 54.549,
-      "areaChangeSquareMetres": -24.046,
-      "areaWeightedCentroidShiftMetres": 2.444
+      "beforeAreaSquareMetres": 414.41,
+      "afterAreaSquareMetres": 315.699,
+      "areaChangeSquareMetres": -98.711,
+      "areaWeightedCentroidShiftMetres": 15.357
     },
     {
       "id": "lm-2024-h11-bunker-2",
@@ -1972,24 +2080,24 @@
       "areaWeightedCentroidShiftMetres": 2.634
     },
     {
-      "id": "lm-2024-h11-tee-2",
+      "id": "lm-2024-h11-tee-associations",
       "hole": 11,
-      "kind": "tee",
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "5f219eb659a8e28ba7a6c06871a8480af16e980738b464c1fe0e75f3b72c37f3",
-      "adoptedRings": 1,
+      "originalRingSha256": "01b18941b428c2060a8887999910b8f0ec273a322e029ee3c16b75b3f41ff7c3",
+      "adoptedRings": 3,
       "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
+      "retainedHistoricalRings": 2,
       "sourceVerticesChecked": 4,
       "maximumPixelAffineErrorMetres": 0.0,
       "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
       "maximumStoredVertexQuantizationErrorMetres": 0.004971716692055947,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 166.4,
-      "afterAreaSquareMetres": 112.552,
-      "areaChangeSquareMetres": -53.848,
-      "areaWeightedCentroidShiftMetres": 2.496
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 439.67,
+      "afterAreaSquareMetres": 295.102,
+      "areaChangeSquareMetres": -144.568,
+      "areaWeightedCentroidShiftMetres": 21.521
     },
     {
       "id": "lm-2024-h12-bunker-1",
@@ -2072,64 +2180,24 @@
       "areaWeightedCentroidShiftMetres": 2.303
     },
     {
-      "id": "lm-2024-h12-tee-1",
+      "id": "lm-2024-h12-tee-associations",
       "hole": 12,
-      "kind": "tee",
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "75246a27e6910a9e75a5fa1c40b43696c4cd1e0257c2a62f6c29488ec04b9296",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
+      "originalRingSha256": "2d37b3d3bf7fad489689646e19e9d9da8516a65912219471886b3d26ff055047",
+      "adoptedRings": 3,
+      "sourceTracedRings": 3,
       "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 1.1641532182693481e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005460495591769974,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 130.215,
-      "afterAreaSquareMetres": 148.627,
-      "areaChangeSquareMetres": 18.412,
-      "areaWeightedCentroidShiftMetres": 2.828
-    },
-    {
-      "id": "lm-2024-h12-tee-2",
-      "hole": 12,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "f61dbd82dd3b8cebbadee53b686ac4fabbe71ae448871ed3c838f1ebf213f414",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
+      "sourceVerticesChecked": 12,
       "maximumPixelAffineErrorMetres": 0.0,
       "maximumProjectionRoundtripErrorMetres": 2.7939677238464355e-09,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005114503190046726,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005460495591769974,
       "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 189.23,
-      "afterAreaSquareMetres": 140.277,
-      "areaChangeSquareMetres": -48.953,
-      "areaWeightedCentroidShiftMetres": 3.409
-    },
-    {
-      "id": "lm-2024-h12-tee-3",
-      "hole": 12,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "36c3cb9f6276d54d35abd541714d095ca61ae8c24646430bf9dd8e4ba5c1b5dc",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.004645526477280229,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 38.725,
-      "afterAreaSquareMetres": 63.026,
-      "areaChangeSquareMetres": 24.301,
-      "areaWeightedCentroidShiftMetres": 3.348
+      "beforeAreaSquareMetres": 358.17,
+      "afterAreaSquareMetres": 351.929,
+      "areaChangeSquareMetres": -6.241,
+      "areaWeightedCentroidShiftMetres": 4.627
     },
     {
       "id": "lm-2024-h13-bunker-4",
@@ -2150,6 +2218,26 @@
       "afterAreaSquareMetres": 44.338,
       "areaChangeSquareMetres": -10.662,
       "areaWeightedCentroidShiftMetres": 1.795
+    },
+    {
+      "id": "lm-2024-h13-tee-associations",
+      "hole": 13,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "e8e40e9f3fd4de6411d8fbcd1a2e13758222e5549a17057abc531eabb7717b13",
+      "adoptedRings": 3,
+      "sourceTracedRings": 3,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 15,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005728648263838669,
+      "interpretationUncertaintyMetres": 0.7,
+      "beforeAreaSquareMetres": 851.95,
+      "afterAreaSquareMetres": 577.837,
+      "areaChangeSquareMetres": -274.113,
+      "areaWeightedCentroidShiftMetres": 59.371
     },
     {
       "id": "lm2024-h13-bunker-01",
@@ -2212,64 +2300,24 @@
       "areaWeightedCentroidShiftMetres": 1.451
     },
     {
-      "id": "lm2024-h13-tee-01",
-      "hole": 13,
-      "kind": "tee",
+      "id": "lm-2024-h14-tee-associations",
+      "hole": 14,
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "bdc07b25adf89b386687dec1d957fe8d14b20e543476c58ad32b4e7fff4c73ea",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
+      "originalRingSha256": "6f9f272053b8ea6693d8a1c060b523383917cdccb517a459a5fd0487724777a1",
+      "adoptedRings": 2,
+      "sourceTracedRings": 0,
+      "retainedHistoricalRings": 2,
+      "sourceVerticesChecked": 0,
       "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.0050064714041340415,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 59.235,
-      "afterAreaSquareMetres": 76.679,
-      "areaChangeSquareMetres": 17.444,
-      "areaWeightedCentroidShiftMetres": 2.752
-    },
-    {
-      "id": "lm2024-h13-tee-02",
-      "hole": 13,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "d358e2f211fe09bc1bbd36b930cee325f77d3d1573c691334e1e2d64b9569814",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.003788536619461691,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 196.79,
-      "afterAreaSquareMetres": 240.912,
-      "areaChangeSquareMetres": 44.122,
-      "areaWeightedCentroidShiftMetres": 3.235
-    },
-    {
-      "id": "lm2024-h13-tee-03",
-      "hole": 13,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "90a19d0b29145197324953e968ea709894b188f8c0bedadf17c13bf557b36fcd",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 7,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005728648263838669,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 204.925,
-      "afterAreaSquareMetres": 260.245,
-      "areaChangeSquareMetres": 55.32,
-      "areaWeightedCentroidShiftMetres": 1.375
+      "maximumProjectionRoundtripErrorMetres": 0.0,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0,
+      "interpretationUncertaintyMetres": 3,
+      "beforeAreaSquareMetres": 360.345,
+      "afterAreaSquareMetres": 269.685,
+      "areaChangeSquareMetres": -90.66,
+      "areaWeightedCentroidShiftMetres": 15.889
     },
     {
       "id": "lm2024-h14-bunker-01",
@@ -2310,6 +2358,26 @@
       "afterAreaSquareMetres": 506.593,
       "areaChangeSquareMetres": -13.262,
       "areaWeightedCentroidShiftMetres": 2.052
+    },
+    {
+      "id": "lm-2024-h15-tee-associations",
+      "hole": 15,
+      "kind": "tee-set",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "098f6917d6bf2529d7e72a12516886e4139ce1059340c647f0d11f8e33b4947d",
+      "adoptedRings": 2,
+      "sourceTracedRings": 2,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 8,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.005386666646757178,
+      "interpretationUncertaintyMetres": 1.2,
+      "beforeAreaSquareMetres": 269.57,
+      "afterAreaSquareMetres": 239.374,
+      "areaChangeSquareMetres": -30.196,
+      "areaWeightedCentroidShiftMetres": 18.434
     },
     {
       "id": "lm2024-h15-bunker-01",
@@ -2372,24 +2440,24 @@
       "areaWeightedCentroidShiftMetres": 1.782
     },
     {
-      "id": "lm2024-h15-tee-01",
-      "hole": 15,
-      "kind": "tee",
+      "id": "lm-2024-h16-tee-associations",
+      "hole": 16,
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "b6277581b5d74e064603a461851828e94e2bc4eee129f29a1791b1117c56aee4",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
+      "originalRingSha256": "63792182a395783fc6c5305bc596b8a7bd9d3f21e3dddd8df9cb49baa1e185eb",
+      "adoptedRings": 5,
+      "sourceTracedRings": 5,
       "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
+      "sourceVerticesChecked": 22,
       "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005386666646757178,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 178.19,
-      "afterAreaSquareMetres": 151.33,
-      "areaChangeSquareMetres": -26.86,
-      "areaWeightedCentroidShiftMetres": 4.603
+      "maximumProjectionRoundtripErrorMetres": 1.862645149230957e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0061334655710302746,
+      "interpretationUncertaintyMetres": 1.5,
+      "beforeAreaSquareMetres": 330.265,
+      "afterAreaSquareMetres": 380.084,
+      "areaChangeSquareMetres": 49.819,
+      "areaWeightedCentroidShiftMetres": 8.752
     },
     {
       "id": "lm2024-h16-bunker-01",
@@ -2512,84 +2580,24 @@
       "areaWeightedCentroidShiftMetres": 4.042
     },
     {
-      "id": "lm2024-h16-tee-01",
-      "hole": 16,
-      "kind": "tee",
+      "id": "lm-2024-h17-tee-associations",
+      "hole": 17,
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "811da8de31363c9e767dd652a12139973f02ca7378aa2f50048c164896780dea",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
+      "originalRingSha256": "7b32a4f3441108ac09e2bd68ba1f60126800344fa99777f9770295af2c4508cd",
+      "adoptedRings": 4,
+      "sourceTracedRings": 4,
       "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
+      "sourceVerticesChecked": 16,
       "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005291039144405174,
+      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0063309721831666475,
       "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 59.85,
-      "afterAreaSquareMetres": 60.749,
-      "areaChangeSquareMetres": 0.899,
-      "areaWeightedCentroidShiftMetres": 2.391
-    },
-    {
-      "id": "lm2024-h16-tee-02",
-      "hole": 16,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "f0f7f179e65ae55c61b0e20070f481fcbe49d509556ece201bd3362a162ec97e",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.004296816498230189,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 55.92,
-      "afterAreaSquareMetres": 82.197,
-      "areaChangeSquareMetres": 26.277,
-      "areaWeightedCentroidShiftMetres": 2.124
-    },
-    {
-      "id": "lm2024-h16-tee-03",
-      "hole": 16,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "97520fa061e296467ae344bdbe92954172a3c0a6e1b2728b666b653a4ee53176",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 5,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.0061334655710302746,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 61.69,
-      "afterAreaSquareMetres": 83.182,
-      "areaChangeSquareMetres": 21.492,
-      "areaWeightedCentroidShiftMetres": 2.114
-    },
-    {
-      "id": "lm2024-h16-tee-04",
-      "hole": 16,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "9facacc345f55f4f70a455fa3f29b141c2fb282d1a90c038399dc838ccf83fc9",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 5,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005220290048649852,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 61.265,
-      "afterAreaSquareMetres": 91.271,
-      "areaChangeSquareMetres": 30.006,
-      "areaWeightedCentroidShiftMetres": 1.288
+      "beforeAreaSquareMetres": 470.68,
+      "afterAreaSquareMetres": 372.341,
+      "areaChangeSquareMetres": -98.339,
+      "areaWeightedCentroidShiftMetres": 21.833
     },
     {
       "id": "lm2024-h17-bunker-01",
@@ -2632,84 +2640,24 @@
       "areaWeightedCentroidShiftMetres": 3.634
     },
     {
-      "id": "lm2024-h17-tee-01",
-      "hole": 17,
-      "kind": "tee",
+      "id": "lm-2024-h18-tee-associations",
+      "hole": 18,
+      "kind": "tee-set",
       "action": "replace",
       "state": "passed",
-      "originalRingSha256": "168c80b0a84dc4939cd3d955e11784e7fee48d8346cbff8a1d7b9144d3a00ec1",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
+      "originalRingSha256": "1527cdd27ec8bb20ab2d4890729bb63c5af6eec4ed91644ad8846cfb97cbbb86",
+      "adoptedRings": 4,
+      "sourceTracedRings": 4,
       "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
+      "sourceVerticesChecked": 16,
       "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005653865757767652,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 80.86,
-      "afterAreaSquareMetres": 89.406,
-      "areaChangeSquareMetres": 8.546,
-      "areaWeightedCentroidShiftMetres": 3.045
-    },
-    {
-      "id": "lm2024-h17-tee-02",
-      "hole": 17,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "768daf7233b9c3dfe92a3c5379a9e2e41ab0ab957ea050f78e932b40b70a8941",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.599853366654507e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005689784169956311,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 142.145,
-      "afterAreaSquareMetres": 148.451,
-      "areaChangeSquareMetres": 6.306,
-      "areaWeightedCentroidShiftMetres": 2.997
-    },
-    {
-      "id": "lm2024-h17-tee-03",
-      "hole": 17,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "b778c458cccc551fba92d09ecb07ed8f2b651499d49f17d9be9369a348273524",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.385703304198744e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.005809919271916992,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 71.96,
-      "afterAreaSquareMetres": 77.611,
-      "areaChangeSquareMetres": 5.651,
-      "areaWeightedCentroidShiftMetres": 4.0
-    },
-    {
-      "id": "lm2024-h17-tee-04",
-      "hole": 17,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "e713619939b0119bedc5e5e1dc46ecc8fb93d1cfa5e22d83d6fa3922c66e7ad6",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.0063309721831666475,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 84.755,
-      "afterAreaSquareMetres": 56.873,
-      "areaChangeSquareMetres": -27.882,
-      "areaWeightedCentroidShiftMetres": 2.476
+      "maximumProjectionRoundtripErrorMetres": 2.796391991308032e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.004464422107682039,
+      "interpretationUncertaintyMetres": 1.2,
+      "beforeAreaSquareMetres": 448.385,
+      "afterAreaSquareMetres": 468.01,
+      "areaChangeSquareMetres": 19.625,
+      "areaWeightedCentroidShiftMetres": 58.26
     },
     {
       "id": "lm2024-h18-bunker-03",
@@ -2770,46 +2718,6 @@
       "afterAreaSquareMetres": 510.735,
       "areaChangeSquareMetres": -15.79,
       "areaWeightedCentroidShiftMetres": 3.182
-    },
-    {
-      "id": "lm2024-h18-tee-01",
-      "hole": 18,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "e793e04a5bb8e29970b5048e73ebb76e9b68132cfd1446b96b5f678b320abe2e",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.004464422107682039,
-      "interpretationUncertaintyMetres": 1,
-      "beforeAreaSquareMetres": 58.46,
-      "afterAreaSquareMetres": 209.673,
-      "areaChangeSquareMetres": 151.213,
-      "areaWeightedCentroidShiftMetres": 5.516
-    },
-    {
-      "id": "lm2024-h18-tee-02",
-      "hole": 18,
-      "kind": "tee",
-      "action": "replace",
-      "state": "passed",
-      "originalRingSha256": "0bfc3bad959cbba0010aa3fc7fa7aab3ca0b5af127c996786f40e919dc5bafd5",
-      "adoptedRings": 1,
-      "sourceTracedRings": 1,
-      "retainedHistoricalRings": 0,
-      "sourceVerticesChecked": 4,
-      "maximumPixelAffineErrorMetres": 0.0,
-      "maximumProjectionRoundtripErrorMetres": 9.313225746154785e-10,
-      "maximumStoredVertexQuantizationErrorMetres": 0.004274758849286904,
-      "interpretationUncertaintyMetres": 0.7,
-      "beforeAreaSquareMetres": 141.72,
-      "afterAreaSquareMetres": 163.502,
-      "areaChangeSquareMetres": 21.782,
-      "areaWeightedCentroidShiftMetres": 3.276
     }
   ],
   "holes": [
@@ -3589,17 +3497,16 @@
         ]
       },
       "teePlatforms": {
-        "total": 4,
+        "total": 3,
         "sourceTracedIndices": [
           0,
-          1,
-          2
+          1
         ],
         "retainedHistoricalIndices": [
-          3
+          2
         ],
         "unresolvedIndices": [
-          3
+          2
         ],
         "inferredPadGenerationDisabled": true
       },
@@ -3617,16 +3524,16 @@
             -386.5
           ],
           "after": [
-            -275.5330927661278,
-            -404.91968550281484
+            -286.99781911111535,
+            -409.65289326599674
           ],
-          "shiftMetres": 18.427,
+          "shiftMetres": 26.077,
           "decision": "provisional-physical-platform-reference",
-          "selectedPadIndex": 0,
+          "selectedPadIndex": 2,
           "sourceReviewId": "lm-2024-h06-tee-inventory",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            0
+            2
           ]
         },
         {
@@ -3637,16 +3544,16 @@
             -413.1
           ],
           "after": [
-            -277.96909586595257,
-            -411.1810750201754
+            -287.5978919497161,
+            -412.7499484158172
           ],
-          "shiftMetres": 6.139,
+          "shiftMetres": 3.814,
           "decision": "provisional-physical-platform-reference",
-          "selectedPadIndex": 0,
+          "selectedPadIndex": 2,
           "sourceReviewId": "lm-2024-h06-tee-inventory",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            0
+            2
           ]
         },
         {
@@ -3662,11 +3569,11 @@
           ],
           "shiftMetres": 12.136,
           "decision": "provisional-physical-platform-reference",
-          "selectedPadIndex": 1,
+          "selectedPadIndex": 0,
           "sourceReviewId": "lm-2024-h06-tee-inventory",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            1
+            0
           ]
         },
         {
@@ -3682,11 +3589,11 @@
           ],
           "shiftMetres": 13.834,
           "decision": "provisional-physical-platform-reference",
-          "selectedPadIndex": 1,
+          "selectedPadIndex": 0,
           "sourceReviewId": "lm-2024-h06-tee-inventory",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            1
+            0
           ]
         },
         {
@@ -3702,11 +3609,11 @@
           ],
           "shiftMetres": 29.369,
           "decision": "provisional-physical-platform-reference",
-          "selectedPadIndex": 2,
+          "selectedPadIndex": 1,
           "sourceReviewId": "lm-2024-h06-tee-inventory",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            2
+            1
           ]
         },
         {
@@ -3744,17 +3651,17 @@
         "unresolvedIndices": []
       },
       "teePlatforms": {
-        "total": 5,
-        "sourceTracedIndices": [],
-        "retainedHistoricalIndices": [],
-        "unresolvedIndices": [
-          0,
-          1,
-          2,
-          3,
-          4
+        "total": 2,
+        "sourceTracedIndices": [
+          1
         ],
-        "inferredPadGenerationDisabled": false
+        "retainedHistoricalIndices": [
+          0
+        ],
+        "unresolvedIndices": [
+          0
+        ],
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 0,
@@ -3774,13 +3681,12 @@
             -753.1
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h07-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            0,
-            1
+            0
           ]
         },
         {
@@ -3795,14 +3701,12 @@
             -760
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h07-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            0,
-            1,
-            2
+            0
           ]
         },
         {
@@ -3817,14 +3721,12 @@
             -766.8
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h07-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            0,
-            1,
-            2
+            0
           ]
         },
         {
@@ -3839,13 +3741,12 @@
             -777.1
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h07-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            1,
-            2
+            0
           ]
         },
         {
@@ -3856,17 +3757,16 @@
             -811.4
           ],
           "after": [
-            -493.8,
-            -811.4
+            -487.994010202182,
+            -806.2554773213242
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 7.757,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h07-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            3,
-            4
+            1
           ]
         },
         {
@@ -3877,17 +3777,16 @@
             -811.4
           ],
           "after": [
-            -493.8,
-            -811.4
+            -487.994010202182,
+            -806.2554773213242
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 7.757,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h07-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            3,
-            4
+            1
           ]
         }
       ]
@@ -3916,7 +3815,7 @@
         ],
         "retainedHistoricalIndices": [],
         "unresolvedIndices": [],
-        "inferredPadGenerationDisabled": false
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 1,
@@ -3932,15 +3831,17 @@
             -1089.9
           ],
           "after": [
-            -474.8,
-            -1089.9
+            -481.26468157733086,
+            -1084.529972962374
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 8.404,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h08-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 1,
@@ -3950,15 +3851,17 @@
             -1085.9
           ],
           "after": [
-            -471.8,
-            -1085.9
+            -478.98874693785103,
+            -1081.0439190886752
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 8.675,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h08-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 2,
@@ -3968,15 +3871,17 @@
             -1055.7
           ],
           "after": [
-            -448.7,
-            -1055.7
+            -451.1585123005775,
+            -1053.3222017352502
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 3.42,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h08-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 3,
@@ -3986,15 +3891,17 @@
             -1047.8
           ],
           "after": [
-            -442.6,
-            -1047.8
+            -446.3382121324501,
+            -1046.0372260688796
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 4.133,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h08-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 4,
@@ -4004,15 +3911,17 @@
             -1001.7
           ],
           "after": [
-            -407.4,
-            -1001.7
+            -402.69121512431394,
+            -1004.3259854411253
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 5.392,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h08-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 5,
@@ -4022,15 +3931,17 @@
             -1001.7
           ],
           "after": [
-            -407.4,
-            -1001.7
+            -402.69121512431394,
+            -1004.3259854411253
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 5.392,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h08-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         }
       ]
     },
@@ -4051,17 +3962,18 @@
         ]
       },
       "teePlatforms": {
-        "total": 4,
+        "total": 3,
         "sourceTracedIndices": [
           0,
           1
         ],
-        "retainedHistoricalIndices": [],
-        "unresolvedIndices": [
-          2,
-          3
+        "retainedHistoricalIndices": [
+          2
         ],
-        "inferredPadGenerationDisabled": false
+        "unresolvedIndices": [
+          2
+        ],
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 1,
@@ -4077,15 +3989,17 @@
             -800.3
           ],
           "after": [
-            -157.7,
-            -800.3
+            -163.08631410961246,
+            -792.8375504820782
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 9.203,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h09-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 1,
@@ -4095,15 +4009,17 @@
             -786.7
           ],
           "after": [
-            -144.4,
-            -786.7
+            -147.61260349129319,
+            -784.1338723245635
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 4.112,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h09-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 2,
@@ -4113,15 +4029,17 @@
             -745.1
           ],
           "after": [
-            -104,
-            -745.1
+            -104.30748217429682,
+            -744.320303650085
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 0.838,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h09-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 3,
@@ -4131,15 +4049,17 @@
             -738.6
           ],
           "after": [
-            -97.7,
-            -738.6
+            -99.43954261568079,
+            -738.0033111104593
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 1.839,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h09-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 4,
@@ -4153,9 +4073,9 @@
             -700.6
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h09-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
             0
@@ -4177,9 +4097,7 @@
           "selectedPadIndex": null,
           "sourceReviewId": null,
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": [
-            3
-          ]
+          "containedByCurrentPadIndices": []
         }
       ]
     },
@@ -4199,7 +4117,7 @@
         ]
       },
       "teePlatforms": {
-        "total": 5,
+        "total": 4,
         "sourceTracedIndices": [
           0,
           1,
@@ -4207,10 +4125,8 @@
           3
         ],
         "retainedHistoricalIndices": [],
-        "unresolvedIndices": [
-          4
-        ],
-        "inferredPadGenerationDisabled": false
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 2,
@@ -4226,15 +4142,17 @@
             -556
           ],
           "after": [
-            160.8,
-            -556
+            154.6130784825285,
+            -552.248811100327
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 7.235,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h10-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 1,
@@ -4244,15 +4162,17 @@
             -571.8
           ],
           "after": [
-            148.6,
-            -571.8
+            146.28080422491058,
+            -569.7521461041366
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 3.094,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 3,
+          "sourceReviewId": "lm-2024-h10-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            3
+          ]
         },
         {
           "index": 2,
@@ -4262,15 +4182,17 @@
             -590
           ],
           "after": [
-            134.5,
-            -590
+            128.28040572924107,
+            -586.8577322808405
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 6.968,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h10-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 3,
@@ -4280,15 +4202,17 @@
             -597.1
           ],
           "after": [
-            129,
-            -597.1
+            124.47965341890111,
+            -593.5864493484746
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 5.725,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h10-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 4,
@@ -4298,15 +4222,17 @@
             -645.3
           ],
           "after": [
-            91.6,
-            -645.3
+            89.30674337291036,
+            -643.6367110188064
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 2.833,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h10-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 5,
@@ -4344,17 +4270,19 @@
         ]
       },
       "teePlatforms": {
-        "total": 4,
+        "total": 3,
         "sourceTracedIndices": [
           1
         ],
-        "retainedHistoricalIndices": [],
+        "retainedHistoricalIndices": [
+          0,
+          2
+        ],
         "unresolvedIndices": [
           0,
-          2,
-          3
+          2
         ],
-        "inferredPadGenerationDisabled": false
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 1,
@@ -4374,9 +4302,9 @@
             -982.7
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h11-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
             2
@@ -4390,15 +4318,17 @@
             -986
           ],
           "after": [
-            -260.1,
-            -986
+            -260.3710295876697,
+            -985.1741175196582
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 0.869,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h11-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 2,
@@ -4408,15 +4338,17 @@
             -990
           ],
           "after": [
-            -264.6,
-            -990
+            -264.8373497667115,
+            -988.2488946511013
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 1.767,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h11-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 3,
@@ -4426,15 +4358,17 @@
             -1013.9
           ],
           "after": [
-            -291.4,
-            -1013.9
+            -285.47204696946204,
+            -1019.6104007358078
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 8.231,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h11-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 4,
@@ -4444,15 +4378,17 @@
             -1048.6
           ],
           "after": [
-            -330.3,
-            -1048.6
+            -317.0348908146299,
+            -1064.4004161036075
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 20.63,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h11-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 5,
@@ -4470,9 +4406,7 @@
           "selectedPadIndex": null,
           "sourceReviewId": null,
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": [
-            3
-          ]
+          "containedByCurrentPadIndices": []
         }
       ]
     },
@@ -4500,7 +4434,7 @@
         ],
         "retainedHistoricalIndices": [],
         "unresolvedIndices": [],
-        "inferredPadGenerationDisabled": false
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 1,
@@ -4520,9 +4454,9 @@
             -1046.3
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h12-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
             0
@@ -4540,9 +4474,9 @@
             -1051
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h12-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
             0
@@ -4556,15 +4490,17 @@
             -1058.6
           ],
           "after": [
-            -523.3,
-            -1058.6
+            -517.4491823682849,
+            -1074.9494775232668
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 17.365,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h12-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 3,
@@ -4574,15 +4510,17 @@
             -1065.1
           ],
           "after": [
-            -532.2,
-            -1065.1
+            -526.3600027563133,
+            -1077.6379666622734
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 13.831,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h12-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 4,
@@ -4592,15 +4530,17 @@
             -1077.4
           ],
           "after": [
-            -549.2,
-            -1077.4
+            -544.3982866678781,
+            -1086.6512289616337
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 10.423,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h12-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 5,
@@ -4610,15 +4550,17 @@
             -1077.4
           ],
           "after": [
-            -549.2,
-            -1077.4
+            -544.3982866678781,
+            -1086.6512289616337
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 10.423,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h12-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         }
       ]
     },
@@ -4640,17 +4582,15 @@
         ]
       },
       "teePlatforms": {
-        "total": 4,
+        "total": 3,
         "sourceTracedIndices": [
           0,
           1,
           2
         ],
         "retainedHistoricalIndices": [],
-        "unresolvedIndices": [
-          3
-        ],
-        "inferredPadGenerationDisabled": false
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 1,
@@ -4666,15 +4606,17 @@
             -1179.7
           ],
           "after": [
-            -740.3,
-            -1179.7
+            -741.7352438717475,
+            -1177.0261304349735
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 3.035,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h13-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 1,
@@ -4684,15 +4626,17 @@
             -1173.2
           ],
           "after": [
-            -732.7,
-            -1173.2
+            -734.4451302676655,
+            -1171.856761468005
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 2.202,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h13-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 2,
@@ -4706,12 +4650,12 @@
             -1147.8
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h13-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            2
+            1
           ]
         },
         {
@@ -4726,12 +4670,12 @@
             -1141.3
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h13-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            2
+            1
           ]
         },
         {
@@ -4746,12 +4690,12 @@
             -1114.6
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h13-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            0
+            2
           ]
         },
         {
@@ -4770,9 +4714,7 @@
           "selectedPadIndex": null,
           "sourceReviewId": null,
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": [
-            3
-          ]
+          "containedByCurrentPadIndices": []
         }
       ]
     },
@@ -4790,15 +4732,17 @@
         "unresolvedIndices": []
       },
       "teePlatforms": {
-        "total": 3,
+        "total": 2,
         "sourceTracedIndices": [],
-        "retainedHistoricalIndices": [],
+        "retainedHistoricalIndices": [
+          0,
+          1
+        ],
         "unresolvedIndices": [
           0,
-          1,
-          2
+          1
         ],
-        "inferredPadGenerationDisabled": false
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 0,
@@ -4920,9 +4864,7 @@
           "selectedPadIndex": null,
           "sourceReviewId": null,
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": [
-            2
-          ]
+          "containedByCurrentPadIndices": []
         }
       ]
     },
@@ -4943,13 +4885,12 @@
       "teePlatforms": {
         "total": 2,
         "sourceTracedIndices": [
-          0
-        ],
-        "retainedHistoricalIndices": [],
-        "unresolvedIndices": [
+          0,
           1
         ],
-        "inferredPadGenerationDisabled": false
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 1,
@@ -4973,9 +4914,7 @@
           "selectedPadIndex": null,
           "sourceReviewId": null,
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": [
-            1
-          ]
+          "containedByCurrentPadIndices": []
         },
         {
           "index": 1,
@@ -4985,15 +4924,17 @@
             -693.4
           ],
           "after": [
-            -567.1,
-            -693.4
+            -571.1061129449665,
+            -690.1911360218562
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 5.133,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h15-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 2,
@@ -5003,15 +4944,17 @@
             -687.8
           ],
           "after": [
-            -560.1,
-            -687.8
+            -565.3963266680845,
+            -684.2708792671342
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 6.364,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h15-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 3,
@@ -5021,15 +4964,17 @@
             -680.8
           ],
           "after": [
-            -551.6,
-            -680.8
+            -549.816474237079,
+            -681.8797508539758
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 2.085,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h15-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 4,
@@ -5039,15 +4984,17 @@
             -675.8
           ],
           "after": [
-            -545.4,
-            -675.8
+            -545.3101736787073,
+            -676.729536060361
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 0.934,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h15-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 5,
@@ -5057,15 +5004,17 @@
             -675.8
           ],
           "after": [
-            -545.4,
-            -675.8
+            -545.3101736787073,
+            -676.729536060361
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 0.934,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h15-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         }
       ]
     },
@@ -5092,13 +5041,12 @@
           0,
           1,
           2,
-          3
-        ],
-        "retainedHistoricalIndices": [],
-        "unresolvedIndices": [
+          3,
           4
         ],
-        "inferredPadGenerationDisabled": false
+        "retainedHistoricalIndices": [],
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 1,
@@ -5114,16 +5062,16 @@
             -429.1
           ],
           "after": [
-            -275.4,
-            -429.1
+            -275.2811514220747,
+            -410.9540366829518
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 18.146,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h16-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            4
+            0
           ]
         },
         {
@@ -5134,15 +5082,17 @@
             -432.6
           ],
           "after": [
-            -239.6,
-            -432.6
+            -239.8913550861199,
+            -430.7622418556074
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 1.861,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h16-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 2,
@@ -5152,15 +5102,17 @@
             -432.6
           ],
           "after": [
-            -239.6,
-            -432.6
+            -239.8913550861199,
+            -430.7622418556074
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 1.861,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h16-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 3,
@@ -5174,12 +5126,12 @@
             -434.5
           ],
           "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h16-tee-associations",
           "dailyMarkerPositionVerified": false,
           "containedByCurrentPadIndices": [
-            0
+            2
           ]
         },
         {
@@ -5190,15 +5142,17 @@
             -438.2
           ],
           "after": [
-            -182.9,
-            -438.2
+            -183.51191920481725,
+            -440.9634968786193
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 2.83,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 4,
+          "sourceReviewId": "lm-2024-h16-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            4
+          ]
         },
         {
           "index": 5,
@@ -5208,15 +5162,17 @@
             -438.2
           ],
           "after": [
-            -182.9,
-            -438.2
+            -183.51191920481725,
+            -440.9634968786193
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 2.83,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 4,
+          "sourceReviewId": "lm-2024-h16-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            4
+          ]
         }
       ]
     },
@@ -5234,7 +5190,7 @@
         "unresolvedIndices": []
       },
       "teePlatforms": {
-        "total": 5,
+        "total": 4,
         "sourceTracedIndices": [
           0,
           1,
@@ -5242,10 +5198,8 @@
           3
         ],
         "retainedHistoricalIndices": [],
-        "unresolvedIndices": [
-          4
-        ],
-        "inferredPadGenerationDisabled": false
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 2,
@@ -5261,15 +5215,17 @@
             -521.9
           ],
           "after": [
-            -96,
-            -521.9
+            -88.39010644339538,
+            -520.3926354170044
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 7.758,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h17-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 1,
@@ -5279,15 +5235,17 @@
             -531.5
           ],
           "after": [
-            -108.8,
-            -531.5
+            -93.11155460970738,
+            -540.7982648707628
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 18.237,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h17-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 2,
@@ -5297,15 +5255,17 @@
             -538.1
           ],
           "after": [
-            -117.6,
-            -538.1
+            -118.66335128311576,
+            -535.5948951747861
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 2.721,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h17-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 3,
@@ -5315,15 +5275,17 @@
             -543.5
           ],
           "after": [
-            -124.8,
-            -543.5
+            -120.91182980415229,
+            -537.4107964628026
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 7.225,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h17-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 4,
@@ -5333,15 +5295,17 @@
             -575.4
           ],
           "after": [
-            -167.1,
-            -575.4
+            -162.21825111529648,
+            -571.442976381653
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 6.284,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 3,
+          "sourceReviewId": "lm-2024-h17-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            3
+          ]
         },
         {
           "index": 5,
@@ -5359,9 +5323,7 @@
           "selectedPadIndex": null,
           "sourceReviewId": null,
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": [
-            4
-          ]
+          "containedByCurrentPadIndices": []
         }
       ]
     },
@@ -5384,18 +5346,16 @@
         ]
       },
       "teePlatforms": {
-        "total": 5,
+        "total": 4,
         "sourceTracedIndices": [
           0,
-          1
+          1,
+          2,
+          3
         ],
         "retainedHistoricalIndices": [],
-        "unresolvedIndices": [
-          2,
-          3,
-          4
-        ],
-        "inferredPadGenerationDisabled": false
+        "unresolvedIndices": [],
+        "inferredPadGenerationDisabled": true
       },
       "fairways": {
         "totalComponents": 2,
@@ -5411,15 +5371,17 @@
             -819.7
           ],
           "after": [
-            -327.8,
-            -819.7
+            -338.39779769070884,
+            -805.448668431479
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 17.76,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 0,
+          "sourceReviewId": "lm-2024-h18-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            0
+          ]
         },
         {
           "index": 1,
@@ -5429,15 +5391,17 @@
             -803.7
           ],
           "after": [
-            -308.6,
-            -803.7
+            -311.73034530645026,
+            -798.9330807178848
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 5.703,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h18-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 2,
@@ -5447,15 +5411,17 @@
             -797.9
           ],
           "after": [
-            -301.7,
-            -797.9
+            -305.55955121175697,
+            -793.8725517656852
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 5.578,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 1,
+          "sourceReviewId": "lm-2024-h18-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            1
+          ]
         },
         {
           "index": 3,
@@ -5465,15 +5431,17 @@
             -776.7
           ],
           "after": [
-            -276.4,
-            -776.7
+            -283.3646468329936,
+            -768.5715126356604
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 10.704,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 2,
+          "sourceReviewId": "lm-2024-h18-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            2
+          ]
         },
         {
           "index": 4,
@@ -5483,15 +5451,17 @@
             -733.7
           ],
           "after": [
-            -225,
-            -733.7
+            -235.1287075634089,
+            -721.1606490223263
           ],
-          "shiftMetres": 0.0,
-          "decision": "unresolved-retained-reference",
-          "selectedPadIndex": null,
-          "sourceReviewId": null,
+          "shiftMetres": 16.119,
+          "decision": "provisional-physical-platform-reference",
+          "selectedPadIndex": 3,
+          "sourceReviewId": "lm-2024-h18-tee-associations",
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": []
+          "containedByCurrentPadIndices": [
+            3
+          ]
         },
         {
           "index": 5,
@@ -5509,9 +5479,7 @@
           "selectedPadIndex": null,
           "sourceReviewId": null,
           "dailyMarkerPositionVerified": false,
-          "containedByCurrentPadIndices": [
-            4
-          ]
+          "containedByCurrentPadIndices": []
         }
       ]
     }

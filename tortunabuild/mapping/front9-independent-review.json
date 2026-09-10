@@ -1,0 +1,25 @@
+{
+  "observedOn": "2026-09-09",
+  "reviewer": "source-research agent; independent from front-nine authoring",
+  "sourcePath": "tortunabuild/mapping/surfaces-front9.geojson",
+  "sourceSha256": "6a0560e6d8456545c33e4d8d77a0f33397ed28bfe293ad20149ff2df905d253f",
+  "featureCount": 24,
+  "counts": {
+    "green": 9,
+    "bunker": 9,
+    "tee": 6
+  },
+  "allPolygonsValid": true,
+  "visualScope": "All9 individual green overlays and source tee crops at512x512; hole9 overall view; no source geometry edited",
+  "findings": [
+    "No gross hole association, axis reversal, duplication or shifted coordinate error found in inspected front-nine polygons.",
+    "Green3/4/5/8 have partly obscured boundaries; conservative closures remain interpretation pending human review.",
+    "Hole4/6 source tee reference areas are partly obscured and have no fabricated pad outline.",
+    "Hole9 historical tee crop is not current short-hole tee evidence; the separate current hole9 tee artifact must remain authoritative for model association."
+  ],
+  "limits": [
+    "An agent visual comparison is not human acceptance or a spatial survey.",
+    "The six front-nine tee polygons are not a complete tee census.",
+    "This review covers this exact source hash; later edits require renewed review."
+  ]
+}

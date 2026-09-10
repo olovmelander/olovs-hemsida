@@ -15,6 +15,10 @@
   "inferPads": false,
   "reviewedTees": "upsalabuild/mapping/mellan-tees-2025.json",
   "reviewedTeesFollowup": "upsalabuild/mapping/mellan-tees-review-2026-09-07.json",
-  "reviewedTeeReferences": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
-  "reviewedFairways": "upsalabuild/mapping/mellan-fairways-2025.json"
+  "reviewedTeeReferences": [
+    "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+    "upsalabuild/mapping/lm-tee-followup-mellan-2026-09-09.json"
+  ],
+  "reviewedFairways": "upsalabuild/mapping/mellan-fairways-2025.json",
+  "reviewedTeeSites": "upsalabuild/mapping/lm-tee-site-review-mellan-2026-09-09.json"
 }

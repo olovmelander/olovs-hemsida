@@ -1,0 +1,1971 @@
+{
+  "schemaVersion": 1,
+  "id": "veckefjarden-facilities-v1",
+  "coordinateFrame": "legacy-local-rh2000",
+  "courseSlugs": [
+    "veckefjarden",
+    "veckefjarden-korthalsbanan"
+  ],
+  "groundId": "veckefjarden",
+  "asset": {
+    "url": "models/veckefjarden/facilities-v1.glb",
+    "sha256": "b912895fd3b9f99d2f98797a4b50f21c5550ff4caf4a5fcfd3aff5e3d194b54f",
+    "bytes": 2766160
+  },
+  "legacyFrame": {
+    "latitude": 63.2845,
+    "longitude": 18.6735,
+    "metresPerLongitude": 50045.09,
+    "metresPerLatitude": 111320.0
+  },
+  "boundsLocalRh2000": {
+    "min": [
+      4.812047958374023,
+      16.16140365600586,
+      -527.2985229492188
+    ],
+    "max": [
+      313.199462890625,
+      44.564937591552734,
+      -168.2717742919922
+    ]
+  },
+  "sourcePlanFrame": {
+    "horizontalCrs": "EPSG:3006",
+    "originEasting": 684390.0,
+    "originNorthing": 7023040.0,
+    "originHeightRH2000": 30.673
+  },
+  "triangles": 44422,
+  "materialMeshes": 89,
+  "materials": 19,
+  "facilities": [
+    {
+      "id": "R01",
+      "nodeName": "VECK_FACILITY_R01",
+      "label": "Main clubhouse roof",
+      "kind": "building",
+      "sourceBuildingIndices": [
+        3
+      ],
+      "sourceBuildingRingsLocal": [
+        {
+          "index": 3,
+          "ring": [
+            [
+              210.3,
+              -483.5
+            ],
+            [
+              210.3,
+              -472.4
+            ],
+            [
+              229.9,
+              -472.4
+            ],
+            [
+              229.7,
+              -440.7
+            ],
+            [
+              240.9,
+              -440.7
+            ],
+            [
+              240.9,
+              -453.4
+            ],
+            [
+              244.9,
+              -453.4
+            ],
+            [
+              244.9,
+              -462.7
+            ],
+            [
+              240.5,
+              -462.7
+            ],
+            [
+              240.6,
+              -476.1
+            ],
+            [
+              236.4,
+              -476.1
+            ],
+            [
+              236.4,
+              -483.4
+            ]
+          ]
+        }
+      ],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          210.2279062733421,
+          -482.4201996690701
+        ],
+        [
+          236.75931239316103,
+          -482.33534593302267
+        ],
+        [
+          236.89340682285754,
+          -473.5248465347692
+        ],
+        [
+          241.23194911324316,
+          -473.91560180606774
+        ],
+        [
+          241.29028689363815,
+          -438.70108633928965
+        ],
+        [
+          230.41928253395366,
+          -438.68591390789135
+        ],
+        [
+          230.22804499195752,
+          -454.8620305667731
+        ],
+        [
+          223.20836064034305,
+          -455.10555633082873
+        ],
+        [
+          223.63611368735835,
+          -470.9259830874629
+        ],
+        [
+          210.37503153346,
+          -471.04814477295406
+        ]
+      ],
+      "groundAnchorLocal": [
+        228.42698419793544,
+        -464.15248929544987
+      ],
+      "groundAnchorRh2000M": 30.029650368,
+      "boundsLocalRh2000": {
+        "min": [
+          210.1355743408203,
+          29.114696502685547,
+          -482.45989990234375
+        ],
+        "max": [
+          246.7141876220703,
+          43.37653350830078,
+          -435.7699890136719
+        ]
+      },
+      "triangles": 13825,
+      "materialMeshes": 8,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 734,
+      "identificationStatus": "existing-name-and-campus-position",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Visible main roof perimeter, including intersecting north and east wings. Dark grey roof. Eaves and roof displacement are not wall-footprint measurements; heights and pitch unresolved. IMPORTANT: the east entrance porch projects into roof shadow and is omitted from this main-roof ring because its outer edge cannot be confidently isolated. Add that porch as a separate photo-corroborated component; the yellow existing-model east bump is context only. R02 is the separate west terrace-side porch, not the eastern entrance."
+    },
+    {
+      "id": "R02",
+      "nodeName": "VECK_FACILITY_R02",
+      "label": "Clubhouse west attached porch roof",
+      "kind": "building-part",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          215.4248114795793,
+          -458.75404446265975
+        ],
+        [
+          223.36389215223073,
+          -457.8174764688697
+        ],
+        [
+          223.3219464599585,
+          -454.2987726883885
+        ],
+        [
+          215.47816521717687,
+          -454.10950758055975
+        ]
+      ],
+      "groundAnchorLocal": [
+        219.3972040862405,
+        -456.24495272960274
+      ],
+      "groundAnchorRh2000M": 28.924239999999998,
+      "boundsLocalRh2000": {
+        "min": [
+          215.29710388183594,
+          28.847030639648438,
+          -458.82720947265625
+        ],
+        "max": [
+          223.42994689941406,
+          32.807029724121094,
+          -454.04949951171875
+        ]
+      },
+      "triangles": 544,
+      "materialMeshes": 7,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 46,
+      "identificationStatus": "visible-attached-roof",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Small attached west-facing roof by terrace; exact function and wall base unknown."
+    },
+    {
+      "id": "R03",
+      "nodeName": "VECK_FACILITY_R03",
+      "label": "Eastern campus accommodation block candidate",
+      "kind": "building",
+      "sourceBuildingIndices": [
+        6,
+        0
+      ],
+      "sourceBuildingRingsLocal": [
+        {
+          "index": 6,
+          "ring": [
+            [
+              254.6,
+              -421.7
+            ],
+            [
+              254.8,
+              -442
+            ],
+            [
+              267.4,
+              -441.9
+            ],
+            [
+              267.3,
+              -421.6
+            ]
+          ]
+        },
+        {
+          "index": 0,
+          "ring": [
+            [
+              254.7,
+              -425.3
+            ],
+            [
+              251.9,
+              -425.4
+            ],
+            [
+              251.9,
+              -423.2
+            ],
+            [
+              254.6,
+              -423.2
+            ]
+          ]
+        }
+      ],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          254.3972806736584,
+          -441.46856474262563
+        ],
+        [
+          267.67653849847665,
+          -441.6652717292169
+        ],
+        [
+          267.89341256168467,
+          -420.3660448814057
+        ],
+        [
+          254.63254351214513,
+          -420.4883867338677
+        ],
+        [
+          254.4053897291318,
+          -422.1019560191269
+        ],
+        [
+          251.8469815011929,
+          -422.0890158340177
+        ],
+        [
+          251.85235663251072,
+          -424.9696204335376
+        ],
+        [
+          253.9236305476219,
+          -424.850520712522
+        ]
+      ],
+      "groundAnchorLocal": [
+        257.0785120819375,
+        -427.24992886799015
+      ],
+      "groundAnchorRh2000M": 31.6963808,
+      "boundsLocalRh2000": {
+        "min": [
+          251.78713989257812,
+          30.99089241027832,
+          -441.7251892089844
+        ],
+        "max": [
+          268.32794189453125,
+          37.74322509765625,
+          -420.2322998046875
+        ]
+      },
+      "triangles": 1518,
+      "materialMeshes": 6,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 127,
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Northernmost of three smaller connected dark-roof blocks south of clubhouse. Photo/site evidence needed to assign hotel room wings definitively."
+    },
+    {
+      "id": "R04",
+      "nodeName": "VECK_FACILITY_R04",
+      "label": "Middle campus accommodation block candidate",
+      "kind": "building",
+      "sourceBuildingIndices": [
+        1,
+        5
+      ],
+      "sourceBuildingRingsLocal": [
+        {
+          "index": 1,
+          "ring": [
+            [
+              238.7,
+              -407.9
+            ],
+            [
+              238.9,
+              -428.3
+            ],
+            [
+              251.9,
+              -428.2
+            ],
+            [
+              251.7,
+              -407.8
+            ]
+          ]
+        },
+        {
+          "index": 5,
+          "ring": [
+            [
+              238.7,
+              -409.1
+            ],
+            [
+              238.7,
+              -411.6
+            ],
+            [
+              236,
+              -411.7
+            ],
+            [
+              235.9,
+              -409.1
+            ]
+          ]
+        }
+      ],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          239.2066973385944,
+          -427.4572836594379
+        ],
+        [
+          251.8302811296007,
+          -427.3716511717538
+        ],
+        [
+          251.9062331952383,
+          -406.4006342798848
+        ],
+        [
+          238.80474814271255,
+          -406.51374831876495
+        ],
+        [
+          238.61418528148172,
+          -408.7654152845036
+        ],
+        [
+          235.89645953831845,
+          -408.7616229959076
+        ],
+        [
+          235.88352141084448,
+          -411.3231785127536
+        ],
+        [
+          238.4419211812114,
+          -411.33613157258196
+        ]
+      ],
+      "groundAnchorLocal": [
+        241.323001349009,
+        -413.49121433058684
+      ],
+      "groundAnchorRh2000M": 30.885241599999997,
+      "boundsLocalRh2000": {
+        "min": [
+          235.82366943359375,
+          30.17032241821289,
+          -427.5172119140625
+        ],
+        "max": [
+          252.39854431152344,
+          36.95663833618164,
+          -402.5994873046875
+        ]
+      },
+      "triangles": 2220,
+      "materialMeshes": 8,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 173,
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Middle dark-roof block with small connection at southwest edge. Roof-edge ring includes connection visible from above."
+    },
+    {
+      "id": "R05",
+      "nodeName": "VECK_FACILITY_R05",
+      "label": "Southern campus accommodation block candidate",
+      "kind": "building",
+      "sourceBuildingIndices": [
+        4
+      ],
+      "sourceBuildingRingsLocal": [
+        {
+          "index": 4,
+          "ring": [
+            [
+              223.1,
+              -389.5
+            ],
+            [
+              223.2,
+              -414.5
+            ],
+            [
+              236,
+              -414.4
+            ],
+            [
+              235.8,
+              -389.4
+            ]
+          ]
+        }
+      ],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          223.05112785536994,
+          -413.34136399181716
+        ],
+        [
+          236.01161278450607,
+          -413.55652400167855
+        ],
+        [
+          236.15014257981628,
+          -388.10049329466693
+        ],
+        [
+          222.8894036416542,
+          -388.2227018217671
+        ],
+        [
+          223.0045362921454,
+          -393.0176036881201
+        ],
+        [
+          219.49018720104135,
+          -393.05959723487575
+        ],
+        [
+          219.57180739759926,
+          -408.4197713728909
+        ],
+        [
+          222.94514269156625,
+          -408.7059869657901
+        ]
+      ],
+      "groundAnchorLocal": [
+        225.3892448383069,
+        -400.8030116099238
+      ],
+      "groundAnchorRh2000M": 29.1241228,
+      "boundsLocalRh2000": {
+        "min": [
+          219.4303436279297,
+          27.829708099365234,
+          -413.616455078125
+        ],
+        "max": [
+          236.61485290527344,
+          35.282875061035156,
+          -388.02911376953125
+        ]
+      },
+      "triangles": 1782,
+      "materialMeshes": 6,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 149,
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Southern block west of pool; roof includes visible lower west annex. Pool-side function must be matched against exterior photos."
+    },
+    {
+      "id": "R06",
+      "nodeName": "VECK_FACILITY_R06",
+      "label": "Translucent rectangular roof east of middle block",
+      "kind": "building",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          263.4359799263084,
+          -417.9015051818891
+        ],
+        [
+          269.51791074001954,
+          -418.0319157664769
+        ],
+        [
+          269.56416500331,
+          -404.9050903532702
+        ],
+        [
+          263.1544528960539,
+          -404.6334789568593
+        ]
+      ],
+      "groundAnchorLocal": [
+        266.41812684579287,
+        -411.3679991151349
+      ],
+      "groundAnchorRh2000M": 30.786264,
+      "boundsLocalRh2000": {
+        "min": [
+          263.0946350097656,
+          31.67420768737793,
+          -418.19793701171875
+        ],
+        "max": [
+          269.84979248046875,
+          34.92920684814453,
+          -404.4605712890625
+        ]
+      },
+      "triangles": 988,
+      "materialMeshes": 3,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 84,
+      "identificationStatus": "visible-structure-function-unknown",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Light/translucent roof with cross ribs. Could be enclosure or conservatory; orthophoto alone does not identify function."
+    },
+    {
+      "id": "R07",
+      "nodeName": "VECK_FACILITY_R07",
+      "label": "Small polygonal garden roof",
+      "kind": "shelter",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          260.0943921240396,
+          -401.4483774557695
+        ],
+        [
+          261.9971722990248,
+          -401.1789099963218
+        ],
+        [
+          263.4897899770212,
+          -399.33251967683674
+        ],
+        [
+          262.24638876853237,
+          -397.163309455548
+        ],
+        [
+          260.29785829782276,
+          -396.63515406039835
+        ],
+        [
+          258.1404789539529,
+          -398.03961620819365
+        ],
+        [
+          257.77230171201904,
+          -399.98139668094495
+        ]
+      ],
+      "groundAnchorLocal": [
+        260.5769117322874,
+        -399.11132683158627
+      ],
+      "groundAnchorRh2000M": 31.627194285714285,
+      "boundsLocalRh2000": {
+        "min": [
+          257.7495422363281,
+          31.627193450927734,
+          -401.4712829589844
+        ],
+        "max": [
+          263.5066223144531,
+          35.787193298339844,
+          -396.6152648925781
+        ]
+      },
+      "triangles": 431,
+      "materialMeshes": 3,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 30,
+      "identificationStatus": "gazebo-form-visible-function-unconfirmed",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Small polygonal gazebo-like roof east of pool. Tree/shadow overlap limits exact corner count."
+    },
+    {
+      "id": "R08",
+      "nodeName": "VECK_FACILITY_R08",
+      "label": "Long roof immediately west of padel court",
+      "kind": "building",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          208.063602995878,
+          -374.9905703596744
+        ],
+        [
+          217.1398656182747,
+          -371.5878747777447
+        ],
+        [
+          210.0151578812903,
+          -353.27153865187455
+        ],
+        [
+          199.97383809337086,
+          -356.5696418281422
+        ]
+      ],
+      "groundAnchorLocal": [
+        208.79810764789386,
+        -364.10491240272677
+      ],
+      "groundAnchorRh2000M": 28.943883999999997,
+      "boundsLocalRh2000": {
+        "min": [
+          199.91905212402344,
+          28.80149269104004,
+          -375.4153137207031
+        ],
+        "max": [
+          217.7457733154297,
+          34.32366943359375,
+          -352.4031066894531
+        ]
+      },
+      "triangles": 570,
+      "materialMeshes": 4,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 51,
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Clearly visible substantial dark roof absent from current infrastructure model. Do not assign hotel, maintenance or padel use from proximity alone."
+    },
+    {
+      "id": "R09",
+      "nodeName": "VECK_FACILITY_R09",
+      "label": "Range-end covered building",
+      "kind": "range-building",
+      "sourceBuildingIndices": [
+        28
+      ],
+      "sourceBuildingRingsLocal": [
+        {
+          "index": 28,
+          "ring": [
+            [
+              167.7,
+              -241.4
+            ],
+            [
+              156.5,
+              -240.4
+            ],
+            [
+              157,
+              -231.5
+            ],
+            [
+              168.5,
+              -232.6
+            ]
+          ]
+        }
+      ],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          156.23369188418178,
+          -240.48627404565735
+        ],
+        [
+          167.14975537216944,
+          -241.29933277655027
+        ],
+        [
+          168.3809862369378,
+          -232.10568153394348
+        ],
+        [
+          156.98699526040548,
+          -231.32009641442778
+        ]
+      ],
+      "groundAnchorLocal": [
+        162.18785722673863,
+        -236.30285110065188
+      ],
+      "groundAnchorRh2000M": 36.115228,
+      "boundsLocalRh2000": {
+        "min": [
+          156.17404174804688,
+          36.09678268432617,
+          -241.35910034179688
+        ],
+        "max": [
+          168.4403076171875,
+          40.601783752441406,
+          -231.2603302001953
+        ]
+      },
+      "triangles": 388,
+      "materialMeshes": 6,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 34,
+      "identificationStatus": "range-position-and-roof-visible",
+      "sourcePanelId": "range-tee-native",
+      "sourceOrthophotoIds": [
+        "context-1-2",
+        "context-2-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Dark roof at northeast end of curved range mat line. Open bay count and support structure require frontal photos."
+    },
+    {
+      "id": "R10",
+      "nodeName": "VECK_FACILITY_R10",
+      "label": "Western complex long L-shaped roof",
+      "kind": "building",
+      "sourceBuildingIndices": [
+        26
+      ],
+      "sourceBuildingRingsLocal": [
+        {
+          "index": 26,
+          "ring": [
+            [
+              16.3,
+              -389.1
+            ],
+            [
+              5.1,
+              -389.3
+            ],
+            [
+              5.3,
+              -400.6
+            ],
+            [
+              16.5,
+              -400.4
+            ],
+            [
+              16.9,
+              -417.5
+            ],
+            [
+              28.4,
+              -417.3
+            ],
+            [
+              27.6,
+              -375.9
+            ],
+            [
+              16,
+              -376.9
+            ]
+          ]
+        }
+      ],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          16.536166823901606,
+          -416.4047637007374
+        ],
+        [
+          27.670929159955076,
+          -415.4452099290643
+        ],
+        [
+          25.855039535424673,
+          -375.37687644457463
+        ],
+        [
+          15.63982526029838,
+          -375.6434220222181
+        ],
+        [
+          16.20242773955155,
+          -388.2550839101404
+        ],
+        [
+          4.871876359266579,
+          -388.5856436640867
+        ],
+        [
+          5.004959314092931,
+          -393.69960908797765
+        ],
+        [
+          15.707354911454317,
+          -393.56517296620297
+        ]
+      ],
+      "groundAnchorLocal": [
+        15.936066298351045,
+        -393.3719822436254
+      ],
+      "groundAnchorRh2000M": 17.1312,
+      "boundsLocalRh2000": {
+        "min": [
+          4.812047958374023,
+          16.16140365600586,
+          -416.4644470214844
+        ],
+        "max": [
+          27.730731964111328,
+          22.945449829101562,
+          -375.31689453125
+        ]
+      },
+      "triangles": 1206,
+      "materialMeshes": 5,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 101,
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "sourceOrthophotoIds": [
+        "context-1-1",
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Three-building complex west of main campus. Appears service-related from yard access, but function and ownership unconfirmed. Large north/east roof shadow excluded."
+    },
+    {
+      "id": "R11",
+      "nodeName": "VECK_FACILITY_R11",
+      "label": "Western complex eastern rectangular roof",
+      "kind": "building",
+      "sourceBuildingIndices": [
+        25
+      ],
+      "sourceBuildingRingsLocal": [
+        {
+          "index": 25,
+          "ring": [
+            [
+              48.4,
+              -416.9
+            ],
+            [
+              59.6,
+              -416.7
+            ],
+            [
+              59.2,
+              -388.2
+            ],
+            [
+              48,
+              -388.3
+            ]
+          ]
+        }
+      ],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          49.139840623589315,
+          -416.2928258299806
+        ],
+        [
+          59.71040045423244,
+          -416.6459690238696
+        ],
+        [
+          58.48823976303734,
+          -386.9468053319463
+        ],
+        [
+          48.25471295683777,
+          -386.8944047621821
+        ]
+      ],
+      "groundAnchorLocal": [
+        53.898295429205675,
+        -401.6950056530146
+      ],
+      "groundAnchorRh2000M": 17.3586416,
+      "boundsLocalRh2000": {
+        "min": [
+          47.977500915527344,
+          17.00945281982422,
+          -417.07330322265625
+        ],
+        "max": [
+          59.77019500732422,
+          23.51497459411621,
+          -386.4804382324219
+        ]
+      },
+      "triangles": 930,
+      "materialMeshes": 5,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 81,
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "sourceOrthophotoIds": [
+        "context-1-1",
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "North-south rectangular grey roof in western yard; roof fixtures visible. Function and height unknown."
+    },
+    {
+      "id": "R12",
+      "nodeName": "VECK_FACILITY_R12",
+      "label": "Western complex southern rectangular roof",
+      "kind": "building",
+      "sourceBuildingIndices": [
+        24
+      ],
+      "sourceBuildingRingsLocal": [
+        {
+          "index": 24,
+          "ring": [
+            [
+              34.4,
+              -368.4
+            ],
+            [
+              34.5,
+              -377.4
+            ],
+            [
+              54,
+              -377.1
+            ],
+            [
+              53.8,
+              -368.1
+            ]
+          ]
+        }
+      ],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          34.07211352147442,
+          -376.50546008436606
+        ],
+        [
+          54.202166998822314,
+          -376.30957267722863
+        ],
+        [
+          54.318481775509966,
+          -367.18002211445196
+        ],
+        [
+          34.03829804576295,
+          -367.54458543419787
+        ]
+      ],
+      "groundAnchorLocal": [
+        44.15776574025907,
+        -371.88492601177614
+      ],
+      "groundAnchorRh2000M": 18.365000000000002,
+      "boundsLocalRh2000": {
+        "min": [
+          33.914730072021484,
+          17.75314712524414,
+          -376.6536865234375
+        ],
+        "max": [
+          54.47890853881836,
+          24.349712371826172,
+          -367.1201171875
+        ]
+      },
+      "triangles": 738,
+      "materialMeshes": 5,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 65,
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "sourceOrthophotoIds": [
+        "context-1-1",
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Short east-west rectangular roof south of western complex. Function and height unknown."
+    },
+    {
+      "id": "S01",
+      "nodeName": "VECK_FACILITY_S01",
+      "label": "Visible clubhouse west dining terrace",
+      "kind": "terrace",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          215.16865302841813,
+          -454.28735166556464
+        ],
+        [
+          224.30537525945957,
+          -454.7223862702941
+        ],
+        [
+          226.53288686820807,
+          -443.3907736679541
+        ],
+        [
+          227.1282565084637,
+          -439.83542900066624
+        ],
+        [
+          224.23287693684864,
+          -439.521738031722
+        ],
+        [
+          221.7949368813535,
+          -447.18428058399155
+        ],
+        [
+          214.2057940574963,
+          -445.8600190271022
+        ]
+      ],
+      "groundAnchorLocal": [
+        221.90982977819544,
+        -446.40028623383415
+      ],
+      "groundAnchorRh2000M": 28.96945691428571,
+      "boundsLocalRh2000": {
+        "min": [
+          214.20579528808594,
+          28.847034454345703,
+          -454.74639892578125
+        ],
+        "max": [
+          230.73780822753906,
+          33.16863250732422,
+          -438.9976806640625
+        ]
+      },
+      "triangles": 1930,
+      "materialMeshes": 5,
+      "groundContactMeshes": 1,
+      "sourceBlenderObjects": 129,
+      "identificationStatus": "outdoor-tables-visible",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.8,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Approximate visible paved dining/terrace area around tables and passage. Shadows, furniture and planting obscure the full perimeter; ground-level photo required."
+    },
+    {
+      "id": "S02",
+      "nodeName": "VECK_FACILITY_S02",
+      "label": "Outdoor pool water surface",
+      "kind": "pool",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          241.98435769349578,
+          -397.8482408937896
+        ],
+        [
+          247.41064064441449,
+          -397.6962884622782
+        ],
+        [
+          247.50054792950132,
+          -393.6898500081301
+        ],
+        [
+          241.74646762278041,
+          -393.70059973422144
+        ]
+      ],
+      "groundAnchorLocal": [
+        244.66050349183885,
+        -395.7337459952788
+      ],
+      "groundAnchorRh2000M": 30.76016,
+      "boundsLocalRh2000": {
+        "min": [
+          240.7472686767578,
+          30.832717895507812,
+          -398.79925537109375
+        ],
+        "max": [
+          248.5074920654297,
+          32.800148010253906,
+          -392.7392578125
+        ]
+      },
+      "triangles": 1260,
+      "materialMeshes": 5,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 100,
+      "identificationStatus": "pool-visible",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.4,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Pool water edge only, excluding white deck/surround and steps; permanent pool dimension is approximate."
+    },
+    {
+      "id": "S03",
+      "nodeName": "VECK_FACILITY_S03",
+      "label": "Blue outdoor padel playing enclosure",
+      "kind": "padel-court",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          227.97180935091626,
+          -379.2877625684477
+        ],
+        [
+          237.34841627099615,
+          -375.54763995924134
+        ],
+        [
+          229.57713397506674,
+          -357.108467249042
+        ],
+        [
+          220.20057120383638,
+          -360.84856653157004
+        ]
+      ],
+      "groundAnchorLocal": [
+        228.7744741591567,
+        -368.19811503134616
+      ],
+      "groundAnchorRh2000M": 30.011719999999997,
+      "boundsLocalRh2000": {
+        "min": [
+          220.1417694091797,
+          29.862646102905273,
+          -379.5346984863281
+        ],
+        "max": [
+          237.4072265625,
+          36.187644958496094,
+          -356.8615417480469
+        ]
+      },
+      "triangles": 2090,
+      "materialMeshes": 5,
+      "groundContactMeshes": 0,
+      "sourceBlenderObjects": 96,
+      "identificationStatus": "padel-markings-and-enclosure-visible",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Visible blue playing enclosure, excluding cast fence shadows and surrounding paths. Fence/glass height not determined."
+    },
+    {
+      "id": "S04",
+      "nodeName": "VECK_FACILITY_S04",
+      "label": "Northwest campus parking apron",
+      "kind": "parking",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [
+        3
+      ],
+      "sourceParkingRingsLocal": [
+        {
+          "index": 3,
+          "ring": [
+            [
+              223.6,
+              -532.4
+            ],
+            [
+              255.4,
+              -521.8
+            ],
+            [
+              252.9,
+              -494.3
+            ],
+            [
+              242.1,
+              -493.6
+            ],
+            [
+              221.4,
+              -506
+            ]
+          ]
+        }
+      ],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [
+        "/infra/parking/3/ring"
+      ],
+      "planRingLocal": [
+        [
+          223.03260416484696,
+          -527.2985217822636
+        ],
+        [
+          232.19162483793605,
+          -525.3315003082732
+        ],
+        [
+          241.60525087574047,
+          -522.2294583213543
+        ],
+        [
+          255.61207548991808,
+          -518.3831285974427
+        ],
+        [
+          254.56351933410423,
+          -497.31672103896386
+        ],
+        [
+          252.34956462408172,
+          -492.16234843035636
+        ],
+        [
+          248.62465107718654,
+          -488.53530956485173
+        ],
+        [
+          242.70728680864826,
+          -491.2763047364953
+        ],
+        [
+          231.00061975223485,
+          -498.99160820433536
+        ],
+        [
+          221.61069798260075,
+          -505.2932724914686
+        ]
+      ],
+      "groundAnchorLocal": [
+        240.32981137244118,
+        -506.68183991373525
+      ],
+      "groundAnchorRh2000M": 30.349924671999997,
+      "boundsLocalRh2000": {
+        "min": [
+          221.61070251464844,
+          29.48227310180664,
+          -527.2985229492188
+        ],
+        "max": [
+          255.61207580566406,
+          31.127023696899414,
+          -488.5353088378906
+        ]
+      },
+      "triangles": 2764,
+      "materialMeshes": 1,
+      "groundContactMeshes": 1,
+      "sourceBlenderObjects": 1,
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 1,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Gravel/asphalt parking apron inferred from visible material boundary; cars and vegetation obscure edges."
+    },
+    {
+      "id": "S05",
+      "nodeName": "VECK_FACILITY_S05",
+      "label": "Central north-south parking apron",
+      "kind": "parking",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [
+        0
+      ],
+      "sourceParkingRingsLocal": [
+        {
+          "index": 0,
+          "ring": [
+            [
+              271.3,
+              -462.4
+            ],
+            [
+              262.8,
+              -471.7
+            ],
+            [
+              263.7,
+              -518.4
+            ],
+            [
+              282.9,
+              -511.9
+            ],
+            [
+              282,
+              -459.2
+            ],
+            [
+              280.2,
+              -453.6
+            ],
+            [
+              276.4,
+              -455
+            ]
+          ]
+        }
+      ],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [
+        "/infra/parking/0/ring"
+      ],
+      "planRingLocal": [
+        [
+          263.7509920029063,
+          -515.3543156078337
+        ],
+        [
+          276.4389815759756,
+          -516.3852529811547
+        ],
+        [
+          282.3051981348479,
+          -509.96596896219614
+        ],
+        [
+          281.213252288398,
+          -465.8547403922785
+        ],
+        [
+          279.9627618953606,
+          -455.2032500139478
+        ],
+        [
+          276.0381707821951,
+          -453.6683871711398
+        ],
+        [
+          272.05116021128987,
+          -456.6185315688804
+        ],
+        [
+          271.88431453758886,
+          -462.069853375593
+        ],
+        [
+          262.8864507840256,
+          -469.62950749923266
+        ]
+      ],
+      "groundAnchorLocal": [
+        274.05903442310336,
+        -478.3055414399871
+      ],
+      "groundAnchorRh2000M": 33.17244760493827,
+      "boundsLocalRh2000": {
+        "min": [
+          262.8864440917969,
+          32.67789840698242,
+          -516.38525390625
+        ],
+        "max": [
+          282.3052062988281,
+          33.656742095947266,
+          -453.66839599609375
+        ]
+      },
+      "triangles": 3604,
+      "materialMeshes": 1,
+      "groundContactMeshes": 1,
+      "sourceBlenderObjects": 1,
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 1,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Parking strip east of clubhouse and west of planted divider. Material edge approximate under parked cars."
+    },
+    {
+      "id": "S06",
+      "nodeName": "VECK_FACILITY_S06",
+      "label": "Eastern parking apron",
+      "kind": "parking",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [
+        1
+      ],
+      "sourceParkingRingsLocal": [
+        {
+          "index": 1,
+          "ring": [
+            [
+              297.9,
+              -447.2
+            ],
+            [
+              294.4,
+              -449.1
+            ],
+            [
+              293.9,
+              -508.2
+            ],
+            [
+              312,
+              -501.4
+            ],
+            [
+              313.3,
+              -446.5
+            ],
+            [
+              307.4,
+              -444.1
+            ]
+          ]
+        }
+      ],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [
+        "/infra/parking/1/ring"
+      ],
+      "planRingLocal": [
+        [
+          293.57580548145796,
+          -505.796671670721
+        ],
+        [
+          308.81681300791803,
+          -503.95978355207944
+        ],
+        [
+          313.1994624424145,
+          -499.54638004105675
+        ],
+        [
+          311.700628920501,
+          -451.13717338482473
+        ],
+        [
+          306.9868354364724,
+          -444.20601217494067
+        ],
+        [
+          301.11910047557376,
+          -445.02365618521935
+        ],
+        [
+          295.2842341647638,
+          -449.20046675766713
+        ]
+      ],
+      "groundAnchorLocal": [
+        304.3832629541517,
+        -471.26717204725196
+      ],
+      "groundAnchorRh2000M": 36.671046857142855,
+      "boundsLocalRh2000": {
+        "min": [
+          293.5758056640625,
+          36.37772750854492,
+          -505.7966613769531
+        ],
+        "max": [
+          313.199462890625,
+          37.431270599365234,
+          -444.2060241699219
+        ]
+      },
+      "triangles": 4248,
+      "materialMeshes": 1,
+      "groundContactMeshes": 1,
+      "sourceBlenderObjects": 1,
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 1,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Eastern parking strip and southern turning connection. Far eastern bays partially limited by panel edge."
+    },
+    {
+      "id": "S07",
+      "nodeName": "VECK_FACILITY_S07",
+      "label": "Clubhouse entrance circular island",
+      "kind": "site-feature",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          253.83797803838857,
+          -459.5864610737908
+        ],
+        [
+          255.72249210658163,
+          -458.9979476457424
+        ],
+        [
+          257.383620781394,
+          -457.3019227495021
+        ],
+        [
+          257.71520186012293,
+          -454.72204396902725
+        ],
+        [
+          256.33075348736725,
+          -452.8810427885213
+        ],
+        [
+          253.90419963710764,
+          -452.3803690940622
+        ],
+        [
+          251.88780988897798,
+          -453.4566167346384
+        ],
+        [
+          250.8731515845496,
+          -455.27551772921356
+        ],
+        [
+          251.4975473559378,
+          -457.8004271941785
+        ]
+      ],
+      "groundAnchorLocal": [
+        254.3503060461969,
+        -455.82248414424043
+      ],
+      "groundAnchorRh2000M": 31.69914642962963,
+      "boundsLocalRh2000": {
+        "min": [
+          250.7906036376953,
+          31.54570198059082,
+          -459.6690979003906
+        ],
+        "max": [
+          257.7995910644531,
+          32.030242919921875,
+          -452.2966613769531
+        ]
+      },
+      "triangles": 244,
+      "materialMeshes": 2,
+      "groundContactMeshes": 1,
+      "sourceBlenderObjects": 10,
+      "identificationStatus": "circular-island-visible",
+      "sourcePanelId": "campus-native",
+      "sourceOrthophotoIds": [
+        "context-1-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.5,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Oval/circular paved or planted entrance feature in front of clubhouse. Interior sculpture/flag/details require exterior references."
+    },
+    {
+      "id": "S08",
+      "nodeName": "VECK_FACILITY_S08",
+      "label": "Curved range hitting-mat apron",
+      "kind": "range-apron",
+      "sourceBuildingIndices": [],
+      "sourceBuildingRingsLocal": [],
+      "sourceBuildingIds": [],
+      "sourceParkingIndices": [],
+      "sourceParkingRingsLocal": [],
+      "sourceSurfaceIds": [],
+      "sourceSurfacePaths": [],
+      "planRingLocal": [
+        [
+          91.31844335013234,
+          -170.43322718653002
+        ],
+        [
+          97.25760901563466,
+          -184.8166378270821
+        ],
+        [
+          104.58107873022402,
+          -201.0411071703004
+        ],
+        [
+          111.48406804937756,
+          -209.92740095945265
+        ],
+        [
+          126.59991393346304,
+          -222.66311295842314
+        ],
+        [
+          146.09066703284552,
+          -236.42774096974705
+        ],
+        [
+          151.55326249836295,
+          -236.91405490862167
+        ],
+        [
+          154.7618072881823,
+          -234.3288948126667
+        ],
+        [
+          152.18912037782405,
+          -231.27574122875473
+        ],
+        [
+          132.61220283283106,
+          -218.79650626685304
+        ],
+        [
+          114.27341334570092,
+          -205.60581312816396
+        ],
+        [
+          107.84837976525655,
+          -196.6920628831167
+        ],
+        [
+          103.1340687825068,
+          -184.15889837077827
+        ],
+        [
+          95.51029597265052,
+          -168.27178227653405
+        ]
+      ],
+      "groundAnchorLocal": [
+        120.65801559299896,
+        -207.23957727459094
+      ],
+      "groundAnchorRh2000M": 37.05447542857143,
+      "boundsLocalRh2000": {
+        "min": [
+          91.31844329833984,
+          36.14659881591797,
+          -241.58155822753906
+        ],
+        "max": [
+          154.76181030273438,
+          44.564937591552734,
+          -168.2717742919922
+        ]
+      },
+      "triangles": 3142,
+      "materialMeshes": 3,
+      "groundContactMeshes": 1,
+      "sourceBlenderObjects": 70,
+      "identificationStatus": "range-mats-and-flagpoles-visible",
+      "sourcePanelId": "range-tee-native",
+      "sourceOrthophotoIds": [
+        "context-1-2",
+        "context-2-2"
+      ],
+      "planBoundaryInterpretationUncertaintyMetres": 0.8,
+      "heightUncertainty": {
+        "status": "unquantified photo/model estimate; not surveyed",
+        "metres": null
+      },
+      "sourceNotes": "Visible paved curved mat apron excluding roofed range-end building. Mat positions and flagpoles should be added individually from this native panel; do not infer count from shadows."
+    }
+  ],
+  "provenance": {
+    "orthophotoCapturedAt": "2024-06-27",
+    "orthophotoAttribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0",
+    "orthophotoNativePixelSpacingMetres": 0.16,
+    "orthophotoAbsoluteHorizontalAccuracyMetres": null,
+    "sourceGlb": {
+      "path": "geobuild/cache/facilities-model-2026-09-10/veckefjarden-facilities.glb",
+      "sha256": "c3e2363a198909fa8e314e1f3bf3871721a35c57a36b2054cab0830d35fcaa28",
+      "bytes": 4658128
+    },
+    "inventory": {
+      "path": "geobuild/facilities/inventory.json",
+      "sha256": "001792758cf7eb29ee1befe3dfba12472f041faf48be7e4786d0327cd03bacb9",
+      "bytes": 102840
+    },
+    "modelGround": {
+      "path": "geobuild/facilities/model-ground.json",
+      "sha256": "04d2b19c86b9f084671658a306fd2837a472054c5be3de5aee94acbdd6c093d3",
+      "bytes": 315571
+    },
+    "groundGrid": {
+      "path": "geobuild/cache/facilities-model-2026-09-10/model-ground-grid.json",
+      "sha256": "75f8e6d5a9faa1903780011b862f34e4fe9f2c7ad2d8681c99b50a84df2c60e2",
+      "bytes": 248717
+    },
+    "photos": {
+      "path": "geobuild/facilities/photo-sources.json",
+      "sha256": "dad26102d2c7a229536bfe4693bc84a2a87afeb4a9b19398122024d475c7bee5",
+      "bytes": 22914
+    },
+    "publicPacks": [
+      {
+        "path": "apps/golf/public/courses/veckefjarden/pack.bin",
+        "sha256": "77e76fc8e4e77e537d6b0d6c8ad17b0ebefe4bc2bfa54b5e6916f699ec8fdd0d",
+        "bytes": 368039
+      },
+      {
+        "path": "apps/golf/public/courses/veckefjarden-korthalsbanan/pack.bin",
+        "sha256": "ea508183ed4dd208316a17c2940462aedc46ac17f4594dec60600aaf77d4e4ab",
+        "bytes": 362836
+      }
+    ],
+    "referencePhotosEmbedded": false,
+    "buildingIdentityContract": "Numeric pack indices are guarded by corresponding exact decoded rings. Missing source IDs are empty arrays, never undefined IDs.",
+    "projection": "Per-vertex PROJ EPSG:3006 to WGS84, then exact published GPK1 local frame. Normals use inverse-transpose of the local full horizontal Jacobian.",
+    "groundContactContract": "Only six explicitly inspected draped paving source objects have groundContact=true. Raised terraces, stairs, buildings, furnishings, island edging, mats and poles are excluded. This bake does not alter source paving elevations.",
+    "heightContract": "Geometry Y is absolute RH2000. The runtime loader applies its chosen vertical datum offset; no legacy height bias is baked."
+  }
+}

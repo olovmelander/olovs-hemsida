@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "id": "upsala-B08-observed-roof-domains-2026-09-10",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "anchorLocalXZ": [
+    17.78293267410761,
+    -279.14314741547946
+  ],
+  "source": {
+    "path": "upsalabuild/cache/facilities-2026-09-10/facilities-range-native.tif",
+    "sha256": "f3cfec204391a068524fd8d0c744c31bd4e8c59d3aebba851f2c830f40e62370",
+    "captureDate": "2025-06-14",
+    "geoTransform": [
+      639589.92,
+      0.16,
+      0.0,
+      6636345.12,
+      0.0,
+      -0.16
+    ],
+    "resolutionMetres": 0.16
+  },
+  "roofComponents": [
+    {
+      "id": "B08-main-monopitch",
+      "sourceBuildingId": "B08",
+      "domainRoofRingLocalXZ": [
+        [
+          -145.0365169670633,
+          -196.53205221019647
+        ],
+        [
+          -124.02177907118737,
+          -194.61964452928243
+        ],
+        [
+          -125.27576698844874,
+          -182.5061431814609
+        ],
+        [
+          -145.9473794899924,
+          -185.0456505973662
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639677.6000000001,
+          6636305.44
+        ],
+        [
+          639698.7200000001,
+          6636304.32
+        ],
+        [
+          639697.92,
+          6636292.16
+        ],
+        [
+          639677.12,
+          6636293.92
+        ]
+      ],
+      "sourceNativePixelRing": [
+        [
+          548,
+          248
+        ],
+        [
+          680,
+          255
+        ],
+        [
+          675,
+          331
+        ],
+        [
+          545,
+          320
+        ]
+      ],
+      "areaSquareMetres": 249.08800000695325,
+      "edgeLengthsMetres": [
+        21.149676120452853,
+        12.186287375722701,
+        20.874328731749685,
+        11.529995663973681
+      ],
+      "roofForm": "Single broad roof surface; no distinct central ridge visible",
+      "roofMaterial": "dark-metal",
+      "measuredPitchDegrees": null,
+      "measuredHeightRH2000": null,
+      "estimatedPitchForModellingDegrees": 5,
+      "modellingPitchUncertaintyDegrees": 5,
+      "slopeDirectionVerified": false,
+      "interpretation": "Approximately flat or shallow monopitch roof recommended; any slope sign and eave heights are explicit modelling estimates because neither native image nor older oblique resolves them metrically.",
+      "horizontalBoundaryInterpretationUncertaintyMetres": 0.7,
+      "groundFootprintVerified": false
+    },
+    {
+      "id": "B08-north-rear-extension",
+      "sourceBuildingId": "B08",
+      "domainRoofRingLocalXZ": [
+        [
+          -143.92928444484636,
+          -200.4905659455764
+        ],
+        [
+          -134.86059448065373,
+          -199.50861285660324
+        ],
+        [
+          -134.99870114568012,
+          -195.8335827512343
+        ],
+        [
+          -144.38642430700855,
+          -196.82756365249304
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639678.56,
+          6636309.44
+        ],
+        [
+          639687.68,
+          6636308.8
+        ],
+        [
+          639687.68,
+          6636305.12
+        ],
+        [
+          639678.24,
+          6636305.76
+        ]
+      ],
+      "sourceNativePixelRing": [
+        [
+          554,
+          223
+        ],
+        [
+          611,
+          227
+        ],
+        [
+          611,
+          250
+        ],
+        [
+          552,
+          246
+        ]
+      ],
+      "areaSquareMetres": 34.25280000170022,
+      "edgeLengthsMetres": [
+        9.142428561420537,
+        3.6799999997019768,
+        9.461670042900131,
+        3.693886842433429
+      ],
+      "roofForm": "Smaller separate rear roof surface north of main shelter",
+      "roofMaterial": "dark-metal",
+      "measuredPitchDegrees": null,
+      "measuredHeightRH2000": null,
+      "estimatedPitchForModellingDegrees": 5,
+      "modellingPitchUncertaintyDegrees": 5,
+      "slopeDirectionVerified": false,
+      "interpretation": "Approximately flat or shallow monopitch roof recommended; any slope sign and eave heights are explicit modelling estimates because neither native image nor older oblique resolves them metrically.",
+      "horizontalBoundaryInterpretationUncertaintyMetres": 0.7,
+      "groundFootprintVerified": false
+    }
+  ],
+  "semanticEvidence": "Direct review of native ortho and club range-bays.jpg aerial: broad covered range with open hitting front to the south. Existing mat coordinates are preserved separately.",
+  "limitations": [
+    "No laser roof returns available for B08 in the acquired window.",
+    "Roof pitch/eave heights cannot be measured from these sources.",
+    "Roof outline is not a ground-wall footprint; posts/open frontage need photo-led modelling.",
+    "Do not add or reposition range mats from this roof interpretation."
+  ]
+}

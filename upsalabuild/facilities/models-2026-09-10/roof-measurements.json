@@ -1,0 +1,4764 @@
+{
+  "schemaVersion": 1,
+  "id": "upsala-facility-roof-measurements-2026-09-10",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "anchorLocalXZ": [
+    17.78293267410761,
+    -279.14314741547946
+  ],
+  "anchorHeightRH2000": 34.968,
+  "scope": "Interpreted architecture measurements for modelling, not surveyed reconstruction.",
+  "clubhouseComponents": [
+    {
+      "id": "clubhouse-north-wing",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          17.216824564259056,
+          -305.14705871352504
+        ],
+        [
+          7.814959798019529,
+          -280.82273230754026
+        ],
+        [
+          20.655014141384818,
+          -275.8436437120366
+        ],
+        [
+          30.056949635921846,
+          -300.1679367190525
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639836.0175097554,
+          6636420.168171653
+        ],
+        [
+          639827.5175377179,
+          6636395.490603837
+        ],
+        [
+          639840.5652376176,
+          6636390.996437916
+        ],
+        [
+          639849.0652096551,
+          6636415.674005731
+        ]
+      ],
+      "domainInterpretation": "Approximate roof extent rectangle from native-image eaves and ridge endpoints; intersecting roofs require union/highest-roof envelope, not overlapping closed walls.",
+      "ridgeAxisLocalXZ": [
+        [
+          23.636891467740913,
+          -302.65750323769794
+        ],
+        [
+          14.234991337451987,
+          -278.3331935323841
+        ]
+      ],
+      "ridgeAxisEPSG3006": [
+        [
+          639842.5413597053,
+          6636417.921088692
+        ],
+        [
+          639834.0413876678,
+          6636393.243520876
+        ]
+      ],
+      "lengthMetres": 26.100419113923042,
+      "roofWidthMetres": 13.8,
+      "roofPlanes": [
+        {
+          "id": "P01",
+          "originLocalXZ": [
+            21.624064600514348,
+            -289.98298334496894
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.4015368228412276,
+          "b": 0.1542563288935032,
+          "c": 40.499523809523815,
+          "supportCount": 210,
+          "verticalRmseMetres": 0.03871355129539112,
+          "pitchDegrees": 23.23207880361991,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              11.076685885343379,
+              -271.1183975250776
+            ],
+            [
+              21.098648943179487,
+              -296.5318150417181
+            ],
+            [
+              21.371953054791348,
+              -297.1615409615629
+            ],
+            [
+              22.508460364000047,
+              -299.2387816266128
+            ],
+            [
+              23.975116851244987,
+              -301.3335621345226
+            ],
+            [
+              24.268939484284225,
+              -301.7124970088446
+            ],
+            [
+              25.4853191515827,
+              -301.6665832473345
+            ],
+            [
+              27.4401060051249,
+              -300.81274550331756
+            ],
+            [
+              27.966908049738024,
+              -299.4227706338674
+            ],
+            [
+              27.42786495657104,
+              -297.30297784734375
+            ],
+            [
+              26.3021304335283,
+              -294.1852639370646
+            ],
+            [
+              25.08441076419323,
+              -291.01101790134294
+            ],
+            [
+              21.484671509852017,
+              -281.84628483227186
+            ],
+            [
+              20.30661214462678,
+              -279.4605920644395
+            ],
+            [
+              12.019495673558016,
+              -271.7628576589101
+            ],
+            [
+              11.076685885343379,
+              -271.1183975250776
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              -0.40614892533174274,
+              0.13896096002933467,
+              41.266834480750106
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        },
+        {
+          "id": "P02",
+          "originLocalXZ": [
+            16.232346004024734,
+            -291.3879170579581
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": 0.39985238840332504,
+          "b": -0.1554988344194409,
+          "c": 40.43811518324606,
+          "supportCount": 191,
+          "verticalRmseMetres": 0.04981799949549875,
+          "pitchDegrees": 23.17795155053221,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              13.029377019361542,
+              -267.0244343056345
+            ],
+            [
+              8.648914404790803,
+              -276.6503829008249
+            ],
+            [
+              9.885659320490268,
+              -289.3545386071577
+            ],
+            [
+              10.496679813887713,
+              -292.59169027082095
+            ],
+            [
+              18.78890689580061,
+              -304.139487828366
+            ],
+            [
+              22.663287209485087,
+              -302.82317241732414
+            ],
+            [
+              23.01230275080154,
+              -301.7499292507023
+            ],
+            [
+              17.153998415972502,
+              -271.2990450732619
+            ],
+            [
+              14.955223904605432,
+              -268.8518703017161
+            ],
+            [
+              13.029377019361542,
+              -267.0244343056345
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              0.4045167088297055,
+              -0.14026571553967881,
+              42.06720528421993
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        }
+      ],
+      "heightFunction": "Minimum of the two facet planes inside this component domain; where components overlap use the maximum roof envelope and remove internal walls.",
+      "ridgeHeightRH2000": [
+        41.646425678834746,
+        41.66946167239929
+      ],
+      "eaveHeightRH2000": [
+        38.692230668758796,
+        38.71526666240977,
+        38.707550220756026,
+        38.684514227191485
+      ],
+      "estimatedTerrainRH2000AtCorners": [
+        34.73975873718046,
+        34.96127902835262,
+        34.914989652070844,
+        34.94709037921473
+      ],
+      "approximateWallHeightAboveDtmAtEaves": [
+        3.952471931578337,
+        3.7539876340571467,
+        3.7925605686851824,
+        3.737423847976757
+      ],
+      "manualEndpointToFittedRidgeShiftMetres": [
+        0.4879606353976948,
+        0.37928908714699167
+      ],
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.35,
+      "roofEdgeVsWallOffsetMetres": null,
+      "limits": [
+        "2021 laser predates2025 ortho and2026 photograph; matching form supports interpretation, not survey-grade as-built heights.",
+        "DTM is ground reference, not finished floor; wall bottom must be reconciled with terrain/photographs."
+      ]
+    },
+    {
+      "id": "clubhouse-west-terrace-wing",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          -1.6326648722019361,
+          -292.63840074070885
+        ],
+        [
+          17.328912391834276,
+          -285.39157645262634
+        ],
+        [
+          12.491535805718952,
+          -272.6933271322767
+        ],
+        [
+          -6.469986644557328,
+          -279.94012602923306
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639817.6100157717,
+          6636406.948966523
+        ],
+        [
+          639836.8741717965,
+          6636400.418211357
+        ],
+        [
+          639832.5077180688,
+          6636387.538223707
+        ],
+        [
+          639813.243562044,
+          6636394.068978873
+        ]
+      ],
+      "domainInterpretation": "Approximate roof extent rectangle from native-image eaves and ridge endpoints; intersecting roofs require union/highest-roof envelope, not overlapping closed walls.",
+      "ridgeAxisLocalXZ": [
+        [
+          -4.051329956037374,
+          -286.2892642530673
+        ],
+        [
+          14.910219901118872,
+          -279.0424526601524
+        ]
+      ],
+      "ridgeAxisEPSG3006": [
+        [
+          639815.4267889078,
+          6636400.508972698
+        ],
+        [
+          639834.6909449326,
+          6636393.978217532
+        ]
+      ],
+      "lengthMetres": 20.341053816975503,
+      "roofWidthMetres": 13.6,
+      "roofPlanes": [
+        {
+          "id": "P03",
+          "originLocalXZ": [
+            4.561569316446121,
+            -280.06915772191337
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": 0.15159710334877421,
+          "b": 0.39780969130771293,
+          "c": 40.489936708860704,
+          "supportCount": 158,
+          "verticalRmseMetres": 0.05087013165242463,
+          "pitchDegrees": 23.04269864268817,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              26.183763939863546,
+              -268.74806663455587
+            ],
+            [
+              10.439919736868342,
+              -274.362641215578
+            ],
+            [
+              0.47228545361203955,
+              -278.25906119678024
+            ],
+            [
+              -5.000387985916941,
+              -280.6157349882824
+            ],
+            [
+              -4.961868259234609,
+              -281.37433090842194
+            ],
+            [
+              -4.386142480262907,
+              -283.14272075146505
+            ],
+            [
+              -3.604045419895904,
+              -284.82331712511524
+            ],
+            [
+              -2.8967649002664997,
+              -285.5766761502056
+            ],
+            [
+              -0.5369852004506958,
+              -285.1375972218142
+            ],
+            [
+              13.84550354082746,
+              -279.69446130503627
+            ],
+            [
+              21.69189119420992,
+              -276.2080948492138
+            ],
+            [
+              26.183763939863546,
+              -268.74806663455587
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              0.13617716284973977,
+              0.40296689372335237,
+              42.188725512318385
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        },
+        {
+          "id": "P04",
+          "originLocalXZ": [
+            6.099951490501906,
+            -285.59261391189614
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.1544166624209395,
+          "b": -0.4028855270011469,
+          "c": 40.37181818181815,
+          "supportCount": 143,
+          "verticalRmseMetres": 0.03979231589751755,
+          "pitchDegrees": 23.32075640006338,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              18.74056842402061,
+              -271.5391802918478
+            ],
+            [
+              -1.6205683585916606,
+              -285.5285137628718
+            ],
+            [
+              -2.733920873647169,
+              -286.72060565083115
+            ],
+            [
+              -2.7098787876417108,
+              -287.3597400914653
+            ],
+            [
+              -1.692655827269919,
+              -289.45149011575126
+            ],
+            [
+              -1.491950368836834,
+              -289.74393523687553
+            ],
+            [
+              6.666871345635179,
+              -290.8461110408234
+            ],
+            [
+              9.67498270154689,
+              -289.06247041307324
+            ],
+            [
+              21.737059582146454,
+              -275.8163644245218
+            ],
+            [
+              23.14551079713178,
+              -271.8529454717586
+            ],
+            [
+              19.996819274825032,
+              -271.49176315751873
+            ],
+            [
+              18.74056842402061,
+              -271.5391802918478
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              -0.13879761983559527,
+              -0.4081425387263087,
+              41.10420091022573
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        }
+      ],
+      "heightFunction": "Minimum of the two facet planes inside this component domain; where components overlap use the maximum roof envelope and remove internal walls.",
+      "ridgeHeightRH2000": [
+        41.65867093722955,
+        41.65033092648332
+      ],
+      "eaveHeightRH2000": [
+        38.727208816156406,
+        38.71886880501113,
+        38.757920979125224,
+        38.766260989871455
+      ],
+      "estimatedTerrainRH2000AtCorners": [
+        34.844363114319094,
+        34.94995531903733,
+        34.94649482171907,
+        34.85148269155022
+      ],
+      "approximateWallHeightAboveDtmAtEaves": [
+        3.8828457018373115,
+        3.7689134859737976,
+        3.811426157406153,
+        3.914778298321238
+      ],
+      "manualEndpointToFittedRidgeShiftMetres": [
+        0.7063693650260093,
+        0.9061932936398456
+      ],
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.35,
+      "roofEdgeVsWallOffsetMetres": null,
+      "limits": [
+        "2021 laser predates2025 ortho and2026 photograph; matching form supports interpretation, not survey-grade as-built heights.",
+        "DTM is ground reference, not finished floor; wall bottom must be reconciled with terrain/photographs."
+      ]
+    },
+    {
+      "id": "clubhouse-south-wing",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          14.37278750953444,
+          -265.2449149714377
+        ],
+        [
+          20.650033080491927,
+          -251.2239753549207
+        ],
+        [
+          33.213310172813294,
+          -256.8669515680253
+        ],
+        [
+          26.936103069688112,
+          -270.8879119286834
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639834.672562651,
+          6636380.161298663
+        ],
+        [
+          639841.4879541544,
+          6636366.378192571
+        ],
+        [
+          639853.8582702021,
+          6636372.494995729
+        ],
+        [
+          639847.0428786987,
+          6636386.278101821
+        ]
+      ],
+      "domainInterpretation": "Approximate roof extent rectangle from native-image eaves and ridge endpoints; intersecting roofs require union/highest-roof envelope, not overlapping closed walls.",
+      "ridgeAxisLocalXZ": [
+        [
+          20.65444056707245,
+          -268.06641885163685
+        ],
+        [
+          26.931666904113783,
+          -254.04546886067635
+        ]
+      ],
+      "ridgeAxisEPSG3006": [
+        [
+          639840.8577206748,
+          6636383.219700242
+        ],
+        [
+          639847.6731121782,
+          6636369.43659415
+        ]
+      ],
+      "lengthMetres": 15.376071504055995,
+      "roofWidthMetres": 13.8,
+      "roofPlanes": [
+        {
+          "id": "P05",
+          "originLocalXZ": [
+            25.488983445188165,
+            -263.05111953605433
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.39029917618997256,
+          "b": -0.17689245129280345,
+          "c": 40.641016949152544,
+          "supportCount": 118,
+          "verticalRmseMetres": 0.044377694995864476,
+          "pitchDegrees": 23.154471133076296,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              26.61352436868007,
+              -255.4909775368563
+            ],
+            [
+              26.256274606360655,
+              -255.8144829373697
+            ],
+            [
+              13.959125125378865,
+              -269.1794856618853
+            ],
+            [
+              14.809194859340717,
+              -290.9788282511448
+            ],
+            [
+              27.350588558193714,
+              -266.32386668666413
+            ],
+            [
+              30.79200957749355,
+              -258.54346008901274
+            ],
+            [
+              31.01195671988275,
+              -257.75510638441204
+            ],
+            [
+              30.992592905447218,
+              -257.50582095491666
+            ],
+            [
+              26.61352436868007,
+              -255.4909775368563
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              -0.3824799350982948,
+              -0.19131754513094235,
+              41.38631835904892
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        },
+        {
+          "id": "P06",
+          "originLocalXZ": [
+            20.979566605462807,
+            -261.44653691264955
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": 0.4044794925520543,
+          "b": 0.17893340914929778,
+          "c": 40.58775700934577,
+          "supportCount": 107,
+          "verticalRmseMetres": 0.041907734237607505,
+          "pitchDegrees": 23.81686120958785,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              21.408061412593007,
+              -253.53732388054254
+            ],
+            [
+              20.412113955102935,
+              -254.66498775109216
+            ],
+            [
+              16.00816109321829,
+              -264.4618438067482
+            ],
+            [
+              16.556457039530038,
+              -276.3819297702386
+            ],
+            [
+              23.881698222618123,
+              -273.9052934253169
+            ],
+            [
+              25.247231104497967,
+              -255.53255013874804
+            ],
+            [
+              24.480330860914652,
+              -254.52142988247658
+            ],
+            [
+              21.408061412593007,
+              -253.53732388054254
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              0.3965411791733289,
+              0.19388836182501,
+              41.85201696196012
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        }
+      ],
+      "heightFunction": "Minimum of the two facet planes inside this component domain; where components overlap use the maximum roof envelope and remove internal walls.",
+      "ridgeHeightRH2000": [
+        41.64076759439502,
+        41.670967116378954
+      ],
+      "eaveHeightRH2000": [
+        38.59510926625,
+        38.6253087884238,
+        38.72014239472056,
+        38.68994287273663
+      ],
+      "estimatedTerrainRH2000AtCorners": [
+        34.85460028539836,
+        34.71638656501372,
+        35.12414408560632,
+        34.98701814388755
+      ],
+      "approximateWallHeightAboveDtmAtEaves": [
+        3.7405089808516365,
+        3.90892222341008,
+        3.5959983091142433,
+        3.7029247288490765
+      ],
+      "manualEndpointToFittedRidgeShiftMetres": [
+        1.849309688188589,
+        0.007683873211170513
+      ],
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.35,
+      "roofEdgeVsWallOffsetMetres": null,
+      "limits": [
+        "2021 laser predates2025 ortho and2026 photograph; matching form supports interpretation, not survey-grade as-built heights.",
+        "DTM is ground reference, not finished floor; wall bottom must be reconciled with terrain/photographs."
+      ]
+    },
+    {
+      "id": "clubhouse-central-raised-gable",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          9.46395577658974,
+          -271.51934052994136
+        ],
+        [
+          25.871607784381865,
+          -278.9111804960669
+        ],
+        [
+          29.10480628329098,
+          -271.7110386496316
+        ],
+        [
+          12.697180037095693,
+          -264.3192126379077
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639829.5196434157,
+          6636386.250052324
+        ],
+        [
+          639845.6743802023,
+          6636394.260666469
+        ],
+        [
+          639849.1839514025,
+          6636387.183031978
+        ],
+        [
+          639833.0292146159,
+          6636379.172417833
+        ]
+      ],
+      "domainInterpretation": "Approximate roof extent rectangle from native-image eaves and ridge endpoints; intersecting roofs require union/highest-roof envelope, not overlapping closed walls.",
+      "ridgeAxisLocalXZ": [
+        [
+          11.08056945774064,
+          -267.9192769236488
+        ],
+        [
+          27.488208584634997,
+          -275.3111099149464
+        ]
+      ],
+      "ridgeAxisEPSG3006": [
+        [
+          639831.2744290158,
+          6636382.711235078
+        ],
+        [
+          639847.4291658024,
+          6636390.721849224
+        ]
+      ],
+      "lengthMetres": 18.031790250378783,
+      "roofWidthMetres": 7.9,
+      "roofPlanes": [
+        {
+          "id": "P07",
+          "originLocalXZ": [
+            19.62152030222926,
+            -269.28449577336386
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.32723663491240085,
+          "b": 0.7321599912192827,
+          "c": 42.36057142857148,
+          "supportCount": 70,
+          "verticalRmseMetres": 0.04999257601895549,
+          "pitchDegrees": 38.702693546401434,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              15.685126750123437,
+              -265.1640815616261
+            ],
+            [
+              14.025532051772075,
+              -265.6367477437007
+            ],
+            [
+              12.992328072668226,
+              -266.83582023131066
+            ],
+            [
+              12.818846480099799,
+              -267.5324131024652
+            ],
+            [
+              13.679033383514351,
+              -268.90003833108295
+            ],
+            [
+              18.126024155019635,
+              -270.8623302927643
+            ],
+            [
+              20.682484431715874,
+              -271.9359133315652
+            ],
+            [
+              22.98480553704146,
+              -272.8890788569433
+            ],
+            [
+              24.876294435104846,
+              -273.5377295026541
+            ],
+            [
+              25.547159207175447,
+              -272.7923595568069
+            ],
+            [
+              26.129270784211766,
+              -271.280289216854
+            ],
+            [
+              25.380482307320023,
+              -269.15841275151394
+            ],
+            [
+              16.90187029106033,
+              -265.12815724544623
+            ],
+            [
+              15.685126750123437,
+              -265.1640815616261
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              -0.35381592854638083,
+              0.7188748229209789,
+              51.445341596398976
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        },
+        {
+          "id": "P08",
+          "originLocalXZ": [
+            17.322015027140672,
+            -273.4323152493515
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": 0.3317482921539827,
+          "b": -0.7305867640937531,
+          "c": 42.198771929824616,
+          "supportCount": 57,
+          "verticalRmseMetres": 0.05081213853550301,
+          "pitchDegrees": 38.71709986479786,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              12.303140434741438,
+              -268.951968998513
+            ],
+            [
+              11.579792595318693,
+              -269.6293127842472
+            ],
+            [
+              11.765963458857259,
+              -274.3125927471405
+            ],
+            [
+              19.946088099583527,
+              -277.57407578707046
+            ],
+            [
+              20.88236701351566,
+              -277.2487167805622
+            ],
+            [
+              23.05781639981303,
+              -276.1565369949565
+            ],
+            [
+              23.776480262825437,
+              -275.0893422285529
+            ],
+            [
+              21.658386804953626,
+              -272.9291448651611
+            ],
+            [
+              14.272133236680917,
+              -269.5376958190843
+            ],
+            [
+              12.303140434741438,
+              -268.951968998513
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              0.35825492813251336,
+              -0.7171345832665743,
+              36.907244491073186
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        }
+      ],
+      "heightFunction": "Minimum of the two facet planes inside this component domain; where components overlap use the maximum roof envelope and remove internal walls.",
+      "ridgeHeightRH2000": [
+        44.15593125006462,
+        44.19875687885452
+      ],
+      "eaveHeightRH2000": [
+        40.98946242998661,
+        41.03228805949879,
+        41.03391916163082,
+        40.99109353284092
+      ],
+      "estimatedTerrainRH2000AtCorners": [
+        34.94277797230387,
+        34.93494372173851,
+        34.90030458977644,
+        34.84390387605778
+      ],
+      "approximateWallHeightAboveDtmAtEaves": [
+        6.046684457682737,
+        6.097344337760276,
+        6.13361457185438,
+        6.147189656783141
+      ],
+      "manualEndpointToFittedRidgeShiftMetres": [
+        2.688644477244457,
+        2.6767970508635246
+      ],
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.35,
+      "roofEdgeVsWallOffsetMetres": null,
+      "limits": [
+        "2021 laser predates2025 ortho and2026 photograph; matching form supports interpretation, not survey-grade as-built heights.",
+        "DTM is ground reference, not finished floor; wall bottom must be reconciled with terrain/photographs."
+      ]
+    },
+    {
+      "id": "clubhouse-outline-edge-continuation-1",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          29.283203574303297,
+          -300.8641513722941
+        ],
+        [
+          18.026812437799943,
+          -305.14030582721404
+        ],
+        [
+          17.925325286361552,
+          -304.8723175012057
+        ],
+        [
+          29.151921551919884,
+          -300.518886979546
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639848.2640248424,
+          6636416.34096971
+        ],
+        [
+          639836.8290100365,
+          6636420.191989598
+        ],
+        [
+          639836.7374633066,
+          6636419.9201884745
+        ],
+        [
+          639848.1455496987,
+          6636415.990772682
+        ]
+      ],
+      "roofPlanes": [
+        {
+          "id": "P01",
+          "originLocalXZ": [
+            21.624064600514348,
+            -289.98298334496894
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.4015368228412276,
+          "b": 0.1542563288935032,
+          "c": 40.499523809523815,
+          "supportCount": 210,
+          "verticalRmseMetres": 0.03871355129539112,
+          "pitchDegrees": 23.23207880361991,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              11.076685885343379,
+              -271.1183975250776
+            ],
+            [
+              21.098648943179487,
+              -296.5318150417181
+            ],
+            [
+              21.371953054791348,
+              -297.1615409615629
+            ],
+            [
+              22.508460364000047,
+              -299.2387816266128
+            ],
+            [
+              23.975116851244987,
+              -301.3335621345226
+            ],
+            [
+              24.268939484284225,
+              -301.7124970088446
+            ],
+            [
+              25.4853191515827,
+              -301.6665832473345
+            ],
+            [
+              27.4401060051249,
+              -300.81274550331756
+            ],
+            [
+              27.966908049738024,
+              -299.4227706338674
+            ],
+            [
+              27.42786495657104,
+              -297.30297784734375
+            ],
+            [
+              26.3021304335283,
+              -294.1852639370646
+            ],
+            [
+              25.08441076419323,
+              -291.01101790134294
+            ],
+            [
+              21.484671509852017,
+              -281.84628483227186
+            ],
+            [
+              20.30661214462678,
+              -279.4605920644395
+            ],
+            [
+              12.019495673558016,
+              -271.7628576589101
+            ],
+            [
+              11.076685885343379,
+              -271.1183975250776
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              -0.40614892533174274,
+              0.13896096002933467,
+              41.266834480750106
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        },
+        {
+          "id": "P02",
+          "originLocalXZ": [
+            16.232346004024734,
+            -291.3879170579581
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": 0.39985238840332504,
+          "b": -0.1554988344194409,
+          "c": 40.43811518324606,
+          "supportCount": 191,
+          "verticalRmseMetres": 0.04981799949549875,
+          "pitchDegrees": 23.17795155053221,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              13.029377019361542,
+              -267.0244343056345
+            ],
+            [
+              8.648914404790803,
+              -276.6503829008249
+            ],
+            [
+              9.885659320490268,
+              -289.3545386071577
+            ],
+            [
+              10.496679813887713,
+              -292.59169027082095
+            ],
+            [
+              18.78890689580061,
+              -304.139487828366
+            ],
+            [
+              22.663287209485087,
+              -302.82317241732414
+            ],
+            [
+              23.01230275080154,
+              -301.7499292507023
+            ],
+            [
+              17.153998415972502,
+              -271.2990450732619
+            ],
+            [
+              14.955223904605432,
+              -268.8518703017161
+            ],
+            [
+              13.029377019361542,
+              -267.0244343056345
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              0.4045167088297055,
+              -0.14026571553967881,
+              42.06720528421993
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        }
+      ],
+      "domainInterpretation": "Exact municipal B01 area outside the four manually interpreted main roof rectangles; explicitly added closure evidence, not a hidden structural assumption.",
+      "closureMethod": "nearest adjoining roof continuation",
+      "materialHint": "warm roof tile",
+      "roofMaterial": "tile",
+      "heightFunction": "minimum of the adjoining two roof planes",
+      "closureEvidence": {
+        "areaSquareMetres": 3.949113628876087,
+        "sourceInteriorUnclassifiedReturns": 6,
+        "fitVerticalRmseMetres": null,
+        "sourceLaserSha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+        "nativeImageObservation": "Small plan-edge remainder adjacent to the established roof"
+      },
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.5,
+      "limits": [
+        "Plan edge convention and overhang remain uncertain."
+      ]
+    },
+    {
+      "id": "clubhouse-outline-edge-continuation-2",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          21.48370259174927,
+          -277.98759169911943
+        ],
+        [
+          20.990774005836524,
+          -276.7123075448894
+        ],
+        [
+          21.880433403280627,
+          -277.1131095540461
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639841.3144319012,
+          6636393.171522749
+        ],
+        [
+          639840.8687889329,
+          6636391.877717451
+        ],
+        [
+          639841.7447338636,
+          6636392.312071657
+        ]
+      ],
+      "roofPlanes": [
+        {
+          "id": "P01",
+          "originLocalXZ": [
+            21.624064600514348,
+            -289.98298334496894
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.4015368228412276,
+          "b": 0.1542563288935032,
+          "c": 40.499523809523815,
+          "supportCount": 210,
+          "verticalRmseMetres": 0.03871355129539112,
+          "pitchDegrees": 23.23207880361991,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              11.076685885343379,
+              -271.1183975250776
+            ],
+            [
+              21.098648943179487,
+              -296.5318150417181
+            ],
+            [
+              21.371953054791348,
+              -297.1615409615629
+            ],
+            [
+              22.508460364000047,
+              -299.2387816266128
+            ],
+            [
+              23.975116851244987,
+              -301.3335621345226
+            ],
+            [
+              24.268939484284225,
+              -301.7124970088446
+            ],
+            [
+              25.4853191515827,
+              -301.6665832473345
+            ],
+            [
+              27.4401060051249,
+              -300.81274550331756
+            ],
+            [
+              27.966908049738024,
+              -299.4227706338674
+            ],
+            [
+              27.42786495657104,
+              -297.30297784734375
+            ],
+            [
+              26.3021304335283,
+              -294.1852639370646
+            ],
+            [
+              25.08441076419323,
+              -291.01101790134294
+            ],
+            [
+              21.484671509852017,
+              -281.84628483227186
+            ],
+            [
+              20.30661214462678,
+              -279.4605920644395
+            ],
+            [
+              12.019495673558016,
+              -271.7628576589101
+            ],
+            [
+              11.076685885343379,
+              -271.1183975250776
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              -0.40614892533174274,
+              0.13896096002933467,
+              41.266834480750106
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        },
+        {
+          "id": "P02",
+          "originLocalXZ": [
+            16.232346004024734,
+            -291.3879170579581
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": 0.39985238840332504,
+          "b": -0.1554988344194409,
+          "c": 40.43811518324606,
+          "supportCount": 191,
+          "verticalRmseMetres": 0.04981799949549875,
+          "pitchDegrees": 23.17795155053221,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              13.029377019361542,
+              -267.0244343056345
+            ],
+            [
+              8.648914404790803,
+              -276.6503829008249
+            ],
+            [
+              9.885659320490268,
+              -289.3545386071577
+            ],
+            [
+              10.496679813887713,
+              -292.59169027082095
+            ],
+            [
+              18.78890689580061,
+              -304.139487828366
+            ],
+            [
+              22.663287209485087,
+              -302.82317241732414
+            ],
+            [
+              23.01230275080154,
+              -301.7499292507023
+            ],
+            [
+              17.153998415972502,
+              -271.2990450732619
+            ],
+            [
+              14.955223904605432,
+              -268.8518703017161
+            ],
+            [
+              13.029377019361542,
+              -267.0244343056345
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              0.4045167088297055,
+              -0.14026571553967881,
+              42.06720528421993
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        }
+      ],
+      "domainInterpretation": "Exact municipal B01 area outside the four manually interpreted main roof rectangles; explicitly added closure evidence, not a hidden structural assumption.",
+      "closureMethod": "nearest adjoining roof continuation",
+      "materialHint": "warm roof tile",
+      "roofMaterial": "tile",
+      "heightFunction": "minimum of the adjoining two roof planes",
+      "closureEvidence": {
+        "areaSquareMetres": 0.4685008823088457,
+        "sourceInteriorUnclassifiedReturns": 0,
+        "fitVerticalRmseMetres": null,
+        "sourceLaserSha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+        "nativeImageObservation": "Small plan-edge remainder adjacent to the established roof"
+      },
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.5,
+      "limits": [
+        "Plan edge convention and overhang remain uncertain."
+      ]
+    },
+    {
+      "id": "clubhouse-outline-edge-continuation-3",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          13.27892514023091,
+          -264.52687520134845
+        ],
+        [
+          14.457419570157109,
+          -265.05587966953686
+        ],
+        [
+          14.436429003855956,
+          -265.1027644790123
+        ],
+        [
+          13.258663944232286,
+          -264.572167653317
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639833.6040450127,
+          6636379.402022349
+        ],
+        [
+          639834.7644498771,
+          6636379.975469837
+        ],
+        [
+          639834.7416598734,
+          6636380.021559373
+        ],
+        [
+          639833.582045531,
+          6636379.446547164
+        ]
+      ],
+      "roofPlanes": [
+        {
+          "id": "P07",
+          "originLocalXZ": [
+            19.62152030222926,
+            -269.28449577336386
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.32723663491240085,
+          "b": 0.7321599912192827,
+          "c": 42.36057142857148,
+          "supportCount": 70,
+          "verticalRmseMetres": 0.04999257601895549,
+          "pitchDegrees": 38.702693546401434,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              15.685126750123437,
+              -265.1640815616261
+            ],
+            [
+              14.025532051772075,
+              -265.6367477437007
+            ],
+            [
+              12.992328072668226,
+              -266.83582023131066
+            ],
+            [
+              12.818846480099799,
+              -267.5324131024652
+            ],
+            [
+              13.679033383514351,
+              -268.90003833108295
+            ],
+            [
+              18.126024155019635,
+              -270.8623302927643
+            ],
+            [
+              20.682484431715874,
+              -271.9359133315652
+            ],
+            [
+              22.98480553704146,
+              -272.8890788569433
+            ],
+            [
+              24.876294435104846,
+              -273.5377295026541
+            ],
+            [
+              25.547159207175447,
+              -272.7923595568069
+            ],
+            [
+              26.129270784211766,
+              -271.280289216854
+            ],
+            [
+              25.380482307320023,
+              -269.15841275151394
+            ],
+            [
+              16.90187029106033,
+              -265.12815724544623
+            ],
+            [
+              15.685126750123437,
+              -265.1640815616261
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              -0.35381592854638083,
+              0.7188748229209789,
+              51.445341596398976
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        },
+        {
+          "id": "P08",
+          "originLocalXZ": [
+            17.322015027140672,
+            -273.4323152493515
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": 0.3317482921539827,
+          "b": -0.7305867640937531,
+          "c": 42.198771929824616,
+          "supportCount": 57,
+          "verticalRmseMetres": 0.05081213853550301,
+          "pitchDegrees": 38.71709986479786,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              12.303140434741438,
+              -268.951968998513
+            ],
+            [
+              11.579792595318693,
+              -269.6293127842472
+            ],
+            [
+              11.765963458857259,
+              -274.3125927471405
+            ],
+            [
+              19.946088099583527,
+              -277.57407578707046
+            ],
+            [
+              20.88236701351566,
+              -277.2487167805622
+            ],
+            [
+              23.05781639981303,
+              -276.1565369949565
+            ],
+            [
+              23.776480262825437,
+              -275.0893422285529
+            ],
+            [
+              21.658386804953626,
+              -272.9291448651611
+            ],
+            [
+              14.272133236680917,
+              -269.5376958190843
+            ],
+            [
+              12.303140434741438,
+              -268.951968998513
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              0.35825492813251336,
+              -0.7171345832665743,
+              36.907244491073186
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        }
+      ],
+      "domainInterpretation": "Exact municipal B01 area outside the four manually interpreted main roof rectangles; explicitly added closure evidence, not a hidden structural assumption.",
+      "closureMethod": "nearest adjoining roof continuation",
+      "materialHint": "warm roof tile",
+      "roofMaterial": "tile",
+      "heightFunction": "minimum of the adjoining two roof planes",
+      "closureEvidence": {
+        "areaSquareMetres": 0.06522599192650562,
+        "sourceInteriorUnclassifiedReturns": 0,
+        "fitVerticalRmseMetres": null,
+        "sourceLaserSha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+        "nativeImageObservation": "Small plan-edge remainder adjacent to the established roof"
+      },
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.5,
+      "limits": [
+        "Plan edge convention and overhang remain uncertain."
+      ]
+    },
+    {
+      "id": "clubhouse-outline-edge-continuation-4",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          10.943928225897587,
+          -272.1860855032235
+        ],
+        [
+          12.26339285592997,
+          -272.7805198184766
+        ],
+        [
+          10.339828280303522,
+          -273.51567627447474
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639830.9768056478,
+          6636386.972607887
+        ],
+        [
+          639832.2759334396,
+          6636387.616800445
+        ],
+        [
+          639830.3216648184,
+          6636388.279312957
+        ]
+      ],
+      "roofPlanes": [
+        {
+          "id": "P03",
+          "originLocalXZ": [
+            4.561569316446121,
+            -280.06915772191337
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": 0.15159710334877421,
+          "b": 0.39780969130771293,
+          "c": 40.489936708860704,
+          "supportCount": 158,
+          "verticalRmseMetres": 0.05087013165242463,
+          "pitchDegrees": 23.04269864268817,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              26.183763939863546,
+              -268.74806663455587
+            ],
+            [
+              10.439919736868342,
+              -274.362641215578
+            ],
+            [
+              0.47228545361203955,
+              -278.25906119678024
+            ],
+            [
+              -5.000387985916941,
+              -280.6157349882824
+            ],
+            [
+              -4.961868259234609,
+              -281.37433090842194
+            ],
+            [
+              -4.386142480262907,
+              -283.14272075146505
+            ],
+            [
+              -3.604045419895904,
+              -284.82331712511524
+            ],
+            [
+              -2.8967649002664997,
+              -285.5766761502056
+            ],
+            [
+              -0.5369852004506958,
+              -285.1375972218142
+            ],
+            [
+              13.84550354082746,
+              -279.69446130503627
+            ],
+            [
+              21.69189119420992,
+              -276.2080948492138
+            ],
+            [
+              26.183763939863546,
+              -268.74806663455587
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              0.13617716284973977,
+              0.40296689372335237,
+              42.188725512318385
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        },
+        {
+          "id": "P04",
+          "originLocalXZ": [
+            6.099951490501906,
+            -285.59261391189614
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.1544166624209395,
+          "b": -0.4028855270011469,
+          "c": 40.37181818181815,
+          "supportCount": 143,
+          "verticalRmseMetres": 0.03979231589751755,
+          "pitchDegrees": 23.32075640006338,
+          "sourceLasClass": 1,
+          "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+          "inlierHullLocalXZ": [
+            [
+              18.74056842402061,
+              -271.5391802918478
+            ],
+            [
+              -1.6205683585916606,
+              -285.5285137628718
+            ],
+            [
+              -2.733920873647169,
+              -286.72060565083115
+            ],
+            [
+              -2.7098787876417108,
+              -287.3597400914653
+            ],
+            [
+              -1.692655827269919,
+              -289.45149011575126
+            ],
+            [
+              -1.491950368836834,
+              -289.74393523687553
+            ],
+            [
+              6.666871345635179,
+              -290.8461110408234
+            ],
+            [
+              9.67498270154689,
+              -289.06247041307324
+            ],
+            [
+              21.737059582146454,
+              -275.8163644245218
+            ],
+            [
+              23.14551079713178,
+              -271.8529454717586
+            ],
+            [
+              19.996819274825032,
+              -271.49176315751873
+            ],
+            [
+              18.74056842402061,
+              -271.5391802918478
+            ]
+          ],
+          "sourcePlaneEPSG3006": {
+            "origin": [
+              639835.6323672752,
+              6636394.99615317
+            ],
+            "coefficients": [
+              -0.13879761983559527,
+              -0.4081425387263087,
+              41.10420091022573
+            ],
+            "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+          }
+        }
+      ],
+      "domainInterpretation": "Exact municipal B01 area outside the four manually interpreted main roof rectangles; explicitly added closure evidence, not a hidden structural assumption.",
+      "closureMethod": "nearest adjoining roof continuation",
+      "materialHint": "warm roof tile",
+      "roofMaterial": "tile",
+      "heightFunction": "minimum of the adjoining two roof planes",
+      "closureEvidence": {
+        "areaSquareMetres": 1.0567228662935424,
+        "sourceInteriorUnclassifiedReturns": 0,
+        "fitVerticalRmseMetres": null,
+        "sourceLaserSha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+        "nativeImageObservation": "Small plan-edge remainder adjacent to the established roof"
+      },
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.5,
+      "limits": [
+        "Plan edge convention and overhang remain uncertain."
+      ]
+    },
+    {
+      "id": "clubhouse-northwest-alcove-low-roof",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          6.638665901670033,
+          -294.820487034533
+        ],
+        [
+          4.876230610803245,
+          -290.15080062084456
+        ],
+        [
+          10.578152946490116,
+          -287.97161327289183
+        ],
+        [
+          12.381806780660519,
+          -292.63799230264624
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639825.812004932,
+          6636409.443051986
+        ],
+        [
+          639824.2227686741,
+          6636404.707158568
+        ],
+        [
+          639830.0156791148,
+          6636402.743299662
+        ],
+        [
+          639831.6463165057,
+          6636407.477444073
+        ]
+      ],
+      "roofPlanes": [
+        {
+          "id": "clubhouse-northwest-alcove-low-roof-plane",
+          "originLocalXZ": [
+            8.620782820623843,
+            -291.39732271454756
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.03114773378259536,
+          "b": -0.09949535269916154,
+          "c": 38.229289223521306,
+          "supportCount": 39,
+          "verticalRmseMetres": 0.057604100599722166,
+          "pitchDegrees": 5.951978948856443,
+          "sourceLasClass": 1,
+          "interpretation": "low-roof-plane-fit",
+          "residualMinimumMetres": -0.17648548888150373,
+          "residualMaximumMetres": 0.1031387122886045,
+          "sourceObservedHeightRH2000Range": [
+            37.98,
+            38.67
+          ]
+        }
+      ],
+      "domainInterpretation": "Exact municipal B01 area outside the four manually interpreted main roof rectangles; explicitly added closure evidence, not a hidden structural assumption.",
+      "closureMethod": "low-roof-plane-fit",
+      "materialHint": "dark low-slope membrane",
+      "roofMaterial": "dark-metal",
+      "heightFunction": "single fitted plane",
+      "closureEvidence": {
+        "areaSquareMetres": 30.601501552088408,
+        "sourceInteriorUnclassifiedReturns": 39,
+        "fitVerticalRmseMetres": 0.057604100599722166,
+        "sourceLaserSha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+        "nativeImageObservation": "Small dark low roof north of west wing"
+      },
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.3,
+      "limits": [
+        "Plan edge convention and overhang remain uncertain."
+      ]
+    },
+    {
+      "id": "clubhouse-central-junction-connector",
+      "sourceBuildingIds": [
+        "B01"
+      ],
+      "domainRoofRingLocalXZ": [
+        [
+          12.578899493472466,
+          -272.9226592648676
+        ],
+        [
+          19.799223878229,
+          -276.17550021555866
+        ],
+        [
+          14.587898064887725,
+          -278.1963369060255
+        ]
+      ],
+      "domainRoofRingEPSG3006": [
+        [
+          639832.5865771254,
+          6636387.770838008
+        ],
+        [
+          639839.6956067309,
+          6636391.295972882
+        ],
+        [
+          639834.4000017829,
+          6636393.119992286
+        ]
+      ],
+      "roofPlanes": [
+        {
+          "id": "clubhouse-central-junction-connector-plane",
+          "originLocalXZ": [
+            15.655340478863064,
+            -275.76483212881726
+          ],
+          "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+          "a": -0.007859307450097525,
+          "b": 0.14444634244679566,
+          "c": 41.09284801139632,
+          "supportCount": 24,
+          "verticalRmseMetres": 0.2896224731326265,
+          "pitchDegrees": 8.231306686331381,
+          "sourceLasClass": 1,
+          "interpretation": "approximate junction patch fitted to mixed local roof returns",
+          "residualMinimumMetres": -0.3802519509988258,
+          "residualMaximumMetres": 0.6867699598874779,
+          "sourceObservedHeightRH2000Range": [
+            40.21,
+            41.55
+          ]
+        }
+      ],
+      "domainInterpretation": "Exact municipal B01 area outside the four manually interpreted main roof rectangles; explicitly added closure evidence, not a hidden structural assumption.",
+      "closureMethod": "approximate junction patch fitted to mixed local roof returns",
+      "materialHint": "warm roof tile",
+      "roofMaterial": "tile",
+      "heightFunction": "single fitted plane",
+      "closureEvidence": {
+        "areaSquareMetres": 15.771355223409225,
+        "sourceInteriorUnclassifiedReturns": 24,
+        "fitVerticalRmseMetres": 0.2896224731326265,
+        "sourceLaserSha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+        "nativeImageObservation": "Tiled connector at the roof junction; mixed-return low-slope fit approximates its unresolved local facet structure"
+      },
+      "horizontalInterpretationUncertaintyMetres": 0.8,
+      "verticalInterpretationUncertaintyMetres": 0.5,
+      "limits": [
+        "No finished floor or hidden roof structure established.",
+        "The central junction is an approximate patch (RMS0.29m), unlike the stronger main eight roof-plane fits."
+      ]
+    }
+  ],
+  "terraceDormers": [
+    {
+      "id": "west-terrace-dormer-1",
+      "centreLocalXZ": [
+        -0.7564837939501714,
+        -277.9754129464351
+      ],
+      "centreEPSG3006": [
+        639819.0399999999,
+        6636392.32
+      ],
+      "sourceNativeCropPixel": [
+        213,
+        423
+      ],
+      "widthMetres": 2.7,
+      "projectionDepthMetres": 1.8,
+      "estimatedPeakRiseAboveMainRoofMetres": 1.1,
+      "orientation": "Gable faces outward from west terrace wing toward southwest terrace; ridge perpendicular to parent wing.",
+      "confidence": "Two front gable dormers directly visible in2026 drone photo; coordinates approximated from native roof protrusions; dimensions and peak rise estimated from image, not laser-separated.",
+      "horizontalUncertaintyMetres": 0.7,
+      "dimensionUncertaintyMetres": 0.6
+    },
+    {
+      "id": "west-terrace-dormer-2",
+      "centreLocalXZ": [
+        4.748723503777558,
+        -275.6875094132255
+      ],
+      "centreEPSG3006": [
+        639824.64,
+        6636390.24
+      ],
+      "sourceNativeCropPixel": [
+        248,
+        436
+      ],
+      "widthMetres": 2.7,
+      "projectionDepthMetres": 1.8,
+      "estimatedPeakRiseAboveMainRoofMetres": 1.1,
+      "orientation": "Gable faces outward from west terrace wing toward southwest terrace; ridge perpendicular to parent wing.",
+      "confidence": "Two front gable dormers directly visible in2026 drone photo; coordinates approximated from native roof protrusions; dimensions and peak rise estimated from image, not laser-separated.",
+      "horizontalUncertaintyMetres": 0.7,
+      "dimensionUncertaintyMetres": 0.6
+    }
+  ],
+  "auxiliaryBuildings": [
+    {
+      "id": "B02",
+      "name": "Clubhouse west attached component",
+      "sourceOutlineLocalXZ": [
+        [
+          -2.0238844439728534,
+          -290.6250377445028
+        ],
+        [
+          -5.764910263642512,
+          -280.6506015288616
+        ],
+        [
+          -10.83212728943455,
+          -282.55689730682633
+        ],
+        [
+          -7.091213703309909,
+          -292.5314377422791
+        ]
+      ],
+      "sourceOutlineEPSG3006": [
+        [
+          639817.294041595,
+          6636404.920971602
+        ],
+        [
+          639813.9229716206,
+          6636394.806014459
+        ],
+        [
+          639808.7760345936,
+          6636396.520974802
+        ],
+        [
+          639812.1470000186,
+          6636406.63602711
+        ],
+        [
+          639817.294041595,
+          6636404.920971602
+        ]
+      ],
+      "orientedRectangleLocalXZ": [
+        [
+          -10.83212728943455,
+          -282.55689730682633
+        ],
+        [
+          -7.090612163953287,
+          -292.5312585925036
+        ],
+        [
+          -2.0238844439728534,
+          -290.6250377445028
+        ],
+        [
+          -5.764380701448666,
+          -280.64986309723537
+        ]
+      ],
+      "dimensionsMetres": [
+        10.662018290401287,
+        5.424633144845554
+      ],
+      "areaSquareMetres": 57.8431431814076,
+      "roofComponents": [
+        {
+          "id": "B02-main-gable",
+          "domainRoofRingLocalXZ": [
+            [
+              -5.739368874042083,
+              -280.6405253284737
+            ],
+            [
+              -10.837052950584422,
+              -282.5436606345812
+            ],
+            [
+              -7.116796288574383,
+              -292.5410339799069
+            ],
+            [
+              -2.0191005156189017,
+              -290.6378934153898
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639813.948932465,
+              6636394.796902735
+            ],
+            [
+              639808.7715999172,
+              6636396.507553127
+            ],
+            [
+              639812.1210160813,
+              6636406.644657357
+            ],
+            [
+              639817.2983486291,
+              6636404.934006965
+            ]
+          ],
+          "ridgeAxisLocalXZ": [
+            [
+              -3.6925987227665997,
+              -286.14075802090014
+            ],
+            [
+              -8.790289234194065,
+              -288.0438962203985
+            ]
+          ],
+          "ridgeHeightRH2000": [
+            39.718766890735274,
+            39.733779480935056
+          ],
+          "eaveHeightRH2000": [
+            37.21024076504242,
+            37.2252533552422,
+            37.680747523559724,
+            37.66573493347944
+          ],
+          "roofPlanes": [
+            {
+              "id": "B02-P1",
+              "originLocalXZ": [
+                -7.404605673108459,
+                -284.54060400446156
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.14691336921965023,
+              "b": 0.40140629907093445,
+              "c": 38.53111111111109,
+              "supportCount": 36,
+              "verticalRmseMetres": 0.03818130603110517,
+              "pitchDegrees": 23.126823970747058,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  -6.54751760141855,
+                  -281.4241696273797
+                ],
+                [
+                  -9.834970566926927,
+                  -282.9483209403358
+                ],
+                [
+                  -9.900458569111361,
+                  -283.33081703933914
+                ],
+                [
+                  -9.80717335546015,
+                  -283.6873202161695
+                ],
+                [
+                  -8.447272319260147,
+                  -286.92621599178693
+                ],
+                [
+                  -8.054706066159506,
+                  -287.5414426602802
+                ],
+                [
+                  -5.68512642734883,
+                  -286.8319796283461
+                ],
+                [
+                  -4.482415998611345,
+                  -285.62651577562207
+                ],
+                [
+                  -5.866423858336406,
+                  -282.8085585281758
+                ],
+                [
+                  -6.54751760141855,
+                  -281.4241696273797
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639813.1095774649,
+                  6636400.755774646
+                ],
+                "coefficients": [
+                  0.1313736845917056,
+                  0.40638218461678655,
+                  39.521550991146036
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            },
+            {
+              "id": "B02-P2",
+              "originLocalXZ": [
+                -5.509065544789927,
+                -289.233423331676
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.15223026260887437,
+              "b": -0.3998711799001227,
+              "c": 38.75862068965514,
+              "supportCount": 29,
+              "verticalRmseMetres": 0.0290562402097571,
+              "pitchDegrees": 23.146943871495512,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  -4.329167093107904,
+                  -286.7808080923888
+                ],
+                [
+                  -5.090117636617679,
+                  -286.9895368395069
+                ],
+                [
+                  -6.7581925301713115,
+                  -287.50251600657265
+                ],
+                [
+                  -7.26575396483258,
+                  -287.81168912447697
+                ],
+                [
+                  -7.979170238238612,
+                  -289.0186886566508
+                ],
+                [
+                  -7.182047679373014,
+                  -291.0987448322382
+                ],
+                [
+                  -6.001451216823728,
+                  -291.6942334725985
+                ],
+                [
+                  -4.519601731123675,
+                  -291.0082701126035
+                ],
+                [
+                  -3.0078111420132205,
+                  -289.79114162272197
+                ],
+                [
+                  -4.329167093107904,
+                  -286.7808080923888
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639813.1095774649,
+                  6636400.755774646
+                ],
+                "coefficients": [
+                  -0.13673251494671051,
+                  -0.4050489294551518,
+                  39.93086467702052
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "roofWidthMetres": 10.676116841524596,
+          "lengthMetres": 5.452622953604145,
+          "heightFunction": "minimum of the two roof planes inside domain",
+          "domainInterpretation": "Approximate domain from municipal outline and matched laser support; roof edges/overhang are not surveyed.",
+          "horizontalInterpretationUncertaintyMetres": 0.8,
+          "verticalInterpretationUncertaintyMetres": 0.4
+        }
+      ],
+      "sourceInteriorPointCount": 71,
+      "heightStatus": "Coherent roof plane estimates supported by2021 laser and visually checked2025 orthophoto; not surveyed wall/floor heights.",
+      "terrainRH2000AtCentroid": 34.96632385253906,
+      "geometryMeaning": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service."
+    },
+    {
+      "id": "B04",
+      "name": "Red-roof building north of clubhouse",
+      "sourceOutlineLocalXZ": [
+        [
+          65.81524038508815,
+          -325.7967642462296
+        ],
+        [
+          76.73013219356068,
+          -313.9878823759736
+        ],
+        [
+          72.51427855645927,
+          -310.0276852748186
+        ],
+        [
+          72.617074213988,
+          -309.91685532438794
+        ],
+        [
+          67.311023575895,
+          -305.0268788536394
+        ],
+        [
+          56.07041254620251,
+          -317.0720650637398
+        ],
+        [
+          61.36250683687382,
+          -322.0136107084056
+        ],
+        [
+          61.520020144367045,
+          -321.84384430937683
+        ]
+      ],
+      "sourceOutlineEPSG3006": [
+        [
+          639883.9130266481,
+          6636442.6510260375
+        ],
+        [
+          639895.2899622419,
+          6636431.255025017
+        ],
+        [
+          639891.2168550509,
+          6636427.135909626
+        ],
+        [
+          639891.3239879911,
+          6636427.028968177
+        ],
+        [
+          639886.1940293767,
+          6636421.938978199
+        ],
+        [
+          639874.4819665141,
+          6636433.55899923
+        ],
+        [
+          639879.5960011756,
+          6636438.700011971
+        ],
+        [
+          639879.7601573016,
+          6636438.536203397
+        ],
+        [
+          639883.9130266481,
+          6636442.6510260375
+        ]
+      ],
+      "orientedRectangleLocalXZ": [
+        [
+          56.07041254620251,
+          -317.0720650637398
+        ],
+        [
+          65.62806192452838,
+          -325.998015666988
+        ],
+        [
+          76.88500772313247,
+          -313.90347024666966
+        ],
+        [
+          67.3267310847865,
+          -304.9783740724945
+        ]
+      ],
+      "dimensionsMetres": [
+        16.545661891378987,
+        13.097224347703472
+      ],
+      "areaSquareMetres": 213.48459658654426,
+      "roofComponents": [
+        {
+          "id": "B04-main-gable",
+          "domainRoofRingLocalXZ": [
+            [
+              61.97356254429787,
+              -322.6225340150029
+            ],
+            [
+              73.30236177363182,
+              -310.53489002473896
+            ],
+            [
+              67.04636458739546,
+              -304.6526700572079
+            ],
+            [
+              55.717562450599814,
+              -316.7402950055114
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639880.1850508719,
+              6636439.331964848
+            ],
+            [
+              639891.9870413524,
+              6636427.672836462
+            ],
+            [
+              639885.9430649203,
+              6636421.554801738
+            ],
+            [
+              639874.1410744397,
+              6636433.2139301235
+            ]
+          ],
+          "ridgeAxisLocalXZ": [
+            [
+              58.84556002018498,
+              -319.6814158703407
+            ],
+            [
+              70.17436070324977,
+              -307.593781400266
+            ]
+          ],
+          "ridgeHeightRH2000": [
+            41.97892338007449,
+            41.98390398442862
+          ],
+          "eaveHeightRH2000": [
+            39.24738034781373,
+            39.25236095223599,
+            39.00484515866182,
+            38.99986455430769
+          ],
+          "roofPlanes": [
+            {
+              "id": "B04-P1",
+              "originLocalXZ": [
+                66.63206510027327,
+                -315.70734382123
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.46398868107722646,
+              "b": -0.43527234226320377,
+              "c": 40.09588235294114,
+              "supportCount": 119,
+              "verticalRmseMetres": 0.06324723638087965,
+              "pitchDegrees": 32.4254534578622,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  69.44921713008735,
+                  -308.357390921299
+                ],
+                [
+                  65.31173519131441,
+                  -312.7638919217938
+                ],
+                [
+                  59.687842573658685,
+                  -318.79661165512687
+                ],
+                [
+                  59.53430820636603,
+                  -319.49245371746
+                ],
+                [
+                  59.57737334681339,
+                  -319.8408507450367
+                ],
+                [
+                  62.00612210885327,
+                  -321.49926618278954
+                ],
+                [
+                  66.25832451777296,
+                  -323.0588298652529
+                ],
+                [
+                  68.055110896481,
+                  -321.7209041910124
+                ],
+                [
+                  70.5231560224259,
+                  -319.1175504755873
+                ],
+                [
+                  75.1614311286823,
+                  -314.2221029919159
+                ],
+                [
+                  75.2583253847352,
+                  -313.8784219288084
+                ],
+                [
+                  71.85651851279614,
+                  -309.9766070155175
+                ],
+                [
+                  69.44921713008735,
+                  -308.357390921299
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  -0.446227248416412,
+                  -0.45212216282736417,
+                  40.29577968200413
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            },
+            {
+              "id": "B04-P3",
+              "originLocalXZ": [
+                63.282551037604414,
+                -312.2948364026062
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.5064630516607198,
+              "b": 0.47425658254093556,
+              "c": 40.72295774647893,
+              "supportCount": 71,
+              "verticalRmseMetres": 0.06228068916062788,
+              "pitchDegrees": 34.71438918553478,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  67.55608386155028,
+                  -305.80869971121786
+                ],
+                [
+                  65.19586084814361,
+                  -307.8279425007881
+                ],
+                [
+                  63.210175479875474,
+                  -309.98305232837055
+                ],
+                [
+                  57.121213805207525,
+                  -316.9233859668938
+                ],
+                [
+                  57.48784017278827,
+                  -317.37957486157825
+                ],
+                [
+                  59.295792834543924,
+                  -318.9914255019431
+                ],
+                [
+                  62.708239751682996,
+                  -315.48236352960004
+                ],
+                [
+                  69.38377767985038,
+                  -307.6798171109928
+                ],
+                [
+                  67.55608386155028,
+                  -305.80869971121786
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  0.48710815028497506,
+                  0.4926496182497502,
+                  43.81982895212752
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "roofWidthMetres": 8.6,
+          "lengthMetres": 16.589823808938124,
+          "heightFunction": "minimum of the two roof planes inside domain",
+          "domainInterpretation": "Approximate domain from municipal outline and matched laser support; roof edges/overhang are not surveyed.",
+          "horizontalInterpretationUncertaintyMetres": 0.8,
+          "verticalInterpretationUncertaintyMetres": 0.4
+        },
+        {
+          "id": "B04-lean-to-2",
+          "domainRoofRingLocalXZ": [
+            [
+              72.75695052627343,
+              -311.1266126701332
+            ],
+            [
+              69.77306907974315,
+              -313.9656969805526
+            ],
+            [
+              66.99730353389178,
+              -316.61841780804764
+            ],
+            [
+              64.97365632106779,
+              -318.92085714440867
+            ],
+            [
+              63.76336580192073,
+              -320.6998040135548
+            ],
+            [
+              62.46591918791733,
+              -323.06770505137393
+            ],
+            [
+              64.71432532445873,
+              -324.55722135038656
+            ],
+            [
+              66.3057929328363,
+              -324.49713216396134
+            ],
+            [
+              67.20012924166916,
+              -324.00000799564594
+            ],
+            [
+              67.89147647246853,
+              -323.4809611103509
+            ],
+            [
+              69.80854927480476,
+              -321.66469668060955
+            ],
+            [
+              76.34182561623494,
+              -314.73830931092124
+            ],
+            [
+              75.46485404640353,
+              -312.5157801411626
+            ],
+            [
+              74.32679586470388,
+              -311.506427411322
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639891.4184786463,
+              6636428.243927262
+            ],
+            [
+              639888.3229499521,
+              6636430.970164813
+            ],
+            [
+              639885.4428889538,
+              6636433.517911081
+            ],
+            [
+              639883.3293185432,
+              6636435.743796827
+            ],
+            [
+              639882.0500988659,
+              6636437.4769331645
+            ],
+            [
+              639880.6613898795,
+              6636439.795694958
+            ],
+            [
+              639882.8571311214,
+              6636441.369999999
+            ],
+            [
+              639884.4533265065,
+              6636441.369999999
+            ],
+            [
+              639885.3677855209,
+              6636440.906674099
+            ],
+            [
+              639886.0797678782,
+              6636440.413763237
+            ],
+            [
+              639888.0682718417,
+              6636438.669998223
+            ],
+            [
+              639894.8727650748,
+              6636431.990741061
+            ],
+            [
+              639894.0782156002,
+              6636429.735245778
+            ],
+            [
+              639892.9764413594,
+              6636428.682989481
+            ]
+          ],
+          "roofPlanes": [
+            {
+              "id": "B04-P2",
+              "originLocalXZ": [
+                69.04966052410981,
+                -318.20248093078885
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.10237405936362143,
+              "b": -0.09578308786819513,
+              "c": 37.16884615384616,
+              "supportCount": 78,
+              "verticalRmseMetres": 0.019509494002455614,
+              "pitchDegrees": 7.9687684628773585,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  72.93305783016143,
+                  -311.7860795313925
+                ],
+                [
+                  70.18584933998409,
+                  -314.39997581704006
+                ],
+                [
+                  67.4294183169648,
+                  -317.03421949728266
+                ],
+                [
+                  65.44748785597915,
+                  -319.2891952049442
+                ],
+                [
+                  64.27430383564847,
+                  -321.01360138145
+                ],
+                [
+                  63.25593613615717,
+                  -322.8721710294525
+                ],
+                [
+                  64.88407227534078,
+                  -323.9507728318483
+                ],
+                [
+                  66.14034007355497,
+                  -323.9033398083899
+                ],
+                [
+                  66.87383621484341,
+                  -323.4956199672476
+                ],
+                [
+                  67.50499746550841,
+                  -323.02175930674224
+                ],
+                [
+                  69.38494942227861,
+                  -321.2406639248357
+                ],
+                [
+                  75.64507255317346,
+                  -314.60386707094585
+                ],
+                [
+                  74.96075749753601,
+                  -312.8695909569089
+                ],
+                [
+                  74.04144773812166,
+                  -312.0542478449053
+                ],
+                [
+                  72.93305783016143,
+                  -311.7860795313925
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  -0.09846477297190147,
+                  -0.09950122421455987,
+                  37.69936574776982
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "heightFunction": "single fitted plane within the support-hull domain",
+          "domainInterpretation": "Conservative support hull plus0.6m, reference approximation of attached lower roof.",
+          "horizontalInterpretationUncertaintyMetres": 1.0,
+          "verticalInterpretationUncertaintyMetres": 0.5
+        },
+        {
+          "id": "B04-outline-roof-continuation-1",
+          "domainRoofRingLocalXZ": [
+            [
+              65.81524038508815,
+              -325.7967642462296
+            ],
+            [
+              63.83636987013026,
+              -323.97559646608477
+            ],
+            [
+              64.71432532445873,
+              -324.55722135038656
+            ],
+            [
+              66.3057929328363,
+              -324.49713216396134
+            ],
+            [
+              67.20012924166916,
+              -324.00000799564594
+            ],
+            [
+              67.89147647246853,
+              -323.4809611103509
+            ],
+            [
+              68.40833114730867,
+              -322.99128499574863
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639883.913026648,
+              6636442.6510260375
+            ],
+            [
+              639881.9997404246,
+              6636440.755266731
+            ],
+            [
+              639882.8571311214,
+              6636441.369999998
+            ],
+            [
+              639884.4533265065,
+              6636441.369999998
+            ],
+            [
+              639885.3677855207,
+              6636440.906674101
+            ],
+            [
+              639886.0797678782,
+              6636440.413763237
+            ],
+            [
+              639886.615880654,
+              6636439.943633311
+            ]
+          ],
+          "roofPlanes": [
+            {
+              "id": "B04-P2",
+              "originLocalXZ": [
+                69.04966052410981,
+                -318.20248093078885
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.10237405936362143,
+              "b": -0.09578308786819513,
+              "c": 37.16884615384616,
+              "supportCount": 78,
+              "verticalRmseMetres": 0.019509494002455614,
+              "pitchDegrees": 7.9687684628773585,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  72.93305783016143,
+                  -311.7860795313925
+                ],
+                [
+                  70.18584933998409,
+                  -314.39997581704006
+                ],
+                [
+                  67.4294183169648,
+                  -317.03421949728266
+                ],
+                [
+                  65.44748785597915,
+                  -319.2891952049442
+                ],
+                [
+                  64.27430383564847,
+                  -321.01360138145
+                ],
+                [
+                  63.25593613615717,
+                  -322.8721710294525
+                ],
+                [
+                  64.88407227534078,
+                  -323.9507728318483
+                ],
+                [
+                  66.14034007355497,
+                  -323.9033398083899
+                ],
+                [
+                  66.87383621484341,
+                  -323.4956199672476
+                ],
+                [
+                  67.50499746550841,
+                  -323.02175930674224
+                ],
+                [
+                  69.38494942227861,
+                  -321.2406639248357
+                ],
+                [
+                  75.64507255317346,
+                  -314.60386707094585
+                ],
+                [
+                  74.96075749753601,
+                  -312.8695909569089
+                ],
+                [
+                  74.04144773812166,
+                  -312.0542478449053
+                ],
+                [
+                  72.93305783016143,
+                  -311.7860795313925
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  -0.09846477297190147,
+                  -0.09950122421455987,
+                  37.69936574776982
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "closureMethod": "Extend the best-supported adjoining roof function to its uncovered municipal outline; no new plane is invented.",
+          "parentRoofComponent": "B04-lean-to-2",
+          "sourceInteriorUnclassifiedReturns": 4,
+          "selectionMetric": "median point-height residual in metres",
+          "selectionValue": 0.01600073936401003,
+          "domainInterpretation": "Explicit footprint-minus-roof closure; source plan outline and roof edge convention remain uncertain.",
+          "horizontalInterpretationUncertaintyMetres": 0.8,
+          "verticalInterpretationUncertaintyMetres": 0.5
+        },
+        {
+          "id": "B04-outline-roof-continuation-2",
+          "domainRoofRingLocalXZ": [
+            [
+              76.73013219356068,
+              -313.9878823759736
+            ],
+            [
+              76.25048296427315,
+              -314.50681753238246
+            ],
+            [
+              75.64263397893386,
+              -312.9663319029744
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639895.2899622419,
+              6636431.255025018
+            ],
+            [
+              639894.790007304,
+              6636431.755815623
+            ],
+            [
+              639894.2392869884,
+              6636430.192480424
+            ]
+          ],
+          "roofPlanes": [
+            {
+              "id": "B04-P2",
+              "originLocalXZ": [
+                69.04966052410981,
+                -318.20248093078885
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.10237405936362143,
+              "b": -0.09578308786819513,
+              "c": 37.16884615384616,
+              "supportCount": 78,
+              "verticalRmseMetres": 0.019509494002455614,
+              "pitchDegrees": 7.9687684628773585,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  72.93305783016143,
+                  -311.7860795313925
+                ],
+                [
+                  70.18584933998409,
+                  -314.39997581704006
+                ],
+                [
+                  67.4294183169648,
+                  -317.03421949728266
+                ],
+                [
+                  65.44748785597915,
+                  -319.2891952049442
+                ],
+                [
+                  64.27430383564847,
+                  -321.01360138145
+                ],
+                [
+                  63.25593613615717,
+                  -322.8721710294525
+                ],
+                [
+                  64.88407227534078,
+                  -323.9507728318483
+                ],
+                [
+                  66.14034007355497,
+                  -323.9033398083899
+                ],
+                [
+                  66.87383621484341,
+                  -323.4956199672476
+                ],
+                [
+                  67.50499746550841,
+                  -323.02175930674224
+                ],
+                [
+                  69.38494942227861,
+                  -321.2406639248357
+                ],
+                [
+                  75.64507255317346,
+                  -314.60386707094585
+                ],
+                [
+                  74.96075749753601,
+                  -312.8695909569089
+                ],
+                [
+                  74.04144773812166,
+                  -312.0542478449053
+                ],
+                [
+                  72.93305783016143,
+                  -311.7860795313925
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  -0.09846477297190147,
+                  -0.09950122421455987,
+                  37.69936574776982
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "closureMethod": "Extend the best-supported adjoining roof function to its uncovered municipal outline; no new plane is invented.",
+          "parentRoofComponent": "B04-lean-to-2",
+          "sourceInteriorUnclassifiedReturns": 1,
+          "selectionMetric": "nearest adjoining domain in metres",
+          "selectionValue": 0.15916074135964886,
+          "domainInterpretation": "Explicit footprint-minus-roof closure; source plan outline and roof edge convention remain uncertain.",
+          "horizontalInterpretationUncertaintyMetres": 0.8,
+          "verticalInterpretationUncertaintyMetres": 0.5
+        },
+        {
+          "id": "B04-outline-roof-continuation-3",
+          "domainRoofRingLocalXZ": [
+            [
+              74.00580867559052,
+              -311.4287664703532
+            ],
+            [
+              72.75695052627343,
+              -311.1266126701332
+            ],
+            [
+              72.6723021827708,
+              -311.20715333109706
+            ],
+            [
+              73.18618628519253,
+              -310.6588473759305
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639892.6578838455,
+              6636428.593214123
+            ],
+            [
+              639891.4184786463,
+              6636428.243927263
+            ],
+            [
+              639891.3306629721,
+              6636428.321266591
+            ],
+            [
+              639891.8660129756,
+              6636427.79239925
+            ]
+          ],
+          "roofPlanes": [
+            {
+              "id": "B04-P1",
+              "originLocalXZ": [
+                66.63206510027327,
+                -315.70734382123
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.46398868107722646,
+              "b": -0.43527234226320377,
+              "c": 40.09588235294114,
+              "supportCount": 119,
+              "verticalRmseMetres": 0.06324723638087965,
+              "pitchDegrees": 32.4254534578622,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  69.44921713008735,
+                  -308.357390921299
+                ],
+                [
+                  65.31173519131441,
+                  -312.7638919217938
+                ],
+                [
+                  59.687842573658685,
+                  -318.79661165512687
+                ],
+                [
+                  59.53430820636603,
+                  -319.49245371746
+                ],
+                [
+                  59.57737334681339,
+                  -319.8408507450367
+                ],
+                [
+                  62.00612210885327,
+                  -321.49926618278954
+                ],
+                [
+                  66.25832451777296,
+                  -323.0588298652529
+                ],
+                [
+                  68.055110896481,
+                  -321.7209041910124
+                ],
+                [
+                  70.5231560224259,
+                  -319.1175504755873
+                ],
+                [
+                  75.1614311286823,
+                  -314.2221029919159
+                ],
+                [
+                  75.2583253847352,
+                  -313.8784219288084
+                ],
+                [
+                  71.85651851279614,
+                  -309.9766070155175
+                ],
+                [
+                  69.44921713008735,
+                  -308.357390921299
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  -0.446227248416412,
+                  -0.45212216282736417,
+                  40.29577968200413
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            },
+            {
+              "id": "B04-P3",
+              "originLocalXZ": [
+                63.282551037604414,
+                -312.2948364026062
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.5064630516607198,
+              "b": 0.47425658254093556,
+              "c": 40.72295774647893,
+              "supportCount": 71,
+              "verticalRmseMetres": 0.06228068916062788,
+              "pitchDegrees": 34.71438918553478,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  67.55608386155028,
+                  -305.80869971121786
+                ],
+                [
+                  65.19586084814361,
+                  -307.8279425007881
+                ],
+                [
+                  63.210175479875474,
+                  -309.98305232837055
+                ],
+                [
+                  57.121213805207525,
+                  -316.9233859668938
+                ],
+                [
+                  57.48784017278827,
+                  -317.37957486157825
+                ],
+                [
+                  59.295792834543924,
+                  -318.9914255019431
+                ],
+                [
+                  62.708239751682996,
+                  -315.48236352960004
+                ],
+                [
+                  69.38377767985038,
+                  -307.6798171109928
+                ],
+                [
+                  67.55608386155028,
+                  -305.80869971121786
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  0.48710815028497506,
+                  0.4926496182497502,
+                  43.81982895212752
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "closureMethod": "Extend the best-supported adjoining roof function to its uncovered municipal outline; no new plane is invented.",
+          "parentRoofComponent": "B04-main-gable",
+          "sourceInteriorUnclassifiedReturns": 1,
+          "selectionMetric": "nearest adjoining domain in metres",
+          "selectionValue": 0.17080151338766178,
+          "domainInterpretation": "Explicit footprint-minus-roof closure; source plan outline and roof edge convention remain uncertain.",
+          "horizontalInterpretationUncertaintyMetres": 0.8,
+          "verticalInterpretationUncertaintyMetres": 0.5
+        },
+        {
+          "id": "B04-outline-roof-continuation-5",
+          "domainRoofRingLocalXZ": [
+            [
+              62.15536365526232,
+              -322.42855519501614
+            ],
+            [
+              63.74616523363629,
+              -320.73119585893187
+            ],
+            [
+              62.59462519877733,
+              -322.83281053363453
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639880.3744450386,
+              6636439.144862426
+            ],
+            [
+              639882.0316883991,
+              6636437.507673554
+            ],
+            [
+              639880.7991489961,
+              6636439.565675006
+            ]
+          ],
+          "roofPlanes": [
+            {
+              "id": "B04-P1",
+              "originLocalXZ": [
+                66.63206510027327,
+                -315.70734382123
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.46398868107722646,
+              "b": -0.43527234226320377,
+              "c": 40.09588235294114,
+              "supportCount": 119,
+              "verticalRmseMetres": 0.06324723638087965,
+              "pitchDegrees": 32.4254534578622,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  69.44921713008735,
+                  -308.357390921299
+                ],
+                [
+                  65.31173519131441,
+                  -312.7638919217938
+                ],
+                [
+                  59.687842573658685,
+                  -318.79661165512687
+                ],
+                [
+                  59.53430820636603,
+                  -319.49245371746
+                ],
+                [
+                  59.57737334681339,
+                  -319.8408507450367
+                ],
+                [
+                  62.00612210885327,
+                  -321.49926618278954
+                ],
+                [
+                  66.25832451777296,
+                  -323.0588298652529
+                ],
+                [
+                  68.055110896481,
+                  -321.7209041910124
+                ],
+                [
+                  70.5231560224259,
+                  -319.1175504755873
+                ],
+                [
+                  75.1614311286823,
+                  -314.2221029919159
+                ],
+                [
+                  75.2583253847352,
+                  -313.8784219288084
+                ],
+                [
+                  71.85651851279614,
+                  -309.9766070155175
+                ],
+                [
+                  69.44921713008735,
+                  -308.357390921299
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  -0.446227248416412,
+                  -0.45212216282736417,
+                  40.29577968200413
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            },
+            {
+              "id": "B04-P3",
+              "originLocalXZ": [
+                63.282551037604414,
+                -312.2948364026062
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.5064630516607198,
+              "b": 0.47425658254093556,
+              "c": 40.72295774647893,
+              "supportCount": 71,
+              "verticalRmseMetres": 0.06228068916062788,
+              "pitchDegrees": 34.71438918553478,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  67.55608386155028,
+                  -305.80869971121786
+                ],
+                [
+                  65.19586084814361,
+                  -307.8279425007881
+                ],
+                [
+                  63.210175479875474,
+                  -309.98305232837055
+                ],
+                [
+                  57.121213805207525,
+                  -316.9233859668938
+                ],
+                [
+                  57.48784017278827,
+                  -317.37957486157825
+                ],
+                [
+                  59.295792834543924,
+                  -318.9914255019431
+                ],
+                [
+                  62.708239751682996,
+                  -315.48236352960004
+                ],
+                [
+                  69.38377767985038,
+                  -307.6798171109928
+                ],
+                [
+                  67.55608386155028,
+                  -305.80869971121786
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639884.9735842297,
+                  6636432.287025094
+                ],
+                "coefficients": [
+                  0.48710815028497506,
+                  0.4926496182497502,
+                  43.81982895212752
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "closureMethod": "Extend the best-supported adjoining roof function to its uncovered municipal outline; no new plane is invented.",
+          "parentRoofComponent": "B04-main-gable",
+          "sourceInteriorUnclassifiedReturns": 1,
+          "selectionMetric": "nearest adjoining domain in metres",
+          "selectionValue": 0.12053002539006337,
+          "domainInterpretation": "Explicit footprint-minus-roof closure; source plan outline and roof edge convention remain uncertain.",
+          "horizontalInterpretationUncertaintyMetres": 0.8,
+          "verticalInterpretationUncertaintyMetres": 0.5
+        }
+      ],
+      "sourceInteriorPointCount": 279,
+      "heightStatus": "Coherent roof plane estimates supported by2021 laser and visually checked2025 orthophoto; not surveyed wall/floor heights.",
+      "terrainRH2000AtCentroid": 34.5606803894043,
+      "geometryMeaning": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service."
+    },
+    {
+      "id": "B05",
+      "name": "Small red-roof building southeast of clubhouse",
+      "sourceOutlineLocalXZ": [
+        [
+          51.302858470212676,
+          -256.2070464070939
+        ],
+        [
+          45.331086523103956,
+          -248.74698198866554
+        ],
+        [
+          40.40631385731996,
+          -252.52916006066044
+        ],
+        [
+          46.38024533908049,
+          -260.07218370697245
+        ]
+      ],
+      "sourceOutlineEPSG3006": [
+        [
+          639872.0010169873,
+          6636372.517992207
+        ],
+        [
+          639866.3010485378,
+          6636364.832980383
+        ],
+        [
+          639861.2260152266,
+          6636368.42900518
+        ],
+        [
+          639866.9250239116,
+          6636376.197044483
+        ],
+        [
+          639872.0010169873,
+          6636372.517992207
+        ]
+      ],
+      "orientedRectangleLocalXZ": [
+        [
+          40.40631385731996,
+          -252.52916006066044
+        ],
+        [
+          46.40328795095473,
+          -260.099999339611
+        ],
+        [
+          51.302858470212676,
+          -256.2070464070939
+        ],
+        [
+          45.30702936030413,
+          -248.63510684706512
+        ]
+      ],
+      "dimensionsMetres": [
+        9.670531353830151,
+        6.268161219475834
+      ],
+      "areaSquareMetres": 59.94819173968906,
+      "roofComponents": [
+        {
+          "id": "B05-main-gable",
+          "domainRoofRingLocalXZ": [
+            [
+              51.333077791795006,
+              -256.24582545990165
+            ],
+            [
+              45.366228618046335,
+              -248.58882407223177
+            ],
+            [
+              40.375992827831816,
+              -252.4902502144056
+            ],
+            [
+              46.34283818205968,
+              -260.1472596676595
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639872.0298220614,
+              6636372.557909531
+            ],
+            [
+              639866.3422064097,
+              6636364.676159444
+            ],
+            [
+              639861.1971130669,
+              6636368.388953317
+            ],
+            [
+              639866.8847287187,
+              6636376.270703403
+            ]
+          ],
+          "ridgeAxisLocalXZ": [
+            [
+              48.70983102367606,
+              -258.2967157392895
+            ],
+            [
+              42.74298385784841,
+              -250.63971011119634
+            ]
+          ],
+          "ridgeHeightRH2000": [
+            41.40464390598109,
+            41.49079311646984
+          ],
+          "eaveHeightRH2000": [
+            38.76714850627025,
+            38.85329771655509,
+            39.01573633684311,
+            38.92958712635436
+          ],
+          "roofPlanes": [
+            {
+              "id": "B05-P1",
+              "originLocalXZ": [
+                47.00263618903211,
+                -253.70333098760804
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.6302525133306724,
+              "b": 0.47988380617761245,
+              "c": 40.27631578947371,
+              "supportCount": 38,
+              "verticalRmseMetres": 0.06034836629643748,
+              "pitchDegrees": 38.33788519845103,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  44.62027119811548,
+                  -250.58095491004252
+                ],
+                [
+                  44.23085826227073,
+                  -250.84567238434488
+                ],
+                [
+                  44.14806644802538,
+                  -251.2988274519492
+                ],
+                [
+                  44.800014303107176,
+                  -252.70430901932855
+                ],
+                [
+                  44.94090021934128,
+                  -252.9990099807702
+                ],
+                [
+                  47.81325415854164,
+                  -257.1608519919735
+                ],
+                [
+                  49.00967843395912,
+                  -257.11568348425914
+                ],
+                [
+                  49.77833512021212,
+                  -256.8466484965711
+                ],
+                [
+                  50.187535616937666,
+                  -255.78113087966074
+                ],
+                [
+                  48.59164607786412,
+                  -253.70124033527503
+                ],
+                [
+                  46.52134671785749,
+                  -251.2192317387155
+                ],
+                [
+                  45.83663377453869,
+                  -250.53503466727364
+                ],
+                [
+                  44.62027119811548,
+                  -250.58095491004252
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639866.7983098592,
+                  6636370.59309859
+                ],
+                "coefficients": [
+                  -0.6464367813214285,
+                  0.4555504432015738,
+                  41.253919920969686
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            },
+            {
+              "id": "B05-P2",
+              "originLocalXZ": [
+                44.76683908846438,
+                -255.36323545303722
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.644316048691021,
+              "b": -0.5133447367628745,
+              "c": 40.37,
+              "supportCount": 32,
+              "verticalRmseMetres": 0.07264873077050515,
+              "pitchDegrees": 39.435964845805366,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  42.881476880260955,
+                  -251.3366426164461
+                ],
+                [
+                  41.96847999888994,
+                  -252.81120392815637
+                ],
+                [
+                  41.88511199953814,
+                  -253.51439708417075
+                ],
+                [
+                  43.71574901674083,
+                  -255.99545522873171
+                ],
+                [
+                  45.098704583977295,
+                  -257.72336290172603
+                ],
+                [
+                  46.289796756680936,
+                  -259.1284917237891
+                ],
+                [
+                  46.72753457959236,
+                  -259.35198182407845
+                ],
+                [
+                  47.73364507516093,
+                  -257.96390995866716
+                ],
+                [
+                  47.88076728588024,
+                  -257.62833403315483
+                ],
+                [
+                  44.991654673550705,
+                  -253.8171477033478
+                ],
+                [
+                  44.66679587957088,
+                  -253.4093842019027
+                ],
+                [
+                  42.881476880260955,
+                  -251.3366426164461
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639866.7983098592,
+                  6636370.59309859
+                ],
+                "coefficients": [
+                  0.6617178403444124,
+                  -0.48843796290330843,
+                  41.64555995442338
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "roofWidthMetres": 6.344826541845643,
+          "lengthMetres": 9.719617082049583,
+          "heightFunction": "minimum of the two roof planes inside domain",
+          "domainInterpretation": "Approximate domain from municipal outline and matched laser support; roof edges/overhang are not surveyed.",
+          "horizontalInterpretationUncertaintyMetres": 0.8,
+          "verticalInterpretationUncertaintyMetres": 0.4
+        }
+      ],
+      "sourceInteriorPointCount": 71,
+      "heightStatus": "Coherent roof plane estimates supported by2021 laser and visually checked2025 orthophoto; not surveyed wall/floor heights.",
+      "terrainRH2000AtCentroid": 36.02341842651367,
+      "geometryMeaning": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service."
+    },
+    {
+      "id": "B06",
+      "name": "Dark-roof building south of clubhouse",
+      "sourceOutlineLocalXZ": [
+        [
+          30.974558767307006,
+          -213.00207664673195
+        ],
+        [
+          33.52044325207706,
+          -219.47990753242095
+        ],
+        [
+          33.7989989784765,
+          -219.37061803577222
+        ],
+        [
+          35.03242963206562,
+          -222.42712462067885
+        ],
+        [
+          37.10189992873723,
+          -221.6135470173259
+        ],
+        [
+          37.175405913436016,
+          -221.79946156273957
+        ],
+        [
+          48.719115745438394,
+          -217.22207667445105
+        ],
+        [
+          44.94312026901673,
+          -207.56187764979728
+        ],
+        [
+          44.68958712337981,
+          -207.66036725031796
+        ],
+        [
+          31.039291732173588,
+          -212.97709006693395
+        ]
+      ],
+      "sourceOutlineEPSG3006": [
+        [
+          639853.2690239816,
+          6636328.5484916335
+        ],
+        [
+          639855.5748097949,
+          6636335.121995613
+        ],
+        [
+          639855.8579231075,
+          6636335.023227844
+        ],
+        [
+          639856.9781126839,
+          6636338.126092176
+        ],
+        [
+          639859.0815032457,
+          6636337.390684925
+        ],
+        [
+          639859.1481187011,
+          6636337.57936195
+        ],
+        [
+          639870.8825309644,
+          6636333.4380434835
+        ],
+        [
+          639867.4646544477,
+          6636323.635933829
+        ],
+        [
+          639867.2070090639,
+          6636323.724846135
+        ],
+        [
+          639853.334800682,
+          6636328.525950101
+        ],
+        [
+          639853.2690239816,
+          6636328.5484916335
+        ]
+      ],
+      "orientedRectangleLocalXZ": [
+        [
+          48.736815979924884,
+          -217.26571126817447
+        ],
+        [
+          44.93095376073037,
+          -207.52910364222174
+        ],
+        [
+          30.974558767307006,
+          -213.00207664673195
+        ],
+        [
+          34.78103018616127,
+          -222.73868776563546
+        ]
+      ],
+      "dimensionsMetres": [
+        15.022182693814115,
+        10.463016304765093
+      ],
+      "areaSquareMetres": 154.96570839708278,
+      "roofComponents": [
+        {
+          "id": "B06-main-gable",
+          "domainRoofRingLocalXZ": [
+            [
+              44.82032413189457,
+              -207.24871633036344
+            ],
+            [
+              30.851165071698055,
+              -212.77850247437613
+            ],
+            [
+              34.890474083092016,
+              -223.01607087168037
+            ],
+            [
+              48.8596652769795,
+              -217.48626912566266
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639867.3534667514,
+              6636323.318157539
+            ],
+            [
+              639853.1538607705,
+              6636328.3202745
+            ],
+            [
+              639856.8137389725,
+              6636338.709641403
+            ],
+            [
+              639871.0133449534,
+              6636333.707524441
+            ]
+          ],
+          "ridgeAxisLocalXZ": [
+            [
+              46.96780593785588,
+              -212.69143305112578
+            ],
+            [
+              32.998629793937496,
+              -218.22122748931463
+            ]
+          ],
+          "ridgeHeightRH2000": [
+            43.07633913760682,
+            43.093532407990786
+          ],
+          "eaveHeightRH2000": [
+            38.98532503943487,
+            39.00251830981883,
+            39.45776928823179,
+            39.440576017262636
+          ],
+          "roofPlanes": [
+            {
+              "id": "B06-P1",
+              "originLocalXZ": [
+                39.6972140202438,
+                -212.88420486163915
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.25628567263520885,
+              "b": 0.6505289309016682,
+              "c": 41.33839080459772,
+              "supportCount": 87,
+              "verticalRmseMetres": 0.05960866786951818,
+              "pitchDegrees": 34.937704488312995,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  44.42409834607076,
+                  -208.48559742685978
+                ],
+                [
+                  38.35976411198757,
+                  -210.50465166432076
+                ],
+                [
+                  33.384792592184446,
+                  -212.55257801756585
+                ],
+                [
+                  34.094069178048926,
+                  -214.68594502699858
+                ],
+                [
+                  34.95252228130738,
+                  -216.80367991736517
+                ],
+                [
+                  35.319712237444655,
+                  -217.00983307362975
+                ],
+                [
+                  36.30883104069975,
+                  -216.76248028367752
+                ],
+                [
+                  41.11937553286798,
+                  -215.1207836871555
+                ],
+                [
+                  46.22453277549226,
+                  -212.81791564249943
+                ],
+                [
+                  44.42409834607076,
+                  -208.48559742685978
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639862.2378645836,
+                  6636330.965781254
+                ],
+                "coefficients": [
+                  0.2310344221931438,
+                  0.6592790730392393,
+                  42.84536312220188
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            },
+            {
+              "id": "B06-P2",
+              "originLocalXZ": [
+                41.84369320147009,
+                -217.1595738174796
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": -0.26068034084704306,
+              "b": -0.6554118097502127,
+              "c": 41.48362499999998,
+              "supportCount": 80,
+              "verticalRmseMetres": 0.048514953300208,
+              "pitchDegrees": 35.17381775908592,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  46.07741213931685,
+                  -213.1534914999878
+                ],
+                [
+                  42.15967128910472,
+                  -214.64148221873444
+                ],
+                [
+                  36.585914448730705,
+                  -216.96203417544154
+                ],
+                [
+                  35.89419496248942,
+                  -217.41817471933444
+                ],
+                [
+                  36.04589968691609,
+                  -219.59259088793857
+                ],
+                [
+                  37.17602813666422,
+                  -220.97002171766746
+                ],
+                [
+                  42.26799512338101,
+                  -219.37770394994544
+                ],
+                [
+                  44.30512610883435,
+                  -218.59075200620055
+                ],
+                [
+                  46.35976576098814,
+                  -217.47311624943336
+                ],
+                [
+                  47.112056078560784,
+                  -217.03468831183415
+                ],
+                [
+                  47.70369736975392,
+                  -216.57232322998482
+                ],
+                [
+                  47.994532913379935,
+                  -216.3413288531956
+                ],
+                [
+                  47.351433160864374,
+                  -214.90551191077884
+                ],
+                [
+                  47.09524084167065,
+                  -214.46515435753838
+                ],
+                [
+                  46.07741213931685,
+                  -213.1534914999878
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639862.2378645836,
+                  6636330.965781254
+                ],
+                "coefficients": [
+                  -0.23523207052963058,
+                  -0.6643206207011403,
+                  43.32624697061388
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "roofWidthMetres": 11.015155608909936,
+          "lengthMetres": 15.054899007053017,
+          "heightFunction": "minimum of the two roof planes inside domain",
+          "domainInterpretation": "Approximate domain from municipal outline and matched laser support; roof edges/overhang are not surveyed.",
+          "horizontalInterpretationUncertaintyMetres": 0.8,
+          "verticalInterpretationUncertaintyMetres": 0.4
+        },
+        {
+          "id": "B06-lean-to-3",
+          "domainRoofRingLocalXZ": [
+            [
+              40.030574685359625,
+              -209.55151892253213
+            ],
+            [
+              31.82585467097444,
+              -212.43559397984455
+            ],
+            [
+              31.672482430437682,
+              -214.8687992840152
+            ],
+            [
+              32.81533526662454,
+              -217.3331166179821
+            ],
+            [
+              35.475529046211676,
+              -222.72706155963732
+            ],
+            [
+              42.52677762412438,
+              -209.4572839931311
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639862.4693681449,
+              6636325.44
+            ],
+            [
+              639854.1430106071,
+              6636328.014179239
+            ],
+            [
+              639853.8977027648,
+              6636330.441435783
+            ],
+            [
+              639854.9494914627,
+              6636332.948730053
+            ],
+            [
+              639857.410606876,
+              6636338.442735168
+            ],
+            [
+              639864.9730633079,
+              6636325.44
+            ]
+          ],
+          "roofPlanes": [
+            {
+              "id": "B06-P3",
+              "originLocalXZ": [
+                34.509796298116306,
+                -216.16884908946184
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.2350375319451535,
+              "b": -0.0914357122278138,
+              "c": 37.613499999999995,
+              "supportCount": 20,
+              "verticalRmseMetres": 0.0592292094177964,
+              "pitchDegrees": 14.126535211542288,
+              "sourceLasClass": 1,
+              "interpretation": "Coherent laser plane manually matched to visible roof facet in 2025 orthophoto and2026 photograph; source LAS class remains unclassified.",
+              "inlierHullLocalXZ": [
+                [
+                  40.14348107546887,
+                  -210.1472959717887
+                ],
+                [
+                  32.39830489709553,
+                  -212.86983531931554
+                ],
+                [
+                  32.27951271801536,
+                  -214.75444286835113
+                ],
+                [
+                  33.355227475710144,
+                  -217.07399049809055
+                ],
+                [
+                  35.49538852225908,
+                  -221.41349060574328
+                ],
+                [
+                  41.5093816316309,
+                  -210.09573161254337
+                ],
+                [
+                  40.14348107546887,
+                  -210.1472959717887
+                ]
+              ],
+              "sourcePlaneEPSG3006": {
+                "origin": [
+                  639862.2378645836,
+                  6636330.965781254
+                ],
+                "coefficients": [
+                  0.2377757393949837,
+                  -0.08248045095256984,
+                  39.00533575581467
+                ],
+                "equation": "heightRH2000=a*(E-originE)+b*(N-originN)+c"
+              }
+            }
+          ],
+          "heightFunction": "single fitted plane within the support-hull domain",
+          "domainInterpretation": "Conservative support hull plus0.6m, reference approximation of attached lower roof.",
+          "horizontalInterpretationUncertaintyMetres": 1.0,
+          "verticalInterpretationUncertaintyMetres": 0.5
+        }
+      ],
+      "sourceInteriorPointCount": 192,
+      "heightStatus": "Coherent roof plane estimates supported by2021 laser and visually checked2025 orthophoto; not surveyed wall/floor heights.",
+      "terrainRH2000AtCentroid": 34.4051513671875,
+      "geometryMeaning": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service."
+    },
+    {
+      "id": "B07",
+      "name": "South building component",
+      "sourceOutlineLocalXZ": [
+        [
+          44.68958712337981,
+          -207.66036725031796
+        ],
+        [
+          43.6249560245215,
+          -204.91740459346687
+        ],
+        [
+          29.96009087267964,
+          -210.196541835912
+        ],
+        [
+          31.039291732173588,
+          -212.97709006693395
+        ]
+      ],
+      "sourceOutlineEPSG3006": [
+        [
+          639867.2070090639,
+          6636323.724846135
+        ],
+        [
+          639866.2440720478,
+          6636320.9418741455
+        ],
+        [
+          639852.3586786425,
+          6636325.704848757
+        ],
+        [
+          639853.334800682,
+          6636328.525950101
+        ],
+        [
+          639867.2070090639,
+          6636323.724846135
+        ]
+      ],
+      "orientedRectangleLocalXZ": [
+        [
+          29.96009087267964,
+          -210.196541835912
+        ],
+        [
+          31.039291732173588,
+          -212.97709006693395
+        ],
+        [
+          44.69038155251144,
+          -207.6614038736338
+        ],
+        [
+          43.611172110521245,
+          -204.88085971851206
+        ]
+      ],
+      "dimensionsMetres": [
+        14.67990180730208,
+        2.98520133829617
+      ],
+      "areaSquareMetres": 43.525237288417564,
+      "roofComponents": [],
+      "sourceInteriorPointCount": 8,
+      "heightStatus": "Insufficient roof returns for a stable plane; treat B07 as attached deck/porch evidence, not a separate inferred gable.",
+      "terrainRH2000AtCentroid": 34.326934814453125,
+      "geometryMeaning": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service."
+    },
+    {
+      "id": "B08",
+      "name": "Driving-range roof shelter",
+      "sourceOutlineLocalXZ": [
+        [
+          -123.45114463417146,
+          -194.97912696928353
+        ],
+        [
+          -124.63330879143686,
+          -183.74098479097967
+        ],
+        [
+          -144.40738921441422,
+          -185.82762123735677
+        ],
+        [
+          -143.2252842859505,
+          -197.0657695480989
+        ]
+      ],
+      "sourceOutlineEPSG3006": [
+        [
+          639699.2780064853,
+          6636304.700974609
+        ],
+        [
+          639698.5169960053,
+          6636293.418985178
+        ],
+        [
+          639678.6330028601,
+          6636294.7599756885
+        ],
+        [
+          639679.3940132088,
+          6636306.0419642
+        ],
+        [
+          639699.2780064853,
+          6636304.700974609
+        ]
+      ],
+      "dimensionsMetres": [
+        19.92925899968953,
+        11.307816956138524
+      ],
+      "roofComponents": [
+        {
+          "id": "B08-main-monopitch",
+          "domainRoofRingLocalXZ": [
+            [
+              -145.0365169670633,
+              -196.53205221019647
+            ],
+            [
+              -124.02177907118737,
+              -194.61964452928243
+            ],
+            [
+              -125.27576698844874,
+              -182.5061431814609
+            ],
+            [
+              -145.9473794899924,
+              -185.0456505973662
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639677.6000000001,
+              6636305.44
+            ],
+            [
+              639698.7200000001,
+              6636304.32
+            ],
+            [
+              639697.92,
+              6636292.16
+            ],
+            [
+              639677.12,
+              6636293.92
+            ]
+          ],
+          "roofPlanes": [
+            {
+              "id": "B08-main-monopitch-estimated-plane",
+              "originLocalXZ": [
+                -135.07036062917294,
+                -189.67587262957647
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.008946783391317045,
+              "b": 0.08385972435756976,
+              "c": 28.733689498901352,
+              "supportCount": 0,
+              "sourceLasClass": null,
+              "verticalRmseMetres": null,
+              "pitchDegrees": 4.8206681971768575,
+              "interpretation": "Estimated shallow roof plane for modelling; heights and slope direction are not measured.",
+              "heightStatus": "estimated",
+              "assumedTerrainDatumRH2000": 25.033689498901367,
+              "assumedRoofHeightsAboveTerrainMetres": [
+                4.199999999999999,
+                4.199999999999999,
+                3.1999999999999993,
+                3.1999999999999993
+              ],
+              "verticalInterpretationUncertaintyMetres": 1.0
+            }
+          ],
+          "heightFunction": "single estimated plane; does not establish a measured roof height",
+          "roofMaterial": "dark-metal",
+          "heightStatus": "estimated",
+          "domainInterpretation": "Visible native roof outline, approximately0.7m boundary uncertainty; independent of estimated vertical form.",
+          "sourceNativePixelRing": [
+            [
+              548,
+              248
+            ],
+            [
+              680,
+              255
+            ],
+            [
+              675,
+              331
+            ],
+            [
+              545,
+              320
+            ]
+          ],
+          "horizontalInterpretationUncertaintyMetres": 0.7,
+          "verticalInterpretationUncertaintyMetres": 1.0
+        },
+        {
+          "id": "B08-north-rear-extension",
+          "domainRoofRingLocalXZ": [
+            [
+              -143.92928444484636,
+              -200.4905659455764
+            ],
+            [
+              -134.86059448065373,
+              -199.50861285660324
+            ],
+            [
+              -134.99870114568012,
+              -195.8335827512343
+            ],
+            [
+              -144.38642430700855,
+              -196.82756365249304
+            ]
+          ],
+          "domainRoofRingEPSG3006": [
+            [
+              639678.56,
+              6636309.44
+            ],
+            [
+              639687.68,
+              6636308.8
+            ],
+            [
+              639687.68,
+              6636305.12
+            ],
+            [
+              639678.24,
+              6636305.76
+            ]
+          ],
+          "roofPlanes": [
+            {
+              "id": "B08-north-rear-extension-estimated-plane",
+              "originLocalXZ": [
+                -139.5437510945472,
+                -198.16508130147676
+              ],
+              "equation": "heightRH2000=a*(xCourse-originX)+b*(-zCourse+originZ)+c",
+              "a": 0.00723058504034012,
+              "b": 0.06755101711056272,
+              "c": 29.35868949890137,
+              "supportCount": 0,
+              "sourceLasClass": null,
+              "verticalRmseMetres": null,
+              "pitchDegrees": 3.88652520004261,
+              "interpretation": "Estimated shallow roof plane for modelling; heights and slope direction are not measured.",
+              "heightStatus": "estimated",
+              "assumedTerrainDatumRH2000": 25.033689498901367,
+              "assumedRoofHeightsAboveTerrainMetres": [
+                4.449999999999999,
+                4.449999999999999,
+                4.199999999999999,
+                4.199999999999999
+              ],
+              "verticalInterpretationUncertaintyMetres": 1.0
+            }
+          ],
+          "heightFunction": "single estimated plane; does not establish a measured roof height",
+          "roofMaterial": "dark-metal",
+          "heightStatus": "estimated",
+          "domainInterpretation": "Visible native roof outline, approximately0.7m boundary uncertainty; independent of estimated vertical form.",
+          "sourceNativePixelRing": [
+            [
+              554,
+              223
+            ],
+            [
+              611,
+              227
+            ],
+            [
+              611,
+              250
+            ],
+            [
+              552,
+              246
+            ]
+          ],
+          "horizontalInterpretationUncertaintyMetres": 0.7,
+          "verticalInterpretationUncertaintyMetres": 1.0
+        }
+      ],
+      "heightStatus": "estimated: no acquired laser coverage; source-supported roof outlines with assumed3.2m front/4.2m rear above DTM datum",
+      "terrainRH2000AtCentroid": 25.033689498901367,
+      "sourceObservation": "upsalabuild/facilities/models-2026-09-10/range-roof-observation.json"
+    }
+  ],
+  "sources": [
+    {
+      "path": "upsalabuild/cache/facilities-reference-2026-09-10/lidar/clubhouse-central-2021.csv.gz",
+      "sha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+      "capturePeriod": "2021-03-07T00:00:00Z through 2021-04-01T00:00:00Z"
+    },
+    {
+      "path": "upsalabuild/cache/facilities-2026-09-10/facilities-campus-native.tif",
+      "sha256": "80ba6cc36226244c7303543bbdbbf7d9dcef59f4c482f32b74f0f19c37a4fa88",
+      "captureDate": "2025-06-14"
+    },
+    {
+      "path": "upsalabuild/cache/facilities-web-2026-09-10/june2026-drone.webp",
+      "sha256": "b2461448d2e29acd279b387519b9f731c3bd934997073f997e49fba2065d9b93"
+    }
+  ],
+  "reviewImages": [
+    "upsalabuild/cache/facilities-2026-09-10/roof-study/clubhouse-plane-clusters.png",
+    "upsalabuild/cache/facilities-2026-09-10/roof-study/clubhouse-roof-domains.png",
+    "upsalabuild/cache/facilities-2026-09-10/roof-study/auxiliary-plane-clusters.png"
+  ],
+  "fitMethod": "Deterministic RANSAC within B01 buffered inward0.4m, 0.13m inlier threshold, least-squares plane refit; eight coherent planes subsequently directly matched to visible roof facets. No LAS reclassification.",
+  "limits": [
+    "Plane residuals measure internal fit, not survey accuracy.",
+    "Roof domain rectangles and dormer sizes are image interpretation with explicit uncertainty.",
+    "Build roof union, omit internal walls between overlapping components.",
+    "B02 has a lower23degree gabled white roof in the2021 returns; apparent white photo cover alone is not evidence of a flat roof.",
+    "B07 has only8interior returns and no stable plane; retain its deck/porch role as image interpretation rather than fabricating a second tall building."
+  ],
+  "closureValidation": {
+    "originalMissingMunicipalAreaSquareMetres": 51.91242014490261,
+    "addedParts": 6,
+    "remainingMissingMunicipalAreaSquareMetres": 9.254723211398011e-15,
+    "explicitQualityDistinction": "Northwest low roof:39points/RMS0.058m. Central junction:24points/RMS0.290m approximate closure; local facet topology is not fully resolved."
+  },
+  "auxiliaryClosureValidation": [
+    {
+      "id": "B02",
+      "originalMissingOutlineAreaSquareMetres": 3.582976307813818e-14,
+      "addedParts": 0,
+      "remainingMissingOutlineAreaSquareMetres": 3.582976307813818e-14,
+      "closures": []
+    },
+    {
+      "id": "B04",
+      "originalMissingOutlineAreaSquareMetres": 3.6353683079233887,
+      "addedParts": 4,
+      "remainingMissingOutlineAreaSquareMetres": 4.7425977416370546e-11,
+      "closures": [
+        {
+          "id": "B04-outline-roof-continuation-1",
+          "parent": "B04-lean-to-2",
+          "area": 2.054421304519754,
+          "points": 4,
+          "selectionValue": 0.01600073936401003
+        },
+        {
+          "id": "B04-outline-roof-continuation-2",
+          "parent": "B04-lean-to-2",
+          "area": 0.5271634765770575,
+          "points": 1,
+          "selectionValue": 0.15916074135964886
+        },
+        {
+          "id": "B04-outline-roof-continuation-3",
+          "parent": "B04-main-gable",
+          "area": 0.35944617047504157,
+          "points": 1,
+          "selectionValue": 0.17080151338766178
+        },
+        {
+          "id": "B04-outline-roof-continuation-5",
+          "parent": "B04-main-gable",
+          "area": 0.6943373563041095,
+          "points": 1,
+          "selectionValue": 0.12053002539006337
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "originalMissingOutlineAreaSquareMetres": 2.643824006649071e-13,
+      "addedParts": 0,
+      "remainingMissingOutlineAreaSquareMetres": 2.643824006649071e-13,
+      "closures": []
+    },
+    {
+      "id": "B06",
+      "originalMissingOutlineAreaSquareMetres": 0.0,
+      "addedParts": 0,
+      "remainingMissingOutlineAreaSquareMetres": 0.0,
+      "closures": []
+    }
+  ]
+}

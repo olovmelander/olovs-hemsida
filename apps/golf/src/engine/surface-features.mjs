@@ -6,17 +6,29 @@
 import { smoothMownEdges } from './ring-smoothing.mjs';
 import { SURFACE } from './surface.js';
 import { withInferredTeePads } from './tee-pads.mjs';
+import { teePadSurfaceOwners } from './tee-surface-ownership.mjs';
 
 function validRings(value) {
   return (value || []).filter(ring => Array.isArray(ring) && ring.length >= 3);
 }
 
 function hardSurface(item) {
-  const value = `${item?.surface || ''} ${item?.kind || ''}`.toLowerCase();
-  if (/asphalt|paved|trunk|secondary|tertiary|cycleway/.test(value)) return SURFACE.ASPHALT;
+  const value = (item?.surface || '').toLowerCase();
+  // An explicit material takes precedence over road class. In particular,
+  // neither an unpaved tertiary road nor a gravel cycleway is asphalt.
+  if (/\b(asphalt|paved|concrete)\b/.test(value)) return SURFACE.ASPHALT;
   if (/mud/.test(value)) return SURFACE.MUD;
   if (/dirt|ground|earth|soil/.test(value)) return SURFACE.DIRT;
+  if (/gravel|unpaved|compacted|pebble|sand/.test(value)) return SURFACE.GRAVEL;
+  if (/^(trunk|secondary|tertiary|cycleway)$/.test(item?.kind || '')) return SURFACE.ASPHALT;
   return SURFACE.GRAVEL;
+}
+
+// Source widths are full metres. Older packs have no explicit unit contract
+// for `w`, so preserve their existing defaults rather than reinterpret them.
+export function mappedLineHalfWidth(item, fallback) {
+  return Number.isFinite(item?.widthMetres) && item.widthMetres > 0
+    ? item.widthMetres / 2 : fallback;
 }
 
 // The generic hard-surface display is gravel-coloured. Only an explicit source
@@ -24,6 +36,12 @@ function hardSurface(item) {
 export function mappedPathSurface(feature) {
   if (feature?.kind !== 'paved_path') return null;
   return feature.material === 'asphalt' ? SURFACE.ASPHALT : SURFACE.GRAVEL;
+}
+
+// A target may be short-mown turf or a hard target. Keep the facility identity
+// separate from the material; turf does not make it a playable practice green.
+export function isTurfRangeTarget(feature) {
+  return feature?.kind === 'range_target_surface' && feature.material === 'turf';
 }
 
 /**
@@ -58,10 +76,11 @@ export function buildGroundSurfaceFeatures({
   };
   const line = (surface, item, width) => {
     if (Array.isArray(item?.line) && item.line.length > 1) {
-      features.push({ surface, line: item.line, width });
+      features.push({ surface, line: item.line, width: mappedLineHalfWidth(item, width) });
     }
   };
 
+  const teeOwners = teePadSurfaceOwners(holes);
   for (const hole of holes) {
     if (!hole || typeof hole !== 'object') continue;
     const owner = Number.isSafeInteger(hole.n) && hole.n >= 0 && hole.n <= 65535 ? hole.n : 0;
@@ -69,7 +88,7 @@ export function buildGroundSurfaceFeatures({
     rings(SURFACE.FAIRWAY, hole.fairway?.rings, { hole: owner });
     rings(SURFACE.FRINGE, [hole.green?.ring], { pad: 3.2, hole: owner });
     rings(SURFACE.GREEN, [hole.green?.ring], { hole: owner });
-    const tees = (hole.tees?.pads || []).map(tee => tee?.ring);
+    const tees = (hole.tees?.pads || []).filter(tee => teeOwners.has(tee)).map(tee => tee?.ring);
     rings(SURFACE.FRINGE, tees, { pad: 2.2, hole: owner });
     rings(SURFACE.TEE, tees, { hole: owner });
     rings(SURFACE.SAND, (hole.bunkers || []).map(bunker => bunker?.ring), { pad: sandPad, hole: owner });
@@ -87,7 +106,8 @@ export function buildGroundSurfaceFeatures({
   // These are complete polygons, not independent outer rings: an interior island
   // must remain excluded from the putting turf in the atlas and v2 compiler.
   for (const feature of scenery.mappedFeatures || []) {
-    const surface = feature.kind === 'practice_green' ? SURFACE.GREEN
+    const surface = feature.kind === 'mown_approach' ? SURFACE.SEMI
+      : feature.kind === 'practice_green' || isTurfRangeTarget(feature) ? SURFACE.GREEN
       : feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' ? SURFACE.SAND
         : feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface' ? SURFACE.TEE : null;
     if (surface !== null && validRings(feature.rings).length) {

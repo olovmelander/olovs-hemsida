@@ -42,9 +42,11 @@ const additions = [
   ['ortho-plan', 'acquisition', base+'ortho-plan.json', 'discovery-evidence', 'Native-lattice bounded acquisition requests over the shared playing ground.'],
   ['ortho-acquisition', 'acquisition', base+'ortho-review.json', 'discovery-evidence', 'Completed private imagery intake with actual raster affines, coverage and per-file hashes.'],
   ['ortho-grid-verification', 'control', base+'ortho-grid-verification.json', 'discovery-evidence', 'Actual provider-to-crop affine and exact four-band sample checks; numerical registration only, not survey accuracy.'],
-  ['ortho-trace-verification', 'control', base+'ortho-trace-verification.json', 'discovery-evidence', 'Source and panel hashes plus pixel-to-EPSG-to-local numerical residual checks.'],
+  ['ortho-trace-verification', 'control', base+'ortho-trace-verification.json', 'discovery-evidence', 'Historical first-pass source/panel hash and numerical checks. Current adopted features are checked by ortho-alignment-audit.'],
   ['ortho-reviewed-vectors', 'surface', 'geobuild/mapping/lm-ortho-review.json', 'migration-only', 'Explicit source-pixel decisions, current vector overrides, provisional platform references and retained historical uncertainty.'],
   ['ortho-alignment-audit', 'control', base+'ortho-alignment-audit.json', 'discovery-evidence', 'Independent final source-to-model checks and per-hole adopted and unresolved inventory.'],
+  ['tee-coordinate-review', 'control', base+'tee-coordinate-review.json', 'discovery-evidence', 'All 108 numbered reference coordinates in legacy metres, WGS84 and EPSG:3006, with explicit association status, containment and changes from the preceding review.'],
+  ['tee-coordinate-table', 'control', base+'tee-coordinate-review.csv', 'discovery-evidence', 'Tabular export of tee-coordinate-review; unresolved references are not surveyed tee positions.'],
 ];
 for (const [id, kind, file, use, notes] of additions) {
   if (!fs.existsSync(file)) continue;

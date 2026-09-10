@@ -17,25 +17,27 @@ import {
 import { COURSE_DATA_DIR, REPO_ROOT } from './pilots.mjs';
 
 export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
-  visby: Object.freeze({ path: 'visbybuild/course-model.json', sha256: 'f424be0ad18158715c3a9a188527081984064747879a73fc83e8770e9739c7d2',
+  tortuna: Object.freeze({ path: 'tortunabuild/course-model.json', sha256: 'aba02b65fc4c9e8e5b50fca73c1052a38e02b67b60fa1e8f6a730318ec0599b9',
+    projectedOriginEpsg3006: Object.freeze({ easting: 597400.5, northing: 6614899.5 }) }),
+  visby: Object.freeze({ path: 'visbybuild/course-model.json', sha256: 'c9d7e2e3cd13b2a8d040681d315eec3e99083437fa6f82bbda423402eb64eb71',
     projectedOriginEpsg3006: Object.freeze({ easting: 687748.5, northing: 6370951.5 }) }),
-  lidingo: Object.freeze({ path: 'lidingobuild/course-model.json', sha256: '51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12',
+  lidingo: Object.freeze({ path: 'lidingobuild/course-model.json', sha256: '5bfe6e8451b5d3ae606ad3a831c50630ee50ec02c64e136f3e88964a287c7fe8',
     projectedOriginEpsg3006: Object.freeze({ easting: 677700.5, northing: 6586399.5 }) }),
   angso: Object.freeze({
     path: 'angsobuild/course-model.json',
-    sha256: 'f163f2b3fcd5f032149129a0b03c5411cb3485a3454018a5976a1c0306b0059e',
+    sha256: '43bd0a4441d8a9b128b49a9163195dd845807ba555706d0738c719fb4644cf9b',
   }),
   norrfallsviken: Object.freeze({
     path: 'nvgkbuild/course-model.json',
-    sha256: '1adf3129f434d6f573d7662cc190ec5be7938303382876cbb6f4460aa13b9239',
+    sha256: '9868d54c21abf6533368ac7de0790347a439383b42462d98189cf6aea0c423fd',
   }),
   puttom: Object.freeze({
     path: 'puttombuild/course-model.json',
-    sha256: 'ce192fe669ba2a5256451287554f5c80d1de95416b84b176cd6c9598b1751176',
+    sha256: '8f0dad509aba561875dc80da16aa26a768b95b2b008bf198a961e82ceaf7c496',
   }),
   ribbingsfors: Object.freeze({
     path: 'ribbingsforsbuild/course-model.json',
-    sha256: 'f99ca922f7a810fa40db9ac71e0f8e5dcf101395213a45cf56deaa6af4ee9e17',
+    sha256: 'ad136229a3bc962e30522c01eb1800e5ccfe65fbdecd764a672a5ed3f53376ab',
     projectedOriginEpsg3006: Object.freeze({
       easting: 448975.5,
       northing: 6536024.5,
@@ -43,27 +45,27 @@ export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
   }),
   upsala: Object.freeze({
     path: 'upsalabuild/course-model.json',
-    sha256: 'bccb6f3b428ce75651f17eac4f4a182e76d01abe32669cd980ebe329f2d7cb58',
+    sha256: '3ec429382ac69f986be297c4a1b4c3e7467d558e0e0a8d8f11956818d1c41c2c',
   }),
   'upsala-mellanbanan': Object.freeze({
     path: 'upsalamellanbuild/course-model.json',
-    sha256: 'cdbbd39d05116a06dcb1abbb6d9e82025edd32f5c6205df5b843e5186e0f6c9a',
+    sha256: '61b2e883cefff22ccc8b5f5a6efa7faa2db989f404ab833dda2fd2a59c20ccff',
   }),
   johannesberg: Object.freeze({
     path: 'johannesbergbuild/course-model.json',
-    sha256: 'edc5b8dd6be0b0e3c7a91e7bb3fd4acf0d680f0f361af13f755a3cff1c7032a0',
+    sha256: 'd8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed',
   }),
   'johannesberg-9': Object.freeze({
     path: 'johannesberg9build/course-model.json',
-    sha256: '4d8f51cbecfd14843e4e91a7af02199a34403de24aa816688318bc7f55359f76',
+    sha256: '6d8af299e4a3a2f69b8304dcc0c123d2b26f3f77bd1ea44c29603a784d6b0cc3',
   }),
   veckefjarden: Object.freeze({
     path: 'geobuild/course-model.json',
-    sha256: 'a0a3cc41555672f9e84fc6962815d9488ee12aeaa5d60f0df9f757e4fc8f11b7',
+    sha256: '66885fa4e54d3c240f717800e27035262c82c48e0eea3002b7afbbf0da0997fd',
   }),
   'veckefjarden-korthalsbanan': Object.freeze({
     path: 'veckefjardenkortbuild/course-model.json',
-    sha256: '6b75e3007ed0600862f3996664d90245abc80e31f8e08f47751e2be27b433807',
+    sha256: '0e3bd2f09a89062bdd4b5f715ccb0195c42ab2687ad10086202cf8c0be3ef911',
   }),
 });
 

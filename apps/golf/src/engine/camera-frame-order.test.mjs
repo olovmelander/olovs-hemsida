@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three/webgpu';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createGroundClamp } from './camera-clamp.mjs';
+import { createCameraBreathing } from './camera-breathing.mjs';
 import { coastalCameraNear } from './coastal-camera-depth.mjs';
 import { V2GraphTerrainAdapter } from './v2-graph-terrain.mjs';
 
@@ -71,6 +72,8 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     BOOT_PERF: { doneAtMs: 1 }, document: { hidden: false },
     renderResolution: { detailHeight: () => 240, sample() {} },
     FRAME_NO: 0, TIER_FRAME: 0, FRAME_MS: new Float32Array(120), DET: false,
+    cameraBreathing: createCameraBreathing(), cameraMotionPreference: { matches: true },
+    cameraInteracting: false, camMode: 'orbit',
     TREE_LOD: { clockDriven: false, fadeClock: 0, fadeS: 0.3, queue: [], qHead: 0 },
     treeFadeClock: { value: 0 }, treeFadeDuration: { value: 0 },
     renderer: { domElement: { height: 240 } },
@@ -195,6 +198,94 @@ describe('application camera frame ordering', () => {
     expect(f.observed.render[0].position[0]).not.toBe(0);
     expect(f.observed.trees[0]).toEqual(f.observed.render[0]);
     expect(f.observed.terrain[0]).toMatchObject(f.observed.render[0]);
+  });
+
+  it.each([['preview', true], ['legacy', false]])('visibly breathes around a stable navigation pose in the %s renderer', (_name, polish) => {
+    const f = fixture({ polish });
+    f.context.cameraMotionPreference.matches = false;
+    const position = f.camera.position.toArray(), target = f.controls.target.toArray();
+    const baseOrientation = f.camera.quaternion.clone(), projection = f.camera.projectionMatrix.toArray();
+    const angles = [], horizontalPixels = [], verticalPixels = [];
+    const landmark = f.controls.target.clone(), viewportHeight = 900;
+    for (let i = 0; i < 300; i++) {
+      f.step(40);
+      angles.push(f.camera.quaternion.angleTo(baseOrientation));
+      const projected = landmark.clone().project(f.camera);
+      horizontalPixels.push(projected.x * viewportHeight * f.camera.aspect / 2);
+      verticalPixels.push(projected.y * viewportHeight / 2);
+      expect(f.camera.position.toArray()).toEqual(position);
+      expect(f.controls.target.toArray()).toEqual(target);
+      expect(f.camera.projectionMatrix.toArray()).toEqual(projection);
+      if (polish) {
+        expect(f.observed.terrain[i]).toMatchObject(f.observed.render[i]);
+        expect(f.observed.trees[i]).toEqual(f.observed.render[i]);
+      }
+    }
+    // Measure a fixed scene feature on screen, so a numerically nonzero but
+    // imperceptible rotation cannot satisfy the idle-motion regression.
+    const verticalTravel = Math.max(...verticalPixels) - Math.min(...verticalPixels);
+    const horizontalTravel = Math.max(...horizontalPixels) - Math.min(...horizontalPixels);
+    expect(verticalTravel).toBeGreaterThan(12);
+    expect(verticalTravel).toBeLessThan(20);
+    expect(horizontalTravel).toBeGreaterThan(4);
+    expect(horizontalTravel).toBeLessThan(8);
+    expect(Math.max(...angles)).toBeGreaterThan(0.004);
+    expect(Math.max(...angles)).toBeLessThan(0.009);
+    expect(f.observed.render[30].inverse).not.toEqual(f.observed.render[100].inverse);
+    expect(f.camera.fov).toBe(48);
+    expect(f.context.settled()).toBe(true);
+  });
+
+  it.each(['reduced motion', 'deterministic capture', 'overhead view', 'hidden tab', 'capture lock', 'flight'])(
+    'removes an active breathing offset immediately for %s', mode => {
+      const f = fixture();
+      f.context.cameraMotionPreference.matches = false;
+      const baseOrientation = f.camera.quaternion.clone();
+      for (let i = 0; i < 20; i++) f.step();
+      expect(f.camera.quaternion.angleTo(baseOrientation)).toBeGreaterThan(0.001);
+      if (mode === 'reduced motion') f.context.cameraMotionPreference.matches = true;
+      if (mode === 'deterministic capture') f.context.DET = true;
+      if (mode === 'overhead view') f.context.camMode = 'top';
+      if (mode === 'hidden tab') f.context.document.hidden = true;
+      if (mode === 'capture lock') f.context.captureRenderLocked = true;
+      if (mode === 'flight') f.context.flying = 0.01;
+      for (let i = 0; i < 2; i++) {
+        f.step();
+        const expected = f.camera.clone();
+        expected.lookAt(f.controls.target);
+        expect(f.camera.quaternion.angleTo(expected.quaternion)).toBeLessThan(1e-7);
+      }
+      expect(f.observed.trees.at(-1)).toMatchObject(f.snapshot());
+    },
+  );
+
+  it.each(['gesture', 'transition'])('fades breathing out during a %s and eases back into the idle gaze', mode => {
+    const f = fixture(), idle = fixture();
+    for (const view of [f, idle]) view.context.cameraMotionPreference.matches = false;
+    const baseOrientation = f.camera.quaternion.clone();
+    const amplitude = view => view.camera.quaternion.angleTo(baseOrientation);
+    const stepBoth = () => { f.step(); idle.step(); };
+    for (let i = 0; i < 30; i++) stepBoth();
+    if (mode === 'gesture') f.context.cameraInteracting = true;
+    else {
+      f.context.camTween.on = true;
+      f.context.camTween.dur = 100;
+      f.context.camTween.to.copy(f.camera.position);
+      f.context.camTween.lookTo.copy(f.controls.target);
+    }
+    stepBoth();
+    expect(amplitude(f)).toBeGreaterThan(0);
+    expect(amplitude(f)).toBeLessThan(amplitude(idle));
+    for (let i = 0; i < 11; i++) stepBoth();
+    expect(amplitude(f)).toBeLessThan(amplitude(idle) * 0.01);
+    f.context.cameraInteracting = false;
+    f.context.camTween.on = false;
+    stepBoth();
+    expect(amplitude(f)).toBeLessThan(amplitude(idle) * 0.2);
+    for (let i = 0; i < 14; i++) stepBoth();
+    expect(amplitude(f)).toBeGreaterThan(amplitude(idle) * 0.7);
+    expect(f.camera.position.toArray()).toEqual(idle.camera.position.toArray());
+    expect(f.controls.target.toArray()).toEqual(idle.controls.target.toArray());
   });
 
   it('uses the flight position, look direction, lens and current hole before visibility', () => {

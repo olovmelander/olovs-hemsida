@@ -1,0 +1,606 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-09",
+  "kind": "back-nine-followup-numbered-platform-corroboration",
+  "baselineModelSha256": "f424be0ad18158715c3a9a188527081984064747879a73fc83e8770e9739c7d2",
+  "supersedes": "Only the blanket unresolved designation for these eight retained references in lm-tee-review-back9-2026-09-09.json; coordinates and physical rings remain unchanged.",
+  "status": "provisional source-corroborated platform groups, not surveyed marker positions",
+  "references": [
+    {
+      "hole": 16,
+      "tee": "63",
+      "action": "corroborate-existing-reference",
+      "existingPadIndex": 0,
+      "oldReferenceLocal": [
+        15.580211817168339,
+        -271.0547937569677
+      ],
+      "targetReferenceLocal": [
+        15.580211817168339,
+        -271.0547937569677
+      ],
+      "displacementMetres": 0,
+      "ringLocal": [
+        [
+          4.75,
+          -280.25
+        ],
+        [
+          10.75,
+          -283.25
+        ],
+        [
+          26.25,
+          -263.25
+        ],
+        [
+          19.75,
+          -258.75
+        ],
+        [
+          4.75,
+          -280.25
+        ]
+      ],
+      "confidence": "moderate; guide topology matches observed platform group",
+      "numberedAssociation": "source-corroborated platform group; representative reference, not daily markers",
+      "sourceImage": {
+        "id": "hole-16-tees",
+        "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+        "rasterFile": "hole-16-tees.tif",
+        "boundsEpsg3006": [
+          687708.16,
+          6371096.64,
+          687872.16,
+          6371279.84
+        ],
+        "width": 1025,
+        "height": 1145,
+        "geoTransform": [
+          687708.16,
+          0.16,
+          0.0,
+          6371279.84,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "afbd80eb07036e7d6c4525f2edbc7f9edc2caa9150eba0762f125c2ac4e3b29b"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/1e4f30ef-5522-4021-b6f2-bf472d2685cb/hole-normal_web_hpXWF9x.png",
+        "sha256": "73ea5adea6e28e7010235bb617c6491ba5d0b0c0f3cd39e22becedde8ca66c7c"
+      },
+      "evidence": "Relative order of the platforms, path sides and the adjacent green/bunker complex agree between the native2026 image and the club-linked guide. No scorecard-distance positioning."
+    },
+    {
+      "hole": 16,
+      "tee": "59",
+      "action": "corroborate-existing-reference",
+      "existingPadIndex": 1,
+      "oldReferenceLocal": [
+        28.56632600002922,
+        -254.27093899995089
+      ],
+      "targetReferenceLocal": [
+        28.56632600002922,
+        -254.27093899995089
+      ],
+      "displacementMetres": 0,
+      "ringLocal": [
+        [
+          26.400000000023283,
+          -254.75
+        ],
+        [
+          31.150000000023283,
+          -257.5
+        ],
+        [
+          38.15000000002328,
+          -248
+        ],
+        [
+          33.40000000002328,
+          -244.75
+        ],
+        [
+          26.400000000023283,
+          -254.75
+        ]
+      ],
+      "confidence": "moderate; guide topology matches observed platform group",
+      "numberedAssociation": "source-corroborated platform group; representative reference, not daily markers",
+      "sourceImage": {
+        "id": "hole-16-tees",
+        "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+        "rasterFile": "hole-16-tees.tif",
+        "boundsEpsg3006": [
+          687708.16,
+          6371096.64,
+          687872.16,
+          6371279.84
+        ],
+        "width": 1025,
+        "height": 1145,
+        "geoTransform": [
+          687708.16,
+          0.16,
+          0.0,
+          6371279.84,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "afbd80eb07036e7d6c4525f2edbc7f9edc2caa9150eba0762f125c2ac4e3b29b"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/1e4f30ef-5522-4021-b6f2-bf472d2685cb/hole-normal_web_hpXWF9x.png",
+        "sha256": "73ea5adea6e28e7010235bb617c6491ba5d0b0c0f3cd39e22becedde8ca66c7c"
+      },
+      "evidence": "Relative order of the platforms, path sides and the adjacent green/bunker complex agree between the native2026 image and the club-linked guide. No scorecard-distance positioning."
+    },
+    {
+      "hole": 16,
+      "tee": "55",
+      "action": "corroborate-existing-reference",
+      "existingPadIndex": 2,
+      "oldReferenceLocal": [
+        38.35782825003844,
+        -240.98842175025493
+      ],
+      "targetReferenceLocal": [
+        38.35782825003844,
+        -240.98842175025493
+      ],
+      "displacementMetres": 0,
+      "ringLocal": [
+        [
+          34.65000000002328,
+          -244.5
+        ],
+        [
+          38.90000000002328,
+          -246.75
+        ],
+        [
+          42.15000000002328,
+          -242
+        ],
+        [
+          37.90000000002328,
+          -238.75
+        ],
+        [
+          34.65000000002328,
+          -244.5
+        ]
+      ],
+      "confidence": "moderate; guide topology matches observed platform group",
+      "numberedAssociation": "source-corroborated platform group; representative reference, not daily markers",
+      "sourceImage": {
+        "id": "hole-16-tees",
+        "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+        "rasterFile": "hole-16-tees.tif",
+        "boundsEpsg3006": [
+          687708.16,
+          6371096.64,
+          687872.16,
+          6371279.84
+        ],
+        "width": 1025,
+        "height": 1145,
+        "geoTransform": [
+          687708.16,
+          0.16,
+          0.0,
+          6371279.84,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "afbd80eb07036e7d6c4525f2edbc7f9edc2caa9150eba0762f125c2ac4e3b29b"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/1e4f30ef-5522-4021-b6f2-bf472d2685cb/hole-normal_web_hpXWF9x.png",
+        "sha256": "73ea5adea6e28e7010235bb617c6491ba5d0b0c0f3cd39e22becedde8ca66c7c"
+      },
+      "evidence": "Relative order of the platforms, path sides and the adjacent green/bunker complex agree between the native2026 image and the club-linked guide. No scorecard-distance positioning."
+    },
+    {
+      "hole": 16,
+      "tee": "46",
+      "action": "corroborate-existing-reference",
+      "existingPadIndex": 3,
+      "oldReferenceLocal": [
+        72.49206475005485,
+        -192.46338525041938
+      ],
+      "targetReferenceLocal": [
+        72.49206475005485,
+        -192.46338525041938
+      ],
+      "displacementMetres": 0,
+      "ringLocal": [
+        [
+          66.90000000002328,
+          -196.75
+        ],
+        [
+          73.40000000002328,
+          -203.75
+        ],
+        [
+          78.65000000002328,
+          -196.5
+        ],
+        [
+          72.40000000002328,
+          -190.25
+        ],
+        [
+          66.90000000002328,
+          -196.75
+        ]
+      ],
+      "confidence": "moderate; guide topology matches observed platform group",
+      "numberedAssociation": "source-corroborated platform group; representative reference, not daily markers",
+      "sourceImage": {
+        "id": "hole-16-tees",
+        "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+        "rasterFile": "hole-16-tees.tif",
+        "boundsEpsg3006": [
+          687708.16,
+          6371096.64,
+          687872.16,
+          6371279.84
+        ],
+        "width": 1025,
+        "height": 1145,
+        "geoTransform": [
+          687708.16,
+          0.16,
+          0.0,
+          6371279.84,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "afbd80eb07036e7d6c4525f2edbc7f9edc2caa9150eba0762f125c2ac4e3b29b"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/1e4f30ef-5522-4021-b6f2-bf472d2685cb/hole-normal_web_hpXWF9x.png",
+        "sha256": "73ea5adea6e28e7010235bb617c6491ba5d0b0c0f3cd39e22becedde8ca66c7c"
+      },
+      "evidence": "Relative order of the platforms, path sides and the adjacent green/bunker complex agree between the native2026 image and the club-linked guide. No scorecard-distance positioning."
+    },
+    {
+      "hole": 16,
+      "tee": "41",
+      "action": "corroborate-existing-reference",
+      "existingPadIndex": 3,
+      "oldReferenceLocal": [
+        72.49206475005485,
+        -192.46338525041938
+      ],
+      "targetReferenceLocal": [
+        72.49206475005485,
+        -192.46338525041938
+      ],
+      "displacementMetres": 0,
+      "ringLocal": [
+        [
+          66.90000000002328,
+          -196.75
+        ],
+        [
+          73.40000000002328,
+          -203.75
+        ],
+        [
+          78.65000000002328,
+          -196.5
+        ],
+        [
+          72.40000000002328,
+          -190.25
+        ],
+        [
+          66.90000000002328,
+          -196.75
+        ]
+      ],
+      "confidence": "moderate; guide topology matches observed platform group",
+      "numberedAssociation": "source-corroborated platform group; representative reference, not daily markers",
+      "sourceImage": {
+        "id": "hole-16-tees",
+        "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+        "rasterFile": "hole-16-tees.tif",
+        "boundsEpsg3006": [
+          687708.16,
+          6371096.64,
+          687872.16,
+          6371279.84
+        ],
+        "width": 1025,
+        "height": 1145,
+        "geoTransform": [
+          687708.16,
+          0.16,
+          0.0,
+          6371279.84,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "afbd80eb07036e7d6c4525f2edbc7f9edc2caa9150eba0762f125c2ac4e3b29b"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/1e4f30ef-5522-4021-b6f2-bf472d2685cb/hole-normal_web_hpXWF9x.png",
+        "sha256": "73ea5adea6e28e7010235bb617c6491ba5d0b0c0f3cd39e22becedde8ca66c7c"
+      },
+      "evidence": "Relative order of the platforms, path sides and the adjacent green/bunker complex agree between the native2026 image and the club-linked guide. No scorecard-distance positioning."
+    },
+    {
+      "hole": 18,
+      "tee": "63",
+      "action": "corroborate-existing-reference",
+      "existingPadIndex": 0,
+      "oldReferenceLocal": [
+        16.5,
+        353.25
+      ],
+      "targetReferenceLocal": [
+        16.5,
+        353.25
+      ],
+      "displacementMetres": 0,
+      "ringLocal": [
+        [
+          11.25,
+          345.25
+        ],
+        [
+          26.75,
+          352.25
+        ],
+        [
+          21.75,
+          361.25
+        ],
+        [
+          6.25,
+          354.25
+        ],
+        [
+          11.25,
+          345.25
+        ]
+      ],
+      "confidence": "moderate; guide topology matches observed platform group",
+      "numberedAssociation": "source-corroborated platform group; representative reference, not daily markers",
+      "sourceImage": {
+        "id": "hole-18-tees",
+        "sha256": "d864ce6ee50df1973f3228ecf4494eb6d3647c7e803023e83f64de86e9b022a7",
+        "rasterFile": "hole-18-tees.tif",
+        "boundsEpsg3006": [
+          687574.24,
+          6370545.12,
+          687820.32,
+          6370729.92
+        ],
+        "width": 1538,
+        "height": 1155,
+        "geoTransform": [
+          687574.24,
+          0.16,
+          0.0,
+          6370729.92,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "96ce07d41c2367a33ad5f70134b1bdb8ebb09ae9c50e2fb1236c185c9dd06da5"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/9acbb318-57f8-44f4-8fdd-e1dd8853a994/hole-normal_web_wo5YnWQ.png",
+        "sha256": "089533633a6ef1f536b78a7625eec452bda3806936228cf2e0b514fa78ef798c"
+      },
+      "evidence": "Relative order of the platforms, path sides and the adjacent green/bunker complex agree between the native2026 image and the club-linked guide. No scorecard-distance positioning."
+    },
+    {
+      "hole": 18,
+      "tee": "59",
+      "action": "corroborate-existing-reference",
+      "existingPadIndex": 1,
+      "oldReferenceLocal": [
+        -12.45022341999864,
+        327.11793992177115
+      ],
+      "targetReferenceLocal": [
+        -12.45022341999864,
+        327.11793992177115
+      ],
+      "displacementMetres": 0,
+      "ringLocal": [
+        [
+          -14.869999999995343,
+          320.9199999999255
+        ],
+        [
+          -4.869999999995343,
+          326.6699999999255
+        ],
+        [
+          -8.869999999995343,
+          332.1699999999255
+        ],
+        [
+          -18.619999999995343,
+          326.4199999999255
+        ],
+        [
+          -14.869999999995343,
+          320.9199999999255
+        ]
+      ],
+      "confidence": "moderate; guide topology matches observed platform group",
+      "numberedAssociation": "source-corroborated platform group; representative reference, not daily markers",
+      "sourceImage": {
+        "id": "hole-18-tees",
+        "sha256": "d864ce6ee50df1973f3228ecf4494eb6d3647c7e803023e83f64de86e9b022a7",
+        "rasterFile": "hole-18-tees.tif",
+        "boundsEpsg3006": [
+          687574.24,
+          6370545.12,
+          687820.32,
+          6370729.92
+        ],
+        "width": 1538,
+        "height": 1155,
+        "geoTransform": [
+          687574.24,
+          0.16,
+          0.0,
+          6370729.92,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "96ce07d41c2367a33ad5f70134b1bdb8ebb09ae9c50e2fb1236c185c9dd06da5"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/9acbb318-57f8-44f4-8fdd-e1dd8853a994/hole-normal_web_wo5YnWQ.png",
+        "sha256": "089533633a6ef1f536b78a7625eec452bda3806936228cf2e0b514fa78ef798c"
+      },
+      "evidence": "Relative order of the platforms, path sides and the adjacent green/bunker complex agree between the native2026 image and the club-linked guide. No scorecard-distance positioning."
+    },
+    {
+      "hole": 18,
+      "tee": "55",
+      "action": "corroborate-existing-reference",
+      "existingPadIndex": 2,
+      "oldReferenceLocal": [
+        -47.3344844999956,
+        302.1808604998514
+      ],
+      "targetReferenceLocal": [
+        -47.3344844999956,
+        302.1808604998514
+      ],
+      "displacementMetres": 0,
+      "ringLocal": [
+        [
+          -55.36999999999534,
+          296.9199999999255
+        ],
+        [
+          -45.36999999999534,
+          301.4199999999255
+        ],
+        [
+          -48.61999999999534,
+          308.9199999999255
+        ],
+        [
+          -58.86999999999534,
+          304.6699999999255
+        ],
+        [
+          -55.36999999999534,
+          296.9199999999255
+        ]
+      ],
+      "confidence": "moderate; guide topology matches observed platform group",
+      "numberedAssociation": "source-corroborated platform group; representative reference, not daily markers",
+      "sourceImage": {
+        "id": "hole-18-tees",
+        "sha256": "d864ce6ee50df1973f3228ecf4494eb6d3647c7e803023e83f64de86e9b022a7",
+        "rasterFile": "hole-18-tees.tif",
+        "boundsEpsg3006": [
+          687574.24,
+          6370545.12,
+          687820.32,
+          6370729.92
+        ],
+        "width": 1538,
+        "height": 1155,
+        "geoTransform": [
+          687574.24,
+          0.16,
+          0.0,
+          6370729.92,
+          0.0,
+          -0.16
+        ],
+        "validFraction": 1.0,
+        "sources": [
+          {
+            "id": "o63700_6875_25_mr26",
+            "capturedAt": "2026-04-10T08:27:42Z"
+          }
+        ],
+        "requestSha256": "96ce07d41c2367a33ad5f70134b1bdb8ebb09ae9c50e2fb1236c185c9dd06da5"
+      },
+      "guide": {
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/9acbb318-57f8-44f4-8fdd-e1dd8853a994/hole-normal_web_wo5YnWQ.png",
+        "sha256": "089533633a6ef1f536b78a7625eec452bda3806936228cf2e0b514fa78ef798c"
+      },
+      "evidence": "Relative order of the platforms, path sides and the adjacent green/bunker complex agree between the native2026 image and the club-linked guide. No scorecard-distance positioning."
+    }
+  ],
+  "remainingExplanations": {
+    "13": "Guide depicts three rear numbered positions and separate forward platforms. Only one rear turf polygon can be identified securely in the acquired area; the guide prints differing59/55 distances while the structured card groups59/55. No evidence-backed mapping of all numbered groups to visible turf is available. Retain all six references unresolved.",
+    "15": "Two rear polygons are visible, but the second lies across the path in the position associated with55 in the guide, rather than the current59 assignment. Other guide platform groups lack distinct visible boundaries; the rear platform inventory and numbering cannot be conclusively reconciled. Retain all six unresolved instead of promoting membership to identity.",
+    "16": "63,59,55 rear sequence and46/41 front group are corroborated. The guide puts51 on an intermediate platform between55 and46/41; the current51 reference is on the front group and remains unresolved because the intermediate turf boundary is not independently established beneath connected mowing and tree shadow.",
+    "18": "63,59,55 map to the three separate coastal platforms in order from the H17 green along the path. The51/46 platform near the start of the path and41 forward mowing area lack defensible separate physical boundaries in the source image; those three references remain unresolved."
+  },
+  "summary": {
+    "retainedReferencesCorroborated": 8,
+    "coordinatesMoved": 0,
+    "newPhysicalRings": 0
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "method": "Ordered accepted source decisions -> current models -> decoded packs and standalone -> canonical EPSG:3006 migration and published routing -> RFC7946 occurrences; actual standalone camera implementation and app teeView checked for every reference.",
+  "toleranceMetres": {
+    "canonicalMigration": 0.005,
+    "geographicRounding": 0.0002,
+    "runtimeAffineBridge": 0.25,
+    "associatedPadInteriorMinimum": 1
+  },
+  "limitations": [
+    "Unresolved references are checked for preservation only; this does not validate their physical location.",
+    "The affine runtime bridge has a measured sub-metre approximation residual; it is not asserted to be the exact nonlinear projection.",
+    "Daily tee marker positions and tee-colour assignments are not independently established."
+  ],
+  "landingMap": {
+    "sourceBuildingId": "w221193965",
+    "sourceName": "Upsala golfklubb",
+    "wgs84LongitudeLatitude": [
+      17.4955179,
+      59.8415076
+    ],
+    "insideSourceBuilding": true,
+    "distanceFromBuildingCentroidMetres": 0.003863052
+  },
+  "courses": [
+    {
+      "slug": "upsala",
+      "references": 108,
+      "assigned": 96,
+      "unresolvedRetained": 12,
+      "physicalPads": 56,
+      "routeVertices": 83,
+      "teeVertices": 807,
+      "independentlyCheckedPublishedSourcePoints": 0,
+      "minimumAssociatedPadClearanceMetres": 1.004399287,
+      "maximumMigrationErrorMetres": 0.001325924,
+      "maximumGeographicRoundingErrorMetres": 0.00006162,
+      "maximumRuntimeBridgeResidualMetres": 0.048232907,
+      "maximumGpsRoundtripErrorMetres": 0,
+      "appCameraReferencesChecked": 108,
+      "appRangefinderReferencesChecked": 108,
+      "ownAndSharedPhysicalPadRingsRenderedOnce": 80,
+      "standaloneCameraReferencesChecked": 108
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "references": 45,
+      "assigned": 40,
+      "unresolvedRetained": 5,
+      "physicalPads": 24,
+      "routeVertices": 45,
+      "teeVertices": 341,
+      "independentlyCheckedPublishedSourcePoints": 5,
+      "minimumAssociatedPadClearanceMetres": 1.004417803,
+      "maximumMigrationErrorMetres": 0.001298018,
+      "maximumGeographicRoundingErrorMetres": 0.000062083,
+      "maximumRuntimeBridgeResidualMetres": 0.186565217,
+      "maximumGpsRoundtripErrorMetres": 0,
+      "appCameraReferencesChecked": 45,
+      "appRangefinderReferencesChecked": 45,
+      "ownAndSharedPhysicalPadRingsRenderedOnce": 80,
+      "standaloneCameraReferencesChecked": 0
+    }
+  ],
+  "files": [
+    {
+      "path": "apps/golf/public/courses/v2-index.json",
+      "bytes": 5935,
+      "sha256": "6aeed1f9d0dea533fd2ae52c961113fef56a24e117c8b11fc808d7a3f31838fd"
+    },
+    {
+      "path": "apps/golf/public/courses/index.json",
+      "bytes": 8066,
+      "sha256": "5813fe4475507b4798cdb3c771bf526e7124af94d126db9633398632bc11011a"
+    },
+    {
+      "path": "upsala3d.html",
+      "bytes": 1241617,
+      "sha256": "373df648700fda5d746c402473a9d9e6e4998a8812be2af921d217a929503869"
+    },
+    {
+      "path": "apps/golf/src/main.js",
+      "bytes": 555323,
+      "sha256": "21195d128ed044e2a5331c0346d825ae41744cbbabbcebc2f000061d6790c19f"
+    },
+    {
+      "path": "apps/golf/src/shell/map.js",
+      "bytes": 11808,
+      "sha256": "921d018048d746637ddaffca6d0f07923f7e0ac178b4aadecfe4ef4f550c76d7"
+    },
+    {
+      "path": "upsalabuild/course-model.json",
+      "bytes": 798419,
+      "sha256": "934e80e2a69110971a48096899886a4c7bc644346634e04c8733b1d702c15b6d"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-review-front9-2026-09-09.json",
+      "bytes": 234229,
+      "sha256": "679317bf8e56797efe83dac5057e9fb7df795aec0b90c42752e051b1fac7c450"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-review-back9-2026-09-09.json",
+      "bytes": 154729,
+      "sha256": "2eee1088a6ba885df48d043520d69c1e8ad9ecab6a71d216a243520fb1af3f8f"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-followup-stora-2026-09-09.json",
+      "bytes": 27327,
+      "sha256": "de5e4e0e1b7eecd6287ccb1ebf86bbb717a05d5dc1fff0ec7314375861366291"
+    },
+    {
+      "path": "apps/golf/public/courses/upsala/pack.bin",
+      "bytes": 747341,
+      "sha256": "0ec28e138c1ddef77b107d880c9ea7a06fdfcec93321b2f475eed45b2f3d18b4"
+    },
+    {
+      "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
+      "bytes": 954851,
+      "sha256": "57f93bdbe563d4a19f4e7df7fe21f7a94bf225a15ed828519317ba8c42476fe8"
+    },
+    {
+      "path": "apps/golf/public/courses/upsala/course-v2-514974cd26d5217bc4ee809bc33b05bf13a316da52fe659bb1fa0b420df71741.json",
+      "bytes": 4015,
+      "sha256": "514974cd26d5217bc4ee809bc33b05bf13a316da52fe659bb1fa0b420df71741"
+    },
+    {
+      "path": "apps/golf/public/courses/upsala/routing/b8e549ee70d2f142c40612e1cb6867b7dfe6b12e6933f80ee492bb8882b11422.bvch",
+      "bytes": 2209,
+      "sha256": "b8e549ee70d2f142c40612e1cb6867b7dfe6b12e6933f80ee492bb8882b11422"
+    },
+    {
+      "path": "apps/golf/public/grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json",
+      "bytes": 263314,
+      "sha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53"
+    },
+    {
+      "path": "upsalamellanbuild/course-model.json",
+      "bytes": 688009,
+      "sha256": "fadeb7e11dc994946a3fdd61dedf8fe01161d794e8bbbe16dccdbae3fb2deabc"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-review-mellan-2026-09-09.json",
+      "bytes": 163015,
+      "sha256": "21320b7931377da280ee816a84af3d60b9a03f1ad4f3fb89643368a12b63a4fe"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-followup-mellan-2026-09-09.json",
+      "bytes": 25402,
+      "sha256": "10da5b3560bdefbce607a40ac3236f9357da4d26733f7cc69c9ace31b390561c"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-mellan-published-tee-evidence-2026-09-09.json",
+      "bytes": 37433,
+      "sha256": "772b2b24d3167c4080efd95989f6468a614e52d85e96344730fbba309f0093fa"
+    },
+    {
+      "path": "apps/golf/public/courses/upsala-mellanbanan/pack.bin",
+      "bytes": 743778,
+      "sha256": "074b717b6453f7d5697386ddedb0955a99d558047cba6fed127f77e464ad5350"
+    },
+    {
+      "path": "geo_data/course-v2/upsala/migration/mellanbanan-course-model.epsg3006.json",
+      "bytes": 843417,
+      "sha256": "6124b7d7ed021910bf08f595bcc198f0191af276080d7dcadecf1337506dea75"
+    },
+    {
+      "path": "apps/golf/public/courses/upsala-mellanbanan/course-v2-a7c99ff833174cafa45cb778a6dea30c2e36827ecdb75cc370df877449f9c63f.json",
+      "bytes": 2534,
+      "sha256": "a7c99ff833174cafa45cb778a6dea30c2e36827ecdb75cc370df877449f9c63f"
+    },
+    {
+      "path": "apps/golf/public/courses/upsala-mellanbanan/routing/98b11e7c055695686cbd662cb35c71e8b873884385fdefb9e6a6c96e1e73a96c.bvch",
+      "bytes": 1526,
+      "sha256": "98b11e7c055695686cbd662cb35c71e8b873884385fdefb9e6a6c96e1e73a96c"
+    },
+    {
+      "path": "upsalabuild/mapping/ground-map.geojson",
+      "bytes": 8420022,
+      "sha256": "c5dc667ca3db3bf10508ad28a81655ce02969c22695f00f4230f14115923fbca"
+    }
+  ]
+}

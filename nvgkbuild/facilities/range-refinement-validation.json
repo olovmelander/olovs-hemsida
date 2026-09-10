@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "refinedBlend": "nvgkbuild/cache/facilities-reference/norrfallsviken-range-shelter-refined.blend",
+  "refinedBlendSha256": "8c76361a7652c517c00b6d316e9a1bdb3a9f6c2a1cf7782b13cea405bdf8784b",
+  "refinedBlendBytes": 20838276,
+  "sourceBlend": "nvgkbuild/cache/facilities-reference/norrfallsviken-facilities.blend",
+  "sourceBlendSha256": "819cdae09eacd4e38bb56c51dfc2565205e88a20c350d7b92442aef357ac202e",
+  "generator": "nvgkbuild/facilities/refine-range-shelter.py",
+  "generatorSha256": "22e0b87d294f24a28a83540ede67e7fba7afe39a920dd05d8dd6c5772a25718a",
+  "blenderVersion": "4.5.9 LTS",
+  "blenderBinary": "C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe",
+  "output": "apps/golf/src/engine/scenery/norrfallsviken-range-shelter-meshes.json",
+  "outputSha256": "310e231bf3bf13c32da42e9c63316ffe131d0e528a247ccfb5ce38a357bd2e15",
+  "outputBytes": 110455,
+  "partCount": 23,
+  "vertexCount": 2476,
+  "triangleCount": 3188,
+  "minimumTriangleAreaSquareMetres": 0.0002800048774900836,
+  "maximumMeasuredRoofVertexDifferenceMetres": 0.0,
+  "geometrySourceProvenance": {
+    "baseBlend": "nvgkbuild/cache/facilities-reference/norrfallsviken-facilities.blend",
+    "baseBlendSha256": "819cdae09eacd4e38bb56c51dfc2565205e88a20c350d7b92442aef357ac202e",
+    "baseArchitectureSha256": "9959ba2d3159008bd70cef609d9161e5aee8820e47e546de789f37350f008ea3",
+    "heightReference": "nvgkbuild/mapping/facilities-height-reference.json",
+    "heightReferenceSha256": "0779a7ff30a3aff5ce6ee1678669d3b11a21f687f65f4167b747b051b234d5ba",
+    "laserCaptureDate": "2025-06-05T00:00:00Z",
+    "laserSourceUrl": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/25f014/m25f014-698_67.copc.laz",
+    "roofPlaneSupportCounts": [
+      259,
+      215
+    ],
+    "roofPlaneRmseMetres": [
+      0.024,
+      0.02
+    ],
+    "orthophotoReference": "nvgkbuild/mapping/facilities-ortho-reference.json",
+    "orthophotoReferenceSha256": "16b9bef1798cdb38fc748e3d415aecb4571cbaf7fc564903e8818228b755915b",
+    "exteriorPhoto": {
+      "id": "official-range-20250528",
+      "captureDate": "2025-05-28",
+      "captureDateStatus": "filename-and-public-image-metadata-agree",
+      "imageUrl": "https://nvgk.se/storage/2025/06/PXL_20250528_135034875-3-scaled.jpg",
+      "metadataUrl": "https://nvgk.se/wp-json/wp/v2/media/804",
+      "sha256": "a1067221da38ce60620a5a3d042def34cd73bc4781f1c62d1341eadfc302052f"
+    },
+    "status": "Measured roof, retained interpreted footprint/floor, photo-informed facade and cladding",
+    "openingDimensions": "Approximate proportions from a perspective photograph; no calibrated facade survey",
+    "bayFractionOfFront": [
+      0.28,
+      0.735
+    ],
+    "doorEstimateMetres": {
+      "centreFraction": 0.808,
+      "width": 1.12,
+      "height": 2.32
+    },
+    "windowEstimateMetres": {
+      "centreFraction": 0.923,
+      "width": 1.07,
+      "sill": 1.02,
+      "head": 2.32
+    },
+    "frontOutwardUnitEastNorth": [
+      0.651312,
+      0.75881
+    ],
+    "facadeLeftToRightUnitEastNorth": [
+      -0.780869,
+      0.624695
+    ],
+    "facadeHandedness": "Door and window at northwest end; closed panel at southeast end; front faces northeast",
+    "floorRH2000Estimate": 30.7,
+    "limitations": [
+      "Wall footprint and floor retain the existing estimates, not surveyed thresholds.",
+      "Hidden rear openings and interiors are unspecified; rear wall is plain timber.",
+      "People obscure the lower door; a plain undivided pane avoids inventing decorative details.",
+      "Roof and timber repeating profiles are restrained visual interpretations, not individual measurements.",
+      "No reference photos, raw laser returns or source terrain are runtime geometry."
+    ]
+  },
+  "preservation": {
+    "baseBlendUnchanged": true,
+    "baseRuntimeAssetUnchanged": true,
+    "unrelatedObjectsUnchanged": 345,
+    "otherScenesUnchanged": 0,
+    "unrelatedObjectsDigest": "ed8862115e435d86508b8b6b2edc394dabeda3eb1a82c46adc660c148a8f5787",
+    "liveUserBlenderAccessed": false,
+    "floorAndWallFootprintUnchanged": true
+  },
+  "validation": {
+    "onlyRangeArchitecture": true,
+    "allTrianglesNondegenerate": true,
+    "measuredAndProfiledRoofFacesUpward": true,
+    "linearColoursCopiedExactly": true,
+    "noImageMaterials": true
+  },
+  "hiddenOriginalRangeObjects": [
+    "NV | Corner trim | lm-range-shelter0",
+    "NV | Corner trim | lm-range-shelter1",
+    "NV | Corner trim | lm-range-shelter2",
+    "NV | Corner trim | lm-range-shelter3",
+    "NV | Fascia | lm-range-shelter01",
+    "NV | Fascia | lm-range-shelter15",
+    "NV | Fascia | lm-range-shelter23",
+    "NV | Fascia | lm-range-shelter34",
+    "NV | Fascia | lm-range-shelter40",
+    "NV | Fascia | lm-range-shelter52",
+    "NV | Gable | lm-range-shelter4",
+    "NV | Gable | lm-range-shelter5",
+    "NV | Interpreted walls | lm-range-shelter",
+    "NV | Measured roof | lm-range-shelter",
+    "NV | Range closed end",
+    "NV | Range closed end.001",
+    "NV | Range front post 0",
+    "NV | Range front post 1",
+    "NV | Range front post 2",
+    "NV | Range front post 3",
+    "NV | Range slab - floor estimate",
+    "NV | Ridge cap | lm-range-shelter"
+  ],
+  "reviewImage": "C:\\Users\\olov_\\repos\\olovs-hemsida\\nvgkbuild\\cache\\facilities-reference\\range-shelter-refined-review.png"
+}

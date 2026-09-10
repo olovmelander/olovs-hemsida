@@ -1,0 +1,1271 @@
+{
+  "schemaVersion": 1,
+  "course": "angso",
+  "reviewedAt": "2026-09-09T19:32:14.646Z",
+  "method": "Read the current club website and the public LiveCaddie 649 guide; inspect all 18 served schematic images and locate their explicitly coloured tee symbols. Compare source dates and scorecard conflicts. No scorecard-distance fitting, schematic georeferencing or nearest-pad inference was used.",
+  "coordinateReferenceSystem": null,
+  "officialTeeCoordinatesFound": false,
+  "geographicPadAssignments": [],
+  "findings": [
+    "The current official club homepage links to LiveCaddie course 649.",
+    "All 18 served LiveCaddie graphics contain explicit white, yellow, blue, red and orange symbols. Orange is drawn on or at the fairway start in every hole; it is not shown on a separate raised platform.",
+    "Image Last-Modified headers are 2024-05-21; this is an asset upload/modification time, not a surveyed geometry date or imagery capture date.",
+    "All underlying LiveCaddie hole records expose DateTime 2020-06-23 01:07:11 and revision 3. Hole 1 still exposes white 355 m and yellow 336 m, while the current club-linked Scorekort-2023.pdf and repository card use white 386 m and yellow 350 m.",
+    "The public LiveCaddie graphics/trackermap pages did not expose official per-colour geographic tee coordinates. Schematic image pixels below are not WGS84, EPSG:3006 or model coordinates.",
+    "The current Caddee page identifies Angso as not affiliated and uses Quick Design. Its hole 1 HTML gives white 396 m, whereas the linked raster itself prints white 365 m, yellow 345 m, blue 320 m and red 295 m. These inconsistencies prevent treating Caddee as a current authoritative coordinate source."
+  ],
+  "sources": [
+    {
+      "id": "official-club-home",
+      "url": "https://angsogolfklubb.com/",
+      "cachePath": "angsobuild/cache/tee-placement/club.html",
+      "sha256": "4d11bd37ef4e139c705909a5e96224aca4dfa9745e6a99a5b0c8f3c8440585c1",
+      "notes": "Contains the current club link to https://courses.livecaddie.com/course-info.php?course=649."
+    },
+    {
+      "id": "official-club-course-page",
+      "url": "https://angsogolfklubb.com/banan/",
+      "cachePath": "angsobuild/cache/tee-placement/club-banan.html",
+      "sha256": "438a8409bfd50233b53d8b9c437f7677e38e2e622476d9c12b6d63be679f8254",
+      "notes": "Currently links Scorekort-2023.pdf under the 2025/02 uploads directory."
+    },
+    {
+      "id": "club-linked-livecaddie-649",
+      "url": "https://courses.livecaddie.com/course-graphics.php?course=649&lang=sv-SE&embedded&hole=1",
+      "cachePath": "angsobuild/cache/tee-placement/livecaddie.html",
+      "sha256": "252b7afa1d60f70878a4d215ad54a3cb37fc345f5b273c8fd99c4d321bc39ca9",
+      "notes": "Public HTML provides all hole image URLs, dated hole records, tee colour names and distances; no per-colour geographic coordinates."
+    },
+    {
+      "id": "livecaddie-trackermap-649",
+      "url": "https://courses.livecaddie.com/trackermap.php?course=649&lang=sv-SE&embedded",
+      "cachePath": "angsobuild/cache/tee-placement/trackermap.html",
+      "sha256": "cc37c484ddd106317067f04ca05050b652cbd3d7ec74a68eee1d8e764546c163",
+      "notes": "Public page contained an empty courses array and no per-colour geographic tee coordinate array."
+    },
+    {
+      "id": "caddee-current-page",
+      "url": "https://www.caddee.se/klubb/angso-golfklubb",
+      "cachePath": "angsobuild/cache/tee-placement/caddee.html",
+      "sha256": "2503ca14628666cb9e38f88f47fe045cc025520eb1c99672b4139d33cb6c880b",
+      "notes": "Not affiliated / Quick Design. Only a course-level latitude and longitude are exposed in page data; these are not tee locations."
+    },
+    {
+      "id": "caddee-hole-1-raster",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/15980ed1-a7ef-4444-8410-3a9dfd20ae6c/hole-normal_web_6vcTO1a.png",
+      "cachePath": "angsobuild/cache/tee-placement/caddee01.png",
+      "sha256": "c00df55903e8682abc600c0e8d28243acfee0a3b704975b51e4e412de11481fe",
+      "notes": "Last-Modified 2024-02-12. Printed raster distances disagree with both current HTML and club card."
+    },
+    {
+      "id": "club-scorecard-2023",
+      "url": "https://angsogolfklubb.com/wp-content/uploads/2025/02/Scorekort-2023.pdf",
+      "status": 200,
+      "path": "angsobuild/cache/tee-placement/club-scorecard-2023.pdf",
+      "sha256": "4723c5c366d70d6f437f25af910567b517e0ee76588269b1be5b95a414a987a3",
+      "retrievedAt": "2026-09-09T19:31:08.012Z",
+      "lastModified": "Thu, 20 Feb 2025 15:19:08 GMT",
+      "cachePath": "angsobuild/cache/tee-placement/club-scorecard-2023.pdf",
+      "notes": "Current club-linked 2023 scorecard; score metadata only, not coordinate evidence."
+    },
+    {
+      "id": "club-tee-nine-works-2023",
+      "url": "https://angsogolfklubb.com/2023/10/20/arbete-pa-nian/",
+      "status": 200,
+      "path": "angsobuild/cache/tee-placement/club-tee-nine-works-2023.html",
+      "sha256": "8146b2c0fc1fb1e2a369eea5d864450fa3d676a65644e1af2d7eb6015087d9a4",
+      "retrievedAt": "2026-09-09T19:31:10.041Z",
+      "lastModified": null,
+      "cachePath": "angsobuild/cache/tee-placement/club-tee-nine-works-2023.html",
+      "notes": "2023-10-20 club article explicitly describes access onto yellow tee and movement along the left of the yellow/blue tee, supporting shared hole 9 yellow/blue platform identity."
+    },
+    {
+      "id": "club-tee-five-works-2023",
+      "url": "https://angsogolfklubb.com/2023/10/25/gravarbete-pa-5an/",
+      "status": 200,
+      "path": "angsobuild/cache/tee-placement/club-tee-five-works-2023.html",
+      "sha256": "e078556cdf30aa3dadc476d3e4a0bf0211e76ba587b0dc548e5ee6092e71c8e9",
+      "retrievedAt": "2026-09-09T19:32:14.230Z",
+      "lastModified": null,
+      "cachePath": "angsobuild/cache/tee-placement/club-tee-five-works-2023.html",
+      "notes": "2023-10-25 club article describes removing a small mound right of blue tee on hole 5 that obscured views from yellow/white toward red; independent colour-order/context support, without coordinates."
+    },
+    {
+      "id": "club-hole-one-planning-2021",
+      "url": "https://media.angsogolfklubb.com/2021/03/Arsmoteshandlingar-2020.pdf",
+      "path": "angsobuild/cache/tee-placement/club-hole-one-planning-2021.pdf",
+      "status": 200,
+      "sha256": "1f275d0b207ec1622d268dee5ca9516268a0586a81e1bf3c26a94ee6df882c73",
+      "retrievedAt": "2026-09-09T19:42:56.207Z",
+      "cachePath": "angsobuild/cache/tee-placement/club-hole-one-planning-2021.pdf",
+      "notes": "2021 meeting report says investigation of practice-area development and moving white/yellow/blue tees on hole1 completed; it does not certify construction completion or locations."
+    },
+    {
+      "id": "club-tee-nine-treework-2024",
+      "url": "https://angsogolfklubb.com/2024/02/15/tradrojning-pagar/",
+      "path": "angsobuild/cache/tee-placement/club-tee-nine-treework-2024.html",
+      "status": 200,
+      "sha256": "daa592c93aa0e834dfb8e2799c15fdef4482a9654231e0693f1198a12ac7d105",
+      "retrievedAt": "2026-09-09T19:42:56.916Z",
+      "cachePath": "angsobuild/cache/tee-placement/club-tee-nine-treework-2024.html",
+      "notes": "2024-02-15 club article describes oak removal at hole9backtee and alder removal at the green stream; no geographic coordinates."
+    }
+  ],
+  "perHole": [
+    {
+      "hole": 1,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 1,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/6ed16ec8-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc01.png",
+        "sha256": "39799d5e0356ff364a26cbb63aafd28057116c9e49e763d832af3a024810b6e6",
+        "lastModified": "Tue, 21 May 2024 08:38:02 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-01"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          370.82,
+          915.15
+        ],
+        "Gul": [
+          354.66,
+          876.62
+        ],
+        "Bla": [
+          350.11,
+          856.2
+        ],
+        "Rod": [
+          257.5,
+          740.61
+        ],
+        "Orange": [
+          263.5,
+          680.5
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul",
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-subdivision-or-current-layout-ambiguous",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White, yellow and blue are on the long rear platform. Red is on a separate forward platform. An unmarked small platform is drawn between the rear platform and red. Hole 1 has documented rebuilding and conflicting old guide distances; this schematic does not resolve the current rear-platform identity.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 355,
+        "Gul": 336,
+        "Bla": 319,
+        "Rod": 270,
+        "Orange": 238
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 2,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 2,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/6f95ca78-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc02.png",
+        "sha256": "751c8eb63e12ffa0c16bf9cebb591caad2a3cdf59263bb5381ecda10366e1fe1",
+        "lastModified": "Tue, 21 May 2024 08:38:03 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-02"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          346,
+          904
+        ],
+        "Gul": [
+          343.21,
+          871.72
+        ],
+        "Bla": [
+          359.33,
+          773.83
+        ],
+        "Rod": [
+          371.4,
+          712.36
+        ],
+        "Orange": [
+          399.5,
+          651.5
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White and yellow share the rear platform beyond the transverse ditch. Blue is on a separate middle platform and red on a separate forward platform.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 348,
+        "Gul": 331,
+        "Bla": 282,
+        "Rod": 253,
+        "Orange": 221
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 3,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 3,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/706f13b3-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc03.png",
+        "sha256": "76e024cb752f0a638a184780a9a422e0a4fad84bf3d550d8850d3a87932ee61c",
+        "lastModified": "Tue, 21 May 2024 08:38:04 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-03"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          356.43,
+          846.42
+        ],
+        "Gul": [
+          352.5,
+          821
+        ],
+        "Bla": [
+          386.5,
+          657.34
+        ],
+        "Rod": [
+          383.45,
+          641.53
+        ],
+        "Orange": [
+          434.37,
+          564.43
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul"
+        ],
+        [
+          "Bla",
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White and yellow share the rear platform beside the pond. Blue and red share the forward platform. A small unmarked intermediate platform is drawn.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 179,
+        "Gul": 171,
+        "Bla": 122,
+        "Rod": 119,
+        "Orange": 92
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 4,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 4,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/7120d78a-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc04.png",
+        "sha256": "c4e126c48b16bfb285d66caa4ea1dafba6085a01379e4ef9724187177d67dc0b",
+        "lastModified": "Tue, 21 May 2024 08:38:05 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-04"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          243.9,
+          901.27
+        ],
+        "Gul": [
+          259.28,
+          854.49
+        ],
+        "Bla": [
+          267,
+          837.6
+        ],
+        "Rod": [
+          332.81,
+          685.59
+        ],
+        "Orange": [
+          308,
+          622.6
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul",
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White, yellow and blue share the long rear platform. Red is on a separate forward platform near the path junction.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 337,
+        "Gul": 315,
+        "Bla": 305,
+        "Rod": 236,
+        "Orange": 208
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 5,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 5,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/71d0517b-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc05.png",
+        "sha256": "f3002dff22c08864123dc126c38a48bde2a3f81defe789e93fc81880c1ac612d",
+        "lastModified": "Tue, 21 May 2024 08:38:07 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-05"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          279,
+          869.11
+        ],
+        "Gul": [
+          326.5,
+          821.62
+        ],
+        "Bla": [
+          374.95,
+          744.71
+        ],
+        "Rod": [
+          461,
+          662.64
+        ],
+        "Orange": [
+          519.86,
+          600.71
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit"
+        ],
+        [
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-subdivision-or-current-layout-ambiguous",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White is at the rear end of the tee complex, then yellow, then a separate blue location, then red farther forward beside trees. Trees and shaded turf make drawn subdivisions less clear.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 493,
+        "Gul": 456,
+        "Bla": 400,
+        "Rod": 339,
+        "Orange": 293
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 6,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 6,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/72b0324c-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc06.png",
+        "sha256": "505376dfbc847a44a2d50007fcced9ffc1ac59ef7d4eb4d78aa6a326c3127782",
+        "lastModified": "Tue, 21 May 2024 08:38:08 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-06"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          522.39,
+          863.12
+        ],
+        "Gul": [
+          492.08,
+          819.77
+        ],
+        "Bla": [
+          481,
+          801.25
+        ],
+        "Rod": [
+          438.62,
+          726
+        ],
+        "Orange": [
+          325.1,
+          587.1
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul",
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White, yellow and blue share the long rear platform. Red is on a forward platform before the transverse ditch.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 337,
+        "Gul": 317,
+        "Bla": 308,
+        "Rod": 272,
+        "Orange": 201
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 7,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 7,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/735b072b-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc07.png",
+        "sha256": "044d9e9e9a564a47535c5c647a2e074c9bdadce39e39cf9ea40ddd812fe80aa0",
+        "lastModified": "Tue, 21 May 2024 08:38:09 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-07"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          488.91,
+          918.57
+        ],
+        "Gul": [
+          463.5,
+          894.62
+        ],
+        "Bla": [
+          275.13,
+          807.7
+        ],
+        "Rod": [
+          242.33,
+          716.19
+        ],
+        "Orange": [
+          196.41,
+          614.56
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White and yellow occupy the rear complex. Blue is on an intermediate platform and red on a forward platform beside the ditch.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 545,
+        "Gul": 525,
+        "Bla": 445,
+        "Rod": 384,
+        "Orange": 321
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 8,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 8,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/74100a26-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc08.png",
+        "sha256": "08b1d7f768c26503df7c5c23961bab129b4c303e18dbfbd9105786731d9d97b4",
+        "lastModified": "Tue, 21 May 2024 08:38:10 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-08"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          369.5,
+          903.5
+        ],
+        "Gul": [
+          356.11,
+          875.23
+        ],
+        "Bla": [
+          336.18,
+          818.94
+        ],
+        "Rod": [
+          303.85,
+          717.57
+        ],
+        "Orange": [
+          288.85,
+          594.43
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White and yellow occupy the rear platform. Blue is on an intermediate platform and red on a forward platform beyond the path crossing. An unmarked pad is drawn between blue and red.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 344,
+        "Gul": 331,
+        "Bla": 285,
+        "Rod": 257,
+        "Orange": 195
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 9,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 9,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/74abbe04-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc09.png",
+        "sha256": "679bc312cef2171e77f811b17b80bbd6c7437576f2ac573ae429734efb40fff6",
+        "lastModified": "Tue, 21 May 2024 08:38:11 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-09"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          349.51,
+          806.68
+        ],
+        "Gul": [
+          332.29,
+          733.79
+        ],
+        "Bla": [
+          332.5,
+          707.39
+        ],
+        "Rod": [
+          369,
+          635
+        ],
+        "Orange": [
+          389,
+          503.28
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit"
+        ],
+        [
+          "Gul",
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-subdivision-or-current-layout-ambiguous",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White is at the rear of a long tee complex, yellow and blue are together in its middle terrace, and red is on a separate forward platform. The schematic alone does not establish whether the white and yellow/blue mown surfaces are one continuous polygon.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 143,
+        "Gul": 122,
+        "Bla": 114,
+        "Rod": 95,
+        "Orange": 55
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 10,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 10,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/75406fc4-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc10.png",
+        "sha256": "a450e67d3bc529416be2a2e9dbedba67dc6ea8fd60bef4df428561c183dfcc6c",
+        "lastModified": "Tue, 21 May 2024 08:38:12 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-10"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          397,
+          900.64
+        ],
+        "Gul": [
+          401,
+          881.11
+        ],
+        "Bla": [
+          442.82,
+          774.5
+        ],
+        "Rod": [
+          471,
+          693.5
+        ],
+        "Orange": [
+          450,
+          607.09
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White and yellow occupy the rear complex. Blue is on a separate intermediate platform and red on a forward platform beside the fairway.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 527,
+        "Gul": 514,
+        "Bla": 438,
+        "Rod": 386,
+        "Orange": 326
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 11,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 11,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/75eee06f-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc11.png",
+        "sha256": "e6629e1adbe106ba4e0aa7cae251358993d8923abb7fb5682c73f0ace2604f50",
+        "lastModified": "Tue, 21 May 2024 08:38:14 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-11"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          407.02,
+          908.75
+        ],
+        "Gul": [
+          388.72,
+          808.68
+        ],
+        "Bla": [
+          381.8,
+          790.06
+        ],
+        "Rod": [
+          346.52,
+          676.12
+        ],
+        "Orange": [
+          265.72,
+          589.43
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit"
+        ],
+        [
+          "Gul",
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White is on a separate rear platform. Yellow and blue share a long middle platform. Red is on a separate forward platform. An unmarked pad is drawn between yellow/blue and red.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 340,
+        "Gul": 294,
+        "Bla": 284,
+        "Rod": 233,
+        "Orange": 189
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 12,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 12,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/767044b3-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc12.png",
+        "sha256": "446cfa72ea9145ced3f8d08dbd88ef0f603e944466cd35e4a98ce403a4c0780a",
+        "lastModified": "Tue, 21 May 2024 08:38:14 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-12"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          324,
+          773
+        ],
+        "Gul": [
+          331.16,
+          748.36
+        ],
+        "Bla": [
+          365.5,
+          684
+        ],
+        "Rod": [
+          350,
+          684.05
+        ],
+        "Orange": [
+          450.15,
+          484.87
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul"
+        ],
+        [
+          "Bla",
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White and yellow share the rear platform. Red and blue share the forward platform, with red drawn left of blue.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 169,
+        "Gul": 160,
+        "Bla": 136,
+        "Rod": 135,
+        "Orange": 65
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 13,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 13,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/771c7391-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc13.png",
+        "sha256": "dee1d6e70f0e2d3b92ae33b27b200caabd3c60ad34acecfe750be9fb2adf6733",
+        "lastModified": "Tue, 21 May 2024 08:38:16 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-13"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          319.81,
+          887.1
+        ],
+        "Gul": [
+          322.5,
+          791
+        ],
+        "Bla": [
+          339.36,
+          758.64
+        ],
+        "Rod": [
+          342.61,
+          680.29
+        ],
+        "Orange": [
+          401.63,
+          587.89
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit"
+        ],
+        [
+          "Gul",
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White is on the rear platform. Yellow and blue share the middle platform. Red is on a separate forward platform.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 426,
+        "Gul": 370,
+        "Bla": 351,
+        "Rod": 305,
+        "Orange": 249
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 14,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 14,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/77c09be4-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc14.png",
+        "sha256": "7f7e13177c6ada4dbf3201fee19d0dd34740a587ff962121ff1edeb6e7cf79d4",
+        "lastModified": "Tue, 21 May 2024 08:38:17 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-14"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          201.39,
+          859.18
+        ],
+        "Gul": [
+          215.38,
+          836.91
+        ],
+        "Bla": [
+          312.02,
+          756.75
+        ],
+        "Rod": [
+          357.78,
+          697.87
+        ],
+        "Orange": [
+          484.53,
+          565.72
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White and yellow share the rear platform. Blue is on a separate intermediate platform near trees and red on a separate forward platform.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 350,
+        "Gul": 338,
+        "Bla": 292,
+        "Rod": 261,
+        "Orange": 188
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 15,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 15,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/7853b498-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc15.png",
+        "sha256": "ea7c2f20c7aa6a383ec4c70aeca3d8e87673510ed32779bdf12374b31bde9022",
+        "lastModified": "Tue, 21 May 2024 08:38:18 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-15"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          308.72,
+          759.61
+        ],
+        "Gul": [
+          389.54,
+          692.3
+        ],
+        "Bla": [
+          384.75,
+          664.54
+        ],
+        "Rod": [
+          345.5,
+          545
+        ],
+        "Orange": [
+          428.65,
+          480.36
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit"
+        ],
+        [
+          "Gul",
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White occupies a separate rear platform beyond the path crossing. Yellow and blue share the middle platform near trees. Red is on the forward platform beside the pond. An unmarked platform is drawn between blue and red.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 172,
+        "Gul": 145,
+        "Bla": 134,
+        "Rod": 85,
+        "Orange": 63
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 16,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 16,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/78fd9dd2-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc16.png",
+        "sha256": "1c93cba98558de86d35977f055d5da75bcc67638063ecb139c07ec2cee6a5697",
+        "lastModified": "Tue, 21 May 2024 08:38:19 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-16"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          506,
+          905.27
+        ],
+        "Gul": [
+          471.81,
+          883.69
+        ],
+        "Bla": [
+          394.89,
+          812.24
+        ],
+        "Rod": [
+          354.25,
+          759.54
+        ],
+        "Orange": [
+          210.23,
+          593.47
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit",
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White and yellow share the rear platform. Blue is on a separate intermediate platform and red on a separate forward platform near the ditch.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 338,
+        "Gul": 327,
+        "Bla": 292,
+        "Rod": 269,
+        "Orange": 194
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 17,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 17,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/79ae75a9-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc17.png",
+        "sha256": "ef20c78a2d6b28c30608a8239887f859e8812d25ecd0427735718832fb6268f1",
+        "lastModified": "Tue, 21 May 2024 08:38:20 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-17"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          325.34,
+          913
+        ],
+        "Gul": [
+          299.29,
+          871.83
+        ],
+        "Bla": [
+          304.68,
+          809.28
+        ],
+        "Rod": [
+          382.42,
+          743.04
+        ],
+        "Orange": [
+          436.06,
+          627.55
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit"
+        ],
+        [
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White is on the rear platform to the right of the path. Yellow and blue occupy successive platforms left of the path and ponds. Red is on the forward platform right of the upper tee-area pond.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 358,
+        "Gul": 339,
+        "Bla": 308,
+        "Rod": 274,
+        "Orange": 214
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    },
+    {
+      "hole": 18,
+      "sourceId": "club-linked-livecaddie-649",
+      "schematicAsset": {
+        "hole": 18,
+        "url": "https://d3l9itmr3g1hfy.cloudfront.net/7a67ffa5-174d-11ef-8d30-020b6d3bcef9",
+        "path": "angsobuild/cache/tee-placement/lc18.png",
+        "sha256": "6023946f054a5a30e49412eaba8e480b533739a472a0839ac55e3b3a150f823d",
+        "lastModified": "Tue, 21 May 2024 08:38:21 GMT",
+        "contentType": "image/png",
+        "id": "livecaddie-hole-18"
+      },
+      "schematicImageSize": [
+        702,
+        1053
+      ],
+      "schematicMarkerPixels": {
+        "Vit": [
+          446.41,
+          911.44
+        ],
+        "Gul": [
+          435.5,
+          830.5
+        ],
+        "Bla": [
+          375,
+          747.5
+        ],
+        "Rod": [
+          328.5,
+          697.5
+        ],
+        "Orange": [
+          254.79,
+          600.93
+        ]
+      },
+      "pixelConvention": "Pixel-centre averages of coloured symbol interiors; image origin at upper left. These coordinates must not be applied directly to map or world space.",
+      "schematicPlatformGroupsRearToFront": [
+        [
+          "Vit"
+        ],
+        [
+          "Gul"
+        ],
+        [
+          "Bla"
+        ],
+        [
+          "Rod"
+        ]
+      ],
+      "groupingStatus": "schematic-colour-topology-observed",
+      "orangeSurfaceInSchematic": "fairway-or-fairway-start",
+      "interpretation": "White is on the separate rear platform. Yellow is on the next platform beyond the path and pond, then blue on an intermediate platform, then red on the forward platform.",
+      "livecaddieDistanceMetadataMetres": {
+        "Vit": 497,
+        "Gul": 445,
+        "Bla": 385,
+        "Rod": 348,
+        "Orange": 285
+      },
+      "geographicPadAssignmentStatus": "requires-current-orthophoto-correspondence",
+      "currentMarkerPositionStatus": "not-established"
+    }
+  ],
+  "limits": [
+    "Colour identities in a schematic are stronger evidence than ordinal or scorecard-length inference, but they do not establish exact surveyed coordinates or current movable tee-marker positions.",
+    "Each proposed schematic-to-orthophoto correspondence must be reviewed by fixed surrounding features and physical platform topology; do not fit the schematic using printed hole lengths.",
+    "Hole 1 requires extra care because its guide distances and the apparent rear tee layout predate the club scorecard update.",
+    "An orange fairway tee must not be snapped to the nearest raised platform simply to satisfy pad containment.",
+    "No claim of centimetre absolute positional accuracy or current marker survey is supported by these sources."
+  ]
+}

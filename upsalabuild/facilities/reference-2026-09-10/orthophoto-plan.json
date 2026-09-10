@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "kind": "facilities-reference-orthophoto-plan",
+  "collection": "orto-o2-2025",
+  "nativeResolutionMetres": 0.16,
+  "sourcePlan": {
+    "path": "geo_data/course-v2/upsala/reference/lm-ortho-plan-2026-09-09.json",
+    "sha256": "00e2425a3fce576dc39c8461836273d500bd25b182b8c17c0387ae2b46fdcbc3"
+  },
+  "models": [
+    {
+      "file": "upsalabuild/course-model.json",
+      "sha256": "3ec429382ac69f986be297c4a1b4c3e7467d558e0e0a8d8f11956818d1c41c2c",
+      "frame": {
+        "origin": {
+          "lat": 59.839,
+          "lon": 17.4952
+        },
+        "mPerLat": 111320,
+        "mPerLon": 55930.68
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "o66350_6375_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66350_6375_25_mr25.tif",
+      "bytes": 639759353,
+      "boundsEpsg3006": [
+        637500,
+        6635000,
+        640000,
+        6637500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T09:25:58Z",
+      "captureStart": "2025-06-14T09:25:42Z",
+      "captureEnd": "2025-06-15T09:30:32Z"
+    },
+    {
+      "id": "o66350_6400_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66350_6400_25_mr25.tif",
+      "bytes": 680411854,
+      "boundsEpsg3006": [
+        640000,
+        6635000,
+        642500,
+        6637500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T09:25:50Z",
+      "captureStart": "2025-04-25T07:36:44Z",
+      "captureEnd": "2025-06-14T09:26:06Z"
+    }
+  ],
+  "windows": [
+    {
+      "id": "facilities-campus-native",
+      "purpose": "Clubhouse cluster, shop/restaurant candidate wings, training buildings, service yard, range shelters and parking",
+      "boundsEpsg3006": [
+        639740.0,
+        6636120.0,
+        640120.0,
+        6636540.0
+      ],
+      "width": 2375,
+      "height": 2625,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o66350_6375_25_mr25",
+        "o66350_6400_25_mr25"
+      ],
+      "features": []
+    },
+    {
+      "id": "facilities-range-native",
+      "purpose": "Complete range tee line and shelters west of the clubhouse at native resolution",
+      "boundsEpsg3006": [
+        639589.92,
+        6636189.92,
+        639850.08,
+        6636345.12
+      ],
+      "width": 1626,
+      "height": 970,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o66350_6375_25_mr25"
+      ],
+      "features": []
+    },
+    {
+      "id": "facilities-range-overview",
+      "purpose": "Facilities campus, driving range and practice-area context; downsampled overview",
+      "boundsEpsg3006": [
+        639459.68,
+        6635859.52,
+        640140.0,
+        6636560.32
+      ],
+      "width": 1063,
+      "height": 1095,
+      "resolutionMetres": 0.64,
+      "sourceIds": [
+        "o66350_6375_25_mr25",
+        "o66350_6400_25_mr25"
+      ],
+      "features": []
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "id": "upsala-halfway-2026-unplaced-design",
+  "scene": "Upsala Halfway House 2026 | UNPLACED DESIGN",
+  "unplaced": true,
+  "runtimeIncluded": false,
+  "georeferenced": false,
+  "courseLocation": null,
+  "coordinateFrame": "Local design XYZ metres; arbitrary floorZ=0",
+  "planDimensionsMetres": [
+    7.2,
+    6.4
+  ],
+  "planAreaSquareMetres": 46.08,
+  "estimatedWallHeightMetres": 2.55,
+  "estimatedRidgeHeightMetres": 3.65,
+  "estimatedRidgeOffsetMetres": 0.64,
+  "estimatedPitchDegrees": {
+    "east": 15.984801520234576,
+    "west": 23.252592174861608
+  },
+  "heightUncertaintyMetres": 0.5,
+  "sourceGeometry": "Official floor plan dimensions with interpreted schematic elevations; not an as-built survey",
+  "sources": [
+    {
+      "path": "upsalabuild/cache/facilities-web-2026-09-10/halfway-plan1.webp",
+      "sha256": "f27f10b9b07d172f0523d8dff84a52e3cf3e66780cf8560c5b9d1dfe89a791ba"
+    },
+    {
+      "path": "upsalabuild/cache/facilities-web-2026-09-10/halfway-plan2.webp",
+      "sha256": "69316641fd0b34fe5bcb2ccb4c6bcde8722557cbb44e8477ad8a6886b1334914"
+    },
+    {
+      "path": "upsalabuild/cache/facilities-web-2026-09-10/halfway-plan3.webp",
+      "sha256": "90d319eb9f55c6216898b529c99a8777dff00742fe47c08bf9709c91dff1b01a"
+    },
+    {
+      "path": "upsalabuild/cache/facilities-web-2026-09-10/halfway-render.webp",
+      "sha256": "30720322e76c6fa422a27ea308f20886078674d135b1676ddc18aeda5beee30b"
+    }
+  ],
+  "objects": 436,
+  "blendPath": "C:\\Users\\olov_\\repos\\olovs-hemsida\\upsalabuild\\facilities\\models-2026-09-10\\unplaced-design\\Halfway-design-unplaced.blend",
+  "glbPath": "C:\\Users\\olov_\\repos\\olovs-hemsida\\upsalabuild\\facilities\\models-2026-09-10\\unplaced-design\\Halfway-design-unplaced.glb",
+  "blendSha256": "2315ad851bc8859150451c4b14aa7ca9975f77bc6caa5a5ce30d3130ca1cf2b1",
+  "glbSha256": "4bfd006741493aec2b9ea184de8aa5491983feb467c8e5a161265e2da4e9843f",
+  "existingScenesPreserved": {
+    "Scene": 3
+  },
+  "activeScenePreserved": "Scene",
+  "existingBlenderFilepathPreserved": "",
+  "limitations": [
+    "No verified course placement: excluded from all main facility/runtime assets.",
+    "Wall/roof heights and openings are modelling estimates.",
+    "A design model does not establish the actual2026 building's finished geometry."
+  ],
+  "savedAsNormalBlend": true,
+  "previewPath": "upsalabuild/facilities/models-2026-09-10/unplaced-design/Halfway-design-unplaced-preview.png"
+}

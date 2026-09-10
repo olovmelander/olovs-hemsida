@@ -1,0 +1,773 @@
+[
+  {
+    "key": "5174-veckefjarden-webgpu",
+    "info": {
+      "backend": "webgpu",
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "ampere",
+        "description": ""
+      },
+      "disc": 0,
+      "fog": 0.0002,
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1600,
+            900
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": 0.2
+      },
+      "cam": {
+        "pos": [
+          -287.8,
+          35.182537176241425,
+          139.4
+        ],
+        "look": [
+          -259.37237017581725,
+          37.98828379253808,
+          -188.38578317980202
+        ],
+        "ground": 33.4825371762414
+      },
+      "treeTiers": {
+        "tier0": 3811,
+        "tier1": 5245,
+        "tier2": 7638,
+        "tier3": 1701,
+        "cells": 265,
+        "cellsVisible": 174,
+        "moves": 18395,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 93,
+        "fading": 0,
+        "updateMs": 0.3999999761581421,
+        "zoneA": 5445,
+        "zoneB": 9987,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0.3,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      }
+    },
+    "samples": [
+      {
+        "i": 0,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 1,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 2,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 3,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 4,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 5,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 6,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 7,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 8,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 9,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 10,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 11,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 12,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 13,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 14,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 15,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 16,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 17,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 18,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 19,
+        "white": 0,
+        "yellow": 0
+      }
+    ],
+    "finalTreeTiers": {
+      "tier0": 534,
+      "tier1": 332,
+      "tier2": 316,
+      "tier3": 466,
+      "cells": 265,
+      "cellsVisible": 22,
+      "moves": 37926,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 3,
+      "bakeMs": 93,
+      "fading": 0,
+      "updateMs": 0,
+      "zoneA": 5445,
+      "zoneB": 9987,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0.3,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    },
+    "errors": []
+  },
+  {
+    "key": "5173-veckefjarden-webgpu",
+    "info": {
+      "backend": "webgpu",
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "ampere",
+        "description": ""
+      },
+      "disc": 0,
+      "fog": 0.0002,
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1600,
+            900
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": 0.2
+      },
+      "cam": {
+        "pos": [
+          -286.2999862525703,
+          35.89353529816916,
+          145.12331770412845
+        ],
+        "look": [
+          -259.91087484890306,
+          38.15023721441108,
+          -186.86115030184624
+        ],
+        "ground": 34.19353529816913
+      },
+      "treeTiers": {
+        "tier0": 3785,
+        "tier1": 5249,
+        "tier2": 7646,
+        "tier3": 1708,
+        "cells": 265,
+        "cellsVisible": 174,
+        "moves": 18388,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 79,
+        "fading": 0,
+        "updateMs": 0.5999999940395355,
+        "zoneA": 5407,
+        "zoneB": 10030,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0.3,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      }
+    },
+    "samples": [
+      {
+        "i": 0,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 1,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 2,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 3,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 4,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 5,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 6,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 7,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 8,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 9,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 10,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 11,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 12,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 13,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 14,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 15,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 16,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 17,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 18,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 19,
+        "white": 0,
+        "yellow": 0
+      }
+    ],
+    "finalTreeTiers": {
+      "tier0": 511,
+      "tier1": 355,
+      "tier2": 300,
+      "tier3": 482,
+      "cells": 265,
+      "cellsVisible": 22,
+      "moves": 37912,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 3,
+      "bakeMs": 79,
+      "fading": 0,
+      "updateMs": 0.20000001788139343,
+      "zoneA": 5407,
+      "zoneB": 10030,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0.3,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    },
+    "errors": []
+  },
+  {
+    "key": "5173-veckefjarden-webgl2",
+    "info": {
+      "backend": "webgl2",
+      "adapter": null,
+      "disc": null,
+      "fog": 0.0002,
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1600,
+            900
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": 0.2
+      },
+      "cam": {
+        "pos": [
+          -286.2999862525703,
+          35.89353529816916,
+          145.12331770412845
+        ],
+        "look": [
+          -259.91087484890306,
+          38.15023721441108,
+          -186.86115030184624
+        ],
+        "ground": 34.19353529816913
+      },
+      "treeTiers": {
+        "tier0": 3785,
+        "tier1": 5249,
+        "tier2": 7646,
+        "tier3": 1708,
+        "cells": 265,
+        "cellsVisible": 174,
+        "moves": 18388,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 303,
+        "fading": 0,
+        "updateMs": 0.4000000059604645,
+        "zoneA": 5407,
+        "zoneB": 10030,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0.3,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      }
+    },
+    "samples": [
+      {
+        "i": 0,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 1,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 2,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 3,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 4,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 5,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 6,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 7,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 8,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 9,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 10,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 11,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 12,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 13,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 14,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 15,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 16,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 17,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 18,
+        "white": 0,
+        "yellow": 0
+      },
+      {
+        "i": 19,
+        "white": 0,
+        "yellow": 0
+      }
+    ],
+    "finalTreeTiers": {
+      "tier0": 511,
+      "tier1": 355,
+      "tier2": 300,
+      "tier3": 482,
+      "cells": 265,
+      "cellsVisible": 22,
+      "moves": 37912,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 3,
+      "bakeMs": 303,
+      "fading": 0,
+      "updateMs": 0,
+      "zoneA": 5407,
+      "zoneB": 10030,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0.3,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    },
+    "errors": []
+  },
+  {
+    "key": "5174-puttom-webgpu",
+    "info": {
+      "backend": "webgpu",
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "ampere",
+        "description": ""
+      },
+      "disc": 0,
+      "fog": 0.0002,
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1600,
+            900
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": 0.2
+      },
+      "cam": {
+        "pos": [
+          97.3,
+          73.10690140562377,
+          -290.9
+        ],
+        "look": [
+          202.0715069846725,
+          76.37417659868981,
+          -332.8469692457637
+        ],
+        "ground": 71.40690140562377
+      },
+      "treeTiers": {
+        "tier0": 1205,
+        "tier1": 3537,
+        "tier2": 7350,
+        "tier3": 1384,
+        "cells": 451,
+        "cellsVisible": 76,
+        "moves": 13476,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 74,
+        "fading": 0,
+        "updateMs": 0.6000000238418579,
+        "zoneA": 5040,
+        "zoneB": 18055,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0.3,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      }
+    },
+    "samples": [],
+    "finalTreeTiers": {
+      "tier0": 1205,
+      "tier1": 3537,
+      "tier2": 7350,
+      "tier3": 1384,
+      "cells": 451,
+      "cellsVisible": 76,
+      "moves": 13476,
+      "switches": 0,
+      "reversals": 0,
+      "updates": 1,
+      "bakeMs": 74,
+      "fading": 0,
+      "updateMs": 0.6000000238418579,
+      "zoneA": 5040,
+      "zoneB": 18055,
+      "heroPx": 64,
+      "switchPx": 24,
+      "impostorPx": 8,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 0,
+      "fadeS": 0.3,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        2
+      ]
+    },
+    "errors": []
+  }
+]

@@ -1,16 +1,8 @@
-/* Puttom's course-specific scenery.
-
-   The clubhouse, from the club's own photographs -- the 18th green at sunset
-   and a drone view of the whole hub from over the lake (puttom.se, Instagram).
-   It is not Falu red under pantile: it is a modern two-storey building whose
-   whole gable end towards the course is GLASS -- a tall white-framed window
-   wall running up into the gable -- with a balcony and a wide wooden terrace
-   along that end. The walls are Falu red with white trim and white window
-   frames (the sunset photograph's blue lower storey was the blue hour on red
-   paint, not paint), the roof dark grey and steep. A low gabled annex stands
-   against its west side, the shop block against its north. The footprint is
-   the large dark-roofed block the z18 imagery shows east of the annex
-   (puttombuild/sat-traces.json). */
+/* Puttom's course-specific scenery. The Blender facility asset reconstructs
+   the clubhouse, connected wings, range and nearby buildings from reviewed
+   photographs, orthophotos and laser evidence. Source notes and uncertainty:
+   puttombuild/facilities/models-2026-09-10/. The older appearance settings below
+   provide a fallback if the complete authored asset cannot be validated. */
 export const buildingLooks = {
   'trace-annex-a': { wall: 0x8b3a2c, roof: 0x4a4d50, windows: true },
   'trace-annex-b': { wall: 0x8b3a2c, roof: 0x4a4d50 },
@@ -38,3 +30,17 @@ export const clubhouse = {
   balcony: true,
   terrace: true,
 };
+
+/* Install before cars and vegetation so the verified, corrected footprints
+   also keep those objects out of the buildings. Appearance above is fallback. */
+export const loadFacilitiesBeforeSurfaces = true;
+export let replacesRangeFacilities = false;
+let activeFacilities = null;
+export const isFacilityInterior = (x, z, margin) => activeFacilities?.isFacilityInterior(x, z, margin) ?? false;
+
+export async function loadFacilities(context) {
+  const { loadPuttomFacilities } = await import('./puttom-facilities.mjs');
+  activeFacilities = await loadPuttomFacilities(context);
+  replacesRangeFacilities = activeFacilities.report.status === 'loaded' && activeFacilities.report.replacesRangeFacilities;
+  return activeFacilities;
+}

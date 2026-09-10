@@ -75,6 +75,9 @@ test('adoption updates surfaces, route targets and tee cameras idempotently whil
   assert.deepEqual(hole.line.at(-1), hole.green.c);
   assert.deepEqual(hole.pin, hole.green.c);
   assert.ok(pointInPoly(...hole.tees.marks[0].c, hole.tees.pads[0].ring));
+  assert.equal(hole.tees.marks[0].sourcePadId, hole.tees.pads[0].id);
+  assert.equal(hole.tees.marks[1].sourcePadId, hole.tees.pads[0].id);
+  assert.equal(hole.tees.marks[0].platformBoundaryReviewed, true);
   assert.equal(hole.tees.marks[0].shore, undefined);
   assert.equal(hole.bunkers.length, 2);
   assert.equal(hole.fairway.rings.length, 1);
@@ -125,6 +128,9 @@ test('adoption verifies actual cached image bytes and pins the recorded affine',
   const sidecar = { ...source, sources: source.sourceIds.map(id => ({ id })) };
   fs.writeFileSync(path.join(dir, 'test-window.json'), JSON.stringify(sidecar));
   assert.deepEqual(verifyOrthophotoSources(review, { sourceDirectory: dir }), ['test-window']);
+  source.sources = [{ id: source.sourceIds[0], capturedAt: '2022-07-03T07:37:52Z' }];
+  assert.throws(() => verifyOrthophotoSources(review, { sourceDirectory: dir }), /capture timestamp/);
+  delete source.sources;
   fs.appendFileSync(path.join(dir, 'test-window.tif'), 'tampered');
   assert.throws(() => verifyOrthophotoSources(review, { sourceDirectory: dir }), /image SHA-256/);
   sidecar.geoTransform[0] += 1;
@@ -157,6 +163,7 @@ test('visible interior references preserve unverified platform boundaries and re
   assert.deepEqual(hole.line[0], hole.tees.marks[0].c);
   assert.deepEqual(hole.t, model.holes[0].t);
   assert.equal(hole.tees.marks[0].platformBoundaryReviewed, false);
+  assert.equal(hole.tees.marks[0].sourcePadId, undefined);
   assert.equal(hole.tees.marks[0].sourceSha256, review.sources['test-window'].sha256);
   assert.deepEqual(applyReviewedOrthophoto(result, review), result);
   const bad = structuredClone(review);

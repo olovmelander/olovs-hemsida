@@ -1,0 +1,1795 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-10",
+  "sceneName": "Veckefjarden | Facility references 2026-09-10",
+  "originEPSG3006": [
+    684390.0,
+    7023040.0
+  ],
+  "inputs": [
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/campus-native.png",
+      "sha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/facility-overview.png",
+      "sha256": "429da2ee9a57c335ccc8a8ac271e8f38193b77dc1802a24451ba903b77124942"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/northern-neighbours-native.png",
+      "sha256": "3465d6b9279144e892a1e818819f9c6b4e0349fa844c5ed34e4a4b401ad19a0a"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/range-practice-context.png",
+      "sha256": "4b8648976505e4c91723eaa3297eeec64bcc8b9c6449b173910a4b3e4c54ebb9"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/range-tee-native.png",
+      "sha256": "afa576a2be8a765c525e2854aa1331a6782beb536c2a22f25320e26dc16b6da5"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/western-buildings-native.png",
+      "sha256": "2398a3447fa8fc9338001af2c8a349376100f0136e049feddc056235dea3ab7b"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-149.jpg",
+      "sha256": "c7e4893affb79464be579d2627a6291f970d02f14e144619fd1ad5c9d6d22809"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-155.jpg",
+      "sha256": "8d8387398d7dccba0a3344892461c5e58697f63cd2502291a9f213274ae1da49"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-172.jpg",
+      "sha256": "f18b59ba79ec50b9eedd20544eca0aff74cbe563483871d3e324851a99e2c8d0"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2041.jpg",
+      "sha256": "66df8920ea3fc96008019e468f3bc87dc260e54c9b17442995b02652fdacebc6"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2485.jpg",
+      "sha256": "3d22db67aa74a1add0bff6c62e542d6906d57a3aa8171f26230d0c19bb9ba7e9"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2527.jpg",
+      "sha256": "9436361c19991ce1a58c7bbc76cc737ad0ee47e1a0a9771b8a2a6cfedb717d4f"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-92.jpg",
+      "sha256": "25b6ea9ee277c63dec9c3af0eb282b21f41d51f9e78c29369473c38282f88256"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hemnet-aerial.jpg",
+      "sha256": "edb6fd86d1c06680976ec9e373dc5fe4a02914f95661d1c10b7e0413a0104293"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hotel-167.jpg",
+      "sha256": "04d92110e6f38a0b16dd2be88897098e042555891e057084758e96375e3b777a"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hotel-797.jpg",
+      "sha256": "838b31d1f7b1b9125b81446829aba8365e400667ef485daf5c00448b061d93fd"
+    },
+    {
+      "path": "geobuild/cache/facilities-2026-09-10/photos/shop-training.jpg",
+      "sha256": "ab0f96aba87ec80e22d4a6f6cec9c3a538cc0a2f617f4ba33f9224de37aff0c8"
+    },
+    {
+      "path": "geobuild/facilities/inventory.json",
+      "sha256": "001792758cf7eb29ee1befe3dfba12472f041faf48be7e4786d0327cd03bacb9"
+    },
+    {
+      "path": "geobuild/facilities/photo-sources.json",
+      "sha256": "dad26102d2c7a229536bfe4693bc84a2a87afeb4a9b19398122024d475c7bee5"
+    }
+  ],
+  "orthophotos": [
+    {
+      "id": "facility-overview",
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/facility-overview.png",
+      "boundsEPSG3006": [
+        684079.84,
+        7022529.44,
+        684540.64,
+        7023340.32
+      ],
+      "captureDate": "2024-06-27",
+      "pixelSizeMetres": 0.64
+    },
+    {
+      "id": "campus-native",
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/campus-native.png",
+      "boundsEPSG3006": [
+        684340.0,
+        7022909.92,
+        684475.04,
+        7023110.08
+      ],
+      "captureDate": "2024-06-27",
+      "pixelSizeMetres": 0.16
+    },
+    {
+      "id": "western-buildings-native",
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/western-buildings-native.png",
+      "boundsEPSG3006": [
+        684140.0,
+        7022904.96,
+        684242.08,
+        7023010.08
+      ],
+      "captureDate": "2024-06-27",
+      "pixelSizeMetres": 0.16
+    },
+    {
+      "id": "northern-neighbours-native",
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/northern-neighbours-native.png",
+      "boundsEPSG3006": [
+        684269.92,
+        7023149.92,
+        684390.08,
+        7023340.0
+      ],
+      "captureDate": "2024-06-27",
+      "pixelSizeMetres": 0.16
+    },
+    {
+      "id": "range-tee-native",
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/range-tee-native.png",
+      "boundsEPSG3006": [
+        684234.88,
+        7022719.84,
+        684365.12,
+        7022850.08
+      ],
+      "captureDate": "2024-06-27",
+      "pixelSizeMetres": 0.16
+    },
+    {
+      "id": "range-practice-context",
+      "path": "geobuild/cache/facilities-2026-09-10/ortho/range-practice-context.png",
+      "boundsEPSG3006": [
+        684019.68,
+        7022539.68,
+        684500.32,
+        7022980.0
+      ],
+      "captureDate": "2024-06-27",
+      "pixelSizeMetres": 0.64
+    }
+  ],
+  "photos": [
+    {
+      "id": "club-2041",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2041.jpg",
+      "width": 1500,
+      "height": 844,
+      "sourceUrl": "https://veckefjarden.com/wp-content/uploads/2020/09/oversiktsbildvecke.jpg",
+      "pageUrl": "https://veckefjarden.com/om-oss/oversiktsbildvecke/",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "club-2485",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2485.jpg",
+      "width": 2560,
+      "height": 1707,
+      "sourceUrl": "https://veckefjarden.com/wp-content/uploads/2021/10/G3B1425-scaled.jpg",
+      "pageUrl": "https://veckefjarden.com/startsida/_g3b1425/",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "club-172",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-172.jpg",
+      "width": 1925,
+      "height": 811,
+      "sourceUrl": "https://veckefjarden.com/wp-content/uploads/2020/08/Restaurangen-altan.jpg",
+      "pageUrl": "https://veckefjarden.com/restaurang/restaurangen-altan/",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "club-149",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-149.jpg",
+      "width": 2560,
+      "height": 1078,
+      "sourceUrl": "https://veckefjarden.com/wp-content/uploads/2020/08/Veckefjärdens-padelbana.jpg",
+      "pageUrl": "https://veckefjarden.com/padel/veckefja%cc%88rdens-padelbana/",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "club-155",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-155.jpg",
+      "width": 515,
+      "height": 530,
+      "sourceUrl": "https://veckefjarden.com/wp-content/uploads/2020/08/Veckefjärden_padel_515x530.jpg",
+      "pageUrl": "https://veckefjarden.com/padel/veckefja%cc%88rden_padel_515x530/",
+      "captureDate": "2020:07:01 10:18:01",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "club-92",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-92.jpg",
+      "width": 2560,
+      "height": 1130,
+      "sourceUrl": "https://veckefjarden.com/wp-content/uploads/2020/08/G3B1398-scaled.jpg",
+      "pageUrl": "https://veckefjarden.com/_g3b1398/",
+      "captureDate": "2017:06:07 18:02:40",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "club-2527",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/club-2527.jpg",
+      "width": 2560,
+      "height": 1707,
+      "sourceUrl": "https://veckefjarden.com/wp-content/uploads/2021/10/R3A0010-scaled.jpg",
+      "pageUrl": "https://veckefjarden.com/proshop/_r3a0010/",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "hotel-167",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hotel-167.jpg",
+      "width": 1919,
+      "height": 1159,
+      "sourceUrl": "https://hotellveckefjarden.com/wp-content/uploads/2020/03/Hotellet.jpg",
+      "pageUrl": "https://hotellveckefjarden.com/vara-rum/hotellet/",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "hotel-797",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hotel-797.jpg",
+      "width": 1924,
+      "height": 1285,
+      "sourceUrl": "https://hotellveckefjarden.com/wp-content/uploads/2020/03/ALO2140_webb.jpg",
+      "pageUrl": "https://hotellveckefjarden.com/_alo2140_webb/",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "shop-training",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/shop-training.jpg",
+      "width": 1080,
+      "height": 1080,
+      "sourceUrl": "https://xn--pqveckefjrden-jfb.se/cdn/shop/files/medlem.jpg?v=1748258837&width=1500",
+      "pageUrl": "https://xn--pqveckefjrden-jfb.se/",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    },
+    {
+      "id": "hemnet-aerial",
+      "path": "geobuild/cache/facilities-2026-09-10/photos/hemnet-aerial.jpg",
+      "width": 690,
+      "height": 460,
+      "sourceUrl": "https://bilder.hemnet.se/images/itemgallery_cut/76/a8/76a80d89c8788ca05daf33965b3fc47e.jpg",
+      "pageUrl": "https://www.hemnet.se/bostad/tomt-veckefjardens-golfbana-ornskoldsviks-kommun-veckehojden-3-10624858",
+      "captureDate": "unknown",
+      "rights": "No reuse license found; reference only; do not ship image in application assets."
+    }
+  ],
+  "outlines": [
+    {
+      "id": "R01",
+      "label": "Main clubhouse roof",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684366.56,
+          7023059.04
+        ],
+        [
+          684393.12,
+          7023060.48
+        ],
+        [
+          684393.76,
+          7023051.68
+        ],
+        [
+          684398.08,
+          7023052.32
+        ],
+        [
+          684400.16,
+          7023017.12
+        ],
+        [
+          684389.28,
+          7023016.48
+        ],
+        [
+          684388.16,
+          7023032.64
+        ],
+        [
+          684381.12,
+          7023032.48
+        ],
+        [
+          684380.64,
+          7023048.32
+        ],
+        [
+          684367.36,
+          7023047.68
+        ]
+      ],
+      "identificationStatus": "existing-name-and-campus-position",
+      "sourcePanelId": "campus-native",
+      "notes": "Visible main roof perimeter, including intersecting north and east wings. Dark grey roof. Eaves and roof displacement are not wall-footprint measurements; heights and pitch unresolved. IMPORTANT: the east entrance porch projects into roof shadow and is omitted from this main-roof ring because its outer edge cannot be confidently isolated. Add that porch as a separate photo-corroborated component; the yellow existing-model east bump is context only. R02 is the separate west terrace-side porch, not the eastern entrance."
+    },
+    {
+      "id": "R02",
+      "label": "Clubhouse west attached porch roof",
+      "kind": "building-part",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684373.12,
+          7023035.68
+        ],
+        [
+          684381.12,
+          7023035.2
+        ],
+        [
+          684381.28,
+          7023031.68
+        ],
+        [
+          684373.44,
+          7023031.04
+        ]
+      ],
+      "identificationStatus": "visible-attached-roof",
+      "sourcePanelId": "campus-native",
+      "notes": "Small attached west-facing roof by terrace; exact function and wall base unknown."
+    },
+    {
+      "id": "R03",
+      "label": "Eastern campus accommodation block candidate",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684413.12,
+          7023020.64
+        ],
+        [
+          684426.4,
+          7023021.6
+        ],
+        [
+          684427.84,
+          7023000.32
+        ],
+        [
+          684414.56,
+          7022999.68
+        ],
+        [
+          684414.24,
+          7023001.28
+        ],
+        [
+          684411.68,
+          7023001.12
+        ],
+        [
+          684411.52,
+          7023004.0
+        ],
+        [
+          684413.6,
+          7023004.0
+        ]
+      ],
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "notes": "Northernmost of three smaller connected dark-roof blocks south of clubhouse. Photo/site evidence needed to assign hotel room wings definitively."
+    },
+    {
+      "id": "R04",
+      "label": "Middle campus accommodation block candidate",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684398.72,
+          7023005.76
+        ],
+        [
+          684411.36,
+          7023006.4
+        ],
+        [
+          684412.64,
+          7022985.44
+        ],
+        [
+          684399.52,
+          7022984.8
+        ],
+        [
+          684399.2,
+          7022987.04
+        ],
+        [
+          684396.48,
+          7022986.88
+        ],
+        [
+          684396.32,
+          7022989.44
+        ],
+        [
+          684398.88,
+          7022989.6
+        ]
+      ],
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "notes": "Middle dark-roof block with small connection at southwest edge. Roof-edge ring includes connection visible from above."
+    },
+    {
+      "id": "R05",
+      "label": "Southern campus accommodation block candidate",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684383.36,
+          7022990.72
+        ],
+        [
+          684396.32,
+          7022991.68
+        ],
+        [
+          684397.92,
+          7022966.24
+        ],
+        [
+          684384.64,
+          7022965.6
+        ],
+        [
+          684384.48,
+          7022970.4
+        ],
+        [
+          684380.96,
+          7022970.24
+        ],
+        [
+          684380.16,
+          7022985.6
+        ],
+        [
+          684383.52,
+          7022986.08
+        ]
+      ],
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "notes": "Southern block west of pool; roof includes visible lower west annex. Pool-side function must be matched against exterior photos."
+    },
+    {
+      "id": "R06",
+      "label": "Translucent rectangular roof east of middle block",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684423.52,
+          7022997.6
+        ],
+        [
+          684429.6,
+          7022998.08
+        ],
+        [
+          684430.4,
+          7022984.96
+        ],
+        [
+          684424.0,
+          7022984.32
+        ]
+      ],
+      "identificationStatus": "visible-structure-function-unknown",
+      "sourcePanelId": "campus-native",
+      "notes": "Light/translucent roof with cross ribs. Could be enclosure or conservatory; orthophoto alone does not identify function."
+    },
+    {
+      "id": "R07",
+      "label": "Small polygonal garden roof",
+      "kind": "shelter",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684421.12,
+          7022980.96
+        ],
+        [
+          684423.04,
+          7022980.8
+        ],
+        [
+          684424.64,
+          7022979.04
+        ],
+        [
+          684423.52,
+          7022976.8
+        ],
+        [
+          684421.6,
+          7022976.16
+        ],
+        [
+          684419.36,
+          7022977.44
+        ],
+        [
+          684418.88,
+          7022979.36
+        ]
+      ],
+      "identificationStatus": "gazebo-form-visible-function-unconfirmed",
+      "sourcePanelId": "campus-native",
+      "notes": "Small polygonal gazebo-like roof east of pool. Tree/shadow overlap limits exact corner count."
+    },
+    {
+      "id": "R08",
+      "label": "Long roof immediately west of padel court",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684370.56,
+          7022951.52
+        ],
+        [
+          684379.84,
+          7022948.64
+        ],
+        [
+          684373.76,
+          7022929.92
+        ],
+        [
+          684363.52,
+          7022932.64
+        ]
+      ],
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "campus-native",
+      "notes": "Clearly visible substantial dark roof absent from current infrastructure model. Do not assign hotel, maintenance or padel use from proximity alone."
+    },
+    {
+      "id": "S01",
+      "label": "Visible clubhouse west dining terrace",
+      "kind": "terrace",
+      "reviewed": true,
+      "geometryStatus": "reviewed-surface-edge",
+      "ringEPSG3006": [
+        [
+          684373.12,
+          7023031.2
+        ],
+        [
+          684382.24,
+          7023032.16
+        ],
+        [
+          684385.12,
+          7023020.96
+        ],
+        [
+          684385.92,
+          7023017.44
+        ],
+        [
+          684383.04,
+          7023016.96
+        ],
+        [
+          684380.16,
+          7023024.48
+        ],
+        [
+          684372.64,
+          7023022.72
+        ]
+      ],
+      "identificationStatus": "outdoor-tables-visible",
+      "sourcePanelId": "campus-native",
+      "notes": "Approximate visible paved dining/terrace area around tables and passage. Shadows, furniture and planting obscure the full perimeter; ground-level photo required."
+    },
+    {
+      "id": "S02",
+      "label": "Outdoor pool water surface",
+      "kind": "pool",
+      "reviewed": true,
+      "geometryStatus": "reviewed-surface-edge",
+      "ringEPSG3006": [
+        [
+          684403.2,
+          7022976.32
+        ],
+        [
+          684408.64,
+          7022976.48
+        ],
+        [
+          684408.96,
+          7022972.48
+        ],
+        [
+          684403.2,
+          7022972.16
+        ]
+      ],
+      "identificationStatus": "pool-visible",
+      "sourcePanelId": "campus-native",
+      "notes": "Pool water edge only, excluding white deck/surround and steps; permanent pool dimension is approximate."
+    },
+    {
+      "id": "S03",
+      "label": "Blue outdoor padel playing enclosure",
+      "kind": "padel-court",
+      "reviewed": true,
+      "geometryStatus": "reviewed-surface-edge",
+      "ringEPSG3006": [
+        [
+          684390.24,
+          7022956.96
+        ],
+        [
+          684399.84,
+          7022953.76
+        ],
+        [
+          684393.12,
+          7022934.88
+        ],
+        [
+          684383.52,
+          7022938.08
+        ]
+      ],
+      "identificationStatus": "padel-markings-and-enclosure-visible",
+      "sourcePanelId": "campus-native",
+      "notes": "Visible blue playing enclosure, excluding cast fence shadows and surrounding paths. Fence/glass height not determined."
+    },
+    {
+      "id": "S04",
+      "label": "Northwest campus parking apron",
+      "kind": "parking",
+      "reviewed": true,
+      "geometryStatus": "reviewed-surface-edge",
+      "ringEPSG3006": [
+        [
+          684376.8,
+          7023104.64
+        ],
+        [
+          684386.08,
+          7023103.2
+        ],
+        [
+          684395.68,
+          7023100.64
+        ],
+        [
+          684409.92,
+          7023097.6
+        ],
+        [
+          684410.08,
+          7023076.48
+        ],
+        [
+          684408.16,
+          7023071.2
+        ],
+        [
+          684404.64,
+          7023067.36
+        ],
+        [
+          684398.56,
+          7023069.76
+        ],
+        [
+          684386.4,
+          7023076.8
+        ],
+        [
+          684376.64,
+          7023082.56
+        ]
+      ],
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "notes": "Gravel/asphalt parking apron inferred from visible material boundary; cars and vegetation obscure edges."
+    },
+    {
+      "id": "S05",
+      "label": "Central north-south parking apron",
+      "kind": "parking",
+      "reviewed": true,
+      "geometryStatus": "reviewed-surface-edge",
+      "ringEPSG3006": [
+        [
+          684418.24,
+          7023095.04
+        ],
+        [
+          684430.88,
+          7023096.8
+        ],
+        [
+          684437.12,
+          7023090.72
+        ],
+        [
+          684438.56,
+          7023046.56
+        ],
+        [
+          684437.92,
+          7023035.84
+        ],
+        [
+          684434.08,
+          7023034.08
+        ],
+        [
+          684429.92,
+          7023036.8
+        ],
+        [
+          684429.44,
+          7023042.24
+        ],
+        [
+          684420.0,
+          7023049.28
+        ]
+      ],
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "notes": "Parking strip east of clubhouse and west of planted divider. Material edge approximate under parked cars."
+    },
+    {
+      "id": "S06",
+      "label": "Eastern parking apron",
+      "kind": "parking",
+      "reviewed": true,
+      "geometryStatus": "reviewed-surface-edge",
+      "ringEPSG3006": [
+        [
+          684448.64,
+          7023087.2
+        ],
+        [
+          684464.0,
+          7023086.24
+        ],
+        [
+          684468.64,
+          7023082.08
+        ],
+        [
+          684469.92,
+          7023033.6
+        ],
+        [
+          684465.6,
+          7023026.4
+        ],
+        [
+          684459.68,
+          7023026.88
+        ],
+        [
+          684453.6,
+          7023030.72
+        ]
+      ],
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "notes": "Eastern parking strip and southern turning connection. Far eastern bays partially limited by panel edge."
+    },
+    {
+      "id": "S07",
+      "label": "Clubhouse entrance circular island",
+      "kind": "site-feature",
+      "reviewed": true,
+      "geometryStatus": "reviewed-surface-edge",
+      "ringEPSG3006": [
+        [
+          684411.52,
+          7023038.72
+        ],
+        [
+          684413.44,
+          7023038.24
+        ],
+        [
+          684415.2,
+          7023036.64
+        ],
+        [
+          684415.68,
+          7023034.08
+        ],
+        [
+          684414.4,
+          7023032.16
+        ],
+        [
+          684412.0,
+          7023031.52
+        ],
+        [
+          684409.92,
+          7023032.48
+        ],
+        [
+          684408.8,
+          7023034.24
+        ],
+        [
+          684409.28,
+          7023036.8
+        ]
+      ],
+      "identificationStatus": "circular-island-visible",
+      "sourcePanelId": "campus-native",
+      "notes": "Oval/circular paved or planted entrance feature in front of clubhouse. Interior sculpture/flag/details require exterior references."
+    },
+    {
+      "id": "R09",
+      "label": "Range-end covered building",
+      "kind": "range-building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684326.4,
+          7022814.08
+        ],
+        [
+          684337.28,
+          7022815.52
+        ],
+        [
+          684339.04,
+          7022806.4
+        ],
+        [
+          684327.68,
+          7022804.96
+        ]
+      ],
+      "identificationStatus": "range-position-and-roof-visible",
+      "sourcePanelId": "range-tee-native",
+      "notes": "Dark roof at northeast end of curved range mat line. Open bay count and support structure require frontal photos."
+    },
+    {
+      "id": "S08",
+      "label": "Curved range hitting-mat apron",
+      "kind": "range-apron",
+      "reviewed": true,
+      "geometryStatus": "reviewed-surface-edge",
+      "ringEPSG3006": [
+        [
+          684265.44,
+          7022740.32
+        ],
+        [
+          684270.56,
+          7022755.04
+        ],
+        [
+          684276.96,
+          7022771.68
+        ],
+        [
+          684283.36,
+          7022780.96
+        ],
+        [
+          684297.76,
+          7022794.56
+        ],
+        [
+          684316.48,
+          7022809.44
+        ],
+        [
+          684321.92,
+          7022810.24
+        ],
+        [
+          684325.28,
+          7022807.84
+        ],
+        [
+          684322.88,
+          7022804.64
+        ],
+        [
+          684304.0,
+          7022791.04
+        ],
+        [
+          684286.4,
+          7022776.8
+        ],
+        [
+          684280.48,
+          7022767.52
+        ],
+        [
+          684276.48,
+          7022754.72
+        ],
+        [
+          684269.76,
+          7022738.4
+        ]
+      ],
+      "identificationStatus": "range-mats-and-flagpoles-visible",
+      "sourcePanelId": "range-tee-native",
+      "notes": "Visible paved curved mat apron excluding roofed range-end building. Mat positions and flagpoles should be added individually from this native panel; do not infer count from shadows."
+    },
+    {
+      "id": "R10",
+      "label": "Western complex long L-shaped roof",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684176.48,
+          7022981.92
+        ],
+        [
+          684187.68,
+          7022981.6
+        ],
+        [
+          684188.16,
+          7022941.44
+        ],
+        [
+          684177.92,
+          7022941.12
+        ],
+        [
+          684177.76,
+          7022953.76
+        ],
+        [
+          684166.4,
+          7022953.44
+        ],
+        [
+          684166.24,
+          7022958.56
+        ],
+        [
+          684176.96,
+          7022959.04
+        ]
+      ],
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "notes": "Three-building complex west of main campus. Appears service-related from yard access, but function and ownership unconfirmed. Large north/east roof shadow excluded."
+    },
+    {
+      "id": "R11",
+      "label": "Western complex eastern rectangular roof",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684209.12,
+          7022983.68
+        ],
+        [
+          684219.68,
+          7022984.64
+        ],
+        [
+          684220.16,
+          7022954.88
+        ],
+        [
+          684209.92,
+          7022954.24
+        ]
+      ],
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "notes": "North-south rectangular grey roof in western yard; roof fixtures visible. Function and height unknown."
+    },
+    {
+      "id": "R12",
+      "label": "Western complex southern rectangular roof",
+      "kind": "building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684196.32,
+          7022943.04
+        ],
+        [
+          684216.48,
+          7022944.0
+        ],
+        [
+          684217.12,
+          7022934.88
+        ],
+        [
+          684196.8,
+          7022934.08
+        ]
+      ],
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "notes": "Short east-west rectangular roof south of western complex. Function and height unknown."
+    },
+    {
+      "id": "N01",
+      "label": "Northern neighboring building west of road",
+      "kind": "context-building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684301.92,
+          7023261.12
+        ],
+        [
+          684315.68,
+          7023264.8
+        ],
+        [
+          684322.72,
+          7023231.04
+        ],
+        [
+          684310.72,
+          7023227.36
+        ],
+        [
+          684304.32,
+          7023242.24
+        ]
+      ],
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "notes": "Visible elongated roof is substantially displaced/rotated relative to old synthetic gravel-yard-hall-A rectangle. Treat as neighboring context; golf ownership/use unverified."
+    },
+    {
+      "id": "N02",
+      "label": "Northern neighboring southern building west of road",
+      "kind": "context-building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684322.08,
+          7023209.92
+        ],
+        [
+          684327.36,
+          7023212.16
+        ],
+        [
+          684337.92,
+          7023188.64
+        ],
+        [
+          684332.96,
+          7023186.4
+        ]
+      ],
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "notes": "Long narrow grey roof adjacent to bright white terrace/roof complex. The old gravel-yard-hall-B polygon does not describe this roof. Ownership and golf use unverified."
+    },
+    {
+      "id": "N03",
+      "label": "Northern neighboring upper house east of road",
+      "kind": "context-building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684344.16,
+          7023292.96
+        ],
+        [
+          684359.04,
+          7023298.72
+        ],
+        [
+          684362.4,
+          7023289.92
+        ],
+        [
+          684365.76,
+          7023284.16
+        ],
+        [
+          684367.52,
+          7023276.0
+        ],
+        [
+          684358.72,
+          7023270.88
+        ],
+        [
+          684356.0,
+          7023278.24
+        ],
+        [
+          684351.36,
+          7023275.84
+        ],
+        [
+          684348.8,
+          7023283.04
+        ]
+      ],
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "notes": "Complex dark roof east of road beside private-looking pool/deck. No golf-facility identity inferred."
+    },
+    {
+      "id": "N04",
+      "label": "Northern neighboring lower house east of road",
+      "kind": "context-building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684349.12,
+          7023238.72
+        ],
+        [
+          684356.16,
+          7023242.88
+        ],
+        [
+          684360.32,
+          7023238.24
+        ],
+        [
+          684362.56,
+          7023233.92
+        ],
+        [
+          684367.36,
+          7023236.0
+        ],
+        [
+          684372.16,
+          7023231.04
+        ],
+        [
+          684371.68,
+          7023223.04
+        ],
+        [
+          684374.08,
+          7023218.24
+        ],
+        [
+          684376.96,
+          7023209.28
+        ],
+        [
+          684367.68,
+          7023204.96
+        ],
+        [
+          684358.08,
+          7023210.56
+        ],
+        [
+          684357.6,
+          7023217.44
+        ],
+        [
+          684351.84,
+          7023224.16
+        ]
+      ],
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "notes": "Complex pitched roof and landscaping visible east of road; no golf ownership/use established."
+    },
+    {
+      "id": "N05",
+      "label": "Small northern neighboring pool-side roof",
+      "kind": "context-building",
+      "reviewed": true,
+      "geometryStatus": "reviewed-roof-edge",
+      "ringEPSG3006": [
+        [
+          684326.56,
+          7023301.76
+        ],
+        [
+          684332.8,
+          7023304.48
+        ],
+        [
+          684337.12,
+          7023296.48
+        ],
+        [
+          684330.56,
+          7023293.76
+        ]
+      ],
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "notes": "Small roof beside northern neighboring house and pool. Included solely as surrounding visual context."
+    },
+    {
+      "id": "B0",
+      "label": "Existing building 0",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684414.351,
+          7023004.494
+        ],
+        [
+          684411.543,
+          7023004.433
+        ],
+        [
+          684411.669,
+          7023002.234
+        ],
+        [
+          684414.372,
+          7023002.389
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B1",
+      "label": "Existing building 1",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684399.336,
+          7022986.18
+        ],
+        [
+          684398.365,
+          7023006.585
+        ],
+        [
+          684411.382,
+          7023007.232
+        ],
+        [
+          684412.353,
+          7022986.827
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B3",
+      "label": "Veckefjärdens golfklubb",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684366.57,
+          7023060.124
+        ],
+        [
+          684367.207,
+          7023049.027
+        ],
+        [
+          684386.825,
+          7023050.154
+        ],
+        [
+          684388.444,
+          7023018.452
+        ],
+        [
+          684399.655,
+          7023019.096
+        ],
+        [
+          684398.926,
+          7023031.792
+        ],
+        [
+          684402.929,
+          7023032.022
+        ],
+        [
+          684402.395,
+          7023041.319
+        ],
+        [
+          684397.991,
+          7023041.066
+        ],
+        [
+          684397.322,
+          7023054.467
+        ],
+        [
+          684393.118,
+          7023054.226
+        ],
+        [
+          684392.699,
+          7023061.524
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B4",
+      "label": "Existing building 4",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684384.777,
+          7022966.889
+        ],
+        [
+          684383.442,
+          7022991.887
+        ],
+        [
+          684396.26,
+          7022992.523
+        ],
+        [
+          684397.495,
+          7022967.519
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B5",
+      "label": "Existing building 5",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684399.267,
+          7022987.379
+        ],
+        [
+          684399.123,
+          7022989.879
+        ],
+        [
+          684396.415,
+          7022989.823
+        ],
+        [
+          684396.464,
+          7022987.218
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B6",
+      "label": "Existing building 6",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684414.458,
+          7023000.889
+        ],
+        [
+          684413.493,
+          7023021.194
+        ],
+        [
+          684426.11,
+          7023021.819
+        ],
+        [
+          684427.175,
+          7023001.519
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B24",
+      "label": "Existing building 24",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684197.113,
+          7022934.956
+        ],
+        [
+          684196.697,
+          7022943.959
+        ],
+        [
+          684216.232,
+          7022944.779
+        ],
+        [
+          684216.548,
+          7022935.77
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B25",
+      "label": "Existing building 25",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684208.345,
+          7022984.245
+        ],
+        [
+          684219.566,
+          7022984.688
+        ],
+        [
+          684220.801,
+          7022956.174
+        ],
+        [
+          684209.584,
+          7022955.631
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B26",
+      "label": "Existing building 26",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684177.809,
+          7022954.61
+        ],
+        [
+          684166.587,
+          7022954.167
+        ],
+        [
+          684166.14,
+          7022965.475
+        ],
+        [
+          684177.361,
+          7022965.918
+        ],
+        [
+          684176.781,
+          7022983.036
+        ],
+        [
+          684188.303,
+          7022983.496
+        ],
+        [
+          684189.877,
+          7022942.063
+        ],
+        [
+          684178.208,
+          7022942.397
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B28",
+      "label": "Existing building 28",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684337.825,
+          7022815.652
+        ],
+        [
+          684326.672,
+          7022814.009
+        ],
+        [
+          684327.683,
+          7022805.141
+        ],
+        [
+          684339.131,
+          7022806.901
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B342",
+      "label": "Existing building 342",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684293.793,
+          7023273.09
+        ],
+        [
+          684314.811,
+          7023274.297
+        ],
+        [
+          684316.934,
+          7023237.309
+        ],
+        [
+          684295.916,
+          7023236.102
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "B343",
+      "label": "Existing building 343",
+      "kind": "building",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684307.245,
+          7023213.684
+        ],
+        [
+          684322.257,
+          7023214.546
+        ],
+        [
+          684323.692,
+          7023189.554
+        ],
+        [
+          684308.679,
+          7023188.692
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "P0",
+      "label": "Existing parking 0",
+      "kind": "parking",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684428.836,
+          7023042.536
+        ],
+        [
+          684419.795,
+          7023051.345
+        ],
+        [
+          684418.014,
+          7023098.082
+        ],
+        [
+          684437.604,
+          7023092.688
+        ],
+        [
+          684439.73,
+          7023039.953
+        ],
+        [
+          684438.25,
+          7023034.251
+        ],
+        [
+          684434.366,
+          7023035.432
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "P1",
+      "label": "Existing parking 1",
+      "kind": "parking",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684456.333,
+          7023028.871
+        ],
+        [
+          684452.721,
+          7023030.569
+        ],
+        [
+          684448.826,
+          7023089.621
+        ],
+        [
+          684467.333,
+          7023083.864
+        ],
+        [
+          684471.787,
+          7023029.056
+        ],
+        [
+          684466.02,
+          7023026.318
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "P3",
+      "label": "Existing parking 3",
+      "kind": "parking",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684377.075,
+          7023109.772
+        ],
+        [
+          684409.512,
+          7023101.004
+        ],
+        [
+          684408.588,
+          7023073.369
+        ],
+        [
+          684397.819,
+          7023072.048
+        ],
+        [
+          684376.389,
+          7023083.254
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    },
+    {
+      "id": "P6",
+      "label": "Existing parking 6",
+      "kind": "parking",
+      "reviewed": false,
+      "geometryStatus": "existing-model-unreviewed",
+      "ringEPSG3006": [
+        [
+          684350.744,
+          7023019.196
+        ],
+        [
+          684404.892,
+          7023025.816
+        ],
+        [
+          684413.785,
+          7022991.623
+        ],
+        [
+          684404.134,
+          7022958.573
+        ],
+        [
+          684360.326,
+          7022953.75
+        ],
+        [
+          684346.824,
+          7022987.778
+        ]
+      ],
+      "identificationStatus": "existing-model-label-only",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto."
+    }
+  ],
+  "blendPath": "geobuild/cache/facilities-2026-09-10/veckefjarden-facility-references.blend",
+  "previewPath": "geobuild/cache/facilities-2026-09-10/blender-site-preview.png",
+  "reportPath": "geobuild/facilities/blender-build-report.json",
+  "readme": "VECKEFJARDEN GC / FACILITY MODELING REFERENCES / 2026-09-10\nThis is a reference scene, not a finished building model.\nAll map geometry uses metres: X east, Y grid north, Z up.\nOrigin EPSG:3006 E684390 N7023040. Z=0 is an arbitrary flat plan datum.\nNo terrain, wall-base, eaves, ridge height or roof pitch has been established here.\nOrthophotos: Lantmateriet 2024-06-27, native source 0.16 m; overview resampled.\nPixel spacing is not absolute survey accuracy. Roof edges are not wall footprints.\nCyan outlines: manually reviewed image edges. Amber: existing model comparison.\nPhoto boards lie east of the mapped area; inspect using Material Preview/Rendered.\nSelect a detail camera for a close plan view. Names match inventory.json IDs.\nPhotos have source URLs in custom properties. They are modeling references only.\nEach camera date is unknown unless stated; upload date is not capture date.\nThe current application/course models have not been modified by this reference work.\nFor exports to the legacy app, use full inverse projection; do not merely swap axes.\nSee geobuild/facilities/README.md and inventory.json for gaps and coordinate conversion.\n"
+}

@@ -1,0 +1,1474 @@
+{
+  "passed": false,
+  "scene": "Puttom | Authored facilities 2026-09-10 r3",
+  "sourceFile": "puttombuild/cache/facilities-model-2026-09-10/puttom-facilities-v1.blend",
+  "sourceSha256": "a87188326278540cbab5e33cd3369f6a9e597c9b9bf82b74063b4ea18bbf880c",
+  "sourceFileUnchanged": true,
+  "blenderVersion": "4.5.9 LTS",
+  "coveredInheritedIds": 17,
+  "facilityParents": 25,
+  "productionMeshes": 150,
+  "triangles": 34445,
+  "trulyDegenerateTriangles": [
+    {
+      "object": "range-l-building | roof.002",
+      "triangleCount": 1,
+      "sampleIndices": [
+        2
+      ]
+    }
+  ],
+  "positiveTinyTriangles": [
+    {
+      "object": "range-l-building | roof.002",
+      "triangleCount": 6,
+      "minimumPositiveArea": 6.083425071916515e-11
+    }
+  ],
+  "positiveTinyTriangleThresholdSquareMetres": 1e-06,
+  "groundAttributeMeshes": 6,
+  "groundModeVertexCounts": {
+    "0": 0,
+    "1": 416,
+    "2": 1209
+  },
+  "precisionRegression": {
+    "absoluteStartENH": [
+      697578.13,
+      7025377.43,
+      55.1
+    ],
+    "toleranceMetres": 0.0001,
+    "builderSha256": "be8a266de3cbc558060e67b26ef8f29df7a1a3e61deb3bbfa9d9e8051f89f94b",
+    "tests": [
+      {
+        "name": "axis-0 10 cm beam",
+        "expectedSpansMetres": [
+          2.6,
+          0.1,
+          0.1
+        ],
+        "measuredSpansMetres": [
+          2.59999084,
+          0.1000061,
+          0.10000038
+        ],
+        "maximumErrorMetres": 9.155e-06,
+        "passed": true
+      },
+      {
+        "name": "axis-1 10 cm beam",
+        "expectedSpansMetres": [
+          0.1,
+          2.6,
+          0.1
+        ],
+        "measuredSpansMetres": [
+          0.1000061,
+          2.6000061,
+          0.10000038
+        ],
+        "maximumErrorMetres": 6.104e-06,
+        "passed": true
+      },
+      {
+        "name": "axis-2 10 cm beam",
+        "expectedSpansMetres": [
+          0.1,
+          0.1,
+          2.6
+        ],
+        "measuredSpansMetres": [
+          0.1000061,
+          0.1000061,
+          2.59999943
+        ],
+        "maximumErrorMetres": 6.104e-06,
+        "passed": true
+      },
+      {
+        "name": "oblique 10 cm beam",
+        "expectedSpansMetres": [
+          2.4,
+          0.1,
+          0.13
+        ],
+        "measuredSpansMetres": [
+          2.40000403,
+          0.10000117,
+          0.12999916
+        ],
+        "maximumErrorMetres": 4.035e-06,
+        "passed": true
+      },
+      {
+        "name": "clock cylinder radius 29 cm",
+        "expectedSpansMetres": [
+          0.58,
+          0.09,
+          0.58
+        ],
+        "measuredSpansMetres": [
+          0.57998657,
+          0.0900116,
+          0.57999992
+        ],
+        "maximumErrorMetres": 1.3428e-05,
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "meshes": [
+    {
+      "object": "clubhouse | blue-base.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 1.6119952175647048,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | red.002",
+      "vertices": 60,
+      "triangles": 58,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 1.534500227228011,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | roof.002",
+      "vertices": 536,
+      "triangles": 804,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00036399611528111034,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | roof-metal.002",
+      "vertices": 528,
+      "triangles": 824,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00036399835833774336,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | white.002",
+      "vertices": 1984,
+      "triangles": 2976,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008249743896158179,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | glass.002",
+      "vertices": 333,
+      "triangles": 487,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.015499954100628108,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | red-dark.002",
+      "vertices": 456,
+      "triangles": 684,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00029399183893019654,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | metal.002",
+      "vertices": 40,
+      "triangles": 60,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019249884405780904,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | foundation.002",
+      "vertices": 72,
+      "triangles": 108,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.031500068735312886,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | wood.002",
+      "vertices": 72,
+      "triangles": 108,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.013950001616108343,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | wood-dark.002",
+      "vertices": 1144,
+      "triangles": 1716,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 7.199893576696093e-05,
+      "groundAttributes": false
+    },
+    {
+      "object": "clubhouse | brick.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.2651999191300263,
+      "groundAttributes": false
+    },
+    {
+      "object": "north-courtyard-building | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07650004511507989,
+      "groundAttributes": false
+    },
+    {
+      "object": "north-courtyard-building | red.002",
+      "vertices": 14,
+      "triangles": 14,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 6.6538796477407445,
+      "groundAttributes": false
+    },
+    {
+      "object": "north-courtyard-building | roof.002",
+      "vertices": 120,
+      "triangles": 180,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0003639983969944468,
+      "groundAttributes": false
+    },
+    {
+      "object": "north-courtyard-building | roof-metal.002",
+      "vertices": 88,
+      "triangles": 140,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005177545299375197,
+      "groundAttributes": false
+    },
+    {
+      "object": "north-courtyard-building | white.002",
+      "vertices": 304,
+      "triangles": 456,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008249619877460646,
+      "groundAttributes": false
+    },
+    {
+      "object": "north-courtyard-building | glass.002",
+      "vertices": 48,
+      "triangles": 72,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.024999418393235828,
+      "groundAttributes": false
+    },
+    {
+      "object": "north-courtyard-building | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.001925033146108035,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-l-building | foundation.002",
+      "vertices": 32,
+      "triangles": 48,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649999348557567,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-l-building | red.002",
+      "vertices": 84,
+      "triangles": 42,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.010037903831579821,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-l-building | roof.002",
+      "vertices": 102,
+      "triangles": 34,
+      "trulyDegenerateTriangles": 1,
+      "positiveTinyTriangles": 6,
+      "minimumTriangleAreaSquareMetres": 0.0,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-l-building | white.002",
+      "vertices": 1072,
+      "triangles": 1608,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.000824839633423835,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-l-building | roof-metal.002",
+      "vertices": 144,
+      "triangles": 232,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005177139537408948,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-l-building | glass.002",
+      "vertices": 192,
+      "triangles": 288,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.024997183441882953,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-l-building | metal.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019250115437898785,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-l-building | red-dark.002",
+      "vertices": 480,
+      "triangles": 720,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0002999381540575996,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-east-hut | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649970011527225,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-east-hut | red.002",
+      "vertices": 14,
+      "triangles": 14,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 4.363422501912779,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-east-hut | roof.002",
+      "vertices": 136,
+      "triangles": 204,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00036397922623184923,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-east-hut | roof-metal.002",
+      "vertices": 88,
+      "triangles": 140,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005176860140636563,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-east-hut | white.002",
+      "vertices": 304,
+      "triangles": 456,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008249246457125992,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-east-hut | glass.002",
+      "vertices": 48,
+      "triangles": 72,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.024996834457851946,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-east-hut | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019248523749411106,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-west-hut | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649980176845145,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-west-hut | red.002",
+      "vertices": 18,
+      "triangles": 16,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 5.539448518622882,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-west-hut | roof.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.4180153904754133,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-west-hut | white.002",
+      "vertices": 208,
+      "triangles": 312,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008249596357927658,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-west-hut | roof-metal.002",
+      "vertices": 64,
+      "triangles": 112,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005177139537408948,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-west-hut | glass.002",
+      "vertices": 32,
+      "triangles": 48,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.02499939779227134,
+      "groundAttributes": false
+    },
+    {
+      "object": "range-west-hut | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019248709650128148,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649993489201086,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | red.002",
+      "vertices": 318,
+      "triangles": 470,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.009799914550967515,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | roof-metal.002",
+      "vertices": 196,
+      "triangles": 298,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00036402065471431705,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | red-dark.002",
+      "vertices": 368,
+      "triangles": 552,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.006999807708780281,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | white.002",
+      "vertices": 64,
+      "triangles": 96,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008249635866377503,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | door-green.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.03640064862702275,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019249574979767203,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | wood.002",
+      "vertices": 96,
+      "triangles": 144,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00043752183217264873,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | glass.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.024999648507658255,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | clock.002",
+      "vertices": 48,
+      "triangles": 92,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.000741557911833526,
+      "groundAttributes": false
+    },
+    {
+      "object": "harbre | black.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00016199264956134616,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-long | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.076499126667523,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-long | red.002",
+      "vertices": 14,
+      "triangles": 14,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 15.710481182991792,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-long | roof-metal.002",
+      "vertices": 584,
+      "triangles": 892,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0003640612854567823,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-long | white.002",
+      "vertices": 144,
+      "triangles": 216,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008247438818216324,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-long | red-dark.002",
+      "vertices": 392,
+      "triangles": 588,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00038477720227092505,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-long | black.002",
+      "vertices": 384,
+      "triangles": 576,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0001349630233906268,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-long | glass.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.012498471815788757,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-long | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019247024320065975,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07650001591216722,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | red.002",
+      "vertices": 14,
+      "triangles": 14,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 7.586659260783628,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | roof-metal.002",
+      "vertices": 448,
+      "triangles": 688,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0003640804919456095,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | white.002",
+      "vertices": 200,
+      "triangles": 300,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008249267702922225,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | red-dark.002",
+      "vertices": 280,
+      "triangles": 420,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00038484332617372274,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | black.002",
+      "vertices": 288,
+      "triangles": 432,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.000134973432964424,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | glass.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.012499636057122728,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.001924137701280415,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-hall | wood.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.1801311288652097,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649968981914966,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | red.002",
+      "vertices": 18,
+      "triangles": 16,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 1.5678386225361478,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | roof-light.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.38681508417736576,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | white.002",
+      "vertices": 120,
+      "triangles": 180,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008250309620052576,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | roof-metal.002",
+      "vertices": 64,
+      "triangles": 112,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005176860140636563,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | red-dark.002",
+      "vertices": 128,
+      "triangles": 192,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00038470712024718523,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | black.002",
+      "vertices": 88,
+      "triangles": 132,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0001349630233906268,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | glass.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.012501130201982293,
+      "groundAttributes": false
+    },
+    {
+      "object": "maintenance-small | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00192484341096133,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-a | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649979621460326,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-a | red.002",
+      "vertices": 14,
+      "triangles": 14,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 2.855249522936477,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-a | roof.002",
+      "vertices": 88,
+      "triangles": 132,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0003639500177206185,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-a | roof-metal.002",
+      "vertices": 80,
+      "triangles": 136,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005177139537408948,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-a | white.002",
+      "vertices": 208,
+      "triangles": 312,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008248936210293323,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-a | glass.002",
+      "vertices": 32,
+      "triangles": 48,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.024997539814648917,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-a | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.001924785534356488,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-b | foundation.002",
+      "vertices": 32,
+      "triangles": 48,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649973112517787,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-b | red.002",
+      "vertices": 32,
+      "triangles": 30,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 1.0399998943676154,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-b | roof.002",
+      "vertices": 88,
+      "triangles": 132,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00036399672378828175,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-b | roof-metal.002",
+      "vertices": 144,
+      "triangles": 248,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005177308121346869,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-b | white.002",
+      "vertices": 352,
+      "triangles": 528,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008248815429396927,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-b | glass.002",
+      "vertices": 48,
+      "triangles": 72,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.024998159395181574,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-b | metal.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019247419259045273,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-cabin-b | roof-light.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.20799999455312543,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | foundation.002",
+      "vertices": 32,
+      "triangles": 48,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649981054578879,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | cream.002",
+      "vertices": 28,
+      "triangles": 28,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 4.417334632472224,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | roof-red.002",
+      "vertices": 176,
+      "triangles": 264,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00036401832027061387,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | roof-metal.002",
+      "vertices": 168,
+      "triangles": 276,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005177139537408948,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | white.002",
+      "vertices": 576,
+      "triangles": 864,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0008249528909800574,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | glass.002",
+      "vertices": 96,
+      "triangles": 128,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.024998393353598658,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | metal.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.001924824005982373,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | roof-light.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.2315946209324042,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-red-house | wood.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.2666956226072,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-lakeshore-pavilion | roof-light.002",
+      "vertices": 6,
+      "triangles": 6,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.8062959185898658,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-lakeshore-pavilion | white.002",
+      "vertices": 64,
+      "triangles": 96,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.007199642946943641,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-lakeshore-pavilion | glass.002",
+      "vertices": 16,
+      "triangles": 8,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 5.420007401870255,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-lakeshore-pavilion | wood.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.4316816411364924,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-dark-shed | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649996577906189,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-dark-shed | red.002",
+      "vertices": 14,
+      "triangles": 14,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 1.0495785877712418,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-dark-shed | roof-metal.002",
+      "vertices": 104,
+      "triangles": 156,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0003639677956578299,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-dark-shed | white.002",
+      "vertices": 72,
+      "triangles": 108,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.006999671051744372,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-dark-shed | red-dark.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.03574765540543012,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-dark-shed | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019248297176091,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-rust-shed | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649965965777943,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-rust-shed | red.002",
+      "vertices": 18,
+      "triangles": 16,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.18487487647694728,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-rust-shed | roof-red.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.19922483694477228,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-rust-shed | white.002",
+      "vertices": 72,
+      "triangles": 108,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0069999781844671816,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-rust-shed | roof-metal.002",
+      "vertices": 64,
+      "triangles": 112,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0005177139537408948,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-rust-shed | red-dark.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.03574767799000256,
+      "groundAttributes": false
+    },
+    {
+      "object": "west-south-rust-shed | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019250656623626128,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-c | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07650017940871326,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-c | red.002",
+      "vertices": 14,
+      "triangles": 14,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 2.0427197845111946,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-c | roof-metal.002",
+      "vertices": 184,
+      "triangles": 292,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.000364089060844951,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-c | white.002",
+      "vertices": 72,
+      "triangles": 108,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.006999799850746058,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-c | red-dark.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.03574915374338161,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-c | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019248417374910787,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-d | foundation.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.07649985036888532,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-d | red.002",
+      "vertices": 14,
+      "triangles": 14,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 2.0427190671374595,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-d | roof-metal.002",
+      "vertices": 184,
+      "triangles": 292,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00036409109793594904,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-d | white.002",
+      "vertices": 72,
+      "triangles": 108,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.006999799850746058,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-d | red-dark.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.035749673945247196,
+      "groundAttributes": false
+    },
+    {
+      "object": "trace-shed-d | metal.002",
+      "vertices": 8,
+      "triangles": 12,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0019249546312494203,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-apron | paving-rose.002",
+      "vertices": 699,
+      "triangles": 1232,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.06540313888731183,
+      "groundAttributes": true
+    },
+    {
+      "object": "site-range-apron | paving-pale.002",
+      "vertices": 510,
+      "triangles": 170,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.12499627890300287,
+      "groundAttributes": true
+    },
+    {
+      "object": "site-range-apron | fixture-blue.002",
+      "vertices": 72,
+      "triangles": 108,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0055122516641858965,
+      "groundAttributes": true
+    },
+    {
+      "object": "site-range-apron | metal-dark.002",
+      "vertices": 72,
+      "triangles": 108,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.008749999105930328,
+      "groundAttributes": true
+    },
+    {
+      "object": "site-range-apron | rope-white.002",
+      "vertices": 768,
+      "triangles": 1344,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 6.703947832656327e-05,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-mats | range-mat.002",
+      "vertices": 136,
+      "triangles": 204,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.045374818329750224,
+      "groundAttributes": true
+    },
+    {
+      "object": "site-range-mats | rubber-black.002",
+      "vertices": 136,
+      "triangles": 204,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0202497721383239,
+      "groundAttributes": true
+    },
+    {
+      "object": "site-range-ball-dispenser | metal-stainless.002",
+      "vertices": 30,
+      "triangles": 44,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.016500152739861905,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-ball-dispenser | rubber-black.002",
+      "vertices": 16,
+      "triangles": 24,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.006749757070792839,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-east-net | net-pole.002",
+      "vertices": 304,
+      "triangles": 532,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.001868539024144411,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-east-net | metal-dark.002",
+      "vertices": 1152,
+      "triangles": 2016,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 7.460475227513825e-05,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-east-net | net-mesh.002",
+      "vertices": 288,
+      "triangles": 144,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 13.49916235777943,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-west-near-net | net-pole.002",
+      "vertices": 112,
+      "triangles": 196,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0018688240961637348,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-west-near-net | metal-dark.002",
+      "vertices": 384,
+      "triangles": 672,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 7.472730504796686e-05,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-range-west-near-net | net-mesh.002",
+      "vertices": 96,
+      "triangles": 48,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 6.635318354596656,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-courtyard-flags | paving-pale.002",
+      "vertices": 24,
+      "triangles": 36,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.04339998755455099,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-courtyard-flags | flagpole-white.002",
+      "vertices": 48,
+      "triangles": 84,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.0006264912080951035,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-courtyard-fence | timber-dark.002",
+      "vertices": 1216,
+      "triangles": 2128,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.00025368437960533084,
+      "groundAttributes": false
+    },
+    {
+      "object": "site-camper-fence | timber-red.002",
+      "vertices": 140,
+      "triangles": 166,
+      "trulyDegenerateTriangles": 0,
+      "positiveTinyTriangles": 0,
+      "minimumTriangleAreaSquareMetres": 0.005512451934919227,
+      "groundAttributes": false
+    }
+  ]
+}

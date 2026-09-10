@@ -1,0 +1,151 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "tortuna-hole-09-current-tee-2026",
+      "properties": {
+        "hole": 9,
+        "kind": "tee",
+        "geometryUse": "derived-orthophoto-candidate",
+        "reviewStatus": "agent-visual-review-current-tee-candidate",
+        "sourcePath": "hole-09-current-tee.tif",
+        "sourceSha256": "7af46c5fa7a6d30d21576a3b5bbc0c32ccb9f3fa14d7f08d86bcc16efa610d2b",
+        "sourceReceipt": "geo_data/course-v2/tortuna/acquisition/orthophoto-supplement-crops.json",
+        "sourcePixelRing": [
+          [
+            352,
+            327
+          ],
+          [
+            373,
+            324
+          ],
+          [
+            389,
+            343
+          ],
+          [
+            413,
+            388
+          ],
+          [
+            424,
+            421
+          ],
+          [
+            416,
+            440
+          ],
+          [
+            398,
+            451
+          ],
+          [
+            378,
+            446
+          ],
+          [
+            365,
+            426
+          ],
+          [
+            349,
+            391
+          ],
+          [
+            338,
+            363
+          ],
+          [
+            342,
+            343
+          ],
+          [
+            352,
+            327
+          ]
+        ],
+        "captureDate": "2026-05-02",
+        "reviewDate": "2026-09-09",
+        "reviewer": "Codex national source agent",
+        "horizontalUncertaintyMetres": 2,
+        "teeColour": null,
+        "centreEpsg3006": [
+          597574.8898999346,
+          6614938.98156987
+        ],
+        "areaSquareMetres": 169.70240000315232,
+        "limitations": [
+          "Visible mowing/platform edge interpreted from native0.16m May2026 image; shadow hides the northwestern part.",
+          "Location and short-hole orientation corroborate current course guide; current colour association and survey accuracy remain unverified."
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597570.4,
+              6614948.8
+            ],
+            [
+              597573.76,
+              6614949.28
+            ],
+            [
+              597576.32,
+              6614946.24
+            ],
+            [
+              597580.16,
+              6614939.04
+            ],
+            [
+              597581.92,
+              6614933.76
+            ],
+            [
+              597580.64,
+              6614930.72
+            ],
+            [
+              597577.76,
+              6614928.96
+            ],
+            [
+              597574.56,
+              6614929.76
+            ],
+            [
+              597572.48,
+              6614932.96
+            ],
+            [
+              597569.92,
+              6614938.56
+            ],
+            [
+              597568.16,
+              6614943.04
+            ],
+            [
+              597568.8,
+              6614946.24
+            ],
+            [
+              597570.4,
+              6614948.8
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

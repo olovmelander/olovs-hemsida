@@ -16,6 +16,7 @@ tested during the Upsala work.
 | [Lidingö source research](courses/lidingo-source-research.md) | Official card, banguide, dated planning documents, photographs, flyovers, source checksums and rights limitations. |
 | [Visby source-intake handoff](../visbybuild/mapping/NEXT-SESSION.md) | Kronholmen's main 18-hole course, app preview, source acquisition, verification and remaining 3D authoring work. |
 | [Visby source research](courses/visby-source-research.md) | Official course resources, Caddee guides, scorecard, photography and source limitations. |
+| [Visby tee alignment review](../visbybuild/mapping/tee-alignment-review-2026-09-09.md) | Corrected tee platforms and numbered starts, GPS projection fix, source evidence and remaining ambiguities. |
 
 For a new physical ground, read the production guide and create a source and
 coverage ledger before compiling. A new routing on an existing ground shares

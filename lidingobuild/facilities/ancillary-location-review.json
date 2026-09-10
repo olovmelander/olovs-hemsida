@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-10",
+  "crs": "EPSG:3006",
+  "coordinateOrder": "Easting,Northing",
+  "scope": "Manual identification of Cafe 9 and toilet 15 from source-context agreement. Roof observations are not surveyed wall footprints or heights.",
+  "method": "Match club descriptions and club-linked course-guide amenity icons to path, green, tee and pond context in the native 0.16 m 2025 orthophoto. Manually read main-roof edge pixels; convert through unchanged raster geotransform. No matching OSM building in retained course context.",
+  "observations": [
+    {
+      "id": "observed-cafe9-main-roof-2025",
+      "name": "Cafe 9 between green 9 and tee 10",
+      "sourceBuildingIds": [],
+      "locationConfidence": "high contextual agreement; footprint precision approximate",
+      "centerEpsg3006": [677391.28, 6586343.95],
+      "centerBlenderXY": [-309.22, -55.55],
+      "observedRoofRingPixels": [[835,601],[864,594],[880,653],[851,661],[835,601]],
+      "observedRoofRingEpsg3006": [[677387.68,6586348.16],[677392.32,6586349.28],[677394.88,6586339.84],[677390.24,6586338.56],[677387.68,6586348.16]],
+      "approximateRoofDimensionsMetres": [4.8,9.9],
+      "approximateRoofAreaSquareMetres": 47.24,
+      "geometryUncertainty": "Manually read visible roof perimeter only; allow approximately 1-2 m for edge reading, overhang and roof displacement. Northern covered sales projection is visible but not included in this polygon; walls and heights are not measured.",
+      "ortho": {
+        "path": "lidingobuild/cache/lm-ortho/hole-10-tees.png",
+        "metadataPath": "lidingobuild/cache/lm-ortho/hole-10-tees.json",
+        "sha256": "e317aa5e042c3dd07039e334cc326b02cb6d90edd360bf36bde0c14562d73b7c",
+        "geoTransform": [677254.08,0.16,0,6586444.32,0,-0.16],
+        "width": 1067,
+        "height": 1625,
+        "sourceId": "o65850_6750_25_mr25",
+        "sourceUrl": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+        "captureDate": "2025-05-31",
+        "captureMetadataPath": "lidingobuild/cache/lm-ortho/catalog.json",
+        "inspectionCropPath": "lidingobuild/cache/facilities-reference-2026-09-10/kiosk-location-review.png",
+        "inspectionCropNativeBox": [770,540,925,700]
+      },
+      "guide": {
+        "id": "banguide-1777924726_Lidingo_9",
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924726_Lidingo_9.webp",
+        "sourceUrl": "https://banguider.se/uploads/product/1777924726_Lidingo_9.webp",
+        "pageUrl": "https://banguider.se/lidingo-golfklubb/18-halsbanan",
+        "sha256": "1130aa64e39e312be98d89117aae32b007601fb0b9afb85d967c8be5f9242ddd",
+        "captureDate": null,
+        "observation": "Cafe, toilet and tap symbols placed over a rectangular building behind green 9 alongside the path to tee 10. Path bend, pond and roof location agree with the georeferenced orthophoto.",
+        "rights": "Public viewing; no derivative or redistribution grant found. Local reference only; raw bytes must not ship."
+      },
+      "corroboration": [
+        {"url":"https://www.lidingogk.se/gaster/","claim":"Current guest page locates a kiosk between holes 9 and 10.","retrievedAt":"2026-09-10"},
+        {"url":"https://www.lidingogk.se/klubben/historia/klubbens-utveckling","claim":"Historical account places the 1991 rest hut between green 9 and tee 10; later named Cafe 9.","timeScope":"historical"},
+        {"url":"https://www.lidingogk.se/nyheter/en-julhaelsning-fraan-styrelsen-2022","claim":"2022 report describes refurbishment and unattended operation of Cafe 9.","timeScope":"2022"},
+        {"url":"https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf","claim":"Anniversary history records a roof over the sales area in 2015 and self-service in 2022.","timeScope":"historical through 2023"}
+      ],
+      "appearanceSupported": ["Long narrow detached structure with dark pitched roof, ridge along the long axis.","Smaller covered extension at the north end; light wall slivers and surrounding paved approach visible.","Main roof is roughly 20 m east of red tee 10 and 46 m southwest of green 9 center."],
+      "appearanceUnresolved": ["Wall material, actual facade colour, exact doors and service-opening arrangement.","Exact wall footprint, eave/ridge heights, north sales-canopy extent and present furnishings.","Guide symbols establish services at this location but do not show internal layout."]
+    },
+    {
+      "id": "observed-toilet15-roof-2025",
+      "name": "Toilet and water point beside tee 15",
+      "sourceBuildingIds": [],
+      "locationConfidence": "high contextual agreement; footprint precision approximate",
+      "centerEpsg3006": [677617.13,6586643.80],
+      "centerBlenderXY": [-83.37,244.30],
+      "observedRoofRingPixels": [[246,776],[264,777],[262,795],[244,793],[246,776]],
+      "observedRoofRingEpsg3006": [[677615.84,6586645.28],[677618.72,6586645.12],[677618.4,6586642.24],[677615.52,6586642.56],[677615.84,6586645.28]],
+      "approximateRoofDimensionsMetres": [2.9,2.9],
+      "approximateRoofAreaSquareMetres": 8.14,
+      "geometryUncertainty": "Manually read small visible roof only. Approximately 1 m edge/overhang/displacement uncertainty is material at this scale; walls and heights are not measured.",
+      "ortho": {
+        "path": "lidingobuild/cache/lm-ortho/hole-15-tees.png",
+        "metadataPath": "lidingobuild/cache/lm-ortho/hole-15-tees.json",
+        "sha256": "cbfcfa94923cdae1639c8f98a38dcc1aff9ff617cb83e731d26b8b729bb65312",
+        "geoTransform": [677576.48,0.16,0,6586769.44,0,-0.16],
+        "width": 939,
+        "height": 1635,
+        "sourceId": "o65850_6775_25_mr25",
+        "sourceUrl": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25.tif",
+        "captureDate": "2025-05-31",
+        "captureMetadataPath": "lidingobuild/cache/lm-ortho/catalog.json",
+        "inspectionCropPath": "lidingobuild/cache/facilities-reference-2026-09-10/toilet15-location-review.png",
+        "inspectionCropNativeBox": [210,730,330,845]
+      },
+      "guide": {
+        "id": "banguide-1777924727_Lidingo_15",
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924727_Lidingo_15.webp",
+        "sourceUrl": "https://banguider.se/uploads/product/1777924727_Lidingo_15.webp",
+        "pageUrl": "https://banguider.se/lidingo-golfklubb/18-halsbanan",
+        "sha256": "9ecada3ef64769b5f9a40cac1cb2cb6bc11fa0f9a4bc9dbfdde0b7f094f18611",
+        "captureDate": null,
+        "observation": "Toilet and tap icons at the course-road/path junction northwest of red tee 15, matching the small roof and visible water-point area in the 2025 orthophoto.",
+        "rights": "Public viewing; no derivative or redistribution grant found. Local reference only; raw bytes must not ship."
+      },
+      "corroboration": [
+        {"url":"https://www.lidingogk.se/nyheter/en-julhaelsning-fraan-styrelsen-2022","claim":"Report dated 2022-12-16 says a toilet is being built at the existing tap near the start of hole 15, for use the following spring.","timeScope":"construction in late 2022"},
+        {"url":"https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf","claim":"Anniversary history records a new water-flush toilet at tee 15 in 2023.","timeScope":"2023"}
+      ],
+      "appearanceSupported": ["Small approximately square roof with dark grey surface; a light wall face is visible.","Roof stands immediately east of the road and west of the curved course path, approximately 15 m west-northwest of red tee 15.","Water-point or washing fixtures are visible just south of the roof, agreeing with the text and guide tap icon."],
+      "appearanceUnresolved": ["Actual wall material and colour, exact roof pitch, doors, signage and fixture shapes.","Exact wall footprint and eave/ridge height. Any detailed facade would be an authored estimate."]
+    }
+  ],
+  "excludedClaims": ["No exact matching OSM building ID was found. Observation IDs are newly assigned review IDs, not source database IDs.","No height measurement, current condition after 2025-05-31, interior layout or exact facade reconstruction follows from these sources."]
+}

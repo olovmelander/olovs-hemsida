@@ -1,0 +1,1061 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "reviewedAt": "2026-09-09",
+  "sourceCaptureDate": "2025-04-24",
+  "method": "Manual association of colour groups in the club-linked schematic with visible native Lantmateriet mown platforms and path/fairway/ditch landmarks. Native pixels are selected representative tee-reference points, not measured daily tee markers.",
+  "coordinateConvention": "Native source PNG coordinates [column,row], top-left pixel edge; apply the matching source geoTransform directly. Display crop offsets must not be applied to these absolute coordinates.",
+  "limitations": [
+    "The LiveCaddie imagery was uploaded in 2024 but depicts older schematic geometry; upload date does not establish capture or course-layout date.",
+    "Selected points are stable representative game references within matched mown turf, not current daily markers or surveyed course-rating measurement points.",
+    "No global shift, image fit, nearest-pad assignment or score-length interpolation was used to establish colour identity.",
+    "Five colour references are explicitly unresolved; candidatePixel is diagnostic only and must not be consumed as a corrected coordinate.",
+    "Fairway references do not create raised tee pads; hole5 red is in a mown entrance apron without a separately defensible raised-pad perimeter."
+  ],
+  "holes": [
+    {
+      "n": 1,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-01-hole",
+          "pixel": null,
+          "padReviewId": null,
+          "kind": "platform",
+          "status": "unresolved",
+          "candidatePixel": [
+            1096,
+            325
+          ],
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-01",
+              "angso-01-hole",
+              "club-hole-one-planning-2021",
+              "club-scorecard-2023"
+            ],
+            "note": "The guide predates changed hole-1 white/yellow lengths. A new isolated rear platform at the northeast spur is visible, but the old shared W/Y/B drawing does not establish the new white association. Candidate is provided only for further review.",
+            "confidence": "unresolved"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-01-hole",
+          "pixel": null,
+          "padReviewId": null,
+          "kind": "platform",
+          "status": "unresolved",
+          "candidatePixel": [
+            853,
+            571
+          ],
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-01",
+              "angso-01-hole",
+              "club-hole-one-planning-2021",
+              "club-scorecard-2023"
+            ],
+            "note": "The guide predates the white/yellow hole-1 rearrangement. Turf west of the path and the long eastern strip could support differing layouts; neither colour identity is established. Candidate is not an accepted coordinate.",
+            "confidence": "unresolved"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-01-hole",
+          "pixel": [
+            938,
+            644
+          ],
+          "padReviewId": "lm-angso-01-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-01",
+              "angso-01-hole"
+            ],
+            "note": "Guide blue is the forward part of the rear tee group beside the path before its transverse crossing. The retained long narrow eastern strip is the matching visible platform. White/yellow reconstruction remains unresolved separately.",
+            "confidence": "medium"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-01-hole",
+          "pixel": [
+            921,
+            1053
+          ],
+          "padReviewId": "lm-angso-01-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-01",
+              "angso-01-hole"
+            ],
+            "note": "Separate forward tee beyond the transverse path crossing, on the same side as the path spur; red group in the guide matches this isolated mown platform.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-01-hole",
+          "pixel": [
+            819,
+            1237
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-01",
+              "angso-01-hole"
+            ],
+            "note": "Guide orange lies on the rear fairway lobe beyond the red tee. Representative point selected on visible mown fairway; no platform or daily marker is inferred.",
+            "confidence": "medium"
+          }
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-02-hole",
+          "pixel": [
+            369,
+            690
+          ],
+          "padReviewId": "lm-angso-02-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-02",
+              "angso-02-hole"
+            ],
+            "note": "White is the rear/west end of the long rear platform before the cross-path/ditch; yellow shares its forward/east end.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-02-hole",
+          "pixel": [
+            472,
+            686
+          ],
+          "padReviewId": "lm-angso-02-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-02",
+              "angso-02-hole"
+            ],
+            "note": "Yellow shares the long rear platform with white and lies nearer the path/ditch crossing.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-02-hole",
+          "pixel": [
+            801,
+            661
+          ],
+          "padReviewId": "lm-angso-02-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-02",
+              "angso-02-hole"
+            ],
+            "note": "The guide has a separate blue tee between the rear W/Y strip and the red oval. A corresponding small oval is visible through deciduous-tree shadows south of the path. The prior accepted review omitted it.",
+            "confidence": "medium"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-02-hole",
+          "pixel": [
+            966,
+            658
+          ],
+          "padReviewId": "lm-angso-02-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-02",
+              "angso-02-hole"
+            ],
+            "note": "Red is the isolated foremost oval south of the path, before the fairway start. This is distinct from the shadowed blue oval behind it.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-02-hole",
+          "pixel": [
+            1176,
+            636
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-02",
+              "angso-02-hole"
+            ],
+            "note": "Guide orange is on the rear fairway edge beyond the separate red tee; reference placed on mown fairway, with no dedicated platform.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "pads": [
+        {
+          "id": "lm-angso-02-physical-tee-03",
+          "sourceKey": "angso-02-hole",
+          "ringPixels": [
+            [
+              773,
+              647
+            ],
+            [
+              797,
+              644
+            ],
+            [
+              820,
+              650
+            ],
+            [
+              836,
+              660
+            ],
+            [
+              835,
+              672
+            ],
+            [
+              816,
+              678
+            ],
+            [
+              794,
+              677
+            ],
+            [
+              775,
+              669
+            ],
+            [
+              772,
+              657
+            ],
+            [
+              773,
+              647
+            ]
+          ],
+          "evidence": {
+            "assetIds": [
+              "livecaddie-hole-02",
+              "angso-02-hole"
+            ],
+            "confidence": "medium",
+            "note": "Small blue platform omitted in previous two-pad inventory. Its turf perimeter is partially obscured by tree shadows; this trace follows the visible oval and short interpolated gaps."
+          }
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-03-hole",
+          "pixel": [
+            1424,
+            921
+          ],
+          "padReviewId": "lm-angso-03-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-03",
+              "angso-03-hole"
+            ],
+            "note": "White is the rear/southeast side of the large tee beside the pond; yellow shares this same physical surface farther northwest.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-03-hole",
+          "pixel": [
+            1380,
+            891
+          ],
+          "padReviewId": "lm-angso-03-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-03",
+              "angso-03-hole"
+            ],
+            "note": "Yellow is the forward/northwest portion of the shared large platform beside the pond.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-03-hole",
+          "pixel": [
+            1110,
+            751
+          ],
+          "padReviewId": "lm-angso-03-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-03",
+              "angso-03-hole"
+            ],
+            "note": "Blue and red share the small forward platform across the intermediate unmarked grass area. Blue is the rear/southeast reference.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-03-hole",
+          "pixel": [
+            1089,
+            741
+          ],
+          "padReviewId": "lm-angso-03-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-03",
+              "angso-03-hole"
+            ],
+            "note": "Red shares the small forward platform with blue, slightly farther northwest toward the green.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-03-hole",
+          "pixel": [
+            919,
+            657
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-03",
+              "angso-03-hole"
+            ],
+            "note": "Guide orange is at the rear fairway lobe beyond the blue/red platform. Reference is on visible short-cut fairway, not a separate pad.",
+            "confidence": "medium"
+          }
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-04-hole",
+          "pixel": [
+            381,
+            2601
+          ],
+          "padReviewId": "lm-angso-04-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-04",
+              "angso-04-hole"
+            ],
+            "note": "White is the back/south foot of the continuous elongated rear strip, with yellow and blue farther north along it.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-04-hole",
+          "pixel": [
+            430,
+            2470
+          ],
+          "padReviewId": "lm-angso-04-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-04",
+              "angso-04-hole"
+            ],
+            "note": "Yellow lies between white and blue on the long rear strip west of the path.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-04-hole",
+          "pixel": [
+            458,
+            2411
+          ],
+          "padReviewId": "lm-angso-04-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-04",
+              "angso-04-hole"
+            ],
+            "note": "Blue is the forward/north end of the shared rear strip, before the path crossing.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-04-hole",
+          "pixel": [
+            653,
+            1980
+          ],
+          "padReviewId": "lm-angso-04-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-04",
+              "angso-04-hole"
+            ],
+            "note": "Red is the separate forward oval beyond the diagonal path crossing, immediately before the fairway approach.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-04-hole",
+          "pixel": [
+            681,
+            1816
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-04",
+              "angso-04-hole"
+            ],
+            "note": "Guide orange is on the rear fairway lobe beyond red. Reference placed in visible mown grass; no separate platform exists in this position.",
+            "confidence": "medium"
+          }
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-05-hole",
+          "pixel": [
+            540,
+            310
+          ],
+          "padReviewId": "lm-angso-05-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-05",
+              "angso-05-hole",
+              "club-tee-five-works-2023"
+            ],
+            "note": "White is the isolated rearmost platform by the wooded edge. The guide and club description distinguish it from yellow and blue.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-05-hole",
+          "pixel": [
+            542,
+            521
+          ],
+          "padReviewId": "lm-angso-05-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-05",
+              "angso-05-hole",
+              "club-tee-five-works-2023"
+            ],
+            "note": "Yellow occupies the long intermediate strip between the isolated white tee and the small blue tee before the diagonal crossing.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-05-hole",
+          "pixel": [
+            550,
+            890
+          ],
+          "padReviewId": "lm-angso-05-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-05",
+              "angso-05-hole",
+              "club-tee-five-works-2023"
+            ],
+            "note": "Blue is the small final platform before the diagonal path crossing; club 2023 work description identifies the adjacent removed mound as beside blue.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-05-hole",
+          "pixel": [
+            480,
+            1238
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-05",
+              "angso-05-hole",
+              "club-tee-five-works-2023"
+            ],
+            "note": "Guide red is beyond the diagonal path crossing at the fairway entrance. The 2025 image shows continuous mown turf here without a defensible separate raised-pad perimeter; reference is on that turf, not snapped back to the blue platform.",
+            "confidence": "medium"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-05-hole",
+          "pixel": [
+            458,
+            1536
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-05",
+              "angso-05-hole"
+            ],
+            "note": "Guide orange is farther along the mown fairway after red; selected on the visible fairway beyond the first entrance lobe.",
+            "confidence": "medium"
+          }
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-06-hole",
+          "pixel": [
+            1263,
+            2139
+          ],
+          "padReviewId": "lm-angso-06-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-06",
+              "angso-06-hole"
+            ],
+            "note": "White is the rear/southeast platform beside the end of the wooded path. The guide's rear tee group corresponds to currently distinct mown patches.",
+            "confidence": "medium"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-06-hole",
+          "pixel": [
+            1216,
+            2035
+          ],
+          "padReviewId": "lm-angso-06-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-06",
+              "angso-06-hole"
+            ],
+            "note": "Yellow and blue share the middle mown patch beside the path; yellow is its rear/southeast portion.",
+            "confidence": "medium"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-06-hole",
+          "pixel": [
+            1198,
+            2010
+          ],
+          "padReviewId": "lm-angso-06-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-06",
+              "angso-06-hole"
+            ],
+            "note": "Blue is the forward/northwest portion of the shared middle patch beside the path.",
+            "confidence": "medium"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-06-hole",
+          "pixel": [
+            1056,
+            1879
+          ],
+          "padReviewId": "lm-angso-06-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-06",
+              "angso-06-hole"
+            ],
+            "note": "Red is the isolated forward platform on the west side of the path before the transverse drainage ditch.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-06-hole",
+          "pixel": [
+            750,
+            1505
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-06",
+              "angso-06-hole"
+            ],
+            "note": "Guide orange is at the rear fairway tip beyond the transverse ditch. Reference lies on visible mown fairway beyond that crossing.",
+            "confidence": "medium"
+          }
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-07-hole",
+          "pixel": [
+            1275,
+            3555
+          ],
+          "padReviewId": "lm-angso-07-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-07",
+              "angso-07-hole"
+            ],
+            "note": "White is the rearmost/southeast small platform in the wooded tee group; yellow is the next platform toward the open hole.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-07-hole",
+          "pixel": [
+            1195,
+            3426
+          ],
+          "padReviewId": "lm-angso-07-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-07",
+              "angso-07-hole"
+            ],
+            "note": "Yellow is the northwest/front member of the rear wooded pair, before the much farther forward blue tee.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-07-hole",
+          "pixel": [
+            712,
+            3218
+          ],
+          "padReviewId": "lm-angso-07-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-07",
+              "angso-07-hole"
+            ],
+            "note": "Blue is the isolated platform next to the curved drainage/path corridor between the rear group and red.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-07-hole",
+          "pixel": [
+            566,
+            2846
+          ],
+          "padReviewId": "lm-angso-07-physical-tee-04",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-07",
+              "angso-07-hole"
+            ],
+            "note": "Red is the separate narrow oval beside the rear fairway lobe, forward of blue and behind the left fairway bunker. This visible pad was missing from the prior inventory.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-07-hole",
+          "pixel": [
+            478,
+            2485
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-07",
+              "angso-07-hole"
+            ],
+            "note": "Guide orange lies on the fairway near the first left bunker, beyond the red platform. Selected on the mown fairway beside that landmark.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "pads": [
+        {
+          "id": "lm-angso-07-physical-tee-04",
+          "sourceKey": "angso-07-hole",
+          "ringPixels": [
+            [
+              550,
+              2809
+            ],
+            [
+              565,
+              2804
+            ],
+            [
+              578,
+              2813
+            ],
+            [
+              584,
+              2832
+            ],
+            [
+              586,
+              2860
+            ],
+            [
+              581,
+              2878
+            ],
+            [
+              569,
+              2888
+            ],
+            [
+              552,
+              2883
+            ],
+            [
+              544,
+              2867
+            ],
+            [
+              543,
+              2840
+            ],
+            [
+              545,
+              2821
+            ],
+            [
+              550,
+              2809
+            ]
+          ],
+          "evidence": {
+            "assetIds": [
+              "livecaddie-hole-07",
+              "angso-07-hole"
+            ],
+            "confidence": "high",
+            "note": "Separate red tee oval beside the rear fairway lobe, outside the original tightly cropped tee review; physical mowing boundary visible."
+          }
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-08-hole",
+          "pixel": null,
+          "padReviewId": null,
+          "kind": "platform",
+          "status": "unresolved",
+          "candidatePixel": [
+            716,
+            350
+          ],
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-08",
+              "angso-08-hole"
+            ],
+            "note": "The guide places white/yellow on a rear strip in dense pines. The expected area is hidden by canopy and shadows in the 2025 photo; neither a reliable turf boundary nor current white reference can be established.",
+            "confidence": "unresolved"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-08-hole",
+          "pixel": null,
+          "padReviewId": null,
+          "kind": "platform",
+          "status": "unresolved",
+          "candidatePixel": [
+            716,
+            430
+          ],
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-08",
+              "angso-08-hole"
+            ],
+            "note": "The guide's shared rear W/Y strip is obscured by dense conifer canopy. No accepted coordinate is inferred from the old virtual reference.",
+            "confidence": "unresolved"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-08-hole",
+          "pixel": [
+            724,
+            664
+          ],
+          "padReviewId": "lm-angso-08-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-08",
+              "angso-08-hole"
+            ],
+            "note": "Guide blue is the small tee before the path's curved connection, followed by an unmarked intermediate oval and then red. This sequence matches the first visible small pad, the middle unmarked pad02 and forward pad03. Rear W/Y remains obscured.",
+            "confidence": "medium"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-08-hole",
+          "pixel": [
+            778,
+            955
+          ],
+          "padReviewId": "lm-angso-08-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-08",
+              "angso-08-hole"
+            ],
+            "note": "Red is the forward isolated oval immediately before the transverse path crossing and fairway entrance, matching the guide's path/tee arrangement.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-08-hole",
+          "pixel": [
+            730,
+            1335
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-08",
+              "angso-08-hole"
+            ],
+            "note": "Guide orange is at the rear of the fairway beyond the transverse path crossing. Reference selected on visible short-cut turf.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "unusedPadReviewIds": [
+        "lm-angso-08-physical-tee-02"
+      ]
+    },
+    {
+      "n": 9,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-09-hole",
+          "pixel": null,
+          "padReviewId": null,
+          "kind": "platform",
+          "status": "unresolved",
+          "candidatePixel": [
+            646,
+            422
+          ],
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-09",
+              "angso-09-hole",
+              "club-tee-nine-treework-2024"
+            ],
+            "note": "The guide shows white on a separate small rear pad above the shared Y/B surface. The 2025 image shows shadowed turf at that location but no defensible separate boundary or exact association; retain unresolved until better source evidence.",
+            "confidence": "unresolved"
+          }
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-09-hole",
+          "pixel": [
+            643,
+            491
+          ],
+          "padReviewId": "lm-angso-09-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-09",
+              "angso-09-hole",
+              "club-tee-nine-works-2023"
+            ],
+            "note": "Yellow is the rear/north portion of the long shared Y/B platform beside the paved entrance; the club's 2023 work report explicitly names this shared surface.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-09-hole",
+          "pixel": [
+            627,
+            538
+          ],
+          "padReviewId": "lm-angso-09-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-09",
+              "angso-09-hole",
+              "club-tee-nine-works-2023"
+            ],
+            "note": "Blue is the forward/south portion of the shared yellow/blue platform beside the path.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-09-hole",
+          "pixel": [
+            564,
+            674
+          ],
+          "padReviewId": "lm-angso-09-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-09",
+              "angso-09-hole"
+            ],
+            "note": "Red is the isolated front oval beyond the shared Y/B strip, before the short fairway and stream.",
+            "confidence": "high"
+          }
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-09-hole",
+          "pixel": [
+            506,
+            952
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-09",
+              "angso-09-hole"
+            ],
+            "note": "Guide orange is at the rear short fairway before the cross-stream approach; selected in visible mown grass beyond red.",
+            "confidence": "medium"
+          }
+        }
+      ]
+    }
+  ]
+}

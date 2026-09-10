@@ -1,0 +1,98 @@
+{
+  "observedOn": "2026-09-09",
+  "surfacesPath": "tortunabuild/mapping/surfaces-back9.geojson",
+  "sha256": "08e008d1d15aaf002ba99132e82c3ee2d5b9c561d7ecbfd283da406699091e97",
+  "coordinateCrs": "EPSG:3006",
+  "allPolygonsValid": true,
+  "featureCount": 52,
+  "review": "agent checked individual green and tee crops; overlay reviewed all9 holes; no human approval",
+  "holes": [
+    {
+      "hole": 10,
+      "greenAreaSquareMetres": 411.28,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 8.14,
+      "teeCount": 2,
+      "sourceBackTeeToNearestObservedPlatformMetres": 1.81,
+      "unresolvedTee": false
+    },
+    {
+      "hole": 11,
+      "greenAreaSquareMetres": 333.81,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 8.66,
+      "teeCount": 1,
+      "sourceBackTeeToNearestObservedPlatformMetres": 0.0,
+      "unresolvedTee": false
+    },
+    {
+      "hole": 12,
+      "greenAreaSquareMetres": 411.09,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 9.05,
+      "teeCount": 0,
+      "sourceBackTeeToNearestObservedPlatformMetres": null,
+      "unresolvedTee": true
+    },
+    {
+      "hole": 13,
+      "greenAreaSquareMetres": 401.78,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 9.02,
+      "teeCount": 1,
+      "sourceBackTeeToNearestObservedPlatformMetres": 20.86,
+      "unresolvedTee": false
+    },
+    {
+      "hole": 14,
+      "greenAreaSquareMetres": 421.81,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 7.88,
+      "teeCount": 2,
+      "sourceBackTeeToNearestObservedPlatformMetres": 0.0,
+      "unresolvedTee": false
+    },
+    {
+      "hole": 15,
+      "greenAreaSquareMetres": 558.78,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 10.22,
+      "teeCount": 0,
+      "sourceBackTeeToNearestObservedPlatformMetres": null,
+      "unresolvedTee": true
+    },
+    {
+      "hole": 16,
+      "greenAreaSquareMetres": 442.03,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 9.85,
+      "teeCount": 1,
+      "sourceBackTeeToNearestObservedPlatformMetres": 9.57,
+      "unresolvedTee": false
+    },
+    {
+      "hole": 17,
+      "greenAreaSquareMetres": 567.56,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 11.11,
+      "teeCount": 2,
+      "sourceBackTeeToNearestObservedPlatformMetres": 0.0,
+      "unresolvedTee": false
+    },
+    {
+      "hole": 18,
+      "greenAreaSquareMetres": 249.56,
+      "sourceGreenCentreInsideTrace": true,
+      "sourceGreenPointToBoundaryMetres": 6.81,
+      "teeCount": 2,
+      "sourceBackTeeToNearestObservedPlatformMetres": 0.0,
+      "unresolvedTee": false
+    }
+  ],
+  "outstanding": [
+    "H12/H15 tee boundaries unresolved.",
+    "H11/H16 green closure under shadow interpreted.",
+    "Tee colour and current marker positions unverified.",
+    "Spring dry grass makes fairway/rough transition provisional."
+  ]
+}

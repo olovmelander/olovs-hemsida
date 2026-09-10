@@ -8,9 +8,10 @@
    "klubbhus" footprint, under an orange-red tile roof: red walls, white window
    frames, a storey and a half, facing the practice ground and the 18th.
 
-   The engine picks the largest name-matched footprint, which is that red range;
-   the manor carries no golf name and comes through the generic buildings pass,
-   which is the correct outcome and worth stating so nobody "fixes" it. */
+   The verified Blender asset replaces the exact source IDs of the clubhouse
+   and estate buildings together. This appearance spec remains the fallback
+   when that asset is unavailable; the name match still distinguishes the golf
+   clubhouse from the manor. */
 export const clubhouse = {
   wall: 0x8b3a2c,          /* falurött */
   roof: 0xb4502c,          /* orange-red tile */
@@ -18,3 +19,8 @@ export const clubhouse = {
   windowRows: [1.5],
   terrace: true,
 };
+
+export async function loadFacilities(context) {
+  const { loadJohannesbergFacilities } = await import('./johannesberg-facilities.mjs');
+  return loadJohannesbergFacilities(context);
+}

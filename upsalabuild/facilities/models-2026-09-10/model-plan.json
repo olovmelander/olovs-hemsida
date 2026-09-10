@@ -1,0 +1,2354 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68,
+    "verticalDatum": "RH2000"
+  },
+  "anchorLocalXZ": [
+    17.78293267410761,
+    -279.14314741547946
+  ],
+  "anchorHeightRH2000": 34.968,
+  "assets": [
+    {
+      "id": "upsala-clubhouse",
+      "renderOnBuildingId": "w221193965",
+      "replaces": [
+        {
+          "id": "w221193965",
+          "ring": [
+            [
+              31.4,
+              -299.7
+            ],
+            [
+              21.6,
+              -275.2
+            ],
+            [
+              26.8,
+              -277.7
+            ],
+            [
+              31,
+              -268.7
+            ],
+            [
+              28.8,
+              -267.6
+            ],
+            [
+              34,
+              -256.5
+            ],
+            [
+              21.9,
+              -250.8
+            ],
+            [
+              12,
+              -271.9
+            ],
+            [
+              -3.5,
+              -278.2
+            ],
+            [
+              1.6,
+              -291.1
+            ],
+            [
+              5.1,
+              -289.8
+            ],
+            [
+              7,
+              -294.3
+            ],
+            [
+              12.9,
+              -291.9
+            ],
+            [
+              18.1,
+              -305
+            ]
+          ]
+        },
+        {
+          "id": "w438967932",
+          "ring": [
+            [
+              1,
+              -289.5
+            ],
+            [
+              -5.9,
+              -292.2
+            ],
+            [
+              -10.1,
+              -281.6
+            ],
+            [
+              -3.2,
+              -278.9
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B01",
+        "B02"
+      ],
+      "features": [
+        {
+          "id": "B01",
+          "name": "Clubhouse main complex",
+          "ring": [
+            [
+              29.283203574303297,
+              -300.8641513722941
+            ],
+            [
+              20.994619671039015,
+              -279.06563824652665
+            ],
+            [
+              22.00971618026317,
+              -276.82814182063424
+            ],
+            [
+              23.829790378636883,
+              -277.6464864791893
+            ],
+            [
+              26.946759583019755,
+              -270.6894330265345
+            ],
+            [
+              26.036770201911924,
+              -270.2807115746367
+            ],
+            [
+              31.850062207287202,
+              -257.34242309580253
+            ],
+            [
+              20.90033119910539,
+              -252.40846022490302
+            ],
+            [
+              15.099796999883035,
+              -265.3442310795725
+            ],
+            [
+              13.27892514023091,
+              -264.52687520134845
+            ],
+            [
+              10.15951816474338,
+              -271.5000859939042
+            ],
+            [
+              11.06949924988857,
+              -271.9097105823968
+            ],
+            [
+              10.057060983881172,
+              -274.1380315494203
+            ],
+            [
+              -5.930249963410299,
+              -280.2097849555372
+            ],
+            [
+              -1.70210900476315,
+              -291.4840203036596
+            ],
+            [
+              4.494045763082748,
+              -289.1381771218903
+            ],
+            [
+              6.638665901670033,
+              -294.820487034533
+            ],
+            [
+              13.177654983655572,
+              -292.33555596214615
+            ],
+            [
+              18.026812437799943,
+              -305.14030582721404
+            ]
+          ],
+          "ringXY": [
+            [
+              29.283203574303297,
+              300.8641513722941
+            ],
+            [
+              20.994619671039015,
+              279.06563824652665
+            ],
+            [
+              22.00971618026317,
+              276.82814182063424
+            ],
+            [
+              23.829790378636883,
+              277.6464864791893
+            ],
+            [
+              26.946759583019755,
+              270.6894330265345
+            ],
+            [
+              26.036770201911924,
+              270.2807115746367
+            ],
+            [
+              31.850062207287202,
+              257.34242309580253
+            ],
+            [
+              20.90033119910539,
+              252.40846022490302
+            ],
+            [
+              15.099796999883035,
+              265.3442310795725
+            ],
+            [
+              13.27892514023091,
+              264.52687520134845
+            ],
+            [
+              10.15951816474338,
+              271.5000859939042
+            ],
+            [
+              11.06949924988857,
+              271.9097105823968
+            ],
+            [
+              10.057060983881172,
+              274.1380315494203
+            ],
+            [
+              -5.930249963410299,
+              280.2097849555372
+            ],
+            [
+              -1.70210900476315,
+              291.4840203036596
+            ],
+            [
+              4.494045763082748,
+              289.1381771218903
+            ],
+            [
+              6.638665901670033,
+              294.820487034533
+            ],
+            [
+              13.177654983655572,
+              292.33555596214615
+            ],
+            [
+              18.026812437799943,
+              305.14030582721404
+            ]
+          ],
+          "centreXY": [
+            21.371660336254514,
+            280.4910081442516
+          ],
+          "axisXY": [
+            0.6944327220653758,
+            -0.7195576380838943
+          ],
+          "length": 47.866572633285294,
+          "width": 39.681177349698544,
+          "groundMinRH2000": 34.73334884643555,
+          "groundMaxRH2000": 35.119510650634766,
+          "baseRH2000": 35.2,
+          "laser": {
+            "id": "B01",
+            "name": "Clubhouse main complex",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1215269,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 869.219,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 710.099,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "15957997fd2a93097b41b3572647ef21be889e22a2962163a4210c9a58598f10",
+            "allInteriorReturns": 1020,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 1020,
+                  "min": 38.09,
+                  "p05": 39.298,
+                  "p50": 40.75,
+                  "p95": 43.041,
+                  "max": 44.03
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 1020,
+                  "min": 3.075,
+                  "p05": 4.311,
+                  "p50": 5.773,
+                  "p95": 8.107,
+                  "max": 9.085
+                },
+                "firstReturns": 1016
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1215269
+        },
+        {
+          "id": "B02",
+          "name": "Clubhouse west attached component",
+          "ring": [
+            [
+              -2.0238844439728534,
+              -290.6250377445028
+            ],
+            [
+              -5.764910263642512,
+              -280.6506015288616
+            ],
+            [
+              -10.83212728943455,
+              -282.55689730682633
+            ],
+            [
+              -7.091213703309909,
+              -292.5314377422791
+            ]
+          ],
+          "ringXY": [
+            [
+              -2.0238844439728534,
+              290.6250377445028
+            ],
+            [
+              -5.764910263642512,
+              280.6506015288616
+            ],
+            [
+              -10.83212728943455,
+              282.55689730682633
+            ],
+            [
+              -7.091213703309909,
+              292.5314377422791
+            ]
+          ],
+          "centreXY": [
+            -6.428061983476345,
+            286.5910196355703
+          ],
+          "axisXY": [
+            0.35117382702416733,
+            0.9363102814842952
+          ],
+          "length": 10.658386044550682,
+          "width": 5.414070268241194,
+          "groundMinRH2000": 34.71189498901367,
+          "groundMaxRH2000": 35.098533630371094,
+          "baseRH2000": 35.179,
+          "laser": {
+            "id": "B02",
+            "name": "Clubhouse west attached component",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1244320,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 57.843,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 29.669,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "38f540375bb33add58e453979c0b1a897c7dce3903f83ebaace34b3e46e8fd5c",
+            "allInteriorReturns": 42,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 42,
+                  "min": 37.65,
+                  "p05": 37.842,
+                  "p50": 38.76,
+                  "p95": 39.617,
+                  "max": 39.69
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 42,
+                  "min": 2.766,
+                  "p05": 2.965,
+                  "p50": 3.792,
+                  "p95": 4.64,
+                  "max": 4.709
+                },
+                "firstReturns": 42
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1244320
+        }
+      ]
+    },
+    {
+      "id": "upsala-north-small",
+      "renderOnBuildingId": "uppsala-building-92448",
+      "replaces": [
+        {
+          "id": "uppsala-building-92448",
+          "ring": [
+            [
+              33.159,
+              -309.453
+            ],
+            [
+              30.041,
+              -308.982
+            ],
+            [
+              28.075,
+              -311.382
+            ],
+            [
+              29.195,
+              -314.36
+            ],
+            [
+              32.312,
+              -314.907
+            ],
+            [
+              34.282,
+              -312.405
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B03"
+      ],
+      "features": [
+        {
+          "id": "B03",
+          "name": "Small structure north of clubhouse",
+          "ring": [
+            [
+              33.1588680485586,
+              -309.45346645122925
+            ],
+            [
+              30.04094630214318,
+              -308.9831530064262
+            ],
+            [
+              28.07539796541089,
+              -311.38247376456405
+            ],
+            [
+              29.19492672489928,
+              -314.36037460619616
+            ],
+            [
+              32.311668352050624,
+              -314.90781913784474
+            ],
+            [
+              34.28238225267967,
+              -312.40621590210395
+            ]
+          ],
+          "ringXY": [
+            [
+              33.1588680485586,
+              309.45346645122925
+            ],
+            [
+              30.04094630214318,
+              308.9831530064262
+            ],
+            [
+              28.07539796541089,
+              311.38247376456405
+            ],
+            [
+              29.19492672489928,
+              314.36037460619616
+            ],
+            [
+              32.311668352050624,
+              314.90781913784474
+            ],
+            [
+              34.28238225267967,
+              312.40621590210395
+            ]
+          ],
+          "centreXY": [
+            31.195415743431706,
+            311.9383023468296
+          ],
+          "axisXY": [
+            0.351899325588388,
+            0.9360378542828477
+          ],
+          "length": 6.3447773309564015,
+          "width": 5.449718086045694,
+          "groundMinRH2000": 34.18775939941406,
+          "groundMaxRH2000": 34.347660064697266,
+          "baseRH2000": 34.428,
+          "laser": {
+            "id": "B03",
+            "name": "Small structure north of clubhouse",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 92448,
+            "outlineMeasurementConfirmed": true,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 25.973,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 10.466,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "7ceec6337dc0e135b55d7366bb66d45650cb222272f9ca55105e61ae064ff729",
+            "allInteriorReturns": 15,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 15,
+                  "min": 37.3,
+                  "p05": 37.419,
+                  "p50": 37.7,
+                  "p95": 37.911,
+                  "max": 37.96
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 15,
+                  "min": 3.067,
+                  "p05": 3.158,
+                  "p50": 3.384,
+                  "p95": 3.612,
+                  "max": 3.667
+                },
+                "firstReturns": 15
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 92448
+        }
+      ]
+    },
+    {
+      "id": "upsala-parking-barn",
+      "renderOnBuildingId": "w221193959",
+      "replaces": [
+        {
+          "id": "w221193959",
+          "ring": [
+            [
+              58.9,
+              -316.4
+            ],
+            [
+              65.7,
+              -321.6
+            ],
+            [
+              75,
+              -309.4
+            ],
+            [
+              68.2,
+              -304.2
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B04"
+      ],
+      "features": [
+        {
+          "id": "B04",
+          "name": "Red-roof building north of clubhouse",
+          "ring": [
+            [
+              65.81524038508815,
+              -325.7967642462296
+            ],
+            [
+              76.73013219356068,
+              -313.9878823759736
+            ],
+            [
+              72.51427855645927,
+              -310.0276852748186
+            ],
+            [
+              72.617074213988,
+              -309.91685532438794
+            ],
+            [
+              67.311023575895,
+              -305.0268788536394
+            ],
+            [
+              56.07041254620251,
+              -317.0720650637398
+            ],
+            [
+              61.36250683687382,
+              -322.0136107084056
+            ],
+            [
+              61.520020144367045,
+              -321.84384430937683
+            ]
+          ],
+          "ringXY": [
+            [
+              65.81524038508815,
+              325.7967642462296
+            ],
+            [
+              76.73013219356068,
+              313.9878823759736
+            ],
+            [
+              72.51427855645927,
+              310.0276852748186
+            ],
+            [
+              72.617074213988,
+              309.91685532438794
+            ],
+            [
+              67.311023575895,
+              305.0268788536394
+            ],
+            [
+              56.07041254620251,
+              317.0720650637398
+            ],
+            [
+              61.36250683687382,
+              322.0136107084056
+            ],
+            [
+              61.520020144367045,
+              321.84384430937683
+            ]
+          ],
+          "centreXY": [
+            66.48569101781735,
+            315.49480554549564
+          ],
+          "axisXY": [
+            0.6822675544012802,
+            -0.731102581182214
+          ],
+          "length": 16.52259524541208,
+          "width": 13.077047960309885,
+          "groundMinRH2000": 34.297183990478516,
+          "groundMaxRH2000": 34.856990814208984,
+          "baseRH2000": 34.937,
+          "laser": {
+            "id": "B04",
+            "name": "Red-roof building north of clubhouse",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1248912,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 213.485,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 158.604,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "1d1f3039326460cad3f2ab319f41e9c182a529da8687dd09c56a9b1d48f61976",
+            "allInteriorReturns": 232,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 232,
+                  "min": 36.89,
+                  "p05": 36.986,
+                  "p50": 40.155,
+                  "p95": 41.859,
+                  "max": 41.98
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 232,
+                  "min": 2.44,
+                  "p05": 2.553,
+                  "p50": 5.5,
+                  "p95": 7.202,
+                  "max": 7.46
+                },
+                "firstReturns": 232
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1248912
+        }
+      ]
+    },
+    {
+      "id": "upsala-red-house",
+      "renderOnBuildingId": "w438967931",
+      "replaces": [
+        {
+          "id": "w438967931",
+          "ring": [
+            [
+              51.303,
+              -256.206
+            ],
+            [
+              45.331,
+              -248.746
+            ],
+            [
+              40.406,
+              -252.528
+            ],
+            [
+              46.38,
+              -260.071
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B05"
+      ],
+      "features": [
+        {
+          "id": "B05",
+          "name": "Small red-roof building southeast of clubhouse",
+          "ring": [
+            [
+              51.302858470212676,
+              -256.2070464070939
+            ],
+            [
+              45.331086523103956,
+              -248.74698198866554
+            ],
+            [
+              40.40631385731996,
+              -252.52916006066044
+            ],
+            [
+              46.38024533908049,
+              -260.07218370697245
+            ]
+          ],
+          "ringXY": [
+            [
+              51.302858470212676,
+              256.2070464070939
+            ],
+            [
+              45.331086523103956,
+              248.74698198866554
+            ],
+            [
+              40.40631385731996,
+              252.52916006066044
+            ],
+            [
+              46.38024533908049,
+              260.07218370697245
+            ]
+          ],
+          "centreXY": [
+            45.854586163767166,
+            254.36810323387698
+          ],
+          "axisXY": [
+            0.6208544149102183,
+            0.7839258864755586
+          ],
+          "length": 9.648358144664517,
+          "width": 6.258651419461166,
+          "groundMinRH2000": 35.85662078857422,
+          "groundMaxRH2000": 36.18474578857422,
+          "baseRH2000": 36.265,
+          "laser": {
+            "id": "B05",
+            "name": "Small red-roof building southeast of clubhouse",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 92444,
+            "outlineMeasurementConfirmed": true,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 59.948,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 32.257,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "c4932535082a77b00ef526f1d97bdb472b78731cbf08ebc86c434a726c333361",
+            "allInteriorReturns": 49,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 49,
+                  "min": 39.62,
+                  "p05": 39.742,
+                  "p50": 40.46,
+                  "p95": 41.278,
+                  "max": 41.31
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 49,
+                  "min": 3.529,
+                  "p05": 3.709,
+                  "p50": 4.447,
+                  "p95": 5.244,
+                  "max": 5.287
+                },
+                "firstReturns": 49
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 92444
+        }
+      ]
+    },
+    {
+      "id": "upsala-practice-building",
+      "renderOnBuildingId": "w221193957",
+      "replaces": [
+        {
+          "id": "w221193957",
+          "ring": [
+            [
+              38.8,
+              -220.4
+            ],
+            [
+              51.3,
+              -215.5
+            ],
+            [
+              47.7,
+              -206.3
+            ],
+            [
+              35.2,
+              -211.2
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B06",
+        "B07"
+      ],
+      "features": [
+        {
+          "id": "B06",
+          "name": "Dark-roof building south of clubhouse",
+          "ring": [
+            [
+              30.974558767307006,
+              -213.00207664673195
+            ],
+            [
+              33.52044325207706,
+              -219.47990753242095
+            ],
+            [
+              33.7989989784765,
+              -219.37061803577222
+            ],
+            [
+              35.03242963206562,
+              -222.42712462067885
+            ],
+            [
+              37.10189992873723,
+              -221.6135470173259
+            ],
+            [
+              37.175405913436016,
+              -221.79946156273957
+            ],
+            [
+              48.719115745438394,
+              -217.22207667445105
+            ],
+            [
+              44.94312026901673,
+              -207.56187764979728
+            ],
+            [
+              44.68958712337981,
+              -207.66036725031796
+            ],
+            [
+              31.039291732173588,
+              -212.97709006693395
+            ]
+          ],
+          "ringXY": [
+            [
+              30.974558767307006,
+              213.00207664673195
+            ],
+            [
+              33.52044325207706,
+              219.47990753242095
+            ],
+            [
+              33.7989989784765,
+              219.37061803577222
+            ],
+            [
+              35.03242963206562,
+              222.42712462067885
+            ],
+            [
+              37.10189992873723,
+              221.6135470173259
+            ],
+            [
+              37.175405913436016,
+              221.79946156273957
+            ],
+            [
+              48.719115745438394,
+              217.22207667445105
+            ],
+            [
+              44.94312026901673,
+              207.56187764979728
+            ],
+            [
+              44.68958712337981,
+              207.66036725031796
+            ],
+            [
+              31.039291732173588,
+              212.97709006693395
+            ]
+          ],
+          "centreXY": [
+            39.857884220097816,
+            215.1403383120872
+          ],
+          "axisXY": [
+            0.9313762830093054,
+            -0.36405798912779036
+          ],
+          "length": 14.990534797728362,
+          "width": 10.451143606181374,
+          "groundMinRH2000": 34.297630310058594,
+          "groundMaxRH2000": 34.60294723510742,
+          "baseRH2000": 34.683,
+          "laser": {
+            "id": "B06",
+            "name": "Dark-roof building south of clubhouse",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1212887,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 154.966,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 108.391,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "32341142c147b2ea7f8d5c8432b747ad8750f2fe12a807fc2b9fbccbe34c75c6",
+            "allInteriorReturns": 150,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 150,
+                  "min": 37.36,
+                  "p05": 39.905,
+                  "p50": 41.545,
+                  "p95": 42.891,
+                  "max": 43.04
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 150,
+                  "min": 2.969,
+                  "p05": 5.535,
+                  "p50": 7.101,
+                  "p95": 8.489,
+                  "max": 8.612
+                },
+                "firstReturns": 147
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1212887
+        },
+        {
+          "id": "B07",
+          "name": "South building component",
+          "ring": [
+            [
+              44.68958712337981,
+              -207.66036725031796
+            ],
+            [
+              43.6249560245215,
+              -204.91740459346687
+            ],
+            [
+              29.96009087267964,
+              -210.196541835912
+            ],
+            [
+              31.039291732173588,
+              -212.97709006693395
+            ]
+          ],
+          "ringXY": [
+            [
+              44.68958712337981,
+              207.66036725031796
+            ],
+            [
+              43.6249560245215,
+              204.91740459346687
+            ],
+            [
+              29.96009087267964,
+              210.196541835912
+            ],
+            [
+              31.039291732173588,
+              212.97709006693395
+            ]
+          ],
+          "centreXY": [
+            37.327992711751094,
+            208.93658004916063
+          ],
+          "axisXY": [
+            0.9322449601765972,
+            -0.3618277687316643
+          ],
+          "length": 14.649157037075273,
+          "width": 2.9826369139021582,
+          "groundMinRH2000": 34.19073486328125,
+          "groundMaxRH2000": 34.44233322143555,
+          "baseRH2000": 34.522,
+          "laser": {
+            "id": "B07",
+            "name": "South building component",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1365585,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 43.525,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 12.236,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "8bab43e4df71fa1c755f3edf6813296b51ad6284a324a5679f9160baf0b82bf5",
+            "allInteriorReturns": 0,
+            "byLasClass": {},
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1365585
+        }
+      ]
+    },
+    {
+      "id": "upsala-range-shelter",
+      "renderOnBuildingId": "w221193969",
+      "replaces": [
+        {
+          "id": "w221193969",
+          "ring": [
+            [
+              -142,
+              -195.6
+            ],
+            [
+              -124.1,
+              -193.9
+            ],
+            [
+              -125,
+              -184.5
+            ],
+            [
+              -142.9,
+              -186.2
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B08",
+        "B09"
+      ],
+      "features": [
+        {
+          "id": "B08",
+          "name": "Driving-range roof shelter",
+          "ring": [
+            [
+              -123.45114463417146,
+              -194.97912696928353
+            ],
+            [
+              -124.63330879143686,
+              -183.74098479097967
+            ],
+            [
+              -144.40738921441422,
+              -185.82762123735677
+            ],
+            [
+              -143.2252842859505,
+              -197.0657695480989
+            ]
+          ],
+          "ringXY": [
+            [
+              -123.45114463417146,
+              194.97912696928353
+            ],
+            [
+              -124.63330879143686,
+              183.74098479097967
+            ],
+            [
+              -144.40738921441422,
+              185.82762123735677
+            ],
+            [
+              -143.2252842859505,
+              197.0657695480989
+            ]
+          ],
+          "centreXY": [
+            -133.9292965386939,
+            190.40337716953917
+          ],
+          "axisXY": [
+            0.9944784332060493,
+            -0.10494115440589245
+          ],
+          "length": 19.887636954611924,
+          "width": 11.300147696986855,
+          "groundMinRH2000": 24.857906341552734,
+          "groundMaxRH2000": 25.204143524169922,
+          "baseRH2000": 25.284,
+          "laser": null,
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1226083
+        },
+        {
+          "id": "B09",
+          "name": "Small structure on eastern range tee line",
+          "ring": [
+            [
+              -78.61788756626628,
+              -191.54861656546586
+            ],
+            [
+              -76.2628059666627,
+              -190.2249900532891
+            ],
+            [
+              -77.570722979292,
+              -187.89710309135614
+            ],
+            [
+              -79.91892454950268,
+              -189.2212810230805
+            ]
+          ],
+          "ringXY": [
+            [
+              -78.61788756626628,
+              191.54861656546586
+            ],
+            [
+              -76.2628059666627,
+              190.2249900532891
+            ],
+            [
+              -77.570722979292,
+              187.89710309135614
+            ],
+            [
+              -79.91892454950268,
+              189.2212810230805
+            ]
+          ],
+          "centreXY": [
+            -78.09430527278006,
+            189.72285982841112
+          ],
+          "axisXY": [
+            0.8717505558470001,
+            -0.48994996518057454
+          ],
+          "length": 2.7019252102570035,
+          "width": 2.67015064781015,
+          "groundMinRH2000": 28.656633377075195,
+          "groundMaxRH2000": 28.789770126342773,
+          "baseRH2000": 28.87,
+          "laser": {
+            "id": "B09",
+            "name": "Small structure on eastern range tee line",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1390788,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 7.222,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 0.472,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "668dc73a667c6cd2896b19aac4f52bb92c7a7b0551a1fb58b0bb5492710f7aea",
+            "allInteriorReturns": 0,
+            "byLasClass": {},
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1390788
+        }
+      ]
+    },
+    {
+      "id": "upsala-service-long",
+      "renderOnBuildingId": "w221193968",
+      "replaces": [
+        {
+          "id": "w221193968",
+          "ring": [
+            [
+              112.114,
+              -215.055
+            ],
+            [
+              102.603,
+              -180.659
+            ],
+            [
+              91.12,
+              -183.915
+            ],
+            [
+              100.498,
+              -218.338
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B10"
+      ],
+      "features": [
+        {
+          "id": "B10",
+          "name": "Long building in southeast service yard",
+          "ring": [
+            [
+              112.11396085761355,
+              -215.0561138066334
+            ],
+            [
+              102.60315194303382,
+              -180.66008233835504
+            ],
+            [
+              91.12011850555645,
+              -183.91593480885746
+            ],
+            [
+              100.49804610875442,
+              -218.3390637413757
+            ]
+          ],
+          "ringXY": [
+            [
+              112.11396085761355,
+              215.0561138066334
+            ],
+            [
+              102.60315194303382,
+              180.66008233835504
+            ],
+            [
+              91.12011850555645,
+              183.91593480885746
+            ],
+            [
+              100.49804610875442,
+              218.3390637413757
+            ]
+          ],
+          "centreXY": [
+            101.55059902589399,
+            199.4995730398659
+          ],
+          "axisXY": [
+            0.26650830091654215,
+            0.9638326231989545
+          ],
+          "length": 35.75520330599561,
+          "width": 12.070730992349961,
+          "groundMinRH2000": 31.696434020996094,
+          "groundMaxRH2000": 33.981468200683594,
+          "baseRH2000": 34.061,
+          "laser": {
+            "id": "B10",
+            "name": "Long building in southeast service yard",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 92436,
+            "outlineMeasurementConfirmed": true,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 429.549,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 338.071,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "d8e174e80fbc773321af5284bb931d26d0fed15f07247e537e4488098f475d2b",
+            "allInteriorReturns": 492,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 492,
+                  "min": 38.74,
+                  "p05": 39.1,
+                  "p50": 40.57,
+                  "p95": 42.08,
+                  "max": 42.17
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 492,
+                  "min": 4.812,
+                  "p05": 5.784,
+                  "p50": 7.611,
+                  "p95": 9.201,
+                  "max": 9.687
+                },
+                "firstReturns": 492
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 92436
+        }
+      ]
+    },
+    {
+      "id": "upsala-service-light",
+      "renderOnBuildingId": "w221193971",
+      "replaces": [
+        {
+          "id": "w221193971",
+          "ring": [
+            [
+              133.627,
+              -184.577
+            ],
+            [
+              130.49,
+              -173.058
+            ],
+            [
+              107.437,
+              -179.323
+            ],
+            [
+              110.557,
+              -190.882
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B11"
+      ],
+      "features": [
+        {
+          "id": "B11",
+          "name": "White-roof building at southeast yard",
+          "ring": [
+            [
+              133.626654877407,
+              -184.57752591414618
+            ],
+            [
+              130.49031068874552,
+              -173.05923606287138
+            ],
+            [
+              107.43711304854511,
+              -179.32340985037882
+            ],
+            [
+              110.55692238159853,
+              -190.88236177290526
+            ]
+          ],
+          "ringXY": [
+            [
+              133.626654877407,
+              184.57752591414618
+            ],
+            [
+              130.49031068874552,
+              173.05923606287138
+            ],
+            [
+              107.43711304854511,
+              179.32340985037882
+            ],
+            [
+              110.55692238159853,
+              190.88236177290526
+            ]
+          ],
+          "centreXY": [
+            120.52196379164666,
+            181.96472918260798
+          ],
+          "axisXY": [
+            0.9648702252047574,
+            -0.2627269466829023
+          ],
+          "length": 23.91574826315224,
+          "width": 11.972546524925006,
+          "groundMinRH2000": 30.96158218383789,
+          "groundMaxRH2000": 31.475749969482422,
+          "baseRH2000": 31.556,
+          "laser": {
+            "id": "B11",
+            "name": "White-roof building at southeast yard",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 92435,
+            "outlineMeasurementConfirmed": true,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 286.597,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 218.759,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "2255d1e0bbd9af0a4effb405c2b5272c98f68b07122f291a92d48c51b3375f3f",
+            "allInteriorReturns": 327,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 327,
+                  "min": 36.2,
+                  "p05": 36.3,
+                  "p50": 36.69,
+                  "p95": 37.09,
+                  "max": 37.13
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 327,
+                  "min": 4.901,
+                  "p05": 5.014,
+                  "p50": 5.42,
+                  "p95": 5.791,
+                  "max": 5.876
+                },
+                "firstReturns": 327
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 92435
+        }
+      ]
+    },
+    {
+      "id": "upsala-service-red",
+      "renderOnBuildingId": "w221193963",
+      "replaces": [
+        {
+          "id": "w221193963",
+          "ring": [
+            [
+              143.254,
+              -223.421
+            ],
+            [
+              141.196,
+              -213.717
+            ],
+            [
+              119.174,
+              -218.374
+            ],
+            [
+              121.215,
+              -228.112
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B12",
+        "B13"
+      ],
+      "features": [
+        {
+          "id": "B12",
+          "name": "Red-roof building at north edge of southeast yard",
+          "ring": [
+            [
+              143.25433892173984,
+              -223.42146920645433
+            ],
+            [
+              141.19564916592253,
+              -213.71755145194157
+            ],
+            [
+              119.17401167979938,
+              -218.37469978470722
+            ],
+            [
+              121.21493400661474,
+              -228.11226847676778
+            ]
+          ],
+          "ringXY": [
+            [
+              143.25433892173984,
+              223.42146920645433
+            ],
+            [
+              141.19564916592253,
+              213.71755145194157
+            ],
+            [
+              119.17401167979938,
+              218.37469978470722
+            ],
+            [
+              121.21493400661474,
+              228.11226847676778
+            ]
+          ],
+          "centreXY": [
+            131.20379433965985,
+            220.90785248621953
+          ],
+          "axisXY": [
+            0.9782283346093604,
+            -0.20753150451774116
+          ],
+          "length": 22.53305899586309,
+          "width": 9.949121285865642,
+          "groundMinRH2000": 32.190975189208984,
+          "groundMaxRH2000": 34.37409210205078,
+          "baseRH2000": 34.454,
+          "laser": {
+            "id": "B12",
+            "name": "Red-roof building at north edge of southeast yard",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 92440,
+            "outlineMeasurementConfirmed": true,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 224.39,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 163.365,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "f2c90f47bfa06e5ef774c565723f98c1879ab68ca890f657bd7ef88c61800611",
+            "allInteriorReturns": 243,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 243,
+                  "min": 37.97,
+                  "p05": 38.301,
+                  "p50": 39.55,
+                  "p95": 40.659,
+                  "max": 40.78
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 243,
+                  "min": 4.924,
+                  "p05": 5.761,
+                  "p50": 6.914,
+                  "p95": 8.064,
+                  "max": 8.186
+                },
+                "firstReturns": 243
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 92440
+        },
+        {
+          "id": "B13",
+          "name": "Northern attached part at southeast yard",
+          "ring": [
+            [
+              140.21164899983057,
+              -229.82481932362532
+            ],
+            [
+              139.0437625827328,
+              -224.31757189301663
+            ],
+            [
+              125.10458075640395,
+              -227.2842926297207
+            ],
+            [
+              126.27244740486853,
+              -232.79154438855102
+            ]
+          ],
+          "ringXY": [
+            [
+              140.21164899983057,
+              229.82481932362532
+            ],
+            [
+              139.0437625827328,
+              224.31757189301663
+            ],
+            [
+              125.10458075640395,
+              227.2842926297207
+            ],
+            [
+              126.27244740486853,
+              232.79154438855102
+            ]
+          ],
+          "centreXY": [
+            132.65810499380123,
+            228.55455814078437
+          ],
+          "axisXY": [
+            0.9780925386014148,
+            -0.20817056932294709
+          ],
+          "length": 14.255559762419868,
+          "width": 5.629717318614347,
+          "groundMinRH2000": 32.66292953491211,
+          "groundMaxRH2000": 32.798606872558594,
+          "baseRH2000": 32.879,
+          "laser": {
+            "id": "B13",
+            "name": "Northern attached part at southeast yard",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1222358,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 80.467,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 44.633,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "bcd8bd120a6bc57eccbe1ef4473009a0a7e8e355c520eb1c91199931b99a9dd1",
+            "allInteriorReturns": 66,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 66,
+                  "min": 35.32,
+                  "p05": 35.422,
+                  "p50": 35.91,
+                  "p95": 37.072,
+                  "max": 37.19
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 66,
+                  "min": 2.536,
+                  "p05": 2.661,
+                  "p50": 3.183,
+                  "p95": 4.337,
+                  "max": 4.467
+                },
+                "firstReturns": 66
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1222358
+        }
+      ]
+    },
+    {
+      "id": "upsala-east-building",
+      "renderOnBuildingId": "w438967927",
+      "replaces": [
+        {
+          "id": "w438967927",
+          "ring": [
+            [
+              177,
+              -247.5
+            ],
+            [
+              169.2,
+              -249.8
+            ],
+            [
+              167.3,
+              -243
+            ],
+            [
+              175,
+              -240.8
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B14",
+        "B15"
+      ],
+      "features": [
+        {
+          "id": "B14",
+          "name": "Small eastern woodland-edge building",
+          "ring": [
+            [
+              175.17453674527502,
+              -248.13013782372906
+            ],
+            [
+              173.25785719541244,
+              -241.61321226754666
+            ],
+            [
+              168.3371997869013,
+              -243.04873521044755
+            ],
+            [
+              169.56595824534057,
+              -247.04242435152878
+            ],
+            [
+              167.64558908328328,
+              -247.58592006039663
+            ],
+            [
+              168.36549460073843,
+              -250.13937846410073
+            ]
+          ],
+          "ringXY": [
+            [
+              175.17453674527502,
+              248.13013782372906
+            ],
+            [
+              173.25785719541244,
+              241.61321226754666
+            ],
+            [
+              168.3371997869013,
+              243.04873521044755
+            ],
+            [
+              169.56595824534057,
+              247.04242435152878
+            ],
+            [
+              167.64558908328328,
+              247.58592006039663
+            ],
+            [
+              168.36549460073843,
+              250.13937846410073
+            ]
+          ],
+          "centreXY": [
+            170.8100948511974,
+            245.8709196290121
+          ],
+          "axisXY": [
+            0.9593680224950973,
+            -0.28215775270909443
+          ],
+          "length": 7.099300121030329,
+          "width": 6.810519997556455,
+          "groundMinRH2000": 34.541019439697266,
+          "groundMaxRH2000": 34.91374969482422,
+          "baseRH2000": 34.994,
+          "laser": null,
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1246066
+        },
+        {
+          "id": "B15",
+          "name": "Small measured part beside eastern building",
+          "ring": [
+            [
+              168.3371997869013,
+              -243.04873521044755
+            ],
+            [
+              166.51568961005216,
+              -243.5794907681256
+            ],
+            [
+              167.64558908328328,
+              -247.58592006039663
+            ],
+            [
+              169.56595824534057,
+              -247.04242435152878
+            ]
+          ],
+          "ringXY": [
+            [
+              168.3371997869013,
+              243.04873521044755
+            ],
+            [
+              166.51568961005216,
+              243.5794907681256
+            ],
+            [
+              167.64558908328328,
+              247.58592006039663
+            ],
+            [
+              169.56595824534057,
+              247.04242435152878
+            ]
+          ],
+          "centreXY": [
+            168.03698263765557,
+            245.3044254325756
+          ],
+          "axisXY": [
+            0.27232014754045314,
+            0.9622067019323581
+          ],
+          "length": 4.17737014167744,
+          "width": 1.9957969095422419,
+          "groundMinRH2000": 34.70378494262695,
+          "groundMaxRH2000": 34.8438720703125,
+          "baseRH2000": 34.924,
+          "laser": null,
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1520169
+        }
+      ]
+    },
+    {
+      "id": "upsala-north-barn",
+      "renderOnBuildingId": "uppsala-building-592773",
+      "replaces": [
+        {
+          "id": "uppsala-building-592773",
+          "ring": [
+            [
+              118.412,
+              -361.863
+            ],
+            [
+              112.99,
+              -355.587
+            ],
+            [
+              97.622,
+              -368.903
+            ],
+            [
+              103.043,
+              -375.18
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B16"
+      ],
+      "features": [
+        {
+          "id": "B16",
+          "name": "Large dark-roof building north of parking",
+          "ring": [
+            [
+              118.41188546127704,
+              -361.8639575885473
+            ],
+            [
+              112.99050563404661,
+              -355.58736035829185
+            ],
+            [
+              97.62229252797944,
+              -368.90357754783366
+            ],
+            [
+              103.04256762766718,
+              -375.1802887419362
+            ]
+          ],
+          "ringXY": [
+            [
+              118.41188546127704,
+              361.8639575885473
+            ],
+            [
+              112.99050563404661,
+              355.58736035829185
+            ],
+            [
+              97.62229252797944,
+              368.90357754783366
+            ],
+            [
+              103.04256762766718,
+              375.1802887419362
+            ]
+          ],
+          "centreXY": [
+            108.0165366308579,
+            365.3838245501145
+          ],
+          "axisXY": [
+            0.7557802031364461,
+            -0.6548253847759968
+          ],
+          "length": 20.348401474960387,
+          "width": 8.293785061069189,
+          "groundMinRH2000": 32.45616912841797,
+          "groundMaxRH2000": 32.762020111083984,
+          "baseRH2000": 32.842,
+          "laser": {
+            "id": "B16",
+            "name": "Large dark-roof building north of parking",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 592773,
+            "outlineMeasurementConfirmed": true,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 169.138,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 115.795,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "83febb1ae21ad6dc9ea8b10cddc25485960c2adfeb6ca8745294cbcc23b71690",
+            "allInteriorReturns": 79,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 79,
+                  "min": 36.98,
+                  "p05": 37.058,
+                  "p50": 37.38,
+                  "p95": 37.773,
+                  "max": 37.84
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 79,
+                  "min": 4.459,
+                  "p05": 4.524,
+                  "p50": 4.826,
+                  "p95": 5.149,
+                  "max": 5.237
+                },
+                "firstReturns": 79
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 592773
+        }
+      ]
+    },
+    {
+      "id": "upsala-north-outbuildings",
+      "renderOnBuildingId": "uppsala-building-1390787",
+      "replaces": [
+        {
+          "id": "uppsala-building-1390787",
+          "ring": [
+            [
+              141.078,
+              -402.931
+            ],
+            [
+              144.333,
+              -397.927
+            ],
+            [
+              141.395,
+              -396.109
+            ],
+            [
+              139.111,
+              -399.81
+            ],
+            [
+              136.654,
+              -398.288
+            ],
+            [
+              135.78,
+              -399.627
+            ]
+          ]
+        }
+      ],
+      "featureIds": [
+        "B17",
+        "B18",
+        "B19"
+      ],
+      "features": [
+        {
+          "id": "B17",
+          "name": "Northern outbuilding part",
+          "ring": [
+            [
+              141.07787056967382,
+              -402.93137122604406
+            ],
+            [
+              144.33257870121506,
+              -397.92793172428105
+            ],
+            [
+              141.39536576567858,
+              -396.1094451292419
+            ],
+            [
+              139.11132761557482,
+              -399.81028170313436
+            ],
+            [
+              136.65441584078584,
+              -398.28920719494874
+            ],
+            [
+              135.78024094427983,
+              -399.6277120243164
+            ]
+          ],
+          "ringXY": [
+            [
+              141.07787056967382,
+              402.93137122604406
+            ],
+            [
+              144.33257870121506,
+              397.92793172428105
+            ],
+            [
+              141.39536576567858,
+              396.1094451292419
+            ],
+            [
+              139.11132761557482,
+              399.81028170313436
+            ],
+            [
+              136.65441584078584,
+              398.28920719494874
+            ],
+            [
+              135.78024094427983,
+              399.6277120243164
+            ]
+          ],
+          "centreXY": [
+            140.05640982275222,
+            398.7778218742998
+          ],
+          "axisXY": [
+            0.848527655700419,
+            0.5291510346881608
+          ],
+          "length": 6.357454603150465,
+          "width": 5.967788966279646,
+          "groundMinRH2000": 32.34285354614258,
+          "groundMaxRH2000": 33.272857666015625,
+          "baseRH2000": 33.353,
+          "laser": {
+            "id": "B17",
+            "name": "Northern outbuilding part",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1390787,
+            "outlineMeasurementConfirmed": true,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 24.91,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 5.556,
+            "fullyCoveredByWindow": false,
+            "footprintEpsg3006Sha256": "1b46e463be085a40ffb81d47d573e58c90642e92b542ccff7dd174b18bca72b8",
+            "allInteriorReturns": 6,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 6,
+                  "min": 35.87,
+                  "p05": 35.877,
+                  "p50": 35.955,
+                  "p95": 36.015,
+                  "max": 36.02
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 6,
+                  "min": 2.635,
+                  "p05": 2.703,
+                  "p50": 2.957,
+                  "p95": 3.258,
+                  "max": 3.272
+                },
+                "firstReturns": 6
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1390787
+        },
+        {
+          "id": "B18",
+          "name": "Northern outbuilding overlapping source part",
+          "ring": [
+            [
+              136.24253129612757,
+              -398.0341775786263
+            ],
+            [
+              139.11132761557482,
+              -399.81028170313436
+            ],
+            [
+              141.50020551024951,
+              -395.93947528323156
+            ],
+            [
+              138.68443607927,
+              -394.1961501708053
+            ]
+          ],
+          "ringXY": [
+            [
+              136.24253129612757,
+              398.0341775786263
+            ],
+            [
+              139.11132761557482,
+              399.81028170313436
+            ],
+            [
+              141.50020551024951,
+              395.93947528323156
+            ],
+            [
+              138.68443607927,
+              394.1961501708053
+            ]
+          ],
+          "centreXY": [
+            138.87412025187803,
+            396.988504865443
+          ],
+          "axisXY": [
+            0.5263937374215166,
+            -0.8502409265634109
+          ],
+          "length": 4.548651364627384,
+          "width": 3.3740981289180945,
+          "groundMinRH2000": 32.60860824584961,
+          "groundMaxRH2000": 33.45045471191406,
+          "baseRH2000": 33.53,
+          "laser": {
+            "id": "B18",
+            "name": "Northern outbuilding overlapping source part",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1232325,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 15.25,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 3.444,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "e37561b35f341ee4d53054c6212e4df431e8fc9ec040188d5c297c28dd01e096",
+            "allInteriorReturns": 0,
+            "byLasClass": {},
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1232325
+        },
+        {
+          "id": "B19",
+          "name": "Tiny structure near north outbuildings",
+          "ring": [
+            [
+              128.03819535063508,
+              -388.9382689686991
+            ],
+            [
+              129.40414338632996,
+              -386.8164197066116
+            ],
+            [
+              127.69931155085325,
+              -385.709030728199
+            ],
+            [
+              126.31494431221253,
+              -387.8259432200727
+            ]
+          ],
+          "ringXY": [
+            [
+              128.03819535063508,
+              388.9382689686991
+            ],
+            [
+              129.40414338632996,
+              386.8164197066116
+            ],
+            [
+              127.69931155085325,
+              385.709030728199
+            ],
+            [
+              126.31494431221253,
+              387.8259432200727
+            ]
+          ],
+          "centreXY": [
+            127.86242141084799,
+            387.3195626372079
+          ],
+          "axisXY": [
+            0.5423165035209797,
+            -0.8401742735937463
+          ],
+          "length": 2.529340615567882,
+          "width": 2.0510638001977233,
+          "groundMinRH2000": 33.222354888916016,
+          "groundMaxRH2000": 33.41493225097656,
+          "baseRH2000": 33.495,
+          "laser": {
+            "id": "B19",
+            "name": "Tiny structure near north outbuildings",
+            "basis": "2026-municipal-reference-outline",
+            "municipalObjectId": 1390786,
+            "outlineMeasurementConfirmed": false,
+            "groundFootprintVerified": false,
+            "roofOutlineVerified": false,
+            "footprintAreaSquareMetres": 5.174,
+            "interiorMarginMetres": 1,
+            "interiorAreaSquareMetres": 0.024,
+            "fullyCoveredByWindow": true,
+            "footprintEpsg3006Sha256": "950ce4fd70c8858d437551b52cd407ba8f14c98122e64bbe584110a0e7d905f7",
+            "allInteriorReturns": 1,
+            "byLasClass": {
+              "1": {
+                "heightRH2000Metres": {
+                  "count": 1,
+                  "min": 35.51,
+                  "p05": 35.51,
+                  "p50": 35.51,
+                  "p95": 35.51,
+                  "max": 35.51
+                },
+                "heightAbove2023DtmMetres": {
+                  "count": 1,
+                  "min": 2.219,
+                  "p05": 2.219,
+                  "p50": 2.219,
+                  "p95": 2.219,
+                  "max": 2.219
+                },
+                "firstReturns": 1
+              }
+            },
+            "roofSurfaceVerified": false,
+            "floorHeightVerified": false
+          },
+          "heightStatus": "display estimate unless a reviewed plane is explicitly attached",
+          "planStatus": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+          "sourceId": 1390786
+        }
+      ]
+    }
+  ],
+  "sourceModelSha256": "3ec429382ac69f986be297c4a1b4c3e7467d558e0e0a8d8f11956818d1c41c2c",
+  "planInterpretation": "Authored display models use reference geometry; source building records and terrain remain unchanged.",
+  "excludedCurrentReplacement": "The 2026 Halfway House has no verified georeferenced as-built footprint. Its separate design model is not placed in the app."
+}

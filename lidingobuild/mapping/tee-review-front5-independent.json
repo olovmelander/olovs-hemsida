@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "independent-agent-front-five-tee-review",
+  "observedAt": "2026-09-09T20:53:53.567344+00:00",
+  "state": "passed-with-visibility-limitations",
+  "reviewPath": "lidingobuild/mapping/tee-review-front5.json",
+  "reviewSha256": "6dd78c481a2438a3bea4ec9c78856a0e2316517a774e68e1be24102bbc0c5a8e",
+  "planSha256": "8584c48257c1948850ea74b008caca2452c33449ec4f006c8091ed550a498c20",
+  "captureDate": "2025-05-31",
+  "nativeResolutionMetres": 0.16,
+  "reviewer": "independent imagery/acquisition agent",
+  "humanReviewed": false,
+  "entries": [
+    {
+      "hole": 1,
+      "nativeWindowId": "lidingo-01-tees",
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924725_Lidingo_1.webp",
+        "sha256": "15d7f2d33e70967e9f624f02036f45c87b069a8c749036b11a6bcb2120696101"
+      },
+      "polygonsSimpleAndNondegenerate": true,
+      "allVerticesInsideNativeWindow": true,
+      "allReferencesInsideNominatedPlatform": true,
+      "overlayFile": "lidingobuild/cache/independent-front5/overlay-01.png"
+    },
+    {
+      "hole": 2,
+      "nativeWindowId": "lidingo-02-tees",
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924725_Lidingo_2.webp",
+        "sha256": "c0e3f7c96e2303031a5e37022f0fd12e85cd659f8f629b55460a9c10f964ee64"
+      },
+      "polygonsSimpleAndNondegenerate": true,
+      "allVerticesInsideNativeWindow": true,
+      "allReferencesInsideNominatedPlatform": true,
+      "overlayFile": "lidingobuild/cache/independent-front5/overlay-02.png"
+    },
+    {
+      "hole": 3,
+      "nativeWindowId": "lidingo-03-tees",
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924725_Lidingo_3.webp",
+        "sha256": "71a43947d9c8b70355bc43d4d51bcdb9cee5969f5a87514ca6425fbda0ac0789"
+      },
+      "polygonsSimpleAndNondegenerate": true,
+      "allVerticesInsideNativeWindow": true,
+      "allReferencesInsideNominatedPlatform": true,
+      "overlayFile": "lidingobuild/cache/independent-front5/overlay-03.png"
+    },
+    {
+      "hole": 4,
+      "nativeWindowId": "lidingo-04-tees",
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924725_Lidingo_4.webp",
+        "sha256": "afc1ef67db1b8e80b98a5b8221016ea91719844834fd53c180d3d057bc323c83"
+      },
+      "polygonsSimpleAndNondegenerate": true,
+      "allVerticesInsideNativeWindow": true,
+      "allReferencesInsideNominatedPlatform": true,
+      "overlayFile": "lidingobuild/cache/independent-front5/overlay-04.png"
+    },
+    {
+      "hole": 5,
+      "nativeWindowId": "lidingo-05-tees",
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924725_Lidingo_5.webp",
+        "sha256": "5273369485aeead8ee0acea4ae459b000a3b7a6cffb95462c3622e40ac070a07"
+      },
+      "polygonsSimpleAndNondegenerate": true,
+      "allVerticesInsideNativeWindow": true,
+      "allReferencesInsideNominatedPlatform": true,
+      "overlayFile": "lidingobuild/cache/independent-front5/overlay-05.png"
+    }
+  ],
+  "findings": [
+    {
+      "hole": 1,
+      "status": "accepted",
+      "finding": "Main rear ring follows the visible inner mowing boundary. Guide white/yellow share rear group and blue lies farther along the same platform. Separate red/orange forward pad corroborated. No geometry displacement recommended."
+    },
+    {
+      "hole": 2,
+      "status": "accepted-with-edge-uncertainty",
+      "finding": "All five physical platforms correspond to visible native mowing islands. Guide white maps to a; yellow to b; long c has no colour; blue/red share d; orange maps to e. The orange reference [834,1094] is inside the observed maintained surface.",
+      "platformId": "lidingo-tee-02-e-lm2025",
+      "edgeObservation": "North/south trace transitions include approximately 5?10 native pixels of ambiguous mowing fringe (0.8?1.6m), compatible with its declared1.5m interpretation uncertainty. This is not a detected registration shift.",
+      "requiredGeometryChange": false
+    },
+    {
+      "hole": 3,
+      "status": "accepted",
+      "finding": "Three separate visible surfaces and guide colour order agree; no geometry displacement recommended."
+    },
+    {
+      "hole": 4,
+      "status": "accepted-shared-orange-platform",
+      "finding": "Hole4 Orange shares the distinct oval physical platform used by hole2 White immediately southwest of the hole4 fairway tip. Full guide platform topology and native mowing edges agree; opposite-facing representative starts occupy different parts of the shared pad.",
+      "sharedPadEvidence": {
+        "observedAt": "2026-09-09T21:15:34.582383+00:00",
+        "sharedPhysicalPlatformId": "lidingo-shared-tee-02-white-04-orange-lm2025",
+        "hole2Window": "lidingo-02-tees",
+        "hole2Pixel": [
+          265,
+          346
+        ],
+        "hole4Window": "lidingo-04-tees",
+        "hole4Pixel": [
+          29,
+          406
+        ],
+        "epsg3006": [
+          677789.76,
+          6586277.12
+        ],
+        "coordinateResidualMetres": 0,
+        "finding": "Hole4 Orange shares the distinct oval physical platform used by hole2 White immediately southwest of the hole4 fairway tip. Full guide platform topology and native mowing edges agree; opposite-facing representative starts occupy different parts of the shared pad.",
+        "correction": "The earlier hole4 unresolved judgement searched too far southeast and overlooked the shared platform near the western edge of the hole4 tee window. It is superseded by this explicit shared-platform interpretation.",
+        "method": "Existing native imagery and full guide topology; no new geographic dataset, scorecard-distance fit or new pixel acquisition required.",
+        "dailyMarkerPositionVerified": false
+      },
+      "requiredGeometryChange": false,
+      "implementation": "Reuse hole2 White physical geometry as shared owner and associate the hole4 Orange representative start with it. Do not emit duplicate overlapping physical turf."
+    },
+    {
+      "hole": 5,
+      "status": "accepted-visible-subset-only",
+      "platformId": "lidingo-tee-05-a-lm2025",
+      "finding": "White/yellow/blue references are on visible maintained turf and guide grouping is correct. The northeast polygon edge follows the tree-shadow transition; it cannot establish the full platform footprint. Current conservative geometry is usable as a visible maintained subset.",
+      "recommendedMetadata": {
+        "extentStatus": "visible-maintained-subset; full-platform-boundary-unresolved"
+      },
+      "limitation": "The2m interpretation uncertainty must not be read as a bound on the unknown extent of obscured turf. No expansion into shadow is justified from this image alone.",
+      "requiredGeometryChange": false
+    }
+  ],
+  "limitations": [
+    "Independent agent inspection is not an independent human survey.",
+    "No exact daily-marker coordinates are verified."
+  ],
+  "supplementalReview": {
+    "observedAt": "2026-09-09T21:15:34.582383+00:00",
+    "sharedPhysicalPlatformId": "lidingo-shared-tee-02-white-04-orange-lm2025",
+    "hole2Window": "lidingo-02-tees",
+    "hole2Pixel": [
+      265,
+      346
+    ],
+    "hole4Window": "lidingo-04-tees",
+    "hole4Pixel": [
+      29,
+      406
+    ],
+    "epsg3006": [
+      677789.76,
+      6586277.12
+    ],
+    "coordinateResidualMetres": 0,
+    "finding": "Hole4 Orange shares the distinct oval physical platform used by hole2 White immediately southwest of the hole4 fairway tip. Full guide platform topology and native mowing edges agree; opposite-facing representative starts occupy different parts of the shared pad.",
+    "correction": "The earlier hole4 unresolved judgement searched too far southeast and overlooked the shared platform near the western edge of the hole4 tee window. It is superseded by this explicit shared-platform interpretation.",
+    "method": "Existing native imagery and full guide topology; no new geographic dataset, scorecard-distance fit or new pixel acquisition required.",
+    "dailyMarkerPositionVerified": false
+  },
+  "supersededFindings": [
+    {
+      "hole": 4,
+      "status": "accepted-with-unresolved-orange",
+      "finding": "White/main/red native surfaces corroborate the guide. Search area around the guide-relative Orange location is continuous fairway/fringe mowing without a secure complete isolated platform boundary. Preserve explicit unresolved status and suppress Orange physical furniture.",
+      "requiredGeometryChange": false,
+      "supersededAt": "2026-09-09T21:15:34.582383+00:00",
+      "reason": "The earlier hole4 unresolved judgement searched too far southeast and overlooked the shared platform near the western edge of the hole4 tee window. It is superseded by this explicit shared-platform interpretation."
+    }
+  ]
+}

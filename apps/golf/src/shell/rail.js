@@ -10,6 +10,7 @@ import { COURSE_PREVIEWS } from '../course-previews.mjs';
 const CATEGORIES = {
   visby: { id: 'kust', label: 'Kronholmen · Seaside', iconName: 'wave' },
   lidingo: { id: 'skog', label: 'Lidingö · Parkbana', iconName: 'tree' },
+  tortuna: { id: 'skog', label: 'Västerås · Skog & Park', iconName: 'tree' },
   angso: { id: 'kust', label: 'Mälaren · Halvö', iconName: 'wave' },
   norrfallsviken: { id: 'kust', label: 'Höga Kusten · Seaside', iconName: 'wave' },
   puttom: { id: 'skog', label: 'Örnsköldsvik · Skog & Sjö', iconName: 'tree' },
@@ -24,6 +25,7 @@ const CATEGORIES = {
 };
 
 const LINES = {
+  tortuna: '18 hål i Tortuna utanför Västerås, med dammar, parkmark och skog.',
   veckefjarden: 'Mästerskapsbanan vid fjärden, känd för sin ikoniska ö-green och utmanande vattenhinder.',
   norrfallsviken: 'Dramatisk skogs- och linkskaraktär på Mjällomlandet med klippor direkt mot Bottenhavet.',
   puttom: 'Naturskön skogs- och parkbana som slingrar sig elegant mellan två glittrande sjöar.',

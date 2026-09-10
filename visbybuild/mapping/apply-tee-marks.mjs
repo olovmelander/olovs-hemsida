@@ -47,6 +47,7 @@ for (const hole of model.holes) {
   const marks = teeMarks({
     line: hole.line, lineLen: polyLen(hole.line), lengths: hole.t, nearest,
     pads: hole.tees.pads, unresolvedPlatform,
+    referenceReview: card.tees.map(tee => geometry.holes.find(source => source.n === hole.n).tees.referenceReview?.[tee.id] ?? null),
     references: card.tees.map(tee => {
       const point = geometry.holes.find(source => source.n === hole.n).tees.references?.[tee.id];
       return point ? local(point) : null;

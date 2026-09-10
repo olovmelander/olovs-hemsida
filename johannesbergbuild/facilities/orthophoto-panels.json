@@ -1,0 +1,897 @@
+{
+  "schemaVersion": 1,
+  "courseId": "johannesberg",
+  "createdOn": "2026-09-10",
+  "horizontalCrs": "EPSG:3006",
+  "pixelConvention": "Bounds and geotransforms refer to pixel outer corners; pixel centres are +0.5 column/+0.5 row.",
+  "purpose": "Private modelling references, not runtime textures",
+  "panels": [
+    {
+      "id": "facilities-hub-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.png",
+      "sha256": "d2e0be835c5ace5f7e7a91dc6d2142c9ae235bc8cfb3d50863a810f4c532d934",
+      "raster": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.tif",
+        "sha256": "e7c083a581b066dc9eb898ecd291b6eb1ebace1e5c5aed5513f86c335df74155"
+      },
+      "boundsEPSG3006": [
+        679130.08,
+        6625980.0,
+        679750.08,
+        6626400.0
+      ],
+      "geoTransform": [
+        679130.08,
+        0.16,
+        0.0,
+        6626400.0,
+        0.0,
+        -0.16
+      ],
+      "width": 3875,
+      "height": 2625,
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "sourceItems": [
+        {
+          "id": "o66250_6775_25_mr25",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "captureStart": "2025-06-14T06:44:38Z",
+          "captureEnd": "2025-06-14T06:54:45Z"
+        }
+      ],
+      "provenance": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.json",
+        "sha256": "98b7ba73fcb844e8908e2d05de8194a34ab1d43b94c04d58b6db272148c892e5"
+      },
+      "kind": "native-orthophoto",
+      "resampling": "nearest",
+      "horizontalCrs": "EPSG:3006"
+    },
+    {
+      "id": "johannesberg-building-w296165889-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165889-native.png",
+      "sha256": "1889c9c392815b037f411da46bd07b4243e9a7593387b2d1677cce89ea4884da",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165889-overlay.png",
+        "sha256": "0d4c209aea261acd7695225bb2679e3cc1069ec3c3f2c723ad5a543260ea3830"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        2611,
+        1978,
+        3002,
+        2358
+      ],
+      "boundsEPSG3006": [
+        679547.84,
+        6626022.72,
+        679610.4,
+        6626083.52
+      ],
+      "width": 391,
+      "height": 380,
+      "geoTransform": [
+        679547.84,
+        0.16,
+        0,
+        6626083.52,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-manor-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-manor-native.png",
+      "sha256": "8cdfa10e7c9cb899677ccfbc8b615d035f7e7769ea41a168f492c0173163c2ee",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-manor-overlay.png",
+        "sha256": "c7d4f4d68c555d95b68c37ba62748921abc3993d8614a7856edafb15deb187a0"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        942,
+        136,
+        1356,
+        541
+      ],
+      "boundsEPSG3006": [
+        679280.8,
+        6626313.44,
+        679347.04,
+        6626378.24
+      ],
+      "width": 414,
+      "height": 405,
+      "geoTransform": [
+        679280.8,
+        0.16,
+        0,
+        6626378.24,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-old-stable-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-old-stable-native.png",
+      "sha256": "5341621c11e419607d559dbcd7b85a135798547a0e5cbe5f230e397b90f6ea1d",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-old-stable-overlay.png",
+        "sha256": "ffcadfa996770ca84ec023ade95828062f4c3606526084cb122b242e3ad38ec1"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        988,
+        1290,
+        1537,
+        1692
+      ],
+      "boundsEPSG3006": [
+        679288.16,
+        6626129.28,
+        679376.0,
+        6626193.6
+      ],
+      "width": 549,
+      "height": 402,
+      "geoTransform": [
+        679288.16,
+        0.16,
+        0,
+        6626193.6,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-east-slottsvilla-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-slottsvilla-native.png",
+      "sha256": "4d25066d55684aa1163bb8d016deda948c91b1a97c54a0a96c652631b87a59c2",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-slottsvilla-overlay.png",
+        "sha256": "1d396a14869ba33362d93dd038faef4c1afa2187c552a1745cb5428689ee8d1d"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1494,
+        731,
+        1762,
+        1004
+      ],
+      "boundsEPSG3006": [
+        679369.12,
+        6626239.36,
+        679412.0,
+        6626283.04
+      ],
+      "width": 268,
+      "height": 273,
+      "geoTransform": [
+        679369.12,
+        0.16,
+        0,
+        6626283.04,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-east-wing-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-wing-native.png",
+      "sha256": "5300a5f25aacccdbeebc1e43a964de712bf50a9ab40ac4652b054e8a67e45c04",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-wing-overlay.png",
+        "sha256": "f6c74cac9fb61a83a29a4c82dac94840788def0ce0f77b7b26651d5221d9a238"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1203,
+        235,
+        1517,
+        568
+      ],
+      "boundsEPSG3006": [
+        679322.56,
+        6626309.12,
+        679372.8,
+        6626362.4
+      ],
+      "width": 314,
+      "height": 333,
+      "geoTransform": [
+        679322.56,
+        0.16,
+        0,
+        6626362.4,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-clubhouse-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-native.png",
+      "sha256": "80b452d6aed2d9e31d19ee9257591a20309bd92cfc4632af5a0059fe1f9ef147",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-overlay.png",
+        "sha256": "f2e5d6fbeb9dfd0274cce21d70ee1bf0b9bc908b869a7e73145df9810c796362"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        280,
+        1290,
+        644,
+        1604
+      ],
+      "boundsEPSG3006": [
+        679174.88,
+        6626143.36,
+        679233.12,
+        6626193.6
+      ],
+      "width": 364,
+      "height": 314,
+      "geoTransform": [
+        679174.88,
+        0.16,
+        0,
+        6626193.6,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-clubhouse-shed-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-shed-native.png",
+      "sha256": "0a7ee4888e422c4b8aff29f14821e0cc001854eb0c288e6d956f0541c0d0a9ca",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-shed-overlay.png",
+        "sha256": "5219a861992971ae8c64c0a0725c216f1d418a9c4a1a5f2deb6d9aa682f73f1d"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        391,
+        1446,
+        614,
+        1663
+      ],
+      "boundsEPSG3006": [
+        679192.64,
+        6626133.92,
+        679228.32,
+        6626168.64
+      ],
+      "width": 223,
+      "height": 217,
+      "geoTransform": [
+        679192.64,
+        0.16,
+        0,
+        6626168.64,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-west-slottsvilla-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-slottsvilla-native.png",
+      "sha256": "876c4e903e83371ca591bac052237306aec6b2291fccc4f60fc0f752229b6314",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-slottsvilla-overlay.png",
+        "sha256": "075ec0b45fde4ebdb24c4e9d2bab2eb040a831202bd58759e53749f399ec9f41"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1356,
+        836,
+        1630,
+        1111
+      ],
+      "boundsEPSG3006": [
+        679347.04,
+        6626222.24,
+        679390.88,
+        6626266.24
+      ],
+      "width": 274,
+      "height": 275,
+      "geoTransform": [
+        679347.04,
+        0.16,
+        0,
+        6626266.24,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-karolinerhuset-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-karolinerhuset-native.png",
+      "sha256": "fd19d7d1914cf9a4bb14b5ca7cc98f263f9fb43a53fe1760f40d60e1e37de1c4",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-karolinerhuset-overlay.png",
+        "sha256": "150feab2a5ae7162ff9acecfdf08e2d69a8285645acca6019cdc19b315d0a296"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1411,
+        287,
+        1744,
+        632
+      ],
+      "boundsEPSG3006": [
+        679355.84,
+        6626298.88,
+        679409.12,
+        6626354.08
+      ],
+      "width": 333,
+      "height": 345,
+      "geoTransform": [
+        679355.84,
+        0.16,
+        0,
+        6626354.08,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-building-w296165900-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165900-native.png",
+      "sha256": "68fcba561b3937aaf43668d743ddcb3e024c506365a239789394a185512fe327",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165900-overlay.png",
+        "sha256": "1663dc7fa8fdff4f002eede4a96e41368a2deac4a0890a251168a6a71776e375"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        2792,
+        1054,
+        3251,
+        1773
+      ],
+      "boundsEPSG3006": [
+        679576.8,
+        6626116.32,
+        679650.24,
+        6626231.36
+      ],
+      "width": 459,
+      "height": 719,
+      "geoTransform": [
+        679576.8,
+        0.16,
+        0,
+        6626231.36,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-west-wing-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-wing-native.png",
+      "sha256": "b09ba60c6e7f9d97a504e8544b195b763678dca3967147fb1f6b09fd8f823826",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-wing-overlay.png",
+        "sha256": "e4b43e997cb87d0ea6ae13efb9b57a9c1fc9130800407a16ee601fd84885eb63"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        952,
+        426,
+        1266,
+        768
+      ],
+      "boundsEPSG3006": [
+        679282.4,
+        6626277.12,
+        679332.64,
+        6626331.84
+      ],
+      "width": 314,
+      "height": 342,
+      "geoTransform": [
+        679282.4,
+        0.16,
+        0,
+        6626331.84,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-building-w296165903-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165903-native.png",
+      "sha256": "fb0e50322484bc17e5ba37d60b2985672e37a5e7d30902e44f99dae371311c1c",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165903-overlay.png",
+        "sha256": "a19774080b13a010886760a5d7b605cf35f5376b5592b611f52e976eec3def6b"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1550,
+        1208,
+        1882,
+        1513
+      ],
+      "boundsEPSG3006": [
+        679378.08,
+        6626157.92,
+        679431.2,
+        6626206.72
+      ],
+      "width": 332,
+      "height": 305,
+      "geoTransform": [
+        679378.08,
+        0.16,
+        0,
+        6626206.72,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-johannesbergsvillan-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsvillan-native.png",
+      "sha256": "52b9cd32b1015c318fced756034560e4e0a4cb2846273f054b9a8c622769a1de",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsvillan-overlay.png",
+        "sha256": "0ade5ef37b1bd37d5a56a6564574f8edb79f1a4076bbb598a538b51372776691"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1195,
+        810,
+        1464,
+        1078
+      ],
+      "boundsEPSG3006": [
+        679321.28,
+        6626227.52,
+        679364.32,
+        6626270.4
+      ],
+      "width": 269,
+      "height": 268,
+      "geoTransform": [
+        679321.28,
+        0.16,
+        0,
+        6626270.4,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-johannesbergsflygeln-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsflygeln-native.png",
+      "sha256": "c6ef3119c98e01e3dff9fc686e254dcf769e4327324de9afe6ee9627295333c2",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsflygeln-overlay.png",
+        "sha256": "84ee68b555e40370337843cf64dc519ffeba745cb22d5199438ae8ff0a20e373"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1022,
+        699,
+        1391,
+        1048
+      ],
+      "boundsEPSG3006": [
+        679293.6,
+        6626232.32,
+        679352.64,
+        6626288.16
+      ],
+      "width": 369,
+      "height": 349,
+      "geoTransform": [
+        679293.6,
+        0.16,
+        0,
+        6626288.16,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-building-w296165906-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165906-native.png",
+      "sha256": "2ad17fb0ebbd0c8aa21ba305bd41f73c1cef9513a2bf7c359471e3b2250cbd9a",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165906-overlay.png",
+        "sha256": "2c4bbc8dba71de442def04af8625b067cb2533c5a161ec824e6ca5e7dc36d598"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1156,
+        1072,
+        1474,
+        1410
+      ],
+      "boundsEPSG3006": [
+        679315.04,
+        6626174.4,
+        679365.92,
+        6626228.48
+      ],
+      "width": 318,
+      "height": 338,
+      "geoTransform": [
+        679315.04,
+        0.16,
+        0,
+        6626228.48,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-building-w296165907-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165907-native.png",
+      "sha256": "97c0d82e03857cfacca825f44255018201612e5500da410088a0686e58df32ba",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165907-overlay.png",
+        "sha256": "b0b4e9ce5ccf6b4667e876218af3352fbc3f1c0f00df4182c739aaca4d86637a"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        2127,
+        1637,
+        2657,
+        1969
+      ],
+      "boundsEPSG3006": [
+        679470.4,
+        6626084.96,
+        679555.2,
+        6626138.08
+      ],
+      "width": 530,
+      "height": 332,
+      "geoTransform": [
+        679470.4,
+        0.16,
+        0,
+        6626138.08,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-building-w296165908-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165908-native.png",
+      "sha256": "f21f3e60088b843a52ae40723e9316a425072e4270af1091c8ef480a8a4fb5ce",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165908-overlay.png",
+        "sha256": "1e5c2b112e19ef423bc52331e50d0a9d7f49ca8bcdf31586080f80a2073c8ed6"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1501,
+        520,
+        1716,
+        731
+      ],
+      "boundsEPSG3006": [
+        679370.24,
+        6626283.04,
+        679404.64,
+        6626316.8
+      ],
+      "width": 215,
+      "height": 211,
+      "geoTransform": [
+        679370.24,
+        0.16,
+        0,
+        6626316.8,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-private-residence-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-private-residence-native.png",
+      "sha256": "7ede293e5a8af0a1e6729fd516907814a4c655bb9877d60ca872214773a17702",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-private-residence-overlay.png",
+        "sha256": "df85dc70f5c3942d1620f6af39ac1e4f3031ca58cf18a2890c5a74d500dea850"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1534,
+        587,
+        1782,
+        841
+      ],
+      "boundsEPSG3006": [
+        679375.52,
+        6626265.44,
+        679415.2,
+        6626306.08
+      ],
+      "width": 248,
+      "height": 254,
+      "geoTransform": [
+        679375.52,
+        0.16,
+        0,
+        6626306.08,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-range-hut-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-hut-native.png",
+      "sha256": "dbaa4ed6ac679c694013835b021c3db1ca04d736b58e04159041a8af6ec6f933",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-hut-overlay.png",
+        "sha256": "4042812b2826d13848d2eb1cec322bbb0ec7f983109d6ced8bfd8b6d10381cc7"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        270,
+        514,
+        483,
+        727
+      ],
+      "boundsEPSG3006": [
+        679173.28,
+        6626283.68,
+        679207.36,
+        6626317.76
+      ],
+      "width": 213,
+      "height": 213,
+      "geoTransform": [
+        679173.28,
+        0.16,
+        0,
+        6626317.76,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-building-w426174582-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w426174582-native.png",
+      "sha256": "a639ade5c6172b6ee192a7bb0e2fb7c90526b3fa270bb9fa7b517111b542b714",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w426174582-overlay.png",
+        "sha256": "b7885e9c6c7c7228ba1027b60c99118a9bb430f916ad309c8126bb214e83f7cf"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        2133,
+        1119,
+        2351,
+        1329
+      ],
+      "boundsEPSG3006": [
+        679471.36,
+        6626187.36,
+        679506.24,
+        6626220.96
+      ],
+      "width": 218,
+      "height": 210,
+      "geoTransform": [
+        679471.36,
+        0.16,
+        0,
+        6626220.96,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-building-trace-tower-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-trace-tower-native.png",
+      "sha256": "775bfe00dbf75212ba45b8c920bd9d44aa92b1435dc667326f3fc5e6248f3a91",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-trace-tower-overlay.png",
+        "sha256": "e8d97980fb7b9c0e5f7a66b6a9739ddb2d415815bfb8cf5cd67e459876f38e9e"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        1433,
+        1696,
+        1617,
+        1886
+      ],
+      "boundsEPSG3006": [
+        679359.36,
+        6626098.24,
+        679388.8,
+        6626128.64
+      ],
+      "width": 184,
+      "height": 190,
+      "geoTransform": [
+        679359.36,
+        0.16,
+        0,
+        6626128.64,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "johannesberg-range-shelter-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-shelter-native.png",
+      "sha256": "12d24be0e884e2ddc11c4decb2a6fa81b7b6cf2383d091c54a57f4319c4137e9",
+      "annotation": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-shelter-overlay.png",
+        "sha256": "3d002f41dc7230a9c78c28ff83aaad3b4164c82e4e132a683b8f6bf2f356c042"
+      },
+      "parentPanel": "facilities-hub-native",
+      "pixelWindow": [
+        463,
+        893,
+        642,
+        1070
+      ],
+      "boundsEPSG3006": [
+        679204.16,
+        6626228.8,
+        679232.8,
+        6626257.12
+      ],
+      "width": 179,
+      "height": 177,
+      "geoTransform": [
+        679204.16,
+        0.16,
+        0,
+        6626257.12,
+        0,
+        -0.16
+      ],
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "horizontalCrs": "EPSG:3006",
+      "kind": "unresampled-native-crop"
+    },
+    {
+      "id": "range-full-context-080m",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/range-full-context-080m.png",
+      "sha256": "4c7a56065543cec81c2facac47357a2622420ddd09e4f434d1411a28624d9b83",
+      "parentPanel": "ground-overview",
+      "parentImage": {
+        "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+        "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+      },
+      "provenance": {
+        "path": "johannesbergbuild/cache/lm-ortho/ground-overview.json",
+        "sha256": "99802aa22e3d58e1799b788111d0336efddaa65ea0ab1d32a1e6b5e1698b463e"
+      },
+      "pixelWindow": [
+        489,
+        100,
+        871,
+        340
+      ],
+      "boundsEPSG3006": [
+        678929.6,
+        6626169.6,
+        679235.2,
+        6626361.6
+      ],
+      "width": 382,
+      "height": 240,
+      "geoTransform": [
+        678929.6,
+        0.8,
+        0,
+        6626361.6,
+        0,
+        -0.8
+      ],
+      "pixelResolutionMetres": 0.8,
+      "captureDate": "2025-06-14",
+      "sourceItems": [
+        {
+          "id": "o66250_6775_25_mr25",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "captureStart": "2025-06-14T06:44:38Z",
+          "captureEnd": "2025-06-14T06:54:45Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "kind": "context-crop-from-averaged-raster",
+      "resampling": "parent averaged to 0.8 m; crop unresampled"
+    }
+  ],
+  "overview": {
+    "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-overview-annotated.png",
+    "sha256": "3d5e5b5f0f9a5829a2bf01471cb47afd5598af3619166e758108dd7cbcfd6f8e"
+  }
+}

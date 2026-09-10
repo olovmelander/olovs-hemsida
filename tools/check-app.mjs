@@ -89,6 +89,7 @@ async function checkCourse(c) {
     ground: (() => {
       const V = window.V3D, info = V.groundInfo();
       const mappedObjectsOnly = V.M?.infra?.objectPlacement === 'mapped-only';
+      const reviewedTeeLayout = V.HOLES.every(h => h.tees?.markerLayout === 'separate-reviewed-colours');
       const greenMisses = V.HOLES.filter(h => V.groundSample(h.green.c[0], h.green.c[1])?.surface !== 4).map(h => h.n);
       /* A crescent bunker's centroid can lie outside its own ring (Upsala's 3rd
          does), so probe a point that is inside by construction: the midpoint of
@@ -145,7 +146,7 @@ async function checkCourse(c) {
       const holesMissingPlatforms = mappedObjectsOnly ? V.HOLES
         .filter(h => (!Array.isArray(h.tees?.pads) || h.tees.pads.length === 0)
           && h.tees?.status !== 'unresolved-physical-platform').map(h => h.n) : [];
-      if (mappedObjectsOnly) {
+      if (mappedObjectsOnly || reviewedTeeLayout) {
         // The HUD's nominal tee references are not physical marker objects.
         // Probe the actual deck interiors, including concave polygons whose
         // vertex average can lie outside, so bad/wet turf still fails loudly.
@@ -221,7 +222,7 @@ async function checkCourse(c) {
     const ax = got.ground.axis;
     const offLine = ax.filter(a => a.line > 1);
     gate(offLine.length === 0,
-      `all ${ax.length} tee-marker pairs stand square across the line` +
+      `all ${ax.length} tee-reference bearings face along the line` +
       (offLine.length ? ` -- ${offLine.length} do not (worst hole ${offLine.sort((p, q) => q.line - p.line)[0].n} at ${offLine[0].line.toFixed(1)}°)` : ''));
     /* the independent half: the survey's own green direction. A dogleg legitimately
        separates the two, so this is loose -- it is here to catch a bearing that is
@@ -234,7 +235,9 @@ async function checkCourse(c) {
     && (got.ground.staleUnresolved || []).length === 0,
     (got.ground.mappedObjectsOnly
       ? `all ${got.ground.teePlatforms} physical tee-platform interiors are tee turf; no physical marker pairs are inferred`
-      : `all ${got.ground.teeMarks} tee markers stand on tee grass`) +
+      : got.ground.teePlatforms > 0
+        ? `all ${got.ground.teePlatforms} reviewed tee-platform interiors are tee turf`
+        : `all ${got.ground.teeMarks} tee markers stand on tee grass`) +
     ((got.ground.declaredUnresolved || []).length
       ? ` (no physical platform on hole${got.ground.declaredUnresolved.length > 1 ? 's' : ''} ${got.ground.declaredUnresolved.join(', ')}, declared)` : '') +
     (got.ground.teeMisses.length ? ` -- ${got.ground.teeMisses.length} do not (hole/tee:surface ${got.ground.teeMisses.slice(0, 4).join(' ')})` : '') +

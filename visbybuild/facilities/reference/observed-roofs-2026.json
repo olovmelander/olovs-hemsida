@@ -1,0 +1,500 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-10",
+  "captureDate": "2026-04-10",
+  "method": "Manual interpretation of native RGB orthophoto pixel edges. Roof envelopes include overhang and aerial building displacement; not cadastral wall footprints.",
+  "interpretationUncertaintyMetres": 1,
+  "registrationAccuracy": "not independently measured",
+  "sources": {
+    "range-firing-line": {
+      "geoTransform": [
+        687389.92,
+        0.16,
+        0,
+        6370915.04,
+        0,
+        -0.16
+      ],
+      "parentWindow": "range-practice"
+    },
+    "service-yard": {
+      "geoTransform": [
+        687914.88,
+        0.16,
+        0,
+        6371110.08,
+        0,
+        -0.16
+      ],
+      "parentWindow": "context-2-3"
+    },
+    "east-facilities-close": {
+      "geoTransform": [
+        687252.96,
+        0.16,
+        0,
+        6370795.04,
+        0,
+        -0.16
+      ],
+      "parentWindow": "clubhouse-finish"
+    },
+    "clubhouse-close": {
+      "geoTransform": [
+        687200,
+        0.16,
+        0,
+        6370780,
+        0,
+        -0.16
+      ],
+      "parentWindow": "clubhouse-finish"
+    },
+    "range-net-north": {
+      "geoTransform": [
+        687500,
+        0.16,
+        0,
+        6371030.08,
+        0,
+        -0.16
+      ],
+      "parentWindow": "range-practice"
+    }
+  },
+  "roofs": [
+    {
+      "id": "way/530655629",
+      "source": "east-facilities-close",
+      "label": "Current detached kiosk-like building roof beside parking",
+      "ringPixels": [
+        [
+          295,
+          108
+        ],
+        [
+          364,
+          95
+        ],
+        [
+          374,
+          151
+        ],
+        [
+          307,
+          165
+        ],
+        [
+          295,
+          108
+        ]
+      ],
+      "ridgePixels": [
+        [
+          300,
+          126
+        ],
+        [
+          368,
+          113
+        ]
+      ],
+      "roofForm": "low intersecting or stepped roof; pitch and arrangement need oblique photo",
+      "note": "The inherited narrow OSM footprint covers only the east portion of the 2026 roof. Exact purpose remains unverified."
+    },
+    {
+      "id": "range-east-shelter-2026",
+      "source": "range-firing-line",
+      "label": "Eastern covered range shelter",
+      "ringPixels": [
+        [
+          593,
+          458
+        ],
+        [
+          686,
+          468
+        ],
+        [
+          679,
+          527
+        ],
+        [
+          584,
+          517
+        ],
+        [
+          593,
+          458
+        ]
+      ],
+      "ridgePixels": [
+        [
+          589,
+          483
+        ],
+        [
+          683,
+          493
+        ]
+      ],
+      "roofForm": "rectangular low gabled roof",
+      "note": "Visible second shelter along the curved firing line, absent from inherited OSM building list."
+    },
+    {
+      "id": "range-parking-building-2026",
+      "source": "range-firing-line",
+      "label": "Long building at rear of range parking",
+      "ringPixels": [
+        [
+          14,
+          554
+        ],
+        [
+          94,
+          511
+        ],
+        [
+          119,
+          553
+        ],
+        [
+          35,
+          598
+        ],
+        [
+          14,
+          554
+        ]
+      ],
+      "ridgePixels": [
+        [
+          24,
+          576
+        ],
+        [
+          108,
+          531
+        ]
+      ],
+      "roofForm": "long dark gabled roof",
+      "note": "Some roof edges are shaded by nearby trees; functional identity is unverified."
+    },
+    {
+      "id": "service-west-north-2026",
+      "source": "service-yard",
+      "label": "Western service-yard shed, northern roof",
+      "ringPixels": [
+        [
+          169,
+          386
+        ],
+        [
+          240,
+          363
+        ],
+        [
+          315,
+          552
+        ],
+        [
+          246,
+          581
+        ],
+        [
+          169,
+          386
+        ]
+      ],
+      "ridgePixels": [
+        [
+          204,
+          374
+        ],
+        [
+          280,
+          566
+        ]
+      ],
+      "roofForm": "long dark gabled roof",
+      "note": "Unmapped building opposite the long east service hall. North and south roofs meet but are retained separately because roof arrangement changes."
+    },
+    {
+      "id": "service-west-south-2026",
+      "source": "service-yard",
+      "label": "Western service-yard shed, southern roof",
+      "ringPixels": [
+        [
+          251,
+          579
+        ],
+        [
+          326,
+          558
+        ],
+        [
+          394,
+          737
+        ],
+        [
+          316,
+          767
+        ],
+        [
+          251,
+          579
+        ]
+      ],
+      "ridgePixels": [
+        [
+          287,
+          568
+        ],
+        [
+          355,
+          752
+        ]
+      ],
+      "roofForm": "long dark roof; gable inferred from shading",
+      "note": "Touches northern roof. Walls and actual structural partition require oblique verification."
+    },
+    {
+      "id": "service-north-small-2026",
+      "source": "service-yard",
+      "label": "Small shed at north of service yard",
+      "ringPixels": [
+        [
+          352,
+          122
+        ],
+        [
+          386,
+          109
+        ],
+        [
+          399,
+          140
+        ],
+        [
+          365,
+          153
+        ],
+        [
+          352,
+          122
+        ]
+      ],
+      "ridgePixels": [
+        [
+          358,
+          136
+        ],
+        [
+          393,
+          124
+        ]
+      ],
+      "roofForm": "small dark gabled roof",
+      "note": "Small roof immediately west of visible stored containers. Site role unverified."
+    }
+  ],
+  "nonBuildingFacilities": [
+    {
+      "id": "range-firing-mats-west-2026",
+      "source": "range-firing-line",
+      "kind": "range-firing-mats",
+      "linePixels": [
+        [
+          89,
+          163
+        ],
+        [
+          165,
+          239
+        ]
+      ],
+      "note": "Visible open mats northwest of the western shelter. Exact mat count and installed equipment are not resolved."
+    },
+    {
+      "id": "range-firing-mats-central-2026",
+      "source": "range-firing-line",
+      "kind": "range-firing-mats",
+      "linePixels": [
+        [
+          242,
+          351
+        ],
+        [
+          308,
+          385
+        ],
+        [
+          397,
+          420
+        ],
+        [
+          480,
+          443
+        ],
+        [
+          556,
+          458
+        ]
+      ],
+      "note": "Curved central open mat strip between the two shelters."
+    },
+    {
+      "id": "range-firing-mats-east-2026",
+      "source": "range-firing-line",
+      "kind": "range-firing-mats",
+      "linePixels": [
+        [
+          687,
+          477
+        ],
+        [
+          735,
+          467
+        ],
+        [
+          787,
+          459
+        ]
+      ],
+      "note": "Open mat strip immediately east of the eastern shelter."
+    },
+    {
+      "id": "range-east-net-base-2026",
+      "source": "range-net-north",
+      "kind": "range-safety-net-base",
+      "linePixels": [
+        [
+          523,
+          328
+        ],
+        [
+          517,
+          351
+        ],
+        [
+          499,
+          411
+        ],
+        [
+          478,
+          473
+        ],
+        [
+          458,
+          534
+        ],
+        [
+          415,
+          578
+        ],
+        [
+          375,
+          618
+        ],
+        [
+          329,
+          663
+        ],
+        [
+          284,
+          709
+        ],
+        [
+          240,
+          753
+        ],
+        [
+          198,
+          800
+        ],
+        [
+          151,
+          840
+        ],
+        [
+          145,
+          900
+        ],
+        [
+          138,
+          966
+        ],
+        [
+          136,
+          1000
+        ],
+        [
+          129,
+          1100
+        ],
+        [
+          123,
+          1149
+        ]
+      ],
+      "note": "Visible eastern range safety-net base from its northern end through the long curve to the southern firing line. Dark northwest-projecting lines are pole shadows and excluded. Southernmost segment continues into the overlapping range-firing-line crop. Net height remains unmeasured."
+    },
+    {
+      "id": "clubhouse-west-terrace-2026",
+      "source": "clubhouse-close",
+      "kind": "paved-terrace",
+      "ringPixels": [
+        [
+          108,
+          253
+        ],
+        [
+          161,
+          257
+        ],
+        [
+          165,
+          325
+        ],
+        [
+          105,
+          325
+        ],
+        [
+          108,
+          253
+        ]
+      ],
+      "note": "Visible west patio; ground photo agent confirms stone slabs. Outline has approximate 1m interpretation uncertainty."
+    },
+    {
+      "id": "clubhouse-south-terrace-2026",
+      "source": "clubhouse-close",
+      "kind": "paved-terrace",
+      "ringPixels": [
+        [
+          224,
+          322
+        ],
+        [
+          273,
+          321
+        ],
+        [
+          269,
+          355
+        ],
+        [
+          223,
+          355
+        ],
+        [
+          224,
+          322
+        ]
+      ],
+      "note": "Visible patio east/south of the faceted southern bay."
+    }
+  ]
+}

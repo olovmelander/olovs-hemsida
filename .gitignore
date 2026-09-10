@@ -35,3 +35,9 @@ visbybuild/cache/
 
 # python bytecode from the mapping tools
 __pycache__/
+
+# Lidingo source pixels and local review images remain private.
+lidingobuild/cache/
+
+# Playwright MCP browser scratch (console logs, page dumps)
+.playwright-mcp/

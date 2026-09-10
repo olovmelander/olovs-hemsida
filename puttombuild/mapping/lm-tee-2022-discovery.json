@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "kind": "tee-shadow-corroboration-catalogue",
+  "observedAt": "2026-09-09T19:27:40.732Z",
+  "endpoint": "https://api.lantmateriet.se/stac-bild/v1/",
+  "collection": "orto-u2-2022",
+  "items": [
+    {
+      "id": "o70225_6950_25_mr22",
+      "collection": "orto-u2-2022",
+      "bboxWgs84": [
+        18.88856944443991,
+        63.27683489393747,
+        18.941342135982143,
+        63.30058825017895
+      ],
+      "projCode": "EPSG:3006",
+      "projBbox": [
+        695000,
+        7022500,
+        697500,
+        7025000
+      ],
+      "capturedAt": "2022-07-03T07:37:52Z",
+      "captureStart": "2022-06-24T11:30:36Z",
+      "captureEnd": "2022-07-03T07:38:00Z",
+      "modifiedAt": null,
+      "resolutionMetres": 0.16,
+      "horizontalUncertaintyMetres": null,
+      "verticalUncertaintyMetres": null,
+      "pointDensityPerSquareMetre": null,
+      "pointCount": null,
+      "spectralType": "rgbi",
+      "assets": {
+        "data": {
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70225_6950_25_mr22.tif",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "title": "o70225_6950_25_mr22",
+          "roles": [
+            "data"
+          ],
+          "bytes": 691522682,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": "EPSG:3006",
+          "projBbox": [
+            695000,
+            7022500,
+            697500,
+            7025000
+          ],
+          "projShape": [
+            15625,
+            15625
+          ]
+        },
+        "metadata": {
+          "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2022_U2/o70225_6950_25_mr22_flygbild.json",
+          "type": "application/geo+json",
+          "title": "o70225_6950_25_mr22_flygbild",
+          "roles": [
+            "metadata"
+          ],
+          "bytes": null,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        }
+      }
+    },
+    {
+      "id": "o70225_6975_25_mr22",
+      "collection": "orto-u2-2022",
+      "bboxWgs84": [
+        18.938282698375755,
+        63.27544978912935,
+        18.99108841794243,
+        63.29921914989591
+      ],
+      "projCode": "EPSG:3006",
+      "projBbox": [
+        697500,
+        7022500,
+        700000,
+        7025000
+      ],
+      "capturedAt": "2022-06-24T11:30:54Z",
+      "captureStart": "2022-06-24T11:30:36Z",
+      "captureEnd": "2022-07-03T07:37:52Z",
+      "modifiedAt": null,
+      "resolutionMetres": 0.16,
+      "horizontalUncertaintyMetres": null,
+      "verticalUncertaintyMetres": null,
+      "pointDensityPerSquareMetre": null,
+      "pointCount": null,
+      "spectralType": "rgbi",
+      "assets": {
+        "data": {
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70225_6975_25_mr22.tif",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "title": "o70225_6975_25_mr22",
+          "roles": [
+            "data"
+          ],
+          "bytes": 688551639,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": "EPSG:3006",
+          "projBbox": [
+            697500,
+            7022500,
+            700000,
+            7025000
+          ],
+          "projShape": [
+            15625,
+            15625
+          ]
+        },
+        "metadata": {
+          "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2022_U2/o70225_6975_25_mr22_flygbild.json",
+          "type": "application/geo+json",
+          "title": "o70225_6975_25_mr22_flygbild",
+          "roles": [
+            "metadata"
+          ],
+          "bytes": null,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        }
+      }
+    },
+    {
+      "id": "o70250_6950_25_mr22",
+      "collection": "orto-u2-2022",
+      "bboxWgs84": [
+        18.891590501805787,
+        63.29921914989591,
+        18.94440692581205,
+        63.32297368064156
+      ],
+      "projCode": "EPSG:3006",
+      "projBbox": [
+        695000,
+        7025000,
+        697500,
+        7027500
+      ],
+      "capturedAt": "2022-07-03T07:37:35Z",
+      "captureStart": "2022-06-24T11:31:04Z",
+      "captureEnd": "2022-07-03T07:37:35Z",
+      "modifiedAt": null,
+      "resolutionMetres": 0.16,
+      "horizontalUncertaintyMetres": null,
+      "verticalUncertaintyMetres": null,
+      "pointDensityPerSquareMetre": null,
+      "pointCount": null,
+      "spectralType": "rgbi",
+      "assets": {
+        "data": {
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70250_6950_25_mr22.tif",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "title": "o70250_6950_25_mr22",
+          "roles": [
+            "data"
+          ],
+          "bytes": 675077408,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": "EPSG:3006",
+          "projBbox": [
+            695000,
+            7025000,
+            697500,
+            7027500
+          ],
+          "projShape": [
+            15625,
+            15625
+          ]
+        },
+        "metadata": {
+          "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2022_U2/o70250_6950_25_mr22_flygbild.json",
+          "type": "application/geo+json",
+          "title": "o70250_6950_25_mr22_flygbild",
+          "roles": [
+            "metadata"
+          ],
+          "bytes": null,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        }
+      }
+    },
+    {
+      "id": "o70250_6975_25_mr22",
+      "collection": "orto-u2-2022",
+      "bboxWgs84": [
+        18.941342135982143,
+        63.297832702689334,
+        18.99419164120889,
+        63.32160325257587
+      ],
+      "projCode": "EPSG:3006",
+      "projBbox": [
+        697500,
+        7025000,
+        700000,
+        7027500
+      ],
+      "capturedAt": "2022-06-24T11:31:13Z",
+      "captureStart": "2022-06-24T11:31:04Z",
+      "captureEnd": "2022-07-03T07:37:35Z",
+      "modifiedAt": null,
+      "resolutionMetres": 0.16,
+      "horizontalUncertaintyMetres": null,
+      "verticalUncertaintyMetres": null,
+      "pointDensityPerSquareMetre": null,
+      "pointCount": null,
+      "spectralType": "rgbi",
+      "assets": {
+        "data": {
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70250_6975_25_mr22.tif",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "title": "o70250_6975_25_mr22",
+          "roles": [
+            "data"
+          ],
+          "bytes": 682222150,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": "EPSG:3006",
+          "projBbox": [
+            697500,
+            7025000,
+            700000,
+            7027500
+          ],
+          "projShape": [
+            15625,
+            15625
+          ]
+        },
+        "metadata": {
+          "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2022_U2/o70250_6975_25_mr22_flygbild.json",
+          "type": "application/geo+json",
+          "title": "o70250_6975_25_mr22_flygbild",
+          "roles": [
+            "metadata"
+          ],
+          "bytes": null,
+          "stacChecksum": null,
+          "sha256": null,
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        }
+      }
+    }
+  ]
+}

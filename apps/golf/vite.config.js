@@ -24,7 +24,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 const BASE = process.env.BANVY_BASE || '/';
 
 export default defineConfig({
-  server: { host: '0.0.0.0', allowedHosts: ['terminal.local'] },
+  server: { host: '0.0.0.0', port: 5173, strictPort: true, allowedHosts: ['terminal.local'] },
   /* The v2 decode Worker is a module worker, so its bundle must be ESM: an
      IIFE build cannot carry the entry's own imports. */
   worker: { format: 'es' },
@@ -51,7 +51,7 @@ export default defineConfig({
       manifest: {
         name: 'Banvy — svenska golfbanor i 3D',
         short_name: 'Banvy',
-        description: 'Sex svenska golfbanor i 3D, mätta mot klubbarnas egna kort och byggda ur verklig terräng.',
+        description: 'Svenska golfbanor i 3D, mätta mot klubbarnas egna kort och byggda ur verklig terräng.',
         lang: 'sv',
         theme_color: '#0b1a13',
         background_color: '#0b1a13',
@@ -113,6 +113,9 @@ export default defineConfig({
              missing chunk must be an honest 404 rather than the app shell --
              which would fail later on its GPK1/BVCH magic instead. */
           /\/grounds\//,
+          /* Authored facilities are data too; an absent model must preserve
+             its generic building fallback instead of receiving HTML. */
+          /\/models\//,
           /* The seven standalone pages are REAL FILES on GitHub Pages -- pages.yml
              copies them beside the app, because that host has no rewrite rules --
              and they sit inside this worker's scope. Without this the navigation
@@ -132,6 +135,101 @@ export default defineConfig({
         ],
 
         runtimeCaching: [
+          {
+            // The current Puttom receipt selects a checksum-specific query on
+            // its stable GLB filename, just as pack.bin is versioned below.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/puttom\/facilities-v1\.json$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'banvy-puttom-facilities-manifest',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            // Workbox keeps the full query in its cache key. Only a receipt
+            // hash qualifies; bare mutable GLB requests must revalidate.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/puttom\/facilities-v1\.glb$/.test(url.pathname) &&
+              /^[a-f0-9]{64}$/.test(url.searchParams.get('sha256') || ''),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-puttom-facilities',
+              expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/lidingo\/facilities-v1\.json$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'banvy-lidingo-facilities-manifest',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/lidingo\/facilities-[a-f0-9]{64}\.glb$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-lidingo-facilities',
+              expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            // The live Ängsö receipt selects a new geometry URL after each
+            // Blender publication; the last successful visit also works offline.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/angso\/facilities-v1\.json$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'banvy-angso-facilities-manifest',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/angso\/facilities-[a-f0-9]{64}\.glb$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-angso-facilities',
+              expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            /* One mutable manifest selects the hash-verified architecture for
+               both Johannesberg courses. Keep the last visit usable offline. */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/johannesberg\/facilities-v1\.json$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'banvy-johannesberg-facilities-manifest',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            /* Only full SHA-256 filenames are immutable. A revised building
+               asset gets a new URL, and the loader verifies the bytes again. */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/johannesberg\/facilities-[a-f0-9]{64}\.glb$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-johannesberg-facilities',
+              expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
           {
             // Intake previews are verified, content-addressed JSON just like
             // playable assets; a visited preview remains available offline.

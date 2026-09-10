@@ -1,0 +1,874 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "reviewedAt": "2026-09-09",
+  "reviewMethod": "Native-pixel review of paired 2022/2024 imagery and official numbered club plans; visible interiors do not certify obscured boundaries or daily marker positions.",
+  "sources": {
+    "hole-13-tees": {
+      "id": "hole-13-tees",
+      "requestSha256": "5b36dbf351fcb3ea7ba47c355ce3d2511b3a2363141accb0888515713af6c8ba",
+      "sha256": "a7352cac72d5d60a64deb6a7ab30f5e4e5f73d729214210c7b30a256a87eb40c",
+      "bytes": 5422326,
+      "rasterFile": "hole-13-tees.tif",
+      "boundsEpsg3006": [
+        697592.16,
+        7024732.8,
+        697764.9600000001,
+        7025030.24
+      ],
+      "width": 1080,
+      "height": 1859,
+      "geoTransform": [
+        697592.16,
+        0.16,
+        0,
+        7025030.24,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:15.093579+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16,
+          "maximum": 217,
+          "mean": 57.7101054927978,
+          "standardDeviation": 32.46348454595421
+        },
+        {
+          "band": 2,
+          "minimum": 27,
+          "maximum": 220,
+          "mean": 76.23525491602415,
+          "standardDeviation": 33.50997587507808
+        },
+        {
+          "band": 3,
+          "minimum": 40,
+          "maximum": 203,
+          "mean": 74.83588747434901,
+          "standardDeviation": 17.96411816061327
+        },
+        {
+          "band": 4,
+          "minimum": 3,
+          "maximum": 255,
+          "mean": 106.85815004084235,
+          "standardDeviation": 78.25316047878357
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "tee-2022-hole-14": {
+      "id": "tee-2022-hole-14",
+      "requestSha256": "0d1bafb9fb596d53866757976b995cd3e73cc7130421b7726e1973834206c618",
+      "sha256": "e83557561814355b124ed7141d52b096f551a10e727d1db83b8cacc97f2fc8c1",
+      "bytes": 4567106,
+      "rasterFile": "tee-2022-hole-14.tif",
+      "boundsEpsg3006": [
+        697381.6,
+        7024919.84,
+        697577.6,
+        7025176
+      ],
+      "width": 1225,
+      "height": 1601,
+      "geoTransform": [
+        697381.6,
+        0.16,
+        0,
+        7025176,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr22",
+          "capturedAt": "2022-07-03T07:37:52Z"
+        },
+        {
+          "id": "o70225_6975_25_mr22",
+          "capturedAt": "2022-06-24T11:30:54Z"
+        },
+        {
+          "id": "o70250_6950_25_mr22",
+          "capturedAt": "2022-07-03T07:37:35Z"
+        },
+        {
+          "id": "o70250_6975_25_mr22",
+          "capturedAt": "2022-06-24T11:31:13Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:40:27.551648+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16,
+          "maximum": 230,
+          "mean": 59.49706637433237,
+          "standardDeviation": 29.230050186678326
+        },
+        {
+          "band": 2,
+          "minimum": 26,
+          "maximum": 216,
+          "mean": 78.59488635929075,
+          "standardDeviation": 30.757752269380532
+        },
+        {
+          "band": 3,
+          "minimum": 34,
+          "maximum": 207,
+          "mean": 67.91216102181035,
+          "standardDeviation": 18.379042884579437
+        },
+        {
+          "band": 4,
+          "minimum": 6,
+          "maximum": 220,
+          "mean": 96.83318283215847,
+          "standardDeviation": 52.526689372687
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-14-tees": {
+      "id": "hole-14-tees",
+      "requestSha256": "0dfe498d8a537ce5b489455ee79093be27b91792084a6630e3e9b153d4fcba81",
+      "sha256": "182ab89327a10656fddc03c3b98b65c794da2b2a25e06355770d0b6684a11694",
+      "bytes": 5098000,
+      "rasterFile": "hole-14-tees.tif",
+      "boundsEpsg3006": [
+        697381.6,
+        7024919.84,
+        697577.6,
+        7025176
+      ],
+      "width": 1225,
+      "height": 1601,
+      "geoTransform": [
+        697381.6,
+        0.16,
+        0,
+        7025176,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        },
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        },
+        {
+          "id": "o70250_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:18:53Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:17.132015+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16,
+          "maximum": 255,
+          "mean": 67.20535787581741,
+          "standardDeviation": 28.91682816659581
+        },
+        {
+          "band": 2,
+          "minimum": 28,
+          "maximum": 253,
+          "mean": 87.35952682634579,
+          "standardDeviation": 29.871209534459087
+        },
+        {
+          "band": 3,
+          "minimum": 40,
+          "maximum": 249,
+          "mean": 81.62307231449732,
+          "standardDeviation": 17.307212398400175
+        },
+        {
+          "band": 4,
+          "minimum": 4,
+          "maximum": 255,
+          "mean": 121.2296325000956,
+          "standardDeviation": 66.11749688660834
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "tee-2022-hole-15": {
+      "id": "tee-2022-hole-15",
+      "requestSha256": "176df63e48009a9487e198abfe3493d7395227c43c78cb9efed2d1bf8fa68263",
+      "sha256": "5ff92108463d6f2ff14adafeeac15eba1898916d4725f7015cb10dc9967b80b0",
+      "bytes": 3033023,
+      "rasterFile": "tee-2022-hole-15.tif",
+      "boundsEpsg3006": [
+        697294.88,
+        7024509.600000001,
+        697458.4,
+        7024693.44
+      ],
+      "width": 1022,
+      "height": 1149,
+      "geoTransform": [
+        697294.88,
+        0.16,
+        0,
+        7024693.44,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr22",
+          "capturedAt": "2022-07-03T07:37:52Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:40:28.118853+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15,
+          "maximum": 182,
+          "mean": 54.039823619279254,
+          "standardDeviation": 23.58980438678802
+        },
+        {
+          "band": 2,
+          "minimum": 26,
+          "maximum": 180,
+          "mean": 72.83112687114976,
+          "standardDeviation": 26.391390710280874
+        },
+        {
+          "band": 3,
+          "minimum": 34,
+          "maximum": 161,
+          "mean": 64.98726536646348,
+          "standardDeviation": 14.09680740651279
+        },
+        {
+          "band": 4,
+          "minimum": 6,
+          "maximum": 217,
+          "mean": 86.25814755960684,
+          "standardDeviation": 49.06862355666881
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-16-tees": {
+      "id": "hole-16-tees",
+      "requestSha256": "f71402c99749761d9505bc9b9001a9a3cfe9724c3cf21961f8c02762d1b4c50c",
+      "sha256": "a7d8a6d85ca92053d161a551995e921ec9768e63850653784d55cb0e484f0ff3",
+      "bytes": 3483442,
+      "rasterFile": "hole-16-tees.tif",
+      "boundsEpsg3006": [
+        697353.92,
+        7024353.12,
+        697552,
+        7024524
+      ],
+      "width": 1238,
+      "height": 1068,
+      "geoTransform": [
+        697353.92,
+        0.16,
+        0,
+        7024524,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70225_6975_25_mr24",
+          "capturedAt": "2024-06-27T15:19:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:19.977801+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 14,
+          "maximum": 248,
+          "mean": 51.43312050365154,
+          "standardDeviation": 22.238847650235538
+        },
+        {
+          "band": 2,
+          "minimum": 22,
+          "maximum": 252,
+          "mean": 70.76843918849418,
+          "standardDeviation": 24.56264777989517
+        },
+        {
+          "band": 3,
+          "minimum": 39,
+          "maximum": 248,
+          "mean": 72.35130662600666,
+          "standardDeviation": 13.112702303789458
+        },
+        {
+          "band": 4,
+          "minimum": 3,
+          "maximum": 255,
+          "mean": 97.929447036116,
+          "standardDeviation": 61.725092013408364
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-17-tees": {
+      "id": "hole-17-tees",
+      "requestSha256": "bb8b418fb24032da23a03025cf54bd7225f1da3dc671f78a06ce2b82cda4969d",
+      "sha256": "3a17b658252fa7a5300a8bf24b4153dba21e526187b34a337c36e76a0ec6952a",
+      "bytes": 4579195,
+      "rasterFile": "hole-17-tees.tif",
+      "boundsEpsg3006": [
+        697232.96,
+        7024337.6,
+        697384,
+        7024594.56
+      ],
+      "width": 944,
+      "height": 1606,
+      "geoTransform": [
+        697232.96,
+        0.16,
+        0,
+        7024594.56,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:21.553335+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 16,
+          "maximum": 255,
+          "mean": 52.162900115034724,
+          "standardDeviation": 19.922949948258502
+        },
+        {
+          "band": 2,
+          "minimum": 29,
+          "maximum": 254,
+          "mean": 73.23917393988644,
+          "standardDeviation": 21.002150568843945
+        },
+        {
+          "band": 3,
+          "minimum": 40,
+          "maximum": 250,
+          "mean": 72.66342779724339,
+          "standardDeviation": 12.020039862531785
+        },
+        {
+          "band": 4,
+          "minimum": 7,
+          "maximum": 255,
+          "mean": 122.48772809063469,
+          "standardDeviation": 47.07302317225328
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "tee-2022-hole-17": {
+      "id": "tee-2022-hole-17",
+      "requestSha256": "16d444504969b7116baf8cd1ef10e768c867fd12ea7da2953eb9de236df353b1",
+      "sha256": "58558401912067643cc41a33d514de5d142ac8e7d8991df18db48c65849ea8dc",
+      "bytes": 4315401,
+      "rasterFile": "tee-2022-hole-17.tif",
+      "boundsEpsg3006": [
+        697232.96,
+        7024337.6,
+        697384,
+        7024594.56
+      ],
+      "width": 944,
+      "height": 1606,
+      "geoTransform": [
+        697232.96,
+        0.16,
+        0,
+        7024594.56,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr22",
+          "capturedAt": "2022-07-03T07:37:52Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:40:29.796937+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 13,
+          "maximum": 205,
+          "mean": 47.44213041138105,
+          "standardDeviation": 20.987791992357003
+        },
+        {
+          "band": 2,
+          "minimum": 25,
+          "maximum": 221,
+          "mean": 67.64810258669819,
+          "standardDeviation": 23.323270560973455
+        },
+        {
+          "band": 3,
+          "minimum": 31,
+          "maximum": 203,
+          "mean": 60.85680024062309,
+          "standardDeviation": 12.40274520463888
+        },
+        {
+          "band": 4,
+          "minimum": 11,
+          "maximum": 247,
+          "mean": 107.86357568018236,
+          "standardDeviation": 35.11169975062756
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    },
+    "hole-18-tees": {
+      "id": "hole-18-tees",
+      "requestSha256": "b1d73659dfc8f2b9a270219dd7cb420b7d30cd1b199e3575bb58adbca9d7414e",
+      "sha256": "becf3c40533fb926c44189a55497640be1fcc9c7e5a718c67e8eb772d1b80b0c",
+      "bytes": 5653746,
+      "rasterFile": "hole-18-tees.tif",
+      "boundsEpsg3006": [
+        697217.76,
+        7024750.72,
+        697417.76,
+        7025000.8
+      ],
+      "width": 1250,
+      "height": 1563,
+      "geoTransform": [
+        697217.76,
+        0.16,
+        0,
+        7025000.8,
+        0,
+        -0.16
+      ],
+      "validFraction": 1,
+      "sources": [
+        {
+          "id": "o70225_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:07:43Z"
+        },
+        {
+          "id": "o70250_6950_25_mr24",
+          "capturedAt": "2024-06-27T15:08:07Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T16:49:23.043178+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 19,
+          "maximum": 245,
+          "mean": 61.351984133077416,
+          "standardDeviation": 20.723065718842474
+        },
+        {
+          "band": 2,
+          "minimum": 34,
+          "maximum": 252,
+          "mean": 83.48779475367883,
+          "standardDeviation": 21.257099705373015
+        },
+        {
+          "band": 3,
+          "minimum": 40,
+          "maximum": 242,
+          "mean": 77.8831836212412,
+          "standardDeviation": 12.540126478781591
+        },
+        {
+          "band": 4,
+          "minimum": 18,
+          "maximum": 255,
+          "mean": 136.19725041586693,
+          "standardDeviation": 40.66721830507556
+        }
+      ],
+      "horizontalCrs": "EPSG:3006"
+    }
+  },
+  "numberedPlatformSources": {
+    "livecaddie-658-hole-13-file-711194": {
+      "n": 13,
+      "id": "livecaddie-658-hole-13-file-711194",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711194&width=702&height=1053",
+      "sha256": "1f2667f919f937b6f11afc720cba8cbdce66aad1549e2bfea083be829df9f7a3"
+    },
+    "livecaddie-658-hole-14-file-711195": {
+      "n": 14,
+      "id": "livecaddie-658-hole-14-file-711195",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711195&width=702&height=1053",
+      "sha256": "58c28acf206bcac4aa155271f75ff930485780776c5f6ccc82974477e85026fe"
+    },
+    "livecaddie-658-hole-15-file-711196": {
+      "n": 15,
+      "id": "livecaddie-658-hole-15-file-711196",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711196&width=702&height=1053",
+      "sha256": "95af6d9a2e894b5ba1e332650913d8c379fe88acb5d727397b5e582071ff0f57"
+    },
+    "livecaddie-658-hole-16-file-711197": {
+      "n": 16,
+      "id": "livecaddie-658-hole-16-file-711197",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711197&width=702&height=1053",
+      "sha256": "ef75cd3394a8a242732e01d4700b54199fe46343b283331dedde4339b66b50ee"
+    },
+    "livecaddie-658-hole-17-file-711198": {
+      "n": 17,
+      "id": "livecaddie-658-hole-17-file-711198",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711198&width=702&height=1053",
+      "sha256": "48f8f1865dd3f3b78eb6833560d10b0543d759c9bf844b4305855706b6939cd5"
+    },
+    "livecaddie-658-hole-18-file-711199": {
+      "n": 18,
+      "id": "livecaddie-658-hole-18-file-711199",
+      "url": "https://courses.livecaddie.com/getfileimage.php?file=711199&width=702&height=1053",
+      "sha256": "01b38f671f8e51bf927a0326a13e4c870d8ac1a39045355e65d391ff6f7f203d"
+    }
+  },
+  "holes": [
+    {
+      "n": 13,
+      "cameraReferences": [
+        {
+          "id": "h13-61-followup-lm2024",
+          "sourceKey": "hole-13-tees",
+          "teeKey": "tee-61",
+          "pointPixels": [
+            453,
+            1418
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-13-file-711194",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "The club plan assigns 61 to the rear of the shared elongated platform beside the path. Two bright markers bracket maintained grass in the southern exposed part. Move the old point from vegetation below the platform into this visible interior; cross-year continuity confirmed. Tree shadows prevent a complete perimeter trace.",
+          "existingPadIndex": 0
+        },
+        {
+          "id": "h13-57-followup-lm2024",
+          "sourceKey": "hole-13-tees",
+          "teeKey": "tee-57",
+          "pointPixels": [
+            474,
+            1336
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-13-file-711194",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "The shared back platform and access path establish the 57 station. The northern exposed mown rectangle and visible marker pair identify an interior forward of 61. The old point lies in the intervening shadow; choose the visible station without inferring its obscured perimeter.",
+          "existingPadIndex": 0
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "cameraReferences": [
+        {
+          "id": "h14-61-followup-lm2022",
+          "sourceKey": "tee-2022-hole-14",
+          "teeKey": "tee-61",
+          "pointPixels": [
+            775.8,
+            427.67
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-14-file-711195",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "The morning 2022 tile reveals the maintained back platform hidden in the 2024 afternoon image. The numbered plan pairs 61/57 here. Retain the existing rear interior reference on that platform; the north-west perimeter remains shadowed.",
+          "existingPadIndex": 0
+        },
+        {
+          "id": "h14-57-followup-lm2022",
+          "sourceKey": "tee-2022-hole-14",
+          "teeKey": "tee-57",
+          "pointPixels": [
+            773.02,
+            433.48
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-14-file-711195",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "Shared 61/57 back platform confirmed from the club plan, path and shoreline layout in both years. Retain the existing visible interior. This supports platform identity, not a surveyed separation between daily markers.",
+          "existingPadIndex": 0
+        },
+        {
+          "id": "h14-48-followup-lm2024",
+          "sourceKey": "hole-14-tees",
+          "teeKey": "tee-48",
+          "pointPixels": [
+            430,
+            1070
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-14-file-711195",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "Move 48 from the old shore/drop-zone side of the inlet to the distinct maintained/worn platform beyond the bridge, as shown by the official numbered plan. The same rectangular station is visible in 2022. Use its interior rather than the adjacent fairway at [370,1060]. Retained 2018 card distance 405 m conflicts with current LiveCaddie 350 m and is not used to fit geometry."
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "cameraReferences": [
+        {
+          "id": "h15-61-followup-lm2022",
+          "sourceKey": "tee-2022-hole-15",
+          "teeKey": "tee-61",
+          "pointPixels": [
+            550,
+            449
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-15-file-711196",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "The 2022 morning image reveals the main shore platform and its mown interior. The old 61 point is north-west of the tee. Move into its back interior; the current numbered plan confirms shared 61/57 and the same platform persists in the shadowed 2024 image.",
+          "existingPadIndex": 0
+        },
+        {
+          "id": "h15-57-followup-lm2022",
+          "sourceKey": "tee-2022-hole-15",
+          "teeKey": "tee-57",
+          "pointPixels": [
+            537.38,
+            495.26
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-15-file-711196",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "The forward part of the shared main 61/57 platform is visibly maintained in 2022. Retain the existing 57 interior after cross-year and numbered-plan review. Do not certify the shadowed north-west perimeter.",
+          "existingPadIndex": 0
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h16-tee-pad-00-lm2024",
+          "cameraReferencesPixels": {
+            "tee-61": [
+              781.153554,
+              444.483756
+            ],
+            "tee-57": [
+              783.117998,
+              435.584128
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-16-file-711197",
+          "reviewNotes": "Both existing references lie inside the long shore platform traced in 2024 and identified as shared 61/57 by the club plan. Preserve these nominal interiors. Explicit 61 adoption also binds the route start to this reference, removing the old approximately 10 m route/camera mismatch."
+        }
+      ],
+      "tees": [
+        {
+          "id": "h16-tee-pad-48-followup-lm2024",
+          "sourceKey": "hole-16-tees",
+          "ringPixels": [
+            [
+              680,
+              697
+            ],
+            [
+              720,
+              681
+            ],
+            [
+              746,
+              722
+            ],
+            [
+              705,
+              739
+            ],
+            [
+              680,
+              697
+            ]
+          ],
+          "cameraReferencesPixels": {
+            "tee-48": [
+              714,
+              711
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-16-file-711197",
+          "reviewNotes": "The separate square platform on the shoreward side of the opening fairway is distinct in 2024 and matches the club-plan 48 station. Move 48 from the tree-shadow reference about 32 m away onto this platform. The 2022 image shows grass at this location with a less distinct footprint; the adopted boundary is attributed exclusively to 2024."
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "cameraReferences": [
+        {
+          "id": "h17-61-followup-lm2024",
+          "sourceKey": "hole-17-tees",
+          "teeKey": "tee-61",
+          "pointPixels": [
+            491,
+            1168
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-17-file-711198",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "The official plan identifies the rear end of the elongated path-side platform as 61. Its lower mown interior is exposed in both years; move the old point inward onto the visible station. Retain the perimeter as unreviewed because the northern part is under trees.",
+          "existingPadIndex": 1
+        },
+        {
+          "id": "h17-57-followup-lm2024",
+          "sourceKey": "hole-17-tees",
+          "teeKey": "tee-57",
+          "pointPixels": [
+            489,
+            1100
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-17-file-711198",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "The upper exposed grass on the same elongated back platform is the 57 station in the official plan. The old point sits on the shadow transition; choose a visible interior slightly farther within the platform. No hidden perimeter is inferred.",
+          "existingPadIndex": 1
+        },
+        {
+          "id": "h17-48-followup-lm2022",
+          "sourceKey": "tee-2022-hole-17",
+          "teeKey": "tee-48",
+          "pointPixels": [
+            435,
+            744
+          ],
+          "numberedSourceAssetId": "livecaddie-658-hole-17-file-711198",
+          "geometryBasis": "visible-interior-anchor",
+          "reviewNotes": "The separate front platform west of the path has a visible interior and bright marker pair in 2022. The numbered plan identifies it as 48, and the same platform is present under different shadows in 2024. Move the old reference from east of the platform into the visible interior; keep its obscured boundary unreviewed.",
+          "existingPadIndex": 0
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "teeReferenceAdditions": [
+        {
+          "platformReviewId": "h18-tee-pad-01-lm2024",
+          "cameraReferencesPixels": {
+            "tee-57": [
+              454.04,
+              1085.93
+            ]
+          },
+          "numberedSourceAssetId": "livecaddie-658-hole-18-file-711199",
+          "reviewNotes": "The club plan pairs 61/57 on the already traced rear platform. The existing 57 reference is inside its visible maintained northern portion; retain the position with explicit numbered-platform identity."
+        }
+      ]
+    }
+  ],
+  "teeReviewAudit": [
+    {
+      "n": 10,
+      "status": "partially-reviewed",
+      "unresolvedReferences": [
+        "tee-41"
+      ],
+      "notes": "All existing accepted references retained. Listed references have no sufficiently distinct visible numbered station; their previous coordinates remain explicitly unreviewed. Other listed additions are native-pixel interior or platform observations."
+    },
+    {
+      "n": 11,
+      "status": "partially-reviewed",
+      "unresolvedReferences": [
+        "tee-61"
+      ],
+      "notes": "All existing accepted references retained. Listed references have no sufficiently distinct visible numbered station; their previous coordinates remain explicitly unreviewed. Other listed additions are native-pixel interior or platform observations."
+    },
+    {
+      "n": 12,
+      "status": "reviewed-references",
+      "unresolvedReferences": [],
+      "notes": "All four numbered references retain their accepted native-image observations; the 48 platform perimeter remains unreviewed."
+    },
+    {
+      "n": 13,
+      "status": "partially-reviewed",
+      "unresolvedReferences": [
+        "tee-41"
+      ],
+      "notes": "All existing accepted references retained. Listed references have no sufficiently distinct visible numbered station; their previous coordinates remain explicitly unreviewed. Other listed additions are native-pixel interior or platform observations."
+    },
+    {
+      "n": 14,
+      "status": "partially-reviewed",
+      "unresolvedReferences": [
+        "tee-41"
+      ],
+      "notes": "All existing accepted references retained. Listed references have no sufficiently distinct visible numbered station; their previous coordinates remain explicitly unreviewed. Other listed additions are native-pixel interior or platform observations."
+    },
+    {
+      "n": 15,
+      "status": "partially-reviewed",
+      "unresolvedReferences": [
+        "tee-48",
+        "tee-41"
+      ],
+      "notes": "All existing accepted references retained. Listed references have no sufficiently distinct visible numbered station; their previous coordinates remain explicitly unreviewed. Other listed additions are native-pixel interior or platform observations."
+    },
+    {
+      "n": 16,
+      "status": "partially-reviewed",
+      "unresolvedReferences": [
+        "tee-41"
+      ],
+      "notes": "All existing accepted references retained. Listed references have no sufficiently distinct visible numbered station; their previous coordinates remain explicitly unreviewed. Other listed additions are native-pixel interior or platform observations."
+    },
+    {
+      "n": 17,
+      "status": "partially-reviewed",
+      "unresolvedReferences": [
+        "tee-41"
+      ],
+      "notes": "All existing accepted references retained. Listed references have no sufficiently distinct visible numbered station; their previous coordinates remain explicitly unreviewed. Other listed additions are native-pixel interior or platform observations."
+    },
+    {
+      "n": 18,
+      "status": "partially-reviewed",
+      "unresolvedReferences": [
+        "tee-41"
+      ],
+      "notes": "All existing accepted references retained. Listed references have no sufficiently distinct visible numbered station; their previous coordinates remain explicitly unreviewed. Other listed additions are native-pixel interior or platform observations."
+    }
+  ]
+}

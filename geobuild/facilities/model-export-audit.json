@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "checks": [
+    "GLB headers/buffers/accessors",
+    "Finite positions and valid triangle indices",
+    "Axis mapping and RH2000 origin metadata",
+    "Per-facility bounds against reopened Blender geometry",
+    "All model source and artifact hashes"
+  ],
+  "exports": [
+    {
+      "path": "geobuild/cache/facilities-model-2026-09-10/veckefjarden-facilities.glb",
+      "sha256": "c3e2363a198909fa8e314e1f3bf3871721a35c57a36b2054cab0830d35fcaa28",
+      "bytes": 4658128,
+      "nodes": 2083,
+      "features": 20,
+      "vertices": 100817,
+      "triangles": 44422,
+      "maximumBoundsDifferenceMetres": 0.0,
+      "axisMetadataMatchesCoordinates": true,
+      "westAnnexCladdingVerified": true,
+      "photoTextures": 0
+    },
+    {
+      "path": "geobuild/cache/facilities-model-2026-09-10/veckefjarden-clubhouse.glb",
+      "sha256": "35abd2b924d577e135ed0b07915b3f9c466a299dce7116c84fcefedc77e8e4af",
+      "bytes": 1711788,
+      "nodes": 909,
+      "features": 3,
+      "vertices": 32831,
+      "triangles": 16299,
+      "maximumBoundsDifferenceMetres": 0.0,
+      "axisMetadataMatchesCoordinates": true,
+      "westAnnexCladdingVerified": true,
+      "photoTextures": 0
+    }
+  ]
+}

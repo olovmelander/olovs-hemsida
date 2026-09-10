@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "validatedAt": "2026-09-10T08:16:25.359215+00:00",
+  "passed": true,
+  "scope": "Local Johannesberg architecture and runtime implementation; no deployment performed.",
+  "scene": "Johannesberg | Facilities architecture 2026-09-10 v5",
+  "facilities": 22,
+  "triangles": 56637,
+  "meshes": 183,
+  "asset": {
+    "url": "models/johannesberg/facilities-ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf.glb",
+    "bytes": 3668672,
+    "sha256": "ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf"
+  },
+  "blend": {
+    "path": "johannesbergbuild/cache/facilities-model/johannesberg-facilities-v1.blend",
+    "sha256": "1465c095b6fbc36286e113958420de553dd3eda4f0e120a904690333c71ec75c"
+  },
+  "validation": {
+    "sourceAndAssetAudit": true,
+    "finiteGeometryAndExactCoordinateConversion": true,
+    "runtimeUnitTests": {
+      "passed": 10,
+      "command": "npx vitest run apps/golf/src/engine/scenery/johannesberg-facilities.test.mjs"
+    },
+    "roofClippingTests": {
+      "passed": 9,
+      "command": "blender --background --factory-startup --python-exit-code 1 --python johannesbergbuild/facilities/test-roof-clip.py"
+    },
+    "productionCompilation": {
+      "passed": true,
+      "viteVersion": "8.2.2",
+      "configuration": "apps/golf/vite.config.js",
+      "publicDir": false,
+      "output": "johannesbergbuild/cache/facilities-model/app-bundle-check",
+      "scope": "Production JS and PWA compilation; public assets verified independently.",
+      "warnings": [
+        "Public font/icon references were not copied in this isolated compilation check.",
+        "Existing Three/Upsala chunks exceed the chunk warning threshold."
+      ]
+    },
+    "browserCommand": "node tools/check-johannesberg-facilities.mjs http://127.0.0.1:8689",
+    "browserCases": [
+      {
+        "name": "johannesberg",
+        "passed": true,
+        "status": "loaded",
+        "authoredBuildings": 22,
+        "captures": [
+          {
+            "view": "clubhouse-front",
+            "path": "johannesbergbuild/cache/facilities-model/browser/johannesberg-clubhouse-front.png",
+            "sha256": "ff1f3bd97776c9c5504a5dd29dc5039d674a6557026827fe5cd81d292d29cc19",
+            "requestedPosition": [
+              -149.78427124023438,
+              37.51760038146973,
+              -780.9120178222656
+            ],
+            "requestedLook": [
+              -215.78427124023438,
+              25.517600381469727,
+              -816.9120178222656
+            ],
+            "actualPose": {
+              "pos": [
+                -149.7842712402344,
+                37.51760038146972,
+                -780.9120178222656
+              ],
+              "look": [
+                -215.7842712402344,
+                25.517600381469727,
+                -816.9120178222656
+              ],
+              "ground": 24.468365739966806
+            }
+          },
+          {
+            "view": "clubhouse-rear",
+            "path": "johannesbergbuild/cache/facilities-model/browser/johannesberg-clubhouse-rear.png",
+            "sha256": "c1a1fc923f573f110fdfa6ee271b0f627916c08c192f23cc046f14b36b7035fe",
+            "requestedPosition": [
+              -271.7842712402344,
+              35.51760038146973,
+              -846.9120178222656
+            ],
+            "requestedLook": [
+              -215.78427124023438,
+              25.517600381469727,
+              -816.9120178222656
+            ],
+            "actualPose": {
+              "pos": [
+                -271.7842712402344,
+                35.517600381469734,
+                -846.9120178222656
+              ],
+              "look": [
+                -215.7842712402344,
+                25.517600381469727,
+                -816.9120178222656
+              ],
+              "ground": 18.723370602136676
+            }
+          },
+          {
+            "view": "estate-overview",
+            "path": "johannesbergbuild/cache/facilities-model/browser/johannesberg-estate-overview.png",
+            "sha256": "4ee42cdb049a51b4f9f7bfcb462691fb5b370c815aa1edaa95b18d14e7c8a199",
+            "requestedPosition": [
+              210,
+              272.5086033060499,
+              -580
+            ],
+            "requestedLook": [
+              -85,
+              33.50860330604993,
+              -890
+            ],
+            "actualPose": {
+              "pos": [
+                210.00000000000006,
+                272.50860330604985,
+                -580
+              ],
+              "look": [
+                -85,
+                33.50860330604993,
+                -890
+              ],
+              "ground": 19.502329024027528
+            }
+          }
+        ]
+      },
+      {
+        "name": "johannesberg-9",
+        "passed": true,
+        "status": "loaded",
+        "authoredBuildings": 22,
+        "captures": [
+          {
+            "view": "clubhouse-front",
+            "path": "johannesbergbuild/cache/facilities-model/browser/johannesberg-9-clubhouse-front.png",
+            "sha256": "c465a4a4eb6dc2293fd8f6af58231eb9da10f2bda4b7f06ba6a7a0df3acd0686",
+            "requestedPosition": [
+              -149.78427124023438,
+              37.51760038146973,
+              -780.9120178222656
+            ],
+            "requestedLook": [
+              -215.78427124023438,
+              25.517600381469727,
+              -816.9120178222656
+            ],
+            "actualPose": {
+              "pos": [
+                -149.7842712402344,
+                37.51760038146972,
+                -780.9120178222656
+              ],
+              "look": [
+                -215.7842712402344,
+                25.517600381469727,
+                -816.9120178222656
+              ],
+              "ground": 24.468365739966806
+            }
+          },
+          {
+            "view": "clubhouse-rear",
+            "path": "johannesbergbuild/cache/facilities-model/browser/johannesberg-9-clubhouse-rear.png",
+            "sha256": "96a96834f3983c5be8e70ff7f299ae4c63d50d0c347076858c2db3071f9396d1",
+            "requestedPosition": [
+              -271.7842712402344,
+              35.51760038146973,
+              -846.9120178222656
+            ],
+            "requestedLook": [
+              -215.78427124023438,
+              25.517600381469727,
+              -816.9120178222656
+            ],
+            "actualPose": {
+              "pos": [
+                -271.7842712402344,
+                35.517600381469734,
+                -846.9120178222656
+              ],
+              "look": [
+                -215.7842712402344,
+                25.517600381469727,
+                -816.9120178222656
+              ],
+              "ground": 18.723370602136676
+            }
+          },
+          {
+            "view": "estate-overview",
+            "path": "johannesbergbuild/cache/facilities-model/browser/johannesberg-9-estate-overview.png",
+            "sha256": "af521c47470694ad99cff9dfef6a71cdfeb79ac0df1f9fcb4e002cd505e36556",
+            "requestedPosition": [
+              210,
+              272.5086033060499,
+              -580
+            ],
+            "requestedLook": [
+              -85,
+              33.50860330604993,
+              -890
+            ],
+            "actualPose": {
+              "pos": [
+                210.00000000000006,
+                272.50860330604985,
+                -580
+              ],
+              "look": [
+                -85,
+                33.50860330604993,
+                -890
+              ],
+              "ground": 19.502329024027528
+            }
+          }
+        ]
+      },
+      {
+        "name": "johannesberg-blocked-asset",
+        "passed": true,
+        "status": "fallback",
+        "authoredBuildings": 0,
+        "captures": [
+          {
+            "view": "clubhouse-front",
+            "path": "johannesbergbuild/cache/facilities-model/browser/johannesberg-blocked-asset-clubhouse-front.png",
+            "sha256": "fcc989b8ae4801c5777fe0869e6fe00b42d66a9c4a563070569859a3b7c95dcc",
+            "requestedPosition": [
+              -152.85000000000002,
+              39.84459389891727,
+              -775.9499999999999
+            ],
+            "requestedLook": [
+              -218.85000000000002,
+              27.844593898917264,
+              -811.9499999999999
+            ],
+            "actualPose": {
+              "pos": [
+                -152.85000000000005,
+                39.844593898917275,
+                -775.9499999999999
+              ],
+              "look": [
+                -218.85000000000005,
+                27.844593898917264,
+                -811.9499999999999
+              ],
+              "ground": 24.175584302951172
+            }
+          },
+          {
+            "view": "estate-overview",
+            "path": "johannesbergbuild/cache/facilities-model/browser/johannesberg-blocked-asset-estate-overview.png",
+            "sha256": "90861dcdbb5401e31200dcc4c485e80678cb392261a595b9f062ee0c16581fab",
+            "requestedPosition": [
+              210,
+              272.5086033060499,
+              -580
+            ],
+            "requestedLook": [
+              -85,
+              33.50860330604993,
+              -890
+            ],
+            "actualPose": {
+              "pos": [
+                210.00000000000006,
+                272.50860330604985,
+                -580
+              ],
+              "look": [
+                -85,
+                33.50860330604993,
+                -890
+              ],
+              "ground": 19.502329024027528
+            }
+          }
+        ]
+      }
+    ],
+    "deckClearance": {
+      "samples": 3157,
+      "maximumSpacingM": 0.25,
+      "terrainPenetrations": 0,
+      "components": [
+        {
+          "id": "clubhouse-front-balcony",
+          "samples": 256,
+          "deckTopRh2000M": 21.54,
+          "terrainPenetrations": 0,
+          "minimumSampledClearanceMetres": 2.9449674954306744
+        },
+        {
+          "id": "clubhouse-northeast-side-veranda",
+          "samples": 724,
+          "deckTopRh2000M": 18.55,
+          "terrainPenetrations": 0,
+          "minimumSampledClearanceMetres": 0.5791475129589791
+        },
+        {
+          "id": "clubhouse-annex-front-deck",
+          "samples": 1123,
+          "deckTopRh2000M": 18.84,
+          "terrainPenetrations": 0,
+          "minimumSampledClearanceMetres": 0.060636795731763726
+        },
+        {
+          "id": "clubhouse-terrace-pavilion",
+          "samples": 1054,
+          "deckTopRh2000M": 18.51,
+          "terrainPenetrations": 0,
+          "minimumSampledClearanceMetres": 0.08310043462270045
+        }
+      ]
+    },
+    "liveBlenderSceneAndSelectionPreserved": true
+  },
+  "sources": [
+    {
+      "path": "johannesbergbuild/facilities/model-source-validation.json",
+      "sha256": "63a43ed575b77c62c84035d54822c0ed78d517e66480cf8d3fb37172337fb278"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-build-report.json",
+      "sha256": "404836933a2ac766e073bf0e21af8a517bf23ec443057d62f82180bda53a554e"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-export-validation.json",
+      "sha256": "bf3d041f1ad2240a1fd11e33978ec63fb9bea84336ead7bfd0cc87cafdd51dee"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-publish-validation.json",
+      "sha256": "5776b47d4fca1b73661d126f75da9772658ec2d755d556f5577df640cfaee128"
+    },
+    {
+      "path": "johannesbergbuild/facilities/deck-clearance-validation.json",
+      "sha256": "036c3786d733cb6898f4ffcd7aa0cb52244adc9f2b403164dc943fde9cb29841"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/browser/report.json",
+      "sha256": "7f69660ecd79264917e2bb677b216c088838cd08eb1491a5f7d8c01931e06b91"
+    },
+    {
+      "path": "apps/golf/src/engine/scenery/johannesberg-facilities.mjs",
+      "sha256": "589cfa076f1112abb73f6b8f6d5aa625da3bb75c1df53a893b31d8b59c4b5339"
+    },
+    {
+      "path": "apps/golf/src/engine/scenery/johannesberg-facilities.test.mjs",
+      "sha256": "c4f48d52a4f9c622d04fbbb8b76f9b5d04ed4e44ad49fe798439f9b4c568965d"
+    },
+    {
+      "path": "apps/golf/vite.config.js",
+      "sha256": "ad888bf01468253453b245d877439ddc845c78ee8d218e5c07c28a29eb0263fc"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/app-bundle-check/sw.js",
+      "sha256": "03bb757311ab84cd8dae277e5e32273001840a1c25f83c2a97b3e02c54da47f7"
+    }
+  ],
+  "limits": [
+    "Unseen facade details and architectural dimensions retain the source profiles' uncertainty.",
+    "Historical laser and photographs do not establish all changes after the reported 2025 renovation.",
+    "Deck clearance is sampled in the current default metre terrain, not a floor-level survey.",
+    "Three northern buildings use the displayed surrounding terrain as a rigid vertical anchor."
+  ]
+}

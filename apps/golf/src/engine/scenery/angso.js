@@ -1,18 +1,47 @@
-/* Ängsö's course-specific scenery.
+/* Ängsö's authored Blender facilities are based on the reference pack's
+   dated orthophoto, ground photographs and RH2000 laser heights. The three
+   source courtyard buildings become the restaurant, reception and annex;
+   separate traced roofs supply the missing canopies, cart shelter and range.
+   Source evidence and estimated details: angsobuild/facilities/README.md.
 
-   The clubhouse, from the club's own photograph. It is not one building but a
-   Falu red COURTYARD -- which the model already knew and nobody had read: OSM
-   carries three separate footprints all named "Ängsö GK Klubbhus" (546, 165 and
-   123 m2), and the photograph shows exactly that, a yard of red timber ranges
-   with the golf trolleys parked in the middle of it.
+   The appearance values below retain the old procedural fallback. Its
+   uniform tile roofs, repeated windows and inferred terrace approximate the
+   courtyard when authored geometry is unavailable or source view is selected. */
+import { ringSD } from '../geom.js';
 
-   Red panel walls with white window frames and white corner boards, under
-   TERRACOTTA PANTILE roofs -- the bright orange of a Mälardalen farm, not the
-   dark roof of the northern clubs. A storey and a half, with dormer windows in
-   the roof pitch and a white-railed balcony over the entrance.
+let installedFacilities = null;
+export const loadFacilitiesBeforeSurfaces = true;
+export const replacesRangeFacilities = true;
+const near = (facility, x, z, margin) => {
+  const bounds = facility.bounds;
+  return x >= bounds.minX - margin && x <= bounds.maxX + margin
+    && z >= bounds.minZ - margin && z <= bounds.maxZ + margin && ringSD(x, z, facility.ring) <= margin;
+};
+export const isFacilityInterior = (x, z, margin = .2) =>
+  installedFacilities?.facilityFootprints.some(facility => near(facility, x, z, margin)) ?? false;
+// Exact draped surface outlines keep grass, rocks and tree trunks out of paving.
+// Export bounds may span a whole campus, so they never define a clearing.
+export const isFacilityGroundInterior = (x, z, margin = .1) =>
+  installedFacilities?.groundSurfaceFootprints.some(facility => near(facility, x, z, margin)) ?? false;
+export function isFacilityTreeObstruction(tree, crownBottomWorld) {
+  if (isFacilityInterior(tree.x, tree.z, .3) || isFacilityGroundInterior(tree.x, tree.z)) return true;
+  return installedFacilities?.facilityFootprints.some(facility => crownBottomWorld < facility.roofTopWorld
+    && tree.y + tree.height > facility.floorWorld && near(facility, tree.x, tree.z, tree.radius + .25)) ?? false;
+}
+export const isFacilityLegacyTreeObstruction = isFacilityTreeObstruction;
 
-   The engine draws the largest footprint as the clubhouse; the other two come
-   through the generic buildings pass and read as the outbuildings they are. */
+export async function loadFacilities(context) {
+  const { loadAngsoFacilities } = await import('./angso-facilities.mjs');
+  const result = await loadAngsoFacilities(context);
+  if (result.report.status === 'loaded') installedFacilities = result;
+  const dispose = result.dispose;
+  result.dispose = () => {
+    if (installedFacilities === result) installedFacilities = null;
+    dispose();
+  };
+  return result;
+}
+
 export const clubhouse = {
   wall: 0x8b3a2c,          /* falurött */
   roof: 0xc0552c,          /* terracotta pantile */

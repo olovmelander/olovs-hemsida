@@ -1,0 +1,3137 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-10",
+  "sceneName": "Johannesberg | Facilities reference 2026-09-10",
+  "blendPath": "johannesbergbuild/cache/facilities-reference/johannesberg-facilities-reference-2026-09-10.blend",
+  "reportPath": "johannesbergbuild/facilities/blender-reference-validation.json",
+  "previewPaths": {
+    "site": "johannesbergbuild/cache/facilities-reference/blender-site-plan.png",
+    "photos": "johannesbergbuild/cache/facilities-reference/blender-photo-board.png"
+  },
+  "originEPSG3006": [
+    679200,
+    6626160
+  ],
+  "heightOriginRh2000M": 16,
+  "heightNote": "Flat plan datum at chosen RH2000 16m; not terrain or floor elevation.",
+  "inputs": [
+    {
+      "path": "apps/golf/src/engine/v2-johannesberg-config.mjs",
+      "sha256": "199beee232d3a020fba78fb83f0406a52660d582cc9f90810e4c917191abeebb"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/blender-facility-reference-points.json",
+      "sha256": "4e715063fad1c0eade5f73b395ad8cc9b22e422322b4d6fdac03e1c57da7be1d"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/combined-blender-points.json",
+      "sha256": "209becf23606af6a32b8e8e23fb62a43ee18b6506a40968d72448556e23f5dd8"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/blender-facility-reference-points.json",
+      "sha256": "dc4db9f5337db85f081995e056376db2c52a3e960637c684459ae11039011f3d"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.json",
+      "sha256": "98b7ba73fcb844e8908e2d05de8194a34ab1d43b94c04d58b6db272148c892e5"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.png",
+      "sha256": "d2e0be835c5ace5f7e7a91dc6d2142c9ae235bc8cfb3d50863a810f4c532d934"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.tif",
+      "sha256": "e7c083a581b066dc9eb898ecd291b6eb1ebace1e5c5aed5513f86c335df74155"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-overview-annotated.png",
+      "sha256": "3d5e5b5f0f9a5829a2bf01471cb47afd5598af3619166e758108dd7cbcfd6f8e"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-trace-tower-native.png",
+      "sha256": "775bfe00dbf75212ba45b8c920bd9d44aa92b1435dc667326f3fc5e6248f3a91"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165889-native.png",
+      "sha256": "1889c9c392815b037f411da46bd07b4243e9a7593387b2d1677cce89ea4884da"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165900-native.png",
+      "sha256": "68fcba561b3937aaf43668d743ddcb3e024c506365a239789394a185512fe327"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165903-native.png",
+      "sha256": "fb0e50322484bc17e5ba37d60b2985672e37a5e7d30902e44f99dae371311c1c"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165906-native.png",
+      "sha256": "2ad17fb0ebbd0c8aa21ba305bd41f73c1cef9513a2bf7c359471e3b2250cbd9a"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165907-native.png",
+      "sha256": "97c0d82e03857cfacca825f44255018201612e5500da410088a0686e58df32ba"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165908-native.png",
+      "sha256": "f21f3e60088b843a52ae40723e9316a425072e4270af1091c8ef480a8a4fb5ce"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w426174582-native.png",
+      "sha256": "a639ade5c6172b6ee192a7bb0e2fb7c90526b3fa270bb9fa7b517111b542b714"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-native.png",
+      "sha256": "80b452d6aed2d9e31d19ee9257591a20309bd92cfc4632af5a0059fe1f9ef147"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-shed-native.png",
+      "sha256": "0a7ee4888e422c4b8aff29f14821e0cc001854eb0c288e6d956f0541c0d0a9ca"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-slottsvilla-native.png",
+      "sha256": "4d25066d55684aa1163bb8d016deda948c91b1a97c54a0a96c652631b87a59c2"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-wing-native.png",
+      "sha256": "5300a5f25aacccdbeebc1e43a964de712bf50a9ab40ac4652b054e8a67e45c04"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsflygeln-native.png",
+      "sha256": "c6ef3119c98e01e3dff9fc686e254dcf769e4327324de9afe6ee9627295333c2"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsvillan-native.png",
+      "sha256": "52b9cd32b1015c318fced756034560e4e0a4cb2846273f054b9a8c622769a1de"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-karolinerhuset-native.png",
+      "sha256": "fd19d7d1914cf9a4bb14b5ca7cc98f263f9fb43a53fe1760f40d60e1e37de1c4"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-manor-native.png",
+      "sha256": "8cdfa10e7c9cb899677ccfbc8b615d035f7e7769ea41a168f492c0173163c2ee"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-old-stable-native.png",
+      "sha256": "5341621c11e419607d559dbcd7b85a135798547a0e5cbe5f230e397b90f6ea1d"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-private-residence-native.png",
+      "sha256": "7ede293e5a8af0a1e6729fd516907814a4c655bb9877d60ca872214773a17702"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-hut-native.png",
+      "sha256": "dbaa4ed6ac679c694013835b021c3db1ca04d736b58e04159041a8af6ec6f933"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-shelter-native.png",
+      "sha256": "12d24be0e884e2ddc11c4decb2a6fa81b7b6cf2383d091c54a57f4319c4137e9"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-slottsvilla-native.png",
+      "sha256": "876c4e903e83371ca591bac052237306aec6b2291fccc4f60fc0f752229b6314"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-wing-native.png",
+      "sha256": "b09ba60c6e7f9d97a504e8544b195b763678dca3967147fb1f6b09fd8f823826"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/range-full-context-080m.png",
+      "sha256": "4c7a56065543cec81c2facac47357a2622420ddd09e4f434d1411a28624d9b83"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/20210617-p1022081-hdr-enhanced.jpg",
+      "sha256": "9f5c99f242f1343362f3d0705e15ef4ae37f10e40877d848bef4549fcc7c346e"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3520-original.jpg",
+      "sha256": "9d499d597e0fe2b1d072b6bd9b0a3a621978570f6ee25bdd09c44f29001f342f"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3966-original.jpg",
+      "sha256": "3296479cd79df0efbfe64307b3127f427e8792b96dabe546227d9fd30b0ded08"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3970-original.jpg",
+      "sha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-4558-original.jpg",
+      "sha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-5983-original.jpeg",
+      "sha256": "846151cf05fbff789b688f7c7472792ade0be7f650ea77eff656dbc16b7e58d0"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6566.jpg",
+      "sha256": "bb6aa4d92d6279fc860211160ee870b86f4c576e96602be3884b1cde6ec227eb"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6642-original.jpg",
+      "sha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+      "sha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-news-20260808.jpg",
+      "sha256": "294736ab11ecbd8cf2a442478cbf480c7223a7ec24f84bff7a1b7d19293dc19c"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0011.jpg",
+      "sha256": "1dddf3a8e307bb20b939138ad38e8416c230af9560e1104dbc3898669cea9a79"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/estate-map-page-1.png",
+      "sha256": "5606eea253fcae56fd8342a219ae8a7592a5189ab2c317ba20dffe167a198f06"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/estate-map-pdf.pdf",
+      "sha256": "60250d0e97d8e41d15ae939aeec4f1648e4eb6226334e1d6803592f0d9b17756"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/estate-parking-map.png",
+      "sha256": "c23e29c31152a552a72c8a33b7c401ad680a452cab1469c0c28c010a0617532d"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/img-3042.jpg",
+      "sha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-54_orig.jpg",
+      "sha256": "1dac5b87af2bf4a97d8b8d5c539d98c7dfeef46784e514548ba8064365969498"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-flygbild-spa-1080.jpg",
+      "sha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/pelare.jpeg",
+      "sha256": "8fde46e866f75b459618d7e4e594f60bce7127dcff74a6222e808b3edf22e6b5"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/stra-flygeln-1.jpg",
+      "sha256": "d7a0e30ec5ef2f3955538757f1f19e42fa736d1d2b2d4ef70251aed62f22bd46"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/v-stra-flygeln-2.jpg",
+      "sha256": "7840c811b352a94f5cf0883a1609ecbf8bfcc72bc5b23e327186020b13ca5d2c"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/vlcsnap-2021-06-21-13h14m03s468-edit.png",
+      "sha256": "fb1b47d37649320c3291fcad7c5ed3d31aa23e4b7659b9dd69befec674882cf8"
+    },
+    {
+      "path": "johannesbergbuild/cache/lm-ortho/ground-overview.json",
+      "sha256": "99802aa22e3d58e1799b788111d0336efddaa65ea0ab1d32a1e6b5e1698b463e"
+    },
+    {
+      "path": "johannesbergbuild/facilities/orthophoto-panels.json",
+      "sha256": "69c2d61474605e1428f912f3d5aaeb77439a80639eb9f7cba78a323215a7f236"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-service-hall-evidence.json",
+      "sha256": "1bc7b034fe56f42cae1e36ed84827ce27b1a48f59128079a416eb3e4bbec1c8a"
+    },
+    {
+      "path": "johannesbergbuild/facilities/site-inventory.json",
+      "sha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae"
+    },
+    {
+      "path": "johannesbergbuild/facilities/web-reference-sources.json",
+      "sha256": "2dfc197ba85b24c4244b44fc04c6199b79a68947998d907e27a0fef86c8e794c"
+    }
+  ],
+  "orthophotos": [
+    {
+      "id": "facilities-hub-native",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.png",
+      "sha256": "d2e0be835c5ace5f7e7a91dc6d2142c9ae235bc8cfb3d50863a810f4c532d934",
+      "raster": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.tif",
+        "sha256": "e7c083a581b066dc9eb898ecd291b6eb1ebace1e5c5aed5513f86c335df74155"
+      },
+      "boundsEPSG3006": [
+        679130.08,
+        6625980.0,
+        679750.08,
+        6626400.0
+      ],
+      "geoTransform": [
+        679130.08,
+        0.16,
+        0.0,
+        6626400.0,
+        0.0,
+        -0.16
+      ],
+      "width": 3875,
+      "height": 2625,
+      "pixelResolutionMetres": 0.16,
+      "captureDate": "2025-06-14",
+      "sourceItems": [
+        {
+          "id": "o66250_6775_25_mr25",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "captureStart": "2025-06-14T06:44:38Z",
+          "captureEnd": "2025-06-14T06:54:45Z"
+        }
+      ],
+      "provenance": {
+        "path": "johannesbergbuild/cache/facilities-reference/orthophoto/facilities-hub-native.json",
+        "sha256": "98b7ba73fcb844e8908e2d05de8194a34ab1d43b94c04d58b6db272148c892e5"
+      },
+      "kind": "native-orthophoto",
+      "resampling": "nearest",
+      "horizontalCrs": "EPSG:3006",
+      "pixelSizeMetres": 0.16
+    },
+    {
+      "id": "range-full-context-080m",
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/range-full-context-080m.png",
+      "sha256": "4c7a56065543cec81c2facac47357a2622420ddd09e4f434d1411a28624d9b83",
+      "parentPanel": "ground-overview",
+      "parentImage": {
+        "path": "johannesbergbuild/cache/lm-ortho/ground-overview.png",
+        "sha256": "f77df5c552cf6b6c126ce67fee71af9029dfc389798a71c743c7f3328ea8746a"
+      },
+      "provenance": {
+        "path": "johannesbergbuild/cache/lm-ortho/ground-overview.json",
+        "sha256": "99802aa22e3d58e1799b788111d0336efddaa65ea0ab1d32a1e6b5e1698b463e"
+      },
+      "pixelWindow": [
+        489,
+        100,
+        871,
+        340
+      ],
+      "boundsEPSG3006": [
+        678929.6,
+        6626169.6,
+        679235.2,
+        6626361.6
+      ],
+      "width": 382,
+      "height": 240,
+      "geoTransform": [
+        678929.6,
+        0.8,
+        0,
+        6626361.6,
+        0,
+        -0.8
+      ],
+      "pixelResolutionMetres": 0.8,
+      "captureDate": "2025-06-14",
+      "sourceItems": [
+        {
+          "id": "o66250_6775_25_mr25",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "captureStart": "2025-06-14T06:44:38Z",
+          "captureEnd": "2025-06-14T06:54:45Z"
+        }
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "kind": "context-crop-from-averaged-raster",
+      "resampling": "parent averaged to 0.8 m; crop unresampled",
+      "pixelSizeMetres": 0.8
+    }
+  ],
+  "outlines": [
+    {
+      "id": "johannesberg-building-w296165889",
+      "label": "Building 126",
+      "shortLabel": "126",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679594.566,
+          6626057.462
+        ],
+        [
+          679598.316,
+          6626042.113
+        ],
+        [
+          679568.461,
+          6626034.862
+        ],
+        [
+          679559.842,
+          6626070.016
+        ],
+        [
+          679565.396,
+          6626071.386
+        ],
+        [
+          679570.164,
+          6626051.577
+        ]
+      ],
+      "sourceBuildingId": "w296165889",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role"
+    },
+    {
+      "id": "johannesberg-manor",
+      "label": "Johannesbergs Slott",
+      "shortLabel": "127",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679307.71,
+          6626325.59
+        ],
+        [
+          679292.804,
+          6626345.512
+        ],
+        [
+          679312.281,
+          6626359.876
+        ],
+        [
+          679318.286,
+          6626351.849
+        ],
+        [
+          679323.809,
+          6626355.922
+        ],
+        [
+          679319.836,
+          6626361.342
+        ],
+        [
+          679326.226,
+          6626366.158
+        ],
+        [
+          679334.917,
+          6626354.453
+        ],
+        [
+          679325.715,
+          6626347.597
+        ],
+        [
+          679329.798,
+          6626341.983
+        ]
+      ],
+      "sourceBuildingId": "w296165891",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Hotel main building, reception and restaurant"
+    },
+    {
+      "id": "johannesberg-old-stable",
+      "label": "Red courtyard building",
+      "shortLabel": "128",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679355.674,
+          6626167.187
+        ],
+        [
+          679363.93,
+          6626158.267
+        ],
+        [
+          679339.052,
+          6626141.439
+        ],
+        [
+          679324.979,
+          6626141.964
+        ],
+        [
+          679300.188,
+          6626175.437
+        ],
+        [
+          679308.723,
+          6626181.559
+        ],
+        [
+          679330.109,
+          6626152.13
+        ],
+        [
+          679335.572,
+          6626151.19
+        ]
+      ],
+      "sourceBuildingId": "w296165892",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role; old stable in historical local dossier"
+    },
+    {
+      "id": "johannesberg-east-slottsvilla",
+      "label": "Östra Slottsvillan",
+      "shortLabel": "129",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679389.344,
+          6626251.469
+        ],
+        [
+          679381.201,
+          6626264.302
+        ],
+        [
+          679391.819,
+          6626270.926
+        ],
+        [
+          679399.962,
+          6626258.092
+        ]
+      ],
+      "sourceBuildingId": "w296165893",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Hotel rooms 74–88"
+    },
+    {
+      "id": "johannesberg-east-wing",
+      "label": "Östra Flygeln",
+      "shortLabel": "130",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679352.871,
+          6626321.251
+        ],
+        [
+          679334.617,
+          6626344.018
+        ],
+        [
+          679342.442,
+          6626350.306
+        ],
+        [
+          679360.796,
+          6626327.544
+        ]
+      ],
+      "sourceBuildingId": "w296165894",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Hotel rooms 1–28"
+    },
+    {
+      "id": "johannesberg-clubhouse",
+      "label": "Golf clubhouse",
+      "shortLabel": "131",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679201.95,
+          6626158.787
+        ],
+        [
+          679200.013,
+          6626161.499
+        ],
+        [
+          679191.573,
+          6626155.482
+        ],
+        [
+          679186.946,
+          6626161.973
+        ],
+        [
+          679214.602,
+          6626181.538
+        ],
+        [
+          679221.061,
+          6626172.431
+        ]
+      ],
+      "sourceBuildingId": "w296165896",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Golf clubhouse; exact current internal shop/reception layout unverified"
+    },
+    {
+      "id": "johannesberg-clubhouse-shed",
+      "label": "Clubhouse outbuilding",
+      "shortLabel": "132",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679207.781,
+          6626146.042
+        ],
+        [
+          679204.681,
+          6626150.001
+        ],
+        [
+          679213.092,
+          6626156.618
+        ],
+        [
+          679216.188,
+          6626152.759
+        ]
+      ],
+      "sourceBuildingId": "w296165897",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown small building beside golf clubhouse"
+    },
+    {
+      "id": "johannesberg-west-slottsvilla",
+      "label": "Västra Slottsvillan",
+      "shortLabel": "133",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679378.861,
+          6626242.047
+        ],
+        [
+          679367.294,
+          6626234.276
+        ],
+        [
+          679359.189,
+          6626246.31
+        ],
+        [
+          679370.756,
+          6626254.081
+        ]
+      ],
+      "sourceBuildingId": "w296165898",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Hotel rooms 59–73"
+    },
+    {
+      "id": "johannesberg-karolinerhuset",
+      "label": "Karolinerhuset",
+      "shortLabel": "134",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679385.374,
+          6626310.994
+        ],
+        [
+          679367.963,
+          6626332.899
+        ],
+        [
+          679379.562,
+          6626342.075
+        ],
+        [
+          679396.973,
+          6626320.169
+        ]
+      ],
+      "sourceBuildingId": "w296165899",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Hotel rooms 89–124; conference building"
+    },
+    {
+      "id": "johannesberg-building-w296165900",
+      "label": "Building 135",
+      "shortLabel": "135",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679588.841,
+          6626211.586
+        ],
+        [
+          679612.654,
+          6626219.247
+        ],
+        [
+          679638.13,
+          6626140.42
+        ],
+        [
+          679600.779,
+          6626128.399
+        ],
+        [
+          679595.937,
+          6626143.495
+        ],
+        [
+          679609.474,
+          6626147.855
+        ]
+      ],
+      "sourceBuildingId": "w296165900",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role"
+    },
+    {
+      "id": "johannesberg-west-wing",
+      "label": "Västra Flygeln",
+      "shortLabel": "136",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679312.575,
+          6626289.153
+        ],
+        [
+          679294.525,
+          6626313.934
+        ],
+        [
+          679302.374,
+          6626319.722
+        ],
+        [
+          679320.524,
+          6626294.946
+        ]
+      ],
+      "sourceBuildingId": "w296165901",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Hotel rooms 29–50; yoga/conference rooms"
+    },
+    {
+      "id": "johannesberg-building-w296165903",
+      "label": "Building 137",
+      "shortLabel": "137",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679390.151,
+          6626178.466
+        ],
+        [
+          679413.155,
+          6626194.603
+        ],
+        [
+          679419.08,
+          6626186.172
+        ],
+        [
+          679396.076,
+          6626170.035
+        ]
+      ],
+      "sourceBuildingId": "w296165903",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role"
+    },
+    {
+      "id": "johannesberg-johannesbergsvillan",
+      "label": "Johannesbergs Villan",
+      "shortLabel": "138",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679341.754,
+          6626239.559
+        ],
+        [
+          679333.396,
+          6626250.578
+        ],
+        [
+          679343.857,
+          6626258.396
+        ],
+        [
+          679352.219,
+          6626247.277
+        ]
+      ],
+      "sourceBuildingId": "w296165904",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Hotel rooms 51–58; spa, gym and pool"
+    },
+    {
+      "id": "johannesberg-johannesbergsflygeln",
+      "label": "Johannesbergs Flygel",
+      "shortLabel": "139",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679305.666,
+          6626259.664
+        ],
+        [
+          679330.362,
+          6626276.082
+        ],
+        [
+          679340.633,
+          6626260.746
+        ],
+        [
+          679315.937,
+          6626244.327
+        ]
+      ],
+      "sourceBuildingId": "w296165905",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Event building / Johannesbergssalen"
+    },
+    {
+      "id": "johannesberg-building-w296165906",
+      "label": "Building 140",
+      "shortLabel": "140",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679342.502,
+          6626186.492
+        ],
+        [
+          679327.099,
+          6626208.394
+        ],
+        [
+          679338.356,
+          6626216.35
+        ],
+        [
+          679353.859,
+          6626194.453
+        ]
+      ],
+      "sourceBuildingId": "w296165906",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role"
+    },
+    {
+      "id": "johannesberg-building-w296165907",
+      "label": "Building 141",
+      "shortLabel": "141",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679539.481,
+          6626126.045
+        ],
+        [
+          679543.168,
+          6626111.995
+        ],
+        [
+          679486.09,
+          6626097.021
+        ],
+        [
+          679482.403,
+          6626111.071
+        ]
+      ],
+      "sourceBuildingId": "w296165907",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role"
+    },
+    {
+      "id": "johannesberg-building-w296165908",
+      "label": "Building 142",
+      "shortLabel": "142",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679385.434,
+          6626295.166
+        ],
+        [
+          679382.285,
+          6626300.124
+        ],
+        [
+          679389.491,
+          6626304.679
+        ],
+        [
+          679392.639,
+          6626299.721
+        ]
+      ],
+      "sourceBuildingId": "w296165908",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role"
+    },
+    {
+      "id": "johannesberg-private-residence",
+      "label": "Private residence",
+      "shortLabel": "143",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679395.515,
+          6626277.516
+        ],
+        [
+          679387.568,
+          6626288.355
+        ],
+        [
+          679395.226,
+          6626293.934
+        ],
+        [
+          679403.173,
+          6626283.095
+        ]
+      ],
+      "sourceBuildingId": "w296165909",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Private residence"
+    },
+    {
+      "id": "johannesberg-range-hut",
+      "label": "Building beside northern range bays",
+      "shortLabel": "186",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679185.362,
+          6626303.37
+        ],
+        [
+          679187.534,
+          6626295.76
+        ],
+        [
+          679195.251,
+          6626298.035
+        ],
+        [
+          679192.979,
+          6626305.64
+        ]
+      ],
+      "sourceBuildingId": "w378922988",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Range-side hut; function unverified"
+    },
+    {
+      "id": "johannesberg-building-w426174582",
+      "label": "Building 270",
+      "shortLabel": "270",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679483.401,
+          6626204.901
+        ],
+        [
+          679486.069,
+          6626199.519
+        ],
+        [
+          679494.104,
+          6626203.513
+        ],
+        [
+          679491.537,
+          6626208.9
+        ]
+      ],
+      "sourceBuildingId": "w426174582",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role"
+    },
+    {
+      "id": "johannesberg-building-trace-tower",
+      "label": "Building 305",
+      "shortLabel": "305",
+      "kind": "building",
+      "geometryKind": "inherited-model-footprint-not-wall-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679371.468,
+          6626116.348
+        ],
+        [
+          679376.473,
+          6626116.589
+        ],
+        [
+          679376.762,
+          6626110.591
+        ],
+        [
+          679371.757,
+          6626110.35
+        ]
+      ],
+      "sourceBuildingId": "trace-tower",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Unknown current role"
+    },
+    {
+      "id": "johannesberg-range-shelter",
+      "label": "Range shelter",
+      "shortLabel": "306",
+      "kind": "building",
+      "geometryKind": "reviewed-2025-roof-edge-reference",
+      "reviewed": true,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679216.478,
+          6626244.961
+        ],
+        [
+          679220.643,
+          6626244.32
+        ],
+        [
+          679220.483,
+          6626240.956
+        ],
+        [
+          679216.319,
+          6626241.597
+        ]
+      ],
+      "sourceBuildingId": "trace-range-shelter",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Small roof shelter beside southern range bays"
+    },
+    {
+      "id": "johannesberg-practice-green",
+      "label": "Practice putting green",
+      "shortLabel": "Practice putting green",
+      "kind": "site-context",
+      "geometryKind": "reviewed-2025-mown-surface",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679257.278,
+          6626172.16
+        ],
+        [
+          679257.763,
+          6626174.397
+        ],
+        [
+          679260.159,
+          6626175.685
+        ],
+        [
+          679262.884,
+          6626175.365
+        ],
+        [
+          679266.563,
+          6626173.759
+        ],
+        [
+          679271.195,
+          6626170.084
+        ],
+        [
+          679275.044,
+          6626164.959
+        ],
+        [
+          679278.723,
+          6626159.205
+        ],
+        [
+          679282.397,
+          6626153.761
+        ],
+        [
+          679285.438,
+          6626148.316
+        ],
+        [
+          679286.242,
+          6626144.958
+        ],
+        [
+          679285.121,
+          6626142.399
+        ],
+        [
+          679282.725,
+          6626140.481
+        ],
+        [
+          679279.035,
+          6626140.002
+        ],
+        [
+          679275.684,
+          6626141.444
+        ],
+        [
+          679272.316,
+          6626143.677
+        ],
+        [
+          679269.284,
+          6626147.038
+        ],
+        [
+          679266.879,
+          6626150.719
+        ],
+        [
+          679265.436,
+          6626154.237
+        ],
+        [
+          679265.118,
+          6626157.919
+        ],
+        [
+          679263.517,
+          6626160.958
+        ],
+        [
+          679260.957,
+          6626164.321
+        ],
+        [
+          679258.557,
+          6626167.682
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Practice putting green"
+    },
+    {
+      "id": "johannesberg-range-landing-area",
+      "label": "Driving range landing area",
+      "shortLabel": "Driving range landing area",
+      "kind": "site-context",
+      "geometryKind": "inherited-context-not-boundary-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679003.534,
+          6626339.114
+        ],
+        [
+          679022.507,
+          6626341.027
+        ],
+        [
+          679052.731,
+          6626338.472
+        ],
+        [
+          679082.859,
+          6626337.917
+        ],
+        [
+          679112.988,
+          6626337.362
+        ],
+        [
+          679143.116,
+          6626336.807
+        ],
+        [
+          679163.282,
+          6626334.771
+        ],
+        [
+          679177.537,
+          6626330.447
+        ],
+        [
+          679187.932,
+          6626322.932
+        ],
+        [
+          679197.423,
+          6626313.369
+        ],
+        [
+          679201.504,
+          6626301.542
+        ],
+        [
+          679205.181,
+          6626287.691
+        ],
+        [
+          679207.856,
+          6626273.793
+        ],
+        [
+          679211.032,
+          6626259.919
+        ],
+        [
+          679214.16,
+          6626247.044
+        ],
+        [
+          679215.142,
+          6626237.072
+        ],
+        [
+          679192.453,
+          6626228.967
+        ],
+        [
+          679172.815,
+          6626220.007
+        ],
+        [
+          679153.178,
+          6626211.046
+        ],
+        [
+          679133.637,
+          6626200.087
+        ],
+        [
+          679114.952,
+          6626192.175
+        ],
+        [
+          679094.978,
+          6626190.213
+        ],
+        [
+          679074.667,
+          6626195.248
+        ],
+        [
+          679054.405,
+          6626199.284
+        ],
+        [
+          679034.142,
+          6626203.319
+        ],
+        [
+          679015.978,
+          6626205.452
+        ],
+        [
+          678998.431,
+          6626215.63
+        ],
+        [
+          678986.034,
+          6626223.05
+        ],
+        [
+          678976.832,
+          6626226.615
+        ],
+        [
+          678967.485,
+          6626233.18
+        ],
+        [
+          678960.046,
+          6626241.84
+        ],
+        [
+          678957.563,
+          6626251.74
+        ],
+        [
+          678953.983,
+          6626263.591
+        ],
+        [
+          678950.356,
+          6626276.442
+        ],
+        [
+          678949.876,
+          6626286.438
+        ],
+        [
+          678955.498,
+          6626294.724
+        ],
+        [
+          678966.27,
+          6626300.251
+        ],
+        [
+          678978.091,
+          6626304.827
+        ],
+        [
+          678989.959,
+          6626308.403
+        ],
+        [
+          678996.727,
+          6626313.738
+        ],
+        [
+          678999.25,
+          6626323.879
+        ],
+        [
+          679001.868,
+          6626332.02
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Driving range landing area"
+    },
+    {
+      "id": "johannesberg-range-mat-line",
+      "label": "Range bay line",
+      "shortLabel": "Range bay line",
+      "kind": "site-context",
+      "geometryKind": "inherited-context-not-boundary-verified",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679198.837,
+          6626294.4
+        ],
+        [
+          679212.658,
+          6626246.972
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Range bay line"
+    },
+    {
+      "id": "johannesberg-practice-bunker",
+      "label": "Practice bunker beside range access",
+      "shortLabel": "Practice bunker beside range access",
+      "kind": "site-context",
+      "geometryKind": "inherited-context-not-boundary-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679197.603,
+          6626226.209
+        ],
+        [
+          679206.516,
+          6626228.641
+        ],
+        [
+          679210.857,
+          6626221.837
+        ],
+        [
+          679209.24,
+          6626213.743
+        ],
+        [
+          679201.279,
+          6626212.358
+        ],
+        [
+          679196.938,
+          6626219.163
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Practice bunker beside range access"
+    },
+    {
+      "id": "johannesberg-parking-forecourt",
+      "label": "Hotel roadside parking",
+      "shortLabel": "Hotel roadside parking",
+      "kind": "site-context",
+      "geometryKind": "inherited-context-not-boundary-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679240.085,
+          6626323.437
+        ],
+        [
+          679261.868,
+          6626329.495
+        ],
+        [
+          679293.988,
+          6626245.876
+        ],
+        [
+          679269.153,
+          6626240.673
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Hotel roadside parking"
+    },
+    {
+      "id": "johannesberg-parking-club",
+      "label": "Golf club main parking",
+      "shortLabel": "Golf club main parking",
+      "kind": "site-context",
+      "geometryKind": "inherited-context-not-boundary-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679262.434,
+          6626234.338
+        ],
+        [
+          679290.465,
+          6626235.687
+        ],
+        [
+          679294.488,
+          6626193.799
+        ],
+        [
+          679264.454,
+          6626192.354
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Golf club main parking"
+    },
+    {
+      "id": "johannesberg-parking-club-apron",
+      "label": "Clubhouse apron",
+      "shortLabel": "Clubhouse apron",
+      "kind": "site-context",
+      "geometryKind": "inherited-context-not-boundary-verified",
+      "reviewed": false,
+      "closed": true,
+      "ringEPSG3006": [
+        [
+          679223.89,
+          6626180.382
+        ],
+        [
+          679247.916,
+          6626181.538
+        ],
+        [
+          679248.975,
+          6626159.546
+        ],
+        [
+          679224.948,
+          6626158.39
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Clubhouse apron"
+    },
+    {
+      "id": "johannesberg-access-w70570572",
+      "label": "Access w70570572",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679218.362,
+          6626186.829
+        ],
+        [
+          679223.188,
+          6626205.397
+        ],
+        [
+          679237.18,
+          6626214.887
+        ],
+        [
+          679249.288,
+          6626217.674
+        ],
+        [
+          679279.362,
+          6626234.952
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w70570572"
+    },
+    {
+      "id": "johannesberg-access-trace-path-club-range",
+      "label": "Access trace-path-club-range",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "reviewed-2025-path-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679223.188,
+          6626205.397
+        ],
+        [
+          679221.279,
+          6626214.403
+        ],
+        [
+          679219.039,
+          6626223.843
+        ],
+        [
+          679217.117,
+          6626233.76
+        ],
+        [
+          679215.684,
+          6626241.436
+        ],
+        [
+          679215.038,
+          6626247.357
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access trace-path-club-range"
+    },
+    {
+      "id": "johannesberg-access-w70570571",
+      "label": "Access w70570571",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679483.859,
+          6626145.407
+        ],
+        [
+          679466.42,
+          6626147.072
+        ],
+        [
+          679448.272,
+          6626142.591
+        ],
+        [
+          679429.187,
+          6626126.342
+        ],
+        [
+          679420.193,
+          6626110.979
+        ],
+        [
+          679396.31,
+          6626127.664
+        ],
+        [
+          679385.673,
+          6626140.177
+        ],
+        [
+          679327.316,
+          6626139.271
+        ],
+        [
+          679307.992,
+          6626142.549
+        ],
+        [
+          679294.74,
+          6626151.028
+        ],
+        [
+          679285.022,
+          6626167.393
+        ],
+        [
+          679287.964,
+          6626177.153
+        ],
+        [
+          679289.444,
+          6626194.358
+        ],
+        [
+          679295.35,
+          6626215.482
+        ],
+        [
+          679237.067,
+          6626290.228
+        ],
+        [
+          679235.991,
+          6626297.991
+        ],
+        [
+          679236.592,
+          6626308.44
+        ],
+        [
+          679268.912,
+          6626366.605
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w70570571"
+    },
+    {
+      "id": "johannesberg-access-w296165895",
+      "label": "Access w296165895",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679529.788,
+          6626135.597
+        ],
+        [
+          679523.364,
+          6626168.953
+        ],
+        [
+          679462.99,
+          6626286.979
+        ],
+        [
+          679370.587,
+          6626380.518
+        ],
+        [
+          679356.152,
+          6626401.064
+        ],
+        [
+          679353.496,
+          6626412.458
+        ],
+        [
+          679352.217,
+          6626447.364
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w296165895"
+    },
+    {
+      "id": "johannesberg-access-w303804282",
+      "label": "Access w303804282",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679295.35,
+          6626215.482
+        ],
+        [
+          679308.051,
+          6626203.87
+        ],
+        [
+          679324.236,
+          6626182.406
+        ],
+        [
+          679333.511,
+          6626177.342
+        ],
+        [
+          679339.589,
+          6626178.236
+        ],
+        [
+          679351.089,
+          6626185.302
+        ],
+        [
+          679370.599,
+          6626201.07
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804282"
+    },
+    {
+      "id": "johannesberg-access-w303804283",
+      "label": "Access w303804283",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679416.693,
+          6626202.389
+        ],
+        [
+          679398.197,
+          6626190.576
+        ],
+        [
+          679388.53,
+          6626189.209
+        ],
+        [
+          679382.351,
+          6626190.414
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804283"
+    },
+    {
+      "id": "johannesberg-access-w303804284",
+      "label": "Access w303804284",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679529.788,
+          6626135.597
+        ],
+        [
+          679483.859,
+          6626145.407
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804284"
+    },
+    {
+      "id": "johannesberg-access-w303804285",
+      "label": "Access w303804285",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679388.949,
+          6626240.93
+        ],
+        [
+          679451.216,
+          6626158.563
+        ],
+        [
+          679466.42,
+          6626147.072
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804285"
+    },
+    {
+      "id": "johannesberg-access-w303804286",
+      "label": "Access w303804286",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679388.949,
+          6626240.93
+        ],
+        [
+          679367.193,
+          6626225.955
+        ],
+        [
+          679364.336,
+          6626218.603
+        ],
+        [
+          679364.45,
+          6626209.992
+        ],
+        [
+          679370.599,
+          6626201.07
+        ],
+        [
+          679384.378,
+          6626187.907
+        ],
+        [
+          679387.867,
+          6626177.955
+        ],
+        [
+          679388.527,
+          6626164.261
+        ],
+        [
+          679385.673,
+          6626140.177
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804286"
+    },
+    {
+      "id": "johannesberg-access-w303804288",
+      "label": "Access w303804288",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679335.608,
+          6626315.11
+        ],
+        [
+          679338.861,
+          6626320.477
+        ],
+        [
+          679336.14,
+          6626329.062
+        ],
+        [
+          679330.304,
+          6626331.487
+        ],
+        [
+          679323.788,
+          6626329.269
+        ],
+        [
+          679320.744,
+          6626323.712
+        ],
+        [
+          679322.378,
+          6626316.878
+        ],
+        [
+          679327.666,
+          6626313.325
+        ],
+        [
+          679335.608,
+          6626315.11
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804288"
+    },
+    {
+      "id": "johannesberg-access-w303804289",
+      "label": "Access w303804289",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679268.833,
+          6626339.048
+        ],
+        [
+          679256.445,
+          6626323.323
+        ],
+        [
+          679253.075,
+          6626312.039
+        ],
+        [
+          679254.236,
+          6626306.684
+        ],
+        [
+          679284.174,
+          6626262.136
+        ],
+        [
+          679300.011,
+          6626231.237
+        ],
+        [
+          679295.35,
+          6626215.482
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804289"
+    },
+    {
+      "id": "johannesberg-access-w303804292",
+      "label": "Access w303804292",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679335.608,
+          6626315.11
+        ],
+        [
+          679388.949,
+          6626240.93
+        ],
+        [
+          679395.799,
+          6626242.462
+        ],
+        [
+          679403.574,
+          6626241.434
+        ],
+        [
+          679432.148,
+          6626233.592
+        ],
+        [
+          679446.284,
+          6626231.768
+        ],
+        [
+          679456.931,
+          6626237.792
+        ],
+        [
+          679462.858,
+          6626245.993
+        ],
+        [
+          679467.378,
+          6626254.226
+        ],
+        [
+          679471.188,
+          6626270.942
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804292"
+    },
+    {
+      "id": "johannesberg-access-w303804407",
+      "label": "Access w303804407",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679268.833,
+          6626339.048
+        ],
+        [
+          679269.706,
+          6626327.167
+        ],
+        [
+          679282.535,
+          6626304.539
+        ],
+        [
+          679307.564,
+          6626280.696
+        ],
+        [
+          679314.615,
+          6626278.029
+        ],
+        [
+          679320.989,
+          6626279.037
+        ],
+        [
+          679328.714,
+          6626283.217
+        ],
+        [
+          679370.962,
+          6626312.303
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w303804407"
+    },
+    {
+      "id": "johannesberg-access-w1138256358",
+      "label": "Access w1138256358",
+      "shortLabel": "",
+      "kind": "site-context",
+      "geometryKind": "inherited-access-centreline",
+      "reviewed": false,
+      "closed": false,
+      "ringEPSG3006": [
+        [
+          679268.912,
+          6626366.605
+        ],
+        [
+          679268.833,
+          6626339.048
+        ]
+      ],
+      "sourceBuildingId": null,
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json",
+      "role": "Access w1138256358"
+    }
+  ],
+  "points": [
+    {
+      "id": "johannesberg-clubhouse-terrace",
+      "label": "Clubhouse terrace / seating apron",
+      "pointEPSG3006": [
+        679194.88,
+        6626154.56
+      ],
+      "geometryStatus": "approximate-visible-location-only-boundary-unresolved",
+      "sourceInventory": "johannesbergbuild/facilities/site-inventory.json"
+    }
+  ],
+  "photos": [
+    {
+      "id": "club-media-4558-original",
+      "title": "Clubhouse front and right gable",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-4558-original.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-4558-original.jpg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2023/08/Johannesberg-2.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/johannesberg-2-3/",
+      "retrievedAt": "2026-09-10T07:03:09.238404+00:00",
+      "sha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132",
+      "bytes": 2492401,
+      "width": 5333,
+      "height": 3000,
+      "captureDate": "2018-09-19",
+      "captureDateEvidence": "Publisher WordPress image_meta.created_timestamp; camera clock/timezone not independently verified.",
+      "httpLastModified": "Thu, 14 Aug 2025 05:52:16 GMT",
+      "facilityIds": [
+        "johannesberg-clubhouse",
+        "johannesberg-clubhouse-terrace"
+      ],
+      "sourceBuildingIds": [
+        "w296165896"
+      ],
+      "view": "Front/right oblique; entrance, lower-storey windows, balcony, tiled roof, dormers, right porch and left terrace.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Carlotto Persson",
+        "credit": "carlotto persson",
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [
+        "Historic reference preceding reported 2025 clubhouse renovation. Match present orthophoto and later imagery before committing changed details."
+      ],
+      "wordpressMediaId": 4558,
+      "sourcePublishedAt": "2023-08-05T07:44:32Z",
+      "cameraMetadata": {
+        "aperture": "11",
+        "credit": "carlotto persson",
+        "camera": "Canon EOS 5D Mark III",
+        "caption": "",
+        "created_timestamp": "1537367498",
+        "copyright": "Carlotto Persson",
+        "focal_length": "53",
+        "iso": "200",
+        "shutter_speed": "0.005",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    {
+      "id": "club-media-3970-original",
+      "title": "Clubhouse front and terrace context",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3970-original.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-3970-original.jpg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2023/06/Johannesberg-4.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/spela-golf/johannesberg-4/",
+      "retrievedAt": "2026-09-10T07:03:09.226149+00:00",
+      "sha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879",
+      "bytes": 2302544,
+      "width": 5333,
+      "height": 3000,
+      "captureDate": "2018-09-19",
+      "captureDateEvidence": "Publisher WordPress image_meta.created_timestamp; camera clock/timezone not independently verified.",
+      "httpLastModified": "Thu, 14 Aug 2025 05:45:51 GMT",
+      "facilityIds": [
+        "johannesberg-clubhouse",
+        "johannesberg-clubhouse-terrace",
+        "johannesberg-practice-green"
+      ],
+      "sourceBuildingIds": [
+        "w296165896"
+      ],
+      "view": "Complete front elevation from practice green; roof silhouette, terrace pavilion, flagpoles and approach paths.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Carlotto Persson",
+        "credit": "carlotto persson",
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [
+        "Historic reference preceding reported 2025 clubhouse renovation. Match present orthophoto and later imagery before committing changed details."
+      ],
+      "wordpressMediaId": 3970,
+      "sourcePublishedAt": "2023-06-28T11:55:14Z",
+      "cameraMetadata": {
+        "aperture": "11",
+        "credit": "carlotto persson",
+        "camera": "Canon EOS 5D Mark III",
+        "caption": "",
+        "created_timestamp": "1537367722",
+        "copyright": "Carlotto Persson",
+        "focal_length": "64",
+        "iso": "200",
+        "shutter_speed": "0.005",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    {
+      "id": "club-media-6642-original",
+      "title": "Clubhouse opposite gable and pavilion, October2024",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6642-original.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-6642-original.jpg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/20241030_084907.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/20241030_084907/",
+      "retrievedAt": "2026-09-10T07:05:52.335485+00:00",
+      "sha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95",
+      "bytes": 835103,
+      "width": 4000,
+      "height": 1800,
+      "captureDate": "2024-10-30",
+      "captureDateEvidence": "Publisher WordPress image_meta.created_timestamp; camera clock/timezone not independently verified.",
+      "httpLastModified": "Fri, 06 Mar 2026 12:14:41 GMT",
+      "facilityIds": [
+        "johannesberg-clubhouse",
+        "johannesberg-clubhouse-terrace",
+        "johannesberg-practice-green"
+      ],
+      "sourceBuildingIds": [
+        "w296165896"
+      ],
+      "view": "Leaf-off side/gable view showing elevation above green, white terrace railing and adjacent roofed pavilion.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [
+        "2024-10-30 publisher capture metadata corroborates filename. Predates reported2025 clubhouse renovation.",
+        "Strong artificial depth blur exists around the otherwise sharp central clubhouse; use central facade, not blurred peripheral buildings."
+      ],
+      "wordpressMediaId": 6642,
+      "sourcePublishedAt": "2026-03-06T12:14:19Z",
+      "cameraMetadata": {
+        "aperture": "1.8",
+        "credit": "",
+        "camera": "SM-G998B",
+        "caption": "",
+        "created_timestamp": "1730278148",
+        "copyright": "",
+        "focal_length": "6.7",
+        "iso": "50",
+        "shutter_speed": "0.0022779043280182",
+        "title": "",
+        "orientation": "1",
+        "keywords": []
+      }
+    },
+    {
+      "id": "club-news-20260808",
+      "title": "Club terrace furniture and nearby red outbuilding",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-news-20260808.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-news-20260808.jpg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/08/20260808_142811-scaled.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/resultat-for-arets-klubbmasterskap-8-9-augusti/20260808_142811/",
+      "retrievedAt": "2026-09-10T06:57:05.319903+00:00",
+      "sha256": "294736ab11ecbd8cf2a442478cbf480c7223a7ec24f84bff7a1b7d19293dc19c",
+      "bytes": 524063,
+      "width": 1920,
+      "height": 2560,
+      "captureDate": "2026-08-08",
+      "captureDateEvidence": "Publisher WordPress image_meta.created_timestamp; camera clock/timezone not independently verified.",
+      "httpLastModified": "Wed, 12 Aug 2026 06:33:37 GMT",
+      "facilityIds": [
+        "johannesberg-clubhouse-terrace",
+        "johannesberg-unidentified-red-estate-buildings"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Clubhouse terrace furniture: light metal-frame wood-slat chairs and tables, pavers/deck; large red-roof buildings visible across lane. Main person obscures centre; inspect structures only.",
+      "priority": 2,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "partial: identified group; exact individual building unresolved",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [
+        "Captured2026-08-08 according to publisher metadata; useful recent terrace and surrounding-building evidence, not a full post-renovation clubhouse elevation.",
+        "The larger downloaded original has no orientation metadata and requires90degree clockwise display rotation; selected publisher-scaled image is already upright."
+      ],
+      "filenameDateHint": "2026-08-08",
+      "wordpressMediaId": 7143,
+      "sourcePublishedAt": "2026-08-12T06:32:39Z",
+      "cameraMetadata": {
+        "aperture": "1.7",
+        "credit": "",
+        "camera": "SM-A405FN",
+        "caption": "",
+        "created_timestamp": "1786199291",
+        "copyright": "",
+        "focal_length": "3.92",
+        "iso": "40",
+        "shutter_speed": "0.0010330578512397",
+        "title": "",
+        "orientation": 1,
+        "keywords": [],
+        "alt": ""
+      },
+      "originalAsset": {
+        "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-7143-original.jpg",
+        "url": "https://johannesbergsgolf.se/wp-content/uploads/2026/08/20260808_142811.jpg",
+        "sha256": "16b0129a3762d381b34e8a207fa5374910e64fea4bb3c4086f62a302d9227214",
+        "bytes": 1552500,
+        "dimensions": {
+          "width": 4608,
+          "height": 3456
+        },
+        "retrievedAt": "2026-09-10T07:07:01.723920+00:00",
+        "displayRotationDegreesClockwise": 90
+      }
+    },
+    {
+      "id": "dji-0003",
+      "title": "Hotel estate courtyard aerial",
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0003_orig.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/galleri.html",
+      "retrievedAt": "2026-09-10T06:57:03.735082+00:00",
+      "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "bytes": 362538,
+      "width": 1100,
+      "height": 733,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Sat, 30 Mar 2024 10:47:48 GMT",
+      "facilityIds": [
+        "johannesberg-manor",
+        "johannesberg-east-wing",
+        "johannesberg-west-wing",
+        "johannesberg-karolinerhuset",
+        "johannesberg-johannesbergsflygeln",
+        "johannesberg-johannesbergsvillan",
+        "johannesberg-east-slottsvilla",
+        "johannesberg-west-slottsvilla",
+        "johannesberg-parking"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Oblique estate overview; courtyard arrangement, roof plans, external stairs, terraces and parking.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "dji-0004",
+      "title": "Hotel estate reverse aerial",
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0004_orig.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/galleri.html",
+      "retrievedAt": "2026-09-10T06:57:03.781535+00:00",
+      "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "bytes": 316543,
+      "width": 1100,
+      "height": 733,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Wed, 17 Apr 2024 14:00:33 GMT",
+      "facilityIds": [
+        "johannesberg-manor",
+        "johannesberg-east-wing",
+        "johannesberg-west-wing",
+        "johannesberg-karolinerhuset",
+        "johannesberg-johannesbergsflygeln",
+        "johannesberg-johannesbergsvillan",
+        "johannesberg-east-slottsvilla",
+        "johannesberg-west-slottsvilla"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Reverse oblique across red-roof villas toward hotel courtyard and golf course. Complements DJI0003 roof/side coverage.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "dji-0011",
+      "title": "Hotel main building entrance facade",
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0011.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/dji-0011.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/dji-0011_orig.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/galleri.html",
+      "retrievedAt": "2026-09-10T06:57:03.740230+00:00",
+      "sha256": "1dddf3a8e307bb20b939138ad38e8416c230af9560e1104dbc3898669cea9a79",
+      "bytes": 241731,
+      "width": 1100,
+      "height": 733,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Tue, 02 Apr 2024 14:31:30 GMT",
+      "facilityIds": [
+        "johannesberg-manor"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Nearly frontal manor entrance facade, classical column portico, cream/pink plaster, dark roof and central gable.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "20210617-p1022081-hdr-enhanced",
+      "title": "Hotel main building oblique entrance",
+      "path": "johannesbergbuild/cache/facilities-reference/web/20210617-p1022081-hdr-enhanced.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/20210617-p1022081-hdr-enhanced.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/20210617-p1022081-hdr-enhanced_orig.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/galleri.html",
+      "retrievedAt": "2026-09-10T06:57:04.036020+00:00",
+      "sha256": "9f5c99f242f1343362f3d0705e15ef4ae37f10e40877d848bef4549fcc7c346e",
+      "bytes": 163062,
+      "width": 815,
+      "height": 800,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Sat, 13 Apr 2024 14:01:03 GMT",
+      "facilityIds": [
+        "johannesberg-manor"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Ground-level oblique entrance portico and facade; complementary roof/window detail.",
+      "priority": 2,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "jbs-flygbild-spa-1080",
+      "title": "Johannesbergs Flygel and spa annex aerial",
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-flygbild-spa-1080.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/jbs-flygbild-spa-1080.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/jbs-flygbild-spa-1080_orig.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/galleri.html",
+      "retrievedAt": "2026-09-10T06:57:03.735082+00:00",
+      "sha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7",
+      "bytes": 389956,
+      "width": 1080,
+      "height": 720,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Sat, 20 Apr 2024 16:53:21 GMT",
+      "facilityIds": [
+        "johannesberg-johannesbergsflygeln",
+        "johannesberg-johannesbergsvillan",
+        "johannesberg-east-slottsvilla",
+        "johannesberg-west-slottsvilla",
+        "johannesberg-spa-pool"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Autumn oblique of large event building and attached low spa annex/pool deck; interpret names using labelled estate map.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "img-3042",
+      "title": "One Slottsvilla front elevation",
+      "path": "johannesbergbuild/cache/facilities-reference/web/img-3042.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/img-3042.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/img-3042_orig.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/galleri.html",
+      "retrievedAt": "2026-09-10T06:57:04.056089+00:00",
+      "sha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158",
+      "bytes": 265603,
+      "width": 1067,
+      "height": 800,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Mon, 01 Apr 2024 02:05:44 GMT",
+      "facilityIds": [
+        "johannesberg-east-slottsvilla",
+        "johannesberg-west-slottsvilla"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Cream villa with red mansard roof, arched central window and balconies; east/west individual identity unresolved from this photograph alone.",
+      "priority": 2,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "partial: identified group; exact individual building unresolved",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [],
+      "facilityAssociationPolicy": "Either east or west Slottsvilla; IDs denote alternatives, not both buildings appearing in the photograph."
+    },
+    {
+      "id": "stra-flygeln-1",
+      "title": "Ostra Flygeln front",
+      "path": "johannesbergbuild/cache/facilities-reference/web/stra-flygeln-1.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/stra-flygeln-1.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/edited/stra-flygeln-1.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/konferera-i-eget-hus.html",
+      "retrievedAt": "2026-09-10T06:57:04.593728+00:00",
+      "sha256": "d7a0e30ec5ef2f3955538757f1f19e42fa736d1d2b2d4ef70251aed62f22bd46",
+      "bytes": 117442,
+      "width": 800,
+      "height": 559,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Mon, 06 Oct 2025 13:02:26 GMT",
+      "facilityIds": [
+        "johannesberg-east-wing"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Official named section; long low cream wing, black mansard roof, dormers and central entrance.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "v-stra-flygeln-2",
+      "title": "Vastra Flygeln front oblique",
+      "path": "johannesbergbuild/cache/facilities-reference/web/v-stra-flygeln-2.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/v-stra-flygeln-2.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/edited/v-stra-flygeln-2.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/konferera-i-eget-hus.html",
+      "retrievedAt": "2026-09-10T06:57:04.952181+00:00",
+      "sha256": "7840c811b352a94f5cf0883a1609ecbf8bfcc72bc5b23e327186020b13ca5d2c",
+      "bytes": 265537,
+      "width": 1065,
+      "height": 625,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Mon, 06 Oct 2025 13:05:52 GMT",
+      "facilityIds": [
+        "johannesberg-west-wing"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Official named section; complementary front/side view of low cream hotel wing.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "jbs-54_orig",
+      "title": "Karolinerhuset front",
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-54_orig.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/jbs-54_orig.jpg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/jbs-54_orig.jpg",
+      "pageUrl": "https://www.johannesbergsslott.se/konferera-i-eget-hus.html",
+      "retrievedAt": "2026-09-10T06:57:04.364839+00:00",
+      "sha256": "1dac5b87af2bf4a97d8b8d5c539d98c7dfeef46784e514548ba8064365969498",
+      "bytes": 189751,
+      "width": 1100,
+      "height": 736,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Mon, 06 Oct 2025 13:10:52 GMT",
+      "facilityIds": [
+        "johannesberg-karolinerhuset"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Official Karolinerhuset section; dark square tower, large front veranda, dormers and cream facade.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "club-media-3966-original",
+      "title": "Hotel estate course-facing rear",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3966-original.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-3966-original.jpg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2023/06/Johannesberg-9.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/spela-golf/golfpaket/johannesberg-9/",
+      "retrievedAt": "2026-09-10T07:03:09.212753+00:00",
+      "sha256": "3296479cd79df0efbfe64307b3127f427e8792b96dabe546227d9fd30b0ded08",
+      "bytes": 2315309,
+      "width": 5333,
+      "height": 3000,
+      "captureDate": "2018-09-19",
+      "captureDateEvidence": "Publisher WordPress image_meta.created_timestamp; camera clock/timezone not independently verified.",
+      "httpLastModified": "Thu, 14 Aug 2025 05:45:35 GMT",
+      "facilityIds": [
+        "johannesberg-manor",
+        "johannesberg-west-wing"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Course-facing view up slope to hotel complex; rear facade and roof silhouette. Exact per-facade association should be reconciled to ortho inventory.",
+      "priority": 2,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "partial: identified group; exact individual building unresolved",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Carlotto Persson",
+        "credit": "carlotto persson",
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [
+        "Historic reference preceding reported 2025 clubhouse renovation. Match present orthophoto and later imagery before committing changed details."
+      ],
+      "wordpressMediaId": 3966,
+      "sourcePublishedAt": "2023-06-28T11:41:38Z",
+      "cameraMetadata": {
+        "aperture": "18",
+        "credit": "carlotto persson",
+        "camera": "Canon EOS 5D Mark III",
+        "caption": "",
+        "created_timestamp": "1537368186",
+        "copyright": "Carlotto Persson",
+        "focal_length": "47",
+        "iso": "200",
+        "shutter_speed": "0.005",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    {
+      "id": "vlcsnap-2021-06-21-13h14m03s468-edit",
+      "title": "Golf-facing estate skyline",
+      "path": "johannesbergbuild/cache/facilities-reference/web/vlcsnap-2021-06-21-13h14m03s468-edit.png",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/vlcsnap-2021-06-21-13h14m03s468-edit.png",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/vlcsnap-2021-06-21-13h14m03s468-edit_orig.png",
+      "pageUrl": "https://www.johannesbergsslott.se/galleri.html",
+      "retrievedAt": "2026-09-10T06:57:04.114933+00:00",
+      "sha256": "fb1b47d37649320c3291fcad7c5ed3d31aa23e4b7659b9dd69befec674882cf8",
+      "bytes": 881012,
+      "width": 1100,
+      "height": 619,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Thu, 25 Apr 2024 15:25:14 GMT",
+      "facilityIds": [
+        "johannesberg-johannesbergsflygeln",
+        "johannesberg-johannesbergsvillan",
+        "johannesberg-clubhouse"
+      ],
+      "sourceBuildingIds": [
+        "w296165896"
+      ],
+      "view": "Wide sunset view linking golf clubhouse with large event building and spa complex; useful comparative heights only.",
+      "priority": 2,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "club-media-6566",
+      "title": "Clubhouse and hotel spatial context",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6566.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-6566.jpg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/01/johannesberg-81_orig.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/johannesberg-81_orig/",
+      "retrievedAt": "2026-09-10T06:59:19.860416+00:00",
+      "sha256": "bb6aa4d92d6279fc860211160ee870b86f4c576e96602be3884b1cde6ec227eb",
+      "bytes": 111635,
+      "width": 1100,
+      "height": 619,
+      "captureDate": "2018-09-19",
+      "captureDateEvidence": "Publisher WordPress image_meta.created_timestamp; camera clock/timezone not independently verified.",
+      "httpLastModified": "Tue, 13 Jan 2026 14:19:19 GMT",
+      "facilityIds": [
+        "johannesberg-clubhouse",
+        "johannesberg-johannesbergsflygeln",
+        "johannesberg-practice-green"
+      ],
+      "sourceBuildingIds": [
+        "w296165896"
+      ],
+      "view": "Wide historic view showing clubhouse on left and event building on right across maintained golf ground.",
+      "priority": 2,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Carlotto Persson",
+        "credit": "carlotto persson",
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [
+        "Historic reference preceding reported 2025 clubhouse renovation. Match present orthophoto and later imagery before committing changed details."
+      ],
+      "wordpressMediaId": 6566,
+      "sourcePublishedAt": "2026-01-13T14:19:05Z",
+      "cameraMetadata": {
+        "aperture": "7.1",
+        "credit": "carlotto persson",
+        "camera": "Canon EOS 5D Mark III",
+        "caption": "",
+        "created_timestamp": "1537373918",
+        "copyright": "Carlotto Persson",
+        "focal_length": "62",
+        "iso": "200",
+        "shutter_speed": "0.005",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    {
+      "id": "pelare",
+      "title": "Hotel entrance portico detail",
+      "path": "johannesbergbuild/cache/facilities-reference/web/pelare.jpeg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/pelare.jpeg",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/pelare_orig.jpeg",
+      "pageUrl": "https://www.johannesbergsslott.se/galleri.html",
+      "retrievedAt": "2026-09-10T06:57:04.007095+00:00",
+      "sha256": "8fde46e866f75b459618d7e4e594f60bce7127dcff74a6222e808b3edf22e6b5",
+      "bytes": 65727,
+      "width": 787,
+      "height": 787,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Fri, 12 Apr 2024 05:03:40 GMT",
+      "facilityIds": [
+        "johannesberg-manor",
+        "johannesberg-east-wing"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Winter view beneath portico columns toward courtyard wing; secondary column/trim detail.",
+      "priority": 3,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown; official hotel site states all rights reserved.",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": []
+    },
+    {
+      "id": "club-media-6713-original",
+      "title": "Clubhouse rear, driving range and parking, October2024",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/20241030_082741.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/sugen-pa-att-svinga-klubban/20241030_082741/",
+      "retrievedAt": "2026-09-10T07:05:52.609505+00:00",
+      "sha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+      "bytes": 1143590,
+      "width": 4000,
+      "height": 3000,
+      "captureDate": "2024-10-30",
+      "captureDateEvidence": "Publisher WordPress image_meta.created_timestamp; camera clock/timezone not independently verified.",
+      "httpLastModified": "Tue, 31 Mar 2026 13:50:56 GMT",
+      "facilityIds": [
+        "johannesberg-clubhouse",
+        "johannesberg-driving-range",
+        "johannesberg-range-sheds",
+        "johannesberg-parking"
+      ],
+      "sourceBuildingIds": [
+        "w296165896"
+      ],
+      "view": "Elevated view from hotel: full rear/lower-storey clubhouse facade, open range mats, two red range structures, practice bunker, parking lanes and lamps.",
+      "priority": 1,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high: official asset and visible clubhouse match; range hut functions remain inferred",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [
+        "2024-10-30 publisher capture metadata; latest selected broad rear elevation.",
+        "Small red lean-to structure by mat-line likely serves dispensing/storage; exact function is not labelled. Other red range hut is partly obscured by trees."
+      ],
+      "wordpressMediaId": 6713,
+      "sourcePublishedAt": "2026-03-31T13:50:29Z",
+      "cameraMetadata": {
+        "aperture": "1.8",
+        "credit": "",
+        "camera": "SM-G998B",
+        "caption": "",
+        "created_timestamp": "1730276861",
+        "copyright": "",
+        "focal_length": "6.7",
+        "iso": "50",
+        "shutter_speed": "0.0052356020942408",
+        "title": "",
+        "orientation": "1",
+        "keywords": []
+      }
+    },
+    {
+      "id": "club-media-5983-original",
+      "title": "Open range mats and benches",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-5983-original.jpeg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-5983-original.jpeg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2025/03/rangen-oppen.jpeg",
+      "pageUrl": "https://johannesbergsgolf.se/rangen-oppen/",
+      "retrievedAt": "2026-09-10T07:05:52.165502+00:00",
+      "sha256": "846151cf05fbff789b688f7c7472792ade0be7f650ea77eff656dbc16b7e58d0",
+      "bytes": 58134,
+      "width": 640,
+      "height": 480,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Thu, 14 Aug 2025 05:54:11 GMT",
+      "facilityIds": [
+        "johannesberg-driving-range"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Low-resolution official March2025 range-opening photo: uncovered mat line, dividers, benches and gravel apron. No exact count inferred from cropped view.",
+      "priority": 2,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high: official asset and visible clubhouse match; range hut functions remain inferred",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [],
+      "wordpressMediaId": 5983,
+      "sourcePublishedAt": "2025-03-17T08:37:38Z",
+      "cameraMetadata": {
+        "aperture": "0",
+        "credit": "",
+        "camera": "",
+        "caption": "",
+        "created_timestamp": "0",
+        "copyright": "",
+        "focal_length": "0",
+        "iso": "0",
+        "shutter_speed": "0",
+        "title": "",
+        "orientation": "1",
+        "keywords": []
+      }
+    },
+    {
+      "id": "club-media-3520-original",
+      "title": "Driving range from mat beside shop",
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3520-original.jpg",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/club-media-3520-original.jpg",
+      "sourceUrl": "https://johannesbergsgolf.se/wp-content/uploads/2023/05/Range-fran-mattn-vid-shopen.jpg",
+      "pageUrl": "https://johannesbergsgolf.se/range-fran-mattn-vid-shopen/",
+      "retrievedAt": "2026-09-10T07:05:52.232345+00:00",
+      "sha256": "9d499d597e0fe2b1d072b6bd9b0a3a621978570f6ee25bdd09c44f29001f342f",
+      "bytes": 356999,
+      "width": 1920,
+      "height": 933,
+      "captureDate": null,
+      "captureDateEvidence": "Unknown; HTTP modification and upload dates are not capture dates.",
+      "httpLastModified": "Thu, 14 Aug 2025 05:44:00 GMT",
+      "facilityIds": [
+        "johannesberg-driving-range"
+      ],
+      "sourceBuildingIds": [],
+      "view": "Official asset filename identifies viewpoint as mat beside shop; establishes range target field and open bays. Minimal facade detail.",
+      "priority": 3,
+      "sourceConfidence": {
+        "publisher": "high: official golf club or associated hotel website",
+        "siteIdentity": "high: Gottrora Johannesberg estate, visually matched across official photos/map",
+        "buildingAssociation": "high: official asset and visible clubhouse match; range hut functions remain inferred",
+        "metricGeometry": "uncalibrated perspective; dimensions must come from orthophoto/height evidence"
+      },
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "copyright": "Unknown",
+        "credit": null,
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "modellingNotes": [],
+      "wordpressMediaId": 3520,
+      "sourcePublishedAt": "2023-05-14T16:35:36Z",
+      "cameraMetadata": {
+        "aperture": "0",
+        "credit": "",
+        "camera": "",
+        "caption": "",
+        "created_timestamp": "0",
+        "copyright": "",
+        "focal_length": "0",
+        "iso": "0",
+        "shutter_speed": "0",
+        "title": "",
+        "orientation": "0",
+        "keywords": []
+      }
+    },
+    {
+      "id": "estate-parking-map",
+      "title": "Official hotel parking and building map",
+      "path": "johannesbergbuild/cache/facilities-reference/web/estate-parking-map.png",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/estate-parking-map.png",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/karta-jsb_orig.png",
+      "pageUrl": "https://www.johannesbergsslott.se/parkering.html",
+      "retrievedAt": "2026-09-10T06:57:03.805767+00:00",
+      "sha256": "c23e29c31152a552a72c8a33b7c401ad680a452cab1469c0c28c010a0617532d",
+      "bytes": 887428,
+      "captureDate": null,
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "kind": "labelled-aerial-map",
+      "facilityIds": [
+        "johannesberg-hotel-estate",
+        "johannesberg-parking"
+      ],
+      "sourceConfidence": "Official labelled site map; diagram labels identify use, not survey coordinates.",
+      "width": 842,
+      "height": 595
+    },
+    {
+      "id": "estate-map-render",
+      "title": "Rendered page1 of official estate map",
+      "path": "johannesbergbuild/cache/facilities-reference/web/estate-map-page-1.png",
+      "localPath": "johannesbergbuild/cache/facilities-reference/web/estate-map-page-1.png",
+      "sourceUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/karta_jsb_2.pdf",
+      "pageUrl": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/karta_jsb_2.pdf",
+      "retrievedAt": "2026-09-10T06:57:04.364839+00:00",
+      "sha256": "5606eea253fcae56fd8342a219ae8a7592a5189ab2c317ba20dffe167a198f06",
+      "bytes": 3731676,
+      "width": 1684,
+      "height": 1191,
+      "captureDate": null,
+      "derivedFrom": "estate-map-pdf",
+      "derivation": "PyMuPDF page0 raster at2x native PDF point dimensions; no content changes.",
+      "kind": "pdf-page-render",
+      "rights": {
+        "status": "reference-only",
+        "licence": "not-established",
+        "redistributionPermission": "not-established",
+        "useAsRuntimeTexture": false
+      },
+      "facilityIds": [
+        "johannesberg-hotel-estate",
+        "johannesberg-parking"
+      ]
+    }
+  ],
+  "pointCloud": {
+    "path": "johannesbergbuild/cache/facilities-reference/laser/combined-blender-points.json",
+    "captureDate": "2021-04-17"
+  },
+  "readme": "Johannesberg facilities reference / 2026-09-10\n\nThis is a reference scene, not completed architecture. 22 building\noutlines locate evidence; only the small range-shelter roof has a reviewed roof\nperimeter (cyan); all other building outlines are inherited (amber). Site context\nis green; a terrace location cross is not a terrace boundary. The native orthophoto was captured 2025-06-14\nat 0.16 m/pixel. Number labels match model building indices in the source inventory.\nAll reference images are packed. The web photographs are reference-only: permission\nfor redistribution or use as runtime textures has not been established.\n\nOpen the local index.html gallery beside this .blend for all native building crops,\nsource links, capture-date evidence, rights, role confidence and modelling gaps.\nUse the Site plan camera and Photo board camera for review. To inspect the laser,\nenable collection 07, select its mesh and enter Edit Mode: it contains 40,266\nsource vertices with source_classification (1=unclassified surface, 2=ground).\nDo not convert these mixed returns directly into a roof mesh.\n\nCoordinates: X=EPSG3006 easting-679200; Y=northing-6626160; Z=RH2000-16.\nOne Blender unit is one metre. The map plane at Z=0 is a flat reference at chosen\ndatum RH2000 16m, not ground, floor or terrain. Laser heights retain their source\nvertical reference. The 2021-04-17 laser is older than the 2025 orthophoto.\n\nFor app export, use the actual Johannesberg runtime bridge. Its legacy frame uses\nx=(lon-18.19202)*(111320*cos(59.72733 degrees)), z=(59.72733-lat)*111320,\nafter projecting EPSG3006 to WGS84. Its world y=RH2000+5.6676; geodata retains\nabsolute RH2000. The GPK1 header rounds the longitude scale to 56118.16. The\ncurrent vertical offset is an estimated registration step, not a new survey.\nA simple axis swap loses projection convergence and scale. Wall lines, eaves\nand floor levels remain to be surveyed\nor reconciled across the dated sources; inherited footprint boxes are not wall\nmeasurements. Clubhouse, manor and hotel annexes are separate facilities.\n\nPriority: reconcile the clubhouse front/side/rear photographs against its 2025\nroof plan; model its gables, central balcony, dormers, lower annex, terrace and\nsloping-ground rear floor. Establish wall/eave/ridge dimensions from corroborated\nevidence before detail. Then model estate buildings and range/parking/access.\n2018 clubhouse photos predate the reported 2025 renovation; the 2024 rear view is\nalso historical. Preserve unknown facades and uncertain facility roles as gaps.\n"
+}

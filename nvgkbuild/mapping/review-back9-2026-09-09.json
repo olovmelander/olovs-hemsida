@@ -1,0 +1,4677 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "reviewedOn": "2026-09-09",
+  "captureDate": "2024-06-27",
+  "sources": [
+    {
+      "id": "norrfallsviken-10-hole",
+      "rasterFile": "norrfallsviken-10-hole.tif",
+      "rgbFile": "norrfallsviken-10-hole.png",
+      "sha256": "5f113cbfd8316473cfa16d9152f94c04feb028858857caf42d6f9360cdfc95fc",
+      "rgbSha256": "8b6a8cd54cb5eddf024e582b4f2c41f4db3dfbb4f0cf56b776f1bc4f7e58f93b",
+      "requestSha256": "9781f3534802f20693385e619121758a72b9b21d5e0f2d4b2d8292977e378a4a",
+      "bytes": 23321151,
+      "boundsEpsg3006": [
+        678521.76,
+        6988422.56,
+        678937.12,
+        6988877.76
+      ],
+      "geoTransform": [
+        678521.76,
+        0.16,
+        0.0,
+        6988877.76,
+        0.0,
+        -0.16
+      ],
+      "width": 2596,
+      "height": 2845,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:54.645676+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-11-hole",
+      "rasterFile": "norrfallsviken-11-hole.tif",
+      "rgbFile": "norrfallsviken-11-hole.png",
+      "sha256": "a7f9f22d442305cff9e40b433fbf610653d8a4cd5c3c8b27d80897db9cc25b9d",
+      "rgbSha256": "1c1fbb6f2dc51b61e0310c64c0c31b60e25e91f9aa959ab676f1ffa0338ac197",
+      "requestSha256": "b8353d5b2f4de9ef9c1e09b98d103a8d4c704c188defcff486904fc85cfc82a0",
+      "bytes": 5128003,
+      "boundsEpsg3006": [
+        678592.48,
+        6988708.800000001,
+        678829.12,
+        6988883.36
+      ],
+      "geoTransform": [
+        678592.48,
+        0.16,
+        0.0,
+        6988883.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1479,
+      "height": 1091,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:55.621624+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-12-hole",
+      "rasterFile": "norrfallsviken-12-hole.tif",
+      "rgbFile": "norrfallsviken-12-hole.png",
+      "sha256": "9c4f89a01dd096b184ed946013dd22d0dfcd7143f30f186dd61de3590233429d",
+      "rgbSha256": "f97f471b7735fa6030480996eb02cf43f4acca72be848665f2ebb83267054339",
+      "requestSha256": "3887ddf80c9236252c0889cd63c1c83abe80fa25259ce5586f11109b9e2a708b",
+      "bytes": 15609043,
+      "boundsEpsg3006": [
+        678566.08,
+        6988808.64,
+        678896.1599999999,
+        6989199.04
+      ],
+      "geoTransform": [
+        678566.08,
+        0.16,
+        0.0,
+        6989199.04,
+        0.0,
+        -0.16
+      ],
+      "width": 2063,
+      "height": 2440,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:59.736697+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-13-hole",
+      "rasterFile": "norrfallsviken-13-hole.tif",
+      "rgbFile": "norrfallsviken-13-hole.png",
+      "sha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d",
+      "rgbSha256": "0acdc990d00a010c88a83699a7eb4ed828d04427850804fd6e0207aa1b3236bc",
+      "requestSha256": "82f462480a6e0d400abda9d863c1e6da0e9b6632ac56ee89a663bcb451e14f19",
+      "bytes": 13219935,
+      "boundsEpsg3006": [
+        678771.2,
+        6988790.4,
+        679008.7999999999,
+        6989257.28
+      ],
+      "geoTransform": [
+        678771.2,
+        0.16,
+        0.0,
+        6989257.28,
+        0.0,
+        -0.16
+      ],
+      "width": 1485,
+      "height": 2918,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:03.003188+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-14-hole",
+      "rasterFile": "norrfallsviken-14-hole.tif",
+      "rgbFile": "norrfallsviken-14-hole.png",
+      "sha256": "c930181e399f45235f8330c6155dc2694de47d3bf9458502ce238d5c1039265b",
+      "rgbSha256": "992faac0f36b1eef10cf9e8a9e589fce2fb8d22f46a044081816041915df9c50",
+      "requestSha256": "5c455f2953aad1e7a47df3326e41efa1c056d8a0355c81ce28229827997af8b5",
+      "bytes": 4974459,
+      "boundsEpsg3006": [
+        678865.6,
+        6988841.92,
+        679021.28,
+        6989106.88
+      ],
+      "geoTransform": [
+        678865.6,
+        0.16,
+        0.0,
+        6989106.88,
+        0.0,
+        -0.16
+      ],
+      "width": 973,
+      "height": 1656,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:04.180907+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-15-hole",
+      "rasterFile": "norrfallsviken-15-hole.tif",
+      "rgbFile": "norrfallsviken-15-hole.png",
+      "sha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7",
+      "rgbSha256": "d6a9d0d848bedf3e929a8a007538263204a67f5989a6f0903030a57ea8b7dd59",
+      "requestSha256": "f4af990bb2631ed08fc60100935c971bc4ae7c14b3157a5b8679c324518b44e5",
+      "bytes": 13957151,
+      "boundsEpsg3006": [
+        678956.8,
+        6988796.64,
+        679289.76,
+        6989135.84
+      ],
+      "geoTransform": [
+        678956.8,
+        0.16,
+        0.0,
+        6989135.84,
+        0.0,
+        -0.16
+      ],
+      "width": 2081,
+      "height": 2120,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:07.221704+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-16-hole",
+      "rasterFile": "norrfallsviken-16-hole.tif",
+      "rgbFile": "norrfallsviken-16-hole.png",
+      "sha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+      "rgbSha256": "0b67bc4b2f1a77d94317666bd008cd9383137c86b9cae3e741da7ce9f3c2c659",
+      "requestSha256": "cce5661b560f59e00ac1281af4e6b3cf42f2f61367a3c949f122abe795039617",
+      "bytes": 8892917,
+      "boundsEpsg3006": [
+        679188.16,
+        6988425.4399999995,
+        679356.8,
+        6988850.72
+      ],
+      "geoTransform": [
+        679188.16,
+        0.16,
+        0.0,
+        6988850.72,
+        0.0,
+        -0.16
+      ],
+      "width": 1054,
+      "height": 2658,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:09.300884+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-17-hole",
+      "rasterFile": "norrfallsviken-17-hole.tif",
+      "rgbFile": "norrfallsviken-17-hole.png",
+      "sha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+      "rgbSha256": "2984edb028bc8280d33b5e5415c3a0da0cd32943721344e5b2a9788cfea05c2d",
+      "requestSha256": "29ec155b7c0f9621a8a6ab06a04db2cd541892ec8b6c3f0fd72ded91c856aa35",
+      "bytes": 17352243,
+      "boundsEpsg3006": [
+        678909.12,
+        6988393.92,
+        679277.92,
+        6988774.08
+      ],
+      "geoTransform": [
+        678909.12,
+        0.16,
+        0.0,
+        6988774.08,
+        0.0,
+        -0.16
+      ],
+      "width": 2305,
+      "height": 2376,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:12.437714+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-18-hole",
+      "rasterFile": "norrfallsviken-18-hole.tif",
+      "rgbFile": "norrfallsviken-18-hole.png",
+      "sha256": "7a56f9aa451e3132aa1968aaa2b38ade2cbb654b7f2dd45f3ffc728b47f79b61",
+      "rgbSha256": "f2b4764b34676f424ed1979e6c70f017fa5bfcfcc7323bcf317ede4fb43a815a",
+      "requestSha256": "e88d55dc122f49b5f9318b72620af859e4188bc5338a38d44ffb2ffc783f3ca2",
+      "bytes": 18354383,
+      "boundsEpsg3006": [
+        678545.76,
+        6988387.84,
+        678964.0,
+        6988745.76
+      ],
+      "geoTransform": [
+        678545.76,
+        0.16,
+        0.0,
+        6988745.76,
+        0.0,
+        -0.16
+      ],
+      "width": 2614,
+      "height": 2237,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:15.462460+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    }
+  ],
+  "holes": [
+    {
+      "hole": 10,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed.",
+      "green": {
+        "id": "lm-h10-green-1",
+        "sourceId": "norrfallsviken-10-hole",
+        "panel": {
+          "id": "10-green",
+          "sourceId": "norrfallsviken-10-hole",
+          "sourceSha256": "5f113cbfd8316473cfa16d9152f94c04feb028858857caf42d6f9360cdfc95fc",
+          "geoTransform": [
+            678839.2,
+            0.16,
+            0.0,
+            6988851.68,
+            0.0,
+            -0.16
+          ],
+          "width": 450,
+          "height": 463,
+          "sourcePixelWindow": [
+            1984,
+            163,
+            450,
+            463
+          ]
+        },
+        "ringPixels": [
+          [
+            192,
+            195
+          ],
+          [
+            207,
+            185
+          ],
+          [
+            228,
+            182
+          ],
+          [
+            247,
+            189
+          ],
+          [
+            262,
+            204
+          ],
+          [
+            275,
+            224
+          ],
+          [
+            282,
+            245
+          ],
+          [
+            276,
+            265
+          ],
+          [
+            263,
+            282
+          ],
+          [
+            246,
+            292
+          ],
+          [
+            226,
+            294
+          ],
+          [
+            204,
+            287
+          ],
+          [
+            188,
+            275
+          ],
+          [
+            179,
+            258
+          ],
+          [
+            178,
+            236
+          ],
+          [
+            183,
+            214
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678869.92,
+            6988820.48
+          ],
+          [
+            678872.32,
+            6988822.08
+          ],
+          [
+            678875.68,
+            6988822.56
+          ],
+          [
+            678878.72,
+            6988821.44
+          ],
+          [
+            678881.12,
+            6988819.04
+          ],
+          [
+            678883.2,
+            6988815.84
+          ],
+          [
+            678884.32,
+            6988812.48
+          ],
+          [
+            678883.36,
+            6988809.28
+          ],
+          [
+            678881.28,
+            6988806.56
+          ],
+          [
+            678878.56,
+            6988804.96
+          ],
+          [
+            678875.36,
+            6988804.64
+          ],
+          [
+            678871.84,
+            6988805.76
+          ],
+          [
+            678869.28,
+            6988807.68
+          ],
+          [
+            678867.84,
+            6988810.4
+          ],
+          [
+            678867.68,
+            6988813.92
+          ],
+          [
+            678868.48,
+            6988817.44
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "tees": [
+        {
+          "id": "lm-h10-tee-1",
+          "sourceId": "norrfallsviken-10-hole",
+          "panel": {
+            "id": "10-tees",
+            "sourceId": "norrfallsviken-10-hole",
+            "sourceSha256": "5f113cbfd8316473cfa16d9152f94c04feb028858857caf42d6f9360cdfc95fc",
+            "geoTransform": [
+              678546.72,
+              0.16,
+              0.0,
+              6988647.84,
+              0.0,
+              -0.16
+            ],
+            "width": 760,
+            "height": 1252,
+            "sourcePixelWindow": [
+              156,
+              1437,
+              760,
+              1252
+            ]
+          },
+          "ringPixels": [
+            [
+              191,
+              880
+            ],
+            [
+              203,
+              865
+            ],
+            [
+              220,
+              863
+            ],
+            [
+              241,
+              873
+            ],
+            [
+              256,
+              891
+            ],
+            [
+              261,
+              913
+            ],
+            [
+              254,
+              935
+            ],
+            [
+              239,
+              950
+            ],
+            [
+              220,
+              954
+            ],
+            [
+              202,
+              946
+            ],
+            [
+              190,
+              930
+            ],
+            [
+              185,
+              908
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678577.28,
+              6988507.04
+            ],
+            [
+              678579.2,
+              6988509.44
+            ],
+            [
+              678581.92,
+              6988509.76
+            ],
+            [
+              678585.28,
+              6988508.16
+            ],
+            [
+              678587.68,
+              6988505.28
+            ],
+            [
+              678588.48,
+              6988501.76
+            ],
+            [
+              678587.36,
+              6988498.24
+            ],
+            [
+              678584.96,
+              6988495.84
+            ],
+            [
+              678581.92,
+              6988495.2
+            ],
+            [
+              678579.04,
+              6988496.48
+            ],
+            [
+              678577.12,
+              6988499.04
+            ],
+            [
+              678576.32,
+              6988502.56
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        },
+        {
+          "id": "lm-h10-tee-2",
+          "sourceId": "norrfallsviken-10-hole",
+          "panel": {
+            "id": "10-tees",
+            "sourceId": "norrfallsviken-10-hole",
+            "sourceSha256": "5f113cbfd8316473cfa16d9152f94c04feb028858857caf42d6f9360cdfc95fc",
+            "geoTransform": [
+              678546.72,
+              0.16,
+              0.0,
+              6988647.84,
+              0.0,
+              -0.16
+            ],
+            "width": 760,
+            "height": 1252,
+            "sourcePixelWindow": [
+              156,
+              1437,
+              760,
+              1252
+            ]
+          },
+          "ringPixels": [
+            [
+              196,
+              591
+            ],
+            [
+              208,
+              580
+            ],
+            [
+              222,
+              580
+            ],
+            [
+              236,
+              590
+            ],
+            [
+              244,
+              609
+            ],
+            [
+              241,
+              629
+            ],
+            [
+              228,
+              640
+            ],
+            [
+              210,
+              641
+            ],
+            [
+              196,
+              631
+            ],
+            [
+              190,
+              611
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678578.08,
+              6988553.28
+            ],
+            [
+              678580.0,
+              6988555.04
+            ],
+            [
+              678582.24,
+              6988555.04
+            ],
+            [
+              678584.48,
+              6988553.44
+            ],
+            [
+              678585.76,
+              6988550.4
+            ],
+            [
+              678585.28,
+              6988547.2
+            ],
+            [
+              678583.2,
+              6988545.44
+            ],
+            [
+              678580.32,
+              6988545.28
+            ],
+            [
+              678578.08,
+              6988546.88
+            ],
+            [
+              678577.12,
+              6988550.08
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h10-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h10-tee-2",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        2
+      ]
+    },
+    {
+      "hole": 11,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed.",
+      "green": {
+        "id": "lm-h11-green-1",
+        "sourceId": "norrfallsviken-11-hole",
+        "panel": {
+          "id": "11-green",
+          "sourceId": "norrfallsviken-11-hole",
+          "sourceSha256": "a7f9f22d442305cff9e40b433fbf610653d8a4cd5c3c8b27d80897db9cc25b9d",
+          "geoTransform": [
+            678618.4,
+            0.16,
+            0.0,
+            6988804.16,
+            0.0,
+            -0.16
+          ],
+          "width": 465,
+          "height": 434,
+          "sourcePixelWindow": [
+            162,
+            495,
+            465,
+            434
+          ]
+        },
+        "ringPixels": [
+          [
+            171,
+            227
+          ],
+          [
+            188,
+            211
+          ],
+          [
+            208,
+            191
+          ],
+          [
+            231,
+            177
+          ],
+          [
+            251,
+            176
+          ],
+          [
+            267,
+            184
+          ],
+          [
+            275,
+            197
+          ],
+          [
+            276,
+            210
+          ],
+          [
+            267,
+            224
+          ],
+          [
+            251,
+            238
+          ],
+          [
+            236,
+            254
+          ],
+          [
+            222,
+            271
+          ],
+          [
+            207,
+            284
+          ],
+          [
+            188,
+            288
+          ],
+          [
+            174,
+            280
+          ],
+          [
+            166,
+            266
+          ],
+          [
+            165,
+            246
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678645.76,
+            6988767.84
+          ],
+          [
+            678648.48,
+            6988770.4
+          ],
+          [
+            678651.68,
+            6988773.6
+          ],
+          [
+            678655.36,
+            6988775.84
+          ],
+          [
+            678658.56,
+            6988776.0
+          ],
+          [
+            678661.12,
+            6988774.72
+          ],
+          [
+            678662.4,
+            6988772.64
+          ],
+          [
+            678662.56,
+            6988770.56
+          ],
+          [
+            678661.12,
+            6988768.32
+          ],
+          [
+            678658.56,
+            6988766.08
+          ],
+          [
+            678656.16,
+            6988763.52
+          ],
+          [
+            678653.92,
+            6988760.8
+          ],
+          [
+            678651.52,
+            6988758.72
+          ],
+          [
+            678648.48,
+            6988758.08
+          ],
+          [
+            678646.24,
+            6988759.36
+          ],
+          [
+            678644.96,
+            6988761.6
+          ],
+          [
+            678644.8,
+            6988764.8
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "bunkers": [
+        {
+          "id": "lm-h11-bunker-1",
+          "sourceId": "norrfallsviken-11-hole",
+          "panel": {
+            "id": "11-green",
+            "sourceId": "norrfallsviken-11-hole",
+            "sourceSha256": "a7f9f22d442305cff9e40b433fbf610653d8a4cd5c3c8b27d80897db9cc25b9d",
+            "geoTransform": [
+              678618.4,
+              0.16,
+              0.0,
+              6988804.16,
+              0.0,
+              -0.16
+            ],
+            "width": 465,
+            "height": 434,
+            "sourcePixelWindow": [
+              162,
+              495,
+              465,
+              434
+            ]
+          },
+          "ringPixels": [
+            [
+              313,
+              219
+            ],
+            [
+              320,
+              208
+            ],
+            [
+              330,
+              212
+            ],
+            [
+              338,
+              219
+            ],
+            [
+              345,
+              228
+            ],
+            [
+              344,
+              241
+            ],
+            [
+              337,
+              250
+            ],
+            [
+              326,
+              250
+            ],
+            [
+              319,
+              244
+            ],
+            [
+              314,
+              234
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678668.48,
+              6988769.12
+            ],
+            [
+              678669.6,
+              6988770.88
+            ],
+            [
+              678671.2,
+              6988770.24
+            ],
+            [
+              678672.48,
+              6988769.12
+            ],
+            [
+              678673.6,
+              6988767.68
+            ],
+            [
+              678673.44,
+              6988765.6
+            ],
+            [
+              678672.32,
+              6988764.16
+            ],
+            [
+              678670.56,
+              6988764.16
+            ],
+            [
+              678669.44,
+              6988765.12
+            ],
+            [
+              678668.64,
+              6988766.72
+            ]
+          ],
+          "evidence": "Clearly bounded pale recessed sand immediately beside the putting surface, absent from the legacy model."
+        }
+      ],
+      "tees": [
+        {
+          "id": "lm-h11-tee-1",
+          "sourceId": "norrfallsviken-11-hole",
+          "panel": {
+            "id": "11-tees",
+            "sourceId": "norrfallsviken-11-hole",
+            "sourceSha256": "a7f9f22d442305cff9e40b433fbf610653d8a4cd5c3c8b27d80897db9cc25b9d",
+            "geoTransform": [
+              678728.0,
+              0.16,
+              0.0,
+              6988858.4,
+              0.0,
+              -0.16
+            ],
+            "width": 476,
+            "height": 421,
+            "sourcePixelWindow": [
+              847,
+              156,
+              476,
+              421
+            ]
+          },
+          "ringPixels": [
+            [
+              163,
+              229
+            ],
+            [
+              185,
+              219
+            ],
+            [
+              215,
+              205
+            ],
+            [
+              244,
+              188
+            ],
+            [
+              269,
+              173
+            ],
+            [
+              288,
+              167
+            ],
+            [
+              303,
+              174
+            ],
+            [
+              308,
+              188
+            ],
+            [
+              301,
+              199
+            ],
+            [
+              277,
+              211
+            ],
+            [
+              251,
+              222
+            ],
+            [
+              223,
+              234
+            ],
+            [
+              197,
+              246
+            ],
+            [
+              175,
+              252
+            ],
+            [
+              164,
+              244
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678754.08,
+              6988821.76
+            ],
+            [
+              678757.6,
+              6988823.36
+            ],
+            [
+              678762.4,
+              6988825.6
+            ],
+            [
+              678767.04,
+              6988828.32
+            ],
+            [
+              678771.04,
+              6988830.72
+            ],
+            [
+              678774.08,
+              6988831.68
+            ],
+            [
+              678776.48,
+              6988830.56
+            ],
+            [
+              678777.28,
+              6988828.32
+            ],
+            [
+              678776.16,
+              6988826.56
+            ],
+            [
+              678772.32,
+              6988824.64
+            ],
+            [
+              678768.16,
+              6988822.88
+            ],
+            [
+              678763.68,
+              6988820.96
+            ],
+            [
+              678759.52,
+              6988819.04
+            ],
+            [
+              678756.0,
+              6988818.08
+            ],
+            [
+              678754.24,
+              6988819.36
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h11-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h11-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 2,
+          "padId": "lm-h11-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": []
+    },
+    {
+      "hole": 12,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed.",
+      "green": {
+        "id": "lm-h12-green-1",
+        "sourceId": "norrfallsviken-12-hole",
+        "panel": {
+          "id": "12-green",
+          "sourceId": "norrfallsviken-12-hole",
+          "sourceSha256": "9c4f89a01dd096b184ed946013dd22d0dfcd7143f30f186dd61de3590233429d",
+          "geoTransform": [
+            678780.7999999999,
+            0.16,
+            0.0,
+            6989173.12,
+            0.0,
+            -0.16
+          ],
+          "width": 559,
+          "height": 510,
+          "sourcePixelWindow": [
+            1342,
+            162,
+            559,
+            510
+          ]
+        },
+        "ringPixels": [
+          [
+            196,
+            221
+          ],
+          [
+            216,
+            205
+          ],
+          [
+            242,
+            195
+          ],
+          [
+            268,
+            184
+          ],
+          [
+            297,
+            176
+          ],
+          [
+            325,
+            177
+          ],
+          [
+            346,
+            187
+          ],
+          [
+            361,
+            203
+          ],
+          [
+            372,
+            225
+          ],
+          [
+            377,
+            250
+          ],
+          [
+            370,
+            275
+          ],
+          [
+            356,
+            299
+          ],
+          [
+            337,
+            319
+          ],
+          [
+            312,
+            331
+          ],
+          [
+            287,
+            337
+          ],
+          [
+            260,
+            333
+          ],
+          [
+            237,
+            323
+          ],
+          [
+            217,
+            310
+          ],
+          [
+            200,
+            294
+          ],
+          [
+            190,
+            275
+          ],
+          [
+            188,
+            255
+          ],
+          [
+            190,
+            236
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678812.16,
+            6989137.76
+          ],
+          [
+            678815.36,
+            6989140.32
+          ],
+          [
+            678819.52,
+            6989141.92
+          ],
+          [
+            678823.68,
+            6989143.68
+          ],
+          [
+            678828.32,
+            6989144.96
+          ],
+          [
+            678832.8,
+            6989144.8
+          ],
+          [
+            678836.16,
+            6989143.2
+          ],
+          [
+            678838.56,
+            6989140.64
+          ],
+          [
+            678840.32,
+            6989137.12
+          ],
+          [
+            678841.12,
+            6989133.12
+          ],
+          [
+            678840.0,
+            6989129.12
+          ],
+          [
+            678837.76,
+            6989125.28
+          ],
+          [
+            678834.72,
+            6989122.08
+          ],
+          [
+            678830.72,
+            6989120.16
+          ],
+          [
+            678826.72,
+            6989119.2
+          ],
+          [
+            678822.4,
+            6989119.84
+          ],
+          [
+            678818.72,
+            6989121.44
+          ],
+          [
+            678815.52,
+            6989123.52
+          ],
+          [
+            678812.8,
+            6989126.08
+          ],
+          [
+            678811.2,
+            6989129.12
+          ],
+          [
+            678810.88,
+            6989132.32
+          ],
+          [
+            678811.2,
+            6989135.36
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "tees": [
+        {
+          "id": "lm-h12-tee-1",
+          "sourceId": "norrfallsviken-12-hole",
+          "panel": {
+            "id": "12-tees",
+            "sourceId": "norrfallsviken-12-hole",
+            "sourceSha256": "9c4f89a01dd096b184ed946013dd22d0dfcd7143f30f186dd61de3590233429d",
+            "geoTransform": [
+              678591.0399999999,
+              0.16,
+              0.0,
+              6988953.76,
+              0.0,
+              -0.16
+            ],
+            "width": 536,
+            "height": 750,
+            "sourcePixelWindow": [
+              156,
+              1533,
+              536,
+              750
+            ]
+          },
+          "ringPixels": [
+            [
+              180,
+              518
+            ],
+            [
+              194,
+              509
+            ],
+            [
+              211,
+              508
+            ],
+            [
+              226,
+              515
+            ],
+            [
+              235,
+              529
+            ],
+            [
+              238,
+              548
+            ],
+            [
+              232,
+              568
+            ],
+            [
+              220,
+              580
+            ],
+            [
+              204,
+              580
+            ],
+            [
+              188,
+              570
+            ],
+            [
+              178,
+              553
+            ],
+            [
+              175,
+              535
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678619.84,
+              6988870.88
+            ],
+            [
+              678622.08,
+              6988872.32
+            ],
+            [
+              678624.8,
+              6988872.48
+            ],
+            [
+              678627.2,
+              6988871.36
+            ],
+            [
+              678628.64,
+              6988869.12
+            ],
+            [
+              678629.12,
+              6988866.08
+            ],
+            [
+              678628.16,
+              6988862.88
+            ],
+            [
+              678626.24,
+              6988860.96
+            ],
+            [
+              678623.68,
+              6988860.96
+            ],
+            [
+              678621.12,
+              6988862.56
+            ],
+            [
+              678619.52,
+              6988865.28
+            ],
+            [
+              678619.04,
+              6988868.16
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        },
+        {
+          "id": "lm-h12-tee-2",
+          "sourceId": "norrfallsviken-12-hole",
+          "panel": {
+            "id": "12-tees",
+            "sourceId": "norrfallsviken-12-hole",
+            "sourceSha256": "9c4f89a01dd096b184ed946013dd22d0dfcd7143f30f186dd61de3590233429d",
+            "geoTransform": [
+              678591.0399999999,
+              0.16,
+              0.0,
+              6988953.76,
+              0.0,
+              -0.16
+            ],
+            "width": 536,
+            "height": 750,
+            "sourcePixelWindow": [
+              156,
+              1533,
+              536,
+              750
+            ]
+          },
+          "ringPixels": [
+            [
+              322,
+              115
+            ],
+            [
+              330,
+              100
+            ],
+            [
+              344,
+              96
+            ],
+            [
+              358,
+              106
+            ],
+            [
+              362,
+              121
+            ],
+            [
+              356,
+              140
+            ],
+            [
+              347,
+              156
+            ],
+            [
+              335,
+              165
+            ],
+            [
+              322,
+              160
+            ],
+            [
+              318,
+              144
+            ],
+            [
+              318,
+              129
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678642.56,
+              6988935.36
+            ],
+            [
+              678643.84,
+              6988937.76
+            ],
+            [
+              678646.08,
+              6988938.4
+            ],
+            [
+              678648.32,
+              6988936.8
+            ],
+            [
+              678648.96,
+              6988934.4
+            ],
+            [
+              678648.0,
+              6988931.36
+            ],
+            [
+              678646.56,
+              6988928.8
+            ],
+            [
+              678644.64,
+              6988927.36
+            ],
+            [
+              678642.56,
+              6988928.16
+            ],
+            [
+              678641.92,
+              6988930.72
+            ],
+            [
+              678641.92,
+              6988933.12
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h12-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h12-tee-2",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 2,
+          "padId": "lm-h12-tee-2",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": []
+    },
+    {
+      "hole": 13,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed.",
+      "green": {
+        "id": "lm-h13-green-1",
+        "sourceId": "norrfallsviken-13-hole",
+        "panel": {
+          "id": "13-green",
+          "sourceId": "norrfallsviken-13-hole",
+          "sourceSha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d",
+          "geoTransform": [
+            678829.76,
+            0.16,
+            0.0,
+            6988892.96,
+            0.0,
+            -0.16
+          ],
+          "width": 472,
+          "height": 479,
+          "sourcePixelWindow": [
+            366,
+            2277,
+            472,
+            479
+          ]
+        },
+        "ringPixels": [
+          [
+            151,
+            222
+          ],
+          [
+            171,
+            208
+          ],
+          [
+            195,
+            202
+          ],
+          [
+            222,
+            199
+          ],
+          [
+            249,
+            195
+          ],
+          [
+            268,
+            197
+          ],
+          [
+            285,
+            210
+          ],
+          [
+            295,
+            231
+          ],
+          [
+            298,
+            258
+          ],
+          [
+            294,
+            283
+          ],
+          [
+            283,
+            303
+          ],
+          [
+            264,
+            318
+          ],
+          [
+            240,
+            325
+          ],
+          [
+            215,
+            323
+          ],
+          [
+            192,
+            312
+          ],
+          [
+            173,
+            299
+          ],
+          [
+            157,
+            281
+          ],
+          [
+            148,
+            262
+          ],
+          [
+            145,
+            241
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678853.92,
+            6988857.44
+          ],
+          [
+            678857.12,
+            6988859.68
+          ],
+          [
+            678860.96,
+            6988860.64
+          ],
+          [
+            678865.28,
+            6988861.12
+          ],
+          [
+            678869.6,
+            6988861.76
+          ],
+          [
+            678872.64,
+            6988861.44
+          ],
+          [
+            678875.36,
+            6988859.36
+          ],
+          [
+            678876.96,
+            6988856.0
+          ],
+          [
+            678877.44,
+            6988851.68
+          ],
+          [
+            678876.8,
+            6988847.68
+          ],
+          [
+            678875.04,
+            6988844.48
+          ],
+          [
+            678872.0,
+            6988842.08
+          ],
+          [
+            678868.16,
+            6988840.96
+          ],
+          [
+            678864.16,
+            6988841.28
+          ],
+          [
+            678860.48,
+            6988843.04
+          ],
+          [
+            678857.44,
+            6988845.12
+          ],
+          [
+            678854.88,
+            6988848.0
+          ],
+          [
+            678853.44,
+            6988851.04
+          ],
+          [
+            678852.96,
+            6988854.4
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "tees": [
+        {
+          "id": "lm-h13-tee-1",
+          "sourceId": "norrfallsviken-13-hole",
+          "panel": {
+            "id": "13-tees",
+            "sourceId": "norrfallsviken-13-hole",
+            "sourceSha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d",
+            "geoTransform": [
+              678858.88,
+              0.16,
+              0.0,
+              6989232.32,
+              0.0,
+              -0.16
+            ],
+            "width": 780,
+            "height": 1223,
+            "sourcePixelWindow": [
+              548,
+              156,
+              780,
+              1223
+            ]
+          },
+          "ringPixels": [
+            [
+              550,
+              190
+            ],
+            [
+              566,
+              180
+            ],
+            [
+              584,
+              184
+            ],
+            [
+              596,
+              195
+            ],
+            [
+              598,
+              212
+            ],
+            [
+              592,
+              235
+            ],
+            [
+              582,
+              253
+            ],
+            [
+              570,
+              263
+            ],
+            [
+              554,
+              263
+            ],
+            [
+              543,
+              252
+            ],
+            [
+              541,
+              237
+            ],
+            [
+              546,
+              214
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678946.88,
+              6989201.92
+            ],
+            [
+              678949.44,
+              6989203.52
+            ],
+            [
+              678952.32,
+              6989202.88
+            ],
+            [
+              678954.24,
+              6989201.12
+            ],
+            [
+              678954.56,
+              6989198.4
+            ],
+            [
+              678953.6,
+              6989194.72
+            ],
+            [
+              678952.0,
+              6989191.84
+            ],
+            [
+              678950.08,
+              6989190.24
+            ],
+            [
+              678947.52,
+              6989190.24
+            ],
+            [
+              678945.76,
+              6989192.0
+            ],
+            [
+              678945.44,
+              6989194.4
+            ],
+            [
+              678946.24,
+              6989198.08
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        },
+        {
+          "id": "lm-h13-tee-2",
+          "sourceId": "norrfallsviken-13-hole",
+          "panel": {
+            "id": "13-tees",
+            "sourceId": "norrfallsviken-13-hole",
+            "sourceSha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d",
+            "geoTransform": [
+              678858.88,
+              0.16,
+              0.0,
+              6989232.32,
+              0.0,
+              -0.16
+            ],
+            "width": 780,
+            "height": 1223,
+            "sourcePixelWindow": [
+              548,
+              156,
+              780,
+              1223
+            ]
+          },
+          "ringPixels": [
+            [
+              482,
+              409
+            ],
+            [
+              493,
+              399
+            ],
+            [
+              506,
+              403
+            ],
+            [
+              516,
+              418
+            ],
+            [
+              520,
+              440
+            ],
+            [
+              514,
+              461
+            ],
+            [
+              504,
+              475
+            ],
+            [
+              493,
+              477
+            ],
+            [
+              483,
+              469
+            ],
+            [
+              478,
+              451
+            ],
+            [
+              478,
+              429
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678936.0,
+              6989166.88
+            ],
+            [
+              678937.76,
+              6989168.48
+            ],
+            [
+              678939.84,
+              6989167.84
+            ],
+            [
+              678941.44,
+              6989165.44
+            ],
+            [
+              678942.08,
+              6989161.92
+            ],
+            [
+              678941.12,
+              6989158.56
+            ],
+            [
+              678939.52,
+              6989156.32
+            ],
+            [
+              678937.76,
+              6989156.0
+            ],
+            [
+              678936.16,
+              6989157.28
+            ],
+            [
+              678935.36,
+              6989160.16
+            ],
+            [
+              678935.36,
+              6989163.68
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        },
+        {
+          "id": "lm-h13-tee-3",
+          "sourceId": "norrfallsviken-13-hole",
+          "panel": {
+            "id": "13-tees",
+            "sourceId": "norrfallsviken-13-hole",
+            "sourceSha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d",
+            "geoTransform": [
+              678858.88,
+              0.16,
+              0.0,
+              6989232.32,
+              0.0,
+              -0.16
+            ],
+            "width": 780,
+            "height": 1223,
+            "sourcePixelWindow": [
+              548,
+              156,
+              780,
+              1223
+            ]
+          },
+          "ringPixels": [
+            [
+              393,
+              665
+            ],
+            [
+              408,
+              658
+            ],
+            [
+              420,
+              664
+            ],
+            [
+              427,
+              677
+            ],
+            [
+              423,
+              694
+            ],
+            [
+              412,
+              708
+            ],
+            [
+              397,
+              711
+            ],
+            [
+              386,
+              700
+            ],
+            [
+              385,
+              683
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678921.76,
+              6989125.92
+            ],
+            [
+              678924.16,
+              6989127.04
+            ],
+            [
+              678926.08,
+              6989126.08
+            ],
+            [
+              678927.2,
+              6989124.0
+            ],
+            [
+              678926.56,
+              6989121.28
+            ],
+            [
+              678924.8,
+              6989119.04
+            ],
+            [
+              678922.4,
+              6989118.56
+            ],
+            [
+              678920.64,
+              6989120.32
+            ],
+            [
+              678920.48,
+              6989123.04
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h13-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h13-tee-2",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 2,
+          "padId": "lm-h13-tee-3",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": []
+    },
+    {
+      "hole": 14,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed. The inherited orange reference is in the photographed pond. It is flagged unresolved and cannot define a synthetic tee or visible marker.",
+      "green": {
+        "id": "lm-h14-green-1",
+        "sourceId": "norrfallsviken-14-hole",
+        "panel": {
+          "id": "14-green",
+          "sourceId": "norrfallsviken-14-hole",
+          "sourceSha256": "c930181e399f45235f8330c6155dc2694de47d3bf9458502ce238d5c1039265b",
+          "geoTransform": [
+            678909.6,
+            0.16,
+            0.0,
+            6989080.64,
+            0.0,
+            -0.16
+          ],
+          "width": 492,
+          "height": 499,
+          "sourcePixelWindow": [
+            275,
+            164,
+            492,
+            499
+          ]
+        },
+        "ringPixels": [
+          [
+            193,
+            221
+          ],
+          [
+            208,
+            205
+          ],
+          [
+            227,
+            193
+          ],
+          [
+            250,
+            185
+          ],
+          [
+            274,
+            184
+          ],
+          [
+            296,
+            192
+          ],
+          [
+            311,
+            207
+          ],
+          [
+            319,
+            225
+          ],
+          [
+            315,
+            245
+          ],
+          [
+            306,
+            262
+          ],
+          [
+            288,
+            278
+          ],
+          [
+            264,
+            288
+          ],
+          [
+            239,
+            297
+          ],
+          [
+            219,
+            303
+          ],
+          [
+            203,
+            299
+          ],
+          [
+            193,
+            286
+          ],
+          [
+            188,
+            264
+          ],
+          [
+            187,
+            242
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678940.48,
+            6989045.28
+          ],
+          [
+            678942.88,
+            6989047.84
+          ],
+          [
+            678945.92,
+            6989049.76
+          ],
+          [
+            678949.6,
+            6989051.04
+          ],
+          [
+            678953.44,
+            6989051.2
+          ],
+          [
+            678956.96,
+            6989049.92
+          ],
+          [
+            678959.36,
+            6989047.52
+          ],
+          [
+            678960.64,
+            6989044.64
+          ],
+          [
+            678960.0,
+            6989041.44
+          ],
+          [
+            678958.56,
+            6989038.72
+          ],
+          [
+            678955.68,
+            6989036.16
+          ],
+          [
+            678951.84,
+            6989034.56
+          ],
+          [
+            678947.84,
+            6989033.12
+          ],
+          [
+            678944.64,
+            6989032.16
+          ],
+          [
+            678942.08,
+            6989032.8
+          ],
+          [
+            678940.48,
+            6989034.88
+          ],
+          [
+            678939.68,
+            6989038.4
+          ],
+          [
+            678939.52,
+            6989041.92
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "tees": [
+        {
+          "id": "lm-h14-tee-1",
+          "sourceId": "norrfallsviken-14-hole",
+          "panel": {
+            "id": "14-tees",
+            "sourceId": "norrfallsviken-14-hole",
+            "sourceSha256": "c930181e399f45235f8330c6155dc2694de47d3bf9458502ce238d5c1039265b",
+            "geoTransform": [
+              678890.5599999999,
+              0.16,
+              0.0,
+              6989017.92,
+              0.0,
+              -0.16
+            ],
+            "width": 466,
+            "height": 944,
+            "sourcePixelWindow": [
+              156,
+              556,
+              466,
+              944
+            ]
+          },
+          "ringPixels": [
+            [
+              175,
+              705
+            ],
+            [
+              185,
+              689
+            ],
+            [
+              199,
+              685
+            ],
+            [
+              216,
+              691
+            ],
+            [
+              229,
+              705
+            ],
+            [
+              233,
+              727
+            ],
+            [
+              228,
+              753
+            ],
+            [
+              220,
+              775
+            ],
+            [
+              209,
+              794
+            ],
+            [
+              195,
+              798
+            ],
+            [
+              182,
+              792
+            ],
+            [
+              173,
+              774
+            ],
+            [
+              171,
+              750
+            ],
+            [
+              171,
+              724
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678918.56,
+              6988905.12
+            ],
+            [
+              678920.16,
+              6988907.68
+            ],
+            [
+              678922.4,
+              6988908.32
+            ],
+            [
+              678925.12,
+              6988907.36
+            ],
+            [
+              678927.2,
+              6988905.12
+            ],
+            [
+              678927.84,
+              6988901.6
+            ],
+            [
+              678927.04,
+              6988897.44
+            ],
+            [
+              678925.76,
+              6988893.92
+            ],
+            [
+              678924.0,
+              6988890.88
+            ],
+            [
+              678921.76,
+              6988890.24
+            ],
+            [
+              678919.68,
+              6988891.2
+            ],
+            [
+              678918.24,
+              6988894.08
+            ],
+            [
+              678917.92,
+              6988897.92
+            ],
+            [
+              678917.92,
+              6988902.08
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h14-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h14-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        2
+      ],
+      "invalidTeeReferences": [
+        2
+      ]
+    },
+    {
+      "hole": 15,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed.",
+      "green": {
+        "id": "lm-h15-green-1",
+        "sourceId": "norrfallsviken-15-hole",
+        "panel": {
+          "id": "15-green",
+          "sourceId": "norrfallsviken-15-hole",
+          "sourceSha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7",
+          "geoTransform": [
+            679192.4800000001,
+            0.16,
+            0.0,
+            6988896.64,
+            0.0,
+            -0.16
+          ],
+          "width": 443,
+          "height": 463,
+          "sourcePixelWindow": [
+            1473,
+            1495,
+            443,
+            463
+          ]
+        },
+        "ringPixels": [
+          [
+            165,
+            197
+          ],
+          [
+            181,
+            183
+          ],
+          [
+            203,
+            180
+          ],
+          [
+            226,
+            184
+          ],
+          [
+            247,
+            194
+          ],
+          [
+            266,
+            210
+          ],
+          [
+            282,
+            230
+          ],
+          [
+            290,
+            251
+          ],
+          [
+            287,
+            274
+          ],
+          [
+            277,
+            292
+          ],
+          [
+            261,
+            305
+          ],
+          [
+            241,
+            311
+          ],
+          [
+            219,
+            308
+          ],
+          [
+            201,
+            298
+          ],
+          [
+            185,
+            282
+          ],
+          [
+            171,
+            263
+          ],
+          [
+            161,
+            241
+          ],
+          [
+            159,
+            218
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            679218.88,
+            6988865.12
+          ],
+          [
+            679221.44,
+            6988867.36
+          ],
+          [
+            679224.96,
+            6988867.84
+          ],
+          [
+            679228.64,
+            6988867.2
+          ],
+          [
+            679232.0,
+            6988865.6
+          ],
+          [
+            679235.04,
+            6988863.04
+          ],
+          [
+            679237.6,
+            6988859.84
+          ],
+          [
+            679238.88,
+            6988856.48
+          ],
+          [
+            679238.4,
+            6988852.8
+          ],
+          [
+            679236.8,
+            6988849.92
+          ],
+          [
+            679234.24,
+            6988847.84
+          ],
+          [
+            679231.04,
+            6988846.88
+          ],
+          [
+            679227.52,
+            6988847.36
+          ],
+          [
+            679224.64,
+            6988848.96
+          ],
+          [
+            679222.08,
+            6988851.52
+          ],
+          [
+            679219.84,
+            6988854.56
+          ],
+          [
+            679218.24,
+            6988858.08
+          ],
+          [
+            679217.92,
+            6988861.76
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "bunkers": [
+        {
+          "id": "lm-h15-bunker-1",
+          "sourceId": "norrfallsviken-15-hole",
+          "panel": {
+            "id": "15-green",
+            "sourceId": "norrfallsviken-15-hole",
+            "sourceSha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7",
+            "geoTransform": [
+              679192.4800000001,
+              0.16,
+              0.0,
+              6988896.64,
+              0.0,
+              -0.16
+            ],
+            "width": 443,
+            "height": 463,
+            "sourcePixelWindow": [
+              1473,
+              1495,
+              443,
+              463
+            ]
+          },
+          "ringPixels": [
+            [
+              61,
+              176
+            ],
+            [
+              69,
+              167
+            ],
+            [
+              83,
+              165
+            ],
+            [
+              96,
+              170
+            ],
+            [
+              105,
+              180
+            ],
+            [
+              111,
+              195
+            ],
+            [
+              117,
+              208
+            ],
+            [
+              120,
+              218
+            ],
+            [
+              115,
+              224
+            ],
+            [
+              105,
+              222
+            ],
+            [
+              94,
+              218
+            ],
+            [
+              88,
+              212
+            ],
+            [
+              82,
+              199
+            ],
+            [
+              72,
+              190
+            ],
+            [
+              64,
+              185
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679202.24,
+              6988868.48
+            ],
+            [
+              679203.52,
+              6988869.92
+            ],
+            [
+              679205.76,
+              6988870.24
+            ],
+            [
+              679207.84,
+              6988869.44
+            ],
+            [
+              679209.28,
+              6988867.84
+            ],
+            [
+              679210.24,
+              6988865.44
+            ],
+            [
+              679211.2,
+              6988863.36
+            ],
+            [
+              679211.68,
+              6988861.76
+            ],
+            [
+              679210.88,
+              6988860.8
+            ],
+            [
+              679209.28,
+              6988861.12
+            ],
+            [
+              679207.52,
+              6988861.76
+            ],
+            [
+              679206.56,
+              6988862.72
+            ],
+            [
+              679205.6,
+              6988864.8
+            ],
+            [
+              679204.0,
+              6988866.24
+            ],
+            [
+              679202.72,
+              6988867.04
+            ]
+          ],
+          "evidence": "Clearly bounded pale recessed sand immediately beside the putting surface, absent from the legacy model."
+        }
+      ],
+      "tees": [
+        {
+          "id": "lm-h15-tee-1",
+          "sourceId": "norrfallsviken-15-hole",
+          "panel": {
+            "id": "15-tees",
+            "sourceId": "norrfallsviken-15-hole",
+            "sourceSha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7",
+            "geoTransform": [
+              678981.76,
+              0.16,
+              0.0,
+              6989110.88,
+              0.0,
+              -0.16
+            ],
+            "width": 842,
+            "height": 794,
+            "sourcePixelWindow": [
+              156,
+              156,
+              842,
+              794
+            ]
+          },
+          "ringPixels": [
+            [
+              129,
+              136
+            ],
+            [
+              144,
+              127
+            ],
+            [
+              164,
+              132
+            ],
+            [
+              187,
+              146
+            ],
+            [
+              211,
+              161
+            ],
+            [
+              233,
+              177
+            ],
+            [
+              244,
+              191
+            ],
+            [
+              241,
+              203
+            ],
+            [
+              230,
+              213
+            ],
+            [
+              216,
+              215
+            ],
+            [
+              200,
+              207
+            ],
+            [
+              182,
+              194
+            ],
+            [
+              163,
+              180
+            ],
+            [
+              142,
+              164
+            ],
+            [
+              130,
+              151
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679002.4,
+              6989089.12
+            ],
+            [
+              679004.8,
+              6989090.56
+            ],
+            [
+              679008.0,
+              6989089.76
+            ],
+            [
+              679011.68,
+              6989087.52
+            ],
+            [
+              679015.52,
+              6989085.12
+            ],
+            [
+              679019.04,
+              6989082.56
+            ],
+            [
+              679020.8,
+              6989080.32
+            ],
+            [
+              679020.32,
+              6989078.4
+            ],
+            [
+              679018.56,
+              6989076.8
+            ],
+            [
+              679016.32,
+              6989076.48
+            ],
+            [
+              679013.76,
+              6989077.76
+            ],
+            [
+              679010.88,
+              6989079.84
+            ],
+            [
+              679007.84,
+              6989082.08
+            ],
+            [
+              679004.48,
+              6989084.64
+            ],
+            [
+              679002.56,
+              6989086.72
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        },
+        {
+          "id": "lm-h15-tee-2",
+          "sourceId": "norrfallsviken-15-hole",
+          "panel": {
+            "id": "15-tees",
+            "sourceId": "norrfallsviken-15-hole",
+            "sourceSha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7",
+            "geoTransform": [
+              678981.76,
+              0.16,
+              0.0,
+              6989110.88,
+              0.0,
+              -0.16
+            ],
+            "width": 842,
+            "height": 794,
+            "sourcePixelWindow": [
+              156,
+              156,
+              842,
+              794
+            ]
+          },
+          "ringPixels": [
+            [
+              335,
+              238
+            ],
+            [
+              347,
+              227
+            ],
+            [
+              365,
+              225
+            ],
+            [
+              382,
+              231
+            ],
+            [
+              389,
+              243
+            ],
+            [
+              388,
+              255
+            ],
+            [
+              374,
+              267
+            ],
+            [
+              356,
+              269
+            ],
+            [
+              342,
+              261
+            ],
+            [
+              335,
+              250
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679035.36,
+              6989072.8
+            ],
+            [
+              679037.28,
+              6989074.56
+            ],
+            [
+              679040.16,
+              6989074.88
+            ],
+            [
+              679042.88,
+              6989073.92
+            ],
+            [
+              679044.0,
+              6989072.0
+            ],
+            [
+              679043.84,
+              6989070.08
+            ],
+            [
+              679041.6,
+              6989068.16
+            ],
+            [
+              679038.72,
+              6989067.84
+            ],
+            [
+              679036.48,
+              6989069.12
+            ],
+            [
+              679035.36,
+              6989070.88
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h15-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h15-tee-2",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        2
+      ]
+    },
+    {
+      "hole": 16,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed.",
+      "green": {
+        "id": "lm-h16-green-1",
+        "sourceId": "norrfallsviken-16-hole",
+        "panel": {
+          "id": "16-green",
+          "sourceId": "norrfallsviken-16-hole",
+          "sourceSha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+          "geoTransform": [
+            679214.0800000001,
+            0.16,
+            0.0,
+            6988524.0,
+            0.0,
+            -0.16
+          ],
+          "width": 422,
+          "height": 453,
+          "sourcePixelWindow": [
+            162,
+            2042,
+            422,
+            453
+          ]
+        },
+        "ringPixels": [
+          [
+            143,
+            246
+          ],
+          [
+            155,
+            226
+          ],
+          [
+            174,
+            204
+          ],
+          [
+            195,
+            183
+          ],
+          [
+            214,
+            170
+          ],
+          [
+            232,
+            167
+          ],
+          [
+            249,
+            175
+          ],
+          [
+            260,
+            189
+          ],
+          [
+            263,
+            204
+          ],
+          [
+            254,
+            220
+          ],
+          [
+            238,
+            238
+          ],
+          [
+            218,
+            256
+          ],
+          [
+            200,
+            275
+          ],
+          [
+            183,
+            292
+          ],
+          [
+            169,
+            301
+          ],
+          [
+            153,
+            300
+          ],
+          [
+            143,
+            287
+          ],
+          [
+            138,
+            269
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            679236.96,
+            6988484.64
+          ],
+          [
+            679238.88,
+            6988487.84
+          ],
+          [
+            679241.92,
+            6988491.36
+          ],
+          [
+            679245.28,
+            6988494.72
+          ],
+          [
+            679248.32,
+            6988496.8
+          ],
+          [
+            679251.2,
+            6988497.28
+          ],
+          [
+            679253.92,
+            6988496.0
+          ],
+          [
+            679255.68,
+            6988493.76
+          ],
+          [
+            679256.16,
+            6988491.36
+          ],
+          [
+            679254.72,
+            6988488.8
+          ],
+          [
+            679252.16,
+            6988485.92
+          ],
+          [
+            679248.96,
+            6988483.04
+          ],
+          [
+            679246.08,
+            6988480.0
+          ],
+          [
+            679243.36,
+            6988477.28
+          ],
+          [
+            679241.12,
+            6988475.84
+          ],
+          [
+            679238.56,
+            6988476.0
+          ],
+          [
+            679236.96,
+            6988478.08
+          ],
+          [
+            679236.16,
+            6988480.96
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "bunkers": [
+        {
+          "id": "lm-h16-bunker-1",
+          "sourceId": "norrfallsviken-16-hole",
+          "panel": {
+            "id": "16-green",
+            "sourceId": "norrfallsviken-16-hole",
+            "sourceSha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+            "geoTransform": [
+              679214.0800000001,
+              0.16,
+              0.0,
+              6988524.0,
+              0.0,
+              -0.16
+            ],
+            "width": 422,
+            "height": 453,
+            "sourcePixelWindow": [
+              162,
+              2042,
+              422,
+              453
+            ]
+          },
+          "ringPixels": [
+            [
+              291,
+              188
+            ],
+            [
+              302,
+              178
+            ],
+            [
+              314,
+              169
+            ],
+            [
+              323,
+              165
+            ],
+            [
+              329,
+              167
+            ],
+            [
+              331,
+              174
+            ],
+            [
+              326,
+              182
+            ],
+            [
+              315,
+              187
+            ],
+            [
+              311,
+              195
+            ],
+            [
+              302,
+              202
+            ],
+            [
+              296,
+              204
+            ],
+            [
+              291,
+              200
+            ],
+            [
+              289,
+              194
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679260.64,
+              6988493.92
+            ],
+            [
+              679262.4,
+              6988495.52
+            ],
+            [
+              679264.32,
+              6988496.96
+            ],
+            [
+              679265.76,
+              6988497.6
+            ],
+            [
+              679266.72,
+              6988497.28
+            ],
+            [
+              679267.04,
+              6988496.16
+            ],
+            [
+              679266.24,
+              6988494.88
+            ],
+            [
+              679264.48,
+              6988494.08
+            ],
+            [
+              679263.84,
+              6988492.8
+            ],
+            [
+              679262.4,
+              6988491.68
+            ],
+            [
+              679261.44,
+              6988491.36
+            ],
+            [
+              679260.64,
+              6988492.0
+            ],
+            [
+              679260.32,
+              6988492.96
+            ]
+          ],
+          "evidence": "Clearly bounded pale recessed sand immediately beside the putting surface, absent from the legacy model."
+        }
+      ],
+      "tees": [
+        {
+          "id": "lm-h16-tee-1",
+          "sourceId": "norrfallsviken-16-hole",
+          "panel": {
+            "id": "16-tees",
+            "sourceId": "norrfallsviken-16-hole",
+            "sourceSha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+            "geoTransform": [
+              679249.28,
+              0.16,
+              0.0,
+              6988825.6,
+              0.0,
+              -0.16
+            ],
+            "width": 424,
+            "height": 689,
+            "sourcePixelWindow": [
+              382,
+              157,
+              424,
+              689
+            ]
+          },
+          "ringPixels": [
+            [
+              116,
+              126
+            ],
+            [
+              124,
+              117
+            ],
+            [
+              136,
+              119
+            ],
+            [
+              151,
+              132
+            ],
+            [
+              171,
+              148
+            ],
+            [
+              186,
+              161
+            ],
+            [
+              195,
+              178
+            ],
+            [
+              189,
+              190
+            ],
+            [
+              178,
+              193
+            ],
+            [
+              163,
+              184
+            ],
+            [
+              145,
+              168
+            ],
+            [
+              130,
+              151
+            ],
+            [
+              120,
+              140
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679267.84,
+              6988805.44
+            ],
+            [
+              679269.12,
+              6988806.88
+            ],
+            [
+              679271.04,
+              6988806.56
+            ],
+            [
+              679273.44,
+              6988804.48
+            ],
+            [
+              679276.64,
+              6988801.92
+            ],
+            [
+              679279.04,
+              6988799.84
+            ],
+            [
+              679280.48,
+              6988797.12
+            ],
+            [
+              679279.52,
+              6988795.2
+            ],
+            [
+              679277.76,
+              6988794.72
+            ],
+            [
+              679275.36,
+              6988796.16
+            ],
+            [
+              679272.48,
+              6988798.72
+            ],
+            [
+              679270.08,
+              6988801.44
+            ],
+            [
+              679268.48,
+              6988803.2
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        },
+        {
+          "id": "lm-h16-tee-2",
+          "sourceId": "norrfallsviken-16-hole",
+          "panel": {
+            "id": "16-tees",
+            "sourceId": "norrfallsviken-16-hole",
+            "sourceSha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+            "geoTransform": [
+              679249.28,
+              0.16,
+              0.0,
+              6988825.6,
+              0.0,
+              -0.16
+            ],
+            "width": 424,
+            "height": 689,
+            "sourcePixelWindow": [
+              382,
+              157,
+              424,
+              689
+            ]
+          },
+          "ringPixels": [
+            [
+              182,
+              319
+            ],
+            [
+              196,
+              309
+            ],
+            [
+              216,
+              311
+            ],
+            [
+              238,
+              326
+            ],
+            [
+              251,
+              346
+            ],
+            [
+              259,
+              366
+            ],
+            [
+              250,
+              384
+            ],
+            [
+              235,
+              389
+            ],
+            [
+              219,
+              380
+            ],
+            [
+              206,
+              363
+            ],
+            [
+              192,
+              346
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679278.4,
+              6988774.56
+            ],
+            [
+              679280.64,
+              6988776.16
+            ],
+            [
+              679283.84,
+              6988775.84
+            ],
+            [
+              679287.36,
+              6988773.44
+            ],
+            [
+              679289.44,
+              6988770.24
+            ],
+            [
+              679290.72,
+              6988767.04
+            ],
+            [
+              679289.28,
+              6988764.16
+            ],
+            [
+              679286.88,
+              6988763.36
+            ],
+            [
+              679284.32,
+              6988764.8
+            ],
+            [
+              679282.24,
+              6988767.52
+            ],
+            [
+              679280.0,
+              6988770.24
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        },
+        {
+          "id": "lm-h16-tee-3",
+          "sourceId": "norrfallsviken-16-hole",
+          "panel": {
+            "id": "16-tees",
+            "sourceId": "norrfallsviken-16-hole",
+            "sourceSha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+            "geoTransform": [
+              679249.28,
+              0.16,
+              0.0,
+              6988825.6,
+              0.0,
+              -0.16
+            ],
+            "width": 424,
+            "height": 689,
+            "sourcePixelWindow": [
+              382,
+              157,
+              424,
+              689
+            ]
+          },
+          "ringPixels": [
+            [
+              242,
+              482
+            ],
+            [
+              250,
+              476
+            ],
+            [
+              258,
+              481
+            ],
+            [
+              263,
+              492
+            ],
+            [
+              263,
+              505
+            ],
+            [
+              257,
+              514
+            ],
+            [
+              248,
+              514
+            ],
+            [
+              241,
+              507
+            ],
+            [
+              239,
+              494
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679288.0,
+              6988748.48
+            ],
+            [
+              679289.28,
+              6988749.44
+            ],
+            [
+              679290.56,
+              6988748.64
+            ],
+            [
+              679291.36,
+              6988746.88
+            ],
+            [
+              679291.36,
+              6988744.8
+            ],
+            [
+              679290.4,
+              6988743.36
+            ],
+            [
+              679288.96,
+              6988743.36
+            ],
+            [
+              679287.84,
+              6988744.48
+            ],
+            [
+              679287.52,
+              6988746.56
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h16-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h16-tee-2",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 2,
+          "padId": "lm-h16-tee-2",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": []
+    },
+    {
+      "hole": 17,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed. The inherited orange reference is in the photographed pond. It is flagged unresolved and cannot define a synthetic tee or visible marker.",
+      "green": {
+        "id": "lm-h17-green-1",
+        "sourceId": "norrfallsviken-17-hole",
+        "panel": {
+          "id": "17-green",
+          "sourceId": "norrfallsviken-17-hole",
+          "sourceSha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+          "geoTransform": [
+            678935.04,
+            0.16,
+            0.0,
+            6988748.0,
+            0.0,
+            -0.16
+          ],
+          "width": 481,
+          "height": 457,
+          "sourcePixelWindow": [
+            162,
+            163,
+            481,
+            457
+          ]
+        },
+        "ringPixels": [
+          [
+            161,
+            246
+          ],
+          [
+            173,
+            220
+          ],
+          [
+            183,
+            194
+          ],
+          [
+            197,
+            172
+          ],
+          [
+            213,
+            158
+          ],
+          [
+            231,
+            153
+          ],
+          [
+            247,
+            157
+          ],
+          [
+            261,
+            171
+          ],
+          [
+            268,
+            189
+          ],
+          [
+            267,
+            212
+          ],
+          [
+            258,
+            237
+          ],
+          [
+            246,
+            259
+          ],
+          [
+            230,
+            278
+          ],
+          [
+            212,
+            290
+          ],
+          [
+            192,
+            294
+          ],
+          [
+            176,
+            290
+          ],
+          [
+            165,
+            279
+          ],
+          [
+            159,
+            264
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678960.8,
+            6988708.64
+          ],
+          [
+            678962.72,
+            6988712.8
+          ],
+          [
+            678964.32,
+            6988716.96
+          ],
+          [
+            678966.56,
+            6988720.48
+          ],
+          [
+            678969.12,
+            6988722.72
+          ],
+          [
+            678972.0,
+            6988723.52
+          ],
+          [
+            678974.56,
+            6988722.88
+          ],
+          [
+            678976.8,
+            6988720.64
+          ],
+          [
+            678977.92,
+            6988717.76
+          ],
+          [
+            678977.76,
+            6988714.08
+          ],
+          [
+            678976.32,
+            6988710.08
+          ],
+          [
+            678974.4,
+            6988706.56
+          ],
+          [
+            678971.84,
+            6988703.52
+          ],
+          [
+            678968.96,
+            6988701.6
+          ],
+          [
+            678965.76,
+            6988700.96
+          ],
+          [
+            678963.2,
+            6988701.6
+          ],
+          [
+            678961.44,
+            6988703.36
+          ],
+          [
+            678960.48,
+            6988705.76
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "tees": [
+        {
+          "id": "lm-h17-tee-1",
+          "sourceId": "norrfallsviken-17-hole",
+          "panel": {
+            "id": "17-tees",
+            "sourceId": "norrfallsviken-17-hole",
+            "sourceSha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+            "geoTransform": [
+              679104.32,
+              0.16,
+              0.0,
+              6988549.76,
+              0.0,
+              -0.16
+            ],
+            "width": 928,
+            "height": 818,
+            "sourcePixelWindow": [
+              1220,
+              1402,
+              928,
+              818
+            ]
+          },
+          "ringPixels": [
+            [
+              650,
+              565
+            ],
+            [
+              662,
+              556
+            ],
+            [
+              678,
+              561
+            ],
+            [
+              699,
+              578
+            ],
+            [
+              722,
+              599
+            ],
+            [
+              743,
+              622
+            ],
+            [
+              752,
+              641
+            ],
+            [
+              746,
+              653
+            ],
+            [
+              733,
+              659
+            ],
+            [
+              717,
+              653
+            ],
+            [
+              698,
+              639
+            ],
+            [
+              680,
+              621
+            ],
+            [
+              665,
+              600
+            ],
+            [
+              652,
+              582
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679208.32,
+              6988459.36
+            ],
+            [
+              679210.24,
+              6988460.8
+            ],
+            [
+              679212.8,
+              6988460.0
+            ],
+            [
+              679216.16,
+              6988457.28
+            ],
+            [
+              679219.84,
+              6988453.92
+            ],
+            [
+              679223.2,
+              6988450.24
+            ],
+            [
+              679224.64,
+              6988447.2
+            ],
+            [
+              679223.68,
+              6988445.28
+            ],
+            [
+              679221.6,
+              6988444.32
+            ],
+            [
+              679219.04,
+              6988445.28
+            ],
+            [
+              679216.0,
+              6988447.52
+            ],
+            [
+              679213.12,
+              6988450.4
+            ],
+            [
+              679210.72,
+              6988453.76
+            ],
+            [
+              679208.64,
+              6988456.64
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        },
+        {
+          "id": "lm-h17-tee-2",
+          "sourceId": "norrfallsviken-17-hole",
+          "panel": {
+            "id": "17-tees",
+            "sourceId": "norrfallsviken-17-hole",
+            "sourceSha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+            "geoTransform": [
+              679104.32,
+              0.16,
+              0.0,
+              6988549.76,
+              0.0,
+              -0.16
+            ],
+            "width": 928,
+            "height": 818,
+            "sourcePixelWindow": [
+              1220,
+              1402,
+              928,
+              818
+            ]
+          },
+          "ringPixels": [
+            [
+              457,
+              503
+            ],
+            [
+              469,
+              494
+            ],
+            [
+              487,
+              499
+            ],
+            [
+              504,
+              510
+            ],
+            [
+              515,
+              522
+            ],
+            [
+              512,
+              532
+            ],
+            [
+              501,
+              537
+            ],
+            [
+              486,
+              531
+            ],
+            [
+              470,
+              521
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679177.44,
+              6988469.28
+            ],
+            [
+              679179.36,
+              6988470.72
+            ],
+            [
+              679182.24,
+              6988469.92
+            ],
+            [
+              679184.96,
+              6988468.16
+            ],
+            [
+              679186.72,
+              6988466.24
+            ],
+            [
+              679186.24,
+              6988464.64
+            ],
+            [
+              679184.48,
+              6988463.84
+            ],
+            [
+              679182.08,
+              6988464.8
+            ],
+            [
+              679179.52,
+              6988466.4
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h17-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        },
+        {
+          "index": 1,
+          "padId": "lm-h17-tee-2",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        2
+      ],
+      "invalidTeeReferences": [
+        2
+      ]
+    },
+    {
+      "hole": 18,
+      "notes": "Manual visible mowing/sand review of 2024-06-27 imagery. Colour assignment and daily marker positions are not surveyed.",
+      "green": {
+        "id": "lm-h18-green-1",
+        "sourceId": "norrfallsviken-18-hole",
+        "panel": {
+          "id": "18-green",
+          "sourceId": "norrfallsviken-18-hole",
+          "sourceSha256": "7a56f9aa451e3132aa1968aaa2b38ade2cbb654b7f2dd45f3ffc728b47f79b61",
+          "geoTransform": [
+            678571.84,
+            0.16,
+            0.0,
+            6988488.64,
+            0.0,
+            -0.16
+          ],
+          "width": 465,
+          "height": 468,
+          "sourcePixelWindow": [
+            163,
+            1607,
+            465,
+            468
+          ]
+        },
+        "ringPixels": [
+          [
+            179,
+            232
+          ],
+          [
+            192,
+            209
+          ],
+          [
+            208,
+            183
+          ],
+          [
+            223,
+            168
+          ],
+          [
+            242,
+            163
+          ],
+          [
+            261,
+            168
+          ],
+          [
+            278,
+            181
+          ],
+          [
+            286,
+            201
+          ],
+          [
+            283,
+            222
+          ],
+          [
+            273,
+            244
+          ],
+          [
+            264,
+            270
+          ],
+          [
+            250,
+            293
+          ],
+          [
+            233,
+            306
+          ],
+          [
+            213,
+            309
+          ],
+          [
+            194,
+            302
+          ],
+          [
+            181,
+            289
+          ],
+          [
+            175,
+            271
+          ],
+          [
+            174,
+            251
+          ]
+        ],
+        "ringEpsg3006": [
+          [
+            678600.48,
+            6988451.52
+          ],
+          [
+            678602.56,
+            6988455.2
+          ],
+          [
+            678605.12,
+            6988459.36
+          ],
+          [
+            678607.52,
+            6988461.76
+          ],
+          [
+            678610.56,
+            6988462.56
+          ],
+          [
+            678613.6,
+            6988461.76
+          ],
+          [
+            678616.32,
+            6988459.68
+          ],
+          [
+            678617.6,
+            6988456.48
+          ],
+          [
+            678617.12,
+            6988453.12
+          ],
+          [
+            678615.52,
+            6988449.6
+          ],
+          [
+            678614.08,
+            6988445.44
+          ],
+          [
+            678611.84,
+            6988441.76
+          ],
+          [
+            678609.12,
+            6988439.68
+          ],
+          [
+            678605.92,
+            6988439.2
+          ],
+          [
+            678602.88,
+            6988440.32
+          ],
+          [
+            678600.8,
+            6988442.4
+          ],
+          [
+            678599.84,
+            6988445.28
+          ],
+          [
+            678599.68,
+            6988448.48
+          ]
+        ],
+        "evidence": "Manual trace of the putting-surface mowing break; collar excluded; shadowed edge interpreted from adjacent visible boundary."
+      },
+      "tees": [
+        {
+          "id": "lm-h18-tee-1",
+          "sourceId": "norrfallsviken-18-hole",
+          "panel": {
+            "id": "18-tees",
+            "sourceId": "norrfallsviken-18-hole",
+            "sourceSha256": "7a56f9aa451e3132aa1968aaa2b38ade2cbb654b7f2dd45f3ffc728b47f79b61",
+            "geoTransform": [
+              678759.2,
+              0.16,
+              0.0,
+              6988717.279999999,
+              0.0,
+              -0.16
+            ],
+            "width": 1124,
+            "height": 580,
+            "sourcePixelWindow": [
+              1334,
+              178,
+              1124,
+              580
+            ]
+          },
+          "ringPixels": [
+            [
+              902,
+              178
+            ],
+            [
+              917,
+              172
+            ],
+            [
+              933,
+              176
+            ],
+            [
+              945,
+              188
+            ],
+            [
+              947,
+              202
+            ],
+            [
+              940,
+              214
+            ],
+            [
+              926,
+              222
+            ],
+            [
+              912,
+              220
+            ],
+            [
+              901,
+              211
+            ],
+            [
+              896,
+              195
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678903.52,
+              6988688.8
+            ],
+            [
+              678905.92,
+              6988689.76
+            ],
+            [
+              678908.48,
+              6988689.12
+            ],
+            [
+              678910.4,
+              6988687.2
+            ],
+            [
+              678910.72,
+              6988684.96
+            ],
+            [
+              678909.6,
+              6988683.04
+            ],
+            [
+              678907.36,
+              6988681.76
+            ],
+            [
+              678905.12,
+              6988682.08
+            ],
+            [
+              678903.36,
+              6988683.52
+            ],
+            [
+              678902.56,
+              6988686.08
+            ]
+          ],
+          "evidence": "Manual trace of the visible closely mown platform boundary, independently of the legacy rectangle."
+        }
+      ],
+      "teeReferences": [
+        {
+          "index": 0,
+          "padId": "lm-h18-tee-1",
+          "evidence": "Explicit rear/forward platform navigation association after visual review of the hole corridor. Colour and daily marker position remain unverified."
+        }
+      ],
+      "unresolvedTeeReferences": [
+        1,
+        2
+      ]
+    }
+  ]
+}

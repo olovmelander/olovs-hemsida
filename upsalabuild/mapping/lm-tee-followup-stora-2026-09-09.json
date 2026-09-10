@@ -1,0 +1,1057 @@
+{
+  "schemaVersion": 1,
+  "id": "upsala-stora-tee-platform-followup-2026-09-09",
+  "course": "stora",
+  "reviewedAt": "2026-09-09",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "baselineModelSha256": "bccb6f3b428ce75651f17eac4f4a182e76d01abe32669cd980ebe329f2d7cb58",
+  "sources": [
+    {
+      "id": "stora-06-tees",
+      "rasterFile": "stora-06-tees.tif",
+      "rgbFile": "stora-06-tees.png",
+      "sha256": "68d78fbdefdf1929b90c8b837ac5834073453b82636e7144f0c45b733da70bca",
+      "rgbSha256": "cadaad036bdf99bdc7b0872d8b0a46a215f9a9f14a3a0650ae9e4fd66c42359b",
+      "requestSha256": "a047b14cae2f0a76af35f3ac749b26d453bec642f363ae70d4f7cc5dcd766c7a",
+      "bytes": 1869531,
+      "boundsEpsg3006": [
+        639619.2,
+        6635549.6,
+        639786.3999999999,
+        6635648.8
+      ],
+      "geoTransform": [
+        639619.2,
+        0.16,
+        0.0,
+        6635648.8,
+        0.0,
+        -0.16
+      ],
+      "width": 1045,
+      "height": 620,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:00.264857+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "year": 2025,
+      "path": "upsalabuild/cache/lm-tees/stora-06-tees.tif",
+      "captureDate": "2025-06-14",
+      "captureDateBasis": "lm-tee-capture-2026-09-09.json: source mosaic footprint covers this full native window"
+    },
+    {
+      "id": "stora-18-tees",
+      "rasterFile": "stora-18-tees.tif",
+      "rgbFile": "stora-18-tees.png",
+      "sha256": "bcf74b63f81f7bad56bc34fd747d1788858f2663cc75737355864ac70cfbc53b",
+      "rgbSha256": "852bf9975f5827ac83d4a38caddceca9d8089a11f4d5f74253aa16012209d249",
+      "requestSha256": "381c945ebd2b8a0459d9a51075d288c25c6eeb8bf5a564a0051f61bb918fa2be",
+      "bytes": 2486417,
+      "boundsEpsg3006": [
+        639662.56,
+        6635834.56,
+        639789.4400000001,
+        6636005.92
+      ],
+      "geoTransform": [
+        639662.56,
+        0.16,
+        0.0,
+        6636005.92,
+        0.0,
+        -0.16
+      ],
+      "width": 793,
+      "height": 1071,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T17:35:08.558990+00:00",
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr25",
+          "capturedAt": "2025-06-14T09:25:58Z",
+          "captureStart": "2025-06-14T09:25:42Z",
+          "captureEnd": "2025-06-15T09:30:32Z"
+        }
+      ],
+      "year": 2025,
+      "path": "upsalabuild/cache/lm-tees/stora-18-tees.tif",
+      "captureDate": "2025-06-14",
+      "captureDateBasis": "lm-tee-capture-2026-09-09.json: source mosaic footprint covers this full native window"
+    }
+  ],
+  "guideSources": [
+    {
+      "hole": 6,
+      "url": "https://banguider.se/uploads/product/1761996935_UpsalaStora_6.png",
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h06.png",
+      "sha256": "0ac09d61991e61d8cc01dbcd9884da98302b5ef445b8fee414300867c87db25c"
+    },
+    {
+      "hole": 18,
+      "url": "https://banguider.se/uploads/product/1761996938_UpsalaStora_18.png",
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h18.png",
+      "sha256": "6130da77e40a370b4a74768d5409d7b3a12e75810e7bb2a618ae919b678c5819"
+    }
+  ],
+  "holes": [
+    {
+      "hole": 6,
+      "originalMarks": [
+        {
+          "c": [
+            -113.8,
+            505.4
+          ],
+          "b": -92.5,
+          "m": 204,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-stora-tee-references-2026-09-09",
+            "padSourceId": "upsala-stora-tee-06-rear",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 0,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "c": [
+            -134.8,
+            506.3
+          ],
+          "b": -92.5,
+          "m": 183,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-stora-tee-references-2026-09-09",
+            "padSourceId": "upsala-stora-tee-06-middle",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 0,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "c": [
+            -162.8,
+            507.5
+          ],
+          "b": -92.5,
+          "m": 155,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-stora-tee-references-2026-09-09",
+            "padSourceId": "upsala-stora-tee-06-front",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 0,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "c": [
+            -169.026,
+            510.962
+          ],
+          "b": -92.5,
+          "m": 128,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-stora-tee-references-2026-09-09",
+            "padSourceId": "upsala-stora-tee-06-front",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 20.897,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "c": [
+            -189.8,
+            508.7
+          ],
+          "b": -92.5,
+          "m": 128
+        },
+        {
+          "c": [
+            -189.8,
+            508.7
+          ],
+          "b": -92.5,
+          "m": 128
+        }
+      ],
+      "originalLine": [
+        [
+          -113.8,
+          505.4
+        ],
+        [
+          -220,
+          510
+        ],
+        [
+          -317.3,
+          519.1
+        ]
+      ],
+      "originalDistances": [
+        204,
+        183,
+        155,
+        128,
+        128,
+        128
+      ],
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "retain",
+          "reason": "Preserve the previously accepted platform association and coordinate; this reference is resolved, not an unresolved hold."
+        },
+        {
+          "markIndex": 1,
+          "status": "retain",
+          "reason": "Preserve the previously accepted platform association and coordinate; this reference is resolved, not an unresolved hold."
+        },
+        {
+          "markIndex": 2,
+          "status": "retain",
+          "reason": "Preserve the previously accepted platform association and coordinate; this reference is resolved, not an unresolved hold."
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-06-forward-guide-lm-2026-09-09",
+          "originalPadRing": [
+            [
+              -198.896,
+              482.809
+            ],
+            [
+              -197.574,
+              482.484
+            ],
+            [
+              -196.238,
+              482.797
+            ],
+            [
+              -195.024,
+              483.368
+            ],
+            [
+              -193.678,
+              483.418
+            ],
+            [
+              -192.197,
+              483.849
+            ],
+            [
+              -190.547,
+              484.774
+            ],
+            [
+              -189.318,
+              485.945
+            ],
+            [
+              -188.511,
+              487.363
+            ],
+            [
+              -188.561,
+              488.712
+            ],
+            [
+              -189.159,
+              489.664
+            ],
+            [
+              -190.504,
+              490.588
+            ],
+            [
+              -191.906,
+              491.061
+            ],
+            [
+              -193.485,
+              491.226
+            ],
+            [
+              -195.156,
+              490.863
+            ],
+            [
+              -196.626,
+              490.133
+            ],
+            [
+              -197.983,
+              489.406
+            ],
+            [
+              -199.182,
+              488.424
+            ],
+            [
+              -199.961,
+              487.232
+            ],
+            [
+              -200.36,
+              485.904
+            ],
+            [
+              -200.197,
+              484.56
+            ],
+            [
+              -199.708,
+              483.491
+            ]
+          ],
+          "maxShiftMetres": 35,
+          "reason": "Club-linked H6 guide places tees 51/47/42 together on the fourth platform across the path. Native LM and the 2017 archive identify its physical oval independently of the old route interpolation.",
+          "guideTeeLabel": "51",
+          "dailyMarkerPositionVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-06-forward-guide-lm-2026-09-09",
+          "originalPadRing": [
+            [
+              -198.896,
+              482.809
+            ],
+            [
+              -197.574,
+              482.484
+            ],
+            [
+              -196.238,
+              482.797
+            ],
+            [
+              -195.024,
+              483.368
+            ],
+            [
+              -193.678,
+              483.418
+            ],
+            [
+              -192.197,
+              483.849
+            ],
+            [
+              -190.547,
+              484.774
+            ],
+            [
+              -189.318,
+              485.945
+            ],
+            [
+              -188.511,
+              487.363
+            ],
+            [
+              -188.561,
+              488.712
+            ],
+            [
+              -189.159,
+              489.664
+            ],
+            [
+              -190.504,
+              490.588
+            ],
+            [
+              -191.906,
+              491.061
+            ],
+            [
+              -193.485,
+              491.226
+            ],
+            [
+              -195.156,
+              490.863
+            ],
+            [
+              -196.626,
+              490.133
+            ],
+            [
+              -197.983,
+              489.406
+            ],
+            [
+              -199.182,
+              488.424
+            ],
+            [
+              -199.961,
+              487.232
+            ],
+            [
+              -200.36,
+              485.904
+            ],
+            [
+              -200.197,
+              484.56
+            ],
+            [
+              -199.708,
+              483.491
+            ]
+          ],
+          "maxShiftMetres": 23,
+          "reason": "Club-linked H6 guide places tees 51/47/42 together on the fourth platform across the path. Native LM and the 2017 archive identify its physical oval independently of the old route interpolation.",
+          "guideTeeLabel": "47",
+          "dailyMarkerPositionVerified": false
+        },
+        {
+          "markIndex": 5,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-06-forward-guide-lm-2026-09-09",
+          "originalPadRing": [
+            [
+              -198.896,
+              482.809
+            ],
+            [
+              -197.574,
+              482.484
+            ],
+            [
+              -196.238,
+              482.797
+            ],
+            [
+              -195.024,
+              483.368
+            ],
+            [
+              -193.678,
+              483.418
+            ],
+            [
+              -192.197,
+              483.849
+            ],
+            [
+              -190.547,
+              484.774
+            ],
+            [
+              -189.318,
+              485.945
+            ],
+            [
+              -188.511,
+              487.363
+            ],
+            [
+              -188.561,
+              488.712
+            ],
+            [
+              -189.159,
+              489.664
+            ],
+            [
+              -190.504,
+              490.588
+            ],
+            [
+              -191.906,
+              491.061
+            ],
+            [
+              -193.485,
+              491.226
+            ],
+            [
+              -195.156,
+              490.863
+            ],
+            [
+              -196.626,
+              490.133
+            ],
+            [
+              -197.983,
+              489.406
+            ],
+            [
+              -199.182,
+              488.424
+            ],
+            [
+              -199.961,
+              487.232
+            ],
+            [
+              -200.36,
+              485.904
+            ],
+            [
+              -200.197,
+              484.56
+            ],
+            [
+              -199.708,
+              483.491
+            ]
+          ],
+          "maxShiftMetres": 23,
+          "reason": "Club-linked H6 guide places tees 51/47/42 together on the fourth platform across the path. Native LM and the 2017 archive identify its physical oval independently of the old route interpolation.",
+          "guideTeeLabel": "42",
+          "dailyMarkerPositionVerified": false
+        }
+      ]
+    },
+    {
+      "hole": 18,
+      "originalMarks": [
+        {
+          "c": [
+            -133.204,
+            228.574
+          ],
+          "b": 28.6,
+          "m": 389,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-stora-tee-references-2026-09-09",
+            "padSourceId": "upsala-stora-tee-18-rear-archive-2020",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 6.522,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "c": [
+            -122.196,
+            210.323
+          ],
+          "b": 28.6,
+          "m": 364,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-stora-tee-references-2026-09-09",
+            "padSourceId": "upsala-stora-tee-18-middle-2025",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 2.729,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "c": [
+            -97.278,
+            174.688
+          ],
+          "b": 28.6,
+          "m": 325,
+          "referencePlacement": {
+            "method": "reviewed-observed-platform-navigation-reference",
+            "reviewId": "upsala-stora-tee-references-2026-09-09",
+            "padSourceId": "upsala-stora-tee-18-forward-2025",
+            "boundaryClearanceMetres": 1,
+            "shiftMetres": 8.568,
+            "dailyMarkerPositionVerified": false,
+            "teeColourAssociationVerified": false,
+            "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+          }
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        }
+      ],
+      "originalLine": [
+        [
+          -133.204,
+          228.574
+        ],
+        [
+          -95,
+          160
+        ],
+        [
+          -52,
+          88
+        ],
+        [
+          -18,
+          12
+        ],
+        [
+          -5,
+          -60
+        ],
+        [
+          -8.4,
+          -123.7
+        ]
+      ],
+      "originalDistances": [
+        389,
+        364,
+        325,
+        287,
+        287,
+        287
+      ],
+      "referenceDecisions": [
+        {
+          "markIndex": 0,
+          "status": "retain",
+          "reason": "Preserve the previously accepted platform association and coordinate; this reference is resolved, not an unresolved hold."
+        },
+        {
+          "markIndex": 1,
+          "status": "retain",
+          "reason": "Preserve the previously accepted platform association and coordinate; this reference is resolved, not an unresolved hold."
+        },
+        {
+          "markIndex": 2,
+          "status": "retain",
+          "reason": "Preserve the previously accepted platform association and coordinate; this reference is resolved, not an unresolved hold."
+        },
+        {
+          "markIndex": 3,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-18-forward-guide-lm-2026-09-09",
+          "originalPadRing": [
+            [
+              -65.101,
+              144.369
+            ],
+            [
+              -64.329,
+              143.099
+            ],
+            [
+              -63.215,
+              142.015
+            ],
+            [
+              -61.859,
+              141.117
+            ],
+            [
+              -60.726,
+              140.859
+            ],
+            [
+              -59.683,
+              140.999
+            ],
+            [
+              -58.524,
+              141.392
+            ],
+            [
+              -57.381,
+              142.186
+            ],
+            [
+              -56.47,
+              143.17
+            ],
+            [
+              -55.839,
+              144.319
+            ],
+            [
+              -55.404,
+              145.36
+            ],
+            [
+              -55.326,
+              146.613
+            ],
+            [
+              -55.587,
+              147.579
+            ],
+            [
+              -56.072,
+              148.51
+            ],
+            [
+              -56.851,
+              149.331
+            ],
+            [
+              -57.804,
+              150.12
+            ],
+            [
+              -58.823,
+              150.657
+            ],
+            [
+              -60.034,
+              151.011
+            ],
+            [
+              -61.109,
+              151.046
+            ],
+            [
+              -62.25,
+              150.877
+            ],
+            [
+              -63.334,
+              150.487
+            ],
+            [
+              -64.306,
+              149.8
+            ],
+            [
+              -65.049,
+              148.972
+            ],
+            [
+              -65.46,
+              147.956
+            ],
+            [
+              -65.72,
+              146.896
+            ],
+            [
+              -65.677,
+              145.773
+            ],
+            [
+              -65.502,
+              145.079
+            ]
+          ],
+          "maxShiftMetres": 26,
+          "reason": "Club-linked H18 guide places tees 51/47/42 together on the fourth round platform beside the curving path. Native LM identifies its full physical perimeter independently of the old route interpolation.",
+          "guideTeeLabel": "51",
+          "dailyMarkerPositionVerified": false
+        },
+        {
+          "markIndex": 4,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-18-forward-guide-lm-2026-09-09",
+          "originalPadRing": [
+            [
+              -65.101,
+              144.369
+            ],
+            [
+              -64.329,
+              143.099
+            ],
+            [
+              -63.215,
+              142.015
+            ],
+            [
+              -61.859,
+              141.117
+            ],
+            [
+              -60.726,
+              140.859
+            ],
+            [
+              -59.683,
+              140.999
+            ],
+            [
+              -58.524,
+              141.392
+            ],
+            [
+              -57.381,
+              142.186
+            ],
+            [
+              -56.47,
+              143.17
+            ],
+            [
+              -55.839,
+              144.319
+            ],
+            [
+              -55.404,
+              145.36
+            ],
+            [
+              -55.326,
+              146.613
+            ],
+            [
+              -55.587,
+              147.579
+            ],
+            [
+              -56.072,
+              148.51
+            ],
+            [
+              -56.851,
+              149.331
+            ],
+            [
+              -57.804,
+              150.12
+            ],
+            [
+              -58.823,
+              150.657
+            ],
+            [
+              -60.034,
+              151.011
+            ],
+            [
+              -61.109,
+              151.046
+            ],
+            [
+              -62.25,
+              150.877
+            ],
+            [
+              -63.334,
+              150.487
+            ],
+            [
+              -64.306,
+              149.8
+            ],
+            [
+              -65.049,
+              148.972
+            ],
+            [
+              -65.46,
+              147.956
+            ],
+            [
+              -65.72,
+              146.896
+            ],
+            [
+              -65.677,
+              145.773
+            ],
+            [
+              -65.502,
+              145.079
+            ]
+          ],
+          "maxShiftMetres": 26,
+          "reason": "Club-linked H18 guide places tees 51/47/42 together on the fourth round platform beside the curving path. Native LM identifies its full physical perimeter independently of the old route interpolation.",
+          "guideTeeLabel": "47",
+          "dailyMarkerPositionVerified": false
+        },
+        {
+          "markIndex": 5,
+          "status": "align-to-observed-pad",
+          "padIndex": 3,
+          "padSourceId": "upsala-stora-tee-18-forward-guide-lm-2026-09-09",
+          "originalPadRing": [
+            [
+              -65.101,
+              144.369
+            ],
+            [
+              -64.329,
+              143.099
+            ],
+            [
+              -63.215,
+              142.015
+            ],
+            [
+              -61.859,
+              141.117
+            ],
+            [
+              -60.726,
+              140.859
+            ],
+            [
+              -59.683,
+              140.999
+            ],
+            [
+              -58.524,
+              141.392
+            ],
+            [
+              -57.381,
+              142.186
+            ],
+            [
+              -56.47,
+              143.17
+            ],
+            [
+              -55.839,
+              144.319
+            ],
+            [
+              -55.404,
+              145.36
+            ],
+            [
+              -55.326,
+              146.613
+            ],
+            [
+              -55.587,
+              147.579
+            ],
+            [
+              -56.072,
+              148.51
+            ],
+            [
+              -56.851,
+              149.331
+            ],
+            [
+              -57.804,
+              150.12
+            ],
+            [
+              -58.823,
+              150.657
+            ],
+            [
+              -60.034,
+              151.011
+            ],
+            [
+              -61.109,
+              151.046
+            ],
+            [
+              -62.25,
+              150.877
+            ],
+            [
+              -63.334,
+              150.487
+            ],
+            [
+              -64.306,
+              149.8
+            ],
+            [
+              -65.049,
+              148.972
+            ],
+            [
+              -65.46,
+              147.956
+            ],
+            [
+              -65.72,
+              146.896
+            ],
+            [
+              -65.677,
+              145.773
+            ],
+            [
+              -65.502,
+              145.079
+            ]
+          ],
+          "maxShiftMetres": 26,
+          "reason": "Club-linked H18 guide places tees 51/47/42 together on the fourth round platform beside the curving path. Native LM identifies its full physical perimeter independently of the old route interpolation.",
+          "guideTeeLabel": "42",
+          "dailyMarkerPositionVerified": false
+        }
+      ]
+    }
+  ],
+  "completeSurvey": false,
+  "note": "This follows the first LM reference pass and newly appended H6/H18 physical platforms. Marks 0/1/2 on both holes preserve previous accepted references. H6 mark3 corrects an earlier association to the wrong deck; H6 marks4/5 and H18 marks3/4/5 resolve formerly unsupported references."
+}

@@ -1,0 +1,786 @@
+{
+  "schemaVersion": 1,
+  "id": "upsala-facilities-reference-2026-09-10",
+  "createdAt": "2026-09-10T06:55:05.322742+00:00",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "horizontalCrs": "EPSG:3006",
+  "frameProjection": "localX=(longitude-origin.lon)*mPerLon; localZ=(origin.lat-latitude)*mPerLat; exact pyproj between EPSG:4326 and EPSG:3006",
+  "anchorLocalXZ": [
+    17.78293267410761,
+    -279.14314741547946
+  ],
+  "anchorEPSG3006": [
+    639837.5643451979,
+    6636394.187326529
+  ],
+  "anchorObjectId": "w221193965",
+  "anchorDefinition": "Area centroid of current local clubhouse outline; scene datum only, not surveyed control.",
+  "blenderAxisConvention": "Blender X=localX-anchorLocalX, Y=anchorLocalZ-localZ, Z=0 for this horizontal reference plane; one unit is one metre.",
+  "elevationDatum": "Reference images and outlines are flat at Blender Z=0. No source Z is promoted to floor, eave, ridge or building height.",
+  "images": [
+    {
+      "id": "facilities-campus-native",
+      "path": "upsalabuild/cache/facilities-2026-09-10/facilities-campus-native.png",
+      "sha256": "b88aeeb5ef9a0fa93fa09eb42a5265642c9eef83c9f4fc24d98dc752ae5b1d89",
+      "tifPath": "upsalabuild/cache/facilities-2026-09-10/facilities-campus-native.tif",
+      "tifSha256": "80ba6cc36226244c7303543bbdbbf7d9dcef59f4c482f32b74f0f19c37a4fa88",
+      "worldFile": "upsalabuild/cache/facilities-2026-09-10/facilities-campus-native.pgw",
+      "width": 2375,
+      "height": 2625,
+      "geoTransform": [
+        639740.0,
+        0.16,
+        0.0,
+        6636540.0,
+        0.0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        639740.0,
+        6636120.0,
+        640120.0,
+        6636540.0
+      ],
+      "resolutionMetres": 0.16,
+      "nativeResolutionMetres": 0.16,
+      "resampling": "nearest",
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "pixelToLocalCorners": [
+        {
+          "pixel": [
+            0,
+            0
+          ],
+          "epsg3006": [
+            639740.0,
+            6636540.0
+          ],
+          "localXZ": [
+            -74.01662750850568,
+            -428.42903915532787
+          ],
+          "blenderXYZ": [
+            -91.79956018261329,
+            149.2858917398484,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            2375,
+            0
+          ],
+          "epsg3006": [
+            640120.0,
+            6636540.0
+          ],
+          "localXZ": [
+            304.8674661885603,
+            -414.11860648788746
+          ],
+          "blenderXYZ": [
+            287.0845335144527,
+            134.975459072408,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            2375,
+            2625
+          ],
+          "epsg3006": [
+            640120.0,
+            6636120.0
+          ],
+          "localXZ": [
+            289.0564584995697,
+            5.311707631397269
+          ],
+          "blenderXYZ": [
+            271.2735258254621,
+            -284.45485504687673,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            0,
+            2625
+          ],
+          "epsg3006": [
+            639740.0,
+            6636120.0
+          ],
+          "localXZ": [
+            -89.78491212651302,
+            -8.99656982529649
+          ],
+          "blenderXYZ": [
+            -107.56784480062063,
+            -270.14657759018297,
+            0
+          ]
+        }
+      ],
+      "pixelCoordinateConvention": "Coordinates refer to pixel edges; pixel centres add 0.5 to column and row.",
+      "exactMapping": "Pixel -> affine EPSG:3006 -> pyproj EPSG:4326 -> declared local XZ. Corner mesh is a display approximation; use exact per-point mapping for measurements."
+    },
+    {
+      "id": "facilities-range-native",
+      "path": "upsalabuild/cache/facilities-2026-09-10/facilities-range-native.png",
+      "sha256": "2d2cfc74845d1225fca36d69255d3d9f22852274d833d1fb1ffb9d744b5a55db",
+      "tifPath": "upsalabuild/cache/facilities-2026-09-10/facilities-range-native.tif",
+      "tifSha256": "f3cfec204391a068524fd8d0c744c31bd4e8c59d3aebba851f2c830f40e62370",
+      "worldFile": "upsalabuild/cache/facilities-2026-09-10/facilities-range-native.pgw",
+      "width": 1626,
+      "height": 970,
+      "geoTransform": [
+        639589.92,
+        0.16,
+        0.0,
+        6636345.12,
+        0.0,
+        -0.16
+      ],
+      "boundsEpsg3006": [
+        639589.92,
+        6636189.92,
+        639850.0800000001,
+        6636345.12
+      ],
+      "resolutionMetres": 0.16,
+      "nativeResolutionMetres": 0.16,
+      "resampling": "nearest",
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "pixelToLocalCorners": [
+        {
+          "pixel": [
+            0,
+            0
+          ],
+          "epsg3006": [
+            639589.92,
+            6636345.12
+          ],
+          "localXZ": [
+            -230.96601535999037,
+            -239.45320658932076
+          ],
+          "blenderXYZ": [
+            -248.74894803409796,
+            -39.689940826158704,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            1626,
+            0
+          ],
+          "epsg3006": [
+            639850.0800000001,
+            6636345.12
+          ],
+          "localXZ": [
+            28.417718267070605,
+            -229.6711871015512
+          ],
+          "blenderXYZ": [
+            10.634785592962995,
+            -49.471960313928264,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            1626,
+            970
+          ],
+          "epsg3006": [
+            639850.0800000001,
+            6636189.92
+          ],
+          "localXZ": [
+            22.586617496743102,
+            -74.68111544011748
+          ],
+          "blenderXYZ": [
+            4.803684822635493,
+            -204.46203197536198,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            0,
+            970
+          ],
+          "epsg3006": [
+            639589.92,
+            6636189.92
+          ],
+          "localXZ": [
+            -236.7863079663918,
+            -84.46259051638833
+          ],
+          "blenderXYZ": [
+            -254.5692406404994,
+            -194.68055689909113,
+            0
+          ]
+        }
+      ],
+      "pixelCoordinateConvention": "Coordinates refer to pixel edges; pixel centres add 0.5 to column and row.",
+      "exactMapping": "Pixel -> affine EPSG:3006 -> pyproj EPSG:4326 -> declared local XZ. Corner mesh is a display approximation; use exact per-point mapping for measurements."
+    },
+    {
+      "id": "facilities-range-overview",
+      "path": "upsalabuild/cache/facilities-2026-09-10/facilities-range-overview.png",
+      "sha256": "f9136010dbb681dd0b783ad4b7eb36d049cc75791c128907699ed19e84c84f68",
+      "tifPath": "upsalabuild/cache/facilities-2026-09-10/facilities-range-overview.tif",
+      "tifSha256": "b3b959bc98ae2d16e6fe8b6e349eac0b514543a9b56363c66a5d417068b23f2f",
+      "worldFile": "upsalabuild/cache/facilities-2026-09-10/facilities-range-overview.pgw",
+      "width": 1063,
+      "height": 1095,
+      "geoTransform": [
+        639459.68,
+        0.64,
+        0.0,
+        6636560.32,
+        0.0,
+        -0.64
+      ],
+      "boundsEpsg3006": [
+        639459.68,
+        6635859.5200000005,
+        640140.0,
+        6636560.32
+      ],
+      "resolutionMetres": 0.64,
+      "nativeResolutionMetres": 0.16,
+      "resampling": "average",
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "pixelToLocalCorners": [
+        {
+          "pixel": [
+            0,
+            0
+          ],
+          "epsg3006": [
+            639459.68,
+            6636560.32
+          ],
+          "localXZ": [
+            -352.75416224802285,
+            -459.253377049898
+          ],
+          "blenderXYZ": [
+            -370.53709492213045,
+            180.11022963441854,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            1063,
+            0
+          ],
+          "epsg3006": [
+            640140.0,
+            6636560.32
+          ],
+          "localXZ": [
+            325.5738059753896,
+            -433.6567758299188
+          ],
+          "blenderXYZ": [
+            307.790873301282,
+            154.51362841443932,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            1063,
+            1095
+          ],
+          "epsg3006": [
+            640140.0,
+            6635859.5200000005
+          ],
+          "localXZ": [
+            299.19025097856144,
+            266.1926315196982
+          ],
+          "blenderXYZ": [
+            281.40731830445384,
+            -545.3357789351776,
+            0
+          ]
+        },
+        {
+          "pixel": [
+            0,
+            1095
+          ],
+          "epsg3006": [
+            639459.68,
+            6635859.5200000005
+          ],
+          "localXZ": [
+            -379.0101002171356,
+            240.60246212326433
+          ],
+          "blenderXYZ": [
+            -396.7930328912432,
+            -519.7456095387438,
+            0
+          ]
+        }
+      ],
+      "pixelCoordinateConvention": "Coordinates refer to pixel edges; pixel centres add 0.5 to column and row.",
+      "exactMapping": "Pixel -> affine EPSG:3006 -> pyproj EPSG:4326 -> declared local XZ. Corner mesh is a display approximation; use exact per-point mapping for measurements."
+    }
+  ],
+  "reviewPanels": [
+    {
+      "id": "facilities-campus-native-numbered",
+      "path": "upsalabuild/cache/facilities-2026-09-10/facilities-campus-native-numbered.png",
+      "sha256": "c602fcbd514778953a4b4076005bb94e7315805ced3a9adfacbb3221cb18710f",
+      "sourceImageId": "facilities-campus-native",
+      "pixelSize": [
+        2375,
+        2625
+      ],
+      "geoTransform": [
+        639740.0,
+        0.16,
+        0.0,
+        6636540.0,
+        0.0,
+        -0.16
+      ],
+      "use": "Review panel only: labels/header obscure source pixels. Use the separate plain PNG or TIFF for modelling."
+    },
+    {
+      "id": "clubhouse",
+      "path": "upsalabuild/cache/facilities-2026-09-10/clubhouse-numbered-native.png",
+      "sha256": "509b1398a5ef906e34b2957849e6dd948661df0147607c64a770d438c052f047",
+      "sourceImageId": "facilities-campus-native",
+      "pixelSize": [
+        782,
+        875
+      ],
+      "sourcePixelCrop": [
+        281,
+        500,
+        1063,
+        1375
+      ],
+      "geoTransform": [
+        639784.96,
+        0.16,
+        0,
+        6636460.0,
+        0,
+        -0.16
+      ],
+      "use": "Numbered crop at unchanged native resolution"
+    },
+    {
+      "id": "service-yard",
+      "path": "upsalabuild/cache/facilities-2026-09-10/service-yard-numbered-native.png",
+      "sha256": "9380a7e58d3980d22a5cdbeec4733869c6a371c67f040835f594bbec57a72247",
+      "sourceImageId": "facilities-campus-native",
+      "pixelSize": [
+        688,
+        626
+      ],
+      "sourcePixelCrop": [
+        1031,
+        1062,
+        1719,
+        1688
+      ],
+      "geoTransform": [
+        639904.96,
+        0.16,
+        0,
+        6636370.08,
+        0,
+        -0.16
+      ],
+      "use": "Numbered crop at unchanged native resolution"
+    },
+    {
+      "id": "north-buildings",
+      "path": "upsalabuild/cache/facilities-2026-09-10/north-buildings-numbered-native.png",
+      "sha256": "b7ed5812fcd0d1bb945dc025174a4c826bcac3708d59d4cb3061fa1c6571eeba",
+      "sourceImageId": "facilities-campus-native",
+      "pixelSize": [
+        564,
+        500
+      ],
+      "sourcePixelCrop": [
+        968,
+        0,
+        1532,
+        500
+      ],
+      "geoTransform": [
+        639894.88,
+        0.16,
+        0,
+        6636540.0,
+        0,
+        -0.16
+      ],
+      "use": "Numbered crop at unchanged native resolution"
+    },
+    {
+      "id": "facilities-range-native-numbered",
+      "path": "upsalabuild/cache/facilities-2026-09-10/facilities-range-native-numbered.png",
+      "sha256": "b9f43c80da3fa03bb82a25db623c3bdf6e24bfcfe0a8438a4d6290689e75921c",
+      "sourceImageId": "facilities-range-native",
+      "pixelSize": [
+        1626,
+        970
+      ],
+      "geoTransform": [
+        639589.92,
+        0.16,
+        0.0,
+        6636345.12,
+        0.0,
+        -0.16
+      ],
+      "use": "Review panel only: labels/header obscure source pixels. Use the separate plain PNG or TIFF for modelling."
+    },
+    {
+      "id": "facilities-range-overview-numbered",
+      "path": "upsalabuild/cache/facilities-2026-09-10/facilities-range-overview-numbered.png",
+      "sha256": "e64da1f414a6486de16f7093100aa8aea14a3fb2758071652f193c805e899d4c",
+      "sourceImageId": "facilities-range-overview",
+      "pixelSize": [
+        1063,
+        1095
+      ],
+      "geoTransform": [
+        639459.68,
+        0.64,
+        0.0,
+        6636560.32,
+        0.0,
+        -0.64
+      ],
+      "use": "Review panel only: labels/header obscure source pixels. Use the separate plain PNG or TIFF for modelling."
+    }
+  ],
+  "inventory": [
+    {
+      "id": "B01",
+      "municipalObjectId": 1215269,
+      "name": "Clubhouse main complex",
+      "function": "Clubhouse",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "No information",
+      "areaSquareMetres": 869.2189179684628,
+      "heightMetres": null,
+      "functionEvidenceNote": "Clubhouse identity is supported by the existing named OSM object; restaurant, shop and room-to-wing assignments require photographs."
+    },
+    {
+      "id": "B02",
+      "municipalObjectId": 1244320,
+      "name": "Clubhouse west attached component",
+      "function": "Clubhouse west extension",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "No information",
+      "areaSquareMetres": 57.8431431814076,
+      "heightMetres": null,
+      "functionEvidenceNote": "Visible attached roof/component; enclosure and terrace limits require oblique photographs."
+    },
+    {
+      "id": "B03",
+      "municipalObjectId": 92448,
+      "name": "Small structure north of clubhouse",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": true,
+      "status": "Befintligt",
+      "planMethod": "Geod. Totalstation",
+      "areaSquareMetres": 25.973402104517298,
+      "heightMetres": null,
+      "functionEvidenceNote": "Small multi-sided roof; function unverified."
+    },
+    {
+      "id": "B04",
+      "municipalObjectId": 1248912,
+      "name": "Red-roof building north of clubhouse",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "No information",
+      "areaSquareMetres": 213.48459658654426,
+      "heightMetres": null,
+      "functionEvidenceNote": "Separate building beside north parking; current function requires photo match."
+    },
+    {
+      "id": "B05",
+      "municipalObjectId": 92444,
+      "name": "Small red-roof building southeast of clubhouse",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": true,
+      "status": "Befintligt",
+      "planMethod": "Geod. Totalstation",
+      "areaSquareMetres": 59.94819173968906,
+      "heightMetres": null,
+      "functionEvidenceNote": "Separate small structure between clubhouse and parking."
+    },
+    {
+      "id": "B06",
+      "municipalObjectId": 1212887,
+      "name": "Dark-roof building south of clubhouse",
+      "function": "Training or practice building candidate",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "No information",
+      "areaSquareMetres": 154.96570839708278,
+      "heightMetres": null,
+      "functionEvidenceNote": "Function is a candidate until club photograph match."
+    },
+    {
+      "id": "B07",
+      "municipalObjectId": 1365585,
+      "name": "South building component",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "areaSquareMetres": 43.525237288417564,
+      "heightMetres": null,
+      "functionEvidenceNote": "Municipal part near B06; do not double-extrude overlapping source parts."
+    },
+    {
+      "id": "B08",
+      "municipalObjectId": 1226083,
+      "name": "Driving-range roof shelter",
+      "function": "Driving-range shelter",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "No information",
+      "areaSquareMetres": 225.35149950671536,
+      "heightMetres": null,
+      "functionEvidenceNote": "Native imagery clearly shows roof with tee mats along its south side; wall/column layout remains unknown."
+    },
+    {
+      "id": "B09",
+      "municipalObjectId": 1390788,
+      "name": "Small structure on eastern range tee line",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "areaSquareMetres": 7.221878327276067,
+      "heightMetres": null,
+      "functionEvidenceNote": "Tiny range-side kiosk or equipment shelter candidate; no room-use assertion."
+    },
+    {
+      "id": "B10",
+      "municipalObjectId": 92436,
+      "name": "Long building in southeast service yard",
+      "function": "Service-yard building candidate",
+      "confirmedExistingMeasuredOutline": true,
+      "status": "Befintligt",
+      "planMethod": "Geod. Totalstation",
+      "areaSquareMetres": 429.5486010320561,
+      "heightMetres": null,
+      "functionEvidenceNote": "Measured outline; shed/barn use needs photograph or club identification."
+    },
+    {
+      "id": "B11",
+      "municipalObjectId": 92435,
+      "name": "White-roof building at southeast yard",
+      "function": "Service-yard building candidate",
+      "confirmedExistingMeasuredOutline": true,
+      "status": "Befintligt",
+      "planMethod": "Geod. Totalstation",
+      "areaSquareMetres": 286.5970601629263,
+      "heightMetres": null,
+      "functionEvidenceNote": "Measured outline; exact function unverified."
+    },
+    {
+      "id": "B12",
+      "municipalObjectId": 92440,
+      "name": "Red-roof building at north edge of southeast yard",
+      "function": "Service-yard building candidate",
+      "confirmedExistingMeasuredOutline": true,
+      "status": "Befintligt",
+      "planMethod": "Geod. Totalstation",
+      "areaSquareMetres": 224.39002892141175,
+      "heightMetres": null,
+      "functionEvidenceNote": "Measured outline; exact function unverified."
+    },
+    {
+      "id": "B13",
+      "municipalObjectId": 1222358,
+      "name": "Northern attached part at southeast yard",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "No information",
+      "areaSquareMetres": 80.46654176808093,
+      "heightMetres": null,
+      "functionEvidenceNote": "Separate municipal part adjoining B12; roof geometry may overlap main part."
+    },
+    {
+      "id": "B14",
+      "municipalObjectId": 1246066,
+      "name": "Small eastern woodland-edge building",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "Geod. Totalstation",
+      "areaSquareMetres": 40.04260114975747,
+      "heightMetres": null,
+      "functionEvidenceNote": "Source has total-station method but status is no information."
+    },
+    {
+      "id": "B15",
+      "municipalObjectId": 1520169,
+      "name": "Small measured part beside eastern building",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": true,
+      "status": "Befintligt",
+      "planMethod": "Geod. Totalstation",
+      "areaSquareMetres": 8.141075411466996,
+      "heightMetres": null,
+      "functionEvidenceNote": "Newer municipal source component; source Z=0 and status alone cannot establish height."
+    },
+    {
+      "id": "B16",
+      "municipalObjectId": 592773,
+      "name": "Large dark-roof building north of parking",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": true,
+      "status": "Befintligt",
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "areaSquareMetres": 169.13774658278854,
+      "heightMetres": null,
+      "functionEvidenceNote": "Measured network-RTK outline; source Z=-999 is no-data."
+    },
+    {
+      "id": "B17",
+      "municipalObjectId": 1390787,
+      "name": "Northern outbuilding part",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": true,
+      "status": "Befintligt",
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "areaSquareMetres": 24.910277593999545,
+      "heightMetres": null,
+      "functionEvidenceNote": "Measured network-RTK outline; source Z=0 is unverified."
+    },
+    {
+      "id": "B18",
+      "municipalObjectId": 1232325,
+      "name": "Northern outbuilding overlapping source part",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "No information",
+      "areaSquareMetres": 15.24962405532657,
+      "heightMetres": null,
+      "functionEvidenceNote": "Status and method unknown; overlapping alternatives must not become duplicate solids."
+    },
+    {
+      "id": "B19",
+      "municipalObjectId": 1390786,
+      "name": "Tiny structure near north outbuildings",
+      "function": "Unknown",
+      "confirmedExistingMeasuredOutline": false,
+      "status": "Ingen information",
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "areaSquareMetres": 5.173836398646218,
+      "heightMetres": null,
+      "functionEvidenceNote": "Network-RTK method with unknown current status; source Z=0."
+    }
+  ],
+  "footprintFiles": {
+    "allSourceOutlines": "upsalabuild/facilities/reference-2026-09-10/building-footprints-reference.geojson",
+    "measuredWgs84": "upsalabuild/facilities/reference-2026-09-10/measured-footprints.geojson",
+    "measuredLocal": "upsalabuild/facilities/reference-2026-09-10/measured-footprints-local.json",
+    "inventory": "upsalabuild/facilities/reference-2026-09-10/building-reference-inventory.json",
+    "context": "upsalabuild/facilities/reference-2026-09-10/context-geometry-local.json"
+  },
+  "sources": [
+    {
+      "path": "upsalabuild/course-model.json",
+      "sha256": "3ec429382ac69f986be297c4a1b4c3e7467d558e0e0a8d8f11956818d1c41c2c"
+    },
+    {
+      "path": "upsalabuild/mapping/municipal-buildings.json",
+      "sha256": "ae9fc14d1d6a05a8355941dd9e151c35084115753f11637da5f7571468b390b6"
+    },
+    {
+      "path": "upsalabuild/mapping/facilities.json",
+      "sha256": "cfe1be36467cfd3ed4f915a14f4949d021f6d524e48102c2e597914771985c30"
+    },
+    {
+      "path": "upsalabuild/cache/facilities-2026-09-10/municipal/municipal_buildings_aoi_xyz.json",
+      "sha256": "dac5bd63c6907a2947d8d63452c0f84ee5e860b5406bb2556f7a0cc5fa1b5caf"
+    },
+    {
+      "path": "upsalabuild/cache/facilities-2026-09-10/municipal/municipal_buildings_metadata.json",
+      "sha256": "7cfa915d1c887b302deb9ef9b60981b051f34a3d2c85147160c7e4ed5edd05c6"
+    }
+  ],
+  "municipalRequest": {
+    "url": "https://kartportal.uppsala.se/mapping/rest/services/iOpenData/OpenData_Byggnader/FeatureServer/1/query?f=pjson&where=1%3D1&geometry=639590.0%2C6636120.0%2C640120.0%2C6636540.0&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=%2A&returnGeometry=true&outSR=3006&returnZ=true",
+    "retrievedAt": "2026-09-10T06:50:07.299979+00:00",
+    "sha256": "dac5bd63c6907a2947d8d63452c0f84ee5e860b5406bb2556f7a0cc5fa1b5caf",
+    "bytes": 19508
+  },
+  "orthophotoCapture": {
+    "path": "upsalabuild/facilities/reference-2026-09-10/orthophoto-capture.json",
+    "sha256": "154583d4fa15acb7d4f7437896ac75e5804b6d840572995c8116173cdca43bf2"
+  },
+  "validation": {
+    "state": "passed",
+    "nativePixels": 7811595,
+    "sourceBuildings": 19,
+    "confirmedExistingMeasuredOutlines": 8,
+    "maximumProjectionRoundtripMetres": 2.7939677238464355e-09,
+    "checks": [
+      "TIFF and PNG SHA256",
+      "Exact RGBI band interpretation and PNG RGB values",
+      "EPSG3006 native grid and complete mask",
+      "Capture footprint coverage",
+      "Valid source polygons and exact roundtrip",
+      "No production model or geometry changes"
+    ]
+  },
+  "limitations": [
+    "Municipal building layers do not specify whether their plan outlines represent walls at ground or roof edges. Roof overhang and ortho relief displacement can differ from ground footprints.",
+    "Status 0 means no information, not demolished. Uncertain source parts and overlapping parts remain separate evidence and must not be extruded automatically.",
+    "All building heights, floor elevations, eaves, ridges, roof pitches, doors and windows require independent evidence.",
+    "Source vertex Z is retained only as unverified evidence: vertical CRS and feature-level meaning are absent; 0/-999 occur as sentinels.",
+    "Room/function-to-wing assignments beyond the named clubhouse and visible range shelter require club photographs or plans.",
+    "Raw imagery remains in ignored cache for reference, not bundled into runtime or tracked source files. No geometry has been edited."
+  ],
+  "attribution": "Ortofoto Nedladdning \u00a9 Lantm\u00e4teriet, bearbetad information. Municipal building source: Uppsala kommun OpenData_Byggnader."
+}

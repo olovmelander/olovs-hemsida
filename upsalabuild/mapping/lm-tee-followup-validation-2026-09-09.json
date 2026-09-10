@@ -1,0 +1,394 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-tee-followup-validation",
+  "observedAt": "2026-09-09T20:09:26.073735+00:00",
+  "state": "passed",
+  "method": "Independent Python/pyproj/Shapely source identity, coordinate, containment and unchanged-content checks; JavaScript placement helper is not called.",
+  "baselines": {
+    "stora": {
+      "path": "upsalabuild/cache/lm-tee-followup-validation/stora-baseline.json",
+      "sha256": "bccb6f3b428ce75651f17eac4f4a182e76d01abe32669cd980ebe329f2d7cb58"
+    },
+    "mellan": {
+      "path": "upsalabuild/cache/lm-tee-followup-validation/mellan-baseline.json",
+      "sha256": "cdbbd39d05116a06dcb1abbb6d9e82025edd32f5c6205df5b843e5186e0f6c9a"
+    }
+  },
+  "models": [
+    {
+      "course": "stora",
+      "path": "upsalabuild/course-model.json",
+      "sha256": "934e80e2a69110971a48096899886a4c7bc644346634e04c8733b1d702c15b6d"
+    },
+    {
+      "course": "mellan",
+      "path": "upsalamellanbuild/course-model.json",
+      "sha256": "fadeb7e11dc994946a3fdd61dedf8fe01161d794e8bbbe16dccdbae3fb2deabc"
+    }
+  ],
+  "reviews": [
+    {
+      "path": "upsalabuild/mapping/lm-tee-followup-stora-2026-09-09.json",
+      "sha256": "de5e4e0e1b7eecd6287ccb1ebf86bbb717a05d5dc1fff0ec7314375861366291"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-followup-mellan-2026-09-09.json",
+      "sha256": "10da5b3560bdefbce607a40ac3236f9357da4d26733f7cc69c9ace31b390561c"
+    }
+  ],
+  "physicalPadReview": {
+    "path": "upsalabuild/mapping/lm-stora-tee-platform-followup-2026-09-09.json",
+    "sha256": "93b37521ea522ed207a339d54d3e755cdc13a83b2c36bd785a5b37ed0b5e08fc"
+  },
+  "validator": {
+    "path": "upsalabuild/mapping/verify-lm-tee-followup.py",
+    "sha256": "6cb9f3b0629f277ffc126c6001a940ca0956413262c2c33246ea1886238c80b9"
+  },
+  "sourceWindows": [
+    {
+      "id": "stora-01-tees",
+      "sha256": "fc0d5fa74a6f9f01e6ecff13bd145d6de186a3633c5a45b1486491ca2ce49b36",
+      "rgbSha256": "ab7cde6fa1ddf105d0da78a0b4abda71d1e68c6e7476cd676f03aaf93c505f08"
+    },
+    {
+      "id": "stora-02-tees",
+      "sha256": "286c8aee8a5247564abb37f3cbcbfcd9d079df73ee2b14a35938a656d4fca7d9",
+      "rgbSha256": "75f69bde94e7794b259a2703cddc38432978613a741c7ce6b256eb6f4250c0d3"
+    },
+    {
+      "id": "stora-03-tees",
+      "sha256": "6d2a69a7a763f9d8bfdfa131f79273e15a8c2db8c7b9d989ec3be07b742c7835",
+      "rgbSha256": "38192aceb67e6a2923a2c53f5dd76c71407c1460c800d2afaa05dbbe44a73c5e"
+    },
+    {
+      "id": "stora-04-tees",
+      "sha256": "97585457c52998676060f4472e56903293fed0ee5f673d4912620bf60b628ab8",
+      "rgbSha256": "093292ebe784cbbeda6875b33a3c20a2fa0aa182499beca3087608d8fe8a11be"
+    },
+    {
+      "id": "stora-05-tees",
+      "sha256": "3d30c35a436794b76d445b09cd3e04301385a092824103869cc3055a7ddc3b5c",
+      "rgbSha256": "3b1a4bc0237ba8497b3ece57fe226e5a71bd2946052a5e8ee214eacae58c5077"
+    },
+    {
+      "id": "stora-06-tees",
+      "sha256": "68d78fbdefdf1929b90c8b837ac5834073453b82636e7144f0c45b733da70bca",
+      "rgbSha256": "cadaad036bdf99bdc7b0872d8b0a46a215f9a9f14a3a0650ae9e4fd66c42359b"
+    },
+    {
+      "id": "stora-07-tees",
+      "sha256": "6c048d856076ce339d737e1631d6f7dca5acc7f55810e40db0e71efd7e3a764f",
+      "rgbSha256": "e85d037664bb3f26396d560748f0c8dbd26a39c76510c833773596411e9ea535"
+    },
+    {
+      "id": "stora-08-tees",
+      "sha256": "803d1915ffeef6ae5cce6e56ef9c9a11846b29f0b424620dd0b16b532f98f8b0",
+      "rgbSha256": "ebedae99e18cb4d22379d162565e133f498502fe0618569111dbe9171d23c574"
+    },
+    {
+      "id": "stora-09-tees",
+      "sha256": "6560b370587572c6a81df55b6218e38479c8c318bc9d023784d7b84aba33f2e2",
+      "rgbSha256": "79da6b44576fabd35fa9f1e359e3600c5848147f55bf69cc3ce1a40ea35bb782"
+    },
+    {
+      "id": "stora-10-tees",
+      "sha256": "59d52f2ed4fb42229156e364c488a12b91e870ddf8d25bfc3407250d51720120",
+      "rgbSha256": "321013e8a8d5d88a0fa3c18a7cf1ea0a8209d2d55590b6162756f1735c9f60b0"
+    },
+    {
+      "id": "stora-11-tees",
+      "sha256": "ea7cd06c4f1af1f7a77d4842fa604962b668ef78ad86ddeef01db0bfef6e8015",
+      "rgbSha256": "3ee32c5bfebe315e407e3c28265e6cbfd2a8357a5748d6dc29ae05ef8845a5a9"
+    },
+    {
+      "id": "stora-12-tees",
+      "sha256": "ceeaf99a553019989cdc605910328d0eb17909fb46c8d4934da5acefe6321360",
+      "rgbSha256": "3e11e8a293058b9214826252478b82fc9403b2a9bcbdec72d41e4f32cd14cf0b"
+    },
+    {
+      "id": "stora-13-tees",
+      "sha256": "a8ac7712ce6d28db925c8811d9c501c5bfcf12ac669cfe6716b5abc5e5616bf5",
+      "rgbSha256": "aa10d1ed4e57fb1e02196ffd2ef90297fca4caf43e3c55c0fda8fa58defaaeac"
+    },
+    {
+      "id": "stora-14-tees",
+      "sha256": "e431150cb8e40029bb1fec97b082da5c0f3a3433de37477125b8a28ef0d633f0",
+      "rgbSha256": "3949f5b60c0da8ba58877de61f5314985ec920f922a1afb312d18329825f2b59"
+    },
+    {
+      "id": "stora-15-tees",
+      "sha256": "1d944f6bdee6e04a75201baa44220229dcae576fa07aa2e8713f5c928670dd60",
+      "rgbSha256": "e792833f06a675fba859b41c30e7f68d55925c50e88a37d11a00178110f9e659"
+    },
+    {
+      "id": "stora-16-tees",
+      "sha256": "a8d7c5f6c8221a6d71873d6e2615c3e132f61ea65bd36d24fe77b14a40a40ec5",
+      "rgbSha256": "8cb3e23749ad80391cd9e5a701424fb4918d69c1e8cdd5291f1fdb68d229b02f"
+    },
+    {
+      "id": "stora-17-tees",
+      "sha256": "09b793c1b24e5c822468f2dd871c5c7d91e62e94058ad18ea13c46380114408f",
+      "rgbSha256": "7d25c7a01f5d03c2c166106fe26fcd0247ee601a610fe5f91a84ab60377a3ef0"
+    },
+    {
+      "id": "stora-18-tees",
+      "sha256": "bcf74b63f81f7bad56bc34fd747d1788858f2663cc75737355864ac70cfbc53b",
+      "rgbSha256": "852bf9975f5827ac83d4a38caddceca9d8089a11f4d5f74253aa16012209d249"
+    },
+    {
+      "id": "mellan-01-tees",
+      "sha256": "708a42f4693f52734dee800453d385e8fe63b78642e2d41bab0dc6db88754023",
+      "rgbSha256": "b47bff187c4acd94f8107b8bd872226488de7226df593e31d508bf18aba3b48e"
+    },
+    {
+      "id": "mellan-02-tees",
+      "sha256": "d1d3b0c6b0ee27a623e414741e3a8702e342b8b135e179e1e3d99850d0d50290",
+      "rgbSha256": "f7ff778869deb88c06e620bbf5b59e83a312a5b91dec924f709b5f357114ee90"
+    },
+    {
+      "id": "mellan-03-tees",
+      "sha256": "f3e3ed1cd0b0fc69434b6a28c3bab5fadea111eb28636b148966e86612945582",
+      "rgbSha256": "3522b35773c20060eb08614165fb16e6f5f89c5011e66d399167e63e7c12a00f"
+    },
+    {
+      "id": "mellan-04-tees",
+      "sha256": "ec9cfc52a41dd143a430a8f2015bada5d88c1e61f6c66a26561fbb19565f32a7",
+      "rgbSha256": "57c8a5c7fe992a3483a2debaa8b2b93e0aa88abe4bc91300aa0aa80d0dfd8d62"
+    },
+    {
+      "id": "mellan-05-tees",
+      "sha256": "0a4fb08d7044aaec0c1a844beed2433a5a9477c03e39556fe27055738b7cad84",
+      "rgbSha256": "d1acd7cdeaf699d2f39aa580c0e4b7927011ad15c58e85d97c67dbaaabf1405a"
+    },
+    {
+      "id": "mellan-06-tees",
+      "sha256": "272b42d7fdd9383ef24d5799c1832ac5472b8411386c0067a67ff747bb892447",
+      "rgbSha256": "167da746a04bfae5886db1ccb9bc88cc4654ce5b4d1471971f393a387a99a98d"
+    },
+    {
+      "id": "mellan-07-tees",
+      "sha256": "8a2bdca8b10995dc69bb0f9046d34421f6f8cd98594107d148c024e93a47006a",
+      "rgbSha256": "d5f1c8dc52029a0d6a8b4e90d119526a1a93f49eb037c8c8f68bbe4cb0829eb7"
+    },
+    {
+      "id": "mellan-08-tees",
+      "sha256": "f9f4d07af0f436378bc422ed249faf7415ca7c5993e768a988689992f903bd8b",
+      "rgbSha256": "403089f6c53eefd3c947f6794492858361623a1ed92ebad3c60bef90c487e7a3"
+    },
+    {
+      "id": "mellan-09-tees",
+      "sha256": "8b9c0f202d24d0a3af1e1d2608668e9005fa0503595bea466a6f031891b69c74",
+      "rgbSha256": "69fbbea7b34e9924eebfb8f3c4ac44c580c82680d08f222477754d301f72cb3b"
+    }
+  ],
+  "physicalPads": [
+    {
+      "id": "upsala-stora-tee-06-forward-guide-lm-2026-09-09",
+      "hole": 6,
+      "vertices": 22,
+      "areaSquareMetres": 73.67327299999997,
+      "pixelToGridMaximumResidualMetres": 0,
+      "gridToLocalMaximumResidualMetres": 0.0006515228902020239
+    },
+    {
+      "id": "upsala-stora-tee-18-forward-guide-lm-2026-09-09",
+      "hole": 18,
+      "vertices": 27,
+      "areaSquareMetres": 79.99747700000005,
+      "pixelToGridMaximumResidualMetres": 0,
+      "gridToLocalMaximumResidualMetres": 0.000659869305265384
+    }
+  ],
+  "maximumPublishedSourceProjectionResidualMetres": 0,
+  "maximumPublishedSourceInverseResidualMetres": 1.594378280807608e-09,
+  "summary": {
+    "followupReviewedReferences": 22,
+    "followupAlignDecisions": 11,
+    "followupRetainDecisions": 11,
+    "nativeWindowsChecked": 27,
+    "historicalEvidenceFilesPreserved": 4,
+    "movedReferences": 11,
+    "maximumShiftMetres": 30.334279750803372,
+    "minimumFollowupInteriorClearanceMetres": 1.004521228415359,
+    "previouslyApprovedAlignmentsPreservedOrExplicitlyReplaced": 126,
+    "previousPlatformTargetsPreserved": 125,
+    "previousPlatformTargetsExplicitlyReplaced": 1,
+    "finalApprovedReferences": 136,
+    "finalUnresolvedReferences": 17,
+    "finalReferencesOnAnyPad": 137,
+    "finalReferencesOffEveryPad": 16,
+    "protectedTerrainHeightfieldFiles": 302
+  },
+  "references": [
+    {
+      "course": "stora",
+      "hole": 6,
+      "markIndex": 0,
+      "status": "retain"
+    },
+    {
+      "course": "stora",
+      "hole": 6,
+      "markIndex": 1,
+      "status": "retain"
+    },
+    {
+      "course": "stora",
+      "hole": 6,
+      "markIndex": 2,
+      "status": "retain"
+    },
+    {
+      "course": "stora",
+      "hole": 6,
+      "markIndex": 3,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 30.334279750803372,
+      "interiorClearanceMetres": 1.0055712204507536,
+      "padSourceId": "upsala-stora-tee-06-forward-guide-lm-2026-09-09"
+    },
+    {
+      "course": "stora",
+      "hole": 6,
+      "markIndex": 4,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 18.771044643279687,
+      "interiorClearanceMetres": 1.004831478804625,
+      "padSourceId": "upsala-stora-tee-06-forward-guide-lm-2026-09-09"
+    },
+    {
+      "course": "stora",
+      "hole": 6,
+      "markIndex": 5,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 18.771044643279687,
+      "interiorClearanceMetres": 1.004831478804625,
+      "padSourceId": "upsala-stora-tee-06-forward-guide-lm-2026-09-09"
+    },
+    {
+      "course": "stora",
+      "hole": 18,
+      "markIndex": 0,
+      "status": "retain"
+    },
+    {
+      "course": "stora",
+      "hole": 18,
+      "markIndex": 1,
+      "status": "retain"
+    },
+    {
+      "course": "stora",
+      "hole": 18,
+      "markIndex": 2,
+      "status": "retain"
+    },
+    {
+      "course": "stora",
+      "hole": 18,
+      "markIndex": 3,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 21.53066599062834,
+      "interiorClearanceMetres": 1.004521228415359,
+      "padSourceId": "upsala-stora-tee-18-forward-guide-lm-2026-09-09"
+    },
+    {
+      "course": "stora",
+      "hole": 18,
+      "markIndex": 4,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 21.53066599062834,
+      "interiorClearanceMetres": 1.004521228415359,
+      "padSourceId": "upsala-stora-tee-18-forward-guide-lm-2026-09-09"
+    },
+    {
+      "course": "stora",
+      "hole": 18,
+      "markIndex": 5,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 21.53066599062834,
+      "interiorClearanceMetres": 1.004521228415359,
+      "padSourceId": "upsala-stora-tee-18-forward-guide-lm-2026-09-09"
+    },
+    {
+      "course": "mellan",
+      "hole": 6,
+      "markIndex": 0,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 24.258856135440514,
+      "interiorClearanceMetres": 1.005414011083087,
+      "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper"
+    },
+    {
+      "course": "mellan",
+      "hole": 6,
+      "markIndex": 1,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 15.839234482764635,
+      "interiorClearanceMetres": 1.0046020272569998,
+      "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper"
+    },
+    {
+      "course": "mellan",
+      "hole": 6,
+      "markIndex": 2,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 13.028034272291436,
+      "interiorClearanceMetres": 1.5886054771404285,
+      "padSourceId": "upsala-mellanbanan-tee-06-northeast-lower"
+    },
+    {
+      "course": "mellan",
+      "hole": 6,
+      "markIndex": 3,
+      "status": "retain"
+    },
+    {
+      "course": "mellan",
+      "hole": 6,
+      "markIndex": 4,
+      "status": "retain"
+    },
+    {
+      "course": "mellan",
+      "hole": 8,
+      "markIndex": 0,
+      "status": "retain"
+    },
+    {
+      "course": "mellan",
+      "hole": 8,
+      "markIndex": 1,
+      "status": "retain"
+    },
+    {
+      "course": "mellan",
+      "hole": 8,
+      "markIndex": 2,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 23.64550369520599,
+      "interiorClearanceMetres": 1.0049059290013291,
+      "padSourceId": "mellan-8-tee-north-archive-review-2026-09-07"
+    },
+    {
+      "course": "mellan",
+      "hole": 8,
+      "markIndex": 3,
+      "status": "align-to-observed-pad",
+      "shiftMetres": 23.64550369520599,
+      "interiorClearanceMetres": 1.0049059290013291,
+      "padSourceId": "mellan-8-tee-north-archive-review-2026-09-07"
+    },
+    {
+      "course": "mellan",
+      "hole": 8,
+      "markIndex": 4,
+      "status": "retain"
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "Published coordinates and imagery establish reviewed navigation-reference associations, not surveyed daily marker positions.",
+    "Explicitly unresolved Orange references retain their prior inferred coordinates."
+  ]
+}

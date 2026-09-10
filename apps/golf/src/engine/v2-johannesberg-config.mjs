@@ -90,6 +90,9 @@ export const JOHANNESBERG_V2_CONFIG = Object.freeze({
      the club's 2026 banguide, not an authoritative surveyed intake, so the
      ground atlas keeps painting them and no v2 surface layer is claimed. */
   surfacePolicy: 'legacy-ground-atlas',
+  /* Presentation only: ease the legacy surroundings into the measured edge
+     over six MID cells. No measured sample inside the window is altered. */
+  legacyBoundaryBlendMetres: 72,
   /* MEASURED at boot: the runtime CORE grid can only be read AFTER main.js has
      smoothed the mown edges and synthesised tee pads, so these numbers come
      from a real boot on the reviewed bridge and are then locked.
@@ -126,6 +129,32 @@ export const JOHANNESBERG_V2_CONFIG = Object.freeze({
   }),
 });
 
+/* The nine shares this ground, this window and this bridge: tools/build-nine.mjs
+   built its pack on the parent's frame with the parent's environment, and the
+   2048 m window was derived from the played ground of BOTH courses in the
+   first place. It has its own routing, card and GPK1 pack, so it is its own
+   v2 course on the one published ground -- every frame constant above is the
+   same object rather than a second copy that could drift. */
+export const JOHANNESBERG_9_V2_CONFIG = Object.freeze({
+  ...JOHANNESBERG_V2_CONFIG,
+  slug: 'johannesberg-9',
+  label: 'Johannesberg niohålsbanan · Lantmäteriet 1 m terräng',
+  /* MEASURED — and, unlike the korthålsbana's and Mellanbanan's, IDENTICAL
+     to the parent's: 460x568, 219,736/261,280 at [-936,900]x[-1152,1116] @4,
+     read the runbook way on 2026-09-05 (a deliberately wrong contract, and
+     the assertion's own "got" line copied). It is the same grid because the
+     two courses carry each other as scenery -- the nine's playB takes the
+     eighteen's greens and range, the eighteen's takes the nine's -- so both
+     CORE extents are the union of both courses. That is a fact about this
+     pair, verified, not an inheritance: the boot with the wrong contract
+     rolled the terrain back to GPK1 with the LiDAR trees already planted
+     (baseMismatch p95 8.47 m, the forest-canopy signature), which is what
+     an unmeasured cutout costs. Re-measure if either course's routing or
+     scenery changes. */
+  legacyCoreCutout: JOHANNESBERG_V2_CONFIG.legacyCoreCutout,
+});
+
 export const JOHANNESBERG_V2_CONFIGS = Object.freeze({
   [JOHANNESBERG_V2_CONFIG.slug]: JOHANNESBERG_V2_CONFIG,
+  [JOHANNESBERG_9_V2_CONFIG.slug]: JOHANNESBERG_9_V2_CONFIG,
 });
