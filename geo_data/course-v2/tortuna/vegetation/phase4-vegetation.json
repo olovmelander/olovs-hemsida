@@ -32,8 +32,8 @@
       "use": "migration-only",
       "notes": "Canonical migration input: exact projected local-metre compatibility model with RH 2000 heights sampled from native national DTM. Coloured tee starts and flags are provisional UI references. Independent survey and human review gates remain open."
     },
-    "courseV2Manifest": "course-v2-23e28266ed2359f7f23e96744aa29234350edaadfb53624072b5cb0e2808be83.json",
-    "groundV2Manifest": "ground-v2-18fd432ad5bcff1eadfbd23cb66f85b7b8e0948e933ed715346b52c0d4a2550e.json",
+    "courseV2Manifest": "course-v2-01441f2e6584ebfc1f6b49d99d484fca5d6716e4397d471b096856573ba0f420.json",
+    "groundV2Manifest": "ground-v2-6adfbb4bba206862f982ba0db4a4aeafde9caba09a2b4a840d17706855cf7ee0.json",
     "groundPreviewDescriptorSha256": null
   },
   "runs": [
@@ -41,7 +41,7 @@
       "mode": "gpk1",
       "url": "http://127.0.0.1:8620/?bana=tortuna&det=1&v2=0",
       "booted": true,
-      "bootSeconds": 39.6,
+      "bootSeconds": 35.1,
       "errors": [],
       "stats": {
         "verts": 557063,
@@ -1238,74 +1238,74 @@
         "marks": [
           {
             "name": "läser terrängdata",
-            "atMs": 153.8
+            "atMs": 136.8
           },
           {
             "name": "startar renderaren",
-            "atMs": 300.6
+            "atMs": 304.4
           },
           {
             "name": "bygger terrängen",
-            "atMs": 5405
+            "atMs": 5897.2
           },
           {
             "name": "bygger terrängen",
-            "atMs": 9282.9
+            "atMs": 8463.7
           },
           {
             "name": "bygger horisonten",
-            "atMs": 12260.3
+            "atMs": 10541.9
           },
           {
             "name": "lägger fairways och greener",
-            "atMs": 12579.6
+            "atMs": 10773.3
           },
           {
             "name": "fyller vattnet",
-            "atMs": 12817.2
+            "atMs": 10965.1
           },
           {
             "name": "planterar skogen",
-            "atMs": 12867.1
+            "atMs": 11002
           },
           {
             "name": "sätter ut flaggor",
-            "atMs": 16190
+            "atMs": 15967.8
           },
           {
             "name": "ställer ljuset",
-            "atMs": 16518.2
+            "atMs": 16245.3
           },
           {
             "name": "ritar första vyn",
-            "atMs": 16637.2
+            "atMs": 16361.5
           }
         ],
         "spans": [
           {
             "name": "v2 preview: select + decode pilot/surface tiles",
-            "ms": 8.7
+            "ms": 6.9
           },
           {
             "name": "model prep after terrain data (pads, water levels, shores, grids)",
-            "ms": 84.1
+            "ms": 94.6
           },
           {
             "name": "procedural textures (DETAIL, SANDN, WATERN)",
-            "ms": 399.5
+            "ms": 316.1
           },
           {
             "name": "PMREM environment",
-            "ms": 2336,
+            "ms": 2853.1,
             "preset": "baseline"
           },
           {
             "name": "ground atlas (1 m, CORE)",
-            "ms": 663.6
+            "ms": 538.9
           },
           {
             "name": "reeds (lattice + SHORE field)",
-            "ms": 48.7,
+            "ms": 39.5,
             "reeds": 0
           },
           {
@@ -1314,25 +1314,25 @@
           },
           {
             "name": "legacy tree lattice",
-            "ms": 237.6
+            "ms": 199.1
           },
           {
             "name": "v2 vegetation: push planned trees",
-            "ms": 0
+            "ms": 0.1
           },
           {
             "name": "tree impostor atlases (3 species, 64 views each)",
-            "ms": 2683.5
+            "ms": 4517.9
           },
           {
             "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
-            "ms": 2774.7,
+            "ms": 4566.8,
             "trees": 0,
             "cells": 0
           },
           {
             "name": "far vista cones",
-            "ms": 142.4,
+            "ms": 69,
             "vista": 5817
           },
           {
@@ -1340,13 +1340,13 @@
             "ms": 0
           }
         ],
-        "atlasMs": 663.5,
-        "totalMs": 16657.9,
-        "doneAtMs": 39031.2,
+        "atlasMs": 538.9,
+        "totalMs": 16392.4,
+        "doneAtMs": 34521.7,
         "firstFrames": [
           {
-            "atMs": 16662.7,
-            "ms": 21681.7,
+            "atMs": 16448,
+            "ms": 17787,
             "tris": 1548676,
             "draws": 141,
             "tiers": {
@@ -1357,8 +1357,8 @@
             }
           },
           {
-            "atMs": 38502.3,
-            "ms": 20.9,
+            "atMs": 34315.2,
+            "ms": 14.1,
             "tris": 1548676,
             "draws": 141,
             "tiers": {
@@ -1369,8 +1369,8 @@
             }
           },
           {
-            "atMs": 38575.2,
-            "ms": 14.9,
+            "atMs": 34514.1,
+            "ms": 7.5,
             "tris": 989446,
             "draws": 71,
             "tiers": {
@@ -1381,8 +1381,8 @@
             }
           },
           {
-            "atMs": 39024.8,
-            "ms": 6.3,
+            "atMs": 34616.9,
+            "ms": 9.6,
             "tris": 989446,
             "draws": 71,
             "tiers": {
@@ -1393,8 +1393,8 @@
             }
           }
         ],
-        "firstSceneSubmittedAtMs": 38344.5,
-        "firstSceneGpuReadyAtMs": 38698.6,
+        "firstSceneSubmittedAtMs": 34235,
+        "firstSceneGpuReadyAtMs": 34511.8,
         "tintMs": 0
       },
       "v2": {
@@ -1455,13 +1455,13 @@
       "mode": "v2-require",
       "url": "http://127.0.0.1:8620/?bana=tortuna&det=1&v2=require",
       "booted": true,
-      "bootSeconds": 74.7,
+      "bootSeconds": 70,
       "errors": [],
       "stats": {
         "verts": 120922,
         "tris": 119776,
-        "trees": 21484,
-        "vista": 3847,
+        "trees": 38600,
+        "vista": 1991,
         "tufts": 0,
         "bushes": 0,
         "stones": 0,
@@ -2537,11 +2537,11 @@
         "backend": "webgl2"
       },
       "trees": {
-        "total": 21484,
+        "total": 38600,
         "species": {
-          "spruce": 7008,
-          "pine": 11996,
-          "birch": 2480
+          "spruce": 12808,
+          "pine": 21696,
+          "birch": 4096
         },
         "reasons": {
           "none": 0,
@@ -2550,12 +2550,12 @@
           "satellite": 0,
           "shore": 0,
           "v2Individual": 2383,
-          "v2Stand": 19101
+          "v2Stand": 36217
         },
         "zones": {
           "A": 3382,
-          "B": 8296,
-          "C": 9806
+          "B": 8473,
+          "C": 26745
         },
         "holes": [
           {
@@ -2576,11 +2576,11 @@
           },
           {
             "n": 5,
-            "count": 1942
+            "count": 1965
           },
           {
             "n": 6,
-            "count": 2946
+            "count": 3100
           },
           {
             "n": 7,
@@ -2634,9 +2634,9 @@
         "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
         "v2": {
           "individuals": 2383,
-          "standTrees": 19101,
-          "cellsPlanted": 19101,
-          "cellsSkipped": 225365,
+          "standTrees": 36217,
+          "cellsPlanted": 36217,
+          "cellsSkipped": 453676,
           "speciesSource": "default",
           "baseMismatch": {
             "samples": 2383,
@@ -2644,7 +2644,7 @@
             "p95Metres": 0.038,
             "maxMetres": 0.319
           },
-          "coverageTiles": 60
+          "coverageTiles": 120
         },
         "legacyInsideCoverage": 0,
         "instances": null
@@ -2654,17 +2654,17 @@
         "gate": "object-layer-renderer-not-activated",
         "loaded": {
           "referencedObjectTiles": 57,
-          "referencedStandTiles": 60,
-          "loadedTiles": 60,
+          "referencedStandTiles": 120,
+          "loadedTiles": 120,
           "records": 2383,
-          "bytes": 455740,
+          "bytes": 767686,
           "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f"
         },
         "planned": {
           "individuals": 2383,
-          "standTrees": 19101,
-          "cellsPlanted": 19101,
-          "cellsSkipped": 225365,
+          "standTrees": 36217,
+          "cellsPlanted": 36217,
+          "cellsSkipped": 453676,
           "speciesSource": "default",
           "baseMismatch": {
             "samples": 2383,
@@ -2673,10 +2673,10 @@
             "maxMetres": 0.319
           }
         },
-        "coverageTiles": 60,
+        "coverageTiles": 120,
         "error": null,
         "graphObjectTiles": 57,
-        "graphStandTiles": 60,
+        "graphStandTiles": 120,
         "graphEncodedObjectBytes": 130252,
         "graphError": null
       },
@@ -2684,119 +2684,119 @@
         "marks": [
           {
             "name": "läser terrängdata",
-            "atMs": 126.1
+            "atMs": 132
           },
           {
             "name": "startar renderaren",
-            "atMs": 1380
+            "atMs": 1495.7
           },
           {
             "name": "bygger terrängen",
-            "atMs": 4737.7
+            "atMs": 4881.4
           },
           {
             "name": "bygger terrängen",
-            "atMs": 13839.8
+            "atMs": 14771.8
           },
           {
             "name": "bygger horisonten",
-            "atMs": 13860.2
+            "atMs": 14792.1
           },
           {
             "name": "lägger fairways och greener",
-            "atMs": 13880.7
+            "atMs": 14816.5
           },
           {
             "name": "fyller vattnet",
-            "atMs": 14220.4
+            "atMs": 15161
           },
           {
             "name": "planterar skogen",
-            "atMs": 14276.5
+            "atMs": 15232.2
           },
           {
             "name": "sätter ut flaggor",
-            "atMs": 17266.8
+            "atMs": 18327.2
           },
           {
             "name": "ställer ljuset",
-            "atMs": 17642
+            "atMs": 18666.3
           },
           {
             "name": "ritar första vyn",
-            "atMs": 19733
+            "atMs": 20015.7
           }
         ],
         "spans": [
           {
             "name": "v2 preview: select + decode pilot/surface tiles",
-            "ms": 510
+            "ms": 582.2
           },
           {
             "name": "v2 rings: fetch + verify + decode",
-            "ms": 627.1,
+            "ms": 636.4,
             "tiles": 85
           },
           {
             "name": "model prep after terrain data (pads, water levels, shores, grids)",
-            "ms": 723.5
+            "ms": 761.2
           },
           {
             "name": "procedural textures (DETAIL, SANDN, WATERN)",
-            "ms": 336.9
+            "ms": 339.3
           },
           {
             "name": "PMREM environment",
-            "ms": 2137.3,
+            "ms": 2086.2,
             "preset": "golden"
           },
           {
             "name": "ground atlas (1 m, CORE)",
-            "ms": 572.5
+            "ms": 497
           },
           {
             "name": "v2 prepare (worker, first frontier coverage, preflight)",
-            "ms": 5250.6
+            "ms": 5382.6
           },
           {
             "name": "ground tint rasters (near 6 m + far 24 m)",
-            "ms": 2728.2
+            "ms": 2835.3
           },
           {
             "name": "v2 vegetation: wait for chunk load",
-            "ms": 504.7
+            "ms": 1134.6
           },
           {
             "name": "reeds (lattice + SHORE field)",
-            "ms": 49.6,
+            "ms": 47.6,
             "reeds": 0
           },
           {
             "name": "v2 vegetation: plan individuals + stand trees",
-            "ms": 116.1
+            "ms": 143
           },
           {
             "name": "legacy tree lattice",
-            "ms": 165.5
+            "ms": 148.3
           },
           {
             "name": "v2 vegetation: push planned trees",
-            "ms": 9.1
+            "ms": 30.2
           },
           {
             "name": "tree impostor atlases (3 species, 64 views each)",
-            "ms": 2232.3
+            "ms": 2228.8
           },
           {
             "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
-            "ms": 2360.1,
-            "trees": 21484,
-            "cells": 223
+            "ms": 2417.8,
+            "trees": 38600,
+            "cells": 399
           },
           {
             "name": "far vista cones",
-            "ms": 136,
-            "vista": 3847
+            "ms": 141.4,
+            "vista": 1991
           },
           {
             "name": "ground cover (tufts, bushes, stones, stumps)",
@@ -2804,78 +2804,78 @@
           },
           {
             "name": "v2 stream: first frontier fully resident (after the overlap)",
-            "ms": 1914.7,
+            "ms": 1210.9,
             "tiles": 55
           }
         ],
-        "atlasMs": 572.4,
-        "totalMs": 19753.6,
-        "doneAtMs": 73910.4,
+        "atlasMs": 497,
+        "totalMs": 20036.3,
+        "doneAtMs": 69496.4,
         "firstFrames": [
           {
-            "atMs": 19799.6,
-            "ms": 34307.9,
-            "tris": 10605600,
+            "atMs": 20057.2,
+            "ms": 32915.3,
+            "tris": 10910932,
             "draws": 178,
             "tiers": {
               "t0": 2268,
-              "t1": 4283,
-              "t2": 3348,
-              "t3": 162
+              "t1": 4406,
+              "t2": 5536,
+              "t3": 3320
             }
           },
           {
-            "atMs": 54112.3,
-            "ms": 27.9,
-            "tris": 10605600,
+            "atMs": 52982.2,
+            "ms": 22.3,
+            "tris": 10910932,
             "draws": 178,
             "tiers": {
               "t0": 2268,
-              "t1": 4283,
-              "t2": 3348,
-              "t3": 162
+              "t1": 4406,
+              "t2": 5536,
+              "t3": 3320
             }
           },
           {
-            "atMs": 54297.2,
-            "ms": 26.7,
-            "tris": 10605600,
+            "atMs": 53059.8,
+            "ms": 14.5,
+            "tris": 10910932,
             "draws": 178,
             "tiers": {
               "t0": 2268,
-              "t1": 4283,
-              "t2": 3348,
-              "t3": 162
+              "t1": 4406,
+              "t2": 5536,
+              "t3": 3320
             }
           },
           {
-            "atMs": 54598.6,
-            "ms": 38.1,
-            "tris": 5336516,
+            "atMs": 53290.7,
+            "ms": 12,
+            "tris": 5490484,
             "draws": 90,
             "tiers": {
               "t0": 2268,
-              "t1": 4283,
-              "t2": 3348,
-              "t3": 162
+              "t1": 4406,
+              "t2": 5536,
+              "t3": 3320
             }
           },
           {
-            "atMs": 73890.9,
-            "ms": 19.3,
-            "tris": 5336516,
+            "atMs": 69484.4,
+            "ms": 11.9,
+            "tris": 5490484,
             "draws": 90,
             "tiers": {
               "t0": 2268,
-              "t1": 4283,
-              "t2": 3348,
-              "t3": 162
+              "t1": 4406,
+              "t2": 5536,
+              "t3": 3320
             }
           }
         ],
-        "firstSceneSubmittedAtMs": 54107.5,
-        "firstSceneGpuReadyAtMs": 54638.5,
-        "tintMs": 2728
+        "firstSceneSubmittedAtMs": 52972.6,
+        "firstSceneGpuReadyAtMs": 53303.8,
+        "tintMs": 2835
       },
       "v2": {
         "requested": true,
@@ -2896,8 +2896,8 @@
             "surfaceTiles": 0,
             "objectTiles": 57,
             "encodedObjectBytes": 130252,
-            "standTiles": 60,
-            "encodedStandBytes": 325488
+            "standTiles": 120,
+            "encodedStandBytes": 637434
           },
           "graphError": null
         },
