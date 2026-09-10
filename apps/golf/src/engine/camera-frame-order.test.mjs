@@ -72,6 +72,12 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     BOOT_PERF: { doneAtMs: 1 }, document: { hidden: false },
     renderResolution: { detailHeight: () => 240, sample() {} },
     FRAME_NO: 0, TIER_FRAME: 0, FRAME_MS: new Float32Array(120), DET: false,
+    /* Breathing is opt-in behind ?breath=1 in the player, so the frame loop
+       reads BREATH. These tests are about how it behaves once enabled -- they
+       turn it on and off through cameraMotionPreference, DET, camMode and the
+       rest -- so the switch itself is held on here. Without it every one of
+       these tests throws ReferenceError before it reaches its assertion. */
+    BREATH: true,
     cameraBreathing: createCameraBreathing(), cameraMotionPreference: { matches: true },
     cameraInteracting: false, camMode: 'orbit',
     TREE_LOD: { clockDriven: false, fadeClock: 0, fadeS: 0.3, queue: [], qHead: 0 },
