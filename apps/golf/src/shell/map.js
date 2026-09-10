@@ -9,6 +9,11 @@ import 'leaflet/dist/leaflet.css';
 import { ICONS } from './icons.js';
 
 export const COURSE_LOCATIONS = {
+  tortuna: {
+    // Navigation marker from Tortuna's projected course frame, not a survey control.
+    lat: 59.66075504228196, lng: 16.728689063923202, region: 'Mälardalen',
+    regionTag: 'Västerås · Skog & Park', city: 'Västerås', iconName: 'tree',
+  },
   visby: {
     // Club-linked Caddee main-course location; navigation marker only.
     lat: 57.441010, lng: 18.118760, region: 'Gotland',
@@ -35,8 +40,9 @@ export const COURSE_LOCATIONS = {
     iconName: 'castle',
   },
   upsala: {
-    lat: 59.8510,
-    lng: 17.5250,
+    // Model building w221193965, Upsala golfklubb; navigation marker only.
+    lat: 59.8415076,
+    lng: 17.4955179,
     region: 'Mälardalen',
     regionTag: 'Uppsala · Parkbana',
     city: 'Uppsala',
@@ -77,6 +83,7 @@ export const COURSE_LOCATIONS = {
 };
 
 const LINES = {
+  tortuna: '18 hål i Tortuna utanför Västerås, med dammar, parkmark och skog.',
   veckefjarden: 'Mästerskapsbanan vid fjärden, känd för sin ikoniska ö-green och utmanande vattenhinder.',
   norrfallsviken: 'Dramatisk skogs- och linkskaraktär på Mjällomlandet med klippor direkt mot Bottenhavet.',
   puttom: 'Naturskön skogs- och parkbana som slingrar sig elegant mellan två glittrande sjöar.',

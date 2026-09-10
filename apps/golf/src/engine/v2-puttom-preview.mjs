@@ -19,7 +19,7 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
      typed -- see docs/v2-course-runbook.md. */
   /* Recompiled from the 2026-09-09 orthophoto review. Native interpreted
      boundaries are retained; unresolved camera positions do not invent pads. */
-  surfaceDescriptorSha256: '23b4c24e60341d992889658f24b93e6bf494581c13b891e15141fd07c46b0025',
+  surfaceDescriptorSha256: 'a51b2fc96eea0646c7001ace84e3bf26f2366826bba3209c6808ba3c9c8f9a4a',
   surfaceProvisionalReason: 'migration-vectors-not-survey-approved',
   frameFingerprint: '07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),

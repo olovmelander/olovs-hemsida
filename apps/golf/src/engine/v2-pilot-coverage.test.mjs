@@ -88,13 +88,14 @@ describe('the pilot reaches the whole course', () => {
     }
     atlas.dispose();
     /* every one, not most: this is the whole point of the widening.
-       The 29 tee pads are the ones the committed MODEL carries; the app infers
+       The 34 tee pads are the ones the current MODEL carries after the
+       September 2026 mapping updates; the app infers
        a pad per card tee on top of them, so a running page has 72. The browser
        probe is what covers those, and reports all 72 on v2 -- this file cannot,
        because the inference lives in main.js and needs a document. */
     expect(count.greens).toEqual([18, 18]);
     expect(count.bunkers).toEqual([41, 41]);
-    expect(count.tees).toEqual([29, 29]);
+    expect(count.tees).toEqual([34, 34]);
     expect(count.line[0]).toBe(count.line[1]);
     /* and the surface, which covers only the played window, still paints them */
     expect(count.painted).toEqual([18, 18]);

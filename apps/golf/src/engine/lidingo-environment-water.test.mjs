@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 import { expect, it } from 'vitest';
 import { sourceWaterPolygon, buildLidingoWaterBatches, loadLidingoEnvironmentWater, LIDINGO_ENVIRONMENT_WATER } from './lidingo-environment-water.mjs';
 
@@ -6,6 +7,16 @@ const ring = (x0, z0, x1, z1) => [[x0, z0, 2], [x1, z0, 3], [x1, z1, 4], [x0, z1
 const feature = { id: 'test', geometry: { type: 'Polygon', coordinates: [ring(0, 0, 10, 10), ring(3, 3, 7, 7)] } };
 const source = fs.readFileSync(new URL(`../../public/${LIDINGO_ENVIRONMENT_WATER.url}`, import.meta.url));
 const collection = JSON.parse(source);
+
+it('ships the exact retained source bytes across checkout line endings', async () => {
+  const acquired = fs.readFileSync(new URL('../../../../geo_data/course-v2/lidingo/acquisition/environment-water.geojson', import.meta.url));
+  expect(source.equals(acquired)).toBe(true);
+  expect(source.byteLength).toBe(LIDINGO_ENVIRONMENT_WATER.bytes);
+  expect(createHash('sha256').update(source).digest('hex')).toBe(LIDINGO_ENVIRONMENT_WATER.sha256);
+  const crlf = Buffer.from(source.toString('utf8').replace(/\n/g, '\r\n'));
+  await expect(loadLidingoEnvironmentWater({ baseUrl: 'https://example.test/', fetchFn: async () =>
+    ({ ok: true, arrayBuffer: async () => Uint8Array.from(crlf).buffer }) })).rejects.toThrow(/size differs/);
+});
 
 it('keeps the island empty, preserves varying RH2000 heights and faces upward', () => {
   const before = structuredClone(feature);

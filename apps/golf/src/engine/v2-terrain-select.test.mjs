@@ -60,10 +60,12 @@ describe('selectV2TerrainSource', () => {
     expect(V2_PUBLISHED_GRAPH_SLUGS).toEqual([
       'angso',
       'johannesberg',
+      'johannesberg-9',
       'lidingo',
       'norrfallsviken',
       'puttom',
       'ribbingsfors',
+      'tortuna',
       'upsala',
       'upsala-mellanbanan',
       'veckefjarden',
@@ -376,7 +378,8 @@ describe('selectV2TerrainSource', () => {
     expect(optIn.mode).toBe('fallback');
     expect(optIn.graph).toBe(null);
     expect(optIn.graphError).toContain('root sha mismatch');
-    expect(optIn.source.reason).toBe('course-not-enabled');
+    expect(optIn.source.reason).toBe('published-graph-unavailable');
+    expect(optIn.source.error).toContain('root sha mismatch');
 
     await expect(selectV2TerrainSource({
       slug: 'angso',
@@ -399,5 +402,20 @@ describe('selectV2TerrainSource', () => {
     });
     expect(selection.mode).toBe('fixed-frontier');
     expect(selection.graph).toBe(graph);
+  });
+  it('retains the underlying published terrain failure on a normal Norrfallsviken visit', async () => {
+    const failure = new Error('v2 root manifest could not be loaded', {
+      cause: new Error('v2 root manifest is not canonical JSON'),
+    });
+    const selection = await selectV2TerrainSource({
+      slug: 'norrfallsviken', packMeta: PACK_META, search: '?bana=norrfallsviken',
+      publishedGraphSlugs: ['norrfallsviken'],
+      graphFrontierConfigs: { norrfallsviken: { slug: 'norrfallsviken' } },
+      graphResolver: vi.fn(async () => { throw failure; }),
+    });
+    expect(selection.source.ready).toBe(false);
+    expect(selection.source.reason).toBe('published-graph-unavailable');
+    expect(selection.source.error).toContain('not canonical JSON');
+    expect(selection.graphError).toBe(selection.source.error);
   });
 });

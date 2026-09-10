@@ -17,7 +17,7 @@ import { V2_GRAPH_FRONTIER_CONFIGS } from './v2-frontier-configs.mjs';
    RESOLUTION only: the generic streaming renderer stays gated, so a resolved
    graph is reported and the course keeps rendering from the strongest source
    that has passed the adapter contract. */
-export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['angso', 'johannesberg', 'lidingo', 'norrfallsviken', 'puttom', 'ribbingsfors', 'upsala', 'upsala-mellanbanan', 'veckefjarden', 'veckefjarden-korthalsbanan', 'visby']);
+export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['angso', 'johannesberg', 'johannesberg-9', 'lidingo', 'norrfallsviken', 'puttom', 'ribbingsfors', 'tortuna', 'upsala', 'upsala-mellanbanan', 'veckefjarden', 'veckefjarden-korthalsbanan', 'visby']);
 
 export const V2_GRAPH_RENDERER_GATE = 'graph-renderer-not-activated';
 
@@ -58,7 +58,12 @@ export function v2StreamProbeRequested(search = globalThis.location?.search || '
 }
 
 function errorText(error) {
-  return String(error?.message || error).slice(0, 300);
+  const parts = [], seen = new Set();
+  for (let cause = error; cause && !seen.has(cause); cause = cause.cause) {
+    seen.add(cause);
+    parts.push(String(cause.message || cause));
+  }
+  return parts.join(': ').slice(0, 600);
 }
 
 function frozenSelection(value) {
@@ -214,10 +219,16 @@ export async function selectV2TerrainSource({
     }
   }
 
-  const source = await previewLoader({
+  const preview = await previewLoader({
     slug, geo, packSha256: packMeta?.sha256, search, baseUrl, locationHref,
     requested: true, ...previewOptions,
   });
+  // The retained pilot says "course-not-enabled" for every other course.
+  // Preserve a published course's actual load failure instead of letting that
+  // unrelated pilot result claim its measured terrain was never enabled.
+  const source = !preview.ready && graphError ? Object.freeze({
+    ...preview, reason: 'published-graph-unavailable', error: graphError,
+  }) : preview;
   if (requestMode === 'require' && !source.ready) {
     const detail = source.error || source.reason || 'okänd orsak';
     throw new Error(`v2 krävdes men ingen verifierad v2-terräng finns för ${slug}: ${detail}`);

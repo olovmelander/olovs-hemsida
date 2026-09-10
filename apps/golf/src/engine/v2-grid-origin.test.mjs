@@ -52,7 +52,7 @@ describe('the EPSG:3006 origin of a v2 ground\'s local metres', () => {
   it('equals the canonical origin where the pack is authored in the grid', () => {
     const gridAuthored = Object.entries(V2_GRAPH_FRONTIER_CONFIGS)
       .filter(([, config]) => config.bridgeMode === 'epsg3006-local-rh2000');
-    expect(gridAuthored.map(([slug]) => slug)).toEqual(['lidingo', 'ribbingsfors', 'visby']);
+    expect(gridAuthored.map(([slug]) => slug)).toEqual(['lidingo', 'ribbingsfors', 'visby', 'tortuna']);
     for (const [slug, config] of gridAuthored) {
       expect(config.legacyOriginEpsg3006.easting, slug).toBe(config.canonicalOrigin.easting);
       expect(config.legacyOriginEpsg3006.northing, slug).toBe(config.canonicalOrigin.northing);

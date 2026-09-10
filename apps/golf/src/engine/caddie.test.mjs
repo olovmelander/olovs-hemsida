@@ -3,6 +3,9 @@ import {
   DEFAULT_BAG, MAX_BAG_CLUBS, gpsToLocal, nearestHole, normalizeBag, parseBag,
   pointAlongLine, recommendClub, strategyForHole,
 } from './caddie.js';
+import { VISBY_V2_CONFIG } from './v2-visby-config.mjs';
+import { LIDINGO_V2_CONFIG } from './v2-lidingo-config.mjs';
+import { RIBBINGSFORS_V2_CONFIG } from './v2-ribbingsfors-config.mjs';
 
 describe('bag', () => {
   it('starts with a complete carry set and accepts up to fourteen clubs', () => {
@@ -42,6 +45,48 @@ describe('GPS frame', () => {
     expect(z).toBeCloseTo(-111.32);
   });
 
+  const projectedGeo = config => ({ frame: config.packFrame,
+    origin: { lat: config.packOriginWgs84.latitude, lon: config.packOriginWgs84.longitude },
+    mPerLon: config.packMetresPerLongitude });
+
+  it('places Visby GPS fixes in the native grid against independent PROJ controls', () => {
+    // PROJ 9.8.1 / pyproj 3.8.0, EPSG:3006 -> EPSG:4326, always_xy.
+    // These synthetic origin/corner controls measure conversion error, not GPS accuracy.
+    const controls = [
+      { local: [0, 0], wgs84: [18.12847826436399, 57.44236399463288] },
+      { local: [-650, -1050], wgs84: [18.118467660619093, 57.45205012630819] },
+      { local: [650, -1050], wgs84: [18.1400984521626, 57.451512773274224] },
+      { local: [650, 450], wgs84: [18.1389448076941, 57.43805873583014] },
+      { local: [-650, 450], wgs84: [18.117321931606615, 57.43859581227263] },
+    ];
+    for (const control of controls) {
+      const actual = gpsToLocal({ longitude: control.wgs84[0], latitude: control.wgs84[1] }, projectedGeo(VISBY_V2_CONFIG));
+      expect(Math.hypot(actual[0] - control.local[0], actual[1] - control.local[1])).toBeLessThan(0.01);
+    }
+  });
+
+  it.each([
+    [LIDINGO_V2_CONFIG, 18.130706144130983, 59.38275231674589],
+    [RIBBINGSFORS_V2_CONFIG, 14.114905826273638, 58.96489989471448],
+  ])('uses the same declared grid convention for $slug', (config, longitude, latitude) => {
+    // The same independent PROJ inverse at local x=123, z=-456.
+    const actual = gpsToLocal({ longitude, latitude }, projectedGeo(config));
+    expect(Math.hypot(actual[0] - 123, actual[1] + 456)).toBeLessThan(0.01);
+  });
+
+  it('rejects a known projected frame with a different pack origin or scale', () => {
+    const visby = projectedGeo(VISBY_V2_CONFIG);
+    const fix = { latitude: visby.origin.lat, longitude: visby.origin.lon };
+    expect(() => gpsToLocal(fix, { ...visby, origin: { ...visby.origin, lat: visby.origin.lat + 0.001 } })).toThrow(/koordinatram/);
+    expect(() => gpsToLocal(fix, { ...visby, mPerLon: visby.mPerLon + 1 })).toThrow(/koordinatram/);
+  });
+
+  it('retains the established conversion for an unregistered legacy frame', () => {
+    const actual = gpsToLocal({ latitude: 63.301, longitude: 18.902 }, { ...geo, frame: 'local legacy metres' });
+    expect(actual[0]).toBeCloseTo(100);
+    expect(actual[1]).toBeCloseTo(-111.32);
+  });
+
   it('selects the nearest hole but keeps the current one inside the hysteresis', () => {
     const holes = [
       { n: 1, line: [[0, 0], [0, -100]] },
@@ -76,5 +121,18 @@ describe('strategy', () => {
     const strategy = strategyForHole(par3);
     expect(strategy.zones[0].kind).toBe('green');
     expect(strategy.zones[0].distance).toBe(145);
+  });
+
+  it('measures a lateral par-three tee directly to the green for both distance and club advice', () => {
+    const par3 = { par: 3, line: [[0, 0], [0, -145]], green: { c: [0, -145] },
+      tees: { marks: [{ c: [0, 0] }, { c: [60, -65] }] } };
+    const strategy = strategyForHole(par3, 1);
+    // 60/80/100 triangle: joining the old centreline would incorrectly say 140 m.
+    expect(strategy.line).toEqual([[60, -65], [0, -145]]);
+    expect(strategy.primary).toEqual([0, -145]);
+    expect(strategy.total).toBe(100);
+    expect(strategy.zones[0].distance).toBe(100);
+    expect(strategy.primaryAdvice.distance).toBe(100);
+    expect(strategy.primaryAdvice.club.id).toBe('pw');
   });
 });
