@@ -13,6 +13,11 @@ async function runVista(vegetationPlacement) {
   const context = {
     M: { infra: { vegetationPlacement }, get cover() { sourceReads++; return null; } },
     LOWQ: false, FARR: { x0: 0, x1: 0, z0: 0, z1: 0 },
+    /* The far ring now stands on a land-cover record where a measured-only
+       ground has one, so the pass reads LANDCOVER_REC before deciding whether
+       to enter at all. Null is the case this test is about: a measured-only
+       ground with nothing measured out there still plants nothing. */
+    LANDCOVER_REC: null,
     stats: {}, VISTA_PTS: null,
   };
   await runInNewContext(`(async () => { ${vistaPass} })()`, context);
@@ -20,7 +25,7 @@ async function runVista(vegetationPlacement) {
 }
 
 describe('far vegetation source policy', () => {
-  it('does not enter procedural vista generation on a measured-only ground', async () => {
+  it('does not enter procedural vista generation on a measured-only ground with no land-cover record', async () => {
     const result = await runVista('measured-only');
     expect(result.sourceReads).toBe(0);
     expect(result.points).toBeNull();
