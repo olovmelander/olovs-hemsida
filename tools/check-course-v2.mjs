@@ -70,6 +70,8 @@ async function boot(search) {
         surfacePolicy: terrain.surfacePolicy,
         renderer: terrain.renderer,
         bridge: terrain.bridge,
+        sharedFrontierMaterial: terrain.sharedFrontierMaterial,
+        boundaryBlendMetres: terrain.boundaryBlendMetres,
       },
       objects: window.V3D.v2Objects(),
     };
