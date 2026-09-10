@@ -47,8 +47,10 @@ length times tan(elevation), plus the ground rise the shadow runs over.
 The solar geometry is independent of everything measured with it: it comes from
 the source item's own STAC capture instant through NOAA's algorithm. Its check
 is that the computed shadow bearing, **45.06°**, reproduces the dominant
-dark-line bearing measured separately in the pixels, **46.0°**. Two records that
-never entered each other, agreeing to a degree.
+dark-line bearing measured separately in the pixels, **46.0°** — two records
+that never entered each other. `check-shadow-bearing.mjs` prints that
+comparison and its own residual, currently **0.9°**, so the number is the
+tool's rather than this file's.
 
 The ground correction is not cosmetic: the field falls about 3 m over the 15 m
 the shadows run, so the uncorrected height would read 11.96 m against 9.77.
@@ -83,6 +85,7 @@ elsewhere: Puttom is the only course with nets, and it has bays too.
 
 ## Running it
 
+    node tortunabuild/range/check-shadow-bearing.mjs  # the solar model against the pixels
     node tortunabuild/range/trace-mats.mjs          # mats, by local green contrast
     node tortunabuild/range/trace-net.mjs           # net posts, from their own shadows
     node tortunabuild/range/trace-earthworks.mjs    # the unfinished field

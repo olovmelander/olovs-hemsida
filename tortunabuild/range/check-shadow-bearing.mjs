@@ -1,9 +1,12 @@
-/* Find the range's ball-stop net in the retained 2026 orthophoto.
+/* Does the sun in the source item's metadata agree with the shadows in its
+ * pixels? This is the check that licenses measuring heights from shadow
+ * lengths anywhere on this range.
  * A post is a thin vertical object: in a nadir ortho it is at most a pixel or
  * two wide, but its SHADOW is metres long and is the detectable signal. The
  * shadows are parallel, evenly spaced and fall on open grass, so a dark
  * top-hat residual plus a common direction isolates them from the scrub line. */
 import { sampleWindow, luminance, toWorld, TILE } from './ortho-sample.mjs';
+import { SUN, BEARING, CAPTURE } from './measure-shadows.mjs';
 
 const WIN = { x: 2100, y: 2500, w: 620, h: 420 };
 const s = await sampleWindow(WIN);
@@ -48,7 +51,20 @@ for (let deg = 0; deg < 180; deg += 1) {
   }
   if (n > 50 && score / n > best.score) { best.score = score / n; best.deg = deg; }
 }
-console.log('dominant dark-line bearing in pixels: %s deg (score %s)', best.deg, best.score.toFixed(2));
+/* The pixel angle means nothing on its own. Turn it into a world bearing --
+   +x is east and +y is SOUTH in this raster, so north is -y -- and compare it
+   with the sun computed from the source item's own capture instant. That
+   comparison is the whole point of this tool: the two records never entered
+   each other, so their agreement is what licenses using shadow length as a
+   height anywhere else on this range. */
+const ux = Math.cos(best.deg * Math.PI / 180), uy = Math.sin(best.deg * Math.PI / 180);
+const measured = (Math.atan2(Math.abs(ux), Math.abs(uy)) * 180 / Math.PI);
+console.log('dominant dark-line bearing: %s deg in pixels -> %s deg world (NE-SW), score %s',
+  best.deg, measured.toFixed(1), best.score.toFixed(2));
+console.log('sun at %s: elevation %s, azimuth %s -> shadows bear %s deg',
+  CAPTURE, SUN.elevationDeg.toFixed(2), SUN.azimuthDeg.toFixed(2), BEARING.toFixed(2));
+console.log('AGREEMENT: %s deg between the computed shadow bearing and the measured dark-line bearing',
+  Math.abs(measured - BEARING).toFixed(1));
 console.log('window world bounds NW %s  SE %s',
   toWorld([WIN.x, WIN.y]).map(v => v.toFixed(1)).join(','),
   toWorld([WIN.x + WIN.w, WIN.y + WIN.h]).map(v => v.toFixed(1)).join(','));
