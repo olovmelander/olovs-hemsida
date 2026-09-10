@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "groundId": "ribbingsfors",
+  "kind": "facility-orthophoto-reference-plan",
+  "observedAt": "2026-09-10T08:38:06.624446+00:00",
+  "collection": "orto-k2-2024",
+  "horizontalCrs": "EPSG:3006",
+  "nativeResolutionMetres": 0.16,
+  "sources": [
+    {
+      "id": "o65350_4475_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_K2/o65350_4475_25_mr24.tif",
+      "bytes": 694070240,
+      "boundsEpsg3006": [
+        447500,
+        6535000,
+        450000,
+        6537500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-05-17T11:46:40Z",
+      "captureStart": "2024-05-17T11:20:11Z",
+      "captureEnd": "2024-05-17T11:46:48Z"
+    }
+  ],
+  "windows": [
+    {
+      "id": "site-overview",
+      "boundsEpsg3006": [
+        448555.2,
+        6535704.0,
+        449825.6,
+        6536744.8
+      ],
+      "width": 1588,
+      "height": 1301,
+      "resolutionMetres": 0.8,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "All facilities including southwest maintenance yard, range and estate",
+      "features": []
+    },
+    {
+      "id": "campus-native",
+      "boundsEpsg3006": [
+        449360.48,
+        6536144.48,
+        449820.64,
+        6536684.64
+      ],
+      "width": 2876,
+      "height": 3376,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "Clubhouse, practice green, entire range and nearby estate",
+      "features": []
+    },
+    {
+      "id": "clubhouse-close",
+      "boundsEpsg3006": [
+        449405.44,
+        6536409.44,
+        449525.6,
+        6536539.52
+      ],
+      "width": 751,
+      "height": 813,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "Clubhouse, annex, courtyard, practice green and access",
+      "features": []
+    },
+    {
+      "id": "range-tee-close",
+      "boundsEpsg3006": [
+        449455.36,
+        6536354.4,
+        449690.56,
+        6536489.6
+      ],
+      "width": 1470,
+      "height": 845,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "Northern range end, candidate hitting line, access and adjacent estate road",
+      "features": []
+    },
+    {
+      "id": "estate-close",
+      "boundsEpsg3006": [
+        449650.4,
+        6536449.44,
+        449790.56,
+        6536584.64
+      ],
+      "width": 876,
+      "height": 845,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "Estate farm courtyard and surrounding roofs",
+      "features": []
+    },
+    {
+      "id": "maintenance-close",
+      "boundsEpsg3006": [
+        448555.36,
+        6535754.4,
+        448715.52,
+        6535929.6
+      ],
+      "width": 1001,
+      "height": 1095,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "Southwest maintenance yard with all visible sheds and hardstanding",
+      "features": []
+    },
+    {
+      "id": "manor-close",
+      "boundsEpsg3006": [
+        449415.36,
+        6536499.36,
+        449600.64,
+        6536684.64
+      ],
+      "width": 1158,
+      "height": 1158,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "Manor main house, wings, estate garden buildings, boathouse and pier",
+      "features": []
+    },
+    {
+      "id": "estate-north-close",
+      "boundsEpsg3006": [
+        449650.4,
+        6536559.36,
+        449790.56,
+        6536684.64
+      ],
+      "width": 876,
+      "height": 783,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "Northern estate outbuildings",
+      "features": []
+    },
+    {
+      "id": "range-mats-detail",
+      "boundsEpsg3006": [
+        449590.4,
+        6536445.44,
+        449652.64,
+        6536470.56
+      ],
+      "width": 389,
+      "height": 157,
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "o65350_4475_25_mr24"
+      ],
+      "purpose": "Native pixels of shelter, open mat row and apron",
+      "features": []
+    }
+  ],
+  "frame": {
+    "originEpsg3006": [
+      448975.5,
+      6536024.5
+    ],
+    "terrainTileInternalOriginHeightRH2000": 69.14,
+    "unit": "metre",
+    "blender": "X=easting-448975.5; Y=northing-6536024.5; Z=absolute heightRH2000",
+    "engine": "x=easting-448975.5; z=6536024.5-northing; y=absolute heightRH2000",
+    "note": "Canonical grid frame. Facility heights are absolute RH2000. The renderer restores the terrain tile internal 69.14 m origin before scene composition. No geographic flat-earth conversion or meridian convergence correction."
+  },
+  "pixelConvention": "Pixel-edge bounds; E=minE+(column+0.5)*resolution; N=maxN-(row+0.5)*resolution"
+}

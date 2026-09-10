@@ -1,0 +1,3621 @@
+{
+  "schemaVersion": 1,
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "anchorLocalXZ": [
+    17.78293267410761,
+    -279.14314741547946
+  ],
+  "buildings": [
+    {
+      "id": "B01",
+      "municipalObjectId": 1215269,
+      "name": "Clubhouse main complex",
+      "function": "Clubhouse",
+      "functionEvidenceNote": "Clubhouse identity is supported by the existing named OSM object; restaurant, shop and room-to-wing assignments require photographs.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": null,
+      "planMethod": "No information",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639848.2640248425,
+          6636416.340969709
+        ],
+        [
+          639840.7839632959,
+          6636394.231039338
+        ],
+        [
+          639841.8849565203,
+          6636392.032002109
+        ],
+        [
+          639843.6770340673,
+          6636392.918989022
+        ],
+        [
+          639847.06103118,
+          6636386.08003814
+        ],
+        [
+          639846.1650219562,
+          6636385.636996424
+        ],
+        [
+          639852.4749695105,
+          6636372.918978747
+        ],
+        [
+          639841.6940114717,
+          6636367.572046917
+        ],
+        [
+          639835.3969668436,
+          6636380.288046541
+        ],
+        [
+          639833.6040450127,
+          6636379.402022349
+        ],
+        [
+          639830.2170178866,
+          6636386.257049501
+        ],
+        [
+          639831.1129863206,
+          6636386.700990112
+        ],
+        [
+          639830.0150064348,
+          6636388.890955924
+        ],
+        [
+          639813.7739814994,
+          6636394.358987451
+        ],
+        [
+          639817.583955447,
+          6636405.792040826
+        ],
+        [
+          639823.8781415115,
+          6636403.680178152
+        ],
+        [
+          639825.8120049319,
+          6636409.443051987
+        ],
+        [
+          639832.4547990832,
+          6636407.205063258
+        ],
+        [
+          639836.8290100365,
+          6636420.191989598
+        ],
+        [
+          639848.2640248425,
+          6636416.340969709
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639848.2640248425,
+            6636416.340969709,
+            33.0170000000071
+          ],
+          [
+            639840.7839632959,
+            6636394.231039338,
+            33.0170000000071
+          ],
+          [
+            639841.8849565203,
+            6636392.032002109,
+            33.0170000000071
+          ],
+          [
+            639843.6770340673,
+            6636392.918989022,
+            33.0170000000071
+          ],
+          [
+            639847.06103118,
+            6636386.08003814,
+            33.0170000000071
+          ],
+          [
+            639846.1650219562,
+            6636385.636996424,
+            33.0170000000071
+          ],
+          [
+            639852.4749695105,
+            6636372.918978747,
+            33.0170000000071
+          ],
+          [
+            639841.6940114717,
+            6636367.572046917,
+            33.0170000000071
+          ],
+          [
+            639835.3969668436,
+            6636380.288046541,
+            33.0170000000071
+          ],
+          [
+            639833.6040450127,
+            6636379.402022349,
+            33.0170000000071
+          ],
+          [
+            639830.2170178866,
+            6636386.257049501,
+            33.0170000000071
+          ],
+          [
+            639831.1129863206,
+            6636386.700990112,
+            33.0170000000071
+          ],
+          [
+            639830.0150064348,
+            6636388.890955924,
+            33.0170000000071
+          ],
+          [
+            639813.7739814994,
+            6636394.358987451,
+            33.0170000000071
+          ],
+          [
+            639817.583955447,
+            6636405.792040826,
+            33.0170000000071
+          ],
+          [
+            639823.8781415115,
+            6636403.680178152,
+            33.005999999993946
+          ],
+          [
+            639825.8120049319,
+            6636409.443051987,
+            32.99499999999534
+          ],
+          [
+            639832.4547990832,
+            6636407.205063258,
+            33.005999999993946
+          ],
+          [
+            639836.8290100365,
+            6636420.191989598,
+            33.0170000000071
+          ],
+          [
+            639848.2640248425,
+            6636416.340969709,
+            33.0170000000071
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          29.283203574303297,
+          -300.8641513722941
+        ],
+        [
+          20.994619671039015,
+          -279.06563824652665
+        ],
+        [
+          22.00971618026317,
+          -276.82814182063424
+        ],
+        [
+          23.829790378636883,
+          -277.6464864791893
+        ],
+        [
+          26.946759583019755,
+          -270.6894330265345
+        ],
+        [
+          26.036770201911924,
+          -270.2807115746367
+        ],
+        [
+          31.850062207287202,
+          -257.34242309580253
+        ],
+        [
+          20.90033119910539,
+          -252.40846022490302
+        ],
+        [
+          15.099796999883035,
+          -265.3442310795725
+        ],
+        [
+          13.27892514023091,
+          -264.52687520134845
+        ],
+        [
+          10.15951816474338,
+          -271.5000859939042
+        ],
+        [
+          11.06949924988857,
+          -271.9097105823968
+        ],
+        [
+          10.057060983881172,
+          -274.1380315494203
+        ],
+        [
+          -5.930249963410299,
+          -280.2097849555372
+        ],
+        [
+          -1.70210900476315,
+          -291.4840203036596
+        ],
+        [
+          4.494045763082748,
+          -289.1381771218903
+        ],
+        [
+          6.638665901670033,
+          -294.820487034533
+        ],
+        [
+          13.177654983655572,
+          -292.33555596214615
+        ],
+        [
+          18.026812437799943,
+          -305.14030582721404
+        ]
+      ],
+      "blenderRing": [
+        [
+          11.500270900195687,
+          21.721003956814627,
+          0
+        ],
+        [
+          3.2116869969314052,
+          -0.07750916895281534,
+          0
+        ],
+        [
+          4.226783506155559,
+          -2.3150055948452177,
+          0
+        ],
+        [
+          6.046857704529273,
+          -1.4966609362901409,
+          0
+        ],
+        [
+          9.163826908912146,
+          -8.453714388944945,
+          0
+        ],
+        [
+          8.253837527804315,
+          -8.86243584084275,
+          0
+        ],
+        [
+          14.067129533179592,
+          -21.80072431967693,
+          0
+        ],
+        [
+          3.117398524997782,
+          -26.734687190576437,
+          0
+        ],
+        [
+          -2.683135674224575,
+          -13.798916335906938,
+          0
+        ],
+        [
+          -4.504007533876699,
+          -14.616272214131016,
+          0
+        ],
+        [
+          -7.623414509364229,
+          -7.643061421575283,
+          0
+        ],
+        [
+          -6.713433424219039,
+          -7.233436833082635,
+          0
+        ],
+        [
+          -7.7258716902264375,
+          -5.005115866059157,
+          0
+        ],
+        [
+          -23.71318263751791,
+          1.0666375400577408,
+          0
+        ],
+        [
+          -19.485041678870758,
+          12.340872888180115,
+          0
+        ],
+        [
+          -13.28888691102486,
+          9.995029706410833,
+          0
+        ],
+        [
+          -11.144266772437575,
+          15.677339619053555,
+          0
+        ],
+        [
+          -4.605277690452038,
+          13.192408546666684,
+          0
+        ],
+        [
+          0.243879763692334,
+          25.997158411734574,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639835.5328559676,
+        6636394.958378854
+      ],
+      "centroidLocalXZ": [
+        15.786452841357518,
+        -279.98960570116736
+      ],
+      "areaSquareMetres": 869.2189179684628,
+      "orientedBoundingRectangleMetres": [
+        47.93571106027566,
+        39.74004141320893
+      ],
+      "sourceGeometryModifiedAt": "2025-04-09T14:34:07+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.0170000000071,
+          33.005999999993946,
+          32.99499999999534,
+          33.005999999993946,
+          33.0170000000071,
+          33.0170000000071
+        ],
+        "minimum": 32.99499999999534,
+        "maximum": 33.0170000000071,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": null
+      },
+      "existingModelMatches": [
+        {
+          "id": "w221193965",
+          "intersectionSquareMetres": 804.7306491489759,
+          "sourceOutlineCoveredFraction": 0.9258089446900111,
+          "sourceId": null,
+          "heightMetres": null
+        },
+        {
+          "id": "w438967932",
+          "intersectionSquareMetres": 34.971248121640286,
+          "sourceOutlineCoveredFraction": 0.04023295788749632,
+          "sourceId": null,
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1215269,
+        "STYPE": 1006,
+        "STATUS": 0,
+        "ORIGINPLAN": null,
+        "ORIGINHEIGHT": null,
+        "MODIFICATIONDATE": 1744209247000,
+        "Shape__Area": 869.51480257,
+        "ACTIVITYTYPE": null,
+        "GID": "{F8539646-CBE3-4179-90F5-14E206FA788E}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B02",
+      "municipalObjectId": 1244320,
+      "name": "Clubhouse west attached component",
+      "function": "Clubhouse west extension",
+      "functionEvidenceNote": "Visible attached roof/component; enclosure and terrace limits require oblique photographs.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": null,
+      "planMethod": "No information",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639817.294041595,
+          6636404.920971602
+        ],
+        [
+          639813.9229716206,
+          6636394.806014459
+        ],
+        [
+          639808.7760345936,
+          6636396.520974802
+        ],
+        [
+          639812.1470000186,
+          6636406.63602711
+        ],
+        [
+          639817.294041595,
+          6636404.920971602
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639817.294041595,
+            6636404.920971602,
+            33.0170000000071
+          ],
+          [
+            639813.9229716206,
+            6636394.806014459,
+            33.0170000000071
+          ],
+          [
+            639808.7760345936,
+            6636396.520974802,
+            37.67699999999604
+          ],
+          [
+            639812.1470000186,
+            6636406.63602711,
+            37.67699999999604
+          ],
+          [
+            639817.294041595,
+            6636404.920971602,
+            33.0170000000071
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          -2.0238844439728534,
+          -290.6250377445028
+        ],
+        [
+          -5.764910263642512,
+          -280.6506015288616
+        ],
+        [
+          -10.83212728943455,
+          -282.55689730682633
+        ],
+        [
+          -7.091213703309909,
+          -292.5314377422791
+        ]
+      ],
+      "blenderRing": [
+        [
+          -19.806817118080463,
+          11.481890329023315,
+          0
+        ],
+        [
+          -23.547842937750122,
+          1.5074541133821526,
+          0
+        ],
+        [
+          -28.61505996354216,
+          3.4137498913468676,
+          0
+        ],
+        [
+          -24.874146377417517,
+          13.38829032679962,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639813.0350163484,
+        6636400.721017846
+      ],
+      "centroidLocalXZ": [
+        -6.428030653649121,
+        -286.5910156201798
+      ],
+      "areaSquareMetres": 57.8431431814076,
+      "orientedBoundingRectangleMetres": [
+        10.662018290401287,
+        5.424633144845554
+      ],
+      "sourceGeometryModifiedAt": "2025-04-09T17:28:47+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          33.0170000000071,
+          33.0170000000071,
+          37.67699999999604,
+          37.67699999999604,
+          33.0170000000071
+        ],
+        "minimum": 33.0170000000071,
+        "maximum": 37.67699999999604,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": null
+      },
+      "existingModelMatches": [
+        {
+          "id": "w438967932",
+          "intersectionSquareMetres": 45.75411257401547,
+          "sourceOutlineCoveredFraction": 0.7910032210822547,
+          "sourceId": null,
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1244320,
+        "STYPE": 1008,
+        "STATUS": 0,
+        "ORIGINPLAN": null,
+        "ORIGINHEIGHT": null,
+        "MODIFICATIONDATE": 1744219727000,
+        "Shape__Area": 57.86284369,
+        "ACTIVITYTYPE": null,
+        "GID": "{DADC52C3-28EA-4348-9D74-8FA9A4AF23C9}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B03",
+      "municipalObjectId": 92448,
+      "name": "Small structure north of clubhouse",
+      "function": "Unknown",
+      "functionEvidenceNote": "Small multi-sided roof; function unverified.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 3,
+      "status": "Befintligt",
+      "planMethodCode": 101,
+      "planMethod": "Geod. Totalstation",
+      "confirmedExistingMeasuredOutline": true,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639851.8220242455,
+          6636425.076011285
+        ],
+        [
+          639848.7169874981,
+          6636424.488040984
+        ],
+        [
+          639846.657973611,
+          6636426.813015407
+        ],
+        [
+          639847.6670200147,
+          6636429.832977684
+        ],
+        [
+          639850.7679637325,
+          6636430.498028658
+        ],
+        [
+          639852.8360065898,
+          6636428.070975699
+        ],
+        [
+          639851.8220242455,
+          6636425.076011285
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639851.8220242455,
+            6636425.076011285,
+            32.84399999999732
+          ],
+          [
+            639848.7169874981,
+            6636424.488040984,
+            32.84399999999732
+          ],
+          [
+            639846.657973611,
+            6636426.813015407,
+            32.84399999999732
+          ],
+          [
+            639847.6670200147,
+            6636429.832977684,
+            32.84399999999732
+          ],
+          [
+            639850.7679637325,
+            6636430.498028658,
+            32.84399999999732
+          ],
+          [
+            639852.8360065898,
+            6636428.070975699,
+            32.84399999999732
+          ],
+          [
+            639851.8220242455,
+            6636425.076011285,
+            32.84399999999732
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          33.1588680485586,
+          -309.45346645122925
+        ],
+        [
+          30.04094630214318,
+          -308.9831530064262
+        ],
+        [
+          28.07539796541089,
+          -311.38247376456405
+        ],
+        [
+          29.19492672489928,
+          -314.36037460619616
+        ],
+        [
+          32.311668352050624,
+          -314.90781913784474
+        ],
+        [
+          34.28238225267967,
+          -312.40621590210395
+        ]
+      ],
+      "blenderRing": [
+        [
+          15.375935374450993,
+          30.310319035749785,
+          0
+        ],
+        [
+          12.25801362803557,
+          29.84000559094676,
+          0
+        ],
+        [
+          10.29246529130328,
+          32.23932634908459,
+          0
+        ],
+        [
+          11.41199405079167,
+          35.2172271907167,
+          0
+        ],
+        [
+          14.528735677943015,
+          35.76467172236528,
+          0
+        ],
+        [
+          16.499449578572058,
+          33.26306848662449,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639849.7496899354,
+        6636427.472489946
+      ],
+      "centroidLocalXZ": [
+        31.182727360761294,
+        -311.9246976660065
+      ],
+      "areaSquareMetres": 25.973402104517298,
+      "orientedBoundingRectangleMetres": [
+        6.350181166756756,
+        5.460950172043038
+      ],
+      "sourceGeometryModifiedAt": "2025-04-09T13:56:00+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          32.84399999999732,
+          32.84399999999732,
+          32.84399999999732,
+          32.84399999999732,
+          32.84399999999732,
+          32.84399999999732,
+          32.84399999999732
+        ],
+        "minimum": 32.84399999999732,
+        "maximum": 32.84399999999732,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 101
+      },
+      "existingModelMatches": [
+        {
+          "id": "uppsala-building-92448",
+          "intersectionSquareMetres": 25.969193268733353,
+          "sourceOutlineCoveredFraction": 0.9998379559301854,
+          "sourceId": "uppsala-building-92448",
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 92448,
+        "STYPE": 1008,
+        "STATUS": 3,
+        "ORIGINPLAN": 101,
+        "ORIGINHEIGHT": 101,
+        "MODIFICATIONDATE": 1744206960000,
+        "Shape__Area": 25.98224035,
+        "ACTIVITYTYPE": null,
+        "GID": "{F942E22B-ADE9-4882-A130-ACB77E44DA82}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B04",
+      "municipalObjectId": 1248912,
+      "name": "Red-roof building north of clubhouse",
+      "function": "Unknown",
+      "functionEvidenceNote": "Separate building beside north parking; current function requires photo match.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": null,
+      "planMethod": "No information",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639883.9130266481,
+          6636442.6510260375
+        ],
+        [
+          639895.2899622419,
+          6636431.255025017
+        ],
+        [
+          639891.2168550509,
+          6636427.135909626
+        ],
+        [
+          639891.3239879911,
+          6636427.028968177
+        ],
+        [
+          639886.1940293767,
+          6636421.938978199
+        ],
+        [
+          639874.4819665141,
+          6636433.55899923
+        ],
+        [
+          639879.5960011756,
+          6636438.700011971
+        ],
+        [
+          639879.7601573016,
+          6636438.536203397
+        ],
+        [
+          639883.9130266481,
+          6636442.6510260375
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639883.9130266481,
+            6636442.6510260375,
+            -999
+          ],
+          [
+            639895.2899622419,
+            6636431.255025017,
+            -999
+          ],
+          [
+            639891.2168550509,
+            6636427.135909626,
+            -482.4890000000014
+          ],
+          [
+            639891.3239879911,
+            6636427.028968177,
+            34.021999999997206
+          ],
+          [
+            639886.1940293767,
+            6636421.938978199,
+            34.021999999997206
+          ],
+          [
+            639874.4819665141,
+            6636433.55899923,
+            34.021999999997206
+          ],
+          [
+            639879.5960011756,
+            6636438.700011971,
+            34.021999999997206
+          ],
+          [
+            639879.7601573016,
+            6636438.536203397,
+            -482.4890000000014
+          ],
+          [
+            639883.9130266481,
+            6636442.6510260375,
+            -999
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          65.81524038508815,
+          -325.7967642462296
+        ],
+        [
+          76.73013219356068,
+          -313.9878823759736
+        ],
+        [
+          72.51427855645927,
+          -310.0276852748186
+        ],
+        [
+          72.617074213988,
+          -309.91685532438794
+        ],
+        [
+          67.311023575895,
+          -305.0268788536394
+        ],
+        [
+          56.07041254620251,
+          -317.0720650637398
+        ],
+        [
+          61.36250683687382,
+          -322.0136107084056
+        ],
+        [
+          61.520020144367045,
+          -321.84384430937683
+        ]
+      ],
+      "blenderRing": [
+        [
+          48.03230771098053,
+          46.65361683075014,
+          0
+        ],
+        [
+          58.947199519453065,
+          34.84473496049412,
+          0
+        ],
+        [
+          54.73134588235166,
+          30.88453785933916,
+          0
+        ],
+        [
+          54.83414153988039,
+          30.773707908908477,
+          0
+        ],
+        [
+          49.528090901787394,
+          25.88373143815994,
+          0
+        ],
+        [
+          38.287479872094906,
+          37.928917648260324,
+          0
+        ],
+        [
+          43.57957416276621,
+          42.87046329292616,
+          0
+        ],
+        [
+          43.73708747025944,
+          42.70069689389737,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639884.9365898127,
+        6636432.330076685
+      ],
+      "centroidLocalXZ": [
+        66.44786060686161,
+        -315.4512509579851
+      ],
+      "areaSquareMetres": 213.48459658654426,
+      "orientedBoundingRectangleMetres": [
+        16.545661891378987,
+        13.097224347703472
+      ],
+      "sourceGeometryModifiedAt": "2026-05-13T14:40:51+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          -999,
+          -999,
+          -482.4890000000014,
+          34.021999999997206,
+          34.021999999997206,
+          34.021999999997206,
+          34.021999999997206,
+          -482.4890000000014,
+          -999
+        ],
+        "minimum": -999,
+        "maximum": 34.021999999997206,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": null
+      },
+      "existingModelMatches": [
+        {
+          "id": "w221193959",
+          "intersectionSquareMetres": 117.62774761005777,
+          "sourceOutlineCoveredFraction": 0.5509893898240701,
+          "sourceId": null,
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1248912,
+        "STYPE": 1008,
+        "STATUS": 0,
+        "ORIGINPLAN": null,
+        "ORIGINHEIGHT": null,
+        "MODIFICATIONDATE": 1778683251000,
+        "Shape__Area": 213.557179185,
+        "ACTIVITYTYPE": 4,
+        "GID": "{202801B3-AD9A-49C8-8B44-6644ACA8C2DB}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B05",
+      "municipalObjectId": 92444,
+      "name": "Small red-roof building southeast of clubhouse",
+      "function": "Unknown",
+      "functionEvidenceNote": "Separate small structure between clubhouse and parking.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 3,
+      "status": "Befintligt",
+      "planMethodCode": 101,
+      "planMethod": "Geod. Totalstation",
+      "confirmedExistingMeasuredOutline": true,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639872.0010169873,
+          6636372.517992207
+        ],
+        [
+          639866.3010485378,
+          6636364.832980383
+        ],
+        [
+          639861.2260152266,
+          6636368.42900518
+        ],
+        [
+          639866.9250239116,
+          6636376.197044483
+        ],
+        [
+          639872.0010169873,
+          6636372.517992207
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639872.0010169873,
+            6636372.517992207,
+            34.703999999997905
+          ],
+          [
+            639866.3010485378,
+            6636364.832980383,
+            34.703999999997905
+          ],
+          [
+            639861.2260152266,
+            6636368.42900518,
+            34.703999999997905
+          ],
+          [
+            639866.9250239116,
+            6636376.197044483,
+            34.703999999997905
+          ],
+          [
+            639872.0010169873,
+            6636372.517992207,
+            34.703999999997905
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          51.302858470212676,
+          -256.2070464070939
+        ],
+        [
+          45.331086523103956,
+          -248.74698198866554
+        ],
+        [
+          40.40631385731996,
+          -252.52916006066044
+        ],
+        [
+          46.38024533908049,
+          -260.07218370697245
+        ]
+      ],
+      "blenderRing": [
+        [
+          33.51992579610507,
+          -22.93610100838555,
+          0
+        ],
+        [
+          27.548153848996346,
+          -30.396165426813923,
+          0
+        ],
+        [
+          22.62338118321235,
+          -26.613987354819017,
+          0
+        ],
+        [
+          28.59731266497288,
+          -19.07096370850701,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639866.614135528,
+        6636370.501530989
+      ],
+      "centroidLocalXZ": [
+        45.856254491986576,
+        -254.3960783332446
+      ],
+      "areaSquareMetres": 59.94819173968906,
+      "orientedBoundingRectangleMetres": [
+        9.670531353830151,
+        6.268161219475834
+      ],
+      "sourceGeometryModifiedAt": "2025-04-09T14:26:49+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          34.703999999997905,
+          34.703999999997905,
+          34.703999999997905,
+          34.703999999997905,
+          34.703999999997905
+        ],
+        "minimum": 34.703999999997905,
+        "maximum": 34.703999999997905,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 101
+      },
+      "existingModelMatches": [
+        {
+          "id": "w438967931",
+          "intersectionSquareMetres": 59.937579755156634,
+          "sourceOutlineCoveredFraction": 0.999822980740128,
+          "sourceId": "uppsala-building-92444",
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 92444,
+        "STYPE": 1008,
+        "STATUS": 3,
+        "ORIGINPLAN": 101,
+        "ORIGINHEIGHT": 101,
+        "MODIFICATIONDATE": 1744208809000,
+        "Shape__Area": 59.96858283,
+        "ACTIVITYTYPE": null,
+        "GID": "{9573639D-E8AF-4C41-B574-914302C16779}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B06",
+      "municipalObjectId": 1212887,
+      "name": "Dark-roof building south of clubhouse",
+      "function": "Training or practice building candidate",
+      "functionEvidenceNote": "Function is a candidate until club photograph match.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": null,
+      "planMethod": "No information",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639853.2690239816,
+          6636328.5484916335
+        ],
+        [
+          639855.5748097949,
+          6636335.121995613
+        ],
+        [
+          639855.8579231075,
+          6636335.023227844
+        ],
+        [
+          639856.9781126839,
+          6636338.126092176
+        ],
+        [
+          639859.0815032457,
+          6636337.390684925
+        ],
+        [
+          639859.1481187011,
+          6636337.57936195
+        ],
+        [
+          639870.8825309644,
+          6636333.4380434835
+        ],
+        [
+          639867.4646544477,
+          6636323.635933829
+        ],
+        [
+          639867.2070090639,
+          6636323.724846135
+        ],
+        [
+          639853.334800682,
+          6636328.525950101
+        ],
+        [
+          639853.2690239816,
+          6636328.5484916335
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639853.2690239816,
+            6636328.5484916335,
+            0
+          ],
+          [
+            639855.5748097949,
+            6636335.121995613,
+            0
+          ],
+          [
+            639855.8579231075,
+            6636335.023227844,
+            0
+          ],
+          [
+            639856.9781126839,
+            6636338.126092176,
+            0
+          ],
+          [
+            639859.0815032457,
+            6636337.390684925,
+            0
+          ],
+          [
+            639859.1481187011,
+            6636337.57936195,
+            0
+          ],
+          [
+            639870.8825309644,
+            6636333.4380434835,
+            0
+          ],
+          [
+            639867.4646544477,
+            6636323.635933829,
+            0
+          ],
+          [
+            639867.2070090639,
+            6636323.724846135,
+            0
+          ],
+          [
+            639853.334800682,
+            6636328.525950101,
+            0
+          ],
+          [
+            639853.2690239816,
+            6636328.5484916335,
+            0
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          30.974558767307006,
+          -213.00207664673195
+        ],
+        [
+          33.52044325207706,
+          -219.47990753242095
+        ],
+        [
+          33.7989989784765,
+          -219.37061803577222
+        ],
+        [
+          35.03242963206562,
+          -222.42712462067885
+        ],
+        [
+          37.10189992873723,
+          -221.6135470173259
+        ],
+        [
+          37.175405913436016,
+          -221.79946156273957
+        ],
+        [
+          48.719115745438394,
+          -217.22207667445105
+        ],
+        [
+          44.94312026901673,
+          -207.56187764979728
+        ],
+        [
+          44.68958712337981,
+          -207.66036725031796
+        ],
+        [
+          31.039291732173588,
+          -212.97709006693395
+        ]
+      ],
+      "blenderRing": [
+        [
+          13.191626093199396,
+          -66.14107076874751,
+          0
+        ],
+        [
+          15.737510577969449,
+          -59.66323988305851,
+          0
+        ],
+        [
+          16.016066304368888,
+          -59.77252937970724,
+          0
+        ],
+        [
+          17.249496957958012,
+          -56.71602279480061,
+          0
+        ],
+        [
+          19.318967254629623,
+          -57.52960039815355,
+          0
+        ],
+        [
+          19.392473239328407,
+          -57.343685852739895,
+          0
+        ],
+        [
+          30.936183071330785,
+          -61.921070741028416,
+          0
+        ],
+        [
+          27.16018759490912,
+          -71.58126976568218,
+          0
+        ],
+        [
+          26.9066544492722,
+          -71.4827801651615,
+          0
+        ],
+        [
+          13.256359058065978,
+          -66.16605734854551,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639862.1301217318,
+        6636330.954904404
+      ],
+      "centroidLocalXZ": [
+        39.89957251343819,
+        -215.0717307088999
+      ],
+      "areaSquareMetres": 154.96570839708278,
+      "orientedBoundingRectangleMetres": [
+        15.022182693814115,
+        10.463016304765093
+      ],
+      "sourceGeometryModifiedAt": "2025-09-16T10:06:12+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "minimum": 0,
+        "maximum": 0,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": null
+      },
+      "existingModelMatches": [
+        {
+          "id": "w221193957",
+          "intersectionSquareMetres": 101.3791326329398,
+          "sourceOutlineCoveredFraction": 0.6542036537087728,
+          "sourceId": null,
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1212887,
+        "STYPE": 1008,
+        "STATUS": 0,
+        "ORIGINPLAN": null,
+        "ORIGINHEIGHT": null,
+        "MODIFICATIONDATE": 1758017172000,
+        "Shape__Area": 155.018425425,
+        "ACTIVITYTYPE": 4,
+        "GID": "{791F1843-C58E-4F36-A072-A68EB1D7641F}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B07",
+      "municipalObjectId": 1365585,
+      "name": "South building component",
+      "function": "Unknown",
+      "functionEvidenceNote": "Municipal part near B06; do not double-extrude overlapping source parts.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": 109,
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639867.2070090639,
+          6636323.724846135
+        ],
+        [
+          639866.2440720478,
+          6636320.9418741455
+        ],
+        [
+          639852.3586786425,
+          6636325.704848757
+        ],
+        [
+          639853.334800682,
+          6636328.525950101
+        ],
+        [
+          639867.2070090639,
+          6636323.724846135
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639867.2070090639,
+            6636323.724846135,
+            0
+          ],
+          [
+            639866.2440720478,
+            6636320.9418741455,
+            0
+          ],
+          [
+            639852.3586786425,
+            6636325.704848757,
+            0
+          ],
+          [
+            639853.334800682,
+            6636328.525950101,
+            0
+          ],
+          [
+            639867.2070090639,
+            6636323.724846135,
+            0
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          44.68958712337981,
+          -207.66036725031796
+        ],
+        [
+          43.6249560245215,
+          -204.91740459346687
+        ],
+        [
+          29.96009087267964,
+          -210.196541835912
+        ],
+        [
+          31.039291732173588,
+          -212.97709006693395
+        ]
+      ],
+      "blenderRing": [
+        [
+          26.9066544492722,
+          -71.4827801651615,
+          0
+        ],
+        [
+          25.842023350413893,
+          -74.22574282201259,
+          0
+        ],
+        [
+          12.17715819857203,
+          -68.94660557956746,
+          0
+        ],
+        [
+          13.256359058065978,
+          -66.16605734854551,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639859.7704029303,
+        6636324.729802277
+      ],
+      "centroidLocalXZ": [
+        37.31299984763419,
+        -208.94386468658269
+      ],
+      "areaSquareMetres": 43.525237288417564,
+      "orientedBoundingRectangleMetres": [
+        14.67990180730208,
+        2.98520133829617
+      ],
+      "sourceGeometryModifiedAt": "2025-09-16T10:05:43+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "minimum": 0,
+        "maximum": 0,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 0
+      },
+      "existingModelMatches": [
+        {
+          "id": "w221193957",
+          "intersectionSquareMetres": 1.5930851269560975,
+          "sourceOutlineCoveredFraction": 0.036601411645377314,
+          "sourceId": null,
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1365585,
+        "STYPE": 1008,
+        "STATUS": 0,
+        "ORIGINPLAN": 109,
+        "ORIGINHEIGHT": 0,
+        "MODIFICATIONDATE": 1758017143000,
+        "Shape__Area": 43.540044775,
+        "ACTIVITYTYPE": 2,
+        "GID": "{6F13B7CD-77A7-4FCB-9261-465484FD42C6}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B08",
+      "municipalObjectId": 1226083,
+      "name": "Driving-range roof shelter",
+      "function": "Driving-range shelter",
+      "functionEvidenceNote": "Native imagery clearly shows roof with tee mats along its south side; wall/column layout remains unknown.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": null,
+      "planMethod": "No information",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639699.2780064853,
+          6636304.700974609
+        ],
+        [
+          639698.5169960053,
+          6636293.418985178
+        ],
+        [
+          639678.6330028601,
+          6636294.7599756885
+        ],
+        [
+          639679.3940132088,
+          6636306.0419642
+        ],
+        [
+          639699.2780064853,
+          6636304.700974609
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639699.2780064853,
+            6636304.700974609,
+            28.777000000001863
+          ],
+          [
+            639698.5169960053,
+            6636293.418985178,
+            28.777000000001863
+          ],
+          [
+            639678.6330028601,
+            6636294.7599756885,
+            28.777000000001863
+          ],
+          [
+            639679.3940132088,
+            6636306.0419642,
+            28.777000000001863
+          ],
+          [
+            639699.2780064853,
+            6636304.700974609,
+            28.777000000001863
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          -123.45114463417146,
+          -194.97912696928353
+        ],
+        [
+          -124.63330879143686,
+          -183.74098479097967
+        ],
+        [
+          -144.40738921441422,
+          -185.82762123735677
+        ],
+        [
+          -143.2252842859505,
+          -197.0657695480989
+        ]
+      ],
+      "blenderRing": [
+        [
+          -141.23407730827907,
+          -84.16402044619593,
+          0
+        ],
+        [
+          -142.41624146554446,
+          -95.4021626244998,
+          0
+        ],
+        [
+          -162.19032188852182,
+          -93.3155261781227,
+          0
+        ],
+        [
+          -161.0082169600581,
+          -82.07737786738056,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639688.9555047757,
+        6636299.730474913
+      ],
+      "centroidLocalXZ": [
+        -133.9292795989341,
+        -190.40338888626934
+      ],
+      "areaSquareMetres": 225.35149950671536,
+      "orientedBoundingRectangleMetres": [
+        19.92925899968953,
+        11.307816956138524
+      ],
+      "sourceGeometryModifiedAt": "2025-04-09T15:36:28+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          28.777000000001863,
+          28.777000000001863,
+          28.777000000001863,
+          28.777000000001863,
+          28.777000000001863
+        ],
+        "minimum": 28.777000000001863,
+        "maximum": 28.777000000001863,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": null
+      },
+      "existingModelMatches": [
+        {
+          "id": "w221193969",
+          "intersectionSquareMetres": 170.28912257803717,
+          "sourceOutlineCoveredFraction": 0.7556600375448695,
+          "sourceId": null,
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1226083,
+        "STYPE": 1008,
+        "STATUS": 0,
+        "ORIGINPLAN": null,
+        "ORIGINHEIGHT": null,
+        "MODIFICATIONDATE": 1744212988000,
+        "Shape__Area": 225.42848277,
+        "ACTIVITYTYPE": null,
+        "GID": "{2DBCF238-1798-4998-A791-DD5B99CB53C5}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B09",
+      "municipalObjectId": 1390788,
+      "name": "Small structure on eastern range tee line",
+      "function": "Unknown",
+      "functionEvidenceNote": "Tiny range-side kiosk or equipment shelter candidate; no room-use assertion.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": 109,
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639744.3114355138,
+          6636302.961368217
+        ],
+        [
+          639746.7200896561,
+          6636301.726653795
+        ],
+        [
+          639745.497755817,
+          6636299.34958712
+        ],
+        [
+          639743.095970823,
+          6636300.585113221
+        ],
+        [
+          639744.3114355138,
+          6636302.961368217
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639744.3114355138,
+            6636302.961368217,
+            0
+          ],
+          [
+            639746.7200896561,
+            6636301.726653795,
+            0
+          ],
+          [
+            639745.497755817,
+            6636299.34958712,
+            0
+          ],
+          [
+            639743.095970823,
+            6636300.585113221,
+            0
+          ],
+          [
+            639744.3114355138,
+            6636302.961368217,
+            0
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          -78.61788756626628,
+          -191.54861656546586
+        ],
+        [
+          -76.2628059666627,
+          -190.2249900532891
+        ],
+        [
+          -77.570722979292,
+          -187.89710309135614
+        ],
+        [
+          -79.91892454950268,
+          -189.2212810230805
+        ]
+      ],
+      "blenderRing": [
+        [
+          -96.40082024037389,
+          -87.5945308500136,
+          0
+        ],
+        [
+          -94.04573864077031,
+          -88.91815736219036,
+          0
+        ],
+        [
+          -95.35365565339961,
+          -91.24604432412332,
+          0
+        ],
+        [
+          -97.70185722361029,
+          -89.92186639239895,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639744.9068183085,
+        6636301.155952433
+      ],
+      "centroidLocalXZ": [
+        -78.09207121196793,
+        -189.72325040137179
+      ],
+      "areaSquareMetres": 7.221878327276067,
+      "orientedBoundingRectangleMetres": [
+        2.706683299165191,
+        2.673151007710619
+      ],
+      "sourceGeometryModifiedAt": "2025-10-28T10:06:06+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "minimum": 0,
+        "maximum": 0,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 0
+      },
+      "existingModelMatches": [],
+      "rawSourceAttributes": {
+        "OBJECTID": 1390788,
+        "STYPE": 1008,
+        "STATUS": 0,
+        "ORIGINPLAN": 109,
+        "ORIGINHEIGHT": 0,
+        "MODIFICATIONDATE": 1761645966000,
+        "Shape__Area": 7.22434209,
+        "ACTIVITYTYPE": 2,
+        "GID": "{6D7AC13C-ABD7-40F4-9435-D8A7CB359A86}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B10",
+      "municipalObjectId": 92436,
+      "name": "Long building in southeast service yard",
+      "function": "Service-yard building candidate",
+      "functionEvidenceNote": "Measured outline; shed/barn use needs photograph or club identification.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 3,
+      "status": "Befintligt",
+      "planMethodCode": 101,
+      "planMethod": "Geod. Totalstation",
+      "confirmedExistingMeasuredOutline": true,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639934.4589797342,
+          6636333.6659729285
+        ],
+        [
+          639926.2300209438,
+          6636298.91302216
+        ],
+        [
+          639914.606027513,
+          6636301.735013769
+        ],
+        [
+          639922.7009725752,
+          6636336.510015011
+        ],
+        [
+          639934.4589797342,
+          6636333.6659729285
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639934.4589797342,
+            6636333.6659729285,
+            38.78399999999965
+          ],
+          [
+            639926.2300209438,
+            6636298.91302216,
+            38.78399999999965
+          ],
+          [
+            639914.606027513,
+            6636301.735013769,
+            38.78399999999965
+          ],
+          [
+            639922.7009725752,
+            6636336.510015011,
+            38.78399999999965
+          ],
+          [
+            639934.4589797342,
+            6636333.6659729285,
+            38.78399999999965
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          112.11396085761355,
+          -215.0561138066334
+        ],
+        [
+          102.60315194303382,
+          -180.66008233835504
+        ],
+        [
+          91.12011850555645,
+          -183.91593480885746
+        ],
+        [
+          100.49804610875442,
+          -218.3390637413757
+        ]
+      ],
+      "blenderRing": [
+        [
+          94.33102818350594,
+          -64.08703360884607,
+          0
+        ],
+        [
+          84.82021926892621,
+          -98.48306507712442,
+          0
+        ],
+        [
+          73.33718583144883,
+          -95.227212606622,
+          0
+        ],
+        [
+          82.71511343464681,
+          -60.804083674103765,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639924.5069385737,
+        6636317.7385733975
+      ],
+      "centroidLocalXZ": [
+        101.59293848153038,
+        -199.5250310557003
+      ],
+      "areaSquareMetres": 429.5486010320561,
+      "orientedBoundingRectangleMetres": [
+        35.77242837477302,
+        12.096782148185584
+      ],
+      "sourceGeometryModifiedAt": "2025-09-16T10:03:31+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          38.78399999999965,
+          38.78399999999965,
+          38.78399999999965,
+          38.78399999999965,
+          38.78399999999965
+        ],
+        "minimum": 38.78399999999965,
+        "maximum": 38.78399999999965,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 101
+      },
+      "existingModelMatches": [
+        {
+          "id": "w221193968",
+          "intersectionSquareMetres": 429.5293484572924,
+          "sourceOutlineCoveredFraction": 0.9999551795193431,
+          "sourceId": "uppsala-building-92436",
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 92436,
+        "STYPE": 1008,
+        "STATUS": 3,
+        "ORIGINPLAN": 101,
+        "ORIGINHEIGHT": 101,
+        "MODIFICATIONDATE": 1758017011000,
+        "Shape__Area": 429.69450625,
+        "ACTIVITYTYPE": 4,
+        "GID": "{9E9DD5CE-AD1B-4439-9DCF-4DB16673C757}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B11",
+      "municipalObjectId": 92435,
+      "name": "White-roof building at southeast yard",
+      "function": "Service-yard building candidate",
+      "functionEvidenceNote": "Measured outline; exact function unverified.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 3,
+      "status": "Befintligt",
+      "planMethodCode": 101,
+      "planMethod": "Geod. Totalstation",
+      "confirmedExistingMeasuredOutline": true,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639957.1549934061,
+          6636304.001957846
+        ],
+        [
+          639954.448043019,
+          6636292.365960457
+        ],
+        [
+          639931.1220478227,
+          6636297.758998712
+        ],
+        [
+          639933.8109706306,
+          6636309.435013182
+        ],
+        [
+          639957.1549934061,
+          6636304.001957846
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639957.1549934061,
+            6636304.001957846,
+            31.237999999997555
+          ],
+          [
+            639954.448043019,
+            6636292.365960457,
+            31.237999999997555
+          ],
+          [
+            639931.1220478227,
+            6636297.758998712,
+            31.237999999997555
+          ],
+          [
+            639933.8109706306,
+            6636309.435013182,
+            31.237999999997555
+          ],
+          [
+            639957.1549934061,
+            6636304.001957846,
+            31.237999999997555
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          133.626654877407,
+          -184.57752591414618
+        ],
+        [
+          130.49031068874552,
+          -173.05923606287138
+        ],
+        [
+          107.43711304854511,
+          -179.32340985037882
+        ],
+        [
+          110.55692238159853,
+          -190.88236177290526
+        ]
+      ],
+      "blenderRing": [
+        [
+          115.84372220329938,
+          -94.56562150133328,
+          0
+        ],
+        [
+          112.70737801463791,
+          -106.08391135260808,
+          0
+        ],
+        [
+          89.6541803744375,
+          -99.81973756510064,
+          0
+        ],
+        [
+          92.77398970749091,
+          -88.2607856425742,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639944.1285894705,
+        6636300.892876783
+      ],
+      "centroidLocalXZ": [
+        120.52243978655261,
+        -181.96324690597635
+      ],
+      "areaSquareMetres": 286.5970601629263,
+      "orientedBoundingRectangleMetres": [
+        23.96792615563565,
+        11.981607189486265
+      ],
+      "sourceGeometryModifiedAt": "2025-09-16T10:03:30+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          31.237999999997555,
+          31.237999999997555,
+          31.237999999997555,
+          31.237999999997555,
+          31.237999999997555
+        ],
+        "minimum": 31.237999999997555,
+        "maximum": 31.237999999997555,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 101
+      },
+      "existingModelMatches": [
+        {
+          "id": "w221193971",
+          "intersectionSquareMetres": 286.5871252966393,
+          "sourceOutlineCoveredFraction": 0.999965335072588,
+          "sourceId": "uppsala-building-92435",
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 92435,
+        "STYPE": 1008,
+        "STATUS": 3,
+        "ORIGINPLAN": 101,
+        "ORIGINHEIGHT": 101,
+        "MODIFICATIONDATE": 1758017010000,
+        "Shape__Area": 286.69436284,
+        "ACTIVITYTYPE": 4,
+        "GID": "{73CDAAAA-5EF0-412B-9432-DADC776A81E9}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B12",
+      "municipalObjectId": 92440,
+      "name": "Red-roof building at north edge of southeast yard",
+      "function": "Service-yard building candidate",
+      "functionEvidenceNote": "Measured outline; exact function unverified.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 3,
+      "status": "Befintligt",
+      "planMethodCode": 101,
+      "planMethod": "Geod. Totalstation",
+      "confirmedExistingMeasuredOutline": true,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639965.3329602837,
+          6636343.207013128
+        ],
+        [
+          639963.6370018722,
+          6636333.425969581
+        ],
+        [
+          639941.4050253062,
+          6636337.250989789
+        ],
+        [
+          639943.0819746802,
+          6636347.065000131
+        ],
+        [
+          639965.3329602837,
+          6636343.207013128
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639965.3329602837,
+            6636343.207013128,
+            34.49300000000221
+          ],
+          [
+            639963.6370018722,
+            6636333.425969581,
+            34.49300000000221
+          ],
+          [
+            639941.4050253062,
+            6636337.250989789,
+            34.49300000000221
+          ],
+          [
+            639943.0819746802,
+            6636347.065000131,
+            34.49300000000221
+          ],
+          [
+            639965.3329602837,
+            6636343.207013128,
+            34.49300000000221
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          143.25433892173984,
+          -223.42146920645433
+        ],
+        [
+          141.19564916592253,
+          -213.71755145194157
+        ],
+        [
+          119.17401167979938,
+          -218.37469978470722
+        ],
+        [
+          121.21493400661474,
+          -228.11226847676778
+        ]
+      ],
+      "blenderRing": [
+        [
+          125.47140624763223,
+          -55.72167820902513,
+          0
+        ],
+        [
+          123.41271649181492,
+          -65.42559596353789,
+          0
+        ],
+        [
+          101.39107900569176,
+          -60.76844763077224,
+          0
+        ],
+        [
+          103.43200133250713,
+          -51.03087893871168,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639953.3589387056,
+        6636340.239064988
+      ],
+      "centroidLocalXZ": [
+        131.20452172749322,
+        -220.90853276522836
+      ],
+      "areaSquareMetres": 224.39002892141175,
+      "orientedBoundingRectangleMetres": [
+        22.582967564969575,
+        9.956473890582657
+      ],
+      "sourceGeometryModifiedAt": "2025-04-09T17:06:36+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          34.49300000000221,
+          34.49300000000221,
+          34.49300000000221,
+          34.49300000000221,
+          34.49300000000221
+        ],
+        "minimum": 34.49300000000221,
+        "maximum": 34.49300000000221,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 101
+      },
+      "existingModelMatches": [
+        {
+          "id": "w221193963",
+          "intersectionSquareMetres": 224.3795835687506,
+          "sourceOutlineCoveredFraction": 0.9999534500141947,
+          "sourceId": "uppsala-building-92440",
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 92440,
+        "STYPE": 1008,
+        "STATUS": 3,
+        "ORIGINPLAN": 101,
+        "ORIGINHEIGHT": 101,
+        "MODIFICATIONDATE": 1744218396000,
+        "Shape__Area": 224.466194045,
+        "ACTIVITYTYPE": null,
+        "GID": "{59A03E32-44B5-458E-9674-57588A2E25DD}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B13",
+      "municipalObjectId": 1222358,
+      "name": "Northern attached part at southeast yard",
+      "function": "Unknown",
+      "functionEvidenceNote": "Separate municipal part adjoining B12; roof geometry may overlap main part.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": null,
+      "planMethod": "No information",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639962.04398671,
+          6636349.494998433
+        ],
+        [
+          639961.081960291,
+          6636343.943998737
+        ],
+        [
+          639947.0089629998,
+          6636346.3839943595
+        ],
+        [
+          639947.9709893042,
+          6636351.934993744
+        ],
+        [
+          639962.04398671,
+          6636349.494998433
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639962.04398671,
+            6636349.494998433,
+            35.40899999999965
+          ],
+          [
+            639961.081960291,
+            6636343.943998737,
+            35.40899999999965
+          ],
+          [
+            639947.0089629998,
+            6636346.3839943595,
+            35.40899999999965
+          ],
+          [
+            639947.9709893042,
+            6636351.934993744,
+            35.40899999999965
+          ],
+          [
+            639962.04398671,
+            6636349.494998433,
+            35.40899999999965
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          140.21164899983057,
+          -229.82481932362532
+        ],
+        [
+          139.0437625827328,
+          -224.31757189301663
+        ],
+        [
+          125.10458075640395,
+          -227.2842926297207
+        ],
+        [
+          126.27244740486853,
+          -232.79154438855102
+        ]
+      ],
+      "blenderRing": [
+        [
+          122.42871632572296,
+          -49.31832809185414,
+          0
+        ],
+        [
+          121.26082990862518,
+          -54.82557552246283,
+          0
+        ],
+        [
+          107.32164808229633,
+          -51.85885478575875,
+          0
+        ],
+        [
+          108.48951473076092,
+          -46.351603026928444,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639954.5264748945,
+        6636347.939496307
+      ],
+      "centroidLocalXZ": [
+        132.65811242370455,
+        -228.55456363529981
+      ],
+      "areaSquareMetres": 80.46654176808093,
+      "orientedBoundingRectangleMetres": [
+        14.283233877983488,
+        5.6335748218184545
+      ],
+      "sourceGeometryModifiedAt": "2025-04-09T15:15:13+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          35.40899999999965,
+          35.40899999999965,
+          35.40899999999965,
+          35.40899999999965,
+          35.40899999999965
+        ],
+        "minimum": 35.40899999999965,
+        "maximum": 35.40899999999965,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": null
+      },
+      "existingModelMatches": [],
+      "rawSourceAttributes": {
+        "OBJECTID": 1222358,
+        "STYPE": 1008,
+        "STATUS": 0,
+        "ORIGINPLAN": null,
+        "ORIGINHEIGHT": null,
+        "MODIFICATIONDATE": 1744211713000,
+        "Shape__Area": 80.49385385,
+        "ACTIVITYTYPE": null,
+        "GID": "{1B20EA7D-6F1B-437F-A591-925E72E3AE36}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B14",
+      "municipalObjectId": 1246066,
+      "name": "Small eastern woodland-edge building",
+      "function": "Unknown",
+      "functionEvidenceNote": "Source has total-station method but status is no information.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": 101,
+      "planMethod": "Geod. Totalstation",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639996.3713180388,
+          6636369.120003849
+        ],
+        [
+          639994.6974698125,
+          6636362.531090739
+        ],
+        [
+          639989.7149412672,
+          6636363.7805978935
+        ],
+        [
+          639990.79497896,
+          6636367.820447964
+        ],
+        [
+          639988.8510979275,
+          6636368.291350215
+        ],
+        [
+          639989.4758121504,
+          6636370.87183903
+        ],
+        [
+          639996.3713180388,
+          6636369.120003849
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639996.3713180388,
+            6636369.120003849,
+            35.57399999999325
+          ],
+          [
+            639994.6974698125,
+            6636362.531090739,
+            35.57399999999325
+          ],
+          [
+            639989.7149412672,
+            6636363.7805978935,
+            35.57399999999325
+          ],
+          [
+            639990.79497896,
+            6636367.820447964,
+            35.57399999999325
+          ],
+          [
+            639988.8510979275,
+            6636368.291350215,
+            35.57399999999325
+          ],
+          [
+            639989.4758121504,
+            6636370.87183903,
+            35.57399999999325
+          ],
+          [
+            639996.3713180388,
+            6636369.120003849,
+            35.57399999999325
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          175.17453674527502,
+          -248.13013782372906
+        ],
+        [
+          173.25785719541244,
+          -241.61321226754666
+        ],
+        [
+          168.3371997869013,
+          -243.04873521044755
+        ],
+        [
+          169.56595824534057,
+          -247.04242435152878
+        ],
+        [
+          167.64558908328328,
+          -247.58592006039663
+        ],
+        [
+          168.36549460073843,
+          -250.13937846410073
+        ]
+      ],
+      "blenderRing": [
+        [
+          157.39160407116742,
+          -31.013009591750404,
+          0
+        ],
+        [
+          155.47492452130484,
+          -37.529935147932804,
+          0
+        ],
+        [
+          150.5542671127937,
+          -36.094412205031915,
+          0
+        ],
+        [
+          151.78302557123297,
+          -32.10072306395068,
+          0
+        ],
+        [
+          149.86265640917568,
+          -31.55722735508283,
+          0
+        ],
+        [
+          150.58256192663083,
+          -29.00376895137873,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639992.670823445,
+        6636366.829455804
+      ],
+      "centroidLocalXZ": [
+        171.39893167983564,
+        -245.98210551094382
+      ],
+      "areaSquareMetres": 40.04260114975747,
+      "orientedBoundingRectangleMetres": [
+        7.1145574670438325,
+        6.814053059075865
+      ],
+      "sourceGeometryModifiedAt": "2026-05-15T11:19:46+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          35.57399999999325,
+          35.57399999999325,
+          35.57399999999325,
+          35.57399999999325,
+          35.57399999999325,
+          35.57399999999325,
+          35.57399999999325
+        ],
+        "minimum": 35.57399999999325,
+        "maximum": 35.57399999999325,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 101
+      },
+      "existingModelMatches": [
+        {
+          "id": "w438967927",
+          "intersectionSquareMetres": 37.10533955408622,
+          "sourceOutlineCoveredFraction": 0.9266465836051452,
+          "sourceId": null,
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1246066,
+        "STYPE": 1001,
+        "STATUS": 0,
+        "ORIGINPLAN": 101,
+        "ORIGINHEIGHT": 101,
+        "MODIFICATIONDATE": 1778843986000,
+        "Shape__Area": 40.056179925,
+        "ACTIVITYTYPE": 4,
+        "GID": "{B9BDB75C-7EAC-459B-84C9-5C4469A90F83}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B15",
+      "municipalObjectId": 1520169,
+      "name": "Small measured part beside eastern building",
+      "function": "Unknown",
+      "functionEvidenceNote": "Newer municipal source component; source Z=0 and status alone cannot establish height.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 3,
+      "status": "Befintligt",
+      "planMethodCode": 101,
+      "planMethod": "Geod. Totalstation",
+      "confirmedExistingMeasuredOutline": true,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639989.7149412672,
+          6636363.7805978935
+        ],
+        [
+          639987.8705529666,
+          6636364.242496565
+        ],
+        [
+          639988.8510979275,
+          6636368.291350215
+        ],
+        [
+          639990.79497896,
+          6636367.820447964
+        ],
+        [
+          639989.7149412672,
+          6636363.7805978935
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639989.7149412672,
+            6636363.7805978935,
+            0
+          ],
+          [
+            639987.8705529666,
+            6636364.242496565,
+            0
+          ],
+          [
+            639988.8510979275,
+            6636368.291350215,
+            0
+          ],
+          [
+            639990.79497896,
+            6636367.820447964,
+            0
+          ],
+          [
+            639989.7149412672,
+            6636363.7805978935,
+            0
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          168.3371997869013,
+          -243.04873521044755
+        ],
+        [
+          166.51568961005216,
+          -243.5794907681256
+        ],
+        [
+          167.64558908328328,
+          -247.58592006039663
+        ],
+        [
+          169.56595824534057,
+          -247.04242435152878
+        ]
+      ],
+      "blenderRing": [
+        [
+          150.5542671127937,
+          -36.094412205031915,
+          0
+        ],
+        [
+          148.73275693594456,
+          -35.563656647353866,
+          0
+        ],
+        [
+          149.86265640917568,
+          -31.55722735508283,
+          0
+        ],
+        [
+          151.78302557123297,
+          -32.10072306395068,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639989.3128032852,
+        6636366.050625194
+      ],
+      "centroidLocalXZ": [
+        168.02164048030505,
+        -245.33083691523245
+      ],
+      "areaSquareMetres": 8.141075411466996,
+      "orientedBoundingRectangleMetres": [
+        4.180592263688639,
+        2.0001055967676047
+      ],
+      "sourceGeometryModifiedAt": "2026-06-04T13:24:54+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "minimum": 0,
+        "maximum": 0,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 101
+      },
+      "existingModelMatches": [
+        {
+          "id": "w438967927",
+          "intersectionSquareMetres": 4.354190641684932,
+          "sourceOutlineCoveredFraction": 0.5348421948716872,
+          "sourceId": null,
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1520169,
+        "STYPE": 1008,
+        "STATUS": 3,
+        "ORIGINPLAN": 101,
+        "ORIGINHEIGHT": 101,
+        "MODIFICATIONDATE": 1780579494000,
+        "Shape__Area": 8.143836325,
+        "ACTIVITYTYPE": 2,
+        "GID": "{DBB22486-1AF5-42B1-9545-AC3D368EC2EB}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B16",
+      "municipalObjectId": 592773,
+      "name": "Large dark-roof building north of parking",
+      "function": "Unknown",
+      "functionEvidenceNote": "Measured network-RTK outline; source Z=-999 is no-data.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 3,
+      "status": "Befintligt",
+      "planMethodCode": 109,
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "confirmedExistingMeasuredOutline": true,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639935.2310099907,
+          6636480.701982609
+        ],
+        [
+          639930.0379671372,
+          6636474.221045016
+        ],
+        [
+          639914.1440487979,
+          6636486.956002297
+        ],
+        [
+          639919.3359877584,
+          6636493.436989846
+        ],
+        [
+          639935.2310099907,
+          6636480.701982609
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639935.2310099907,
+            6636480.701982609,
+            -999
+          ],
+          [
+            639930.0379671372,
+            6636474.221045016,
+            -999
+          ],
+          [
+            639914.1440487979,
+            6636486.956002297,
+            -999
+          ],
+          [
+            639919.3359877584,
+            6636493.436989846,
+            -999
+          ],
+          [
+            639935.2310099907,
+            6636480.701982609,
+            -999
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          118.41188546127704,
+          -361.8639575885473
+        ],
+        [
+          112.99050563404661,
+          -355.58736035829185
+        ],
+        [
+          97.62229252797944,
+          -368.90357754783366
+        ],
+        [
+          103.04256762766718,
+          -375.1802887419362
+        ]
+      ],
+      "blenderRing": [
+        [
+          100.62895278716942,
+          82.72081017306783,
+          0
+        ],
+        [
+          95.207572959939,
+          76.44421294281238,
+          0
+        ],
+        [
+          79.83935985387183,
+          89.7604301323542,
+          0
+        ],
+        [
+          85.25963495355957,
+          96.03714132645672,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639924.68737626,
+        6636483.82894539
+      ],
+      "centroidLocalXZ": [
+        108.01694456817796,
+        -365.3837408237041
+      ],
+      "areaSquareMetres": 169.13774658278854,
+      "orientedBoundingRectangleMetres": [
+        20.367428435740035,
+        8.304778722640673
+      ],
+      "sourceGeometryModifiedAt": "2025-10-28T08:56:38+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          -999,
+          -999,
+          -999,
+          -999,
+          -999
+        ],
+        "minimum": -999,
+        "maximum": -999,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 0
+      },
+      "existingModelMatches": [
+        {
+          "id": "uppsala-building-592773",
+          "intersectionSquareMetres": 169.1288340366729,
+          "sourceOutlineCoveredFraction": 0.9999473059899656,
+          "sourceId": "uppsala-building-592773",
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 592773,
+        "STYPE": 1008,
+        "STATUS": 3,
+        "ORIGINPLAN": 109,
+        "ORIGINHEIGHT": 0,
+        "MODIFICATIONDATE": 1761641798000,
+        "Shape__Area": 169.195195815,
+        "ACTIVITYTYPE": 4,
+        "GID": "{90FB49B5-72C8-43B8-905C-A08ABC69CE50}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B17",
+      "municipalObjectId": 1390787,
+      "name": "Northern outbuilding part",
+      "function": "Unknown",
+      "functionEvidenceNote": "Measured network-RTK outline; source Z=0 is unverified.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 3,
+      "status": "Befintligt",
+      "planMethodCode": 109,
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "confirmedExistingMeasuredOutline": true,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639956.3829989907,
+          6636522.622814605
+        ],
+        [
+          639959.831379627,
+          6636517.742652391
+        ],
+        [
+          639956.9582645231,
+          6636515.813332668
+        ],
+        [
+          639954.5311640459,
+          6636519.427646628
+        ],
+        [
+          639952.1278660623,
+          6636517.813866017
+        ],
+        [
+          639951.2018771358,
+          6636519.119262007
+        ],
+        [
+          639956.3829989907,
+          6636522.622814605
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639956.3829989907,
+            6636522.622814605,
+            0
+          ],
+          [
+            639959.831379627,
+            6636517.742652391,
+            0
+          ],
+          [
+            639956.9582645231,
+            6636515.813332668,
+            0
+          ],
+          [
+            639954.5311640459,
+            6636519.427646628,
+            0
+          ],
+          [
+            639952.1278660623,
+            6636517.813866017,
+            0
+          ],
+          [
+            639951.2018771358,
+            6636519.119262007,
+            0
+          ],
+          [
+            639956.3829989907,
+            6636522.622814605,
+            0
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          141.07787056967382,
+          -402.93137122604406
+        ],
+        [
+          144.33257870121506,
+          -397.92793172428105
+        ],
+        [
+          141.39536576567858,
+          -396.1094451292419
+        ],
+        [
+          139.11132761557482,
+          -399.81028170313436
+        ],
+        [
+          136.65441584078584,
+          -398.28920719494874
+        ],
+        [
+          135.78024094427983,
+          -399.6277120243164
+        ]
+      ],
+      "blenderRing": [
+        [
+          123.2949378955662,
+          123.7882238105646,
+          0
+        ],
+        [
+          126.54964602710744,
+          118.78478430880159,
+          0
+        ],
+        [
+          123.61243309157096,
+          116.96629771376246,
+          0
+        ],
+        [
+          121.32839494146721,
+          120.6671342876549,
+          0
+        ],
+        [
+          118.87148316667823,
+          119.14605977946928,
+          0
+        ],
+        [
+          117.99730827017221,
+          120.48456460883693,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639955.9926815649,
+        6636519.230939176
+      ],
+      "centroidLocalXZ": [
+        140.56114698008733,
+        -399.5587918531007
+      ],
+      "areaSquareMetres": 24.910277593999545,
+      "orientedBoundingRectangleMetres": [
+        6.378048240947419,
+        5.974232892033784
+      ],
+      "sourceGeometryModifiedAt": "2025-10-28T13:24:49+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "minimum": 0,
+        "maximum": 0,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 0
+      },
+      "existingModelMatches": [
+        {
+          "id": "uppsala-building-1390787",
+          "intersectionSquareMetres": 24.90684010305693,
+          "sourceOutlineCoveredFraction": 0.9998620051129641,
+          "sourceId": "uppsala-building-1390787",
+          "heightMetres": null
+        }
+      ],
+      "rawSourceAttributes": {
+        "OBJECTID": 1390787,
+        "STYPE": 1008,
+        "STATUS": 3,
+        "ORIGINPLAN": 109,
+        "ORIGINHEIGHT": 0,
+        "MODIFICATIONDATE": 1761657889000,
+        "Shape__Area": 24.918732115,
+        "ACTIVITYTYPE": 4,
+        "GID": "{9BDFFA3E-683C-4F53-90C5-84C98DFE13CA}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B18",
+      "municipalObjectId": 1232325,
+      "name": "Northern outbuilding overlapping source part",
+      "function": "Unknown",
+      "functionEvidenceNote": "Status and method unknown; overlapping alternatives must not become duplicate solids.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": null,
+      "planMethod": "No information",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639951.7249705028,
+          6636517.54329501
+        ],
+        [
+          639954.5311640459,
+          6636519.427646628
+        ],
+        [
+          639957.0696747658,
+          6636515.647334345
+        ],
+        [
+          639954.3153510946,
+          6636513.797760714
+        ],
+        [
+          639951.7249705028,
+          6636517.54329501
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639951.7249705028,
+            6636517.54329501,
+            0
+          ],
+          [
+            639954.5311640459,
+            6636519.427646628,
+            0
+          ],
+          [
+            639957.0696747658,
+            6636515.647334345,
+            0
+          ],
+          [
+            639954.3153510946,
+            6636513.797760714,
+            0
+          ],
+          [
+            639951.7249705028,
+            6636517.54329501,
+            0
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          136.24253129612757,
+          -398.0341775786263
+        ],
+        [
+          139.11132761557482,
+          -399.81028170313436
+        ],
+        [
+          141.50020551024951,
+          -395.93947528323156
+        ],
+        [
+          138.68443607927,
+          -394.1961501708053
+        ]
+      ],
+      "blenderRing": [
+        [
+          118.45959862201995,
+          118.89103016314687,
+          0
+        ],
+        [
+          121.32839494146721,
+          120.6671342876549,
+          0
+        ],
+        [
+          123.7172728361419,
+          116.7963278677521,
+          0
+        ],
+        [
+          120.90150340516239,
+          115.05300275532585,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639954.406302805,
+        6636516.609855122
+      ],
+      "centroidLocalXZ": [
+        138.88086969180065,
+        -397.00100986289584
+      ],
+      "areaSquareMetres": 15.24962405532657,
+      "orientedBoundingRectangleMetres": [
+        4.553591854129529,
+        3.3801631950032376
+      ],
+      "sourceGeometryModifiedAt": "2025-11-03T08:38:14+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "minimum": 0,
+        "maximum": 0,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": null
+      },
+      "existingModelMatches": [],
+      "rawSourceAttributes": {
+        "OBJECTID": 1232325,
+        "STYPE": 1005,
+        "STATUS": 0,
+        "ORIGINPLAN": null,
+        "ORIGINHEIGHT": null,
+        "MODIFICATIONDATE": 1762159094000,
+        "Shape__Area": 15.25479997,
+        "ACTIVITYTYPE": 4,
+        "GID": "{7927C6ED-C94D-412B-B4FD-286CA8BB0C38}"
+      },
+      "overlappingSourceParts": []
+    },
+    {
+      "id": "B19",
+      "municipalObjectId": 1390786,
+      "name": "Tiny structure near north outbuildings",
+      "function": "Unknown",
+      "functionEvidenceNote": "Network-RTK method with unknown current status; source Z=0.",
+      "sourceId": "uppsala-municipal-buildings-2026-09-10",
+      "statusCode": 0,
+      "status": "Ingen information",
+      "planMethodCode": 109,
+      "planMethod": "Geod. N\u00e4tverks-RTK",
+      "confirmedExistingMeasuredOutline": false,
+      "geometryInterpretation": "Municipal 2D building outline; wall-at-ground versus roof-edge reference is not declared by the exposed service.",
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "sourceRingsEPSG3006": [
+        [
+          639943.8511200841,
+          6636508.138091564
+        ],
+        [
+          639945.2991752145,
+          6636506.067976005
+        ],
+        [
+          639943.6334950996,
+          6636504.896266521
+        ],
+        [
+          639942.167179314,
+          6636506.960750574
+        ],
+        [
+          639943.8511200841,
+          6636508.138091564
+        ]
+      ],
+      "sourceRingsXYZ": [
+        [
+          [
+            639943.8511200841,
+            6636508.138091564,
+            0
+          ],
+          [
+            639945.2991752145,
+            6636506.067976005,
+            0
+          ],
+          [
+            639943.6334950996,
+            6636504.896266521,
+            0
+          ],
+          [
+            639942.167179314,
+            6636506.960750574,
+            0
+          ],
+          [
+            639943.8511200841,
+            6636508.138091564,
+            0
+          ]
+        ]
+      ],
+      "localRing": [
+        [
+          128.03819535063508,
+          -388.9382689686991
+        ],
+        [
+          129.40414338632996,
+          -386.8164197066116
+        ],
+        [
+          127.69931155085325,
+          -385.709030728199
+        ],
+        [
+          126.31494431221253,
+          -387.8259432200727
+        ]
+      ],
+      "blenderRing": [
+        [
+          110.25526267652747,
+          109.79512155321964,
+          0
+        ],
+        [
+          111.62121071222235,
+          107.67327229113215,
+          0
+        ],
+        [
+          109.91637887674564,
+          106.56588331271956,
+          0
+        ],
+        [
+          108.53201163810492,
+          108.68279580459324,
+          0
+        ]
+      ],
+      "centroidEPSG3006": [
+        639943.7363396755,
+        6636506.517074079
+      ],
+      "centroidLocalXZ": [
+        127.86279909002863,
+        -387.32376979761284
+      ],
+      "areaSquareMetres": 5.173836398646218,
+      "orientedBoundingRectangleMetres": [
+        2.532162213675402,
+        2.0546990276654533
+      ],
+      "sourceGeometryModifiedAt": "2025-10-28T08:56:36+00:00",
+      "surveyDate": null,
+      "heightMetres": null,
+      "heightStatus": "Unknown: no verified eave, ridge, wall or floor elevations supplied.",
+      "sourceVertexElevation": {
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "minimum": 0,
+        "maximum": 0,
+        "sourceVerticalCrs": null,
+        "meaning": "Unverified source Z; 0 and -999 appear as sentinel values. Neither wall height nor ground/floor height can be inferred.",
+        "heightMethodCode": 0
+      },
+      "existingModelMatches": [],
+      "rawSourceAttributes": {
+        "OBJECTID": 1390786,
+        "STYPE": 1008,
+        "STATUS": 0,
+        "ORIGINPLAN": 109,
+        "ORIGINHEIGHT": 0,
+        "MODIFICATIONDATE": 1761641796000,
+        "Shape__Area": 5.17559292,
+        "ACTIVITYTYPE": 2,
+        "GID": "{03A25DB7-C818-4565-B556-3FA5A48BFFF9}"
+      },
+      "overlappingSourceParts": []
+    }
+  ]
+}

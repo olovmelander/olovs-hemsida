@@ -1,0 +1,1240 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-09T20:25:33.972Z",
+  "url": "http://127.0.0.1:50122/?surfaceRelief=0&bana=tortuna&v2=require&det=1&q=lo&qualitylock=1&ren=1&gl=0&lodmode=zone&graphics=1",
+  "graphics": "1",
+  "surfaceRelief": "0",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "note": "Software captures verify correctness only. Compare real-hardware median/p95/p99 frame times separately.",
+  "request": {
+    "course": "tortuna",
+    "backend": "webgl2",
+    "autoFallback": true,
+    "q": "lo",
+    "terrainStride": null,
+    "resolution": null,
+    "viewport": [
+      390,
+      660
+    ],
+    "dpr": 1,
+    "views": [
+      {
+        "id": "h9_top_noon",
+        "hole": 9,
+        "cam": "top",
+        "preset": "noon"
+      }
+    ]
+  },
+  "errors": [],
+  "warnings": [
+    "Service Worker registration blocked by Playwright",
+    "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend."
+  ],
+  "views": [
+    {
+      "id": "h9_top_noon",
+      "hole": 9,
+      "cam": "top",
+      "preset": "noon",
+      "file": "h9_top_noon.png",
+      "imageSha256": "c8bdd99e09d662dec17e83684ec74eb971d04a17ecf810766883038ba0a18ef5",
+      "visibleTerrainTileIds": [
+        "l0/8/7",
+        "l0/8/8",
+        "l1/4/3",
+        "l1/4/4",
+        "l2/2/1",
+        "l2/2/2",
+        "l3/1/0",
+        "l3/1/1",
+        "l4/0/0"
+      ],
+      "before": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "surfaceRelief": "off",
+          "pixelRatio": 1,
+          "resolution": {
+            "mode": "quality",
+            "requested": null,
+            "pixelRatio": 1,
+            "detailPixelRatio": 1,
+            "maximumPixelRatio": 1,
+            "drawingBuffer": [
+              390,
+              660
+            ],
+            "extraPixelBudget": 1000000,
+            "changes": 0,
+            "reason": "initial",
+            "frameP90Ms": null
+          },
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 478,
+          "frameCalls": 2,
+          "drawCalls": 34,
+          "triangles": 619300,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 348,
+            "attributesSize": 44883794,
+            "geometries": 66,
+            "indexAttributes": 43,
+            "indexAttributesSize": 1981692,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 95,
+            "programsSize": 1024955,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 11,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 37,
+            "texturesSize": 125857168,
+            "uniformBuffers": 147,
+            "uniformBuffersSize": 33504,
+            "total": 173781113
+          },
+          "drawingBuffer": [
+            390,
+            660
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            144.2,
+            358.5,
+            -82.3
+          ],
+          "look": [
+            144.2,
+            28.5,
+            -82.4
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 0.5909090909090909,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            144.20650000002934,
+            358.5279930074935,
+            -82.31550000015658
+          ]
+        },
+        "coastalWater": null,
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 69,
+          "tier2": 0,
+          "tier3": 0,
+          "cells": 220,
+          "cellsVisible": 4,
+          "moves": 5521,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 833,
+          "fading": 0,
+          "updateMs": 0.09999999403953552,
+          "zoneA": 1933,
+          "zoneB": 4595,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "requested": true,
+          "sourceReady": true,
+          "preflightReady": true,
+          "active": true,
+          "renderer": {
+            "status": "ready",
+            "kind": "graph",
+            "meshResolutionMetres": 1,
+            "levels": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "tiles": 341,
+            "ringTiles": 4,
+            "fallbackRebuilt": false,
+            "batches": [
+              {
+                "width": 257,
+                "height": 257,
+                "capacity": 1,
+                "renderedTiles": 0,
+                "residentLayers": 0,
+                "textureUploads": 1,
+                "renderRevision": 3,
+                "morphing": false,
+                "frameAttributeVersion": 1,
+                "paramsAttributeVersion": 1,
+                "textureCapacityBytes": 528392,
+                "topologyBytes": 2603535,
+                "triangles": 0,
+                "drawCalls": 0
+              },
+              {
+                "width": 129,
+                "height": 129,
+                "capacity": 8,
+                "renderedTiles": 4,
+                "residentLayers": 4,
+                "textureUploads": 5,
+                "renderRevision": 6,
+                "morphing": true,
+                "frameAttributeVersion": 2,
+                "paramsAttributeVersion": 4,
+                "textureCapacityBytes": 1065024,
+                "topologyBytes": 460047,
+                "triangles": 135168,
+                "drawCalls": 1
+              }
+            ],
+            "renderRevision": 5,
+            "morphing": true,
+            "renderedTiles": 55,
+            "residentLayers": 4,
+            "drawCalls": 2,
+            "triangles": 135168,
+            "textureCapacityBytes": 1593416,
+            "textureUploads": 6,
+            "readyTiles": 74
+          },
+          "ringLevels": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "stream": {
+            "renderStride": 2,
+            "readyTiles": 30,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 4,
+            "drawCalls": 1,
+            "triangles": 532480,
+            "textureCapacityBytes": 17436936,
+            "batches": [
+              {
+                "width": 257,
+                "height": 257,
+                "capacity": 1,
+                "renderedTiles": 0,
+                "residentLayers": 0,
+                "textureUploads": 1,
+                "renderRevision": 3,
+                "morphing": false,
+                "frameAttributeVersion": 1,
+                "paramsAttributeVersion": 1,
+                "textureCapacityBytes": 528392,
+                "topologyBytes": 2603535,
+                "triangles": 0,
+                "drawCalls": 0
+              },
+              {
+                "width": 257,
+                "height": 257,
+                "capacity": 32,
+                "renderedTiles": 4,
+                "residentLayers": 4,
+                "textureUploads": 33,
+                "renderRevision": 21,
+                "morphing": false,
+                "frameAttributeVersion": 5,
+                "paramsAttributeVersion": 17,
+                "textureCapacityBytes": 16908544,
+                "topologyBytes": 2603535,
+                "triangles": 532480,
+                "drawCalls": 1
+              }
+            ],
+            "selectedTiles": 4,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        },
+        "plan": {
+          "desired": [
+            "l0/8/7",
+            "l0/8/8",
+            "l0/9/7",
+            "l0/9/8"
+          ],
+          "render": [
+            "l0/8/7",
+            "l0/8/8",
+            "l0/9/7",
+            "l0/9/8"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/8/6",
+            "l0/8/7",
+            "l0/8/8",
+            "l0/8/9",
+            "l0/9/6",
+            "l0/9/7",
+            "l0/9/8",
+            "l0/9/9",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/0",
+            "l2/2/1",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/3/0",
+            "l2/3/1",
+            "l2/3/2",
+            "l2/3/3",
+            "l3/0/0",
+            "l3/0/1",
+            "l3/1/0",
+            "l3/1/1",
+            "l4/0/0"
+          ],
+          "ready": [
+            "l0/8/6",
+            "l0/8/7",
+            "l0/8/8",
+            "l0/8/9",
+            "l0/9/6",
+            "l0/9/7",
+            "l0/9/8",
+            "l0/9/9",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/0",
+            "l2/2/1",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/3/0",
+            "l2/3/1",
+            "l2/3/2",
+            "l2/3/3",
+            "l3/0/0",
+            "l3/0/1",
+            "l3/1/0",
+            "l3/1/1",
+            "l4/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/8/7",
+            "identity": "894c0eadfea72d0df5b387cad97da28dd92827662384a565cc487084d27da74d:render-1-parent-2:28a4f742bd8bada7e7653455691368dca891c1884918fe00e1f6009815594db6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 0,
+            "worldOriginZ": -256,
+            "sampleSpacingMetres": 1,
+            "sourceSampleSpacingMetres": 1,
+            "renderStride": 1,
+            "maximumReductionErrorMetres": 0,
+            "heightOffsetWorld": 16.31,
+            "layerByteSum": 519681
+          },
+          {
+            "tileId": "l0/8/8",
+            "identity": "b47b91dc1aa9bc5e77494acbb7849fa6a40c4c472fd4a7d7d4bc23b017a1e09f:render-1-parent-2:961d52c2c96adcedb6dd9ecb9014b39967b699fc69900e8df1cc10788a637fc7:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 0,
+            "worldOriginZ": 0,
+            "sampleSpacingMetres": 1,
+            "sourceSampleSpacingMetres": 1,
+            "renderStride": 1,
+            "maximumReductionErrorMetres": 0,
+            "heightOffsetWorld": 16.31,
+            "layerByteSum": 526414
+          },
+          {
+            "tileId": "l0/9/7",
+            "identity": "a1e37df39f58fd289129b2e230fe26302d1b6c71776724c41ff017e12857fced:render-1-parent-2:28a4f742bd8bada7e7653455691368dca891c1884918fe00e1f6009815594db6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 256,
+            "worldOriginZ": -256,
+            "sampleSpacingMetres": 1,
+            "sourceSampleSpacingMetres": 1,
+            "renderStride": 1,
+            "maximumReductionErrorMetres": 0,
+            "heightOffsetWorld": 16.31,
+            "layerByteSum": 488639
+          },
+          {
+            "tileId": "l0/9/8",
+            "identity": "4736bff3addbe8635a080405a0a556db718abf818bf066c55350e85f29e5aa12:render-1-parent-2:961d52c2c96adcedb6dd9ecb9014b39967b699fc69900e8df1cc10788a637fc7:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 256,
+            "worldOriginZ": 0,
+            "sampleSpacingMetres": 1,
+            "sourceSampleSpacingMetres": 1,
+            "renderStride": 1,
+            "maximumReductionErrorMetres": 0,
+            "heightOffsetWorld": 16.31,
+            "layerByteSum": 532650
+          }
+        ]
+      },
+      "after": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "surfaceRelief": "off",
+          "pixelRatio": 1,
+          "resolution": {
+            "mode": "quality",
+            "requested": null,
+            "pixelRatio": 1,
+            "detailPixelRatio": 1,
+            "maximumPixelRatio": 1,
+            "drawingBuffer": [
+              390,
+              660
+            ],
+            "extraPixelBudget": 1000000,
+            "changes": 0,
+            "reason": "initial",
+            "frameP90Ms": null
+          },
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 490,
+          "frameCalls": 2,
+          "drawCalls": 34,
+          "triangles": 619300,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 348,
+            "attributesSize": 44883794,
+            "geometries": 66,
+            "indexAttributes": 43,
+            "indexAttributesSize": 1981692,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 95,
+            "programsSize": 1024955,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 11,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 37,
+            "texturesSize": 125857168,
+            "uniformBuffers": 147,
+            "uniformBuffersSize": 33504,
+            "total": 173781113
+          },
+          "drawingBuffer": [
+            390,
+            660
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            144.2,
+            358.5,
+            -82.3
+          ],
+          "look": [
+            144.2,
+            28.5,
+            -82.4
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 0.5909090909090909,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            144.20650000002934,
+            358.5279930074935,
+            -82.31550000015658
+          ]
+        },
+        "coastalWater": null,
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 69,
+          "tier2": 0,
+          "tier3": 0,
+          "cells": 220,
+          "cellsVisible": 4,
+          "moves": 5521,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 833,
+          "fading": 0,
+          "updateMs": 0.10000002384185791,
+          "zoneA": 1933,
+          "zoneB": 4595,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "requested": true,
+          "sourceReady": true,
+          "preflightReady": true,
+          "active": true,
+          "renderer": {
+            "status": "ready",
+            "kind": "graph",
+            "meshResolutionMetres": 1,
+            "levels": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "tiles": 341,
+            "ringTiles": 4,
+            "fallbackRebuilt": false,
+            "batches": [
+              {
+                "width": 257,
+                "height": 257,
+                "capacity": 1,
+                "renderedTiles": 0,
+                "residentLayers": 0,
+                "textureUploads": 1,
+                "renderRevision": 3,
+                "morphing": false,
+                "frameAttributeVersion": 1,
+                "paramsAttributeVersion": 1,
+                "textureCapacityBytes": 528392,
+                "topologyBytes": 2603535,
+                "triangles": 0,
+                "drawCalls": 0
+              },
+              {
+                "width": 129,
+                "height": 129,
+                "capacity": 8,
+                "renderedTiles": 4,
+                "residentLayers": 4,
+                "textureUploads": 5,
+                "renderRevision": 6,
+                "morphing": true,
+                "frameAttributeVersion": 2,
+                "paramsAttributeVersion": 4,
+                "textureCapacityBytes": 1065024,
+                "topologyBytes": 460047,
+                "triangles": 135168,
+                "drawCalls": 1
+              }
+            ],
+            "renderRevision": 5,
+            "morphing": true,
+            "renderedTiles": 55,
+            "residentLayers": 4,
+            "drawCalls": 2,
+            "triangles": 135168,
+            "textureCapacityBytes": 1593416,
+            "textureUploads": 6,
+            "readyTiles": 74
+          },
+          "ringLevels": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "stream": {
+            "renderStride": 2,
+            "readyTiles": 30,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 4,
+            "drawCalls": 1,
+            "triangles": 532480,
+            "textureCapacityBytes": 17436936,
+            "batches": [
+              {
+                "width": 257,
+                "height": 257,
+                "capacity": 1,
+                "renderedTiles": 0,
+                "residentLayers": 0,
+                "textureUploads": 1,
+                "renderRevision": 3,
+                "morphing": false,
+                "frameAttributeVersion": 1,
+                "paramsAttributeVersion": 1,
+                "textureCapacityBytes": 528392,
+                "topologyBytes": 2603535,
+                "triangles": 0,
+                "drawCalls": 0
+              },
+              {
+                "width": 257,
+                "height": 257,
+                "capacity": 32,
+                "renderedTiles": 4,
+                "residentLayers": 4,
+                "textureUploads": 33,
+                "renderRevision": 21,
+                "morphing": false,
+                "frameAttributeVersion": 5,
+                "paramsAttributeVersion": 17,
+                "textureCapacityBytes": 16908544,
+                "topologyBytes": 2603535,
+                "triangles": 532480,
+                "drawCalls": 1
+              }
+            ],
+            "selectedTiles": 4,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        },
+        "plan": {
+          "desired": [
+            "l0/8/7",
+            "l0/8/8",
+            "l0/9/7",
+            "l0/9/8"
+          ],
+          "render": [
+            "l0/8/7",
+            "l0/8/8",
+            "l0/9/7",
+            "l0/9/8"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/8/6",
+            "l0/8/7",
+            "l0/8/8",
+            "l0/8/9",
+            "l0/9/6",
+            "l0/9/7",
+            "l0/9/8",
+            "l0/9/9",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/0",
+            "l2/2/1",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/3/0",
+            "l2/3/1",
+            "l2/3/2",
+            "l2/3/3",
+            "l3/0/0",
+            "l3/0/1",
+            "l3/1/0",
+            "l3/1/1",
+            "l4/0/0"
+          ],
+          "ready": [
+            "l0/8/6",
+            "l0/8/7",
+            "l0/8/8",
+            "l0/8/9",
+            "l0/9/6",
+            "l0/9/7",
+            "l0/9/8",
+            "l0/9/9",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/0",
+            "l2/2/1",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/3/0",
+            "l2/3/1",
+            "l2/3/2",
+            "l2/3/3",
+            "l3/0/0",
+            "l3/0/1",
+            "l3/1/0",
+            "l3/1/1",
+            "l4/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/8/7",
+            "identity": "894c0eadfea72d0df5b387cad97da28dd92827662384a565cc487084d27da74d:render-1-parent-2:28a4f742bd8bada7e7653455691368dca891c1884918fe00e1f6009815594db6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 0,
+            "worldOriginZ": -256,
+            "sampleSpacingMetres": 1,
+            "sourceSampleSpacingMetres": 1,
+            "renderStride": 1,
+            "maximumReductionErrorMetres": 0,
+            "heightOffsetWorld": 16.31,
+            "layerByteSum": 519681
+          },
+          {
+            "tileId": "l0/8/8",
+            "identity": "b47b91dc1aa9bc5e77494acbb7849fa6a40c4c472fd4a7d7d4bc23b017a1e09f:render-1-parent-2:961d52c2c96adcedb6dd9ecb9014b39967b699fc69900e8df1cc10788a637fc7:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 0,
+            "worldOriginZ": 0,
+            "sampleSpacingMetres": 1,
+            "sourceSampleSpacingMetres": 1,
+            "renderStride": 1,
+            "maximumReductionErrorMetres": 0,
+            "heightOffsetWorld": 16.31,
+            "layerByteSum": 526414
+          },
+          {
+            "tileId": "l0/9/7",
+            "identity": "a1e37df39f58fd289129b2e230fe26302d1b6c71776724c41ff017e12857fced:render-1-parent-2:28a4f742bd8bada7e7653455691368dca891c1884918fe00e1f6009815594db6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 256,
+            "worldOriginZ": -256,
+            "sampleSpacingMetres": 1,
+            "sourceSampleSpacingMetres": 1,
+            "renderStride": 1,
+            "maximumReductionErrorMetres": 0,
+            "heightOffsetWorld": 16.31,
+            "layerByteSum": 488639
+          },
+          {
+            "tileId": "l0/9/8",
+            "identity": "4736bff3addbe8635a080405a0a556db718abf818bf066c55350e85f29e5aa12:render-1-parent-2:961d52c2c96adcedb6dd9ecb9014b39967b699fc69900e8df1cc10788a637fc7:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 256,
+            "worldOriginZ": 0,
+            "sampleSpacingMetres": 1,
+            "sourceSampleSpacingMetres": 1,
+            "renderStride": 1,
+            "maximumReductionErrorMetres": 0,
+            "heightOffsetWorld": 16.31,
+            "layerByteSum": 532650
+          }
+        ]
+      }
+    }
+  ],
+  "passed": true,
+  "boot": {
+    "backend": "webgl2",
+    "quality": {
+      "lowfx": false,
+      "lowq": true,
+      "phone": false,
+      "autoQualityDone": true,
+      "qualityLocked": true,
+      "graphicsPolish": true,
+      "surfaceRelief": "off",
+      "pixelRatio": 1,
+      "resolution": {
+        "mode": "quality",
+        "requested": null,
+        "pixelRatio": 1,
+        "detailPixelRatio": 1,
+        "maximumPixelRatio": 1,
+        "drawingBuffer": [
+          390,
+          660
+        ],
+        "extraPixelBudget": 1000000,
+        "changes": 0,
+        "reason": "initial",
+        "frameP90Ms": null
+      },
+      "bloom": null
+    },
+    "course": {
+      "slug": "tortuna",
+      "name": "Tortuna GK",
+      "club": "Tortuna Golfklubb",
+      "title": "Tortuna Golfklubb — Banan i 3D",
+      "tag": "Tortuna · Västerås",
+      "boot": "Tortuna · Västmanland",
+      "build": "tortunabuild",
+      "par": 71,
+      "holes": 18,
+      "tees": {
+        "names": [
+          "Gul",
+          "Blå",
+          "Röd",
+          "Orange"
+        ],
+        "cols": [
+          15780154,
+          4886496,
+          14702410,
+          14715706
+        ],
+        "hideFrom": 4,
+        "def": 0
+      },
+      "photos": 0,
+      "overviewUrl": "courses/tortuna/overview.svg",
+      "status": "provisional",
+      "packUrl": "courses/tortuna/pack.bin",
+      "bytes": 556312,
+      "sha256": "c960582f858c8d1031300b31de584479b4761211d46f81c9009b244accf864f6"
+    },
+    "terrain": {
+      "requested": true,
+      "ready": true,
+      "status": "ready",
+      "kind": "graph",
+      "courseSurfaceOverlayMeshes": 0,
+      "surfaceDebugMode": "off",
+      "surfaceRepresentation": "legacy-ground-atlas",
+      "surfacePolicy": "v2-atlas",
+      "reason": null,
+      "selection": {
+        "mode": "fixed-frontier",
+        "requestMode": "require",
+        "defaulted": false,
+        "publishedGraphSlugs": [
+          "angso",
+          "johannesberg",
+          "lidingo",
+          "norrfallsviken",
+          "puttom",
+          "ribbingsfors",
+          "tortuna",
+          "upsala",
+          "upsala-mellanbanan",
+          "veckefjarden",
+          "veckefjarden-korthalsbanan",
+          "visby"
+        ],
+        "graph": {
+          "slug": "tortuna",
+          "groundId": "tortuna",
+          "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+          "tiles": 341,
+          "holes": 18,
+          "shellBytes": 100431,
+          "encodedTerrainBytes": 23367033,
+          "surfaceTiles": 0,
+          "objectTiles": 0,
+          "encodedObjectBytes": 0,
+          "standTiles": 60,
+          "encodedStandBytes": 348078
+        },
+        "graphError": null
+      },
+      "label": "Tortuna GK · Lantmäteriet 1 m · Preliminär källkarta",
+      "surface": null,
+      "bounds": {
+        "x0": -512,
+        "z0": -1280,
+        "x1": 512,
+        "z1": 1280
+      },
+      "legacyBounds": {
+        "x0": -512,
+        "z0": -1280,
+        "x1": 512,
+        "z1": 1280
+      },
+      "bridge": {
+        "translateX": 0,
+        "translateY": 16.31,
+        "translateZ": 0,
+        "rotationRadians": 0,
+        "scaleX": 1,
+        "scaleZ": 1
+      },
+      "source": {
+        "renderedTiles": 40,
+        "encodedBytes": 2766109,
+        "decodedBytes": 5283920,
+        "gpuBytes": 21135680,
+        "terrainEncodedBytes": 2766109,
+        "terrainDecodedBytes": 5283920,
+        "terrainGpuBytes": 21135680,
+        "surfaceEncodedBytes": 0,
+        "surfaceDecodedBytes": 0,
+        "surfaceTextureBytes": 0
+      },
+      "adapter": {
+        "kind": "graph",
+        "phase": "ready",
+        "requested": true,
+        "sourceReady": true,
+        "preflightReady": true,
+        "active": true,
+        "renderer": {
+          "status": "ready",
+          "kind": "graph",
+          "meshResolutionMetres": 1,
+          "levels": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "tiles": 341,
+          "ringTiles": 4,
+          "fallbackRebuilt": false,
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 1,
+              "renderedTiles": 0,
+              "residentLayers": 0,
+              "textureUploads": 1,
+              "renderRevision": 3,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 528392,
+              "topologyBytes": 2603535,
+              "triangles": 0,
+              "drawCalls": 0
+            },
+            {
+              "width": 129,
+              "height": 129,
+              "capacity": 8,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 5,
+              "renderRevision": 6,
+              "morphing": true,
+              "frameAttributeVersion": 2,
+              "paramsAttributeVersion": 4,
+              "textureCapacityBytes": 1065024,
+              "topologyBytes": 460047,
+              "triangles": 135168,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 5,
+          "morphing": true,
+          "renderedTiles": 55,
+          "residentLayers": 4,
+          "drawCalls": 2,
+          "triangles": 135168,
+          "textureCapacityBytes": 1593416,
+          "textureUploads": 6,
+          "readyTiles": 74
+        },
+        "ringLevels": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "stream": {
+          "renderStride": 2,
+          "readyTiles": 66,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 17,
+          "drawCalls": 2,
+          "triangles": 1865728,
+          "textureCapacityBytes": 22762056,
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 1,
+              "renderedTiles": 0,
+              "residentLayers": 0,
+              "textureUploads": 1,
+              "renderRevision": 3,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 528392,
+              "topologyBytes": 2603535,
+              "triangles": 0,
+              "drawCalls": 0
+            },
+            {
+              "width": 129,
+              "height": 129,
+              "capacity": 40,
+              "renderedTiles": 4,
+              "residentLayers": 4,
+              "textureUploads": 36,
+              "renderRevision": 25,
+              "morphing": false,
+              "frameAttributeVersion": 12,
+              "paramsAttributeVersion": 22,
+              "textureCapacityBytes": 5325120,
+              "topologyBytes": 460047,
+              "triangles": 135168,
+              "drawCalls": 1
+            },
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 32,
+              "renderedTiles": 13,
+              "residentLayers": 13,
+              "textureUploads": 32,
+              "renderRevision": 13,
+              "morphing": true,
+              "frameAttributeVersion": 4,
+              "paramsAttributeVersion": 10,
+              "textureCapacityBytes": 16908544,
+              "topologyBytes": 2603535,
+              "triangles": 1730560,
+              "drawCalls": 1
+            }
+          ],
+          "selectedTiles": 17,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        }
+      },
+      "renderer": {
+        "status": "ready",
+        "kind": "graph",
+        "meshResolutionMetres": 1,
+        "levels": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "tiles": 341,
+        "ringTiles": 4,
+        "fallbackRebuilt": false,
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 8,
+            "renderedTiles": 4,
+            "residentLayers": 4,
+            "textureUploads": 5,
+            "renderRevision": 6,
+            "morphing": true,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 4,
+            "textureCapacityBytes": 1065024,
+            "topologyBytes": 460047,
+            "triangles": 135168,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 5,
+        "morphing": true,
+        "renderedTiles": 55,
+        "residentLayers": 4,
+        "drawCalls": 2,
+        "triangles": 135168,
+        "textureCapacityBytes": 1593416,
+        "textureUploads": 6,
+        "readyTiles": 74
+      },
+      "stream": null,
+      "backend": "webgl2"
+    },
+    "stats": {
+      "verts": 33480,
+      "tris": 62797,
+      "trees": 12958,
+      "vista": 2889,
+      "tufts": 0,
+      "bushes": 0,
+      "stones": 0,
+      "reeds": 0,
+      "cars": 0,
+      "pylons": 11,
+      "stumps": 0,
+      "inferredRangeTargets": 0,
+      "measuredRoofBuildings": 6,
+      "measuredRoofTriangles": 4737,
+      "sourceRoofBuildings": 6,
+      "sourceRoofTriangles": 4737,
+      "architecturalBuildings": 0,
+      "architecturalTriangles": 0,
+      "genericRoofBuildings": 142,
+      "clubhouseDetails": [],
+      "courtyardDetails": null,
+      "draws": 86,
+      "surfaceOverlays": 0,
+      "backend": "webgl2"
+    }
+  },
+  "fingerprint": {
+    "model": "2f6f34bf7ee9b9a3c8a279f214a89f32f65fcec1e9f1ef28ab12a544fb6b29d4",
+    "routing": "7f3d36629c61a6a1f3b4eeed2b419b9a5b2955414792dfff41edaf6b9d95c4c7",
+    "georeferencing": "2adb773a5d1fd896aa7a42f5dbbd0ea3cd239d301cca3a1a18425256986948b2",
+    "treeInstances": "6ca2b7ada31b95293c4c463b54d83ba6b1369459dfa0922d9ba4726ccea92e31",
+    "treePositions": "bad040f725f880a575c39424d1776ecab2776b9c2f64f84eabfa4a62bcddc8cb",
+    "vistaPoints": "72fba8decb82ca54d083002e1a0c8b642d76c76abca3919c8d23b7cc130a1398",
+    "tintNear": "935adde6ef5a96d4efef427e5a2f37bc553b894be16c588bf0622a973ac7fd99",
+    "tintFar": "a4522840871a4fe5b16a81b484ba90569af9b540500b85b8c84173eb7924e48a",
+    "surfaceSource": null,
+    "vegetationSource": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+    "counts": {
+      "trees": 12958,
+      "vista": 2889,
+      "tufts": 0,
+      "bushes": 0,
+      "stones": 0,
+      "reeds": 0,
+      "cars": 0,
+      "pylons": 11,
+      "stumps": 0,
+      "surfaceOverlays": 0
+    },
+    "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+  }
+}

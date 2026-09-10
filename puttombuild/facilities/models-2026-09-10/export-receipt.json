@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-10T08:36:12.453263+00:00",
+  "status": "exported",
+  "sourceBlend": {
+    "path": "puttombuild/cache/facilities-model-2026-09-10/puttom-facilities-v1.blend",
+    "sha256": "a87188326278540cbab5e33cd3369f6a9e597c9b9bf82b74063b4ea18bbf880c",
+    "bytes": 1201398
+  },
+  "sourceExtractionSha256": "606eb11dbd09a281fa415cd51987c27cefc507648ff073a87ae292a20d80b803",
+  "asset": {
+    "url": "models/puttom/facilities-v1.glb",
+    "sha256": "08a9e648a4b7cb09d16754cd6347b5034161a314ce3117ab111b7e1e991c3186",
+    "bytes": 2335572
+  },
+  "facilities": 25,
+  "replacements": 17,
+  "materials": 31,
+  "meshes": 150,
+  "vertices": 67664,
+  "triangles": 34445,
+  "maximumHorizontalFloat32RoundtripMetres": 1.563135058789051e-05,
+  "projection": "pyproj EPSG:3006 -> EPSG:4326 -> existing Puttom local course frame; inverse-Jacobian transformed normals"
+}

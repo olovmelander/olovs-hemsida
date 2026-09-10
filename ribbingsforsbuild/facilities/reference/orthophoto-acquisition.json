@@ -1,0 +1,441 @@
+{
+  "schemaVersion": 1,
+  "groundId": "ribbingsfors",
+  "state": "acquired-for-review",
+  "observedAt": "2026-09-10T08:38:07.880342+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-k2-2024",
+  "nativeResolutionMetres": 0.16,
+  "planSha256": "4cfbe8990a6d28ada90c45e907aaa3ca0afee39204350f0233de5c0031046506",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o65350_4475_25_mr24",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "site-overview",
+      "rasterFile": "site-overview.tif",
+      "rgbFile": "site-overview.png",
+      "sha256": "4b06f2aa95afd2026c709eb1637bf498d1da327771f6c32a3c7799671bbf7569",
+      "rgbSha256": "cba5fd5792ffd949e1d27f2437f254ae12fcf2c33342d15332cb85c30470735f",
+      "requestSha256": "54cfd12160be4b91144714c6345dd592229cf228b12c68e254371b463248e2b6",
+      "bytes": 5943022,
+      "boundsEpsg3006": [
+        448555.2,
+        6535704.0,
+        449825.60000000003,
+        6536744.8
+      ],
+      "geoTransform": [
+        448555.2,
+        0.8,
+        0.0,
+        6536744.8,
+        0.0,
+        -0.8
+      ],
+      "width": 1588,
+      "height": 1301,
+      "resolutionMetres": 0.8,
+      "resampling": "average",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:33:05.281251+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    },
+    {
+      "id": "campus-native",
+      "rasterFile": "campus-native.tif",
+      "rgbFile": "campus-native.png",
+      "sha256": "ffb17b7719a53c301957f8b0a0a397878bf79a719ece5d3399b43d9dde41b484",
+      "rgbSha256": "c6cb1285d26aeb01137ead412639bb0060136db8a9c9667f28aaa8c34cc04787",
+      "requestSha256": "6ca41e3b43654bd1023a818b7a3f30801ec58e85504a744718e1b713e563b6b2",
+      "bytes": 27984989,
+      "boundsEpsg3006": [
+        449360.48,
+        6536144.4799999995,
+        449820.63999999996,
+        6536684.64
+      ],
+      "geoTransform": [
+        449360.48,
+        0.16,
+        0.0,
+        6536684.64,
+        0.0,
+        -0.16
+      ],
+      "width": 2876,
+      "height": 3376,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:33:15.403491+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    },
+    {
+      "id": "clubhouse-close",
+      "rasterFile": "clubhouse-close.tif",
+      "rgbFile": "clubhouse-close.png",
+      "sha256": "9d8c1b3876a6a0f1bf9f19253d91e72d8a803b41a0500d912c2f158183074d6d",
+      "rgbSha256": "b9972d582dd5155d4611fda77492a7e3ec8867ea6ea5840abeab69fad1f4de28",
+      "requestSha256": "088bb1bb8568a04f834b8556a8f23435eb7900b7171e2ff2e35a45c8fbb40b88",
+      "bytes": 1785589,
+      "boundsEpsg3006": [
+        449405.44,
+        6536409.4399999995,
+        449525.6,
+        6536539.52
+      ],
+      "geoTransform": [
+        449405.44,
+        0.16,
+        0.0,
+        6536539.52,
+        0.0,
+        -0.16
+      ],
+      "width": 751,
+      "height": 813,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:33:15.849430+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    },
+    {
+      "id": "range-tee-close",
+      "rasterFile": "range-tee-close.tif",
+      "rgbFile": "range-tee-close.png",
+      "sha256": "dfe2385d89a38b67b7cd4d03b779c97dd957722617218ad1971a71db71501e95",
+      "rgbSha256": "07b4acb108890c19ea60d11d2fc848a187dff0c61d03f794fa55be01e600561a",
+      "requestSha256": "5a709e41d5566f72411ad657cb0615879270299ea87da3685a073d30035aeacc",
+      "bytes": 3533150,
+      "boundsEpsg3006": [
+        449455.36,
+        6536354.399999999,
+        449690.56,
+        6536489.6
+      ],
+      "geoTransform": [
+        449455.36,
+        0.16,
+        0.0,
+        6536489.6,
+        0.0,
+        -0.16
+      ],
+      "width": 1470,
+      "height": 845,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:33:16.564277+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    },
+    {
+      "id": "estate-close",
+      "rasterFile": "estate-close.tif",
+      "rgbFile": "estate-close.png",
+      "sha256": "e103e9c9fc1edd525840d59ef991fe6e5d23e132c8b97a3488685dacf6c68f3a",
+      "rgbSha256": "0edff2d852fb1ac0feb6224c2aca0a48bee54f4db795e723bf8e754fe305af0b",
+      "requestSha256": "34df4554a6131655d346dc1c2f454c5e332fef426a591614902b5864fd56effd",
+      "bytes": 2266871,
+      "boundsEpsg3006": [
+        449650.4,
+        6536449.4399999995,
+        449790.56,
+        6536584.64
+      ],
+      "geoTransform": [
+        449650.4,
+        0.16,
+        0.0,
+        6536584.64,
+        0.0,
+        -0.16
+      ],
+      "width": 876,
+      "height": 845,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:33:17.033724+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    },
+    {
+      "id": "maintenance-close",
+      "rasterFile": "maintenance-close.tif",
+      "rgbFile": "maintenance-close.png",
+      "sha256": "83e0bbebfaeb47ef1cd06fbbde4772e386a5ca6ab47f6b7422cdc8591a64e919",
+      "rgbSha256": "53eb5f6eec4e7877eaa288a7d335b63e5eecf6cbbea073635c5470bb9f360ba1",
+      "requestSha256": "a7fe7035563b3613cd3e79103ec94912f4346006c81854ffe00f763b663bf4e7",
+      "bytes": 3318126,
+      "boundsEpsg3006": [
+        448555.36,
+        6535754.399999999,
+        448715.51999999996,
+        6535929.6
+      ],
+      "geoTransform": [
+        448555.36,
+        0.16,
+        0.0,
+        6535929.6,
+        0.0,
+        -0.16
+      ],
+      "width": 1001,
+      "height": 1095,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:33:18.189345+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    },
+    {
+      "id": "manor-close",
+      "rasterFile": "manor-close.tif",
+      "rgbFile": "manor-close.png",
+      "sha256": "f6be21dd0126a8ebbbee40f30df03f5e59bf7ae6a5c8b495c06efcd62e7359c1",
+      "rgbSha256": "f302402f8183bec46d74106d10843dc19018b481edf8e73cb4601abff7f34b8c",
+      "requestSha256": "365ffcba10266d4b121a12332f896b11ef4c21c7d7c4e3c0725c95bcbeef197d",
+      "bytes": 4175331,
+      "boundsEpsg3006": [
+        449415.36,
+        6536499.359999999,
+        449600.64,
+        6536684.64
+      ],
+      "geoTransform": [
+        449415.36,
+        0.16,
+        0.0,
+        6536684.64,
+        0.0,
+        -0.16
+      ],
+      "width": 1158,
+      "height": 1158,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:34:48.157693+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    },
+    {
+      "id": "estate-north-close",
+      "rasterFile": "estate-north-close.tif",
+      "rgbFile": "estate-north-close.png",
+      "sha256": "5a624028f04e523b25f90f8bf7c8f3fd1ada37ec88b1bb9a6c11b0c3e5eeba62",
+      "rgbSha256": "599daa400534da0594bafa319140b5dced6a65ee775533833ad98cbcc32a4e86",
+      "requestSha256": "578036cfa0392c3d151ad4df0dc6c4bc6ed147c9e2445c7277fb4e7ae7db1765",
+      "bytes": 2183905,
+      "boundsEpsg3006": [
+        449650.4,
+        6536559.359999999,
+        449790.56,
+        6536684.64
+      ],
+      "geoTransform": [
+        449650.4,
+        0.16,
+        0.0,
+        6536684.64,
+        0.0,
+        -0.16
+      ],
+      "width": 876,
+      "height": 783,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:34:48.800364+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    },
+    {
+      "id": "range-mats-detail",
+      "rasterFile": "range-mats-detail.tif",
+      "rgbFile": "range-mats-detail.png",
+      "sha256": "0f8fa339bf1ef05042bd40ce88e0101677380c4ed54aeca0f8218f1a0f0d4620",
+      "rgbSha256": "999e1fcc47483a7f9830e56ee37f1144784db540c57cd373d384e381a533c250",
+      "requestSha256": "dd307cb54b5c12a473a2d64eca4e0fe247de15ad89a4076663cde1aa6020999e",
+      "bytes": 167209,
+      "boundsEpsg3006": [
+        449590.4,
+        6536445.4399999995,
+        449652.64,
+        6536470.56
+      ],
+      "geoTransform": [
+        449590.4,
+        0.16,
+        0.0,
+        6536470.56,
+        0.0,
+        -0.16
+      ],
+      "width": 389,
+      "height": 157,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-10T08:34:48.992148+00:00",
+      "sources": [
+        {
+          "id": "o65350_4475_25_mr24",
+          "capturedAt": "2024-05-17T11:46:40Z",
+          "captureStart": "2024-05-17T11:20:11Z",
+          "captureEnd": "2024-05-17T11:46:48Z"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "o65350_4475_25_mr24",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_K2/o65350_4475_25_mr24.tif",
+      "bytes": 694070240,
+      "boundsEpsg3006": [
+        447500,
+        6535000,
+        450000,
+        6537500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2024-05-17T11:46:40Z",
+      "captureStart": "2024-05-17T11:20:11Z",
+      "captureEnd": "2024-05-17T11:46:48Z"
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false,
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0.",
+  "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf"
+}

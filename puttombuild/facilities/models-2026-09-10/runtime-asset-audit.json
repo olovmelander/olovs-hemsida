@@ -1,0 +1,1099 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-10T08:36:16.848Z",
+  "asset": {
+    "url": "models/puttom/facilities-v1.glb",
+    "sha256": "08a9e648a4b7cb09d16754cd6347b5034161a314ce3117ab111b7e1e991c3186",
+    "bytes": 2335572
+  },
+  "terrainTest": "Nearest declared facility ground anchor plus current Puttom datum; visible terrain requires browser verification",
+  "status": "loaded",
+  "courseSlug": "puttom",
+  "replacedBuildingIds": [
+    "trace-clubhouse-main",
+    "trace-annex-a",
+    "trace-annex-b",
+    "trace-east-house",
+    "trace-yard-hall",
+    "trace-yard-shed-long",
+    "trace-yard-small",
+    "trace-reception",
+    "trace-range-hut",
+    "trace-vinkelhus",
+    "trace-vinkelhus-arm",
+    "trace-range-shed",
+    "trace-shed-c",
+    "trace-shed-d",
+    "trace-house-a",
+    "trace-house-b",
+    "trace-house-red"
+  ],
+  "replacesRangeFacilities": true,
+  "facilities": [
+    {
+      "id": "clubhouse",
+      "sourceBuildingIds": [
+        "trace-clubhouse-main",
+        "trace-annex-a",
+        "trace-annex-b"
+      ],
+      "nodeName": "clubhouse",
+      "meshes": 12,
+      "triangles": 7861,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 67.4673,
+      "sourceGroundRh2000M": 43.841,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -142.76292419433594,
+            65.19430079345703,
+            -210.2545623779297
+          ],
+          "max": [
+            -108.09073638916016,
+            77.90253748779297,
+            -182.16781616210938
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -142.76292419433594,
+          41.56800079345703,
+          -210.2545623779297
+        ],
+        "max": [
+          -108.09073638916016,
+          54.27623748779297,
+          -182.16781616210938
+        ]
+      }
+    },
+    {
+      "id": "harbre",
+      "sourceBuildingIds": [
+        "trace-east-house"
+      ],
+      "nodeName": "harbre",
+      "meshes": 11,
+      "triangles": 1736,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 67.5453,
+      "sourceGroundRh2000M": 43.919,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -68.29431915283203,
+            66.87430109863281,
+            -241.98561096191406
+          ],
+          "max": [
+            -59.34186553955078,
+            73.67230143432617,
+            -231.44650268554688
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -68.29431915283203,
+          43.24800109863281,
+          -241.98561096191406
+        ],
+        "max": [
+          -59.34186553955078,
+          50.04600143432617,
+          -231.44650268554688
+        ]
+      }
+    },
+    {
+      "id": "maintenance-hall",
+      "sourceBuildingIds": [
+        "trace-yard-hall"
+      ],
+      "nodeName": "maintenance-hall",
+      "meshes": 9,
+      "triangles": 1914,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 74.5393,
+      "sourceGroundRh2000M": 50.913,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            73.71942901611328,
+            73.84229960327148,
+            -373.40252685546875
+          ],
+          "max": [
+            100.28076171875,
+            80.02929987792969,
+            -353.7255554199219
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          73.71942901611328,
+          50.215999603271484,
+          -373.40252685546875
+        ],
+        "max": [
+          100.28076171875,
+          56.40299987792969,
+          -353.7255554199219
+        ]
+      }
+    },
+    {
+      "id": "maintenance-long",
+      "sourceBuildingIds": [
+        "trace-yard-shed-long"
+      ],
+      "nodeName": "maintenance-long",
+      "meshes": 8,
+      "triangles": 2334,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 75.52430000000001,
+      "sourceGroundRh2000M": 51.898,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            100.48291778564453,
+            74.62430109863281,
+            -408.57086181640625
+          ],
+          "max": [
+            116.77916717529297,
+            82.22030177001953,
+            -377.44140625
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          100.48291778564453,
+          50.99800109863281,
+          -408.57086181640625
+        ],
+        "max": [
+          116.77916717529297,
+          58.59400177001953,
+          -377.44140625
+        ]
+      }
+    },
+    {
+      "id": "maintenance-small",
+      "sourceBuildingIds": [
+        "trace-yard-small"
+      ],
+      "nodeName": "maintenance-small",
+      "meshes": 9,
+      "triangles": 692,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 75.44630000000001,
+      "sourceGroundRh2000M": 51.82,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            73.9482650756836,
+            74.80630030517578,
+            -405.0092468261719
+          ],
+          "max": [
+            81.39108276367188,
+            79.55029978637695,
+            -393.4565734863281
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          73.9482650756836,
+          51.18000030517578,
+          -405.0092468261719
+        ],
+        "max": [
+          81.39108276367188,
+          55.92399978637695,
+          -393.4565734863281
+        ]
+      }
+    },
+    {
+      "id": "north-courtyard-building",
+      "sourceBuildingIds": [
+        "trace-reception"
+      ],
+      "nodeName": "north-courtyard-building",
+      "meshes": 7,
+      "triangles": 898,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 67.35730000000001,
+      "sourceGroundRh2000M": 43.731,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -134.66091918945312,
+            66.4752990234375,
+            -226.6856689453125
+          ],
+          "max": [
+            -121.10477447509766,
+            71.8763,
+            -215.4669952392578
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -134.66091918945312,
+          42.8489990234375,
+          -226.6856689453125
+        ],
+        "max": [
+          -121.10477447509766,
+          48.25,
+          -215.4669952392578
+        ]
+      }
+    },
+    {
+      "id": "range-east-hut",
+      "sourceBuildingIds": [
+        "trace-range-hut"
+      ],
+      "nodeName": "range-east-hut",
+      "meshes": 7,
+      "triangles": 922,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 68.3973,
+      "sourceGroundRh2000M": 44.771,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -21.785985946655273,
+            67.73329844360352,
+            -282.2414245605469
+          ],
+          "max": [
+            -8.119372367858887,
+            72.0263015258789,
+            -271.4447326660156
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -21.785985946655273,
+          44.106998443603516,
+          -282.2414245605469
+        ],
+        "max": [
+          -8.119372367858887,
+          48.400001525878906,
+          -271.4447326660156
+        ]
+      }
+    },
+    {
+      "id": "range-l-building",
+      "sourceBuildingIds": [
+        "trace-vinkelhus",
+        "trace-vinkelhus-arm"
+      ],
+      "nodeName": "range-l-building",
+      "meshes": 8,
+      "triangles": 2996,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 68.0233,
+      "sourceGroundRh2000M": 44.397,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -80.1390151977539,
+            67.56930079345703,
+            -271.9779968261719
+          ],
+          "max": [
+            -51.670406341552734,
+            72.74779429321289,
+            -247.4925079345703
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -80.1390151977539,
+          43.94300079345703,
+          -271.9779968261719
+        ],
+        "max": [
+          -51.670406341552734,
+          49.12149429321289,
+          -247.4925079345703
+        ]
+      }
+    },
+    {
+      "id": "range-west-hut",
+      "sourceBuildingIds": [
+        "trace-range-shed"
+      ],
+      "nodeName": "range-west-hut",
+      "meshes": 7,
+      "triangles": 536,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 67.3863,
+      "sourceGroundRh2000M": 43.76,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -91.2370376586914,
+            66.82929911499023,
+            -305.3323059082031
+          ],
+          "max": [
+            -81.4100341796875,
+            71.76130213623047,
+            -295.4891052246094
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -91.2370376586914,
+          43.202999114990234,
+          -305.3323059082031
+        ],
+        "max": [
+          -81.4100341796875,
+          48.13500213623047,
+          -295.4891052246094
+        ]
+      }
+    },
+    {
+      "id": "site-camper-fence",
+      "sourceBuildingIds": [],
+      "nodeName": "site-camper-fence",
+      "meshes": 1,
+      "triangles": 166,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 64.65046000000001,
+      "sourceGroundRh2000M": 41.02416,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -136.07696533203125,
+            64.6504584777832,
+            -183.35806274414062
+          ],
+          "max": [
+            -131.5503692626953,
+            67.13244166259766,
+            -163.30264282226562
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -136.07696533203125,
+          41.0241584777832,
+          -183.35806274414062
+        ],
+        "max": [
+          -131.5503692626953,
+          43.506141662597656,
+          -163.30264282226562
+        ]
+      }
+    },
+    {
+      "id": "site-courtyard-fence",
+      "sourceBuildingIds": [],
+      "nodeName": "site-courtyard-fence",
+      "meshes": 1,
+      "triangles": 2128,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 68.26222,
+      "sourceGroundRh2000M": 44.63592,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -101.13410949707031,
+            68.26127543334961,
+            -219.69895935058594
+          ],
+          "max": [
+            -92.97421264648438,
+            70.59353937988281,
+            -193.9702606201172
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -101.13410949707031,
+          44.63497543334961,
+          -219.69895935058594
+        ],
+        "max": [
+          -92.97421264648438,
+          46.96723937988281,
+          -193.9702606201172
+        ]
+      }
+    },
+    {
+      "id": "site-courtyard-flags",
+      "sourceBuildingIds": [],
+      "nodeName": "site-courtyard-flags",
+      "meshes": 2,
+      "triangles": 120,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 68.43178,
+      "sourceGroundRh2000M": 44.80548,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -96.32234191894531,
+            68.43178095703125,
+            -211.48570251464844
+          ],
+          "max": [
+            -92.30277252197266,
+            78.06396021728516,
+            -200.53744506835938
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -96.32234191894531,
+          44.80548095703125,
+          -211.48570251464844
+        ],
+        "max": [
+          -92.30277252197266,
+          54.437660217285156,
+          -200.53744506835938
+        ]
+      }
+    },
+    {
+      "id": "site-range-apron",
+      "sourceBuildingIds": [],
+      "nodeName": "site-range-apron",
+      "meshes": 5,
+      "triangles": 2962,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 67.64153999999999,
+      "sourceGroundRh2000M": 44.01524,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 432,
+        "drapedVertices": 4206,
+        "maximumAdjustmentMetres": 0.39004113739729007,
+        "boundsAfterGroundContact": {
+          "min": [
+            -85.83202362060547,
+            67.69654002075195,
+            -296.1044921875
+          ],
+          "max": [
+            -40.426795959472656,
+            69.10901942138672,
+            -263.3459777832031
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -85.83202362060547,
+          44.01523971557617,
+          -296.1044921875
+        ],
+        "max": [
+          -40.426795959472656,
+          45.49380874633789,
+          -263.3459777832031
+        ]
+      }
+    },
+    {
+      "id": "site-range-ball-dispenser",
+      "sourceBuildingIds": [],
+      "nodeName": "site-range-ball-dispenser",
+      "meshes": 2,
+      "triangles": 68,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 68.10902,
+      "sourceGroundRh2000M": 44.48272,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -69.43272399902344,
+            68.10901942138672,
+            -270.1655578613281
+          ],
+          "max": [
+            -68.23902130126953,
+            71.23902048950195,
+            -268.5110778808594
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -69.43272399902344,
+          44.48271942138672,
+          -270.1655578613281
+        ],
+        "max": [
+          -68.23902130126953,
+          47.61272048950195,
+          -268.5110778808594
+        ]
+      }
+    },
+    {
+      "id": "site-range-east-net",
+      "sourceBuildingIds": [],
+      "nodeName": "site-range-east-net",
+      "meshes": 3,
+      "triangles": 2692,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 68.66223,
+      "sourceGroundRh2000M": 45.03593,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -3.094576835632324,
+            68.66223063354492,
+            -465.0946960449219
+          ],
+          "max": [
+            53.57905197143555,
+            86.24038233642578,
+            -277.9053039550781
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -3.094576835632324,
+          45.03593063354492,
+          -465.0946960449219
+        ],
+        "max": [
+          53.57905197143555,
+          62.61408233642578,
+          -277.9053039550781
+        ]
+      }
+    },
+    {
+      "id": "site-range-mats",
+      "sourceBuildingIds": [],
+      "nodeName": "site-range-mats",
+      "meshes": 2,
+      "triangles": 408,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 67.94306,
+      "sourceGroundRh2000M": 44.316759999999995,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 816,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0.30450067138670533,
+        "boundsAfterGroundContact": {
+          "min": [
+            -83.87118530273438,
+            67.98305811767578,
+            -295.865966796875
+          ],
+          "max": [
+            -40.37389373779297,
+            68.5273009765625,
+            -265.8260498046875
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -83.87118530273438,
+          44.3167610168457,
+          -295.865966796875
+        ],
+        "max": [
+          -40.37389373779297,
+          44.6148681640625,
+          -265.8260498046875
+        ]
+      }
+    },
+    {
+      "id": "site-range-west-near-net",
+      "sourceBuildingIds": [],
+      "nodeName": "site-range-west-near-net",
+      "meshes": 3,
+      "triangles": 916,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 66.96445,
+      "sourceGroundRh2000M": 43.33815,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -98.3725814819336,
+            66.96445002441406,
+            -327.6108093261719
+          ],
+          "max": [
+            -82.45124816894531,
+            73.90391840820313,
+            -271.2248229980469
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -98.3725814819336,
+          43.33815002441406,
+          -327.6108093261719
+        ],
+        "max": [
+          -82.45124816894531,
+          50.277618408203125,
+          -271.2248229980469
+        ]
+      }
+    },
+    {
+      "id": "trace-shed-c",
+      "sourceBuildingIds": [
+        "trace-shed-c"
+      ],
+      "nodeName": "trace-shed-c",
+      "meshes": 6,
+      "triangles": 462,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 65.63130000000001,
+      "sourceGroundRh2000M": 42.005,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -233.21432495117188,
+            64.8862983215332,
+            -168.87362670898438
+          ],
+          "max": [
+            -226.78567504882812,
+            68.63130106811523,
+            -161.7805938720703
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -233.21432495117188,
+          41.2599983215332,
+          -168.87362670898438
+        ],
+        "max": [
+          -226.78567504882812,
+          45.005001068115234,
+          -161.7805938720703
+        ]
+      }
+    },
+    {
+      "id": "trace-shed-d",
+      "sourceBuildingIds": [
+        "trace-shed-d"
+      ],
+      "nodeName": "trace-shed-d",
+      "meshes": 6,
+      "triangles": 462,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 67.44630000000001,
+      "sourceGroundRh2000M": 43.82,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -209.21429443359375,
+            66.91129984741211,
+            -167.87362670898438
+          ],
+          "max": [
+            -202.78564453125,
+            70.44629969482422,
+            -160.7805938720703
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -209.21429443359375,
+          43.28499984741211,
+          -167.87362670898438
+        ],
+        "max": [
+          -202.78564453125,
+          46.81999969482422,
+          -160.7805938720703
+        ]
+      }
+    },
+    {
+      "id": "west-cabin-a",
+      "sourceBuildingIds": [
+        "trace-house-a"
+      ],
+      "nodeName": "west-cabin-a",
+      "meshes": 7,
+      "triangles": 678,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 63.3273,
+      "sourceGroundRh2000M": 39.701,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -219.06822204589844,
+            62.39829935913086,
+            -223.06785583496094
+          ],
+          "max": [
+            -207.06883239746094,
+            66.67129816894531,
+            -211.09193420410156
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -219.06822204589844,
+          38.77199935913086,
+          -223.06785583496094
+        ],
+        "max": [
+          -207.06883239746094,
+          43.04499816894531,
+          -211.09193420410156
+        ]
+      }
+    },
+    {
+      "id": "west-cabin-b",
+      "sourceBuildingIds": [
+        "trace-house-b"
+      ],
+      "nodeName": "west-cabin-b",
+      "meshes": 8,
+      "triangles": 1094,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 63.2603,
+      "sourceGroundRh2000M": 39.634,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -198.0443878173828,
+            62.34429850463867,
+            -220.2200927734375
+          ],
+          "max": [
+            -188.33258056640625,
+            66.92829813842773,
+            -208.54580688476562
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -198.0443878173828,
+          38.71799850463867,
+          -220.2200927734375
+        ],
+        "max": [
+          -188.33258056640625,
+          43.301998138427734,
+          -208.54580688476562
+        ]
+      }
+    },
+    {
+      "id": "west-lakeshore-pavilion",
+      "sourceBuildingIds": [],
+      "nodeName": "west-lakeshore-pavilion",
+      "meshes": 4,
+      "triangles": 122,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 61.3703,
+      "sourceGroundRh2000M": 37.744,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -225.14137268066406,
+            61.436301373291016,
+            -237.316650390625
+          ],
+          "max": [
+            -217.33773803710938,
+            65.1263,
+            -229.75880432128906
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -225.14137268066406,
+          37.810001373291016,
+          -237.316650390625
+        ],
+        "max": [
+          -217.33773803710938,
+          41.5,
+          -229.75880432128906
+        ]
+      }
+    },
+    {
+      "id": "west-red-house",
+      "sourceBuildingIds": [
+        "trace-house-red"
+      ],
+      "nodeName": "west-red-house",
+      "meshes": 9,
+      "triangles": 1656,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 65.6053,
+      "sourceGroundRh2000M": 41.979,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -233.67477416992188,
+            64.15629877929688,
+            -196.90036010742188
+          ],
+          "max": [
+            -216.12216186523438,
+            71.88529887084961,
+            -178.86062622070312
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -233.67477416992188,
+          40.529998779296875,
+          -196.90036010742188
+        ],
+        "max": [
+          -216.12216186523438,
+          48.25899887084961,
+          -178.86062622070312
+        ]
+      }
+    },
+    {
+      "id": "west-south-dark-shed",
+      "sourceBuildingIds": [],
+      "nodeName": "west-south-dark-shed",
+      "meshes": 6,
+      "triangles": 326,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 66.4103,
+      "sourceGroundRh2000M": 42.784,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -225.90753173828125,
+            65.66429819946289,
+            -158.07858276367188
+          ],
+          "max": [
+            -219.79598999023438,
+            69.31029810791016,
+            -151.298583984375
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -225.90753173828125,
+          42.03799819946289,
+          -158.07858276367188
+        ],
+        "max": [
+          -219.79598999023438,
+          45.683998107910156,
+          -151.298583984375
+        ]
+      }
+    },
+    {
+      "id": "west-south-rust-shed",
+      "sourceBuildingIds": [],
+      "nodeName": "west-south-rust-shed",
+      "meshes": 7,
+      "triangles": 296,
+      "shift": 23.6263,
+      "mode": "absolute-rh2000",
+      "terrainHeight": 67.0673,
+      "sourceGroundRh2000M": 43.441,
+      "groundResidualMetres": 0,
+      "groundContact": {
+        "rigidVertices": 0,
+        "drapedVertices": 0,
+        "maximumAdjustmentMetres": 0,
+        "boundsAfterGroundContact": {
+          "min": [
+            -212.07717895507812,
+            66.53929819946289,
+            -172.4494171142578
+          ],
+          "max": [
+            -207.67404174804688,
+            70.16129984741211,
+            -168.02821350097656
+          ]
+        }
+      },
+      "boundsBeforePlacement": {
+        "min": [
+          -212.07717895507812,
+          42.91299819946289,
+          -172.4494171142578
+        ],
+        "max": [
+          -207.67404174804688,
+          46.53499984741211,
+          -168.02821350097656
+        ]
+      }
+    }
+  ],
+  "meshes": 150,
+  "triangles": 34445,
+  "assetSha256": "08a9e648a4b7cb09d16754cd6347b5034161a314ce3117ab111b7e1e991c3186",
+  "sourceCoverage": 17,
+  "maximumNormalError": 4.2796545418610776e-8,
+  "coordinateErrors": 0,
+  "projectionHeightErrors": 0,
+  "activeFootprints": 17,
+  "liveSceneFacilities": 25
+}

@@ -12,12 +12,17 @@ assert.equal(acquisition.state, 'acquired-for-review');
 assert(acquisition.access.authorized && acquisition.windows.length === 19 && acquisition.windows.every(w => w.validFraction === 1));
 const review = read('angsobuild/mapping/orthophoto-review.json');
 const source = manifest.sources.find(s => s.id === 'imagery-lm-ortho');
+Object.assign(manifest.sources.find(s => s.id === 'club-guide-legacy'), {
+  sourceUri: 'https://courses.livecaddie.com/course-info.php?course=649', acquiredAt: '2026-09-09',
+  checksumReason: 'The source is a collection of historical guide assets, not one geographic dataset. All 18 schematic image versions and supporting club pages are individually SHA-256 registered in angsobuild/mapping/tee-source-evidence.json.',
+  notes: 'The current club website links this guide. Its colour topology supports manual orthophoto correspondence; image modification dates do not establish geometry currency. Hole 1 has documented layout conflicts. Representative game references are not surveyed rating points or current daily markers.',
+});
 Object.assign(source, {
   lifecycle: 'planned', use: 'candidate', capturedAt: '2025-04-24', acquiredAt: '2026-09-09',
   sourceUri: 'https://api.lantmateriet.se/stac-bild/v1/collections/orto-o2-2025',
   checksum: null, localPath: null,
   checksumReason: 'The whole-source lifecycle remains planned: full remote TIFFs were range-read, not hashed in full. All 18 native complete-hole windows and the overview ARE acquired and individually SHA-256 pinned in reference/lm-ortho-acquisition-2026-09-09.json.',
-  notes: 'Verified 0.16 m RGBI imagery covers every hole; a 0.8 m overview provides context. Mosaic source polygons date every window to 2025-04-24. The accepted review replaces 18 greens, 16 fairway/approach outlines, 50 physical tee platforms, 33 bunkers and eight pond edges. Exact source pixels, capture evidence and uncertainties are retained. Fairway cuts on par-3 holes 12 and 15 remain legacy because spring imagery does not resolve them confidently. Colour identities of tee platforms remain unverified. Imagery is measurement input, never a runtime texture; independent control and absolute positional accuracy are not established.',
+  notes: 'Verified 0.16 m RGBI imagery covers every hole; a 0.8 m overview provides context. Mosaic source polygons date every window to 2025-04-24. The accepted review replaces 18 greens, 16 fairway/approach outlines, 52 physical tee platforms, 33 bunkers and eight pond edges. Exact source pixels, capture evidence and uncertainties are retained. Fairway cuts on par-3 holes 12 and 15 remain legacy because spring imagery does not resolve them confidently. Tee colour references use a separate club-guide and native-orthophoto correspondence review; unresolved identities are explicitly retained. Imagery is measurement input, never a runtime texture; independent control and absolute positional accuracy are not established.',
 });
 const entries = [
   ...['catalog','plan','acquisition','capture','validation'].map(part => ({id:`lm-ortho-${part}-2026-09-09`,kind:'acquisition',
@@ -26,14 +31,20 @@ const entries = [
   {id:'lm-orthophoto-surface-review',kind:'surface',path:'angsobuild/mapping/orthophoto-review.json',use:'migration-only',
     notes:'Combined explicit pixel-edge boundary decisions with native image hashes, exact affines, per-part provenance and review limitations.'},
   ...review.parts.map((part,i) => ({id:`lm-orthophoto-review-part-${i+1}`,kind:'surface',path:part.path,use:'migration-only',
-    notes:'Independent feature-class review containing original pixel decisions and interpretation notes.'})),
+    notes:'Independent feature-class review containing original pixel decisions and interpretation notes.',
+    ...(part.path.endsWith('tee-source-evidence.json') ? { kind:'control',use:'discovery-evidence',
+      notes:'Club-linked guide assets and supporting club pages with exact hashes, edition conflicts, observed colour topology and explicit geographic limits.' } : {}) })),
 ];
 if (fs.existsSync(path.join(ROOT,'angsobuild/mapping/alignment-report.json'))) entries.push({
   id:'lm-orthophoto-alignment-audit',kind:'control',path:'angsobuild/mapping/alignment-report.json',use:'discovery-evidence',
   notes:'Independent PROJ verification of pixel-to-model coordinates, ring topology, reviewed/retained class inventory and explicit unresolved tee references. Numerical transform accuracy is not field survey accuracy.',
 });
+if (fs.existsSync(path.join(ROOT,'angsobuild/mapping/tee-coordinate-audit.json'))) entries.push({
+  id:'lm-tee-coordinate-audit',kind:'control',path:'angsobuild/mapping/tee-coordinate-audit.json',use:'discovery-evidence',
+  notes:'Independent native-pixel, PROJ, pack, camera and routing checks for all colour references; checks actual rendered marker pairs against the assigned mown surface. Explicit unresolved identities remain documented.'
+});
 for (const entry of entries) {
-  const artifact = {...entry,sha256:sha256File(path.join(ROOT,entry.path)),derivedFrom:['imagery-lm-ortho']};
+  const artifact = {...entry,sha256:sha256File(path.join(ROOT,entry.path)),derivedFrom:['imagery-lm-ortho', ...(entry.path.includes('tee-') || entry.id === 'lm-orthophoto-surface-review' ? ['club-guide-legacy'] : [])]};
   const index = manifest.artifacts.findIndex(a => a.id === artifact.id);
   if (index < 0) manifest.artifacts.push(artifact); else manifest.artifacts[index] = artifact;
 }
@@ -43,7 +54,7 @@ for (const artifact of manifest.artifacts) {
     if (!artifact.derivedFrom.includes('imagery-lm-ortho')) artifact.derivedFrom.push('imagery-lm-ortho');
   }
 }
-manifest.artifacts.find(a => a.id==='legacy-course-model').notes = 'Composite compatibility model with explicit Lantmateriet image-reviewed playing boundaries and pond edges. Terrain retains its measured RH 2000 source. Published scorecard values are separate from physical route length; inferred tee references retain uncertainty.';
+manifest.artifacts.find(a => a.id==='legacy-course-model').notes = 'Composite compatibility model with explicit Lantmateriet image-reviewed playing boundaries and pond edges. Terrain retains its measured RH 2000 source. Published scorecard values are separate from physical route length; guide-matched representative tee references retain evidence and explicit unresolved identities.';
 manifest.artifacts.find(a => a.id==='legacy-marking').notes = 'Rule-derived penalty/OB stakes regenerated around reviewed pond and fairway geometry. Stake positions remain inferred from club rules and legacy woodland evidence, not surveyed.';
 manifest.artifacts.find(a => a.id==='migration-course-model-epsg3006').notes = 'Current composite model projected to absolute EPSG:3006 through PROJ/pyproj; horizontal vectors include reviewed orthophoto geometry. Independent canonical-origin control remains outstanding.';
 const assets = manifest.blockers.find(b => b.id==='authoritative-assets');

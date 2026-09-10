@@ -3,12 +3,16 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { applyReviewedOrthophoto, verifyOrthophotoSources } from './reviewed-orthophoto.mjs';
+import { mergeReviewedHole } from './merge-tee-review.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const read = file => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8'));
 const sha = value => createHash('sha256').update(value).digest('hex');
 const files = ['review-holes-01-06.json', 'review-holes-07-12.json', 'review-holes-13-18.json',
   'review-tees.json', 'review-fairways-01-09.json', 'review-fairways-10-18.json', 'review-infrastructure.json'];
+for (const file of ['review-tees-followup-01-09.json', 'review-tees-followup-10-18.json']) {
+  if (fs.existsSync(path.join(root, 'puttombuild/mapping', file))) files.push(file);
+}
 const baseline = read('puttombuild/cache/orthophoto-baseline.json');
 const review = { schemaVersion: 1, groundId: 'puttom', reviewedAt: '2026-09-09',
   reviewMethod: 'machine visual interpretation of verified Lantmateriet RGBI and club hole plans; not independently surveyed or human approved',
@@ -26,23 +30,44 @@ for (const file of files) {
   for (const [key, value] of Object.entries(fragment.sources)) {
     const fields = ['id','horizontalCrs','rasterFile','sha256','requestSha256','width','height','geoTransform','boundsEpsg3006','sourceIds','sources','derivation'];
     const source = Object.fromEntries(fields.filter(f => value[f] !== undefined).map(f => [f,value[f]]));
-    if (review.sources[key] && JSON.stringify(review.sources[key]) !== JSON.stringify(source)) throw new Error(`Conflicting source ${key}`);
-    review.sources[key] = source;
+    source.id ??= key;
+    source.rasterFile ??= `${key}.tif`;
+    source.sourceIds ??= source.sources?.map(s => s.id);
+    if (review.sources[key]) {
+      const previous = review.sources[key];
+      for (const field of fields) if (source[field] !== undefined && previous[field] !== undefined &&
+          JSON.stringify(source[field]) !== JSON.stringify(previous[field])) throw new Error(`Conflicting source ${key}.${field}`);
+      review.sources[key] = { ...previous, ...source };
+    } else review.sources[key] = source;
   }
   for (const entry of fragment.holes ?? []) {
-    const h = holes.get(entry.n) ?? { n: entry.n };
-    for (const [key, value] of Object.entries(entry)) {
-      if (key === 'n') continue;
-      if (Array.isArray(value)) h[key] = [...(h[key] ?? []), ...value];
-      else if (h[key] !== undefined) throw new Error(`Conflicting hole ${entry.n} ${key}`);
-      else h[key] = value;
-    }
-    holes.set(entry.n, h);
+    holes.set(entry.n, mergeReviewedHole(holes.get(entry.n) ?? { n: entry.n }, entry));
   }
   for (const key of ['deferredFeatures','unresolved']) review.deferredFeatures.push(...(fragment[key] ?? []));
-  for (const key of ['numberedPlatformSources','teeReviewAudit','cameraReferenceMeaning']) if (fragment[key]) review[key] = fragment[key];
+  if (fragment.numberedPlatformSources) {
+    for (const [key, source] of Object.entries(fragment.numberedPlatformSources)) {
+      const previous = review.numberedPlatformSources?.[key];
+      if (previous && (previous.url !== source.url || previous.sha256 !== source.sha256)) throw new Error(`Changed numbered plan ${key}`);
+      (review.numberedPlatformSources ??= {})[key] = source;
+    }
+  }
+  if (fragment.teeReviewAudit) review.teeReviewAudit = [...new Map([...(review.teeReviewAudit ?? []), ...fragment.teeReviewAudit].map(row => [row.n, row])).values()].sort((a,b) => a.n-b.n);
+  if (fragment.referenceReview) {
+    review.referenceReview = [...new Map([...(review.referenceReview ?? []), ...fragment.referenceReview]
+      .map(row => [`${row.hole}:${row.teeKey}`, row])).values()];
+    const refreshed = [...new Set(fragment.referenceReview.map(row => row.hole))].map(n => {
+      const rows = fragment.referenceReview.filter(row => row.hole === n);
+      const unresolvedReferences = rows.filter(row => row.status === 'unresolved').map(row => row.teeKey);
+      return { n, status: unresolvedReferences.length ? 'partially-reviewed' : 'reviewed-references',
+        unresolvedReferences, notes: 'Latest paired-year tee review; platform outlines and visible-interior references retain their separate evidence in the feature records.' };
+    });
+    review.teeReviewAudit = [...new Map([...(review.teeReviewAudit ?? []), ...refreshed].map(row => [row.n, row])).values()].sort((a,b) => a.n-b.n);
+  }
+  if (fragment.cameraReferenceMeaning) review.cameraReferenceMeaning = fragment.cameraReferenceMeaning;
 }
 review.holes = [...holes.values()].sort((a,b) => a.n-b.n);
+review.captureDates = [...new Set(Object.values(review.sources).flatMap(s => s.sources?.map(v => v.capturedAt?.slice(0,10)).filter(Boolean) ?? []))].sort();
+review.captureDateMeaning = 'Primary campaign date; per-source capture dates also include earlier morning/midday tee corroboration when present.';
 verifyOrthophotoSources(review, { sourceDirectory: path.join(root, 'puttombuild/cache/lm-ortho') });
 const adopted = applyReviewedOrthophoto(baseline, review);
 review.summary = {

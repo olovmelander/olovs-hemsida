@@ -1,0 +1,4125 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "preparedAt": "2026-09-10",
+  "coordinateFrame": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalDatum": "RH2000",
+    "blenderOrigin": [
+      697365.0,
+      7025190.0,
+      44.0
+    ],
+    "axes": "X east, Y grid north, Z up",
+    "unit": "metre"
+  },
+  "geometryConvention": "Each rectangular volume centre is originEpsg3006. U follows ridge/length; V is perpendicular left. Wall corners are (-U,-V),(+U,-V),(+U,+V),(-U,+V). Heights are absolute RH2000. roofType shed rises from eaveH at v- to ridgeH at v+ unless roofHighSide states otherwise.",
+  "sourceFiles": {
+    "facility-inventory.json": {
+      "path": "puttombuild/facilities/facility-inventory.json",
+      "sha256": "473415a0a9bbad07ab860c3645f3dbabb89fbe75ef0688e063dea24a466aa42c"
+    },
+    "height-reference.json": {
+      "path": "puttombuild/facilities/height-reference.json",
+      "sha256": "20c2590741c2898589bcc32cbdfc3d1e960b464156943c8d1dec4ad997d01f5a"
+    },
+    "web-reference.json": {
+      "path": "puttombuild/facilities/web-reference.json",
+      "sha256": "d645f51e53a0ef2d555b5a344885ed0906da82f3f2d9748730dec27f843945fe"
+    }
+  },
+  "sourceAttribution": "Laserdata and orthophoto, Lantmäteriet, processed, CC BY 4.0. Photographs are modelling references only; no photo pixels reused as runtime textures.",
+  "interpretation": "Finished production model plan from dated laser/orthophoto/photo evidence with labelled estimates. Not a survey or verified current inventory of owned facilities.",
+  "detailPolicy": "Use red timber, white trim, restrained dark glazing and simple estimated openings where no close facade exists. Specific clubhouse glazing, log Härbre and observed roof assemblies receive photo-informed detail. No invented business/facility identities or signs.",
+  "coveredInheritedIds": [
+    "trace-annex-a",
+    "trace-annex-b",
+    "trace-clubhouse-main",
+    "trace-east-house",
+    "trace-house-a",
+    "trace-house-b",
+    "trace-house-red",
+    "trace-range-hut",
+    "trace-range-shed",
+    "trace-reception",
+    "trace-shed-c",
+    "trace-shed-d",
+    "trace-vinkelhus",
+    "trace-vinkelhus-arm",
+    "trace-yard-hall",
+    "trace-yard-shed-long",
+    "trace-yard-small"
+  ],
+  "volumeCount": 25,
+  "rangeTopologyValidation": {
+    "roofUnionAreaSquareMetres": 356.9428,
+    "clippedRoofAreaSquareMetres": 356.9398,
+    "exteriorWallPerimeterMetres": 85.9359,
+    "roofTriangleCount": 34,
+    "exteriorWallPolygonCount": 21,
+    "laserSupportHullComparisonCount": 43,
+    "laserSupportHullRmseMetres": 0.0596,
+    "passed": true
+  },
+  "volumes": [
+    {
+      "id": "clubhouse-main",
+      "sourceRoofId": "roof-clubhouse-main",
+      "label": "Main clubhouse roof",
+      "inheritedIds": [
+        "trace-clubhouse-main"
+      ],
+      "assembly": "clubhouse",
+      "kind": "timber-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697367.397,
+        7025188.7065
+      ],
+      "originBlenderXY": [
+        2.397,
+        -1.2935
+      ],
+      "axisU": [
+        0.37394393,
+        -0.92745131
+      ],
+      "axisV": [
+        0.92745131,
+        0.37394393
+      ],
+      "length": 19.9,
+      "width": 12.4,
+      "roofLength": 20.6,
+      "roofWidth": 13.1,
+      "roofOverhang": 0.35,
+      "wallRingEpsg3006": [
+        [
+          697357.9261,
+          7025195.6162
+        ],
+        [
+          697365.3675,
+          7025177.1599
+        ],
+        [
+          697376.8679,
+          7025181.7968
+        ],
+        [
+          697369.4265,
+          7025200.2531
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697357.4706,
+          7025195.8099
+        ],
+        [
+          697365.1738,
+          7025176.7044
+        ],
+        [
+          697377.3234,
+          7025181.6031
+        ],
+        [
+          697369.6202,
+          7025200.7086
+        ]
+      ],
+      "groundH": 43.841,
+      "groundCornerH": [
+        43.553,
+        43.372,
+        44.128,
+        44.31
+      ],
+      "minGroundH": 43.222,
+      "eaveH": 50.0,
+      "ridgeH": 53.613,
+      "floorH": 44.31,
+      "roofHighSide": null,
+      "roofColour": "brown-grey",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-clubhouse-main-plane-1",
+          "roof-clubhouse-main-plane-2"
+        ],
+        "photoIds": [
+          "clubhouse-2018",
+          "flickr-34163074006",
+          "flickr-34163073056",
+          "flickr-34163072946"
+        ],
+        "orthophotoObservation": "roof-clubhouse-main"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.35,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Two measured opposing 29-degree slopes. Ridge from original laser coordinates. Regularized eaves; support hulls padded 0.25-0.35 m. Roof centre is 4.04 m west and 0.63 m north of orthophoto roof centroid; imagery remains unchanged. Exposed blue-grey foundation on western and southern downhill sides.",
+      "facade": {
+        "glazedGable": "u+",
+        "entranceSide": "v+",
+        "glassReturnLength": 4.5,
+        "groundStoreys": 2,
+        "mainEntranceU": -3.7,
+        "glazingBaseH": 44.85,
+        "glazingTransomH": 47.45,
+        "upperSmallWindows": "v+; four unequal spaced openings outside southern glazing return",
+        "foundationColour": "blue-grey",
+        "northUpperWindow": true
+      }
+    },
+    {
+      "id": "clubhouse-west-lower",
+      "sourceRoofId": "roof-clubhouse-west-lower",
+      "label": "Clubhouse lower west roof",
+      "inheritedIds": [],
+      "assembly": "clubhouse",
+      "kind": "annex",
+      "roofType": "shed",
+      "originEpsg3006": [
+        697358.7127,
+        7025189.7875
+      ],
+      "originBlenderXY": [
+        -6.2873,
+        -0.2125
+      ],
+      "axisU": [
+        0.37394393,
+        -0.92745131
+      ],
+      "axisV": [
+        0.92745131,
+        0.37394393
+      ],
+      "length": 15.9,
+      "width": 3.1,
+      "roofLength": 16.3,
+      "roofWidth": 3.5,
+      "roofOverhang": 0.2,
+      "wallRingEpsg3006": [
+        [
+          697354.3023,
+          7025196.5811
+        ],
+        [
+          697360.248,
+          7025181.8346
+        ],
+        [
+          697363.1231,
+          7025182.9939
+        ],
+        [
+          697357.1774,
+          7025197.7403
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697354.0421,
+          7025196.6918
+        ],
+        [
+          697360.1373,
+          7025181.5744
+        ],
+        [
+          697363.3834,
+          7025182.8832
+        ],
+        [
+          697357.2881,
+          7025198.0006
+        ]
+      ],
+      "groundH": 43.345,
+      "groundCornerH": [
+        43.248,
+        43.19,
+        43.443,
+        43.5
+      ],
+      "minGroundH": 43.04,
+      "eaveH": 47.706,
+      "ridgeH": 48.696,
+      "floorH": 43.5,
+      "roofHighSide": "v+",
+      "roofColour": "brown-grey",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-clubhouse-west-lower-plane-2"
+        ],
+        "photoIds": [
+          "flickr-34163074006",
+          "flickr-34163072946"
+        ],
+        "orthophotoObservation": "roof-clubhouse-west-lower"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Valid shallow plane2 controls side extension. Duplicated main roof plane1 is excluded. High edge joins main west wall; north end projects about 2 m beyond main gable; south end stops before glazed return. Exact wall junction is regularized.",
+      "facade": {
+        "foundationColour": "blue-grey",
+        "attachedSide": "v+"
+      }
+    },
+    {
+      "id": "clubhouse-west-wing",
+      "sourceRoofId": "roof-clubhouse-west-wing",
+      "label": "Long west clubhouse wing",
+      "inheritedIds": [
+        "trace-annex-a",
+        "trace-annex-b"
+      ],
+      "assembly": "clubhouse",
+      "kind": "annex",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697349.4965,
+        7025184.6215
+      ],
+      "originBlenderXY": [
+        -15.5035,
+        -5.3785
+      ],
+      "axisU": [
+        0.37394393,
+        -0.92745131
+      ],
+      "axisV": [
+        0.92745131,
+        0.37394393
+      ],
+      "length": 25.6,
+      "width": 4.0,
+      "roofLength": 26.2,
+      "roofWidth": 4.6,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697342.8551,
+          7025195.745
+        ],
+        [
+          697352.4281,
+          7025172.0022
+        ],
+        [
+          697356.1379,
+          7025173.498
+        ],
+        [
+          697346.5649,
+          7025197.2408
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697342.4647,
+          7025195.911
+        ],
+        [
+          697352.262,
+          7025171.6118
+        ],
+        [
+          697356.5283,
+          7025173.332
+        ],
+        [
+          697346.731,
+          7025197.6312
+        ]
+      ],
+      "groundH": 42.294,
+      "groundCornerH": [
+        42.018,
+        42.175,
+        42.569,
+        42.412
+      ],
+      "minGroundH": 41.868,
+      "eaveH": 45.52,
+      "ridgeH": 46.66,
+      "floorH": 42.569,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-clubhouse-west-wing-plane-1",
+          "roof-clubhouse-west-wing-plane-2"
+        ],
+        "photoIds": [
+          "flickr-34163074006",
+          "flickr-34163072946"
+        ],
+        "orthophotoObservation": "roof-clubhouse-west-wing"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "One continuous narrow gabled wing replaces both inherited annex blocks. Roof length regularized from visible aerial envelope and measured ridge/support; tiny northerly support outliers excluded.",
+      "facade": {
+        "doorSide": "v-",
+        "doorU": 9.0,
+        "windowCount": 3
+      }
+    },
+    {
+      "id": "clubhouse-connector",
+      "sourceRoofId": "roof-clubhouse-connector",
+      "label": "Transverse clubhouse connector",
+      "inheritedIds": [],
+      "assembly": "clubhouse",
+      "kind": "connector",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697353.2864,
+        7025187.8692
+      ],
+      "originBlenderXY": [
+        -11.7136,
+        -2.1308
+      ],
+      "axisU": [
+        0.92745131,
+        0.37394393
+      ],
+      "axisV": [
+        -0.37394393,
+        0.92745131
+      ],
+      "length": 9.3,
+      "width": 4.1,
+      "roofLength": 9.7,
+      "roofWidth": 4.5,
+      "roofOverhang": 0.2,
+      "wallRingEpsg3006": [
+        [
+          697349.7403,
+          7025184.2291
+        ],
+        [
+          697358.3656,
+          7025187.7067
+        ],
+        [
+          697356.8325,
+          7025191.5093
+        ],
+        [
+          697348.2072,
+          7025188.0316
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697349.6296,
+          7025183.9688
+        ],
+        [
+          697358.6259,
+          7025187.596
+        ],
+        [
+          697356.9432,
+          7025191.7696
+        ],
+        [
+          697347.9469,
+          7025188.1423
+        ]
+      ],
+      "groundH": 42.788,
+      "groundCornerH": [
+        42.326,
+        43.244,
+        43.251,
+        42.333
+      ],
+      "minGroundH": 42.176,
+      "eaveH": 45.3,
+      "ridgeH": 46.5,
+      "floorH": 43.1,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "photo/orthophoto interpretation",
+        "vertical": "photo proportion / conservative production estimate",
+        "laserPlaneIds": [],
+        "photoIds": [
+          "flickr-34163074006",
+          "flickr-34163072946"
+        ],
+        "orthophotoObservation": "roof-clubhouse-connector"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.0,
+        "verticalMetres": 0.8,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Dark low transverse gable connects long west wing to exposed base of west extension. All catalogued query planes belong to adjacent roofs and are rejected as connector evidence. Dimensions/heights inferred from oblique photos; overlapping connection faces should be omitted.",
+      "facade": {
+        "attachedEnds": [
+          "u-",
+          "u+"
+        ],
+        "windowCount": 0
+      }
+    },
+    {
+      "id": "north-courtyard-building",
+      "sourceRoofId": "roof-north-courtyard-building",
+      "label": "Detached building north of clubhouse courtyard",
+      "inheritedIds": [
+        "trace-reception"
+      ],
+      "assembly": "north-courtyard-building",
+      "kind": "timber-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697356.4367,
+        7025210.8305
+      ],
+      "originBlenderXY": [
+        -8.5633,
+        20.8305
+      ],
+      "axisU": [
+        0.92745131,
+        0.37394393
+      ],
+      "axisV": [
+        -0.37394393,
+        0.92745131
+      ],
+      "length": 10.948,
+      "width": 7.272,
+      "roofLength": 11.548,
+      "roofWidth": 7.872,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697352.7195,
+          7025205.4113
+        ],
+        [
+          697362.8732,
+          7025209.5052
+        ],
+        [
+          697360.1539,
+          7025216.2496
+        ],
+        [
+          697350.0003,
+          7025212.1557
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697352.5535,
+          7025205.0209
+        ],
+        [
+          697363.2636,
+          7025209.3392
+        ],
+        [
+          697360.32,
+          7025216.64
+        ],
+        [
+          697349.6098,
+          7025212.3217
+        ]
+      ],
+      "groundH": 43.731,
+      "groundCornerH": [
+        43.434,
+        44.163,
+        44.029,
+        43.299
+      ],
+      "minGroundH": 43.149,
+      "eaveH": 46.3,
+      "ridgeH": 48.15,
+      "floorH": 44.1,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "photo/orthophoto interpretation",
+        "vertical": "photo proportion / conservative production estimate",
+        "laserPlaneIds": [],
+        "photoIds": [
+          "flickr-34163072946",
+          "flickr-34163074006"
+        ],
+        "orthophotoObservation": "roof-north-courtyard-building"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.8,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Detached red gabled building is photographically clear. Very sparse low-angle plane subsets do not reconstruct its dark roof; eaves/ridge are conservative photo proportion estimates. Functional identity remains unverified.",
+      "facade": {
+        "doorSide": "v-",
+        "windowCount": 3
+      }
+    },
+    {
+      "id": "range-west-wing",
+      "sourceRoofId": "roof-range-l-building",
+      "label": "L-shaped range building",
+      "inheritedIds": [
+        "trace-vinkelhus"
+      ],
+      "assembly": "range-l-building",
+      "kind": "range-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697410.8039,
+        7025252.9668
+      ],
+      "originBlenderXY": [
+        45.8039,
+        62.9668
+      ],
+      "axisU": [
+        0.40483971,
+        -0.91438767
+      ],
+      "axisV": [
+        0.91438767,
+        0.40483971
+      ],
+      "length": 21.38,
+      "width": 10.3,
+      "roofLength": 21.98,
+      "roofWidth": 10.9,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697401.767,
+          7025260.6568
+        ],
+        [
+          697410.4225,
+          7025241.107
+        ],
+        [
+          697419.8407,
+          7025245.2768
+        ],
+        [
+          697411.1852,
+          7025264.8267
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697401.3712,
+          7025260.8097
+        ],
+        [
+          697410.2697,
+          7025240.7112
+        ],
+        [
+          697420.2365,
+          7025245.124
+        ],
+        [
+          697411.338,
+          7025265.2224
+        ]
+      ],
+      "groundH": 44.397,
+      "groundCornerH": [
+        44.4,
+        44.394,
+        44.394,
+        44.399
+      ],
+      "minGroundH": 44.244,
+      "eaveH": 47.262,
+      "ridgeH": 49.055,
+      "floorH": 44.547,
+      "roofHighSide": null,
+      "roofColour": "brown-grey",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-range-l-building-plane-1",
+          "roof-range-l-building-plane-3"
+        ],
+        "photoIds": [
+          "flickr-34163072946",
+          "flickr-34163073056",
+          "range-2025"
+        ],
+        "orthophotoObservation": "roof-range-l-building"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Measured opposing slopes form one arm of continuous L building. Shared ridge intersection is retained; arms overlap at junction. Union walls and clip internal roof faces at their valleys; do not display an internal gable through the other roof.",
+      "facade": {
+        "windowCount": 5,
+        "wallColour": "red",
+        "crossGableJunctionEpsg3006": [
+          697413.1479,
+          7025247.6724
+        ]
+      },
+      "roofSurfacePolygonsENH": [
+        [
+          [
+            697413.14792,
+            7025247.67241,
+            49.05499
+          ],
+          [
+            697413.14795,
+            7025247.67242,
+            49.055
+          ],
+          [
+            697413.14789,
+            7025247.67242,
+            49.05498
+          ]
+        ],
+        [
+          [
+            697413.14792,
+            7025247.67241,
+            49.05499
+          ],
+          [
+            697413.1479,
+            7025247.6724,
+            49.05498
+          ],
+          [
+            697413.14795,
+            7025247.67242,
+            49.055
+          ]
+        ],
+        [
+          [
+            697413.14792,
+            7025247.67236,
+            49.05498
+          ],
+          [
+            697413.1479,
+            7025247.6724,
+            49.05498
+          ],
+          [
+            697413.14792,
+            7025247.67236,
+            49.05498
+          ]
+        ],
+        [
+          [
+            697413.14794,
+            7025247.67231,
+            49.05498
+          ],
+          [
+            697415.24555,
+            7025242.91434,
+            49.05229
+          ],
+          [
+            697413.14792,
+            7025247.67236,
+            49.05498
+          ]
+        ],
+        [
+          [
+            697410.26968,
+            7025240.7113,
+            47.262
+          ],
+          [
+            697415.18029,
+            7025242.88545,
+            49.02881
+          ],
+          [
+            697410.49432,
+            7025240.81958,
+            47.344
+          ]
+        ],
+        [
+          [
+            697406.35471,
+            7025263.01592,
+            49.055
+          ],
+          [
+            697413.14789,
+            7025247.67242,
+            49.05498
+          ],
+          [
+            697413.14795,
+            7025247.67242,
+            49.055
+          ]
+        ],
+        [
+          [
+            697413.14792,
+            7025247.67236,
+            49.05498
+          ],
+          [
+            697413.1479,
+            7025247.6724,
+            49.05498
+          ],
+          [
+            697410.49432,
+            7025240.81958,
+            47.344
+          ]
+        ],
+        [
+          [
+            697410.49432,
+            7025240.81958,
+            47.344
+          ],
+          [
+            697413.14794,
+            7025247.67231,
+            49.05498
+          ],
+          [
+            697413.14792,
+            7025247.67236,
+            49.05498
+          ]
+        ],
+        [
+          [
+            697401.3713,
+            7025260.80954,
+            47.262
+          ],
+          [
+            697410.26968,
+            7025240.7113,
+            47.262
+          ],
+          [
+            697413.14789,
+            7025247.67242,
+            49.05498
+          ]
+        ],
+        [
+          [
+            697401.3713,
+            7025260.80954,
+            47.262
+          ],
+          [
+            697413.14789,
+            7025247.67242,
+            49.05498
+          ],
+          [
+            697406.35471,
+            7025263.01592,
+            49.055
+          ]
+        ],
+        [
+          [
+            697413.14789,
+            7025247.67242,
+            49.05498
+          ],
+          [
+            697410.49432,
+            7025240.81958,
+            47.344
+          ],
+          [
+            697413.1479,
+            7025247.6724,
+            49.05498
+          ]
+        ],
+        [
+          [
+            697410.49432,
+            7025240.81958,
+            47.344
+          ],
+          [
+            697413.14789,
+            7025247.67242,
+            49.05498
+          ],
+          [
+            697410.26968,
+            7025240.7113,
+            47.262
+          ]
+        ],
+        [
+          [
+            697413.14795,
+            7025247.67242,
+            49.055
+          ],
+          [
+            697418.13137,
+            7025249.8788,
+            47.262
+          ],
+          [
+            697413.14799,
+            7025247.67244,
+            49.05499
+          ]
+        ],
+        [
+          [
+            697406.35471,
+            7025263.01592,
+            49.055
+          ],
+          [
+            697415.25309,
+            7025242.91768,
+            49.055
+          ],
+          [
+            697413.14797,
+            7025247.67239,
+            49.055
+          ]
+        ],
+        [
+          [
+            697418.13137,
+            7025249.8788,
+            47.262
+          ],
+          [
+            697418.13486,
+            7025249.87092,
+            47.262
+          ],
+          [
+            697416.02969,
+            7025254.62574,
+            47.262
+          ]
+        ],
+        [
+          [
+            697413.14795,
+            7025247.67242,
+            49.055
+          ],
+          [
+            697413.14799,
+            7025247.67244,
+            49.05499
+          ],
+          [
+            697415.80162,
+            7025254.52519,
+            47.344
+          ]
+        ],
+        [
+          [
+            697406.35471,
+            7025263.01592,
+            49.055
+          ],
+          [
+            697413.14797,
+            7025247.67239,
+            49.055
+          ],
+          [
+            697413.14795,
+            7025247.67242,
+            49.055
+          ]
+        ],
+        [
+          [
+            697411.33812,
+            7025265.2223,
+            47.262
+          ],
+          [
+            697416.02969,
+            7025254.62574,
+            47.262
+          ],
+          [
+            697418.13486,
+            7025249.87092,
+            47.262
+          ]
+        ],
+        [
+          [
+            697406.35471,
+            7025263.01592,
+            49.055
+          ],
+          [
+            697413.14795,
+            7025247.67242,
+            49.055
+          ],
+          [
+            697415.80162,
+            7025254.52519,
+            47.344
+          ]
+        ],
+        [
+          [
+            697416.02969,
+            7025254.62574,
+            47.262
+          ],
+          [
+            697411.33812,
+            7025265.2223,
+            47.262
+          ],
+          [
+            697415.80162,
+            7025254.52519,
+            47.344
+          ]
+        ],
+        [
+          [
+            697406.35471,
+            7025263.01592,
+            49.055
+          ],
+          [
+            697415.80162,
+            7025254.52519,
+            47.344
+          ],
+          [
+            697411.33812,
+            7025265.2223,
+            47.262
+          ]
+        ]
+      ],
+      "exteriorWallPolygonsENH": [
+        [
+          [
+            697401.767,
+            7025260.6568,
+            44.667
+          ],
+          [
+            697406.35091,
+            7025250.30332,
+            44.667
+          ],
+          [
+            697406.35091,
+            7025250.30332,
+            47.28068
+          ],
+          [
+            697401.767,
+            7025260.6568,
+            47.28069
+          ]
+        ],
+        [
+          [
+            697406.35091,
+            7025250.30332,
+            44.667
+          ],
+          [
+            697408.43554,
+            7025245.59486,
+            44.667
+          ],
+          [
+            697408.43554,
+            7025245.59486,
+            47.28068
+          ],
+          [
+            697406.35091,
+            7025250.30332,
+            47.28068
+          ]
+        ],
+        [
+          [
+            697408.43554,
+            7025245.59486,
+            44.667
+          ],
+          [
+            697408.43881,
+            7025245.58748,
+            44.667
+          ],
+          [
+            697408.43881,
+            7025245.58748,
+            47.28068
+          ],
+          [
+            697408.43554,
+            7025245.59486,
+            47.28068
+          ]
+        ],
+        [
+          [
+            697408.43881,
+            7025245.58748,
+            44.667
+          ],
+          [
+            697408.4421,
+            7025245.58005,
+            44.667
+          ],
+          [
+            697408.4421,
+            7025245.58005,
+            47.28068
+          ],
+          [
+            697408.43881,
+            7025245.58748,
+            47.28068
+          ]
+        ],
+        [
+          [
+            697410.41922,
+            7025241.1144,
+            44.667
+          ],
+          [
+            697410.4225,
+            7025241.107,
+            44.667
+          ],
+          [
+            697410.4225,
+            7025241.107,
+            47.28068
+          ],
+          [
+            697410.41922,
+            7025241.1144,
+            47.28068
+          ]
+        ],
+        [
+          [
+            697410.4225,
+            7025241.107,
+            44.667
+          ],
+          [
+            697410.64351,
+            7025241.20485,
+            44.667
+          ],
+          [
+            697410.64351,
+            7025241.20485,
+            47.36019
+          ],
+          [
+            697410.4225,
+            7025241.107,
+            47.28068
+          ]
+        ],
+        [
+          [
+            697410.64351,
+            7025241.20485,
+            44.667
+          ],
+          [
+            697415.1235,
+            7025243.18831,
+            44.667
+          ],
+          [
+            697415.1235,
+            7025243.18831,
+            47.36272
+          ],
+          [
+            697410.64351,
+            7025241.20485,
+            47.36019
+          ]
+        ],
+        [
+          [
+            697415.87659,
+            7025254.23041,
+            44.667
+          ],
+          [
+            697415.77571,
+            7025254.45827,
+            44.667
+          ],
+          [
+            697415.77571,
+            7025254.45827,
+            47.28071
+          ],
+          [
+            697415.87659,
+            7025254.23041,
+            47.3627
+          ]
+        ],
+        [
+          [
+            697415.77571,
+            7025254.45827,
+            44.667
+          ],
+          [
+            697411.1852,
+            7025264.8267,
+            44.667
+          ],
+          [
+            697411.1852,
+            7025264.8267,
+            47.28069
+          ],
+          [
+            697415.77571,
+            7025254.45827,
+            47.28071
+          ]
+        ],
+        [
+          [
+            697411.1852,
+            7025264.8267,
+            44.667
+          ],
+          [
+            697406.49978,
+            7025262.75223,
+            44.667
+          ],
+          [
+            697406.49978,
+            7025262.75223,
+            48.96648
+          ],
+          [
+            697411.1852,
+            7025264.8267,
+            47.28069
+          ]
+        ],
+        [
+          [
+            697406.49978,
+            7025262.75223,
+            44.667
+          ],
+          [
+            697406.4761,
+            7025262.74175,
+            44.667
+          ],
+          [
+            697406.4761,
+            7025262.74175,
+            48.975
+          ],
+          [
+            697406.49978,
+            7025262.75223,
+            48.96648
+          ]
+        ],
+        [
+          [
+            697406.4761,
+            7025262.74175,
+            44.667
+          ],
+          [
+            697401.767,
+            7025260.6568,
+            44.667
+          ],
+          [
+            697401.767,
+            7025260.6568,
+            47.28069
+          ],
+          [
+            697406.4761,
+            7025262.74175,
+            48.975
+          ]
+        ]
+      ],
+      "exteriorWallSegmentsEpsg3006": [
+        [
+          [
+            697401.767,
+            7025260.6568
+          ],
+          [
+            697406.35091,
+            7025250.30332
+          ]
+        ],
+        [
+          [
+            697406.35091,
+            7025250.30332
+          ],
+          [
+            697408.43554,
+            7025245.59486
+          ]
+        ],
+        [
+          [
+            697408.43554,
+            7025245.59486
+          ],
+          [
+            697408.43881,
+            7025245.58748
+          ]
+        ],
+        [
+          [
+            697408.43881,
+            7025245.58748
+          ],
+          [
+            697408.4421,
+            7025245.58005
+          ]
+        ],
+        [
+          [
+            697410.41922,
+            7025241.1144
+          ],
+          [
+            697410.4225,
+            7025241.107
+          ]
+        ],
+        [
+          [
+            697410.4225,
+            7025241.107
+          ],
+          [
+            697410.64351,
+            7025241.20485
+          ]
+        ],
+        [
+          [
+            697410.64351,
+            7025241.20485
+          ],
+          [
+            697415.1235,
+            7025243.18831
+          ]
+        ],
+        [
+          [
+            697415.87659,
+            7025254.23041
+          ],
+          [
+            697415.77571,
+            7025254.45827
+          ]
+        ],
+        [
+          [
+            697415.77571,
+            7025254.45827
+          ],
+          [
+            697411.1852,
+            7025264.8267
+          ]
+        ],
+        [
+          [
+            697411.1852,
+            7025264.8267
+          ],
+          [
+            697406.49978,
+            7025262.75223
+          ]
+        ],
+        [
+          [
+            697406.49978,
+            7025262.75223
+          ],
+          [
+            697406.4761,
+            7025262.74175
+          ]
+        ],
+        [
+          [
+            697406.4761,
+            7025262.74175
+          ],
+          [
+            697401.767,
+            7025260.6568
+          ]
+        ]
+      ],
+      "exteriorRoofSegmentsENH": [
+        [
+          [
+            697401.3712,
+            7025260.8097,
+            47.26199
+          ],
+          [
+            697405.95499,
+            7025250.45657,
+            47.26199
+          ]
+        ],
+        [
+          [
+            697405.95499,
+            7025250.45657,
+            47.26199
+          ],
+          [
+            697408.16106,
+            7025245.47385,
+            47.26199
+          ]
+        ],
+        [
+          [
+            697408.16106,
+            7025245.47385,
+            47.26199
+          ],
+          [
+            697408.16322,
+            7025245.46899,
+            47.26199
+          ]
+        ],
+        [
+          [
+            697410.2662,
+            7025240.71911,
+            47.26199
+          ],
+          [
+            697410.2697,
+            7025240.7112,
+            47.26199
+          ]
+        ],
+        [
+          [
+            697410.2697,
+            7025240.7112,
+            47.26199
+          ],
+          [
+            697410.49014,
+            7025240.8088,
+            47.34131
+          ]
+        ],
+        [
+          [
+            697410.49014,
+            7025240.8088,
+            47.34131
+          ],
+          [
+            697415.24558,
+            7025242.91427,
+            47.34401
+          ]
+        ],
+        [
+          [
+            697415.24558,
+            7025242.91427,
+            47.34401
+          ],
+          [
+            697415.25312,
+            7025242.91761,
+            47.34402
+          ]
+        ],
+        [
+          [
+            697415.25312,
+            7025242.91761,
+            47.34402
+          ],
+          [
+            697415.27304,
+            7025242.92643,
+            47.34403
+          ]
+        ],
+        [
+          [
+            697416.02963,
+            7025254.62575,
+            47.34399
+          ],
+          [
+            697415.92877,
+            7025254.85355,
+            47.26202
+          ]
+        ],
+        [
+          [
+            697415.92877,
+            7025254.85355,
+            47.26202
+          ],
+          [
+            697411.338,
+            7025265.2224,
+            47.26202
+          ]
+        ],
+        [
+          [
+            697411.338,
+            7025265.2224,
+            47.26202
+          ],
+          [
+            697406.37875,
+            7025263.02674,
+            49.04633
+          ]
+        ],
+        [
+          [
+            697406.37875,
+            7025263.02674,
+            49.04633
+          ],
+          [
+            697406.35465,
+            7025263.01607,
+            49.055
+          ]
+        ],
+        [
+          [
+            697406.35465,
+            7025263.01607,
+            49.055
+          ],
+          [
+            697401.3712,
+            7025260.8097,
+            47.26199
+          ]
+        ]
+      ],
+      "roofTopology": "L roof facets terminate both ridges at measured junction: inner northeast overlap is upper envelope/valley; outside southwest corner is lower envelope/hip; northwest uses north arm, southeast uses east arm. Full rectangular roofs/caps must not also render. Exterior wall tops follow the same finished roof, with internal edges removed."
+    },
+    {
+      "id": "range-east-wing",
+      "sourceRoofId": "roof-range-l-building",
+      "label": "L-shaped range building",
+      "inheritedIds": [
+        "trace-vinkelhus-arm"
+      ],
+      "assembly": "range-l-building",
+      "kind": "range-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697418.3088,
+        7025249.9476
+      ],
+      "originBlenderXY": [
+        53.3088,
+        59.9476
+      ],
+      "axisU": [
+        0.91502406,
+        0.40339926
+      ],
+      "axisV": [
+        -0.40339926,
+        0.91502406
+      ],
+      "length": 21.58,
+      "width": 9.8,
+      "roofLength": 22.18,
+      "roofWidth": 10.4,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697410.4122,
+          7025241.1113
+        ],
+        [
+          697430.1587,
+          7025249.8167
+        ],
+        [
+          697426.2054,
+          7025258.784
+        ],
+        [
+          697406.4589,
+          7025250.0785
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697410.2587,
+          7025240.7158
+        ],
+        [
+          697430.5542,
+          7025249.6633
+        ],
+        [
+          697426.3588,
+          7025259.1795
+        ],
+        [
+          697406.0634,
+          7025250.232
+        ]
+      ],
+      "groundH": 44.395,
+      "groundCornerH": [
+        44.394,
+        44.393,
+        44.396,
+        44.397
+      ],
+      "minGroundH": 44.243,
+      "eaveH": 47.344,
+      "ridgeH": 49.055,
+      "floorH": 44.545,
+      "roofHighSide": null,
+      "roofColour": "brown-grey",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-range-l-building-plane-2",
+          "roof-range-l-building-plane-4"
+        ],
+        "photoIds": [
+          "flickr-34163072946",
+          "flickr-34163073056",
+          "range-2025"
+        ],
+        "orthophotoObservation": "roof-range-l-building"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Measured opposing slopes form one arm of continuous L building. Shared ridge intersection is retained; arms overlap at junction. Union walls and clip internal roof faces at their valleys; do not display an internal gable through the other roof.",
+      "facade": {
+        "windowCount": 5,
+        "wallColour": "red",
+        "crossGableJunctionEpsg3006": [
+          697413.1479,
+          7025247.6724
+        ]
+      },
+      "roofSurfacePolygonsENH": [
+        [
+          [
+            697428.45642,
+            7025254.4213,
+            49.055
+          ],
+          [
+            697413.14792,
+            7025247.67236,
+            49.055
+          ],
+          [
+            697413.14794,
+            7025247.67231,
+            49.05498
+          ]
+        ],
+        [
+          [
+            697410.49432,
+            7025240.81958,
+            47.344
+          ],
+          [
+            697430.55409,
+            7025249.66317,
+            47.344
+          ],
+          [
+            697413.14794,
+            7025247.67231,
+            49.05498
+          ]
+        ],
+        [
+          [
+            697428.45642,
+            7025254.4213,
+            49.055
+          ],
+          [
+            697413.14794,
+            7025247.67231,
+            49.05498
+          ],
+          [
+            697430.55409,
+            7025249.66317,
+            47.344
+          ]
+        ],
+        [
+          [
+            697410.26625,
+            7025240.71904,
+            47.344
+          ],
+          [
+            697408.1893,
+            7025245.41013,
+            49.03207
+          ],
+          [
+            697410.25886,
+            7025240.71578,
+            47.344
+          ]
+        ],
+        [
+          [
+            697413.14792,
+            7025247.67241,
+            49.05499
+          ],
+          [
+            697413.14789,
+            7025247.67242,
+            49.05498
+          ],
+          [
+            697413.1479,
+            7025247.6724,
+            49.05499
+          ]
+        ],
+        [
+          [
+            697426.35874,
+            7025259.17942,
+            47.344
+          ],
+          [
+            697415.80162,
+            7025254.52519,
+            47.344
+          ],
+          [
+            697428.45642,
+            7025254.4213,
+            49.055
+          ]
+        ],
+        [
+          [
+            697413.14792,
+            7025247.67236,
+            49.055
+          ],
+          [
+            697413.12438,
+            7025247.66199,
+            49.055
+          ],
+          [
+            697408.16118,
+            7025245.4739,
+            49.055
+          ]
+        ],
+        [
+          [
+            697413.14792,
+            7025247.67241,
+            49.05499
+          ],
+          [
+            697413.1479,
+            7025247.6724,
+            49.05499
+          ],
+          [
+            697413.14792,
+            7025247.67236,
+            49.055
+          ]
+        ],
+        [
+          [
+            697413.14799,
+            7025247.67244,
+            49.05499
+          ],
+          [
+            697428.45642,
+            7025254.4213,
+            49.055
+          ],
+          [
+            697415.80162,
+            7025254.52519,
+            47.344
+          ]
+        ],
+        [
+          [
+            697413.14792,
+            7025247.67236,
+            49.055
+          ],
+          [
+            697408.16118,
+            7025245.4739,
+            49.055
+          ],
+          [
+            697428.45642,
+            7025254.4213,
+            49.055
+          ]
+        ],
+        [
+          [
+            697413.14795,
+            7025247.67242,
+            49.05499
+          ],
+          [
+            697413.14792,
+            7025247.67241,
+            49.05499
+          ],
+          [
+            697413.14792,
+            7025247.67236,
+            49.055
+          ]
+        ],
+        [
+          [
+            697428.45642,
+            7025254.4213,
+            49.055
+          ],
+          [
+            697413.14799,
+            7025247.67244,
+            49.05499
+          ],
+          [
+            697413.14792,
+            7025247.67236,
+            49.055
+          ]
+        ],
+        [
+          [
+            697413.14795,
+            7025247.67242,
+            49.05499
+          ],
+          [
+            697413.14792,
+            7025247.67236,
+            49.055
+          ],
+          [
+            697413.14799,
+            7025247.67244,
+            49.05499
+          ]
+        ]
+      ],
+      "exteriorWallPolygonsENH": [
+        [
+          [
+            697410.4122,
+            7025241.1113,
+            44.665
+          ],
+          [
+            697410.41923,
+            7025241.1144,
+            44.665
+          ],
+          [
+            697410.41923,
+            7025241.1144,
+            47.28068
+          ],
+          [
+            697410.4122,
+            7025241.1113,
+            47.27815
+          ]
+        ],
+        [
+          [
+            697415.12456,
+            7025243.18878,
+            44.665
+          ],
+          [
+            697415.13167,
+            7025243.19192,
+            44.665
+          ],
+          [
+            697415.13167,
+            7025243.19192,
+            47.36272
+          ],
+          [
+            697415.12456,
+            7025243.18878,
+            47.36272
+          ]
+        ],
+        [
+          [
+            697415.13167,
+            7025243.19192,
+            44.665
+          ],
+          [
+            697419.61593,
+            7025245.16884,
+            44.665
+          ],
+          [
+            697419.61593,
+            7025245.16884,
+            47.36272
+          ],
+          [
+            697415.13167,
+            7025243.19192,
+            47.36272
+          ]
+        ],
+        [
+          [
+            697419.61593,
+            7025245.16884,
+            44.665
+          ],
+          [
+            697430.1587,
+            7025249.8167,
+            44.665
+          ],
+          [
+            697430.1587,
+            7025249.8167,
+            47.36271
+          ],
+          [
+            697419.61593,
+            7025245.16884,
+            47.36272
+          ]
+        ],
+        [
+          [
+            697430.1587,
+            7025249.8167,
+            44.665
+          ],
+          [
+            697428.18205,
+            7025254.30034,
+            44.665
+          ],
+          [
+            697428.18205,
+            7025254.30034,
+            48.975
+          ],
+          [
+            697430.1587,
+            7025249.8167,
+            47.36271
+          ]
+        ],
+        [
+          [
+            697428.18205,
+            7025254.30034,
+            44.665
+          ],
+          [
+            697428.1716,
+            7025254.32405,
+            44.665
+          ],
+          [
+            697428.1716,
+            7025254.32405,
+            48.96647
+          ],
+          [
+            697428.18205,
+            7025254.30034,
+            48.975
+          ]
+        ],
+        [
+          [
+            697428.1716,
+            7025254.32405,
+            44.665
+          ],
+          [
+            697426.2054,
+            7025258.784,
+            44.665
+          ],
+          [
+            697426.2054,
+            7025258.784,
+            47.3627
+          ],
+          [
+            697428.1716,
+            7025254.32405,
+            48.96647
+          ]
+        ],
+        [
+          [
+            697426.2054,
+            7025258.784,
+            44.665
+          ],
+          [
+            697415.87659,
+            7025254.23041,
+            44.665
+          ],
+          [
+            697415.87659,
+            7025254.23041,
+            47.3627
+          ],
+          [
+            697426.2054,
+            7025258.784,
+            47.3627
+          ]
+        ],
+        [
+          [
+            697408.44205,
+            7025245.58017,
+            44.665
+          ],
+          [
+            697410.4122,
+            7025241.1113,
+            44.665
+          ],
+          [
+            697410.4122,
+            7025241.1113,
+            47.27815
+          ],
+          [
+            697408.44205,
+            7025245.58017,
+            47.28068
+          ]
+        ]
+      ],
+      "exteriorWallSegmentsEpsg3006": [
+        [
+          [
+            697410.4122,
+            7025241.1113
+          ],
+          [
+            697410.41923,
+            7025241.1144
+          ]
+        ],
+        [
+          [
+            697415.12456,
+            7025243.18878
+          ],
+          [
+            697415.13167,
+            7025243.19192
+          ]
+        ],
+        [
+          [
+            697415.13167,
+            7025243.19192
+          ],
+          [
+            697419.61593,
+            7025245.16884
+          ]
+        ],
+        [
+          [
+            697419.61593,
+            7025245.16884
+          ],
+          [
+            697430.1587,
+            7025249.8167
+          ]
+        ],
+        [
+          [
+            697430.1587,
+            7025249.8167
+          ],
+          [
+            697428.18205,
+            7025254.30034
+          ]
+        ],
+        [
+          [
+            697428.18205,
+            7025254.30034
+          ],
+          [
+            697428.1716,
+            7025254.32405
+          ]
+        ],
+        [
+          [
+            697428.1716,
+            7025254.32405
+          ],
+          [
+            697426.2054,
+            7025258.784
+          ]
+        ],
+        [
+          [
+            697426.2054,
+            7025258.784
+          ],
+          [
+            697415.87659,
+            7025254.23041
+          ]
+        ],
+        [
+          [
+            697408.44205,
+            7025245.58017
+          ],
+          [
+            697410.4122,
+            7025241.1113
+          ]
+        ]
+      ],
+      "exteriorRoofSegmentsENH": [
+        [
+          [
+            697410.2587,
+            7025240.7158,
+            47.34403
+          ],
+          [
+            697410.2662,
+            7025240.71911,
+            47.26199
+          ]
+        ],
+        [
+          [
+            697415.27292,
+            7025242.92638,
+            47.34403
+          ],
+          [
+            697420.01185,
+            7025245.01559,
+            47.34403
+          ]
+        ],
+        [
+          [
+            697420.01185,
+            7025245.01559,
+            47.34403
+          ],
+          [
+            697430.5542,
+            7025249.6633,
+            47.34402
+          ]
+        ],
+        [
+          [
+            697430.5542,
+            7025249.6633,
+            47.34402
+          ],
+          [
+            697428.45652,
+            7025254.42135,
+            49.055
+          ]
+        ],
+        [
+          [
+            697428.45652,
+            7025254.42135,
+            49.055
+          ],
+          [
+            697428.44588,
+            7025254.44549,
+            49.04632
+          ]
+        ],
+        [
+          [
+            697428.44588,
+            7025254.44549,
+            49.04632
+          ],
+          [
+            697426.3588,
+            7025259.1795,
+            47.34398
+          ]
+        ],
+        [
+          [
+            697426.3588,
+            7025259.1795,
+            47.34398
+          ],
+          [
+            697416.02963,
+            7025254.62575,
+            47.34399
+          ]
+        ],
+        [
+          [
+            697408.16452,
+            7025245.46604,
+            47.26199
+          ],
+          [
+            697410.2587,
+            7025240.7158,
+            47.34403
+          ]
+        ]
+      ],
+      "roofTopology": "L roof facets terminate both ridges at measured junction: inner northeast overlap is upper envelope/valley; outside southwest corner is lower envelope/hip; northwest uses north arm, southeast uses east arm. Full rectangular roofs/caps must not also render. Exterior wall tops follow the same finished roof, with internal edges removed."
+    },
+    {
+      "id": "range-east-hut",
+      "sourceRoofId": "roof-range-east-hut",
+      "label": "Rectangular hut beside range parking",
+      "inheritedIds": [
+        "trace-range-hut"
+      ],
+      "assembly": "range-east-hut",
+      "kind": "timber-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697466.0259,
+        7025273.5235
+      ],
+      "originBlenderXY": [
+        101.0259,
+        83.5235
+      ],
+      "axisU": [
+        0.94174191,
+        0.3363364
+      ],
+      "axisV": [
+        -0.3363364,
+        0.94174191
+      ],
+      "length": 11.293,
+      "width": 7.095,
+      "roofLength": 11.893,
+      "roofWidth": 7.695,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697461.9016,
+          7025268.2834
+        ],
+        [
+          697472.5366,
+          7025272.0816
+        ],
+        [
+          697470.1501,
+          7025278.7636
+        ],
+        [
+          697459.5152,
+          7025274.9654
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697461.72,
+          7025267.9
+        ],
+        [
+          697472.92,
+          7025271.9
+        ],
+        [
+          697470.3318,
+          7025279.1471
+        ],
+        [
+          697459.1318,
+          7025275.1471
+        ]
+      ],
+      "groundH": 44.771,
+      "groundCornerH": [
+        44.681,
+        44.986,
+        44.862,
+        44.557
+      ],
+      "minGroundH": 44.407,
+      "eaveH": 47.05,
+      "ridgeH": 48.3,
+      "floorH": 44.921,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-range-east-hut-plane-1"
+        ],
+        "photoIds": [
+          "flickr-34163074006"
+        ],
+        "orthophotoObservation": "roof-range-east-hut"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.7,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Detached elongated red range-side hut. Single sampled 9-degree slope supports low roof height; opposite roof half and ridge regularized from oblique appearance.",
+      "facade": {
+        "doorSide": "u-",
+        "windowCount": 2
+      }
+    },
+    {
+      "id": "range-west-hut",
+      "sourceRoofId": "roof-range-west-hut",
+      "label": "Small range-side hut with roof notch",
+      "inheritedIds": [
+        "trace-range-shed"
+      ],
+      "assembly": "range-west-hut",
+      "kind": "timber-building",
+      "roofType": "shed",
+      "originEpsg3006": [
+        697393.1504,
+        7025292.6841
+      ],
+      "originBlenderXY": [
+        28.1504,
+        102.6841
+      ],
+      "axisU": [
+        0.74740516,
+        -0.66436851
+      ],
+      "axisV": [
+        0.66436851,
+        0.74740516
+      ],
+      "length": 6.748,
+      "width": 5.831,
+      "roofLength": 7.348,
+      "roofWidth": 6.431,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697388.6917,
+          7025292.7466
+        ],
+        [
+          697393.7351,
+          7025288.2635
+        ],
+        [
+          697397.609,
+          7025292.6217
+        ],
+        [
+          697392.5656,
+          7025297.1048
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697388.2682,
+          7025292.7217
+        ],
+        [
+          697393.76,
+          7025287.84
+        ],
+        [
+          697398.0326,
+          7025292.6466
+        ],
+        [
+          697392.5407,
+          7025297.5283
+        ]
+      ],
+      "groundH": 43.76,
+      "groundCornerH": [
+        43.757,
+        43.866,
+        43.762,
+        43.653
+      ],
+      "minGroundH": 43.503,
+      "eaveH": 46.15,
+      "ridgeH": 48.05,
+      "floorH": 43.91,
+      "roofHighSide": "v+",
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-range-west-hut-plane-1"
+        ],
+        "photoIds": [
+          "flickr-34163072946"
+        ],
+        "orthophotoObservation": "roof-range-west-hut"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.6,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Small detached range structure has one visibly broad sloping roof and a small side projection. Sampled single slope controls height; simplified rectangular wall base retains full shelter envelope. Function unverified.",
+      "facade": {
+        "windowCount": 0,
+        "doorSide": "v-"
+      }
+    },
+    {
+      "id": "harbre",
+      "sourceRoofId": "roof-range-south-building",
+      "label": "Small building south of access road",
+      "inheritedIds": [
+        "trace-east-house"
+      ],
+      "assembly": "harbre",
+      "kind": "log-house",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697419.6214,
+        7025229.9039
+      ],
+      "originBlenderXY": [
+        54.6214,
+        39.9039
+      ],
+      "axisU": [
+        0.91440628,
+        0.40479768
+      ],
+      "axisV": [
+        -0.40479768,
+        0.91440628
+      ],
+      "length": 5.692,
+      "width": 6.7,
+      "roofLength": 6.592,
+      "roofWidth": 7.6,
+      "roofOverhang": 0.45,
+      "wallRingEpsg3006": [
+        [
+          697418.3752,
+          7025225.6887
+        ],
+        [
+          697423.5798,
+          7025227.9927
+        ],
+        [
+          697420.8676,
+          7025234.1192
+        ],
+        [
+          697415.6631,
+          7025231.8152
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697418.1459,
+          7025225.095
+        ],
+        [
+          697424.1734,
+          7025227.7634
+        ],
+        [
+          697421.097,
+          7025234.7128
+        ],
+        [
+          697415.0695,
+          7025232.0445
+        ]
+      ],
+      "groundH": 43.919,
+      "groundCornerH": [
+        43.789,
+        43.698,
+        44.05,
+        44.14
+      ],
+      "minGroundH": 43.548,
+      "eaveH": 47.83,
+      "ridgeH": 49.946,
+      "floorH": 44.14,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-range-south-building-plane-1",
+          "roof-range-south-building-plane-2"
+        ],
+        "photoIds": [
+          "harbre-2018",
+          "flickr-34163072946",
+          "flickr-34163073056"
+        ],
+        "orthophotoObservation": "roof-range-south-building"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Härbre association is supported by official facade and oblique campus views. Main gable uses measured 29-degree opposing roof planes. Roof width limited to 7.6 m around dominant v +/-3.6 m support edges; isolated v-4.42 m corner excluded. Low plane3 belongs to a separate southeast feature and is not the main roof or photographed northwest shelter. Horizontal log walls/corner joints, clock, double upper window and little door canopy are photographic details.",
+      "facade": {
+        "entranceSide": "u-",
+        "gableDoorEnd": "u-",
+        "clock": true,
+        "upperDoubleWindow": true,
+        "sideShelter": "v+",
+        "sideShelterWidth": 1.7,
+        "doorCanopy": true,
+        "windowCount": 1
+      }
+    },
+    {
+      "id": "maintenance-long",
+      "sourceRoofId": "roof-maintenance-long",
+      "label": "Long maintenance building",
+      "inheritedIds": [
+        "trace-yard-shed-long"
+      ],
+      "assembly": "maintenance-long",
+      "kind": "maintenance",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697582.5548,
+        7025397.243
+      ],
+      "originBlenderXY": [
+        217.5548,
+        207.243
+      ],
+      "axisU": [
+        0.07554064,
+        0.99714272
+      ],
+      "axisV": [
+        -0.99714272,
+        0.07554064
+      ],
+      "length": 29.033,
+      "width": 11.685,
+      "roofLength": 29.633,
+      "roofWidth": 12.285,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697587.2839,
+          7025382.3267
+        ],
+        [
+          697589.477,
+          7025411.2766
+        ],
+        [
+          697577.8257,
+          7025412.1593
+        ],
+        [
+          697575.6325,
+          7025383.2093
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697587.5603,
+          7025382.0049
+        ],
+        [
+          697589.7988,
+          7025411.5531
+        ],
+        [
+          697577.5492,
+          7025412.4811
+        ],
+        [
+          697575.3107,
+          7025382.9329
+        ]
+      ],
+      "groundH": 51.898,
+      "groundCornerH": [
+        51.448,
+        52.323,
+        52.347,
+        51.472
+      ],
+      "minGroundH": 51.298,
+      "eaveH": 55.785,
+      "ridgeH": 58.494,
+      "floorH": 52.347,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-maintenance-long-plane-1",
+          "roof-maintenance-long-plane-2"
+        ],
+        "photoIds": [
+          "flickr-34163074006",
+          "flickr-34163072946"
+        ],
+        "orthophotoObservation": "roof-maintenance-long"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Roof ridge, bearing and both slopes from original laser coordinates. Eave envelope padded 0.25 m beyond sampled support. Red service walls and dark roof visible in obliques; door sizes and bay counts are production estimates.",
+      "facade": {
+        "vehicleDoors": 3,
+        "windowCount": 2
+      }
+    },
+    {
+      "id": "maintenance-hall",
+      "sourceRoofId": "roof-maintenance-hall",
+      "label": "Southern maintenance hall",
+      "inheritedIds": [
+        "trace-yard-hall"
+      ],
+      "assembly": "maintenance-hall",
+      "kind": "maintenance",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697560.5319,
+        7025369.6617
+      ],
+      "originBlenderXY": [
+        195.5319,
+        179.6617
+      ],
+      "axisU": [
+        0.99704448,
+        -0.07682649
+      ],
+      "axisV": [
+        0.07682649,
+        0.99704448
+      ],
+      "length": 20.725,
+      "width": 9.525,
+      "roofLength": 21.325,
+      "roofWidth": 10.125,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697549.8343,
+          7025365.7093
+        ],
+        [
+          697570.4977,
+          7025364.1171
+        ],
+        [
+          697571.2295,
+          7025373.6141
+        ],
+        [
+          697550.5661,
+          7025375.2064
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697549.5122,
+          7025365.4333
+        ],
+        [
+          697570.7738,
+          7025363.795
+        ],
+        [
+          697571.5517,
+          7025373.8902
+        ],
+        [
+          697550.29,
+          7025375.5285
+        ]
+      ],
+      "groundH": 50.913,
+      "groundCornerH": [
+        50.666,
+        50.822,
+        51.161,
+        51.004
+      ],
+      "minGroundH": 50.516,
+      "eaveH": 54.69,
+      "ridgeH": 56.303,
+      "floorH": 51.161,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-maintenance-hall-plane-1",
+          "roof-maintenance-hall-plane-2"
+        ],
+        "photoIds": [
+          "flickr-34163074006",
+          "flickr-34163072946"
+        ],
+        "orthophotoObservation": "roof-maintenance-hall"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Roof ridge, bearing and both slopes from original laser coordinates. Eave envelope padded 0.25 m beyond sampled support. Red service walls and dark roof visible in obliques; door sizes and bay counts are production estimates.",
+      "facade": {
+        "vehicleDoors": 2,
+        "windowCount": 2
+      }
+    },
+    {
+      "id": "maintenance-hall-attachment",
+      "sourceRoofId": "roof-maintenance-hall-attachment",
+      "label": "Possible southeast lean-to at maintenance hall",
+      "inheritedIds": [],
+      "assembly": "maintenance-hall",
+      "kind": "shelter",
+      "roofType": "shed",
+      "originEpsg3006": [
+        697573.2862,
+        7025361.6307
+      ],
+      "originBlenderXY": [
+        208.2862,
+        171.6307
+      ],
+      "axisU": [
+        0.5002776,
+        -0.86586507
+      ],
+      "axisV": [
+        0.86586507,
+        0.5002776
+      ],
+      "length": 7.715,
+      "width": 2.001,
+      "roofLength": 8.315,
+      "roofWidth": 2.601,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697570.4898,
+          7025364.4703
+        ],
+        [
+          697574.3497,
+          7025357.7898
+        ],
+        [
+          697576.0827,
+          7025358.7911
+        ],
+        [
+          697572.2228,
+          7025365.4716
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697570.08,
+          7025364.58
+        ],
+        [
+          697574.24,
+          7025357.38
+        ],
+        [
+          697576.4925,
+          7025358.6814
+        ],
+        [
+          697572.3325,
+          7025365.8814
+        ]
+      ],
+      "groundH": 50.693,
+      "groundCornerH": [
+        50.855,
+        50.481,
+        50.531,
+        50.905
+      ],
+      "minGroundH": 50.331,
+      "eaveH": 53.0,
+      "ridgeH": 53.7,
+      "floorH": 50.843,
+      "roofHighSide": "v+",
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "photo/orthophoto interpretation",
+        "vertical": "photo proportion / conservative production estimate",
+        "laserPlaneIds": [],
+        "photoIds": [],
+        "orthophotoObservation": "roof-maintenance-hall-attachment"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.2,
+        "verticalMetres": 1.0,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Small southeast orthophoto projection; conservatively modelled as low side shelter. Query plane belongs to neighbouring main hall and is excluded. Shift follows hall reconciliation. Detailed use and enclosure unknown.",
+      "facade": {
+        "openSides": true,
+        "postCount": 4
+      }
+    },
+    {
+      "id": "maintenance-small",
+      "sourceRoofId": "roof-maintenance-small",
+      "label": "Small western maintenance building",
+      "inheritedIds": [
+        "trace-yard-small"
+      ],
+      "assembly": "maintenance-small",
+      "kind": "maintenance",
+      "roofType": "shed",
+      "originEpsg3006": [
+        697551.1874,
+        7025401.5586
+      ],
+      "originBlenderXY": [
+        186.1874,
+        211.5586
+      ],
+      "axisU": [
+        0.07441992,
+        0.99722699
+      ],
+      "axisV": [
+        -0.99722699,
+        0.07441992
+      ],
+      "length": 10.15,
+      "width": 5.351,
+      "roofLength": 10.75,
+      "roofWidth": 5.951,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697553.4779,
+          7025396.2986
+        ],
+        [
+          697554.2332,
+          7025406.4203
+        ],
+        [
+          697548.8968,
+          7025406.8185
+        ],
+        [
+          697548.1415,
+          7025396.6968
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697553.7547,
+          7025395.9771
+        ],
+        [
+          697554.5547,
+          7025406.6971
+        ],
+        [
+          697548.62,
+          7025407.14
+        ],
+        [
+          697547.82,
+          7025396.42
+        ]
+      ],
+      "groundH": 51.82,
+      "groundCornerH": [
+        51.709,
+        52.01,
+        51.93,
+        51.63
+      ],
+      "minGroundH": 51.48,
+      "eaveH": 55.253,
+      "ridgeH": 55.839,
+      "floorH": 52.01,
+      "roofHighSide": "v-",
+      "roofColour": "light-grey",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-maintenance-small-plane-1"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-maintenance-small"
+      },
+      "uncertainty": {
+        "horizontalMetres": 0.7,
+        "verticalMetres": 0.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Shallow light roof shifted to original single-plane support (~1.1 m east of image). One broad mono-pitch surface; facade opening sizes estimated.",
+      "facade": {
+        "vehicleDoors": 1
+      }
+    },
+    {
+      "id": "west-cabin-a",
+      "sourceRoofId": "roof-west-cabin-a",
+      "label": "Western northern cabin A",
+      "inheritedIds": [
+        "trace-house-a"
+      ],
+      "assembly": "west-cabin-a",
+      "kind": "neighbouring-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697271.4289,
+        7025201.5931
+      ],
+      "originBlenderXY": [
+        -93.5711,
+        11.5931
+      ],
+      "axisU": [
+        0.61380454,
+        0.78945803
+      ],
+      "axisV": [
+        -0.78945803,
+        0.61380454
+      ],
+      "length": 7.562,
+      "width": 8.1,
+      "roofLength": 8.162,
+      "roofWidth": 8.7,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697272.3053,
+          7025196.1221
+        ],
+        [
+          697276.9471,
+          7025202.0924
+        ],
+        [
+          697270.5525,
+          7025207.0642
+        ],
+        [
+          697265.9107,
+          7025201.0939
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697272.358,
+          7025195.7011
+        ],
+        [
+          697277.3681,
+          7025202.1451
+        ],
+        [
+          697270.4998,
+          7025207.4852
+        ],
+        [
+          697265.4897,
+          7025201.0412
+        ]
+      ],
+      "groundH": 39.701,
+      "groundCornerH": [
+        40.181,
+        39.743,
+        39.222,
+        39.66
+      ],
+      "minGroundH": 39.072,
+      "eaveH": 42.22,
+      "ridgeH": 42.945,
+      "floorH": 40.02,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-west-cabin-a-plane-1",
+          "roof-west-cabin-a-plane-2"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-cabin-a"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.5,
+        "verticalMetres": 0.7,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Low opposing roof planes and visible cabin envelope reconciled; asymmetric shallow roof and attached apron regularized to sampled total span rather than mirroring the larger half. Laser centre lies west of apparent image roof. Ownership and function unknown.",
+      "facade": {
+        "windowCount": 2
+      }
+    },
+    {
+      "id": "west-cabin-b",
+      "sourceRoofId": "roof-west-cabin-b",
+      "label": "Western northern cabin B",
+      "inheritedIds": [
+        "trace-house-b"
+      ],
+      "assembly": "west-cabin-b",
+      "kind": "neighbouring-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697292.2534,
+        7025198.9578
+      ],
+      "originBlenderXY": [
+        -72.7466,
+        8.9578
+      ],
+      "axisU": [
+        0.54832217,
+        -0.83626718
+      ],
+      "axisV": [
+        0.83626718,
+        0.54832217
+      ],
+      "length": 6.964,
+      "width": 4.575,
+      "roofLength": 7.564,
+      "roofWidth": 5.175,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697288.4311,
+          7025200.6155
+        ],
+        [
+          697292.2498,
+          7025194.7914
+        ],
+        [
+          697296.0758,
+          7025197.3
+        ],
+        [
+          697292.257,
+          7025203.1241
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697288.0157,
+          7025200.7019
+        ],
+        [
+          697292.1634,
+          7025194.376
+        ],
+        [
+          697296.4912,
+          7025197.2136
+        ],
+        [
+          697292.3434,
+          7025203.5395
+        ]
+      ],
+      "groundH": 39.634,
+      "groundCornerH": [
+        39.673,
+        39.978,
+        39.595,
+        39.291
+      ],
+      "minGroundH": 39.141,
+      "eaveH": 42.363,
+      "ridgeH": 43.202,
+      "floorH": 39.978,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-west-cabin-b-plane-2",
+          "roof-west-cabin-b-plane-3"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-cabin-b"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.0,
+        "verticalMetres": 0.7,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Main dark pitched half of compound cabin roof uses opposing ~18-degree supports. Additional light canopy/extension is separate. Ownership and function unknown.",
+      "facade": {
+        "windowCount": 2
+      }
+    },
+    {
+      "id": "west-cabin-b-extension",
+      "sourceRoofId": "roof-west-cabin-b",
+      "label": "Western northern cabin B",
+      "inheritedIds": [],
+      "assembly": "west-cabin-b",
+      "kind": "annex",
+      "roofType": "shed",
+      "originEpsg3006": [
+        697289.5217,
+        7025203.1241
+      ],
+      "originBlenderXY": [
+        -75.4783,
+        13.1241
+      ],
+      "axisU": [
+        0.54832217,
+        -0.83626718
+      ],
+      "axisV": [
+        0.83626718,
+        0.54832217
+      ],
+      "length": 2.6,
+      "width": 4.575,
+      "roofLength": 3.2,
+      "roofWidth": 5.175,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697286.8959,
+          7025202.9569
+        ],
+        [
+          697288.3215,
+          7025200.7826
+        ],
+        [
+          697292.1474,
+          7025203.2912
+        ],
+        [
+          697290.7218,
+          7025205.4655
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697286.4805,
+          7025203.0433
+        ],
+        [
+          697288.2351,
+          7025200.3673
+        ],
+        [
+          697292.5628,
+          7025203.2048
+        ],
+        [
+          697290.8082,
+          7025205.8809
+        ]
+      ],
+      "groundH": 39.417,
+      "groundCornerH": [
+        39.551,
+        39.665,
+        39.282,
+        39.168
+      ],
+      "minGroundH": 39.018,
+      "eaveH": 42.0,
+      "ridgeH": 42.8,
+      "floorH": 39.665,
+      "roofHighSide": "v-",
+      "roofColour": "light-grey",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-west-cabin-b-plane-1"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-cabin-b"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.0,
+        "verticalMetres": 0.7,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Light adjoining northern roof segment inferred from orthophoto and shallow plane1. Simplified attached extension; exact wall relationship unresolved.",
+      "facade": {
+        "windowCount": 1
+      }
+    },
+    {
+      "id": "west-red-house-south",
+      "sourceRoofId": "roof-west-red-house",
+      "label": "Red-roofed lakeside house",
+      "inheritedIds": [
+        "trace-house-red"
+      ],
+      "assembly": "west-red-house",
+      "kind": "neighbouring-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697263.7839,
+        7025169.4336
+      ],
+      "originBlenderXY": [
+        -101.2161,
+        -20.5664
+      ],
+      "axisU": [
+        0.61022564,
+        -0.79222766
+      ],
+      "axisV": [
+        0.79222766,
+        0.61022564
+      ],
+      "length": 9.14,
+      "width": 8.474,
+      "roofLength": 9.74,
+      "roofWidth": 9.074,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697257.6385,
+          7025170.4683
+        ],
+        [
+          697263.2157,
+          7025163.2276
+        ],
+        [
+          697269.9293,
+          7025168.3989
+        ],
+        [
+          697264.3521,
+          7025175.6396
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697257.2177,
+          7025170.5229
+        ],
+        [
+          697263.1611,
+          7025162.8069
+        ],
+        [
+          697270.35,
+          7025168.3443
+        ],
+        [
+          697264.4067,
+          7025176.0603
+        ]
+      ],
+      "groundH": 41.979,
+      "groundCornerH": [
+        41.597,
+        42.432,
+        42.362,
+        41.527
+      ],
+      "minGroundH": 41.377,
+      "eaveH": 46.963,
+      "ridgeH": 48.159,
+      "floorH": 42.432,
+      "roofHighSide": null,
+      "roofColour": "red-tile",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-west-red-house-plane-1",
+          "roof-west-red-house-plane-2"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-red-house"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.0,
+        "verticalMetres": 0.7,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Two roof pairs form stepped red-roofed neighbouring house. Original plane support controls each segment; asymmetric measured slopes are simplified to a single gable section. Club ownership/function unknown.",
+      "facade": {
+        "wallColour": "pale-cream",
+        "windowCount": 3
+      }
+    },
+    {
+      "id": "west-red-house-north",
+      "sourceRoofId": "roof-west-red-house",
+      "label": "Red-roofed lakeside house",
+      "inheritedIds": [],
+      "assembly": "west-red-house",
+      "kind": "neighbouring-building",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697258.9766,
+        7025175.3319
+      ],
+      "originBlenderXY": [
+        -106.0234,
+        -14.6681
+      ],
+      "axisU": [
+        0.64618017,
+        -0.7631849
+      ],
+      "axisV": [
+        0.7631849,
+        0.64618017
+      ],
+      "length": 5.606,
+      "width": 8.39,
+      "roofLength": 6.206,
+      "roofWidth": 8.99,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697253.964,
+          7025174.7604
+        ],
+        [
+          697257.5864,
+          7025170.4821
+        ],
+        [
+          697263.9892,
+          7025175.9033
+        ],
+        [
+          697260.3668,
+          7025180.1816
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697253.5412,
+          7025174.7955
+        ],
+        [
+          697257.5513,
+          7025170.0593
+        ],
+        [
+          697264.412,
+          7025175.8682
+        ],
+        [
+          697260.4019,
+          7025180.6045
+        ]
+      ],
+      "groundH": 41.287,
+      "groundCornerH": [
+        41.084,
+        41.594,
+        41.489,
+        40.98
+      ],
+      "minGroundH": 40.83,
+      "eaveH": 45.351,
+      "ridgeH": 46.424,
+      "floorH": 41.594,
+      "roofHighSide": null,
+      "roofColour": "red-tile",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-west-red-house-plane-3",
+          "roof-west-red-house-plane-4"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-red-house"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.0,
+        "verticalMetres": 0.7,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Two roof pairs form stepped red-roofed neighbouring house. Original plane support controls each segment; asymmetric measured slopes are simplified to a single gable section. Club ownership/function unknown.",
+      "facade": {
+        "wallColour": "pale-cream",
+        "windowCount": 3
+      }
+    },
+    {
+      "id": "west-red-house-canopy",
+      "sourceRoofId": "roof-west-red-house-canopy",
+      "label": "Light lakeside canopy beside red house",
+      "inheritedIds": [],
+      "assembly": "west-red-house",
+      "kind": "conservatory",
+      "roofType": "shed",
+      "originEpsg3006": [
+        697256.3457,
+        7025171.9442
+      ],
+      "originBlenderXY": [
+        -108.6543,
+        -18.0558
+      ],
+      "axisU": [
+        0.64221986,
+        -0.76652048
+      ],
+      "axisV": [
+        0.76652048,
+        0.64221986
+      ],
+      "length": 7.123,
+      "width": 2.963,
+      "roofLength": 7.723,
+      "roofWidth": 3.563,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697252.9226,
+          7025173.7227
+        ],
+        [
+          697257.4973,
+          7025168.2626
+        ],
+        [
+          697259.7687,
+          7025170.1657
+        ],
+        [
+          697255.194,
+          7025175.6258
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697252.5,
+          7025173.76
+        ],
+        [
+          697257.46,
+          7025167.84
+        ],
+        [
+          697260.1913,
+          7025170.1284
+        ],
+        [
+          697255.2313,
+          7025176.0484
+        ]
+      ],
+      "groundH": 41.245,
+      "groundCornerH": [
+        40.772,
+        41.637,
+        41.717,
+        40.852
+      ],
+      "minGroundH": 40.622,
+      "eaveH": 44.7,
+      "ridgeH": 46.3,
+      "floorH": 41.717,
+      "roofHighSide": "v+",
+      "roofColour": "light-grey",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-west-red-house-canopy-plane-1"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-red-house-canopy"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.3,
+        "verticalMetres": 0.8,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Light lakeside canopy/conservatory visible in orthophoto. Plane2 duplicates taller house roof and is excluded. Low slope and envelope remain approximate due mixed support.",
+      "facade": {
+        "glazed": true,
+        "openSides": false
+      }
+    },
+    {
+      "id": "west-lakeshore-pavilion",
+      "sourceRoofId": "roof-west-lakeshore-pavilion",
+      "label": "Light-roofed lakeshore pavilion candidate",
+      "inheritedIds": [],
+      "assembly": "west-lakeshore-pavilion",
+      "kind": "pavilion",
+      "roofType": "hip",
+      "originEpsg3006": [
+        697262.24,
+        7025217.54
+      ],
+      "originBlenderXY": [
+        -102.76,
+        27.54
+      ],
+      "axisU": [
+        0.87003235,
+        0.49299464
+      ],
+      "axisV": [
+        -0.49299464,
+        0.87003235
+      ],
+      "length": 5.353,
+      "width": 4.796,
+      "roofLength": 5.953,
+      "roofWidth": 5.396,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697261.0935,
+          7025214.1338
+        ],
+        [
+          697265.7511,
+          7025216.773
+        ],
+        [
+          697263.3865,
+          7025220.9461
+        ],
+        [
+          697258.7289,
+          7025218.3069
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697260.9804,
+          7025213.7249
+        ],
+        [
+          697266.1601,
+          7025216.6599
+        ],
+        [
+          697263.4996,
+          7025221.355
+        ],
+        [
+          697258.32,
+          7025218.42
+        ]
+      ],
+      "groundH": 37.744,
+      "groundCornerH": [
+        37.99,
+        37.968,
+        37.499,
+        37.521
+      ],
+      "minGroundH": 37.349,
+      "eaveH": 40.45,
+      "ridgeH": 41.5,
+      "floorH": 37.99,
+      "roofHighSide": null,
+      "roofColour": "light-grey",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-west-lakeshore-pavilion-plane-1"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-lakeshore-pavilion"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.0,
+        "verticalMetres": 1.0,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Light faceted pavilion roof is visually established. Low planar subset gives approximate eave; steep higher subset is a tree/adjacent object and excluded. Hip apex 1.05 m above eave is a photo estimate. Ownership/function unknown.",
+      "facade": {
+        "openSides": true,
+        "postCount": 4
+      }
+    },
+    {
+      "id": "west-south-dark-shed",
+      "sourceRoofId": "roof-west-south-dark-shed",
+      "label": "Small dark roof in southern lakeside plot",
+      "inheritedIds": [],
+      "assembly": "west-south-dark-shed",
+      "kind": "shed",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697265.4719,
+        7025138.6307
+      ],
+      "originBlenderXY": [
+        -99.5281,
+        -51.3693
+      ],
+      "axisU": [
+        0.41158672,
+        0.9113706
+      ],
+      "axisV": [
+        -0.9113706,
+        0.41158672
+      ],
+      "length": 4.842,
+      "width": 3.332,
+      "roofLength": 5.442,
+      "roofWidth": 3.932,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697265.994,
+          7025135.7384
+        ],
+        [
+          697267.987,
+          7025140.1515
+        ],
+        [
+          697264.9499,
+          7025141.5231
+        ],
+        [
+          697262.9569,
+          7025137.1099
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697266.1439,
+          7025135.3415
+        ],
+        [
+          697268.3839,
+          7025140.3015
+        ],
+        [
+          697264.8,
+          7025141.92
+        ],
+        [
+          697262.56,
+          7025136.96
+        ]
+      ],
+      "groundH": 42.784,
+      "groundCornerH": [
+        42.821,
+        43.081,
+        42.748,
+        42.488
+      ],
+      "minGroundH": 42.338,
+      "eaveH": 44.934,
+      "ridgeH": 45.584,
+      "floorH": 42.934,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "photo/orthophoto interpretation",
+        "vertical": "photo proportion / conservative production estimate",
+        "laserPlaneIds": [],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-south-dark-shed"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.5,
+        "verticalMetres": 1.0,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Roof visible in aerial; no clean elevated laser plane. Low shed proportions are conservative production estimates; function and wall details unknown.",
+      "facade": {
+        "windowCount": 0
+      }
+    },
+    {
+      "id": "west-south-rust-shed",
+      "sourceRoofId": "roof-west-south-rust-shed",
+      "label": "Small rust-coloured roof candidate",
+      "inheritedIds": [],
+      "assembly": "west-south-rust-shed",
+      "kind": "shed",
+      "roofType": "shed",
+      "originEpsg3006": [
+        697277.503,
+        7025154.9717
+      ],
+      "originBlenderXY": [
+        -87.497,
+        -35.0283
+      ],
+      "axisU": [
+        0.56652882,
+        0.82404192
+      ],
+      "axisV": [
+        -0.82404192,
+        0.56652882
+      ],
+      "length": 2.507,
+      "width": 2.465,
+      "roofLength": 3.107,
+      "roofWidth": 3.065,
+      "roofOverhang": 0.3,
+      "wallRingEpsg3006": [
+        [
+          697277.8088,
+          7025153.2405
+        ],
+        [
+          697279.2289,
+          7025155.3061
+        ],
+        [
+          697277.1973,
+          7025156.7028
+        ],
+        [
+          697275.7772,
+          7025154.6373
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697277.886,
+          7025152.8233
+        ],
+        [
+          697279.646,
+          7025155.3833
+        ],
+        [
+          697277.12,
+          7025157.12
+        ],
+        [
+          697275.36,
+          7025154.56
+        ]
+      ],
+      "groundH": 43.441,
+      "groundCornerH": [
+        43.519,
+        43.458,
+        43.363,
+        43.425
+      ],
+      "minGroundH": 43.213,
+      "eaveH": 46.3,
+      "ridgeH": 46.45,
+      "floorH": 43.591,
+      "roofHighSide": "v+",
+      "roofColour": "rust",
+      "provenance": {
+        "horizontal": "original laser support reconciled with orthophoto and photographs",
+        "vertical": "measured supporting planes, regularized architectural roof",
+        "laserPlaneIds": [
+          "roof-west-south-rust-shed-plane-1"
+        ],
+        "photoIds": [],
+        "orthophotoObservation": "roof-west-south-rust-shed"
+      },
+      "uncertainty": {
+        "horizontalMetres": 1.5,
+        "verticalMetres": 0.8,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Tiny rust roof candidate uses near-level sparse plane support. Geometry identity uncertain; no unsupported facility name assigned.",
+      "facade": {
+        "windowCount": 0
+      }
+    },
+    {
+      "id": "trace-shed-c",
+      "sourceRoofId": "trace-shed-c",
+      "label": "trace-shed-c",
+      "inheritedIds": [
+        "trace-shed-c"
+      ],
+      "assembly": "trace-shed-c",
+      "kind": "unverified-shed",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697257.6842,
+        7025148.4972
+      ],
+      "originBlenderXY": [
+        -107.3158,
+        -41.5028
+      ],
+      "axisU": [
+        0.99811548,
+        0.0613635
+      ],
+      "axisV": [
+        -0.0613635,
+        0.99811548
+      ],
+      "length": 6.016,
+      "width": 6.008,
+      "roofLength": 6.316,
+      "roofWidth": 6.308,
+      "roofOverhang": 0.15,
+      "wallRingEpsg3006": [
+        [
+          697254.8661,
+          7025145.3141
+        ],
+        [
+          697260.871,
+          7025145.6833
+        ],
+        [
+          697260.5023,
+          7025151.6803
+        ],
+        [
+          697254.4974,
+          7025151.3111
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697254.7256,
+          7025145.1552
+        ],
+        [
+          697261.0299,
+          7025145.5427
+        ],
+        [
+          697260.6428,
+          7025151.8392
+        ],
+        [
+          697254.3385,
+          7025151.4516
+        ]
+      ],
+      "groundH": 42.005,
+      "groundCornerH": [
+        41.71,
+        42.365,
+        42.33,
+        41.725
+      ],
+      "minGroundH": 41.56,
+      "eaveH": 44.205,
+      "ridgeH": 44.905,
+      "floorH": 42.155,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "photo/orthophoto interpretation",
+        "vertical": "photo proportion / conservative production estimate",
+        "laserPlaneIds": [],
+        "photoIds": [],
+        "orthophotoObservation": null
+      },
+      "uncertainty": {
+        "horizontalMetres": 3.0,
+        "verticalMetres": 1.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Unmatched inherited small shed retained at existing location. No observed roof is arbitrarily assigned to this trace. Dimensions and height remain low-confidence approximations.",
+      "facade": {
+        "windowCount": 0
+      }
+    },
+    {
+      "id": "trace-shed-d",
+      "sourceRoofId": "trace-shed-d",
+      "label": "trace-shed-d",
+      "inheritedIds": [
+        "trace-shed-d"
+      ],
+      "assembly": "trace-shed-d",
+      "kind": "unverified-shed",
+      "roofType": "gable",
+      "originEpsg3006": [
+        697281.7652,
+        7025148.9745
+      ],
+      "originBlenderXY": [
+        -83.2348,
+        -41.0255
+      ],
+      "axisU": [
+        0.99811503,
+        0.06137097
+      ],
+      "axisV": [
+        -0.06137097,
+        0.99811503
+      ],
+      "length": 6.016,
+      "width": 6.008,
+      "roofLength": 6.316,
+      "roofWidth": 6.308,
+      "roofOverhang": 0.15,
+      "wallRingEpsg3006": [
+        [
+          697278.9471,
+          7025145.7913
+        ],
+        [
+          697284.952,
+          7025146.1606
+        ],
+        [
+          697284.5832,
+          7025152.1576
+        ],
+        [
+          697278.5784,
+          7025151.7884
+        ]
+      ],
+      "roofRingEpsg3006": [
+        [
+          697278.8066,
+          7025145.6324
+        ],
+        [
+          697285.1109,
+          7025146.0201
+        ],
+        [
+          697284.7237,
+          7025152.3165
+        ],
+        [
+          697278.4194,
+          7025151.9289
+        ]
+      ],
+      "groundH": 43.82,
+      "groundCornerH": [
+        43.855,
+        43.86,
+        43.76,
+        43.735
+      ],
+      "minGroundH": 43.585,
+      "eaveH": 46.02,
+      "ridgeH": 46.72,
+      "floorH": 43.97,
+      "roofHighSide": null,
+      "roofColour": "charcoal",
+      "provenance": {
+        "horizontal": "photo/orthophoto interpretation",
+        "vertical": "photo proportion / conservative production estimate",
+        "laserPlaneIds": [],
+        "photoIds": [],
+        "orthophotoObservation": null
+      },
+      "uncertainty": {
+        "horizontalMetres": 3.0,
+        "verticalMetres": 1.5,
+        "openings": "Photographic proportion or restrained production estimates; not measured openings."
+      },
+      "notes": "Unmatched inherited small shed retained at existing location. No observed roof is arbitrarily assigned to this trace. Dimensions and height remain low-confidence approximations.",
+      "facade": {
+        "windowCount": 0
+      }
+    }
+  ]
+}

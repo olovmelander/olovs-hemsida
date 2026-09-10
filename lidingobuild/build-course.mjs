@@ -7,6 +7,9 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { centroid, pointInPoly, polyArea, polyLen, quantizeHF } from '../geobuild/lib.mjs';
 import { LIDINGO_GROUND_GRAPH_CONFIG as TERRAIN, assertLidingoAcquisition } from '../packages/course-v2/lidingo-ground-graph.mjs';
+import { loadTeeReview, applyReviewedReferences, REVIEW_PATH } from './mapping/reviewed-tee-alignment.mjs';
+import { applyObPlacementReview, OB_REVIEW_PATH } from './mapping/apply-ob-placement.mjs';
+import { applyReviewedSurfaces, REVIEW_PATH as PUTTING_REVIEW_PATH, APPROACH_PATH, BUNKER_PATH } from './apply-reviewed-surfaces.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const json = async p => JSON.parse(await readFile(path.join(ROOT, p), 'utf8'));
@@ -55,6 +58,7 @@ function centreInside(ring) {
 }
 
 export async function buildCourse() {
+  const { review: teeReview, plan: teePlan } = loadTeeReview();
   const bytes = await readFile(path.join(ROOT, 'lidingobuild/cache/terrain-review/terrain-1m.f32'));
   assertLidingoAcquisition(await json('geo_data/course-v2/lidingo/acquisition/terrain-window.json'), sha256(bytes));
   const fine = new Float32Array(bytes.buffer, bytes.byteOffset, bytes.byteLength / 4);
@@ -81,7 +85,7 @@ export async function buildCourse() {
   const routes = golf.filter(f => f.properties.tags.golf === 'hole').sort((a, b) => +a.properties.tags.ref - +b.properties.tags.ref);
   if (routes.length !== 18 || card.holes.length !== 18 || card.tees.length !== 5) throw new Error('Lidingö needs all 18 routes and the five-tee card');
   const sourceRings = (kind, hole) => surfaces.filter(f => f.properties.kind === kind && f.properties.hole === hole);
-  const holes = card.holes.map((row, index) => {
+  let holes = card.holes.map((row, index) => {
     const route = routes[index];
     if (+route.properties.tags.ref !== row.number || +route.properties.tags.par !== row.par) throw new Error('Route/card identity mismatch');
     const line = route.geometry.coordinates.map(local), lineLen = polyLen(line);
@@ -99,7 +103,7 @@ export async function buildCourse() {
       return { c: ranked[0].c, b: 0, m, placement: 'nominal-camera-reference-on-observed-platform; colour position unverified' };
     });
     const teeHeight = heightAt(...marks[1].c), greenHeight = heightAt(...pin);
-    return {
+    const hole = {
       n: row.number, par: row.par, idx: row.index, t, line, lineLen, pin,
       green: { ring: greenRing, c: pin, sourceFeatureId: greens[0].id },
       fairway: { rings: sourceRings('fairway', row.number).map(polygonRing) },
@@ -111,6 +115,11 @@ export async function buildCourse() {
       confidence: 'source-derived-candidate-not-surveyed',
       pinStatus: 'virtual-green-target; daily flag location unknown',
     };
+    applyReviewedReferences(hole, teeReview, teePlan, local);
+    const reviewedTeeHeight = heightAt(...hole.tees.marks[1].c);
+    hole.elev = { tee: r1(reviewedTeeHeight), green: r1(greenHeight), rise: r1(greenHeight - reviewedTeeHeight) };
+    hole.note = 'Preliminär kartläggning. Teeytor granskade mot Lantmäteriets ortofoto 2025-05-31. Teefärger visar representativa spelstarter; dagens flyttbara markeringar är inte inmätta.';
+    return hole;
   });
   for (let i = 0; i < 5; i++) if (holes.reduce((s, h) => s + h.t[i], 0) !== card.tees[i].total) throw new Error('Scorecard total differs');
   const water = [];
@@ -223,7 +232,7 @@ export async function buildCourse() {
       }
     }
   }
-  const model = { version: 1, origin: { lat: FRAME.latitude, lon: FRAME.longitude }, mPerLat: 111320,
+  let model = { version: 1, origin: { lat: FRAME.latitude, lon: FRAME.longitude }, mPerLat: 111320,
     mPerLon: +(111320 * Math.cos(FRAME.latitude * Math.PI / 180)).toFixed(2), frame: FRAME.text,
     seaLevel: 0, holes, water, streams, coast: [], vegetation, infra,
     surround: { clearfells: [], yard: null, hayfields: null, shallows: [] }, scenery, pois: [],
@@ -232,9 +241,13 @@ export async function buildCourse() {
       facilities: 'lidingobuild/mapping/facilities.geojson', facilityReview: 'lidingobuild/mapping/facilities-review.json',
       infrastructure: 'lidingobuild/mapping/infrastructure.geojson',
       buildingRoofs: 'lidingobuild/mapping/building-roof-meshes.json',
-      flagPositions: 'virtual green targets', colouredTeePositions: 'unknown; camera references only',
+      flagPositions: 'virtual green targets', colouredTeePositions: 'reviewed representative platform starts; unresolved colours explicitly withheld; daily marker positions unknown',
+      teeAlignmentReview: REVIEW_PATH, outOfBoundsReview: OB_REVIEW_PATH,
       largeObjects: 'source footprints; generic dimensions where source lacks heights',
       canonicalOriginApproval: 'pending-independent-control' } };
+  applyObPlacementReview(model, await json(OB_REVIEW_PATH));
+  model = applyReviewedSurfaces(model, await json('lidingobuild/mapping/playing-surfaces.geojson'),
+    await json(PUTTING_REVIEW_PATH), await json(APPROACH_PATH), await json(BUNKER_PATH), heightAt);
   const hf0Values = new Float32Array(513 * 513);
   for (let row = 0; row < 513; row++) for (let col = 0; col < 513; col++) hf0Values[row * 513 + col] = fine[row * 4 * 2049 + col * 4];
   const vistaMeta = await json('lidingobuild/cache/terrain-vista/terrain-vista.json');

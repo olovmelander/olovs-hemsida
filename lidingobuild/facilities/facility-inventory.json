@@ -1,0 +1,4008 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "createdAt": "2026-09-10T07:45:53.722122+00:00",
+  "state": "reference-inventory-with-explicit-gaps",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613 / RH2000",
+  "blenderOriginEpsg3006RH2000": [
+    677700.5,
+    6586399.5,
+    25.0
+  ],
+  "scope": "Clubhouse and nearby facility corridor; source-confirmed outlying facilities retained as unlocated follow-ups.",
+  "scopeBoundsEpsg3006": [
+    677500,
+    6586030,
+    677730.08,
+    6586570.08
+  ],
+  "inputs": [
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7"
+    },
+    {
+      "path": "lidingobuild/mapping/facilities.geojson",
+      "sha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a"
+    },
+    {
+      "path": "lidingobuild/mapping/infrastructure.geojson",
+      "sha256": "27d80d50dc24f8f3910e79a7366f40a8c883c8cd132d4ea96cb0133e105b115d"
+    },
+    {
+      "path": "lidingobuild/mapping/building-height-evidence.json",
+      "sha256": "0ce209c63b6638f6f262f4190d1993f1237c10ccbbcc427b77f88d5cf272ddf8"
+    },
+    {
+      "path": "lidingobuild/mapping/building-roof-meshes.json",
+      "sha256": "4f25c1495768b4defe359c0b068a0df76667363e6fa67128f8602b34b3402934"
+    },
+    {
+      "path": "lidingobuild/facilities/orthophoto-reference.json",
+      "sha256": "5b28d6fb86183cb7f44ddd7e0ae4090d9223992dc61d008282819d39e3685da8"
+    }
+  ],
+  "mappedFeatures": [
+    {
+      "id": "way/32262183",
+      "kind": "building",
+      "name": "Restaurant/reception building (north clubhouse)",
+      "group": "clubhouse",
+      "sourceFeatureId": "way/32262183",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677669.5834197524,
+              6586502.6454530535
+            ],
+            [
+              677644.5281235906,
+              6586496.972952993
+            ],
+            [
+              677641.0371905611,
+              6586496.184290826
+            ],
+            [
+              677638.1883579559,
+              6586511.027924812
+            ],
+            [
+              677635.0744777162,
+              6586510.691935473
+            ],
+            [
+              677632.5307752304,
+              6586529.575907311
+            ],
+            [
+              677642.0827170878,
+              6586531.7982188845
+            ],
+            [
+              677643.2793400367,
+              6586526.679800649
+            ],
+            [
+              677655.5717544417,
+              6586529.555156254
+            ],
+            [
+              677658.6215642995,
+              6586513.706119423
+            ],
+            [
+              677663.0187498125,
+              6586514.704697968
+            ],
+            [
+              677669.5834197524,
+              6586502.6454530535
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677632.5307752304,
+        6586496.184290826,
+        677669.5834197524,
+        6586531.7982188845
+      ],
+      "centroidEpsg3006": [
+        677648.6597047878,
+        6586513.471978733
+      ],
+      "centroidBlenderXY": [
+        -51.84029521222692,
+        113.97197873331606
+      ],
+      "areaSquareMetres": 780.543,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "32262183",
+        "osmVersion": "3",
+        "osmTimestamp": "2016-06-26T16:10:06Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "building": "sport",
+          "source": "survey;yahoo_imagery",
+          "sport": "golf"
+        }
+      },
+      "heightStatus": "dated laser-supported roof candidate; architectural eaves and wall heights unverified",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Public photo interpretation is documented in docs/courses/lidingo-clubhouse-appearance.md; detailed dimensions are authored estimates."
+      ],
+      "referenceWindowIds": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "sourceFootprintId": "way/32262183",
+      "heightEvidence": {
+        "sourcePath": "lidingobuild/mapping/building-height-evidence.json",
+        "sourceEpoch": "2021-03-23",
+        "verticalCrs": "EPSG:5613 / RH2000",
+        "footprintCentroidDtmRH2000": 32.473,
+        "footprintBoundaryDtmRH2000": {
+          "count": 12,
+          "minimum": 30.66,
+          "p05": 30.738,
+          "median": 31.162,
+          "p95": 34.042,
+          "maximum": 35.008
+        },
+        "selectedInteriorFirstReturns": 737,
+        "rawRoofCandidatesRH2000": {
+          "count": 737,
+          "minimum": 33.65,
+          "p05": 34.168,
+          "median": 37.26,
+          "p95": 39.89,
+          "maximum": 42.52
+        },
+        "caution": "Raw first-return candidate extrema may include vegetation or rooftop equipment; use supported roof mesh statistics below.",
+        "supportedRoofMeshPath": "lidingobuild/mapping/building-roof-meshes.json",
+        "supportedRoofState": "machine-reviewed-partial-measured-roof-candidate",
+        "statistics": {
+          "status": "machine-reviewed-partial-measured-roof-candidate",
+          "sourceReturns": 737,
+          "additionalMeasuredEdgeReturns": 54,
+          "triangles": 1616,
+          "vertices": 890,
+          "footprintCoverageFraction": 0.897463,
+          "boundarySupportDistanceMetres": {
+            "count": 135,
+            "minimum": 0.062,
+            "p05": 0.191,
+            "median": 0.947,
+            "p95": 4.076,
+            "maximum": 4.287
+          },
+          "maximumTriangleEdgeMetres": 4.592,
+          "roofClearanceAboveDtmMetres": {
+            "count": 890,
+            "minimum": 1.187,
+            "p05": 2.502,
+            "median": 4.496,
+            "p95": 6.807,
+            "maximum": 7.886
+          },
+          "roofHeightRH2000": {
+            "count": 890,
+            "minimum": 33.499,
+            "p05": 34.114,
+            "median": 37.21,
+            "p95": 39.87,
+            "maximum": 40.8
+          },
+          "interpolatedBoundaryVertices": 106,
+          "unsupportedBoundaryVertices": 29,
+          "supportedWallBoundaryMetres": 97.725,
+          "sourceFootprintPerimeterMetres": 128.636,
+          "uncoveredRoofAreaSquareMetres": 80.0343,
+          "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+        }
+      },
+      "overviewLabel": 1
+    },
+    {
+      "id": "way/32262176",
+      "kind": "building",
+      "name": "Lower clubhouse courtyard pavilion",
+      "group": "clubhouse",
+      "sourceFeatureId": "way/32262176",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677658.0673871316,
+              6586440.052383891
+            ],
+            [
+              677645.1749501845,
+              6586442.791905073
+            ],
+            [
+              677648.122451226,
+              6586456.592087183
+            ],
+            [
+              677649.0452342199,
+              6586460.929120053
+            ],
+            [
+              677647.349864862,
+              6586461.284348854
+            ],
+            [
+              677645.5825973614,
+              6586459.416885001
+            ],
+            [
+              677641.6387832679,
+              6586460.513979271
+            ],
+            [
+              677639.9364104522,
+              6586463.801943689
+            ],
+            [
+              677642.8278048863,
+              6586477.342980753
+            ],
+            [
+              677665.0147147559,
+              6586472.6204377385
+            ],
+            [
+              677658.0673871316,
+              6586440.052383891
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677639.9364104522,
+        6586440.052383891,
+        677665.0147147559,
+        6586477.342980753
+      ],
+      "centroidEpsg3006": [
+        677652.7080733622,
+        6586460.485794769
+      ],
+      "centroidBlenderXY": [
+        -47.79192663775757,
+        60.98579476866871
+      ],
+      "areaSquareMetres": 590.373,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "32262176",
+        "osmVersion": "10",
+        "osmTimestamp": "2023-10-28T19:47:51Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "amenity": "community_centre",
+          "building": "civic",
+          "building:levels": "1",
+          "community_centre": "club_home",
+          "description": "The golf course is Swedens oldest 18 hole golf course.",
+          "name": "Lidingö Golfklubb",
+          "source": "survey;yahoo_imagery",
+          "sport": "golf",
+          "website": "https://www.lidingogk.se/",
+          "wikidata": "Q89303488"
+        }
+      },
+      "heightStatus": "dated laser-supported roof candidate; architectural eaves and wall heights unverified",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "OSM names this footprint Lidingö Golfklubb. Do not mistake that generic club tag for proof this is the restaurant; the restaurant photo association is the north building."
+      ],
+      "referenceWindowIds": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "sourceFootprintId": "way/32262176",
+      "heightEvidence": {
+        "sourcePath": "lidingobuild/mapping/building-height-evidence.json",
+        "sourceEpoch": "2021-03-23",
+        "verticalCrs": "EPSG:5613 / RH2000",
+        "footprintCentroidDtmRH2000": 29.621,
+        "footprintBoundaryDtmRH2000": {
+          "count": 11,
+          "minimum": 28.52,
+          "p05": 28.563,
+          "median": 29.066,
+          "p95": 29.82,
+          "maximum": 29.954
+        },
+        "selectedInteriorFirstReturns": 531,
+        "rawRoofCandidatesRH2000": {
+          "count": 531,
+          "minimum": 31.29,
+          "p05": 32.32,
+          "median": 33.43,
+          "p95": 33.93,
+          "maximum": 34.06
+        },
+        "caution": "Raw first-return candidate extrema may include vegetation or rooftop equipment; use supported roof mesh statistics below.",
+        "supportedRoofMeshPath": "lidingobuild/mapping/building-roof-meshes.json",
+        "supportedRoofState": "machine-reviewed-partial-measured-roof-candidate",
+        "statistics": {
+          "status": "machine-reviewed-partial-measured-roof-candidate",
+          "sourceReturns": 528,
+          "additionalMeasuredEdgeReturns": 40,
+          "triangles": 1192,
+          "vertices": 669,
+          "footprintCoverageFraction": 0.922768,
+          "boundarySupportDistanceMetres": {
+            "count": 119,
+            "minimum": 0.229,
+            "p05": 0.424,
+            "median": 1.293,
+            "p95": 5.729,
+            "maximum": 6.865
+          },
+          "maximumTriangleEdgeMetres": 4.843,
+          "roofClearanceAboveDtmMetres": {
+            "count": 669,
+            "minimum": 3.082,
+            "p05": 3.31,
+            "median": 3.727,
+            "p95": 4.187,
+            "maximum": 4.511
+          },
+          "roofHeightRH2000": {
+            "count": 669,
+            "minimum": 32.19,
+            "p05": 32.32,
+            "median": 33.377,
+            "p95": 33.959,
+            "maximum": 34.06
+          },
+          "interpolatedBoundaryVertices": 102,
+          "unsupportedBoundaryVertices": 17,
+          "supportedWallBoundaryMetres": 96.268,
+          "sourceFootprintPerimeterMetres": 113.656,
+          "uncoveredRoofAreaSquareMetres": 45.5956,
+          "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+        }
+      },
+      "overviewLabel": 2
+    },
+    {
+      "id": "way/32262169",
+      "kind": "building",
+      "name": "South clubhouse annex",
+      "group": "clubhouse",
+      "sourceFeatureId": "way/32262169",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677652.0465480926,
+              6586424.568668857
+            ],
+            [
+              677632.3066476025,
+              6586428.436091688
+            ],
+            [
+              677632.9992183778,
+              6586431.981633255
+            ],
+            [
+              677634.3582117842,
+              6586438.781527359
+            ],
+            [
+              677639.7752322486,
+              6586437.697924911
+            ],
+            [
+              677654.0815519799,
+              6586434.902187432
+            ],
+            [
+              677652.0465480926,
+              6586424.568668857
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677632.3066476025,
+        6586424.568668857,
+        677654.0815519799,
+        6586438.781527359
+      ],
+      "centroidEpsg3006": [
+        677643.1936205568,
+        6586431.667728515
+      ],
+      "centroidBlenderXY": [
+        -57.306379443150945,
+        32.16772851534188
+      ],
+      "areaSquareMetres": 211.805,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "32262169",
+        "osmVersion": "3",
+        "osmTimestamp": "2016-06-26T16:05:46Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "building": "sport",
+          "building:levels": "1",
+          "source": "survey;yahoo_imagery"
+        }
+      },
+      "heightStatus": "dated laser-supported roof candidate; architectural eaves and wall heights unverified",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "OSM building=sport, one level; individual rooms and functions unverified."
+      ],
+      "referenceWindowIds": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "sourceFootprintId": "way/32262169",
+      "heightEvidence": {
+        "sourcePath": "lidingobuild/mapping/building-height-evidence.json",
+        "sourceEpoch": "2021-03-23",
+        "verticalCrs": "EPSG:5613 / RH2000",
+        "footprintCentroidDtmRH2000": 28.375,
+        "footprintBoundaryDtmRH2000": {
+          "count": 7,
+          "minimum": 28.142,
+          "p05": 28.165,
+          "median": 28.437,
+          "p95": 28.467,
+          "maximum": 28.468
+        },
+        "selectedInteriorFirstReturns": 205,
+        "rawRoofCandidatesRH2000": {
+          "count": 205,
+          "minimum": 31.43,
+          "p05": 31.532,
+          "median": 31.88,
+          "p95": 32.058,
+          "maximum": 32.11
+        },
+        "caution": "Raw first-return candidate extrema may include vegetation or rooftop equipment; use supported roof mesh statistics below.",
+        "supportedRoofMeshPath": "lidingobuild/mapping/building-roof-meshes.json",
+        "supportedRoofState": "machine-reviewed-measured-roof-candidate",
+        "statistics": {
+          "status": "machine-reviewed-measured-roof-candidate",
+          "sourceReturns": 222,
+          "additionalMeasuredEdgeReturns": 23,
+          "triangles": 523,
+          "vertices": 303,
+          "footprintCoverageFraction": 1.0,
+          "boundarySupportDistanceMetres": {
+            "count": 64,
+            "minimum": 0.028,
+            "p05": 0.191,
+            "median": 0.947,
+            "p95": 1.544,
+            "maximum": 2.328
+          },
+          "maximumTriangleEdgeMetres": 2.11,
+          "roofClearanceAboveDtmMetres": {
+            "count": 303,
+            "minimum": 2.915,
+            "p05": 3.012,
+            "median": 3.478,
+            "p95": 3.802,
+            "maximum": 3.914
+          },
+          "roofHeightRH2000": {
+            "count": 303,
+            "minimum": 31.43,
+            "p05": 31.462,
+            "median": 31.83,
+            "p95": 32.05,
+            "maximum": 32.11
+          },
+          "interpolatedBoundaryVertices": 64,
+          "unsupportedBoundaryVertices": 0,
+          "supportedWallBoundaryMetres": 61.295,
+          "sourceFootprintPerimeterMetres": 61.295,
+          "uncoveredRoofAreaSquareMetres": 0.0,
+          "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+        }
+      },
+      "overviewLabel": 3
+    },
+    {
+      "id": "way/26408210",
+      "kind": "building",
+      "name": "West range-side barn/building",
+      "group": "range-buildings",
+      "sourceFeatureId": "way/26408210",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677629.4641241891,
+              6586281.426391214
+            ],
+            [
+              677644.5050566404,
+              6586283.5944418125
+            ],
+            [
+              677648.8164939953,
+              6586243.8160644155
+            ],
+            [
+              677640.29184507,
+              6586242.846528164
+            ],
+            [
+              677634.241231999,
+              6586242.149447633
+            ],
+            [
+              677629.4641241891,
+              6586281.426391214
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677629.4641241891,
+        6586242.149447633,
+        677648.8164939953,
+        6586283.5944418125
+      ],
+      "centroidEpsg3006": [
+        677639.2569909259,
+        6586262.864320715
+      ],
+      "centroidBlenderXY": [
+        -61.24300907412544,
+        -136.635679285042
+      ],
+      "areaSquareMetres": 594.004,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "26408210",
+        "osmVersion": "3",
+        "osmTimestamp": "2013-05-17T14:52:13Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "building": "yes",
+          "source": "Yahoo"
+        }
+      },
+      "heightStatus": "dated laser-supported roof candidate; architectural eaves and wall heights unverified",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Large mapped barn beside range. Exact current use and history-to-footprint join remain unverified."
+      ],
+      "referenceWindowIds": [
+        "range-buildings-detail-lm-2025"
+      ],
+      "sourceFootprintId": "way/26408210",
+      "heightEvidence": {
+        "sourcePath": "lidingobuild/mapping/building-height-evidence.json",
+        "sourceEpoch": "2021-03-23",
+        "verticalCrs": "EPSG:5613 / RH2000",
+        "footprintCentroidDtmRH2000": 21.739,
+        "footprintBoundaryDtmRH2000": {
+          "count": 6,
+          "minimum": 21.945,
+          "p05": 22.198,
+          "median": 23.013,
+          "p95": 25.157,
+          "maximum": 25.665
+        },
+        "selectedInteriorFirstReturns": 947,
+        "rawRoofCandidatesRH2000": {
+          "count": 947,
+          "minimum": 23.05,
+          "p05": 28.14,
+          "median": 32.38,
+          "p95": 35.37,
+          "maximum": 39.42
+        },
+        "caution": "Raw first-return candidate extrema may include vegetation or rooftop equipment; use supported roof mesh statistics below.",
+        "supportedRoofMeshPath": "lidingobuild/mapping/building-roof-meshes.json",
+        "supportedRoofState": "machine-reviewed-measured-roof-candidate",
+        "statistics": {
+          "status": "machine-reviewed-measured-roof-candidate",
+          "sourceReturns": 974,
+          "additionalMeasuredEdgeReturns": 61,
+          "triangles": 2105,
+          "vertices": 1133,
+          "footprintCoverageFraction": 0.998441,
+          "boundarySupportDistanceMetres": {
+            "count": 113,
+            "minimum": 0.165,
+            "p05": 0.309,
+            "median": 0.791,
+            "p95": 2.981,
+            "maximum": 3.162
+          },
+          "maximumTriangleEdgeMetres": 3.413,
+          "roofClearanceAboveDtmMetres": {
+            "count": 1133,
+            "minimum": 3.302,
+            "p05": 4.872,
+            "median": 9.689,
+            "p95": 13.216,
+            "maximum": 13.946
+          },
+          "roofHeightRH2000": {
+            "count": 1133,
+            "minimum": 25.174,
+            "p05": 26.695,
+            "median": 32.14,
+            "p95": 35.284,
+            "maximum": 35.87
+          },
+          "interpolatedBoundaryVertices": 108,
+          "unsupportedBoundaryVertices": 5,
+          "supportedWallBoundaryMetres": 101.663,
+          "sourceFootprintPerimeterMetres": 109.444,
+          "uncoveredRoofAreaSquareMetres": 0.9263,
+          "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+        }
+      },
+      "overviewLabel": 4
+    },
+    {
+      "id": "way/26408211",
+      "kind": "building",
+      "name": "East range-road barn/building",
+      "group": "range-buildings",
+      "sourceFeatureId": "way/26408211",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677673.4914312676,
+              6586295.373577991
+            ],
+            [
+              677685.3746277841,
+              6586299.222298119
+            ],
+            [
+              677695.5023330441,
+              6586268.037093491
+            ],
+            [
+              677683.6133655378,
+              6586264.188076047
+            ],
+            [
+              677673.4914312676,
+              6586295.373577991
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677673.4914312676,
+        6586264.188076047,
+        677695.5023330441,
+        6586299.222298119
+      ],
+      "centroidEpsg3006": [
+        677684.4958614554,
+        6586281.704115199
+      ],
+      "centroidBlenderXY": [
+        -16.004138544551097,
+        -117.79588480107486
+      ],
+      "areaSquareMetres": 409.641,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "26408211",
+        "osmVersion": "1",
+        "osmTimestamp": "2008-08-19T10:27:28Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "building": "yes",
+          "created_by": "Potlatch 0.10b"
+        }
+      },
+      "heightStatus": "dated laser-supported roof candidate; architectural eaves and wall heights unverified",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Separate mapped building across the road. Exact current use is unverified."
+      ],
+      "referenceWindowIds": [
+        "range-buildings-detail-lm-2025"
+      ],
+      "sourceFootprintId": "way/26408211",
+      "heightEvidence": {
+        "sourcePath": "lidingobuild/mapping/building-height-evidence.json",
+        "sourceEpoch": "2021-03-23",
+        "verticalCrs": "EPSG:5613 / RH2000",
+        "footprintCentroidDtmRH2000": 21.522,
+        "footprintBoundaryDtmRH2000": {
+          "count": 5,
+          "minimum": 21.01,
+          "p05": 21.086,
+          "median": 21.547,
+          "p95": 21.693,
+          "maximum": 21.693
+        },
+        "selectedInteriorFirstReturns": 732,
+        "rawRoofCandidatesRH2000": {
+          "count": 732,
+          "minimum": 22.75,
+          "p05": 26.97,
+          "median": 30.79,
+          "p95": 33.05,
+          "maximum": 33.32
+        },
+        "caution": "Raw first-return candidate extrema may include vegetation or rooftop equipment; use supported roof mesh statistics below.",
+        "supportedRoofMeshPath": "lidingobuild/mapping/building-roof-meshes.json",
+        "supportedRoofState": "machine-reviewed-measured-roof-candidate",
+        "statistics": {
+          "status": "machine-reviewed-measured-roof-candidate",
+          "sourceReturns": 751,
+          "additionalMeasuredEdgeReturns": 64,
+          "triangles": 1633,
+          "vertices": 886,
+          "footprintCoverageFraction": 0.999154,
+          "boundarySupportDistanceMetres": {
+            "count": 92,
+            "minimum": 0.087,
+            "p05": 0.175,
+            "median": 1.207,
+            "p95": 2.616,
+            "maximum": 2.948
+          },
+          "maximumTriangleEdgeMetres": 2.981,
+          "roofClearanceAboveDtmMetres": {
+            "count": 886,
+            "minimum": 3.089,
+            "p05": 4.165,
+            "median": 8.797,
+            "p95": 11.389,
+            "maximum": 11.669
+          },
+          "roofHeightRH2000": {
+            "count": 886,
+            "minimum": 24.479,
+            "p05": 25.132,
+            "median": 30.41,
+            "p95": 33.008,
+            "maximum": 33.32
+          },
+          "interpolatedBoundaryVertices": 92,
+          "unsupportedBoundaryVertices": 0,
+          "supportedWallBoundaryMetres": 90.563,
+          "sourceFootprintPerimeterMetres": 90.563,
+          "uncoveredRoofAreaSquareMetres": 0.3466,
+          "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+        }
+      },
+      "overviewLabel": 5
+    },
+    {
+      "id": "way/221846983",
+      "kind": "building",
+      "name": "Small range-side utility building candidate",
+      "group": "range-buildings",
+      "sourceFeatureId": "way/221846983",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677655.3528956051,
+              6586239.506310518
+            ],
+            [
+              677659.3104329082,
+              6586239.937729799
+            ],
+            [
+              677659.7330021528,
+              6586236.154655227
+            ],
+            [
+              677655.775460879,
+              6586235.723235568
+            ],
+            [
+              677655.3528956051,
+              6586239.506310518
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677655.3528956051,
+        6586235.723235568,
+        677659.7330021528,
+        6586239.937729799
+      ],
+      "centroidEpsg3006": [
+        677657.5429479263,
+        6586237.830482462
+      ],
+      "centroidBlenderXY": [
+        -42.95705207367428,
+        -161.66951753757894
+      ],
+      "areaSquareMetres": 15.154,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "221846983",
+        "osmVersion": "1",
+        "osmTimestamp": "2013-05-17T14:52:08Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "building": "yes",
+          "source": "Yahoo"
+        }
+      },
+      "heightStatus": "insufficient planar support; roof withheld",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "18 selected 2021 returns do not support a stable roof mesh; do not use raw maximum as roof height."
+      ],
+      "referenceWindowIds": [
+        "range-buildings-detail-lm-2025"
+      ],
+      "sourceFootprintId": "way/221846983",
+      "heightEvidence": {
+        "sourcePath": "lidingobuild/mapping/building-height-evidence.json",
+        "sourceEpoch": "2021-03-23",
+        "verticalCrs": "EPSG:5613 / RH2000",
+        "footprintCentroidDtmRH2000": 24.604,
+        "footprintBoundaryDtmRH2000": {
+          "count": 5,
+          "minimum": 24.26,
+          "p05": 24.282,
+          "median": 24.371,
+          "p95": 24.648,
+          "maximum": 24.684
+        },
+        "selectedInteriorFirstReturns": 18,
+        "rawRoofCandidatesRH2000": {
+          "count": 18,
+          "minimum": 26.74,
+          "p05": 26.783,
+          "median": 27.465,
+          "p95": 28.306,
+          "maximum": 28.34
+        },
+        "caution": "Raw first-return candidate extrema may include vegetation or rooftop equipment; use supported roof mesh statistics below."
+      },
+      "overviewLabel": 6
+    },
+    {
+      "id": "way/40895787",
+      "kind": "building",
+      "name": "Small building beside south practice area",
+      "group": "south-practice",
+      "sourceFeatureId": "way/40895787",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677684.9755064296,
+              6586133.803354083
+            ],
+            [
+              677675.2195190866,
+              6586133.478451658
+            ],
+            [
+              677674.9506920186,
+              6586141.495485049
+            ],
+            [
+              677684.7066586681,
+              6586141.820387119
+            ],
+            [
+              677684.9755064296,
+              6586133.803354083
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677674.9506920186,
+        6586133.478451658,
+        677684.9755064296,
+        6586141.820387119
+      ],
+      "centroidEpsg3006": [
+        677679.963094132,
+        6586137.649418062
+      ],
+      "centroidBlenderXY": [
+        -20.53690586797893,
+        -261.85058193840086
+      ],
+      "areaSquareMetres": 78.301,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "40895787",
+        "osmVersion": "1",
+        "osmTimestamp": "2009-09-16T12:56:46Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "building": "yes",
+          "source": "Yahoo"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Nearby mapped structure; its function, ownership and relationship to the golf club are unverified."
+      ],
+      "referenceWindowIds": [
+        "range-south-detail-lm-2025"
+      ],
+      "sourceFootprintId": "way/40895787",
+      "overviewLabel": 7
+    },
+    {
+      "id": "lidingo-courtyard-putting-green-2019",
+      "kind": "practice_green",
+      "name": "Puttinggreen vid klubbhuset",
+      "group": "lidingo-clubhouse",
+      "sourceFeatureId": "lidingo-courtyard-putting-green-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677645.9625075364,
+              6586495.503963715
+            ],
+            [
+              677648.392351469,
+              6586497.115057546
+            ],
+            [
+              677654.38617551,
+              6586497.385388406
+            ],
+            [
+              677658.4496410014,
+              6586496.06715293
+            ],
+            [
+              677659.6288322334,
+              6586492.1163252415
+            ],
+            [
+              677661.3300363175,
+              6586487.688539702
+            ],
+            [
+              677660.5112859886,
+              6586483.647601743
+            ],
+            [
+              677658.1039693822,
+              6586481.537022619
+            ],
+            [
+              677652.155200304,
+              6586480.2677214695
+            ],
+            [
+              677649.1132332092,
+              6586481.131526922
+            ],
+            [
+              677647.4796119698,
+              6586484.060856289
+            ],
+            [
+              677646.210310715,
+              6586490.0096251285
+            ],
+            [
+              677645.9625075364,
+              6586495.503963715
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677645.9625075364,
+        6586480.2677214695,
+        677661.3300363175,
+        6586497.385388406
+      ],
+      "centroidEpsg3006": [
+        677653.3386834569,
+        6586489.062671861
+      ],
+      "centroidBlenderXY": [
+        -47.16131654311903,
+        89.56267186067998
+      ],
+      "areaSquareMetres": 209.744,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "practice_green",
+        "parentFacilityId": "lidingo-clubhouse",
+        "name": "Puttinggreen vid klubbhuset",
+        "note": "Small distinct green enclosed by the two clubhouse-area buildings and paths; separate from the larger putting green to the southeast.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Small distinct green enclosed by the two clubhouse-area buildings and paths; separate from the larger putting green to the southeast."
+      ],
+      "referenceWindowIds": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 8
+    },
+    {
+      "id": "lidingo-courtyard-hardstanding-2019",
+      "kind": "paved_path",
+      "name": "courtyard hardstanding 2019",
+      "group": "lidingo-clubhouse",
+      "sourceFeatureId": "lidingo-courtyard-hardstanding-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677640.3494073307,
+              6586499.767935058
+            ],
+            [
+              677641.0371905611,
+              6586496.184290826
+            ],
+            [
+              677644.5281235906,
+              6586496.972952993
+            ],
+            [
+              677664.9210728052,
+              6586501.589901239
+            ],
+            [
+              677667.4403774987,
+              6586496.4726492055
+            ],
+            [
+              677666.9595406265,
+              6586484.9394305665
+            ],
+            [
+              677666.1858453081,
+              6586479.899521783
+            ],
+            [
+              677664.3455965689,
+              6586476.313014077
+            ],
+            [
+              677660.8717265615,
+              6586475.655836016
+            ],
+            [
+              677643.2095194189,
+              6586478.863255192
+            ],
+            [
+              677639.5779569848,
+              6586481.702474349
+            ],
+            [
+              677639.1724611324,
+              6586490.69320998
+            ],
+            [
+              677640.2654208783,
+              6586499.751528307
+            ],
+            [
+              677640.3494073307,
+              6586499.767935058
+            ]
+          ],
+          [
+            [
+              677646.210310715,
+              6586490.0096251285
+            ],
+            [
+              677647.4796119698,
+              6586484.060856289
+            ],
+            [
+              677649.1132332092,
+              6586481.131526922
+            ],
+            [
+              677652.155200304,
+              6586480.2677214695
+            ],
+            [
+              677658.1039693822,
+              6586481.537022619
+            ],
+            [
+              677660.5112859886,
+              6586483.647601743
+            ],
+            [
+              677661.3300363175,
+              6586487.688539702
+            ],
+            [
+              677659.6288322334,
+              6586492.1163252415
+            ],
+            [
+              677658.4496410014,
+              6586496.06715293
+            ],
+            [
+              677654.38617551,
+              6586497.385388406
+            ],
+            [
+              677648.392351469,
+              6586497.115057546
+            ],
+            [
+              677645.9625075364,
+              6586495.503963715
+            ],
+            [
+              677646.210310715,
+              6586490.0096251285
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677639.1724611324,
+        6586475.655836016,
+        677667.4403774987,
+        6586501.589901239
+      ],
+      "centroidEpsg3006": [
+        677654.5320990697,
+        6586487.87552717
+      ],
+      "centroidBlenderXY": [
+        -45.967900930321775,
+        88.37552716955543
+      ],
+      "areaSquareMetres": 375.219,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "paved_path",
+        "parentFacilityId": "lidingo-clubhouse",
+        "material": "unverified-hard-surface",
+        "note": "Visible hardstanding surrounding the enclosed putting green. Interior turf remains an explicit hole. Physical paving material unknown.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Visible hardstanding surrounding the enclosed putting green. Interior turf remains an explicit hole. Physical paving material unknown."
+      ],
+      "referenceWindowIds": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 9
+    },
+    {
+      "id": "lidingo-clubhouse-parking-2019",
+      "kind": "parking",
+      "name": "clubhouse parking 2019",
+      "group": "lidingo-clubhouse",
+      "sourceFeatureId": "lidingo-clubhouse-parking-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677612.8947293154,
+              6586462.98147587
+            ],
+            [
+              677631.0113643222,
+              6586460.795554014
+            ],
+            [
+              677639.570197016,
+              6586459.680065472
+            ],
+            [
+              677639.2959865681,
+              6586454.662684827
+            ],
+            [
+              677644.3133672592,
+              6586454.388474322
+            ],
+            [
+              677642.6983929907,
+              6586445.807113906
+            ],
+            [
+              677641.4026841503,
+              6586441.24416363
+            ],
+            [
+              677633.4334465921,
+              6586440.384239078
+            ],
+            [
+              677632.2954297632,
+              6586432.324891882
+            ],
+            [
+              677623.1920572966,
+              6586434.416824503
+            ],
+            [
+              677611.5462039636,
+              6586437.39509028
+            ],
+            [
+              677605.8941740544,
+              6586440.643685149
+            ],
+            [
+              677612.8947293154,
+              6586462.98147587
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677605.8941740544,
+        6586432.324891882,
+        677644.3133672592,
+        6586462.98147587
+      ],
+      "centroidEpsg3006": [
+        677624.7499960458,
+        6586448.385515061
+      ],
+      "centroidBlenderXY": [
+        -75.75000395416282,
+        48.885515061207116
+      ],
+      "areaSquareMetres": 810.977,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "parking",
+        "parentFacilityId": "lidingo-clubhouse",
+        "material": "unverified-hard-surface",
+        "note": "Observed car-park apron west of the clubhouse; cars identify use but their positions are not adopted. Footprint clipped against retained building rings.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Observed car-park apron west of the clubhouse; cars identify use but their positions are not adopted. Footprint clipped against retained building rings."
+      ],
+      "referenceWindowIds": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 10
+    },
+    {
+      "id": "lidingo-upper-parking-north-2019",
+      "kind": "parking",
+      "name": "upper parking north 2019",
+      "group": "lidingo-upper-parking",
+      "sourceFeatureId": "lidingo-upper-parking-north-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677551.9505256198,
+              6586504.777408796
+            ],
+            [
+              677578.284194896,
+              6586497.957080022
+            ],
+            [
+              677588.4991744127,
+              6586493.412779304
+            ],
+            [
+              677590.3355432835,
+              6586485.988083831
+            ],
+            [
+              677594.556700377,
+              6586481.173451979
+            ],
+            [
+              677590.3316637455,
+              6586474.976881659
+            ],
+            [
+              677579.7298369341,
+              6586477.001229726
+            ],
+            [
+              677570.5588834989,
+              6586480.591615701
+            ],
+            [
+              677563.2957608193,
+              6586486.270052162
+            ],
+            [
+              677557.0766636055,
+              6586490.9945731005
+            ],
+            [
+              677547.0193783556,
+              6586492.042477492
+            ],
+            [
+              677551.9505256198,
+              6586504.777408796
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677547.0193783556,
+        6586474.976881659,
+        677594.556700377,
+        6586504.777408796
+      ],
+      "centroidEpsg3006": [
+        677572.030429529,
+        6586490.15281266
+      ],
+      "centroidBlenderXY": [
+        -128.46957047097385,
+        90.65281265974045
+      ],
+      "areaSquareMetres": 713.855,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "parking",
+        "parentFacilityId": "lidingo-upper-parking",
+        "material": "unverified-hard-surface",
+        "note": "Visible 2019 northern hardstanding; shadowed edges omitted. Later practice-area changes reported in 2025 are unresolved, so this is explicitly historical geometry.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 3,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Visible 2019 northern hardstanding; shadowed edges omitted. Later practice-area changes reported in 2025 are unresolved, so this is explicitly historical geometry."
+      ],
+      "referenceWindowIds": [
+        "upper-parking-detail-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 11
+    },
+    {
+      "id": "lidingo-upper-parking-south-2019",
+      "kind": "parking",
+      "name": "upper parking south 2019",
+      "group": "lidingo-upper-parking",
+      "sourceFeatureId": "lidingo-upper-parking-south-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677565.0194916371,
+              6586481.342783205
+            ],
+            [
+              677574.190444871,
+              6586477.752397344
+            ],
+            [
+              677581.2958750696,
+              6586475.5703567155
+            ],
+            [
+              677589.9448161166,
+              6586472.456928086
+            ],
+            [
+              677586.7412772482,
+              6586465.805927835
+            ],
+            [
+              677581.7914802459,
+              6586464.581682455
+            ],
+            [
+              677571.5990290651,
+              6586468.626499103
+            ],
+            [
+              677566.1046922242,
+              6586468.378696564
+            ],
+            [
+              677565.0194916371,
+              6586481.342783205
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677565.0194916371,
+        6586464.581682455,
+        677589.9448161166,
+        6586481.342783205
+      ],
+      "centroidEpsg3006": [
+        677576.3488920005,
+        6586472.131542371
+      ],
+      "centroidBlenderXY": [
+        -124.15110799949616,
+        72.63154237065464
+      ],
+      "areaSquareMetres": 233.743,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "parking",
+        "parentFacilityId": "lidingo-upper-parking",
+        "material": "unverified-hard-surface",
+        "note": "Separate visible 2019 apron. Tree-covered middle portion is deliberately not joined across uncertain boundaries.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 3,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Separate visible 2019 apron. Tree-covered middle portion is deliberately not joined across uncertain boundaries."
+      ],
+      "referenceWindowIds": [
+        "upper-parking-detail-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 12
+    },
+    {
+      "id": "lidingo-range-field-2019",
+      "kind": "range_field",
+      "name": "range field 2019",
+      "group": "lidingo-driving-range",
+      "sourceFeatureId": "lidingo-range-field-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677585.9854609089,
+              6586382.688636551
+            ],
+            [
+              677608.5073511406,
+              6586382.703395803
+            ],
+            [
+              677623.7622372651,
+              6586377.385392215
+            ],
+            [
+              677628.2459498402,
+              6586344.554526307
+            ],
+            [
+              677629.2783151726,
+              6586310.566998269
+            ],
+            [
+              677628.38809272,
+              6586297.013313436
+            ],
+            [
+              677623.3442971903,
+              6586286.775808816
+            ],
+            [
+              677625.7360577178,
+              6586244.841570405
+            ],
+            [
+              677626.1190172876,
+              6586236.350320154
+            ],
+            [
+              677627.0837863792,
+              6586203.861247862
+            ],
+            [
+              677631.0493565007,
+              6586182.5185407065
+            ],
+            [
+              677636.3782195651,
+              6586164.240325482
+            ],
+            [
+              677625.2504868961,
+              6586155.730442331
+            ],
+            [
+              677600.7757076691,
+              6586154.626626486
+            ],
+            [
+              677590.5832608901,
+              6586158.671456668
+            ],
+            [
+              677564.794138779,
+              6586164.515379633
+            ],
+            [
+              677554.8984366066,
+              6586173.078102171
+            ],
+            [
+              677545.7989626657,
+              6586186.181244131
+            ],
+            [
+              677540.3085189511,
+              6586196.944648
+            ],
+            [
+              677539.745345276,
+              6586209.431776332
+            ],
+            [
+              677544.909559557,
+              6586239.194250246
+            ],
+            [
+              677552.9355186175,
+              6586272.08879887
+            ],
+            [
+              677563.0759373658,
+              6586313.587233417
+            ],
+            [
+              677574.7148049085,
+              6586355.153253267
+            ],
+            [
+              677585.9854609089,
+              6586382.688636551
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677539.745345276,
+        6586154.626626486,
+        677636.3782195651,
+        6586382.703395803
+      ],
+      "centroidEpsg3006": [
+        677591.4397891064,
+        6586259.233371691
+      ],
+      "centroidBlenderXY": [
+        -109.06021089362912,
+        -140.26662830915302
+      ],
+      "areaSquareMetres": 15676.809,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "range_field",
+        "parentFacilityId": "lidingo-driving-range",
+        "note": "Observed range grass field. Covered buildings, northern hardstanding and southern tee apron excluded. Replaces the broad supplementary OSM range surface, not a surveyed mowing boundary.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 2.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Observed range grass field. Covered buildings, northern hardstanding and southern tee apron excluded. Replaces the broad supplementary OSM range surface, not a surveyed mowing boundary."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 13
+    },
+    {
+      "id": "lidingo-range-north-platform-2019",
+      "kind": "range_tee_pad",
+      "name": "range north platform 2019",
+      "group": "lidingo-driving-range",
+      "sourceFeatureId": "lidingo-range-north-platform-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677585.1705930319,
+              6586389.658902163
+            ],
+            [
+              677598.2022635058,
+              6586389.245642578
+            ],
+            [
+              677597.954462692,
+              6586394.739980172
+            ],
+            [
+              677610.4190665453,
+              6586395.802649273
+            ],
+            [
+              677616.9799570963,
+              6586394.597049082
+            ],
+            [
+              677621.1785854808,
+              6586390.281900362
+            ],
+            [
+              677626.398711787,
+              6586385.51232087
+            ],
+            [
+              677627.168525041,
+              6586379.54102464
+            ],
+            [
+              677620.5400523047,
+              6586382.245081144
+            ],
+            [
+              677608.4397691509,
+              6586384.201851581
+            ],
+            [
+              677595.9075833593,
+              6586384.63763879
+            ],
+            [
+              677584.8738538453,
+              6586385.141007943
+            ],
+            [
+              677585.1705930319,
+              6586389.658902163
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677584.8738538453,
+        6586379.54102464,
+        677627.168525041,
+        6586395.802649273
+      ],
+      "centroidEpsg3006": [
+        677608.0978526664,
+        6586388.371545916
+      ],
+      "centroidBlenderXY": [
+        -92.40214733360335,
+        -11.128454083576798
+      ],
+      "areaSquareMetres": 353.615,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "range_tee_pad",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "mixed-hardstanding-and-mats",
+        "note": "Visible northern practice hardstanding with a row of mats. A continuous platform is supported; individual mat count, dividers and dimensions remain unmeasured. OSM way41197436 previously drew this as grass.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Visible northern practice hardstanding with a row of mats. A continuous platform is supported; individual mat count, dividers and dimensions remain unmeasured. OSM way41197436 previously drew this as grass."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 14
+    },
+    {
+      "id": "lidingo-range-south-platform-2019",
+      "kind": "range_tee_pad",
+      "name": "range south platform 2019",
+      "group": "lidingo-driving-range",
+      "sourceFeatureId": "lidingo-range-south-platform-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677566.1985926311,
+              6586155.569699916
+            ],
+            [
+              677576.3234577855,
+              6586153.023325658
+            ],
+            [
+              677594.372506707,
+              6586152.335836417
+            ],
+            [
+              677609.8790768591,
+              6586152.534683413
+            ],
+            [
+              677625.7950259234,
+              6586154.753998553
+            ],
+            [
+              677626.6098871015,
+              6586147.7837309465
+            ],
+            [
+              677611.6703816581,
+              6586146.108955216
+            ],
+            [
+              677592.6223609496,
+              6586146.751391304
+            ],
+            [
+              677581.0666200051,
+              6586147.731729813
+            ],
+            [
+              677567.4228314706,
+              6586150.6199016655
+            ],
+            [
+              677566.1985926311,
+              6586155.569699916
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677566.1985926311,
+        6586146.108955216,
+        677626.6098871015,
+        6586155.569699916
+      ],
+      "centroidEpsg3006": [
+        677599.0448333945,
+        6586150.189093561
+      ],
+      "centroidBlenderXY": [
+        -101.45516660553403,
+        -249.31090643908828
+      ],
+      "areaSquareMetres": 341.615,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "range_tee_pad",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "mixed-hardstanding-and-mats",
+        "note": "Southern mat apron in front of the low range shelter and eastward extension. Shelter footprint and mats are separate physical features; no synthetic pitch-spaced bays.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Southern mat apron in front of the low range shelter and eastward extension. Shelter footprint and mats are separate physical features; no synthetic pitch-spaced bays."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 15
+    },
+    {
+      "id": "lidingo-range-east-platform-north-2019",
+      "kind": "range_tee_pad",
+      "name": "range east platform north 2019",
+      "group": "lidingo-driving-range",
+      "sourceFeatureId": "lidingo-range-east-platform-north-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677628.2971747019,
+              6586232.44454574
+            ],
+            [
+              677640.2622955334,
+              6586233.48467951
+            ],
+            [
+              677641.5541173902,
+              6586227.036424102
+            ],
+            [
+              677628.635079836,
+              6586224.952266012
+            ],
+            [
+              677628.2971747019,
+              6586232.44454574
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677628.2971747019,
+        6586224.952266012,
+        677641.5541173902,
+        6586233.48467951
+      ],
+      "centroidEpsg3006": [
+        677634.5574581746,
+        6586229.412962099
+      ],
+      "centroidBlenderXY": [
+        -65.94254182535224,
+        -170.08703790139407
+      ],
+      "areaSquareMetres": 87.998,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "range_tee_pad",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "unverified-turf-surface",
+        "note": "First clearly visible green practice strip south of the large range building. Exact turf/mat construction unknown.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "First clearly visible green practice strip south of the large range building. Exact turf/mat construction unknown."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 16
+    },
+    {
+      "id": "lidingo-range-east-platform-south-2019",
+      "kind": "range_tee_pad",
+      "name": "range east platform south 2019",
+      "group": "lidingo-driving-range",
+      "sourceFeatureId": "lidingo-range-east-platform-south-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677631.8083160103,
+              6586210.0803413335
+            ],
+            [
+              677646.2258099242,
+              6586212.2320795795
+            ],
+            [
+              677648.584182843,
+              6586204.330421742
+            ],
+            [
+              677632.6682327301,
+              6586202.111103088
+            ],
+            [
+              677631.8083160103,
+              6586210.0803413335
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677631.8083160103,
+        6586202.111103088,
+        677648.584182843,
+        6586212.2320795795
+      ],
+      "centroidEpsg3006": [
+        677639.8575822191,
+        6586207.127734385
+      ],
+      "centroidBlenderXY": [
+        -60.64241778093856,
+        -192.3722656145692
+      ],
+      "areaSquareMetres": 123.872,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "range_tee_pad",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "unverified-turf-surface",
+        "note": "Second clearly visible green practice strip. The intervening patchy strip is left unresolved rather than joined into one invented platform.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Second clearly visible green practice strip. The intervening patchy strip is left unresolved rather than joined into one invented platform."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 17
+    },
+    {
+      "id": "lidingo-range-target-green-2019",
+      "kind": "practice_green",
+      "name": "range target green 2019",
+      "group": "lidingo-driving-range",
+      "sourceFeatureId": "lidingo-range-target-green-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677578.1350485078,
+              6586268.220301538
+            ],
+            [
+              677581.4962824369,
+              6586271.3749024235
+            ],
+            [
+              677588.920979462,
+              6586273.21126452
+            ],
+            [
+              677597.412228496,
+              6586273.594225198
+            ],
+            [
+              677602.5197164989,
+              6586271.322069917
+            ],
+            [
+              677605.2874678719,
+              6586265.4408822395
+            ],
+            [
+              677605.96716977,
+              6586261.467527206
+            ],
+            [
+              677601.6294919199,
+              6586257.768386741
+            ],
+            [
+              677595.7257771717,
+              6586255.500120968
+            ],
+            [
+              677587.80159457,
+              6586253.641232307
+            ],
+            [
+              677583.7381316057,
+              6586254.959471515
+            ],
+            [
+              677580.0615185925,
+              6586258.797663796
+            ],
+            [
+              677578.1350485078,
+              6586268.220301538
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677578.1350485078,
+        6586253.641232307,
+        677605.96716977,
+        6586273.594225198
+      ],
+      "centroidEpsg3006": [
+        677591.7319726163,
+        6586264.122279473
+      ],
+      "centroidBlenderXY": [
+        -108.76802738371771,
+        -135.3777205273509
+      ],
+      "areaSquareMetres": 419.613,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "practice_green",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "unverified-turf-surface",
+        "note": "Distinct green target surface within the range. No target flag, daily cup position or distance marker is inferred.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Distinct green target surface within the range. No target flag, daily cup position or distance marker is inferred."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 18
+    },
+    {
+      "id": "lidingo-range-east-access-2019",
+      "kind": "paved_path",
+      "name": "range east access 2019",
+      "group": "lidingo-driving-range",
+      "sourceFeatureId": "lidingo-range-east-access-2019",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677644.6870031855,
+              6586290.74138754
+            ],
+            [
+              677651.0902041604,
+              6586293.032181791
+            ],
+            [
+              677654.0832279129,
+              6586282.156139543
+            ],
+            [
+              677659.2994636588,
+              6586266.375351673
+            ],
+            [
+              677663.1337675684,
+              6586259.0407605525
+            ],
+            [
+              677663.8810507241,
+              6586253.568948377
+            ],
+            [
+              677660.5873965726,
+              6586248.915890511
+            ],
+            [
+              677652.1862534585,
+              6586246.534989151
+            ],
+            [
+              677650.1020937688,
+              6586259.4540273305
+            ],
+            [
+              677646.3843147205,
+              6586275.302396068
+            ],
+            [
+              677644.6870031855,
+              6586290.74138754
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677644.6870031855,
+        6586246.534989151,
+        677663.8810507241,
+        6586293.032181791
+      ],
+      "centroidEpsg3006": [
+        677653.505723201,
+        6586267.993543423
+      ],
+      "centroidBlenderXY": [
+        -46.99427679902874,
+        -131.50645657721907
+      ],
+      "areaSquareMetres": 448.863,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "kind": "paved_path",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "unverified-hard-surface",
+        "note": "Visible service hardstanding between the large range building and road; excludes the building footprint. No parking stalls or vehicles inferred.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Visible service hardstanding between the large range building and road; excludes the building footprint. No parking stalls or vehicles inferred."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "observedYear": 2019,
+      "overviewLabel": 19
+    },
+    {
+      "id": "lidingo-clubhouse-practice-green-osm",
+      "kind": "practice_green",
+      "name": "Stora puttinggreenen",
+      "group": "lidingo-clubhouse",
+      "sourceFeatureId": "way/296422967",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677672.0457873459,
+              6586476.419435249
+            ],
+            [
+              677679.3588242785,
+              6586476.763330735
+            ],
+            [
+              677681.4445456662,
+              6586471.374466274
+            ],
+            [
+              677684.2230996013,
+              6586464.200354053
+            ],
+            [
+              677685.2393823742,
+              6586449.002906656
+            ],
+            [
+              677685.8604932723,
+              6586442.329563198
+            ],
+            [
+              677684.8170706247,
+              6586438.622528866
+            ],
+            [
+              677676.9246833558,
+              6586437.649157789
+            ],
+            [
+              677668.0469916088,
+              6586438.14618889
+            ],
+            [
+              677663.1906090527,
+              6586444.007005456
+            ],
+            [
+              677667.4897284927,
+              6586449.997216778
+            ],
+            [
+              677666.4960382645,
+              6586458.180910958
+            ],
+            [
+              677666.9958558345,
+              6586466.06680656
+            ],
+            [
+              677669.6530097391,
+              6586474.422173989
+            ],
+            [
+              677672.0457873459,
+              6586476.419435249
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677663.1906090527,
+        6586437.649157789,
+        677685.8604932723,
+        6586476.763330735
+      ],
+      "centroidEpsg3006": [
+        677675.4904672418,
+        6586455.48762508
+      ],
+      "centroidBlenderXY": [
+        -25.00953275815118,
+        55.9876250801608
+      ],
+      "areaSquareMetres": 656.183,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "id": "lidingo-clubhouse-practice-green-osm",
+        "sourceFeatureId": "way/296422967",
+        "kind": "practice_green",
+        "parentFacilityId": "lidingo-clubhouse",
+        "name": "Stora puttinggreenen",
+        "note": "Retained source ring, visually corroborated beside clubhouse. Remove its duplicate from generic scenery greens.",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "sourceSha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0",
+        "observedYear": null,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "registrationAccuracy": "not independently checked",
+        "method": "unmodified supplementary OSM ring; 2019 visual correspondence; purpose association only"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Retained source ring, visually corroborated beside clubhouse. Remove its duplicate from generic scenery greens."
+      ],
+      "referenceWindowIds": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "observedYear": null,
+      "overviewLabel": 20
+    },
+    {
+      "id": "lidingo-south-practice-green-osm",
+      "kind": "practice_green",
+      "name": "Övningsgreen söder om rangen",
+      "group": "lidingo-south-practice",
+      "sourceFeatureId": "way/221846981",
+      "sourceGeometryPath": "lidingobuild/mapping/facilities.geojson",
+      "sourceGeometryFileSha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677671.7056300449,
+              6586110.294838394
+            ],
+            [
+              677674.7161836808,
+              6586107.994030307
+            ],
+            [
+              677677.9889359376,
+              6586096.727932107
+            ],
+            [
+              677681.860345329,
+              6586092.337511708
+            ],
+            [
+              677681.2679057205,
+              6586085.450975798
+            ],
+            [
+              677670.6204916302,
+              6586081.448521486
+            ],
+            [
+              677663.9136246024,
+              6586074.731758593
+            ],
+            [
+              677660.038387775,
+              6586069.519869637
+            ],
+            [
+              677655.3139296095,
+              6586069.29775689
+            ],
+            [
+              677654.2312863888,
+              6586076.105535023
+            ],
+            [
+              677656.8735881997,
+              6586084.9062618725
+            ],
+            [
+              677657.2589023778,
+              6586096.199372067
+            ],
+            [
+              677657.7986494428,
+              6586107.354763074
+            ],
+            [
+              677660.5800485339,
+              6586109.927887187
+            ],
+            [
+              677666.4913760594,
+              6586110.808037257
+            ],
+            [
+              677671.7056300449,
+              6586110.294838394
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677654.2312863888,
+        6586069.29775689,
+        677681.860345329,
+        6586110.808037257
+      ],
+      "centroidEpsg3006": [
+        677666.555196024,
+        6586091.867342899
+      ],
+      "centroidBlenderXY": [
+        -33.94480397598818,
+        -307.63265710137784
+      ],
+      "areaSquareMetres": 712.085,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "id": "lidingo-south-practice-green-osm",
+        "sourceFeatureId": "way/221846981",
+        "kind": "practice_green",
+        "parentFacilityId": "lidingo-south-practice",
+        "name": "Övningsgreen söder om rangen",
+        "note": "OSM explicitly names putting green; 2019 image confirms position. Retain exact source ring and avoid duplicating scenery green.",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "sourceSha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0",
+        "observedYear": null,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "registrationAccuracy": "not independently checked",
+        "method": "unmodified supplementary OSM ring; 2019 visual correspondence; purpose association only"
+      },
+      "heightStatus": "surface drape uses retained 1 m terrain; no independent spot levels",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "OSM explicitly names putting green; 2019 image confirms position. Retain exact source ring and avoid duplicating scenery green."
+      ],
+      "referenceWindowIds": [
+        "range-south-detail-lm-2025"
+      ],
+      "observedYear": null,
+      "overviewLabel": 21
+    },
+    {
+      "id": "way/32428950",
+      "kind": "parking",
+      "name": "Northwest overflow parking candidate",
+      "group": "parking",
+      "sourceFeatureId": "way/32428950",
+      "sourceGeometryPath": "lidingobuild/mapping/infrastructure.geojson",
+      "sourceGeometryFileSha256": "27d80d50dc24f8f3910e79a7366f40a8c883c8cd132d4ea96cb0133e105b115d",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677505.6529050387,
+              6586505.1447366895
+            ],
+            [
+              677520.7537243603,
+              6586536.902227158
+            ],
+            [
+              677542.2968311198,
+              6586523.829125652
+            ],
+            [
+              677531.1103087319,
+              6586503.229330406
+            ],
+            [
+              677524.5375613299,
+              6586498.515340766
+            ],
+            [
+              677523.2087031829,
+              6586495.430629563
+            ],
+            [
+              677517.9737059607,
+              6586495.307342367
+            ],
+            [
+              677505.6529050387,
+              6586505.1447366895
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677505.6529050387,
+        6586495.307342367,
+        677542.2968311198,
+        6586536.902227158
+      ],
+      "centroidEpsg3006": [
+        677523.3943340197,
+        6586515.135401657
+      ],
+      "centroidBlenderXY": [
+        -177.10566598025616,
+        115.63540165685117
+      ],
+      "areaSquareMetres": 840.045,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "32428950",
+        "osmVersion": "5",
+        "osmTimestamp": "2020-08-13T07:51:58Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking",
+          "source": "Yahoo;survey"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/32428950",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Retained OSM closed amenity=parking way normalized to polygon without changing vertices. Exact 2025 edge and stall layout not retraced."
+      ],
+      "referenceWindowIds": [
+        "upper-parking-detail-lm-2025"
+      ],
+      "overviewLabel": 22
+    },
+    {
+      "id": "way/52583105",
+      "kind": "parking",
+      "name": "South range-road parking",
+      "group": "parking",
+      "sourceFeatureId": "way/52583105",
+      "sourceGeometryPath": "lidingobuild/mapping/infrastructure.geojson",
+      "sourceGeometryFileSha256": "27d80d50dc24f8f3910e79a7366f40a8c883c8cd132d4ea96cb0133e105b115d",
+      "geometryType": "Polygon",
+      "geometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677660.5554209744,
+              6586198.933410246
+            ],
+            [
+              677678.9976821325,
+              6586195.941837646
+            ],
+            [
+              677685.8408612213,
+              6586193.219032552
+            ],
+            [
+              677687.9554826046,
+              6586187.218145464
+            ],
+            [
+              677686.4415609154,
+              6586180.444407294
+            ],
+            [
+              677679.7982360676,
+              6586178.916421513
+            ],
+            [
+              677673.5055809892,
+              6586182.880727505
+            ],
+            [
+              677669.460746508,
+              6586184.909856215
+            ],
+            [
+              677662.4910173215,
+              6586191.05050425
+            ],
+            [
+              677661.6318970714,
+              6586194.556550071
+            ],
+            [
+              677660.5554209744,
+              6586198.933410246
+            ]
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677660.5554209744,
+        6586178.916421513,
+        677687.9554826046,
+        6586198.933410246
+      ],
+      "centroidEpsg3006": [
+        677675.4255424014,
+        6586189.438460158
+      ],
+      "centroidBlenderXY": [
+        -25.0744575986173,
+        -210.06153984181583
+      ],
+      "areaSquareMetres": 333.242,
+      "lengthMetres": null,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "52583105",
+        "osmVersion": "3",
+        "osmTimestamp": "2020-08-13T08:04:52Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking",
+          "source": "Yahoo;survey",
+          "wheelchair": "yes"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/52583105",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Retained OSM closed amenity=parking way normalized to polygon without changing vertices. Exact 2025 edge and stall layout not retraced."
+      ],
+      "referenceWindowIds": [
+        "range-buildings-detail-lm-2025"
+      ],
+      "overviewLabel": 23
+    },
+    {
+      "id": "way/32428969",
+      "kind": "access_centreline",
+      "name": "Upper parking aisle east",
+      "group": "access",
+      "sourceFeatureId": "way/32428969",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677590.515605347,
+            6586478.809432863
+          ],
+          [
+            677583.0261610952,
+            6586468.174983175
+          ],
+          [
+            677545.0762884889,
+            6586485.6292491825
+          ],
+          [
+            677551.9787563245,
+            6586501.611449594
+          ],
+          [
+            677586.691784484,
+            6586484.618499412
+          ],
+          [
+            677590.515605347,
+            6586478.809432863
+          ],
+          [
+            677610.7525971512,
+            6586475.255138795
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677545.0762884889,
+        6586468.174983175,
+        677610.7525971512,
+        6586501.611449594
+      ],
+      "centroidEpsg3006": [
+        677572.3779296213,
+        6586483.476217705
+      ],
+      "centroidBlenderXY": [
+        -128.12207037874032,
+        83.9762177048251
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 138.338,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "32428969",
+        "osmVersion": "3",
+        "osmTimestamp": "2020-08-13T07:51:58Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "highway": "service",
+          "service": "parking_aisle"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 24
+    },
+    {
+      "id": "way/32428972",
+      "kind": "access_centreline",
+      "name": "Upper parking aisle west",
+      "group": "access",
+      "sourceFeatureId": "way/32428972",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677545.0762884889,
+            6586485.6292491825
+          ],
+          [
+            677528.8812967523,
+            6586499.198984433
+          ],
+          [
+            677517.6143479394,
+            6586506.710417408
+          ],
+          [
+            677526.4154645189,
+            6586519.949087936
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677517.6143479394,
+        6586485.6292491825,
+        677545.0762884889,
+        6586519.949087936
+      ],
+      "centroidEpsg3006": [
+        677528.5974626712,
+        6586501.812205884
+      ],
+      "centroidBlenderXY": [
+        -171.90253732877318,
+        102.31220588367432
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 50.567,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "32428972",
+        "osmVersion": "2",
+        "osmTimestamp": "2020-08-13T07:51:58Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "highway": "service",
+          "service": "parking_aisle"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 25
+    },
+    {
+      "id": "way/41197227",
+      "kind": "access_centreline",
+      "name": "South range service access",
+      "group": "access",
+      "sourceFeatureId": "way/41197227",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677562.1055283898,
+            6586156.4104153095
+          ],
+          [
+            677590.4648876151,
+            6586150.315678217
+          ],
+          [
+            677613.9400091677,
+            6586148.129078344
+          ],
+          [
+            677635.6947422771,
+            6586150.701853845
+          ],
+          [
+            677655.6986188834,
+            6586151.296545844
+          ],
+          [
+            677662.8221804175,
+            6586153.505051492
+          ],
+          [
+            677668.2774675287,
+            6586157.910206345
+          ],
+          [
+            677668.2133003711,
+            6586165.568835586
+          ],
+          [
+            677664.6917250701,
+            6586177.771186849
+          ],
+          [
+            677662.4910173215,
+            6586191.05050425
+          ],
+          [
+            677661.6318970714,
+            6586194.556550071
+          ],
+          [
+            677660.5554209744,
+            6586198.933410246
+          ],
+          [
+            677659.4138901351,
+            6586206.630604214
+          ],
+          [
+            677658.4087304467,
+            6586213.363957893
+          ],
+          [
+            677658.5107658897,
+            6586223.539673813
+          ],
+          [
+            677662.29323318,
+            6586233.988803322
+          ],
+          [
+            677672.4556174099,
+            6586245.1505540265
+          ],
+          [
+            677678.5933517902,
+            6586248.472589852
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677562.1055283898,
+        6586148.129078344,
+        677678.5933517902,
+        6586248.472589852
+      ],
+      "centroidEpsg3006": [
+        677638.8959922708,
+        6586177.561799513
+      ],
+      "centroidBlenderXY": [
+        -61.60400772921275,
+        -221.93820048682392
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 208.862,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "41197227",
+        "osmVersion": "4",
+        "osmTimestamp": "2020-08-13T08:04:52Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "highway": "service",
+          "surface": "paved"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 26
+    },
+    {
+      "id": "way/221846977",
+      "kind": "access_centreline",
+      "name": "East range service path",
+      "group": "access",
+      "sourceFeatureId": "way/221846977",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677640.29184507,
+            6586242.846528164
+          ],
+          [
+            677642.3033605503,
+            6586235.647475822
+          ],
+          [
+            677645.9605773146,
+            6586229.272998604
+          ],
+          [
+            677651.7259770016,
+            6586213.886191659
+          ],
+          [
+            677659.4138901351,
+            6586206.630604214
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677640.29184507,
+        6586206.630604214,
+        677659.4138901351,
+        6586242.846528164
+      ],
+      "centroidEpsg3006": [
+        677648.3670653554,
+        6586223.787430738
+      ],
+      "centroidBlenderXY": [
+        -52.132934644585475,
+        -175.71256926190108
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 41.826,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "221846977",
+        "osmVersion": "1",
+        "osmTimestamp": "2013-05-17T14:52:08Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "highway": "service",
+          "source": "Bing"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 27
+    },
+    {
+      "id": "way/79550926",
+      "kind": "access_centreline",
+      "name": "North clubhouse service access",
+      "group": "access",
+      "sourceFeatureId": "way/79550926",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677646.3839818744,
+            6586538.346128902
+          ],
+          [
+            677620.4006916557,
+            6586540.314093647
+          ],
+          [
+            677616.0775429208,
+            6586540.6461702185
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677616.0775429208,
+        6586538.346128902,
+        677646.3839818744,
+        6586540.6461702185
+      ],
+      "centroidEpsg3006": [
+        677631.2306114582,
+        6586539.494170718
+      ],
+      "centroidBlenderXY": [
+        -69.26938854181208,
+        139.99417071789503
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 30.394,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "79550926",
+        "osmVersion": "2",
+        "osmTimestamp": "2014-03-24T06:23:15Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "highway": "service"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 28
+    },
+    {
+      "id": "way/427426698",
+      "kind": "access_centreline",
+      "name": "Clubhouse parking approach",
+      "group": "access",
+      "sourceFeatureId": "way/427426698",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677638.2523087072,
+            6586461.012750473
+          ],
+          [
+            677639.2052140008,
+            6586465.072388401
+          ],
+          [
+            677609.3157091455,
+            6586470.838189322
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677609.3157091455,
+        6586461.012750473,
+        677639.2052140008,
+        6586470.838189322
+      ],
+      "centroidEpsg3006": [
+        677626.0036436688,
+        6586467.363390389
+      ],
+      "centroidBlenderXY": [
+        -74.49635633116122,
+        67.86339038889855
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 34.611,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "427426698",
+        "osmVersion": "1",
+        "osmTimestamp": "2016-06-26T16:05:36Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "access": "yes",
+          "highway": "service",
+          "oneway": "no",
+          "source": "survey;Mapbox"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 29
+    },
+    {
+      "id": "way/427426716",
+      "kind": "access_centreline",
+      "name": "Clubhouse one-way service approach",
+      "group": "access",
+      "sourceFeatureId": "way/427426716",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677639.2052140008,
+            6586465.072388401
+          ],
+          [
+            677642.5717624866,
+            6586478.189671724
+          ],
+          [
+            677642.5639305182,
+            6586484.8918516915
+          ],
+          [
+            677638.3994375154,
+            6586502.060226202
+          ],
+          [
+            677630.8531852968,
+            6586511.519488452
+          ],
+          [
+            677625.5636391941,
+            6586521.876671218
+          ],
+          [
+            677615.7541286653,
+            6586531.184949043
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677615.7541286653,
+        6586465.072388401,
+        677642.5717624866,
+        6586531.184949043
+      ],
+      "centroidEpsg3006": [
+        677634.3330009086,
+        6586500.159319892
+      ],
+      "centroidBlenderXY": [
+        -66.16699909139425,
+        100.65931989159435
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 75.164,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "427426716",
+        "osmVersion": "1",
+        "osmTimestamp": "2016-06-26T16:05:37Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "access": "yes",
+          "highway": "service",
+          "oneway": "yes",
+          "source": "survey;Mapbox"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 30
+    },
+    {
+      "id": "way/427429857",
+      "kind": "access_centreline",
+      "name": "Courtyard gravel footway",
+      "group": "access",
+      "sourceFeatureId": "way/427429857",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677610.7525971512,
+            6586475.255138795
+          ],
+          [
+            677618.8194448858,
+            6586475.299782424
+          ],
+          [
+            677627.1189248649,
+            6586480.563514823
+          ],
+          [
+            677634.882006752,
+            6586484.285332251
+          ],
+          [
+            677642.5639305182,
+            6586484.8918516915
+          ],
+          [
+            677645.7459293159,
+            6586486.926202334
+          ],
+          [
+            677644.5281235906,
+            6586496.972952993
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677610.7525971512,
+        6586475.255138795,
+        677645.7459293159,
+        6586496.972952993
+      ],
+      "centroidEpsg3006": [
+        677631.8843911731,
+        6586482.932155446
+      ],
+      "centroidBlenderXY": [
+        -68.61560882686172,
+        83.43215544614941
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 48.107,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "427429857",
+        "osmVersion": "2",
+        "osmTimestamp": "2019-08-24T13:41:42Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "highway": "footway",
+          "source": "survey",
+          "surface": "gravel"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 31
+    },
+    {
+      "id": "way/836722128",
+      "kind": "access_centreline",
+      "name": "South range parking aisle",
+      "group": "access",
+      "sourceFeatureId": "way/836722128",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677661.6318970714,
+            6586194.556550071
+          ],
+          [
+            677672.3775053306,
+            6586188.838789243
+          ],
+          [
+            677681.0948050233,
+            6586183.293338094
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677661.6318970714,
+        6586183.293338094,
+        677681.0948050233,
+        6586194.556550071
+      ],
+      "centroidEpsg3006": [
+        677671.4724857534,
+        6586189.112156505
+      ],
+      "centroidBlenderXY": [
+        -29.02751424664166,
+        -210.38784349523485
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 22.504,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "836722128",
+        "osmVersion": "1",
+        "osmTimestamp": "2020-08-13T08:04:52Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "highway": "service",
+          "service": "parking_aisle"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 32
+    },
+    {
+      "id": "way/221846979",
+      "kind": "access_centreline",
+      "name": "Upper parking paved footway",
+      "group": "access",
+      "sourceFeatureId": "way/221846979",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677542.3891129829,
+            6586449.570243546
+          ],
+          [
+            677549.22636528,
+            6586462.582854273
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677542.3891129829,
+        6586449.570243546,
+        677549.22636528,
+        6586462.582854273
+      ],
+      "centroidEpsg3006": [
+        677545.8077391314,
+        6586456.07654891
+      ],
+      "centroidBlenderXY": [
+        -154.69226086861454,
+        56.57654890976846
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 14.7,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "221846979",
+        "osmVersion": "2",
+        "osmTimestamp": "2019-08-24T13:41:42Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "highway": "footway",
+          "source": "Bing",
+          "surface": "paved"
+        }
+      },
+      "heightStatus": "not established",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "Source centreline only: width, kerbs, paving extent, turning radius and current direction/access have not been remeasured."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 33
+    },
+    {
+      "id": "way/52583080",
+      "kind": "fence_centreline",
+      "name": "West driving-range fence/net alignment",
+      "group": "range",
+      "sourceFeatureId": "way/52583080",
+      "sourceGeometryPath": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sourceGeometryFileSha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7",
+      "geometryType": "LineString",
+      "geometryEpsg3006": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677588.277998121,
+            6586389.608414306
+          ],
+          [
+            677576.5021499258,
+            6586370.040271685
+          ],
+          [
+            677534.9883301402,
+            6586203.414590378
+          ],
+          [
+            677553.668710043,
+            6586169.675552521
+          ],
+          [
+            677551.8957103286,
+            6586155.4511252735
+          ]
+        ]
+      },
+      "boundsEpsg3006": [
+        677534.9883301402,
+        6586155.4511252735,
+        677588.277998121,
+        6586389.608414306
+      ],
+      "centroidEpsg3006": [
+        677556.2534385218,
+        6586272.513969001
+      ],
+      "centroidBlenderXY": [
+        -144.24656147824135,
+        -126.98603099863976
+      ],
+      "areaSquareMetres": null,
+      "lengthMetres": 247.457,
+      "geometryStatus": "retained source geometry; not surveyed; no 2025 retrace performed",
+      "sourceProperties": {
+        "osmType": "way",
+        "osmId": "52583080",
+        "osmVersion": "3",
+        "osmTimestamp": "2014-08-22T15:42:43Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "unreviewed-supplementary",
+        "tags": {
+          "barrier": "fence"
+        }
+      },
+      "heightStatus": "net/pole height unknown; do not infer from shadows without sun-angle and slope analysis",
+      "currentUseStatus": "descriptive source association; verify current use",
+      "notes": [
+        "OSM says barrier=fence. The 2025 orthophoto corroborates tall range-edge posts/shadows, but the source line does not measure net top, pole spacing or structure."
+      ],
+      "referenceWindowIds": [
+        "facilities-overview-lm-2025"
+      ],
+      "overviewLabel": 34
+    }
+  ],
+  "unresolvedFacilities": [
+    {
+      "id": "north-range-covered-tee-structure",
+      "kind": "untraced_building",
+      "name": "North range covered tee structure",
+      "group": "range",
+      "sourceEvidence": [
+        "range-north-detail-lm-2025"
+      ],
+      "observationBoundsEpsg3006": [
+        677582,
+        6586378,
+        677605,
+        6586396
+      ],
+      "observation": "A narrow roof-like structure is visible at the west end of the north tee apron.",
+      "gaps": [
+        "Wall/roof footprint not traced",
+        "Eaves/ridge heights",
+        "Mat and bay count",
+        "Side elevations"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "south-range-covered-tee-structure",
+      "kind": "untraced_building",
+      "name": "South range covered tee structure",
+      "group": "range",
+      "sourceEvidence": [
+        "range-south-detail-lm-2025"
+      ],
+      "observationBoundsEpsg3006": [
+        677550,
+        6586140,
+        677591,
+        6586162
+      ],
+      "observation": "Elongated dark roof is visible beside the south tee platform; absent from the retained OSM building footprints.",
+      "gaps": [
+        "Wall/roof footprint not traced",
+        "Eaves/ridge heights",
+        "Supports and net connections",
+        "Facade photos"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "restaurant-terrace-putting-green",
+      "kind": "untraced_practice_green",
+      "name": "Putting green northeast of restaurant terrace",
+      "group": "clubhouse",
+      "sourceEvidence": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "observationBoundsEpsg3006": [
+        677670,
+        6586478,
+        677706,
+        6586530
+      ],
+      "observation": "Distinct green east/northeast of north restaurant, additional to the courtyard and southeast pavilion greens already in facilities.geojson.",
+      "gaps": [
+        "Current ring not traced",
+        "Reconcile with generic playing greens to prevent duplicate geometry"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "range-south-target-green",
+      "kind": "untraced_practice_green",
+      "name": "South target green within range field",
+      "group": "range",
+      "sourceEvidence": [
+        "range-south-detail-lm-2025"
+      ],
+      "observationBoundsEpsg3006": [
+        677577,
+        6586181,
+        677605,
+        6586212
+      ],
+      "observation": "Separate small green target is visible in the southern range field, additional to retained central target green.",
+      "gaps": [
+        "Exact ring",
+        "Target equipment and distances"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "clubhouse-terrace-stairs-entrance",
+      "kind": "architecture_details",
+      "name": "Tiered timber terrace, stairs, rails, entry wall/pillars",
+      "group": "clubhouse",
+      "sourceEvidence": [
+        "clubhouse-detail-lm-2025",
+        "docs/courses/lidingo-clubhouse-appearance.md",
+        "https://www.lidingogk.se/nyheter/vikingaskeppet-6-7-juli/"
+      ],
+      "observation": "Photographs corroborate these details; existing app contains an approximate terrace display model.",
+      "gaps": [
+        "Precise deck outlines and elevations",
+        "Rail spacing",
+        "Stair rise/run",
+        "Entrance details and facade dimensions"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "range-east-net-and-equipment",
+      "kind": "range_equipment",
+      "name": "East range netting, masts, mats and equipment",
+      "group": "range",
+      "sourceEvidence": [
+        "facilities-overview-lm-2025",
+        "https://www.lidingogk.se/trana/rangen-ovningsomraden/"
+      ],
+      "observation": "Eastern pole shadows, tee rows and equipment are visible. A separate red utility hut and open canopy are present in a club range photograph.",
+      "gaps": [
+        "Current mast base coordinates and heights",
+        "Net runs and cable connections",
+        "Exact mat count",
+        "Locate photographed red hut before joining to way/221846983 or another structure"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "upper-parking-practice-works",
+      "kind": "untraced_practice_area",
+      "name": "New practice area by upper parking",
+      "group": "practice",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/trana/rangen-ovningsomraden/",
+        "upper-parking-detail-lm-2025"
+      ],
+      "observation": "Club identifies a practice area by upper parking. The May 2025 image shows greens/bunkers northeast of parking, but current intended boundary and any later works remain unconfirmed.",
+      "gaps": [
+        "Current as-built extent",
+        "Construction/completion date relative to 2025-05-31",
+        "Detailed bunker/green rings"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "south-range-short-game-area",
+      "kind": "practice_area",
+      "name": "Chipping and bunker practice south of range",
+      "group": "practice",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/trana/rangen-ovningsomraden/",
+        "range-south-detail-lm-2025"
+      ],
+      "observation": "Club confirms south range short-game practice; the retained south putting green covers only part of the visible green/bunker/approach complex.",
+      "gaps": [
+        "Full group boundary",
+        "Practice bunker and apron joins to generic golf-surface data",
+        "Current markers and equipment"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "old-17-practice-green",
+      "kind": "unlocated_practice_area",
+      "name": "Practice green at old hole 17",
+      "group": "practice",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/trana/rangen-ovningsomraden/"
+      ],
+      "observation": "Official page identifies old 17 green as a practice area.",
+      "gaps": [
+        "Geolocate historical hole 17; do not assume current hole 17 coordinates",
+        "Dedicated ortho crop and current dimensions"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "halfway-kiosk",
+      "kind": "unlocated_building",
+      "name": "Kiosk between holes 9 and 10",
+      "group": "course-support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/gaster/"
+      ],
+      "observation": "Official guest page identifies kiosk between 9 and 10.",
+      "gaps": [
+        "Exact footprint and coordinate",
+        "Exterior photos",
+        "Roof/wall dimensions",
+        "Current associated seating/paths"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "maintenance-carts-equipment-conference",
+      "kind": "unlocated_building_uses",
+      "name": "Maintenance, golf-cart/equipment and conference premises",
+      "group": "support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Club anniversary history pp8–9 identifies west barn maintenance staff (2016), B4 garage for 14 electric carts, B3 bag store/tournament office and B2 conference/junior space (2017). Counts and uses are historical report facts, not a current inspection.",
+      "gaps": [
+        "Join historical B2/B3/B4 and Västra Ladan labels to exact current footprints",
+        "Current room uses and exterior alterations"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "starter-hut",
+      "kind": "unlocated_building",
+      "name": "Starter hut outside B4",
+      "group": "course-support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history pp8–9 reports starter hut built outside B4 in 2018.",
+      "gaps": [
+        "Identify B4 footprint",
+        "Hut coordinates and roof/wall footprint",
+        "Current exterior photos and height"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "clubhouse-range-sanitary-water",
+      "kind": "unlocated_building_details",
+      "name": "B4/east-barn toilets, club washing and water points",
+      "group": "course-support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history pp8–9 reports two B4-gable toilets facing starter hut in 2021, east-barn toilets in 2021, B3-gable club-wash sinks and water tap/sink toward the path to tee 5.",
+      "gaps": [
+        "Exact B3/B4 and east-barn facade joins",
+        "Door positions, sinks, water point dimensions",
+        "Current condition; potable-water status not established"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "tee-15-toilet",
+      "kind": "unlocated_building",
+      "name": "Toilet by tee 15",
+      "group": "course-support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history records a toilet at tee 15 added in 2023.",
+      "gaps": [
+        "Exact coordinate and footprint",
+        "Exterior and roof height",
+        "Dedicated orthophoto crop"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "bag-store-ev-charging",
+      "kind": "unlocated_equipment",
+      "name": "Electric vehicle charging bays by bag store",
+      "group": "parking",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history reports six EV charging spaces by the bag store long side in 2022.",
+      "gaps": [
+        "Join bag store to exact footprint and side",
+        "Charger positions, models and markings",
+        "Current capacity"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "east-barn-indoor-range",
+      "kind": "unlocated_building_use",
+      "name": "Indoor hitting bays in east barn upper floor",
+      "group": "range",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history reports east-barn upper floor conversion in 2018–2019 for six indoor hitting bays.",
+      "gaps": [
+        "Confirm east barn footprint-ID association",
+        "Current exterior openings and bay arrangement",
+        "Current use and number of bays"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    }
+  ],
+  "counts": {
+    "mappedFeatures": 34,
+    "byKind": {
+      "building": 7,
+      "practice_green": 4,
+      "paved_path": 2,
+      "parking": 5,
+      "range_field": 1,
+      "range_tee_pad": 4,
+      "access_centreline": 10,
+      "fence_centreline": 1
+    },
+    "supportedRoofMeshes": 5,
+    "unresolvedEntries": 16
+  },
+  "limitations": [
+    "The inventory is broader than the existing five architectural display models and is not a claim that every facility is modeled.",
+    "OSM acquisition date 2026-09-07 is not the observation date of every footprint.",
+    "2021 roof evidence, 2019 traced surfaces, 2024 photos and 2025 orthophotos have different epochs.",
+    "Nearby structures are not assigned to club ownership or use without evidence.",
+    "Facility surfaces retain their exact historical geometry; current orthophotos are review references only."
+  ],
+  "reviewOverlay": {
+    "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-inventory-overlay.png",
+    "sha256": "edce54b9abef134d794e22966640c52493eb328f084b03effd8bb802ef5748dc",
+    "baseImageId": "facilities-overview-lm-2025",
+    "note": "Numbers match mappedFeatures[].overviewLabel; historical geometries over 2025 pixels are diagnostic overlays, not accepted new tracing."
+  }
+}

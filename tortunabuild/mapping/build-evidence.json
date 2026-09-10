@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-09",
+  "branch": "codex/tortuna-golf-course-v2",
+  "scope": "provisional Tortuna source implementation rebuilt from retained intake",
+  "buildState": "working tree based on 7aac4d4; tests and captures precede implementation commit",
+  "latestMainVerified": "3ddb506",
+  "buildHtml": {
+    "path": "apps/golf/dist/index.html",
+    "sha256": "79c05bd49bdf1d54bb92d53a162a048e2e056c99ff1bc62a12206e59fbf50f21"
+  },
+  "model": {
+    "path": "tortunabuild/course-model.json",
+    "sha256": "12d9fda78e8ece174c278c7aef581d18dedb802c39f3e2506816efd6c1e96f8e"
+  },
+  "canonicalModel": {
+    "path": "geo_data/course-v2/tortuna/migration/course-model.epsg3006.json",
+    "sha256": "0d15b0eb9d00c5e6c87f9b861c822c65db1ec0d05197bfb979c4cf595245dbfc"
+  },
+  "runtimeNativeTerrain": {
+    "path": "tortunabuild/mapping/native-terrain-validation.json",
+    "sha256": "bcab713cdf8c20b58058bfae769c00b6c198e7d815d480ea341582c5ed544cb3",
+    "controls": 36,
+    "maximumDifferenceMetres": 0.004034275230864637,
+    "interpretation": "Encoding consistency, not independent survey accuracy"
+  },
+  "tests": {
+    "command": "npm test",
+    "passed": true,
+    "vitest": {
+      "files": 85,
+      "passed": 572
+    },
+    "node": {
+      "total": 421,
+      "passed": 418,
+      "skipped": 3,
+      "failed": 0
+    },
+    "logSha256": "7fa210173ba30fde8c35aa0592dcfb5c0e9e8a3b3921e3c0722d765cf11f5055"
+  },
+  "checksPassed": [
+    "source-manifests",
+    "all-course-packs",
+    "production-app-build",
+    "renderer-build",
+    "app-build-isolation",
+    "hole-source-planner",
+    "native-terrain-36-controls"
+  ],
+  "browser": {
+    "webgl2": {
+      "report": "tortunabuild/mapping/browser/webgl2/report.json",
+      "sha256": "f1d11c2015e7d66904fe4f21db6887753dd9906cb33a1489409e4ed8bedc4497",
+      "passed": true,
+      "requested": "webgl2",
+      "actual": "webgl2",
+      "autoFallback": false,
+      "viewport": [
+        640,
+        480
+      ],
+      "captures": 3,
+      "errors": [],
+      "modelFingerprint": "1890b965444158e3befa5f6431dec45d9d2f05c75f84801c5c13067968e9fa7d",
+      "performanceEvidence": false
+    },
+    "mobile-fallback": {
+      "report": "tortunabuild/mapping/browser/mobile-fallback/report.json",
+      "sha256": "81ad239645306d01e9e57cb7ca46ee93e6eaf66287ad52e70215edbd1a3b75f0",
+      "passed": true,
+      "requested": "webgl2",
+      "actual": "webgl2",
+      "autoFallback": true,
+      "viewport": [
+        390,
+        660
+      ],
+      "captures": 1,
+      "errors": [],
+      "modelFingerprint": "1890b965444158e3befa5f6431dec45d9d2f05c75f84801c5c13067968e9fa7d",
+      "performanceEvidence": false
+    },
+    "webgpu-phone": {
+      "report": "tortunabuild/mapping/browser/webgpu-phone/report.json",
+      "sha256": "6ddd68f34da79d8eac324eb9aafb130b5cf95772cf4077cbd9bf7d4677278c2b",
+      "passed": false,
+      "requested": "webgpu",
+      "actual": "webgl2",
+      "autoFallback": false,
+      "viewport": [
+        390,
+        660
+      ],
+      "captures": 0,
+      "errors": [
+        {
+          "type": "harness",
+          "text": "Error: Requested webgpu, got webgl2\n    at main (tools/v2-graphics-review.mjs:261:50)\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:472:9)\n    at async tools/v2-graphics-review.mjs:379:9"
+        }
+      ],
+      "modelFingerprint": null,
+      "performanceEvidence": false
+    }
+  },
+  "visualReview": {
+    "reviewer": "assistant",
+    "imagesInspected": 4,
+    "findings": [
+      "Continuous terrain in representative cameras",
+      "Current short hole 9 shown with green, bunkers, pond and yellow clubhouse",
+      "Observed playing surfaces render on measured terrain"
+    ],
+    "limitations": [
+      "No available WebGPU adapter on this Windows software renderer; explicit WebGPU request falls back and strict backend check fails",
+      "Phone dimensions exercise portrait layout and automatic WebGL2 fallback, not a physical phone",
+      "Software rendering establishes no hardware performance claim",
+      "Limited views do not approve all 18 holes or source completeness"
+    ]
+  }
+}

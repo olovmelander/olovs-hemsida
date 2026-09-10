@@ -1,0 +1,1070 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "kind": "source-registered-facility-site-details",
+  "preparedOn": "2026-09-10",
+  "coordinateFrame": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalDatum": "RH2000",
+    "units": "metres",
+    "blenderOriginEpsg3006RH2000": [
+      678580.0,
+      6988405.0,
+      32.8
+    ],
+    "blenderAxes": "X=easting-678580; Y=northing-6988405; Z=RH2000-32.8",
+    "runtimeHorizontal": "EPSG:3006 -> WGS84, then x=(lon-18.5325)*50568.51; z=(62.9825-lat)*111320. Apply the established runtime vertical bridge separately."
+  },
+  "sources": [
+    {
+      "path": "nvgkbuild/mapping/facilities-ortho-reference.json",
+      "sha256": "16b9bef1798cdb38fc748e3d415aecb4571cbaf7fc564903e8818228b755915b"
+    },
+    {
+      "path": "nvgkbuild/mapping/facilities-height-reference.json",
+      "sha256": "0779a7ff30a3aff5ce6ee1678669d3b11a21f687f65f4167b747b051b234d5ba"
+    },
+    {
+      "path": "nvgkbuild/cache/facilities-reference/laser/points.json",
+      "sha256": "490eb8c7edf9bfcbb2e9589b6daff2bcdae80c499f3f8a8f08d2321b9e486d26",
+      "published": false
+    }
+  ],
+  "solarRegistration": {
+    "method": "Least-squares affine from four corresponding eave/ridge endpoints on the solar-bearing southwest roof plane",
+    "sourceRoofFeatureId": "clubhouse-main-roof-native",
+    "targetRoofFeatureId": "clubhouse-main-roof-native",
+    "sourceControlsEpsg3006": [
+      [
+        678571.2,
+        6988407.52
+      ],
+      [
+        678576.16,
+        6988410.56
+      ],
+      [
+        678584.64,
+        6988397.76
+      ],
+      [
+        678579.04,
+        6988394.72
+      ]
+    ],
+    "targetControlsEpsg3006": [
+      [
+        678570.299,
+        6988408.086
+      ],
+      [
+        678575.4,
+        6988411.236
+      ],
+      [
+        678583.486,
+        6988398.141
+      ],
+      [
+        678578.385,
+        6988394.991
+      ]
+    ],
+    "controlOrder": [
+      "north-eave",
+      "north-ridge",
+      "south-ridge",
+      "south-eave"
+    ],
+    "originEpsg3006": [
+      678577.76,
+      6988402.64
+    ],
+    "matrix2x2EN": [
+      [
+        0.970750399845,
+        -0.012609838682
+      ],
+      [
+        0.005521577675,
+        1.026568334212
+      ]
+    ],
+    "translationAtOriginEN": [
+      -0.867499999981,
+      0.473500000288
+    ],
+    "equation": "targetEN = originEN + matrix2x2EN * (sourceEN-originEN) + translationAtOriginEN",
+    "controlResidualsMetres": [
+      0.163844,
+      0.160573,
+      0.146801,
+      0.150072
+    ],
+    "fitRmseMetres": 0.155484,
+    "principalScaleFactors": [
+      1.026833615,
+      0.970567415
+    ],
+    "targetPlane": {
+      "id": "clubhouse-main-roof-native-plane-1",
+      "originEpsg3006": [
+        678580.2425,
+        6988404.2363
+      ],
+      "coefficientsLocalEN": [
+        0.4401918,
+        0.2710667,
+        38.6380705
+      ],
+      "equation": "RH2000=a*(E-originE)+b*(N-originN)+c"
+    },
+    "targetFaceEpsg3006": [
+      [
+        678570.299,
+        6988408.086
+      ],
+      [
+        678575.4,
+        6988411.236
+      ],
+      [
+        678583.486,
+        6988398.141
+      ],
+      [
+        678578.385,
+        6988394.991
+      ]
+    ],
+    "limitation": "This resolves visual roof lean relative to measured geometry; it is not an independent survey of solar-panel corners or a global image correction."
+  },
+  "solarArrays": [
+    {
+      "id": "clubhouse-main-solar-north-native",
+      "kind": "roof_solar",
+      "roofFeatureId": "clubhouse-main-roof-native",
+      "roofPlaneId": "clubhouse-main-roof-native-plane-1",
+      "source": {
+        "sourceWindow": "facilities-range",
+        "sourcePixels": [
+          [
+            330,
+            274
+          ],
+          [
+            354,
+            260
+          ],
+          [
+            369,
+            282
+          ],
+          [
+            344,
+            298
+          ]
+        ],
+        "originalRingEpsg3006": [
+          [
+            678572.16,
+            6988407.84
+          ],
+          [
+            678576.0,
+            6988410.08
+          ],
+          [
+            678578.4,
+            6988406.56
+          ],
+          [
+            678574.4,
+            6988404.0
+          ]
+        ],
+        "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+        "capturedAt": "2024-06-27T13:42:21Z",
+        "review": "native-pixel-review-2026-09-10"
+      },
+      "unconstrainedRegisteredRingEpsg3006": [
+        [
+          678571.390727,
+          6988408.420735
+        ],
+        [
+          678575.090162,
+          6988410.74145
+        ],
+        [
+          678577.46435,
+          6988407.141182
+        ],
+        [
+          678573.613629,
+          6988404.49108
+        ]
+      ],
+      "clearanceAdjustment": {
+        "method": "uniform scaling about registered array centre to the 0.15 m inset of measured southwest roof face",
+        "scale": 1.0,
+        "maximumVertexMovementMetres": 0.0,
+        "reason": "Display clearance within manual tracing and sampled roof-edge uncertainty; original and unconstrained vertices retained"
+      },
+      "surfaceGeometry": {
+        "verticesEpsg3006RH2000": [
+          [
+            678571.390727,
+            6988408.420735,
+            35.875853
+          ],
+          [
+            678575.090162,
+            6988410.74145,
+            38.133383
+          ],
+          [
+            678577.46435,
+            6988407.141182,
+            38.202568
+          ],
+          [
+            678573.613629,
+            6988404.49108,
+            35.789158
+          ]
+        ],
+        "faces": [
+          [
+            0,
+            3,
+            2,
+            1
+          ]
+        ],
+        "verticesBlenderSceneXYZ": [
+          [
+            -8.609273,
+            3.420735,
+            3.075853
+          ],
+          [
+            -4.909838,
+            5.74145,
+            5.333383
+          ],
+          [
+            -2.53565,
+            2.141182,
+            5.402568
+          ],
+          [
+            -6.386371,
+            -0.50892,
+            2.989158
+          ]
+        ],
+        "horizontalLocalXZ": [
+          [
+            -405.67793,
+            125.933337
+          ],
+          [
+            -401.867162,
+            123.821452
+          ],
+          [
+            -399.699628,
+            127.541701
+          ],
+          [
+            -403.679043,
+            129.973783
+          ]
+        ]
+      },
+      "renderGeometry": {
+        "verticesEpsg3006RH2000": [
+          [
+            678571.377041,
+            6988408.412307,
+            35.906944
+          ],
+          [
+            678575.076476,
+            6988410.733023,
+            38.164474
+          ],
+          [
+            678577.450664,
+            6988407.132754,
+            38.233659
+          ],
+          [
+            678573.599943,
+            6988404.482653,
+            35.82025
+          ]
+        ],
+        "faces": [
+          [
+            0,
+            3,
+            2,
+            1
+          ]
+        ],
+        "verticesBlenderSceneXYZ": [
+          [
+            -8.622959,
+            3.412307,
+            3.106944
+          ],
+          [
+            -4.923524,
+            5.733023,
+            5.364474
+          ],
+          [
+            -2.549336,
+            2.132754,
+            5.433659
+          ],
+          [
+            -6.400057,
+            -0.517347,
+            3.02025
+          ]
+        ],
+        "horizontalLocalXZ": [
+          [
+            -405.692019,
+            125.940993
+          ],
+          [
+            -401.881251,
+            123.829107
+          ],
+          [
+            -399.713717,
+            127.549357
+          ],
+          [
+            -403.693132,
+            129.981439
+          ]
+        ]
+      },
+      "renderNormalOffsetMetres": 0.035,
+      "roofNormalENH": [
+        -0.391031269,
+        -0.240794026,
+        0.888320203
+      ],
+      "areaInRoofPlaneSquareMetres": 22.431,
+      "materialInterpretation": {
+        "baseColourSrgb": "#25363e",
+        "roughness": 0.28,
+        "notes": "Observed dark solar-array groups; no invented module count, wiring or electrical specification"
+      },
+      "validation": {
+        "entireArrayWithinMeasuredSouthwestRoofFace": true,
+        "minimumHorizontalClearanceMetres": 0.25799,
+        "maximumOnPlaneResidualMetres": 0.0
+      },
+      "uncertainty": {
+        "horizontalMetres": "approximately 0.5–1.0; manual pixels registered to inner laser support envelope",
+        "verticalMetres": 0.2,
+        "absoluteArraySurvey": false
+      }
+    },
+    {
+      "id": "clubhouse-main-solar-south-native",
+      "kind": "roof_solar",
+      "roofFeatureId": "clubhouse-main-roof-native",
+      "roofPlaneId": "clubhouse-main-roof-native-plane-1",
+      "source": {
+        "sourceWindow": "facilities-range",
+        "sourcePixels": [
+          [
+            346,
+            309
+          ],
+          [
+            374,
+            292
+          ],
+          [
+            406,
+            338
+          ],
+          [
+            377,
+            354
+          ]
+        ],
+        "originalRingEpsg3006": [
+          [
+            678574.72,
+            6988402.24
+          ],
+          [
+            678579.2,
+            6988404.96
+          ],
+          [
+            678584.32,
+            6988397.6
+          ],
+          [
+            678579.68,
+            6988395.04
+          ]
+        ],
+        "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+        "capturedAt": "2024-06-27T13:42:21Z",
+        "review": "native-pixel-review-2026-09-10"
+      },
+      "unconstrainedRegisteredRingEpsg3006": [
+        [
+          678573.946463,
+          6988402.686087
+        ],
+        [
+          678578.261126,
+          6988405.50309
+        ],
+        [
+          678583.324176,
+          6988397.975817
+        ],
+        [
+          678578.852176,
+          6988395.322182
+        ]
+      ],
+      "clearanceAdjustment": {
+        "method": "uniform scaling about registered array centre to the 0.15 m inset of measured southwest roof face",
+        "scale": 0.954560007,
+        "maximumVertexMovementMetres": 0.24086,
+        "reason": "Display clearance within manual tracing and sampled roof-edge uncertainty; original and unconstrained vertices retained"
+      },
+      "surfaceGeometry": {
+        "verticesEpsg3006RH2000": [
+          [
+            678574.157737,
+            6988402.580926,
+            35.510891
+          ],
+          [
+            678578.276342,
+            6988405.269924,
+            38.052765
+          ],
+          [
+            678583.109327,
+            6988398.08469,
+            38.232528
+          ],
+          [
+            678578.840534,
+            6988395.551636,
+            35.666814
+          ]
+        ],
+        "faces": [
+          [
+            0,
+            3,
+            2,
+            1
+          ]
+        ],
+        "verticesBlenderSceneXYZ": [
+          [
+            -5.842263,
+            -2.419074,
+            2.710891
+          ],
+          [
+            -1.723658,
+            0.269924,
+            5.252765
+          ],
+          [
+            3.109327,
+            -6.91531,
+            5.432528
+          ],
+          [
+            -1.159466,
+            -9.448364,
+            2.866814
+          ]
+        ],
+        "horizontalLocalXZ": [
+          [
+            -403.241584,
+            131.908441
+          ],
+          [
+            -398.993282,
+            129.452229
+          ],
+          [
+            -394.573141,
+            136.882102
+          ],
+          [
+            -398.962475,
+            139.174576
+          ]
+        ]
+      },
+      "renderGeometry": {
+        "verticesEpsg3006RH2000": [
+          [
+            678574.144051,
+            6988402.572498,
+            35.541982
+          ],
+          [
+            678578.262656,
+            6988405.261496,
+            38.083856
+          ],
+          [
+            678583.095641,
+            6988398.076263,
+            38.263619
+          ],
+          [
+            678578.826848,
+            6988395.543209,
+            35.697905
+          ]
+        ],
+        "faces": [
+          [
+            0,
+            3,
+            2,
+            1
+          ]
+        ],
+        "verticesBlenderSceneXYZ": [
+          [
+            -5.855949,
+            -2.427502,
+            2.741982
+          ],
+          [
+            -1.737344,
+            0.261496,
+            5.283856
+          ],
+          [
+            3.095641,
+            -6.923737,
+            5.463619
+          ],
+          [
+            -1.173152,
+            -9.456791,
+            2.897905
+          ]
+        ],
+        "horizontalLocalXZ": [
+          [
+            -403.255673,
+            131.916096
+          ],
+          [
+            -399.007371,
+            129.459884
+          ],
+          [
+            -394.58723,
+            136.889757
+          ],
+          [
+            -398.976564,
+            139.182231
+          ]
+        ]
+      },
+      "renderNormalOffsetMetres": 0.035,
+      "roofNormalENH": [
+        -0.391031269,
+        -0.240794026,
+        0.888320203
+      ],
+      "areaInRoofPlaneSquareMetres": 47.538,
+      "materialInterpretation": {
+        "baseColourSrgb": "#25363e",
+        "roughness": 0.28,
+        "notes": "Observed dark solar-array groups; no invented module count, wiring or electrical specification"
+      },
+      "validation": {
+        "entireArrayWithinMeasuredSouthwestRoofFace": true,
+        "minimumHorizontalClearanceMetres": 0.15,
+        "maximumOnPlaneResidualMetres": 0.0
+      },
+      "uncertainty": {
+        "horizontalMetres": "approximately 0.5–1.0; manual pixels registered to inner laser support envelope",
+        "verticalMetres": 0.2,
+        "absoluteArraySurvey": false
+      }
+    }
+  ],
+  "terrace": {
+    "id": "lm-clubhouse-terrace",
+    "kind": "ground_terrace_surface",
+    "source": {
+      "sourceWindow": "facilities-range",
+      "sourcePixels": [
+        [
+          426.0000000002037,
+          301.8015749985352
+        ],
+        [
+          441.9999999998254,
+          293.8068312476389
+        ],
+        [
+          459.9999999998545,
+          323.7871249963064
+        ],
+        [
+          437.99999999973807,
+          337.7779249974992
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678587.52,
+          6988403.391748
+        ],
+        [
+          678590.08,
+          6988404.670907
+        ],
+        [
+          678592.96,
+          6988399.87406
+        ],
+        [
+          678589.44,
+          6988397.635532
+        ]
+      ],
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "capturedAt": "2024-06-27T13:42:21Z",
+      "review": "retained-half-size-review-2026-09-09"
+    },
+    "registration": "Ground feature retained at source coordinates; no roof-lean correction",
+    "surfaceGeometry": {
+      "verticesEpsg3006RH2000": [
+        [
+          678587.52,
+          6988403.391748,
+          32.79
+        ],
+        [
+          678590.08,
+          6988404.670907,
+          32.79
+        ],
+        [
+          678592.96,
+          6988399.87406,
+          32.79
+        ],
+        [
+          678589.44,
+          6988397.635532,
+          32.79
+        ]
+      ],
+      "faces": [
+        [
+          0,
+          3,
+          2,
+          1
+        ]
+      ],
+      "verticesBlenderSceneXYZ": [
+        [
+          7.52,
+          -1.608252,
+          -0.01
+        ],
+        [
+          10.08,
+          -0.329093,
+          -0.01
+        ],
+        [
+          12.96,
+          -5.12594,
+          -0.01
+        ],
+        [
+          9.44,
+          -7.364468,
+          -0.01
+        ]
+      ],
+      "horizontalLocalXZ": [
+        [
+          -389.890931,
+          131.831048
+        ],
+        [
+          -387.271744,
+          130.69551
+        ],
+        [
+          -384.665925,
+          135.636726
+        ],
+        [
+          -388.293515,
+          137.67645
+        ]
+      ]
+    },
+    "renderGeometry": {
+      "verticesEpsg3006RH2000": [
+        [
+          678587.52,
+          6988403.391748,
+          32.82
+        ],
+        [
+          678590.08,
+          6988404.670907,
+          32.82
+        ],
+        [
+          678592.96,
+          6988399.87406,
+          32.82
+        ],
+        [
+          678589.44,
+          6988397.635532,
+          32.82
+        ]
+      ],
+      "faces": [
+        [
+          0,
+          3,
+          2,
+          1
+        ]
+      ],
+      "verticesBlenderSceneXYZ": [
+        [
+          7.52,
+          -1.608252,
+          0.02
+        ],
+        [
+          10.08,
+          -0.329093,
+          0.02
+        ],
+        [
+          12.96,
+          -5.12594,
+          0.02
+        ],
+        [
+          9.44,
+          -7.364468,
+          0.02
+        ]
+      ],
+      "horizontalLocalXZ": [
+        [
+          -389.890931,
+          131.831048
+        ],
+        [
+          -387.271744,
+          130.69551
+        ],
+        [
+          -384.665925,
+          135.636726
+        ],
+        [
+          -388.293515,
+          137.67645
+        ]
+      ]
+    },
+    "renderVerticalOffsetMetres": 0.03,
+    "measuredGround": {
+      "class2ReturnCount": 67,
+      "medianRH2000": 32.79,
+      "quantilesRH2000": {
+        "p05": 32.641,
+        "p25": 32.77,
+        "p50": 32.79,
+        "p75": 32.8,
+        "p95": 32.837
+      },
+      "unclassifiedReturnCount": 2,
+      "note": "Class 2 only establishes adjacent/surface ground; it is not a survey of timber decks or slab structure"
+    },
+    "planAreaSquareMetres": 20.262,
+    "confidence": "dated visible boundary and independent measured ground; use/details interpreted",
+    "connection": {
+      "distanceToMeasuredMainRoofEnvelopeMetres": 0.0,
+      "overlapWithMainRoofEnvelopeSquareMetres": 0.2494,
+      "distanceToMeasuredCrossRoofEnvelopeMetres": 1.1801,
+      "interpretation": "Small ground-level terrace/paved area beside the southeast clubhouse corner. Roof envelope overlap is expected beneath eaves; do not manufacture a new raised connecting bridge."
+    },
+    "rejectedLegacyAssumption": "Previous +0.7 m terrace height was an illustrative estimate; no measured evidence supports it here.",
+    "limitation": "The photographed larger east-facing pavilion/cross-gable decks are separate interpreted structures; this small orthophoto ring does not define them."
+  },
+  "padelCourt": {
+    "id": "lm-padel-court",
+    "kind": "padel_court_surface",
+    "source": {
+      "sourceWindow": "facilities-range",
+      "sourcePixels": [
+        [
+          136.0000000000582,
+          207.86333750002086
+        ],
+        [
+          198.00000000032014,
+          201.86728124972433
+        ],
+        [
+          209.99999999985448,
+          323.7871249963064
+        ],
+        [
+          148.00000000032014,
+          329.7831812466029
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          678541.12,
+          6988418.421866
+        ],
+        [
+          678551.04,
+          6988419.381235
+        ],
+        [
+          678552.96,
+          6988399.87406
+        ],
+        [
+          678543.04,
+          6988398.914691
+        ]
+      ],
+      "sourceRgbSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "capturedAt": "2024-06-27T13:42:21Z",
+      "review": "retained-half-size-review-2026-09-09"
+    },
+    "registration": "Ground feature retained at source coordinates; no roof-lean correction",
+    "surfaceGeometry": {
+      "verticesEpsg3006RH2000": [
+        [
+          678541.12,
+          6988418.421866,
+          32.43
+        ],
+        [
+          678551.04,
+          6988419.381235,
+          32.43
+        ],
+        [
+          678552.96,
+          6988399.87406,
+          32.43
+        ],
+        [
+          678543.04,
+          6988398.914691,
+          32.43
+        ]
+      ],
+      "faces": [
+        [
+          0,
+          3,
+          2,
+          1
+        ]
+      ],
+      "verticesBlenderSceneXYZ": [
+        [
+          -38.88,
+          13.421866,
+          -0.37
+        ],
+        [
+          -28.96,
+          14.381235,
+          -0.37
+        ],
+        [
+          -27.04,
+          -5.12594,
+          -0.37
+        ],
+        [
+          -36.96,
+          -6.085309,
+          -0.37
+        ]
+      ],
+      "horizontalLocalXZ": [
+        [
+          -435.275693,
+          114.303578
+        ],
+        [
+          -425.344731,
+          113.889584
+        ],
+        [
+          -424.498514,
+          133.447996
+        ],
+        [
+          -434.429417,
+          133.861989
+        ]
+      ]
+    },
+    "renderGeometry": {
+      "verticesEpsg3006RH2000": [
+        [
+          678541.12,
+          6988418.421866,
+          32.46
+        ],
+        [
+          678551.04,
+          6988419.381235,
+          32.46
+        ],
+        [
+          678552.96,
+          6988399.87406,
+          32.46
+        ],
+        [
+          678543.04,
+          6988398.914691,
+          32.46
+        ]
+      ],
+      "faces": [
+        [
+          0,
+          3,
+          2,
+          1
+        ]
+      ],
+      "verticesBlenderSceneXYZ": [
+        [
+          -38.88,
+          13.421866,
+          -0.34
+        ],
+        [
+          -28.96,
+          14.381235,
+          -0.34
+        ],
+        [
+          -27.04,
+          -5.12594,
+          -0.34
+        ],
+        [
+          -36.96,
+          -6.085309,
+          -0.34
+        ]
+      ],
+      "horizontalLocalXZ": [
+        [
+          -435.275693,
+          114.303578
+        ],
+        [
+          -425.344731,
+          113.889584
+        ],
+        [
+          -424.498514,
+          133.447996
+        ],
+        [
+          -434.429417,
+          133.861989
+        ]
+      ]
+    },
+    "renderVerticalOffsetMetres": 0.03,
+    "measuredGround": {
+      "class2ReturnCount": 565,
+      "medianRH2000": 32.43,
+      "quantilesRH2000": {
+        "p05": 32.41,
+        "p25": 32.42,
+        "p50": 32.43,
+        "p75": 32.44,
+        "p95": 32.45
+      },
+      "unclassifiedReturnCount": 83,
+      "note": "Class 2 only establishes adjacent/surface ground; it is not a survey of timber decks or slab structure"
+    },
+    "planAreaSquareMetres": 195.353,
+    "confidence": "dated visible boundary and independent measured ground; use/details interpreted",
+    "recommendation": "Retain the existing observed surface footprint; no relocation or resizing to nominal court dimensions is supported.",
+    "minimumRectangleMetres": [
+      19.62,
+      9.97
+    ],
+    "materialInterpretation": {
+      "baseColourSrgb": "#315880",
+      "notes": "Blue court surface and pale boundary lines observed in the native orthophoto. Fence/post heights and exact enclosure construction require separate review."
+    },
+    "limitation": "The inherited trace follows the visible court area approximately; it is not a regulation-dimension survey."
+  },
+  "runtimeExport": {
+    "path": "apps/golf/src/engine/scenery/norrfallsviken-facilities-site.json",
+    "bytes": 976,
+    "sha256": "9ed612e10b0423134cc11d5f710ae05a6fa7eb887431a1801355a33b55ff0400",
+    "schemaVersion": 1,
+    "contents": "Only absolute EPSG:3006/RH2000 render vertices, face indices and feature IDs; full evidence remains in this file"
+  },
+  "validation": {
+    "solarArrays": 2,
+    "allArraysContained": true,
+    "allSurfaceVerticesOnMeasuredPlane": true,
+    "orthophotoAndLocalLaserHashesVerified": true,
+    "groundOnlyForGroundSurfaceHeights": true
+  },
+  "generator": {
+    "path": "nvgkbuild/facilities/build-runtime-site-details.py",
+    "sha256": "fdc843119ddbfef63b9e3709bbe860584b3e84a37cc6f3469393c23d4a5e1aee"
+  }
+}

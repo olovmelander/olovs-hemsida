@@ -228,6 +228,26 @@ for (const [id, t] of nodeTags) {
   }
 }
 
+/* The course outline is a multipolygon relation (165517), not a tagged way.
+   Its outer is one closed member and its inner is the existing marsh. Preserve
+   both; the GPS bbox above remains only the feature-intake proximity filter. */
+for (const r of rels) {
+  if (r.tags.leisure !== 'golf_course' || r.tags.type !== 'multipolygon') continue;
+  const outer = r.members.filter(m => m.type === 'way' && m.role !== 'inner');
+  if (outer.length !== 1) throw new Error(`Course relation ${r.id} needs joined outer members`);
+  const memberRing = m => {
+    const w = ways.get(m.ref);
+    if (!w || !isClosed(w) || w.refs.some(ref => !nodes.has(ref)))
+      throw new Error(`Course relation ${r.id} has an incomplete member ${m.ref}`);
+    return ringOf(w, 1.5);
+  };
+  const ring = memberRing(outer[0]);
+  if (!ring) throw new Error(`Course relation ${r.id} has no valid outer ring`);
+  out.courseBoundary = { id: 'r' + r.id, ring, name: r.tags.name || null,
+    holes: r.members.filter(m => m.type === 'way' && m.role === 'inner').map(memberRing),
+    source: 'OpenStreetMap multipolygon relation', memberWayIds: r.members.filter(m => m.type === 'way').map(m => 'w' + m.ref) };
+}
+
 /* multipolygon water/wetland relations, if any: outer rings only */
 for (const r of rels) {
   const isWater = r.tags.natural === 'water' || r.tags.water != null;

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "reviewedOn": "2026-09-09",
+  "reviewer": "Codex source-image visual review",
+  "buildingId": "way/1163533127",
+  "sourceFootprint": "geo_data/course-v2/tortuna/reference/osm-context-epsg3006.geojson",
+  "sourceFootprintStatus": "OSM supplementary geometry, not surveyed",
+  "centreEpsg3006": [
+    597470.8202333676,
+    6615075.640062142
+  ],
+  "sourceFootprintAreaSquareMetres": 363.6145395252772,
+  "photographs": [
+    {
+      "sourceId": "club-photo-17",
+      "url": "https://tortunagk.se/wp-content/uploads/2023/02/Klubben-scaled.jpeg",
+      "sha256": "51969a7061fb08cc3bba3c3709761179edfc273197a8b66f167a459f98133c93",
+      "captureDate": null,
+      "role": "Photographed facade, roof family,storeys and terrace; no survey dimensions inferred"
+    },
+    {
+      "sourceId": "club-photo-65",
+      "url": "https://tortunagk.se/wp-content/uploads/2025/09/DJI_0063-scaled.jpg",
+      "sha256": "08420e70e23f513611d3c478a527771a6d64d15f44a7f248181ae597ad5fd1fd",
+      "captureDate": null,
+      "role": "Photographed facade, roof family,storeys and terrace; no survey dimensions inferred"
+    }
+  ],
+  "orthophotoReceipt": "geo_data/course-v2/tortuna/acquisition/orthophoto-supplement-crops.json",
+  "orthophotoWindow": "clubhouse",
+  "observedAppearance": {
+    "walls": "Ochre-yellow vertical timber boarding",
+    "trim": "White window and corner boards",
+    "roof": "Brown/dark tile with intersecting pitched and hipped roof sections",
+    "storeys": 2,
+    "terrace": "Pond-facing terrace above a low extension at the southeast end",
+    "identity": "Building immediately northwest of hole9green and the elongated pond, beside the practice green and car park"
+  },
+  "displayEstimates": {
+    "eaveHeightMetres": 6.2,
+    "windowSillHeightsMetres": [
+      1.1,
+      4.0
+    ],
+    "wallColourHex": "d4b156",
+    "roofColourHex": "68574b"
+  },
+  "implementation": "apps/golf/src/engine/scenery/tortuna.js",
+  "limitations": [
+    "Colour estimates depend on illumination and photographic processing.",
+    "No independent height survey or complete architectural drawings were available.",
+    "The generic shell approximates the roof intersections, dormers,terrace extension and balcony.",
+    "Original photographs and RGBI crops remain in ignored private cache."
+  ]
+}

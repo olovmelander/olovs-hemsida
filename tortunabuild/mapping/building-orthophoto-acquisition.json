@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "native-building-review-windows-retained",
+  "collection": "orto-n2-2026",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o66125_5950_25_mr26",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o66125_5975_25_mr26",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o66150_5950_25_mr26",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o66150_5975_25_mr26",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "service-yard",
+      "requestSha256": "32d0a7688dc5865cd7199a97dc4ea673d7c1d72aa9f62ee574934ae74b419ef5",
+      "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+      "bytes": 7227885,
+      "rasterFile": "service-yard.tif",
+      "boundsEpsg3006": [
+        597280.0,
+        6615104.0,
+        597536.0,
+        6615360.0
+      ],
+      "width": 1600,
+      "height": 1600,
+      "geoTransform": [
+        597280.0,
+        0.16,
+        0.0,
+        6615360.0,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o66125_5950_25_mr26",
+          "capturedAt": "2026-05-02T12:47:23Z"
+        },
+        {
+          "id": "o66125_5975_25_mr26",
+          "capturedAt": "2026-05-02T13:08:46Z"
+        },
+        {
+          "id": "o66150_5950_25_mr26",
+          "capturedAt": "2026-05-02T12:46:59Z"
+        },
+        {
+          "id": "o66150_5975_25_mr26",
+          "capturedAt": "2026-05-02T13:09:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:21.145605+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 27.0,
+          "maximum": 255.0,
+          "mean": 96.404146484375,
+          "standardDeviation": 37.72161737747061
+        },
+        {
+          "band": 2,
+          "minimum": 39.0,
+          "maximum": 255.0,
+          "mean": 102.226771875,
+          "standardDeviation": 32.391343526538215
+        },
+        {
+          "band": 3,
+          "minimum": 44.0,
+          "maximum": 255.0,
+          "mean": 98.86520546875,
+          "standardDeviation": 30.769482978725772
+        },
+        {
+          "band": 4,
+          "minimum": 11.0,
+          "maximum": 255.0,
+          "mean": 125.9681171875,
+          "standardDeviation": 40.10676894886345
+        }
+      ]
+    },
+    {
+      "id": "nearby-houses",
+      "requestSha256": "dd40a86c14fcee43240fa47503fb4fbf44ff3680689b1a20e34a13ae5c91dc53",
+      "sha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+      "bytes": 1776376,
+      "rasterFile": "nearby-houses.tif",
+      "boundsEpsg3006": [
+        597584.0,
+        6614896.0,
+        597712.0,
+        6615024.0
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597584.0,
+        0.16,
+        0.0,
+        6615024.0,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o66125_5950_25_mr26",
+          "capturedAt": "2026-05-02T12:47:23Z"
+        },
+        {
+          "id": "o66125_5975_25_mr26",
+          "capturedAt": "2026-05-02T13:08:46Z"
+        },
+        {
+          "id": "o66150_5950_25_mr26",
+          "capturedAt": "2026-05-02T12:46:59Z"
+        },
+        {
+          "id": "o66150_5975_25_mr26",
+          "capturedAt": "2026-05-02T13:09:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:22.169919+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 27.0,
+          "maximum": 247.0,
+          "mean": 82.4865484375,
+          "standardDeviation": 36.0801480689931
+        },
+        {
+          "band": 2,
+          "minimum": 38.0,
+          "maximum": 248.0,
+          "mean": 88.8842328125,
+          "standardDeviation": 31.14173570380749
+        },
+        {
+          "band": 3,
+          "minimum": 48.0,
+          "maximum": 252.0,
+          "mean": 89.70161875,
+          "standardDeviation": 27.438201070854635
+        },
+        {
+          "band": 4,
+          "minimum": 14.0,
+          "maximum": 255.0,
+          "mean": 91.6069296875,
+          "standardDeviation": 38.73625543069349
+        }
+      ]
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "attribution": "Ortofoto Nedladdning \u00a9 Lantm\u00e4teriet, bearbetad information, CC BY 4.0."
+}

@@ -1,5 +1,11 @@
 # Lidingö mapping and placement
 
+The [9 September 2026 tee and OB review](tee-native-alignment-review-2026-09-09.md)
+supersedes the historical tee inventory below. All 18 tee areas now use reviewed
+31 May 2025 Lantmäteriet imagery: 52 distinct playing platforms, 81 supported
+colour references, nine unresolved Orange fallbacks, and six road-defined OB map
+segments. Individual physical stake locations remain unverified.
+
 Lidingö opens at `?bana=lidingo` as a provisional 18-hole course. The 1 m
 Lantmäteriet terrain and source water levels remain unchanged. This iteration
 improves the features placed on that ground, using dated source evidence.

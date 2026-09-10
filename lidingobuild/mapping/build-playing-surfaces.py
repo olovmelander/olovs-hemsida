@@ -92,3 +92,7 @@ report['limitations'].extend(['The two unassociated OSM greens and one unassocia
 report['refinementRound']={'previousOutputSha256':refinements['previousOutputSha256'],'newTraceCount':len(refinements['traces']),'rejectedTraceIds':[t['id'] for t in refinements.get('rejectedTraces',[])],'osmBunkerAssociations':refinements['osmBunkerHoleAssociations'],'sourceGeometryEpoch':2019,'laterMowingOrBunkerChangesAdopted':False}
 (OUT/'playing-surfaces-review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 print(json.dumps({k:report[k] for k in ['counts','holesWithGreen','holesWithAssociatedTee','sourceTraceCount']}))
+# Apply the later native-image tee observations after reconstructing historical
+# sources. Rebuilding the source layer cannot restore superseded tee geometry.
+import subprocess
+subprocess.run(['node', str(OUT/'reviewed-tee-alignment.mjs'), '--surfaces-only'], cwd=ROOT, check=True)

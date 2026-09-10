@@ -1,0 +1,4699 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "kind": "numbered-tee-and-coordinate-source-review",
+  "reviewedAt": "2026-09-09",
+  "captureDate": "2026-04-10",
+  "baselineModelSha256": "f424be0ad18158715c3a9a188527081984064747879a73fc83e8770e9739c7d2",
+  "coordinateFrame": {
+    "horizontalCrs": "EPSG:3006",
+    "axisOrder": [
+      "easting",
+      "northing"
+    ],
+    "easting": 687748.5,
+    "northing": 6370951.5,
+    "localConvention": "x=E-687748.5; z=6370951.5-N; metres"
+  },
+  "status": "provisional-source-image-interpretation; no independent surveyed geographic control",
+  "method": "Inspect every front-nine native RGBI crop with current platform and reference overlays; read printed Caddee labels and match relative path, shore, bunker and green relationships. Trace added turf only from authenticated native source pixels. No scorecard-length offsets, nearest-platform reassignment or whole-course translation.",
+  "sources": {
+    "hole-01-tees": {
+      "id": "hole-01-tees",
+      "requestSha256": "fb8d6e1237ceeb65eb84b862557ad66ea7535a0a78cb27ba36292feae423608d",
+      "sha256": "f9c4bba47dd0cd861dbac76397840dcdb9375908d263cca7452867fc2cfff515",
+      "bytes": 2030662,
+      "rasterFile": "hole-01-tees.tif",
+      "boundsEpsg3006": [
+        687117.12,
+        6370721.92,
+        687224.8,
+        6370884.32
+      ],
+      "width": 673,
+      "height": 1015,
+      "geoTransform": [
+        687117.12,
+        0.16,
+        0.0,
+        6370884.32,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:43.339946+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 23.0,
+          "maximum": 255.0,
+          "mean": 109.56012414085889,
+          "standardDeviation": 33.64758102751371
+        },
+        {
+          "band": 2,
+          "minimum": 39.0,
+          "maximum": 255.0,
+          "mean": 113.79241393949597,
+          "standardDeviation": 29.291717922584972
+        },
+        {
+          "band": 3,
+          "minimum": 49.0,
+          "maximum": 255.0,
+          "mean": 102.65712821789063,
+          "standardDeviation": 24.863306565953977
+        },
+        {
+          "band": 4,
+          "minimum": 20.0,
+          "maximum": 255.0,
+          "mean": 139.59040104231477,
+          "standardDeviation": 38.032323729841046
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-01-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26"
+      ]
+    },
+    "hole-02-tees": {
+      "id": "hole-02-tees",
+      "requestSha256": "2c39b09f8fb4206cb1dec870062253b29ea3db2c797f2c550c30acadbb89c025",
+      "sha256": "1d1b0ef0970184bad4bd8412b7b4e7dca8f2f3bd44a50db49474d33b37a76534",
+      "bytes": 3509811,
+      "rasterFile": "hole-02-tees.tif",
+      "boundsEpsg3006": [
+        687164.16,
+        6370844.4799999995,
+        687335.8400000001,
+        6371029.92
+      ],
+      "width": 1073,
+      "height": 1159,
+      "geoTransform": [
+        687164.16,
+        0.16,
+        0.0,
+        6371029.92,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:44.080158+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 22.0,
+          "maximum": 242.0,
+          "mean": 101.39057194113575,
+          "standardDeviation": 40.793493340455925
+        },
+        {
+          "band": 2,
+          "minimum": 37.0,
+          "maximum": 244.0,
+          "mean": 107.43546072030794,
+          "standardDeviation": 35.28947386268121
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 238.0,
+          "mean": 98.77105950674128,
+          "standardDeviation": 27.40069855029244
+        },
+        {
+          "band": 4,
+          "minimum": 12.0,
+          "maximum": 239.0,
+          "mean": 124.76814138228556,
+          "standardDeviation": 52.55333694689206
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-02-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26"
+      ]
+    },
+    "hole-03-tees": {
+      "id": "hole-03-tees",
+      "requestSha256": "194ec1fe16a6386179e64344fde22de9f2c86f6ee3db7675b18f216e1a6bd2a1",
+      "sha256": "177f7f4c4301b98935e41425ce4bb465b18541d4645e9e2234ed87079a21794a",
+      "bytes": 3737513,
+      "rasterFile": "hole-03-tees.tif",
+      "boundsEpsg3006": [
+        687327.2,
+        6371249.6,
+        687459.6799999999,
+        6371491.68
+      ],
+      "width": 828,
+      "height": 1513,
+      "geoTransform": [
+        687327.2,
+        0.16,
+        0.0,
+        6371491.68,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:41.984733+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 21.0,
+          "maximum": 248.0,
+          "mean": 108.64041271939487,
+          "standardDeviation": 44.79397594377827
+        },
+        {
+          "band": 2,
+          "minimum": 37.0,
+          "maximum": 249.0,
+          "mean": 112.36704119850187,
+          "standardDeviation": 38.005072156602004
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 245.0,
+          "mean": 102.39226462446238,
+          "standardDeviation": 30.10961794546069
+        },
+        {
+          "band": 4,
+          "minimum": 26.0,
+          "maximum": 236.0,
+          "mean": 140.30820090615632,
+          "standardDeviation": 45.33913216019909
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-03-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26"
+      ]
+    },
+    "hole-04-tees": {
+      "id": "hole-04-tees",
+      "requestSha256": "ac386128afd5dba566fdbf4b796e61094dddb614ed58e77dfced41e7e075c14c",
+      "sha256": "87f18e70226daa9a4e7a6ded35a637fce097b06bc25f5bec47c35d797928b931",
+      "bytes": 2746919,
+      "rasterFile": "hole-04-tees.tif",
+      "boundsEpsg3006": [
+        687566.72,
+        6371691.2,
+        687742.4,
+        6371840.8
+      ],
+      "width": 1098,
+      "height": 935,
+      "geoTransform": [
+        687566.72,
+        0.16,
+        0.0,
+        6371840.8,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:44.542929+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 28.0,
+          "maximum": 239.0,
+          "mean": 136.74416878524883,
+          "standardDeviation": 31.748920462953407
+        },
+        {
+          "band": 2,
+          "minimum": 44.0,
+          "maximum": 239.0,
+          "mean": 134.00878310589013,
+          "standardDeviation": 26.085343090454213
+        },
+        {
+          "band": 3,
+          "minimum": 50.0,
+          "maximum": 232.0,
+          "mean": 119.9862287289481,
+          "standardDeviation": 21.440459569430555
+        },
+        {
+          "band": 4,
+          "minimum": 25.0,
+          "maximum": 252.0,
+          "mean": 152.18665828974412,
+          "standardDeviation": 31.33377734426166
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-04-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6875-25-mr26"
+      ]
+    },
+    "hole-05-tees": {
+      "id": "hole-05-tees",
+      "requestSha256": "785e8aad85541ad4b00421740208af05bc1b3cbc0676f07b5a2b29f98cbba443",
+      "sha256": "9cbc901a7426b2c10644f1a1b4d2266875ff675dde82831a6ed4079905790e5e",
+      "bytes": 2272171,
+      "rasterFile": "hole-05-tees.tif",
+      "boundsEpsg3006": [
+        687296.32,
+        6371739.2,
+        687401.9199999999,
+        6371914.88
+      ],
+      "width": 660,
+      "height": 1098,
+      "geoTransform": [
+        687296.32,
+        0.16,
+        0.0,
+        6371914.88,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:44.964527+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 21.0,
+          "maximum": 242.0,
+          "mean": 96.03549980681129,
+          "standardDeviation": 44.233147900662956
+        },
+        {
+          "band": 2,
+          "minimum": 36.0,
+          "maximum": 244.0,
+          "mean": 100.79241182314952,
+          "standardDeviation": 37.609205718742444
+        },
+        {
+          "band": 3,
+          "minimum": 39.0,
+          "maximum": 237.0,
+          "mean": 95.33374592923774,
+          "standardDeviation": 30.144065676539665
+        },
+        {
+          "band": 4,
+          "minimum": 14.0,
+          "maximum": 236.0,
+          "mean": 113.61155682508142,
+          "standardDeviation": 47.88760710381976
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-05-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26"
+      ]
+    },
+    "hole-06-tees": {
+      "id": "hole-06-tees",
+      "requestSha256": "d7e3dad261efeaa3598b93c997e3eef12c26c3a1a309e7fe47cbc37e78e2c94f",
+      "sha256": "4181f591916f29ed87c7dc1d7d125ac37fb6655993e691d869af47302357fa27",
+      "bytes": 2964958,
+      "rasterFile": "hole-06-tees.tif",
+      "boundsEpsg3006": [
+        687313.28,
+        6371500.32,
+        687435.8400000001,
+        6371707.36
+      ],
+      "width": 766,
+      "height": 1294,
+      "geoTransform": [
+        687313.28,
+        0.16,
+        0.0,
+        6371707.36,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:45.402311+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 20.0,
+          "maximum": 241.0,
+          "mean": 102.47321439380794,
+          "standardDeviation": 43.39522141187185
+        },
+        {
+          "band": 2,
+          "minimum": 37.0,
+          "maximum": 244.0,
+          "mean": 106.7341142691111,
+          "standardDeviation": 36.33788069901033
+        },
+        {
+          "band": 3,
+          "minimum": 45.0,
+          "maximum": 236.0,
+          "mean": 97.7377189761139,
+          "standardDeviation": 27.89620438858969
+        },
+        {
+          "band": 4,
+          "minimum": 18.0,
+          "maximum": 237.0,
+          "mean": 135.78763503779243,
+          "standardDeviation": 44.82112231447562
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-06-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26"
+      ]
+    },
+    "hole-07-tees": {
+      "id": "hole-07-tees",
+      "requestSha256": "94096b3269b59f4db76c01e233435241d21decec20298d6560c87910c16da2a6",
+      "sha256": "99d7a7fb6e3421e172b500b2e0907fa4f0ccb8ec7d1369f4db141264040b281d",
+      "bytes": 2800617,
+      "rasterFile": "hole-07-tees.tif",
+      "boundsEpsg3006": [
+        687331.2,
+        6371227.2,
+        687520.6399999999,
+        6371352.48
+      ],
+      "width": 1184,
+      "height": 783,
+      "geoTransform": [
+        687331.2,
+        0.16,
+        0.0,
+        6371352.48,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:45.991659+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 21.0,
+          "maximum": 244.0,
+          "mean": 86.4635227900314,
+          "standardDeviation": 41.573196034553796
+        },
+        {
+          "band": 2,
+          "minimum": 35.0,
+          "maximum": 245.0,
+          "mean": 94.28817826447137,
+          "standardDeviation": 36.25550805847971
+        },
+        {
+          "band": 3,
+          "minimum": 43.0,
+          "maximum": 239.0,
+          "mean": 88.32594340029685,
+          "standardDeviation": 28.003101138183997
+        },
+        {
+          "band": 4,
+          "minimum": 26.0,
+          "maximum": 248.0,
+          "mean": 124.28258970177073,
+          "standardDeviation": 47.11217348838378
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-07-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ]
+    },
+    "hole-08-tees": {
+      "id": "hole-08-tees",
+      "requestSha256": "50caf48dd6a22a0b0eab7910bbf3a24baa2ac1bb5920dfa5cbfc861c4fe27047",
+      "sha256": "668c4abe8996f9ddf1d6bf63596c32ce4813f9bffcb0ed771d65284568d5d9e5",
+      "bytes": 4620892,
+      "rasterFile": "hole-08-tees.tif",
+      "boundsEpsg3006": [
+        687476.64,
+        6371142.399999999,
+        687645.28,
+        6371398.88
+      ],
+      "width": 1054,
+      "height": 1603,
+      "geoTransform": [
+        687476.64,
+        0.16,
+        0.0,
+        6371398.88,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:46.650136+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 15.0,
+          "maximum": 242.0,
+          "mean": 95.73506328859196,
+          "standardDeviation": 45.566509167509835
+        },
+        {
+          "band": 2,
+          "minimum": 33.0,
+          "maximum": 245.0,
+          "mean": 102.26838730984717,
+          "standardDeviation": 39.16392399367737
+        },
+        {
+          "band": 3,
+          "minimum": 44.0,
+          "maximum": 238.0,
+          "mean": 95.92961311866625,
+          "standardDeviation": 31.365428226535567
+        },
+        {
+          "band": 4,
+          "minimum": 14.0,
+          "maximum": 255.0,
+          "mean": 116.26904250924204,
+          "standardDeviation": 55.6828971607708
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-08-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ]
+    },
+    "hole-09-tees": {
+      "id": "hole-09-tees",
+      "requestSha256": "e27f7bd26f9fb2464f0268d5400d99aea02a1e8126d5bff8f9b2bc2e74ff7495",
+      "sha256": "9732070b99ed7950edbac390d541fa300786ef0e220c41489f9cff81867f7e9f",
+      "bytes": 4371655,
+      "rasterFile": "hole-09-tees.tif",
+      "boundsEpsg3006": [
+        687344.0,
+        6370880.48,
+        687532.32,
+        6371094.4
+      ],
+      "width": 1177,
+      "height": 1337,
+      "geoTransform": [
+        687344.0,
+        0.16,
+        0.0,
+        6371094.4,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o63700_6850_25_mr26",
+          "capturedAt": "2026-04-10T08:17:31Z"
+        },
+        {
+          "id": "o63700_6875_25_mr26",
+          "capturedAt": "2026-04-10T08:27:42Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T19:37:42.764863+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 26.0,
+          "maximum": 238.0,
+          "mean": 120.0909421351267,
+          "standardDeviation": 25.41254591531016
+        },
+        {
+          "band": 2,
+          "minimum": 43.0,
+          "maximum": 239.0,
+          "mean": 125.64254036319407,
+          "standardDeviation": 22.185520600838515
+        },
+        {
+          "band": 3,
+          "minimum": 51.0,
+          "maximum": 231.0,
+          "mean": 109.71658101647826,
+          "standardDeviation": 19.408393880685814
+        },
+        {
+          "band": 4,
+          "minimum": 31.0,
+          "maximum": 244.0,
+          "mean": 163.3558252189656,
+          "standardDeviation": 25.63869471142052
+        }
+      ],
+      "cacheRasterPath": "visbybuild/cache/lm-tee-front9/hole-09-tees.tif",
+      "horizontalCrs": "EPSG:3006",
+      "pixelConvention": "native pixel edges: E=geoTransform[0]+u*0.16; N=geoTransform[3]-v*0.16",
+      "sourceIds": [
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ]
+    }
+  },
+  "holes": [
+    {
+      "n": 1,
+      "sourceKey": "hole-01-tees",
+      "existingPadCount": 3,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -586.2249999999767,
+              184.36000000033528
+            ],
+            [
+              -574.984999999986,
+              184.54999999981374
+            ],
+            [
+              -573.7600000000093,
+              162.34999999962747
+            ],
+            [
+              -585.0300000000279,
+              161.47499999962747
+            ],
+            [
+              -586.2249999999767,
+              184.36000000033528
+            ]
+          ],
+          "ringPixels": [
+            [
+              282.21875,
+              732.375
+            ],
+            [
+              352.46875,
+              733.5625
+            ],
+            [
+              360.125,
+              594.8125
+            ],
+            [
+              289.6875,
+              589.34375
+            ],
+            [
+              282.21875,
+              732.375
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -580.5,
+              136
+            ],
+            [
+              -570.25,
+              136.5
+            ],
+            [
+              -571.25,
+              159.5
+            ],
+            [
+              -582.5,
+              159.5
+            ],
+            [
+              -580.5,
+              136
+            ]
+          ],
+          "ringPixels": [
+            [
+              318.0,
+              430.125
+            ],
+            [
+              382.0625,
+              433.25
+            ],
+            [
+              375.8125,
+              577.0
+            ],
+            [
+              305.5,
+              577.0
+            ],
+            [
+              318.0,
+              430.125
+            ]
+          ]
+        },
+        {
+          "padIndex": 2,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -576.5,
+              112.5
+            ],
+            [
+              -568.75,
+              112.25
+            ],
+            [
+              -569.5,
+              122
+            ],
+            [
+              -577.5,
+              122
+            ],
+            [
+              -576.5,
+              112.5
+            ]
+          ],
+          "ringPixels": [
+            [
+              343.0,
+              283.25
+            ],
+            [
+              391.4375,
+              281.6875
+            ],
+            [
+              386.75,
+              342.625
+            ],
+            [
+              336.75,
+              342.625
+            ],
+            [
+              343.0,
+              283.25
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-01",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/8e21ba14-945f-4416-be47-8ab863dff9c7/hole-normal_web_3rges9A.png",
+        "sha256": "9e830e2f24fb6f6b269dd645bb874ead798f637768c0f8770c93a08c4eed5ef1",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "Three coastal rectangles: rear63/59, middle55/51, front46/41. Existing platform assignments corroborated.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            420,
+            742
+          ],
+          "tee-59": [
+            417,
+            705
+          ],
+          "tee-55": [
+            401,
+            634
+          ],
+          "tee-51": [
+            422,
+            634
+          ],
+          "tee-46": [
+            397,
+            582
+          ],
+          "tee-41": [
+            419,
+            582
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -580.0277727558587,
+            173.17129188559844
+          ],
+          "oldReferencePixels": [
+            320.95142,
+            662.445574
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -580.0277727558587,
+            173.17129188559844
+          ],
+          "targetReferenceProjected": [
+            687168.4722272442,
+            6370778.328708114
+          ],
+          "targetReferencePixels": [
+            320.95142,
+            662.445574
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 5.605343
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -579,
+            166.25
+          ],
+          "oldReferencePixels": [
+            327.375,
+            619.1875
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -579,
+            166.25
+          ],
+          "targetReferenceProjected": [
+            687169.5,
+            6370785.25
+          ],
+          "targetReferencePixels": [
+            327.375,
+            619.1875
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 4.29391
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -577,
+            138.25
+          ],
+          "oldReferencePixels": [
+            339.875,
+            444.1875
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -577,
+            138.25
+          ],
+          "targetReferenceProjected": [
+            687171.5,
+            6370813.25
+          ],
+          "targetReferencePixels": [
+            339.875,
+            444.1875
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 2.076799
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -577,
+            138.25
+          ],
+          "oldReferencePixels": [
+            339.875,
+            444.1875
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -577,
+            138.25
+          ],
+          "targetReferenceProjected": [
+            687171.5,
+            6370813.25
+          ],
+          "targetReferencePixels": [
+            339.875,
+            444.1875
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 2.076799
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -573.75,
+            115
+          ],
+          "oldReferencePixels": [
+            360.1875,
+            298.875
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -573.75,
+            115
+          ],
+          "targetReferenceProjected": [
+            687174.75,
+            6370836.5
+          ],
+          "targetReferencePixels": [
+            360.1875,
+            298.875
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 2.587364
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -573.75,
+            115
+          ],
+          "oldReferencePixels": [
+            360.1875,
+            298.875
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -573.75,
+            115
+          ],
+          "targetReferenceProjected": [
+            687174.75,
+            6370836.5
+          ],
+          "targetReferencePixels": [
+            360.1875,
+            298.875
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 2.587364
+        }
+      ],
+      "unresolved": [],
+      "cameraReferencesPixels": {},
+      "updateRouteStart": false,
+      "maximumReferenceMovementMetres": 0.0
+    },
+    {
+      "n": 2,
+      "sourceKey": "hole-02-tees",
+      "existingPadCount": 4,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -529.1300000000047,
+              56.169999999925494
+            ],
+            [
+              -534.7800000000279,
+              52.360000000335276
+            ],
+            [
+              -536.2750000000233,
+              54.29000000003725
+            ],
+            [
+              -539.2900000000373,
+              58.174999999813735
+            ],
+            [
+              -533.5,
+              61.96999999973923
+            ],
+            [
+              -529.1300000000047,
+              56.169999999925494
+            ]
+          ],
+          "ringPixels": [
+            [
+              345.0625,
+              841.1875
+            ],
+            [
+              309.75,
+              817.375
+            ],
+            [
+              300.40625,
+              829.4375
+            ],
+            [
+              281.5625,
+              853.71875
+            ],
+            [
+              317.75,
+              877.4375
+            ],
+            [
+              345.0625,
+              841.1875
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -526.4399999999441,
+              33.860000000335276
+            ],
+            [
+              -517.6899999999441,
+              21.110000000335276
+            ],
+            [
+              -511.6899999999441,
+              25.110000000335276
+            ],
+            [
+              -520.4399999999441,
+              38.110000000335276
+            ],
+            [
+              -526.4399999999441,
+              33.860000000335276
+            ]
+          ],
+          "ringPixels": [
+            [
+              361.875,
+              701.75
+            ],
+            [
+              416.5625,
+              622.0625
+            ],
+            [
+              454.0625,
+              647.0625
+            ],
+            [
+              399.375,
+              728.3125
+            ],
+            [
+              361.875,
+              701.75
+            ]
+          ]
+        },
+        {
+          "padIndex": 2,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -502.4399999999441,
+              -0.8899999996647239
+            ],
+            [
+              -495.6899999999441,
+              -9.889999999664724
+            ],
+            [
+              -488.1899999999441,
+              -4.389999999664724
+            ],
+            [
+              -494.9399999999441,
+              4.610000000335276
+            ],
+            [
+              -502.4399999999441,
+              -0.8899999996647239
+            ]
+          ],
+          "ringPixels": [
+            [
+              511.875,
+              484.5625
+            ],
+            [
+              554.0625,
+              428.3125
+            ],
+            [
+              600.9375,
+              462.6875
+            ],
+            [
+              558.75,
+              518.9375
+            ],
+            [
+              511.875,
+              484.5625
+            ]
+          ]
+        },
+        {
+          "padIndex": 3,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -468.9399999999441,
+              -24.139999999664724
+            ],
+            [
+              -463.4399999999441,
+              -33.389999999664724
+            ],
+            [
+              -457.6899999999441,
+              -29.389999999664724
+            ],
+            [
+              -463.4399999999441,
+              -20.139999999664724
+            ],
+            [
+              -468.9399999999441,
+              -24.139999999664724
+            ]
+          ],
+          "ringPixels": [
+            [
+              721.25,
+              339.25
+            ],
+            [
+              755.625,
+              281.4375
+            ],
+            [
+              791.5625,
+              306.4375
+            ],
+            [
+              755.625,
+              364.25
+            ],
+            [
+              721.25,
+              339.25
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [
+        {
+          "id": "lm-2026-09-09-h02-rear-63",
+          "ringPixels": [
+            [
+              285,
+              961
+            ],
+            [
+              348,
+              993
+            ],
+            [
+              320,
+              1033
+            ],
+            [
+              266,
+              1007
+            ],
+            [
+              270,
+              985
+            ],
+            [
+              285,
+              961
+            ]
+          ],
+          "interpretationUncertaintyMetres": 1.5,
+          "note": "Rear rectangle south of the old first platform, beside the bunker and east of the access path; small canopy/shadow area at the northwest corner.",
+          "ringProjected": [
+            [
+              687209.76,
+              6370876.16
+            ],
+            [
+              687219.84,
+              6370871.04
+            ],
+            [
+              687215.36,
+              6370864.64
+            ],
+            [
+              687206.72,
+              6370868.8
+            ],
+            [
+              687207.36,
+              6370872.32
+            ],
+            [
+              687209.76,
+              6370876.16
+            ]
+          ],
+          "ringLocal": [
+            [
+              -538.74,
+              75.34
+            ],
+            [
+              -528.66,
+              80.46
+            ],
+            [
+              -533.14,
+              86.86
+            ],
+            [
+              -541.78,
+              82.7
+            ],
+            [
+              -541.14,
+              79.18
+            ],
+            [
+              -538.74,
+              75.34
+            ]
+          ],
+          "padIndex": 4,
+          "areaSquareMetres": 84.8384
+        }
+      ],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-02",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/9c44b1d3-3506-481a-b1e7-79138e8066cc/hole-normal_web_Ohj9oZf.png",
+        "sha256": "cd42f5acf80499eceb1eb0092a387646882aef805767697217af8eb448f6fa0f",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "Five successive tee rectangles northeast along the path: the newly recorded southernmost platform is63; oldpad0 is59; oldpad1 is55; oldpad2 is51; oldpad3 is46/41. Pond, path, preceding-green and rear-bunker relationships distinguish the missing back platform.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            273,
+            951
+          ],
+          "tee-59": [
+            256,
+            905
+          ],
+          "tee-55": [
+            266,
+            850
+          ],
+          "tee-51": [
+            290,
+            764
+          ],
+          "tee-46": [
+            323,
+            707
+          ],
+          "tee-41": [
+            346,
+            707
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -534.1861118253186,
+            57.172292841502234
+          ],
+          "oldReferencePixels": [
+            313.461801,
+            847.45183
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 4,
+          "targetReferenceLocal": [
+            -535.22,
+            81.1
+          ],
+          "targetReferenceProjected": [
+            687213.28,
+            6370870.4
+          ],
+          "targetReferencePixels": [
+            307.0,
+            997.0
+          ],
+          "displacementMetres": 23.950033,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": true,
+          "platformBoundaryClearanceMetres": 3.541408
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -520.8265822499525,
+            35.997990750707686
+          ],
+          "oldReferencePixels": [
+            396.958861,
+            715.112442
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -534.1,
+            56.94
+          ],
+          "targetReferenceProjected": [
+            687214.4,
+            6370894.56
+          ],
+          "targetReferencePixels": [
+            314.0,
+            846.0
+          ],
+          "displacementMetres": 24.79418,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": true,
+          "platformBoundaryClearanceMetres": 3.342972
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -513.7756604999304,
+            25.52233524993062
+          ],
+          "oldReferencePixels": [
+            441.027122,
+            649.639595
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -513.7756604999304,
+            25.52233524993062
+          ],
+          "targetReferenceProjected": [
+            687234.7243395001,
+            6370925.97766475
+          ],
+          "targetReferencePixels": [
+            441.027122,
+            649.639595
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -466.95180874993093,
+            -24.548788749612868
+          ],
+          "oldReferencePixels": [
+            733.676195,
+            336.69507
+          ],
+          "oldContainingPadIndices": [
+            3
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -496.02,
+            -2.42
+          ],
+          "targetReferenceProjected": [
+            687252.48,
+            6370953.92
+          ],
+          "targetReferencePixels": [
+            552.0,
+            475.0
+          ],
+          "displacementMetres": 36.532767,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": true,
+          "platformBoundaryClearanceMetres": 4.218
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -462.97406924993265,
+            -31.238622999750078
+          ],
+          "oldReferencePixels": [
+            758.537067,
+            294.883606
+          ],
+          "oldContainingPadIndices": [
+            3
+          ],
+          "targetPadIndex": 3,
+          "targetReferenceLocal": [
+            -462.97406924993265,
+            -31.238622999750078
+          ],
+          "targetReferenceProjected": [
+            687285.5259307501,
+            6370982.738623
+          ],
+          "targetReferencePixels": [
+            758.537067,
+            294.883606
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -462.97406924993265,
+            -31.238622999750078
+          ],
+          "oldReferencePixels": [
+            758.537067,
+            294.883606
+          ],
+          "oldContainingPadIndices": [
+            3
+          ],
+          "targetPadIndex": 3,
+          "targetReferenceLocal": [
+            -462.97406924993265,
+            -31.238622999750078
+          ],
+          "targetReferenceProjected": [
+            687285.5259307501,
+            6370982.738623
+          ],
+          "targetReferencePixels": [
+            758.537067,
+            294.883606
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        }
+      ],
+      "unresolved": [],
+      "cameraReferencesPixels": {
+        "tee-63": [
+          307.0,
+          997.0
+        ],
+        "tee-59": [
+          314.0,
+          846.0
+        ],
+        "tee-51": [
+          552.0,
+          475.0
+        ]
+      },
+      "updateRouteStart": true,
+      "maximumReferenceMovementMetres": 36.532767
+    },
+    {
+      "n": 3,
+      "sourceKey": "hole-03-tees",
+      "existingPadCount": 3,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Previously adopted native-pixel April2026 ring remains aligned with the post-rebuild visible rectangle.",
+          "ringLocal": [
+            [
+              -366.9000000000233,
+              -365.45999999996275
+            ],
+            [
+              -356.5,
+              -364.339999999851
+            ],
+            [
+              -360.6600000000326,
+              -344.179999999702
+            ],
+            [
+              -370.10000000009313,
+              -346.5800000000745
+            ],
+            [
+              -366.9000000000233,
+              -365.45999999996275
+            ]
+          ],
+          "ringPixels": [
+            [
+              340.0,
+              1092.0
+            ],
+            [
+              405.0,
+              1099.0
+            ],
+            [
+              379.0,
+              1225.0
+            ],
+            [
+              320.0,
+              1210.0
+            ],
+            [
+              340.0,
+              1092.0
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Previously adopted native-pixel April2026 ring remains aligned with the post-rebuild visible rectangle.",
+          "ringLocal": [
+            [
+              -357.62000000011176,
+              -404.179999999702
+            ],
+            [
+              -350.9000000000233,
+              -403.37999999988824
+            ],
+            [
+              -353.62000000011176,
+              -385.29999999981374
+            ],
+            [
+              -360.0200000000186,
+              -386.2599999997765
+            ],
+            [
+              -357.62000000011176,
+              -404.179999999702
+            ]
+          ],
+          "ringPixels": [
+            [
+              398.0,
+              850.0
+            ],
+            [
+              440.0,
+              855.0
+            ],
+            [
+              423.0,
+              968.0
+            ],
+            [
+              383.0,
+              962.0
+            ],
+            [
+              398.0,
+              850.0
+            ]
+          ]
+        },
+        {
+          "padIndex": 2,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Previously adopted native-pixel April2026 ring remains aligned with the post-rebuild visible rectangle.",
+          "ringLocal": [
+            [
+              -351.38000000000466,
+              -449.29999999981374
+            ],
+            [
+              -344.9800000000978,
+              -448.339999999851
+            ],
+            [
+              -346.5800000000745,
+              -434.2599999997765
+            ],
+            [
+              -352.6600000000326,
+              -435.21999999973923
+            ],
+            [
+              -351.38000000000466,
+              -449.29999999981374
+            ]
+          ],
+          "ringPixels": [
+            [
+              437.0,
+              568.0
+            ],
+            [
+              477.0,
+              574.0
+            ],
+            [
+              467.0,
+              662.0
+            ],
+            [
+              429.0,
+              656.0
+            ],
+            [
+              437.0,
+              568.0
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-03",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/c9d4e396-954d-4d40-91b0-8b4c104a4644/hole-normal_web_tkPGEnq.png",
+        "sha256": "1ad2453017e3a79996c92f730c58cdfea55314f5dccff540066a533c6e416005",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "The three re-traced post-rebuild rectangles correspond to63,59/55,51. Guide46 and41 are farther forward on the short-cut corridor; distinct current tee-turf edges cannot be isolated from the April image.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            389,
+            952
+          ],
+          "tee-59": [
+            348,
+            902
+          ],
+          "tee-55": [
+            371,
+            902
+          ],
+          "tee-51": [
+            359,
+            834
+          ],
+          "tee-46": [
+            337,
+            761
+          ],
+          "tee-41": [
+            313,
+            727
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -363.2200000000885,
+            -355.0599999995902
+          ],
+          "oldReferencePixels": [
+            363.0,
+            1157.0
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -363.2200000000885,
+            -355.0599999995902
+          ],
+          "targetReferenceProjected": [
+            687385.2799999999,
+            6371306.56
+          ],
+          "targetReferencePixels": [
+            363.0,
+            1157.0
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 4.705934
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -355.54000000003725,
+            -394.5800000000745
+          ],
+          "oldReferencePixels": [
+            411.0,
+            910.0
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -355.54000000003725,
+            -394.5800000000745
+          ],
+          "targetReferenceProjected": [
+            687392.96,
+            6371346.08
+          ],
+          "targetReferencePixels": [
+            411.0,
+            910.0
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 3.279205
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -355.54000000003725,
+            -394.5800000000745
+          ],
+          "oldReferencePixels": [
+            411.0,
+            910.0
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -355.54000000003725,
+            -394.5800000000745
+          ],
+          "targetReferenceProjected": [
+            687392.96,
+            6371346.08
+          ],
+          "targetReferencePixels": [
+            411.0,
+            910.0
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 3.279205
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -348.8200000000652,
+            -441.77999999932945
+          ],
+          "oldReferencePixels": [
+            453.0,
+            615.0
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -348.8200000000652,
+            -441.77999999932945
+          ],
+          "targetReferenceProjected": [
+            687399.6799999999,
+            6371393.279999999
+          ],
+          "targetReferencePixels": [
+            453.0,
+            615.0
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 3.074757
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -339.89875502140075,
+            -477.8848293134729
+          ],
+          "oldReferencePixels": [
+            508.757781,
+            389.344817
+          ],
+          "oldContainingPadIndices": [],
+          "targetPadIndex": null,
+          "targetReferenceLocal": [
+            -339.89875502140075,
+            -477.8848293134729
+          ],
+          "targetReferenceProjected": [
+            687408.6012449786,
+            6371429.3848293135
+          ],
+          "targetReferencePixels": [
+            508.757781,
+            389.344817
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "unresolved-retained-reference",
+          "confidence": "low",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "note": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association."
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -333.32834252257527,
+            -496.77476524759606
+          ],
+          "oldReferencePixels": [
+            549.822859,
+            271.282717
+          ],
+          "oldContainingPadIndices": [],
+          "targetPadIndex": null,
+          "targetReferenceLocal": [
+            -333.32834252257527,
+            -496.77476524759606
+          ],
+          "targetReferenceProjected": [
+            687415.1716574774,
+            6371448.2747652475
+          ],
+          "targetReferencePixels": [
+            549.822859,
+            271.282717
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "unresolved-retained-reference",
+          "confidence": "low",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "note": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association."
+        }
+      ],
+      "unresolved": [
+        "tee-46",
+        "tee-41"
+      ],
+      "cameraReferencesPixels": {},
+      "updateRouteStart": false,
+      "maximumReferenceMovementMetres": 0.0
+    },
+    {
+      "n": 4,
+      "sourceKey": "hole-04-tees",
+      "existingPadCount": 3,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -61.75,
+              -799.75
+            ],
+            [
+              -51.25,
+              -794.75
+            ],
+            [
+              -55.25,
+              -784.75
+            ],
+            [
+              -65.25,
+              -790.25
+            ],
+            [
+              -61.75,
+              -799.75
+            ]
+          ],
+          "ringPixels": [
+            [
+              750.1875,
+              559.6875
+            ],
+            [
+              815.8125,
+              590.9375
+            ],
+            [
+              790.8125,
+              653.4375
+            ],
+            [
+              728.3125,
+              619.0625
+            ],
+            [
+              750.1875,
+              559.6875
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -85.52000000001863,
+              -810.7800000002608
+            ],
+            [
+              -70.52000000001863,
+              -803.2800000002608
+            ],
+            [
+              -75.52000000001863,
+              -794.2800000002608
+            ],
+            [
+              -90.02000000001863,
+              -802.5300000002608
+            ],
+            [
+              -85.52000000001863,
+              -810.7800000002608
+            ]
+          ],
+          "ringPixels": [
+            [
+              601.625,
+              490.75
+            ],
+            [
+              695.375,
+              537.625
+            ],
+            [
+              664.125,
+              593.875
+            ],
+            [
+              573.5,
+              542.3125
+            ],
+            [
+              601.625,
+              490.75
+            ]
+          ]
+        },
+        {
+          "padIndex": 2,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -115.77000000001863,
+              -825.7800000002608
+            ],
+            [
+              -104.02000000001863,
+              -819.0300000002608
+            ],
+            [
+              -107.52000000001863,
+              -812.7800000002608
+            ],
+            [
+              -119.52000000001863,
+              -820.2800000002608
+            ],
+            [
+              -115.77000000001863,
+              -825.7800000002608
+            ]
+          ],
+          "ringPixels": [
+            [
+              412.5625,
+              397.0
+            ],
+            [
+              486.0,
+              439.1875
+            ],
+            [
+              464.125,
+              478.25
+            ],
+            [
+              389.125,
+              431.375
+            ],
+            [
+              412.5625,
+              397.0
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-04",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/236e46ff-c9db-4cb9-886a-e3703eada34a/hole-normal_web_ijhPIS4.png",
+        "sha256": "b2c13bbc15db3c1679e16fa4afd07afe5e1595d3846a4c5a267183cc3cbeaddd",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "Three separated rectangles correspond to63,59/55,51/46. Guide41 lies within the start of the broad fairway rather than a separable observed tee rectangle.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            375,
+            925
+          ],
+          "tee-59": [
+            338,
+            874
+          ],
+          "tee-55": [
+            359,
+            874
+          ],
+          "tee-51": [
+            331,
+            787
+          ],
+          "tee-46": [
+            354,
+            787
+          ],
+          "tee-41": [
+            351,
+            698
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -58.31182514803204,
+            -792.3670323928944
+          ],
+          "oldReferencePixels": [
+            771.676093,
+            605.831048
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -58.31182514803204,
+            -792.3670323928944
+          ],
+          "targetReferenceProjected": [
+            687690.1881748519,
+            6371743.867032393
+          ],
+          "targetReferencePixels": [
+            771.676093,
+            605.831048
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 5.187603
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -77.49959940047732,
+            -805.0491145412934
+          ],
+          "oldReferencePixels": [
+            651.752504,
+            526.568034
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -77.49959940047732,
+            -805.0491145412934
+          ],
+          "targetReferenceProjected": [
+            687671.0004005996,
+            6371756.549114541
+          ],
+          "targetReferencePixels": [
+            651.752504,
+            526.568034
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.539028
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -77.49959940047732,
+            -805.0491145412934
+          ],
+          "oldReferencePixels": [
+            651.752504,
+            526.568034
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -77.49959940047732,
+            -805.0491145412934
+          ],
+          "targetReferenceProjected": [
+            687671.0004005996,
+            6371756.549114541
+          ],
+          "targetReferencePixels": [
+            651.752504,
+            526.568034
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.539028
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -110.80858249997254,
+            -821.1999307498336
+          ],
+          "oldReferencePixels": [
+            443.571359,
+            425.625433
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -110.80858249997254,
+            -821.1999307498336
+          ],
+          "targetReferenceProjected": [
+            687637.6914175,
+            6371772.69993075
+          ],
+          "targetReferencePixels": [
+            443.571359,
+            425.625433
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -110.80858249997254,
+            -821.1999307498336
+          ],
+          "oldReferencePixels": [
+            443.571359,
+            425.625433
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -110.80858249997254,
+            -821.1999307498336
+          ],
+          "targetReferenceProjected": [
+            687637.6914175,
+            6371772.69993075
+          ],
+          "targetReferencePixels": [
+            443.571359,
+            425.625433
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -136.73088450619224,
+            -844.1982507351549
+          ],
+          "oldReferencePixels": [
+            281.556972,
+            281.885933
+          ],
+          "oldContainingPadIndices": [],
+          "targetPadIndex": null,
+          "targetReferenceLocal": [
+            -136.73088450619224,
+            -844.1982507351549
+          ],
+          "targetReferenceProjected": [
+            687611.7691154939,
+            6371795.698250735
+          ],
+          "targetReferencePixels": [
+            281.556972,
+            281.885933
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "unresolved-retained-reference",
+          "confidence": "low",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "note": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association."
+        }
+      ],
+      "unresolved": [
+        "tee-41"
+      ],
+      "cameraReferencesPixels": {},
+      "updateRouteStart": false,
+      "maximumReferenceMovementMetres": 0.0
+    },
+    {
+      "n": 5,
+      "sourceKey": "hole-05-tees",
+      "existingPadCount": 4,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -403.25,
+              -918.25
+            ],
+            [
+              -395.75,
+              -917.75
+            ],
+            [
+              -396.75,
+              -893.75
+            ],
+            [
+              -404.75,
+              -893.75
+            ],
+            [
+              -403.25,
+              -918.25
+            ]
+          ],
+          "ringPixels": [
+            [
+              305.8125,
+              282.0625
+            ],
+            [
+              352.6875,
+              285.1875
+            ],
+            [
+              346.4375,
+              435.1875
+            ],
+            [
+              296.4375,
+              435.1875
+            ],
+            [
+              305.8125,
+              282.0625
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -405.3299999999581,
+              -886.5999999996275
+            ],
+            [
+              -397.8299999999581,
+              -886.3499999996275
+            ],
+            [
+              -398.8299999999581,
+              -874.5999999996275
+            ],
+            [
+              -406.0799999999581,
+              -874.5999999996275
+            ],
+            [
+              -405.3299999999581,
+              -886.5999999996275
+            ]
+          ],
+          "ringPixels": [
+            [
+              292.8125,
+              479.875
+            ],
+            [
+              339.6875,
+              481.4375
+            ],
+            [
+              333.4375,
+              554.875
+            ],
+            [
+              288.125,
+              554.875
+            ],
+            [
+              292.8125,
+              479.875
+            ]
+          ]
+        },
+        {
+          "padIndex": 2,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -406.0799999999581,
+              -872.5999999996275
+            ],
+            [
+              -398.8299999999581,
+              -872.5999999996275
+            ],
+            [
+              -400.0799999999581,
+              -860.0999999996275
+            ],
+            [
+              -407.0799999999581,
+              -860.0999999996275
+            ],
+            [
+              -406.0799999999581,
+              -872.5999999996275
+            ]
+          ],
+          "ringPixels": [
+            [
+              288.125,
+              567.375
+            ],
+            [
+              333.4375,
+              567.375
+            ],
+            [
+              325.625,
+              645.5
+            ],
+            [
+              281.875,
+              645.5
+            ],
+            [
+              288.125,
+              567.375
+            ]
+          ]
+        },
+        {
+          "padIndex": 3,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -398.3299999999581,
+              -842.8499999996275
+            ],
+            [
+              -391.5799999999581,
+              -842.3499999996275
+            ],
+            [
+              -393.0799999999581,
+              -832.8499999996275
+            ],
+            [
+              -399.8299999999581,
+              -833.8499999996275
+            ],
+            [
+              -398.3299999999581,
+              -842.8499999996275
+            ]
+          ],
+          "ringPixels": [
+            [
+              336.5625,
+              753.3125
+            ],
+            [
+              378.75,
+              756.4375
+            ],
+            [
+              369.375,
+              815.8125
+            ],
+            [
+              327.1875,
+              809.5625
+            ],
+            [
+              336.5625,
+              753.3125
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [
+        {
+          "id": "lm-2026-09-09-h05-cross-path-55",
+          "ringPixels": [
+            [
+              382,
+              436
+            ],
+            [
+              450,
+              445
+            ],
+            [
+              440,
+              529
+            ],
+            [
+              381,
+              523
+            ],
+            [
+              382,
+              436
+            ]
+          ],
+          "interpretationUncertaintyMetres": 1,
+          "note": "Clearly separate rectangular tee turf east of the north-south path; Caddee places tee55 across that path from51.",
+          "ringProjected": [
+            [
+              687357.44,
+              6371845.12
+            ],
+            [
+              687368.32,
+              6371843.68
+            ],
+            [
+              687366.72,
+              6371830.24
+            ],
+            [
+              687357.28,
+              6371831.2
+            ],
+            [
+              687357.44,
+              6371845.12
+            ]
+          ],
+          "ringLocal": [
+            [
+              -391.06,
+              -893.62
+            ],
+            [
+              -380.18,
+              -892.18
+            ],
+            [
+              -381.78,
+              -878.74
+            ],
+            [
+              -391.22,
+              -879.7
+            ],
+            [
+              -391.06,
+              -893.62
+            ]
+          ],
+          "padIndex": 4,
+          "areaSquareMetres": 140.0448
+        }
+      ],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-05",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/1553b877-0ce6-483b-8260-8018e3e6a95d/hole-normal_web_egujX1T.png",
+        "sha256": "ad4356ae83b390bdcbc7a43c977a9d98e873c7f7108cb294e830b2ec27208ac3",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "Rear coastal rectangle carries63/59;51 and46 are the two succeeding west-of-path rectangles. Tee55 occupies the separate east-of-path rectangle, and41 the farther south east-of-path front rectangle.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            384,
+            875
+          ],
+          "tee-59": [
+            386,
+            835
+          ],
+          "tee-55": [
+            300,
+            785
+          ],
+          "tee-51": [
+            380,
+            756
+          ],
+          "tee-46": [
+            378,
+            708
+          ],
+          "tee-41": [
+            312,
+            648
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -400.14508632138114,
+            -905.7519920318725
+          ],
+          "oldReferencePixels": [
+            325.21821,
+            360.17505
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -400.14508632138114,
+            -905.7519920318725
+          ],
+          "targetReferenceProjected": [
+            687348.3549136786,
+            6371857.251992032
+          ],
+          "targetReferencePixels": [
+            325.21821,
+            360.17505
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 3.862865
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -401.1020659999922,
+            -895.25
+          ],
+          "oldReferencePixels": [
+            319.237088,
+            425.8125
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -401.1020659999922,
+            -895.25
+          ],
+          "targetReferenceProjected": [
+            687347.397934,
+            6371846.75
+          ],
+          "targetReferencePixels": [
+            319.237088,
+            425.8125
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -402.2063716472992,
+            -877.8279682743181
+          ],
+          "oldReferencePixels": [
+            312.335177,
+            534.700198
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 4,
+          "targetReferenceLocal": [
+            -386.58,
+            -886.1
+          ],
+          "targetReferenceProjected": [
+            687361.92,
+            6371837.6
+          ],
+          "targetReferencePixels": [
+            410.0,
+            483.0
+          ],
+          "displacementMetres": 17.680781,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": true,
+          "platformBoundaryClearanceMetres": 4.566135
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -402.7953346742631,
+            -869.8496775706103
+          ],
+          "oldReferencePixels": [
+            308.654158,
+            584.564515
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -402.1,
+            -880.98
+          ],
+          "targetReferenceProjected": [
+            687346.4,
+            6371832.48
+          ],
+          "targetReferencePixels": [
+            313.0,
+            515.0
+          ],
+          "displacementMetres": 11.152021,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": true,
+          "platformBoundaryClearanceMetres": 3.574276
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -403.75239949999377,
+            -861.5999999996275
+          ],
+          "oldReferencePixels": [
+            302.672503,
+            636.125
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -403.75239949999377,
+            -861.5999999996275
+          ],
+          "targetReferenceProjected": [
+            687344.7476005,
+            6371813.1
+          ],
+          "targetReferencePixels": [
+            302.672503,
+            636.125
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -398.09931374993175,
+            -835.1099734995514
+          ],
+          "oldReferencePixels": [
+            338.004289,
+            801.687666
+          ],
+          "oldContainingPadIndices": [
+            3
+          ],
+          "targetPadIndex": 3,
+          "targetReferenceLocal": [
+            -398.09931374993175,
+            -835.1099734995514
+          ],
+          "targetReferenceProjected": [
+            687350.4006862501,
+            6371786.6099735
+          ],
+          "targetReferencePixels": [
+            338.004289,
+            801.687666
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        }
+      ],
+      "unresolved": [],
+      "cameraReferencesPixels": {
+        "tee-55": [
+          410.0,
+          483.0
+        ],
+        "tee-51": [
+          313.0,
+          515.0
+        ]
+      },
+      "updateRouteStart": false,
+      "maximumReferenceMovementMetres": 17.680781
+    },
+    {
+      "n": 6,
+      "sourceKey": "hole-06-tees",
+      "existingPadCount": 3,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "medium",
+          "status": "retained",
+          "note": "Turf platform visible under partial tree shadow; retained prior ring at about1\u20132m interpretation tolerance.",
+          "ringLocal": [
+            [
+              -366.75,
+              -710.75
+            ],
+            [
+              -357.75,
+              -706.75
+            ],
+            [
+              -363.25,
+              -697.25
+            ],
+            [
+              -371.75,
+              -701.25
+            ],
+            [
+              -366.75,
+              -710.75
+            ]
+          ],
+          "ringPixels": [
+            [
+              427.9375,
+              281.9375
+            ],
+            [
+              484.1875,
+              306.9375
+            ],
+            [
+              449.8125,
+              366.3125
+            ],
+            [
+              396.6875,
+              341.3125
+            ],
+            [
+              427.9375,
+              281.9375
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium",
+          "status": "retained",
+          "note": "Turf platform visible under partial tree shadow; retained prior ring at about1\u20132m interpretation tolerance.",
+          "ringLocal": [
+            [
+              -375.70999999996275,
+              -681.2099999999627
+            ],
+            [
+              -366.95999999996275,
+              -677.4599999999627
+            ],
+            [
+              -371.95999999996275,
+              -667.2099999999627
+            ],
+            [
+              -380.70999999996275,
+              -671.2099999999627
+            ],
+            [
+              -375.70999999996275,
+              -681.2099999999627
+            ]
+          ],
+          "ringPixels": [
+            [
+              371.9375,
+              466.5625
+            ],
+            [
+              426.625,
+              490.0
+            ],
+            [
+              395.375,
+              554.0625
+            ],
+            [
+              340.6875,
+              529.0625
+            ],
+            [
+              371.9375,
+              466.5625
+            ]
+          ]
+        },
+        {
+          "padIndex": 2,
+          "confidence": "medium",
+          "status": "retained",
+          "note": "Turf platform visible under partial tree shadow; retained prior ring at about1\u20132m interpretation tolerance.",
+          "ringLocal": [
+            [
+              -384.20999999996275,
+              -647.4599999999627
+            ],
+            [
+              -379.20999999996275,
+              -644.7099999999627
+            ],
+            [
+              -383.45999999996275,
+              -636.7099999999627
+            ],
+            [
+              -388.70999999996275,
+              -639.7099999999627
+            ],
+            [
+              -384.20999999996275,
+              -647.4599999999627
+            ]
+          ],
+          "ringPixels": [
+            [
+              318.8125,
+              677.5
+            ],
+            [
+              350.0625,
+              694.6875
+            ],
+            [
+              323.5,
+              744.6875
+            ],
+            [
+              290.6875,
+              725.9375
+            ],
+            [
+              318.8125,
+              677.5
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [
+        {
+          "id": "lm-2026-09-09-h06-rear-63",
+          "ringPixels": [
+            [
+              534,
+              90
+            ],
+            [
+              595,
+              122
+            ],
+            [
+              556,
+              187
+            ],
+            [
+              499,
+              164
+            ],
+            [
+              534,
+              90
+            ]
+          ],
+          "interpretationUncertaintyMetres": 1.5,
+          "note": "Rear rectangle immediately east of the path beside the preceding green. Partly tree-shadowed top edge; conservative visible turf outline.",
+          "ringProjected": [
+            [
+              687398.72,
+              6371692.96
+            ],
+            [
+              687408.48,
+              6371687.84
+            ],
+            [
+              687402.24,
+              6371677.44
+            ],
+            [
+              687393.12,
+              6371681.12
+            ],
+            [
+              687398.72,
+              6371692.96
+            ]
+          ],
+          "ringLocal": [
+            [
+              -349.78,
+              -741.46
+            ],
+            [
+              -340.02,
+              -736.34
+            ],
+            [
+              -346.26,
+              -725.94
+            ],
+            [
+              -355.38,
+              -729.62
+            ],
+            [
+              -349.78,
+              -741.46
+            ]
+          ],
+          "padIndex": 3,
+          "areaSquareMetres": 131.0208
+        }
+      ],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-06",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/c9a78992-4d9f-4651-ae14-d5b3f242163e/hole-normal_web_87HytgY.png",
+        "sha256": "52b1edfcd649830a90a6f6b4c74beee2ca115a9a3b5435c3671982186e38b2ce",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "Five groups in the guide:63 at the rear rectangle beside the preceding green;59 at oldpad0;55 at oldpad1;51/46 at oldpad2;41 farther forward where the short turf joins the fairway.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            284,
+            908
+          ],
+          "tee-59": [
+            292,
+            872
+          ],
+          "tee-55": [
+            284,
+            822
+          ],
+          "tee-51": [
+            274,
+            755
+          ],
+          "tee-46": [
+            296,
+            755
+          ],
+          "tee-41": [
+            309,
+            700
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -364.84103641456585,
+            -704.0297118847539
+          ],
+          "oldReferencePixels": [
+            439.868522,
+            323.939301
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 3,
+          "targetReferenceLocal": [
+            -347.86,
+            -733.62
+          ],
+          "targetReferenceProjected": [
+            687400.64,
+            6371685.12
+          ],
+          "targetReferencePixels": [
+            546.0,
+            139.0
+          ],
+          "displacementMetres": 34.116576,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": true,
+          "platformBoundaryClearanceMetres": 5.087733
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -371.44002400001045,
+            -677.7480587502941
+          ],
+          "oldReferencePixels": [
+            398.62485,
+            488.199633
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -364.98,
+            -704.02
+          ],
+          "targetReferenceProjected": [
+            687383.52,
+            6371655.52
+          ],
+          "targetReferencePixels": [
+            439.0,
+            324.0
+          ],
+          "displacementMetres": 27.054515,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": true,
+          "platformBoundaryClearanceMetres": 4.700779
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -372.6667982499348,
+            -669.182412000373
+          ],
+          "oldReferencePixels": [
+            390.957511,
+            541.734925
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -372.6667982499348,
+            -669.182412000373
+          ],
+          "targetReferenceProjected": [
+            687375.8332017501,
+            6371620.682412
+          ],
+          "targetReferencePixels": [
+            390.957511,
+            541.734925
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -384.05891625001095,
+            -638.7798645002767
+          ],
+          "oldReferencePixels": [
+            319.756773,
+            731.750847
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -384.05891625001095,
+            -638.7798645002767
+          ],
+          "targetReferenceProjected": [
+            687364.44108375,
+            6371590.2798645
+          ],
+          "targetReferencePixels": [
+            319.756773,
+            731.750847
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -384.05891625001095,
+            -638.7798645002767
+          ],
+          "oldReferencePixels": [
+            319.756773,
+            731.750847
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -384.05891625001095,
+            -638.7798645002767
+          ],
+          "targetReferenceProjected": [
+            687364.44108375,
+            6371590.2798645
+          ],
+          "targetReferencePixels": [
+            319.756773,
+            731.750847
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -390.08334789017533,
+            -593.885144559038
+          ],
+          "oldReferencePixels": [
+            282.104076,
+            1012.342847
+          ],
+          "oldContainingPadIndices": [],
+          "targetPadIndex": null,
+          "targetReferenceLocal": [
+            -390.08334789017533,
+            -593.885144559038
+          ],
+          "targetReferenceProjected": [
+            687358.4166521098,
+            6371545.385144559
+          ],
+          "targetReferencePixels": [
+            282.104076,
+            1012.342847
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "unresolved-retained-reference",
+          "confidence": "low",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "note": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association."
+        }
+      ],
+      "unresolved": [
+        "tee-41"
+      ],
+      "cameraReferencesPixels": {
+        "tee-63": [
+          546.0,
+          139.0
+        ],
+        "tee-59": [
+          439.0,
+          324.0
+        ]
+      },
+      "updateRouteStart": true,
+      "maximumReferenceMovementMetres": 34.116576
+    },
+    {
+      "n": 7,
+      "sourceKey": "hole-07-tees",
+      "existingPadCount": 2,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "low-to-medium",
+          "status": "retained",
+          "note": "Large connected rear tee turf partly obscured by shadows; oldring covers part of the visible patch but separate63/59 boundaries cannot be independently resolved. Geometry retained provisionally.",
+          "ringLocal": [
+            [
+              -372.25,
+              -328.25
+            ],
+            [
+              -365.25,
+              -333.75
+            ],
+            [
+              -341.25,
+              -328.75
+            ],
+            [
+              -343.75,
+              -320.75
+            ],
+            [
+              -363.25,
+              -322.75
+            ],
+            [
+              -372.25,
+              -328.25
+            ]
+          ],
+          "ringPixels": [
+            [
+              281.5625,
+              454.5625
+            ],
+            [
+              325.3125,
+              420.1875
+            ],
+            [
+              475.3125,
+              451.4375
+            ],
+            [
+              459.6875,
+              501.4375
+            ],
+            [
+              337.8125,
+              488.9375
+            ],
+            [
+              281.5625,
+              454.5625
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -301.04000000003725,
+              -340.45999999996275
+            ],
+            [
+              -294.54000000003725,
+              -342.70999999996275
+            ],
+            [
+              -291.79000000003725,
+              -336.95999999996275
+            ],
+            [
+              -298.79000000003725,
+              -333.95999999996275
+            ],
+            [
+              -301.04000000003725,
+              -340.45999999996275
+            ]
+          ],
+          "ringPixels": [
+            [
+              726.625,
+              378.25
+            ],
+            [
+              767.25,
+              364.1875
+            ],
+            [
+              784.4375,
+              400.125
+            ],
+            [
+              740.6875,
+              418.875
+            ],
+            [
+              726.625,
+              378.25
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-07",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/c23efd63-bc32-4e06-929c-b2915d3716fb/hole-normal_web_12orzWi.png",
+        "sha256": "f7e717ff7a830d2a4842456f4392ff4db98fd47484070e658fd328059da3f66b",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "The guide separates63 and59, then55/51/46 and41. The large rear mapped patch is connected turf with shadow and cannot confidently establish separate63/59 deck extents; preserve these two references as unresolved. The clearly separate eastern rectangle supports55/51/46. No distinct41 platform edge is visible in the April fairway.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            315,
+            910
+          ],
+          "tee-59": [
+            321,
+            815
+          ],
+          "tee-55": [
+            355,
+            713
+          ],
+          "tee-51": [
+            378,
+            713
+          ],
+          "tee-46": [
+            400,
+            713
+          ],
+          "tee-41": [
+            374,
+            606
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -356.0972498343274,
+            -327.00049701789266
+          ],
+          "oldReferencePixels": [
+            382.517189,
+            462.371894
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": null,
+          "targetReferenceLocal": [
+            -356.0972498343274,
+            -327.00049701789266
+          ],
+          "targetReferenceProjected": [
+            687392.4027501657,
+            6371278.500497018
+          ],
+          "targetReferencePixels": [
+            382.517189,
+            462.371894
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "unresolved-retained-reference",
+          "confidence": "low",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "note": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association."
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -343.1750237500528,
+            -327.6188402501866
+          ],
+          "oldReferencePixels": [
+            463.281102,
+            458.507248
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": null,
+          "targetReferenceLocal": [
+            -343.1750237500528,
+            -327.6188402501866
+          ],
+          "targetReferenceProjected": [
+            687405.32497625,
+            6371279.11884025
+          ],
+          "targetReferencePixels": [
+            463.281102,
+            458.507248
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "unresolved-retained-reference",
+          "confidence": "low",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "note": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association."
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -298.1217445000075,
+            -339.8828405002132
+          ],
+          "oldReferencePixels": [
+            744.864097,
+            381.857247
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -298.1217445000075,
+            -339.8828405002132
+          ],
+          "targetReferenceProjected": [
+            687450.3782555,
+            6371291.3828405
+          ],
+          "targetReferencePixels": [
+            744.864097,
+            381.857247
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -298.1217445000075,
+            -339.8828405002132
+          ],
+          "oldReferencePixels": [
+            744.864097,
+            381.857247
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -298.1217445000075,
+            -339.8828405002132
+          ],
+          "targetReferenceProjected": [
+            687450.3782555,
+            6371291.3828405
+          ],
+          "targetReferencePixels": [
+            744.864097,
+            381.857247
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -298.1217445000075,
+            -339.8828405002132
+          ],
+          "oldReferencePixels": [
+            744.864097,
+            381.857247
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -298.1217445000075,
+            -339.8828405002132
+          ],
+          "targetReferenceProjected": [
+            687450.3782555,
+            6371291.3828405
+          ],
+          "targetReferencePixels": [
+            744.864097,
+            381.857247
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -272.98503723914314,
+            -355.9206093650558
+          ],
+          "oldReferencePixels": [
+            901.968517,
+            281.621191
+          ],
+          "oldContainingPadIndices": [],
+          "targetPadIndex": null,
+          "targetReferenceLocal": [
+            -272.98503723914314,
+            -355.9206093650558
+          ],
+          "targetReferenceProjected": [
+            687475.5149627608,
+            6371307.420609365
+          ],
+          "targetReferencePixels": [
+            901.968517,
+            281.621191
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "unresolved-retained-reference",
+          "confidence": "low",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "note": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association."
+        }
+      ],
+      "unresolved": [
+        "tee-63",
+        "tee-59",
+        "tee-41"
+      ],
+      "cameraReferencesPixels": {},
+      "updateRouteStart": false,
+      "maximumReferenceMovementMetres": 0.0
+    },
+    {
+      "n": 8,
+      "sourceKey": "hole-08-tees",
+      "existingPadCount": 4,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -153.75,
+              -402.25
+            ],
+            [
+              -148.25,
+              -399.25
+            ],
+            [
+              -151.75,
+              -393.25
+            ],
+            [
+              -156.75,
+              -395.75
+            ],
+            [
+              -153.75,
+              -402.25
+            ]
+          ],
+          "ringPixels": [
+            [
+              738.1875,
+              282.0625
+            ],
+            [
+              772.5625,
+              300.8125
+            ],
+            [
+              750.6875,
+              338.3125
+            ],
+            [
+              719.4375,
+              322.6875
+            ],
+            [
+              738.1875,
+              282.0625
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -185.55000000004657,
+              -341.929999999702
+            ],
+            [
+              -177.05000000004657,
+              -339.179999999702
+            ],
+            [
+              -181.30000000004657,
+              -329.179999999702
+            ],
+            [
+              -189.80000000004657,
+              -332.179999999702
+            ],
+            [
+              -185.55000000004657,
+              -341.929999999702
+            ]
+          ],
+          "ringPixels": [
+            [
+              539.4375,
+              659.0625
+            ],
+            [
+              592.5625,
+              676.25
+            ],
+            [
+              566.0,
+              738.75
+            ],
+            [
+              512.875,
+              720.0
+            ],
+            [
+              539.4375,
+              659.0625
+            ]
+          ]
+        },
+        {
+          "padIndex": 2,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -201.80000000004657,
+              -289.179999999702
+            ],
+            [
+              -194.55000000004657,
+              -284.429999999702
+            ],
+            [
+              -199.05000000004657,
+              -275.429999999702
+            ],
+            [
+              -207.05000000004657,
+              -279.179999999702
+            ],
+            [
+              -201.80000000004657,
+              -289.179999999702
+            ]
+          ],
+          "ringPixels": [
+            [
+              437.875,
+              988.75
+            ],
+            [
+              483.1875,
+              1018.4375
+            ],
+            [
+              455.0625,
+              1074.6875
+            ],
+            [
+              405.0625,
+              1051.25
+            ],
+            [
+              437.875,
+              988.75
+            ]
+          ]
+        },
+        {
+          "padIndex": 3,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -221.30000000004657,
+              -245.42999999970198
+            ],
+            [
+              -217.55000000004657,
+              -242.42999999970198
+            ],
+            [
+              -223.30000000004657,
+              -235.92999999970198
+            ],
+            [
+              -226.80000000004657,
+              -238.92999999970198
+            ],
+            [
+              -221.30000000004657,
+              -245.42999999970198
+            ]
+          ],
+          "ringPixels": [
+            [
+              316.0,
+              1262.1875
+            ],
+            [
+              339.4375,
+              1280.9375
+            ],
+            [
+              303.5,
+              1321.5625
+            ],
+            [
+              281.625,
+              1302.8125
+            ],
+            [
+              316.0,
+              1262.1875
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-08",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/ef9e9d4f-503d-4ec5-b848-4a9d6818da83/hole-normal_web_ZhOLewa.png",
+        "sha256": "587833541af831da080e203a14089ae107a4e8ab0bdb680243421ed7f8580948",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "Guide has separate63 and59;55,51/46,41 continue south along the road. Four existing separated rectangles corroborate63,55,51/46,41. The indicated59 area is the mown spur beside the green/bunker, with no defensible separate tee edge in April; the current59 point on63 is not independently verified.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            372,
+            942
+          ],
+          "tee-59": [
+            343,
+            897
+          ],
+          "tee-55": [
+            322,
+            819
+          ],
+          "tee-51": [
+            306,
+            711
+          ],
+          "tee-46": [
+            327,
+            711
+          ],
+          "tee-41": [
+            297,
+            621
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -152.6072854291417,
+            -397.6911177644711
+          ],
+          "oldReferencePixels": [
+            745.329466,
+            310.555514
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -152.6072854291417,
+            -397.6911177644711
+          ],
+          "targetReferenceProjected": [
+            687595.8927145709,
+            6371349.191117764
+          ],
+          "targetReferencePixels": [
+            745.329466,
+            310.555514
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 2.947975
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -154.22182750003412,
+            -396.1629647500813
+          ],
+          "oldReferencePixels": [
+            735.238578,
+            320.10647
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": null,
+          "targetReferenceLocal": [
+            -154.22182750003412,
+            -396.1629647500813
+          ],
+          "targetReferenceProjected": [
+            687594.2781725,
+            6371347.66296475
+          ],
+          "targetReferencePixels": [
+            735.238578,
+            320.10647
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "unresolved-retained-reference",
+          "confidence": "low",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "note": "Do not infer numbered correctness from nearest-pad membership; source does not resolve this association."
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -185.25786526551357,
+            -336.90510262576447
+          ],
+          "oldReferencePixels": [
+            541.263342,
+            690.468109
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -185.25786526551357,
+            -336.90510262576447
+          ],
+          "targetReferenceProjected": [
+            687563.2421347345,
+            6371288.4051026255
+          ],
+          "targetReferencePixels": [
+            541.263342,
+            690.468109
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 2.275674
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -203.75009375007357,
+            -282.23857649974525
+          ],
+          "oldReferencePixels": [
+            425.686914,
+            1032.133897
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -203.75009375007357,
+            -282.23857649974525
+          ],
+          "targetReferenceProjected": [
+            687544.7499062499,
+            6371233.7385765
+          ],
+          "targetReferencePixels": [
+            425.686914,
+            1032.133897
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -203.75009375007357,
+            -282.23857649974525
+          ],
+          "oldReferencePixels": [
+            425.686914,
+            1032.133897
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -203.75009375007357,
+            -282.23857649974525
+          ],
+          "targetReferenceProjected": [
+            687544.7499062499,
+            6371233.7385765
+          ],
+          "targetReferencePixels": [
+            425.686914,
+            1032.133897
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -224.69215900008567,
+            -239.09889575000852
+          ],
+          "oldReferencePixels": [
+            294.799006,
+            1301.756902
+          ],
+          "oldContainingPadIndices": [
+            3
+          ],
+          "targetPadIndex": 3,
+          "targetReferenceLocal": [
+            -224.69215900008567,
+            -239.09889575000852
+          ],
+          "targetReferenceProjected": [
+            687523.8078409999,
+            6371190.59889575
+          ],
+          "targetReferencePixels": [
+            294.799006,
+            1301.756902
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        }
+      ],
+      "unresolved": [
+        "tee-59"
+      ],
+      "cameraReferencesPixels": {},
+      "updateRouteStart": false,
+      "maximumReferenceMovementMetres": 0.0
+    },
+    {
+      "n": 9,
+      "sourceKey": "hole-09-tees",
+      "existingPadCount": 4,
+      "existingPadChecks": [
+        {
+          "padIndex": 0,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -274.75,
+              -85.25
+            ],
+            [
+              -268.75,
+              -82.25
+            ],
+            [
+              -261.25,
+              -94.75
+            ],
+            [
+              -267.25,
+              -97.75
+            ],
+            [
+              -274.75,
+              -85.25
+            ]
+          ],
+          "ringPixels": [
+            [
+              810.9375,
+              360.3125
+            ],
+            [
+              848.4375,
+              379.0625
+            ],
+            [
+              895.3125,
+              300.9375
+            ],
+            [
+              857.8125,
+              282.1875
+            ],
+            [
+              810.9375,
+              360.3125
+            ]
+          ]
+        },
+        {
+          "padIndex": 1,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -305.38000000000466,
+              -67.84999999962747
+            ],
+            [
+              -299.63000000000466,
+              -61.84999999962747
+            ],
+            [
+              -308.88000000000466,
+              -52.59999999962747
+            ],
+            [
+              -315.13000000000466,
+              -58.09999999962747
+            ],
+            [
+              -305.38000000000466,
+              -67.84999999962747
+            ]
+          ],
+          "ringPixels": [
+            [
+              619.5,
+              469.0625
+            ],
+            [
+              655.4375,
+              506.5625
+            ],
+            [
+              597.625,
+              564.375
+            ],
+            [
+              558.5625,
+              530.0
+            ],
+            [
+              619.5,
+              469.0625
+            ]
+          ]
+        },
+        {
+          "padIndex": 2,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -324.63000000000466,
+              -34.84999999962747
+            ],
+            [
+              -319.13000000000466,
+              -29.09999999962747
+            ],
+            [
+              -329.63000000000466,
+              -21.59999999962747
+            ],
+            [
+              -333.63000000000466,
+              -27.09999999962747
+            ],
+            [
+              -324.63000000000466,
+              -34.84999999962747
+            ]
+          ],
+          "ringPixels": [
+            [
+              499.1875,
+              675.3125
+            ],
+            [
+              533.5625,
+              711.25
+            ],
+            [
+              467.9375,
+              758.125
+            ],
+            [
+              442.9375,
+              723.75
+            ],
+            [
+              499.1875,
+              675.3125
+            ]
+          ]
+        },
+        {
+          "padIndex": 3,
+          "confidence": "medium-high",
+          "status": "retained",
+          "note": "Observed turf outline and current ring align to about1m by visual comparison; retained without subpixel redrawing.",
+          "ringLocal": [
+            [
+              -352.63000000000466,
+              14.900000000372529
+            ],
+            [
+              -347.88000000000466,
+              21.40000000037253
+            ],
+            [
+              -356.38000000000466,
+              25.90000000037253
+            ],
+            [
+              -359.38000000000466,
+              19.90000000037253
+            ],
+            [
+              -352.63000000000466,
+              14.900000000372529
+            ]
+          ],
+          "ringPixels": [
+            [
+              324.1875,
+              986.25
+            ],
+            [
+              353.875,
+              1026.875
+            ],
+            [
+              300.75,
+              1055.0
+            ],
+            [
+              282.0,
+              1017.5
+            ],
+            [
+              324.1875,
+              986.25
+            ]
+          ]
+        }
+      ],
+      "additionalPads": [],
+      "numberedSource": {
+        "sourceAssetId": "caddee-18-hole-09",
+        "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/cf8e6a3b-475d-4cb8-8fbe-16194917f509/hole-normal_web_a0LYlsF.png",
+        "sha256": "d0ad1d44345c5c531e438769884282b7308c7242c15e2684653706a9b23bd7b0",
+        "imageSize": [
+          645,
+          1024
+        ],
+        "reading": "Roadside sequence corroborates63 east of road,59/55 at the first west-side rectangle,51/46 at the next rectangle,41 at the southern front rectangle.",
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            372,
+            905
+          ],
+          "tee-59": [
+            377,
+            820
+          ],
+          "tee-55": [
+            399,
+            820
+          ],
+          "tee-51": [
+            350,
+            732
+          ],
+          "tee-46": [
+            372,
+            732
+          ],
+          "tee-41": [
+            319,
+            626
+          ]
+        }
+      },
+      "numberedReferences": [
+        {
+          "tee": "tee-63",
+          "oldReferenceLocal": [
+            -268,
+            -90
+          ],
+          "oldReferencePixels": [
+            853.125,
+            330.625
+          ],
+          "oldContainingPadIndices": [
+            0
+          ],
+          "targetPadIndex": 0,
+          "targetReferenceLocal": [
+            -268,
+            -90
+          ],
+          "targetReferenceProjected": [
+            687480.5,
+            6371041.5
+          ],
+          "targetReferencePixels": [
+            853.125,
+            330.625
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 3.344222
+        },
+        {
+          "tee": "tee-59",
+          "oldReferenceLocal": [
+            -303.2630664999597,
+            -63.47309949994087
+          ],
+          "oldReferencePixels": [
+            632.730834,
+            496.418128
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -303.2630664999597,
+            -63.47309949994087
+          ],
+          "targetReferenceProjected": [
+            687445.2369335,
+            6371014.9730995
+          ],
+          "targetReferencePixels": [
+            632.730834,
+            496.418128
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-55",
+          "oldReferenceLocal": [
+            -303.2630664999597,
+            -63.47309949994087
+          ],
+          "oldReferencePixels": [
+            632.730834,
+            496.418128
+          ],
+          "oldContainingPadIndices": [
+            1
+          ],
+          "targetPadIndex": 1,
+          "targetReferenceLocal": [
+            -303.2630664999597,
+            -63.47309949994087
+          ],
+          "targetReferenceProjected": [
+            687445.2369335,
+            6371014.9730995
+          ],
+          "targetReferencePixels": [
+            632.730834,
+            496.418128
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-51",
+          "oldReferenceLocal": [
+            -326.59565875004046,
+            -31.17785375006497
+          ],
+          "oldReferencePixels": [
+            486.902133,
+            698.263414
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -326.59565875004046,
+            -31.17785375006497
+          ],
+          "targetReferenceProjected": [
+            687421.90434125,
+            6370982.67785375
+          ],
+          "targetReferencePixels": [
+            486.902133,
+            698.263414
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-46",
+          "oldReferenceLocal": [
+            -326.59565875004046,
+            -31.17785375006497
+          ],
+          "oldReferencePixels": [
+            486.902133,
+            698.263414
+          ],
+          "oldContainingPadIndices": [
+            2
+          ],
+          "targetPadIndex": 2,
+          "targetReferenceLocal": [
+            -326.59565875004046,
+            -31.17785375006497
+          ],
+          "targetReferenceProjected": [
+            687421.90434125,
+            6370982.67785375
+          ],
+          "targetReferencePixels": [
+            486.902133,
+            698.263414
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 1.5
+        },
+        {
+          "tee": "tee-41",
+          "oldReferenceLocal": [
+            -353.88000000000466,
+            20.65000000037253
+          ],
+          "oldReferencePixels": [
+            316.375,
+            1022.1875
+          ],
+          "oldContainingPadIndices": [
+            3
+          ],
+          "targetPadIndex": 3,
+          "targetReferenceLocal": [
+            -353.88000000000466,
+            20.65000000037253
+          ],
+          "targetReferenceProjected": [
+            687394.62,
+            6370930.85
+          ],
+          "targetReferencePixels": [
+            316.375,
+            1022.1875
+          ],
+          "displacementMetres": 0.0,
+          "associationStatus": "guide-and-source-image-corroborated-provisional",
+          "confidence": "medium-high",
+          "dailyMarkerPosition": "unverified; representative reference only",
+          "changed": false,
+          "platformBoundaryClearanceMetres": 3.470167
+        }
+      ],
+      "unresolved": [],
+      "cameraReferencesPixels": {},
+      "updateRouteStart": false,
+      "maximumReferenceMovementMetres": 0.0
+    }
+  ],
+  "limits": [
+    "Native pixel spacing0.16m is not absolute survey accuracy.",
+    "Turf boundaries and persistent numbered platform groups are distinct from daily tee marker placements.",
+    "Unresolved associations and source-visible connected fairway starts remain unchanged; membership in some tee polygon cannot certify numbered identity.",
+    "No shared model, geometry or source manifest changed by this review report."
+  ],
+  "summary": {
+    "holes": 9,
+    "numberedReferences": 54,
+    "corroboratedAssociations": 46,
+    "unresolvedAssociations": 8,
+    "addedPlatforms": 3,
+    "changedReferences": 7,
+    "maximumReferenceMovementMetres": 36.532767,
+    "addedAreaSquareMetres": 355.904
+  },
+  "geometryValidation": {
+    "status": "passed",
+    "method": "Shapely projected polygon validity and intersection checks against current all-course tee, green, bunker and building polygons; reference membership and native affine conversion checked during report creation.",
+    "newPlatforms": [
+      {
+        "id": "lm-2026-09-09-h02-rear-63",
+        "valid": true,
+        "areaSquareMetres": 84.8384,
+        "overlapsAboveOneSquareCentimetre": []
+      },
+      {
+        "id": "lm-2026-09-09-h05-cross-path-55",
+        "valid": true,
+        "areaSquareMetres": 140.0448,
+        "overlapsAboveOneSquareCentimetre": []
+      },
+      {
+        "id": "lm-2026-09-09-h06-rear-63",
+        "valid": true,
+        "areaSquareMetres": 131.0208,
+        "overlapsAboveOneSquareCentimetre": []
+      }
+    ],
+    "waterCheck": "Deferred to parent integration check against canonical water geometry."
+  }
+}

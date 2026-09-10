@@ -1,5 +1,10 @@
 # Upsala tee alignment — 9 September 2026
 
+**Historical initial pass.** The [later coordinate follow-up](lm-tee-coordinate-followup-2026-09-09.md)
+adds two missing platforms, supersedes one H6 association, resolves more
+references and fixes the standalone camera. Counts and validation below belong
+to the initial 83-reference snapshot.
+
 The rebuilt Stora and Mellan courses now use **83 corrected tee navigation
 positions**, associated with physical platforms visible in authenticated
 Lantmäteriet orthophotos captured **14 June 2025**. This corrects the coordinates

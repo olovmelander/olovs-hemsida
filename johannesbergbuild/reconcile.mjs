@@ -28,6 +28,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { applyEstateReview } from './mapping/apply-estate-review.mjs';
+import { applyTeePlacementReview } from './mapping/apply-tee-placement-review.mjs';
+import { applyObPlacementReview } from './mapping/apply-ob-placement-review.mjs';
 import { applyOrthoReview, legacyHeightfieldSampler } from './mapping/apply-ortho-review.mjs';
 import { sceneryRingHashes } from './mapping/scenery-ownership.mjs';
 import {
@@ -409,11 +411,14 @@ let model = {
              range: rangeRings,
              ...(tracedRange ? { rangeFacilities: tracedRange } : {}) },
 };
-for (const filename of ['lm-review-front9.json', 'lm-review-back9.json', 'lm-review-back9-turf.json']) {
+for (const filename of ['lm-review-front9.json', 'lm-review-back9.json', 'lm-review-back9-turf.json', 'lm-review-tee-platforms.json']) {
   model = applyOrthoReview(model, readJSON(path.join(HERE, 'mapping', filename)),
     { heightAt: legacyHeightfieldSampler(hf.hf0) });
 }
 model = applyEstateReview(model, readJSON(path.join(HERE, 'mapping/lm-review-estate.json')));
+model = applyTeePlacementReview(model, readJSON(path.join(HERE, 'mapping/tee-placement-review.json')),
+  { heightAt: legacyHeightfieldSampler(hf.hf0) });
+model = applyObPlacementReview(model, readJSON(path.join(HERE, 'mapping/ob-placement-review.json')));
 // Keep report references synchronized, with the original write boundary intact:
 // the historical DTM block below still runs after serialization.
 holes.splice(0, holes.length, ...model.holes);
@@ -479,7 +484,7 @@ console.log(`assigned: bunkers ${bkN} (${bunkers.length} from OSM), fairways ${f
 console.log(`traced surroundings: ${tracedBuildings.length} buildings, ${tracedParking.length} lots, ${tracedTracks.length} tracks, ${tracedPaths.length} paths,`
           + ` ${tracedStreams.length} ditches, ${(tracedVeg.sand || []).length} sand, ${(tracedVeg.rock || []).length} rock, ${(tracedVeg.wetland || []).length} wetland,`
           + ` ${tracedSurround ? tracedSurround.clearfells.length : 0} clear-fells${tracedSurround && tracedSurround.yard ? ', a works yard' : ''},`
-          + ` ${marking.reduce((a, m) => a + m.pts.length, 0)} OB stakes in ${marking.length} runs, range tee line ${tracedRange ? 'yes' : 'no'}`);
+          + ` ${model.marking.reduce((a, m) => a + m.pts.length, 0)} illustrative OB posts in ${model.marking.length} reviewed runs, range tee line ${tracedRange ? 'yes' : 'no'}`);
 console.log(`scenery: ${model.scenery.greens.length} greens, ${model.scenery.fairways.length} fairway rings, ${model.scenery.tees.length} tee pads, ${model.scenery.bunkers.length} bunkers`
           + (nine ? ` (the nine carried as scenery)` : ` (no nine-hole model found)`));
 console.log(`\nhole  tee m  green m  rise`);

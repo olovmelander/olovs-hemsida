@@ -107,6 +107,10 @@ export function verifyOrthophotoSources(review, { sourceDirectory } = {}) {
     }
     const ids = sidecar.sources?.map(s => s.id) ?? sidecar.sourceIds;
     if (!same(source.sourceIds, ids)) throw new Error(`Orthophoto source ${key} changed sourceIds`);
+    for (const item of source.sources ?? []) {
+      const actual = sidecar.sources?.find(s => s.id === item.id);
+      if (!actual || item.capturedAt !== actual.capturedAt) throw new Error(`Orthophoto source ${key} changed capture timestamp`);
+    }
     if (createHash('sha256').update(fs.readFileSync(raster)).digest('hex') !== source.sha256) {
       throw new Error(`Orthophoto source ${key} failed its image SHA-256 check`);
     }
@@ -159,6 +163,8 @@ export function applyReviewedOrthophoto(input, review) {
     for (const tee of entry.tees ?? []) {
       const pad = convert(tee), c = centroid(pad.ring);
       upsert(hole.tees.pads, tee, { ...pad, cx: c[0], cz: c[1] });
+      const adoptedPad = hole.tees.pads.find(p => p.reviewId === tee.id);
+      adoptedPad.id ??= tee.id;
       for (const [key, pixel] of Object.entries(tee.cameraReferencesPixels ?? {})) {
         const markIndex = TEE_KEYS.indexOf(key), mark = hole.tees.marks[markIndex];
         if (!mark || !tee.numberedSourceAssetId || reviewedMarks.has(key)) throw new Error('Tee camera requires unique numbered platform evidence');
@@ -166,8 +172,8 @@ export function applyReviewedOrthophoto(input, review) {
         if (!pointInPoly(...reference, pad.ring)) throw new Error('Tee camera leaves its reviewed platform');
         reviewedMarks.add(key);
         mark.c = [...reference];
-        mark.prov = pad.prov;
-        mark.reviewId = pad.reviewId;
+        Object.assign(mark, provenance(review, tee), { sourcePadId: adoptedPad.id,
+          geometryBasis: 'reviewed-platform', platformBoundaryReviewed: true });
         mark.numberedSourceAssetId = tee.numberedSourceAssetId;
         delete mark.shore;
         if (markIndex === 0 && tee.updateRouteStart !== false) { hole.line[0] = [...reference]; routeChanged = true; }
@@ -193,6 +199,7 @@ export function applyReviewedOrthophoto(input, review) {
       reviewedMarks.add(camera.teeKey);
       Object.assign(mark, source, { c: [...reference], numberedSourceAssetId: camera.numberedSourceAssetId,
         geometryBasis: camera.geometryBasis, platformBoundaryReviewed: false });
+      delete mark.sourcePadId;
       delete mark.shore;
       if (markIndex === 0 && camera.updateRouteStart !== false) {
         hole.line[0] = [...reference]; routeChanged = true;

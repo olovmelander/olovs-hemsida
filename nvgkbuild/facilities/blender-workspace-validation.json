@@ -1,0 +1,193 @@
+{
+  "scene": "Norrfallsviken | Measured facilities",
+  "blenderVersion": "4.5.9 LTS",
+  "blendPath": "nvgkbuild/cache/facilities-reference/norrfallsviken-facilities.blend",
+  "blendSha256": "819cdae09eacd4e38bb56c51dfc2565205e88a20c350d7b92442aef357ac202e",
+  "blendBytes": 20776474,
+  "sceneObjects": 367,
+  "pointCount": 190926,
+  "groundVertices": 11262,
+  "sourceImagePlanes": 10,
+  "photoBoards": 9,
+  "measuredRoofs": [
+    {
+      "id": "clubhouse-main-roof-native",
+      "verticesEastingNorthingRH2000": [
+        [
+          678578.385,
+          6988394.991,
+          35.314
+        ],
+        [
+          678570.299,
+          6988408.086,
+          35.305
+        ],
+        [
+          678580.489,
+          6988414.378,
+          35.373
+        ],
+        [
+          678588.575,
+          6988401.283,
+          35.382
+        ],
+        [
+          678583.486,
+          6988398.141,
+          38.414
+        ],
+        [
+          678575.4,
+          6988411.236,
+          38.404
+        ]
+      ],
+      "object": "NV | Measured roof | clubhouse-main-roof-native"
+    },
+    {
+      "id": "clubhouse-cross-roof-native",
+      "verticesEastingNorthingRH2000": [
+        [
+          678579.195,
+          6988410.174,
+          35.374
+        ],
+        [
+          678586.356,
+          6988414.494,
+          35.377
+        ],
+        [
+          678590.968,
+          6988406.85,
+          35.33
+        ],
+        [
+          678583.807,
+          6988402.53,
+          35.327
+        ],
+        [
+          678581.534,
+          6988406.297,
+          37.616
+        ],
+        [
+          678588.695,
+          6988410.617,
+          37.619
+        ]
+      ],
+      "object": "NV | Measured roof | clubhouse-cross-roof-native"
+    },
+    {
+      "id": "clubhouse-north-annex-roof",
+      "verticesEastingNorthingRH2000": [
+        [
+          678566.703,
+          6988419.855,
+          35.226
+        ],
+        [
+          678574.215,
+          6988424.485,
+          35.24
+        ],
+        [
+          678578.618,
+          6988417.341,
+          35.175
+        ],
+        [
+          678571.106,
+          6988412.712,
+          35.161
+        ],
+        [
+          678568.926,
+          6988416.249,
+          37.322
+        ],
+        [
+          678576.438,
+          6988420.878,
+          37.336
+        ]
+      ],
+      "object": "NV | Measured roof | clubhouse-north-annex-roof"
+    },
+    {
+      "id": "lm-range-shelter",
+      "verticesEastingNorthingRH2000": [
+        [
+          678616.327,
+          6988304.531,
+          33.636
+        ],
+        [
+          678626.129,
+          6988296.621,
+          33.612
+        ],
+        [
+          678619.396,
+          6988288.276,
+          33.709
+        ],
+        [
+          678609.593,
+          6988296.185,
+          33.733
+        ],
+        [
+          678612.867,
+          6988300.243,
+          35.848
+        ],
+        [
+          678622.669,
+          6988292.333,
+          35.823
+        ]
+      ],
+      "object": "NV | Measured roof | lm-range-shelter"
+    }
+  ],
+  "activeScenePreserved": "Tortuna | Clubhouse architecture",
+  "currentFilePreserved": "",
+  "otherScenesPreserved": true,
+  "sourceFiles": [
+    {
+      "path": "nvgkbuild/mapping/facilities-ortho-reference.json",
+      "sha256": "16b9bef1798cdb38fc748e3d415aecb4571cbaf7fc564903e8818228b755915b"
+    },
+    {
+      "path": "nvgkbuild/mapping/facilities-height-reference.json",
+      "sha256": "0779a7ff30a3aff5ce6ee1678669d3b11a21f687f65f4167b747b051b234d5ba"
+    },
+    {
+      "path": "nvgkbuild/cache/facilities-reference/blender-source-data.json",
+      "sha256": "13118b642126127dffd965e87aa10eb1b69ba3f39ded5e39748f2455e67a2e35"
+    },
+    {
+      "path": "nvgkbuild/mapping/facilities-web-reference.json",
+      "sha256": "4440d9a2db402e5fe0b230571b115c4eba276856f749d4a04a124d8eb838f79e"
+    }
+  ],
+  "status": "Measured modelling workspace plus editable initial walls/glazing; not final app architecture",
+  "embeddedSourceCatalogues": 3,
+  "upwardGroundWinding": true,
+  "packaging": {
+    "format": "normal-blend-document",
+    "activeScene": "Norrfallsviken | Measured facilities",
+    "defaultCamera": "NV | Clubhouse and pavilion",
+    "savedBy": "independent background Blender process; live user Blender untouched",
+    "sourceLibraryBackup": "nvgkbuild/cache/facilities-reference/norrfallsviken-facilities.library.blend",
+    "sourceLibrarySha256": "dac836461d2bddbe01ddaa02cbbece23f91672a3bdf1f245c49479caaa13dd51",
+    "script": "nvgkbuild/facilities/package-blender-workspace.py",
+    "scriptSha256": "0b292c7e99a647a4926302966d2b50b035fe24c1db26ef9d9755a4834ce2ab61",
+    "blenderBinary": "C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe"
+  }
+}

@@ -1,0 +1,6062 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "tee-runtime-alignment-audit",
+  "frame": {
+    "horizontalCrs": "EPSG:3006",
+    "originEasting": 677700.5,
+    "originNorthing": 6586399.5,
+    "axisOrder": "east +x, north -z"
+  },
+  "interpretation": "References and decorative colour pairs are representative starts on reviewed platforms. Scorecard residuals diagnose inherited distance-based associations; they do not establish surveyed distances or daily physical marker coordinates.",
+  "objectPlacement": "mapped-only",
+  "summary": {
+    "holes": 18,
+    "platforms": 54,
+    "references": 90,
+    "referencesOutsidePlatforms": 0,
+    "referencesWithPadIdentity": 90,
+    "referencesSharingCoordinates": 6,
+    "uniqueReferenceCoordinates": 87,
+    "markerPairsRendered": 81,
+    "markerInstancesRendered": 162,
+    "eligiblePairsOmitted": 0,
+    "crossHoleMarkerOverlaps": 0,
+    "maxAbsoluteScorecardRouteResidualM": 52.105859045460704,
+    "issues": 0
+  },
+  "holes": [
+    {
+      "hole": 1,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-01-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-01-a-lm2025",
+          "centreEpsg3006": [
+            677670.3030062014,
+            6586407.6905627195
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-01-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-01-b-lm2025",
+          "centreEpsg3006": [
+            677674.1969873664,
+            6586369.088590865
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 162,
+          "sourceC": [
+            -32.5,
+            -9.78000000026077
+          ],
+          "packC": [
+            -32.5,
+            -9.78000000026077
+          ],
+          "runtimeC": [
+            -32.5,
+            -9.78000000026077
+          ],
+          "epsg3006": [
+            677668,
+            6586409.28
+          ],
+          "sourcePadId": "lidingo-tee-01-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow"
+          ],
+          "sourceBearingDegrees": 17.88961729113375,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 164.62726143333398,
+          "scorecardResidualM": 2.6272614333339845,
+          "distanceFromRouteM": 3.7978510311765086,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -30.02570977873429,
+              -10.578678847450854
+            ],
+            [
+              -34.97429022126571,
+              -8.981321153070686
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -30.02570977873429,
+              -10.578678847450854
+            ],
+            [
+              -34.97429022126571,
+              -8.981321153070686
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 3.6499184532553115,
+          "transverseAxisErrorM": 1.3322676295501878e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 162,
+          "sourceC": [
+            -32.5,
+            -9.78000000026077
+          ],
+          "packC": [
+            -32.5,
+            -9.78000000026077
+          ],
+          "runtimeC": [
+            -32.5,
+            -9.78000000026077
+          ],
+          "epsg3006": [
+            677668,
+            6586409.28
+          ],
+          "sourcePadId": "lidingo-tee-01-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white"
+          ],
+          "sourceBearingDegrees": 17.88961729113375,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 164.62726143333398,
+          "scorecardResidualM": 2.6272614333339845,
+          "distanceFromRouteM": 3.7978510311765086,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -30.02570977873429,
+              -10.578678847450854
+            ],
+            [
+              -34.97429022126571,
+              -8.981321153070686
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -29.841399275536574,
+              -10.007688796389537
+            ],
+            [
+              -34.789979718068,
+              -8.41033110200937
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 4.24547916364939,
+          "transverseAxisErrorM": 1.3322676295501878e-15,
+          "pairReferenceDisplacementM": 0.6000000000000002,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 155,
+          "sourceC": [
+            -27.85999999998603,
+            -5.1400000005960464
+          ],
+          "packC": [
+            -27.85999999998603,
+            -5.1400000005960464
+          ],
+          "runtimeC": [
+            -27.85999999998603,
+            -5.1400000005960464
+          ],
+          "epsg3006": [
+            677672.64,
+            6586404.640000001
+          ],
+          "sourcePadId": "lidingo-tee-01-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 17.88961729113375,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 158.78627048071226,
+          "scorecardResidualM": 3.786270480712261,
+          "distanceFromRouteM": 0.8075291942483315,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -25.38570977872032,
+              -5.93867884778613
+            ],
+            [
+              -30.33429022125174,
+              -4.341321153405963
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -25.38570977872032,
+              -5.93867884778613
+            ],
+            [
+              -30.33429022125174,
+              -4.341321153405963
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.6902073126806907,
+          "transverseAxisErrorM": 4.440892098500626e-16,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 128,
+          "sourceC": [
+            -27.380000000004657,
+            27.8199999993667
+          ],
+          "packC": [
+            -27.380000000004657,
+            27.8199999993667
+          ],
+          "runtimeC": [
+            -27.380000000004657,
+            27.8199999993667
+          ],
+          "epsg3006": [
+            677673.12,
+            6586371.680000001
+          ],
+          "sourcePadId": "lidingo-tee-01-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 17.88961729113375,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 127.27243527322688,
+          "scorecardResidualM": -0.7275647267731244,
+          "distanceFromRouteM": 10.47552746239985,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -24.905709778738945,
+              27.02132115217662
+            ],
+            [
+              -29.854290221270368,
+              28.618678846556783
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -24.905709778738945,
+              27.02132115217662
+            ],
+            [
+              -29.854290221270368,
+              28.618678846556783
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.4057097787389452,
+          "transverseAxisErrorM": 2.220446049250313e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 120,
+          "sourceC": [
+            -25.300000000046566,
+            33.25999999977648
+          ],
+          "packC": [
+            -25.300000000046566,
+            33.25999999977648
+          ],
+          "runtimeC": [
+            -25.300000000046566,
+            33.25999999977648
+          ],
+          "epsg3006": [
+            677675.2,
+            6586366.24
+          ],
+          "sourcePadId": "lidingo-tee-01-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 17.88961729113375,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 121.45651573214178,
+          "scorecardResidualM": 1.4565157321417814,
+          "distanceFromRouteM": 10.167177181212292,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -22.825709778780855,
+              32.4613211525864
+            ],
+            [
+              -27.774290221312278,
+              34.058678846966565
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -22.825709778780855,
+              32.4613211525864
+            ],
+            [
+              -27.774290221312278,
+              34.058678846966565
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.7736920982207844,
+          "transverseAxisErrorM": 2.220446049250313e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 2,
+      "padCount": 5,
+      "runtimePadCount": 5,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-02-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-02-a-lm2025",
+          "centreEpsg3006": [
+            677791.8187861812,
+            6586274.937708417
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-02-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-02-b-lm2025",
+          "centreEpsg3006": [
+            677792.4697493035,
+            6586242.066035284
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-02-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-02-c-lm2025",
+          "centreEpsg3006": [
+            677800.7060259982,
+            6586228.729600743
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 3,
+          "id": "lidingo-tee-02-d-lm2025",
+          "sourceFeatureId": "lidingo-tee-02-d-lm2025",
+          "centreEpsg3006": [
+            677846.4520318954,
+            6586205.763555897
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 4,
+          "id": "lidingo-tee-02-e-lm2025",
+          "sourceFeatureId": "lidingo-tee-02-e-lm2025",
+          "centreEpsg3006": [
+            677880.6087003367,
+            6586157.646976432
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 498,
+          "sourceC": [
+            91.6600000000326,
+            124.93999999947846
+          ],
+          "packC": [
+            91.6600000000326,
+            124.93999999947846
+          ],
+          "runtimeC": [
+            91.6600000000326,
+            124.93999999947846
+          ],
+          "epsg3006": [
+            677792.16,
+            6586274.5600000005
+          ],
+          "sourcePadId": "lidingo-tee-02-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 27.984863835317128,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 496.5633804208697,
+          "scorecardResidualM": -1.4366195791303085,
+          "distanceFromRouteM": 1.6690340349511743,
+          "eligible": true,
+          "potentialPair": [
+            [
+              93.95598612135696,
+              123.71998043787875
+            ],
+            [
+              89.36401387870823,
+              126.16001956107817
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              93.95598612135696,
+              123.71998043787875
+            ],
+            [
+              89.36401387870823,
+              126.16001956107817
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.972685852481974,
+          "transverseAxisErrorM": 3.1086244689504383e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 472,
+          "sourceC": [
+            91.81999999994878,
+            157.7399999992922
+          ],
+          "packC": [
+            91.81999999994878,
+            157.7399999992922
+          ],
+          "runtimeC": [
+            91.81999999994878,
+            157.7399999992922
+          ],
+          "epsg3006": [
+            677792.32,
+            6586241.760000001
+          ],
+          "sourcePadId": "lidingo-tee-02-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 27.984863835317128,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 467.523554302114,
+          "scorecardResidualM": -4.476445697885993,
+          "distanceFromRouteM": 16.918758589191057,
+          "eligible": true,
+          "potentialPair": [
+            [
+              94.11598612127314,
+              156.51998043769248
+            ],
+            [
+              89.82668766143793,
+              158.79918760620967
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              94.11598612127314,
+              156.51998043769248
+            ],
+            [
+              89.82668766143793,
+              158.79918760620967
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.1990438685579767,
+          "transverseAxisErrorM": 2.6645352591003757e-15,
+          "pairReferenceDisplacementM": 0.17137556451369562,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 414,
+          "sourceC": [
+            145.7399999999907,
+            193.4199999999255
+          ],
+          "packC": [
+            145.7399999999907,
+            193.4199999999255
+          ],
+          "runtimeC": [
+            145.7399999999907,
+            193.4199999999255
+          ],
+          "epsg3006": [
+            677846.24,
+            6586206.08
+          ],
+          "sourcePadId": "lidingo-tee-02-d-lm2025",
+          "sourcePadIndices": [
+            3
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 27.984863835317128,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 410.7142313898777,
+          "scorecardResidualM": -3.285768610122318,
+          "distanceFromRouteM": 13.954038988984008,
+          "eligible": true,
+          "potentialPair": [
+            [
+              148.03598612131503,
+              192.19998043832578
+            ],
+            [
+              143.44401387866634,
+              194.6400195615252
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              148.03598612131503,
+              192.19998043832578
+            ],
+            [
+              143.44401387866634,
+              194.6400195615252
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 3.1642266668517345,
+          "transverseAxisErrorM": 1.6431300764452317e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 414,
+          "sourceC": [
+            145.7399999999907,
+            193.4199999999255
+          ],
+          "packC": [
+            145.7399999999907,
+            193.4199999999255
+          ],
+          "runtimeC": [
+            145.7399999999907,
+            193.4199999999255
+          ],
+          "epsg3006": [
+            677846.24,
+            6586206.08
+          ],
+          "sourcePadId": "lidingo-tee-02-d-lm2025",
+          "sourcePadIndices": [
+            3
+          ],
+          "sharesReferenceWith": [
+            "blue"
+          ],
+          "sourceBearingDegrees": 27.984863835317128,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 410.7142313898777,
+          "scorecardResidualM": -3.285768610122318,
+          "distanceFromRouteM": 13.954038988984008,
+          "eligible": true,
+          "potentialPair": [
+            [
+              148.03598612131503,
+              192.19998043832578
+            ],
+            [
+              143.44401387866634,
+              194.6400195615252
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              148.3175290970688,
+              192.72982338940062
+            ],
+            [
+              143.72555685442012,
+              195.16986251260005
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 3.3213440932755383,
+          "transverseAxisErrorM": 1.6431300764452317e-14,
+          "pairReferenceDisplacementM": 0.5999999999999912,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 360,
+          "sourceC": [
+            180.29999999993015,
+            242.05999999959022
+          ],
+          "packC": [
+            180.29999999993015,
+            242.05999999959022
+          ],
+          "runtimeC": [
+            180.29999999993015,
+            242.05999999959022
+          ],
+          "epsg3006": [
+            677880.7999999999,
+            6586157.44
+          ],
+          "sourcePadId": "lidingo-tee-02-e-lm2025",
+          "sourcePadIndices": [
+            4
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 27.984863835317128,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 351.5447540863166,
+          "scorecardResidualM": -8.455245913683427,
+          "distanceFromRouteM": 21.649242403226317,
+          "eligible": true,
+          "potentialPair": [
+            [
+              182.5959861212545,
+              240.8399804379905
+            ],
+            [
+              178.0040138786058,
+              243.28001956118993
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              182.5959861212545,
+              240.8399804379905
+            ],
+            [
+              178.0040138786058,
+              243.28001956118993
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.2588840791661626,
+          "transverseAxisErrorM": 1.6431300764452317e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 3,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-03-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-03-a-lm2025",
+          "centreEpsg3006": [
+            678079.1161922198,
+            6585890.19359878
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-03-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-03-b-lm2025",
+          "centreEpsg3006": [
+            678079.9202583545,
+            6585922.872796032
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-03-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-03-c-lm2025",
+          "centreEpsg3006": [
+            678060.2420749527,
+            6585943.964612549
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 196,
+          "sourceC": [
+            378.85999999998603,
+            510.21999999973923
+          ],
+          "packC": [
+            378.85999999998603,
+            510.21999999973923
+          ],
+          "runtimeC": [
+            378.85999999998603,
+            510.21999999973923
+          ],
+          "epsg3006": [
+            678079.36,
+            6585889.28
+          ],
+          "sourcePadId": "lidingo-tee-03-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -142.58303523024708,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 194.84129295980145,
+          "scorecardResidualM": -1.15870704019855,
+          "distanceFromRouteM": 2.6327582293785,
+          "eligible": true,
+          "potentialPair": [
+            [
+              376.79498965741925,
+              511.79978868342204
+            ],
+            [
+              380.9250103425528,
+              508.6402113160564
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              376.79498965741925,
+              511.79978868342204
+            ],
+            [
+              380.9250103425528,
+              508.6402113160564
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.8251834766213586,
+          "transverseAxisErrorM": 4.440892098500626e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 173,
+          "sourceC": [
+            379.8200000000652,
+            478.37999999988824
+          ],
+          "packC": [
+            379.8200000000652,
+            478.37999999988824
+          ],
+          "runtimeC": [
+            379.8200000000652,
+            478.37999999988824
+          ],
+          "epsg3006": [
+            678080.3200000001,
+            6585921.12
+          ],
+          "sourcePadId": "lidingo-tee-03-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -142.58303523024708,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 172.31580148449865,
+          "scorecardResidualM": -0.6841985155013504,
+          "distanceFromRouteM": 18.632114612769808,
+          "eligible": true,
+          "potentialPair": [
+            [
+              377.7549896574984,
+              479.95978868357105
+            ],
+            [
+              381.885010342632,
+              476.80021131620543
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              377.7549896574984,
+              479.95978868357105
+            ],
+            [
+              381.885010342632,
+              476.80021131620543
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.9307139146685763,
+          "transverseAxisErrorM": 4.440892098500626e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 145,
+          "sourceC": [
+            363.8200000000652,
+            458.85999999940395
+          ],
+          "packC": [
+            363.8200000000652,
+            458.85999999940395
+          ],
+          "runtimeC": [
+            363.8200000000652,
+            458.85999999940395
+          ],
+          "epsg3006": [
+            678064.3200000001,
+            6585940.640000001
+          ],
+          "sourcePadId": "lidingo-tee-03-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -142.58303523024708,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 147.09056270494926,
+          "scorecardResidualM": 2.0905627049492637,
+          "distanceFromRouteM": 17.784926007071533,
+          "eligible": true,
+          "potentialPair": [
+            [
+              361.7549896574984,
+              460.43978868308676
+            ],
+            [
+              365.885010342632,
+              457.28021131572115
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              361.7549896574984,
+              460.43978868308676
+            ],
+            [
+              365.885010342632,
+              457.28021131572115
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.4675199464307302,
+          "transverseAxisErrorM": 4.440892098500626e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 132,
+          "sourceC": [
+            359.3400000000838,
+            454.54000000003725
+          ],
+          "packC": [
+            359.3400000000838,
+            454.54000000003725
+          ],
+          "runtimeC": [
+            359.3400000000838,
+            454.54000000003725
+          ],
+          "epsg3006": [
+            678059.8400000001,
+            6585944.96
+          ],
+          "sourcePadId": "lidingo-tee-03-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -142.58303523024708,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 140.9373711736223,
+          "scorecardResidualM": 8.937371173622296,
+          "distanceFromRouteM": 16.851633998551712,
+          "eligible": true,
+          "potentialPair": [
+            [
+              357.27498965751704,
+              456.11978868372006
+            ],
+            [
+              361.4050103426506,
+              452.96021131635445
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              357.27498965751704,
+              456.11978868372006
+            ],
+            [
+              361.4050103426506,
+              452.96021131635445
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.4026585330083807,
+          "transverseAxisErrorM": 4.440892098500626e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 130,
+          "sourceC": [
+            357.7399999999907,
+            452.45999999996275
+          ],
+          "packC": [
+            357.7399999999907,
+            452.45999999996275
+          ],
+          "runtimeC": [
+            357.7399999999907,
+            452.45999999996275
+          ],
+          "epsg3006": [
+            678058.24,
+            6585947.04
+          ],
+          "sourcePadId": "lidingo-tee-03-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -142.58303523024708,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 138.31318524795597,
+          "scorecardResidualM": 8.313185247955971,
+          "distanceFromRouteM": 16.8446893500435,
+          "eligible": true,
+          "potentialPair": [
+            [
+              355.6749896574239,
+              454.03978868364555
+            ],
+            [
+              359.80501034255747,
+              450.88021131627994
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              355.6749896574239,
+              454.03978868364555
+            ],
+            [
+              359.80501034255747,
+              450.88021131627994
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.8646709975781943,
+          "transverseAxisErrorM": 4.440892098500626e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 4,
+      "padCount": 4,
+      "runtimePadCount": 4,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-04-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-04-a-lm2025",
+          "centreEpsg3006": [
+            677941.3253376632,
+            6586157.660761321
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-04-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-04-b-lm2025",
+          "centreEpsg3006": [
+            677913.8824149445,
+            6586192.551435189
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-04-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-04-c-lm2025",
+          "centreEpsg3006": [
+            677881.8172510467,
+            6586232.882373931
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 3,
+          "id": "lidingo-tee-04-d-lm2025",
+          "sourceFeatureId": "lidingo-tee-04-d-lm2025",
+          "centreEpsg3006": [
+            677791.8187861812,
+            6586274.937708417
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 395,
+          "sourceC": [
+            240.93999999994412,
+            242.21999999973923
+          ],
+          "packC": [
+            240.93999999994412,
+            242.21999999973923
+          ],
+          "runtimeC": [
+            240.93999999994412,
+            242.21999999973923
+          ],
+          "epsg3006": [
+            677941.44,
+            6586157.28
+          ],
+          "sourcePadId": "lidingo-tee-04-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -141.1055438669392,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 391.589330401195,
+          "scorecardResidualM": -3.4106695988049864,
+          "distanceFromRouteM": 0.7121070546186311,
+          "eligible": true,
+          "potentialPair": [
+            [
+              238.91640984488575,
+              243.85250815725354
+            ],
+            [
+              242.9635901550025,
+              240.58749184222492
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              238.91640984488575,
+              243.85250815725354
+            ],
+            [
+              242.9635901550025,
+              240.58749184222492
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.1450636714133429,
+          "transverseAxisErrorM": 9.769962616701378e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 358,
+          "sourceC": [
+            217.5799999999581,
+            214.21999999973923
+          ],
+          "packC": [
+            217.5799999999581,
+            214.21999999973923
+          ],
+          "runtimeC": [
+            217.5799999999581,
+            214.21999999973923
+          ],
+          "epsg3006": [
+            677918.08,
+            6586185.28
+          ],
+          "sourcePadId": "lidingo-tee-04-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -141.1055438669392,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 355.76600832525196,
+          "scorecardResidualM": -2.23399167474804,
+          "distanceFromRouteM": 0.9193509259335683,
+          "eligible": true,
+          "potentialPair": [
+            [
+              215.55640984489972,
+              215.85250815725354
+            ],
+            [
+              219.258053408849,
+              212.86624965068197
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              215.55640984489972,
+              215.85250815725354
+            ],
+            [
+              219.258053408849,
+              212.86624965068197
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.19733964426550432,
+          "transverseAxisErrorM": 9.769962616701378e-15,
+          "pairReferenceDisplacementM": 0.22198060654467416,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 337,
+          "sourceC": [
+            210.21999999997206,
+            197.74000000022352
+          ],
+          "packC": [
+            210.21999999997206,
+            197.74000000022352
+          ],
+          "runtimeC": [
+            210.21999999997206,
+            197.74000000022352
+          ],
+          "epsg3006": [
+            677910.72,
+            6586201.76
+          ],
+          "sourcePadId": "lidingo-tee-04-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -141.1055438669392,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 338.3183060969194,
+          "scorecardResidualM": 1.3183060969194003,
+          "distanceFromRouteM": 3.6999224947756644,
+          "eligible": true,
+          "potentialPair": [
+            [
+              208.1964098449137,
+              199.37250815773783
+            ],
+            [
+              211.68724360960925,
+              196.55631803981964
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              208.1964098449137,
+              199.37250815773783
+            ],
+            [
+              211.68724360960925,
+              196.55631803981964
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.1894760547412028,
+          "transverseAxisErrorM": 3.552713678800501e-15,
+          "pairReferenceDisplacementM": 0.35740958080845425,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 301,
+          "sourceC": [
+            180.93999999994412,
+            166.37999999988824
+          ],
+          "packC": [
+            180.93999999994412,
+            166.37999999988824
+          ],
+          "runtimeC": [
+            180.93999999994412,
+            166.37999999988824
+          ],
+          "epsg3006": [
+            677881.44,
+            6586233.12
+          ],
+          "sourcePadId": "lidingo-tee-04-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -141.1055438669392,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 295.5261422063909,
+          "scorecardResidualM": -5.473857793609113,
+          "distanceFromRouteM": 0.6017440640181838,
+          "eligible": true,
+          "potentialPair": [
+            [
+              179.38421329283625,
+              167.63511308904668
+            ],
+            [
+              182.58878916237586,
+              165.04985824615287
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              179.38421329283625,
+              167.63511308904668
+            ],
+            [
+              182.58878916237586,
+              165.04985824615287
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.19993245740776042,
+          "transverseAxisErrorM": 1.3766765505351941e-14,
+          "pairReferenceDisplacementM": 0.05974687691517989,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 210,
+          "sourceC": [
+            89.26000000000931,
+            122.37999999988824
+          ],
+          "packC": [
+            89.26000000000931,
+            122.37999999988824
+          ],
+          "runtimeC": [
+            89.26000000000931,
+            122.37999999988824
+          ],
+          "epsg3006": [
+            677789.76,
+            6586277.12
+          ],
+          "sourcePadId": "lidingo-tee-04-d-lm2025",
+          "sourcePadIndices": [
+            3
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -141.1055438669392,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 203.71602116663118,
+          "scorecardResidualM": -6.2839788333688205,
+          "distanceFromRouteM": 43.126096891747274,
+          "eligible": true,
+          "potentialPair": [
+            [
+              87.23640984495093,
+              124.01250815740256
+            ],
+            [
+              91.2835901550677,
+              120.74749184237392
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              87.23640984495093,
+              124.01250815740256
+            ],
+            [
+              91.2835901550677,
+              120.74749184237392
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.24454162079153136,
+          "transverseAxisErrorM": 5.329070518200751e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 5,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-05-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-05-a-lm2025",
+          "centreEpsg3006": [
+            677588.671408815,
+            6586407.507644233
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-05-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-05-b-lm2025",
+          "centreEpsg3006": [
+            677573.1288238668,
+            6586388.75047619
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 262,
+          "sourceC": [
+            -112.02000000001863,
+            -9.93999999947846
+          ],
+          "packC": [
+            -112.02000000001863,
+            -9.93999999947846
+          ],
+          "runtimeC": [
+            -112.02000000001863,
+            -9.93999999947846
+          ],
+          "epsg3006": [
+            677588.48,
+            6586409.4399999995
+          ],
+          "sourcePadId": "lidingo-tee-05-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow"
+          ],
+          "sourceBearingDegrees": -27.714790841725296,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 262.60801895115213,
+          "scorecardResidualM": 0.6080189511521326,
+          "distanceFromRouteM": 2.4521773266715416,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -109.71828864574589,
+              -8.73081645608567
+            ],
+            [
+              -114.32171135429137,
+              -11.14918354287125
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -109.71828864574589,
+              -8.73081645608567
+            ],
+            [
+              -114.32171135429137,
+              -11.14918354287125
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.9356832920515141,
+          "transverseAxisErrorM": 8.881784197001252e-16,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 262,
+          "sourceC": [
+            -112.02000000001863,
+            -9.93999999947846
+          ],
+          "packC": [
+            -112.02000000001863,
+            -9.93999999947846
+          ],
+          "runtimeC": [
+            -112.02000000001863,
+            -9.93999999947846
+          ],
+          "epsg3006": [
+            677588.48,
+            6586409.4399999995
+          ],
+          "sourcePadId": "lidingo-tee-05-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white"
+          ],
+          "sourceBearingDegrees": -27.714790841725296,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 262.60801895115213,
+          "scorecardResidualM": 0.6080189511521326,
+          "distanceFromRouteM": 2.4521773266715416,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -109.71828864574589,
+              -8.73081645608567
+            ],
+            [
+              -114.32171135429137,
+              -11.14918354287125
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -109.99733100191345,
+              -8.199652297407344
+            ],
+            [
+              -114.60075371045893,
+              -10.618019384192927
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.125975517607565,
+          "transverseAxisErrorM": 2.220446049250313e-15,
+          "pairReferenceDisplacementM": 0.5999999999999985,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 252,
+          "sourceC": [
+            -111.54000000003725,
+            -5.779999999329448
+          ],
+          "packC": [
+            -111.54000000003725,
+            -5.779999999329448
+          ],
+          "runtimeC": [
+            -111.54000000003725,
+            -5.779999999329448
+          ],
+          "epsg3006": [
+            677588.96,
+            6586405.279999999
+          ],
+          "sourcePadId": "lidingo-tee-05-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -27.714790841725296,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 259.1485146691092,
+          "scorecardResidualM": 7.148514669109204,
+          "distanceFromRouteM": 0.09255233024759799,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -109.23828864576451,
+              -4.570816455936657
+            ],
+            [
+              -113.84171135431,
+              -6.989183542722238
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -109.23828864576451,
+              -4.570816455936657
+            ],
+            [
+              -113.84171135431,
+              -6.989183542722238
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.0600151252311079,
+          "transverseAxisErrorM": 8.881784197001252e-16,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 233,
+          "sourceC": [
+            -126.90000000002328,
+            8.620000000111759
+          ],
+          "packC": [
+            -126.90000000002328,
+            8.620000000111759
+          ],
+          "runtimeC": [
+            -126.90000000002328,
+            8.620000000111759
+          ],
+          "epsg3006": [
+            677573.6,
+            6586390.88
+          ],
+          "sourcePadId": "lidingo-tee-05-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -27.714790841725296,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 239.25709054344088,
+          "scorecardResidualM": 6.2570905434408814,
+          "distanceFromRouteM": 6.993338244638616,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -124.59828864575054,
+              9.829183543504548
+            ],
+            [
+              -129.20171135429604,
+              7.410816456718968
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -124.59828864575054,
+              9.829183543504548
+            ],
+            [
+              -129.20171135429604,
+              7.410816456718968
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.6673675212716627,
+          "transverseAxisErrorM": 6.661338147750939e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 230,
+          "sourceC": [
+            -127.54000000003725,
+            11.820000000298023
+          ],
+          "packC": [
+            -127.54000000003725,
+            11.820000000298023
+          ],
+          "runtimeC": [
+            -127.54000000003725,
+            11.820000000298023
+          ],
+          "epsg3006": [
+            677572.96,
+            6586387.68
+          ],
+          "sourcePadId": "lidingo-tee-05-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -27.714790841725296,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 236.12656985040636,
+          "scorecardResidualM": 6.126569850406355,
+          "distanceFromRouteM": 6.071687447594214,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -125.23828864576451,
+              13.029183543690813
+            ],
+            [
+              -129.84171135431,
+              10.610816456905233
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -125.23828864576451,
+              13.029183543690813
+            ],
+            [
+              -129.84171135431,
+              10.610816456905233
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.9306646719195537,
+          "transverseAxisErrorM": 7.549516567451064e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 6,
+      "padCount": 4,
+      "runtimePadCount": 4,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-06-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-06-a-lm2025",
+          "centreEpsg3006": [
+            677463.5338721205,
+            6586201.75091319
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-06-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-06-b-lm2025",
+          "centreEpsg3006": [
+            677476.1922682445,
+            6586191.8032149905
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-06-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-06-c-lm2025",
+          "centreEpsg3006": [
+            677490.5179417729,
+            6586175.449429588
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 3,
+          "id": "lidingo-tee-06-d-lm2025",
+          "sourceFeatureId": "lidingo-tee-06-d-lm2025",
+          "centreEpsg3006": [
+            677515.8091851851,
+            6586171.253333334
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 188,
+          "sourceC": [
+            -237.94000000006054,
+            196.93999999947846
+          ],
+          "packC": [
+            -237.94000000006054,
+            196.93999999947846
+          ],
+          "runtimeC": [
+            -237.94000000006054,
+            196.93999999947846
+          ],
+          "epsg3006": [
+            677462.5599999999,
+            6586202.5600000005
+          ],
+          "sourcePadId": "lidingo-tee-06-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 55.03037459908411,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 181.20305278776704,
+          "scorecardResidualM": -6.796947212232965,
+          "distanceFromRouteM": 1.9815208531453334,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -236.44983055785016,
+              194.8094143913645
+            ],
+            [
+              -239.4301694422709,
+              199.07058560759242
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -236.44983055785016,
+              194.8094143913645
+            ],
+            [
+              -239.4301694422709,
+              199.07058560759242
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.34789266417559117,
+          "transverseAxisErrorM": 1.021405182655144e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 166,
+          "sourceC": [
+            -224.5,
+            207.6599999992177
+          ],
+          "packC": [
+            -224.5,
+            207.6599999992177
+          ],
+          "runtimeC": [
+            -224.5,
+            207.6599999992177
+          ],
+          "epsg3006": [
+            677476,
+            6586191.840000001
+          ],
+          "sourcePadId": "lidingo-tee-06-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 55.03037459908411,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 165.78216241254515,
+          "scorecardResidualM": -0.21783758745485216,
+          "distanceFromRouteM": 2.0356675965956956,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -223.00983055778963,
+              205.52941439110373
+            ],
+            [
+              -225.99016944221037,
+              209.79058560733165
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -223.00983055778963,
+              205.52941439110373
+            ],
+            [
+              -225.99016944221037,
+              209.79058560733165
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 3.844461428699088,
+          "transverseAxisErrorM": 1.021405182655144e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 148,
+          "sourceC": [
+            -212.18000000005122,
+            222.54000000003725
+          ],
+          "packC": [
+            -212.18000000005122,
+            222.54000000003725
+          ],
+          "runtimeC": [
+            -212.18000000005122,
+            222.54000000003725
+          ],
+          "epsg3006": [
+            677488.32,
+            6586176.96
+          ],
+          "sourcePadId": "lidingo-tee-06-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 55.03037459908411,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 147.15811010748098,
+          "scorecardResidualM": -0.8418898925190206,
+          "distanceFromRouteM": 7.16806233602895,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -210.68983055784085,
+              220.4094143919233
+            ],
+            [
+              -213.6701694422616,
+              224.6705856081512
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -210.68983055784085,
+              220.4094143919233
+            ],
+            [
+              -213.6701694422616,
+              224.6705856081512
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.1228136664096438,
+          "transverseAxisErrorM": 1.021405182655144e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 142,
+          "sourceC": [
+            -208.02000000001863,
+            225.5800000000745
+          ],
+          "packC": [
+            -208.02000000001863,
+            225.5800000000745
+          ],
+          "runtimeC": [
+            -208.02000000001863,
+            225.5800000000745
+          ],
+          "epsg3006": [
+            677492.48,
+            6586173.92
+          ],
+          "sourcePadId": "lidingo-tee-06-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 55.03037459908411,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 142.00682117125072,
+          "scorecardResidualM": 0.006821171250720681,
+          "distanceFromRouteM": 7.274937477991269,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -206.52983055780825,
+              223.44941439196054
+            ],
+            [
+              -209.510169442229,
+              227.71058560818847
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -206.52983055780825,
+              223.44941439196054
+            ],
+            [
+              -209.510169442229,
+              227.71058560818847
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.9451521088283839,
+          "transverseAxisErrorM": 1.021405182655144e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 125,
+          "sourceC": [
+            -184.6600000000326,
+            228.29999999981374
+          ],
+          "packC": [
+            -184.6600000000326,
+            228.29999999981374
+          ],
+          "runtimeC": [
+            -184.6600000000326,
+            228.29999999981374
+          ],
+          "epsg3006": [
+            677515.84,
+            6586171.2
+          ],
+          "sourcePadId": "lidingo-tee-06-d-lm2025",
+          "sourcePadIndices": [
+            3
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 55.03037459908411,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 121.30538244512138,
+          "scorecardResidualM": -3.6946175548786186,
+          "distanceFromRouteM": 3.884741489893116,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -183.4291918398017,
+              226.5402389429453
+            ],
+            [
+              -185.88646292770298,
+              230.05354841421675
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -183.4291918398017,
+              226.5402389429453
+            ],
+            [
+              -185.88646292770298,
+              230.05354841421675
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.1987037422315635,
+          "transverseAxisErrorM": 7.549516567451064e-15,
+          "pairReferenceDisplacementM": 0.0037907114242614606,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 7,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-07-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-07-a-lm2025",
+          "centreEpsg3006": [
+            677642.8301745481,
+            6586030.202751036
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-07-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-07-b-lm2025",
+          "centreEpsg3006": [
+            677605.8119243312,
+            6586049.115765539
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-07-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-07-c-lm2025",
+          "centreEpsg3006": [
+            677575.6956626505,
+            6586058.6708835345
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 351,
+          "sourceC": [
+            -47.54000000003725,
+            373.7400000002235
+          ],
+          "packC": [
+            -47.54000000003725,
+            373.7400000002235
+          ],
+          "runtimeC": [
+            -47.54000000003725,
+            373.7400000002235
+          ],
+          "epsg3006": [
+            677652.96,
+            6586025.76
+          ],
+          "sourcePadId": "lidingo-tee-07-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -121.09959336701178,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 334.55783184487484,
+          "scorecardResidualM": -16.44216815512516,
+          "distanceFromRouteM": 2.7607878171593687,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -48.8829708548571,
+              375.96630395141807
+            ],
+            [
+              -46.19702914521741,
+              371.51369604902897
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -48.8829708548571,
+              375.96630395141807
+            ],
+            [
+              -46.19702914521741,
+              371.51369604902897
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.213243950572877,
+          "transverseAxisErrorM": 2.220446049250313e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 336,
+          "sourceC": [
+            -55.860000000102445,
+            369.90000000037253
+          ],
+          "packC": [
+            -55.860000000102445,
+            369.90000000037253
+          ],
+          "runtimeC": [
+            -55.860000000102445,
+            369.90000000037253
+          ],
+          "epsg3006": [
+            677644.6399999999,
+            6586029.6
+          ],
+          "sourcePadId": "lidingo-tee-07-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -121.09959336701178,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 328.148129552205,
+          "scorecardResidualM": -7.851870447795022,
+          "distanceFromRouteM": 0.42368298292180906,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -57.20297085492229,
+              372.1263039515671
+            ],
+            [
+              -54.5170291452826,
+              367.673696049178
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -57.20297085492229,
+              372.1263039515671
+            ],
+            [
+              -54.5170291452826,
+              367.673696049178
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.703147356941839,
+          "transverseAxisErrorM": 2.220446049250313e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 323,
+          "sourceC": [
+            -65.61999999999534,
+            366.06000000052154
+          ],
+          "packC": [
+            -65.61999999999534,
+            366.06000000052154
+          ],
+          "runtimeC": [
+            -65.61999999999534,
+            366.06000000052154
+          ],
+          "epsg3006": [
+            677634.88,
+            6586033.4399999995
+          ],
+          "sourcePadId": "lidingo-tee-07-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -121.09959336701178,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 317.80746238077097,
+          "scorecardResidualM": -5.192537619229029,
+          "distanceFromRouteM": 2.1769092793227696,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -66.96297085481518,
+              368.2863039517161
+            ],
+            [
+              -64.2770291451755,
+              363.833696049327
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -66.96297085481518,
+              368.2863039517161
+            ],
+            [
+              -64.2770291451755,
+              363.833696049327
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 3.14986717506326,
+          "transverseAxisErrorM": 1.4210854715202004e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 299,
+          "sourceC": [
+            -95.22000000008848,
+            350.22000000067055
+          ],
+          "packC": [
+            -95.22000000008848,
+            350.22000000067055
+          ],
+          "runtimeC": [
+            -95.22000000008848,
+            350.22000000067055
+          ],
+          "epsg3006": [
+            677605.2799999999,
+            6586049.279999999
+          ],
+          "sourcePadId": "lidingo-tee-07-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -121.09959336701178,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 284.2800564978047,
+          "scorecardResidualM": -14.719943502195292,
+          "distanceFromRouteM": 3.902787247092977,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -96.56297085490831,
+              352.4463039518651
+            ],
+            [
+              -93.87702914526864,
+              347.993696049476
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -96.56297085490831,
+              352.4463039518651
+            ],
+            [
+              -93.87702914526864,
+              347.993696049476
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.5835916201537596,
+          "transverseAxisErrorM": 1.4210854715202004e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 260,
+          "sourceC": [
+            -124.82000000006519,
+            340.9400000004098
+          ],
+          "packC": [
+            -124.82000000006519,
+            340.9400000004098
+          ],
+          "runtimeC": [
+            -124.82000000006519,
+            340.9400000004098
+          ],
+          "epsg3006": [
+            677575.6799999999,
+            6586058.56
+          ],
+          "sourcePadId": "lidingo-tee-07-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -121.09959336701178,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 254.14106938688735,
+          "scorecardResidualM": -5.858930613112648,
+          "distanceFromRouteM": 11.245801337466144,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -125.9431979083137,
+              342.80197632858744
+            ],
+            [
+              -123.57252728756588,
+              338.872007669171
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -125.9431979083137,
+              342.80197632858744
+            ],
+            [
+              -123.57252728756588,
+              338.872007669171
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.19544886159048444,
+          "transverseAxisErrorM": 1.5987211554602254e-14,
+          "pairReferenceDisplacementM": 0.12029840033106223,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 8,
+      "padCount": 4,
+      "runtimePadCount": 4,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-08-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-08-a-lm2025",
+          "centreEpsg3006": [
+            677265.2513446722,
+            6586178.134659108
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-08-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-08-b-lm2025",
+          "centreEpsg3006": [
+            677284.823984375,
+            6586189.022157119
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-08-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-08-c-lm2025",
+          "centreEpsg3006": [
+            677322.0905414803,
+            6586214.996343765
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 3,
+          "id": "lidingo-tee-08-d-lm2025",
+          "sourceFeatureId": "lidingo-tee-08-d-lm2025",
+          "centreEpsg3006": [
+            677350.2132270916,
+            6586239.358937583
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 356,
+          "sourceC": [
+            -435.0600000000559,
+            221.4199999999255
+          ],
+          "packC": [
+            -435.0600000000559,
+            221.4199999999255
+          ],
+          "runtimeC": [
+            -435.0600000000559,
+            221.4199999999255
+          ],
+          "epsg3006": [
+            677265.44,
+            6586178.08
+          ],
+          "sourcePadId": "lidingo-tee-08-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 127.61547082274834,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 349.76635549361674,
+          "scorecardResidualM": -6.233644506383257,
+          "distanceFromRouteM": 2.154957243723719,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -436.6469335902882,
+              219.3604753508396
+            ],
+            [
+              -433.47306640982356,
+              223.47952464901138
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -436.6469335902882,
+              219.3604753508396
+            ],
+            [
+              -433.47306640982356,
+              223.47952464901138
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.5117227447231946,
+          "transverseAxisErrorM": 2.5757174171303632e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 332,
+          "sourceC": [
+            -420.0200000000186,
+            215.339999999851
+          ],
+          "packC": [
+            -420.0200000000186,
+            215.339999999851
+          ],
+          "runtimeC": [
+            -420.0200000000186,
+            215.339999999851
+          ],
+          "epsg3006": [
+            677280.48,
+            6586184.16
+          ],
+          "sourcePadId": "lidingo-tee-08-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 127.61547082274834,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 334.141814358594,
+          "scorecardResidualM": 2.14181435859399,
+          "distanceFromRouteM": 2.20872403726005,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -421.60693359025095,
+              213.2804753507651
+            ],
+            [
+              -418.4330664097863,
+              217.39952464893688
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -421.60693359025095,
+              213.2804753507651
+            ],
+            [
+              -418.4330664097863,
+              217.39952464893688
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.5733443575193404,
+          "transverseAxisErrorM": 2.5757174171303632e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 319,
+          "sourceC": [
+            -412.0200000000186,
+            206.69999999925494
+          ],
+          "packC": [
+            -412.0200000000186,
+            206.69999999925494
+          ],
+          "runtimeC": [
+            -412.0200000000186,
+            206.69999999925494
+          ],
+          "epsg3006": [
+            677288.48,
+            6586192.800000001
+          ],
+          "sourcePadId": "lidingo-tee-08-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 127.61547082274834,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 322.53131304580927,
+          "scorecardResidualM": 3.53131304580927,
+          "distanceFromRouteM": 0.24763778823277532,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -413.60693359025095,
+              204.64047535016905
+            ],
+            [
+              -410.4330664097863,
+              208.75952464834083
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -413.60693359025095,
+              204.64047535016905
+            ],
+            [
+              -410.4330664097863,
+              208.75952464834083
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.568848841915947,
+          "transverseAxisErrorM": 2.5757174171303632e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 285,
+          "sourceC": [
+            -378.5800000000745,
+            184.93999999947846
+          ],
+          "packC": [
+            -378.5800000000745,
+            184.93999999947846
+          ],
+          "runtimeC": [
+            -378.5800000000745,
+            184.93999999947846
+          ],
+          "epsg3006": [
+            677321.9199999999,
+            6586214.5600000005
+          ],
+          "sourcePadId": "lidingo-tee-08-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 127.61547082274834,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 282.76124412718707,
+          "scorecardResidualM": -2.2387558728129306,
+          "distanceFromRouteM": 3.421408131937379,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -380.1669335903068,
+              182.88047535039257
+            ],
+            [
+              -376.9930664098422,
+              186.99952464856435
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -380.1669335903068,
+              182.88047535039257
+            ],
+            [
+              -376.9930664098422,
+              186.99952464856435
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.448607063689604,
+          "transverseAxisErrorM": 2.5757174171303632e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 240,
+          "sourceC": [
+            -350.2600000000093,
+            160.13999999966472
+          ],
+          "packC": [
+            -350.2600000000093,
+            160.13999999966472
+          ],
+          "runtimeC": [
+            -350.2600000000093,
+            160.13999999966472
+          ],
+          "epsg3006": [
+            677350.24,
+            6586239.36
+          ],
+          "sourcePadId": "lidingo-tee-08-d-lm2025",
+          "sourcePadIndices": [
+            3
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 127.61547082274834,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 245.1913629349899,
+          "scorecardResidualM": 5.191362934989911,
+          "distanceFromRouteM": 1.0620804313746484,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -351.83709681458953,
+              158.09324153187828
+            ],
+            [
+              -348.71679838490485,
+              162.14276922981975
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -351.83709681458953,
+              158.09324153187828
+            ],
+            [
+              -348.71679838490485,
+              162.14276922981975
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.1995084005201739,
+          "transverseAxisErrorM": 1.509903313490213e-14,
+          "pairReferenceDisplacementM": 0.027766605729250764,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 9,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-09-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-09-a-lm2025",
+          "centreEpsg3006": [
+            677575.8660943296,
+            6586425.732598481
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-09-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-09-b-lm2025",
+          "centreEpsg3006": [
+            677537.2812268494,
+            6586445.939365341
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-09-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-09-c-lm2025",
+          "centreEpsg3006": [
+            677517.0124584818,
+            6586426.680446935
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 161,
+          "sourceC": [
+            -124.65999999991618,
+            -26.09999999962747
+          ],
+          "packC": [
+            -124.65999999991618,
+            -26.09999999962747
+          ],
+          "runtimeC": [
+            -124.65999999991618,
+            -26.09999999962747
+          ],
+          "epsg3006": [
+            677575.8400000001,
+            6586425.6
+          ],
+          "sourcePadId": "lidingo-tee-09-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -68.99742705031292,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 154.86500599738324,
+          "scorecardResidualM": -6.134994002616764,
+          "distanceFromRouteM": 0.6344146871321357,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -123.7281343302185,
+              -23.672732735060404
+            ],
+            [
+              -125.59186566961387,
+              -28.52726726419454
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -123.7281343302185,
+              -23.672732735060404
+            ],
+            [
+              -125.59186566961387,
+              -28.52726726419454
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.472576153691996,
+          "transverseAxisErrorM": 6.217248937900877e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 136,
+          "sourceC": [
+            -158.4199999999255,
+            -43.85999999940395
+          ],
+          "packC": [
+            -158.4199999999255,
+            -43.85999999940395
+          ],
+          "runtimeC": [
+            -158.4199999999255,
+            -43.85999999940395
+          ],
+          "epsg3006": [
+            677542.0800000001,
+            6586443.359999999
+          ],
+          "sourcePadId": "lidingo-tee-09-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -68.99742705031292,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 130.23978025604842,
+          "scorecardResidualM": -5.7602197439515805,
+          "distanceFromRouteM": 28.326140664475826,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -157.4881343302278,
+              -41.43273273483689
+            ],
+            [
+              -159.35186566962318,
+              -46.28726726397102
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -157.4881343302278,
+              -41.43273273483689
+            ],
+            [
+              -159.35186566962318,
+              -46.28726726397102
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.9216402688430103,
+          "transverseAxisErrorM": 8.881784197001252e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 128,
+          "sourceC": [
+            -168.3399999999674,
+            -49.299999999813735
+          ],
+          "packC": [
+            -168.3399999999674,
+            -49.299999999813735
+          ],
+          "runtimeC": [
+            -168.3399999999674,
+            -49.299999999813735
+          ],
+          "epsg3006": [
+            677532.16,
+            6586448.8
+          ],
+          "sourcePadId": "lidingo-tee-09-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -68.99742705031292,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 122.9285717864062,
+          "scorecardResidualM": -5.071428213593805,
+          "distanceFromRouteM": 36.96015657358335,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -167.40813433026972,
+              -46.87273273524667
+            ],
+            [
+              -169.2718656696651,
+              -51.7272672643808
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -167.40813433026972,
+              -46.87273273524667
+            ],
+            [
+              -169.2718656696651,
+              -51.7272672643808
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.9298374545610965,
+          "transverseAxisErrorM": 8.881784197001252e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 107,
+          "sourceC": [
+            -180.97999999998137,
+            -28.179999999701977
+          ],
+          "packC": [
+            -180.97999999998137,
+            -28.179999999701977
+          ],
+          "runtimeC": [
+            -180.97999999998137,
+            -28.179999999701977
+          ],
+          "epsg3006": [
+            677519.52,
+            6586427.68
+          ],
+          "sourcePadId": "lidingo-tee-09-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -68.99742705031292,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 103.5587021062982,
+          "scorecardResidualM": -3.441297893701801,
+          "distanceFromRouteM": 21.77357866476181,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -180.0481343302837,
+              -25.75273273513491
+            ],
+            [
+              -181.91186566967906,
+              -30.607267264269044
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -180.0481343302837,
+              -25.75273273513491
+            ],
+            [
+              -181.91186566967906,
+              -30.607267264269044
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.110083484217336,
+          "transverseAxisErrorM": 6.217248937900877e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 100,
+          "sourceC": [
+            -185.93999999994412,
+            -25.459999999962747
+          ],
+          "packC": [
+            -185.93999999994412,
+            -25.459999999962747
+          ],
+          "runtimeC": [
+            -185.93999999994412,
+            -25.459999999962747
+          ],
+          "epsg3006": [
+            677514.56,
+            6586424.96
+          ],
+          "sourcePadId": "lidingo-tee-09-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -68.99742705031292,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 97.95334816264551,
+          "scorecardResidualM": -2.0466518373544886,
+          "distanceFromRouteM": 21.011996650406555,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -185.00813433024643,
+              -23.03273273539568
+            ],
+            [
+              -186.8718656696418,
+              -27.887267264529815
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -185.00813433024643,
+              -23.03273273539568
+            ],
+            [
+              -186.8718656696418,
+              -27.887267264529815
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.5520818077874026,
+          "transverseAxisErrorM": 6.217248937900877e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 10,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-10-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-10-a-lm2025",
+          "centreEpsg3006": [
+            677303.4164872856,
+            6586236.57905513
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-10-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-10-b-lm2025",
+          "centreEpsg3006": [
+            677347.7595198588,
+            6586288.567016182
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-10-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-10-c-lm2025",
+          "centreEpsg3006": [
+            677371.62659542,
+            6586337.204447838
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 492,
+          "sourceC": [
+            -396.9799999999814,
+            163.6599999992177
+          ],
+          "packC": [
+            -396.9799999999814,
+            163.6599999992177
+          ],
+          "runtimeC": [
+            -396.9799999999814,
+            163.6599999992177
+          ],
+          "epsg3006": [
+            677303.52,
+            6586235.840000001
+          ],
+          "sourcePadId": "lidingo-tee-10-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 163.7873463817641,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 481.8336899599269,
+          "scorecardResidualM": -10.166310040073085,
+          "distanceFromRouteM": 0.31472996935667286,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -399.4766033243299,
+              162.93407173771251
+            ],
+            [
+              -394.48339667563283,
+              164.38592826072286
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -399.4766033243299,
+              162.93407173771251
+            ],
+            [
+              -394.48339667563283,
+              164.38592826072286
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.3045318135107526,
+          "transverseAxisErrorM": 1.3988810110276972e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 446,
+          "sourceC": [
+            -355.85999999998603,
+            119.33999999985099
+          ],
+          "packC": [
+            -355.85999999998603,
+            119.33999999985099
+          ],
+          "runtimeC": [
+            -355.85999999998603,
+            119.33999999985099
+          ],
+          "epsg3006": [
+            677344.64,
+            6586280.16
+          ],
+          "sourcePadId": "lidingo-tee-10-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 163.7873463817641,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 428.0138484593083,
+          "scorecardResidualM": -17.986151540691708,
+          "distanceFromRouteM": 26.883912220445726,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -358.35660332433457,
+              118.61407173834581
+            ],
+            [
+              -353.3633966756375,
+              120.06592826135616
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -358.35660332433457,
+              118.61407173834581
+            ],
+            [
+              -353.3633966756375,
+              120.06592826135616
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.090141892389321,
+          "transverseAxisErrorM": 1.3988810110276972e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 416,
+          "sourceC": [
+            -348.9799999999814,
+            104.45999999996275
+          ],
+          "packC": [
+            -348.9799999999814,
+            104.45999999996275
+          ],
+          "runtimeC": [
+            -348.9799999999814,
+            104.45999999996275
+          ],
+          "epsg3006": [
+            677351.52,
+            6586295.04
+          ],
+          "sourcePadId": "lidingo-tee-10-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 163.7873463817641,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 411.80467772654447,
+          "scorecardResidualM": -4.195322273455531,
+          "distanceFromRouteM": 29.33576542829709,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -351.4766033243299,
+              103.73407173845757
+            ],
+            [
+              -346.48339667563283,
+              105.18592826146792
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -351.4766033243299,
+              103.73407173845757
+            ],
+            [
+              -346.48339667563283,
+              105.18592826146792
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.614878363605803,
+          "transverseAxisErrorM": 1.3988810110276972e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 374,
+          "sourceC": [
+            -329.29999999993015,
+            60.77999999932945
+          ],
+          "packC": [
+            -329.29999999993015,
+            60.77999999932945
+          ],
+          "runtimeC": [
+            -329.29999999993015,
+            60.77999999932945
+          ],
+          "epsg3006": [
+            677371.2000000001,
+            6586338.720000001
+          ],
+          "sourcePadId": "lidingo-tee-10-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 163.7873463817641,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 364.36702334362775,
+          "scorecardResidualM": -9.63297665637225,
+          "distanceFromRouteM": 36.0375373361051,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -331.7966033242787,
+              60.05407173782427
+            ],
+            [
+              -326.8033966755816,
+              61.50592826083462
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -331.7966033242787,
+              60.05407173782427
+            ],
+            [
+              -326.8033966755816,
+              61.50592826083462
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.9743156362862027,
+          "transverseAxisErrorM": 1.3988810110276972e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 325,
+          "sourceC": [
+            -329.45999999996275,
+            62.21999999973923
+          ],
+          "packC": [
+            -329.45999999996275,
+            62.21999999973923
+          ],
+          "runtimeC": [
+            -329.45999999996275,
+            62.21999999973923
+          ],
+          "epsg3006": [
+            677371.04,
+            6586337.28
+          ],
+          "sourcePadId": "lidingo-tee-10-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 163.7873463817641,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 365.7944300013006,
+          "scorecardResidualM": 40.79443000130061,
+          "distanceFromRouteM": 36.28595278413891,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 11,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-11-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-11-a-lm2025",
+          "centreEpsg3006": [
+            677214.3212802458,
+            6586828.838509793
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-11-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-11-b-lm2025",
+          "centreEpsg3006": [
+            677211.2309015716,
+            6586845.934340928
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 134,
+          "sourceC": [
+            -484.9799999999814,
+            -425.1399999996647
+          ],
+          "packC": [
+            -484.9799999999814,
+            -425.1399999996647
+          ],
+          "runtimeC": [
+            -484.9799999999814,
+            -425.1399999996647
+          ],
+          "epsg3006": [
+            677215.52,
+            6586824.64
+          ],
+          "sourcePadId": "lidingo-tee-11-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -167.40537078076613,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 130.42332428218512,
+          "scorecardResidualM": -3.5766757178148794,
+          "distanceFromRouteM": 1.899503416353132,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -487.5174367353743,
+              -424.5730654232995
+            ],
+            [
+              -482.44256326458844,
+              -425.70693457602994
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -487.5174367353743,
+              -424.5730654232995
+            ],
+            [
+              -482.44256326458844,
+              -425.70693457602994
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.1928348659829475,
+          "transverseAxisErrorM": 6.017408793468348e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 125,
+          "sourceC": [
+            -487.54000000003725,
+            -433.93999999947846
+          ],
+          "packC": [
+            -487.54000000003725,
+            -433.93999999947846
+          ],
+          "runtimeC": [
+            -487.54000000003725,
+            -433.93999999947846
+          ],
+          "epsg3006": [
+            677212.96,
+            6586833.4399999995
+          ],
+          "sourcePadId": "lidingo-tee-11-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -167.40537078076613,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 123.12819939182913,
+          "scorecardResidualM": -1.8718006081708722,
+          "distanceFromRouteM": 1.004598865696507,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -490.0774367354302,
+              -433.37306542311325
+            ],
+            [
+              -485.0025632646443,
+              -434.5069345758437
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -490.0774367354302,
+              -433.37306542311325
+            ],
+            [
+              -485.0025632646443,
+              -434.5069345758437
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.759986969829122,
+          "transverseAxisErrorM": 6.017408793468348e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 125,
+          "sourceC": [
+            -484.3399999999674,
+            -433.93999999947846
+          ],
+          "packC": [
+            -484.3399999999674,
+            -433.93999999947846
+          ],
+          "runtimeC": [
+            -484.3399999999674,
+            -433.93999999947846
+          ],
+          "epsg3006": [
+            677216.16,
+            6586833.4399999995
+          ],
+          "sourcePadId": "lidingo-tee-11-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -167.40537078076613,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 123.82596502429381,
+          "scorecardResidualM": -1.174034975706192,
+          "distanceFromRouteM": 2.118400193316832,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -486.87743673536033,
+              -433.37306542311325
+            ],
+            [
+              -481.8025632645745,
+              -434.5069345758437
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -486.87743673536033,
+              -433.37306542311325
+            ],
+            [
+              -481.8025632645745,
+              -434.5069345758437
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.6515388839327478,
+          "transverseAxisErrorM": 6.017408793468348e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 109,
+          "sourceC": [
+            -487.69999999995343,
+            -446.2599999997765
+          ],
+          "packC": [
+            -487.69999999995343,
+            -446.2599999997765
+          ],
+          "runtimeC": [
+            -487.69999999995343,
+            -446.2599999997765
+          ],
+          "epsg3006": [
+            677212.8,
+            6586845.76
+          ],
+          "sourcePadId": "lidingo-tee-11-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -167.40537078076613,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 111.06976473299518,
+          "scorecardResidualM": 2.069764732995182,
+          "distanceFromRouteM": 1.525648866433447,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -490.23743673534636,
+              -445.69306542341127
+            ],
+            [
+              -485.1625632645605,
+              -446.8269345761417
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -490.23743673534636,
+              -445.69306542341127
+            ],
+            [
+              -485.1625632645605,
+              -446.8269345761417
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.513990818218825,
+          "transverseAxisErrorM": 6.017408793468348e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 105,
+          "sourceC": [
+            -489.30000000004657,
+            -448.9799999995157
+          ],
+          "packC": [
+            -489.30000000004657,
+            -448.9799999995157
+          ],
+          "runtimeC": [
+            -489.30000000004657,
+            -448.9799999995157
+          ],
+          "epsg3006": [
+            677211.2,
+            6586848.4799999995
+          ],
+          "sourcePadId": "lidingo-tee-11-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -167.40537078076613,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 108.06633271690124,
+          "scorecardResidualM": 3.0663327169012433,
+          "distanceFromRouteM": 0.5572501243951276,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 12,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-12-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-12-a-lm2025",
+          "centreEpsg3006": [
+            677167.867681849,
+            6586988.567408415
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-12-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-12-b-lm2025",
+          "centreEpsg3006": [
+            677224.8017471775,
+            6586936.057390339
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 470,
+          "sourceC": [
+            -534.7399999999907,
+            -591.3799999998882
+          ],
+          "packC": [
+            -534.7399999999907,
+            -591.3799999998882
+          ],
+          "runtimeC": [
+            -534.7399999999907,
+            -591.3799999998882
+          ],
+          "epsg3006": [
+            677165.76,
+            6586990.88
+          ],
+          "sourcePadId": "lidingo-tee-12-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 52.079135503767795,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 470.11226294034896,
+          "scorecardResidualM": 0.11226294034895545,
+          "distanceFromRouteM": 5.134734313660283,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -533.1421114801998,
+              -593.4310368787181
+            ],
+            [
+              -536.3378885197816,
+              -589.3289631210583
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -533.1421114801998,
+              -593.4310368787181
+            ],
+            [
+              -536.3378885197816,
+              -589.3289631210583
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 4.197965718092613,
+          "transverseAxisErrorM": 2.2648549702353193e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 470,
+          "sourceC": [
+            -534.0999999999767,
+            -588.8199999993667
+          ],
+          "packC": [
+            -534.0999999999767,
+            -588.8199999993667
+          ],
+          "runtimeC": [
+            -534.0999999999767,
+            -588.8199999993667
+          ],
+          "epsg3006": [
+            677166.4,
+            6586988.319999999
+          ],
+          "sourcePadId": "lidingo-tee-12-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 52.079135503767795,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 470.11226294034896,
+          "scorecardResidualM": 0.11226294034895545,
+          "distanceFromRouteM": 5.140480042206533,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -532.5021114801858,
+              -590.8710368781966
+            ],
+            [
+              -535.6978885197676,
+              -586.7689631205368
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -532.5021114801858,
+              -590.8710368781966
+            ],
+            [
+              -535.6978885197676,
+              -586.7689631205368
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 4.90754031904204,
+          "transverseAxisErrorM": 2.2648549702353193e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 458,
+          "sourceC": [
+            -527.2199999999721,
+            -586.8999999994412
+          ],
+          "packC": [
+            -527.2199999999721,
+            -586.8999999994412
+          ],
+          "runtimeC": [
+            -527.2199999999721,
+            -586.8999999994412
+          ],
+          "epsg3006": [
+            677173.28,
+            6586986.399999999
+          ],
+          "sourcePadId": "lidingo-tee-12-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 52.079135503767795,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 465.51689151776884,
+          "scorecardResidualM": 7.5168915177688405,
+          "distanceFromRouteM": 2.0167360875023195,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -525.6221114801812,
+              -588.9510368782711
+            ],
+            [
+              -528.817888519763,
+              -584.8489631206113
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -525.6221114801812,
+              -588.9510368782711
+            ],
+            [
+              -528.817888519763,
+              -584.8489631206113
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.825552654112077,
+          "transverseAxisErrorM": 2.2648549702353193e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 392,
+          "sourceC": [
+            -475.21999999997206,
+            -536.179999999702
+          ],
+          "packC": [
+            -475.21999999997206,
+            -536.179999999702
+          ],
+          "runtimeC": [
+            -475.21999999997206,
+            -536.179999999702
+          ],
+          "epsg3006": [
+            677225.28,
+            6586935.68
+          ],
+          "sourcePadId": "lidingo-tee-12-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 52.079135503767795,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 393.3250363552555,
+          "scorecardResidualM": 1.32503635525552,
+          "distanceFromRouteM": 10.069962035421751,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -473.62211148018116,
+              -538.2310368785319
+            ],
+            [
+              -476.81788851976296,
+              -534.1289631208721
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -473.62211148018116,
+              -538.2310368785319
+            ],
+            [
+              -476.81788851976296,
+              -534.1289631208721
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.2971375685504776,
+          "transverseAxisErrorM": 2.2648549702353193e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 355,
+          "sourceC": [
+            -475.05999999993946,
+            -537.6200000001118
+          ],
+          "packC": [
+            -475.05999999993946,
+            -537.6200000001118
+          ],
+          "runtimeC": [
+            -475.05999999993946,
+            -537.6200000001118
+          ],
+          "epsg3006": [
+            677225.4400000001,
+            6586937.12
+          ],
+          "sourcePadId": "lidingo-tee-12-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 52.079135503767795,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 394.0838031123609,
+          "scorecardResidualM": 39.0838031123609,
+          "distanceFromRouteM": 8.83567154712399,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 13,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-13-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-13-a-lm2025",
+          "centreEpsg3006": [
+            677592.5537155942,
+            6586715.833517454
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-13-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-13-b-lm2025",
+          "centreEpsg3006": [
+            677559.7938207961,
+            6586750.004685253
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-13-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-13-c-lm2025",
+          "centreEpsg3006": [
+            677523.8465052695,
+            6586756.4974626275
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 343,
+          "sourceC": [
+            -106.42000000004191,
+            -315.21999999973923
+          ],
+          "packC": [
+            -106.42000000004191,
+            -315.21999999973923
+          ],
+          "runtimeC": [
+            -106.42000000004191,
+            -315.21999999973923
+          ],
+          "epsg3006": [
+            677594.08,
+            6586714.72
+          ],
+          "sourcePadId": "lidingo-tee-13-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -104.13924774937679,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 340.22356343093145,
+          "scorecardResidualM": -2.776436569068551,
+          "distanceFromRouteM": 1.883091226438668,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -107.05512623018497,
+              -312.69876723147206
+            ],
+            [
+              -105.78487376989885,
+              -317.7412327680064
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -107.05512623018497,
+              -312.69876723147206
+            ],
+            [
+              -105.78487376989885,
+              -317.7412327680064
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.1666875117171762,
+          "transverseAxisErrorM": 7.105427357601002e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 305,
+          "sourceC": [
+            -137.14000000001397,
+            -349.9400000004098
+          ],
+          "packC": [
+            -137.14000000001397,
+            -349.9400000004098
+          ],
+          "runtimeC": [
+            -137.14000000001397,
+            -349.9400000004098
+          ],
+          "epsg3006": [
+            677563.36,
+            6586749.44
+          ],
+          "sourcePadId": "lidingo-tee-13-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -104.13924774937679,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 303.3241973781601,
+          "scorecardResidualM": -1.675802621839921,
+          "distanceFromRouteM": 24.873374313787945,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -137.77512623015704,
+              -347.4187672321426
+            ],
+            [
+              -136.5048737698709,
+              -352.46123276867695
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -137.77512623015704,
+              -347.4187672321426
+            ],
+            [
+              -136.5048737698709,
+              -352.46123276867695
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.6428685743874639,
+          "transverseAxisErrorM": 3.4638958368304884e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 294,
+          "sourceC": [
+            -145.45999999996275,
+            -351.70000000018626
+          ],
+          "packC": [
+            -145.45999999996275,
+            -351.70000000018626
+          ],
+          "runtimeC": [
+            -145.45999999996275,
+            -351.70000000018626
+          ],
+          "epsg3006": [
+            677555.04,
+            6586751.2
+          ],
+          "sourcePadId": "lidingo-tee-13-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -104.13924774937679,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 294.8263209178664,
+          "scorecardResidualM": 0.8263209178663828,
+          "distanceFromRouteM": 24.547651020260673,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -146.09512623010582,
+              -349.1787672319191
+            ],
+            [
+              -144.82487376981967,
+              -354.22123276845343
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -146.09512623010582,
+              -349.1787672319191
+            ],
+            [
+              -144.82487376981967,
+              -354.22123276845343
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.47628685422245987,
+          "transverseAxisErrorM": 3.4638958368304884e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 271,
+          "sourceC": [
+            -176.18000000005122,
+            -356.5
+          ],
+          "packC": [
+            -176.18000000005122,
+            -356.5
+          ],
+          "runtimeC": [
+            -176.18000000005122,
+            -356.5
+          ],
+          "epsg3006": [
+            677524.32,
+            6586756
+          ],
+          "sourcePadId": "lidingo-tee-13-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -104.13924774937679,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 263.86444532326647,
+          "scorecardResidualM": -7.135554676733534,
+          "distanceFromRouteM": 21.697973903784483,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -176.8151262301943,
+              -353.97876723173283
+            ],
+            [
+              -175.54487376990815,
+              -359.02123276826717
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -176.8151262301943,
+              -353.97876723173283
+            ],
+            [
+              -175.54487376990815,
+              -359.02123276826717
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.5964626112869302,
+          "transverseAxisErrorM": 3.4638958368304884e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 230,
+          "sourceC": [
+            -176.02000000001863,
+            -358.09999999962747
+          ],
+          "packC": [
+            -176.02000000001863,
+            -358.09999999962747
+          ],
+          "runtimeC": [
+            -176.02000000001863,
+            -358.09999999962747
+          ],
+          "epsg3006": [
+            677524.48,
+            6586757.6
+          ],
+          "sourcePadId": "lidingo-tee-13-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -104.13924774937679,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 263.62875119827135,
+          "scorecardResidualM": 33.628751198271345,
+          "distanceFromRouteM": 23.288586451912078,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 14,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-14-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-14-a-lm2025",
+          "centreEpsg3006": [
+            677265.6234913943,
+            6586758.026578353
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-14-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-14-b-lm2025",
+          "centreEpsg3006": [
+            677346.1886549196,
+            6586727.951303335
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 325,
+          "sourceC": [
+            -448.3399999999674,
+            -364.339999999851
+          ],
+          "packC": [
+            -448.3399999999674,
+            -364.339999999851
+          ],
+          "runtimeC": [
+            -448.3399999999674,
+            -364.339999999851
+          ],
+          "epsg3006": [
+            677252.16,
+            6586763.84
+          ],
+          "sourcePadId": "lidingo-tee-14-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 73.88271301558427,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 318.73068329467156,
+          "scorecardResidualM": -6.2693167053284355,
+          "distanceFromRouteM": 4.768777607130749,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -447.61822824286605,
+              -366.83780814513574
+            ],
+            [
+              -449.06177175706875,
+              -361.84219185456624
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -447.61822824286605,
+              -366.83780814513574
+            ],
+            [
+              -449.06177175706875,
+              -361.84219185456624
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.0043886834554818,
+          "transverseAxisErrorM": 2.8199664825478976e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 310,
+          "sourceC": [
+            -437.78000000002794,
+            -359.54000000003725
+          ],
+          "packC": [
+            -437.78000000002794,
+            -359.54000000003725
+          ],
+          "runtimeC": [
+            -437.78000000002794,
+            -359.54000000003725
+          ],
+          "epsg3006": [
+            677262.72,
+            6586759.04
+          ],
+          "sourcePadId": "lidingo-tee-14-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 73.88271301558427,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 312.0218674237426,
+          "scorecardResidualM": 2.0218674237426058,
+          "distanceFromRouteM": 1.7173947682926747,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -437.0582282429266,
+              -362.037808145322
+            ],
+            [
+              -438.5017717571293,
+              -357.0421918547525
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -437.0582282429266,
+              -362.037808145322
+            ],
+            [
+              -438.5017717571293,
+              -357.0421918547525
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.4789580726546959,
+          "transverseAxisErrorM": 2.8199664825478976e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 290,
+          "sourceC": [
+            -422.0999999999767,
+            -354.09999999962747
+          ],
+          "packC": [
+            -422.0999999999767,
+            -354.09999999962747
+          ],
+          "runtimeC": [
+            -422.0999999999767,
+            -354.09999999962747
+          ],
+          "epsg3006": [
+            677278.4,
+            6586753.6
+          ],
+          "sourcePadId": "lidingo-tee-14-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 73.88271301558427,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 295.447994317158,
+          "scorecardResidualM": 5.44799431715802,
+          "distanceFromRouteM": 2.5907390605952494,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -421.3969510273849,
+              -356.5330149146561
+            ],
+            [
+              -422.82177175707807,
+              -351.6021918543427
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -421.3969510273849,
+              -356.5330149146561
+            ],
+            [
+              -422.82177175707807,
+              -351.6021918543427
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.1930522290687375,
+          "transverseAxisErrorM": 8.881784197001252e-16,
+          "pairReferenceDisplacementM": 0.03372204526273523,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 227,
+          "sourceC": [
+            -354.2600000000093,
+            -328.339999999851
+          ],
+          "packC": [
+            -354.2600000000093,
+            -328.339999999851
+          ],
+          "runtimeC": [
+            -354.2600000000093,
+            -328.339999999851
+          ],
+          "epsg3006": [
+            677346.24,
+            6586727.84
+          ],
+          "sourcePadId": "lidingo-tee-14-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 73.88271301558427,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 223.12332314838676,
+          "scorecardResidualM": -3.87667685161324,
+          "distanceFromRouteM": 8.50556283761284,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -353.53822824290796,
+              -330.83780814513574
+            ],
+            [
+              -354.98177175711066,
+              -325.84219185456624
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -353.53822824290796,
+              -330.83780814513574
+            ],
+            [
+              -354.98177175711066,
+              -325.84219185456624
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.1786909206031835,
+          "transverseAxisErrorM": 2.8199664825478976e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 220,
+          "sourceC": [
+            -352.9799999999814,
+            -328.5
+          ],
+          "packC": [
+            -352.9799999999814,
+            -328.5
+          ],
+          "runtimeC": [
+            -352.9799999999814,
+            -328.5
+          ],
+          "epsg3006": [
+            677347.52,
+            6586728
+          ],
+          "sourcePadId": "lidingo-tee-14-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 73.88271301558427,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 221.93804970808273,
+          "scorecardResidualM": 1.9380497080827297,
+          "distanceFromRouteM": 7.996517778871457,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 15,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-15-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-15-a-lm2025",
+          "centreEpsg3006": [
+            677626.6142270494,
+            6586563.646593224
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-15-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-15-b-lm2025",
+          "centreEpsg3006": [
+            677626.9850681751,
+            6586604.4224833185
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-15-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-15-c-lm2025",
+          "centreEpsg3006": [
+            677630.6358979964,
+            6586636.698513661
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 377,
+          "sourceC": [
+            -75.38000000000466,
+            -158.09999999962747
+          ],
+          "packC": [
+            -75.38000000000466,
+            -158.09999999962747
+          ],
+          "runtimeC": [
+            -75.38000000000466,
+            -158.09999999962747
+          ],
+          "epsg3006": [
+            677625.12,
+            6586557.6
+          ],
+          "sourcePadId": "lidingo-tee-15-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 161.5208850633577,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 373.1680971851401,
+          "scorecardResidualM": -3.831902814859916,
+          "distanceFromRouteM": 6.071216239011492,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -77.84594206017628,
+              -158.9240932928149
+            ],
+            [
+              -72.91405793983303,
+              -157.27590670644005
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -77.84594206017628,
+              -158.9240932928149
+            ],
+            [
+              -72.91405793983303,
+              -157.27590670644005
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.603501705025753,
+          "transverseAxisErrorM": 2.220446049250313e-16,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 357,
+          "sourceC": [
+            -73.78000000002794,
+            -194.25999999977648
+          ],
+          "packC": [
+            -73.78000000002794,
+            -194.25999999977648
+          ],
+          "runtimeC": [
+            -73.78000000002794,
+            -194.25999999977648
+          ],
+          "epsg3006": [
+            677626.72,
+            6586593.76
+          ],
+          "sourcePadId": "lidingo-tee-15-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 161.5208850633577,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 344.3955335949297,
+          "scorecardResidualM": -12.604466405070298,
+          "distanceFromRouteM": 10.648820777610945,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -76.24594206019957,
+              -195.0840932929639
+            ],
+            [
+              -71.31405793985631,
+              -193.43590670658907
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -76.24594206019957,
+              -195.0840932929639
+            ],
+            [
+              -71.31405793985631,
+              -193.43590670658907
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.664723858939461,
+          "transverseAxisErrorM": 2.220446049250313e-16,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 332,
+          "sourceC": [
+            -73.14000000001397,
+            -217.13999999966472
+          ],
+          "packC": [
+            -73.14000000001397,
+            -217.13999999966472
+          ],
+          "runtimeC": [
+            -73.14000000001397,
+            -217.13999999966472
+          ],
+          "epsg3006": [
+            677627.36,
+            6586616.64
+          ],
+          "sourcePadId": "lidingo-tee-15-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 161.5208850633577,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 322.49238973181326,
+          "scorecardResidualM": -9.507610268186738,
+          "distanceFromRouteM": 17.293840635107763,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -75.6059420601856,
+              -217.96409329285214
+            ],
+            [
+              -70.67405793984234,
+              -216.3159067064773
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -75.6059420601856,
+              -217.96409329285214
+            ],
+            [
+              -70.67405793984234,
+              -216.3159067064773
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.5537626459939619,
+          "transverseAxisErrorM": 2.220446049250313e-16,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 302,
+          "sourceC": [
+            -69.78000000002794,
+            -236.17999999970198
+          ],
+          "packC": [
+            -69.78000000002794,
+            -236.17999999970198
+          ],
+          "runtimeC": [
+            -69.78000000002794,
+            -236.17999999970198
+          ],
+          "epsg3006": [
+            677630.72,
+            6586635.68
+          ],
+          "sourcePadId": "lidingo-tee-15-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 161.5208850633577,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 303.3691242353294,
+          "scorecardResidualM": 1.3691242353294228,
+          "distanceFromRouteM": 20.14198331979119,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -72.24594206019957,
+              -237.0040932928894
+            ],
+            [
+              -67.31405793985631,
+              -235.35590670651456
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -72.24594206019957,
+              -237.0040932928894
+            ],
+            [
+              -67.31405793985631,
+              -235.35590670651456
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.2694271769854022,
+          "transverseAxisErrorM": 2.220446049250313e-16,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 270,
+          "sourceC": [
+            -69.62000000011176,
+            -238.7399999992922
+          ],
+          "packC": [
+            -69.62000000011176,
+            -238.7399999992922
+          ],
+          "runtimeC": [
+            -69.62000000011176,
+            -238.7399999992922
+          ],
+          "epsg3006": [
+            677630.8799999999,
+            6586638.239999999
+          ],
+          "sourcePadId": "lidingo-tee-15-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 161.5208850633577,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 300.89040631230256,
+          "scorecardResidualM": 30.89040631230256,
+          "distanceFromRouteM": 20.801647973945535,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 16,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-16-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-16-a-lm2025",
+          "centreEpsg3006": [
+            677801.2314821124,
+            6586861.293873935
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-16-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-16-b-lm2025",
+          "centreEpsg3006": [
+            677778.0957874239,
+            6586824.16658631
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-16-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-16-c-lm2025",
+          "centreEpsg3006": [
+            677805.1943842913,
+            6586794.565189602
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 194,
+          "sourceC": [
+            100.45999999996275,
+            -462.90000000037253
+          ],
+          "packC": [
+            100.45999999996275,
+            -462.90000000037253
+          ],
+          "runtimeC": [
+            100.45999999996275,
+            -462.90000000037253
+          ],
+          "epsg3006": [
+            677800.96,
+            6586862.4
+          ],
+          "sourcePadId": "lidingo-tee-16-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -6.328347872236591,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 187.8053952060181,
+          "scorecardResidualM": -6.1946047939819096,
+          "distanceFromRouteM": 2.0009738528187304,
+          "eligible": true,
+          "potentialPair": [
+            [
+              103.04415700720367,
+              -462.61341220941193
+            ],
+            [
+              97.87584299272183,
+              -463.1865877913331
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              103.04415700720367,
+              -462.61341220941193
+            ],
+            [
+              97.87584299272183,
+              -463.1865877913331
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.0348491819915897,
+          "transverseAxisErrorM": 3.6415315207705135e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 163,
+          "sourceC": [
+            75.17999999993481,
+            -432.5
+          ],
+          "packC": [
+            75.17999999993481,
+            -432.5
+          ],
+          "runtimeC": [
+            75.17999999993481,
+            -432.5
+          ],
+          "epsg3006": [
+            677775.6799999999,
+            6586832
+          ],
+          "sourcePadId": "lidingo-tee-16-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -6.328347872236591,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 156.69806453430135,
+          "scorecardResidualM": -6.301935465698648,
+          "distanceFromRouteM": 22.42074335725178,
+          "eligible": true,
+          "potentialPair": [
+            [
+              77.76415700717573,
+              -432.2134122090394
+            ],
+            [
+              72.59584299269389,
+              -432.7865877909606
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              77.76415700717573,
+              -432.2134122090394
+            ],
+            [
+              72.59584299269389,
+              -432.7865877909606
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.6054160846381971,
+          "transverseAxisErrorM": 3.6415315207705135e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 142,
+          "sourceC": [
+            80.77999999991152,
+            -419.0599999995902
+          ],
+          "packC": [
+            80.77999999991152,
+            -419.0599999995902
+          ],
+          "runtimeC": [
+            80.77999999991152,
+            -419.0599999995902
+          ],
+          "epsg3006": [
+            677781.2799999999,
+            6586818.56
+          ],
+          "sourcePadId": "lidingo-tee-16-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -6.328347872236591,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 143.95722663083825,
+          "scorecardResidualM": 1.9572266308382495,
+          "distanceFromRouteM": 15.373428299129838,
+          "eligible": true,
+          "potentialPair": [
+            [
+              83.36415700715244,
+              -418.7734122086296
+            ],
+            [
+              78.1958429926706,
+              -419.3465877905508
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              83.36415700715244,
+              -418.7734122086296
+            ],
+            [
+              78.1958429926706,
+              -419.3465877905508
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.7958908318483366,
+          "transverseAxisErrorM": 3.6415315207705135e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 129,
+          "sourceC": [
+            103.97999999998137,
+            -395.21999999973923
+          ],
+          "packC": [
+            103.97999999998137,
+            -395.21999999973923
+          ],
+          "runtimeC": [
+            103.97999999998137,
+            -395.21999999973923
+          ],
+          "epsg3006": [
+            677804.48,
+            6586794.72
+          ],
+          "sourcePadId": "lidingo-tee-16-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -6.328347872236591,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 122.81973959163362,
+          "scorecardResidualM": -6.1802604083663795,
+          "distanceFromRouteM": 10.312993048804012,
+          "eligible": true,
+          "potentialPair": [
+            [
+              106.56415700722229,
+              -394.93341220877863
+            ],
+            [
+              101.51381365182682,
+              -395.49350462644514
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              106.56415700722229,
+              -394.93341220877863
+            ],
+            [
+              101.51381365182682,
+              -395.49350462644514
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.1997328254721242,
+          "transverseAxisErrorM": 6.661338147750939e-15,
+          "pairReferenceDisplacementM": 0.05934695778258189,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 100,
+          "sourceC": [
+            104.14000000001397,
+            -393.62000000011176
+          ],
+          "packC": [
+            104.14000000001397,
+            -393.62000000011176
+          ],
+          "runtimeC": [
+            104.14000000001397,
+            -393.62000000011176
+          ],
+          "epsg3006": [
+            677804.64,
+            6586793.12
+          ],
+          "sourcePadId": "lidingo-tee-16-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -6.328347872236591,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 121.24712529776448,
+          "scorecardResidualM": 21.247125297764484,
+          "distanceFromRouteM": 10.64837981290901,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 17,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-17-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-17-a-lm2025",
+          "centreEpsg3006": [
+            677626.6142270494,
+            6586563.646593225
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-17-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-17-b-lm2025",
+          "centreEpsg3006": [
+            677658.1102127822,
+            6586591.027912477
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-17-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-17-c-lm2025",
+          "centreEpsg3006": [
+            677706.8652473049,
+            6586603.033117721
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 449,
+          "sourceC": [
+            -75.38000000000466,
+            -158.1000000005588
+          ],
+          "packC": [
+            -75.38000000000466,
+            -158.1000000005588
+          ],
+          "runtimeC": [
+            -75.38000000000466,
+            -158.1000000005588
+          ],
+          "epsg3006": [
+            677625.12,
+            6586557.600000001
+          ],
+          "sourcePadId": "lidingo-tee-17-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 88.09144769822595,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 415.695752587656,
+          "scorecardResidualM": -33.30424741234401,
+          "distanceFromRouteM": 48.386342300685925,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -75.29340865937866,
+              -160.69855766582785
+            ],
+            [
+              -75.46659134063066,
+              -155.50144233528974
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -75.29340865937866,
+              -160.69855766582785
+            ],
+            [
+              -75.46659134063066,
+              -155.50144233528974
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.4923591165120962,
+          "transverseAxisErrorM": 8.243405957841787e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 421,
+          "sourceC": [
+            -45.14000000001397,
+            -191.38000000081956
+          ],
+          "packC": [
+            -45.14000000001397,
+            -191.38000000081956
+          ],
+          "runtimeC": [
+            -45.14000000001397,
+            -191.38000000081956
+          ],
+          "epsg3006": [
+            677655.36,
+            6586590.880000001
+          ],
+          "sourcePadId": "lidingo-tee-17-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 88.09144769822595,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 415.695752587656,
+          "scorecardResidualM": -5.3042474123440115,
+          "distanceFromRouteM": 4.755152120018623,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -45.053408659387976,
+              -193.97855766608862
+            ],
+            [
+              -45.22659134063996,
+              -188.7814423355505
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -45.053408659387976,
+              -193.97855766608862
+            ],
+            [
+              -45.22659134063996,
+              -188.7814423355505
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.4620627852885408,
+          "transverseAxisErrorM": 5.9396931817445875e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 411,
+          "sourceC": [
+            -39.53999999992084,
+            -191.86000000033528
+          ],
+          "packC": [
+            -39.53999999992084,
+            -191.86000000033528
+          ],
+          "runtimeC": [
+            -39.53999999992084,
+            -191.86000000033528
+          ],
+          "epsg3006": [
+            677660.9600000001,
+            6586591.36
+          ],
+          "sourcePadId": "lidingo-tee-17-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 88.09144769822595,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 414.8608050183837,
+          "scorecardResidualM": 3.860805018383701,
+          "distanceFromRouteM": 0.37070888512508676,
+          "eligible": true,
+          "potentialPair": [
+            [
+              -39.453408659294844,
+              -194.45855766560433
+            ],
+            [
+              -39.62659134054683,
+              -189.26144233506622
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              -39.453408659294844,
+              -194.45855766560433
+            ],
+            [
+              -39.62659134054683,
+              -189.26144233506622
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.0810940394232584,
+          "transverseAxisErrorM": 5.9396931817445875e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 374,
+          "sourceC": [
+            6.85999999998603,
+            -203.38000000081956
+          ],
+          "packC": [
+            6.85999999998603,
+            -203.38000000081956
+          ],
+          "runtimeC": [
+            6.85999999998603,
+            -203.38000000081956
+          ],
+          "epsg3006": [
+            677707.36,
+            6586602.880000001
+          ],
+          "sourcePadId": "lidingo-tee-17-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 88.09144769822595,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 368.8702113936956,
+          "scorecardResidualM": -5.129788606304373,
+          "distanceFromRouteM": 13.429640619815963,
+          "eligible": true,
+          "potentialPair": [
+            [
+              6.946591340612027,
+              -205.97855766608862
+            ],
+            [
+              6.773408659360033,
+              -200.7814423355505
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              6.946591340612027,
+              -205.97855766608862
+            ],
+            [
+              6.773408659360033,
+              -200.7814423355505
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.7266542855170453,
+          "transverseAxisErrorM": 1.1657341758564144e-15,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 315,
+          "sourceC": [
+            8.619999999995343,
+            -203.22000000067055
+          ],
+          "packC": [
+            8.619999999995343,
+            -203.22000000067055
+          ],
+          "runtimeC": [
+            8.619999999995343,
+            -203.22000000067055
+          ],
+          "epsg3006": [
+            677709.12,
+            6586602.720000001
+          ],
+          "sourcePadId": "lidingo-tee-17-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 88.09144769822595,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 367.1058590454607,
+          "scorecardResidualM": 52.105859045460704,
+          "distanceFromRouteM": 13.328345055459147,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 18,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": "reviewed",
+      "markerLayout": "separate-reviewed-colours",
+      "pads": [
+        {
+          "index": 0,
+          "id": "lidingo-tee-18-a-lm2025",
+          "sourceFeatureId": "lidingo-tee-18-a-lm2025",
+          "centreEpsg3006": [
+            678141.2675513726,
+            6586571.686801569
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": "lidingo-tee-18-b-lm2025",
+          "sourceFeatureId": "lidingo-tee-18-b-lm2025",
+          "centreEpsg3006": [
+            678085.2595095922,
+            6586557.61328082
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": "lidingo-tee-18-c-lm2025",
+          "sourceFeatureId": "lidingo-tee-18-c-lm2025",
+          "centreEpsg3006": [
+            678018.168473311,
+            6586508.608294141
+          ],
+          "sourceId": "imagery-lm-ortho",
+          "observedYear": 2025,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 433,
+          "sourceC": [
+            440.61999999999534,
+            -173.62000000011176
+          ],
+          "packC": [
+            440.61999999999534,
+            -173.62000000011176
+          ],
+          "runtimeC": [
+            440.61999999999534,
+            -173.62000000011176
+          ],
+          "epsg3006": [
+            678141.12,
+            6586573.12
+          ],
+          "sourcePadId": "lidingo-tee-18-a-lm2025",
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -69.81146198529262,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 427.5786906219956,
+          "scorecardResidualM": -5.421309378004423,
+          "distanceFromRouteM": 1.0532810991670876,
+          "eligible": true,
+          "potentialPair": [
+            [
+              441.517287162562,
+              -171.17973859036627
+            ],
+            [
+              439.7227128374287,
+              -176.06026140985725
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              441.517287162562,
+              -171.17973859036627
+            ],
+            [
+              439.7227128374287,
+              -176.06026140985725
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.0219356665239945,
+          "transverseAxisErrorM": 5.440092820663267e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 379,
+          "sourceC": [
+            388.30000000004657,
+            -158.42000000085682
+          ],
+          "packC": [
+            388.30000000004657,
+            -158.42000000085682
+          ],
+          "runtimeC": [
+            388.30000000004657,
+            -158.42000000085682
+          ],
+          "epsg3006": [
+            678088.8,
+            6586557.920000001
+          ],
+          "sourcePadId": "lidingo-tee-18-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -69.81146198529262,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 373.22744376503255,
+          "scorecardResidualM": -5.772556234967453,
+          "distanceFromRouteM": 4.843316068063401,
+          "eligible": true,
+          "potentialPair": [
+            [
+              389.19728716261324,
+              -155.97973859111133
+            ],
+            [
+              387.4027128374799,
+              -160.8602614106023
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              389.19728716261324,
+              -155.97973859111133
+            ],
+            [
+              387.4027128374799,
+              -160.8602614106023
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 0.8778712833067481,
+          "transverseAxisErrorM": 5.440092820663267e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 369,
+          "sourceC": [
+            381.4200000000419,
+            -156.98000000044703
+          ],
+          "packC": [
+            381.4200000000419,
+            -156.98000000044703
+          ],
+          "runtimeC": [
+            381.4200000000419,
+            -156.98000000044703
+          ],
+          "epsg3006": [
+            678081.92,
+            6586556.48
+          ],
+          "sourcePadId": "lidingo-tee-18-b-lm2025",
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -69.81146198529262,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 366.2731776059848,
+          "scorecardResidualM": -2.726822394015187,
+          "distanceFromRouteM": 5.866146547844028,
+          "eligible": true,
+          "potentialPair": [
+            [
+              382.3172871626086,
+              -154.53973859070155
+            ],
+            [
+              380.52271283747524,
+              -159.42026141019252
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              382.3172871626086,
+              -154.53973859070155
+            ],
+            [
+              380.52271283747524,
+              -159.42026141019252
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 1.059333728815334,
+          "transverseAxisErrorM": 5.440092820663267e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 299,
+          "sourceC": [
+            317.2600000000093,
+            -109.45999999996275
+          ],
+          "packC": [
+            317.2600000000093,
+            -109.45999999996275
+          ],
+          "runtimeC": [
+            317.2600000000093,
+            -109.45999999996275
+          ],
+          "epsg3006": [
+            678017.76,
+            6586508.96
+          ],
+          "sourcePadId": "lidingo-tee-18-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -69.81146198529262,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "orthophoto-platform-reference",
+          "approximateRemainingRouteM": 289.6553860617719,
+          "scorecardResidualM": -9.344613938228122,
+          "distanceFromRouteM": 16.592037237532384,
+          "eligible": true,
+          "potentialPair": [
+            [
+              318.157287162576,
+              -107.01973859021726
+            ],
+            [
+              316.36271283744264,
+              -111.90026140970824
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [
+            [
+              318.157287162576,
+              -107.01973859021726
+            ],
+            [
+              316.36271283744264,
+              -111.90026140970824
+            ]
+          ],
+          "minimumSphereEdgeClearanceM": 2.2953919759437613,
+          "transverseAxisErrorM": 5.440092820663267e-14,
+          "pairReferenceDisplacementM": 0,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 270,
+          "sourceC": [
+            315.6600000000326,
+            -109.14000000059605
+          ],
+          "packC": [
+            315.6600000000326,
+            -109.14000000059605
+          ],
+          "runtimeC": [
+            315.6600000000326,
+            -109.14000000059605
+          ],
+          "epsg3006": [
+            678016.16,
+            6586508.640000001
+          ],
+          "sourcePadId": "lidingo-tee-18-c-lm2025",
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": -69.81146198529262,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "unresolved-guide-tee-reference",
+          "approximateRemainingRouteM": 288.043251389853,
+          "scorecardResidualM": 18.043251389853026,
+          "distanceFromRouteM": 16.340200387335198,
+          "eligible": false,
+          "potentialPair": [],
+          "potentialPairReason": "unresolved-guide-reference",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    }
+  ],
+  "crossHoleOverlaps": [],
+  "issues": [],
+  "inputs": {
+    "modelPath": "lidingobuild/course-model.json",
+    "modelSha256": "20dd2856d0401b58b715ddd0f894cb58585200bed51f8107f6d9c781b5c0e79c",
+    "packPath": "apps/golf/public/courses/lidingo/pack.bin",
+    "packSha256": "580243354d3fb9f1ba6ff0cc2b2eb202ac82c5de8bd7d95cd21fb4d49a3ffac5"
+  }
+}

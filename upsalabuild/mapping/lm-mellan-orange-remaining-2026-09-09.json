@@ -1,0 +1,2987 @@
+{
+  "schemaVersion": 1,
+  "id": "upsala-mellan-orange-visible-fairway-entries-2026-09-09",
+  "reviewedAt": "2026-09-09",
+  "course": "mellan",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "baselineModelSha256": "fadeb7e11dc994946a3fdd61dedf8fe01161d794e8bbbe16dccdbae3fb2deabc",
+  "kind": "reviewed-approximate-navigation-sites",
+  "sources": [
+    {
+      "id": "mellan-02-orange",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-02-orange.tif",
+      "sha256": "4f4aeb3149a7f6438d94ffb6f72470b516807d4baf994b9bb62ea8656a13d811",
+      "rgbPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-02-orange.png",
+      "rgbSha256": "b01b117c49974877354e0823a3d6c2bfa26409ab35cfd4faf6036b7b8753d919",
+      "horizontalCrs": "EPSG:3006",
+      "nativeResolutionMetres": 0.16,
+      "geoTransform": [
+        640306.56,
+        0.16,
+        0.0,
+        6636461.28,
+        0.0,
+        -0.16
+      ],
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "provider": "Lantmateriet authenticated orto-o2-2025"
+    },
+    {
+      "id": "club-mellan-02-orange-guide",
+      "hole": 2,
+      "url": "https://banguider.se/uploads/product/1733264145_UpsalaMellan_2.webp",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h02.webp",
+      "sha256": "95fe141837c7dbc44d7c372d742ebe53abe990e6b47c67537b168b3b5cb6605f",
+      "bytes": 103588,
+      "role": "Club-linked schematic identifies the Orange stage at the fairway entrance; not a georeferenced map"
+    },
+    {
+      "id": "mellan-03-orange",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-03-orange.tif",
+      "sha256": "6e6120aba5e1e650635b9fc18f07d9b030d46962f6c8141a4de8b6f31cf1a5f0",
+      "rgbPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-03-orange.png",
+      "rgbSha256": "493c165875e51c9153e8e477a94cef7dee8013215e6b9529eea55a866e07adea",
+      "horizontalCrs": "EPSG:3006",
+      "nativeResolutionMetres": 0.16,
+      "geoTransform": [
+        640646.88,
+        0.16,
+        0.0,
+        6636500.64,
+        0.0,
+        -0.16
+      ],
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "provider": "Lantmateriet authenticated orto-o2-2025"
+    },
+    {
+      "id": "club-mellan-03-orange-guide",
+      "hole": 3,
+      "url": "https://banguider.se/uploads/product/1733264146_UpsalaMellan_3.webp",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h03.webp",
+      "sha256": "e2418ab6106351e8dbfe36ad83a23d7616719b2b8de98100cc4ad477a40e0a6a",
+      "bytes": 90698,
+      "role": "Club-linked schematic identifies the Orange stage at the fairway entrance; not a georeferenced map"
+    },
+    {
+      "id": "mellan-04-orange",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-04-orange.tif",
+      "sha256": "137768502faf7b730561f4ddb463270f0a905e7c68f67ff90ac0161fb5a1a934",
+      "rgbPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-04-orange.png",
+      "rgbSha256": "308d5e73f7b3b7ae2750166113bc304da4b742ba1391277b61a45b089ee51540",
+      "horizontalCrs": "EPSG:3006",
+      "nativeResolutionMetres": 0.16,
+      "geoTransform": [
+        640792.8,
+        0.16,
+        0.0,
+        6636335.84,
+        0.0,
+        -0.16
+      ],
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "provider": "Lantmateriet authenticated orto-o2-2025"
+    },
+    {
+      "id": "club-mellan-04-orange-guide",
+      "hole": 4,
+      "url": "https://banguider.se/uploads/product/1733264146_UpsalaMellan_4.webp",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h04.webp",
+      "sha256": "a8640add468a77ea1ed1d7a5914404b54dbb45db4bb0be3620cbf3f5cf863d45",
+      "bytes": 88566,
+      "role": "Club-linked schematic identifies the Orange stage at the fairway entrance; not a georeferenced map"
+    },
+    {
+      "id": "mellan-06-orange",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-06-orange.tif",
+      "sha256": "1c5d8904be4dd5823ccf11f3196e679989290ace106e7bed375f511b1b27c219",
+      "rgbPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-06-orange.png",
+      "rgbSha256": "d38784b7d2491589ee465476ea3b2c8ec5ded2514fb9977a5736e26ebe80a888",
+      "horizontalCrs": "EPSG:3006",
+      "nativeResolutionMetres": 0.16,
+      "geoTransform": [
+        640441.6,
+        0.16,
+        0.0,
+        6636004.16,
+        0.0,
+        -0.16
+      ],
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "provider": "Lantmateriet authenticated orto-o2-2025"
+    },
+    {
+      "id": "club-mellan-06-orange-guide",
+      "hole": 6,
+      "url": "https://banguider.se/uploads/product/1733264146_UpsalaMellan_6.webp",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h06.webp",
+      "sha256": "ea8f56868a212c17c42ea64c20d9407dc412d2e67a21158c1fafb0f5ed9c2e19",
+      "bytes": 112158,
+      "role": "Club-linked schematic identifies the Orange stage at the fairway entrance; not a georeferenced map"
+    },
+    {
+      "id": "mellan-08-orange",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-08-orange.tif",
+      "sha256": "b630641922598d2d06cdd3c853ec6bb49583c57ba3cd984224e17234f8e93e2c",
+      "rgbPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-08-orange.png",
+      "rgbSha256": "0443410648178b3b714ff0f7da4ad4fdf5c2b7ec2911546be42c8b2b9661cc6a",
+      "horizontalCrs": "EPSG:3006",
+      "nativeResolutionMetres": 0.16,
+      "geoTransform": [
+        640275.2,
+        0.16,
+        0.0,
+        6636095.36,
+        0.0,
+        -0.16
+      ],
+      "captureDates": [
+        "2025-06-14"
+      ],
+      "provider": "Lantmateriet authenticated orto-o2-2025"
+    },
+    {
+      "id": "club-mellan-08-orange-guide",
+      "hole": 8,
+      "url": "https://banguider.se/uploads/product/1733264147_UpsalaMellan_8.webp",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h08.webp",
+      "sha256": "ee795dd48f106f147fbbc359812d7337c8362b600ef0679de18da80301444d56",
+      "bytes": 89228,
+      "role": "Club-linked schematic identifies the Orange stage at the fairway entrance; not a georeferenced map"
+    }
+  ],
+  "holes": [
+    {
+      "hole": 2,
+      "originalTees": {
+        "pads": [
+          {
+            "ring": [
+              [
+                443.955,
+                -309.599
+              ],
+              [
+                445.536,
+                -311.789
+              ],
+              [
+                448.565,
+                -312.674
+              ],
+              [
+                452.543,
+                -312.274
+              ],
+              [
+                456.734,
+                -310.865
+              ],
+              [
+                459.889,
+                -308.495
+              ],
+              [
+                460.782,
+                -305.711
+              ],
+              [
+                459.71,
+                -303.752
+              ],
+              [
+                456.883,
+                -301.609
+              ],
+              [
+                454.344,
+                -300.455
+              ],
+              [
+                451.611,
+                -300.808
+              ],
+              [
+                448.686,
+                -302.669
+              ],
+              [
+                446.278,
+                -305.01
+              ],
+              [
+                444.618,
+                -307.323
+              ]
+            ],
+            "c": [
+              452.381,
+              -306.879
+            ],
+            "area": 141.776,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-02-northwest",
+            "imagerySourceId": "lm2025_025m_r0_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                483.647,
+                -289.845
+              ],
+              [
+                485.66,
+                -290.268
+              ],
+              [
+                488.115,
+                -289.175
+              ],
+              [
+                491.012,
+                -286.565
+              ],
+              [
+                493.382,
+                -283.225
+              ],
+              [
+                494.764,
+                -280.173
+              ],
+              [
+                494.44,
+                -278.185
+              ],
+              [
+                492.619,
+                -276.254
+              ],
+              [
+                490.099,
+                -275.599
+              ],
+              [
+                487.883,
+                -276.433
+              ],
+              [
+                485.697,
+                -278.016
+              ],
+              [
+                484.027,
+                -280.079
+              ],
+              [
+                482.626,
+                -282.633
+              ],
+              [
+                481.991,
+                -285.657
+              ],
+              [
+                482.335,
+                -288.144
+              ]
+            ],
+            "c": [
+              488.105,
+              -282.764
+            ],
+            "area": 122.582,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-02-pondside",
+            "imagerySourceId": "lm2025_025m_r0_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ],
+        "marks": [
+          {
+            "teeIdx": 0,
+            "m": 335,
+            "c": [
+              446,
+              -309.5
+            ],
+            "b": 114.9,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 0,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 1,
+            "m": 329,
+            "c": [
+              451.5,
+              -306.9
+            ],
+            "b": 114.9,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 0,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 2,
+            "m": 329,
+            "c": [
+              451.5,
+              -306.9
+            ],
+            "b": 114.9,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-02-northwest",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 0,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 3,
+            "m": 291,
+            "c": [
+              485.549,
+              -289.217
+            ],
+            "b": 114.9,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-02-pondside",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 1.719,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 4,
+            "m": 220,
+            "c": [
+              550.3,
+              -261
+            ],
+            "b": 114.9
+          }
+        ],
+        "inferPads": false,
+        "markProvenance": "Reviewed navigation references on explicitly associated observed platforms; unresolved scorecard-inferred references retained. Daily marker positions and tee colours unverified.",
+        "mappingCoverage": "visible distinct platforms reviewed; short tees may use continuous fairway turf without separate deck",
+        "referenceReview": {
+          "reviewedAt": "2026-09-09",
+          "movedReferenceCount": 1,
+          "retainedReferenceCount": 1,
+          "unresolvedReferencesRetained": true,
+          "dailyMarkerPositionsVerified": false
+        }
+      },
+      "originalLine": [
+        [
+          458.7,
+          -303.6
+        ],
+        [
+          635.6,
+          -188.9
+        ],
+        [
+          737.6,
+          -167.8
+        ],
+        [
+          753.6,
+          -169.1
+        ],
+        [
+          749.8,
+          -168.3
+        ]
+      ],
+      "originalDistances": [
+        335,
+        329,
+        329,
+        291,
+        220
+      ],
+      "decisions": [
+        {
+          "markIndex": 4,
+          "siteClass": "fairway",
+          "reviewedPosition": [
+            553.369,
+            -242.78
+          ],
+          "supportRing": [
+            [
+              550.458,
+              -246.091
+            ],
+            [
+              556.114,
+              -247.797
+            ],
+            [
+              559.596,
+              -242.704
+            ],
+            [
+              556.857,
+              -237.848
+            ],
+            [
+              551.09,
+              -237.426
+            ],
+            [
+              548.842,
+              -241.352
+            ]
+          ],
+          "maxShiftMetres": 24,
+          "sourceIds": [
+            "mellan-02-orange",
+            "club-mellan-02-orange-guide"
+          ],
+          "reason": "The club Orange symbol is on the rear fairway entrance beyond the pond, after the separate Red platform. The native image uniquely identifies this rounded mowing entrance southeast of the reed-filled pond; the old reference is on its rough approach. Select a representative point on the visible mown entry, not a separate tee pad.",
+          "updateRouteStart": false,
+          "supportEvidence": {
+            "pixelRing": [
+              [
+                411,
+                500
+              ],
+              [
+                446,
+                488
+              ],
+              [
+                469,
+                519
+              ],
+              [
+                453,
+                550
+              ],
+              [
+                417,
+                554
+              ],
+              [
+                402,
+                530
+              ]
+            ],
+            "epsg3006Ring": [
+              [
+                640372.3200000001,
+                6636381.28
+              ],
+              [
+                640377.92,
+                6636383.2
+              ],
+              [
+                640381.6000000001,
+                6636378.24
+              ],
+              [
+                640379.04,
+                6636373.28
+              ],
+              [
+                640373.28,
+                6636372.640000001
+              ],
+              [
+                640370.88,
+                6636376.48
+              ]
+            ],
+            "localRing": [
+              [
+                550.458,
+                -246.091
+              ],
+              [
+                556.114,
+                -247.797
+              ],
+              [
+                559.596,
+                -242.704
+              ],
+              [
+                556.857,
+                -237.848
+              ],
+              [
+                551.09,
+                -237.426
+              ],
+              [
+                548.842,
+                -241.352
+              ]
+            ],
+            "panel": {
+              "hole": 2,
+              "frame": {
+                "origin": {
+                  "lat": 59.839,
+                  "lon": 17.4952
+                },
+                "mPerLat": 111320,
+                "mPerLon": 55930.68
+              },
+              "pixelSize": [
+                826,
+                854
+              ],
+              "geoTransform": [
+                640306.56,
+                0.16,
+                0.0,
+                6636461.28,
+                0.0,
+                -0.16
+              ],
+              "source": {
+                "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-02-orange.tif",
+                "sha256": "4f4aeb3149a7f6438d94ffb6f72470b516807d4baf994b9bb62ea8656a13d811",
+                "geoTransform": [
+                  640306.56,
+                  0.16,
+                  0.0,
+                  6636461.28,
+                  0.0,
+                  -0.16
+                ],
+                "width": 826,
+                "height": 854
+              },
+              "plainPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-02-orange.png",
+              "plainSha256": "b01b117c49974877354e0823a3d6c2bfa26409ab35cfd4faf6036b7b8753d919",
+              "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-02-orange-candidate.png",
+              "overlaySha256": "14164061ac45ba02d282705b40592b992b63e2bd335cc26edb113bb2a803c8be",
+              "nativeResolutionMetres": 0.16,
+              "pixelCoordinateConvention": "Pixel edges; EPSG3006 E=gt0+x*gt1 and N=gt3+y*gt5"
+            },
+            "meaning": "Conservative interior patch of visibly mown fairway supporting the representative navigation point. This is an evidence region, not a newly traced physical tee pad or a fairway boundary."
+          },
+          "positionEvidence": {
+            "pixel": [
+              430.0027772151225,
+              520.0026377628092
+            ],
+            "epsg3006": [
+              640375.3604443545,
+              6636378.079577958
+            ],
+            "wgs84LongitudeLatitude": [
+              17.505093836441823,
+              59.84118091987065
+            ],
+            "minimumSupportClearanceMetres": 1,
+            "manuallySelectedNativePixel": [
+              430,
+              520
+            ],
+            "publishedTeeCoordinate": false,
+            "surveyedPosition": false,
+            "dailyMarkerPositionVerified": false
+          },
+          "positionInterpretationUncertaintyMetres": 12,
+          "sourceCoordinateAbsoluteAccuracyMetres": null
+        }
+      ]
+    },
+    {
+      "hole": 3,
+      "originalTees": {
+        "pads": [
+          {
+            "ring": [
+              [
+                776.037,
+                -338.514
+              ],
+              [
+                777.119,
+                -340.723
+              ],
+              [
+                779.88,
+                -341.119
+              ],
+              [
+                783.839,
+                -340.218
+              ],
+              [
+                788.509,
+                -338.291
+              ],
+              [
+                793.16,
+                -335.864
+              ],
+              [
+                797.552,
+                -333.197
+              ],
+              [
+                800.2,
+                -330.597
+              ],
+              [
+                802.099,
+                -328.024
+              ],
+              [
+                802.513,
+                -325.759
+              ],
+              [
+                801.44,
+                -323.799
+              ],
+              [
+                799.38,
+                -322.127
+              ],
+              [
+                797.099,
+                -321.214
+              ],
+              [
+                793.859,
+                -321.337
+              ],
+              [
+                790.158,
+                -322.477
+              ],
+              [
+                785.737,
+                -324.395
+              ],
+              [
+                782.074,
+                -326.534
+              ],
+              [
+                779.168,
+                -328.895
+              ],
+              [
+                777.268,
+                -331.467
+              ],
+              [
+                775.886,
+                -334.52
+              ]
+            ],
+            "c": [
+              788.651,
+              -330.847
+            ],
+            "area": 327.353,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-03-northwest",
+            "imagerySourceId": "lm2025_025m_r0_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                851.435,
+                -305.9
+              ],
+              [
+                853.246,
+                -307.581
+              ],
+              [
+                855.748,
+                -307.736
+              ],
+              [
+                858.442,
+                -306.384
+              ],
+              [
+                861.099,
+                -304.033
+              ],
+              [
+                862.74,
+                -301.22
+              ],
+              [
+                862.405,
+                -298.983
+              ],
+              [
+                860.604,
+                -297.551
+              ],
+              [
+                858.083,
+                -296.897
+              ],
+              [
+                855.609,
+                -297.491
+              ],
+              [
+                853.404,
+                -298.575
+              ],
+              [
+                851.725,
+                -300.389
+              ],
+              [
+                850.555,
+                -302.433
+              ],
+              [
+                850.362,
+                -303.941
+              ]
+            ],
+            "c": [
+              856.478,
+              -302.222
+            ],
+            "area": 93.785,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-03-southeast",
+            "imagerySourceId": "lm2025_025m_r0_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ],
+        "marks": [
+          {
+            "teeIdx": 0,
+            "m": 435,
+            "c": [
+              777.033,
+              -338.259
+            ],
+            "b": 112.1,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-03-northwest",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 20.519,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 1,
+            "m": 435,
+            "c": [
+              777.033,
+              -338.259
+            ],
+            "b": 112.1,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-03-northwest",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 20.519,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 2,
+            "m": 353,
+            "c": [
+              851.401,
+              -303.746
+            ],
+            "b": 112.1,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-03-southeast",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 20.178,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 3,
+            "m": 353,
+            "c": [
+              851.401,
+              -303.746
+            ],
+            "b": 112.1,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-03-southeast",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 20.178,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 4,
+            "m": 288,
+            "c": [
+              893.1,
+              -287.3
+            ],
+            "b": 112.1
+          }
+        ],
+        "inferPads": false,
+        "markProvenance": "Reviewed navigation references on explicitly associated observed platforms; unresolved scorecard-inferred references retained. Daily marker positions and tee colours unverified.",
+        "mappingCoverage": "visible distinct platforms reviewed; short tees may use continuous fairway turf without separate deck",
+        "referenceReview": {
+          "reviewedAt": "2026-09-09",
+          "movedReferenceCount": 4,
+          "retainedReferenceCount": 1,
+          "unresolvedReferencesRetained": true,
+          "dailyMarkerPositionsVerified": false
+        }
+      },
+      "originalLine": [
+        [
+          767.7,
+          -338.3
+        ],
+        [
+          1015.4,
+          -197.9
+        ],
+        [
+          1150.1,
+          -181.4
+        ],
+        [
+          1161.4,
+          -176.9
+        ],
+        [
+          1159.9,
+          -178.8
+        ]
+      ],
+      "originalDistances": [
+        435,
+        435,
+        353,
+        353,
+        288
+      ],
+      "decisions": [
+        {
+          "markIndex": 4,
+          "siteClass": "fairway",
+          "reviewedPosition": [
+            893.988,
+            -264.741
+          ],
+          "supportRing": [
+            [
+              889.685,
+              -269.225
+            ],
+            [
+              894.691,
+              -270.635
+            ],
+            [
+              899.361,
+              -267.417
+            ],
+            [
+              900.953,
+              -263.037
+            ],
+            [
+              896.973,
+              -259.187
+            ],
+            [
+              891.573,
+              -260.033
+            ],
+            [
+              889.019,
+              -264.29
+            ]
+          ],
+          "maxShiftMetres": 28,
+          "sourceIds": [
+            "mellan-03-orange",
+            "club-mellan-03-orange-guide"
+          ],
+          "reason": "The club Orange symbol is on the rounded rear end of the fairway, forward of the separate Blue/Red platform and before the pond farther along the right side. The native image identifies that same southeastern mowing entrance beyond the small round platform. The old point lies in the approach rough.",
+          "updateRouteStart": false,
+          "supportEvidence": {
+            "pixelRing": [
+              [
+                402,
+                521
+              ],
+              [
+                433,
+                511
+              ],
+              [
+                463,
+                530
+              ],
+              [
+                474,
+                557
+              ],
+              [
+                450,
+                582
+              ],
+              [
+                416,
+                578
+              ],
+              [
+                399,
+                552
+              ]
+            ],
+            "epsg3006Ring": [
+              [
+                640711.2,
+                6636417.279999999
+              ],
+              [
+                640716.16,
+                6636418.88
+              ],
+              [
+                640720.96,
+                6636415.84
+              ],
+              [
+                640722.72,
+                6636411.52
+              ],
+              [
+                640718.88,
+                6636407.52
+              ],
+              [
+                640713.4400000001,
+                6636408.159999999
+              ],
+              [
+                640710.72,
+                6636412.319999999
+              ]
+            ],
+            "localRing": [
+              [
+                889.685,
+                -269.225
+              ],
+              [
+                894.691,
+                -270.635
+              ],
+              [
+                899.361,
+                -267.417
+              ],
+              [
+                900.953,
+                -263.037
+              ],
+              [
+                896.973,
+                -259.187
+              ],
+              [
+                891.573,
+                -260.033
+              ],
+              [
+                889.019,
+                -264.29
+              ]
+            ],
+            "panel": {
+              "hole": 3,
+              "frame": {
+                "origin": {
+                  "lat": 59.839,
+                  "lon": 17.4952
+                },
+                "mPerLat": 111320,
+                "mPerLon": 55930.68
+              },
+              "pixelSize": [
+                826,
+                894
+              ],
+              "geoTransform": [
+                640646.88,
+                0.16,
+                0.0,
+                6636500.64,
+                0.0,
+                -0.16
+              ],
+              "source": {
+                "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-03-orange.tif",
+                "sha256": "6e6120aba5e1e650635b9fc18f07d9b030d46962f6c8141a4de8b6f31cf1a5f0",
+                "geoTransform": [
+                  640646.88,
+                  0.16,
+                  0.0,
+                  6636500.64,
+                  0.0,
+                  -0.16
+                ],
+                "width": 826,
+                "height": 894
+              },
+              "plainPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-03-orange.png",
+              "plainSha256": "493c165875e51c9153e8e477a94cef7dee8013215e6b9529eea55a866e07adea",
+              "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-03-orange-candidate.png",
+              "overlaySha256": "953fb21b34d8914da9865a21f381b66f43d90dcf0258e35927e5b7ea1cde1fd9",
+              "nativeResolutionMetres": 0.16,
+              "pixelCoordinateConvention": "Pixel edges; EPSG3006 E=gt0+x*gt1 and N=gt3+y*gt5"
+            },
+            "meaning": "Conservative interior patch of visibly mown fairway supporting the representative navigation point. This is an evidence region, not a newly traced physical tee pad or a fairway boundary."
+          },
+          "positionEvidence": {
+            "pixel": [
+              429.9990691441053,
+              548.0013923894148
+            ],
+            "epsg3006": [
+              640715.6798510631,
+              6636412.959777217
+            ],
+            "wgs84LongitudeLatitude": [
+              17.51118385716033,
+              59.841378197987794
+            ],
+            "minimumSupportClearanceMetres": 1,
+            "manuallySelectedNativePixel": [
+              430,
+              548
+            ],
+            "publishedTeeCoordinate": false,
+            "surveyedPosition": false,
+            "dailyMarkerPositionVerified": false
+          },
+          "positionInterpretationUncertaintyMetres": 12,
+          "sourceCoordinateAbsoluteAccuracyMetres": null
+        }
+      ]
+    },
+    {
+      "hole": 4,
+      "originalTees": {
+        "pads": [
+          {
+            "ring": [
+              [
+                1146.468,
+                -108.172
+              ],
+              [
+                1148.317,
+                -110.852
+              ],
+              [
+                1151.143,
+                -112.995
+              ],
+              [
+                1154.44,
+                -114.369
+              ],
+              [
+                1157.441,
+                -114.505
+              ],
+              [
+                1160.662,
+                -113.883
+              ],
+              [
+                1163.337,
+                -112.031
+              ],
+              [
+                1165.486,
+                -109.449
+              ],
+              [
+                1166.618,
+                -106.405
+              ],
+              [
+                1166.255,
+                -103.419
+              ],
+              [
+                1165.173,
+                -101.21
+              ],
+              [
+                1162.605,
+                -99.308
+              ],
+              [
+                1159.807,
+                -97.914
+              ],
+              [
+                1156.548,
+                -97.538
+              ],
+              [
+                1153.345,
+                -98.66
+              ],
+              [
+                1150.411,
+                -100.272
+              ],
+              [
+                1148.004,
+                -102.613
+              ],
+              [
+                1146.843,
+                -104.908
+              ]
+            ],
+            "c": [
+              1156.714,
+              -106.141
+            ],
+            "area": 255.861,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-04-east",
+            "imagerySourceId": "lm2025_025m_r0_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                1097.304,
+                -141.295
+              ],
+              [
+                1099.374,
+                -143.216
+              ],
+              [
+                1102.144,
+                -143.861
+              ],
+              [
+                1105.393,
+                -143.987
+              ],
+              [
+                1108.346,
+                -142.875
+              ],
+              [
+                1111.031,
+                -141.273
+              ],
+              [
+                1112.442,
+                -138.969
+              ],
+              [
+                1112.596,
+                -136.463
+              ],
+              [
+                1111.265,
+                -134.263
+              ],
+              [
+                1108.946,
+                -132.351
+              ],
+              [
+                1106.166,
+                -131.457
+              ],
+              [
+                1102.917,
+                -131.331
+              ],
+              [
+                1100.453,
+                -132.174
+              ],
+              [
+                1098.017,
+                -133.767
+              ],
+              [
+                1096.339,
+                -135.581
+              ],
+              [
+                1095.935,
+                -138.097
+              ]
+            ],
+            "c": [
+              1104.244,
+              -137.682
+            ],
+            "area": 162.143,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-04-northwest",
+            "imagerySourceId": "lm2025_025m_r0_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ],
+        "marks": [
+          {
+            "teeIdx": 0,
+            "m": 307,
+            "c": [
+              1161.8,
+              -102
+            ],
+            "b": -83.6,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-04-east",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 0,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 1,
+            "m": 300,
+            "c": [
+              1154.9,
+              -102.8
+            ],
+            "b": -83.6,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-04-east",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 0,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 2,
+            "m": 248,
+            "c": [
+              1103.071,
+              -132.343
+            ],
+            "b": -83.6,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-04-northwest",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 23.743,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 3,
+            "m": 248,
+            "c": [
+              1103.071,
+              -132.343
+            ],
+            "b": -83.6,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-04-northwest",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 23.743,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 4,
+            "m": 178,
+            "c": [
+              1033.7,
+              -116.4
+            ],
+            "b": -83.6
+          }
+        ],
+        "inferPads": false,
+        "markProvenance": "Reviewed navigation references on explicitly associated observed platforms; unresolved scorecard-inferred references retained. Daily marker positions and tee colours unverified.",
+        "mappingCoverage": "visible distinct platforms reviewed; short tees may use continuous fairway turf without separate deck",
+        "referenceReview": {
+          "reviewedAt": "2026-09-09",
+          "movedReferenceCount": 2,
+          "retainedReferenceCount": 1,
+          "unresolvedReferencesRetained": true,
+          "dailyMarkerPositionsVerified": false
+        }
+      },
+      "originalLine": [
+        [
+          1158.9,
+          -102.4
+        ],
+        [
+          945.2,
+          -107.3
+        ],
+        [
+          875,
+          -129.1
+        ],
+        [
+          859.6,
+          -136
+        ],
+        [
+          856.8,
+          -136.2
+        ]
+      ],
+      "originalDistances": [
+        307,
+        300,
+        248,
+        248,
+        178
+      ],
+      "decisions": [
+        {
+          "markIndex": 4,
+          "siteClass": "fairway",
+          "reviewedPosition": [
+            1024.926,
+            -124.076
+          ],
+          "supportRing": [
+            [
+              1020.831,
+              -129.832
+            ],
+            [
+              1026.555,
+              -129.134
+            ],
+            [
+              1028.11,
+              -123.795
+            ],
+            [
+              1026.474,
+              -118.577
+            ],
+            [
+              1021.002,
+              -117.505
+            ],
+            [
+              1018.484,
+              -122.721
+            ]
+          ],
+          "maxShiftMetres": 17,
+          "sourceIds": [
+            "mellan-04-orange",
+            "club-mellan-04-orange-guide"
+          ],
+          "reason": "The club Orange symbol sits on the eastern/rear tip of the fairway, forward of the Blue/Red deck, with the cart path west/south of the hole and the lake beyond. The native image shows the rounded eastern mowing entrance clearly. Select a point inside that entry; no tee deck is asserted.",
+          "updateRouteStart": false,
+          "supportEvidence": {
+            "pixelRing": [
+              [
+                344,
+                331
+              ],
+              [
+                380,
+                334
+              ],
+              [
+                391,
+                367
+              ],
+              [
+                382,
+                400
+              ],
+              [
+                348,
+                408
+              ],
+              [
+                331,
+                376
+              ]
+            ],
+            "epsg3006Ring": [
+              [
+                640847.8400000001,
+                6636282.88
+              ],
+              [
+                640853.6000000001,
+                6636282.399999999
+              ],
+              [
+                640855.3600000001,
+                6636277.12
+              ],
+              [
+                640853.92,
+                6636271.84
+              ],
+              [
+                640848.4800000001,
+                6636270.56
+              ],
+              [
+                640845.76,
+                6636275.68
+              ]
+            ],
+            "localRing": [
+              [
+                1020.831,
+                -129.832
+              ],
+              [
+                1026.555,
+                -129.134
+              ],
+              [
+                1028.11,
+                -123.795
+              ],
+              [
+                1026.474,
+                -118.577
+              ],
+              [
+                1021.002,
+                -117.505
+              ],
+              [
+                1018.484,
+                -122.721
+              ]
+            ],
+            "panel": {
+              "hole": 4,
+              "frame": {
+                "origin": {
+                  "lat": 59.839,
+                  "lon": 17.4952
+                },
+                "mPerLat": 111320,
+                "mPerLon": 55930.68
+              },
+              "pixelSize": [
+                834,
+                819
+              ],
+              "geoTransform": [
+                640792.8,
+                0.16,
+                0.0,
+                6636335.84,
+                0.0,
+                -0.16
+              ],
+              "source": {
+                "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-04-orange.tif",
+                "sha256": "137768502faf7b730561f4ddb463270f0a905e7c68f67ff90ac0161fb5a1a934",
+                "geoTransform": [
+                  640792.8,
+                  0.16,
+                  0.0,
+                  6636335.84,
+                  0.0,
+                  -0.16
+                ],
+                "width": 834,
+                "height": 819
+              },
+              "plainPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-04-orange.png",
+              "plainSha256": "308d5e73f7b3b7ae2750166113bc304da4b742ba1391277b61a45b089ee51540",
+              "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-04-orange-candidate.png",
+              "overlaySha256": "1c976d5f6fb0baf254dbad695ab818847eb994e3f37c8fbc46127efa819f7fe8",
+              "nativeResolutionMetres": 0.16,
+              "pixelCoordinateConvention": "Pixel edges; EPSG3006 E=gt0+x*gt1 and N=gt3+y*gt5"
+            },
+            "meaning": "Conservative interior patch of visibly mown fairway supporting the representative navigation point. This is an evidence region, not a newly traced physical tee pad or a fairway boundary."
+          },
+          "positionEvidence": {
+            "pixel": [
+              371.00236356345704,
+              365.99890199140646
+            ],
+            "epsg3006": [
+              640852.1603781702,
+              6636277.280175681
+            ],
+            "wgs84LongitudeLatitude": [
+              17.51352493365001,
+              59.84011458857347
+            ],
+            "minimumSupportClearanceMetres": 1,
+            "manuallySelectedNativePixel": [
+              371,
+              366
+            ],
+            "publishedTeeCoordinate": false,
+            "surveyedPosition": false,
+            "dailyMarkerPositionVerified": false
+          },
+          "positionInterpretationUncertaintyMetres": 12,
+          "sourceCoordinateAbsoluteAccuracyMetres": null
+        }
+      ]
+    },
+    {
+      "hole": 6,
+      "originalTees": {
+        "pads": [
+          {
+            "ring": [
+              [
+                767.087,
+                135.68
+              ],
+              [
+                768.639,
+                134.238
+              ],
+              [
+                770.642,
+                134.064
+              ],
+              [
+                772.608,
+                134.889
+              ],
+              [
+                773.807,
+                136.185
+              ],
+              [
+                774.239,
+                137.951
+              ],
+              [
+                773.435,
+                139.421
+              ],
+              [
+                771.883,
+                140.862
+              ],
+              [
+                770.119,
+                141.295
+              ],
+              [
+                768.403,
+                140.48
+              ],
+              [
+                767.214,
+                138.935
+              ],
+              [
+                766.522,
+                137.408
+              ]
+            ],
+            "c": [
+              770.367,
+              137.56
+            ],
+            "area": 39.944,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+            "imagerySourceId": "lm2025_025m_r1_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                760.624,
+                148.185
+              ],
+              [
+                762.186,
+                146.494
+              ],
+              [
+                763.958,
+                145.812
+              ],
+              [
+                765.943,
+                146.137
+              ],
+              [
+                767.65,
+                147.202
+              ],
+              [
+                768.59,
+                148.738
+              ],
+              [
+                768.524,
+                150.485
+              ],
+              [
+                767.461,
+                152.195
+              ],
+              [
+                765.918,
+                153.387
+              ],
+              [
+                764.155,
+                153.82
+              ],
+              [
+                762.439,
+                153.005
+              ],
+              [
+                760.99,
+                151.699
+              ],
+              [
+                760.318,
+                149.674
+              ]
+            ],
+            "c": [
+              764.481,
+              149.719
+            ],
+            "area": 48.668,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-06-northeast-lower",
+            "imagerySourceId": "lm2025_025m_r1_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                726.104,
+                143.625
+              ],
+              [
+                727.934,
+                141.445
+              ],
+              [
+                729.975,
+                140.272
+              ],
+              [
+                732.477,
+                140.117
+              ],
+              [
+                734.969,
+                140.211
+              ],
+              [
+                737.174,
+                141.295
+              ],
+              [
+                738.604,
+                143.099
+              ],
+              [
+                738.998,
+                145.865
+              ],
+              [
+                738.396,
+                148.592
+              ],
+              [
+                736.816,
+                150.782
+              ],
+              [
+                734.765,
+                152.204
+              ],
+              [
+                732.226,
+                153.358
+              ],
+              [
+                729.983,
+                153.273
+              ],
+              [
+                727.777,
+                152.189
+              ],
+              [
+                726.348,
+                150.385
+              ],
+              [
+                725.446,
+                147.851
+              ],
+              [
+                725.281,
+                145.594
+              ]
+            ],
+            "c": [
+              732.111,
+              146.5
+            ],
+            "area": 141.446,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-06-west-of-path",
+            "imagerySourceId": "lm2025_025m_r1_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 2,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                698.415,
+                196.079
+              ],
+              [
+                699.765,
+                193.38
+              ],
+              [
+                701.834,
+                191.458
+              ],
+              [
+                704.373,
+                190.304
+              ],
+              [
+                706.616,
+                190.389
+              ],
+              [
+                708.572,
+                191.464
+              ],
+              [
+                709.752,
+                193.258
+              ],
+              [
+                710.166,
+                195.524
+              ],
+              [
+                709.564,
+                198.252
+              ],
+              [
+                708.223,
+                200.701
+              ],
+              [
+                706.643,
+                202.891
+              ],
+              [
+                704.592,
+                204.314
+              ],
+              [
+                702.331,
+                204.728
+              ],
+              [
+                700.365,
+                203.903
+              ],
+              [
+                698.936,
+                202.099
+              ],
+              [
+                698.024,
+                199.814
+              ],
+              [
+                697.85,
+                197.807
+              ]
+            ],
+            "c": [
+              703.983,
+              197.342
+            ],
+            "area": 129.728,
+            "prov": "ortho-trace",
+            "sourceId": "upsala-mellanbanan-tee-06-southwest",
+            "imagerySourceId": "lm2025_025m_r1_c1",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ],
+        "marks": [
+          {
+            "teeIdx": 0,
+            "m": 455,
+            "c": [
+              772.849,
+              136.63
+            ],
+            "b": -119.9,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-published-tee-followup-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 24.259,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "explicitReviewedPosition": true,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 1,
+            "m": 442,
+            "c": [
+              769.275,
+              139.782
+            ],
+            "b": -119.9,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-published-tee-followup-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-06-northeast-upper",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 15.839,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "explicitReviewedPosition": true,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 2,
+            "m": 428,
+            "c": [
+              765.194,
+              151.929
+            ],
+            "b": -119.9,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-published-tee-followup-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-06-northeast-lower",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 13.028,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "explicitReviewedPosition": true,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 3,
+            "m": 368,
+            "c": [
+              707.858,
+              192.218
+            ],
+            "b": -119.9,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "upsala-mellanbanan-tee-06-southwest",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 24.697,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 4,
+            "m": 308,
+            "c": [
+              667.8,
+              200.6
+            ],
+            "b": -119.9
+          }
+        ],
+        "inferPads": false,
+        "markProvenance": "Reviewed navigation references on explicitly associated observed platforms; unresolved scorecard-inferred references retained. Daily marker positions and tee colours unverified.",
+        "mappingCoverage": "visible distinct platforms reviewed; short tees may use continuous fairway turf without separate deck",
+        "referenceReview": {
+          "reviewedAt": "2026-09-09",
+          "movedReferenceCount": 3,
+          "retainedReferenceCount": 2,
+          "unresolvedReferencesRetained": true,
+          "dailyMarkerPositionsVerified": false
+        }
+      },
+      "originalLine": [
+        [
+          765.9,
+          144.1
+        ],
+        [
+          603.2,
+          335.3
+        ],
+        [
+          425.7,
+          345.8
+        ],
+        [
+          414.6,
+          349.5
+        ],
+        [
+          400.9,
+          354.3
+        ]
+      ],
+      "originalDistances": [
+        455,
+        442,
+        428,
+        368,
+        308
+      ],
+      "decisions": [
+        {
+          "markIndex": 4,
+          "siteClass": "fairway",
+          "reviewedPosition": [
+            667.766,
+            255.51
+          ],
+          "supportRing": [
+            [
+              664.378,
+              252.182
+            ],
+            [
+              667.984,
+              249.758
+            ],
+            [
+              671.709,
+              252.62
+            ],
+            [
+              673.797,
+              256.539
+            ],
+            [
+              669.966,
+              260.714
+            ],
+            [
+              665.045,
+              259.888
+            ],
+            [
+              662.638,
+              255.956
+            ]
+          ],
+          "maxShiftMetres": 60,
+          "sourceIds": [
+            "mellan-06-orange",
+            "club-mellan-06-orange-guide"
+          ],
+          "reason": "The club Orange symbol is on the first fairway mowing entrance beyond the rocky descent from the separate Red platform. Native imagery shows the Red deck, rocky/tree-lined connector, and first southwest fairway entrance in the same relative order. The old inferred Orange point lies among rocks and trees north of that mowing entrance. This correction follows the visible entrance, not the scorecard-distance interpolation.",
+          "updateRouteStart": false,
+          "supportEvidence": {
+            "pixelRing": [
+              [
+                398,
+                730
+              ],
+              [
+                420,
+                714
+              ],
+              [
+                444,
+                731
+              ],
+              [
+                458,
+                755
+              ],
+              [
+                435,
+                782
+              ],
+              [
+                404,
+                778
+              ],
+              [
+                388,
+                754
+              ]
+            ],
+            "epsg3006Ring": [
+              [
+                640505.28,
+                6635887.36
+              ],
+              [
+                640508.7999999999,
+                6635889.92
+              ],
+              [
+                640512.64,
+                6635887.2
+              ],
+              [
+                640514.88,
+                6635883.36
+              ],
+              [
+                640511.2,
+                6635879.04
+              ],
+              [
+                640506.24,
+                6635879.68
+              ],
+              [
+                640503.6799999999,
+                6635883.5200000005
+              ]
+            ],
+            "localRing": [
+              [
+                664.378,
+                252.182
+              ],
+              [
+                667.984,
+                249.758
+              ],
+              [
+                671.709,
+                252.62
+              ],
+              [
+                673.797,
+                256.539
+              ],
+              [
+                669.966,
+                260.714
+              ],
+              [
+                665.045,
+                259.888
+              ],
+              [
+                662.638,
+                255.956
+              ]
+            ],
+            "panel": {
+              "hole": 6,
+              "frame": {
+                "origin": {
+                  "lat": 59.839,
+                  "lon": 17.4952
+                },
+                "mPerLat": 111320,
+                "mPerLon": 55930.68
+              },
+              "pixelSize": [
+                831,
+                1105
+              ],
+              "geoTransform": [
+                640441.6,
+                0.16,
+                0.0,
+                6636004.16,
+                0.0,
+                -0.16
+              ],
+              "source": {
+                "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-06-orange.tif",
+                "sha256": "1c5d8904be4dd5823ccf11f3196e679989290ace106e7bed375f511b1b27c219",
+                "geoTransform": [
+                  640441.6,
+                  0.16,
+                  0.0,
+                  6636004.16,
+                  0.0,
+                  -0.16
+                ],
+                "width": 831,
+                "height": 1105
+              },
+              "plainPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-06-orange.png",
+              "plainSha256": "d38784b7d2491589ee465476ea3b2c8ec5ded2514fb9977a5736e26ebe80a888",
+              "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-06-orange-candidate.png",
+              "overlaySha256": "e87de228d593b84de35626bec6b38c19792fe8a28f9c48d0f900842276c925fe",
+              "nativeResolutionMetres": 0.16,
+              "pixelCoordinateConvention": "Pixel edges; EPSG3006 E=gt0+x*gt1 and N=gt3+y*gt5"
+            },
+            "meaning": "Conservative interior patch of visibly mown fairway supporting the representative navigation point. This is an evidence region, not a newly traced physical tee pad or a fairway boundary."
+          },
+          "positionEvidence": {
+            "pixel": [
+              419.9967991655285,
+              749.9971560086124
+            ],
+            "epsg3006": [
+              640508.7994878665,
+              6635884.160455039
+            ],
+            "wgs84LongitudeLatitude": [
+              17.507139171846294,
+              59.83670472511679
+            ],
+            "minimumSupportClearanceMetres": 1,
+            "manuallySelectedNativePixel": [
+              420,
+              750
+            ],
+            "publishedTeeCoordinate": false,
+            "surveyedPosition": false,
+            "dailyMarkerPositionVerified": false
+          },
+          "positionInterpretationUncertaintyMetres": 15,
+          "sourceCoordinateAbsoluteAccuracyMetres": null
+        }
+      ]
+    },
+    {
+      "hole": 8,
+      "originalTees": {
+        "pads": [
+          {
+            "ring": [
+              [
+                495.727,
+                170.395
+              ],
+              [
+                498.257,
+                169.49
+              ],
+              [
+                500.97,
+                170.343
+              ],
+              [
+                502.898,
+                172.166
+              ],
+              [
+                503.81,
+                174.451
+              ],
+              [
+                503.707,
+                177.197
+              ],
+              [
+                502.423,
+                178.149
+              ],
+              [
+                499.71,
+                177.296
+              ],
+              [
+                497.504,
+                176.212
+              ],
+              [
+                495.529,
+                175.637
+              ],
+              [
+                494.598,
+                173.852
+              ],
+              [
+                494.415,
+                172.095
+              ]
+            ],
+            "c": [
+              499.322,
+              173.711
+            ],
+            "area": 56.267,
+            "prov": "ortho-trace",
+            "sourceId": "mellan-8-tee-upper",
+            "imagerySourceId": "ortho2024_025m_se",
+            "observedYear": 2024,
+            "crosscheckYear": 2025,
+            "boundaryInterpretationUncertaintyMetres": 2,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                489.765,
+                149.098
+              ],
+              [
+                491.277,
+                149.433
+              ],
+              [
+                493.163,
+                150.893
+              ],
+              [
+                495.772,
+                153.423
+              ],
+              [
+                497.78,
+                155.305
+              ],
+              [
+                498.9,
+                156.875
+              ],
+              [
+                498.581,
+                157.974
+              ],
+              [
+                497.301,
+                158.828
+              ],
+              [
+                495.485,
+                159.176
+              ],
+              [
+                494.042,
+                158.844
+              ],
+              [
+                492.207,
+                157.872
+              ],
+              [
+                490.576,
+                156.976
+              ],
+              [
+                488.972,
+                155.388
+              ],
+              [
+                488.069,
+                153.617
+              ],
+              [
+                487.785,
+                151.94
+              ],
+              [
+                488.328,
+                150.432
+              ]
+            ],
+            "c": [
+              492.894,
+              154.507
+            ],
+            "area": 63.97,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+            "imagerySourceId": "uppsala-service-2015-upsala-mellanbanan-h8",
+            "observedYear": 2015,
+            "crosscheckYear": 2025,
+            "yearBasis": "municipal archive service name; exact flight date unknown",
+            "captureDate": null,
+            "sourceSha256": "2cc870161a6ec3111842dfbd081a5f19008641329bb04c2c7ff4ade6ec601ad4",
+            "boundaryInterpretationUncertaintyMetres": 2.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ],
+        "marks": [
+          {
+            "teeIdx": 0,
+            "m": 338,
+            "c": [
+              501.622,
+              176.844
+            ],
+            "b": 20.7,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "mellan-8-tee-upper",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 21.44,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 1,
+            "m": 338,
+            "c": [
+              501.622,
+              176.844
+            ],
+            "b": 20.7,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-tee-references-2026-09-09",
+              "padSourceId": "mellan-8-tee-upper",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 21.44,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 2,
+            "m": 320,
+            "c": [
+              497.799,
+              157.062
+            ],
+            "b": 20.7,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-published-tee-followup-2026-09-09",
+              "padSourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 23.646,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "explicitReviewedPosition": true,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 3,
+            "m": 320,
+            "c": [
+              497.799,
+              157.062
+            ],
+            "b": 20.7,
+            "referencePlacement": {
+              "method": "reviewed-observed-platform-navigation-reference",
+              "reviewId": "upsala-mellan-published-tee-followup-2026-09-09",
+              "padSourceId": "mellan-8-tee-north-archive-review-2026-09-07",
+              "boundaryClearanceMetres": 1,
+              "shiftMetres": 23.646,
+              "dailyMarkerPositionVerified": false,
+              "teeColourAssociationVerified": false,
+              "explicitReviewedPosition": true,
+              "note": "Navigation reference associated with an observed platform; daily marker position and tee colour are unverified."
+            }
+          },
+          {
+            "teeIdx": 4,
+            "m": 285,
+            "c": [
+              513.9,
+              147.7
+            ],
+            "b": 20.7
+          }
+        ],
+        "inferPads": false,
+        "markProvenance": "Reviewed navigation references on explicitly associated observed platforms; unresolved scorecard-inferred references retained. Daily marker positions and tee colours unverified.",
+        "mappingCoverage": "partial; northern archive-reviewed platform added, hidden boundaries and remaining locations unverified",
+        "referenceReview": {
+          "reviewedAt": "2026-09-09",
+          "movedReferenceCount": 2,
+          "retainedReferenceCount": 3,
+          "unresolvedReferencesRetained": true,
+          "dailyMarkerPositionsVerified": false
+        }
+      },
+      "originalLine": [
+        [
+          503.4,
+          175.7
+        ],
+        [
+          522.5,
+          -17.3
+        ],
+        [
+          606.3,
+          -108.2
+        ],
+        [
+          618.9,
+          -117.5
+        ],
+        [
+          614.5,
+          -119
+        ]
+      ],
+      "originalDistances": [
+        338,
+        338,
+        320,
+        320,
+        285
+      ],
+      "decisions": [
+        {
+          "markIndex": 4,
+          "siteClass": "fairway",
+          "reviewedPosition": [
+            501.266,
+            96.389
+          ],
+          "supportRing": [
+            [
+              496.638,
+              92.054
+            ],
+            [
+              501.925,
+              91.614
+            ],
+            [
+              505.663,
+              94.156
+            ],
+            [
+              505.69,
+              97.677
+            ],
+            [
+              502.716,
+              100.284
+            ],
+            [
+              498.268,
+              99.636
+            ],
+            [
+              495.352,
+              96.485
+            ]
+          ],
+          "maxShiftMetres": 58,
+          "sourceIds": [
+            "mellan-08-orange",
+            "club-mellan-08-orange-guide"
+          ],
+          "reason": "The club Orange symbol is at the southern/rear tongue of the first fairway beside the pond, ahead of the elevated Blue/Red platform. Native imagery uniquely shows that narrow mown tongue between the pond and eastern rocks/woods. The old point lies in the wooded/path-side tee approach, south of the mowing entrance.",
+          "updateRouteStart": false,
+          "supportEvidence": {
+            "pixelRing": [
+              [
+                350,
+                339
+              ],
+              [
+                383,
+                335
+              ],
+              [
+                407,
+                350
+              ],
+              [
+                408,
+                372
+              ],
+              [
+                390,
+                389
+              ],
+              [
+                362,
+                386
+              ],
+              [
+                343,
+                367
+              ]
+            ],
+            "epsg3006Ring": [
+              [
+                640331.2,
+                6636041.12
+              ],
+              [
+                640336.48,
+                6636041.760000001
+              ],
+              [
+                640340.32,
+                6636039.36
+              ],
+              [
+                640340.48,
+                6636035.840000001
+              ],
+              [
+                640337.6,
+                6636033.12
+              ],
+              [
+                640333.12,
+                6636033.600000001
+              ],
+              [
+                640330.08,
+                6636036.640000001
+              ]
+            ],
+            "localRing": [
+              [
+                496.638,
+                92.054
+              ],
+              [
+                501.925,
+                91.614
+              ],
+              [
+                505.663,
+                94.156
+              ],
+              [
+                505.69,
+                97.677
+              ],
+              [
+                502.716,
+                100.284
+              ],
+              [
+                498.268,
+                99.636
+              ],
+              [
+                495.352,
+                96.485
+              ]
+            ],
+            "panel": {
+              "hole": 8,
+              "frame": {
+                "origin": {
+                  "lat": 59.839,
+                  "lon": 17.4952
+                },
+                "mPerLat": 111320,
+                "mPerLon": 55930.68
+              },
+              "pixelSize": [
+                878,
+                1089
+              ],
+              "geoTransform": [
+                640275.2,
+                0.16,
+                0.0,
+                6636095.36,
+                0.0,
+                -0.16
+              ],
+              "source": {
+                "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-08-orange.tif",
+                "sha256": "b630641922598d2d06cdd3c853ec6bb49583c57ba3cd984224e17234f8e93e2c",
+                "geoTransform": [
+                  640275.2,
+                  0.16,
+                  0.0,
+                  6636095.36,
+                  0.0,
+                  -0.16
+                ],
+                "width": 878,
+                "height": 1089
+              },
+              "plainPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-08-orange.png",
+              "plainSha256": "0443410648178b3b714ff0f7da4ad4fdf5c2b7ec2911546be42c8b2b9661cc6a",
+              "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-08-orange-candidate.png",
+              "overlaySha256": "ec2530c5ffe5b3dfb0bdecf491658fccdfe746b0954b41dd1e08e9b35089fc5f",
+              "nativeResolutionMetres": 0.16,
+              "pixelCoordinateConvention": "Pixel edges; EPSG3006 E=gt0+x*gt1 and N=gt3+y*gt5"
+            },
+            "meaning": "Conservative interior patch of visibly mown fairway supporting the representative navigation point. This is an evidence region, not a newly traced physical tee pad or a fairway boundary."
+          },
+          "positionEvidence": {
+            "pixel": [
+              380.00007352093235,
+              364.9982601054944
+            ],
+            "epsg3006": [
+              640336.0000117633,
+              6636036.960278383
+            ],
+            "wgs84LongitudeLatitude": [
+              17.504162272584566,
+              59.838134126841545
+            ],
+            "minimumSupportClearanceMetres": 1,
+            "manuallySelectedNativePixel": [
+              380,
+              365
+            ],
+            "publishedTeeCoordinate": false,
+            "surveyedPosition": false,
+            "dailyMarkerPositionVerified": false
+          },
+          "positionInterpretationUncertaintyMetres": 12,
+          "sourceCoordinateAbsoluteAccuracyMetres": null
+        }
+      ]
+    }
+  ],
+  "sourceAvailability": {
+    "eighteenBirdies": "No Orange coordinates in the Intermediate tee table; 36 White/Yellow/Blue/Red coordinates checked in the preceding evidence.",
+    "hole19": "Live public profile contains no Orange tee entry.",
+    "caddee": "Publishes Orange card lengths and guide images but no per-tee geographic coordinates.",
+    "golfISverige": "Mellan main-page GPS json_data is an empty array; its widget is an image carousel.",
+    "club": "Live club page embeds the current Banguider Mellan guide. All five Orange dots explicitly identify rear fairway-entry sites."
+  },
+  "captureEvidence": {
+    "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/native-capture.json",
+    "sha256": "1af093bceab3fc2d909e773ed64d975ca9971f375f655f0117ea03e4c180bb31"
+  },
+  "acquisitionEvidence": {
+    "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/native-acquisition.json",
+    "sha256": "e4b564a1411c655699e777e142e3689c5f365451297461597154c89d1f14b326"
+  },
+  "pageSources": [
+    {
+      "id": "club",
+      "url": "https://upsalagk.se/spela-golf/golfbanor/mellanbanan/",
+      "sha256": "c4135e102a2cc804eeb8dd75581d9fb22343fa53a03495c84f2a9cb3d4ee093e",
+      "bytes": 541031,
+      "status": 200,
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club.html"
+    },
+    {
+      "id": "banguider",
+      "url": "https://banguider.se/upsala-golfklubb/mellanbanan",
+      "error": "HTTP Error 525: <none>"
+    },
+    {
+      "id": "caddee",
+      "url": "https://www.caddee.se/klubb/upsala-golfklubb",
+      "sha256": "88836744affda9af1b2cfa57eb2a6aea70c47e7d8febb25d79aaacfe4697af18",
+      "bytes": 281574,
+      "status": 200,
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/caddee.html"
+    },
+    {
+      "id": "hole19",
+      "url": "https://www.hole19golf.com/courses/upsala-golfklubb-mellan",
+      "sha256": "5c80de0afed270e0abc4e2eb9e41429b573188a469eb05174bd00170a6e86bb3",
+      "bytes": 116991,
+      "status": 200,
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/hole19.html"
+    },
+    {
+      "id": "golfisverige",
+      "url": "https://www.golfisverige.com/klubb/upsala-golfklubb/",
+      "sha256": "40a15368e8dcc10e50c7a809291a66933cd1306cfdfb59c2a06ca9aca00a8e22",
+      "bytes": 218902,
+      "status": 200,
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/golfisverige.html"
+    },
+    {
+      "name": "caddee-h02.png",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/184562ad-3d53-412a-8b56-7e5a4d5bc231/hole-normal_web_BYRqwB1.png",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/caddee-h02.png",
+      "sha256": "2de3c221b33c38aa719006834e15e8653b5e25d29851bbbd8f6c84b0233ea43b",
+      "bytes": 691349,
+      "status": 200
+    },
+    {
+      "name": "caddee-h03.png",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/b8926516-5ef5-4e63-a423-bcc50f63ac6e/hole-normal_web_UPJ1JfK.png",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/caddee-h03.png",
+      "sha256": "51dc1d8050d0c1f552510f0c2ef2eb3c5d6c4731cbaedc7a3fd46ae86f0da10a",
+      "bytes": 662582,
+      "status": 200
+    },
+    {
+      "name": "caddee-h04.png",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/9b0850ca-7554-4294-81aa-49c647014691/hole-normal_web_uAsCBiu.png",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/caddee-h04.png",
+      "sha256": "4902b910ec052ba66738eb28f4ae1b65504dfcf2c3f3e3811db77b8e7e76b6be",
+      "bytes": 738477,
+      "status": 200
+    },
+    {
+      "name": "caddee-h06.png",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/a6ad32f0-568c-4ec9-82d8-424c48858dca/hole-normal_web_eM92Z67.png",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/caddee-h06.png",
+      "sha256": "599769bc032148309cbf74dbf5b115755d6c487e2d771d577816c05143d1f945",
+      "bytes": 626511,
+      "status": 200
+    },
+    {
+      "name": "caddee-h08.png",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/bf516f5f-39c5-47bb-9096-06a4050f7f5a/hole-normal_web_LxmSFXj.png",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/caddee-h08.png",
+      "sha256": "0ac7aaf6526ae4d0563969ff6d732ba3f8ffc3455e7a85d4e77abef91f0df8b2",
+      "bytes": 719754,
+      "status": 200
+    },
+    {
+      "name": "golfisverige-widget.html",
+      "url": "https://www.golfisverige.com/klubb/upsala-golfklubb/maps/widget_21d7e65f-580e-4902-987a-5d16038432dc.html",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/golfisverige-widget.html",
+      "sha256": "4ea8e10eceb29131727f45011b3eae05b9375b2e8295b2c25a16fb673cc6032a",
+      "bytes": 7409,
+      "status": 200
+    },
+    {
+      "name": "banguider-retry.html",
+      "url": "https://banguider.se/upsala-golfklubb/mellanbanan/",
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/banguider-retry.html",
+      "sha256": "a94953c64f53d12eaa41d75f2422f5008f20c8efbd31171df044c13ed36e1158",
+      "bytes": 46497,
+      "status": 200
+    },
+    {
+      "name": "banguider-www.html",
+      "url": "https://www.banguider.se/upsala-golfklubb/mellanbanan",
+      "error": "HTTP Error 526: <none>"
+    }
+  ],
+  "diagnostics": [
+    {
+      "hole": 2,
+      "reviewedPosition": [
+        553.369,
+        -242.78
+      ],
+      "shiftMetres": 18.476665310601923,
+      "supportInteriorClearanceMetres": 3.8238436656567347,
+      "positionInterpretationUncertaintyMetres": 12,
+      "supportAreaSquareMetres": 77.81643400000011,
+      "insideExistingMappedFairway": true,
+      "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-02-orange-candidate.png"
+    },
+    {
+      "hole": 3,
+      "reviewedPosition": [
+        893.988,
+        -264.741
+      ],
+      "shiftMetres": 22.57647060547776,
+      "supportInteriorClearanceMetres": 4.492994888567178,
+      "positionInterpretationUncertaintyMetres": 12,
+      "supportAreaSquareMetres": 96.84264799999985,
+      "insideExistingMappedFairway": true,
+      "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-03-orange-candidate.png"
+    },
+    {
+      "hole": 4,
+      "reviewedPosition": [
+        1024.926,
+        -124.076
+      ],
+      "shiftMetres": 11.657789327312525,
+      "supportInteriorClearanceMetres": 2.978402506886197,
+      "positionInterpretationUncertaintyMetres": 12,
+      "supportAreaSquareMetres": 87.55875299999921,
+      "insideExistingMappedFairway": true,
+      "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-04-orange-candidate.png"
+    },
+    {
+      "hole": 6,
+      "reviewedPosition": [
+        667.766,
+        255.51
+      ],
+      "shiftMetres": 54.91001052631478,
+      "supportInteriorClearanceMetres": 4.47014551488145,
+      "positionInterpretationUncertaintyMetres": 15,
+      "supportAreaSquareMetres": 78.23869549999965,
+      "insideExistingMappedFairway": true,
+      "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-06-orange-candidate.png"
+    },
+    {
+      "hole": 8,
+      "reviewedPosition": [
+        501.266,
+        96.389
+      ],
+      "shiftMetres": 52.84351120998678,
+      "supportInteriorClearanceMetres": 3.6452789959226672,
+      "positionInterpretationUncertaintyMetres": 12,
+      "supportAreaSquareMetres": 68.38369450000023,
+      "insideExistingMappedFairway": true,
+      "overlayPath": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-08-orange-candidate.png"
+    }
+  ],
+  "limitations": [
+    "The points are representative visible fairway-entry navigation references, not published/surveyed Orange GPS or verified daily markers.",
+    "The club guide establishes site identity; native imagery establishes a visible mown support area. No fitted schematic-to-world registration or scorecard-distance interpolation is used.",
+    "Interpretation bounds are manual site-identification allowances, not statistical accuracy estimates.",
+    "Evidence support rings must never be promoted to physical pad geometry or runtime course surfaces.",
+    "2025-06-14 native imagery does not establish changes made after capture."
+  ]
+}

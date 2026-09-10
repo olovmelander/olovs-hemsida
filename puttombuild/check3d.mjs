@@ -11,12 +11,15 @@
 
    Everything else it prints is a measurement, not a gate.
 
-   Run:  node nvgkbuild/check3d.mjs [page.html]                                  */
+   Run:  node puttombuild/check3d.mjs [page.html]                                 */
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
+import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import { ROOT, readJSON, decodeHF, polyLen, pointInPoly, polyArea } from './lib.mjs';
+import { centroidOf, inRing, rightOf, ringSD } from '../apps/golf/src/engine/geom.js';
+import { withInferredTeePads } from '../apps/golf/src/engine/tee-pads.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const page = process.argv[2] || path.join(ROOT, 'puttom3d.html');
@@ -130,6 +133,33 @@ gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
   for (let i = 0; i < 18; i++) if (holesNow[i] !== holesPage[i]) stale++;
   gate(stale === 0, `currency: page holes match course-model.json (${stale} stale)`);
   gate(GEO.seaLevel === model.seaLevel, `currency: seaLevel ${GEO.seaLevel} matches model`);
+}
+
+/* Tee coordinates and physical markers must survive the standalone embed. */
+{
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  gate(vec.holes.every(h => {
+    const expected = model.holes.find(m => m.n === h.n);
+    return same(h.tees.marks.map(m => [m.c, m.sourcePadId]), expected.tees.marks.map(m => [m.c, m.sourcePadId])) &&
+      same(h.tees.pads.map(p => p.ring), expected.tees.pads.map(p => p.ring));
+  }), 'all 72 tee coordinates, reviewed platform identities and platform rings match the model');
+  const helper = grab(/\/\*@TEE_MARKER_PLACEMENT\*\/([^]*?)\/\*@\/TEE_MARKER_PLACEMENT\*\//).trim();
+  const shared = fs.readFileSync(path.join(ROOT, 'apps/golf/src/engine/tee-marker-placement.mjs'), 'utf8')
+    .replace(/^import[^\n]+\r?\n/gm, '').replace(/^export (?=function|const|let|class)/gm, '').trim();
+  gate(helper.replaceAll('\r\n', '\n') === shared?.replaceAll('\r\n', '\n'), 'standalone marker placement matches the shared app helper');
+  const context = vm.createContext({ centroidOf, inRing, rightOf, ringSD });
+  vm.runInContext(helper + '\nthis.place = teeMarkerPositions;', context);
+  let markers = 0, invalid = 0;
+  for (const h of withInferredTeePads(vec.holes)) for (const mark of h.tees.marks) {
+    const pair = context.place(h, mark);
+    if (![0, 2].includes(pair.length)) invalid++;
+    for (const p of pair) {
+      markers++;
+      if (!h.tees.pads.some(pad => (mark.sourcePadId === undefined || pad.id === mark.sourcePadId) &&
+          ringSD(...p, pad.ring) <= -0.149999)) invalid++;
+    }
+  }
+  gate(invalid === 0, `${markers} decorative tee markers fit their own platform with sphere clearance (${invalid} invalid)`);
 }
 
 /* --- measurements -------------------------------------------------------------- */

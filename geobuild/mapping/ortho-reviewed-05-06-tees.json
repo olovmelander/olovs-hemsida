@@ -440,38 +440,16 @@
       "hole": 6,
       "kind": "tee-set",
       "referencePads": [
-        0,
-        0,
-        1,
-        1,
         2,
+        2,
+        0,
+        0,
+        1,
         null
       ],
       "status": "accepted",
       "originalRingSha256": "b1b665adeed19c305bf088d8f6bbecb974c13fa9d2d6837dd19fd37561c93993",
       "pads": [
-        {
-          "id": "lm-2024-h06-rear-deck",
-          "note": "Clearly visible rectangular short-mown rear physical deck east of the smaller historic shaded deck. Provisional deck reference, not daily tee markers.",
-          "ring": [
-            [
-              -278.52,
-              -411.69
-            ],
-            [
-              -270.79,
-              -411.65
-            ],
-            [
-              -269.43,
-              -404.51
-            ],
-            [
-              -278.68,
-              -404.09
-            ]
-          ]
-        },
         {
           "id": "lm-2024-h06-middle-deck",
           "note": "Visible elongated physical deck immediately north of the crossing path, with its rounded northern end and narrow southern end.",
@@ -550,7 +528,7 @@
         },
         {
           "id": "osm-w1527513658-retained-shadow",
-          "note": "Historical OSM w1527513658 boundary retained exactly from the baseline. Tree shadow prevents independent tracing of its complete perimeter in the2024 orthophoto; this outline is not claimed to be newly traced or source-accurate. No virtual reference is newly assigned to this uncertain deck.",
+          "note": "Historical OSM w1527513658 retained exactly from the pre-review baseline. Joint H6/H16 club-guide review identifies this forest-side platform as H6 rear tee, distinct from the exposed roadside H16 back tee. Shadow prevents tracing the complete 2024 perimeter. References65/61 provisionally use this historical footprint; its boundary is not promoted to an orthophoto trace.",
           "ring": [
             [
               -296.3,
@@ -613,38 +591,102 @@
         ],
         "sourcePixelRing": [
           [
-            449,
-            432
+            450,
+            96
           ],
           [
-            506,
-            429
+            468,
+            96
           ],
           [
-            519,
-            481
+            480,
+            111
           ],
           [
-            451,
-            488
+            476,
+            138
+          ],
+          [
+            461,
+            175
+          ],
+          [
+            443,
+            213
+          ],
+          [
+            429,
+            233
+          ],
+          [
+            413,
+            226
+          ],
+          [
+            411,
+            210
+          ],
+          [
+            423,
+            177
+          ],
+          [
+            434,
+            147
+          ],
+          [
+            443,
+            120
           ]
         ],
         "sourceRingEPSG3006": [
           [
-            683881.4216266737,
-            7022960.27850387
+            683881.5574349659,
+            7023005.910090055
           ],
           [
-            683889.16269933,
-            7022960.685928746
+            683884.0019842258,
+            7023005.910090055
           ],
           [
-            683890.9282071289,
-            7022953.623897552
+            683885.6316837324,
+            7023003.872965672
           ],
           [
-            683881.693243258,
-            7022952.673239506
+            683885.0884505635,
+            7023000.206141782
+          ],
+          [
+            683883.0513261802,
+            7022995.18123497
+          ],
+          [
+            683880.6067769204,
+            7022990.020519866
+          ],
+          [
+            683878.7054608293,
+            7022987.304354021
+          ],
+          [
+            683876.5325281539,
+            7022988.255012067
+          ],
+          [
+            683876.2609115693,
+            7022990.427944742
+          ],
+          [
+            683877.890611076,
+            7022994.909618385
+          ],
+          [
+            683879.3845022904,
+            7022998.983867152
+          ],
+          [
+            683880.6067769204,
+            7023002.650691042
           ]
         ],
         "panelExtent": [
@@ -671,103 +713,11 @@
           "2024-06-27"
         ],
         "uncertaintyM": 3,
-        "note": "Three clearly visible physical decks plus one unchanged historical OSM deck obscured by shadow. Traces cover the large rear deck south of the crossing path, elongated middle deck north of it, and the forward deck east of the pond. The old forward reference4 lay in the pond and provisionally associates with the observed forward deck. References0–1 provisionally use the visible rear deck and2–3 the visible middle deck; reference5 remains an unresolved virtual fairway start. Shadow prevents a complete-source-accuracy claim. Synthetic phantom footprints are removed; runtime footprint inference is suppressed separately.",
+        "note": "Two photographed H6 decks plus the forest-side historical OSM rear platform. Joint review of club guides for holes6 and16 identifies the exposed eastern roadside deck as H16 back tee, so it is removed from H6. H6 references65/61 provisionally use the adjacent forest-side historical platform;58/55 use the photographed elongated deck north of the crossing road;48 uses the photographed deck east of the pond. The historical rear perimeter remains shadow-obscured with3m uncertainty. These are provisional platform references, not verified daily marker positions.",
         "pixelConvention": "pixel edges; E=west+x*widthMetres/pixelsWide; N=north-y*heightMetres/pixelsHigh",
         "projection": "pyproj EPSG:3006 to EPSG:4326, then declared legacy frame; no fitted offset",
         "acceptance": "manual visible-boundary interpretation; no positional survey accuracy claim",
         "sourcePanels": [
-          {
-            "panel": "tees-h06-back",
-            "sourceFiles": [
-              {
-                "path": "C:/Users/olov_/repos/olovs-hemsida/geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
-                "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
-                "crs": "EPSG:3006",
-                "width": 4000,
-                "height": 4000,
-                "geoTransform": [
-                  683524.96,
-                  0.16,
-                  0.0,
-                  7023387.04,
-                  0.0,
-                  -0.16
-                ],
-                "boundsEPSG3006": [
-                  683524.96,
-                  7022747.04,
-                  684164.96,
-                  7023387.04
-                ],
-                "resolutionM": [
-                  0.16,
-                  0.16
-                ],
-                "colourInterpretation": [
-                  "red",
-                  "green",
-                  "blue",
-                  "alpha"
-                ],
-                "nodata": null
-              }
-            ],
-            "sourcePixelRing": [
-              [
-                449,
-                432
-              ],
-              [
-                506,
-                429
-              ],
-              [
-                519,
-                481
-              ],
-              [
-                451,
-                488
-              ]
-            ],
-            "sourceRingEPSG3006": [
-              [
-                683881.4216266737,
-                7022960.27850387
-              ],
-              [
-                683889.16269933,
-                7022960.685928746
-              ],
-              [
-                683890.9282071289,
-                7022953.623897552
-              ],
-              [
-                683881.693243258,
-                7022952.673239506
-              ]
-            ],
-            "panelExtent": [
-              683820.443703468,
-              7022910.301052334,
-              683929.090337242,
-              7023018.947686108
-            ],
-            "panelPixelSize": [
-              800,
-              800
-            ],
-            "panelGeoTransform": [
-              683820.443703468,
-              0.13580829221755267,
-              0.0,
-              7023018.947686108,
-              0.0,
-              -0.13580829221755267
-            ],
-            "panelImageSha256": "60e72759d630cff0627d28baadbe01d73aff14d3292b223d9203f6715166e51d"
-          },
           {
             "panel": "tees-h06-back",
             "sourceFiles": [
@@ -1073,30 +1023,12 @@
             "panelImageSha256": "60e72759d630cff0627d28baadbe01d73aff14d3292b223d9203f6715166e51d",
             "retainedOriginalPadIndex": 0,
             "retainedHistorical": true,
-            "note": "Historical OSM w1527513658 boundary retained exactly from the baseline. Tree shadow prevents independent tracing of its complete perimeter in the2024 orthophoto; this outline is not claimed to be newly traced or source-accurate. No virtual reference is newly assigned to this uncertain deck.",
+            "note": "Historical OSM w1527513658 retained exactly from the pre-review baseline. Joint H6/H16 club-guide review identifies this forest-side platform as H6 rear tee, distinct from the exposed roadside H16 back tee. Shadow prevents tracing the complete 2024 perimeter. References65/61 provisionally use this historical footprint; its boundary is not promoted to an orthophoto trace.",
             "uncertaintyM": 3,
             "acceptance": "Historical boundary retained unchanged; orthophoto does not resolve the obscured perimeter"
           }
         ],
         "sourcePixelRings": [
-          [
-            [
-              449,
-              432
-            ],
-            [
-              506,
-              429
-            ],
-            [
-              519,
-              481
-            ],
-            [
-              451,
-              488
-            ]
-          ],
           [
             [
               450,
@@ -1170,24 +1102,6 @@
         "sourceRingsEPSG3006": [
           [
             [
-              683881.4216266737,
-              7022960.27850387
-            ],
-            [
-              683889.16269933,
-              7022960.685928746
-            ],
-            [
-              683890.9282071289,
-              7022953.623897552
-            ],
-            [
-              683881.693243258,
-              7022952.673239506
-            ]
-          ],
-          [
-            [
               683881.5574349659,
               7023005.910090055
             ],
@@ -1255,6 +1169,18 @@
             ]
           ],
           null
+        ],
+        "corroboratingDocuments": [
+          {
+            "path": "banguide/maps/hole_06.jpg",
+            "sha256": "39f9d282b2ceae109d4145dc7ee6b0d17c6a95d1b8be3fbbb9bed10a4c74b92e",
+            "note": "Club guide starts hole6 on the forest-side platform beside the road crossing, aiming toward the pond corridor. The diagram corroborates hole identity, not a coordinate fit or daily marker position."
+          },
+          {
+            "path": "banguide/maps/hole_16.jpg",
+            "sha256": "cb2c9b54c78629f379c36c2d75481769b3ac0639b15aba6b124ede53f686652d",
+            "note": "Club guide starts hole16 on the exposed roadside deck across the junction from its row of four main platforms. This distinguishes it from the adjacent forest-side hole6 tee."
+          }
         ]
       }
     }

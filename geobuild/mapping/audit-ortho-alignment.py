@@ -97,6 +97,7 @@ class Audit:
     def __init__(self):
         self.errors = []
         self.sources = {}
+        self.documents = {}
         self.panels = {}
         self.panel_index = {}
         for file in sorted((ROOT / 'geobuild/cache').glob('lm-*/panels.json')):
@@ -129,6 +130,13 @@ class Audit:
         self.require(np.allclose(result['geoTransform'], record['geoTransform'], rtol=0, atol=1e-8), key + ': source affine metadata mismatch')
         self.require(result['width'] == record['width'] and result['height'] == record['height'], key + ': source dimensions mismatch')
         return path
+
+    def document(self, record):
+        path = local_path(record['path'])
+        actual = digest(path)
+        self.require(actual == record['sha256'], relative(path) + ': corroborating document hash differs')
+        self.require(bool(record.get('note')), relative(path) + ': corroborating document needs a specific review note')
+        self.documents[relative(path)] = dict(path=relative(path), sha256=actual, note=record.get('note'))
 
     def panel(self, evidence):
         expected = evidence['panelImageSha256']
@@ -188,7 +196,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ledger', type=Path, default=ROOT/'geobuild/mapping/lm-ortho-review.json')
     parser.add_argument('--model', type=Path, default=ROOT/'geobuild/course-model.json')
-    parser.add_argument('--baseline-ref', default='HEAD')
+    parser.add_argument('--baseline-ref', default='7aac4d4495e78d9321889273b34ad6d1bb12290a',
+                        help='Pre-orthophoto geometry pinned by the review ledger; HEAD may already contain adopted edits')
     parser.add_argument('--out', type=Path, default=ROOT/'geo_data/course-v2/veckefjarden/acquisition/ortho-alignment-audit.json')
     args = parser.parse_args()
     baseline_bytes = subprocess.run(['git','show',args.baseline_ref+':geobuild/course-model.json'], cwd=ROOT, check=True, capture_output=True).stdout
@@ -209,6 +218,8 @@ def main():
     records = []
     for feature,original,original_hash in zip(features,original_geometries,original_hashes):
         error_start = len(audit.errors)
+        for document in feature['evidence'].get('corroboratingDocuments', []):
+            audit.document(document)
         feature_id,kind = feature['id'],feature['kind']
         audit.require(feature['status'] == 'accepted', feature_id + ': feature is not accepted')
         audit.require(original_hash == feature['originalRingSha256'], feature_id + ': reviewed baseline geometry differs from Git baseline')
@@ -328,7 +339,9 @@ def main():
                                exactPanelRgbSamplesCompared=sum(p['rgbSamplesCompared'] for p in audit.panels.values()),
                                provisionalPhysicalPlatformReferences=sum(m['selectedPadIndex'] is not None for h in inventories for m in h['teeReferences']),
                                unresolvedTeeReferences=sum(m['selectedPadIndex'] is None for h in inventories for m in h['teeReferences']),
+                               actualCorroboratingDocumentsVerified=len(audit.documents),
                                errors=len(audit.errors)),sources=list(audit.sources.values()),panels=list(audit.panels.values()),
+                  corroboratingDocuments=list(audit.documents.values()),
                   features=records,holes=inventories,errors=audit.errors)
     args.out.parent.mkdir(parents=True,exist_ok=True)
     args.out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n',encoding='utf-8',newline='\n')

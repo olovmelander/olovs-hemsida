@@ -166,6 +166,10 @@ export function auditAlignment({ model, review, card, baseline = null } = {}) {
         if (!tee.numberedSourceAssetId || mark?.numberedSourceAssetId !== tee.numberedSourceAssetId) {
           fail('corrected-marker', identity, 'numbered platform evidence missing or mismatched');
         }
+        if (mark?.sourcePadId !== pad?.id || mark?.sourceKey !== tee.sourceKey ||
+            mark?.sourceSha256 !== review.sources[tee.sourceKey]?.sha256) {
+          fail('feature-provenance', identity, 'tee marker lost its reviewed platform or native image identity');
+        }
       }
     }
     for (const anchor of entry.cameraReferences ?? []) {

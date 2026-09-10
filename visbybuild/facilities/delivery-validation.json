@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "asset": {
+    "url": "models/visby/facilities-v1.glb",
+    "sha256": "11cbf1773e7dac024b7bc8aae9ce24bc518fe40dc3c5802f3f2e6744272383ae",
+    "bytes": 1780476
+  },
+  "facilityGroups": 18,
+  "triangles": 29749,
+  "renderers": [
+    {
+      "renderer": "authored-webgpu",
+      "checks": 13,
+      "passed": true
+    },
+    {
+      "renderer": "authored-webgl",
+      "checks": 13,
+      "passed": true
+    }
+  ],
+  "productionAssetMatches": true,
+  "blenderWorkspace": "visbybuild/facilities/output/visby-facilities-workspace.blend",
+  "modelLimitations": "Reference-based visual reconstruction; hidden architectural details and some heights remain estimates."
+}

@@ -1,0 +1,2032 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "auditedAt": "2026-09-09T21:22:33.246Z",
+  "url": "http://127.0.0.1:8652/?bana=lidingo&v2=require&det=1&hal=1&tee=2&vy=tee&ljus=dag",
+  "inputs": {
+    "modelSha256": "20dd2856d0401b58b715ddd0f894cb58585200bed51f8107f6d9c781b5c0e79c",
+    "packSha256": "580243354d3fb9f1ba6ff0cc2b2eb202ac82c5de8bd7d95cd21fb4d49a3ffac5",
+    "groundManifestSha256": "3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158",
+    "runtimeSha256": "0b5e16201828d13ac9fe34742aaf12674bfbdf2dd340b94b4f4826c5a648a5b7"
+  },
+  "expectedMarkerInstances": 162,
+  "sourceWhitePoints": 0,
+  "sourceVirtualBoundarySegments": 6,
+  "errors": [],
+  "packResponses": [
+    {
+      "status": 200,
+      "sha256": "580243354d3fb9f1ba6ff0cc2b2eb202ac82c5de8bd7d95cd21fb4d49a3ffac5"
+    }
+  ],
+  "geometry": [
+    {
+      "hole": 1,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 2,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 3,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 4,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 5,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 6,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 7,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 8,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 9,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 10,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 11,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 12,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 13,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 14,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 15,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 16,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 17,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    },
+    {
+      "hole": 18,
+      "sourceAndPackMatch": true,
+      "loadedReviewMatches": true,
+      "routeAndCardMatch": true,
+      "bearingsMatch": true
+    }
+  ],
+  "shots": [
+    {
+      "hole": 1,
+      "file": "lidingobuild/cache/tee-ob-review/webgpu/hole-01-yellow-tee.png",
+      "camera": {
+        "pos": [
+          -32.49999999999998,
+          26.561099999998696,
+          -9.780000000260799
+        ],
+        "look": [
+          7.525265330831373,
+          23.304953093486006,
+          101.85399436964754
+        ],
+        "ground": 24.8610999999987
+      },
+      "mode": "tee",
+      "reference": {
+        "c": [
+          -32.5,
+          -9.78000000026077
+        ],
+        "b": 17.88961729113375,
+        "m": 162,
+        "orthophotoReference": {
+          "kind": "orthophoto-platform-reference",
+          "sourceId": "imagery-lm-ortho",
+          "sourceWindowId": "lidingo-01-tees",
+          "captureDate": "2025-05-31",
+          "association": "Club-linked guide platform grouping and order corroborated with native 2025 turf; representative starts, not measured daily markers.",
+          "dailyMarkerPositionVerified": false
+        },
+        "sourcePadId": "lidingo-tee-01-a-lm2025"
+      },
+      "selectedTeeIndex": 1,
+      "cameraReferenceErrorM": 3.552713678800501e-14,
+      "cameraAimErrorM": 1.4238583238573986e-14,
+      "cameraInsideNominatedPlatform": true
+    },
+    {
+      "hole": 10,
+      "file": "lidingobuild/cache/tee-ob-review/webgpu/hole-10-yellow-tee.png",
+      "camera": {
+        "pos": [
+          -355.859999999986,
+          31.539524000000153,
+          119.33999999985099
+        ],
+        "look": [
+          -378.63487791230307,
+          30.352385659383593,
+          -173.71578783725425
+        ],
+        "ground": 29.83952400000016
+      },
+      "mode": "tee",
+      "reference": {
+        "c": [
+          -355.85999999998603,
+          119.33999999985099
+        ],
+        "b": 163.7873463817641,
+        "m": 446,
+        "orthophotoReference": {
+          "kind": "orthophoto-platform-reference",
+          "sourceId": "imagery-lm-ortho",
+          "sourceWindowId": "lidingo-10-tees",
+          "captureDate": "2025-05-31",
+          "association": "2026 club guide relative platform grouping and 2025 native physical surfaces; representative starts, not surveyed or daily markers",
+          "dailyMarkerPositionVerified": false
+        },
+        "sourcePadId": "lidingo-tee-10-b-lm2025"
+      },
+      "selectedTeeIndex": 1,
+      "cameraReferenceErrorM": 5.684341886080802e-14,
+      "cameraAimErrorM": 5.684341886080802e-14,
+      "cameraInsideNominatedPlatform": true
+    },
+    {
+      "hole": 12,
+      "file": "lidingobuild/cache/tee-ob-review/webgpu/hole-12-yellow-tee.png",
+      "camera": {
+        "pos": [
+          -534.0999999999767,
+          33.48622000001818,
+          -588.8199999993667
+        ],
+        "look": [
+          -247.3428200512062,
+          27.59181530248753,
+          -414.0981411117975
+        ],
+        "ground": 31.786220000018176
+      },
+      "mode": "tee",
+      "reference": {
+        "c": [
+          -534.0999999999767,
+          -588.8199999993667
+        ],
+        "b": 52.079135503767795,
+        "m": 470,
+        "orthophotoReference": {
+          "kind": "orthophoto-platform-reference",
+          "sourceId": "imagery-lm-ortho",
+          "sourceWindowId": "lidingo-12-tees",
+          "captureDate": "2025-05-31",
+          "association": "2026 club guide relative platform grouping and 2025 native physical surfaces; representative starts, not surveyed or daily markers",
+          "dailyMarkerPositionVerified": false
+        },
+        "sourcePadId": "lidingo-tee-12-a-lm2025"
+      },
+      "selectedTeeIndex": 1,
+      "cameraReferenceErrorM": 0,
+      "cameraAimErrorM": 0,
+      "cameraInsideNominatedPlatform": true
+    },
+    {
+      "hole": 18,
+      "file": "lidingobuild/cache/tee-ob-review/webgpu/hole-18-yellow-tee.png",
+      "camera": {
+        "pos": [
+          388.30000000004657,
+          33.59226000000137,
+          -158.42000000085682
+        ],
+        "look": [
+          134.25118595635456,
+          23.632596722279835,
+          -93.77627561694767
+        ],
+        "ground": 31.892260000001368
+      },
+      "mode": "tee",
+      "reference": {
+        "c": [
+          388.30000000004657,
+          -158.42000000085682
+        ],
+        "b": -69.81146198529262,
+        "m": 379,
+        "orthophotoReference": {
+          "kind": "orthophoto-platform-reference",
+          "sourceId": "imagery-lm-ortho",
+          "sourceWindowId": "lidingo-18-tees",
+          "captureDate": "2025-05-31",
+          "association": "2026 club guide relative platform grouping and 2025 native physical surfaces; representative starts, not surveyed or daily markers",
+          "dailyMarkerPositionVerified": false
+        },
+        "sourcePadId": "lidingo-tee-18-b-lm2025"
+      },
+      "selectedTeeIndex": 1,
+      "cameraReferenceErrorM": 0,
+      "cameraAimErrorM": 0,
+      "cameraInsideNominatedPlatform": true
+    }
+  ],
+  "gates": [
+    {
+      "name": "required v2 graph boots",
+      "pass": true
+    },
+    {
+      "name": "requested graphics backend is active",
+      "pass": true
+    },
+    {
+      "name": "mapped objects and measured terrain/vegetation policies remain active",
+      "pass": true
+    },
+    {
+      "name": "published surrounding terrain rings remain present",
+      "pass": true
+    },
+    {
+      "name": "inferred furniture and ground cover stay suppressed",
+      "pass": true
+    },
+    {
+      "name": "all holes retain reviewed references, platform rings, route, card and derived bearings",
+      "pass": true
+    },
+    {
+      "name": "every accepted tee pair reaches GPU geometry inside its nominated surface",
+      "pass": true
+    },
+    {
+      "name": "physical white stakes match the explicitly supplied points and dry-ground heights",
+      "pass": true
+    },
+    {
+      "name": "boundary review metadata survives loading",
+      "pass": true
+    },
+    {
+      "name": "reviewed OB map boundaries and evidence match source, pack and browser",
+      "pass": true
+    },
+    {
+      "name": "reviewed virtual OB boundaries reach the map canvas",
+      "pass": true
+    },
+    {
+      "name": "all four tee views use the actual selector and preserve reference coordinates and aim",
+      "pass": true
+    },
+    {
+      "name": "no browser exceptions",
+      "pass": true
+    },
+    {
+      "name": "browser loaded the current exact pack",
+      "pass": true
+    },
+    {
+      "name": "model and pack stayed unchanged during capture",
+      "pass": true
+    }
+  ],
+  "bootSeconds": 20.372,
+  "boot": {
+    "stats": {
+      "verts": 96860,
+      "tris": 152674,
+      "trees": 46118,
+      "vista": 48360,
+      "tufts": 0,
+      "bushes": 0,
+      "stones": 0,
+      "reeds": 0,
+      "cars": 0,
+      "pylons": 0,
+      "stumps": 0,
+      "inferredRangeTargets": 0,
+      "measuredRoofBuildings": 0,
+      "measuredRoofTriangles": 0,
+      "sourceRoofBuildings": 5,
+      "sourceRoofTriangles": 7069,
+      "architecturalBuildings": 5,
+      "architecturalTriangles": 4466,
+      "genericRoofBuildings": 557,
+      "clubhouseDetails": [
+        {
+          "buildingId": "way/26408210",
+          "triangles": 627,
+          "parts": [
+            "roof-plane",
+            "closed-wall",
+            "fascia",
+            "soffit",
+            "facade-glazing"
+          ],
+          "evidence": "photo-and-laser-informed-display-approximation",
+          "sourceRoofTriangles": 2105
+        },
+        {
+          "buildingId": "way/26408211",
+          "triangles": 554,
+          "parts": [
+            "roof-plane",
+            "closed-wall",
+            "fascia",
+            "soffit",
+            "facade-glazing"
+          ],
+          "evidence": "photo-and-laser-informed-display-approximation",
+          "sourceRoofTriangles": 1633
+        },
+        {
+          "buildingId": "way/32262169",
+          "triangles": 366,
+          "parts": [
+            "roof-plane",
+            "closed-wall",
+            "fascia",
+            "soffit",
+            "facade-glazing"
+          ],
+          "evidence": "photo-and-laser-informed-display-approximation",
+          "sourceRoofTriangles": 523
+        },
+        {
+          "buildingId": "way/32262176",
+          "triangles": 818,
+          "parts": [
+            "roof-plane",
+            "closed-wall",
+            "fascia",
+            "soffit",
+            "facade-glazing",
+            "veranda-posts",
+            "veranda-rail"
+          ],
+          "evidence": "photo-and-laser-informed-display-approximation",
+          "sourceRoofTriangles": 1192
+        },
+        {
+          "buildingId": "way/32262183",
+          "triangles": 2101,
+          "parts": [
+            "roof-plane",
+            "closed-wall",
+            "fascia",
+            "soffit",
+            "entrance-apron",
+            "upper-glazing",
+            "reception-glazing",
+            "door-handle",
+            "balcony-deck",
+            "balcony-apron",
+            "balcony-panels",
+            "balcony-rail",
+            "balcony-columns",
+            "blue-awnings",
+            "awning-valance",
+            "clock",
+            "clock-hands",
+            "roof-service-room",
+            "service-room-roof",
+            "chimney",
+            "chimney-cap",
+            "roof-vent",
+            "facade-glazing"
+          ],
+          "evidence": "photo-and-laser-informed-display-approximation",
+          "sourceRoofTriangles": 1616
+        }
+      ],
+      "courtyardDetails": {
+        "triangles": 1936,
+        "parts": [
+          "putting-green-kerb",
+          "terrace-deck",
+          "terrace-skirt",
+          "terrace-planks",
+          "terrace-handrail",
+          "terrace-posts",
+          "terrace-supports",
+          "terrace-stairs",
+          "courtyard-access-stairs"
+        ],
+        "evidence": "mapped-kerb-and-photo-estimated-terrace"
+      },
+      "draws": 44,
+      "surfaceOverlays": 0,
+      "backend": "webgpu"
+    },
+    "terrain": {
+      "requested": true,
+      "ready": true,
+      "status": "ready",
+      "kind": "graph",
+      "courseSurfaceOverlayMeshes": 0,
+      "surfaceDebugMode": "off",
+      "surfaceRepresentation": "legacy-ground-atlas",
+      "surfacePolicy": "v2-atlas",
+      "reason": null,
+      "selection": {
+        "mode": "fixed-frontier",
+        "requestMode": "require",
+        "defaulted": false,
+        "publishedGraphSlugs": [
+          "angso",
+          "johannesberg",
+          "lidingo",
+          "norrfallsviken",
+          "puttom",
+          "ribbingsfors",
+          "upsala",
+          "upsala-mellanbanan",
+          "veckefjarden",
+          "veckefjarden-korthalsbanan",
+          "visby"
+        ],
+        "graph": {
+          "slug": "lidingo",
+          "groundId": "lidingo",
+          "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+          "tiles": 277,
+          "holes": 18,
+          "shellBytes": 66346,
+          "encodedTerrainBytes": 17521533,
+          "surfaceTiles": 0,
+          "objectTiles": 0,
+          "encodedObjectBytes": 0,
+          "standTiles": 64,
+          "encodedStandBytes": 580985
+        },
+        "graphError": null
+      },
+      "label": "Lidingö GK · Lantmäteriet 1 m · Preliminära spelytor",
+      "surface": null,
+      "bounds": {
+        "x0": -1024,
+        "z0": -1024,
+        "x1": 1024,
+        "z1": 1024
+      },
+      "legacyBounds": {
+        "x0": -1024,
+        "z0": -1024,
+        "x1": 1024,
+        "z1": 1024
+      },
+      "bridge": {
+        "translateX": 0,
+        "translateY": -0.05,
+        "translateZ": 0,
+        "rotationRadians": 0,
+        "scaleX": 1,
+        "scaleZ": 1
+      },
+      "source": {
+        "renderedTiles": 64,
+        "encodedBytes": 5595417,
+        "decodedBytes": 8454272,
+        "gpuBytes": 33817088,
+        "terrainEncodedBytes": 5595417,
+        "terrainDecodedBytes": 8454272,
+        "terrainGpuBytes": 33817088,
+        "surfaceEncodedBytes": 0,
+        "surfaceDecodedBytes": 0,
+        "surfaceTextureBytes": 0
+      },
+      "adapter": {
+        "kind": "graph",
+        "phase": "ready",
+        "requested": true,
+        "sourceReady": true,
+        "preflightReady": true,
+        "active": true,
+        "renderer": {
+          "status": "ready",
+          "kind": "graph",
+          "meshResolutionMetres": 1,
+          "levels": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "tiles": 277,
+          "ringTiles": 6,
+          "fallbackRebuilt": false,
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 128,
+              "renderedTiles": 13,
+              "residentLayers": 13,
+              "textureUploads": 17,
+              "renderRevision": 28,
+              "morphing": true,
+              "frameAttributeVersion": 5,
+              "paramsAttributeVersion": 23,
+              "textureCapacityBytes": 67634176,
+              "topologyBytes": 2603535,
+              "triangles": 1730560,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 23,
+          "morphing": true,
+          "renderedTiles": 127,
+          "residentLayers": 13,
+          "drawCalls": 1,
+          "triangles": 1730560,
+          "textureCapacityBytes": 67634176,
+          "textureUploads": 17,
+          "readyTiles": 170
+        },
+        "ringLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "stream": {
+          "renderStride": 1,
+          "readyTiles": 142,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 60,
+          "drawCalls": 1,
+          "triangles": 7987200,
+          "textureCapacityBytes": 67634176,
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 128,
+              "renderedTiles": 60,
+              "residentLayers": 60,
+              "textureUploads": 187,
+              "renderRevision": 190,
+              "morphing": false,
+              "frameAttributeVersion": 49,
+              "paramsAttributeVersion": 142,
+              "textureCapacityBytes": 67634176,
+              "topologyBytes": 2603535,
+              "triangles": 7987200,
+              "drawCalls": 1
+            }
+          ],
+          "selectedTiles": 60,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        }
+      },
+      "renderer": {
+        "status": "ready",
+        "kind": "graph",
+        "meshResolutionMetres": 1,
+        "levels": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tiles": 277,
+        "ringTiles": 6,
+        "fallbackRebuilt": false,
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 128,
+            "renderedTiles": 13,
+            "residentLayers": 13,
+            "textureUploads": 17,
+            "renderRevision": 28,
+            "morphing": true,
+            "frameAttributeVersion": 5,
+            "paramsAttributeVersion": 23,
+            "textureCapacityBytes": 67634176,
+            "topologyBytes": 2603535,
+            "triangles": 1730560,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 23,
+        "morphing": true,
+        "renderedTiles": 127,
+        "residentLayers": 13,
+        "drawCalls": 1,
+        "triangles": 1730560,
+        "textureCapacityBytes": 67634176,
+        "textureUploads": 17,
+        "readyTiles": 170
+      },
+      "stream": null,
+      "backend": "webgpu"
+    },
+    "policies": {
+      "objectPlacement": "mapped-only",
+      "terrainPlacement": "measured-only",
+      "vegetationPlacement": "measured-only"
+    },
+    "actualMarkerInstances": 162,
+    "actualWhiteInstances": 0
+  },
+  "markerTransforms": [
+    {
+      "hole": 1,
+      "colourIndex": 0,
+      "horizontalErrorM": 6.699568220593115e-7,
+      "heightErrorM": 8.454306167499093e-7,
+      "edgeClearanceM": 4.281304067545104,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000012936694290852526,
+      "heightErrorM": 5.256009393411754e-7,
+      "edgeClearanceM": 3.6499188268767266,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 1,
+      "horizontalErrorM": 9.130464620509391e-7,
+      "heightErrorM": 4.479217251690537e-7,
+      "edgeClearanceM": 4.8768646122938275,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.0000017225535926166133,
+      "heightErrorM": 3.395462998406762e-7,
+      "edgeClearanceM": 4.245480173591183,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 2,
+      "horizontalErrorM": 1.0755008414118518e-7,
+      "heightErrorM": 9.385540528233927e-7,
+      "edgeClearanceM": 2.6902072083185367,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 2,
+      "horizontalErrorM": 6.897383587927776e-7,
+      "heightErrorM": 5.184510379757645e-7,
+      "edgeClearanceM": 3.1190230499189697,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 3,
+      "horizontalErrorM": 9.21817291258629e-7,
+      "heightErrorM": 2.3654002902218085e-7,
+      "edgeClearanceM": 0.8944680458093298,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 3,
+      "horizontalErrorM": 2.9203039480975063e-7,
+      "heightErrorM": 2.4126582275074693e-7,
+      "edgeClearanceM": 0.40570999146439135,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000001712034467602135,
+      "heightErrorM": 4.057020029785141e-7,
+      "edgeClearanceM": 0.7736930190491061,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 1,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.0000011815348798522422,
+      "heightErrorM": 7.157856808243102e-7,
+      "edgeClearanceM": 0.859768933984356,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000002107657824957686,
+      "heightErrorM": 1.545799476337928e-7,
+      "edgeClearanceM": 0.9726850361658139,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 0,
+      "horizontalErrorM": 6.727630193460028e-7,
+      "heightErrorM": 6.791835857611339e-9,
+      "edgeClearanceM": 1.161081543365179,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000007573672282674407,
+      "heightErrorM": 2.7850616625413327e-7,
+      "edgeClearanceM": 0.33451325858984,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.0000073731764757651,
+      "heightErrorM": 1.560599448419131e-7,
+      "edgeClearanceM": 0.1990440917066414,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000006027972897925493,
+      "heightErrorM": 5.1465616976442696e-8,
+      "edgeClearanceM": 3.7262538574726816,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000005174617110768554,
+      "heightErrorM": 1.19393933531442e-7,
+      "edgeClearanceM": 3.164229339568231,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000007739836405790055,
+      "heightErrorM": 6.744226922761332e-8,
+      "edgeClearanceM": 3.604317822321917,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.0000022036104115961834,
+      "heightErrorM": 3.186140252603442e-7,
+      "edgeClearanceM": 3.3213430651672753,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000006950369310789183,
+      "heightErrorM": 3.203884867269968e-7,
+      "edgeClearanceM": 1.258877867899605,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 2,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000005583216037241138,
+      "heightErrorM": 8.844360678550434e-8,
+      "edgeClearanceM": 1.3572386243618062,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000016005225551195302,
+      "heightErrorM": 1.558775316462535e-7,
+      "edgeClearanceM": 1.8251856962982786,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000015729616865424397,
+      "heightErrorM": 1.975084661098858e-8,
+      "edgeClearanceM": 2.3539580071071176,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000018696687006962036,
+      "heightErrorM": 2.0248112754528425e-7,
+      "edgeClearanceM": 2.9307324390044753,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000009916990234219986,
+      "heightErrorM": 1.8391727042710304e-7,
+      "edgeClearanceM": 4.810407243878268,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000015225915004443212,
+      "heightErrorM": 8.70398295105268e-10,
+      "edgeClearanceM": 2.553741099129199,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000012303193601854338,
+      "heightErrorM": 2.224378535947702e-7,
+      "edgeClearanceM": 1.4675208521925773,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000008346190539471499,
+      "heightErrorM": 1.5875506921558813e-7,
+      "edgeClearanceM": 3.3511951704953717,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000013138746361539795,
+      "heightErrorM": 1.8164200955850252e-7,
+      "edgeClearanceM": 2.4026613219223263,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000006510890849456349,
+      "heightErrorM": 3.9947535626638775e-8,
+      "edgeClearanceM": 3.512113280954452,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 3,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000014725255928191065,
+      "heightErrorM": 5.661222481079253e-8,
+      "edgeClearanceM": 1.8646680931228052,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000025384070980232738,
+      "heightErrorM": 5.531124861596348e-7,
+      "edgeClearanceM": 1.1450657024781392,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000031396266846892686,
+      "heightErrorM": 6.154166770494518e-7,
+      "edgeClearanceM": 1.5632960989971156,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000001937445291773766,
+      "heightErrorM": 5.737576061898286e-7,
+      "edgeClearanceM": 1.1256525458887097,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000007767429532838263,
+      "heightErrorM": 9.208551971090495e-7,
+      "edgeClearanceM": 0.1973403147877825,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000004834353601807241,
+      "heightErrorM": 5.41680463470029e-7,
+      "edgeClearanceM": 0.9281358022083186,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000036985598388115946,
+      "heightErrorM": 6.039635950111366e-7,
+      "edgeClearanceM": 0.18947962171494995,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.00000461103536574042,
+      "heightErrorM": 2.552973660391311e-7,
+      "edgeClearanceM": 0.19999849870117728,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000007674313193230549,
+      "heightErrorM": 3.453172384842995e-7,
+      "edgeClearanceM": 0.1999356238350947,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000004203527831102993,
+      "heightErrorM": 2.188956452903179e-7,
+      "edgeClearanceM": 0.244544412763513,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 4,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.0000028180169232741397,
+      "heightErrorM": 2.3429114079376312e-8,
+      "edgeClearanceM": 0.44983426101095036,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000003611168297718408,
+      "heightErrorM": 7.793653068743911e-8,
+      "edgeClearanceM": 2.2821697379306367,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000026886387520454475,
+      "heightErrorM": 5.179578857900102e-7,
+      "edgeClearanceM": 1.9356849236298794,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.0000013432344329599893,
+      "heightErrorM": 3.2889612754105624e-7,
+      "edgeClearanceM": 2.8550688151611316,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 1,
+      "horizontalErrorM": 2.897251059082483e-7,
+      "heightErrorM": 7.607278297433462e-7,
+      "edgeClearanceM": 2.125975530815958,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 2,
+      "horizontalErrorM": 2.414469215610665e-7,
+      "heightErrorM": 8.545701183498844e-7,
+      "edgeClearanceM": 1.0600152962121252,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000016016161224415156,
+      "heightErrorM": 5.592969151285709e-7,
+      "edgeClearanceM": 2.039418506725894,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 3,
+      "horizontalErrorM": 8.447204012500595e-7,
+      "heightErrorM": 2.638285708650434e-7,
+      "edgeClearanceM": 1.3316819534078497,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000005425851273959137,
+      "heightErrorM": 8.940577623656187e-7,
+      "edgeClearanceM": 0.66737054394575,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 4,
+      "horizontalErrorM": 2.808888445601426e-7,
+      "heightErrorM": 1.613170036302014e-7,
+      "edgeClearanceM": 0.9306649527677865,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 5,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000006049181464446096,
+      "heightErrorM": 2.2108490625727395e-7,
+      "edgeClearanceM": 1.3044269260391308,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000003637484730445693,
+      "heightErrorM": 7.31875452117392e-7,
+      "edgeClearanceM": 1.3879007961062377,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000065258753798521145,
+      "heightErrorM": 5.945821476421864e-7,
+      "edgeClearanceM": 0.3478863363507622,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000005994360973353958,
+      "heightErrorM": 6.414556027317664e-7,
+      "edgeClearanceM": 4.402583797258967,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.0000047825904805489095,
+      "heightErrorM": 9.41208999308274e-7,
+      "edgeClearanceM": 3.8444594442441034,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000007085123129418035,
+      "heightErrorM": 8.240681849264186e-7,
+      "edgeClearanceM": 2.1228076168158325,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.00000834153659849866,
+      "heightErrorM": 4.850210574142144e-7,
+      "edgeClearanceM": 2.3466046307426063,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.0000027479781932043393,
+      "heightErrorM": 7.658197661436494e-7,
+      "edgeClearanceM": 2.475292638743093,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000007150721924364615,
+      "heightErrorM": 7.762277357409308e-7,
+      "edgeClearanceM": 1.9451507978895701,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000007533107107875213,
+      "heightErrorM": 5.805186648194516e-7,
+      "edgeClearanceM": 0.1987074957107768,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 6,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000006413603975193368,
+      "heightErrorM": 1.996807069554185e-7,
+      "edgeClearanceM": 0.19876842999899014,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000005001988006799501,
+      "heightErrorM": 3.1642212640348166e-7,
+      "edgeClearanceM": 2.4065301096998937,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000063436271100115756,
+      "heightErrorM": 2.0131034851600393e-7,
+      "edgeClearanceM": 2.2132493528721944,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000008449029655140394,
+      "heightErrorM": 3.5682070866072113e-7,
+      "edgeClearanceM": 2.703139232961772,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000010011172768390388,
+      "heightErrorM": 2.9928459141514985e-8,
+      "edgeClearanceM": 2.7985830603505657,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000012523311346410342,
+      "heightErrorM": 2.494102636779738e-7,
+      "edgeClearanceM": 3.1498548656622782,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000013785444084045349,
+      "heightErrorM": 3.146706563234014e-7,
+      "edgeClearanceM": 3.394859632539336,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000015046311095569805,
+      "heightErrorM": 1.3954726561793418e-7,
+      "edgeClearanceM": 0.5836038038633673,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000013190987199540507,
+      "heightErrorM": 3.5865166957138594e-7,
+      "edgeClearanceM": 0.8427271264822694,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000005050034574582404,
+      "heightErrorM": 2.9008160375154635e-7,
+      "edgeClearanceM": 0.19632669659009916,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 7,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.00000277634214147251,
+      "heightErrorM": 2.7305253645637517e-7,
+      "edgeClearanceM": 0.19544965216095492,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000008719316521740354,
+      "heightErrorM": 9.548151774646518e-7,
+      "edgeClearanceM": 0.5117218076859454,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000013571253049378277,
+      "heightErrorM": 0.0000018408526761964916,
+      "edgeClearanceM": 0.5472274157863847,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.0000035490090138397987,
+      "heightErrorM": 3.052457634572514e-7,
+      "edgeClearanceM": 1.7609948573772758,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000009338374531723873,
+      "heightErrorM": 2.604135497102922e-7,
+      "edgeClearanceM": 0.5733518351518279,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000029380617635721146,
+      "heightErrorM": 4.814139658998462e-7,
+      "edgeClearanceM": 1.5688461126965072,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000009108564497107387,
+      "heightErrorM": 4.23622043541072e-7,
+      "edgeClearanceM": 2.149975293932098,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.0000035314416594473276,
+      "heightErrorM": 4.471817079826357e-7,
+      "edgeClearanceM": 1.6721924271860378,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000006529409559323843,
+      "heightErrorM": 5.863548834389443e-7,
+      "edgeClearanceM": 1.4486110960831797,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000004940736339789488,
+      "heightErrorM": 8.590529111535128e-7,
+      "edgeClearanceM": 0.19951184904273692,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 8,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.0000074147996369437545,
+      "heightErrorM": 2.5398778490115514e-7,
+      "edgeClearanceM": 0.19972199623109294,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 0,
+      "horizontalErrorM": 5.979873529045576e-7,
+      "heightErrorM": 3.6411045144235654e-7,
+      "edgeClearanceM": 1.4725766455541878,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 0,
+      "horizontalErrorM": 2.3179025660725376e-7,
+      "heightErrorM": 1.772816838746527e-7,
+      "edgeClearanceM": 2.197712022204025,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000005775095618450246,
+      "heightErrorM": 6.241657969502379e-7,
+      "edgeClearanceM": 1.058273720168382,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.0000024967989508622793,
+      "heightErrorM": 3.614095470533263e-7,
+      "edgeClearanceM": 0.921642351326701,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000007617041637007682,
+      "heightErrorM": 6.105265478589805e-7,
+      "edgeClearanceM": 1.0732939058720097,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 2,
+      "horizontalErrorM": 9.705324057464988e-7,
+      "heightErrorM": 8.53073821929784e-7,
+      "edgeClearanceM": 0.9298366667823378,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000007166356028993848,
+      "heightErrorM": 1.6962141259624364e-7,
+      "edgeClearanceM": 2.1100877840039876,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 3,
+      "horizontalErrorM": 4.5036424868075537e-7,
+      "heightErrorM": 3.097329960149997e-7,
+      "edgeClearanceM": 2.160753906487743,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.0000015729824136093263,
+      "heightErrorM": 5.844188025599939e-7,
+      "edgeClearanceM": 1.5520809041858985,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 9,
+      "colourIndex": 4,
+      "horizontalErrorM": 0.000006329599399747371,
+      "heightErrorM": 4.620805457017374e-7,
+      "edgeClearanceM": 2.8600981207372573,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 10,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000011440404524305677,
+      "heightErrorM": 2.8880350612381367e-7,
+      "edgeClearanceM": 1.3045429900371275,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 10,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000034513389279066985,
+      "heightErrorM": 8.34552632653085e-7,
+      "edgeClearanceM": 1.338677986507178,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 10,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000006183224171315536,
+      "heightErrorM": 5.938029120494681e-7,
+      "edgeClearanceM": 2.976152285802062,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 10,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000007158519553527613,
+      "heightErrorM": 4.841600643595845e-7,
+      "edgeClearanceM": 1.0901483455573375,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 10,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000010483007332183722,
+      "heightErrorM": 4.922648452060363e-7,
+      "edgeClearanceM": 4.880326972993326,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 10,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000017638333022010833,
+      "heightErrorM": 9.171925162837491e-7,
+      "edgeClearanceM": 2.6148799614915728,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 10,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.0000033826240619152093,
+      "heightErrorM": 1.1300240444767073e-7,
+      "edgeClearanceM": 2.974318093448573,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 10,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000009088831315053388,
+      "heightErrorM": 6.735979992816832e-7,
+      "edgeClearanceM": 4.541571161492544,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 11,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000012869064479099645,
+      "heightErrorM": 0.0000012972298156915807,
+      "edgeClearanceM": 3.658416585638214,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 11,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000005767796981782508,
+      "heightErrorM": 0.0000011267905796336075,
+      "edgeClearanceM": 2.1928385671304773,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 11,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.00001814690727651885,
+      "heightErrorM": 5.967391209088513e-7,
+      "edgeClearanceM": 2.759996908396585,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 11,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000007088777640110404,
+      "heightErrorM": 6.996172808720891e-7,
+      "edgeClearanceM": 3.3119262228561257,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 11,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000012848552438244431,
+      "heightErrorM": 8.616191701088516e-7,
+      "edgeClearanceM": 4.464835108313977,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 11,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000013931508211697675,
+      "heightErrorM": 9.12230810570791e-7,
+      "edgeClearanceM": 1.6515354124387671,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 11,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000015017778787835287,
+      "heightErrorM": 6.416969137029715e-7,
+      "edgeClearanceM": 3.5658463008830155,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 11,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.0000038814341749208395,
+      "heightErrorM": 0.000001370583597407049,
+      "edgeClearanceM": 2.513992768902068,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 12,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000022622238877122758,
+      "heightErrorM": 2.5991898980337602e-8,
+      "edgeClearanceM": 4.663055731602443,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 12,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.00001650593271085169,
+      "heightErrorM": 2.1551019756260725e-7,
+      "edgeClearanceM": 4.197960667062433,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 12,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.00002509800813283159,
+      "heightErrorM": 8.321073542566504e-7,
+      "edgeClearanceM": 5.998503233112853,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 12,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000022611127936203312,
+      "heightErrorM": 7.350734008981785e-8,
+      "edgeClearanceM": 4.907555098859477,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 12,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000023702506345807213,
+      "heightErrorM": 2.3615741952254243e-7,
+      "edgeClearanceM": 1.8255632246153803,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 12,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.00003058267387758423,
+      "heightErrorM": 1.1379008967027371e-7,
+      "edgeClearanceM": 2.223868521687619,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 12,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000021617603138422578,
+      "heightErrorM": 5.764180558281984e-7,
+      "edgeClearanceM": 1.4073854855405508,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 12,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000013737916188092312,
+      "heightErrorM": 2.5276654426475975e-7,
+      "edgeClearanceM": 1.2971350821823282,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 13,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000007297271175224055,
+      "heightErrorM": 7.877943061784798e-9,
+      "edgeClearanceM": 1.1666821281289046,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 13,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.00000868920438141697,
+      "heightErrorM": 6.532427369171367e-7,
+      "edgeClearanceM": 2.335262990342195,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 13,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.0000070856230540792,
+      "heightErrorM": 6.040326324813217e-7,
+      "edgeClearanceM": 1.260653446767951,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 13,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000011695783866537425,
+      "heightErrorM": 8.814800652595656e-7,
+      "edgeClearanceM": 0.6428569889935084,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 13,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000055778884834028025,
+      "heightErrorM": 3.3626741270664784e-7,
+      "edgeClearanceM": 0.4762923963357664,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 13,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000010901091957718246,
+      "heightErrorM": 8.396624296830302e-7,
+      "edgeClearanceM": 0.7080373038982842,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 13,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000007661326539885877,
+      "heightErrorM": 9.94007584159684e-8,
+      "edgeClearanceM": 2.5964559976147865,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 13,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000007820851916732138,
+      "heightErrorM": 2.276933373929202e-7,
+      "edgeClearanceM": 2.7766788360746966,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 14,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000009602568240159076,
+      "heightErrorM": 0.0000011866793551001953,
+      "edgeClearanceM": 1.3171464108826798,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 14,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000004530164992876851,
+      "heightErrorM": 4.3291499593478555e-8,
+      "edgeClearanceM": 1.0043928751088802,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 14,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000003212043454160121,
+      "heightErrorM": 0.000001899716543504737,
+      "edgeClearanceM": 0.5164080577018136,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 14,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000014063550174839893,
+      "heightErrorM": 8.216540484801138e-7,
+      "edgeClearanceM": 0.47897174998354064,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 14,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000010250315560418494,
+      "heightErrorM": 3.4301415695325854e-7,
+      "edgeClearanceM": 0.19304325243747078,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 14,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000012798494991971103,
+      "heightErrorM": 0.0000012602141404721712,
+      "edgeClearanceM": 2.6905692686543556,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 14,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.00001371300192558286,
+      "heightErrorM": 7.063794556921854e-7,
+      "edgeClearanceM": 2.4196768073192207,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 14,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000009412660446216568,
+      "heightErrorM": 7.524152424304154e-7,
+      "edgeClearanceM": 2.178690821760292,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 15,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000006256992999841863,
+      "heightErrorM": 5.673857087634682e-7,
+      "edgeClearanceM": 0.6035037755723576,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 15,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000040993116183261495,
+      "heightErrorM": 5.481661175116281e-7,
+      "edgeClearanceM": 1.882589925876235,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 15,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000002289903363450634,
+      "heightErrorM": 6.866204712713264e-7,
+      "edgeClearanceM": 1.7379244568106833,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 15,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.0000065633896260288414,
+      "heightErrorM": 9.172766425591394e-8,
+      "edgeClearanceM": 1.6647239898852035,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 15,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000027913523161895206,
+      "heightErrorM": 8.401591392731556e-7,
+      "edgeClearanceM": 0.5537618819794123,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 15,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000041039790498797036,
+      "heightErrorM": 3.964934721517599e-7,
+      "edgeClearanceM": 1.5932691806772394,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 15,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000004038545198408703,
+      "heightErrorM": 4.479631071779844e-7,
+      "edgeClearanceM": 1.9257590258723811,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 15,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000004803087621294198,
+      "heightErrorM": 9.096736462710364e-8,
+      "edgeClearanceM": 1.269427280907913,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 16,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.0000090958559944093,
+      "heightErrorM": 4.7372913712651066e-7,
+      "edgeClearanceM": 1.8538862251221788,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 16,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000005014591564453083,
+      "heightErrorM": 6.130760924344392e-7,
+      "edgeClearanceM": 1.0348449911195177,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 16,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000004204054073804178,
+      "heightErrorM": 9.18726315995988e-8,
+      "edgeClearanceM": 0.6054130785797058,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 16,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000003768534578767435,
+      "heightErrorM": 3.1215088767966304e-7,
+      "edgeClearanceM": 0.879663724736317,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 16,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000005472484463995336,
+      "heightErrorM": 6.541122482411899e-7,
+      "edgeClearanceM": 0.7958923333025233,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 16,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000035815259269226643,
+      "heightErrorM": 3.3148507526392645e-7,
+      "edgeClearanceM": 2.445315734286782,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 16,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.0000021184413099865682,
+      "heightErrorM": 2.0849913383302887e-7,
+      "edgeClearanceM": 1.5992826822675013,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 16,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.0000058176992950643846,
+      "heightErrorM": 3.510766012487787e-7,
+      "edgeClearanceM": 0.19973628766166682,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 17,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000005594727981219596,
+      "heightErrorM": 8.6142321308047e-7,
+      "edgeClearanceM": 3.258704170698832,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 17,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000007264204937487408,
+      "heightErrorM": 8.109371550796274e-7,
+      "edgeClearanceM": 1.4923649798895904,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 17,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000003846198955735251,
+      "heightErrorM": 1.8008330769647696e-7,
+      "edgeClearanceM": 2.557389713731185,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 17,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000006257590059746192,
+      "heightErrorM": 3.4669495775629944e-7,
+      "edgeClearanceM": 1.4620667163489498,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 17,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000014729555342357593,
+      "heightErrorM": 5.374076123138005e-7,
+      "edgeClearanceM": 1.0810939604028749,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 17,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.0000018602112797037354,
+      "heightErrorM": 1.818307596573865e-7,
+      "edgeClearanceM": 2.70790512969866,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 17,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.0000037354583295274063,
+      "heightErrorM": 1.4992304699090742e-7,
+      "edgeClearanceM": 1.7266506528765173,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 17,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000006033108713145795,
+      "heightErrorM": 4.737705451424157e-7,
+      "edgeClearanceM": 1.8131771668327599,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 18,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000015174245054297811,
+      "heightErrorM": 9.539332103264409e-7,
+      "edgeClearanceM": 2.515871570893558,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 18,
+      "colourIndex": 0,
+      "horizontalErrorM": 0.000006292951929356603,
+      "heightErrorM": 0.000001386745508966114,
+      "edgeClearanceM": 1.0219418378419944,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 18,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.00000926071684748332,
+      "heightErrorM": 1.7983200407967193e-7,
+      "edgeClearanceM": 0.8778642223404299,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 18,
+      "colourIndex": 1,
+      "horizontalErrorM": 0.000003199506143584838,
+      "heightErrorM": 8.473892408739081e-7,
+      "edgeClearanceM": 1.7422497088916629,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 18,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000006238120710861859,
+      "heightErrorM": 0.0000016511033423677324,
+      "edgeClearanceM": 1.0593285529674792,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 18,
+      "colourIndex": 2,
+      "horizontalErrorM": 0.000008658360011152314,
+      "heightErrorM": 0.0000014519699534781827,
+      "edgeClearanceM": 1.6438696435571907,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 18,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.00000141510844394516,
+      "heightErrorM": 5.626085795989999e-7,
+      "edgeClearanceM": 3.415571605785595,
+      "radiusM": 0.13000000494010902
+    },
+    {
+      "hole": 18,
+      "colourIndex": 3,
+      "horizontalErrorM": 0.000011431695118704607,
+      "heightErrorM": 3.502347431100228e-7,
+      "edgeClearanceM": 2.2953889745371185,
+      "radiusM": 0.13000000494010902
+    }
+  ],
+  "whiteTransforms": [],
+  "outOfBounds": {
+    "reviewedSegments": 6,
+    "reviewedVertices": 57,
+    "labelDraws": 1,
+    "dashedLineDraws": 6,
+    "physicalWhiteStakes": 0,
+    "sourcePhysicalWhitePoints": 0
+  },
+  "pass": true
+}

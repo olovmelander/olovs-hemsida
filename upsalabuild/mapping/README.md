@@ -1,6 +1,20 @@
 # Upsala ground mapping: reviewed 2024–2025 evidence
 
-**Tee follow-up, 9 September:** 83 navigation references corrected against
+**Facility reference package, 10 September:** [clubhouse and nearby facilities](../facilities/reference-2026-09-10/README.md)
+now have native orthophotos, curated photographs and drawings, municipal outlines
+and a separate Blender reference scene with laser samples. This prepares detailed
+architectural modelling; it does not adopt new production building geometry.
+
+**Newest checkpoint:** [remaining seventeen tee references](remaining17-tee-review-2026-09-09.md).
+Sixteen positions corrected and one confirmed; six placements are explicitly
+approximate guide-identified fairway entries. All 153 references now have reviews.
+
+**Previous checkpoint:** [tee coordinate follow-up](lm-tee-coordinate-followup-2026-09-09.md).
+Stora now has 56 platforms, Mellan 24; standalone camera placement is corrected.
+Regeneration includes `tools/check-upsala-tee-coordinates.mjs` to prevent stale
+coordinates in models, packs, standalone, GPS and geographic exports.
+
+**Initial tee pass, 9 September (historical):** 83 navigation references corrected against
 observed platforms; both course builds refreshed. Read the
 [tee alignment report](lm-tee-alignment-review-2026-09-09.md), including the
 27 retained uncertain references and shadowed physical boundaries.

@@ -1,0 +1,5548 @@
+{
+  "schemaVersion": 1,
+  "course": "johannesberg",
+  "groundId": "johannesberg",
+  "reviewedOn": "2026-09-09",
+  "sourceCaptureDate": "2025-06-14",
+  "frame": {
+    "origin": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "mPerLat": 111320,
+    "mPerLon": 56118.16
+  },
+  "physicalPlatformReview": "johannesbergbuild/mapping/lm-review-tee-platforms.json",
+  "placementPolicy": "Reviewed platforms and forward mown starts; display coordinates represent provisional daily markers. Unresolved tees retain references without physical marker rendering.",
+  "holes": [
+    {
+      "hole": 1,
+      "pads": [
+        {
+          "padId": "johannesberg-h01-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -105.284,
+              -763.415
+            ],
+            [
+              -101.411,
+              -764.189
+            ],
+            [
+              -97.995,
+              -762.104
+            ],
+            [
+              -94.702,
+              -757.463
+            ],
+            [
+              -89.269,
+              -750.799
+            ],
+            [
+              -83.851,
+              -743.815
+            ],
+            [
+              -82.425,
+              -740.225
+            ],
+            [
+              -83.855,
+              -737.093
+            ],
+            [
+              -87.105,
+              -735.969
+            ],
+            [
+              -90.87,
+              -737.431
+            ],
+            [
+              -95.742,
+              -742.468
+            ],
+            [
+              -99.612,
+              -748.416
+            ],
+            [
+              -103.785,
+              -754.7
+            ],
+            [
+              -106.394,
+              -760.268
+            ]
+          ],
+          "geometrySha256": "8e5a29810924b8521c28b151389b1650033d9b15afe71193d2b13cf8bbe88f65"
+        },
+        {
+          "padId": "johannesberg-h01-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -80.015,
+              -703.935
+            ],
+            [
+              -76.522,
+              -703.447
+            ],
+            [
+              -74.459,
+              -699.826
+            ],
+            [
+              -74.021,
+              -695.643
+            ],
+            [
+              -75.738,
+              -693.165
+            ],
+            [
+              -78.988,
+              -692.041
+            ],
+            [
+              -82.769,
+              -693.184
+            ],
+            [
+              -85.197,
+              -695.862
+            ],
+            [
+              -85.347,
+              -699.391
+            ],
+            [
+              -83.28,
+              -702.492
+            ]
+          ],
+          "geometrySha256": "c4ff84af75ca3faf28ec56d15861f82a222cbf6d4b1f2b345214b94d420fceb9"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 273,
+          "referenceC": [
+            -101.3,
+            -752.3
+          ],
+          "padId": "johannesberg-h01-tee-00",
+          "displayC": [
+            -94.252,
+            -754.853
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -112.249,
+            -612.763
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 7.496
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 262,
+          "referenceC": [
+            -102.3,
+            -741.4
+          ],
+          "padId": "johannesberg-h01-tee-00",
+          "displayC": [
+            -95.207,
+            -744.306
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -112.601,
+            -605.384
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 7.665
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 262,
+          "referenceC": [
+            -102.3,
+            -741.4
+          ],
+          "padId": "johannesberg-h01-tee-00",
+          "displayC": [
+            -95.207,
+            -744.306
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -112.601,
+            -605.384
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 7.665
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 220,
+          "referenceC": [
+            -106.3,
+            -699.6
+          ],
+          "padId": "johannesberg-h01-tee-01",
+          "displayC": [
+            -79.602,
+            -697.966
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -111.58,
+            -560.94
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 26.748
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 220,
+          "referenceC": [
+            -106.3,
+            -699.6
+          ],
+          "padId": "johannesberg-h01-tee-01",
+          "displayC": [
+            -79.602,
+            -697.966
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -111.58,
+            -560.94
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 26.748
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-01-hole.png",
+            "sha256": "49f1964d4f4046bc2fe43e7f67bceee2e9188640c77d83999a962567e2508389",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-01-hole.png",
+            "sha256": "49f1964d4f4046bc2fe43e7f67bceee2e9188640c77d83999a962567e2508389",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-1-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-01.jpg",
+          "sha256": "9850cbd59124de074b5622ccfb1f21f31fee0326f582838055070e0abd94c715"
+        }
+      }
+    },
+    {
+      "hole": 2,
+      "pads": [
+        {
+          "padId": "johannesberg-h02-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -48.924,
+              -486.355
+            ],
+            [
+              -46.023,
+              -486.855
+            ],
+            [
+              -43.199,
+              -485.758
+            ],
+            [
+              -41.075,
+              -483.415
+            ],
+            [
+              -40.272,
+              -480.175
+            ],
+            [
+              -41.701,
+              -477.043
+            ],
+            [
+              -44.328,
+              -475.569
+            ],
+            [
+              -47.502,
+              -476.042
+            ],
+            [
+              -49.642,
+              -478.066
+            ],
+            [
+              -50.764,
+              -481.322
+            ],
+            [
+              -50.61,
+              -484.515
+            ]
+          ],
+          "geometrySha256": "c786fafaafea84f08e83ec2eb13cc0b7710126e8615b6ec641513f595e276014"
+        },
+        {
+          "padId": "johannesberg-h02-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -35.199,
+              -452.72
+            ],
+            [
+              -31.949,
+              -453.844
+            ],
+            [
+              -28.503,
+              -452.397
+            ],
+            [
+              -26.713,
+              -449.75
+            ],
+            [
+              -27.535,
+              -445.948
+            ],
+            [
+              -30.224,
+              -443.197
+            ],
+            [
+              -33.762,
+              -442.727
+            ],
+            [
+              -36.555,
+              -444.463
+            ],
+            [
+              -37.996,
+              -447.733
+            ],
+            [
+              -37.539,
+              -450.592
+            ]
+          ],
+          "geometrySha256": "89392317d233d3fb3fa297fa94c3f7c60e32af5eff2c14e6e25f8818b6e2cb70"
+        },
+        {
+          "padId": "johannesberg-h02-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -54.993,
+              -509.696
+            ],
+            [
+              -52.882,
+              -510.395
+            ],
+            [
+              -50.696,
+              -509.329
+            ],
+            [
+              -48.882,
+              -507.161
+            ],
+            [
+              -48.2,
+              -504.727
+            ],
+            [
+              -48.794,
+              -502.354
+            ],
+            [
+              -50.169,
+              -500.34
+            ],
+            [
+              -51.984,
+              -499.147
+            ],
+            [
+              -54.049,
+              -499.407
+            ],
+            [
+              -55.734,
+              -500.929
+            ],
+            [
+              -56.902,
+              -503.226
+            ],
+            [
+              -57.258,
+              -505.804
+            ],
+            [
+              -56.505,
+              -508.168
+            ]
+          ],
+          "geometrySha256": "4decd1321f01e71b9d95e9a206418a973456d56e7d8a3bd94eb8a1dafcac91cc"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 344,
+          "referenceC": [
+            -50.3,
+            -504.8
+          ],
+          "padId": "johannesberg-h02-tee-02",
+          "displayC": [
+            -52.806,
+            -504.762
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            -30.593,
+            -366.304
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 2.506
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 323,
+          "referenceC": [
+            -46.9,
+            -484.1
+          ],
+          "padId": "johannesberg-h02-tee-00",
+          "displayC": [
+            -45.701,
+            -481.249
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -28.884,
+            -342.38
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 3.093
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 323,
+          "referenceC": [
+            -46.9,
+            -484.1
+          ],
+          "padId": "johannesberg-h02-tee-00",
+          "displayC": [
+            -45.701,
+            -481.249
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -28.884,
+            -342.38
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 3.093
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 292,
+          "referenceC": [
+            -41.8,
+            -453.5
+          ],
+          "padId": "johannesberg-h02-tee-01",
+          "displayC": [
+            -32.4,
+            -448.259
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -31.245,
+            -307.933
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 10.762
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 217,
+          "referenceC": [
+            -31.5,
+            -379.3
+          ],
+          "padId": null,
+          "displayC": [
+            -27.774,
+            -372.332
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "fairway",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            -51.216,
+            -236.119
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 7.902
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-02.png",
+            "sha256": "9b697e5813d8b8107b7f57fa391330ff05e0814dfad23d48da544530de1aaea5",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-02-hole.png",
+            "sha256": "2de0af5aa486289400cbda0276ce38d99cd9b4f448b30c0004398f6cf052da0f",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-2-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-02.jpg",
+          "sha256": "d1435bad95d7ded747dbc6d2756244e37f3e02586f633e7421a2f26d3df541e0"
+        }
+      }
+    },
+    {
+      "hole": 3,
+      "pads": [
+        {
+          "padId": "johannesberg-h03-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -70.495,
+              -137.343
+            ],
+            [
+              -67.914,
+              -137.859
+            ],
+            [
+              -64.923,
+              -136.915
+            ],
+            [
+              -61.978,
+              -135.012
+            ],
+            [
+              -58.905,
+              -132.463
+            ],
+            [
+              -57.251,
+              -130.302
+            ],
+            [
+              -57.169,
+              -128.698
+            ],
+            [
+              -58.521,
+              -127.162
+            ],
+            [
+              -60.632,
+              -126.464
+            ],
+            [
+              -63.159,
+              -127.066
+            ],
+            [
+              -66.119,
+              -128.649
+            ],
+            [
+              -68.578,
+              -130.689
+            ],
+            [
+              -70.854,
+              -133.199
+            ],
+            [
+              -71.559,
+              -135.154
+            ]
+          ],
+          "geometrySha256": "09380ff430c34650e3f5bab023fd3d22dfcfda2c6c8b1a8fbd7c0ab2d8006756"
+        },
+        {
+          "padId": "johannesberg-h03-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -23.642,
+              -118.117
+            ],
+            [
+              -20.847,
+              -119.743
+            ],
+            [
+              -17.628,
+              -120.228
+            ],
+            [
+              -14.478,
+              -119.276
+            ],
+            [
+              -12.33,
+              -117.411
+            ],
+            [
+              -11.648,
+              -114.978
+            ],
+            [
+              -12.401,
+              -112.613
+            ],
+            [
+              -14.111,
+              -110.295
+            ],
+            [
+              -16.435,
+              -108.486
+            ],
+            [
+              -19.198,
+              -107.499
+            ],
+            [
+              -22.076,
+              -107.478
+            ],
+            [
+              -24.406,
+              -108.871
+            ],
+            [
+              -25.908,
+              -110.864
+            ],
+            [
+              -26.43,
+              -113.29
+            ],
+            [
+              -25.495,
+              -116.126
+            ]
+          ],
+          "geometrySha256": "cd5504bc8a43cbbeb6e59061362943b59fc15cd5e178906aaf522192ff1d9c49"
+        },
+        {
+          "padId": "johannesberg-h03-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              35.604,
+              -130.625
+            ],
+            [
+              38.686,
+              -131.596
+            ],
+            [
+              42.073,
+              -132.233
+            ],
+            [
+              44.919,
+              -131.616
+            ],
+            [
+              46.915,
+              -129.919
+            ],
+            [
+              47.46,
+              -127.972
+            ],
+            [
+              46.723,
+              -125.926
+            ],
+            [
+              44.892,
+              -124.414
+            ],
+            [
+              42.136,
+              -123.587
+            ],
+            [
+              39.076,
+              -123.094
+            ],
+            [
+              36.397,
+              -123.864
+            ],
+            [
+              34.712,
+              -125.386
+            ],
+            [
+              34.175,
+              -127.492
+            ],
+            [
+              34.578,
+              -129.234
+            ]
+          ],
+          "geometrySha256": "b0e1a480c75026a375694e06b8838ea59e5b6b4b0b7556a9d46a3636b93930c2"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 492,
+          "referenceC": [
+            -83.1,
+            -159.3
+          ],
+          "padId": "johannesberg-h03-tee-00",
+          "displayC": [
+            -64.365,
+            -132.146
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            77.725,
+            -168.407
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 32.99
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 452,
+          "referenceC": [
+            -44.3,
+            -149.6
+          ],
+          "padId": "johannesberg-h03-tee-01",
+          "displayC": [
+            -19.132,
+            -113.86
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            111.127,
+            -175.085
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 43.712
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 391,
+          "referenceC": [
+            15.3,
+            -155.4
+          ],
+          "padId": "johannesberg-h03-tee-02",
+          "displayC": [
+            40.74,
+            -127.695
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            171.468,
+            -186.629
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 37.613
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 391,
+          "referenceC": [
+            15.3,
+            -155.4
+          ],
+          "padId": "johannesberg-h03-tee-02",
+          "displayC": [
+            40.74,
+            -127.695
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            171.468,
+            -186.629
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 37.613
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 291,
+          "referenceC": [
+            113.2,
+            -175.5
+          ],
+          "padId": null,
+          "displayC": [
+            123.129,
+            -173.143
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "fairway",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            260.312,
+            -200.708
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 10.205
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-03-actual-tees.png",
+            "sha256": "8fb876320f61ded858e3d261c6f94cd7e5b9c37de457dc4fdb5c90f41d56de26",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-03-hole.png",
+            "sha256": "3ff5550f12f5f71810cee5354bec854683153e79362b753d0b741002281275ef",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-3-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Match photographed pond/path topology: white, yellow and blue/red belong on three separate platforms. The inherited line start lies north of all three.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-03.jpg",
+          "sha256": "ba1f6e6f1170876b3e36e488809bf89e890a24979176f40ca5a30e7ea03ae307"
+        }
+      }
+    },
+    {
+      "hole": 4,
+      "pads": [
+        {
+          "padId": "johannesberg-h04-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              326.115,
+              -104.27
+            ],
+            [
+              329.684,
+              -105.378
+            ],
+            [
+              333.464,
+              -104.235
+            ],
+            [
+              336.833,
+              -101.191
+            ],
+            [
+              338.258,
+              -97.601
+            ],
+            [
+              337.816,
+              -95.061
+            ],
+            [
+              335.491,
+              -93.253
+            ],
+            [
+              331.635,
+              -92.799
+            ],
+            [
+              327.551,
+              -94.277
+            ],
+            [
+              325.124,
+              -96.955
+            ],
+            [
+              324.336,
+              -100.514
+            ]
+          ],
+          "geometrySha256": "66aeaf504293bd91e29a058ccf90d4aaf5a67144148f8c6c3591ea7cbb419fab"
+        },
+        {
+          "padId": "johannesberg-h04-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              382.108,
+              -99.002
+            ],
+            [
+              386.633,
+              -100.064
+            ],
+            [
+              392.295,
+              -98.189
+            ],
+            [
+              396.893,
+              -94.126
+            ],
+            [
+              398.606,
+              -89.881
+            ],
+            [
+              397.162,
+              -86.43
+            ],
+            [
+              393.259,
+              -85.018
+            ],
+            [
+              388.507,
+              -85.888
+            ],
+            [
+              383.832,
+              -88.355
+            ],
+            [
+              380.828,
+              -92.341
+            ],
+            [
+              380.375,
+              -96.205
+            ]
+          ],
+          "geometrySha256": "4efd6a0b6fce8d9b10c2d1a0dbe98d8fff372d3f5482a6d4ce495b35efb7c8eb"
+        },
+        {
+          "padId": "johannesberg-h04-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              436.236,
+              -74.936
+            ],
+            [
+              440.427,
+              -75.694
+            ],
+            [
+              444.207,
+              -74.551
+            ],
+            [
+              447.272,
+              -71.842
+            ],
+            [
+              448.059,
+              -68.282
+            ],
+            [
+              446.007,
+              -65.5
+            ],
+            [
+              442.135,
+              -64.727
+            ],
+            [
+              438.355,
+              -65.871
+            ],
+            [
+              435.609,
+              -68.564
+            ],
+            [
+              434.822,
+              -72.124
+            ]
+          ],
+          "geometrySha256": "9dac53de66c10d1c7ffdc8d9a472e006a0b5a14c8f1c9748fa4d28f85ad66778"
+        },
+        {
+          "padId": "johannesberg-h04-tee-03",
+          "index": 3,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              353.602,
+              -87.735
+            ],
+            [
+              355.985,
+              -87.46
+            ],
+            [
+              359.287,
+              -86.34
+            ],
+            [
+              362.877,
+              -84.566
+            ],
+            [
+              365.996,
+              -82.975
+            ],
+            [
+              367.688,
+              -81.612
+            ],
+            [
+              368.248,
+              -79.985
+            ],
+            [
+              367.534,
+              -78.419
+            ],
+            [
+              365.909,
+              -77.857
+            ],
+            [
+              363.541,
+              -78.452
+            ],
+            [
+              360.725,
+              -79.708
+            ],
+            [
+              357.135,
+              -81.482
+            ],
+            [
+              353.841,
+              -82.762
+            ],
+            [
+              352.142,
+              -83.965
+            ],
+            [
+              351.573,
+              -85.433
+            ],
+            [
+              352.439,
+              -86.831
+            ]
+          ],
+          "geometrySha256": "78f65b30635177e49dc58663d76b31980f6388fd0f8335e4583729f2615c9117"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 431,
+          "referenceC": [
+            326.4,
+            -100.9
+          ],
+          "padId": "johannesberg-h04-tee-00",
+          "displayC": [
+            331.221,
+            -98.897
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            468.68,
+            -72.324
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 5.221
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 399,
+          "referenceC": [
+            357.7,
+            -94.6
+          ],
+          "padId": "johannesberg-h04-tee-03",
+          "displayC": [
+            360.003,
+            -82.91
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 3,
+          "aimC": [
+            499.432,
+            -66.148
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 11.915
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 373,
+          "referenceC": [
+            383.2,
+            -89.5
+          ],
+          "padId": "johannesberg-h04-tee-01",
+          "displayC": [
+            389.312,
+            -92.472
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            525.759,
+            -60.86
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 6.796
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 325,
+          "referenceC": [
+            430.3,
+            -80
+          ],
+          "padId": "johannesberg-h04-tee-02",
+          "displayC": [
+            441.363,
+            -70.23
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            578.978,
+            -45.657
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 14.76
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 220,
+          "referenceC": [
+            533.2,
+            -59.4
+          ],
+          "padId": null,
+          "displayC": [
+            533.2,
+            -59.4
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "fairway",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            666.755,
+            -17.553
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 0
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-04.png",
+            "sha256": "49cc4301ea3f77a3387b6a8744754a2599ca02edd6ce3ee435031a48a89a34a5",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-04-hole.png",
+            "sha256": "23655feb6f7166649684e54bbcffa01f02f1707b60392f2722fbac9dadad96a6",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-4-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-04.jpg",
+          "sha256": "38729d649e9173e4783a59ee55c68b7d7f2b1c7df9aba29c7f469215ea9d532c"
+        }
+      }
+    },
+    {
+      "hole": 5,
+      "pads": [
+        {
+          "padId": "johannesberg-h05-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              741.581,
+              54.448
+            ],
+            [
+              745.756,
+              54.01
+            ],
+            [
+              750.446,
+              56.158
+            ],
+            [
+              752.508,
+              59.779
+            ],
+            [
+              751.079,
+              62.911
+            ],
+            [
+              747.479,
+              64.657
+            ],
+            [
+              743.35,
+              64.137
+            ],
+            [
+              739.616,
+              62.035
+            ],
+            [
+              738.845,
+              58.157
+            ]
+          ],
+          "geometrySha256": "20dfbd95be56fe7dd2226ebcf7dc28cc2ea68fbe8cb54e656854687e9d18b399"
+        },
+        {
+          "padId": "johannesberg-h05-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              705.147,
+              47.881
+            ],
+            [
+              709.688,
+              46.5
+            ],
+            [
+              714.424,
+              47.69
+            ],
+            [
+              719.067,
+              50.796
+            ],
+            [
+              720.158,
+              54.69
+            ],
+            [
+              718.06,
+              58.43
+            ],
+            [
+              713.504,
+              60.13
+            ],
+            [
+              708.737,
+              59.579
+            ],
+            [
+              704.7,
+              57.143
+            ],
+            [
+              702.638,
+              53.522
+            ],
+            [
+              703.126,
+              50.024
+            ]
+          ],
+          "geometrySha256": "0931772c41021ff342d27e8c6f5b695a47c1c2c601d4ffba330c5052d800a2bf"
+        },
+        {
+          "padId": "johannesberg-h05-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              668.955,
+              42.927
+            ],
+            [
+              672.827,
+              42.154
+            ],
+            [
+              676.257,
+              43.921
+            ],
+            [
+              678.016,
+              47.207
+            ],
+            [
+              677.209,
+              50.689
+            ],
+            [
+              674.247,
+              52.467
+            ],
+            [
+              670.436,
+              51.962
+            ],
+            [
+              667.644,
+              50.226
+            ],
+            [
+              666.857,
+              46.667
+            ]
+          ],
+          "geometrySha256": "55d5b6b7b87169b6f25cfb9e66cab0f14dc28bdedb9e709b28e3686e0d6bff3c"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 393,
+          "referenceC": [
+            736.7,
+            54.1
+          ],
+          "padId": "johannesberg-h05-tee-00",
+          "displayC": [
+            745.513,
+            59.384
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            597.754,
+            63.034
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 10.276
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 362,
+          "referenceC": [
+            705.7,
+            55.1
+          ],
+          "padId": "johannesberg-h05-tee-01",
+          "displayC": [
+            711.263,
+            53.397
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            574.259,
+            72.693
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 5.818
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 326,
+          "referenceC": [
+            669.7,
+            56.2
+          ],
+          "padId": "johannesberg-h05-tee-02",
+          "displayC": [
+            672.427,
+            47.413
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            538.527,
+            87.383
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 9.2
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 326,
+          "referenceC": [
+            669.7,
+            56.2
+          ],
+          "padId": "johannesberg-h05-tee-02",
+          "displayC": [
+            672.427,
+            47.413
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            538.527,
+            87.383
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 9.2
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 246,
+          "referenceC": [
+            591.2,
+            65.7
+          ],
+          "padId": null,
+          "displayC": [
+            591.2,
+            65.7
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "fairway",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            469.594,
+            132.804
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 0
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-05-hole.png",
+            "sha256": "cd30615bcfd6d6c5d18a349a65b4698c389f29085d81a684335914ee456b86f4",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-05-hole.png",
+            "sha256": "cd30615bcfd6d6c5d18a349a65b4698c389f29085d81a684335914ee456b86f4",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-5-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-05.jpg",
+          "sha256": "507af3b57169d4fa525766b416a8df2c82e910d984512a7449c34752da71bfd3"
+        }
+      }
+    },
+    {
+      "hole": 6,
+      "pads": [
+        {
+          "padId": "johannesberg-h06-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              372.747,
+              267.725
+            ],
+            [
+              375.632,
+              267.544
+            ],
+            [
+              377.771,
+              269.568
+            ],
+            [
+              378.27,
+              272.474
+            ],
+            [
+              376.856,
+              275.286
+            ],
+            [
+              373.941,
+              276.106
+            ],
+            [
+              371.452,
+              274.705
+            ],
+            [
+              370.619,
+              272.104
+            ],
+            [
+              371.061,
+              269.564
+            ]
+          ],
+          "geometrySha256": "9542c44721a712e2c5516abcdfcb3c9aedf77dd82249a5ceb850091845a0d02d"
+        },
+        {
+          "padId": "johannesberg-h06-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              351.437,
+              259.012
+            ],
+            [
+              354.337,
+              258.512
+            ],
+            [
+              357.13,
+              260.247
+            ],
+            [
+              358.616,
+              262.56
+            ],
+            [
+              357.855,
+              265.084
+            ],
+            [
+              355.547,
+              266.573
+            ],
+            [
+              352.374,
+              266.1
+            ],
+            [
+              349.931,
+              263.741
+            ],
+            [
+              349.736,
+              261.17
+            ]
+          ],
+          "geometrySha256": "716e5ac6458c0609c561111e68ee1d0f49149a7c106a5b1ae751fe392a4f314f"
+        },
+        {
+          "padId": "johannesberg-h06-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              379.749,
+              274.946
+            ],
+            [
+              381.456,
+              275.989
+            ],
+            [
+              383.914,
+              278.029
+            ],
+            [
+              386.349,
+              280.547
+            ],
+            [
+              387.828,
+              283.02
+            ],
+            [
+              388.381,
+              284.807
+            ],
+            [
+              387.674,
+              286.213
+            ],
+            [
+              386.034,
+              287.094
+            ],
+            [
+              384.273,
+              287.169
+            ],
+            [
+              382.087,
+              286.103
+            ],
+            [
+              379.933,
+              284.399
+            ],
+            [
+              378.127,
+              282.07
+            ],
+            [
+              376.952,
+              279.933
+            ],
+            [
+              377.196,
+              278.184
+            ],
+            [
+              378.245,
+              276.314
+            ]
+          ],
+          "geometrySha256": "c35a85c0cc3f55f9a4a2a47ae1ce070b6513b9c2a3413233d801be5e768256e2"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 190,
+          "referenceC": [
+            396.9,
+            290
+          ],
+          "padId": "johannesberg-h06-tee-02",
+          "displayC": [
+            382.467,
+            281.523
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            270.367,
+            197.634
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 16.738
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 169,
+          "referenceC": [
+            379.9,
+            277.7
+          ],
+          "padId": "johannesberg-h06-tee-00",
+          "displayC": [
+            374.41,
+            271.749
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            260.517,
+            190.335
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 8.097
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 143,
+          "referenceC": [
+            358.9,
+            262.4
+          ],
+          "padId": "johannesberg-h06-tee-01",
+          "displayC": [
+            354.062,
+            262.582
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            243.6,
+            177.8
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 4.841
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 143,
+          "referenceC": [
+            358.9,
+            262.4
+          ],
+          "padId": "johannesberg-h06-tee-01",
+          "displayC": [
+            354.062,
+            262.582
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            243.6,
+            177.8
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 4.841
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 73,
+          "referenceC": [
+            302.3,
+            221.3
+          ],
+          "padId": null,
+          "displayC": [
+            302.3,
+            221.3
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "mown-ground",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            243.6,
+            177.8
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 0,
+          "referenceSurfaceKind": "mown-ground",
+          "referenceSurfaceRing": [
+            [
+              289.51,
+              211.201
+            ],
+            [
+              296.174,
+              212.164
+            ],
+            [
+              303.779,
+              213.492
+            ],
+            [
+              310.002,
+              216.994
+            ],
+            [
+              315.798,
+              222.716
+            ],
+            [
+              319.696,
+              228.026
+            ],
+            [
+              322.335,
+              232.956
+            ],
+            [
+              318.689,
+              235.66
+            ],
+            [
+              313.969,
+              234.152
+            ],
+            [
+              310.009,
+              230.119
+            ],
+            [
+              305.092,
+              226.04
+            ],
+            [
+              299.811,
+              222.904
+            ],
+            [
+              294.483,
+              220.725
+            ],
+            [
+              289.382,
+              220.479
+            ],
+            [
+              286.97,
+              217.481
+            ]
+          ],
+          "referenceAreaEvidence": {
+            "sourceFile": "johannesbergbuild/cache/lm-ortho/eighteen-06-hole.png",
+            "sourceSha256": "b5a29892c36d00f3013facb73c9a22af22cc2759816b0c3119edffd0cdf6ccf8",
+            "sourcePixelRing": [
+              [
+                320,
+                278
+              ],
+              [
+                341,
+                280
+              ],
+              [
+                365,
+                283
+              ],
+              [
+                385,
+                293
+              ],
+              [
+                404,
+                310
+              ],
+              [
+                417,
+                326
+              ],
+              [
+                426,
+                341
+              ],
+              [
+                415,
+                350
+              ],
+              [
+                400,
+                346
+              ],
+              [
+                387,
+                334
+              ],
+              [
+                371,
+                322
+              ],
+              [
+                354,
+                313
+              ],
+              [
+                337,
+                307
+              ],
+              [
+                321,
+                307
+              ],
+              [
+                313,
+                298
+              ]
+            ],
+            "panelExtent": {
+              "crs": "EPSG:3006",
+              "bounds": [
+                679658.56,
+                6625053.44,
+                679912.3200000001,
+                6625256
+              ]
+            },
+            "panelPixelSize": [
+              793,
+              633
+            ],
+            "uncertaintyM": 2,
+            "note": "Bounded containment area on visibly mown par-3 approach turf, checked clear of the adjacent rough islands and paths. This is a review footprint for marker placement, not an extra raised tee or a claim about the complete mowing boundary."
+          }
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-06.png",
+            "sha256": "ace38a7cca01716bb5d1eb75726957641425122978d9772819f7bff050cf97b7",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-06-hole.png",
+            "sha256": "b5a29892c36d00f3013facb73c9a22af22cc2759816b0c3119edffd0cdf6ccf8",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-6-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-06.jpg",
+          "sha256": "db53c6fbb324936db92774117fcd64c3ed5c8da3452f395bebdda323febd5baf"
+        }
+      }
+    },
+    {
+      "hole": 7,
+      "pads": [
+        {
+          "padId": "johannesberg-h07-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              250.721,
+              233.656
+            ],
+            [
+              254.593,
+              232.883
+            ],
+            [
+              258.326,
+              234.984
+            ],
+            [
+              262.271,
+              239.336
+            ],
+            [
+              263.953,
+              244.219
+            ],
+            [
+              262.175,
+              247.975
+            ],
+            [
+              258.272,
+              249.387
+            ],
+            [
+              254.174,
+              248.229
+            ],
+            [
+              250.167,
+              245.154
+            ],
+            [
+              247.801,
+              241.198
+            ],
+            [
+              247.348,
+              237.335
+            ]
+          ],
+          "geometrySha256": "acb5632b098ac823a026a417375c2b93859fbbdd0346bca383d29af03c520b42"
+        },
+        {
+          "padId": "johannesberg-h07-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              284.08,
+              250.954
+            ],
+            [
+              288.24,
+              250.835
+            ],
+            [
+              291.943,
+              253.575
+            ],
+            [
+              294.946,
+              257.562
+            ],
+            [
+              295.127,
+              260.451
+            ],
+            [
+              292.469,
+              262.564
+            ],
+            [
+              288.931,
+              263.033
+            ],
+            [
+              285.182,
+              261.251
+            ],
+            [
+              282.179,
+              257.265
+            ],
+            [
+              281.391,
+              253.705
+            ]
+          ],
+          "geometrySha256": "554fb1071f194d30dfdf635cbe72df244f11960e21a98fc7094b970f05fda423"
+        },
+        {
+          "padId": "johannesberg-h07-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              222.362,
+              218.681
+            ],
+            [
+              224.617,
+              218.31
+            ],
+            [
+              227.129,
+              219.232
+            ],
+            [
+              229.276,
+              221.096
+            ],
+            [
+              230.596,
+              223.561
+            ],
+            [
+              230.655,
+              225.644
+            ],
+            [
+              229.28,
+              227.659
+            ],
+            [
+              227.313,
+              228.684
+            ],
+            [
+              225.089,
+              228.416
+            ],
+            [
+              222.904,
+              227.351
+            ],
+            [
+              221.075,
+              225.502
+            ],
+            [
+              220.386,
+              223.227
+            ],
+            [
+              220.82,
+              220.847
+            ]
+          ],
+          "geometrySha256": "fac5521f45ffe734d64521c7fac33d2c4594d0464baebb01a44f388a86cbcfb0"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 469,
+          "referenceC": [
+            225.4,
+            210.1
+          ],
+          "padId": "johannesberg-h07-tee-02",
+          "displayC": [
+            225.48,
+            223.563
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            331.188,
+            315.542
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.463
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 436,
+          "referenceC": [
+            249.1,
+            233.1
+          ],
+          "padId": "johannesberg-h07-tee-00",
+          "displayC": [
+            255.57,
+            241.226
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            353.869,
+            340.743
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 10.387
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 400,
+          "referenceC": [
+            275,
+            258.1
+          ],
+          "padId": "johannesberg-h07-tee-01",
+          "displayC": [
+            288.249,
+            256.924
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            373.03,
+            369.289
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.301
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 400,
+          "referenceC": [
+            275,
+            258.1
+          ],
+          "padId": "johannesberg-h07-tee-01",
+          "displayC": [
+            288.249,
+            256.924
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            373.03,
+            369.289
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.301
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 326,
+          "referenceC": [
+            326.9,
+            310.8
+          ],
+          "padId": null,
+          "displayC": [
+            340.653,
+            323.766
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "fairway",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            410.469,
+            444.173
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 18.901
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-07.png",
+            "sha256": "9e7d294ff8bc523c8971eb8b91364f360b22a6ea86d0ef6148c9d9b30cd05986",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-07-hole.png",
+            "sha256": "a666b4c8b3b454026a5d6b8a6cc33b4d13aeaa01dba3accf8bd380408d8eaad5",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-7-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-07.jpg",
+          "sha256": "9bc57882b18ead2af7f13cfce8b1d66148446081ff00149d6920314d1eb64892"
+        }
+      }
+    },
+    {
+      "hole": 8,
+      "pads": [
+        {
+          "padId": "johannesberg-h08-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              206.352,
+              717.297
+            ],
+            [
+              209.563,
+              716.972
+            ],
+            [
+              213.221,
+              717.309
+            ],
+            [
+              216.37,
+              718.261
+            ],
+            [
+              218.388,
+              719.479
+            ],
+            [
+              218.957,
+              720.947
+            ],
+            [
+              217.309,
+              721.988
+            ],
+            [
+              213.939,
+              722.305
+            ],
+            [
+              210.281,
+              721.968
+            ],
+            [
+              207.442,
+              721.191
+            ],
+            [
+              205.918,
+              719.677
+            ]
+          ],
+          "geometrySha256": "5baa3f40c7f5e74be42bc17a8d2bea1bd039582560a6c3db79d4312400beff63"
+        },
+        {
+          "padId": "johannesberg-h08-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              186.125,
+              716
+            ],
+            [
+              188.858,
+              715.652
+            ],
+            [
+              191.863,
+              716.277
+            ],
+            [
+              193.562,
+              717.479
+            ],
+            [
+              193.653,
+              718.924
+            ],
+            [
+              192.157,
+              720.133
+            ],
+            [
+              189.432,
+              720.321
+            ],
+            [
+              186.912,
+              719.559
+            ],
+            [
+              185.539,
+              718.212
+            ]
+          ],
+          "geometrySha256": "d90ec1423a5c4a6e4f360770319055cd7bd9fa86db1ddfe17c0595af9aa63b3a"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 355,
+          "referenceC": [
+            239.6,
+            707.6
+          ],
+          "padId": null,
+          "displayC": null,
+          "displayMarkers": false,
+          "surfaceKind": "unverified",
+          "status": "unresolved-suppressed",
+          "note": "Separate tee group appears in the official guide but exact surface remains unresolved. Preserve reference coordinate and suppress physical marker rendering."
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 321,
+          "referenceC": [
+            208.1,
+            720.5
+          ],
+          "padId": "johannesberg-h08-tee-00",
+          "displayC": [
+            212.139,
+            719.689
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            90.116,
+            785.615
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 4.12
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 299,
+          "referenceC": [
+            187.7,
+            728.8
+          ],
+          "padId": "johannesberg-h08-tee-01",
+          "displayC": [
+            189.584,
+            717.992
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            79.718,
+            802.429
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 10.971
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 299,
+          "referenceC": [
+            187.7,
+            728.8
+          ],
+          "padId": "johannesberg-h08-tee-01",
+          "displayC": [
+            189.584,
+            717.992
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            79.718,
+            802.429
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 10.971
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 224,
+          "referenceC": [
+            119.7,
+            760.2
+          ],
+          "padId": null,
+          "displayC": [
+            125.996,
+            768.171
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "fairway",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            59.684,
+            877.847
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 10.158
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-08.png",
+            "sha256": "222a4dfe0deeb0332ce92a2303a567bbc9e34d5e47810457c491f34ca43eeead",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-08-hole.png",
+            "sha256": "7299fc1abaa1985b0ef8c91b2f58d82c9683c6f03fcde54da183719d3aaa5cbc",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-8-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-08.jpg",
+          "sha256": "228b73fbc2f9ef15936f4cae1d42b7eae2902564d0d9f624c4a5f7b379fd04fc"
+        }
+      }
+    },
+    {
+      "hole": 9,
+      "pads": [
+        {
+          "padId": "johannesberg-h09-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              8.244,
+              943.501
+            ],
+            [
+              11.174,
+              942.362
+            ],
+            [
+              13.981,
+              943.778
+            ],
+            [
+              16.681,
+              947.43
+            ],
+            [
+              18.075,
+              951.658
+            ],
+            [
+              17.254,
+              955.46
+            ],
+            [
+              14.915,
+              957.588
+            ],
+            [
+              11.393,
+              957.738
+            ],
+            [
+              8.298,
+              955.668
+            ],
+            [
+              6.236,
+              952.047
+            ],
+            [
+              6.116,
+              947.88
+            ]
+          ],
+          "geometrySha256": "525312b69507ff1e430a15b41f3784a174d174d5630a19397182bebd979d5705"
+        },
+        {
+          "padId": "johannesberg-h09-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              5.658,
+              897.599
+            ],
+            [
+              8.269,
+              896.444
+            ],
+            [
+              10.758,
+              897.845
+            ],
+            [
+              12.82,
+              901.466
+            ],
+            [
+              13.592,
+              905.345
+            ],
+            [
+              12.149,
+              908.796
+            ],
+            [
+              9.506,
+              910.589
+            ],
+            [
+              7.002,
+              909.508
+            ],
+            [
+              4.879,
+              907.165
+            ],
+            [
+              3.772,
+              903.59
+            ],
+            [
+              3.926,
+              900.396
+            ]
+          ],
+          "geometrySha256": "b87bb973e1abda9749b0ec5191614e4cac7034e1964a9e9b576af8e0b3d91156"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 172,
+          "referenceC": [
+            9.7,
+            952.3
+          ],
+          "padId": "johannesberg-h09-tee-00",
+          "displayC": [
+            11.883,
+            955.903
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            13.076,
+            812.341
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 4.213
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 161,
+          "referenceC": [
+            10,
+            941.3
+          ],
+          "padId": "johannesberg-h09-tee-00",
+          "displayC": [
+            11.977,
+            944.904
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            13.245,
+            804.892
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 4.111
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 122,
+          "referenceC": [
+            10.9,
+            902.3
+          ],
+          "padId": "johannesberg-h09-tee-01",
+          "displayC": [
+            8.575,
+            903.52
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            13.8,
+            780.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 2.626
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 122,
+          "referenceC": [
+            10.9,
+            902.3
+          ],
+          "padId": "johannesberg-h09-tee-01",
+          "displayC": [
+            8.575,
+            903.52
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            13.8,
+            780.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 2.626
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 82,
+          "referenceC": [
+            11.9,
+            862.3
+          ],
+          "padId": null,
+          "displayC": [
+            11.9,
+            862.3
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "mown-ground",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            13.8,
+            780.3
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 0,
+          "referenceSurfaceKind": "mown-ground",
+          "referenceSurfaceRing": [
+            [
+              6.582,
+              845.144
+            ],
+            [
+              13.533,
+              846.76
+            ],
+            [
+              18.906,
+              847.979
+            ],
+            [
+              23.004,
+              849.137
+            ],
+            [
+              23.426,
+              853.639
+            ],
+            [
+              23.165,
+              859.069
+            ],
+            [
+              23.177,
+              865.472
+            ],
+            [
+              25.785,
+              871.04
+            ],
+            [
+              24.264,
+              876.088
+            ],
+            [
+              22.091,
+              881.426
+            ],
+            [
+              20.827,
+              887.767
+            ],
+            [
+              18.304,
+              893.728
+            ],
+            [
+              15.95,
+              896.175
+            ],
+            [
+              12.11,
+              896.31
+            ],
+            [
+              7.755,
+              893.859
+            ],
+            [
+              5.101,
+              889.249
+            ],
+            [
+              5.331,
+              884.458
+            ],
+            [
+              4.908,
+              879.956
+            ],
+            [
+              2.938,
+              874.419
+            ],
+            [
+              1.939,
+              868.609
+            ],
+            [
+              1.578,
+              862.829
+            ],
+            [
+              -0.073,
+              857.307
+            ],
+            [
+              -2.712,
+              852.378
+            ],
+            [
+              -3.484,
+              848.499
+            ],
+            [
+              -0.826,
+              846.387
+            ]
+          ],
+          "referenceAreaEvidence": {
+            "sourceFile": "johannesbergbuild/cache/lm-ortho/eighteen-09-hole.png",
+            "sourceSha256": "8e7acabbe33f8a675145a5f3e0f95bb7effd7fd5ebcc282c847c26d2c668b805",
+            "sourcePixelRing": [
+              [
+                155,
+                367
+              ],
+              [
+                177,
+                371
+              ],
+              [
+                194,
+                374
+              ],
+              [
+                207,
+                377
+              ],
+              [
+                209,
+                391
+              ],
+              [
+                209,
+                408
+              ],
+              [
+                210,
+                428
+              ],
+              [
+                219,
+                445
+              ],
+              [
+                215,
+                461
+              ],
+              [
+                209,
+                478
+              ],
+              [
+                206,
+                498
+              ],
+              [
+                199,
+                517
+              ],
+              [
+                192,
+                525
+              ],
+              [
+                180,
+                526
+              ],
+              [
+                166,
+                519
+              ],
+              [
+                157,
+                505
+              ],
+              [
+                157,
+                490
+              ],
+              [
+                155,
+                476
+              ],
+              [
+                148,
+                459
+              ],
+              [
+                144,
+                441
+              ],
+              [
+                142,
+                423
+              ],
+              [
+                136,
+                406
+              ],
+              [
+                127,
+                391
+              ],
+              [
+                124,
+                379
+              ],
+              [
+                132,
+                372
+              ]
+            ],
+            "panelExtent": {
+              "crs": "EPSG:3006",
+              "bounds": [
+                679458.56,
+                6624372.48,
+                679571.2000000001,
+                6624637.12
+              ]
+            },
+            "panelPixelSize": [
+              352,
+              827
+            ],
+            "uncertaintyM": 2,
+            "note": "Bounded containment area on visibly mown par-3 approach turf, checked clear of the adjacent rough islands and paths. This is a review footprint for marker placement, not an extra raised tee or a claim about the complete mowing boundary."
+          }
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-09-hole.png",
+            "sha256": "8e7acabbe33f8a675145a5f3e0f95bb7effd7fd5ebcc282c847c26d2c668b805",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-09-hole.png",
+            "sha256": "8e7acabbe33f8a675145a5f3e0f95bb7effd7fd5ebcc282c847c26d2c668b805",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-9-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-09.jpg",
+          "sha256": "25ee0f025a1b03f8e2cf491bd24476aba662a5a130c8f3e11fbab37a8e549303"
+        }
+      }
+    },
+    {
+      "hole": 10,
+      "pads": [
+        {
+          "padId": "johannesberg-h10-tee-00",
+          "index": 0,
+          "status": "inherited-canopy-obscured",
+          "ring": [
+            [
+              -66.8,
+              820.4
+            ],
+            [
+              -52.2,
+              809.9
+            ],
+            [
+              -45.2,
+              819.6
+            ],
+            [
+              -59.8,
+              830.1
+            ]
+          ],
+          "geometrySha256": "dcbe52b4567aea71ab4eec309cd2443b2a50aa4f19544e74c37813bed4355c0c"
+        },
+        {
+          "padId": "johannesberg-h10-tee-01",
+          "index": 1,
+          "status": "inherited-canopy-obscured",
+          "ring": [
+            [
+              -79.6,
+              798.1
+            ],
+            [
+              -68.3,
+              789.8
+            ],
+            [
+              -62.4,
+              797.9
+            ],
+            [
+              -73.7,
+              806.2
+            ]
+          ],
+          "geometrySha256": "aff3de650f04267a89d18c1b48f6d0820b84bad8895a03398530f2dc76f27edd"
+        },
+        {
+          "padId": "johannesberg-h10-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -102.194,
+              755.064
+            ],
+            [
+              -97.989,
+              753.987
+            ],
+            [
+              -93.891,
+              755.145
+            ],
+            [
+              -89.915,
+              758.858
+            ],
+            [
+              -86.624,
+              763.498
+            ],
+            [
+              -85.518,
+              767.073
+            ],
+            [
+              -88.129,
+              768.227
+            ],
+            [
+              -92.212,
+              766.75
+            ],
+            [
+              -96.233,
+              763.995
+            ],
+            [
+              -99.889,
+              760.297
+            ]
+          ],
+          "geometrySha256": "ae3ed73a820524b55bf406356e04e848e9c6d021b09cde296a2c542c507b554a"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 411,
+          "referenceC": [
+            -65.2,
+            805
+          ],
+          "padId": null,
+          "displayC": null,
+          "displayMarkers": false,
+          "surfaceKind": "unverified",
+          "status": "unresolved-suppressed",
+          "note": "Separate tee group appears in the official guide but exact surface remains unresolved. Preserve reference coordinate and suppress physical marker rendering."
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 360,
+          "referenceC": [
+            -91.8,
+            761.5
+          ],
+          "padId": "johannesberg-h10-tee-02",
+          "displayC": [
+            -93.701,
+            760.857
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            -195.761,
+            667.826
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 2.007
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 299,
+          "referenceC": [
+            -130.8,
+            714.9
+          ],
+          "padId": null,
+          "displayC": null,
+          "displayMarkers": false,
+          "surfaceKind": "unverified",
+          "status": "unresolved-suppressed",
+          "note": "Separate tee group appears in the official guide but exact surface remains unresolved. Preserve reference coordinate and suppress physical marker rendering."
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 299,
+          "referenceC": [
+            -130.8,
+            714.9
+          ],
+          "padId": null,
+          "displayC": null,
+          "displayMarkers": false,
+          "surfaceKind": "unverified",
+          "status": "unresolved-suppressed",
+          "note": "Separate tee group appears in the official guide but exact surface remains unresolved. Preserve reference coordinate and suppress physical marker rendering."
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 189,
+          "referenceC": [
+            -220.1,
+            651.2
+          ],
+          "padId": null,
+          "displayC": [
+            -219.219,
+            650.464
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "fairway",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            -334.292,
+            570.749
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 1.148
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-10.png",
+            "sha256": "ce07df2039ae8b44ea3a0f76cc954e1165d67909cb0a2a268d11384135d30972",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-10-hole.png",
+            "sha256": "4c83386205405f098d87e41cf1c7f605da1a13bf379f88f36e68c81ee6a8f285",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-10-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-10.jpg",
+          "sha256": "42e78d7948d9b7157c74105c12fbab7b0ffd4eaa4f7d646a44b4bffab52a4798"
+        }
+      }
+    },
+    {
+      "hole": 11,
+      "pads": [
+        {
+          "padId": "johannesberg-h11-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -303.485,
+              502.071
+            ],
+            [
+              -299.31,
+              501.632
+            ],
+            [
+              -295.257,
+              503.748
+            ],
+            [
+              -293.179,
+              507.049
+            ],
+            [
+              -294.608,
+              510.182
+            ],
+            [
+              -297.903,
+              512.264
+            ],
+            [
+              -302.078,
+              512.703
+            ],
+            [
+              -305.827,
+              510.922
+            ],
+            [
+              -307.267,
+              507.651
+            ],
+            [
+              -306.158,
+              504.503
+            ]
+          ],
+          "geometrySha256": "9b0653b7e5295016cf3fe55bf3e518b3cb03b8eadb6fe4c00e816c66ca5cbbc0"
+        },
+        {
+          "padId": "johannesberg-h11-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -274.426,
+              495.788
+            ],
+            [
+              -269.582,
+              494.741
+            ],
+            [
+              -265.499,
+              496.218
+            ],
+            [
+              -261.508,
+              499.612
+            ],
+            [
+              -260.705,
+              502.852
+            ],
+            [
+              -263.09,
+              505.938
+            ],
+            [
+              -267.326,
+              507.655
+            ],
+            [
+              -271.759,
+              506.801
+            ],
+            [
+              -276.099,
+              504.031
+            ],
+            [
+              -277.191,
+              500.137
+            ]
+          ],
+          "geometrySha256": "5c2e31e2b5e23728aaa26d4dfa06b3122802a9256830b74c37afc71d31112f2e"
+        },
+        {
+          "padId": "johannesberg-h11-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -249.134,
+              494.766
+            ],
+            [
+              -245.247,
+              493.673
+            ],
+            [
+              -241.467,
+              494.815
+            ],
+            [
+              -238.721,
+              497.509
+            ],
+            [
+              -238.54,
+              500.398
+            ],
+            [
+              -240.575,
+              502.861
+            ],
+            [
+              -243.825,
+              503.985
+            ],
+            [
+              -247.604,
+              502.843
+            ],
+            [
+              -250.032,
+              500.165
+            ],
+            [
+              -250.516,
+              496.94
+            ]
+          ],
+          "geometrySha256": "dfab2f51a673ad17a7cd05387f8e67aabebde0005aace2a0c64ea63b476bd3c9"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 344,
+          "referenceC": [
+            -299.3,
+            506.7
+          ],
+          "padId": "johannesberg-h11-tee-00",
+          "displayC": [
+            -300.41,
+            507.23
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -169.236,
+            454.957
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 1.23
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 312,
+          "referenceC": [
+            -269.7,
+            494.5
+          ],
+          "padId": "johannesberg-h11-tee-01",
+          "displayC": [
+            -269.061,
+            501.256
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -141.013,
+            444.664
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 6.786
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 312,
+          "referenceC": [
+            -269.7,
+            494.5
+          ],
+          "padId": "johannesberg-h11-tee-01",
+          "displayC": [
+            -269.061,
+            501.256
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -141.013,
+            444.664
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 6.786
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 288,
+          "referenceC": [
+            -247.5,
+            485.4
+          ],
+          "padId": "johannesberg-h11-tee-02",
+          "displayC": [
+            -244.548,
+            498.764
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            -118.76,
+            436.798
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.686
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 288,
+          "referenceC": [
+            -247.5,
+            485.4
+          ],
+          "padId": "johannesberg-h11-tee-02",
+          "displayC": [
+            -244.548,
+            498.764
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            -118.76,
+            436.798
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.686
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-hole.png",
+            "sha256": "03d365cef8d912928745ebf51bd01ac9b38bcc8abfc7e4f2804c081c3d501386",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-11-hole.png",
+            "sha256": "03d365cef8d912928745ebf51bd01ac9b38bcc8abfc7e4f2804c081c3d501386",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://www.caddee.se/klubb/johannesberg-golfklubb",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Three photographed platforms back-to-forward agree with official card groups 344, 312, 288 m; direct club plan URL unavailable.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers."
+      }
+    },
+    {
+      "hole": 12,
+      "pads": [
+        {
+          "padId": "johannesberg-h12-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              3.936,
+              488.081
+            ],
+            [
+              7.52,
+              486.654
+            ],
+            [
+              11.299,
+              487.796
+            ],
+            [
+              15.017,
+              490.217
+            ],
+            [
+              15.501,
+              493.441
+            ],
+            [
+              13.162,
+              495.569
+            ],
+            [
+              9.306,
+              496.023
+            ],
+            [
+              5.527,
+              494.881
+            ],
+            [
+              2.78,
+              492.187
+            ]
+          ],
+          "geometrySha256": "559cef70b838051c9e0de7d78d55357b573179cec450c8199c7d3671395f7082"
+        },
+        {
+          "padId": "johannesberg-h12-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              44.323,
+              478.826
+            ],
+            [
+              48.847,
+              477.764
+            ],
+            [
+              54.267,
+              478.025
+            ],
+            [
+              58.334,
+              479.822
+            ],
+            [
+              59.487,
+              482.439
+            ],
+            [
+              58.073,
+              485.252
+            ],
+            [
+              53.837,
+              486.968
+            ],
+            [
+              48.417,
+              486.707
+            ],
+            [
+              43.363,
+              485.502
+            ],
+            [
+              41.557,
+              483.174
+            ],
+            [
+              42.014,
+              480.315
+            ]
+          ],
+          "geometrySha256": "16aa45b377af571ea50529e38cf4664879e17af28032e5790e3fe01824750c05"
+        },
+        {
+          "padId": "johannesberg-h12-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              72.726,
+              479.557
+            ],
+            [
+              76.598,
+              478.783
+            ],
+            [
+              80.362,
+              480.245
+            ],
+            [
+              82.152,
+              482.893
+            ],
+            [
+              82.347,
+              485.463
+            ],
+            [
+              80.343,
+              487.287
+            ],
+            [
+              76.486,
+              487.741
+            ],
+            [
+              73.041,
+              486.294
+            ],
+            [
+              70.932,
+              483.632
+            ],
+            [
+              71.055,
+              481.077
+            ]
+          ],
+          "geometrySha256": "4cce06b786c2d6028877007d66bfad1abb2ee559915e31d60759138ab1ec4cea"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 374,
+          "referenceC": [
+            -7.6,
+            473
+          ],
+          "padId": "johannesberg-h12-tee-00",
+          "displayC": [
+            9.115,
+            491.53
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            149.898,
+            496.985
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 24.955
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 335,
+          "referenceC": [
+            31,
+            478.9
+          ],
+          "padId": "johannesberg-h12-tee-01",
+          "displayC": [
+            50.501,
+            482.356
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            189.426,
+            497.607
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 19.805
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 312,
+          "referenceC": [
+            53.7,
+            482.3
+          ],
+          "padId": "johannesberg-h12-tee-02",
+          "displayC": [
+            76.656,
+            483.303
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            215.404,
+            497.879
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 22.978
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 312,
+          "referenceC": [
+            53.7,
+            482.3
+          ],
+          "padId": "johannesberg-h12-tee-02",
+          "displayC": [
+            76.656,
+            483.303
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            215.404,
+            497.879
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 22.978
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 312,
+          "referenceC": [
+            53.7,
+            482.3
+          ],
+          "padId": "johannesberg-h12-tee-02",
+          "displayC": [
+            76.656,
+            483.303
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            215.404,
+            497.879
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 22.978
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-12-hole.png",
+            "sha256": "94b57cda3e3b44e05a6e58471e9adcc199f480c9828ca70d101c9df0d71d8125",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-12-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Back-to-forward ownership is white, yellow, blue/red/orange. Displaced inherited route references must not override the physical platforms.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-12.jpg",
+          "sha256": "be50b841a298644833513b2686388e713d556a2f54547dbd7e8fb406cb65f3cd"
+        }
+      }
+    },
+    {
+      "hole": 13,
+      "pads": [
+        {
+          "padId": "johannesberg-h13-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              257.567,
+              410.054
+            ],
+            [
+              260.755,
+              410.208
+            ],
+            [
+              264.154,
+              412.613
+            ],
+            [
+              268.432,
+              416.661
+            ],
+            [
+              270.191,
+              419.947
+            ],
+            [
+              268.186,
+              421.771
+            ],
+            [
+              264.103,
+              420.294
+            ],
+            [
+              260.416,
+              417.234
+            ],
+            [
+              257.382,
+              413.886
+            ]
+          ],
+          "geometrySha256": "0521d64e3d6c4ae811347a155353a5cbdb2cc675b00f68a5fcce1e5a67379829"
+        },
+        {
+          "padId": "johannesberg-h13-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              231.653,
+              384.152
+            ],
+            [
+              234.568,
+              383.333
+            ],
+            [
+              237.345,
+              385.388
+            ],
+            [
+              239.711,
+              389.344
+            ],
+            [
+              239.876,
+              392.553
+            ],
+            [
+              238.159,
+              395.031
+            ],
+            [
+              234.956,
+              395.196
+            ],
+            [
+              232.179,
+              393.141
+            ],
+            [
+              230.42,
+              389.855
+            ],
+            [
+              230.254,
+              386.646
+            ]
+          ],
+          "geometrySha256": "072f39e7bb0b1b582df07fabbba20a1f61178752b5671dc892dd3790eff85c0f"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 154,
+          "referenceC": [
+            271.6,
+            426.3
+          ],
+          "padId": "johannesberg-h13-tee-00",
+          "displayC": [
+            263.395,
+            415.839
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            205.754,
+            288.24
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.295
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 154,
+          "referenceC": [
+            271.6,
+            426.3
+          ],
+          "padId": "johannesberg-h13-tee-00",
+          "displayC": [
+            263.395,
+            415.839
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            205.754,
+            288.24
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.295
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 103,
+          "referenceC": [
+            249.9,
+            380.2
+          ],
+          "padId": "johannesberg-h13-tee-01",
+          "displayC": [
+            235.02,
+            389.465
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            205.3,
+            287.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 17.529
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 103,
+          "referenceC": [
+            249.9,
+            380.2
+          ],
+          "padId": "johannesberg-h13-tee-01",
+          "displayC": [
+            235.02,
+            389.465
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            205.3,
+            287.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 17.529
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 103,
+          "referenceC": [
+            249.9,
+            380.2
+          ],
+          "padId": "johannesberg-h13-tee-01",
+          "displayC": [
+            235.02,
+            389.465
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            205.3,
+            287.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 17.529
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-13-hole.png",
+            "sha256": "6a00eba85cf27c4eaafda792dc56de4b1fa60df218daace599084a7701f6ef4e",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-13-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-13.jpg",
+          "sha256": "6debf4486aa18ca26a51b6df2d054c3b5d54ac34aa8bd4eef9ba38e950a3f2a6"
+        }
+      }
+    },
+    {
+      "hole": 14,
+      "pads": [
+        {
+          "padId": "johannesberg-h14-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              192.236,
+              240.435
+            ],
+            [
+              196.792,
+              238.734
+            ],
+            [
+              201.512,
+              240.242
+            ],
+            [
+              205.184,
+              243.621
+            ],
+            [
+              205.956,
+              247.5
+            ],
+            [
+              203.555,
+              250.905
+            ],
+            [
+              198.984,
+              252.925
+            ],
+            [
+              194.567,
+              251.752
+            ],
+            [
+              191.183,
+              249.027
+            ],
+            [
+              190.093,
+              245.133
+            ]
+          ],
+          "geometrySha256": "a6eae9736dc9a290f2b848f9cd1db63b756f0894673719519de2983b4acfd25a"
+        },
+        {
+          "padId": "johannesberg-h14-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              158.403,
+              252.886
+            ],
+            [
+              162.29,
+              251.793
+            ],
+            [
+              166.055,
+              253.256
+            ],
+            [
+              169.089,
+              256.603
+            ],
+            [
+              169.892,
+              259.843
+            ],
+            [
+              168.113,
+              263.599
+            ],
+            [
+              165.152,
+              265.377
+            ],
+            [
+              161.023,
+              264.857
+            ],
+            [
+              157.623,
+              262.452
+            ],
+            [
+              155.88,
+              258.846
+            ],
+            [
+              156.367,
+              255.349
+            ]
+          ],
+          "geometrySha256": "60e7ec72d1d08ed1c635f40f90db39e540739683d344cbfddfe1fdfa90e08ef3"
+        },
+        {
+          "padId": "johannesberg-h14-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              111.607,
+              289.041
+            ],
+            [
+              114.872,
+              287.598
+            ],
+            [
+              118.029,
+              288.391
+            ],
+            [
+              120.776,
+              291.084
+            ],
+            [
+              121.579,
+              294.324
+            ],
+            [
+              119.846,
+              297.122
+            ],
+            [
+              116.597,
+              298.245
+            ],
+            [
+              113.455,
+              297.133
+            ],
+            [
+              111.331,
+              294.79
+            ],
+            [
+              110.194,
+              291.854
+            ]
+          ],
+          "geometrySha256": "692f579999b7c79dfe70796393d6e5258e1e5b80cbdf45a57798b4fea6b32743"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 355,
+          "referenceC": [
+            198.8,
+            243.1
+          ],
+          "padId": "johannesberg-h14-tee-00",
+          "displayC": [
+            197.924,
+            245.861
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            71.42,
+            305.861
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 2.897
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 316,
+          "referenceC": [
+            164,
+            260.7
+          ],
+          "padId": "johannesberg-h14-tee-01",
+          "displayC": [
+            162.798,
+            258.656
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            37.567,
+            321.095
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 2.371
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 316,
+          "referenceC": [
+            164,
+            260.7
+          ],
+          "padId": "johannesberg-h14-tee-01",
+          "displayC": [
+            162.798,
+            258.656
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            37.567,
+            321.095
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 2.371
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 257,
+          "referenceC": [
+            111.3,
+            287.3
+          ],
+          "padId": "johannesberg-h14-tee-02",
+          "displayC": [
+            115.941,
+            292.897
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            -16.033,
+            339.026
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 7.271
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 196,
+          "referenceC": [
+            55.9,
+            312.8
+          ],
+          "padId": null,
+          "displayC": [
+            55.9,
+            312.8
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "fairway",
+          "status": "reviewed-forward-start-provisional-daily-position",
+          "aimC": [
+            -78.522,
+            343.024
+          ],
+          "note": "Forward start shown outside raised tee platforms in the official guide. Display point checked against photographed mown corridor; no raised platform invented.",
+          "shiftFromInheritedM": 0
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-14-hole.png",
+            "sha256": "147cf988bf9b31b8527896ee006cf24dd264cf5fd8c2a03a87f3bf4e98bf8444",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-14-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-14.jpg",
+          "sha256": "8870c1d23e61c338e5d226c9408b6935042f269604df7dabe37b5f35d4e8db97"
+        }
+      }
+    },
+    {
+      "hole": 15,
+      "pads": [
+        {
+          "padId": "johannesberg-h15-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -176.225,
+              320.613
+            ],
+            [
+              -172.353,
+              319.839
+            ],
+            [
+              -168.589,
+              321.301
+            ],
+            [
+              -165.873,
+              324.633
+            ],
+            [
+              -166.967,
+              327.462
+            ],
+            [
+              -170.885,
+              329.193
+            ],
+            [
+              -175.045,
+              329.313
+            ],
+            [
+              -177.837,
+              327.578
+            ],
+            [
+              -178.322,
+              324.353
+            ]
+          ],
+          "geometrySha256": "022f7dd139b3285c359cb96effe11aff9170ce09f2d3402271b9262a8080099d"
+        },
+        {
+          "padId": "johannesberg-h15-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -149.511,
+              303.334
+            ],
+            [
+              -145.275,
+              301.617
+            ],
+            [
+              -140.174,
+              301.863
+            ],
+            [
+              -136.121,
+              303.979
+            ],
+            [
+              -134.665,
+              306.93
+            ],
+            [
+              -135.775,
+              310.078
+            ],
+            [
+              -139.086,
+              312.48
+            ],
+            [
+              -143.945,
+              313.846
+            ],
+            [
+              -148.393,
+              313.311
+            ],
+            [
+              -151.808,
+              311.226
+            ],
+            [
+              -152.93,
+              307.971
+            ],
+            [
+              -151.835,
+              305.142
+            ]
+          ],
+          "geometrySha256": "2d7c2debdbc212817b0283a1f722f63d5c01e1bf05b0d75880c40720ae1dfb0a"
+        },
+        {
+          "padId": "johannesberg-h15-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -125.655,
+              292.319
+            ],
+            [
+              -121.465,
+              291.561
+            ],
+            [
+              -118.019,
+              293.008
+            ],
+            [
+              -115.926,
+              295.99
+            ],
+            [
+              -116.383,
+              298.849
+            ],
+            [
+              -119.071,
+              301.6
+            ],
+            [
+              -122.639,
+              302.709
+            ],
+            [
+              -126.419,
+              301.566
+            ],
+            [
+              -128.862,
+              299.207
+            ],
+            [
+              -129.012,
+              295.679
+            ],
+            [
+              -127.63,
+              293.505
+            ]
+          ],
+          "geometrySha256": "c12a9b405243f2e6225377c59754f206244eb85f385cabb93ded316773fba897"
+        },
+        {
+          "padId": "johannesberg-h15-tee-03",
+          "index": 3,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -71.677,
+              279.556
+            ],
+            [
+              -68.747,
+              278.417
+            ],
+            [
+              -65.924,
+              279.514
+            ],
+            [
+              -64.437,
+              281.826
+            ],
+            [
+              -65.197,
+              284.351
+            ],
+            [
+              -67.521,
+              286.159
+            ],
+            [
+              -70.694,
+              285.686
+            ],
+            [
+              -73.152,
+              283.647
+            ],
+            [
+              -73.364,
+              281.396
+            ]
+          ],
+          "geometrySha256": "cce012658a73a417e8c6bc2043d0de2517862dbd4b0e5f76c8d1aeb1f80e88e0"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 381,
+          "referenceC": [
+            -178.5,
+            319.5
+          ],
+          "padId": "johannesberg-h15-tee-00",
+          "displayC": [
+            -172.425,
+            324.794
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -42.483,
+            272.221
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 8.058
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 350,
+          "referenceC": [
+            -149.2,
+            309.3
+          ],
+          "padId": "johannesberg-h15-tee-01",
+          "displayC": [
+            -143.877,
+            307.675
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -11.703,
+            261.522
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 5.566
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 324,
+          "referenceC": [
+            -124.6,
+            300.8
+          ],
+          "padId": "johannesberg-h15-tee-02",
+          "displayC": [
+            -122.611,
+            297.062
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            10.562,
+            253.783
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 4.234
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 273,
+          "referenceC": [
+            -76.5,
+            284
+          ],
+          "padId": "johannesberg-h15-tee-03",
+          "displayC": [
+            -68.896,
+            282.334
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 3,
+          "aimC": [
+            63.054,
+            235.537
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 7.784
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 273,
+          "referenceC": [
+            -76.5,
+            284
+          ],
+          "padId": "johannesberg-h15-tee-03",
+          "displayC": [
+            -68.896,
+            282.334
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 3,
+          "aimC": [
+            63.054,
+            235.537
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 7.784
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-hole.png",
+            "sha256": "e2952c9a8a39c9ed600b7b2f9efa1d01677d3bfdbe42f01871e791f85d710d5f",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-15-hole.png",
+            "sha256": "e2952c9a8a39c9ed600b7b2f9efa1d01677d3bfdbe42f01871e791f85d710d5f",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-15-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-15.jpg",
+          "sha256": "fe22cd8f6e7972d9ae57b5a6f1e3729eadb46ef2a4fa449a581b6c942f269ba7"
+        }
+      }
+    },
+    {
+      "hole": 16,
+      "pads": [
+        {
+          "padId": "johannesberg-h16-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              179.597,
+              151.151
+            ],
+            [
+              185.716,
+              150.166
+            ],
+            [
+              192.092,
+              150.474
+            ],
+            [
+              198.088,
+              152.044
+            ],
+            [
+              199.559,
+              154.676
+            ],
+            [
+              197.508,
+              157.458
+            ],
+            [
+              192.618,
+              159.462
+            ],
+            [
+              186.53,
+              159.809
+            ],
+            [
+              181.171,
+              158.269
+            ],
+            [
+              178.456,
+              154.937
+            ]
+          ],
+          "geometrySha256": "c619455c807182b5421e98f40b27c21bf0377fcfcdc341a44b8f3c9f9ea3b981"
+        },
+        {
+          "padId": "johannesberg-h16-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              129.062,
+              165.357
+            ],
+            [
+              132.311,
+              164.233
+            ],
+            [
+              135.453,
+              165.345
+            ],
+            [
+              137.577,
+              167.689
+            ],
+            [
+              137.424,
+              170.882
+            ],
+            [
+              135.069,
+              173.33
+            ],
+            [
+              131.835,
+              174.134
+            ],
+            [
+              128.693,
+              173.022
+            ],
+            [
+              127.222,
+              170.39
+            ],
+            [
+              127.36,
+              167.515
+            ]
+          ],
+          "geometrySha256": "916ca8b7af49e58f40404a511a210e1b443b17cfd1cb518376829bcb1bab0c88"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 441,
+          "referenceC": [
+            182.1,
+            151.4
+          ],
+          "padId": "johannesberg-h16-tee-00",
+          "displayC": [
+            188.693,
+            154.813
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            43.879,
+            135.091
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 7.424
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 441,
+          "referenceC": [
+            182.1,
+            151.4
+          ],
+          "padId": "johannesberg-h16-tee-00",
+          "displayC": [
+            188.693,
+            154.813
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            43.879,
+            135.091
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 7.424
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 396,
+          "referenceC": [
+            137.2,
+            147.9
+          ],
+          "padId": "johannesberg-h16-tee-01",
+          "displayC": [
+            132.334,
+            169.223
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -0.47,
+            116.084
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 21.871
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 363,
+          "referenceC": [
+            104.3,
+            145.4
+          ],
+          "padId": null,
+          "displayC": null,
+          "displayMarkers": false,
+          "surfaceKind": "unverified",
+          "status": "unresolved-suppressed",
+          "note": "Separate tee group appears in the official guide but exact surface remains unresolved. Preserve reference coordinate and suppress physical marker rendering."
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 363,
+          "referenceC": [
+            104.3,
+            145.4
+          ],
+          "padId": null,
+          "displayC": null,
+          "displayMarkers": false,
+          "surfaceKind": "unverified",
+          "status": "unresolved-suppressed",
+          "note": "Separate tee group appears in the official guide but exact surface remains unresolved. Preserve reference coordinate and suppress physical marker rendering."
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-16-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Blue belongs on the separate oval southwest of the shelter. Red/orange inherited references sit in rocky rough north of the cart path; actual forward start remains unresolved.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-16.jpg",
+          "sha256": "95649f4a6d685a4c9105fcd0f0bd04b6b1c7d16d5fd28ac9663296adbd198f2a"
+        }
+      }
+    },
+    {
+      "hole": 17,
+      "pads": [
+        {
+          "padId": "johannesberg-h17-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -199.389,
+              -181.812
+            ],
+            [
+              -196.154,
+              -182.616
+            ],
+            [
+              -193.362,
+              -180.881
+            ],
+            [
+              -191.905,
+              -177.93
+            ],
+            [
+              -192.393,
+              -174.432
+            ],
+            [
+              -194.732,
+              -172.304
+            ],
+            [
+              -197.936,
+              -172.138
+            ],
+            [
+              -200.714,
+              -174.193
+            ],
+            [
+              -201.851,
+              -177.128
+            ],
+            [
+              -201.394,
+              -179.988
+            ]
+          ],
+          "geometrySha256": "eb9ab813bcd2249ce4966ee2c6a2f0ab9d3c79f3ac0d7ace5f596b6ec93c2475"
+        },
+        {
+          "padId": "johannesberg-h17-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -189.114,
+              -202.765
+            ],
+            [
+              -185.819,
+              -204.847
+            ],
+            [
+              -182.342,
+              -204.039
+            ],
+            [
+              -180.567,
+              -201.072
+            ],
+            [
+              -180.766,
+              -196.92
+            ],
+            [
+              -182.591,
+              -192.206
+            ],
+            [
+              -184.991,
+              -188.801
+            ],
+            [
+              -187.907,
+              -187.981
+            ],
+            [
+              -190.715,
+              -189.397
+            ],
+            [
+              -192.172,
+              -192.348
+            ],
+            [
+              -191.972,
+              -196.5
+            ],
+            [
+              -190.831,
+              -200.286
+            ]
+          ],
+          "geometrySha256": "223ab56b6161ccf3aae298b678c9956ed55b73386a6b865e93b098d4991dec6f"
+        },
+        {
+          "padId": "johannesberg-h17-tee-02",
+          "index": 2,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -173.205,
+              -227.927
+            ],
+            [
+              -170.577,
+              -229.401
+            ],
+            [
+              -167.753,
+              -228.305
+            ],
+            [
+              -166.919,
+              -225.704
+            ],
+            [
+              -168.014,
+              -222.875
+            ],
+            [
+              -170.384,
+              -220.109
+            ],
+            [
+              -173.331,
+              -218.65
+            ],
+            [
+              -175.835,
+              -219.731
+            ],
+            [
+              -176.669,
+              -222.332
+            ],
+            [
+              -175.544,
+              -225.799
+            ]
+          ],
+          "geometrySha256": "0a282bf365ed00a1cf8627e899eac3d88f15dbf56ff9b4f24dc4fb55c0def493"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 168,
+          "referenceC": [
+            -197.7,
+            -158.3
+          ],
+          "padId": "johannesberg-h17-tee-00",
+          "displayC": [
+            -196.842,
+            -177.276
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -104.988,
+            -283.461
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 18.995
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 131,
+          "referenceC": [
+            -175.7,
+            -188
+          ],
+          "padId": "johannesberg-h17-tee-01",
+          "displayC": [
+            -186.424,
+            -196.509
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -97.7,
+            -293.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.69
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 131,
+          "referenceC": [
+            -175.7,
+            -188
+          ],
+          "padId": "johannesberg-h17-tee-01",
+          "displayC": [
+            -186.424,
+            -196.509
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -97.7,
+            -293.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 13.69
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 102,
+          "referenceC": [
+            -158.4,
+            -211.3
+          ],
+          "padId": "johannesberg-h17-tee-02",
+          "displayC": [
+            -171.847,
+            -224.05
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            -97.7,
+            -293.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 18.531
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 102,
+          "referenceC": [
+            -158.4,
+            -211.3
+          ],
+          "padId": "johannesberg-h17-tee-02",
+          "displayC": [
+            -171.847,
+            -224.05
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 2,
+          "aimC": [
+            -97.7,
+            -293.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 18.531
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-17-hole.png",
+            "sha256": "71373f11e35a5c7229b568a1f1dbcf9b9f67db764516a173994174458fd9fb90",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-17-hole.png",
+            "sha256": "71373f11e35a5c7229b568a1f1dbcf9b9f67db764516a173994174458fd9fb90",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-17-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "Distinct colour groups follow official guide topology. Shared card lengths imply shared platform membership, not exact daily markers.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-17.jpg",
+          "sha256": "63dd3dc7fc577c8c6d4911cf3caecba8b3cb06fed883ec461bd834e3a7474bec"
+        }
+      }
+    },
+    {
+      "hole": 18,
+      "pads": [
+        {
+          "padId": "johannesberg-h18-tee-00",
+          "index": 0,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -169.764,
+              -306.191
+            ],
+            [
+              -166.226,
+              -306.661
+            ],
+            [
+              -163.145,
+              -304.271
+            ],
+            [
+              -161.735,
+              -300.362
+            ],
+            [
+              -161.327,
+              -295.541
+            ],
+            [
+              -162.499,
+              -291.115
+            ],
+            [
+              -164.853,
+              -288.668
+            ],
+            [
+              -168.042,
+              -288.822
+            ],
+            [
+              -170.485,
+              -291.18
+            ],
+            [
+              -171.896,
+              -295.09
+            ],
+            [
+              -172.334,
+              -299.272
+            ],
+            [
+              -171.816,
+              -303.409
+            ]
+          ],
+          "geometrySha256": "88f0b86e5d8784026aa6f80cb8f5d28ae7f18d76bbd9e8f4d6abcfcebb391da6"
+        },
+        {
+          "padId": "johannesberg-h18-tee-01",
+          "index": 1,
+          "status": "orthophoto-reviewed",
+          "ring": [
+            [
+              -217.303,
+              -374.427
+            ],
+            [
+              -214.752,
+              -374.304
+            ],
+            [
+              -212.931,
+              -372.295
+            ],
+            [
+              -212.431,
+              -369.39
+            ],
+            [
+              -213.511,
+              -366.881
+            ],
+            [
+              -215.804,
+              -365.711
+            ],
+            [
+              -218.309,
+              -366.792
+            ],
+            [
+              -219.493,
+              -368.77
+            ],
+            [
+              -219.355,
+              -371.644
+            ]
+          ],
+          "geometrySha256": "6cb7d0a9d96dde789fc6c723ba7023111244dae7cf4cc90b0fc1a60eb2713d77"
+        }
+      ],
+      "marks": [
+        {
+          "teeIndex": 0,
+          "colour": "white",
+          "metres": 475,
+          "referenceC": [
+            -168,
+            -297.8
+          ],
+          "padId": "johannesberg-h18-tee-00",
+          "displayC": [
+            -166.861,
+            -297.697
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -192.54,
+            -435.573
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 1.144
+        },
+        {
+          "teeIndex": 1,
+          "colour": "yellow",
+          "metres": 475,
+          "referenceC": [
+            -168,
+            -297.8
+          ],
+          "padId": "johannesberg-h18-tee-00",
+          "displayC": [
+            -166.861,
+            -297.697
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 0,
+          "aimC": [
+            -192.54,
+            -435.573
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 1.144
+        },
+        {
+          "teeIndex": 2,
+          "colour": "blue",
+          "metres": 447,
+          "referenceC": [
+            -173.1,
+            -325.3
+          ],
+          "padId": null,
+          "displayC": null,
+          "displayMarkers": false,
+          "surfaceKind": "unverified",
+          "status": "unresolved-suppressed",
+          "note": "Separate tee group appears in the official guide but exact surface remains unresolved. Preserve reference coordinate and suppress physical marker rendering."
+        },
+        {
+          "teeIndex": 3,
+          "colour": "red",
+          "metres": 399,
+          "referenceC": [
+            -181.9,
+            -372.5
+          ],
+          "padId": "johannesberg-h18-tee-01",
+          "displayC": [
+            -216.005,
+            -370.134
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -197.562,
+            -515.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 34.187
+        },
+        {
+          "teeIndex": 4,
+          "colour": "orange",
+          "metres": 399,
+          "referenceC": [
+            -181.9,
+            -372.5
+          ],
+          "padId": "johannesberg-h18-tee-01",
+          "displayC": [
+            -216.005,
+            -370.134
+          ],
+          "displayMarkers": true,
+          "surfaceKind": "tee",
+          "status": "reviewed-platform-provisional-daily-position",
+          "padIndex": 1,
+          "aimC": [
+            -197.562,
+            -515.3
+          ],
+          "note": "Photographed platform interior, distinct length groups ordered along playing direction. Actual daily marker locations remain provisional.",
+          "shiftFromInheritedM": 34.187
+        }
+      ],
+      "evidence": {
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/tee-placement-review/native/tee-review-18.png",
+            "sha256": "29660949e040534f83cdbcd9efe105afdc92266613b8f472db304122c78a56e2",
+            "kind": "orthophoto-tees"
+          },
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-18-hole.png",
+            "sha256": "3ebef0d48391d432379fcae48caa3f9194cfa9c8ec7ce24d471e12fa56e7b9f5",
+            "kind": "orthophoto-forward-start"
+          }
+        ],
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-18-731x1030.jpg",
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "interpretation": "Platform ownership matched by pad order and pond/path/green topology in club plan, independently of inherited coordinates.",
+        "note": "White/yellow share the back platform; red/orange share the pond-side forward platform. Blue is a separate guide reference obscured by canopy.",
+        "officialPlanFile": {
+          "path": "johannesbergbuild/cache/tee-placement-review/official-hole-18.jpg",
+          "sha256": "72824803bac19dc972b231265c7d9f9f8349797cfaad332d70e51fa6ff71aa70"
+        }
+      }
+    }
+  ],
+  "officialCard": {
+    "path": "johannesbergbuild/card.json",
+    "sha256": "f0b1b7ef5afd88a66d34be8563bf649cfc02189e5c976ad0b6228bd16ecb6fe4"
+  }
+}

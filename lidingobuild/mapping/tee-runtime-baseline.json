@@ -1,0 +1,5484 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "tee-runtime-alignment-audit",
+  "frame": {
+    "horizontalCrs": "EPSG:3006",
+    "originEasting": 677700.5,
+    "originNorthing": 6586399.5,
+    "axisOrder": "east +x, north -z"
+  },
+  "interpretation": "References and decorative colour pairs are representative starts on reviewed platforms. Scorecard residuals diagnose inherited distance-based associations; they do not establish surveyed distances or daily physical marker coordinates.",
+  "objectPlacement": "mapped-only",
+  "summary": {
+    "holes": 18,
+    "platforms": 36,
+    "references": 90,
+    "referencesOutsidePlatforms": 0,
+    "referencesWithPadIdentity": 0,
+    "referencesSharingCoordinates": 82,
+    "uniqueReferenceCoordinates": 34,
+    "markerPairsRendered": 0,
+    "markerInstancesRendered": 0,
+    "eligiblePairsOmitted": 0,
+    "maxAbsoluteScorecardRouteResidualM": 115.11226294034896,
+    "issues": 0
+  },
+  "holes": [
+    {
+      "hole": 1,
+      "padCount": 1,
+      "runtimePadCount": 1,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-01-a-ortho2019",
+          "centreEpsg3006": [
+            677671.2734391679,
+            6586410.783503504
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 162,
+          "sourceC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "packC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "runtimeC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "epsg3006": [
+            677671.2734391679,
+            6586410.783503504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 165.05252196974544,
+          "scorecardResidualM": 3.0525219697454418,
+          "distanceFromRouteM": 0.22082988978170742,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -26.752270610873776,
+              -12.08218235064963
+            ],
+            [
+              -31.7008510534052,
+              -10.484824656269462
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 162,
+          "sourceC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "packC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "runtimeC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "epsg3006": [
+            677671.2734391679,
+            6586410.783503504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 165.05252196974544,
+          "scorecardResidualM": 3.0525219697454418,
+          "distanceFromRouteM": 0.22082988978170742,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -26.752270610873776,
+              -12.08218235064963
+            ],
+            [
+              -31.7008510534052,
+              -10.484824656269462
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 155,
+          "sourceC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "packC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "runtimeC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "epsg3006": [
+            677671.2734391679,
+            6586410.783503504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 165.05252196974544,
+          "scorecardResidualM": 10.052521969745442,
+          "distanceFromRouteM": 0.22082988978170742,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -26.752270610873776,
+              -12.08218235064963
+            ],
+            [
+              -31.7008510534052,
+              -10.484824656269462
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 128,
+          "sourceC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "packC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "runtimeC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "epsg3006": [
+            677671.2734391679,
+            6586410.783503504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 165.05252196974544,
+          "scorecardResidualM": 37.05252196974544,
+          "distanceFromRouteM": 0.22082988978170742,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -26.752270610873776,
+              -12.08218235064963
+            ],
+            [
+              -31.7008510534052,
+              -10.484824656269462
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 120,
+          "sourceC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "packC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "runtimeC": [
+            -29.226560832139487,
+            -11.283503503459546
+          ],
+          "epsg3006": [
+            677671.2734391679,
+            6586410.783503504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 17.88961729113375,
+          "expectedRuntimeBearingDegrees": 17.88961729113375,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 165.05252196974544,
+          "scorecardResidualM": 45.05252196974544,
+          "distanceFromRouteM": 0.22082988978170742,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -26.752270610873776,
+              -12.08218235064963
+            ],
+            [
+              -31.7008510534052,
+              -10.484824656269462
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 2,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-02-a-ortho2019",
+          "centreEpsg3006": [
+            677813.244722104,
+            6586286.105523175
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-02-b-ortho2019",
+          "centreEpsg3006": [
+            677793.2950061174,
+            6586274.845716878
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-02-c-ortho2019",
+          "centreEpsg3006": [
+            677800.2159472399,
+            6586234.389093504
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 498,
+          "sourceC": [
+            112.74472210401319,
+            113.39447682577753
+          ],
+          "packC": [
+            112.74472210401319,
+            113.39447682577753
+          ],
+          "runtimeC": [
+            112.74472210401319,
+            113.39447682577753
+          ],
+          "epsg3006": [
+            677813.244722104,
+            6586286.105523175
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 496.8651448641374,
+          "scorecardResidualM": -1.1348551358626082,
+          "distanceFromRouteM": 22.367886520255816,
+          "eligible": false,
+          "potentialPair": [
+            [
+              115.04070822533755,
+              112.17445726417782
+            ],
+            [
+              110.44873598268883,
+              114.61449638737724
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 472,
+          "sourceC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "packC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "runtimeC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "epsg3006": [
+            677800.2159472399,
+            6586234.389093504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 457.309435414559,
+          "scorecardResidualM": -14.690564585440995,
+          "distanceFromRouteM": 13.404783525604994,
+          "eligible": false,
+          "potentialPair": [
+            [
+              102.01193336127146,
+              163.89088693416733
+            ],
+            [
+              97.41996111862274,
+              166.33092605736675
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 414,
+          "sourceC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "packC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "runtimeC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "epsg3006": [
+            677800.2159472399,
+            6586234.389093504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 457.309435414559,
+          "scorecardResidualM": 43.309435414559005,
+          "distanceFromRouteM": 13.404783525604994,
+          "eligible": false,
+          "potentialPair": [
+            [
+              102.01193336127146,
+              163.89088693416733
+            ],
+            [
+              97.41996111862274,
+              166.33092605736675
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 414,
+          "sourceC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "packC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "runtimeC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "epsg3006": [
+            677800.2159472399,
+            6586234.389093504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 457.309435414559,
+          "scorecardResidualM": 43.309435414559005,
+          "distanceFromRouteM": 13.404783525604994,
+          "eligible": false,
+          "potentialPair": [
+            [
+              102.01193336127146,
+              163.89088693416733
+            ],
+            [
+              97.41996111862274,
+              166.33092605736675
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 360,
+          "sourceC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "packC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "runtimeC": [
+            99.7159472399471,
+            165.11090649576704
+          ],
+          "epsg3006": [
+            677800.2159472399,
+            6586234.389093504
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 27.984863835317128,
+          "expectedRuntimeBearingDegrees": 27.984863835317128,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 457.309435414559,
+          "scorecardResidualM": 97.309435414559,
+          "distanceFromRouteM": 13.404783525604994,
+          "eligible": false,
+          "potentialPair": [
+            [
+              102.01193336127146,
+              163.89088693416733
+            ],
+            [
+              97.41996111862274,
+              166.33092605736675
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 3,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "way/221832565",
+          "centreEpsg3006": [
+            678079.4635075451,
+            6585891.3353564525
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "way/221832567",
+          "centreEpsg3006": [
+            678081.0389385149,
+            6585924.121005414
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": null,
+          "sourceFeatureId": "way/221832578",
+          "centreEpsg3006": [
+            678061.2408719464,
+            6585944.951631116
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 196,
+          "sourceC": [
+            378.9635075450838,
+            508.16464354769676
+          ],
+          "packC": [
+            378.9635075450838,
+            508.16464354769676
+          ],
+          "runtimeC": [
+            378.9635075450838,
+            508.16464354769676
+          ],
+          "epsg3006": [
+            678079.4635075451,
+            6585891.3353564525
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 194.84129295980145,
+          "scorecardResidualM": -1.15870704019855,
+          "distanceFromRouteM": 0.6272309108548949,
+          "eligible": false,
+          "potentialPair": [
+            [
+              376.89849720251704,
+              509.74443223137956
+            ],
+            [
+              381.0285178876506,
+              506.58485486401395
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 173,
+          "sourceC": [
+            380.53893851488135,
+            475.3789945855768
+          ],
+          "packC": [
+            380.53893851488135,
+            475.3789945855768
+          ],
+          "runtimeC": [
+            380.53893851488135,
+            475.3789945855768
+          ],
+          "epsg3006": [
+            678081.0389385149,
+            6585924.121005414
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 170.36913368115947,
+          "scorecardResidualM": -2.630866318840532,
+          "distanceFromRouteM": 21.026564559679446,
+          "eligible": false,
+          "potentialPair": [
+            [
+              378.4739281723146,
+              476.9587832692596
+            ],
+            [
+              382.60394885744813,
+              473.79920590189397
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 145,
+          "sourceC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "packC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "runtimeC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "epsg3006": [
+            678061.2408719464,
+            6585944.951631116
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 141.79520328139586,
+          "scorecardResidualM": -3.2047967186041433,
+          "distanceFromRouteM": 17.959170148347003,
+          "eligible": false,
+          "potentialPair": [
+            [
+              358.67586160384565,
+              456.128157567767
+            ],
+            [
+              362.8058822889792,
+              452.9685802004014
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 132,
+          "sourceC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "packC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "runtimeC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "epsg3006": [
+            678061.2408719464,
+            6585944.951631116
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 141.79520328139586,
+          "scorecardResidualM": 9.795203281395857,
+          "distanceFromRouteM": 17.959170148347003,
+          "eligible": false,
+          "potentialPair": [
+            [
+              358.67586160384565,
+              456.128157567767
+            ],
+            [
+              362.8058822889792,
+              452.9685802004014
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 130,
+          "sourceC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "packC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "runtimeC": [
+            360.7408719464124,
+            454.5483688840842
+          ],
+          "epsg3006": [
+            678061.2408719464,
+            6585944.951631116
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -142.58303523024708,
+          "expectedRuntimeBearingDegrees": -142.58303523024708,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 141.79520328139586,
+          "scorecardResidualM": 11.795203281395857,
+          "distanceFromRouteM": 17.959170148347003,
+          "eligible": false,
+          "potentialPair": [
+            [
+              358.67586160384565,
+              456.128157567767
+            ],
+            [
+              362.8058822889792,
+              452.9685802004014
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 4,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-04-a-ortho2019",
+          "centreEpsg3006": [
+            677942.0237335024,
+            6586156.905353783
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-04-b-ortho2019",
+          "centreEpsg3006": [
+            677916.4461953104,
+            6586194.099929617
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-04-c-ortho2019",
+          "centreEpsg3006": [
+            677882.0808346377,
+            6586232.72549203
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 395,
+          "sourceC": [
+            241.52373350232259,
+            242.59464621709563
+          ],
+          "packC": [
+            241.52373350232259,
+            242.59464621709563
+          ],
+          "runtimeC": [
+            241.52373350232259,
+            242.59464621709563
+          ],
+          "epsg3006": [
+            677942.0237335024,
+            6586156.905353783
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 391.589330401195,
+          "scorecardResidualM": -3.4106695988049864,
+          "distanceFromRouteM": 1.2986044952846674,
+          "eligible": false,
+          "potentialPair": [
+            [
+              239.5001433472642,
+              244.22715437460994
+            ],
+            [
+              243.54732365738096,
+              240.96213805958132
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 358,
+          "sourceC": [
+            215.94619531039797,
+            205.40007038319737
+          ],
+          "packC": [
+            215.94619531039797,
+            205.40007038319737
+          ],
+          "runtimeC": [
+            215.94619531039797,
+            205.40007038319737
+          ],
+          "epsg3006": [
+            677916.4461953104,
+            6586194.099929617
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 347.87557670070044,
+          "scorecardResidualM": -10.124423299299565,
+          "distanceFromRouteM": 3.3469782904605303,
+          "eligible": false,
+          "potentialPair": [
+            [
+              213.9226051553396,
+              207.03257854071168
+            ],
+            [
+              217.96978546545634,
+              203.76756222568306
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 337,
+          "sourceC": [
+            215.94619531039797,
+            205.40007038319737
+          ],
+          "packC": [
+            215.94619531039797,
+            205.40007038319737
+          ],
+          "runtimeC": [
+            215.94619531039797,
+            205.40007038319737
+          ],
+          "epsg3006": [
+            677916.4461953104,
+            6586194.099929617
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "yellow"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 347.87557670070044,
+          "scorecardResidualM": 10.875576700700435,
+          "distanceFromRouteM": 3.3469782904605303,
+          "eligible": false,
+          "potentialPair": [
+            [
+              213.9226051553396,
+              207.03257854071168
+            ],
+            [
+              217.96978546545634,
+              203.76756222568306
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 301,
+          "sourceC": [
+            181.5808346377463,
+            166.7745079693452
+          ],
+          "packC": [
+            181.5808346377463,
+            166.7745079693452
+          ],
+          "runtimeC": [
+            181.5808346377463,
+            166.7745079693452
+          ],
+          "epsg3006": [
+            677882.0808346377,
+            6586232.72549203
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 296.23556152058893,
+          "scorecardResidualM": -4.764438479411069,
+          "distanceFromRouteM": 0.8528014431466627,
+          "eligible": false,
+          "potentialPair": [
+            [
+              179.55724448268793,
+              168.4070161268595
+            ],
+            [
+              183.60442479280468,
+              165.14199981183089
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 210,
+          "sourceC": [
+            181.5808346377463,
+            166.7745079693452
+          ],
+          "packC": [
+            181.5808346377463,
+            166.7745079693452
+          ],
+          "runtimeC": [
+            181.5808346377463,
+            166.7745079693452
+          ],
+          "epsg3006": [
+            677882.0808346377,
+            6586232.72549203
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -141.1055438669392,
+          "expectedRuntimeBearingDegrees": -141.1055438669392,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 296.23556152058893,
+          "scorecardResidualM": 86.23556152058893,
+          "distanceFromRouteM": 0.8528014431466627,
+          "eligible": false,
+          "potentialPair": [
+            [
+              179.55724448268793,
+              168.4070161268595
+            ],
+            [
+              183.60442479280468,
+              165.14199981183089
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 5,
+      "padCount": 1,
+      "runtimePadCount": 1,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-05-a-ortho2019",
+          "centreEpsg3006": [
+            677591.8641719002,
+            6586411.978339748
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 262,
+          "sourceC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "packC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "runtimeC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "epsg3006": [
+            677591.8641719002,
+            6586411.978339748
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 265.5014732135632,
+          "scorecardResidualM": 3.5014732135632016,
+          "distanceFromRouteM": 1.125086682194893,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -106.33411674553604,
+              -11.269156205010407
+            ],
+            [
+              -110.93753945408152,
+              -13.687523291795987
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 262,
+          "sourceC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "packC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "runtimeC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "epsg3006": [
+            677591.8641719002,
+            6586411.978339748
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 265.5014732135632,
+          "scorecardResidualM": 3.5014732135632016,
+          "distanceFromRouteM": 1.125086682194893,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -106.33411674553604,
+              -11.269156205010407
+            ],
+            [
+              -110.93753945408152,
+              -13.687523291795987
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 252,
+          "sourceC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "packC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "runtimeC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "epsg3006": [
+            677591.8641719002,
+            6586411.978339748
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 265.5014732135632,
+          "scorecardResidualM": 13.501473213563202,
+          "distanceFromRouteM": 1.125086682194893,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -106.33411674553604,
+              -11.269156205010407
+            ],
+            [
+              -110.93753945408152,
+              -13.687523291795987
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 233,
+          "sourceC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "packC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "runtimeC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "epsg3006": [
+            677591.8641719002,
+            6586411.978339748
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 265.5014732135632,
+          "scorecardResidualM": 32.5014732135632,
+          "distanceFromRouteM": 1.125086682194893,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -106.33411674553604,
+              -11.269156205010407
+            ],
+            [
+              -110.93753945408152,
+              -13.687523291795987
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 230,
+          "sourceC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "packC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "runtimeC": [
+            -108.63582809980878,
+            -12.478339748403197
+          ],
+          "epsg3006": [
+            677591.8641719002,
+            6586411.978339748
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -27.714790841725296,
+          "expectedRuntimeBearingDegrees": -27.714790841725296,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 265.5014732135632,
+          "scorecardResidualM": 35.5014732135632,
+          "distanceFromRouteM": 1.125086682194893,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -106.33411674553604,
+              -11.269156205010407
+            ],
+            [
+              -110.93753945408152,
+              -13.687523291795987
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 6,
+      "padCount": 1,
+      "runtimePadCount": 1,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-06-a-ortho2019",
+          "centreEpsg3006": [
+            677471.481421382,
+            6586192.830777768
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 188,
+          "sourceC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "packC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "runtimeC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "epsg3006": [
+            677471.481421382,
+            6586192.830777768
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 170.05279522999905,
+          "scorecardResidualM": -17.94720477000095,
+          "distanceFromRouteM": 3.813556414647882,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -227.52840917575708,
+              204.53863662383375
+            ],
+            [
+              -230.50874806017782,
+              208.79980784006167
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 166,
+          "sourceC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "packC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "runtimeC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "epsg3006": [
+            677471.481421382,
+            6586192.830777768
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 170.05279522999905,
+          "scorecardResidualM": 4.052795229999049,
+          "distanceFromRouteM": 3.813556414647882,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -227.52840917575708,
+              204.53863662383375
+            ],
+            [
+              -230.50874806017782,
+              208.79980784006167
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 148,
+          "sourceC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "packC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "runtimeC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "epsg3006": [
+            677471.481421382,
+            6586192.830777768
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 170.05279522999905,
+          "scorecardResidualM": 22.05279522999905,
+          "distanceFromRouteM": 3.813556414647882,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -227.52840917575708,
+              204.53863662383375
+            ],
+            [
+              -230.50874806017782,
+              208.79980784006167
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 142,
+          "sourceC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "packC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "runtimeC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "epsg3006": [
+            677471.481421382,
+            6586192.830777768
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 170.05279522999905,
+          "scorecardResidualM": 28.05279522999905,
+          "distanceFromRouteM": 3.813556414647882,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -227.52840917575708,
+              204.53863662383375
+            ],
+            [
+              -230.50874806017782,
+              208.79980784006167
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 125,
+          "sourceC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "packC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "runtimeC": [
+            -229.01857861796745,
+            206.6692222319477
+          ],
+          "epsg3006": [
+            677471.481421382,
+            6586192.830777768
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 55.03037459908411,
+          "expectedRuntimeBearingDegrees": 55.03037459908411,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 170.05279522999905,
+          "scorecardResidualM": 45.05279522999905,
+          "distanceFromRouteM": 3.813556414647882,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -227.52840917575708,
+              204.53863662383375
+            ],
+            [
+              -230.50874806017782,
+              208.79980784006167
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 7,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "way/331796626",
+          "centreEpsg3006": [
+            677606.9312429385,
+            6586047.547220483
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "way/331796654",
+          "centreEpsg3006": [
+            677644.3713901283,
+            6586028.896749296
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 351,
+          "sourceC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "packC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "runtimeC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "epsg3006": [
+            677644.3713901283,
+            6586028.896749296
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 328.28137492907524,
+          "scorecardResidualM": -22.71862507092476,
+          "distanceFromRouteM": 1.164600309342203,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -57.47158072654112,
+              372.8295546550265
+            ],
+            [
+              -54.78563901690143,
+              368.3769467526374
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 336,
+          "sourceC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "packC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "runtimeC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "epsg3006": [
+            677644.3713901283,
+            6586028.896749296
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 328.28137492907524,
+          "scorecardResidualM": -7.718625070924759,
+          "distanceFromRouteM": 1.164600309342203,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -57.47158072654112,
+              372.8295546550265
+            ],
+            [
+              -54.78563901690143,
+              368.3769467526374
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 323,
+          "sourceC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "packC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "runtimeC": [
+            -56.128609871721274,
+            370.603250703832
+          ],
+          "epsg3006": [
+            677644.3713901283,
+            6586028.896749296
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 328.28137492907524,
+          "scorecardResidualM": 5.281374929075241,
+          "distanceFromRouteM": 1.164600309342203,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -57.47158072654112,
+              372.8295546550265
+            ],
+            [
+              -54.78563901690143,
+              368.3769467526374
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 299,
+          "sourceC": [
+            -93.56875706144314,
+            351.9527795167797
+          ],
+          "packC": [
+            -93.56875706144314,
+            351.9527795167797
+          ],
+          "runtimeC": [
+            -93.56875706144314,
+            351.9527795167797
+          ],
+          "epsg3006": [
+            677606.9312429385,
+            6586047.547220483
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 286.5889953695938,
+          "scorecardResidualM": -12.411004630406183,
+          "distanceFromRouteM": 4.533603686491057,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -94.91172791626298,
+              354.17908346797424
+            ],
+            [
+              -92.2257862066233,
+              349.72647556558513
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 260,
+          "sourceC": [
+            -93.56875706144314,
+            351.9527795167797
+          ],
+          "packC": [
+            -93.56875706144314,
+            351.9527795167797
+          ],
+          "runtimeC": [
+            -93.56875706144314,
+            351.9527795167797
+          ],
+          "epsg3006": [
+            677606.9312429385,
+            6586047.547220483
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -121.09959336701178,
+          "expectedRuntimeBearingDegrees": -121.09959336701178,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 286.5889953695938,
+          "scorecardResidualM": 26.588995369593817,
+          "distanceFromRouteM": 4.533603686491057,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -94.91172791626298,
+              354.17908346797424
+            ],
+            [
+              -92.2257862066233,
+              349.72647556558513
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 8,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "way/296422978",
+          "centreEpsg3006": [
+            677324.4009653388,
+            6586212.556339515
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "way/296422999",
+          "centreEpsg3006": [
+            677285.3104633534,
+            6586188.300984687
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 356,
+          "sourceC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "packC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "runtimeC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "epsg3006": [
+            677285.3104633534,
+            6586188.300984687
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 327.7879966511454,
+          "scorecardResidualM": -28.21200334885458,
+          "distanceFromRouteM": 1.8768642363456982,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -416.776470236801,
+              209.13949066377018
+            ],
+            [
+              -413.60260305633636,
+              213.25853996194195
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 332,
+          "sourceC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "packC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "runtimeC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "epsg3006": [
+            677285.3104633534,
+            6586188.300984687
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 327.7879966511454,
+          "scorecardResidualM": -4.21200334885458,
+          "distanceFromRouteM": 1.8768642363456982,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -416.776470236801,
+              209.13949066377018
+            ],
+            [
+              -413.60260305633636,
+              213.25853996194195
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 319,
+          "sourceC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "packC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "runtimeC": [
+            -415.1895366465687,
+            211.19901531285606
+          ],
+          "epsg3006": [
+            677285.3104633534,
+            6586188.300984687
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 327.7879966511454,
+          "scorecardResidualM": 8.78799665114542,
+          "distanceFromRouteM": 1.8768642363456982,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -416.776470236801,
+              209.13949066377018
+            ],
+            [
+              -413.60260305633636,
+              213.25853996194195
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 285,
+          "sourceC": [
+            -376.09903466117936,
+            186.9436604846889
+          ],
+          "packC": [
+            -376.09903466117936,
+            186.9436604846889
+          ],
+          "runtimeC": [
+            -376.09903466117936,
+            186.9436604846889
+          ],
+          "epsg3006": [
+            677324.4009653388,
+            6586212.556339515
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 282.0189621496561,
+          "scorecardResidualM": -2.9810378503439097,
+          "distanceFromRouteM": 6.522837128162421,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -377.6859682514117,
+              184.88413583560302
+            ],
+            [
+              -374.51210107094704,
+              189.0031851337748
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 240,
+          "sourceC": [
+            -376.09903466117936,
+            186.9436604846889
+          ],
+          "packC": [
+            -376.09903466117936,
+            186.9436604846889
+          ],
+          "runtimeC": [
+            -376.09903466117936,
+            186.9436604846889
+          ],
+          "epsg3006": [
+            677324.4009653388,
+            6586212.556339515
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 127.61547082274834,
+          "expectedRuntimeBearingDegrees": 127.61547082274834,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 282.0189621496561,
+          "scorecardResidualM": 42.01896214965609,
+          "distanceFromRouteM": 6.522837128162421,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -377.6859682514117,
+              184.88413583560302
+            ],
+            [
+              -374.51210107094704,
+              189.0031851337748
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 9,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "way/1530686621",
+          "centreEpsg3006": [
+            677517.3919423907,
+            6586426.823926301
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "way/1530686622",
+          "centreEpsg3006": [
+            677539.2321491834,
+            6586445.04372131
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 161,
+          "sourceC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "packC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "runtimeC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "epsg3006": [
+            677539.2321491834,
+            6586445.04372131
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 128.18459065030123,
+          "scorecardResidualM": -32.81540934969877,
+          "distanceFromRouteM": 30.9187006753037,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -160.3359851468548,
+              -43.11645404537259
+            ],
+            [
+              -162.19971648625017,
+              -47.97098857450672
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 136,
+          "sourceC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "packC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "runtimeC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "epsg3006": [
+            677539.2321491834,
+            6586445.04372131
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 128.18459065030123,
+          "scorecardResidualM": -7.815409349698768,
+          "distanceFromRouteM": 30.9187006753037,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -160.3359851468548,
+              -43.11645404537259
+            ],
+            [
+              -162.19971648625017,
+              -47.97098857450672
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 128,
+          "sourceC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "packC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "runtimeC": [
+            -161.26785081655248,
+            -45.543721309939656
+          ],
+          "epsg3006": [
+            677539.2321491834,
+            6586445.04372131
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 128.18459065030123,
+          "scorecardResidualM": 0.18459065030123156,
+          "distanceFromRouteM": 30.9187006753037,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -160.3359851468548,
+              -43.11645404537259
+            ],
+            [
+              -162.19971648625017,
+              -47.97098857450672
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 107,
+          "sourceC": [
+            -183.108057609316,
+            -27.32392630114309
+          ],
+          "packC": [
+            -183.108057609316,
+            -27.32392630114309
+          ],
+          "runtimeC": [
+            -183.108057609316,
+            -27.32392630114309
+          ],
+          "epsg3006": [
+            677517.3919423907,
+            6586426.823926301
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 101.26519815911783,
+          "scorecardResidualM": -5.73480184088217,
+          "distanceFromRouteM": 21.737095651188355,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -182.17619193961832,
+              -24.896659036576022
+            ],
+            [
+              -184.0399232790137,
+              -29.751193565710157
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 100,
+          "sourceC": [
+            -183.108057609316,
+            -27.32392630114309
+          ],
+          "packC": [
+            -183.108057609316,
+            -27.32392630114309
+          ],
+          "runtimeC": [
+            -183.108057609316,
+            -27.32392630114309
+          ],
+          "epsg3006": [
+            677517.3919423907,
+            6586426.823926301
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -68.99742705031292,
+          "expectedRuntimeBearingDegrees": -68.99742705031292,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 101.26519815911783,
+          "scorecardResidualM": 1.2651981591178298,
+          "distanceFromRouteM": 21.737095651188355,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -182.17619193961832,
+              -24.896659036576022
+            ],
+            [
+              -184.0399232790137,
+              -29.751193565710157
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 10,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-10-a-ortho2019",
+          "centreEpsg3006": [
+            677303.9477863297,
+            6586235.916872179
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-10-b-ortho2019",
+          "centreEpsg3006": [
+            677371.5466263036,
+            6586336.7393046385
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-10-c-ortho2019",
+          "centreEpsg3006": [
+            677347.5502855236,
+            6586287.865702926
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 492,
+          "sourceC": [
+            -396.55221367037956,
+            163.58312782088626
+          ],
+          "packC": [
+            -396.55221367037956,
+            163.58312782088626
+          ],
+          "runtimeC": [
+            -396.55221367037956,
+            163.58312782088626
+          ],
+          "epsg3006": [
+            677303.9477863297,
+            6586235.916872179
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 481.8336899599269,
+          "scorecardResidualM": -10.166310040073085,
+          "distanceFromRouteM": 0.16470917987007483,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -399.0488169947281,
+              162.8571995593811
+            ],
+            [
+              -394.055610346031,
+              164.30905608239144
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 446,
+          "sourceC": [
+            -352.9497144763306,
+            111.63429707402916
+          ],
+          "packC": [
+            -352.9497144763306,
+            111.63429707402916
+          ],
+          "runtimeC": [
+            -352.9497144763306,
+            111.63429707402916
+          ],
+          "epsg3006": [
+            677347.5502855236,
+            6586287.865702926
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 419.8020245932622,
+          "scorecardResidualM": -26.197975406737783,
+          "distanceFromRouteM": 27.52700490680894,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -355.44631780067914,
+              110.90836881252399
+            ],
+            [
+              -350.45311115198206,
+              112.36022533553434
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 416,
+          "sourceC": [
+            -352.9497144763306,
+            111.63429707402916
+          ],
+          "packC": [
+            -352.9497144763306,
+            111.63429707402916
+          ],
+          "runtimeC": [
+            -352.9497144763306,
+            111.63429707402916
+          ],
+          "epsg3006": [
+            677347.5502855236,
+            6586287.865702926
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "yellow"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 419.8020245932622,
+          "scorecardResidualM": 3.8020245932622174,
+          "distanceFromRouteM": 27.52700490680894,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -355.44631780067914,
+              110.90836881252399
+            ],
+            [
+              -350.45311115198206,
+              112.36022533553434
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 374,
+          "sourceC": [
+            -328.95337369641624,
+            62.760695361072386
+          ],
+          "packC": [
+            -328.95337369641624,
+            62.760695361072386
+          ],
+          "runtimeC": [
+            -328.95337369641624,
+            62.760695361072386
+          ],
+          "epsg3006": [
+            677371.5466263036,
+            6586336.7393046385
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 366.1721713416075,
+          "scorecardResidualM": -7.827828658392491,
+          "distanceFromRouteM": 36.923395460020856,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -331.4499770207648,
+              62.03476709956721
+            ],
+            [
+              -326.4567703720677,
+              63.48662362257756
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 325,
+          "sourceC": [
+            -328.95337369641624,
+            62.760695361072386
+          ],
+          "packC": [
+            -328.95337369641624,
+            62.760695361072386
+          ],
+          "runtimeC": [
+            -328.95337369641624,
+            62.760695361072386
+          ],
+          "epsg3006": [
+            677371.5466263036,
+            6586336.7393046385
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 163.7873463817641,
+          "expectedRuntimeBearingDegrees": 163.7873463817641,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 366.1721713416075,
+          "scorecardResidualM": 41.17217134160751,
+          "distanceFromRouteM": 36.923395460020856,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -331.4499770207648,
+              62.03476709956721
+            ],
+            [
+              -326.4567703720677,
+              63.48662362257756
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 11,
+      "padCount": 1,
+      "runtimePadCount": 1,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-11-a-ortho2019",
+          "centreEpsg3006": [
+            677214.7651886588,
+            6586833.207684858
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 134,
+          "sourceC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "packC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "runtimeC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "epsg3006": [
+            677214.7651886588,
+            6586833.207684858
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 123.74854894672981,
+          "scorecardResidualM": -10.251451053270188,
+          "distanceFromRouteM": 0.70649518460663,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -488.27224807656194,
+              -433.140750281244
+            ],
+            [
+              -483.1973746057761,
+              -434.2746194339744
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 125,
+          "sourceC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "packC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "runtimeC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "epsg3006": [
+            677214.7651886588,
+            6586833.207684858
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 123.74854894672981,
+          "scorecardResidualM": -1.2514510532701877,
+          "distanceFromRouteM": 0.70649518460663,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -488.27224807656194,
+              -433.140750281244
+            ],
+            [
+              -483.1973746057761,
+              -434.2746194339744
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 125,
+          "sourceC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "packC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "runtimeC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "epsg3006": [
+            677214.7651886588,
+            6586833.207684858
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 123.74854894672981,
+          "scorecardResidualM": -1.2514510532701877,
+          "distanceFromRouteM": 0.70649518460663,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -488.27224807656194,
+              -433.140750281244
+            ],
+            [
+              -483.1973746057761,
+              -434.2746194339744
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 109,
+          "sourceC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "packC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "runtimeC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "epsg3006": [
+            677214.7651886588,
+            6586833.207684858
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 123.74854894672981,
+          "scorecardResidualM": 14.748548946729812,
+          "distanceFromRouteM": 0.70649518460663,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -488.27224807656194,
+              -433.140750281244
+            ],
+            [
+              -483.1973746057761,
+              -434.2746194339744
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 105,
+          "sourceC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "packC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "runtimeC": [
+            -485.734811341169,
+            -433.7076848576092
+          ],
+          "epsg3006": [
+            677214.7651886588,
+            6586833.207684858
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -167.40537078076613,
+          "expectedRuntimeBearingDegrees": -167.40537078076613,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 123.74854894672981,
+          "scorecardResidualM": 18.748548946729812,
+          "distanceFromRouteM": 0.70649518460663,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -488.27224807656194,
+              -433.140750281244
+            ],
+            [
+              -483.1973746057761,
+              -434.2746194339744
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 12,
+      "padCount": 1,
+      "runtimePadCount": 1,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-12-a-ortho2019",
+          "centreEpsg3006": [
+            677169.9097021702,
+            6586989.720780881
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 470,
+          "sourceC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "packC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "runtimeC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "epsg3006": [
+            677169.9097021702,
+            6586989.720780881
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 470.11226294034896,
+          "scorecardResidualM": 0.11226294034895545,
+          "distanceFromRouteM": 1.4720874451133208,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -528.992409310026,
+              -592.2718177602095
+            ],
+            [
+              -532.1881863496078,
+              -588.1697440025497
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 470,
+          "sourceC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "packC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "runtimeC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "epsg3006": [
+            677169.9097021702,
+            6586989.720780881
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 470.11226294034896,
+          "scorecardResidualM": 0.11226294034895545,
+          "distanceFromRouteM": 1.4720874451133208,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -528.992409310026,
+              -592.2718177602095
+            ],
+            [
+              -532.1881863496078,
+              -588.1697440025497
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 458,
+          "sourceC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "packC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "runtimeC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "epsg3006": [
+            677169.9097021702,
+            6586989.720780881
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 470.11226294034896,
+          "scorecardResidualM": 12.112262940348955,
+          "distanceFromRouteM": 1.4720874451133208,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -528.992409310026,
+              -592.2718177602095
+            ],
+            [
+              -532.1881863496078,
+              -588.1697440025497
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 392,
+          "sourceC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "packC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "runtimeC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "epsg3006": [
+            677169.9097021702,
+            6586989.720780881
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 470.11226294034896,
+          "scorecardResidualM": 78.11226294034896,
+          "distanceFromRouteM": 1.4720874451133208,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -528.992409310026,
+              -592.2718177602095
+            ],
+            [
+              -532.1881863496078,
+              -588.1697440025497
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 355,
+          "sourceC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "packC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "runtimeC": [
+            -530.5902978298169,
+            -590.2207808813796
+          ],
+          "epsg3006": [
+            677169.9097021702,
+            6586989.720780881
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 52.079135503767795,
+          "expectedRuntimeBearingDegrees": 52.079135503767795,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 470.11226294034896,
+          "scorecardResidualM": 115.11226294034896,
+          "distanceFromRouteM": 1.4720874451133208,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -528.992409310026,
+              -592.2718177602095
+            ],
+            [
+              -532.1881863496078,
+              -588.1697440025497
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 13,
+      "padCount": 1,
+      "runtimePadCount": 1,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-13-a-ortho2019",
+          "centreEpsg3006": [
+            677592.1894500813,
+            6586718.662197807
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 343,
+          "sourceC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "packC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "runtimeC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "epsg3006": [
+            677592.1894500813,
+            6586718.662197807
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 338.7986372688247,
+          "scorecardResidualM": -4.2013627311753226,
+          "distanceFromRouteM": 2.070426821865653,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -108.94567614878254,
+              -316.6409650383329
+            ],
+            [
+              -107.67542368849642,
+              -321.68343057486726
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 305,
+          "sourceC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "packC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "runtimeC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "epsg3006": [
+            677592.1894500813,
+            6586718.662197807
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 338.7986372688247,
+          "scorecardResidualM": 33.79863726882468,
+          "distanceFromRouteM": 2.070426821865653,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -108.94567614878254,
+              -316.6409650383329
+            ],
+            [
+              -107.67542368849642,
+              -321.68343057486726
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 294,
+          "sourceC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "packC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "runtimeC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "epsg3006": [
+            677592.1894500813,
+            6586718.662197807
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 338.7986372688247,
+          "scorecardResidualM": 44.79863726882468,
+          "distanceFromRouteM": 2.070426821865653,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -108.94567614878254,
+              -316.6409650383329
+            ],
+            [
+              -107.67542368849642,
+              -321.68343057486726
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 271,
+          "sourceC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "packC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "runtimeC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "epsg3006": [
+            677592.1894500813,
+            6586718.662197807
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 338.7986372688247,
+          "scorecardResidualM": 67.79863726882468,
+          "distanceFromRouteM": 2.070426821865653,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -108.94567614878254,
+              -316.6409650383329
+            ],
+            [
+              -107.67542368849642,
+              -321.68343057486726
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 230,
+          "sourceC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "packC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "runtimeC": [
+            -108.31054991863948,
+            -319.1621978066001
+          ],
+          "epsg3006": [
+            677592.1894500813,
+            6586718.662197807
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -104.13924774937679,
+          "expectedRuntimeBearingDegrees": -104.13924774937679,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 338.7986372688247,
+          "scorecardResidualM": 108.79863726882468,
+          "distanceFromRouteM": 2.070426821865653,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -108.94567614878254,
+              -316.6409650383329
+            ],
+            [
+              -107.67542368849642,
+              -321.68343057486726
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 14,
+      "padCount": 1,
+      "runtimePadCount": 1,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-14-a-ortho2019",
+          "centreEpsg3006": [
+            677275.6352240525,
+            6586754.515188586
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 325,
+          "sourceC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "packC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "runtimeC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "epsg3006": [
+            677275.6352240525,
+            6586754.515188586
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 298.3581624539311,
+          "scorecardResidualM": -26.641837546068928,
+          "distanceFromRouteM": 2.4790358637848,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -424.14300419039233,
+              -357.51299673121474
+            ],
+            [
+              -425.58654770459503,
+              -352.51738044064524
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 310,
+          "sourceC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "packC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "runtimeC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "epsg3006": [
+            677275.6352240525,
+            6586754.515188586
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 298.3581624539311,
+          "scorecardResidualM": -11.641837546068928,
+          "distanceFromRouteM": 2.4790358637848,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -424.14300419039233,
+              -357.51299673121474
+            ],
+            [
+              -425.58654770459503,
+              -352.51738044064524
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 290,
+          "sourceC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "packC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "runtimeC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "epsg3006": [
+            677275.6352240525,
+            6586754.515188586
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 298.3581624539311,
+          "scorecardResidualM": 8.358162453931072,
+          "distanceFromRouteM": 2.4790358637848,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -424.14300419039233,
+              -357.51299673121474
+            ],
+            [
+              -425.58654770459503,
+              -352.51738044064524
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 227,
+          "sourceC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "packC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "runtimeC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "epsg3006": [
+            677275.6352240525,
+            6586754.515188586
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 298.3581624539311,
+          "scorecardResidualM": 71.35816245393107,
+          "distanceFromRouteM": 2.4790358637848,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -424.14300419039233,
+              -357.51299673121474
+            ],
+            [
+              -425.58654770459503,
+              -352.51738044064524
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 220,
+          "sourceC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "packC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "runtimeC": [
+            -424.8647759474937,
+            -355.01518858593
+          ],
+          "epsg3006": [
+            677275.6352240525,
+            6586754.515188586
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 73.88271301558427,
+          "expectedRuntimeBearingDegrees": 73.88271301558427,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 298.3581624539311,
+          "scorecardResidualM": 78.35816245393107,
+          "distanceFromRouteM": 2.4790358637848,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -424.14300419039233,
+              -357.51299673121474
+            ],
+            [
+              -425.58654770459503,
+              -352.51738044064524
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 15,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "way/427426704",
+          "centreEpsg3006": [
+            677625.5824138103,
+            6586564.235755147
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "way/427426720",
+          "centreEpsg3006": [
+            677628.0585023521,
+            6586607.030433892
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": null,
+          "sourceFeatureId": "way/427426728",
+          "centreEpsg3006": [
+            677631.2667811807,
+            6586636.770506947
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 377,
+          "sourceC": [
+            -74.91758618967324,
+            -164.73575514713232
+          ],
+          "packC": [
+            -74.91758618967324,
+            -164.73575514713232
+          ],
+          "runtimeC": [
+            -74.91758618967324,
+            -164.73575514713232
+          ],
+          "epsg3006": [
+            677625.5824138103,
+            6586564.235755147
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 372.7580544896414,
+          "scorecardResidualM": -4.241945510358619,
+          "distanceFromRouteM": 2.369778263237692,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -77.38352824984487,
+              -165.55984844031974
+            ],
+            [
+              -72.45164412950162,
+              -163.9116618539449
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 357,
+          "sourceC": [
+            -74.91758618967324,
+            -164.73575514713232
+          ],
+          "packC": [
+            -74.91758618967324,
+            -164.73575514713232
+          ],
+          "runtimeC": [
+            -74.91758618967324,
+            -164.73575514713232
+          ],
+          "epsg3006": [
+            677625.5824138103,
+            6586564.235755147
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "white"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 372.7580544896414,
+          "scorecardResidualM": 15.758054489641381,
+          "distanceFromRouteM": 2.369778263237692,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -77.38352824984487,
+              -165.55984844031974
+            ],
+            [
+              -72.45164412950162,
+              -163.9116618539449
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 332,
+          "sourceC": [
+            -72.44149764794717,
+            -207.53043389188616
+          ],
+          "packC": [
+            -72.44149764794717,
+            -207.53043389188616
+          ],
+          "runtimeC": [
+            -72.44149764794717,
+            -207.53043389188616
+          ],
+          "epsg3006": [
+            677628.0585023521,
+            6586607.030433892
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 331.38508286318137,
+          "scorecardResidualM": -0.614917136818633,
+          "distanceFromRouteM": 13.585515516280157,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -74.9074397081188,
+              -208.35452718507358
+            ],
+            [
+              -69.97555558777555,
+              -206.70634059869874
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 302,
+          "sourceC": [
+            -69.23321881927787,
+            -237.2705069474822
+          ],
+          "packC": [
+            -69.23321881927787,
+            -237.2705069474822
+          ],
+          "runtimeC": [
+            -69.23321881927787,
+            -237.2705069474822
+          ],
+          "epsg3006": [
+            677631.2667811807,
+            6586636.770506947
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 302.1615374455841,
+          "scorecardResidualM": 0.1615374455840879,
+          "distanceFromRouteM": 19.96904053152889,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -71.6991608794495,
+              -238.09460024066962
+            ],
+            [
+              -66.76727675910624,
+              -236.4464136542948
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 270,
+          "sourceC": [
+            -69.23321881927787,
+            -237.2705069474822
+          ],
+          "packC": [
+            -69.23321881927787,
+            -237.2705069474822
+          ],
+          "runtimeC": [
+            -69.23321881927787,
+            -237.2705069474822
+          ],
+          "epsg3006": [
+            677631.2667811807,
+            6586636.770506947
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 161.5208850633577,
+          "expectedRuntimeBearingDegrees": 161.5208850633577,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 302.1615374455841,
+          "scorecardResidualM": 32.16153744558409,
+          "distanceFromRouteM": 19.96904053152889,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -71.6991608794495,
+              -238.09460024066962
+            ],
+            [
+              -66.76727675910624,
+              -236.4464136542948
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 16,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "way/331796609",
+          "centreEpsg3006": [
+            677778.9969853332,
+            6586821.632938245
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "way/331796648",
+          "centreEpsg3006": [
+            677801.1094476497,
+            6586861.346210582
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": null,
+          "sourceFeatureId": "way/331796671",
+          "centreEpsg3006": [
+            677806.5681621054,
+            6586793.997011347
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 194,
+          "sourceC": [
+            100.60944764969894,
+            -461.8462105820596
+          ],
+          "packC": [
+            100.60944764969894,
+            -461.8462105820596
+          ],
+          "runtimeC": [
+            100.60944764969894,
+            -461.8462105820596
+          ],
+          "epsg3006": [
+            677801.1094476497,
+            6586861.346210582
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 187.8053952060181,
+          "scorecardResidualM": -6.1946047939819096,
+          "distanceFromRouteM": 0.9433915577962925,
+          "eligible": false,
+          "potentialPair": [
+            [
+              103.19360465693985,
+              -461.559622791099
+            ],
+            [
+              98.02529064245802,
+              -462.1327983730202
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 163,
+          "sourceC": [
+            78.49698533313826,
+            -422.1329382453572
+          ],
+          "packC": [
+            78.49698533313826,
+            -422.1329382453572
+          ],
+          "runtimeC": [
+            78.49698533313826,
+            -422.1329382453572
+          ],
+          "epsg3006": [
+            677778.9969853332,
+            6586821.632938245
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 146.75979231181367,
+          "scorecardResidualM": -16.24020768818633,
+          "distanceFromRouteM": 17.981249426971644,
+          "eligible": false,
+          "potentialPair": [
+            [
+              81.08114234037917,
+              -421.8463504543966
+            ],
+            [
+              75.91282832589734,
+              -422.4195260363178
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 142,
+          "sourceC": [
+            78.49698533313826,
+            -422.1329382453572
+          ],
+          "packC": [
+            78.49698533313826,
+            -422.1329382453572
+          ],
+          "runtimeC": [
+            78.49698533313826,
+            -422.1329382453572
+          ],
+          "epsg3006": [
+            677778.9969853332,
+            6586821.632938245
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [
+            "yellow"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 146.75979231181367,
+          "scorecardResidualM": 4.759792311813669,
+          "distanceFromRouteM": 17.981249426971644,
+          "eligible": false,
+          "potentialPair": [
+            [
+              81.08114234037917,
+              -421.8463504543966
+            ],
+            [
+              75.91282832589734,
+              -422.4195260363178
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 129,
+          "sourceC": [
+            106.06816210545092,
+            -394.4970113463487
+          ],
+          "packC": [
+            106.06816210545092,
+            -394.4970113463487
+          ],
+          "runtimeC": [
+            106.06816210545092,
+            -394.4970113463487
+          ],
+          "epsg3006": [
+            677806.5681621054,
+            6586793.997011347
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 122.33132634938723,
+          "scorecardResidualM": -6.668673650612774,
+          "distanceFromRouteM": 12.468123225022794,
+          "eligible": false,
+          "potentialPair": [
+            [
+              108.65231911269184,
+              -394.2104235553881
+            ],
+            [
+              103.48400509821,
+              -394.7835991373093
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 100,
+          "sourceC": [
+            106.06816210545092,
+            -394.4970113463487
+          ],
+          "packC": [
+            106.06816210545092,
+            -394.4970113463487
+          ],
+          "runtimeC": [
+            106.06816210545092,
+            -394.4970113463487
+          ],
+          "epsg3006": [
+            677806.5681621054,
+            6586793.997011347
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -6.328347872236591,
+          "expectedRuntimeBearingDegrees": -6.328347872236591,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 122.33132634938723,
+          "scorecardResidualM": 22.331326349387226,
+          "distanceFromRouteM": 12.468123225022794,
+          "eligible": false,
+          "potentialPair": [
+            [
+              108.65231911269184,
+              -394.2104235553881
+            ],
+            [
+              103.48400509821,
+              -394.7835991373093
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 17,
+      "padCount": 3,
+      "runtimePadCount": 3,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "way/296422981",
+          "centreEpsg3006": [
+            677680.7850656857,
+            6586646.1537271505
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-17-b-ortho2019",
+          "centreEpsg3006": [
+            677658.0213025459,
+            6586590.6075853435
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        },
+        {
+          "index": 2,
+          "id": null,
+          "sourceFeatureId": "lidingo-tee-17-c-ortho2019",
+          "centreEpsg3006": [
+            677708.6175443036,
+            6586602.212749011
+          ],
+          "sourceId": "imagery-municipal-2019",
+          "observedYear": 2019,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 449,
+          "sourceC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "packC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "runtimeC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "epsg3006": [
+            677658.0213025459,
+            6586590.6075853435
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 415.695752587656,
+          "scorecardResidualM": -33.30424741234401,
+          "distanceFromRouteM": 2.131613567914325,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -42.3921061134996,
+              -193.70614300876824
+            ],
+            [
+              -42.56528879475159,
+              -188.50902767823013
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 421,
+          "sourceC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "packC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "runtimeC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "epsg3006": [
+            677658.0213025459,
+            6586590.6075853435
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "blue"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 415.695752587656,
+          "scorecardResidualM": -5.3042474123440115,
+          "distanceFromRouteM": 2.131613567914325,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -42.3921061134996,
+              -193.70614300876824
+            ],
+            [
+              -42.56528879475159,
+              -188.50902767823013
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 411,
+          "sourceC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "packC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "runtimeC": [
+            -42.478697454125594,
+            -191.10758534349918
+          ],
+          "epsg3006": [
+            677658.0213025459,
+            6586590.6075853435
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "white",
+            "yellow"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 415.695752587656,
+          "scorecardResidualM": 4.6957525876559885,
+          "distanceFromRouteM": 2.131613567914325,
+          "eligible": false,
+          "potentialPair": [
+            [
+              -42.3921061134996,
+              -193.70614300876824
+            ],
+            [
+              -42.56528879475159,
+              -188.50902767823013
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 374,
+          "sourceC": [
+            8.117544303642642,
+            -202.7127490112433
+          ],
+          "packC": [
+            8.117544303642642,
+            -202.7127490112433
+          ],
+          "runtimeC": [
+            8.117544303642642,
+            -202.7127490112433
+          ],
+          "epsg3006": [
+            677708.6175443036,
+            6586602.212749011
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 367.5911423370019,
+          "scorecardResidualM": -6.408857662998116,
+          "distanceFromRouteM": 12.804641494249948,
+          "eligible": false,
+          "potentialPair": [
+            [
+              8.20413564426864,
+              -205.31130667651234
+            ],
+            [
+              8.030952963016645,
+              -200.11419134597423
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 315,
+          "sourceC": [
+            8.117544303642642,
+            -202.7127490112433
+          ],
+          "packC": [
+            8.117544303642642,
+            -202.7127490112433
+          ],
+          "runtimeC": [
+            8.117544303642642,
+            -202.7127490112433
+          ],
+          "epsg3006": [
+            677708.6175443036,
+            6586602.212749011
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            2
+          ],
+          "sharesReferenceWith": [
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": 88.09144769822595,
+          "expectedRuntimeBearingDegrees": 88.09144769822595,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 367.5911423370019,
+          "scorecardResidualM": 52.591142337001884,
+          "distanceFromRouteM": 12.804641494249948,
+          "eligible": false,
+          "potentialPair": [
+            [
+              8.20413564426864,
+              -205.31130667651234
+            ],
+            [
+              8.030952963016645,
+              -200.11419134597423
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    },
+    {
+      "hole": 18,
+      "padCount": 2,
+      "runtimePadCount": 2,
+      "inferPads": false,
+      "markerPlacement": null,
+      "markerLayout": null,
+      "pads": [
+        {
+          "index": 0,
+          "id": null,
+          "sourceFeatureId": "way/427426821",
+          "centreEpsg3006": [
+            678142.2974844817,
+            6586571.41517359
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        },
+        {
+          "index": 1,
+          "id": null,
+          "sourceFeatureId": "way/427426836",
+          "centreEpsg3006": [
+            678086.5517684923,
+            6586558.541034672
+          ],
+          "sourceId": "lidingo-osm-2026-09-07",
+          "observedYear": null,
+          "packRingMatches": true
+        }
+      ],
+      "marks": [
+        {
+          "index": 0,
+          "colour": "white",
+          "officialDistanceM": 433,
+          "sourceC": [
+            441.79748448169636,
+            -171.91517359009856
+          ],
+          "packC": [
+            441.79748448169636,
+            -171.91517359009856
+          ],
+          "runtimeC": [
+            441.79748448169636,
+            -171.91517359009856
+          ],
+          "epsg3006": [
+            678142.2974844817,
+            6586571.41517359
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            0
+          ],
+          "sharesReferenceWith": [],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 428.05415440530294,
+          "scorecardResidualM": -4.945845594697062,
+          "distanceFromRouteM": 0.9540619357883093,
+          "eligible": false,
+          "potentialPair": [
+            [
+              442.694771644263,
+              -169.47491218035307
+            ],
+            [
+              440.9001973191297,
+              -174.35543499984405
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 1,
+          "colour": "yellow",
+          "officialDistanceM": 379,
+          "sourceC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "packC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "runtimeC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "epsg3006": [
+            678086.5517684923,
+            6586558.541034672
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "blue",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 371.33166447662086,
+          "scorecardResidualM": -7.668335523379142,
+          "distanceFromRouteM": 6.202083842689722,
+          "eligible": false,
+          "potentialPair": [
+            [
+              386.9490556549258,
+              -156.60077326290929
+            ],
+            [
+              385.1544813297925,
+              -161.48129608240026
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 2,
+          "colour": "blue",
+          "officialDistanceM": 369,
+          "sourceC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "packC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "runtimeC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "epsg3006": [
+            678086.5517684923,
+            6586558.541034672
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "red",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 371.33166447662086,
+          "scorecardResidualM": 2.3316644766208583,
+          "distanceFromRouteM": 6.202083842689722,
+          "eligible": false,
+          "potentialPair": [
+            [
+              386.9490556549258,
+              -156.60077326290929
+            ],
+            [
+              385.1544813297925,
+              -161.48129608240026
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 3,
+          "colour": "red",
+          "officialDistanceM": 299,
+          "sourceC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "packC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "runtimeC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "epsg3006": [
+            678086.5517684923,
+            6586558.541034672
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "orange"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 371.33166447662086,
+          "scorecardResidualM": 72.33166447662086,
+          "distanceFromRouteM": 6.202083842689722,
+          "eligible": false,
+          "potentialPair": [
+            [
+              386.9490556549258,
+              -156.60077326290929
+            ],
+            [
+              385.1544813297925,
+              -161.48129608240026
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        },
+        {
+          "index": 4,
+          "colour": "orange",
+          "officialDistanceM": 270,
+          "sourceC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "packC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "runtimeC": [
+            386.05176849235914,
+            -159.04103467265477
+          ],
+          "epsg3006": [
+            678086.5517684923,
+            6586558.541034672
+          ],
+          "sourcePadId": null,
+          "sourcePadIndices": [
+            1
+          ],
+          "sharesReferenceWith": [
+            "yellow",
+            "blue",
+            "red"
+          ],
+          "sourceBearingDegrees": 0,
+          "runtimeBearingDegrees": -69.81146198529262,
+          "expectedRuntimeBearingDegrees": -69.81146198529262,
+          "referenceKind": "nominal-camera-reference-on-observed-platform; colour position unverified",
+          "approximateRemainingRouteM": 371.33166447662086,
+          "scorecardResidualM": 101.33166447662086,
+          "distanceFromRouteM": 6.202083842689722,
+          "eligible": false,
+          "potentialPair": [
+            [
+              386.9490556549258,
+              -156.60077326290929
+            ],
+            [
+              385.1544813297925,
+              -161.48129608240026
+            ]
+          ],
+          "potentialPairReason": "reference-cross-section",
+          "pair": [],
+          "minimumSphereEdgeClearanceM": null,
+          "transverseAxisErrorM": null,
+          "pairReferenceDisplacementM": null,
+          "overlapCount": 0
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "inputs": {
+    "modelPath": "lidingobuild/course-model.json",
+    "modelSha256": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12",
+    "packPath": "apps/golf/public/courses/lidingo/pack.bin",
+    "packSha256": "846e291417f7dcf44a906400c1b505c07b2cb338ab2173fd2f80bed79ec60873"
+  }
+}

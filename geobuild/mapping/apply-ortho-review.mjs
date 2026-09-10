@@ -60,6 +60,9 @@ function validateEvidence(feature) {
     fail(`${feature.id} needs exact source capture dates`);
   }
   if (!Number.isFinite(evidence.uncertaintyM) || evidence.uncertaintyM <= 0) fail(`${feature.id} needs positive interpretation uncertainty`);
+  if (evidence.corroboratingDocuments !== undefined && (!Array.isArray(evidence.corroboratingDocuments) ||
+      !evidence.corroboratingDocuments.every(d => typeof d.path === 'string' && d.path.length && HASH.test(d.sha256) &&
+        typeof d.note === 'string' && d.note.trim()))) fail(`${feature.id} has invalid corroborating documents`);
   if (evidence.sourcePixelRing) validateOrthoRing(evidence.sourcePixelRing, `${feature.id} source pixels`);
 }
 
@@ -148,10 +151,18 @@ export function applyOrthoReview(model, review, { heightAt } = {}) {
         const pad = feature.pads[i];
         if (pad.retainedHistorical !== undefined && typeof pad.retainedHistorical !== 'boolean') fail(`${feature.id}/${pad.id} historical retention must be explicit`);
         if (!pad.retainedHistorical) continue;
-        const original = hole.tees.pads.find(prior => (prior.sourceId ?? prior.id) === pad.sourceId &&
-          prior.prov === pad.prov && ringGeometrySha256(prior.ring) === ringGeometrySha256(geometry[i]));
-        if (!original || !pad.sourceId || pad.prov === PROVENANCE || typeof pad.note !== 'string' || !pad.note.trim() ||
-            !Number.isFinite(pad.boundaryInterpretationUncertaintyMetres) || pad.boundaryInterpretationUncertaintyMetres < feature.evidence.uncertaintyM) {
+        const originalIndex = pad.sourceOriginalPadIndex;
+        const indexed = Number.isSafeInteger(originalIndex) && originalIndex >= 0;
+        const original = hole.tees.pads.find((prior, priorIndex) => {
+          const sourceId = prior.sourceId ?? prior.id;
+          const identityMatches = pad.sourceId !== undefined
+            ? Boolean(pad.sourceId) && sourceId === pad.sourceId && originalIndex === undefined && prior.sourceOriginalPadIndex === undefined
+            : indexed && ((priorIndex === originalIndex && sourceId == null) ||
+                (prior.retainedHistorical === true && prior.sourceOriginalPadIndex === originalIndex && prior.sourceId === undefined));
+          return identityMatches && prior.prov === pad.prov && ringGeometrySha256(prior.ring) === ringGeometrySha256(geometry[i]);
+        });
+        if (!original || typeof pad.prov !== 'string' || !pad.prov || [PROVENANCE,'synth'].includes(pad.prov) || typeof pad.note !== 'string' || !pad.note.trim() ||
+            !Number.isFinite(pad.boundaryInterpretationUncertaintyMetres) || pad.boundaryInterpretationUncertaintyMetres < Math.max(3,feature.evidence.uncertaintyM)) {
           fail(`${feature.id}/${pad.id} historical retention needs an unchanged source ring, original provenance, note and conservative uncertainty`);
         }
       }
@@ -232,7 +243,8 @@ export function applyOrthoReview(model, review, { heightAt } = {}) {
       hole.tees.pads = feature.pads.map((pad, index) => ({ id: pad.id, ring: geometry[index], c: [...centroid(geometry[index])],
         area: Math.round(Math.abs(polyArea(geometry[index]))), ...provenance, reviewId: pad.id, teeSetReviewId: feature.id,
         preserveTerrain: true, ...(pad.note === undefined ? {} : { note: pad.note }),
-        ...(pad.retainedHistorical ? { retainedHistorical: true, prov: pad.prov, sourceId: pad.sourceId,
+        ...(pad.retainedHistorical ? { retainedHistorical: true, prov: pad.prov,
+          ...(pad.sourceId === undefined ? { sourceOriginalPadIndex: pad.sourceOriginalPadIndex } : { sourceId: pad.sourceId }),
           boundaryInterpretationUncertaintyMetres: pad.boundaryInterpretationUncertaintyMetres } : {}) }));
       if (referenceTargets) {
         hole.tees.marks = hole.tees.marks.map((marker, index) => {

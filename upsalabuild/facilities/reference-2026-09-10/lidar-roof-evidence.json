@@ -1,0 +1,1246 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Reference only: original classified laser returns; no roof, eave or floor-height adoption.",
+  "acquiredAt": "2026-09-10T06:54:33.502Z",
+  "sourceCatalogue": {
+    "path": "geo_data/course-v2/upsala/acquisition/laser-campaigns.json",
+    "sha256": "5867763521c3c3eb3e3776ac5e610575d87165e08c803280ceec4f7f35c1e53b"
+  },
+  "source": {
+    "itemId": "21c037-663_63",
+    "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c037/m21c037-663_63.copc.laz",
+    "catalogueFullAssetSha256": "3b7b93956cb5015b5c8658f1675357758d096f7c5453ee1a63174c795b854bce",
+    "fullAssetHashIndependentlyVerified": false,
+    "expectedBytes": 1039694570,
+    "observedBytes": 1039694570,
+    "observedEtag": "\"209fd42046ff3c996d4bb4ebc60f0450\"",
+    "capturedAt": "2021-03-19T12:00:00Z",
+    "captureStart": "2021-03-07T00:00:00Z",
+    "captureEnd": "2021-04-01T00:00:00Z",
+    "scanArea": "21C037",
+    "licence": "CC-BY-4.0",
+    "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0"
+  },
+  "crs": {
+    "horizontal": "EPSG:3006",
+    "vertical": "EPSG:5613",
+    "compoundCatalogue": "EPSG:5845",
+    "verticalDatum": "RH 2000",
+    "lasWktVerified": true,
+    "lasWktPath": "upsalabuild/cache/facilities-reference-2026-09-10/lidar/source-crs.wkt",
+    "lasWktSha256": "1899c6a83b2ba316841bb993fdbfc11838a6cf2852c68188d62564a20511280c",
+    "lasWkt": "COMPD_CS[\"SWEREF99 TM + RH2000 height\",PROJCS[\"SWEREF99 TM\",GEOGCS[\"SWEREF99\",DATUM[\"SWEREF99\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6619\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4619\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",15],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Northing\",NORTH],AXIS[\"Easting\",EAST],AUTHORITY[\"EPSG\",\"3006\"]],VERT_CS[\"RH2000 height\",VERT_DATUM[\"Rikets hojdsystem 2000\",2005,AUTHORITY[\"EPSG\",\"5208\"]],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Gravity-related height\",UP],AUTHORITY[\"EPSG\",\"5613\"]],AUTHORITY[\"EPSG\",\"5845\"]]"
+  },
+  "window": {
+    "bboxEpsg3006": [
+      639730,
+      6636270,
+      639980,
+      6636520
+    ],
+    "widthMetres": 250,
+    "heightMetres": 250,
+    "boundaryRule": "minimum inclusive, maximum exclusive"
+  },
+  "header": {
+    "version": "1.4",
+    "headerSize": 375,
+    "pointDataOffset": 1584,
+    "vlrCount": 3,
+    "pointFormat": 6,
+    "pointLength": 30,
+    "scale": [
+      0.01,
+      0.01,
+      0.01
+    ],
+    "offset": [
+      535000,
+      6715000,
+      0
+    ],
+    "max": [
+      639999.99,
+      6639999.99,
+      524.65
+    ],
+    "min": [
+      630000,
+      6630000,
+      -15.14
+    ],
+    "evlrCount": 1,
+    "pointCount": 223283599
+  },
+  "hierarchyPages": 141,
+  "statistics": {
+    "nodes": 23,
+    "decodedPoints": 285938,
+    "pointsInWindow": 99607,
+    "firstReturns": 89120,
+    "byClass": {
+      "1": 18383,
+      "2": 81213,
+      "7": 11
+    },
+    "nodeCountsExact": true
+  },
+  "transfer": {
+    "requests": 168,
+    "bytes": 2534131
+  },
+  "points": {
+    "path": "upsalabuild/cache/facilities-reference-2026-09-10/lidar/clubhouse-central-2021.csv.gz",
+    "sha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+    "compressedBytes": 927979,
+    "uncompressedBytes": 3825858,
+    "csvSha256": "f75942cf558aa58e937078322380a383bf535cc89581ae523bb1f7e6713f30fc",
+    "rows": 99607,
+    "format": "gzip CSV, original dimensions, coordinates rounded to source LAS 0.01 metre quantisation",
+    "rawCloudPublished": false
+  },
+  "limitations": [
+    "2021 acquisition is earlier than 2025 orthophotography and 2026 municipal building records.",
+    "LAS class 1 is unclassified; points over a footprint are not automatically roof points.",
+    "No plane segmentation, eave/ridge survey or physical-building height adoption is performed.",
+    "Source municipal Z values are unverified and include sentinel values; they are not used in this analysis.",
+    "The extracted CSV retains X/Y/Z, classification, return number, number of returns and intensity only. LAS flags, GPS time and other dimensions are not exported; this is not a lossless replacement for the original LAS file.",
+    "No GPS time dimension was exported; catalogue capture range is retained without assigning an exact observation day to individual returns.",
+    "The 250 m window does not cover all facilities; partially covered footprints are marked explicitly.",
+    "New municipal reference outlines have not replaced production building geometry."
+  ],
+  "referenceReportVersion": 1,
+  "generatedBy": "upsalabuild/facilities/reference-2026-09-10/summarize-lidar-window.py",
+  "automaticHeightAdoption": false,
+  "lasClassMeaning": {
+    "1": "Unclassified: may include roofs, trees, objects and other surfaces.",
+    "2": "Ground.",
+    "7": "Low point / noise.",
+    "6": "Building classification; no class 6 returns occur in this window."
+  },
+  "interpretation": "Interior membership narrows the search area; it does not classify a return as roof. Height summaries retain every class separately and fit no planes.",
+  "coordinateValidation": {
+    "lasCompoundCrsPyprojEpsg": 5845,
+    "pyprojVersion": "3.8.0",
+    "xyRoundtripMaxMetres": 3.741625389081472e-09,
+    "frame": {
+      "origin": {
+        "lat": 59.839,
+        "lon": 17.4952
+      },
+      "mPerLat": 111320,
+      "mPerLon": 55930.68
+    },
+    "blenderMapping": "x=xCourse, y=-zCourse, z=heightRH2000; metres; no origin or height subtraction in reference PLY"
+  },
+  "blenderPointReference": {
+    "path": "upsalabuild/cache/facilities-reference-2026-09-10/lidar/clubhouse-central-2021-course-frame.ply",
+    "sha256": "ea8fc73d85ec9c093fe07cf41e04d5b363028e79c348d7eae33328acd098dad0",
+    "bytes": 2490396,
+    "points": 99607,
+    "faces": 0,
+    "scope": "ignored local cache; not a renderable building asset"
+  },
+  "dtmComparison": {
+    "path": "upsalabuild/cache/terrain-block.f32",
+    "sha256": "7343d7c48cc462fad9b0feea442aa04421e2c571db02c06361d1073a2de46ee3",
+    "sourceEpoch": "2023-04",
+    "product": "Lantmateriet 1 m Markhojdmodell",
+    "verticalDatum": "RH 2000",
+    "sampling": "bilinear, native EPSG:3006 grid",
+    "limitation": "2021 laser minus 2023 ground DTM is a mixed-epoch diagnostic, not measured building height."
+  },
+  "footprintSources": [
+    {
+      "path": "upsalabuild/course-model.json",
+      "sha256": "3ec429382ac69f986be297c4a1b4c3e7467d558e0e0a8d8f11956818d1c41c2c"
+    },
+    {
+      "path": "upsalabuild/facilities/reference-2026-09-10/building-reference-inventory.json",
+      "sha256": "fa1beb5a1ab40367d51c9e28330a23966fb568961dc85a523b3eea5c0bb56a1b"
+    }
+  ],
+  "productionFootprints": [
+    {
+      "id": "w221193957",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 133.029,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 90.346,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "5aea69c817f81b3a7930b372d2083d1077c5c290bbf1a392e53c2513fa51a8de",
+      "allInteriorReturns": 141,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 121,
+            "min": 34.68,
+            "p05": 35.76,
+            "p50": 41.62,
+            "p95": 42.93,
+            "max": 43.04
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 121,
+            "min": 0.254,
+            "p05": 1.458,
+            "p50": 7.181,
+            "p95": 8.411,
+            "max": 8.612
+          },
+          "firstReturns": 116
+        },
+        "2": {
+          "heightRH2000Metres": {
+            "count": 20,
+            "min": 34.24,
+            "p05": 34.24,
+            "p50": 34.36,
+            "p95": 34.671,
+            "max": 34.69
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 20,
+            "min": -0.107,
+            "p05": -0.083,
+            "p50": -0.007,
+            "p95": 0.085,
+            "max": 0.126
+          },
+          "firstReturns": 19
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w221193959",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 131.702,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 87.834,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "42394936dd0a8724bb43ecfbae62908d663b406b37655f36f3b4e99e89c200a5",
+      "allInteriorReturns": 136,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 132,
+            "min": 35.38,
+            "p05": 37.435,
+            "p50": 40.87,
+            "p95": 41.904,
+            "max": 41.98
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 132,
+            "min": 0.714,
+            "p05": 2.956,
+            "p50": 6.204,
+            "p95": 7.223,
+            "max": 7.327
+          },
+          "firstReturns": 130
+        },
+        "2": {
+          "heightRH2000Metres": {
+            "count": 4,
+            "min": 34.53,
+            "p05": 34.539,
+            "p50": 34.625,
+            "p95": 34.677,
+            "max": 34.68
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 4,
+            "min": -0.089,
+            "p05": -0.085,
+            "p50": -0.035,
+            "p95": -0.006,
+            "max": -0.004
+          },
+          "firstReturns": 1
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w221193965",
+      "name": "Upsala golfklubb",
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 949.325,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 786.665,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "480c90f19c86131816a21c28788296426a7140c70e8dac7a8959cd3ff468eac5",
+      "allInteriorReturns": 1180,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 1146,
+            "min": 35.13,
+            "p05": 38.77,
+            "p50": 40.525,
+            "p95": 42.977,
+            "max": 44.03
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 1146,
+            "min": 0.153,
+            "p05": 3.794,
+            "p50": 5.559,
+            "p95": 7.988,
+            "max": 9.085
+          },
+          "firstReturns": 1135
+        },
+        "2": {
+          "heightRH2000Metres": {
+            "count": 34,
+            "min": 34.73,
+            "p05": 34.89,
+            "p50": 34.975,
+            "p95": 35.15,
+            "max": 35.2
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 34,
+            "min": -0.148,
+            "p05": -0.049,
+            "p50": 0.004,
+            "p95": 0.05,
+            "max": 0.076
+          },
+          "firstReturns": 14
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w221193967",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 21.513,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 6.955,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "a6ff12fc5a1983bc97bb8243145c9f7ab07026af49b18f7a01bc0b5167854a4d",
+      "allInteriorReturns": 10,
+      "byLasClass": {
+        "2": {
+          "heightRH2000Metres": {
+            "count": 10,
+            "min": 29.75,
+            "p05": 29.75,
+            "p50": 29.785,
+            "p95": 29.861,
+            "max": 29.87
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 10,
+            "min": -0.014,
+            "p05": -0.013,
+            "p50": 0.008,
+            "p95": 0.02,
+            "max": 0.022
+          },
+          "firstReturns": 10
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w438967932",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 84.726,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 51.054,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "71d1d2ebbb5754a8860731652a019e59a5ce24ee440531a3cfa8da24d54dd8c7",
+      "allInteriorReturns": 76,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 76,
+            "min": 37.5,
+            "p05": 37.99,
+            "p50": 39.61,
+            "p95": 41.44,
+            "max": 41.61
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 76,
+            "min": 2.633,
+            "p05": 3.008,
+            "p50": 4.638,
+            "p95": 6.407,
+            "max": 6.571
+          },
+          "firstReturns": 70
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w438967940",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 49.322,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 25.074,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "22361106d4c6646b9c8e44fb1ca316fbfbd067a1f502b1bbc2d002babdefd9b8",
+      "allInteriorReturns": 40,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 2,
+            "min": 34.77,
+            "p05": 34.772,
+            "p50": 34.785,
+            "p95": 34.798,
+            "max": 34.8
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 2,
+            "min": 0.475,
+            "p05": 0.477,
+            "p50": 0.495,
+            "p95": 0.514,
+            "max": 0.516
+          },
+          "firstReturns": 2
+        },
+        "2": {
+          "heightRH2000Metres": {
+            "count": 38,
+            "min": 34.03,
+            "p05": 34.084,
+            "p50": 34.275,
+            "p95": 34.322,
+            "max": 34.33
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 38,
+            "min": -0.025,
+            "p05": -0.02,
+            "p50": 0.003,
+            "p95": 0.025,
+            "max": 0.034
+          },
+          "firstReturns": 38
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w221193971",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 286.61,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 218.772,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "eae9180abdc2b172701ec2d9d942492f68e5fb4cd17f45bfe7bc6d560d97801a",
+      "allInteriorReturns": 327,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 327,
+            "min": 36.2,
+            "p05": 36.3,
+            "p50": 36.69,
+            "p95": 37.09,
+            "max": 37.13
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 327,
+            "min": 4.901,
+            "p05": 5.014,
+            "p50": 5.42,
+            "p95": 5.791,
+            "max": 5.876
+          },
+          "firstReturns": 327
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w221193968",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 429.55,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 338.073,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "4fa8385fccdc90ade6869a1802f04631695fd9ea720e9ddcb0f2ff6f90ee81b1",
+      "allInteriorReturns": 492,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 492,
+            "min": 38.74,
+            "p05": 39.1,
+            "p50": 40.57,
+            "p95": 42.08,
+            "max": 42.17
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 492,
+            "min": 4.812,
+            "p05": 5.784,
+            "p50": 7.611,
+            "p95": 9.201,
+            "max": 9.687
+          },
+          "firstReturns": 492
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w221193963",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 224.394,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 163.369,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "5642b563dce9f61d3c0c533393aeae6633763489cd28b381dc0348c88b73e7fc",
+      "allInteriorReturns": 243,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 243,
+            "min": 37.97,
+            "p05": 38.301,
+            "p50": 39.55,
+            "p95": 40.659,
+            "max": 40.78
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 243,
+            "min": 4.924,
+            "p05": 5.761,
+            "p50": 6.914,
+            "p95": 8.064,
+            "max": 8.186
+          },
+          "firstReturns": 243
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "w438967931",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 59.95,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 32.258,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "31281be7bc8e4c09d65d537ea02e2089ccf3380ea0752a61a587894779ca09a7",
+      "allInteriorReturns": 49,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 49,
+            "min": 39.62,
+            "p05": 39.742,
+            "p50": 40.46,
+            "p95": 41.278,
+            "max": 41.31
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 49,
+            "min": 3.529,
+            "p05": 3.709,
+            "p50": 4.447,
+            "p95": 5.244,
+            "max": 5.287
+          },
+          "firstReturns": 49
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "uppsala-building-92448",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 25.975,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 10.467,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "114b2a4903c6722fe6b10482b5c57d491dd3914ba32b31ae7250eca2df2d325d",
+      "allInteriorReturns": 15,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 15,
+            "min": 37.3,
+            "p05": 37.419,
+            "p50": 37.7,
+            "p95": 37.911,
+            "max": 37.96
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 15,
+            "min": 3.067,
+            "p05": 3.158,
+            "p50": 3.384,
+            "p95": 3.612,
+            "max": 3.667
+          },
+          "firstReturns": 15
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "uppsala-building-592773",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 169.144,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 115.8,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "f86984fcfd5836e28148e98e331386e34d1b2d6f11b99219d04eb74a85826765",
+      "allInteriorReturns": 79,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 79,
+            "min": 36.98,
+            "p05": 37.058,
+            "p50": 37.38,
+            "p95": 37.773,
+            "max": 37.84
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 79,
+            "min": 4.459,
+            "p05": 4.524,
+            "p50": 4.826,
+            "p95": 5.149,
+            "max": 5.237
+          },
+          "firstReturns": 79
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "uppsala-building-1390787",
+      "name": null,
+      "basis": "current-production-model-outline",
+      "currentHeightMetres": null,
+      "footprintAreaSquareMetres": 24.914,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 5.557,
+      "fullyCoveredByWindow": false,
+      "footprintEpsg3006Sha256": "45f1f9a174110644103d4182bc4401103a739aa3a539a09739d2725bf3a43cea",
+      "allInteriorReturns": 6,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 6,
+            "min": 35.87,
+            "p05": 35.877,
+            "p50": 35.955,
+            "p95": 36.015,
+            "max": 36.02
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 6,
+            "min": 2.635,
+            "p05": 2.703,
+            "p50": 2.957,
+            "p95": 3.258,
+            "max": 3.272
+          },
+          "firstReturns": 6
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    }
+  ],
+  "newMunicipalReferenceFootprints": [
+    {
+      "id": "B01",
+      "name": "Clubhouse main complex",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1215269,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 869.219,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 710.099,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "15957997fd2a93097b41b3572647ef21be889e22a2962163a4210c9a58598f10",
+      "allInteriorReturns": 1020,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 1020,
+            "min": 38.09,
+            "p05": 39.298,
+            "p50": 40.75,
+            "p95": 43.041,
+            "max": 44.03
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 1020,
+            "min": 3.075,
+            "p05": 4.311,
+            "p50": 5.773,
+            "p95": 8.107,
+            "max": 9.085
+          },
+          "firstReturns": 1016
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B02",
+      "name": "Clubhouse west attached component",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1244320,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 57.843,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 29.669,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "38f540375bb33add58e453979c0b1a897c7dce3903f83ebaace34b3e46e8fd5c",
+      "allInteriorReturns": 42,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 42,
+            "min": 37.65,
+            "p05": 37.842,
+            "p50": 38.76,
+            "p95": 39.617,
+            "max": 39.69
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 42,
+            "min": 2.766,
+            "p05": 2.965,
+            "p50": 3.792,
+            "p95": 4.64,
+            "max": 4.709
+          },
+          "firstReturns": 42
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B03",
+      "name": "Small structure north of clubhouse",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 92448,
+      "outlineMeasurementConfirmed": true,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 25.973,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 10.466,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "7ceec6337dc0e135b55d7366bb66d45650cb222272f9ca55105e61ae064ff729",
+      "allInteriorReturns": 15,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 15,
+            "min": 37.3,
+            "p05": 37.419,
+            "p50": 37.7,
+            "p95": 37.911,
+            "max": 37.96
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 15,
+            "min": 3.067,
+            "p05": 3.158,
+            "p50": 3.384,
+            "p95": 3.612,
+            "max": 3.667
+          },
+          "firstReturns": 15
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B04",
+      "name": "Red-roof building north of clubhouse",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1248912,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 213.485,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 158.604,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "1d1f3039326460cad3f2ab319f41e9c182a529da8687dd09c56a9b1d48f61976",
+      "allInteriorReturns": 232,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 232,
+            "min": 36.89,
+            "p05": 36.986,
+            "p50": 40.155,
+            "p95": 41.859,
+            "max": 41.98
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 232,
+            "min": 2.44,
+            "p05": 2.553,
+            "p50": 5.5,
+            "p95": 7.202,
+            "max": 7.46
+          },
+          "firstReturns": 232
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B05",
+      "name": "Small red-roof building southeast of clubhouse",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 92444,
+      "outlineMeasurementConfirmed": true,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 59.948,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 32.257,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "c4932535082a77b00ef526f1d97bdb472b78731cbf08ebc86c434a726c333361",
+      "allInteriorReturns": 49,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 49,
+            "min": 39.62,
+            "p05": 39.742,
+            "p50": 40.46,
+            "p95": 41.278,
+            "max": 41.31
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 49,
+            "min": 3.529,
+            "p05": 3.709,
+            "p50": 4.447,
+            "p95": 5.244,
+            "max": 5.287
+          },
+          "firstReturns": 49
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B06",
+      "name": "Dark-roof building south of clubhouse",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1212887,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 154.966,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 108.391,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "32341142c147b2ea7f8d5c8432b747ad8750f2fe12a807fc2b9fbccbe34c75c6",
+      "allInteriorReturns": 150,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 150,
+            "min": 37.36,
+            "p05": 39.905,
+            "p50": 41.545,
+            "p95": 42.891,
+            "max": 43.04
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 150,
+            "min": 2.969,
+            "p05": 5.535,
+            "p50": 7.101,
+            "p95": 8.489,
+            "max": 8.612
+          },
+          "firstReturns": 147
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B07",
+      "name": "South building component",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1365585,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 43.525,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 12.236,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "8bab43e4df71fa1c755f3edf6813296b51ad6284a324a5679f9160baf0b82bf5",
+      "allInteriorReturns": 0,
+      "byLasClass": {},
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B09",
+      "name": "Small structure on eastern range tee line",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1390788,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 7.222,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 0.472,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "668dc73a667c6cd2896b19aac4f52bb92c7a7b0551a1fb58b0bb5492710f7aea",
+      "allInteriorReturns": 0,
+      "byLasClass": {},
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B10",
+      "name": "Long building in southeast service yard",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 92436,
+      "outlineMeasurementConfirmed": true,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 429.549,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 338.071,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "d8e174e80fbc773321af5284bb931d26d0fed15f07247e537e4488098f475d2b",
+      "allInteriorReturns": 492,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 492,
+            "min": 38.74,
+            "p05": 39.1,
+            "p50": 40.57,
+            "p95": 42.08,
+            "max": 42.17
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 492,
+            "min": 4.812,
+            "p05": 5.784,
+            "p50": 7.611,
+            "p95": 9.201,
+            "max": 9.687
+          },
+          "firstReturns": 492
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B11",
+      "name": "White-roof building at southeast yard",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 92435,
+      "outlineMeasurementConfirmed": true,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 286.597,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 218.759,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "2255d1e0bbd9af0a4effb405c2b5272c98f68b07122f291a92d48c51b3375f3f",
+      "allInteriorReturns": 327,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 327,
+            "min": 36.2,
+            "p05": 36.3,
+            "p50": 36.69,
+            "p95": 37.09,
+            "max": 37.13
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 327,
+            "min": 4.901,
+            "p05": 5.014,
+            "p50": 5.42,
+            "p95": 5.791,
+            "max": 5.876
+          },
+          "firstReturns": 327
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B12",
+      "name": "Red-roof building at north edge of southeast yard",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 92440,
+      "outlineMeasurementConfirmed": true,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 224.39,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 163.365,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "f2c90f47bfa06e5ef774c565723f98c1879ab68ca890f657bd7ef88c61800611",
+      "allInteriorReturns": 243,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 243,
+            "min": 37.97,
+            "p05": 38.301,
+            "p50": 39.55,
+            "p95": 40.659,
+            "max": 40.78
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 243,
+            "min": 4.924,
+            "p05": 5.761,
+            "p50": 6.914,
+            "p95": 8.064,
+            "max": 8.186
+          },
+          "firstReturns": 243
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B13",
+      "name": "Northern attached part at southeast yard",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1222358,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 80.467,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 44.633,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "bcd8bd120a6bc57eccbe1ef4473009a0a7e8e355c520eb1c91199931b99a9dd1",
+      "allInteriorReturns": 66,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 66,
+            "min": 35.32,
+            "p05": 35.422,
+            "p50": 35.91,
+            "p95": 37.072,
+            "max": 37.19
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 66,
+            "min": 2.536,
+            "p05": 2.661,
+            "p50": 3.183,
+            "p95": 4.337,
+            "max": 4.467
+          },
+          "firstReturns": 66
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B16",
+      "name": "Large dark-roof building north of parking",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 592773,
+      "outlineMeasurementConfirmed": true,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 169.138,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 115.795,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "83febb1ae21ad6dc9ea8b10cddc25485960c2adfeb6ca8745294cbcc23b71690",
+      "allInteriorReturns": 79,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 79,
+            "min": 36.98,
+            "p05": 37.058,
+            "p50": 37.38,
+            "p95": 37.773,
+            "max": 37.84
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 79,
+            "min": 4.459,
+            "p05": 4.524,
+            "p50": 4.826,
+            "p95": 5.149,
+            "max": 5.237
+          },
+          "firstReturns": 79
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B17",
+      "name": "Northern outbuilding part",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1390787,
+      "outlineMeasurementConfirmed": true,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 24.91,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 5.556,
+      "fullyCoveredByWindow": false,
+      "footprintEpsg3006Sha256": "1b46e463be085a40ffb81d47d573e58c90642e92b542ccff7dd174b18bca72b8",
+      "allInteriorReturns": 6,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 6,
+            "min": 35.87,
+            "p05": 35.877,
+            "p50": 35.955,
+            "p95": 36.015,
+            "max": 36.02
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 6,
+            "min": 2.635,
+            "p05": 2.703,
+            "p50": 2.957,
+            "p95": 3.258,
+            "max": 3.272
+          },
+          "firstReturns": 6
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B18",
+      "name": "Northern outbuilding overlapping source part",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1232325,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 15.25,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 3.444,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "e37561b35f341ee4d53054c6212e4df431e8fc9ec040188d5c297c28dd01e096",
+      "allInteriorReturns": 0,
+      "byLasClass": {},
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    },
+    {
+      "id": "B19",
+      "name": "Tiny structure near north outbuildings",
+      "basis": "2026-municipal-reference-outline",
+      "municipalObjectId": 1390786,
+      "outlineMeasurementConfirmed": false,
+      "groundFootprintVerified": false,
+      "roofOutlineVerified": false,
+      "footprintAreaSquareMetres": 5.174,
+      "interiorMarginMetres": 1,
+      "interiorAreaSquareMetres": 0.024,
+      "fullyCoveredByWindow": true,
+      "footprintEpsg3006Sha256": "950ce4fd70c8858d437551b52cd407ba8f14c98122e64bbe584110a0e7d905f7",
+      "allInteriorReturns": 1,
+      "byLasClass": {
+        "1": {
+          "heightRH2000Metres": {
+            "count": 1,
+            "min": 35.51,
+            "p05": 35.51,
+            "p50": 35.51,
+            "p95": 35.51,
+            "max": 35.51
+          },
+          "heightAbove2023DtmMetres": {
+            "count": 1,
+            "min": 2.219,
+            "p05": 2.219,
+            "p50": 2.219,
+            "p95": 2.219,
+            "max": 2.219
+          },
+          "firstReturns": 1
+        }
+      },
+      "roofSurfaceVerified": false,
+      "floorHeightVerified": false
+    }
+  ]
+}

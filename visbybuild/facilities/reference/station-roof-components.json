@@ -1,0 +1,450 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-10",
+  "sourcePanel": "visbybuild/facilities/reference/ortho/lighthouse-close.png",
+  "sourcePngSha256": "0f5dc930930cb63849c21fa9c1bb47095aa23385b3c3368b2569b9ae7f7d8b4a",
+  "sourceImageSize": [
+    408,
+    313
+  ],
+  "geoTransform": [
+    687114.88,
+    0.16,
+    0,
+    6370780,
+    0,
+    -0.16
+  ],
+  "originEpsg3006": [
+    687748.5,
+    6370951.5
+  ],
+  "pixelConvention": "Native crop pixel edges, not enlarged preview pixels",
+  "roofInterpretationUncertaintyMetres": 1,
+  "geometryStatus": "Visible roof envelopes; wall lines are not surveyed. Use a small inward wall inset where appropriate; do not append bays to the complete old OSM outline.",
+  "components": [
+    {
+      "id": "fyrhuset-core",
+      "osmId": "way/530655633",
+      "label": "White Fyrhuset main gabled core",
+      "roofCornersPixels": [
+        [
+          139,
+          144
+        ],
+        [
+          198,
+          131
+        ],
+        [
+          207,
+          172
+        ],
+        [
+          148,
+          185
+        ]
+      ],
+      "ridgePixels": [
+        [
+          143.5,
+          164.5
+        ],
+        [
+          202.5,
+          151.5
+        ]
+      ],
+      "interpretation": "West faceted bay excluded. North eave partly in tower/building shadow; 0.8?1m boundary uncertainty. Main ridge WSW?ENE, parallel to long dimension.",
+      "roofCornersEpsg3006": [
+        [
+          687137.12,
+          6370756.96
+        ],
+        [
+          687146.56,
+          6370759.04
+        ],
+        [
+          687148.0,
+          6370752.48
+        ],
+        [
+          687138.56,
+          6370750.4
+        ]
+      ],
+      "roofCornersBlenderXY": [
+        [
+          -611.38,
+          -194.54
+        ],
+        [
+          -601.94,
+          -192.46
+        ],
+        [
+          -600.5,
+          -199.02
+        ],
+        [
+          -609.94,
+          -201.1
+        ]
+      ],
+      "centerPixels": [
+        173.0,
+        158.0
+      ],
+      "centerEpsg3006": [
+        687142.56,
+        6370754.72
+      ],
+      "centerBlenderXY": [
+        -605.94,
+        -196.78
+      ],
+      "ridgeEpsg3006": [
+        [
+          687137.84,
+          6370753.68
+        ],
+        [
+          687147.28,
+          6370755.76
+        ]
+      ],
+      "ridgeBlenderXY": [
+        [
+          -610.66,
+          -197.82
+        ],
+        [
+          -601.22,
+          -195.74
+        ]
+      ],
+      "groundRH2000AtCenter": 4.848,
+      "groundRH2000AtRoofCorners": [
+        4.662,
+        4.85,
+        4.728,
+        4.698
+      ],
+      "roofEdgeLengthsMetres": [
+        9.666,
+        6.716,
+        9.666,
+        6.716
+      ]
+    },
+    {
+      "id": "fyrhuset-west-bay",
+      "osmId": "way/530655633",
+      "label": "White Fyrhuset west faceted bay",
+      "roofCornersPixels": [
+        [
+          140,
+          150
+        ],
+        [
+          130,
+          154
+        ],
+        [
+          124,
+          165
+        ],
+        [
+          132,
+          176
+        ],
+        [
+          147,
+          180
+        ]
+      ],
+      "ridgePixels": null,
+      "interpretation": "Lower faceted bay roof at WEST gable. Approximate visible polygon, partly shaded; use as separate bay attached to main west gable, not appended to complete OSM outline.",
+      "roofCornersEpsg3006": [
+        [
+          687137.28,
+          6370756.0
+        ],
+        [
+          687135.68,
+          6370755.36
+        ],
+        [
+          687134.72,
+          6370753.6
+        ],
+        [
+          687136.0,
+          6370751.84
+        ],
+        [
+          687138.4,
+          6370751.2
+        ]
+      ],
+      "roofCornersBlenderXY": [
+        [
+          -611.22,
+          -195.5
+        ],
+        [
+          -612.82,
+          -196.14
+        ],
+        [
+          -613.78,
+          -197.9
+        ],
+        [
+          -612.5,
+          -199.66
+        ],
+        [
+          -610.1,
+          -200.3
+        ]
+      ],
+      "centerPixels": [
+        134.6,
+        165.0
+      ],
+      "centerEpsg3006": [
+        687136.416,
+        6370753.6
+      ],
+      "centerBlenderXY": [
+        -612.084,
+        -197.9
+      ],
+      "groundRH2000AtCenter": 4.578,
+      "groundRH2000AtRoofCorners": [
+        4.662,
+        4.462,
+        4.262,
+        4.453,
+        4.696
+      ]
+    },
+    {
+      "id": "keeper-core",
+      "osmId": "way/530655632",
+      "label": "Red keeper dwelling main gabled core",
+      "roofCornersPixels": [
+        [
+          242,
+          175
+        ],
+        [
+          309,
+          160
+        ],
+        [
+          323,
+          218
+        ],
+        [
+          256,
+          233
+        ]
+      ],
+      "ridgePixels": [
+        [
+          249,
+          204
+        ],
+        [
+          316,
+          189
+        ]
+      ],
+      "interpretation": "Includes dark north roof slope AND light south roof slope. The light southern rectangular area is not established as a separate veranda. Ridge WSW?ENE. East lower veranda roof excluded.",
+      "roofCornersEpsg3006": [
+        [
+          687153.6,
+          6370752.0
+        ],
+        [
+          687164.32,
+          6370754.4
+        ],
+        [
+          687166.56,
+          6370745.12
+        ],
+        [
+          687155.84,
+          6370742.72
+        ]
+      ],
+      "roofCornersBlenderXY": [
+        [
+          -594.9,
+          -199.5
+        ],
+        [
+          -584.18,
+          -197.1
+        ],
+        [
+          -581.94,
+          -206.38
+        ],
+        [
+          -592.66,
+          -208.78
+        ]
+      ],
+      "centerPixels": [
+        282.5,
+        196.5
+      ],
+      "centerEpsg3006": [
+        687160.08,
+        6370748.56
+      ],
+      "centerBlenderXY": [
+        -588.42,
+        -202.94
+      ],
+      "ridgeEpsg3006": [
+        [
+          687154.72,
+          6370747.36
+        ],
+        [
+          687165.44,
+          6370749.76
+        ]
+      ],
+      "ridgeBlenderXY": [
+        [
+          -593.78,
+          -204.14
+        ],
+        [
+          -583.06,
+          -201.74
+        ]
+      ],
+      "groundRH2000AtCenter": 4.565,
+      "groundRH2000AtRoofCorners": [
+        4.662,
+        4.879,
+        4.381,
+        4.397
+      ],
+      "roofEdgeLengthsMetres": [
+        10.985,
+        9.547,
+        10.985,
+        9.547
+      ]
+    },
+    {
+      "id": "keeper-east-veranda",
+      "osmId": "way/530655632",
+      "label": "Red keeper dwelling EAST glazed veranda",
+      "roofCornersPixels": [
+        [
+          311,
+          171
+        ],
+        [
+          330,
+          166
+        ],
+        [
+          340,
+          208
+        ],
+        [
+          321,
+          213
+        ]
+      ],
+      "ridgePixels": null,
+      "interpretation": "Lower roof at EAST gable, confirmed as added veranda by 2016 survey. Shares/overlaps core east eave attachment, not south long side.",
+      "roofCornersEpsg3006": [
+        [
+          687164.64,
+          6370752.64
+        ],
+        [
+          687167.68,
+          6370753.44
+        ],
+        [
+          687169.28,
+          6370746.72
+        ],
+        [
+          687166.24,
+          6370745.92
+        ]
+      ],
+      "roofCornersBlenderXY": [
+        [
+          -583.86,
+          -198.86
+        ],
+        [
+          -580.82,
+          -198.06
+        ],
+        [
+          -579.22,
+          -204.78
+        ],
+        [
+          -582.26,
+          -205.58
+        ]
+      ],
+      "centerPixels": [
+        325.5,
+        189.5
+      ],
+      "centerEpsg3006": [
+        687166.96,
+        6370749.68
+      ],
+      "centerBlenderXY": [
+        -581.54,
+        -201.82
+      ],
+      "groundRH2000AtCenter": 4.62,
+      "groundRH2000AtRoofCorners": [
+        4.794,
+        4.806,
+        4.372,
+        4.42
+      ],
+      "roofEdgeLengthsMetres": [
+        3.144,
+        6.908,
+        3.144,
+        6.908
+      ]
+    }
+  ],
+  "keeperVerandaConclusion": {
+    "southVerandaConfirmed": false,
+    "eastVerandaConfirmed": true,
+    "northwestVerandaConfirmed": true,
+    "northwestTreatment": "Survey says enclosed under an existing roof overhang. Add glazing under core roof where visible; do not add an independent northern roof mass solely for this feature.",
+    "southRoofTreatment": "Keep as southern main gabled roof slope. Its lighter 2026 appearance does not establish a low veranda.",
+    "sources": [
+      "visbybuild/facilities/reference/photos/chab-kronholmen-survey-2016.pdf page 8 and north-up plan page 10",
+      "visbybuild/facilities/reference/photos/semester--DJI_0028.jpg",
+      "visbybuild/facilities/reference/photos/club-contact--497_VisbyGK_JacobSjoman_16BITS_V1-copy.jpg"
+    ],
+    "surveyText": "The 2016 survey places later glazed verandas northwest and east. Northwest is enclosed under a roof overhang; the east addition opens through the full gable."
+  }
+}

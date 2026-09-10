@@ -1,0 +1,1944 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "dated-roof-height-evidence-candidates",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "sourceEpoch": "2021-04-05T12:00:00Z",
+  "captureStart": "2021-04-01T00:00:00Z",
+  "captureEnd": "2021-04-10T00:00:00Z",
+  "inputs": [
+    {
+      "path": "tortunabuild/cache/buildings/laser-2021-points.json",
+      "bytes": 31151685,
+      "sha256": "ff07c4e622e8c5ddfb26472d0407f67e7c6c14687e9af93c916df51f9c79ea00"
+    },
+    {
+      "path": "tortunabuild/cache/terrain/terrain-1m.f32",
+      "bytes": 67141636,
+      "sha256": "86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1"
+    },
+    {
+      "path": "lidingobuild/build-building-evidence.py",
+      "sha256LfNormalized": "7238ecc0a5398bde0538653389d4a1b823b3c2300a64f3b9967d507384533b75",
+      "sha256": "7238ecc0a5398bde0538653389d4a1b823b3c2300a64f3b9967d507384533b75",
+      "contentRepresentation": "utf8-lf"
+    },
+    {
+      "path": "tortunabuild/mapping/building-observations.json",
+      "bytes": 42302,
+      "sha256": "09476c14e7bc95deb3d7276f20cf6938776b153094fdc9c9f2e4f03ab81108a6"
+    },
+    {
+      "path": "tortunabuild/mapping/building-laser-acquisition.json",
+      "bytes": 1793,
+      "sha256": "629da064e2274d7c6004c6b4537a1c1e3f39f735b52c54615b4ff5a633503959"
+    }
+  ],
+  "sourceIds": [
+    "laser-lm-skog",
+    "imagery-lm-ortho",
+    "terrain-lm-1m"
+  ],
+  "buildings": [
+    {
+      "id": "tortuna-clubhouse-main-roof",
+      "associatedBuildingId": "way/1163533127",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597457.76,
+              6615089.92
+            ],
+            [
+              597479.04,
+              6615072.0
+            ],
+            [
+              597470.72,
+              6615062.4
+            ],
+            [
+              597468.0,
+              6615062.72
+            ],
+            [
+              597466.4,
+              6615064.64
+            ],
+            [
+              597464.8,
+              6615065.76
+            ],
+            [
+              597461.6,
+              6615066.4
+            ],
+            [
+              597455.2,
+              6615071.68
+            ],
+            [
+              597455.04,
+              6615073.12
+            ],
+            [
+              597455.84,
+              6615074.08
+            ],
+            [
+              597452.8,
+              6615076.64
+            ],
+            [
+              597452.32,
+              6615076.0
+            ],
+            [
+              597449.92,
+              6615078.4
+            ],
+            [
+              597449.44,
+              6615079.84
+            ],
+            [
+              597457.76,
+              6615089.92
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 398.554,
+      "selectedInteriorFirstReturns": 502,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 502,
+        "minimum": 29.7,
+        "p05": 31.49,
+        "median": 34.635,
+        "p95": 35.38,
+        "maximum": 36.59
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 502,
+        "minimum": 2.471,
+        "p05": 4.167,
+        "median": 7.49,
+        "p95": 8.26,
+        "maximum": 9.418
+      },
+      "planarSupportFraction": 0.9602,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 218,
+          "originEpsg3006": [
+            597463.6991434265,
+            6615075.173127487
+          ],
+          "coefficients": [
+            0.17837858521813715,
+            0.1912381532441323,
+            34.82735816518735
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 218,
+            "minimum": 0.001,
+            "p05": 0.003,
+            "median": 0.017,
+            "p95": 0.106,
+            "maximum": 0.213
+          },
+          "slopeDegrees": 14.66
+        },
+        {
+          "index": 1,
+          "pointCount": 122,
+          "originEpsg3006": [
+            597463.6991434265,
+            6615075.173127487
+          ],
+          "coefficients": [
+            -0.18325667002403717,
+            -0.19552916110053076,
+            36.045414536937315
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 122,
+            "minimum": 0.001,
+            "p05": 0.003,
+            "median": 0.031,
+            "p95": 0.092,
+            "maximum": 0.199
+          },
+          "slopeDegrees": 15.0
+        },
+        {
+          "index": 2,
+          "pointCount": 45,
+          "originEpsg3006": [
+            597463.6991434265,
+            6615075.173127487
+          ],
+          "coefficients": [
+            0.2330761746839899,
+            -0.2195867920056287,
+            35.121786532385336
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 45,
+            "minimum": 0.0,
+            "p05": 0.002,
+            "median": 0.025,
+            "p95": 0.088,
+            "maximum": 0.139
+          },
+          "slopeDegrees": 17.76
+        },
+        {
+          "index": 3,
+          "pointCount": 36,
+          "originEpsg3006": [
+            597463.6991434265,
+            6615075.173127487
+          ],
+          "coefficients": [
+            -0.22479475958525608,
+            0.20862070739102734,
+            35.63886855702802
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 36,
+            "minimum": 0.005,
+            "p05": 0.011,
+            "median": 0.031,
+            "p95": 0.123,
+            "maximum": 0.155
+          },
+          "slopeDegrees": 17.05
+        },
+        {
+          "index": 4,
+          "pointCount": 23,
+          "originEpsg3006": [
+            597463.6991434265,
+            6615075.173127487
+          ],
+          "coefficients": [
+            0.26577545140493525,
+            0.24527964626314436,
+            34.03643606920534
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 23,
+            "minimum": 0.001,
+            "p05": 0.007,
+            "median": 0.064,
+            "p95": 0.13,
+            "maximum": 0.158
+          },
+          "slopeDegrees": 19.88
+        },
+        {
+          "index": 5,
+          "pointCount": 20,
+          "originEpsg3006": [
+            597463.6991434265,
+            6615075.173127487
+          ],
+          "coefficients": [
+            -0.016930857182500494,
+            -0.05541730937866873,
+            30.11123722567015
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 20,
+            "minimum": 0.003,
+            "p05": 0.004,
+            "median": 0.06,
+            "p95": 0.127,
+            "maximum": 0.167
+          },
+          "slopeDegrees": 3.32
+        },
+        {
+          "index": 6,
+          "pointCount": 18,
+          "originEpsg3006": [
+            597463.6991434265,
+            6615075.173127487
+          ],
+          "coefficients": [
+            0.3114827216844844,
+            -0.28910642190025104,
+            39.3705958315385
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 18,
+            "minimum": 0.006,
+            "p05": 0.007,
+            "median": 0.043,
+            "p95": 0.118,
+            "maximum": 0.139
+          },
+          "slopeDegrees": 23.02
+        }
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 516,
+        "additionalMeasuredEdgeReturns": 34,
+        "triangles": 1157,
+        "vertices": 645,
+        "footprintCoverageFraction": 0.99472,
+        "boundarySupportDistanceMetres": {
+          "count": 91,
+          "minimum": 0.103,
+          "p05": 0.309,
+          "median": 1.003,
+          "p95": 1.618,
+          "maximum": 2.557
+        },
+        "maximumTriangleEdgeMetres": 2.636,
+        "roofClearanceAboveDtmMetres": {
+          "count": 645,
+          "minimum": 2.471,
+          "p05": 3.742,
+          "median": 7.349,
+          "p95": 8.235,
+          "maximum": 9.418
+        },
+        "roofHeightRH2000": {
+          "count": 645,
+          "minimum": 29.7,
+          "p05": 30.994,
+          "median": 34.47,
+          "p95": 35.34,
+          "maximum": 36.59
+        },
+        "interpolatedBoundaryVertices": 91,
+        "unsupportedBoundaryVertices": 0,
+        "supportedWallBoundaryMetres": 84.73,
+        "sourceFootprintPerimeterMetres": 84.73,
+        "uncoveredRoofAreaSquareMetres": 2.1042,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      },
+      "roofColourDisplayEstimateHex": "68574b",
+      "facadeColourDisplayEstimateHex": "d4b156",
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-clubhouse-low-extension",
+      "associatedBuildingId": "way/1163533127",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597477.6,
+              6615069.28
+            ],
+            [
+              597483.04,
+              6615064.32
+            ],
+            [
+              597472.8,
+              6615053.92
+            ],
+            [
+              597464.32,
+              6615059.36
+            ],
+            [
+              597465.44,
+              6615061.12
+            ],
+            [
+              597470.08,
+              6615058.4
+            ],
+            [
+              597477.6,
+              6615069.28
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 102.528,
+      "selectedInteriorFirstReturns": 58,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 58,
+        "minimum": 28.81,
+        "p05": 30.048,
+        "median": 30.41,
+        "p95": 31.881,
+        "maximum": 31.91
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 58,
+        "minimum": 1.582,
+        "p05": 2.785,
+        "median": 3.187,
+        "p95": 4.665,
+        "maximum": 4.701
+      },
+      "planarSupportFraction": 0.8621,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 38,
+          "originEpsg3006": [
+            597475.5862068966,
+            6615062.332241379
+          ],
+          "coefficients": [
+            0.06778708572917636,
+            0.014445368313398071,
+            30.45215760524783
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 38,
+            "minimum": 0.007,
+            "p05": 0.009,
+            "median": 0.07,
+            "p95": 0.162,
+            "maximum": 0.182
+          },
+          "slopeDegrees": 3.96
+        },
+        {
+          "index": 1,
+          "pointCount": 12,
+          "originEpsg3006": [
+            597475.5862068966,
+            6615062.332241379
+          ],
+          "coefficients": [
+            0.0753868268432673,
+            0.13457489277008317,
+            31.403896057437436
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 12,
+            "minimum": 0.002,
+            "p05": 0.004,
+            "median": 0.027,
+            "p95": 0.117,
+            "maximum": 0.136
+          },
+          "slopeDegrees": 8.77
+        }
+      ],
+      "roofSurface": {
+        "status": "withheld",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      "roofColourDisplayEstimateHex": "8b8176",
+      "facadeColourDisplayEstimateHex": "d4b156",
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-clubhouse-west-outbuilding-roof",
+      "associatedBuildingId": "way/1163533128",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597440.16,
+              6615078.72
+            ],
+            [
+              597445.92,
+              6615074.08
+            ],
+            [
+              597438.24,
+              6615066.72
+            ],
+            [
+              597433.6,
+              6615071.2
+            ],
+            [
+              597440.16,
+              6615078.72
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 71.155,
+      "selectedInteriorFirstReturns": 71,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 71,
+        "minimum": 29.86,
+        "p05": 29.925,
+        "median": 30.49,
+        "p95": 31.02,
+        "maximum": 31.06
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 71,
+        "minimum": 2.555,
+        "p05": 2.711,
+        "median": 3.203,
+        "p95": 3.754,
+        "maximum": 3.878
+      },
+      "planarSupportFraction": 1.0,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 41,
+          "originEpsg3006": [
+            597439.594084507,
+            6615072.834647886
+          ],
+          "coefficients": [
+            -0.2845548455834736,
+            0.26225690154585557,
+            30.95145264883029
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 41,
+            "minimum": 0.0,
+            "p05": 0.009,
+            "median": 0.041,
+            "p95": 0.119,
+            "maximum": 0.158
+          },
+          "slopeDegrees": 21.16
+        },
+        {
+          "index": 1,
+          "pointCount": 30,
+          "originEpsg3006": [
+            597439.594084507,
+            6615072.834647886
+          ],
+          "coefficients": [
+            0.32696081031537283,
+            -0.318266241166139,
+            31.170880984367916
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 30,
+            "minimum": 0.0,
+            "p05": 0.001,
+            "median": 0.013,
+            "p95": 0.026,
+            "maximum": 0.027
+          },
+          "slopeDegrees": 24.53
+        }
+      ],
+      "roofSurface": {
+        "status": "withheld",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      "roofColourDisplayEstimateHex": "a7725f",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-clubhouse-southwest-shed-roof",
+      "associatedBuildingId": null,
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597442.88,
+              6615064.96
+            ],
+            [
+              597447.84,
+              6615064.64
+            ],
+            [
+              597447.68,
+              6615060.96
+            ],
+            [
+              597442.88,
+              6615061.12
+            ],
+            [
+              597442.88,
+              6615064.96
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 18.368,
+      "selectedInteriorFirstReturns": 11,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 11,
+        "minimum": 30.07,
+        "p05": 30.08,
+        "median": 30.15,
+        "p95": 30.245,
+        "maximum": 30.26
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 11,
+        "minimum": 2.542,
+        "p05": 2.573,
+        "median": 2.701,
+        "p95": 2.817,
+        "maximum": 2.825
+      },
+      "planarSupportFraction": 0.0,
+      "planes": [],
+      "roofSurface": {
+        "status": "withheld",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      "roofColourDisplayEstimateHex": "796b66",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-range-service-barn-roof",
+      "associatedBuildingId": "way/1163533113",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597434.72,
+              6615260.32
+            ],
+            [
+              597462.72,
+              6615278.72
+            ],
+            [
+              597469.28,
+              6615269.44
+            ],
+            [
+              597440.96,
+              6615250.88
+            ],
+            [
+              597434.72,
+              6615260.32
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 381.85,
+      "selectedInteriorFirstReturns": 462,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 462,
+        "minimum": 28.09,
+        "p05": 31.38,
+        "median": 33.26,
+        "p95": 34.82,
+        "maximum": 34.99
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 462,
+        "minimum": 1.945,
+        "p05": 4.884,
+        "median": 6.775,
+        "p95": 8.365,
+        "maximum": 8.851
+      },
+      "planarSupportFraction": 0.9827,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 285,
+          "originEpsg3006": [
+            597451.7492857138,
+            6615264.941212121
+          ],
+          "coefficients": [
+            0.36623086642452063,
+            -0.5532295490404655,
+            34.34296568644227
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 285,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.051,
+            "p95": 0.134,
+            "maximum": 0.189
+          },
+          "slopeDegrees": 33.56
+        },
+        {
+          "index": 1,
+          "pointCount": 169,
+          "originEpsg3006": [
+            597451.7492857138,
+            6615264.941212121
+          ],
+          "coefficients": [
+            -0.37589153492327304,
+            0.5528164417136971,
+            35.62735477735458
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 169,
+            "minimum": 0.0,
+            "p05": 0.004,
+            "median": 0.039,
+            "p95": 0.118,
+            "maximum": 0.166
+          },
+          "slopeDegrees": 33.76
+        }
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 507,
+        "additionalMeasuredEdgeReturns": 53,
+        "triangles": 1161,
+        "vertices": 657,
+        "footprintCoverageFraction": 0.999022,
+        "boundarySupportDistanceMetres": {
+          "count": 92,
+          "minimum": 0.137,
+          "p05": 0.23,
+          "median": 0.713,
+          "p95": 1.508,
+          "maximum": 1.968
+        },
+        "maximumTriangleEdgeMetres": 2.18,
+        "roofClearanceAboveDtmMetres": {
+          "count": 657,
+          "minimum": 3.967,
+          "p05": 4.214,
+          "median": 6.246,
+          "p95": 8.299,
+          "maximum": 8.984
+        },
+        "roofHeightRH2000": {
+          "count": 657,
+          "minimum": 30.663,
+          "p05": 30.705,
+          "median": 32.74,
+          "p95": 34.784,
+          "maximum": 35.042
+        },
+        "interpolatedBoundaryVertices": 92,
+        "unsupportedBoundaryVertices": 0,
+        "supportedWallBoundaryMetres": 90.045,
+        "sourceFootprintPerimeterMetres": 90.045,
+        "uncoveredRoofAreaSquareMetres": 0.3736,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      },
+      "roofColourDisplayEstimateHex": "ad7160",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-range-small-outbuilding-roof",
+      "associatedBuildingId": "way/1163533114",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597435.04,
+              6615275.68
+            ],
+            [
+              597440.48,
+              6615279.36
+            ],
+            [
+              597445.12,
+              6615273.6
+            ],
+            [
+              597439.36,
+              6615269.76
+            ],
+            [
+              597435.04,
+              6615275.68
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 49.549,
+      "selectedInteriorFirstReturns": 50,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 50,
+        "minimum": 28.69,
+        "p05": 31.095,
+        "median": 32.445,
+        "p95": 33.43,
+        "maximum": 33.47
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 50,
+        "minimum": 1.815,
+        "p05": 3.834,
+        "median": 5.453,
+        "p95": 6.397,
+        "maximum": 6.478
+      },
+      "planarSupportFraction": 0.96,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 33,
+          "originEpsg3006": [
+            597439.9892,
+            6615274.855800003
+          ],
+          "coefficients": [
+            0.4057419305626732,
+            -0.583033113988872,
+            32.9650203509745
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 33,
+            "minimum": 0.011,
+            "p05": 0.013,
+            "median": 0.053,
+            "p95": 0.165,
+            "maximum": 0.173
+          },
+          "slopeDegrees": 35.39
+        },
+        {
+          "index": 1,
+          "pointCount": 15,
+          "originEpsg3006": [
+            597439.9892,
+            6615274.855800003
+          ],
+          "coefficients": [
+            -0.3661222768567391,
+            0.5191267799775794,
+            34.11989162029974
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 15,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.017,
+            "p95": 0.054,
+            "maximum": 0.064
+          },
+          "slopeDegrees": 32.43
+        }
+      ],
+      "roofSurface": {
+        "status": "withheld",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      "roofColourDisplayEstimateHex": "995f52",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-range-west-barn-roof",
+      "associatedBuildingId": "way/1163533115",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597398.88,
+              6615286.08
+            ],
+            [
+              597406.88,
+              6615291.2
+            ],
+            [
+              597415.36,
+              6615279.04
+            ],
+            [
+              597409.6,
+              6615273.28
+            ],
+            [
+              597398.88,
+              6615286.08
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 138.086,
+      "selectedInteriorFirstReturns": 151,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 151,
+        "minimum": 27.15,
+        "p05": 30.38,
+        "median": 32.19,
+        "p95": 33.395,
+        "maximum": 33.48
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 151,
+        "minimum": 2.429,
+        "p05": 5.298,
+        "median": 7.21,
+        "p95": 8.391,
+        "maximum": 8.767
+      },
+      "planarSupportFraction": 0.9934,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 105,
+          "originEpsg3006": [
+            597407.3964900667,
+            6615282.304172184
+          ],
+          "coefficients": [
+            0.5860763162342927,
+            0.3655402809050985,
+            32.6728943533011
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 105,
+            "minimum": 0.001,
+            "p05": 0.002,
+            "median": 0.032,
+            "p95": 0.112,
+            "maximum": 0.171
+          },
+          "slopeDegrees": 34.63
+        },
+        {
+          "index": 1,
+          "pointCount": 45,
+          "originEpsg3006": [
+            597407.3964900667,
+            6615282.304172184
+          ],
+          "coefficients": [
+            -0.6051836132664192,
+            -0.3708303109143607,
+            34.41587404582117
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 45,
+            "minimum": 0.001,
+            "p05": 0.004,
+            "median": 0.042,
+            "p95": 0.102,
+            "maximum": 0.118
+          },
+          "slopeDegrees": 35.37
+        }
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 179,
+        "additionalMeasuredEdgeReturns": 29,
+        "triangles": 423,
+        "vertices": 246,
+        "footprintCoverageFraction": 1.0,
+        "boundarySupportDistanceMetres": {
+          "count": 51,
+          "minimum": 0.021,
+          "p05": 0.171,
+          "median": 0.783,
+          "p95": 1.49,
+          "maximum": 1.884
+        },
+        "maximumTriangleEdgeMetres": 2.197,
+        "roofClearanceAboveDtmMetres": {
+          "count": 246,
+          "minimum": 4.388,
+          "p05": 4.66,
+          "median": 6.742,
+          "p95": 8.349,
+          "maximum": 9.082
+        },
+        "roofHeightRH2000": {
+          "count": 246,
+          "minimum": 29.062,
+          "p05": 29.876,
+          "median": 31.703,
+          "p95": 33.309,
+          "maximum": 33.654
+        },
+        "interpolatedBoundaryVertices": 51,
+        "unsupportedBoundaryVertices": 0,
+        "supportedWallBoundaryMetres": 49.165,
+        "sourceFootprintPerimeterMetres": 49.165,
+        "uncoveredRoofAreaSquareMetres": 0.0,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      },
+      "roofColourDisplayEstimateHex": "a97360",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-carpark-west-north-barn-roof",
+      "associatedBuildingId": "way/1163533123",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597287.68,
+              6615157.6
+            ],
+            [
+              597309.44,
+              6615172.96
+            ],
+            [
+              597315.68,
+              6615166.56
+            ],
+            [
+              597293.6,
+              6615150.88
+            ],
+            [
+              597287.68,
+              6615157.6
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 238.157,
+      "selectedInteriorFirstReturns": 278,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 278,
+        "minimum": 33.43,
+        "p05": 33.809,
+        "median": 34.915,
+        "p95": 38.146,
+        "maximum": 38.7
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 278,
+        "minimum": 4.473,
+        "p05": 4.783,
+        "median": 6.049,
+        "p95": 9.123,
+        "maximum": 9.632
+      },
+      "planarSupportFraction": 0.964,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 137,
+          "originEpsg3006": [
+            597301.4866906476,
+            6615162.097446042
+          ],
+          "coefficients": [
+            0.35456750175405477,
+            -0.47340064213962174,
+            35.932008892156325
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 137,
+            "minimum": 0.0,
+            "p05": 0.006,
+            "median": 0.042,
+            "p95": 0.121,
+            "maximum": 0.207
+          },
+          "slopeDegrees": 30.6
+        },
+        {
+          "index": 1,
+          "pointCount": 115,
+          "originEpsg3006": [
+            597301.4866906476,
+            6615162.097446042
+          ],
+          "coefficients": [
+            -0.3622695119349723,
+            0.4881017687558291,
+            36.04782431676861
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 115,
+            "minimum": 0.002,
+            "p05": 0.005,
+            "median": 0.036,
+            "p95": 0.087,
+            "maximum": 0.12
+          },
+          "slopeDegrees": 31.29
+        },
+        {
+          "index": 2,
+          "pointCount": 16,
+          "originEpsg3006": [
+            597301.4866906476,
+            6615162.097446042
+          ],
+          "coefficients": [
+            0.29449434392089496,
+            -0.3844737865871073,
+            38.776275679674
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 16,
+            "minimum": 0.002,
+            "p05": 0.003,
+            "median": 0.041,
+            "p95": 0.125,
+            "maximum": 0.151
+          },
+          "slopeDegrees": 25.84
+        }
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 326,
+        "additionalMeasuredEdgeReturns": 58,
+        "triangles": 766,
+        "vertices": 442,
+        "footprintCoverageFraction": 1.0,
+        "boundarySupportDistanceMetres": {
+          "count": 73,
+          "minimum": 0.079,
+          "p05": 0.127,
+          "median": 0.614,
+          "p95": 1.107,
+          "maximum": 1.492
+        },
+        "maximumTriangleEdgeMetres": 3.45,
+        "roofClearanceAboveDtmMetres": {
+          "count": 442,
+          "minimum": 4.07,
+          "p05": 4.134,
+          "median": 5.476,
+          "p95": 7.085,
+          "maximum": 9.632
+        },
+        "roofHeightRH2000": {
+          "count": 442,
+          "minimum": 33.084,
+          "p05": 33.208,
+          "median": 34.315,
+          "p95": 35.928,
+          "maximum": 38.7
+        },
+        "interpolatedBoundaryVertices": 73,
+        "unsupportedBoundaryVertices": 0,
+        "supportedWallBoundaryMetres": 71.61,
+        "sourceFootprintPerimeterMetres": 71.61,
+        "uncoveredRoofAreaSquareMetres": 0.0,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      },
+      "roofColourDisplayEstimateHex": "77716b",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-house-near-hole9-roof",
+      "associatedBuildingId": "way/1163607303",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597609.92,
+              6614925.12
+            ],
+            [
+              597616.48,
+              6614929.12
+            ],
+            [
+              597616.16,
+              6614931.68
+            ],
+            [
+              597621.76,
+              6614934.88
+            ],
+            [
+              597628.64,
+              6614924.96
+            ],
+            [
+              597621.92,
+              6614920.64
+            ],
+            [
+              597613.44,
+              6614919.2
+            ],
+            [
+              597609.92,
+              6614925.12
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 160.256,
+      "selectedInteriorFirstReturns": 395,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 395,
+        "minimum": 33.73,
+        "p05": 35.117,
+        "median": 37.15,
+        "p95": 37.713,
+        "maximum": 37.79
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 395,
+        "minimum": 1.708,
+        "p05": 2.993,
+        "median": 5.009,
+        "p95": 5.592,
+        "maximum": 5.792
+      },
+      "planarSupportFraction": 0.9544,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 149,
+          "originEpsg3006": [
+            597619.605898734,
+            6614926.12967088
+          ],
+          "coefficients": [
+            -0.2431573810402911,
+            0.3865132231078281,
+            37.45905339050223
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 149,
+            "minimum": 0.001,
+            "p05": 0.006,
+            "median": 0.046,
+            "p95": 0.14,
+            "maximum": 0.215
+          },
+          "slopeDegrees": 24.54
+        },
+        {
+          "index": 1,
+          "pointCount": 90,
+          "originEpsg3006": [
+            597619.605898734,
+            6614926.12967088
+          ],
+          "coefficients": [
+            0.3967019174544039,
+            0.24964088614382263,
+            35.598778998909296
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 90,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.036,
+            "p95": 0.144,
+            "maximum": 0.179
+          },
+          "slopeDegrees": 25.11
+        },
+        {
+          "index": 2,
+          "pointCount": 78,
+          "originEpsg3006": [
+            597619.605898734,
+            6614926.12967088
+          ],
+          "coefficients": [
+            0.2401401115301008,
+            -0.4013436053916557,
+            38.11619334153281
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 78,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.064,
+            "p95": 0.141,
+            "maximum": 0.184
+          },
+          "slopeDegrees": 25.07
+        },
+        {
+          "index": 3,
+          "pointCount": 37,
+          "originEpsg3006": [
+            597619.605898734,
+            6614926.12967088
+          ],
+          "coefficients": [
+            -0.4146630871920507,
+            -0.25929022452092454,
+            39.96678363638537
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 37,
+            "minimum": 0.001,
+            "p05": 0.005,
+            "median": 0.024,
+            "p95": 0.075,
+            "maximum": 0.088
+          },
+          "slopeDegrees": 26.06
+        },
+        {
+          "index": 4,
+          "pointCount": 23,
+          "originEpsg3006": [
+            597619.605898734,
+            6614926.12967088
+          ],
+          "coefficients": [
+            -0.13286292910629952,
+            0.37086575721464854,
+            36.739814732556816
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 23,
+            "minimum": 0.003,
+            "p05": 0.014,
+            "median": 0.092,
+            "p95": 0.177,
+            "maximum": 0.198
+          },
+          "slopeDegrees": 21.5
+        }
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 440,
+        "additionalMeasuredEdgeReturns": 63,
+        "triangles": 953,
+        "vertices": 516,
+        "footprintCoverageFraction": 0.999577,
+        "boundarySupportDistanceMetres": {
+          "count": 55,
+          "minimum": 0.068,
+          "p05": 0.134,
+          "median": 0.634,
+          "p95": 1.706,
+          "maximum": 1.901
+        },
+        "maximumTriangleEdgeMetres": 2.234,
+        "roofClearanceAboveDtmMetres": {
+          "count": 516,
+          "minimum": 1.863,
+          "p05": 2.954,
+          "median": 4.869,
+          "p95": 5.592,
+          "maximum": 5.842
+        },
+        "roofHeightRH2000": {
+          "count": 516,
+          "minimum": 34.205,
+          "p05": 35.047,
+          "median": 36.975,
+          "p95": 37.69,
+          "maximum": 37.79
+        },
+        "interpolatedBoundaryVertices": 55,
+        "unsupportedBoundaryVertices": 0,
+        "supportedWallBoundaryMetres": 52.263,
+        "sourceFootprintPerimeterMetres": 52.263,
+        "uncoveredRoofAreaSquareMetres": 0.0678,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      },
+      "roofColourDisplayEstimateHex": "ab715a",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-house-east-roof",
+      "associatedBuildingId": "way/1384988126",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597677.12,
+              6614975.36
+            ],
+            [
+              597687.04,
+              6614984.16
+            ],
+            [
+              597693.92,
+              6614978.88
+            ],
+            [
+              597692.8,
+              6614977.44
+            ],
+            [
+              597696.32,
+              6614972.48
+            ],
+            [
+              597691.2,
+              6614968.0
+            ],
+            [
+              597688.32,
+              6614968.96
+            ],
+            [
+              597687.04,
+              6614967.52
+            ],
+            [
+              597677.12,
+              6614975.36
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 175.514,
+      "selectedInteriorFirstReturns": 175,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 175,
+        "minimum": 30.19,
+        "p05": 30.94,
+        "median": 33.3,
+        "p95": 35.416,
+        "maximum": 35.9
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 175,
+        "minimum": 1.721,
+        "p05": 2.555,
+        "median": 5.209,
+        "p95": 7.126,
+        "maximum": 7.503
+      },
+      "planarSupportFraction": 0.8857,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 102,
+          "originEpsg3006": [
+            597687.7734857146,
+            6614975.2487999955
+          ],
+          "coefficients": [
+            -0.6817481007938108,
+            -0.724787424240569,
+            35.07722713271118
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 102,
+            "minimum": 0.001,
+            "p05": 0.006,
+            "median": 0.053,
+            "p95": 0.148,
+            "maximum": 0.165
+          },
+          "slopeDegrees": 44.86
+        },
+        {
+          "index": 1,
+          "pointCount": 29,
+          "originEpsg3006": [
+            597687.7734857146,
+            6614975.2487999955
+          ],
+          "coefficients": [
+            0.6883146279695054,
+            0.7449699443172122,
+            36.821796493427954
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 29,
+            "minimum": 0.004,
+            "p05": 0.005,
+            "median": 0.076,
+            "p95": 0.163,
+            "maximum": 0.18
+          },
+          "slopeDegrees": 45.41
+        },
+        {
+          "index": 2,
+          "pointCount": 24,
+          "originEpsg3006": [
+            597687.7734857146,
+            6614975.2487999955
+          ],
+          "coefficients": [
+            0.13957252234708972,
+            -0.4095350072821482,
+            34.063320260606176
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 24,
+            "minimum": 0.003,
+            "p05": 0.013,
+            "median": 0.044,
+            "p95": 0.138,
+            "maximum": 0.171
+          },
+          "slopeDegrees": 23.4
+        }
+      ],
+      "roofSurface": {
+        "status": "withheld",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      "roofColourDisplayEstimateHex": "535c5e",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-house-east-garage-roof",
+      "associatedBuildingId": "way/1384988127",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597689.28,
+              6614961.12
+            ],
+            [
+              597695.36,
+              6614966.88
+            ],
+            [
+              597700.8,
+              6614961.44
+            ],
+            [
+              597695.52,
+              6614955.68
+            ],
+            [
+              597689.28,
+              6614961.12
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 64.538,
+      "selectedInteriorFirstReturns": 84,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 84,
+        "minimum": 30.8,
+        "p05": 30.942,
+        "median": 31.69,
+        "p95": 32.699,
+        "maximum": 32.79
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 84,
+        "minimum": 2.68,
+        "p05": 2.75,
+        "median": 3.531,
+        "p95": 4.475,
+        "maximum": 4.625
+      },
+      "planarSupportFraction": 0.9762,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 51,
+          "originEpsg3006": [
+            597695.1789285713,
+            6614961.314999996
+          ],
+          "coefficients": [
+            0.3482781315349368,
+            -0.3206541581537934,
+            32.499506218316945
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 51,
+            "minimum": 0.0,
+            "p05": 0.005,
+            "median": 0.046,
+            "p95": 0.164,
+            "maximum": 0.178
+          },
+          "slopeDegrees": 25.33
+        },
+        {
+          "index": 1,
+          "pointCount": 31,
+          "originEpsg3006": [
+            597695.1789285713,
+            6614961.314999996
+          ],
+          "coefficients": [
+            -0.3680475016485404,
+            0.33215687445204267,
+            33.03458130209644
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 31,
+            "minimum": 0.004,
+            "p05": 0.009,
+            "median": 0.056,
+            "p95": 0.185,
+            "maximum": 0.204
+          },
+          "slopeDegrees": 26.37
+        }
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 113,
+        "additionalMeasuredEdgeReturns": 31,
+        "triangles": 277,
+        "vertices": 167,
+        "footprintCoverageFraction": 1.0,
+        "boundarySupportDistanceMetres": {
+          "count": 34,
+          "minimum": 0.239,
+          "p05": 0.256,
+          "median": 0.717,
+          "p95": 1.231,
+          "maximum": 1.632
+        },
+        "maximumTriangleEdgeMetres": 2.527,
+        "roofClearanceAboveDtmMetres": {
+          "count": 167,
+          "minimum": 2.293,
+          "p05": 2.557,
+          "median": 3.3,
+          "p95": 4.456,
+          "maximum": 4.625
+        },
+        "roofHeightRH2000": {
+          "count": 167,
+          "minimum": 30.508,
+          "p05": 30.647,
+          "median": 31.44,
+          "p95": 32.687,
+          "maximum": 32.861
+        },
+        "interpolatedBoundaryVertices": 34,
+        "unsupportedBoundaryVertices": 0,
+        "supportedWallBoundaryMetres": 32.161,
+        "sourceFootprintPerimeterMetres": 32.161,
+        "uncoveredRoofAreaSquareMetres": 0.0,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      },
+      "roofColourDisplayEstimateHex": "596061",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    },
+    {
+      "id": "tortuna-range-shelter-roof",
+      "associatedBuildingId": "tortuna-range-shelter",
+      "observedAt": "2021-04-05T12:00:00Z",
+      "captureStart": "2021-04-01T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "selectionOutlineSource": "2026 observed image roof silhouette; independent from retained OSM ground footprint",
+      "sourceOutline": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597472.64,
+              6615173.76
+            ],
+            [
+              597478.08,
+              6615168.8
+            ],
+            [
+              597472.96,
+              6615163.2
+            ],
+            [
+              597467.52,
+              6615168.32
+            ],
+            [
+              597472.64,
+              6615173.76
+            ]
+          ]
+        ]
+      },
+      "observedRoofAreaSquareMetres": 55.834,
+      "selectedInteriorFirstReturns": 36,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 36,
+        "minimum": 29.35,
+        "p05": 30.252,
+        "median": 30.815,
+        "p95": 31.06,
+        "maximum": 31.13
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 36,
+        "minimum": 1.841,
+        "p05": 2.769,
+        "median": 3.235,
+        "p95": 3.536,
+        "maximum": 3.581
+      },
+      "planarSupportFraction": 0.9444,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 34,
+          "originEpsg3006": [
+            597473.6375000001,
+            6615169.014444444
+          ],
+          "coefficients": [
+            0.09977458414148752,
+            0.11610864879579896,
+            30.78976646167807
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 34,
+            "minimum": 0.001,
+            "p05": 0.002,
+            "median": 0.015,
+            "p95": 0.026,
+            "maximum": 0.042
+          },
+          "slopeDegrees": 8.7
+        }
+      ],
+      "roofSurface": {
+        "status": "withheld",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      "roofColourDisplayEstimateHex": "deded6",
+      "facadeColourDisplayEstimateHex": null,
+      "groundFootprintReplaced": false,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "visualReviewStatus": "candidate-awaiting-rendered-source-panel-review",
+      "limitations": [
+        "Class 1 is unclassified: footprint and image association are needed to identify roof candidates.",
+        "2021 laser does not prove all 2026 architecture is unchanged.",
+        "Roof heights above an interpolated DTM are not surveyed wall or eave heights."
+      ]
+    }
+  ],
+  "method": {
+    "firstReturnsOnly": true,
+    "sourceClassification": 1,
+    "minimumHeightAboveDtmMetres": 1.5,
+    "selectionInsetMetres": 0.6,
+    "planes": "Deterministic RANSAC from reviewed existing algorithm; 0.18 m inliers, minimum 12 returns per plane, maximum slope 1.2, up to 12 planes.",
+    "mesh": "Original supported return heights; maximum triangle edge 5 m; bounded plane interpolation on source selection boundary within 3 m of support; gaps retained."
+  },
+  "limitations": [
+    "Source acquisition epoch and image epoch differ; present-day architectural detail is not measured.",
+    "Observed roof outlines never replace retained ground footprints.",
+    "Do not assign roof clearance quantiles directly to legacy building h fields."
+  ]
+}

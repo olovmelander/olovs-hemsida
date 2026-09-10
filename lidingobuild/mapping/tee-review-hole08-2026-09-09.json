@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "horizontalCrs": "EPSG:3006",
+  "capturedAt": "2025-05-31",
+  "reviewedOn": "2026-09-09",
+  "coordinateConvention": "Native PNG pixel edges; apply GDAL geoTransform. Source image remains unchanged.",
+  "markerMethod": "Full club guide for colour-to-platform association; georeferenced orthophoto for visible turf. Illustrative constrained pairs do not establish daily physical marker locations.",
+  "holes": [
+    {
+      "hole": 8,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/lidingo-08-tees.png",
+        "sha256": "26ea9d7596cf9cd9a68ea9be337b6f1939ed41a090a56c760a6e317489d74919",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677222.72,
+          0.16,
+          0.0,
+          6586284.32,
+          0.0,
+          -0.16
+        ],
+        "width": 1076,
+        "height": 944,
+        "resolutionMetres": 0.16,
+        "sourceIds": [
+          "o65850_6750_25_mr25"
+        ]
+      },
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924726_Lidingo_8.webp",
+        "sha256": "b4a4e873a53e9da475d5db65d1ddac8ce9d4f172aa76f87e22f7d1eec7419cd6"
+      },
+      "pads": [
+        {
+          "id": "way/296422999",
+          "pixels": [
+            [
+              357.0703296471038,
+              642.3498343967367
+            ],
+            [
+              335.56116211839253,
+              631.9278768613003
+            ],
+            [
+              349.21613734113635,
+              596.9940836774185
+            ],
+            [
+              378.86304383719107,
+              578.4565886016935
+            ],
+            [
+              410.42631002055714,
+              559.8291420843452
+            ],
+            [
+              440.9639646182768,
+              560.2783054462634
+            ],
+            [
+              447.65990534215234,
+              580.9443161240779
+            ],
+            [
+              423.9943539003434,
+              604.9167964491062
+            ],
+            [
+              392.8748010126583,
+              633.0028548836708
+            ],
+            [
+              357.0703296471038,
+              642.3498343967367
+            ]
+          ],
+          "note": "Shared yellow/blue platform east of the terminal path. The maintained turf is corroborated in exposed patches of the 2025 image, but diagonal tree shadows conceal much of the mowing boundary. Retain the inherited OSM outline without asserting that its obscured perimeter has been re-observed; representative yellow and blue positions are associated by the full club guide. Boundary uncertainty is an interpretation allowance, not a surveyed accuracy.",
+          "uncertaintyMetres": 2.5,
+          "boundaryMethod": "retained-inherited-outline-partially-corroborated-under-shadow",
+          "inheritedSourceFeatureId": "way/296422999",
+          "completePerimeterObservedIn2025": false,
+          "areaSquareMetres": 131.27,
+          "status": "retained-unresolved",
+          "baselineFeature": {
+            "type": "Feature",
+            "id": "way/296422999",
+            "properties": {
+              "kind": "tee",
+              "hole": 8,
+              "sourceId": "lidingo-osm-2026-09-07",
+              "sourceFeatureId": "way/296422999",
+              "sourceVersion": "1",
+              "sourceTimestamp": "2014-08-07T09:57:17Z",
+              "observedYear": null,
+              "reviewStatus": "machine-visual-review",
+              "notSurveyed": true,
+              "method": "unchanged-osm-source-ring",
+              "associationStatus": "gross-source-image-and-guide-corroboration",
+              "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
+              "licence": "ODbL-1.0",
+              "areaSquareMetres": 131.27
+            },
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    677279.8512527435,
+                    6586181.544026497
+                  ],
+                  [
+                    677276.4097859389,
+                    6586183.2115397025
+                  ],
+                  [
+                    677278.5945819746,
+                    6586188.800946612
+                  ],
+                  [
+                    677283.3380870139,
+                    6586191.766945824
+                  ],
+                  [
+                    677288.3882096033,
+                    6586194.747337267
+                  ],
+                  [
+                    677293.2742343389,
+                    6586194.675471129
+                  ],
+                  [
+                    677294.3455848547,
+                    6586191.36890942
+                  ],
+                  [
+                    677290.559096624,
+                    6586187.533312568
+                  ],
+                  [
+                    677285.579968162,
+                    6586183.039543219
+                  ],
+                  [
+                    677279.8512527435,
+                    6586181.544026497
+                  ]
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "way/296422978",
+          "pixels": [
+            [
+              636.016373320308,
+              488.32464802544564
+            ],
+            [
+              599.1384638953605,
+              474.79055372532457
+            ],
+            [
+              601.1538219012436,
+              436.6388946888037
+            ],
+            [
+              624.763123588491,
+              410.71720817126334
+            ],
+            [
+              651.3270647788886,
+              407.58867564145476
+            ],
+            [
+              669.7708264859102,
+              435.3008030273486
+            ],
+            [
+              673.1135257476126,
+              465.6035480496939
+            ],
+            [
+              636.016373320308,
+              488.32464802544564
+            ]
+          ],
+          "note": "Red platform immediately southeast of the branching path, west of the neighbouring green. The 2025 image shows maintained turf on its western side; tree shadow conceals the central/eastern perimeter. Retain the inherited OSM outline as qualified context, without claiming a newly observed complete boundary. The club guide establishes this distinct platform as red.",
+          "uncertaintyMetres": 2.5,
+          "boundaryMethod": "retained-inherited-outline-partially-corroborated-under-shadow",
+          "inheritedSourceFeatureId": "way/296422978",
+          "completePerimeterObservedIn2025": false,
+          "areaSquareMetres": 112.24,
+          "status": "retained-unresolved",
+          "baselineFeature": {
+            "type": "Feature",
+            "id": "way/296422978",
+            "properties": {
+              "kind": "tee",
+              "hole": 8,
+              "sourceId": "lidingo-osm-2026-09-07",
+              "sourceFeatureId": "way/296422978",
+              "sourceVersion": "1",
+              "sourceTimestamp": "2014-08-07T09:57:16Z",
+              "observedYear": null,
+              "reviewStatus": "machine-visual-review",
+              "notSurveyed": true,
+              "method": "unchanged-osm-source-ring",
+              "associationStatus": "gross-source-image-and-guide-corroboration",
+              "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
+              "licence": "ODbL-1.0",
+              "areaSquareMetres": 112.24
+            },
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    677324.4826197312,
+                    6586206.188056316
+                  ],
+                  [
+                    677318.5821542232,
+                    6586208.353511404
+                  ],
+                  [
+                    677318.9046115042,
+                    6586214.45777685
+                  ],
+                  [
+                    677322.6820997741,
+                    6586218.605246693
+                  ],
+                  [
+                    677326.9323303646,
+                    6586219.105811898
+                  ],
+                  [
+                    677329.8833322377,
+                    6586214.671871516
+                  ],
+                  [
+                    677330.4181641196,
+                    6586209.823432312
+                  ],
+                  [
+                    677324.4826197312,
+                    6586206.188056316
+                  ]
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "lidingo-tee-08-c-lm2025",
+          "pixels": [
+            [
+              769,
+              279
+            ],
+            [
+              800,
+              254
+            ],
+            [
+              805,
+              255
+            ],
+            [
+              831,
+              280
+            ],
+            [
+              830,
+              285
+            ],
+            [
+              799,
+              306
+            ],
+            [
+              794,
+              304
+            ],
+            [
+              770,
+              283
+            ],
+            [
+              769,
+              279
+            ]
+          ],
+          "note": "Small, distinctly close-mown forward platform northeast of the path crossing and northwest of the neighbouring green. Trace the visible inner maintained tee surface, excluding its darker surrounding apron. The full club guide shows orange at this location; daily movable marker positions remain unverified.",
+          "uncertaintyMetres": 0.8,
+          "boundaryMethod": "manual-native-pixel-observation",
+          "completePerimeterObservedIn2025": true,
+          "areaSquareMetres": 46.18
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "unresolved",
+          "note": "The full club guide shows a separate rear white platform southwest of the shared yellow/blue platform. Its approximate vicinity around native pixels (260,690) is covered by strong tree shadows in the 2025 image and has no retained source tee polygon. A defensible complete platform boundary and associated reference cannot be confirmed here; do not draw a white marker pair or transfer it to the yellow/blue platform."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "way/296422999",
+          "pixel": [
+            366,
+            613
+          ],
+          "note": "Rear portion of the long shared yellow/blue platform, east of the terminal path; guide colour association and exposed maintained turf corroborate this representative reference. Full perimeter partly shadowed; daily position unverified."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "way/296422999",
+          "pixel": [
+            421,
+            577
+          ],
+          "note": "Forward portion of the same long platform as yellow, following the direction of play northeast; the full guide explicitly separates the two colours along that deck. Daily position and shadowed perimeter remain unverified."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "way/296422978",
+          "pixel": [
+            617,
+            448
+          ],
+          "note": "Guide red platform beyond the path bend, on its exposed western maintained turf. Reference is representative inside the qualified inherited outline; daily position unverified."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-08-c-lm2025",
+          "pixel": [
+            800,
+            280
+          ],
+          "note": "The full guide orange start is the separate small close-mown platform northeast of the crossing, forward of red and west of the adjacent green. Representative reference within observed turf; daily position unverified."
+        }
+      ],
+      "note": "Orange resolved from the full guide and distinct forward square. Rear white explicitly unresolved. Yellow/blue and red retain their inherited polygons with partial 2025 corroboration, substantial shadow qualification and 2.5 m boundary interpretation allowance; this is not a complete new survey."
+    }
+  ]
+}

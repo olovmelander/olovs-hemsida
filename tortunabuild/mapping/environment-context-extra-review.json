@@ -1,0 +1,1820 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "output": {
+    "path": "tortunabuild/mapping/environment-context-extra.geojson",
+    "sha256": "c08dc3c0067a8a36683d20155acf9d6f6efbcd6720c827d864dc0f7e4aaf3425"
+  },
+  "sourceReceipt": {
+    "path": "geo_data/course-v2/tortuna/acquisition/osm-context-extra.json",
+    "sha256": "a734edf50b52b5437e41e46b71a2f8f378460e23bc2c817edf28eba02109746d"
+  },
+  "counts": {
+    "railway": 5,
+    "highway": 53,
+    "waterway": 4,
+    "forest": 9,
+    "building": 161,
+    "landuse": 46,
+    "natural": 2
+  },
+  "featureCount": 280,
+  "polygonTopology": [
+    {
+      "id": "way/490584004",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 62457.04375097551,
+      "outputAreaSquareMetres": 62457.0437509755,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/490584005",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 35122.632335549446,
+      "outputAreaSquareMetres": 35122.632335549446,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1004298906",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 542.4243499582977,
+      "outputAreaSquareMetres": 542.4243499582977,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538462",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 33.87133706600209,
+      "outputAreaSquareMetres": 33.87133706600209,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538463",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 29.46425286266444,
+      "outputAreaSquareMetres": 29.46425286266444,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538464",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 191.64696137256553,
+      "outputAreaSquareMetres": 191.64696137256553,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538465",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 174.80701978322608,
+      "outputAreaSquareMetres": 174.80701978322608,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538466",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 198.6390031947539,
+      "outputAreaSquareMetres": 198.6390031947539,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538468",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 132.5721294920515,
+      "outputAreaSquareMetres": 132.5721294920515,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538469",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 192.35350575169363,
+      "outputAreaSquareMetres": 192.35350575169363,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538471",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 138.3397968230973,
+      "outputAreaSquareMetres": 138.3397968230973,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538472",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 158.08074814066575,
+      "outputAreaSquareMetres": 158.08074814066575,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538473",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 205.52838056236493,
+      "outputAreaSquareMetres": 205.52838056236493,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538478",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 110.4245562928706,
+      "outputAreaSquareMetres": 110.4245562928706,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538479",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 74.10829802801818,
+      "outputAreaSquareMetres": 74.10829802801818,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538480",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 113.77285411494344,
+      "outputAreaSquareMetres": 113.77285411494344,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538481",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 70.76855183152779,
+      "outputAreaSquareMetres": 70.76855183152779,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538482",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 76.15251910201762,
+      "outputAreaSquareMetres": 76.15251910201762,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538483",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 40.79031368664349,
+      "outputAreaSquareMetres": 40.79031368664349,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163538484",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 92.96715004811914,
+      "outputAreaSquareMetres": 92.96715004811914,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541441",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 95.3075780512659,
+      "outputAreaSquareMetres": 95.3075780512659,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541442",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 42.80658173756428,
+      "outputAreaSquareMetres": 42.80658173756428,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541443",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 94.43972809539048,
+      "outputAreaSquareMetres": 94.43972809539048,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541444",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 36.64512748620672,
+      "outputAreaSquareMetres": 36.64512748620672,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541445",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 56.08203496132096,
+      "outputAreaSquareMetres": 56.08203496132096,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541446",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 41.10085437403011,
+      "outputAreaSquareMetres": 41.10085437403011,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541447",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 118.8918013733263,
+      "outputAreaSquareMetres": 118.8918013733263,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541448",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 51.35127619257509,
+      "outputAreaSquareMetres": 51.35127619257509,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541449",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 185.8652540032913,
+      "outputAreaSquareMetres": 185.8652540032913,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541450",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 91.65106838459646,
+      "outputAreaSquareMetres": 91.65106838459646,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541451",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 34.984413024601686,
+      "outputAreaSquareMetres": 34.984413024601686,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541453",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 124.39886409844947,
+      "outputAreaSquareMetres": 124.39886409844947,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541454",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 208.14031021319488,
+      "outputAreaSquareMetres": 208.14031021319488,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541455",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 98.79627381011879,
+      "outputAreaSquareMetres": 98.79627381011879,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541456",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 122.89317364249564,
+      "outputAreaSquareMetres": 122.89317364249564,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541457",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 134.77728352971732,
+      "outputAreaSquareMetres": 134.77728352971732,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541459",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 28.52970790114769,
+      "outputAreaSquareMetres": 28.52970790114769,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541461",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 92.01259082336738,
+      "outputAreaSquareMetres": 92.01259082336738,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541462",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 42.72635875730257,
+      "outputAreaSquareMetres": 42.72635875730257,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541463",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 83.71652010026422,
+      "outputAreaSquareMetres": 83.71652010026422,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541464",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 55.67590425741011,
+      "outputAreaSquareMetres": 55.67590425741011,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541465",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 60.10143316805726,
+      "outputAreaSquareMetres": 60.10143316805726,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541466",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 71.75218173955129,
+      "outputAreaSquareMetres": 71.75218173955129,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541467",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 139.6356726108711,
+      "outputAreaSquareMetres": 139.6356726108711,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541468",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 133.32418288704199,
+      "outputAreaSquareMetres": 133.32418288704199,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541469",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 13.204354321270642,
+      "outputAreaSquareMetres": 13.204354321270642,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541470",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 67.6436751886711,
+      "outputAreaSquareMetres": 67.6436751886711,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541471",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 82.05613644521252,
+      "outputAreaSquareMetres": 82.05613644521252,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541472",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 105.6124268989367,
+      "outputAreaSquareMetres": 105.6124268989367,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541473",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 18.25133995025388,
+      "outputAreaSquareMetres": 18.25133995025388,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541474",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 82.37031120824284,
+      "outputAreaSquareMetres": 82.37031120824284,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163541475",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 130.84974613966432,
+      "outputAreaSquareMetres": 130.84974613966432,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542512",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 114.08012934995497,
+      "outputAreaSquareMetres": 114.08012934995497,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542513",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 82.61507936889967,
+      "outputAreaSquareMetres": 82.61507936889967,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542514",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 16.46616580537867,
+      "outputAreaSquareMetres": 16.46616580537867,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542515",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 58.94819752505989,
+      "outputAreaSquareMetres": 58.94819752505989,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542516",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 139.03877196929614,
+      "outputAreaSquareMetres": 139.03877196929614,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542517",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 56.709897980335995,
+      "outputAreaSquareMetres": 56.709897980335995,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542519",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 18.3918262750355,
+      "outputAreaSquareMetres": 18.3918262750355,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542520",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 30.24768634114002,
+      "outputAreaSquareMetres": 30.24768634114002,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542521",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 54.43299785090329,
+      "outputAreaSquareMetres": 54.43299785090329,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542522",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 33.47788092161594,
+      "outputAreaSquareMetres": 33.47788092161594,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542523",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 209.0655354121352,
+      "outputAreaSquareMetres": 209.0655354121352,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542524",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 112.84400727457256,
+      "outputAreaSquareMetres": 112.84400727457256,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542525",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 127.53998093712488,
+      "outputAreaSquareMetres": 127.53998093712488,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542526",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 42.094870342666034,
+      "outputAreaSquareMetres": 42.094870342666034,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542527",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 147.05265379894993,
+      "outputAreaSquareMetres": 147.05265379894993,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542528",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 158.35356306546834,
+      "outputAreaSquareMetres": 158.35356306546834,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542529",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 50.13037140884271,
+      "outputAreaSquareMetres": 50.13037140884271,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542530",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 166.93303129355195,
+      "outputAreaSquareMetres": 166.93303129355195,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542531",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 39.843685509735316,
+      "outputAreaSquareMetres": 39.843685509735316,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542532",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 109.64373641190464,
+      "outputAreaSquareMetres": 109.64373641190464,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542533",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 31.120671021941284,
+      "outputAreaSquareMetres": 31.120671021941284,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542534",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 156.21974110589613,
+      "outputAreaSquareMetres": 156.21974110589613,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542535",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 95.70254132297852,
+      "outputAreaSquareMetres": 95.70254132297852,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163542536",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 256.8087747535669,
+      "outputAreaSquareMetres": 256.8087747535669,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163553276",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 76.838111960828,
+      "outputAreaSquareMetres": 76.838111960828,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163553279",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 35.43109777192505,
+      "outputAreaSquareMetres": 35.43109777192505,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163553280",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 111.8628262291453,
+      "outputAreaSquareMetres": 111.8628262291453,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163553281",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 99.15110658624361,
+      "outputAreaSquareMetres": 99.15110658624361,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163553282",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 78.38348490561069,
+      "outputAreaSquareMetres": 78.38348490561069,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163553283",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 57.03402678352574,
+      "outputAreaSquareMetres": 57.03402678352574,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163553284",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 32.798707767956934,
+      "outputAreaSquareMetres": 32.798707767956934,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163553285",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 72.14075235593165,
+      "outputAreaSquareMetres": 72.14075235593165,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568811",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 51.678333517017464,
+      "outputAreaSquareMetres": 51.678333517017464,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568812",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 56.508970976458556,
+      "outputAreaSquareMetres": 56.508970976458556,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568813",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 78.36415380911762,
+      "outputAreaSquareMetres": 78.36415380911762,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568814",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 890.2478596243359,
+      "outputAreaSquareMetres": 890.2478596243359,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568815",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 80.02588458573155,
+      "outputAreaSquareMetres": 80.02588458573155,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568816",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 491.77033246260623,
+      "outputAreaSquareMetres": 491.77033246260623,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568817",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 51.8319743643047,
+      "outputAreaSquareMetres": 51.8319743643047,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568818",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 76.92944405658322,
+      "outputAreaSquareMetres": 76.92944405658322,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568819",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 159.42443882641828,
+      "outputAreaSquareMetres": 159.42443882641828,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568820",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 60.01247961583296,
+      "outputAreaSquareMetres": 60.01247961583296,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568821",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 427.4019897547386,
+      "outputAreaSquareMetres": 427.4019897547386,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568822",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 114.40390352826778,
+      "outputAreaSquareMetres": 114.40390352826778,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568823",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 54.68128509904424,
+      "outputAreaSquareMetres": 54.68128509904424,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163568824",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 91.35228168710992,
+      "outputAreaSquareMetres": 91.35228168710992,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163608107",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 23.33693677516044,
+      "outputAreaSquareMetres": 23.33693677516044,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1163608108",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 52.81505758189409,
+      "outputAreaSquareMetres": 52.81505758189409,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1315905723",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 8821.182261903592,
+      "outputAreaSquareMetres": 8821.182261903592,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1315905961",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 26054.6714801463,
+      "outputAreaSquareMetres": 26054.671480146306,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334174318",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 932.1158810079992,
+      "outputAreaSquareMetres": 932.1158810079992,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334174319",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 215.1535028361098,
+      "outputAreaSquareMetres": 215.1535028361098,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334174320",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 159.4863186644891,
+      "outputAreaSquareMetres": 159.4863186644891,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334174321",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 124.01006554481727,
+      "outputAreaSquareMetres": 124.01006554481727,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334174322",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 69.84537433399227,
+      "outputAreaSquareMetres": 69.84537433399227,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334174323",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 8279.001691489699,
+      "outputAreaSquareMetres": 8279.001691489697,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334174989",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 11265.775494899948,
+      "outputAreaSquareMetres": 11265.775494899948,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334175190",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 53954.47878752343,
+      "outputAreaSquareMetres": 53954.478787523425,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1334175276",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 145416.34830782746,
+      "outputAreaSquareMetres": 134907.8052272258,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1336476815",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 70161.95015627831,
+      "outputAreaSquareMetres": 70161.95015627834,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1336477458",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 106750.13812123361,
+      "outputAreaSquareMetres": 106744.0356180584,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1336477684",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 49548.95068378844,
+      "outputAreaSquareMetres": 49548.95068378844,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1336491441",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 240.27850201765398,
+      "outputAreaSquareMetres": 240.27850201765398,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1336491442",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 62.793014765496295,
+      "outputAreaSquareMetres": 62.793014765496295,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1336491443",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 9768.908147780607,
+      "outputAreaSquareMetres": 9768.908147780607,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1336491444",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 58150.147102661635,
+      "outputAreaSquareMetres": 58150.14710266164,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1336496993",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 14691.980541269948,
+      "outputAreaSquareMetres": 14691.98054126994,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1337719953",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 85651.20833700009,
+      "outputAreaSquareMetres": 85651.2083370001,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1337966548",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 27141.424649506243,
+      "outputAreaSquareMetres": 27141.424649506233,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1337966549",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 5876.437474094483,
+      "outputAreaSquareMetres": 5876.437474094484,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1337966775",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 8786.633879903817,
+      "outputAreaSquareMetres": 8786.633879903817,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1338595432",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 90268.09981041694,
+      "outputAreaSquareMetres": 90268.09981041693,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1338595539",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 35652.03620507471,
+      "outputAreaSquareMetres": 35652.0362050747,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1338595540",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 267.3461427275985,
+      "outputAreaSquareMetres": 267.3461427275985,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1338595711",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 6119.462369495445,
+      "outputAreaSquareMetres": 6119.462369495444,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1338595933",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 271737.5698478959,
+      "outputAreaSquareMetres": 271737.56984789576,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1338706245",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 201.82341900905948,
+      "outputAreaSquareMetres": 201.82341900905948,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1369003286",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 315.8088512172395,
+      "outputAreaSquareMetres": 315.8088512172395,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1369003287",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 162.31267193070786,
+      "outputAreaSquareMetres": 162.31267193070786,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1369003288",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 168.54519269477277,
+      "outputAreaSquareMetres": 168.54519269477277,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1369003289",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 487.8232286593146,
+      "outputAreaSquareMetres": 487.8232286593146,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1384964958",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 115466.69197473489,
+      "outputAreaSquareMetres": 115466.69197473486,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1385031279",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 161041.90931767627,
+      "outputAreaSquareMetres": 161041.90931767627,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1385031586",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 144015.06844771205,
+      "outputAreaSquareMetres": 144015.06844771208,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443645910",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 150763.84782328256,
+      "outputAreaSquareMetres": 150763.84782328256,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443646873",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 97.909749470621,
+      "outputAreaSquareMetres": 97.909749470621,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443646874",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 94.00057190841933,
+      "outputAreaSquareMetres": 94.00057190841933,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443646875",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 49.744536736056574,
+      "outputAreaSquareMetres": 49.744536736056574,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443646876",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 61.51611674527955,
+      "outputAreaSquareMetres": 61.51611674527955,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443646877",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 7484.961413501879,
+      "outputAreaSquareMetres": 7484.961413501879,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443646878",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 214.6541998293222,
+      "outputAreaSquareMetres": 214.6541998293222,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443646879",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 2791.255309563327,
+      "outputAreaSquareMetres": 2791.255309563327,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1443646880",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 5229.025869462012,
+      "outputAreaSquareMetres": 5229.0258694620115,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097732",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 184.90366130871362,
+      "outputAreaSquareMetres": 184.90366130871362,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097733",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 188.6432798791022,
+      "outputAreaSquareMetres": 188.6432798791022,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097734",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 55.87561604626522,
+      "outputAreaSquareMetres": 55.87561604626522,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097735",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 66.7557836537658,
+      "outputAreaSquareMetres": 66.7557836537658,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097736",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 69.45172402983552,
+      "outputAreaSquareMetres": 69.45172402983552,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097737",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 144.43291804138696,
+      "outputAreaSquareMetres": 144.43291804138696,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097738",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 89.49324362179703,
+      "outputAreaSquareMetres": 89.49324362179703,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097739",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 67.98242309149012,
+      "outputAreaSquareMetres": 67.98242309149012,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097740",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 46.321756835744964,
+      "outputAreaSquareMetres": 46.321756835744964,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097741",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 94.67262481058081,
+      "outputAreaSquareMetres": 94.67262481058081,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097742",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 11273.907706445403,
+      "outputAreaSquareMetres": 11273.907706445401,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097743",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 3465.8361160579307,
+      "outputAreaSquareMetres": 3465.836116057931,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097744",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 6898.54537989535,
+      "outputAreaSquareMetres": 6898.545379895349,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097745",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 2886.9865741192925,
+      "outputAreaSquareMetres": 2886.9865741192925,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097746",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 2894.098596449671,
+      "outputAreaSquareMetres": 2894.0985964496704,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491097747",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 261617.1409545558,
+      "outputAreaSquareMetres": 255607.79940985717,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1491872454",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 45415.25987704424,
+      "outputAreaSquareMetres": 45415.259877044235,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502761593",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 108.45769005962735,
+      "outputAreaSquareMetres": 108.45769005962735,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502761594",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 56.748941063393715,
+      "outputAreaSquareMetres": 56.748941063393715,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502761595",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 135.37245479653433,
+      "outputAreaSquareMetres": 135.37245479653433,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502761596",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 83.31423311145912,
+      "outputAreaSquareMetres": 83.31423311145912,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502761597",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 188.54379339861748,
+      "outputAreaSquareMetres": 188.54379339861748,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502761598",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 65.75931818037581,
+      "outputAreaSquareMetres": 65.75931818037581,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502761599",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 86.59289075390016,
+      "outputAreaSquareMetres": 86.59289075390016,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502761727",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 25655.27906024466,
+      "outputAreaSquareMetres": 25655.27906024466,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502765431",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 157005.79811451666,
+      "outputAreaSquareMetres": 157005.79811451666,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502766440",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 156.53525888767297,
+      "outputAreaSquareMetres": 156.53525888767297,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502766441",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 95.0493767661753,
+      "outputAreaSquareMetres": 95.0493767661753,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502766476",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 1711.220065826401,
+      "outputAreaSquareMetres": 1711.220065826401,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502771005",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 146665.19340837392,
+      "outputAreaSquareMetres": 146665.19340837398,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502771059",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 372.50071330009536,
+      "outputAreaSquareMetres": 372.50071330009536,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502771060",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 31175.45835375964,
+      "outputAreaSquareMetres": 31175.458353759645,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502774290",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 11602.879918102622,
+      "outputAreaSquareMetres": 11602.879918102624,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502774354",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 73258.56328481884,
+      "outputAreaSquareMetres": 73258.5632848189,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502774459",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 74364.35367376186,
+      "outputAreaSquareMetres": 63552.29591368871,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1502774529",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 122038.52228879885,
+      "outputAreaSquareMetres": 122038.52228879882,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1509967063",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 88.5764339789388,
+      "outputAreaSquareMetres": 88.5764339789388,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1509967064",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 54.74182464791839,
+      "outputAreaSquareMetres": 54.74182464791839,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1509967065",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 1664.0647903112708,
+      "outputAreaSquareMetres": 1664.0647903112704,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1509967066",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 55406.54644729493,
+      "outputAreaSquareMetres": 55406.54644729493,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725464",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 812.0236368230944,
+      "outputAreaSquareMetres": 812.0236368230944,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725465",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 237.82031560931853,
+      "outputAreaSquareMetres": 237.82031560931853,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725466",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 457.29247732217556,
+      "outputAreaSquareMetres": 457.29247732217556,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725469",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 156.87079977462338,
+      "outputAreaSquareMetres": 156.87079977462338,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725470",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 79.29286974660637,
+      "outputAreaSquareMetres": 79.29286974660637,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725471",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 130.69617287266894,
+      "outputAreaSquareMetres": 130.69617287266894,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725472",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 174.67441532906633,
+      "outputAreaSquareMetres": 174.67441532906633,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725473",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 186.7087398628908,
+      "outputAreaSquareMetres": 186.7087398628908,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725474",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 183.62201048622896,
+      "outputAreaSquareMetres": 183.62201048622896,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725475",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 148.91236338755925,
+      "outputAreaSquareMetres": 148.91236338755925,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725476",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 96.69262236194129,
+      "outputAreaSquareMetres": 96.69262236194129,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725477",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 80.03732769554603,
+      "outputAreaSquareMetres": 80.03732769554603,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725478",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 80.0438251043555,
+      "outputAreaSquareMetres": 80.0438251043555,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725479",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 141.6526724275286,
+      "outputAreaSquareMetres": 141.6526724275286,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725480",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 114.15331182552882,
+      "outputAreaSquareMetres": 114.15331182552882,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725481",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 70.59850888673522,
+      "outputAreaSquareMetres": 70.59850888673522,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725483",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 120.98189996199227,
+      "outputAreaSquareMetres": 120.98189996199227,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725484",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 183.1234703558778,
+      "outputAreaSquareMetres": 183.1234703558778,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725485",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 139.37405361770126,
+      "outputAreaSquareMetres": 139.37405361770126,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725486",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 57.22569963584908,
+      "outputAreaSquareMetres": 57.22569963584908,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725488",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 45766.23263862666,
+      "outputAreaSquareMetres": 45766.232638626665,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725489",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 11130.472035970937,
+      "outputAreaSquareMetres": 11130.472035970935,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725490",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 15719.123889227796,
+      "outputAreaSquareMetres": 15719.123889227798,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725491",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 22414.157008944676,
+      "outputAreaSquareMetres": 22414.157008944676,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725492",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 14034.707922363086,
+      "outputAreaSquareMetres": 14034.707922363088,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1510725495",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 49183.25271478146,
+      "outputAreaSquareMetres": 49183.25271478146,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1513723684",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 124125.45218230611,
+      "outputAreaSquareMetres": 106255.9754305361,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1526395620",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 5409.229629150532,
+      "outputAreaSquareMetres": 5409.229629150531,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1549573825",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 11371.32738716574,
+      "outputAreaSquareMetres": 11371.327387165742,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1549573826",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 36923.866438295656,
+      "outputAreaSquareMetres": 36923.866438295656,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1551132130",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 150.9912453639784,
+      "outputAreaSquareMetres": 150.9912453639784,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1551132131",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 66.19812636381604,
+      "outputAreaSquareMetres": 66.19812636381604,
+      "intersectionDifferenceSquareMetres": 0.0
+    },
+    {
+      "id": "way/1551132132",
+      "sourceHoles": 0,
+      "outputHoles": 0,
+      "sourceAreaSquareMetres": 75.95857985404731,
+      "outputAreaSquareMetres": 75.95857985404731,
+      "intersectionDifferenceSquareMetres": 0.0
+    }
+  ],
+  "validation": {
+    "allGeometriesValid": true,
+    "allWithinNativeDTM": true,
+    "originalOsmIdsExcluded": true,
+    "completeBuildingsOnly": true,
+    "noBuildingClipping": true,
+    "polygonHolesRetained": true,
+    "completeMultipolygonMemberWaysWithheld": true,
+    "sourceCoordinatesRetained": true,
+    "sourceHashesVerified": true,
+    "contactsAndContributorIdentitiesOmitted": true
+  },
+  "reviewStatus": "automated source/topology review; current orthophoto/field accuracy not approved",
+  "withheldMultipolygonMembers": [],
+  "omitted": [
+    {
+      "id": "node/2149415542",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/8700698367",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/8700698377",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/8700698378",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/9502337953",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/9502337959",
+      "reason": "outside-native-DTM"
+    },
+    {
+      "id": "node/12926591629",
+      "reason": "outside-native-DTM"
+    }
+  ],
+  "limitations": [
+    "Query envelope covers target; OSM completeness is not guaranteed. Bounding-box API can miss ways with no node inside the query.",
+    "Elements matching any ID in the original retained XML are excluded, even if the previous importer omitted that element.",
+    "Database edit timestamps do not establish imagery date, field condition, or geometric accuracy.",
+    "Complete source WGS84 geometry is retained as provenance. Only projected non-building features can clip to the native DTM rectangle.",
+    "Open routes and waterways remain centrelines; no widths, water levels, bridge decks, tree stems or building heights are invented.",
+    "Forest/wood polygons are mapped land cover, not measured canopy or automatic tree-placement permission."
+  ]
+}

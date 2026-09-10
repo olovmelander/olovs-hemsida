@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "reviewedOn": "2026-09-09",
+  "source": "Lantmateriet orto-o2-2025, 2025-05-31, native 0.16 m pixels",
+  "pixelConvention": "Native acquired image pixel-edge coordinates; source rasters remain unaltered in ignored cache",
+  "holes": [
+    {
+      "hole": 6,
+      "windowId": "lidingo-06-tees",
+      "association": "2026 guide relative platform grouping; representative starts not surveyed markers",
+      "platforms": [
+        { "id": "lidingo-tee-06-a-lm2025", "pixels": [[231,219],[241,213],[253,217],[268,230],[280,249],[287,267],[288,280],[280,292],[269,296],[258,290],[248,277],[239,260],[230,242],[226,229]], "note": "Rear white platform northwest of the path bend. Mown perimeter is visible beside the trees; the 2019 model omitted this distinct platform.", "uncertaintyMetres": 1 },
+        { "id": "lidingo-tee-06-b-lm2025", "pixels": [[335,268],[347,262],[360,265],[371,276],[377,289],[377,304],[367,326],[350,347],[332,365],[319,370],[307,365],[298,356],[295,344],[302,324],[313,305],[323,286]], "note": "Long yellow platform southwest of the path bend. Latest turf edge replaces the old diagonal platform shape that crossed its western rough bank.", "uncertaintyMetres": 1 },
+        { "id": "lidingo-tee-06-c-lm2025", "pixels": [[412,383],[429,382],[446,388],[459,401],[466,416],[465,432],[455,446],[439,453],[420,454],[404,447],[393,436],[388,422],[390,405],[399,391]], "note": "Round blue/red platform below the path, before the small pond. Both colour starts share this physical platform in the guide.", "uncertaintyMetres": 1 },
+        { "id": "lidingo-tee-06-d-lm2025", "pixels": [[581,422],[607,445],[588,467],[563,445]], "note": "Small rectangular orange platform between the path and pond. Mowing/sod rectangle is visible independently of the guide.", "uncertaintyMetres": 1 }
+      ],
+      "markers": [
+        { "platformId": "lidingo-tee-06-a-lm2025", "pixel": [252,249] },
+        { "platformId": "lidingo-tee-06-b-lm2025", "pixel": [336,316] },
+        { "platformId": "lidingo-tee-06-c-lm2025", "pixel": [413,409] },
+        { "platformId": "lidingo-tee-06-c-lm2025", "pixel": [439,428] },
+        { "platformId": "lidingo-tee-06-d-lm2025", "pixel": [585,445] }
+      ]
+    },
+    {
+      "hole": 7,
+      "windowId": "lidingo-07-tees",
+      "association": "2026 guide relative platform grouping; representative starts not surveyed markers",
+      "platforms": [
+        { "id": "lidingo-tee-07-a-lm2025", "pixels": [[633,466],[649,465],[671,474],[698,487],[728,501],[756,516],[779,530],[785,543],[777,554],[769,572],[758,585],[741,579],[725,568],[706,565],[682,553],[658,548],[638,541],[619,531],[608,518],[602,503],[604,487],[616,474]], "note": "Long rear platform shared by white/yellow/blue. Bright and shaded turf edges traced from the native image; southern edge near tree shadows has greater uncertainty.", "uncertaintyMetres": 1.5 },
+        { "id": "lidingo-tee-07-b-lm2025", "pixels": [[426,373],[440,372],[460,381],[482,392],[498,404],[506,417],[504,429],[494,437],[481,436],[459,427],[438,416],[419,403],[411,391],[414,380]], "note": "Separate red oval southwest of the paved path. The current source perimeter is tighter than the retained OSM ring.", "uncertaintyMetres": 1 },
+        { "id": "lidingo-tee-07-c-lm2025", "pixels": [[256,323],[297,337],[286,366],[245,351]], "note": "Forward orange rectangular turf/sod platform west of red, clearly bounded in 2025. This was absent from the inherited two-platform model.", "uncertaintyMetres": 1 }
+      ],
+      "markers": [
+        { "platformId": "lidingo-tee-07-a-lm2025", "pixel": [754,550] },
+        { "platformId": "lidingo-tee-07-a-lm2025", "pixel": [702,526] },
+        { "platformId": "lidingo-tee-07-a-lm2025", "pixel": [641,502] },
+        { "platformId": "lidingo-tee-07-b-lm2025", "pixel": [456,403] },
+        { "platformId": "lidingo-tee-07-c-lm2025", "pixel": [271,345] }
+      ]
+    },
+    {
+      "hole": 8,
+      "windowId": "lidingo-08-tees",
+      "association": "2026 guide relative platform grouping; representative starts not surveyed markers. Three rear platforms are partly obscured by trees/shadows; their adopted outlines retain larger interpretation uncertainty.",
+      "platforms": [
+        { "id": "lidingo-tee-08-a-lm2025", "pixels": [[247,647],[269,649],[286,659],[291,671],[282,681],[267,679],[251,672],[240,661]], "note": "Conservative visible mown portion of the separate rear white platform. Tree shadow and canopy obscure the full perimeter, especially its east/south edge; this does not assert the concealed platform extent.", "uncertaintyMetres": 3 },
+        { "id": "lidingo-tee-08-b-lm2025", "pixels": [[410,545],[426,550],[439,560],[444,575],[434,591],[416,608],[396,625],[378,639],[362,648],[348,646],[337,635],[336,622],[342,606],[355,587],[375,568],[395,551]], "note": "Elongated yellow/blue maintained platform. Visible mowing boundary and surface continue through tree shadow; west/south vegetation obscures parts of the edge, so uncertainty exceeds that of open platforms.", "uncertaintyMetres": 2.5 },
+        { "id": "lidingo-tee-08-c-lm2025", "pixels": [[604,414],[616,403],[634,400],[645,411],[649,425],[644,443],[635,458],[621,467],[606,464],[596,451],[593,437],[596,424]], "note": "Conservative visible western turf of the red platform east of the path junction. Dense shadow/canopy conceals its eastern edge; full platform extent remains unresolved and the OSM outline is not promoted to image precision.", "uncertaintyMetres": 3 },
+        { "id": "lidingo-tee-08-d-lm2025", "pixels": [[799,256],[822,282],[794,306],[772,280]], "note": "Clear small rectangular orange platform north of the path bend, west of green7. Sod/mowing boundaries visible in the latest image; newly restored physical platform.", "uncertaintyMetres": 1 }
+      ],
+      "markers": [
+        { "platformId": "lidingo-tee-08-a-lm2025", "pixel": [267,664] },
+        { "platformId": "lidingo-tee-08-b-lm2025", "pixel": [361,626] },
+        { "platformId": "lidingo-tee-08-b-lm2025", "pixel": [411,572] },
+        { "platformId": "lidingo-tee-08-c-lm2025", "pixel": [620,436] },
+        { "platformId": "lidingo-tee-08-d-lm2025", "pixel": [797,281] }
+      ]
+    },
+    {
+      "hole": 9,
+      "windowId": "lidingo-09-tees",
+      "association": "2026 guide relative platform grouping; representative starts not surveyed markers",
+      "platforms": [
+        { "id": "lidingo-tee-09-a-lm2025", "pixels": [[630,398],[649,390],[669,390],[686,396],[696,406],[699,418],[691,432],[676,440],[654,447],[635,450],[621,443],[614,432],[616,418],[622,407]], "note": "Separate rear white platform south of the road and north of the cart path bend. The previous model omitted this physical platform and placed white on the yellow/blue pad.", "uncertaintyMetres": 1 },
+        { "id": "lidingo-tee-09-b-lm2025", "pixels": [[359,252],[369,250],[388,259],[407,273],[428,284],[450,292],[470,304],[478,315],[473,326],[463,332],[449,331],[430,323],[411,310],[392,300],[377,292],[361,280],[351,267],[352,258]], "note": "Long yellow/blue platform below the roadside pavement. The southern edge is partly shaded. Bare patch inside the turf is retained as part of the physical platform, not interpreted as an independent deck.", "uncertaintyMetres": 1.5 },
+        { "id": "lidingo-tee-09-c-lm2025", "pixels": [[257,392],[274,382],[295,378],[313,380],[328,390],[335,405],[332,419],[321,430],[304,441],[285,448],[270,450],[256,445],[246,435],[241,421],[246,405]], "note": "Western forward oval shared by red and orange. Image perimeter follows current maintained turf, with the rough bank excluded.", "uncertaintyMetres": 1 }
+      ],
+      "markers": [
+        { "platformId": "lidingo-tee-09-a-lm2025", "pixel": [655,420] },
+        { "platformId": "lidingo-tee-09-b-lm2025", "pixel": [444,309] },
+        { "platformId": "lidingo-tee-09-b-lm2025", "pixel": [382,275] },
+        { "platformId": "lidingo-tee-09-c-lm2025", "pixel": [303,407] },
+        { "platformId": "lidingo-tee-09-c-lm2025", "pixel": [272,424] }
+      ]
+    }
+  ]
+}

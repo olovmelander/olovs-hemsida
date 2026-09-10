@@ -1,0 +1,3894 @@
+{
+  "schemaVersion": 1,
+  "originEPSG3006": [
+    605530.0,
+    6605140.0
+  ],
+  "originHeightRH2000": 8.0,
+  "raster": {
+    "path": "packages/course-geo/toolchain/.cache/acquisition/angso-terrain-window/terrain-1m.f32",
+    "format": "row-major little-endian Float32, north-up",
+    "bytes": 67141636,
+    "sha256": "7ce336cbca2b1810d43786ce87121f592c8cb21a494fde2625f8bae92d33b64a"
+  },
+  "lattice": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "compoundCrs": "EPSG:5845",
+    "coordinateOrder": [
+      "easting",
+      "northing"
+    ],
+    "sampleSpacingMetres": 1,
+    "width": 4097,
+    "height": 4097,
+    "originEasting": 603617.5,
+    "originNorthing": 6607769.5,
+    "sampleCentreBounds": {
+      "minEasting": 603617.5,
+      "maxEasting": 607713.5,
+      "minNorthing": 6603673.5,
+      "maxNorthing": 6607769.5
+    },
+    "pixelEdgeWindow": {
+      "west": 603617,
+      "north": 6607770,
+      "east": 607714,
+      "south": 6603673
+    }
+  },
+  "features": [
+    {
+      "id": "B01",
+      "kind": "building",
+      "label": "Restaurant main roof envelope",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "club-site-map-B",
+      "notes": "Composite roof edge excluding NW narrow canopy and white terrace. Dark NW and terracotta SE slopes with multiple dormers. Southwest junction is complex; inspect photos and laser before deriving walls. Approximate edge-picking uncertainty 0.5–1.0 m; source absolute accuracy not assessed.",
+      "tracedRingPixels": [
+        [
+          94,
+          269
+        ],
+        [
+          247,
+          153
+        ],
+        [
+          279,
+          189
+        ],
+        [
+          308,
+          195
+        ],
+        [
+          321,
+          228
+        ],
+        [
+          192,
+          320
+        ],
+        [
+          174,
+          299
+        ],
+        [
+          129,
+          330
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605504.96,
+          6605147.04
+        ],
+        [
+          605529.44,
+          6605165.6
+        ],
+        [
+          605534.56,
+          6605159.84
+        ],
+        [
+          605539.2,
+          6605158.88
+        ],
+        [
+          605541.28,
+          6605153.6
+        ],
+        [
+          605520.64,
+          6605138.88
+        ],
+        [
+          605517.76,
+          6605142.24
+        ],
+        [
+          605510.56,
+          6605137.28
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -25.04,
+          7.04
+        ],
+        [
+          -0.56,
+          25.6
+        ],
+        [
+          4.56,
+          19.84
+        ],
+        [
+          9.2,
+          18.88
+        ],
+        [
+          11.28,
+          13.6
+        ],
+        [
+          -9.36,
+          -1.12
+        ],
+        [
+          -12.24,
+          2.24
+        ],
+        [
+          -19.44,
+          -2.72
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -192.933,
+          294.647
+        ],
+        [
+          -167.999,
+          276.791
+        ],
+        [
+          -163.054,
+          282.69
+        ],
+        [
+          -158.453,
+          283.779
+        ],
+        [
+          -156.527,
+          289.113
+        ],
+        [
+          -177.524,
+          303.24
+        ],
+        [
+          -180.302,
+          299.802
+        ],
+        [
+          -187.622,
+          304.555
+        ]
+      ],
+      "areaSquareMetres": 498.68,
+      "heightMetres": null,
+      "nodeName": "B01",
+      "sourceBuildingIds": [
+        "w516709523"
+      ],
+      "groundAnchorLocal": [
+        -173.051923,
+        291.827049
+      ],
+      "groundAnchorRh2000M": 7.962731,
+      "footprintLocal": [
+        [
+          -192.933209,
+          294.646658
+        ],
+        [
+          -167.998688,
+          276.790993
+        ],
+        [
+          -163.054029,
+          282.689702
+        ],
+        [
+          -158.453455,
+          283.779224
+        ],
+        [
+          -156.527162,
+          289.112949
+        ],
+        [
+          -177.524334,
+          303.239853
+        ],
+        [
+          -180.302336,
+          299.801946
+        ],
+        [
+          -187.621993,
+          304.555243
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B02",
+      "kind": "canopy",
+      "label": "Restaurant northwest narrow roof or canopy",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "visible-structure-function-unconfirmed",
+      "notes": "Narrow dark strip beside restaurant NW side; roofing/canopy interpretation requires ground photo. Separate from main envelope to preserve the visible joint.",
+      "tracedRingPixels": [
+        [
+          77,
+          251
+        ],
+        [
+          233,
+          133
+        ],
+        [
+          244,
+          148
+        ],
+        [
+          88,
+          266
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605502.24,
+          6605149.92
+        ],
+        [
+          605527.2,
+          6605168.8
+        ],
+        [
+          605528.96,
+          6605166.4
+        ],
+        [
+          605504.0,
+          6605147.52
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -27.76,
+          9.92
+        ],
+        [
+          -2.8,
+          28.8
+        ],
+        [
+          -1.04,
+          26.4
+        ],
+        [
+          -26.0,
+          7.52
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -195.565,
+          291.693
+        ],
+        [
+          -170.143,
+          273.531
+        ],
+        [
+          -168.455,
+          275.978
+        ],
+        [
+          -193.877,
+          294.14
+        ]
+      ],
+      "areaSquareMetres": 93.13,
+      "heightMetres": null,
+      "nodeName": "B02",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -182.010068,
+        283.8355
+      ],
+      "groundAnchorRh2000M": 7.874563,
+      "footprintLocal": [
+        [
+          -195.565121,
+          291.692828
+        ],
+        [
+          -170.14291,
+          273.530918
+        ],
+        [
+          -168.454958,
+          275.978222
+        ],
+        [
+          -193.877161,
+          294.140121
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B03",
+      "kind": "building",
+      "label": "Reception and club office wing",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "club-site-map-A",
+      "notes": "Detached southwest wing; terracotta gabled roof. Club site map A identifies reception/kansli. Roof edge uncertainty approximately 0.5 m, not wall survey.",
+      "tracedRingPixels": [
+        [
+          185,
+          364
+        ],
+        [
+          224,
+          337
+        ],
+        [
+          282,
+          420
+        ],
+        [
+          243,
+          447
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605519.52,
+          6605131.84
+        ],
+        [
+          605525.76,
+          6605136.16
+        ],
+        [
+          605535.04,
+          6605122.88
+        ],
+        [
+          605528.8,
+          6605118.56
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -10.48,
+          -8.16
+        ],
+        [
+          -4.24,
+          -3.84
+        ],
+        [
+          5.04,
+          -17.12
+        ],
+        [
+          -1.2,
+          -21.44
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -178.839,
+          310.242
+        ],
+        [
+          -172.494,
+          306.101
+        ],
+        [
+          -163.612,
+          319.63
+        ],
+        [
+          -169.956,
+          323.771
+        ]
+      ],
+      "areaSquareMetres": 122.96,
+      "heightMetres": null,
+      "nodeName": "B03",
+      "sourceBuildingIds": [
+        "w516709525"
+      ],
+      "groundAnchorLocal": [
+        -171.225342,
+        314.936105
+      ],
+      "groundAnchorRh2000M": 8.155023,
+      "footprintLocal": [
+        [
+          -178.838738,
+          310.242092
+        ],
+        [
+          -172.494437,
+          306.101269
+        ],
+        [
+          -163.611965,
+          319.630133
+        ],
+        [
+          -169.956252,
+          323.770942
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B04",
+      "kind": "building",
+      "label": "Changing rooms and lodging annex wing",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "club-site-map-I-and-2024-annex-publication",
+      "notes": "Detached southeast wing; roof envelope includes small east projection. Club map I identifies changing rooms; club 2024 newsletter says rooms share annex with changing rooms. Roof dormers visible; exact wall and projection layout needs photo confirmation.",
+      "tracedRingPixels": [
+        [
+          322,
+          256
+        ],
+        [
+          365,
+          226
+        ],
+        [
+          404,
+          280
+        ],
+        [
+          416,
+          287
+        ],
+        [
+          433,
+          308
+        ],
+        [
+          422,
+          322
+        ],
+        [
+          389,
+          344
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605541.44,
+          6605149.12
+        ],
+        [
+          605548.32,
+          6605153.92
+        ],
+        [
+          605554.56,
+          6605145.28
+        ],
+        [
+          605556.48,
+          6605144.16
+        ],
+        [
+          605559.2,
+          6605140.8
+        ],
+        [
+          605557.44,
+          6605138.56
+        ],
+        [
+          605552.16,
+          6605135.04
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          11.44,
+          9.12
+        ],
+        [
+          18.32,
+          13.92
+        ],
+        [
+          24.56,
+          5.28
+        ],
+        [
+          26.48,
+          4.16
+        ],
+        [
+          29.2,
+          0.8
+        ],
+        [
+          27.44,
+          -1.44
+        ],
+        [
+          22.16,
+          -4.96
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -156.493,
+          293.593
+        ],
+        [
+          -149.497,
+          288.991
+        ],
+        [
+          -143.516,
+          297.799
+        ],
+        [
+          -141.633,
+          298.972
+        ],
+        [
+          -139.015,
+          302.405
+        ],
+        [
+          -140.833,
+          304.594
+        ],
+        [
+          -146.197,
+          307.962
+        ]
+      ],
+      "areaSquareMetres": 150.13,
+      "heightMetres": null,
+      "nodeName": "B04",
+      "sourceBuildingIds": [
+        "w516709524"
+      ],
+      "groundAnchorLocal": [
+        -145.312009,
+        299.18795
+      ],
+      "groundAnchorRh2000M": 9.460297,
+      "footprintLocal": [
+        [
+          -156.493255,
+          293.593438
+        ],
+        [
+          -149.497163,
+          288.991067
+        ],
+        [
+          -143.516362,
+          297.798701
+        ],
+        [
+          -141.632963,
+          298.971658
+        ],
+        [
+          -139.014564,
+          302.405097
+        ],
+        [
+          -140.832654,
+          304.593629
+        ],
+        [
+          -146.197142,
+          307.962092
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B04a",
+      "kind": "building",
+      "label": "Annex northwest small roof extension",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "visible-structure-function-unconfirmed",
+      "notes": "Small roof at northwest end of annex; physical connection and function unresolved.",
+      "tracedRingPixels": [
+        [
+          347,
+          218
+        ],
+        [
+          374,
+          198
+        ],
+        [
+          386,
+          215
+        ],
+        [
+          359,
+          235
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605545.44,
+          6605155.2
+        ],
+        [
+          605549.76,
+          6605158.4
+        ],
+        [
+          605551.68,
+          6605155.68
+        ],
+        [
+          605547.36,
+          6605152.48
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          15.44,
+          15.2
+        ],
+        [
+          19.76,
+          18.4
+        ],
+        [
+          21.68,
+          15.68
+        ],
+        [
+          17.36,
+          12.48
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -152.333,
+          287.631
+        ],
+        [
+          -147.935,
+          284.556
+        ],
+        [
+          -146.097,
+          287.327
+        ],
+        [
+          -150.495,
+          290.403
+        ]
+      ],
+      "areaSquareMetres": 17.89,
+      "heightMetres": null,
+      "nodeName": "B04a",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -149.215171,
+        287.479172
+      ],
+      "groundAnchorRh2000M": 8.499757,
+      "footprintLocal": [
+        [
+          -152.333494,
+          287.631279
+        ],
+        [
+          -147.935372,
+          284.555542
+        ],
+        [
+          -146.096848,
+          287.327066
+        ],
+        [
+          -150.494969,
+          290.402801
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B05",
+      "kind": "canopy",
+      "label": "Courtyard southwest canopy",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "visible-canopy-function-unconfirmed",
+      "notes": "Small courtyard roof; keep as open canopy only if photos corroborate. No walls inferred.",
+      "tracedRingPixels": [
+        [
+          246,
+          320
+        ],
+        [
+          270,
+          304
+        ],
+        [
+          300,
+          338
+        ],
+        [
+          277,
+          355
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605529.28,
+          6605138.88
+        ],
+        [
+          605533.12,
+          6605141.44
+        ],
+        [
+          605537.92,
+          6605136.0
+        ],
+        [
+          605534.24,
+          6605133.28
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -0.72,
+          -1.12
+        ],
+        [
+          3.12,
+          1.44
+        ],
+        [
+          7.92,
+          -4.0
+        ],
+        [
+          4.24,
+          -6.72
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -168.908,
+          303.483
+        ],
+        [
+          -165.006,
+          301.033
+        ],
+        [
+          -160.372,
+          306.603
+        ],
+        [
+          -164.118,
+          309.217
+        ]
+      ],
+      "areaSquareMetres": 33.64,
+      "heightMetres": null,
+      "nodeName": "B05",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -164.600935,
+        305.083782
+      ],
+      "groundAnchorRh2000M": 7.833559,
+      "footprintLocal": [
+        [
+          -168.907656,
+          303.482601
+        ],
+        [
+          -165.006221,
+          301.032784
+        ],
+        [
+          -160.371758,
+          306.602792
+        ],
+        [
+          -164.118111,
+          309.216956
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B06",
+      "kind": "canopy",
+      "label": "Courtyard northeast canopy",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "visible-canopy-function-unconfirmed",
+      "notes": "Small courtyard roof. Structure and fascia visible from above; wall enclosure not established.",
+      "tracedRingPixels": [
+        [
+          292,
+          294
+        ],
+        [
+          315,
+          278
+        ],
+        [
+          342,
+          317
+        ],
+        [
+          319,
+          334
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605536.64,
+          6605143.04
+        ],
+        [
+          605540.32,
+          6605145.6
+        ],
+        [
+          605544.64,
+          6605139.36
+        ],
+        [
+          605540.96,
+          6605136.64
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          6.64,
+          3.04
+        ],
+        [
+          10.32,
+          5.6
+        ],
+        [
+          14.64,
+          -0.64
+        ],
+        [
+          10.96,
+          -3.36
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -161.451,
+          299.533
+        ],
+        [
+          -157.709,
+          297.079
+        ],
+        [
+          -153.576,
+          303.435
+        ],
+        [
+          -157.322,
+          306.049
+        ]
+      ],
+      "areaSquareMetres": 34.66,
+      "heightMetres": null,
+      "nodeName": "B06",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -157.51437,
+        301.523838
+      ],
+      "groundAnchorRh2000M": 7.918982,
+      "footprintLocal": [
+        [
+          -161.450843,
+          299.533122
+        ],
+        [
+          -157.708968,
+          297.078817
+        ],
+        [
+          -153.575656,
+          303.43463
+        ],
+        [
+          -157.322016,
+          306.048787
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B07",
+      "kind": "building",
+      "label": "Golf cart shelter",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "club-site-map-H",
+      "notes": "Long narrow red roof north of restaurant; site map H identifies golf carts. April 2025 shape; do not infer closed long sides.",
+      "tracedRingPixels": [
+        [
+          730,
+          639
+        ],
+        [
+          770,
+          652
+        ],
+        [
+          748,
+          731
+        ],
+        [
+          707,
+          718
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605551.68,
+          6605187.84
+        ],
+        [
+          605558.08,
+          6605185.76
+        ],
+        [
+          605554.56,
+          6605173.12
+        ],
+        [
+          605548.0,
+          6605175.2
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          21.68,
+          47.84
+        ],
+        [
+          28.08,
+          45.76
+        ],
+        [
+          24.56,
+          33.12
+        ],
+        [
+          18.0,
+          35.2
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -145.195,
+          255.196
+        ],
+        [
+          -138.87,
+          257.454
+        ],
+        [
+          -142.735,
+          269.984
+        ],
+        [
+          -149.219,
+          267.721
+        ]
+      ],
+      "areaSquareMetres": 89.4,
+      "heightMetres": null,
+      "nodeName": "B07",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -144.004908,
+        262.588597
+      ],
+      "groundAnchorRh2000M": 8.213421,
+      "footprintLocal": [
+        [
+          -145.194675,
+          255.195836
+        ],
+        [
+          -138.870224,
+          257.453842
+        ],
+        [
+          -142.735361,
+          269.983606
+        ],
+        [
+          -149.219363,
+          267.721111
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B08",
+      "kind": "building",
+      "label": "Kiosk and toilets building",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "club-site-map-G",
+      "notes": "Dark roof north of cart shelter. Club site map G identifies kiosk/toilets; adjacent terrace is separate. Tree and roof shadow obscure southwest corner; estimated edge-picking uncertainty 0.7 m.",
+      "tracedRingPixels": [
+        [
+          787,
+          494
+        ],
+        [
+          825,
+          509
+        ],
+        [
+          807,
+          553
+        ],
+        [
+          770,
+          539
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605560.8,
+          6605211.04
+        ],
+        [
+          605566.88,
+          6605208.64
+        ],
+        [
+          605564.0,
+          6605201.6
+        ],
+        [
+          605558.08,
+          6605203.84
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          30.8,
+          71.04
+        ],
+        [
+          36.88,
+          68.64
+        ],
+        [
+          34.0,
+          61.6
+        ],
+        [
+          28.08,
+          63.84
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -135.448,
+          232.273
+        ],
+        [
+          -129.452,
+          234.842
+        ],
+        [
+          -132.522,
+          241.794
+        ],
+        [
+          -138.363,
+          239.39
+        ]
+      ],
+      "areaSquareMetres": 49.22,
+      "heightMetres": null,
+      "nodeName": "B08",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -133.946233,
+        237.074743
+      ],
+      "groundAnchorRh2000M": 8.216861,
+      "footprintLocal": [
+        [
+          -135.44829,
+          232.272908
+        ],
+        [
+          -129.451927,
+          234.84165
+        ],
+        [
+          -132.521722,
+          241.794402
+        ],
+        [
+          -138.362994,
+          239.390018
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B09",
+      "kind": "building",
+      "label": "South courtyard small outbuilding",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "visible-structure-function-unconfirmed",
+      "notes": "Small detached pitched roof south of the courtyard. Function and number of doors unresolved.",
+      "tracedRingPixels": [
+        [
+          367,
+          480
+        ],
+        [
+          386,
+          467
+        ],
+        [
+          422,
+          509
+        ],
+        [
+          401,
+          526
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605548.64,
+          6605113.28
+        ],
+        [
+          605551.68,
+          6605115.36
+        ],
+        [
+          605557.44,
+          6605108.64
+        ],
+        [
+          605554.08,
+          6605105.92
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          18.64,
+          -26.72
+        ],
+        [
+          21.68,
+          -24.64
+        ],
+        [
+          27.44,
+          -31.36
+        ],
+        [
+          24.08,
+          -34.08
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -150.318,
+          329.604
+        ],
+        [
+          -147.228,
+          327.611
+        ],
+        [
+          -141.672,
+          334.487
+        ],
+        [
+          -145.099,
+          337.11
+        ]
+      ],
+      "areaSquareMetres": 35.97,
+      "heightMetres": null,
+      "nodeName": "B09",
+      "sourceBuildingIds": [
+        "w516709522"
+      ],
+      "groundAnchorLocal": [
+        -146.079286,
+        332.202891
+      ],
+      "groundAnchorRh2000M": 8.349377,
+      "footprintLocal": [
+        [
+          -150.318025,
+          329.603708
+        ],
+        [
+          -147.227906,
+          327.610999
+        ],
+        [
+          -141.67201,
+          334.486863
+        ],
+        [
+          -145.099213,
+          337.110002
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B10",
+      "kind": "building",
+      "label": "East courtyard long outbuilding",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "visible-structure-function-unconfirmed",
+      "notes": "Dark elongated roof east of south courtyard. Light wall or equipment row on southwest side; function unconfirmed.",
+      "tracedRingPixels": [
+        [
+          843,
+          1067
+        ],
+        [
+          945,
+          1112
+        ],
+        [
+          932,
+          1144
+        ],
+        [
+          829,
+          1101
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605569.76,
+          6605119.36
+        ],
+        [
+          605586.08,
+          6605112.16
+        ],
+        [
+          605584.0,
+          6605107.04
+        ],
+        [
+          605567.52,
+          6605113.92
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          39.76,
+          -20.64
+        ],
+        [
+          56.08,
+          -27.84
+        ],
+        [
+          54.0,
+          -32.96
+        ],
+        [
+          37.52,
+          -26.08
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -129.085,
+          324.123
+        ],
+        [
+          -113.011,
+          331.775
+        ],
+        [
+          -115.229,
+          336.832
+        ],
+        [
+          -131.471,
+          329.495
+        ]
+      ],
+      "areaSquareMetres": 101.8,
+      "heightMetres": null,
+      "nodeName": "B10",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -122.198844,
+        330.556141
+      ],
+      "groundAnchorRh2000M": 9.337765,
+      "footprintLocal": [
+        [
+          -129.084607,
+          324.122716
+        ],
+        [
+          -113.010796,
+          331.775023
+        ],
+        [
+          -115.228832,
+          336.83197
+        ],
+        [
+          -131.471171,
+          329.494889
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B11",
+      "kind": "building",
+      "label": "Small roof beside putting green east path",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "visible-structure-function-unconfirmed",
+      "notes": "Tiny red roof next to east practice path; not assigned toilet/utility function without evidence.",
+      "tracedRingPixels": [
+        [
+          1148,
+          1276
+        ],
+        [
+          1170,
+          1282
+        ],
+        [
+          1162,
+          1310
+        ],
+        [
+          1139,
+          1303
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605618.56,
+          6605085.92
+        ],
+        [
+          605622.08,
+          6605084.96
+        ],
+        [
+          605620.8,
+          6605080.48
+        ],
+        [
+          605617.12,
+          6605081.6
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          88.56,
+          -54.08
+        ],
+        [
+          92.08,
+          -55.04
+        ],
+        [
+          90.8,
+          -59.52
+        ],
+        [
+          87.12,
+          -58.4
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -81.355,
+          358.905
+        ],
+        [
+          -77.872,
+          359.963
+        ],
+        [
+          -79.274,
+          364.403
+        ],
+        [
+          -82.913,
+          363.18
+        ]
+      ],
+      "areaSquareMetres": 17.25,
+      "heightMetres": null,
+      "nodeName": "B11",
+      "sourceBuildingIds": [
+        "w516709521"
+      ],
+      "groundAnchorLocal": [
+        -80.353433,
+        361.612715
+      ],
+      "groundAnchorRh2000M": 6.120742,
+      "footprintLocal": [
+        [
+          -81.355276,
+          358.904744
+        ],
+        [
+          -77.87178,
+          359.962869
+        ],
+        [
+          -79.274055,
+          364.402864
+        ],
+        [
+          -82.912622,
+          363.180384
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B12",
+      "kind": "building",
+      "label": "Driving range covered shelter, April 2025",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "club-site-map-E-and-orthophoto",
+      "notes": "Long rectangular roof south of putting green at east end of range mat strip. April 2025 roof predates studio and covered range plans announced December 2025; current built condition unverified.",
+      "tracedRingPixels": [
+        [
+          849,
+          1410
+        ],
+        [
+          972,
+          1460
+        ],
+        [
+          955,
+          1501
+        ],
+        [
+          833,
+          1450
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605570.72,
+          6605064.48
+        ],
+        [
+          605590.4,
+          6605056.48
+        ],
+        [
+          605587.68,
+          6605049.92
+        ],
+        [
+          605568.16,
+          6605058.08
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          40.72,
+          -75.52
+        ],
+        [
+          60.4,
+          -83.52
+        ],
+        [
+          57.68,
+          -90.08
+        ],
+        [
+          38.16,
+          -81.92
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -129.667,
+          378.981
+        ],
+        [
+          -110.265,
+          387.527
+        ],
+        [
+          -113.162,
+          394.004
+        ],
+        [
+          -132.4,
+          385.303
+        ]
+      ],
+      "areaSquareMetres": 148.34,
+      "heightMetres": null,
+      "nodeName": "B12",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -121.373247,
+        386.453607
+      ],
+      "groundAnchorRh2000M": 6.308386,
+      "footprintLocal": [
+        [
+          -129.666934,
+          378.980601
+        ],
+        [
+          -110.26495,
+          387.526644
+        ],
+        [
+          -113.16162,
+          394.004309
+        ],
+        [
+          -132.399524,
+          385.302923
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "B13",
+      "kind": "building",
+      "label": "Northern service-area large roof",
+      "sourcePanel": "northern-service-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "visible-structure-use-unconfirmed",
+      "notes": "Large bright southeast roof slope and dark northwest slope. Yard/equipment visible; maintenance use is plausible but not established by orthophoto. Minor roof perspective/orthorectification displacement expected; not wall footprint.",
+      "tracedRingPixels": [
+        [
+          405,
+          418
+        ],
+        [
+          650,
+          426
+        ],
+        [
+          663,
+          479
+        ],
+        [
+          650,
+          532
+        ],
+        [
+          398,
+          526
+        ]
+      ],
+      "sourceImageSha256": "061d562ab7ac355f2fdf126f12b5329a317b5ac0a6c733417dee501e65cdf6eb",
+      "ringEPSG3006": [
+        [
+          605604.8,
+          6606143.2
+        ],
+        [
+          605644.0,
+          6606141.92
+        ],
+        [
+          605646.08,
+          6606133.44
+        ],
+        [
+          605644.0,
+          6606124.96
+        ],
+        [
+          605603.68,
+          6606125.92
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          74.8,
+          1003.2
+        ],
+        [
+          114.0,
+          1001.92
+        ],
+        [
+          116.08,
+          993.44
+        ],
+        [
+          114.0,
+          984.96
+        ],
+        [
+          73.68,
+          985.92
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -65.395,
+          -697.815
+        ],
+        [
+          -26.327,
+          -695.433
+        ],
+        [
+          -24.49,
+          -686.902
+        ],
+        [
+          -26.803,
+          -678.489
+        ],
+        [
+          -66.998,
+          -680.582
+        ]
+      ],
+      "areaSquareMetres": 698.96,
+      "heightMetres": null,
+      "nodeName": "B13",
+      "sourceBuildingIds": [
+        "w517780252"
+      ],
+      "groundAnchorLocal": [
+        -42.002602,
+        -687.844316
+      ],
+      "groundAnchorRh2000M": 12.571984,
+      "footprintLocal": [
+        [
+          -65.395303,
+          -697.814988
+        ],
+        [
+          -26.326698,
+          -695.433351
+        ],
+        [
+          -24.490006,
+          -686.902432
+        ],
+        [
+          -26.803173,
+          -678.488566
+        ],
+        [
+          -66.997857,
+          -680.581985
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "N01",
+      "kind": "building",
+      "label": "Northern neighbouring building, west of road-side group",
+      "sourcePanel": "northern-neighbours-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "neighbour-ownership-and-use-unconfirmed",
+      "notes": "Independent nearby roof; inclusion gives course-side context, not evidence of golf-club ownership.",
+      "tracedRingPixels": [
+        [
+          248,
+          867
+        ],
+        [
+          319,
+          869
+        ],
+        [
+          326,
+          901
+        ],
+        [
+          315,
+          934
+        ],
+        [
+          244,
+          932
+        ]
+      ],
+      "sourceImageSha256": "c90be4c6a4859faf75f97a40cdd91cc309d7b29cbc85608a662b7d40b53e7eba",
+      "ringEPSG3006": [
+        [
+          605704.64,
+          6606191.36
+        ],
+        [
+          605716.0,
+          6606191.04
+        ],
+        [
+          605717.12,
+          6606185.92
+        ],
+        [
+          605715.36,
+          6606180.64
+        ],
+        [
+          605704.0,
+          6606180.96
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          174.64,
+          1051.36
+        ],
+        [
+          186.0,
+          1051.04
+        ],
+        [
+          187.12,
+          1045.92
+        ],
+        [
+          185.36,
+          1040.64
+        ],
+        [
+          174.0,
+          1040.96
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          35.555,
+          -743.122
+        ],
+        [
+          46.879,
+          -742.483
+        ],
+        [
+          47.852,
+          -737.336
+        ],
+        [
+          45.948,
+          -732.11
+        ],
+        [
+          34.625,
+          -732.75
+        ]
+      ],
+      "areaSquareMetres": 125.81,
+      "heightMetres": null,
+      "nodeName": "N01",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        42.171815,
+        -737.560042
+      ],
+      "groundAnchorRh2000M": 13.436099,
+      "footprintLocal": [
+        [
+          35.555389,
+          -743.122219
+        ],
+        [
+          46.878864,
+          -742.482658
+        ],
+        [
+          47.852204,
+          -737.335719
+        ],
+        [
+          45.948031,
+          -732.110017
+        ],
+        [
+          34.624587,
+          -732.749574
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "N02",
+      "kind": "building",
+      "label": "Northern neighbouring building, north",
+      "sourcePanel": "northern-neighbours-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "neighbour-ownership-and-use-unconfirmed",
+      "notes": "Dark rectangular roof, visible chimney. Ownership and function unconfirmed.",
+      "tracedRingPixels": [
+        [
+          632,
+          472
+        ],
+        [
+          695,
+          460
+        ],
+        [
+          716,
+          565
+        ],
+        [
+          650,
+          581
+        ]
+      ],
+      "sourceImageSha256": "c90be4c6a4859faf75f97a40cdd91cc309d7b29cbc85608a662b7d40b53e7eba",
+      "ringEPSG3006": [
+        [
+          605766.08,
+          6606254.56
+        ],
+        [
+          605776.16,
+          6606256.48
+        ],
+        [
+          605779.52,
+          6606239.68
+        ],
+        [
+          605768.96,
+          6606237.12
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          236.08,
+          1114.56
+        ],
+        [
+          246.16,
+          1116.48
+        ],
+        [
+          249.52,
+          1099.68
+        ],
+        [
+          238.96,
+          1097.12
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          98.624,
+          -804.535
+        ],
+        [
+          108.734,
+          -806.169
+        ],
+        [
+          111.613,
+          -789.29
+        ],
+        [
+          101.007,
+          -787.03
+        ]
+      ],
+      "areaSquareMetres": 183.67,
+      "heightMetres": null,
+      "nodeName": "N02",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        104.994485,
+        -796.756038
+      ],
+      "groundAnchorRh2000M": 9.898289,
+      "footprintLocal": [
+        [
+          98.624164,
+          -804.535144
+        ],
+        [
+          108.733908,
+          -806.16944
+        ],
+        [
+          111.613202,
+          -789.289872
+        ],
+        [
+          101.006658,
+          -787.029681
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "N03",
+      "kind": "building",
+      "label": "Northern neighbouring building, east",
+      "sourcePanel": "northern-neighbours-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "neighbour-ownership-and-use-unconfirmed",
+      "notes": "Roof projected outline; raised-roof perspective means silhouette differs from base.",
+      "tracedRingPixels": [
+        [
+          801,
+          575
+        ],
+        [
+          870,
+          563
+        ],
+        [
+          885,
+          590
+        ],
+        [
+          881,
+          621
+        ],
+        [
+          817,
+          635
+        ]
+      ],
+      "sourceImageSha256": "c90be4c6a4859faf75f97a40cdd91cc309d7b29cbc85608a662b7d40b53e7eba",
+      "ringEPSG3006": [
+        [
+          605793.12,
+          6606238.08
+        ],
+        [
+          605804.16,
+          6606240.0
+        ],
+        [
+          605806.56,
+          6606235.68
+        ],
+        [
+          605805.92,
+          6606230.72
+        ],
+        [
+          605795.68,
+          6606228.48
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          263.12,
+          1098.08
+        ],
+        [
+          274.16,
+          1100.0
+        ],
+        [
+          276.56,
+          1095.68
+        ],
+        [
+          275.92,
+          1090.72
+        ],
+        [
+          265.68,
+          1088.48
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          125.135,
+          -787.308
+        ],
+        [
+          136.203,
+          -788.915
+        ],
+        [
+          138.475,
+          -784.532
+        ],
+        [
+          137.697,
+          -779.594
+        ],
+        [
+          127.419,
+          -777.645
+        ]
+      ],
+      "areaSquareMetres": 112.27,
+      "heightMetres": null,
+      "nodeName": "N03",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        132.98602,
+        -783.598716
+      ],
+      "groundAnchorRh2000M": 9.210691,
+      "footprintLocal": [
+        [
+          125.135385,
+          -787.308112
+        ],
+        [
+          136.202778,
+          -788.915284
+        ],
+        [
+          138.475429,
+          -784.531532
+        ],
+        [
+          137.697405,
+          -779.594027
+        ],
+        [
+          127.419104,
+          -777.644604
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "N04",
+      "kind": "building",
+      "label": "Northern neighbouring building, south",
+      "sourcePanel": "northern-neighbours-native",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "identificationStatus": "neighbour-ownership-and-use-unconfirmed",
+      "notes": "Detached dark roof; no golf-club use established.",
+      "tracedRingPixels": [
+        [
+          682,
+          699
+        ],
+        [
+          744,
+          686
+        ],
+        [
+          766,
+          790
+        ],
+        [
+          704,
+          804
+        ]
+      ],
+      "sourceImageSha256": "c90be4c6a4859faf75f97a40cdd91cc309d7b29cbc85608a662b7d40b53e7eba",
+      "ringEPSG3006": [
+        [
+          605774.08,
+          6606218.24
+        ],
+        [
+          605784.0,
+          6606220.32
+        ],
+        [
+          605787.52,
+          6606203.68
+        ],
+        [
+          605777.6,
+          6606201.44
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          244.08,
+          1078.24
+        ],
+        [
+          254.0,
+          1080.32
+        ],
+        [
+          257.52,
+          1063.68
+        ],
+        [
+          247.6,
+          1061.44
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          105.583,
+          -768.022
+        ],
+        [
+          115.538,
+          -769.821
+        ],
+        [
+          118.581,
+          -753.097
+        ],
+        [
+          108.622,
+          -751.138
+        ]
+      ],
+      "areaSquareMetres": 173.47,
+      "heightMetres": null,
+      "nodeName": "N04",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        112.081041,
+        -760.519654
+      ],
+      "groundAnchorRh2000M": 9.757723,
+      "footprintLocal": [
+        [
+          105.58321,
+          -768.022403
+        ],
+        [
+          115.537746,
+          -769.821046
+        ],
+        [
+          118.581097,
+          -753.096821
+        ],
+        [
+          108.622104,
+          -751.13833
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true
+    },
+    {
+      "id": "S01",
+      "kind": "site",
+      "label": "North parking and motorhome hardstanding",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-surface-edge",
+      "identificationStatus": "club-site-map-C-D",
+      "notes": "Visible contiguous hardstanding; plot numbers and present occupancy must come from site map. April 2025 photo visibly has fewer occupied pads; edge under parked cars uncertain by 1–2 m.",
+      "tracedRingPixels": [
+        [
+          206,
+          271
+        ],
+        [
+          242,
+          239
+        ],
+        [
+          282,
+          266
+        ],
+        [
+          302,
+          300
+        ],
+        [
+          308,
+          497
+        ],
+        [
+          342,
+          562
+        ],
+        [
+          381,
+          592
+        ],
+        [
+          409,
+          768
+        ],
+        [
+          390,
+          819
+        ],
+        [
+          374,
+          869
+        ],
+        [
+          389,
+          951
+        ],
+        [
+          210,
+          967
+        ],
+        [
+          179,
+          840
+        ],
+        [
+          179,
+          581
+        ],
+        [
+          166,
+          362
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605467.84,
+          6605246.72
+        ],
+        [
+          605473.6,
+          6605251.84
+        ],
+        [
+          605480.0,
+          6605247.52
+        ],
+        [
+          605483.2,
+          6605242.08
+        ],
+        [
+          605484.16,
+          6605210.56
+        ],
+        [
+          605489.6,
+          6605200.16
+        ],
+        [
+          605495.84,
+          6605195.36
+        ],
+        [
+          605500.32,
+          6605167.2
+        ],
+        [
+          605497.28,
+          6605159.04
+        ],
+        [
+          605494.72,
+          6605151.04
+        ],
+        [
+          605497.12,
+          6605137.92
+        ],
+        [
+          605468.48,
+          6605135.36
+        ],
+        [
+          605463.52,
+          6605155.68
+        ],
+        [
+          605463.52,
+          6605197.12
+        ],
+        [
+          605461.44,
+          6605232.16
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -62.16,
+          106.72
+        ],
+        [
+          -56.4,
+          111.84
+        ],
+        [
+          -50.0,
+          107.52
+        ],
+        [
+          -46.8,
+          102.08
+        ],
+        [
+          -45.84,
+          70.56
+        ],
+        [
+          -40.4,
+          60.16
+        ],
+        [
+          -34.16,
+          55.36
+        ],
+        [
+          -29.68,
+          27.2
+        ],
+        [
+          -32.72,
+          19.04
+        ],
+        [
+          -35.28,
+          11.04
+        ],
+        [
+          -32.88,
+          -2.08
+        ],
+        [
+          -61.52,
+          -4.64
+        ],
+        [
+          -66.48,
+          15.68
+        ],
+        [
+          -66.48,
+          57.12
+        ],
+        [
+          -68.56,
+          92.16
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -227.159,
+          194.013
+        ],
+        [
+          -221.271,
+          189.06
+        ],
+        [
+          -215.009,
+          193.555
+        ],
+        [
+          -211.97,
+          199.08
+        ],
+        [
+          -211.896,
+          230.599
+        ],
+        [
+          -206.763,
+          241.143
+        ],
+        [
+          -200.674,
+          246.114
+        ],
+        [
+          -196.995,
+          274.374
+        ],
+        [
+          -200.256,
+          282.442
+        ],
+        [
+          -203.033,
+          290.363
+        ],
+        [
+          -201.008,
+          303.538
+        ],
+        [
+          -229.642,
+          305.292
+        ],
+        [
+          -234.019,
+          284.851
+        ],
+        [
+          -232.858,
+          243.448
+        ],
+        [
+          -233.95,
+          208.38
+        ]
+      ],
+      "areaSquareMetres": 3102.53,
+      "heightMetres": null,
+      "nodeName": "S01",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -215.100207,
+        245.750067
+      ],
+      "groundAnchorRh2000M": 6.966396,
+      "footprintLocal": [
+        [
+          -227.159002,
+          194.013215
+        ],
+        [
+          -221.270849,
+          189.059547
+        ],
+        [
+          -215.009038,
+          193.555423
+        ],
+        [
+          -211.970096,
+          199.080432
+        ],
+        [
+          -211.896345,
+          230.599215
+        ],
+        [
+          -206.762505,
+          241.142707
+        ],
+        [
+          -200.673827,
+          246.113683
+        ],
+        [
+          -196.995434,
+          274.374345
+        ],
+        [
+          -200.256044,
+          282.441659
+        ],
+        [
+          -203.033447,
+          290.362601
+        ],
+        [
+          -201.007771,
+          303.538284
+        ],
+        [
+          -229.642234,
+          305.291655
+        ],
+        [
+          -234.019301,
+          284.850537
+        ],
+        [
+          -232.857764,
+          243.447573
+        ],
+        [
+          -233.950032,
+          208.380484
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false,
+      "sourceParkingIndices": [
+        2
+      ],
+      "sourceParkingRingsLocal": [
+        {
+          "index": 2,
+          "ring": [
+            [
+              -235,
+              196
+            ],
+            [
+              -203,
+              200
+            ],
+            [
+              -202,
+              297
+            ],
+            [
+              -235,
+              305
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "kind": "site",
+      "label": "South parking hardstanding",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-surface-edge",
+      "identificationStatus": "club-site-map-C",
+      "notes": "Asphalt/gravel parking surface outline, excluding road; internal painted bays and obstructions require separate observation.",
+      "tracedRingPixels": [
+        [
+          208,
+          966
+        ],
+        [
+          389,
+          951
+        ],
+        [
+          409,
+          1000
+        ],
+        [
+          410,
+          1209
+        ],
+        [
+          385,
+          1243
+        ],
+        [
+          252,
+          1249
+        ],
+        [
+          214,
+          1280
+        ],
+        [
+          173,
+          1221
+        ],
+        [
+          195,
+          1123
+        ],
+        [
+          216,
+          1045
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605468.16,
+          6605135.52
+        ],
+        [
+          605497.12,
+          6605137.92
+        ],
+        [
+          605500.32,
+          6605130.08
+        ],
+        [
+          605500.48,
+          6605096.64
+        ],
+        [
+          605496.48,
+          6605091.2
+        ],
+        [
+          605475.2,
+          6605090.24
+        ],
+        [
+          605469.12,
+          6605085.28
+        ],
+        [
+          605462.56,
+          6605094.72
+        ],
+        [
+          605466.08,
+          6605110.4
+        ],
+        [
+          605469.44,
+          6605122.88
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -61.84,
+          -4.48
+        ],
+        [
+          -32.88,
+          -2.08
+        ],
+        [
+          -29.68,
+          -9.92
+        ],
+        [
+          -29.52,
+          -43.36
+        ],
+        [
+          -33.52,
+          -48.8
+        ],
+        [
+          -54.8,
+          -49.76
+        ],
+        [
+          -60.88,
+          -54.72
+        ],
+        [
+          -67.44,
+          -45.28
+        ],
+        [
+          -63.92,
+          -29.6
+        ],
+        [
+          -60.56,
+          -17.12
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -229.957,
+          305.123
+        ],
+        [
+          -201.008,
+          303.538
+        ],
+        [
+          -198.036,
+          311.461
+        ],
+        [
+          -198.814,
+          344.876
+        ],
+        [
+          -202.956,
+          350.199
+        ],
+        [
+          -224.205,
+          350.56
+        ],
+        [
+          -230.408,
+          355.345
+        ],
+        [
+          -236.685,
+          345.729
+        ],
+        [
+          -232.735,
+          330.162
+        ],
+        [
+          -229.035,
+          317.787
+        ]
+      ],
+      "areaSquareMetres": 1563.71,
+      "heightMetres": null,
+      "nodeName": "S02",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -218.383937,
+        331.477967
+      ],
+      "groundAnchorRh2000M": 6.489019,
+      "footprintLocal": [
+        [
+          -229.956886,
+          305.122812
+        ],
+        [
+          -201.007771,
+          303.538284
+        ],
+        [
+          -198.036228,
+          311.461159
+        ],
+        [
+          -198.814253,
+          344.875758
+        ],
+        [
+          -202.955932,
+          350.198542
+        ],
+        [
+          -224.205147,
+          350.560038
+        ],
+        [
+          -230.407688,
+          355.344872
+        ],
+        [
+          -236.685314,
+          345.729106
+        ],
+        [
+          -232.735363,
+          330.161956
+        ],
+        [
+          -229.034641,
+          317.787459
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false,
+      "sourceParkingIndices": [
+        3
+      ],
+      "sourceParkingRingsLocal": [
+        {
+          "index": 3,
+          "ring": [
+            [
+              -230,
+              308
+            ],
+            [
+              -200,
+              308
+            ],
+            [
+              -200,
+              349
+            ],
+            [
+              -230,
+              349
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "kind": "site",
+      "label": "Putting green south of courtyard",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-turf-edge",
+      "identificationStatus": "club-site-map-F",
+      "notes": "Visible maintained turf extent in April 2025. Not an official play boundary; shadows and seasonal colour give edge-picking uncertainty of several pixels.",
+      "tracedRingPixels": [
+        [
+          465,
+          1192
+        ],
+        [
+          490,
+          1163
+        ],
+        [
+          540,
+          1183
+        ],
+        [
+          595,
+          1207
+        ],
+        [
+          636,
+          1238
+        ],
+        [
+          697,
+          1223
+        ],
+        [
+          743,
+          1234
+        ],
+        [
+          779,
+          1270
+        ],
+        [
+          769,
+          1310
+        ],
+        [
+          735,
+          1330
+        ],
+        [
+          663,
+          1334
+        ],
+        [
+          580,
+          1321
+        ],
+        [
+          523,
+          1300
+        ],
+        [
+          488,
+          1262
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605509.28,
+          6605099.36
+        ],
+        [
+          605513.28,
+          6605104.0
+        ],
+        [
+          605521.28,
+          6605100.8
+        ],
+        [
+          605530.08,
+          6605096.96
+        ],
+        [
+          605536.64,
+          6605092.0
+        ],
+        [
+          605546.4,
+          6605094.4
+        ],
+        [
+          605553.76,
+          6605092.64
+        ],
+        [
+          605559.52,
+          6605086.88
+        ],
+        [
+          605557.92,
+          6605080.48
+        ],
+        [
+          605552.48,
+          6605077.28
+        ],
+        [
+          605540.96,
+          6605076.64
+        ],
+        [
+          605527.68,
+          6605078.72
+        ],
+        [
+          605518.56,
+          6605082.08
+        ],
+        [
+          605512.96,
+          6605088.16
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -20.72,
+          -40.64
+        ],
+        [
+          -16.72,
+          -36.0
+        ],
+        [
+          -8.72,
+          -39.2
+        ],
+        [
+          0.08,
+          -43.04
+        ],
+        [
+          6.64,
+          -48.0
+        ],
+        [
+          16.4,
+          -45.6
+        ],
+        [
+          23.76,
+          -47.36
+        ],
+        [
+          29.52,
+          -53.12
+        ],
+        [
+          27.92,
+          -59.52
+        ],
+        [
+          22.48,
+          -62.72
+        ],
+        [
+          10.96,
+          -63.36
+        ],
+        [
+          -2.32,
+          -61.28
+        ],
+        [
+          -11.44,
+          -57.92
+        ],
+        [
+          -17.04,
+          -51.84
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -189.962,
+          342.405
+        ],
+        [
+          -185.843,
+          337.882
+        ],
+        [
+          -177.954,
+          341.304
+        ],
+        [
+          -169.286,
+          345.388
+        ],
+        [
+          -162.882,
+          350.527
+        ],
+        [
+          -153.082,
+          348.404
+        ],
+        [
+          -145.791,
+          350.369
+        ],
+        [
+          -140.208,
+          356.286
+        ],
+        [
+          -141.983,
+          362.635
+        ],
+        [
+          -147.498,
+          365.679
+        ],
+        [
+          -159.005,
+          365.995
+        ],
+        [
+          -172.191,
+          363.544
+        ],
+        [
+          -181.192,
+          359.931
+        ],
+        [
+          -186.606,
+          353.699
+        ]
+      ],
+      "areaSquareMetres": 794.69,
+      "heightMetres": null,
+      "nodeName": "S03",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -165.248638,
+        353.146241
+      ],
+      "groundAnchorRh2000M": 7.789826,
+      "footprintLocal": [
+        [
+          -189.961833,
+          342.405382
+        ],
+        [
+          -185.84256,
+          337.881897
+        ],
+        [
+          -177.953965,
+          341.303783
+        ],
+        [
+          -169.285503,
+          345.38759
+        ],
+        [
+          -162.882399,
+          350.527474
+        ],
+        [
+          -153.081548,
+          348.403874
+        ],
+        [
+          -145.790876,
+          350.36913
+        ],
+        [
+          -140.208085,
+          356.285855
+        ],
+        [
+          -141.983281,
+          362.635163
+        ],
+        [
+          -147.498273,
+          365.679419
+        ],
+        [
+          -159.004936,
+          365.995124
+        ],
+        [
+          -172.190536,
+          363.543848
+        ],
+        [
+          -181.191551,
+          359.930629
+        ],
+        [
+          -186.605863,
+          353.698746
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false
+    },
+    {
+      "id": "S04",
+      "kind": "site",
+      "label": "Driving range mat strip, April 2025",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-surface-edge",
+      "identificationStatus": "club-site-map-E-and-orthophoto",
+      "notes": "Continuous range hitting strip. Individual rectangular pads are visible; topology and covered studio plan may have changed after December 2025.",
+      "tracedRingPixels": [
+        [
+          496,
+          1345
+        ],
+        [
+          568,
+          1351
+        ],
+        [
+          648,
+          1366
+        ],
+        [
+          731,
+          1386
+        ],
+        [
+          815,
+          1413
+        ],
+        [
+          805,
+          1442
+        ],
+        [
+          726,
+          1415
+        ],
+        [
+          641,
+          1397
+        ],
+        [
+          558,
+          1381
+        ],
+        [
+          493,
+          1374
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605514.24,
+          6605074.88
+        ],
+        [
+          605525.76,
+          6605073.92
+        ],
+        [
+          605538.56,
+          6605071.52
+        ],
+        [
+          605551.84,
+          6605068.32
+        ],
+        [
+          605565.28,
+          6605064.0
+        ],
+        [
+          605563.68,
+          6605059.36
+        ],
+        [
+          605551.04,
+          6605063.68
+        ],
+        [
+          605537.44,
+          6605066.56
+        ],
+        [
+          605524.16,
+          6605069.12
+        ],
+        [
+          605513.76,
+          6605070.24
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -15.76,
+          -65.12
+        ],
+        [
+          -4.24,
+          -66.08
+        ],
+        [
+          8.56,
+          -68.48
+        ],
+        [
+          21.84,
+          -71.68
+        ],
+        [
+          35.28,
+          -76.0
+        ],
+        [
+          33.68,
+          -80.64
+        ],
+        [
+          21.04,
+          -76.32
+        ],
+        [
+          7.44,
+          -73.44
+        ],
+        [
+          -5.84,
+          -70.88
+        ],
+        [
+          -16.24,
+          -69.76
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -185.702,
+          367.003
+        ],
+        [
+          -174.24,
+          368.286
+        ],
+        [
+          -161.542,
+          371.043
+        ],
+        [
+          -148.388,
+          374.613
+        ],
+        [
+          -135.106,
+          379.307
+        ],
+        [
+          -136.831,
+          383.898
+        ],
+        [
+          -149.316,
+          379.227
+        ],
+        [
+          -162.798,
+          375.967
+        ],
+        [
+          -175.97,
+          373.036
+        ],
+        [
+          -186.311,
+          371.625
+        ]
+      ],
+      "areaSquareMetres": 252.94,
+      "heightMetres": null,
+      "nodeName": "S04",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -161.620303,
+        374.400553
+      ],
+      "groundAnchorRh2000M": 6.567982,
+      "footprintLocal": [
+        [
+          -185.701722,
+          367.00283
+        ],
+        [
+          -174.239934,
+          368.285612
+        ],
+        [
+          -161.542021,
+          371.043108
+        ],
+        [
+          -148.387872,
+          374.61342
+        ],
+        [
+          -135.105604,
+          379.307273
+        ],
+        [
+          -136.831423,
+          383.898153
+        ],
+        [
+          -149.315852,
+          379.226788
+        ],
+        [
+          -162.798091,
+          375.967202
+        ],
+        [
+          -175.970197,
+          373.036368
+        ],
+        [
+          -186.310528,
+          371.625198
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false
+    },
+    {
+      "id": "S05",
+      "kind": "site",
+      "label": "Kiosk southwest terrace",
+      "sourcePanel": "campus-native",
+      "geometryStatus": "image-interpreted-surface-edge",
+      "identificationStatus": "terrace-location-provisional",
+      "notes": "Narrow platform immediately southwest of kiosk roof, partly tree-shadow obscured. Needs ground photograph before modelling supports/railings.",
+      "tracedRingPixels": [
+        [
+          781,
+          493
+        ],
+        [
+          789,
+          496
+        ],
+        [
+          770,
+          539
+        ],
+        [
+          758,
+          534
+        ]
+      ],
+      "sourceImageSha256": "1a497c0d0f08d2748fd796e521c07eea20e389abc62b322e5ac0bac203458b60",
+      "ringEPSG3006": [
+        [
+          605559.84,
+          6605211.2
+        ],
+        [
+          605561.12,
+          6605210.72
+        ],
+        [
+          605558.08,
+          6605203.84
+        ],
+        [
+          605556.16,
+          6605204.64
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          29.84,
+          71.2
+        ],
+        [
+          31.12,
+          70.72
+        ],
+        [
+          28.08,
+          63.84
+        ],
+        [
+          26.16,
+          64.64
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -136.401,
+          232.086
+        ],
+        [
+          -135.138,
+          232.602
+        ],
+        [
+          -138.363,
+          239.39
+        ],
+        [
+          -140.255,
+          238.537
+        ]
+      ],
+      "areaSquareMetres": 12.9,
+      "heightMetres": null,
+      "nodeName": "S05",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -137.539438,
+        235.653618
+      ],
+      "groundAnchorRh2000M": 8.098199,
+      "footprintLocal": [
+        [
+          -136.401227,
+          232.086069
+        ],
+        [
+          -135.138125,
+          232.601615
+        ],
+        [
+          -138.362994,
+          239.390018
+        ],
+        [
+          -140.2554,
+          238.536773
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false
+    },
+    {
+      "id": "S06",
+      "kind": "site",
+      "label": "Restaurant northwest terrace",
+      "sourcePanel": "clubhouse-detail",
+      "geometryStatus": "image-interpreted-surface-edge",
+      "identificationStatus": "visible-deck-paving-provisional",
+      "notes": "Bright platform around southwest/northwest end of main building, excluding canopy. Extent partially hidden by roof; approximate image boundary, not measured deck elevation.",
+      "tracedRingPixels": [
+        [
+          52,
+          258
+        ],
+        [
+          77,
+          239
+        ],
+        [
+          85,
+          252
+        ],
+        [
+          94,
+          270
+        ],
+        [
+          119,
+          307
+        ],
+        [
+          126,
+          332
+        ],
+        [
+          109,
+          328
+        ],
+        [
+          83,
+          304
+        ],
+        [
+          63,
+          289
+        ]
+      ],
+      "sourceImageSha256": "e0f8363a5e02690c61e22b738bbcd42d64e3b4c60094fea0d1e890c7fb55d75c",
+      "ringEPSG3006": [
+        [
+          605498.24,
+          6605148.8
+        ],
+        [
+          605502.24,
+          6605151.84
+        ],
+        [
+          605503.52,
+          6605149.76
+        ],
+        [
+          605504.96,
+          6605146.88
+        ],
+        [
+          605508.96,
+          6605140.96
+        ],
+        [
+          605510.08,
+          6605136.96
+        ],
+        [
+          605507.36,
+          6605137.6
+        ],
+        [
+          605503.2,
+          6605141.44
+        ],
+        [
+          605500.0,
+          6605143.84
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -31.76,
+          8.8
+        ],
+        [
+          -27.76,
+          11.84
+        ],
+        [
+          -26.48,
+          9.76
+        ],
+        [
+          -25.04,
+          6.88
+        ],
+        [
+          -21.04,
+          0.96
+        ],
+        [
+          -19.92,
+          -3.04
+        ],
+        [
+          -22.64,
+          -2.4
+        ],
+        [
+          -26.8,
+          1.44
+        ],
+        [
+          -30.0,
+          3.84
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          -199.586,
+          292.699
+        ],
+        [
+          -195.511,
+          289.775
+        ],
+        [
+          -194.293,
+          291.889
+        ],
+        [
+          -192.938,
+          294.807
+        ],
+        [
+          -189.114,
+          300.834
+        ],
+        [
+          -188.11,
+          304.861
+        ],
+        [
+          -190.804,
+          304.146
+        ],
+        [
+          -194.845,
+          300.192
+        ],
+        [
+          -197.97,
+          297.704
+        ]
+      ],
+      "areaSquareMetres": 71.42,
+      "heightMetres": null,
+      "nodeName": "S06",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -193.685703,
+        297.434059
+      ],
+      "groundAnchorRh2000M": 7.930696,
+      "footprintLocal": [
+        [
+          -199.58574,
+          292.69947
+        ],
+        [
+          -195.511286,
+          289.774545
+        ],
+        [
+          -194.293058,
+          291.88864
+        ],
+        [
+          -192.937695,
+          294.806515
+        ],
+        [
+          -189.114484,
+          300.833586
+        ],
+        [
+          -188.109671,
+          304.861472
+        ],
+        [
+          -190.804382,
+          304.145636
+        ],
+        [
+          -194.845483,
+          300.192213
+        ],
+        [
+          -197.969556,
+          297.704472
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false
+    },
+    {
+      "id": "S07",
+      "kind": "site",
+      "label": "Northern service-context eastern yard",
+      "ringBlenderXY": [
+        [
+          114.0,
+          1000.48
+        ],
+        [
+          130.96,
+          1001.6
+        ],
+        [
+          140.08,
+          994.56
+        ],
+        [
+          137.84,
+          982.4
+        ],
+        [
+          128.72,
+          972.8
+        ],
+        [
+          116.72,
+          965.28
+        ],
+        [
+          91.6,
+          959.04
+        ],
+        [
+          90.64,
+          965.44
+        ],
+        [
+          102.64,
+          976.16
+        ],
+        [
+          110.16,
+          983.68
+        ]
+      ],
+      "ringEPSG3006": [
+        [
+          605644.0,
+          6606140.48
+        ],
+        [
+          605660.96,
+          6606141.6
+        ],
+        [
+          605670.08,
+          6606134.56
+        ],
+        [
+          605667.84,
+          6606122.4
+        ],
+        [
+          605658.72,
+          6606112.8
+        ],
+        [
+          605646.72,
+          6606105.28
+        ],
+        [
+          605621.6,
+          6606099.04
+        ],
+        [
+          605620.64,
+          6606105.44
+        ],
+        [
+          605632.64,
+          6606116.16
+        ],
+        [
+          605640.16,
+          6606123.68
+        ]
+      ],
+      "notes": "Hardstanding traced from northern-service-native.png at 0.16m per pixel; separate ground surface from B13, with use and ownership unconfirmed.",
+      "nodeName": "S07",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -24.608175,
+        -673.611157
+      ],
+      "groundAnchorRh2000M": 12.622436,
+      "footprintLocal": [
+        [
+          -26.367154,
+          -693.994642
+        ],
+        [
+          -9.416994,
+          -694.636388
+        ],
+        [
+          -0.517039,
+          -687.34604
+        ],
+        [
+          -3.093277,
+          -675.259994
+        ],
+        [
+          -12.460755,
+          -665.925266
+        ],
+        [
+          -24.642707,
+          -658.749686
+        ],
+        [
+          -49.87656,
+          -653.222021
+        ],
+        [
+          -50.654453,
+          -659.643287
+        ],
+        [
+          -38.382657,
+          -670.016082
+        ],
+        [
+          -30.669763,
+          -677.317759
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false
+    }
+  ],
+  "sourceInputs": [
+    {
+      "path": "geo_data/course-v2/angso/acquisition/terrain-window.json",
+      "sha256": "7dc707ec930c37ac53f9209e6870aea3fbf94ab385b7a33969ca8d389b7eb6cc"
+    },
+    {
+      "path": "angsobuild/facilities/orthophoto-reference.json",
+      "sha256": "365c1dfb80e1a211af8c2e68a3dfe69e341d9552451b9a3be2be7d2f50cb38f9"
+    },
+    {
+      "path": "angsobuild/facilities/height-reference.json",
+      "sha256": "4de39e3524ef705d71411ff62ee4372b5a1824a46be14ea2efdfbac39ec58134"
+    },
+    {
+      "path": "angsobuild/facilities/photo-sources.json",
+      "sha256": "42f474c2d59d3950ac28a2ee666e04b8b2ee37a0e319ebb444cc23323fa60380"
+    },
+    {
+      "path": "angsobuild/facilities/prepare-model-inputs.py",
+      "sha256": "9d7d656c2b6da4667fe113e77cc053a848cb6ce1bfd3b645546c27f3944fc940"
+    }
+  ],
+  "notes": "Original 1m RH2000 ground; architectural openings and wall offsets remain model interpretations."
+}

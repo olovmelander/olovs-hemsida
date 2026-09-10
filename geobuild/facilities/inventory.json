@@ -1,0 +1,5177 @@
+{
+  "schemaVersion": 1,
+  "course": "Veckefjarden GC",
+  "createdAt": "2026-09-10",
+  "frame": {
+    "epsg": 3006,
+    "originE": 684390.0,
+    "originN": 7023040.0,
+    "axes": "X east,Y north,Z up",
+    "verticalReference": "Unresolved: all plan references at Z=0; this is not ground level or RH2000 zero.",
+    "legacyOrigin": {
+      "lat": 63.2845,
+      "lon": 18.6735
+    },
+    "legacyMPerLat": 111320,
+    "legacyMPerLon": 50045.09,
+    "legacyConversion": "Full EPSG:4326 to EPSG:3006 projection; north=-legacy Z; do not merely translate or swap axes."
+  },
+  "sourceModel": {
+    "path": "geobuild/course-model.json",
+    "sha256": "66885fa4e54d3c240f717800e27035262c82c48e0eea3002b7afbbf0da0997fd",
+    "modifiedByThisScript": false
+  },
+  "measurementLimits": [
+    "0.16 m is source pixel spacing, not absolute positional accuracy.",
+    "Source absolute horizontal accuracy is unverified.",
+    "Roof-edge rings are image interpretations; elevated roofs can differ from wall footprints.",
+    "All heights, roof pitches and wall bases remain unresolved.",
+    "Dimensions are minimum-area oriented bounding rectangle extents in metres.",
+    "Neighbouring structures are included for visible context; ownership and golf-facility use are not inferred from proximity."
+  ],
+  "sources": [
+    {
+      "id": "context-1-1",
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-1.tif",
+      "sha256": "64b30a9f2c548b6f5ee5460e0b76f54f319798b25ecb6e881485bac9b95f4ef2",
+      "metadataPath": "geobuild/cache/lm-ortho-veckefjarden/context-1-1.json",
+      "metadataSha256": "fd2efd6667bcf2a8d25ce487aa73f4902fc94b0a5f2d38e2308c0c65fd132bbc",
+      "capturedAt": "2024-06-27T14:17:49Z",
+      "sourceItems": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "boundsEPSG3006": [
+        683524.96,
+        7022747.04,
+        684164.96,
+        7023387.04
+      ],
+      "pixelSizeMetres": [
+        0.16,
+        0.16
+      ]
+    },
+    {
+      "id": "context-1-2",
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
+      "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
+      "metadataPath": "geobuild/cache/lm-ortho-veckefjarden/context-1-2.json",
+      "metadataSha256": "6ddeac14ff412061b5d531c8aa1fe45b54da27d4ab1cb0152d4060c3de418ff8",
+      "capturedAt": "2024-06-27T14:17:49Z",
+      "sourceItems": [
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "boundsEPSG3006": [
+        684164.96,
+        7022747.04,
+        684804.96,
+        7023387.04
+      ],
+      "pixelSizeMetres": [
+        0.16,
+        0.16
+      ]
+    },
+    {
+      "id": "context-2-1",
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-1.tif",
+      "sha256": "7ade0afbf202e5d05c8f3784fc2f4a9243870ce6a90586774b68bfff0091ab20",
+      "metadataPath": "geobuild/cache/lm-ortho-veckefjarden/context-2-1.json",
+      "metadataSha256": "9eb6dfdd2febe5c0ca3116d417092d3d6e6f34a9f8e1d01385f06e1da0dc4a34",
+      "capturedAt": "2024-06-27T14:17:34Z",
+      "sourceItems": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        },
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "boundsEPSG3006": [
+        683524.96,
+        7022107.04,
+        684164.96,
+        7022747.04
+      ],
+      "pixelSizeMetres": [
+        0.16,
+        0.16
+      ]
+    },
+    {
+      "id": "context-2-2",
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-2.tif",
+      "sha256": "e235a3eab4b4bc131d0c79138ae3a5138789f3fc9464b629e50a4cdacd01b524",
+      "metadataPath": "geobuild/cache/lm-ortho-veckefjarden/context-2-2.json",
+      "metadataSha256": "f83c1565e99959efac3ac0bcb0a064ae449db09824e6b66a9ba7f03278a3f231",
+      "capturedAt": "2024-06-27T14:17:34Z",
+      "sourceItems": [
+        {
+          "id": "o70200_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:34Z"
+        },
+        {
+          "id": "o70225_6825_25_mr24",
+          "capturedAt": "2024-06-27T14:17:49Z"
+        }
+      ],
+      "boundsEPSG3006": [
+        684164.96,
+        7022107.04,
+        684804.96,
+        7022747.04
+      ],
+      "pixelSizeMetres": [
+        0.16,
+        0.16
+      ]
+    }
+  ],
+  "panels": [
+    {
+      "id": "facility-overview",
+      "imagePath": "geobuild/cache/facilities-2026-09-10/ortho/facility-overview.png",
+      "sha256": "429da2ee9a57c335ccc8a8ac271e8f38193b77dc1802a24451ba903b77124942",
+      "boundsEPSG3006": [
+        684079.84,
+        7022529.44,
+        684540.64,
+        7023340.32
+      ],
+      "width": 720,
+      "height": 1267,
+      "pixelEdgeAffine": [
+        0.64,
+        0.0,
+        684079.84,
+        0.0,
+        -0.64,
+        7023340.32
+      ],
+      "resolutionMetres": 0.64,
+      "sourceIds": [
+        "context-1-1",
+        "context-1-2",
+        "context-2-1",
+        "context-2-2"
+      ],
+      "coverageChecked": true,
+      "imageAxes": "column right=east; row down=south; affine acts on pixel edges",
+      "interpretation": "RGB bands 1,2,3; native 0.16m or nearest-resampled overview; no annotations in base image",
+      "overlayPath": "geobuild/cache/facilities-2026-09-10/ortho/facility-overview-overlay.png"
+    },
+    {
+      "id": "campus-native",
+      "imagePath": "geobuild/cache/facilities-2026-09-10/ortho/campus-native.png",
+      "sha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "boundsEPSG3006": [
+        684340.0,
+        7022909.92,
+        684475.04,
+        7023110.08
+      ],
+      "width": 844,
+      "height": 1251,
+      "pixelEdgeAffine": [
+        0.16,
+        0.0,
+        684340.0,
+        0.0,
+        -0.16,
+        7023110.08
+      ],
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "coverageChecked": true,
+      "imageAxes": "column right=east; row down=south; affine acts on pixel edges",
+      "interpretation": "RGB bands 1,2,3; native 0.16m or nearest-resampled overview; no annotations in base image",
+      "overlayPath": "geobuild/cache/facilities-2026-09-10/ortho/campus-native-overlay.png"
+    },
+    {
+      "id": "western-buildings-native",
+      "imagePath": "geobuild/cache/facilities-2026-09-10/ortho/western-buildings-native.png",
+      "sha256": "2398a3447fa8fc9338001af2c8a349376100f0136e049feddc056235dea3ab7b",
+      "boundsEPSG3006": [
+        684140.0,
+        7022904.96,
+        684242.08,
+        7023010.08
+      ],
+      "width": 638,
+      "height": 657,
+      "pixelEdgeAffine": [
+        0.16,
+        0.0,
+        684140.0,
+        0.0,
+        -0.16,
+        7023010.08
+      ],
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "context-1-1",
+        "context-1-2"
+      ],
+      "coverageChecked": true,
+      "imageAxes": "column right=east; row down=south; affine acts on pixel edges",
+      "interpretation": "RGB bands 1,2,3; native 0.16m or nearest-resampled overview; no annotations in base image",
+      "overlayPath": "geobuild/cache/facilities-2026-09-10/ortho/western-buildings-native-overlay.png"
+    },
+    {
+      "id": "northern-neighbours-native",
+      "imagePath": "geobuild/cache/facilities-2026-09-10/ortho/northern-neighbours-native.png",
+      "sha256": "3465d6b9279144e892a1e818819f9c6b4e0349fa844c5ed34e4a4b401ad19a0a",
+      "boundsEPSG3006": [
+        684269.92,
+        7023149.92,
+        684390.08,
+        7023340.0
+      ],
+      "width": 751,
+      "height": 1188,
+      "pixelEdgeAffine": [
+        0.16,
+        0.0,
+        684269.92,
+        0.0,
+        -0.16,
+        7023340.0
+      ],
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "coverageChecked": true,
+      "imageAxes": "column right=east; row down=south; affine acts on pixel edges",
+      "interpretation": "RGB bands 1,2,3; native 0.16m or nearest-resampled overview; no annotations in base image",
+      "overlayPath": "geobuild/cache/facilities-2026-09-10/ortho/northern-neighbours-native-overlay.png"
+    },
+    {
+      "id": "range-tee-native",
+      "imagePath": "geobuild/cache/facilities-2026-09-10/ortho/range-tee-native.png",
+      "sha256": "afa576a2be8a765c525e2854aa1331a6782beb536c2a22f25320e26dc16b6da5",
+      "boundsEPSG3006": [
+        684234.88,
+        7022719.84,
+        684365.12,
+        7022850.08
+      ],
+      "width": 814,
+      "height": 814,
+      "pixelEdgeAffine": [
+        0.16,
+        0.0,
+        684234.88,
+        0.0,
+        -0.16,
+        7022850.08
+      ],
+      "resolutionMetres": 0.16,
+      "sourceIds": [
+        "context-1-2",
+        "context-2-2"
+      ],
+      "coverageChecked": true,
+      "imageAxes": "column right=east; row down=south; affine acts on pixel edges",
+      "interpretation": "RGB bands 1,2,3; native 0.16m or nearest-resampled overview; no annotations in base image",
+      "overlayPath": "geobuild/cache/facilities-2026-09-10/ortho/range-tee-native-overlay.png"
+    },
+    {
+      "id": "range-practice-context",
+      "imagePath": "geobuild/cache/facilities-2026-09-10/ortho/range-practice-context.png",
+      "sha256": "4b8648976505e4c91723eaa3297eeec64bcc8b9c6449b173910a4b3e4c54ebb9",
+      "boundsEPSG3006": [
+        684019.68,
+        7022539.68,
+        684500.32,
+        7022980.0
+      ],
+      "width": 751,
+      "height": 688,
+      "pixelEdgeAffine": [
+        0.64,
+        0.0,
+        684019.68,
+        0.0,
+        -0.64,
+        7022980.0
+      ],
+      "resolutionMetres": 0.64,
+      "sourceIds": [
+        "context-1-1",
+        "context-1-2",
+        "context-2-1",
+        "context-2-2"
+      ],
+      "coverageChecked": true,
+      "imageAxes": "column right=east; row down=south; affine acts on pixel edges",
+      "interpretation": "RGB bands 1,2,3; native 0.16m or nearest-resampled overview; no annotations in base image",
+      "overlayPath": "geobuild/cache/facilities-2026-09-10/ortho/range-practice-context-overlay.png"
+    }
+  ],
+  "features": [
+    {
+      "id": "R01",
+      "label": "Main clubhouse roof",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "existing-name-and-campus-position",
+      "sourcePanelId": "campus-native",
+      "sourceModelPath": "/infra/buildings/3/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Visible main roof perimeter, including intersecting north and east wings. Dark grey roof. Eaves and roof displacement are not wall-footprint measurements; heights and pitch unresolved. IMPORTANT: the east entrance porch projects into roof shadow and is omitted from this main-roof ring because its outer edge cannot be confidently isolated. Add that porch as a separate photo-corroborated component; the yellow existing-model east bump is context only. R02 is the separate west terrace-side porch, not the eastern entrance.",
+      "unresolvedComponents": [
+        "east entrance porch roof edge and wall footprint",
+        "roof ridges and hips",
+        "wall bases and eaves heights"
+      ],
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          166,
+          319
+        ],
+        [
+          332,
+          310
+        ],
+        [
+          336,
+          365
+        ],
+        [
+          363,
+          361
+        ],
+        [
+          376,
+          581
+        ],
+        [
+          308,
+          585
+        ],
+        [
+          301,
+          484
+        ],
+        [
+          257,
+          485
+        ],
+        [
+          254,
+          386
+        ],
+        [
+          171,
+          390
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684366.56,
+          7023059.04
+        ],
+        [
+          684393.12,
+          7023060.48
+        ],
+        [
+          684393.76,
+          7023051.68
+        ],
+        [
+          684398.08,
+          7023052.32
+        ],
+        [
+          684400.16,
+          7023017.12
+        ],
+        [
+          684389.28,
+          7023016.48
+        ],
+        [
+          684388.16,
+          7023032.64
+        ],
+        [
+          684381.12,
+          7023032.48
+        ],
+        [
+          684380.64,
+          7023048.32
+        ],
+        [
+          684367.36,
+          7023047.68
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -23.44,
+          19.04
+        ],
+        [
+          3.12,
+          20.48
+        ],
+        [
+          3.76,
+          11.68
+        ],
+        [
+          8.08,
+          12.32
+        ],
+        [
+          10.16,
+          -22.88
+        ],
+        [
+          -0.72,
+          -23.52
+        ],
+        [
+          -1.84,
+          -7.36
+        ],
+        [
+          -8.88,
+          -7.52
+        ],
+        [
+          -9.36,
+          8.32
+        ],
+        [
+          -22.64,
+          7.68
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          210.228,
+          -482.42
+        ],
+        [
+          236.759,
+          -482.335
+        ],
+        [
+          236.893,
+          -473.525
+        ],
+        [
+          241.232,
+          -473.916
+        ],
+        [
+          241.29,
+          -438.701
+        ],
+        [
+          230.419,
+          -438.686
+        ],
+        [
+          230.228,
+          -454.862
+        ],
+        [
+          223.208,
+          -455.106
+        ],
+        [
+          223.636,
+          -470.926
+        ],
+        [
+          210.375,
+          -471.048
+        ]
+      ],
+      "areaSquareMetres": 780.94,
+      "dimensionsMetres": [
+        43.83,
+        31.07
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R02",
+      "label": "Clubhouse west attached porch roof",
+      "kind": "building-part",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "visible-attached-roof",
+      "sourcePanelId": "campus-native",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Small attached west-facing roof by terrace; exact function and wall base unknown.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          207,
+          465
+        ],
+        [
+          257,
+          468
+        ],
+        [
+          258,
+          490
+        ],
+        [
+          209,
+          494
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684373.12,
+          7023035.68
+        ],
+        [
+          684381.12,
+          7023035.2
+        ],
+        [
+          684381.28,
+          7023031.68
+        ],
+        [
+          684373.44,
+          7023031.04
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -16.88,
+          -4.32
+        ],
+        [
+          -8.88,
+          -4.8
+        ],
+        [
+          -8.72,
+          -8.32
+        ],
+        [
+          -16.56,
+          -8.96
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          215.425,
+          -458.754
+        ],
+        [
+          223.364,
+          -457.817
+        ],
+        [
+          223.322,
+          -454.299
+        ],
+        [
+          215.478,
+          -454.11
+        ]
+      ],
+      "areaSquareMetres": 32.33,
+      "dimensionsMetres": [
+        7.95,
+        4.65
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R03",
+      "label": "Eastern campus accommodation block candidate",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "sourceModelPath": "/infra/buildings/6/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Northernmost of three smaller connected dark-roof blocks south of clubhouse. Photo/site evidence needed to assign hotel room wings definitively.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          457,
+          559
+        ],
+        [
+          540,
+          553
+        ],
+        [
+          549,
+          686
+        ],
+        [
+          466,
+          690
+        ],
+        [
+          464,
+          680
+        ],
+        [
+          448,
+          681
+        ],
+        [
+          447,
+          663
+        ],
+        [
+          460,
+          663
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684413.12,
+          7023020.64
+        ],
+        [
+          684426.4,
+          7023021.6
+        ],
+        [
+          684427.84,
+          7023000.32
+        ],
+        [
+          684414.56,
+          7022999.68
+        ],
+        [
+          684414.24,
+          7023001.28
+        ],
+        [
+          684411.68,
+          7023001.12
+        ],
+        [
+          684411.52,
+          7023004.0
+        ],
+        [
+          684413.6,
+          7023004.0
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          23.12,
+          -19.36
+        ],
+        [
+          36.4,
+          -18.4
+        ],
+        [
+          37.84,
+          -39.68
+        ],
+        [
+          24.56,
+          -40.32
+        ],
+        [
+          24.24,
+          -38.72
+        ],
+        [
+          21.68,
+          -38.88
+        ],
+        [
+          21.52,
+          -36.0
+        ],
+        [
+          23.6,
+          -36.0
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          254.397,
+          -441.469
+        ],
+        [
+          267.677,
+          -441.665
+        ],
+        [
+          267.893,
+          -420.366
+        ],
+        [
+          254.633,
+          -420.488
+        ],
+        [
+          254.405,
+          -422.102
+        ],
+        [
+          251.847,
+          -422.089
+        ],
+        [
+          251.852,
+          -424.97
+        ],
+        [
+          253.924,
+          -424.851
+        ]
+      ],
+      "areaSquareMetres": 295.03,
+      "dimensionsMetres": [
+        21.33,
+        16.07
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R04",
+      "label": "Middle campus accommodation block candidate",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "sourceModelPath": "/infra/buildings/1/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Middle dark-roof block with small connection at southwest edge. Roof-edge ring includes connection visible from above.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          367,
+          652
+        ],
+        [
+          446,
+          648
+        ],
+        [
+          454,
+          779
+        ],
+        [
+          372,
+          783
+        ],
+        [
+          370,
+          769
+        ],
+        [
+          353,
+          770
+        ],
+        [
+          352,
+          754
+        ],
+        [
+          368,
+          753
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684398.72,
+          7023005.76
+        ],
+        [
+          684411.36,
+          7023006.4
+        ],
+        [
+          684412.64,
+          7022985.44
+        ],
+        [
+          684399.52,
+          7022984.8
+        ],
+        [
+          684399.2,
+          7022987.04
+        ],
+        [
+          684396.48,
+          7022986.88
+        ],
+        [
+          684396.32,
+          7022989.44
+        ],
+        [
+          684398.88,
+          7022989.6
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          8.72,
+          -34.24
+        ],
+        [
+          21.36,
+          -33.6
+        ],
+        [
+          22.64,
+          -54.56
+        ],
+        [
+          9.52,
+          -55.2
+        ],
+        [
+          9.2,
+          -52.96
+        ],
+        [
+          6.48,
+          -53.12
+        ],
+        [
+          6.32,
+          -50.56
+        ],
+        [
+          8.88,
+          -50.4
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          239.207,
+          -427.457
+        ],
+        [
+          251.83,
+          -427.372
+        ],
+        [
+          251.906,
+          -406.401
+        ],
+        [
+          238.805,
+          -406.514
+        ],
+        [
+          238.614,
+          -408.765
+        ],
+        [
+          235.896,
+          -408.762
+        ],
+        [
+          235.884,
+          -411.323
+        ],
+        [
+          238.442,
+          -411.336
+        ]
+      ],
+      "areaSquareMetres": 282.27,
+      "dimensionsMetres": [
+        21.0,
+        16.1
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R05",
+      "label": "Southern campus accommodation block candidate",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "function-requires-photo-corroboration",
+      "sourcePanelId": "campus-native",
+      "sourceModelPath": "/infra/buildings/4/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Southern block west of pool; roof includes visible lower west annex. Pool-side function must be matched against exterior photos.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          271,
+          746
+        ],
+        [
+          352,
+          740
+        ],
+        [
+          362,
+          899
+        ],
+        [
+          279,
+          903
+        ],
+        [
+          278,
+          873
+        ],
+        [
+          256,
+          874
+        ],
+        [
+          251,
+          778
+        ],
+        [
+          272,
+          775
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684383.36,
+          7022990.72
+        ],
+        [
+          684396.32,
+          7022991.68
+        ],
+        [
+          684397.92,
+          7022966.24
+        ],
+        [
+          684384.64,
+          7022965.6
+        ],
+        [
+          684384.48,
+          7022970.4
+        ],
+        [
+          684380.96,
+          7022970.24
+        ],
+        [
+          684380.16,
+          7022985.6
+        ],
+        [
+          684383.52,
+          7022986.08
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -6.64,
+          -49.28
+        ],
+        [
+          6.32,
+          -48.32
+        ],
+        [
+          7.92,
+          -73.76
+        ],
+        [
+          -5.36,
+          -74.4
+        ],
+        [
+          -5.52,
+          -69.6
+        ],
+        [
+          -9.04,
+          -69.76
+        ],
+        [
+          -9.84,
+          -54.4
+        ],
+        [
+          -6.48,
+          -53.92
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          223.051,
+          -413.341
+        ],
+        [
+          236.012,
+          -413.557
+        ],
+        [
+          236.15,
+          -388.1
+        ],
+        [
+          222.889,
+          -388.223
+        ],
+        [
+          223.005,
+          -393.018
+        ],
+        [
+          219.49,
+          -393.06
+        ],
+        [
+          219.572,
+          -408.42
+        ],
+        [
+          222.945,
+          -408.706
+        ]
+      ],
+      "areaSquareMetres": 386.41,
+      "dimensionsMetres": [
+        25.49,
+        16.68
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R06",
+      "label": "Translucent rectangular roof east of middle block",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "visible-structure-function-unknown",
+      "sourcePanelId": "campus-native",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Light/translucent roof with cross ribs. Could be enclosure or conservatory; orthophoto alone does not identify function.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          522,
+          703
+        ],
+        [
+          560,
+          700
+        ],
+        [
+          565,
+          782
+        ],
+        [
+          525,
+          786
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684423.52,
+          7022997.6
+        ],
+        [
+          684429.6,
+          7022998.08
+        ],
+        [
+          684430.4,
+          7022984.96
+        ],
+        [
+          684424.0,
+          7022984.32
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          33.52,
+          -42.4
+        ],
+        [
+          39.6,
+          -41.92
+        ],
+        [
+          40.4,
+          -55.04
+        ],
+        [
+          34.0,
+          -55.68
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          263.436,
+          -417.902
+        ],
+        [
+          269.518,
+          -418.032
+        ],
+        [
+          269.564,
+          -404.905
+        ],
+        [
+          263.154,
+          -404.633
+        ]
+      ],
+      "areaSquareMetres": 82.73,
+      "dimensionsMetres": [
+        13.39,
+        6.43
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R07",
+      "label": "Small polygonal garden roof",
+      "kind": "shelter",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "gazebo-form-visible-function-unconfirmed",
+      "sourcePanelId": "campus-native",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Small polygonal gazebo-like roof east of pool. Tree/shadow overlap limits exact corner count.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          507,
+          807
+        ],
+        [
+          519,
+          808
+        ],
+        [
+          529,
+          819
+        ],
+        [
+          522,
+          833
+        ],
+        [
+          510,
+          837
+        ],
+        [
+          496,
+          829
+        ],
+        [
+          493,
+          817
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684421.12,
+          7022980.96
+        ],
+        [
+          684423.04,
+          7022980.8
+        ],
+        [
+          684424.64,
+          7022979.04
+        ],
+        [
+          684423.52,
+          7022976.8
+        ],
+        [
+          684421.6,
+          7022976.16
+        ],
+        [
+          684419.36,
+          7022977.44
+        ],
+        [
+          684418.88,
+          7022979.36
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          31.12,
+          -59.04
+        ],
+        [
+          33.04,
+          -59.2
+        ],
+        [
+          34.64,
+          -60.96
+        ],
+        [
+          33.52,
+          -63.2
+        ],
+        [
+          31.6,
+          -63.84
+        ],
+        [
+          29.36,
+          -62.56
+        ],
+        [
+          28.88,
+          -60.64
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          260.094,
+          -401.448
+        ],
+        [
+          261.997,
+          -401.179
+        ],
+        [
+          263.49,
+          -399.333
+        ],
+        [
+          262.246,
+          -397.163
+        ],
+        [
+          260.298,
+          -396.635
+        ],
+        [
+          258.14,
+          -398.04
+        ],
+        [
+          257.772,
+          -399.981
+        ]
+      ],
+      "areaSquareMetres": 18.94,
+      "dimensionsMetres": [
+        5.23,
+        4.78
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R08",
+      "label": "Long roof immediately west of padel court",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "campus-native",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Clearly visible substantial dark roof absent from current infrastructure model. Do not assign hotel, maintenance or padel use from proximity alone.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          191,
+          991
+        ],
+        [
+          249,
+          1009
+        ],
+        [
+          211,
+          1126
+        ],
+        [
+          147,
+          1109
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684370.56,
+          7022951.52
+        ],
+        [
+          684379.84,
+          7022948.64
+        ],
+        [
+          684373.76,
+          7022929.92
+        ],
+        [
+          684363.52,
+          7022932.64
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -19.44,
+          -88.48
+        ],
+        [
+          -10.16,
+          -91.36
+        ],
+        [
+          -16.24,
+          -110.08
+        ],
+        [
+          -26.48,
+          -107.36
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          208.064,
+          -374.991
+        ],
+        [
+          217.14,
+          -371.588
+        ],
+        [
+          210.015,
+          -353.272
+        ],
+        [
+          199.974,
+          -356.57
+        ]
+      ],
+      "areaSquareMetres": 201.86,
+      "dimensionsMetres": [
+        20.26,
+        10.58
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "S01",
+      "label": "Visible clubhouse west dining terrace",
+      "kind": "terrace",
+      "geometryStatus": "reviewed-surface-edge",
+      "identificationStatus": "outdoor-tables-visible",
+      "sourcePanelId": "campus-native",
+      "boundaryInterpretationUncertaintyMetres": 0.8,
+      "notes": "Approximate visible paved dining/terrace area around tables and passage. Shadows, furniture and planting obscure the full perimeter; ground-level photo required.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          207,
+          493
+        ],
+        [
+          264,
+          487
+        ],
+        [
+          282,
+          557
+        ],
+        [
+          287,
+          579
+        ],
+        [
+          269,
+          582
+        ],
+        [
+          251,
+          535
+        ],
+        [
+          204,
+          546
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684373.12,
+          7023031.2
+        ],
+        [
+          684382.24,
+          7023032.16
+        ],
+        [
+          684385.12,
+          7023020.96
+        ],
+        [
+          684385.92,
+          7023017.44
+        ],
+        [
+          684383.04,
+          7023016.96
+        ],
+        [
+          684380.16,
+          7023024.48
+        ],
+        [
+          684372.64,
+          7023022.72
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -16.88,
+          -8.8
+        ],
+        [
+          -7.76,
+          -7.84
+        ],
+        [
+          -4.88,
+          -19.04
+        ],
+        [
+          -4.08,
+          -22.56
+        ],
+        [
+          -6.96,
+          -23.04
+        ],
+        [
+          -9.84,
+          -15.52
+        ],
+        [
+          -17.36,
+          -17.28
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          215.169,
+          -454.287
+        ],
+        [
+          224.305,
+          -454.722
+        ],
+        [
+          226.533,
+          -443.391
+        ],
+        [
+          227.128,
+          -439.835
+        ],
+        [
+          224.233,
+          -439.522
+        ],
+        [
+          221.795,
+          -447.184
+        ],
+        [
+          214.206,
+          -445.86
+        ]
+      ],
+      "areaSquareMetres": 107.03,
+      "dimensionsMetres": [
+        16.25,
+        11.78
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "S02",
+      "label": "Outdoor pool water surface",
+      "kind": "pool",
+      "geometryStatus": "reviewed-surface-edge",
+      "identificationStatus": "pool-visible",
+      "sourcePanelId": "campus-native",
+      "boundaryInterpretationUncertaintyMetres": 0.4,
+      "notes": "Pool water edge only, excluding white deck/surround and steps; permanent pool dimension is approximate.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          395,
+          836
+        ],
+        [
+          429,
+          835
+        ],
+        [
+          431,
+          860
+        ],
+        [
+          395,
+          862
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684403.2,
+          7022976.32
+        ],
+        [
+          684408.64,
+          7022976.48
+        ],
+        [
+          684408.96,
+          7022972.48
+        ],
+        [
+          684403.2,
+          7022972.16
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          13.2,
+          -63.68
+        ],
+        [
+          18.64,
+          -63.52
+        ],
+        [
+          18.96,
+          -67.52
+        ],
+        [
+          13.2,
+          -67.84
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          241.984,
+          -397.848
+        ],
+        [
+          247.411,
+          -397.696
+        ],
+        [
+          247.501,
+          -393.69
+        ],
+        [
+          241.746,
+          -393.701
+        ]
+      ],
+      "areaSquareMetres": 22.89,
+      "dimensionsMetres": [
+        5.77,
+        4.15
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "S03",
+      "label": "Blue outdoor padel playing enclosure",
+      "kind": "padel-court",
+      "geometryStatus": "reviewed-surface-edge",
+      "identificationStatus": "padel-markings-and-enclosure-visible",
+      "sourcePanelId": "campus-native",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Visible blue playing enclosure, excluding cast fence shadows and surrounding paths. Fence/glass height not determined.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          314,
+          957
+        ],
+        [
+          374,
+          977
+        ],
+        [
+          332,
+          1095
+        ],
+        [
+          272,
+          1075
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684390.24,
+          7022956.96
+        ],
+        [
+          684399.84,
+          7022953.76
+        ],
+        [
+          684393.12,
+          7022934.88
+        ],
+        [
+          684383.52,
+          7022938.08
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          0.24,
+          -83.04
+        ],
+        [
+          9.84,
+          -86.24
+        ],
+        [
+          3.12,
+          -105.12
+        ],
+        [
+          -6.48,
+          -101.92
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          227.972,
+          -379.288
+        ],
+        [
+          237.348,
+          -375.548
+        ],
+        [
+          229.577,
+          -357.108
+        ],
+        [
+          220.201,
+          -360.849
+        ]
+      ],
+      "areaSquareMetres": 202.75,
+      "dimensionsMetres": [
+        20.24,
+        10.12
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "S04",
+      "label": "Northwest campus parking apron",
+      "kind": "parking",
+      "geometryStatus": "reviewed-surface-edge",
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "sourceModelPath": "/infra/parking/3/ring",
+      "boundaryInterpretationUncertaintyMetres": 1,
+      "notes": "Gravel/asphalt parking apron inferred from visible material boundary; cars and vegetation obscure edges.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          230,
+          34
+        ],
+        [
+          288,
+          43
+        ],
+        [
+          348,
+          59
+        ],
+        [
+          437,
+          78
+        ],
+        [
+          438,
+          210
+        ],
+        [
+          426,
+          243
+        ],
+        [
+          404,
+          267
+        ],
+        [
+          366,
+          252
+        ],
+        [
+          290,
+          208
+        ],
+        [
+          229,
+          172
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684376.8,
+          7023104.64
+        ],
+        [
+          684386.08,
+          7023103.2
+        ],
+        [
+          684395.68,
+          7023100.64
+        ],
+        [
+          684409.92,
+          7023097.6
+        ],
+        [
+          684410.08,
+          7023076.48
+        ],
+        [
+          684408.16,
+          7023071.2
+        ],
+        [
+          684404.64,
+          7023067.36
+        ],
+        [
+          684398.56,
+          7023069.76
+        ],
+        [
+          684386.4,
+          7023076.8
+        ],
+        [
+          684376.64,
+          7023082.56
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -13.2,
+          64.64
+        ],
+        [
+          -3.92,
+          63.2
+        ],
+        [
+          5.68,
+          60.64
+        ],
+        [
+          19.92,
+          57.6
+        ],
+        [
+          20.08,
+          36.48
+        ],
+        [
+          18.16,
+          31.2
+        ],
+        [
+          14.64,
+          27.36
+        ],
+        [
+          8.56,
+          29.76
+        ],
+        [
+          -3.6,
+          36.8
+        ],
+        [
+          -13.36,
+          42.56
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          223.033,
+          -527.299
+        ],
+        [
+          232.192,
+          -525.332
+        ],
+        [
+          241.605,
+          -522.229
+        ],
+        [
+          255.612,
+          -518.383
+        ],
+        [
+          254.564,
+          -497.317
+        ],
+        [
+          252.35,
+          -492.162
+        ],
+        [
+          248.625,
+          -488.535
+        ],
+        [
+          242.707,
+          -491.276
+        ],
+        [
+          231.001,
+          -498.992
+        ],
+        [
+          221.611,
+          -505.293
+        ]
+      ],
+      "areaSquareMetres": 911.94,
+      "dimensionsMetres": [
+        38.84,
+        30.65
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "S05",
+      "label": "Central north-south parking apron",
+      "kind": "parking",
+      "geometryStatus": "reviewed-surface-edge",
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "sourceModelPath": "/infra/parking/0/ring",
+      "boundaryInterpretationUncertaintyMetres": 1,
+      "notes": "Parking strip east of clubhouse and west of planted divider. Material edge approximate under parked cars.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          489,
+          94
+        ],
+        [
+          568,
+          83
+        ],
+        [
+          607,
+          121
+        ],
+        [
+          616,
+          397
+        ],
+        [
+          612,
+          464
+        ],
+        [
+          588,
+          475
+        ],
+        [
+          562,
+          458
+        ],
+        [
+          559,
+          424
+        ],
+        [
+          500,
+          380
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684418.24,
+          7023095.04
+        ],
+        [
+          684430.88,
+          7023096.8
+        ],
+        [
+          684437.12,
+          7023090.72
+        ],
+        [
+          684438.56,
+          7023046.56
+        ],
+        [
+          684437.92,
+          7023035.84
+        ],
+        [
+          684434.08,
+          7023034.08
+        ],
+        [
+          684429.92,
+          7023036.8
+        ],
+        [
+          684429.44,
+          7023042.24
+        ],
+        [
+          684420.0,
+          7023049.28
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          28.24,
+          55.04
+        ],
+        [
+          40.88,
+          56.8
+        ],
+        [
+          47.12,
+          50.72
+        ],
+        [
+          48.56,
+          6.56
+        ],
+        [
+          47.92,
+          -4.16
+        ],
+        [
+          44.08,
+          -5.92
+        ],
+        [
+          39.92,
+          -3.2
+        ],
+        [
+          39.44,
+          2.24
+        ],
+        [
+          30.0,
+          9.28
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          263.751,
+          -515.354
+        ],
+        [
+          276.439,
+          -516.385
+        ],
+        [
+          282.305,
+          -509.966
+        ],
+        [
+          281.213,
+          -465.855
+        ],
+        [
+          279.963,
+          -455.203
+        ],
+        [
+          276.038,
+          -453.668
+        ],
+        [
+          272.051,
+          -456.619
+        ],
+        [
+          271.884,
+          -462.07
+        ],
+        [
+          262.886,
+          -469.63
+        ]
+      ],
+      "areaSquareMetres": 1010.34,
+      "dimensionsMetres": [
+        62.8,
+        18.7
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "S06",
+      "label": "Eastern parking apron",
+      "kind": "parking",
+      "geometryStatus": "reviewed-surface-edge",
+      "identificationStatus": "parked-cars-visible",
+      "sourcePanelId": "campus-native",
+      "sourceModelPath": "/infra/parking/1/ring",
+      "boundaryInterpretationUncertaintyMetres": 1,
+      "notes": "Eastern parking strip and southern turning connection. Far eastern bays partially limited by panel edge.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          679,
+          143
+        ],
+        [
+          775,
+          149
+        ],
+        [
+          804,
+          175
+        ],
+        [
+          812,
+          478
+        ],
+        [
+          785,
+          523
+        ],
+        [
+          748,
+          520
+        ],
+        [
+          710,
+          496
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684448.64,
+          7023087.2
+        ],
+        [
+          684464.0,
+          7023086.24
+        ],
+        [
+          684468.64,
+          7023082.08
+        ],
+        [
+          684469.92,
+          7023033.6
+        ],
+        [
+          684465.6,
+          7023026.4
+        ],
+        [
+          684459.68,
+          7023026.88
+        ],
+        [
+          684453.6,
+          7023030.72
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          58.64,
+          47.2
+        ],
+        [
+          74.0,
+          46.24
+        ],
+        [
+          78.64,
+          42.08
+        ],
+        [
+          79.92,
+          -6.4
+        ],
+        [
+          75.6,
+          -13.6
+        ],
+        [
+          69.68,
+          -13.12
+        ],
+        [
+          63.6,
+          -9.28
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          293.576,
+          -505.797
+        ],
+        [
+          308.817,
+          -503.96
+        ],
+        [
+          313.199,
+          -499.546
+        ],
+        [
+          311.701,
+          -451.137
+        ],
+        [
+          306.987,
+          -444.206
+        ],
+        [
+          301.119,
+          -445.024
+        ],
+        [
+          295.284,
+          -449.2
+        ]
+      ],
+      "areaSquareMetres": 1041.7,
+      "dimensionsMetres": [
+        62.05,
+        19.48
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "S07",
+      "label": "Clubhouse entrance circular island",
+      "kind": "site-feature",
+      "geometryStatus": "reviewed-surface-edge",
+      "identificationStatus": "circular-island-visible",
+      "sourcePanelId": "campus-native",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Oval/circular paved or planted entrance feature in front of clubhouse. Interior sculpture/flag/details require exterior references.",
+      "sourceImageSha256": "9db934688e5d9d403ae888ef290cc036941c05e7488d40e411fc9713c3b2b2c6",
+      "tracedRingPixels": [
+        [
+          447,
+          446
+        ],
+        [
+          459,
+          449
+        ],
+        [
+          470,
+          459
+        ],
+        [
+          473,
+          475
+        ],
+        [
+          465,
+          487
+        ],
+        [
+          450,
+          491
+        ],
+        [
+          437,
+          485
+        ],
+        [
+          430,
+          474
+        ],
+        [
+          433,
+          458
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684411.52,
+          7023038.72
+        ],
+        [
+          684413.44,
+          7023038.24
+        ],
+        [
+          684415.2,
+          7023036.64
+        ],
+        [
+          684415.68,
+          7023034.08
+        ],
+        [
+          684414.4,
+          7023032.16
+        ],
+        [
+          684412.0,
+          7023031.52
+        ],
+        [
+          684409.92,
+          7023032.48
+        ],
+        [
+          684408.8,
+          7023034.24
+        ],
+        [
+          684409.28,
+          7023036.8
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          21.52,
+          -1.28
+        ],
+        [
+          23.44,
+          -1.76
+        ],
+        [
+          25.2,
+          -3.36
+        ],
+        [
+          25.68,
+          -5.92
+        ],
+        [
+          24.4,
+          -7.84
+        ],
+        [
+          22.0,
+          -8.48
+        ],
+        [
+          19.92,
+          -7.52
+        ],
+        [
+          18.8,
+          -5.76
+        ],
+        [
+          19.28,
+          -3.2
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          253.838,
+          -459.586
+        ],
+        [
+          255.722,
+          -458.998
+        ],
+        [
+          257.384,
+          -457.302
+        ],
+        [
+          257.715,
+          -454.722
+        ],
+        [
+          256.331,
+          -452.881
+        ],
+        [
+          253.904,
+          -452.38
+        ],
+        [
+          251.888,
+          -453.457
+        ],
+        [
+          250.873,
+          -455.276
+        ],
+        [
+          251.498,
+          -457.8
+        ]
+      ],
+      "areaSquareMetres": 35.65,
+      "dimensionsMetres": [
+        6.91,
+        6.63
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R09",
+      "label": "Range-end covered building",
+      "kind": "range-building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "range-position-and-roof-visible",
+      "sourcePanelId": "range-tee-native",
+      "sourceModelPath": "/infra/buildings/28/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Dark roof at northeast end of curved range mat line. Open bay count and support structure require frontal photos.",
+      "sourceImageSha256": "afa576a2be8a765c525e2854aa1331a6782beb536c2a22f25320e26dc16b6da5",
+      "tracedRingPixels": [
+        [
+          572,
+          225
+        ],
+        [
+          640,
+          216
+        ],
+        [
+          651,
+          273
+        ],
+        [
+          580,
+          282
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2",
+        "context-2-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684326.4,
+          7022814.08
+        ],
+        [
+          684337.28,
+          7022815.52
+        ],
+        [
+          684339.04,
+          7022806.4
+        ],
+        [
+          684327.68,
+          7022804.96
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -63.6,
+          -225.92
+        ],
+        [
+          -52.72,
+          -224.48
+        ],
+        [
+          -50.96,
+          -233.6
+        ],
+        [
+          -62.32,
+          -235.04
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          156.234,
+          -240.486
+        ],
+        [
+          167.15,
+          -241.299
+        ],
+        [
+          168.381,
+          -232.106
+        ],
+        [
+          156.987,
+          -231.32
+        ]
+      ],
+      "areaSquareMetres": 103.6,
+      "dimensionsMetres": [
+        11.52,
+        9.27
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "S08",
+      "label": "Curved range hitting-mat apron",
+      "kind": "range-apron",
+      "geometryStatus": "reviewed-surface-edge",
+      "identificationStatus": "range-mats-and-flagpoles-visible",
+      "sourcePanelId": "range-tee-native",
+      "boundaryInterpretationUncertaintyMetres": 0.8,
+      "notes": "Visible paved curved mat apron excluding roofed range-end building. Mat positions and flagpoles should be added individually from this native panel; do not infer count from shadows.",
+      "sourceImageSha256": "afa576a2be8a765c525e2854aa1331a6782beb536c2a22f25320e26dc16b6da5",
+      "tracedRingPixels": [
+        [
+          191,
+          686
+        ],
+        [
+          223,
+          594
+        ],
+        [
+          263,
+          490
+        ],
+        [
+          303,
+          432
+        ],
+        [
+          393,
+          347
+        ],
+        [
+          510,
+          254
+        ],
+        [
+          544,
+          249
+        ],
+        [
+          565,
+          264
+        ],
+        [
+          550,
+          284
+        ],
+        [
+          432,
+          369
+        ],
+        [
+          322,
+          458
+        ],
+        [
+          285,
+          516
+        ],
+        [
+          260,
+          596
+        ],
+        [
+          218,
+          698
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2",
+        "context-2-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684265.44,
+          7022740.32
+        ],
+        [
+          684270.56,
+          7022755.04
+        ],
+        [
+          684276.96,
+          7022771.68
+        ],
+        [
+          684283.36,
+          7022780.96
+        ],
+        [
+          684297.76,
+          7022794.56
+        ],
+        [
+          684316.48,
+          7022809.44
+        ],
+        [
+          684321.92,
+          7022810.24
+        ],
+        [
+          684325.28,
+          7022807.84
+        ],
+        [
+          684322.88,
+          7022804.64
+        ],
+        [
+          684304.0,
+          7022791.04
+        ],
+        [
+          684286.4,
+          7022776.8
+        ],
+        [
+          684280.48,
+          7022767.52
+        ],
+        [
+          684276.48,
+          7022754.72
+        ],
+        [
+          684269.76,
+          7022738.4
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -124.56,
+          -299.68
+        ],
+        [
+          -119.44,
+          -284.96
+        ],
+        [
+          -113.04,
+          -268.32
+        ],
+        [
+          -106.64,
+          -259.04
+        ],
+        [
+          -92.24,
+          -245.44
+        ],
+        [
+          -73.52,
+          -230.56
+        ],
+        [
+          -68.08,
+          -229.76
+        ],
+        [
+          -64.72,
+          -232.16
+        ],
+        [
+          -67.12,
+          -235.36
+        ],
+        [
+          -86.0,
+          -248.96
+        ],
+        [
+          -103.6,
+          -263.2
+        ],
+        [
+          -109.52,
+          -272.48
+        ],
+        [
+          -113.52,
+          -285.28
+        ],
+        [
+          -120.24,
+          -301.6
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          91.318,
+          -170.433
+        ],
+        [
+          97.258,
+          -184.817
+        ],
+        [
+          104.581,
+          -201.041
+        ],
+        [
+          111.484,
+          -209.927
+        ],
+        [
+          126.6,
+          -222.663
+        ],
+        [
+          146.091,
+          -236.428
+        ],
+        [
+          151.553,
+          -236.914
+        ],
+        [
+          154.762,
+          -234.329
+        ],
+        [
+          152.189,
+          -231.276
+        ],
+        [
+          132.612,
+          -218.797
+        ],
+        [
+          114.273,
+          -205.606
+        ],
+        [
+          107.848,
+          -196.692
+        ],
+        [
+          103.134,
+          -184.159
+        ],
+        [
+          95.51,
+          -168.272
+        ]
+      ],
+      "areaSquareMetres": 541.39,
+      "dimensionsMetres": [
+        90.11,
+        16.02
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R10",
+      "label": "Western complex long L-shaped roof",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "sourceModelPath": "/infra/buildings/26/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Three-building complex west of main campus. Appears service-related from yard access, but function and ownership unconfirmed. Large north/east roof shadow excluded.",
+      "sourceImageSha256": "2398a3447fa8fc9338001af2c8a349376100f0136e049feddc056235dea3ab7b",
+      "tracedRingPixels": [
+        [
+          228,
+          176
+        ],
+        [
+          298,
+          178
+        ],
+        [
+          301,
+          429
+        ],
+        [
+          237,
+          431
+        ],
+        [
+          236,
+          352
+        ],
+        [
+          165,
+          354
+        ],
+        [
+          164,
+          322
+        ],
+        [
+          231,
+          319
+        ]
+      ],
+      "sourceIds": [
+        "context-1-1",
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684176.48,
+          7022981.92
+        ],
+        [
+          684187.68,
+          7022981.6
+        ],
+        [
+          684188.16,
+          7022941.44
+        ],
+        [
+          684177.92,
+          7022941.12
+        ],
+        [
+          684177.76,
+          7022953.76
+        ],
+        [
+          684166.4,
+          7022953.44
+        ],
+        [
+          684166.24,
+          7022958.56
+        ],
+        [
+          684176.96,
+          7022959.04
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -213.52,
+          -58.08
+        ],
+        [
+          -202.32,
+          -58.4
+        ],
+        [
+          -201.84,
+          -98.56
+        ],
+        [
+          -212.08,
+          -98.88
+        ],
+        [
+          -212.24,
+          -86.24
+        ],
+        [
+          -223.6,
+          -86.56
+        ],
+        [
+          -223.76,
+          -81.44
+        ],
+        [
+          -213.04,
+          -80.96
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          16.536,
+          -416.405
+        ],
+        [
+          27.671,
+          -415.445
+        ],
+        [
+          25.855,
+          -375.377
+        ],
+        [
+          15.64,
+          -375.643
+        ],
+        [
+          16.202,
+          -388.255
+        ],
+        [
+          4.872,
+          -388.586
+        ],
+        [
+          5.005,
+          -393.7
+        ],
+        [
+          15.707,
+          -393.565
+        ]
+      ],
+      "areaSquareMetres": 493.59,
+      "dimensionsMetres": [
+        40.81,
+        21.71
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R11",
+      "label": "Western complex eastern rectangular roof",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "sourceModelPath": "/infra/buildings/25/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "North-south rectangular grey roof in western yard; roof fixtures visible. Function and height unknown.",
+      "sourceImageSha256": "2398a3447fa8fc9338001af2c8a349376100f0136e049feddc056235dea3ab7b",
+      "tracedRingPixels": [
+        [
+          432,
+          165
+        ],
+        [
+          498,
+          159
+        ],
+        [
+          501,
+          345
+        ],
+        [
+          437,
+          349
+        ]
+      ],
+      "sourceIds": [
+        "context-1-1",
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684209.12,
+          7022983.68
+        ],
+        [
+          684219.68,
+          7022984.64
+        ],
+        [
+          684220.16,
+          7022954.88
+        ],
+        [
+          684209.92,
+          7022954.24
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -180.88,
+          -56.32
+        ],
+        [
+          -170.32,
+          -55.36
+        ],
+        [
+          -169.84,
+          -85.12
+        ],
+        [
+          -180.08,
+          -85.76
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          49.14,
+          -416.293
+        ],
+        [
+          59.71,
+          -416.646
+        ],
+        [
+          58.488,
+          -386.947
+        ],
+        [
+          48.255,
+          -386.894
+        ]
+      ],
+      "areaSquareMetres": 308.35,
+      "dimensionsMetres": [
+        30.12,
+        10.58
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "R12",
+      "label": "Western complex southern rectangular roof",
+      "kind": "building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "visible-building-function-unknown",
+      "sourcePanelId": "western-buildings-native",
+      "sourceModelPath": "/infra/buildings/24/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.5,
+      "notes": "Short east-west rectangular roof south of western complex. Function and height unknown.",
+      "sourceImageSha256": "2398a3447fa8fc9338001af2c8a349376100f0136e049feddc056235dea3ab7b",
+      "tracedRingPixels": [
+        [
+          352,
+          419
+        ],
+        [
+          478,
+          413
+        ],
+        [
+          482,
+          470
+        ],
+        [
+          355,
+          475
+        ]
+      ],
+      "sourceIds": [
+        "context-1-1",
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684196.32,
+          7022943.04
+        ],
+        [
+          684216.48,
+          7022944.0
+        ],
+        [
+          684217.12,
+          7022934.88
+        ],
+        [
+          684196.8,
+          7022934.08
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -193.68,
+          -96.96
+        ],
+        [
+          -173.52,
+          -96.0
+        ],
+        [
+          -172.88,
+          -105.12
+        ],
+        [
+          -193.2,
+          -105.92
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          34.072,
+          -376.505
+        ],
+        [
+          54.202,
+          -376.31
+        ],
+        [
+          54.318,
+          -367.18
+        ],
+        [
+          34.038,
+          -367.545
+        ]
+      ],
+      "areaSquareMetres": 183.46,
+      "dimensionsMetres": [
+        20.39,
+        9.14
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "N01",
+      "label": "Northern neighboring building west of road",
+      "kind": "context-building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "sourceModelPath": "/infra/buildings/342/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.8,
+      "notes": "Visible elongated roof is substantially displaced/rotated relative to old synthetic gravel-yard-hall-A rectangle. Treat as neighboring context; golf ownership/use unverified.",
+      "sourceImageSha256": "3465d6b9279144e892a1e818819f9c6b4e0349fa844c5ed34e4a4b401ad19a0a",
+      "tracedRingPixels": [
+        [
+          200,
+          493
+        ],
+        [
+          286,
+          470
+        ],
+        [
+          330,
+          681
+        ],
+        [
+          255,
+          704
+        ],
+        [
+          215,
+          611
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684301.92,
+          7023261.12
+        ],
+        [
+          684315.68,
+          7023264.8
+        ],
+        [
+          684322.72,
+          7023231.04
+        ],
+        [
+          684310.72,
+          7023227.36
+        ],
+        [
+          684304.32,
+          7023242.24
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -88.08,
+          221.12
+        ],
+        [
+          -74.32,
+          224.8
+        ],
+        [
+          -67.28,
+          191.04
+        ],
+        [
+          -79.28,
+          187.36
+        ],
+        [
+          -85.68,
+          202.24
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          157.409,
+          -687.6
+        ],
+        [
+          171.323,
+          -690.482
+        ],
+        [
+          176.404,
+          -656.419
+        ],
+        [
+          164.243,
+          -653.437
+        ],
+        [
+          158.72,
+          -668.639
+        ]
+      ],
+      "areaSquareMetres": 506.53,
+      "dimensionsMetres": [
+        35.64,
+        15.73
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "N02",
+      "label": "Northern neighboring southern building west of road",
+      "kind": "context-building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "sourceModelPath": "/infra/buildings/343/ring",
+      "boundaryInterpretationUncertaintyMetres": 0.8,
+      "notes": "Long narrow grey roof adjacent to bright white terrace/roof complex. The old gravel-yard-hall-B polygon does not describe this roof. Ownership and golf use unverified.",
+      "sourceImageSha256": "3465d6b9279144e892a1e818819f9c6b4e0349fa844c5ed34e4a4b401ad19a0a",
+      "tracedRingPixels": [
+        [
+          326,
+          813
+        ],
+        [
+          359,
+          799
+        ],
+        [
+          425,
+          946
+        ],
+        [
+          394,
+          960
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684322.08,
+          7023209.92
+        ],
+        [
+          684327.36,
+          7023212.16
+        ],
+        [
+          684337.92,
+          7023188.64
+        ],
+        [
+          684332.96,
+          7023186.4
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -67.92,
+          169.92
+        ],
+        [
+          -62.64,
+          172.16
+        ],
+        [
+          -52.08,
+          148.64
+        ],
+        [
+          -57.04,
+          146.4
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          174.559,
+          -635.398
+        ],
+        [
+          179.945,
+          -637.329
+        ],
+        [
+          189.117,
+          -613.275
+        ],
+        [
+          184.049,
+          -611.325
+        ]
+      ],
+      "areaSquareMetres": 144.44,
+      "dimensionsMetres": [
+        25.91,
+        5.73
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "N03",
+      "label": "Northern neighboring upper house east of road",
+      "kind": "context-building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "boundaryInterpretationUncertaintyMetres": 0.8,
+      "notes": "Complex dark roof east of road beside private-looking pool/deck. No golf-facility identity inferred.",
+      "sourceImageSha256": "3465d6b9279144e892a1e818819f9c6b4e0349fa844c5ed34e4a4b401ad19a0a",
+      "tracedRingPixels": [
+        [
+          464,
+          294
+        ],
+        [
+          557,
+          258
+        ],
+        [
+          578,
+          313
+        ],
+        [
+          599,
+          349
+        ],
+        [
+          610,
+          400
+        ],
+        [
+          555,
+          432
+        ],
+        [
+          538,
+          386
+        ],
+        [
+          509,
+          401
+        ],
+        [
+          493,
+          356
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684344.16,
+          7023292.96
+        ],
+        [
+          684359.04,
+          7023298.72
+        ],
+        [
+          684362.4,
+          7023289.92
+        ],
+        [
+          684365.76,
+          7023284.16
+        ],
+        [
+          684367.52,
+          7023276.0
+        ],
+        [
+          684358.72,
+          7023270.88
+        ],
+        [
+          684356.0,
+          7023278.24
+        ],
+        [
+          684351.36,
+          7023275.84
+        ],
+        [
+          684348.8,
+          7023283.04
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -45.84,
+          252.96
+        ],
+        [
+          -30.96,
+          258.72
+        ],
+        [
+          -27.6,
+          249.92
+        ],
+        [
+          -24.24,
+          244.16
+        ],
+        [
+          -22.48,
+          236.0
+        ],
+        [
+          -31.28,
+          230.88
+        ],
+        [
+          -34.0,
+          238.24
+        ],
+        [
+          -38.64,
+          235.84
+        ],
+        [
+          -41.2,
+          243.04
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          201.296,
+          -716.928
+        ],
+        [
+          216.444,
+          -721.819
+        ],
+        [
+          219.287,
+          -712.853
+        ],
+        [
+          222.304,
+          -706.917
+        ],
+        [
+          223.59,
+          -698.681
+        ],
+        [
+          214.533,
+          -694.08
+        ],
+        [
+          212.246,
+          -701.574
+        ],
+        [
+          207.487,
+          -699.446
+        ],
+        [
+          205.35,
+          -706.772
+        ]
+      ],
+      "areaSquareMetres": 358.18,
+      "dimensionsMetres": [
+        26.0,
+        16.5
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "N04",
+      "label": "Northern neighboring lower house east of road",
+      "kind": "context-building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "boundaryInterpretationUncertaintyMetres": 0.8,
+      "notes": "Complex pitched roof and landscaping visible east of road; no golf ownership/use established.",
+      "sourceImageSha256": "3465d6b9279144e892a1e818819f9c6b4e0349fa844c5ed34e4a4b401ad19a0a",
+      "tracedRingPixels": [
+        [
+          495,
+          633
+        ],
+        [
+          539,
+          607
+        ],
+        [
+          565,
+          636
+        ],
+        [
+          579,
+          663
+        ],
+        [
+          609,
+          650
+        ],
+        [
+          639,
+          681
+        ],
+        [
+          636,
+          731
+        ],
+        [
+          651,
+          761
+        ],
+        [
+          669,
+          817
+        ],
+        [
+          611,
+          844
+        ],
+        [
+          551,
+          809
+        ],
+        [
+          548,
+          766
+        ],
+        [
+          512,
+          724
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684349.12,
+          7023238.72
+        ],
+        [
+          684356.16,
+          7023242.88
+        ],
+        [
+          684360.32,
+          7023238.24
+        ],
+        [
+          684362.56,
+          7023233.92
+        ],
+        [
+          684367.36,
+          7023236.0
+        ],
+        [
+          684372.16,
+          7023231.04
+        ],
+        [
+          684371.68,
+          7023223.04
+        ],
+        [
+          684374.08,
+          7023218.24
+        ],
+        [
+          684376.96,
+          7023209.28
+        ],
+        [
+          684367.68,
+          7023204.96
+        ],
+        [
+          684358.08,
+          7023210.56
+        ],
+        [
+          684357.6,
+          7023217.44
+        ],
+        [
+          684351.84,
+          7023224.16
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -40.88,
+          198.72
+        ],
+        [
+          -33.84,
+          202.88
+        ],
+        [
+          -29.68,
+          198.24
+        ],
+        [
+          -27.44,
+          193.92
+        ],
+        [
+          -22.64,
+          196.0
+        ],
+        [
+          -17.84,
+          191.04
+        ],
+        [
+          -18.32,
+          183.04
+        ],
+        [
+          -15.92,
+          178.24
+        ],
+        [
+          -13.04,
+          169.28
+        ],
+        [
+          -22.32,
+          164.96
+        ],
+        [
+          -31.92,
+          170.56
+        ],
+        [
+          -32.4,
+          177.44
+        ],
+        [
+          -38.16,
+          184.16
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          203.134,
+          -662.565
+        ],
+        [
+          210.383,
+          -666.309
+        ],
+        [
+          214.26,
+          -661.445
+        ],
+        [
+          216.244,
+          -657.01
+        ],
+        [
+          221.143,
+          -658.809
+        ],
+        [
+          225.64,
+          -653.589
+        ],
+        [
+          224.704,
+          -645.64
+        ],
+        [
+          226.82,
+          -640.717
+        ],
+        [
+          229.176,
+          -631.619
+        ],
+        [
+          219.687,
+          -627.843
+        ],
+        [
+          210.447,
+          -633.976
+        ],
+        [
+          210.362,
+          -640.863
+        ],
+        [
+          205.01,
+          -647.892
+        ]
+      ],
+      "areaSquareMetres": 589.06,
+      "dimensionsMetres": [
+        39.27,
+        21.34
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "N05",
+      "label": "Small northern neighboring pool-side roof",
+      "kind": "context-building",
+      "geometryStatus": "reviewed-roof-edge",
+      "identificationStatus": "ownership-and-function-unknown",
+      "sourcePanelId": "northern-neighbours-native",
+      "boundaryInterpretationUncertaintyMetres": 0.8,
+      "notes": "Small roof beside northern neighboring house and pool. Included solely as surrounding visual context.",
+      "sourceImageSha256": "3465d6b9279144e892a1e818819f9c6b4e0349fa844c5ed34e4a4b401ad19a0a",
+      "tracedRingPixels": [
+        [
+          354,
+          239
+        ],
+        [
+          393,
+          222
+        ],
+        [
+          420,
+          272
+        ],
+        [
+          379,
+          289
+        ]
+      ],
+      "sourceIds": [
+        "context-1-2"
+      ],
+      "ringEPSG3006": [
+        [
+          684326.56,
+          7023301.76
+        ],
+        [
+          684332.8,
+          7023304.48
+        ],
+        [
+          684337.12,
+          7023296.48
+        ],
+        [
+          684330.56,
+          7023293.76
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -63.44,
+          261.76
+        ],
+        [
+          -57.2,
+          264.48
+        ],
+        [
+          -52.88,
+          256.48
+        ],
+        [
+          -59.44,
+          253.76
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          184.271,
+          -726.709
+        ],
+        [
+          190.641,
+          -729.064
+        ],
+        [
+          194.486,
+          -720.84
+        ],
+        [
+          187.797,
+          -718.504
+        ]
+      ],
+      "areaSquareMetres": 62.52,
+      "dimensionsMetres": [
+        9.45,
+        7.08
+      ],
+      "heightMetres": null
+    }
+  ],
+  "existingModelContext": [
+    {
+      "id": "B0",
+      "label": "Existing building 0",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/0/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684414.351,
+          7023004.494
+        ],
+        [
+          684411.543,
+          7023004.433
+        ],
+        [
+          684411.669,
+          7023002.234
+        ],
+        [
+          684414.372,
+          7023002.389
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          24.351,
+          -35.506
+        ],
+        [
+          21.543,
+          -35.567
+        ],
+        [
+          21.669,
+          -37.766
+        ],
+        [
+          24.372,
+          -37.611
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          254.7,
+          -425.3
+        ],
+        [
+          251.9,
+          -425.4
+        ],
+        [
+          251.9,
+          -423.2
+        ],
+        [
+          254.6,
+          -423.2
+        ]
+      ],
+      "areaSquareMetres": 5.94,
+      "dimensionsMetres": [
+        2.81,
+        2.2
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B1",
+      "label": "Existing building 1",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/1/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684399.336,
+          7022986.18
+        ],
+        [
+          684398.365,
+          7023006.585
+        ],
+        [
+          684411.382,
+          7023007.232
+        ],
+        [
+          684412.353,
+          7022986.827
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          9.336,
+          -53.82
+        ],
+        [
+          8.365,
+          -33.415
+        ],
+        [
+          21.382,
+          -32.768
+        ],
+        [
+          22.353,
+          -53.173
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          238.7,
+          -407.9
+        ],
+        [
+          238.9,
+          -428.3
+        ],
+        [
+          251.9,
+          -428.2
+        ],
+        [
+          251.7,
+          -407.8
+        ]
+      ],
+      "areaSquareMetres": 266.25,
+      "dimensionsMetres": [
+        20.46,
+        13.03
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B3",
+      "label": "Veckefjärdens golfklubb",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/3/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684366.57,
+          7023060.124
+        ],
+        [
+          684367.207,
+          7023049.027
+        ],
+        [
+          684386.825,
+          7023050.154
+        ],
+        [
+          684388.444,
+          7023018.452
+        ],
+        [
+          684399.655,
+          7023019.096
+        ],
+        [
+          684398.926,
+          7023031.792
+        ],
+        [
+          684402.929,
+          7023032.022
+        ],
+        [
+          684402.395,
+          7023041.319
+        ],
+        [
+          684397.991,
+          7023041.066
+        ],
+        [
+          684397.322,
+          7023054.467
+        ],
+        [
+          684393.118,
+          7023054.226
+        ],
+        [
+          684392.699,
+          7023061.524
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -23.43,
+          20.124
+        ],
+        [
+          -22.793,
+          9.027
+        ],
+        [
+          -3.175,
+          10.154
+        ],
+        [
+          -1.556,
+          -21.548
+        ],
+        [
+          9.655,
+          -20.904
+        ],
+        [
+          8.926,
+          -8.208
+        ],
+        [
+          12.929,
+          -7.978
+        ],
+        [
+          12.395,
+          1.319
+        ],
+        [
+          7.991,
+          1.066
+        ],
+        [
+          7.322,
+          14.467
+        ],
+        [
+          3.118,
+          14.226
+        ],
+        [
+          2.699,
+          21.524
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          210.3,
+          -483.5
+        ],
+        [
+          210.3,
+          -472.4
+        ],
+        [
+          229.9,
+          -472.4
+        ],
+        [
+          229.7,
+          -440.7
+        ],
+        [
+          240.9,
+          -440.7
+        ],
+        [
+          240.9,
+          -453.4
+        ],
+        [
+          244.9,
+          -453.4
+        ],
+        [
+          244.9,
+          -462.7
+        ],
+        [
+          240.5,
+          -462.7
+        ],
+        [
+          240.6,
+          -476.1
+        ],
+        [
+          236.4,
+          -476.1
+        ],
+        [
+          236.4,
+          -483.4
+        ]
+      ],
+      "areaSquareMetres": 692.11,
+      "dimensionsMetres": [
+        52.57,
+        28.07
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B4",
+      "label": "Existing building 4",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/4/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684384.777,
+          7022966.889
+        ],
+        [
+          684383.442,
+          7022991.887
+        ],
+        [
+          684396.26,
+          7022992.523
+        ],
+        [
+          684397.495,
+          7022967.519
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -5.223,
+          -73.111
+        ],
+        [
+          -6.558,
+          -48.113
+        ],
+        [
+          6.26,
+          -47.477
+        ],
+        [
+          7.495,
+          -72.481
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          223.1,
+          -389.5
+        ],
+        [
+          223.2,
+          -414.5
+        ],
+        [
+          236.0,
+          -414.4
+        ],
+        [
+          235.8,
+          -389.4
+        ]
+      ],
+      "areaSquareMetres": 320.01,
+      "dimensionsMetres": [
+        25.03,
+        12.83
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B5",
+      "label": "Existing building 5",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/5/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684399.267,
+          7022987.379
+        ],
+        [
+          684399.123,
+          7022989.879
+        ],
+        [
+          684396.415,
+          7022989.823
+        ],
+        [
+          684396.464,
+          7022987.218
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          9.267,
+          -52.621
+        ],
+        [
+          9.123,
+          -50.121
+        ],
+        [
+          6.415,
+          -50.177
+        ],
+        [
+          6.464,
+          -52.782
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          238.7,
+          -409.1
+        ],
+        [
+          238.7,
+          -411.6
+        ],
+        [
+          236.0,
+          -411.7
+        ],
+        [
+          235.9,
+          -409.1
+        ]
+      ],
+      "areaSquareMetres": 7.04,
+      "dimensionsMetres": [
+        2.81,
+        2.6
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B6",
+      "label": "Existing building 6",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/6/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684414.458,
+          7023000.889
+        ],
+        [
+          684413.493,
+          7023021.194
+        ],
+        [
+          684426.11,
+          7023021.819
+        ],
+        [
+          684427.175,
+          7023001.519
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          24.458,
+          -39.111
+        ],
+        [
+          23.493,
+          -18.806
+        ],
+        [
+          36.11,
+          -18.181
+        ],
+        [
+          37.175,
+          -38.481
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          254.6,
+          -421.7
+        ],
+        [
+          254.8,
+          -442.0
+        ],
+        [
+          267.4,
+          -441.9
+        ],
+        [
+          267.3,
+          -421.6
+        ]
+      ],
+      "areaSquareMetres": 257.81,
+      "dimensionsMetres": [
+        20.33,
+        12.73
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B24",
+      "label": "Existing building 24",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/24/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684197.113,
+          7022934.956
+        ],
+        [
+          684196.697,
+          7022943.959
+        ],
+        [
+          684216.232,
+          7022944.779
+        ],
+        [
+          684216.548,
+          7022935.77
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -192.887,
+          -105.044
+        ],
+        [
+          -193.303,
+          -96.041
+        ],
+        [
+          -173.768,
+          -95.221
+        ],
+        [
+          -173.452,
+          -104.23
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          34.4,
+          -368.4
+        ],
+        [
+          34.5,
+          -377.4
+        ],
+        [
+          54.0,
+          -377.1
+        ],
+        [
+          53.8,
+          -368.1
+        ]
+      ],
+      "areaSquareMetres": 175.78,
+      "dimensionsMetres": [
+        19.55,
+        9.01
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B25",
+      "label": "Existing building 25",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/25/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684208.345,
+          7022984.245
+        ],
+        [
+          684219.566,
+          7022984.688
+        ],
+        [
+          684220.801,
+          7022956.174
+        ],
+        [
+          684209.584,
+          7022955.631
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -181.655,
+          -55.755
+        ],
+        [
+          -170.434,
+          -55.312
+        ],
+        [
+          -169.199,
+          -83.826
+        ],
+        [
+          -180.416,
+          -84.369
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          48.4,
+          -416.9
+        ],
+        [
+          59.6,
+          -416.7
+        ],
+        [
+          59.2,
+          -388.2
+        ],
+        [
+          48.0,
+          -388.3
+        ]
+      ],
+      "areaSquareMetres": 321.07,
+      "dimensionsMetres": [
+        28.64,
+        11.23
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B26",
+      "label": "Existing building 26",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/26/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684177.809,
+          7022954.61
+        ],
+        [
+          684166.587,
+          7022954.167
+        ],
+        [
+          684166.14,
+          7022965.475
+        ],
+        [
+          684177.361,
+          7022965.918
+        ],
+        [
+          684176.781,
+          7022983.036
+        ],
+        [
+          684188.303,
+          7022983.496
+        ],
+        [
+          684189.877,
+          7022942.063
+        ],
+        [
+          684178.208,
+          7022942.397
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -212.191,
+          -85.39
+        ],
+        [
+          -223.413,
+          -85.833
+        ],
+        [
+          -223.86,
+          -74.525
+        ],
+        [
+          -212.639,
+          -74.082
+        ],
+        [
+          -213.219,
+          -56.964
+        ],
+        [
+          -201.697,
+          -56.504
+        ],
+        [
+          -200.123,
+          -97.937
+        ],
+        [
+          -211.792,
+          -97.603
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          16.3,
+          -389.1
+        ],
+        [
+          5.1,
+          -389.3
+        ],
+        [
+          5.3,
+          -400.6
+        ],
+        [
+          16.5,
+          -400.4
+        ],
+        [
+          16.9,
+          -417.5
+        ],
+        [
+          28.4,
+          -417.3
+        ],
+        [
+          27.6,
+          -375.9
+        ],
+        [
+          16.0,
+          -376.9
+        ]
+      ],
+      "areaSquareMetres": 602.95,
+      "dimensionsMetres": [
+        41.46,
+        22.83
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B28",
+      "label": "Existing building 28",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/28/ring",
+      "sourceModelProvenance": "unspecified",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684337.825,
+          7022815.652
+        ],
+        [
+          684326.672,
+          7022814.009
+        ],
+        [
+          684327.683,
+          7022805.141
+        ],
+        [
+          684339.131,
+          7022806.901
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -52.175,
+          -224.348
+        ],
+        [
+          -63.328,
+          -225.991
+        ],
+        [
+          -62.317,
+          -234.859
+        ],
+        [
+          -50.869,
+          -233.099
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          167.7,
+          -241.4
+        ],
+        [
+          156.5,
+          -240.4
+        ],
+        [
+          157.0,
+          -231.5
+        ],
+        [
+          168.5,
+          -232.6
+        ]
+      ],
+      "areaSquareMetres": 101.53,
+      "dimensionsMetres": [
+        11.58,
+        8.92
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B342",
+      "label": "Existing building 342",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/342/ring",
+      "sourceModelProvenance": "trace",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684293.793,
+          7023273.09
+        ],
+        [
+          684314.811,
+          7023274.297
+        ],
+        [
+          684316.934,
+          7023237.309
+        ],
+        [
+          684295.916,
+          7023236.102
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -96.207,
+          233.09
+        ],
+        [
+          -75.189,
+          234.297
+        ],
+        [
+          -73.066,
+          197.309
+        ],
+        [
+          -94.084,
+          196.102
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          150.0,
+          -700.0
+        ],
+        [
+          171.0,
+          -700.0
+        ],
+        [
+          171.0,
+          -663.0
+        ],
+        [
+          150.0,
+          -663.0
+        ]
+      ],
+      "areaSquareMetres": 779.96,
+      "dimensionsMetres": [
+        37.05,
+        21.05
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "B343",
+      "label": "Existing building 343",
+      "kind": "building",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/buildings/343/ring",
+      "sourceModelProvenance": "trace",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684307.245,
+          7023213.684
+        ],
+        [
+          684322.257,
+          7023214.546
+        ],
+        [
+          684323.692,
+          7023189.554
+        ],
+        [
+          684308.679,
+          7023188.692
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -82.755,
+          173.684
+        ],
+        [
+          -67.743,
+          174.546
+        ],
+        [
+          -66.308,
+          149.554
+        ],
+        [
+          -81.321,
+          148.692
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          160.0,
+          -640.0
+        ],
+        [
+          175.0,
+          -640.0
+        ],
+        [
+          175.0,
+          -615.0
+        ],
+        [
+          160.0,
+          -615.0
+        ]
+      ],
+      "areaSquareMetres": 376.44,
+      "dimensionsMetres": [
+        25.03,
+        15.04
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "P0",
+      "label": "Existing parking 0",
+      "kind": "parking",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/parking/0/ring",
+      "sourceModelProvenance": "osm",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684428.836,
+          7023042.536
+        ],
+        [
+          684419.795,
+          7023051.345
+        ],
+        [
+          684418.014,
+          7023098.082
+        ],
+        [
+          684437.604,
+          7023092.688
+        ],
+        [
+          684439.73,
+          7023039.953
+        ],
+        [
+          684438.25,
+          7023034.251
+        ],
+        [
+          684434.366,
+          7023035.432
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          38.836,
+          2.536
+        ],
+        [
+          29.795,
+          11.345
+        ],
+        [
+          28.014,
+          58.082
+        ],
+        [
+          47.604,
+          52.688
+        ],
+        [
+          49.73,
+          -0.047
+        ],
+        [
+          48.25,
+          -5.749
+        ],
+        [
+          44.366,
+          -4.568
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          271.3,
+          -462.4
+        ],
+        [
+          262.8,
+          -471.7
+        ],
+        [
+          263.7,
+          -518.4
+        ],
+        [
+          282.9,
+          -511.9
+        ],
+        [
+          282.0,
+          -459.2
+        ],
+        [
+          280.2,
+          -453.6
+        ],
+        [
+          276.4,
+          -455.0
+        ]
+      ],
+      "areaSquareMetres": 1046.31,
+      "dimensionsMetres": [
+        64.59,
+        19.46
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "P1",
+      "label": "Existing parking 1",
+      "kind": "parking",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/parking/1/ring",
+      "sourceModelProvenance": "osm",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684456.333,
+          7023028.871
+        ],
+        [
+          684452.721,
+          7023030.569
+        ],
+        [
+          684448.826,
+          7023089.621
+        ],
+        [
+          684467.333,
+          7023083.864
+        ],
+        [
+          684471.787,
+          7023029.056
+        ],
+        [
+          684466.02,
+          7023026.318
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          66.333,
+          -11.129
+        ],
+        [
+          62.721,
+          -9.431
+        ],
+        [
+          58.826,
+          49.621
+        ],
+        [
+          77.333,
+          43.864
+        ],
+        [
+          81.787,
+          -10.944
+        ],
+        [
+          76.02,
+          -13.682
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          297.9,
+          -447.2
+        ],
+        [
+          294.4,
+          -449.1
+        ],
+        [
+          293.9,
+          -508.2
+        ],
+        [
+          312.0,
+          -501.4
+        ],
+        [
+          313.3,
+          -446.5
+        ],
+        [
+          307.4,
+          -444.1
+        ]
+      ],
+      "areaSquareMetres": 1088.43,
+      "dimensionsMetres": [
+        64.3,
+        18.93
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "P3",
+      "label": "Existing parking 3",
+      "kind": "parking",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/parking/3/ring",
+      "sourceModelProvenance": "osm",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684377.075,
+          7023109.772
+        ],
+        [
+          684409.512,
+          7023101.004
+        ],
+        [
+          684408.588,
+          7023073.369
+        ],
+        [
+          684397.819,
+          7023072.048
+        ],
+        [
+          684376.389,
+          7023083.254
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -12.925,
+          69.772
+        ],
+        [
+          19.512,
+          61.004
+        ],
+        [
+          18.588,
+          33.369
+        ],
+        [
+          7.819,
+          32.048
+        ],
+        [
+          -13.611,
+          43.254
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          223.6,
+          -532.4
+        ],
+        [
+          255.4,
+          -521.8
+        ],
+        [
+          252.9,
+          -494.3
+        ],
+        [
+          242.1,
+          -493.6
+        ],
+        [
+          221.4,
+          -506.0
+        ]
+      ],
+      "areaSquareMetres": 957.06,
+      "dimensionsMetres": [
+        37.01,
+        32.71
+      ],
+      "heightMetres": null
+    },
+    {
+      "id": "P6",
+      "label": "Existing parking 6",
+      "kind": "parking",
+      "geometryStatus": "existing-model-unreviewed",
+      "identificationStatus": "existing-model-label-only",
+      "sourceModelPath": "/infra/parking/6/ring",
+      "sourceModelProvenance": "trace",
+      "sourcePanelId": "facility-overview",
+      "notes": "Context only. Existing mapped polygon; not measured from this orthophoto.",
+      "ringEPSG3006": [
+        [
+          684350.744,
+          7023019.196
+        ],
+        [
+          684404.892,
+          7023025.816
+        ],
+        [
+          684413.785,
+          7022991.623
+        ],
+        [
+          684404.134,
+          7022958.573
+        ],
+        [
+          684360.326,
+          7022953.75
+        ],
+        [
+          684346.824,
+          7022987.778
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -39.256,
+          -20.804
+        ],
+        [
+          14.892,
+          -14.184
+        ],
+        [
+          23.785,
+          -48.377
+        ],
+        [
+          14.134,
+          -81.427
+        ],
+        [
+          -29.674,
+          -86.25
+        ],
+        [
+          -43.176,
+          -52.222
+        ]
+      ],
+      "ringLegacyXZ": [
+        [
+          192.2,
+          -443.6
+        ],
+        [
+          246.5,
+          -447.1
+        ],
+        [
+          253.4,
+          -412.5
+        ],
+        [
+          241.9,
+          -380.1
+        ],
+        [
+          198.0,
+          -377.8
+        ],
+        [
+          186.5,
+          -412.5
+        ]
+      ],
+      "areaSquareMetres": 3865.44,
+      "dimensionsMetres": [
+        66.93,
+        66.65
+      ],
+      "heightMetres": null
+    }
+  ]
+}

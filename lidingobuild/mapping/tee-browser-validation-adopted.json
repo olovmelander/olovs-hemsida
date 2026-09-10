@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "independent-adoption-of-local-browser-evidence",
+  "state": "passed",
+  "verifiedAt": "2026-09-09T21:24:30.908Z",
+  "inputs": {
+    "model": {
+      "path": "lidingobuild/course-model.json",
+      "sha256": "20dd2856d0401b58b715ddd0f894cb58585200bed51f8107f6d9c781b5c0e79c"
+    },
+    "pack": {
+      "path": "apps/golf/public/courses/lidingo/pack.bin",
+      "sha256": "580243354d3fb9f1ba6ff0cc2b2eb202ac82c5de8bd7d95cd21fb4d49a3ffac5"
+    },
+    "runtime": {
+      "path": "apps/golf/src/main.js",
+      "sha256": "0b5e16201828d13ac9fe34742aaf12674bfbdf2dd340b94b4f4826c5a648a5b7"
+    },
+    "sourceManifest": {
+      "path": "geo_data/course-v2/lidingo/source-manifest.json",
+      "sha256": "80a85a4e4d606c2018fa6f5e2682eabd95c2b1cdd9eebc19c64ed6e87267a8d5"
+    },
+    "nativeReview": {
+      "path": "lidingobuild/mapping/tee-native-alignment-review-2026-09-09.json",
+      "sha256": "32e1c71c4271a5f95c70ee5569b446eca807ef8c679ef0b50ff21d41ed8f5988"
+    }
+  },
+  "browserEvidence": {
+    "path": "lidingobuild/mapping/tee-ob-runtime-validation.json",
+    "sha256": "37b9f632b1aee9c109d7b56c6465df420d407378c972153436922d09a59afb09",
+    "auditedAt": "2026-09-09T21:22:33.246Z",
+    "backend": "webgpu",
+    "passedGates": 15,
+    "allHoleGeometryComparisons": 18,
+    "actualMarkerInstances": 162,
+    "uiSelections": 4,
+    "uiCoverage": "Actual yellow-tee selector exercised on holes 1, 10, 12 and 18; this report does not claim all 90 UI selections.",
+    "screenshots": [
+      {
+        "hole": 1,
+        "teeColour": "yellow",
+        "path": "lidingobuild/cache/tee-ob-review/webgpu/hole-01-yellow-tee.png",
+        "sha256": "dd1b447f2f46d420da0ba17641d1bcab941079b236117fae98fbebd085c57522",
+        "cameraReferenceErrorM": 3.552713678800501e-14,
+        "cameraAimErrorM": 1.4238583238573986e-14
+      },
+      {
+        "hole": 10,
+        "teeColour": "yellow",
+        "path": "lidingobuild/cache/tee-ob-review/webgpu/hole-10-yellow-tee.png",
+        "sha256": "e139ac5185b16fe53a15bce59a514d7feb33de1a00ea28ae4c24a9bc60c30cdc",
+        "cameraReferenceErrorM": 5.684341886080802e-14,
+        "cameraAimErrorM": 5.684341886080802e-14
+      },
+      {
+        "hole": 12,
+        "teeColour": "yellow",
+        "path": "lidingobuild/cache/tee-ob-review/webgpu/hole-12-yellow-tee.png",
+        "sha256": "480e3d1f3e60c00e8e83eea4fa9b31dd01d6d114a6f2c0fcb0a627a5336e8ae3",
+        "cameraReferenceErrorM": 0,
+        "cameraAimErrorM": 0
+      },
+      {
+        "hole": 18,
+        "teeColour": "yellow",
+        "path": "lidingobuild/cache/tee-ob-review/webgpu/hole-18-yellow-tee.png",
+        "sha256": "71def3daa711614a47df869adc2881ea4c646e3ac7fb57744433a8c816b2f5d5",
+        "cameraReferenceErrorM": 0,
+        "cameraAimErrorM": 0
+      }
+    ],
+    "outOfBounds": {
+      "reviewedSegments": 6,
+      "reviewedVertices": 57,
+      "labelDraws": 1,
+      "dashedLineDraws": 6,
+      "physicalWhiteStakes": 0,
+      "sourcePhysicalWhitePoints": 0
+    }
+  },
+  "independentGeometryEvidence": {
+    "path": "lidingobuild/mapping/tee-runtime-validation.json",
+    "sha256": "158147b75443b6e5642b9d152312f43f8292a2fbfb27de3de05797089bcecd22",
+    "summary": {
+      "holes": 18,
+      "platforms": 54,
+      "references": 90,
+      "referencesOutsidePlatforms": 0,
+      "referencesWithPadIdentity": 90,
+      "referencesSharingCoordinates": 6,
+      "uniqueReferenceCoordinates": 87,
+      "markerPairsRendered": 81,
+      "markerInstancesRendered": 162,
+      "eligiblePairsOmitted": 0,
+      "crossHoleMarkerOverlaps": 0,
+      "maxAbsoluteScorecardRouteResidualM": 52.105859045460704,
+      "issues": 0
+    }
+  },
+  "publication": {
+    "courseManifest": {
+      "bytes": 3850,
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "sha256": "d84ce1db16eed5be3a10d2f4a3f64af842efbafd558c7985b3ec2471ba124f7b",
+      "url": "courses/lidingo/course-v2-d84ce1db16eed5be3a10d2f4a3f64af842efbafd558c7985b3ec2471ba124f7b.json"
+    },
+    "groundManifest": {
+      "bytes": 235841,
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "sha256": "3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158",
+      "url": "grounds/lidingo/ground-v2-3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158.json"
+    },
+    "routingSha256": "e499268b0ab1f381f6420038af92b0e4ea656a29402809e962055eeb96d3eeea",
+    "preservedTerrainTiles": 277,
+    "preservedOriginalGroundManifest": "apps/golf/public/grounds/lidingo/ground-v2-e15525f22076a76bedf6c1575906843ac93001df703e97e3f41e7d914ef325a0.json",
+    "changedStandTiles": [
+      "l0/1/1",
+      "l0/2/1",
+      "l0/2/2",
+      "l0/3/2",
+      "l0/4/2",
+      "l0/3/3",
+      "l0/4/3",
+      "l0/5/3",
+      "l0/2/4",
+      "l0/3/4",
+      "l0/4/4",
+      "l0/3/5",
+      "l0/5/5",
+      "l0/5/6"
+    ]
+  },
+  "limitations": [
+    "Tee pairs are representative on reviewed turf; daily movable tee-marker locations are not surveyed.",
+    "Orange markers on holes 10 through 18 remain unresolved and hidden; finite contained selection references are retained.",
+    "OB boundaries are reviewed virtual map annotations; no unsupported physical white stake locations are rendered."
+  ]
+}

@@ -25,7 +25,7 @@ const vec = {
     line: h.line, lineLen: h.lineLen, pin: h.pin,
     green: { ring: h.green.ring, c: h.green.c },
     fairway: { rings: h.fairway.rings },
-    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), ...(h.tees.status ? { status: h.tees.status } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })) },
+    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), ...(h.tees.status ? { status: h.tees.status } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}), ...(p.reviewId !== undefined && h.tees.marks.some(m => m.sourcePadId === p.reviewId) ? { reviewId: p.reviewId } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.referenceSurfaceKind ? { referenceSurfaceKind: m.referenceSurfaceKind } : {}), ...(m.orthophotoReference ? { orthophotoReference: m.orthophotoReference } : {}), ...(m.displayC !== undefined ? { displayC: m.displayC } : {}), ...(m.sourcePadId !== undefined ? { sourcePadId: m.sourcePadId } : {}) })) },
     bunkers: h.bunkers.map(b => ({ ring: b.ring })),
     elev: h.elev, tiers: h.tiers,
     name: h.name, note: h.note, shape: h.shape,
@@ -56,6 +56,19 @@ const i = src.indexOf(A), j = src.indexOf(B);
 if (i < 0 || j < 0) throw new Error('embed: GEODATA anchors not found');
 const old = src.slice(i + A.length, j);
 const p = patcher(src).sub('geodata', A + old + B, A + block + B);
+const shared = [
+  ['geom.js', 'lineBearingAt'], ['tee-marker-placement.mjs', 'teeMarkerPlacement'],
+  ['tee-marker-placement.mjs', 'teeMarkerPositions'], ['tee-view.mjs', 'teeView'],
+].map(([file, name]) => {
+  const module = fs.readFileSync(path.join(ROOT, 'apps/golf/src/engine', file), 'utf8').replaceAll('\r\n', '\n');
+  const body = module.match(new RegExp(`function ${name}\\([^]*?^\\}`, 'm'))?.[0];
+  if (!body) throw new Error(`embed: shared tee helper missing: ${name}`);
+  return body;
+}).join('\n\n');
+const sharedStart = '// BEGIN SHARED TEE MARKER PLACEMENT', sharedEnd = '// END SHARED TEE MARKER PLACEMENT';
+const sharedOld = p.src.match(/\/\/ BEGIN SHARED TEE MARKER PLACEMENT[^]*?\/\/ END SHARED TEE MARKER PLACEMENT/)?.[0];
+if (!sharedOld) throw new Error('embed: shared tee placement anchors not found');
+p.sub('shared tee placement', sharedOld, `${sharedStart}\n${shared}\n${sharedEnd}`);
 fs.writeFileSync(outFile, p.src);
 
 const size = fs.statSync(outFile).size;

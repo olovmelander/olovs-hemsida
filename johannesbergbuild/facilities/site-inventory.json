@@ -1,0 +1,4284 @@
+{
+  "schemaVersion": 1,
+  "courseId": "johannesberg",
+  "createdOn": "2026-09-10",
+  "status": "source-inventory-reference-only-no-course-geometry-change",
+  "sourceModel": {
+    "path": "johannesbergbuild/course-model.json",
+    "sha256": "d8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed"
+  },
+  "coordinateFrame": {
+    "sourceLocal": "local metres about ORIGIN; north -z, east +x",
+    "originWgs84": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "metresPerLatitudeDegree": 111320,
+    "inverseMetresPerLongitudeDegree": 56118.162848134096,
+    "transform": "EPSG:4326 to EPSG:3006, pyproj always_xy=True",
+    "inverseFormula": "longitude = origin.lon + x / (mPerLat*cos(origin.lat)); latitude = origin.lat - z/mPerLat",
+    "localWarning": "Legacy local +x east and -z north are not exactly EPSG grid axes; project every vertex.",
+    "outputHorizontalCrs": "EPSG:3006",
+    "outputVerticalReference": "RH2000 only when explicitly supplied by the separate laser report"
+  },
+  "orthophotoPanelIndex": "johannesbergbuild/facilities/orthophoto-panels.json",
+  "sourcePolicy": [
+    "Orthophoto capture 2025-06-14; native 0.16 m pixels.",
+    "Existing footprints retained solely as reference masks. Generic building geometry is not a surveyed or fully reviewed wall outline.",
+    "Official estate map establishes hotel roles. Golf clubhouse is the separate red elongated building west of practice green.",
+    "Historical web photographs and 2021 laser returns may predate alterations; no inferred eaves/ridge measurements."
+  ],
+  "roleSourceDocuments": [
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/estate-map-pdf.pdf",
+      "sha256": "60250d0e97d8e41d15ae939aeec4f1648e4eb6226334e1d6803592f0d9b17756",
+      "url": "https://www.johannesbergsslott.se/uploads/1/3/2/7/132774402/karta_jsb_2.pdf",
+      "purpose": "Official named hotel building association; perspective map is not metric geometry."
+    }
+  ],
+  "facilities": [
+    {
+      "id": "johannesberg-building-w296165889",
+      "label": "Building 126",
+      "category": "building",
+      "role": "Unknown current role",
+      "roleEvidence": {
+        "kind": "no-verified-role",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[126]",
+      "sourceBuildingId": "w296165889",
+      "modelBuildingIndex": 126,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            166.5,
+            -685.5
+          ],
+          [
+            169.5,
+            -670
+          ],
+          [
+            139.4,
+            -664.2
+          ],
+          [
+            132.5,
+            -699.7
+          ],
+          [
+            138.1,
+            -700.8
+          ],
+          [
+            141.9,
+            -680.8
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679594.566,
+            6626057.462
+          ],
+          [
+            679598.316,
+            6626042.113
+          ],
+          [
+            679568.461,
+            6626034.862
+          ],
+          [
+            679559.842,
+            6626070.016
+          ],
+          [
+            679565.396,
+            6626071.386
+          ],
+          [
+            679570.164,
+            6626051.577
+          ]
+        ],
+        "centroidLocal": [
+          149.918,
+          -677.823
+        ],
+        "centroidEPSG3006": [
+          679578.334,
+          6626048.988
+        ],
+        "areaSquareMetres": 601.89,
+        "dimensionsM": {
+          "longAxis": 36.25,
+          "shortAxis": 30.75
+        },
+        "orientationDegGridNorth": 166.27,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-building-w296165889-native",
+        "captureDate": "2025-06-14",
+        "observation": "L-shaped service-area roof; pale grey main section, dark perpendicular wing. Yard with stored materials around it; precise use unknown.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-service-hall-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165889"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-manor",
+      "label": "Johannesbergs Slott",
+      "category": "building",
+      "role": "Hotel main building, reception and restaurant",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": "Johannesbergs slott",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[127]",
+      "sourceBuildingId": "w296165891",
+      "modelBuildingIndex": 127,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -106.5,
+            -966.9
+          ],
+          [
+            -120.4,
+            -987.5
+          ],
+          [
+            -100.3,
+            -1000.9
+          ],
+          [
+            -94.7,
+            -992.6
+          ],
+          [
+            -89,
+            -996.4
+          ],
+          [
+            -92.7,
+            -1002
+          ],
+          [
+            -86.1,
+            -1006.5
+          ],
+          [
+            -78,
+            -994.4
+          ],
+          [
+            -87.5,
+            -988
+          ],
+          [
+            -83.7,
+            -982.2
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679307.71,
+            6626325.59
+          ],
+          [
+            679292.804,
+            6626345.512
+          ],
+          [
+            679312.281,
+            6626359.876
+          ],
+          [
+            679318.286,
+            6626351.849
+          ],
+          [
+            679323.809,
+            6626355.922
+          ],
+          [
+            679319.836,
+            6626361.342
+          ],
+          [
+            679326.226,
+            6626366.158
+          ],
+          [
+            679334.917,
+            6626354.453
+          ],
+          [
+            679325.715,
+            6626347.597
+          ],
+          [
+            679329.798,
+            6626341.983
+          ]
+        ],
+        "centroidLocal": [
+          -99.353,
+          -986.516
+        ],
+        "centroidEPSG3006": [
+          679313.921,
+          6626345.543
+        ],
+        "areaSquareMetres": 795.06,
+        "dimensionsM": {
+          "longAxis": 39.15,
+          "shortAxis": 24.88
+        },
+        "orientationDegGridNorth": 53.42,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-manor-native",
+        "captureDate": "2025-06-14",
+        "observation": "Complex dark multi-plane roof, dormers, central raised tower and glazed western conservatory visible. Tall roofs lean relative to ground in orthophoto.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165891"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-old-stable",
+      "label": "Red courtyard building",
+      "category": "building",
+      "role": "Unknown current role; old stable in historical local dossier",
+      "roleEvidence": {
+        "kind": "legacy-dossier-only",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[128]",
+      "sourceBuildingId": "w296165892",
+      "modelBuildingIndex": 128,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -66.3,
+            -806.5
+          ],
+          [
+            -58.5,
+            -797.2
+          ],
+          [
+            -84.1,
+            -781.6
+          ],
+          [
+            -98.1,
+            -782.8
+          ],
+          [
+            -121.2,
+            -817.4
+          ],
+          [
+            -112.4,
+            -823.1
+          ],
+          [
+            -92.5,
+            -792.7
+          ],
+          [
+            -87.1,
+            -791.5
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679355.674,
+            6626167.187
+          ],
+          [
+            679363.93,
+            6626158.267
+          ],
+          [
+            679339.052,
+            6626141.439
+          ],
+          [
+            679324.979,
+            6626141.964
+          ],
+          [
+            679300.188,
+            6626175.437
+          ],
+          [
+            679308.723,
+            6626181.559
+          ],
+          [
+            679330.109,
+            6626152.13
+          ],
+          [
+            679335.572,
+            6626151.19
+          ]
+        ],
+        "centroidLocal": [
+          -91.919,
+          -798.198
+        ],
+        "centroidEPSG3006": [
+          679330.426,
+          6626157.654
+        ],
+        "areaSquareMetres": 807.06,
+        "dimensionsM": {
+          "longAxis": 51.74,
+          "shortAxis": 41.0
+        },
+        "orientationDegGridNorth": 143.48,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-old-stable-native",
+        "captureDate": "2025-06-14",
+        "observation": "Red pitched roof on bent courtyard block beside practice green; two long arms with joined corner.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165892"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-east-slottsvilla",
+      "label": "Östra Slottsvillan",
+      "category": "building",
+      "role": "Hotel rooms 74–88",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": "Östra slottsvillan",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[129]",
+      "sourceBuildingId": "w296165893",
+      "modelBuildingIndex": 129,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -28.7,
+            -889
+          ],
+          [
+            -36.2,
+            -902.2
+          ],
+          [
+            -25.3,
+            -908.3
+          ],
+          [
+            -17.8,
+            -895.1
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679389.344,
+            6626251.469
+          ],
+          [
+            679381.201,
+            6626264.302
+          ],
+          [
+            679391.819,
+            6626270.926
+          ],
+          [
+            679399.962,
+            6626258.092
+          ]
+        ],
+        "centroidLocal": [
+          -27.0,
+          -898.65
+        ],
+        "centroidEPSG3006": [
+          679390.582,
+          6626261.197
+        ],
+        "areaSquareMetres": 190.2,
+        "dimensionsM": {
+          "longAxis": 15.3,
+          "shortAxis": 12.51
+        },
+        "orientationDegGridNorth": 147.6,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-east-slottsvilla-native",
+        "captureDate": "2025-06-14",
+        "observation": "Red hipped roof, elongated low building partly obscured by mature trees.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165893"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-east-wing",
+      "label": "Östra Flygeln",
+      "category": "building",
+      "role": "Hotel rooms 1–28",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": "Östra flygeln",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[130]",
+      "sourceBuildingId": "w296165894",
+      "modelBuildingIndex": 130,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -61.7,
+            -960.4
+          ],
+          [
+            -78.8,
+            -984
+          ],
+          [
+            -70.7,
+            -989.9
+          ],
+          [
+            -53.5,
+            -966.3
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679352.871,
+            6626321.251
+          ],
+          [
+            679334.617,
+            6626344.018
+          ],
+          [
+            679342.442,
+            6626350.306
+          ],
+          [
+            679360.796,
+            6626327.544
+          ]
+        ],
+        "centroidLocal": [
+          -66.162,
+          -975.135
+        ],
+        "centroidEPSG3006": [
+          679347.695,
+          6626335.766
+        ],
+        "areaSquareMetres": 294.41,
+        "dimensionsM": {
+          "longAxis": 29.24,
+          "shortAxis": 10.12
+        },
+        "orientationDegGridNorth": 141.22,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-east-wing-native",
+        "captureDate": "2025-06-14",
+        "observation": "Dark elongated pitched roof with repeated roof panels/solar panels and dormers.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165894"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-clubhouse",
+      "label": "Golf clubhouse",
+      "category": "building",
+      "role": "Golf clubhouse; exact current internal shop/reception layout unverified",
+      "roleEvidence": {
+        "kind": "official-golf-club-photographs",
+        "sourceBuildingName": "klubbhus",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[131]",
+      "sourceBuildingId": "w296165896",
+      "modelBuildingIndex": 131,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -219.9,
+            -805.5
+          ],
+          [
+            -221.7,
+            -808.3
+          ],
+          [
+            -230.4,
+            -802.7
+          ],
+          [
+            -234.7,
+            -809.4
+          ],
+          [
+            -206.2,
+            -827.6
+          ],
+          [
+            -200.2,
+            -818.2
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679201.95,
+            6626158.787
+          ],
+          [
+            679200.013,
+            6626161.499
+          ],
+          [
+            679191.573,
+            6626155.482
+          ],
+          [
+            679186.946,
+            6626161.973
+          ],
+          [
+            679214.602,
+            6626181.538
+          ],
+          [
+            679221.061,
+            6626172.431
+          ]
+        ],
+        "centroidLocal": [
+          -216.686,
+          -814.719
+        ],
+        "centroidEPSG3006": [
+          679204.724,
+          6626168.158
+        ],
+        "areaSquareMetres": 345.97,
+        "dimensionsM": {
+          "longAxis": 33.89,
+          "shortAxis": 11.27
+        },
+        "orientationDegGridNorth": 54.72,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-clubhouse-native",
+        "captureDate": "2025-06-14",
+        "observation": "Elongated red/orange pitched roof with several dormers. Pale terrace/apron along golf-facing side. Historical facade photos show timber building and tiled roof.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165896"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-clubhouse-shed",
+      "label": "Clubhouse outbuilding",
+      "category": "building",
+      "role": "Unknown small building beside golf clubhouse",
+      "roleEvidence": {
+        "kind": "orthophoto-position-only",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[132]",
+      "sourceBuildingId": "w296165897",
+      "modelBuildingIndex": 132,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -214.7,
+            -792.5
+          ],
+          [
+            -217.6,
+            -796.6
+          ],
+          [
+            -208.9,
+            -802.8
+          ],
+          [
+            -206,
+            -798.8
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679207.781,
+            6626146.042
+          ],
+          [
+            679204.681,
+            6626150.001
+          ],
+          [
+            679213.092,
+            6626156.618
+          ],
+          [
+            679216.188,
+            6626152.759
+          ]
+        ],
+        "centroidLocal": [
+          -211.811,
+          -797.665
+        ],
+        "centroidEPSG3006": [
+          679210.426,
+          6626151.344
+        ],
+        "areaSquareMetres": 53.53,
+        "dimensionsM": {
+          "longAxis": 10.76,
+          "shortAxis": 5.03
+        },
+        "orientationDegGridNorth": 51.38,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-clubhouse-shed-native",
+        "captureDate": "2025-06-14",
+        "observation": "Small rectangular red pitched roof; canopy/terrace surfaces nearby must remain separate.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165897"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-west-slottsvilla",
+      "label": "Västra Slottsvillan",
+      "category": "building",
+      "role": "Hotel rooms 59–73",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": "Västra slottsvillan",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[133]",
+      "sourceBuildingId": "w296165898",
+      "modelBuildingIndex": 133,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -39.6,
+            -880.1
+          ],
+          [
+            -51.5,
+            -872.9
+          ],
+          [
+            -59,
+            -885.3
+          ],
+          [
+            -47.1,
+            -892.5
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679378.861,
+            6626242.047
+          ],
+          [
+            679367.294,
+            6626234.276
+          ],
+          [
+            679359.189,
+            6626246.31
+          ],
+          [
+            679370.756,
+            6626254.081
+          ]
+        ],
+        "centroidLocal": [
+          -49.3,
+          -882.7
+        ],
+        "centroidEPSG3006": [
+          679369.025,
+          6626244.178
+        ],
+        "areaSquareMetres": 202.18,
+        "dimensionsM": {
+          "longAxis": 14.53,
+          "shortAxis": 13.93
+        },
+        "orientationDegGridNorth": 146.03,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-west-slottsvilla-native",
+        "captureDate": "2025-06-14",
+        "observation": "Red hipped roof with dormers on a compact detached block.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165898"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-karolinerhuset",
+      "label": "Karolinerhuset",
+      "category": "building",
+      "role": "Hotel rooms 89–124; conference building",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": "Karolinerhuset",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[134]",
+      "sourceBuildingId": "w296165899",
+      "modelBuildingIndex": 134,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -29.8,
+            -948.6
+          ],
+          [
+            -46.1,
+            -971.3
+          ],
+          [
+            -34.1,
+            -979.9
+          ],
+          [
+            -17.8,
+            -957.2
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679385.374,
+            6626310.994
+          ],
+          [
+            679367.963,
+            6626332.899
+          ],
+          [
+            679379.562,
+            6626342.075
+          ],
+          [
+            679396.973,
+            6626320.169
+          ]
+        ],
+        "centroidLocal": [
+          -31.95,
+          -964.25
+        ],
+        "centroidEPSG3006": [
+          679382.468,
+          6626326.534
+        ],
+        "areaSquareMetres": 413.84,
+        "dimensionsM": {
+          "longAxis": 28.02,
+          "shortAxis": 14.79
+        },
+        "orientationDegGridNorth": 141.52,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-karolinerhuset-native",
+        "captureDate": "2025-06-14",
+        "observation": "Dark roof with several dormers and a raised square tower; multi-storey pale facade in official imagery.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165899"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-building-w296165900",
+      "label": "Building 135",
+      "category": "building",
+      "role": "Unknown current role",
+      "roleEvidence": {
+        "kind": "no-verified-role",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[135]",
+      "sourceBuildingId": "w296165900",
+      "modelBuildingIndex": 135,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            168.2,
+            -839.6
+          ],
+          [
+            192.3,
+            -846.1
+          ],
+          [
+            213.9,
+            -766.2
+          ],
+          [
+            176.1,
+            -756
+          ],
+          [
+            172,
+            -771.3
+          ],
+          [
+            185.7,
+            -775
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679588.841,
+            6626211.586
+          ],
+          [
+            679612.654,
+            6626219.247
+          ],
+          [
+            679638.13,
+            6626140.42
+          ],
+          [
+            679600.779,
+            6626128.399
+          ],
+          [
+            679595.937,
+            6626143.495
+          ],
+          [
+            679609.474,
+            6626147.855
+          ]
+        ],
+        "centroidLocal": [
+          190.06,
+          -799.234
+        ],
+        "centroidEPSG3006": [
+          679612.671,
+          6626172.29
+        ],
+        "areaSquareMetres": 2296.4,
+        "dimensionsM": {
+          "longAxis": 82.84,
+          "shortAxis": 39.24
+        },
+        "orientationDegGridNorth": 162.16,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-building-w296165900-native",
+        "captureDate": "2025-06-14",
+        "observation": "Large agricultural-looking L-shaped block with long pale roof and dark side wing; current business/use unverified.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165900"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-west-wing",
+      "label": "Västra Flygeln",
+      "category": "building",
+      "role": "Hotel rooms 29–50; yoga/conference rooms",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": "Västra flygeln",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[136]",
+      "sourceBuildingId": "w296165901",
+      "modelBuildingIndex": 136,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -103.4,
+            -930.3
+          ],
+          [
+            -120.2,
+            -955.9
+          ],
+          [
+            -112.1,
+            -961.3
+          ],
+          [
+            -95.2,
+            -935.7
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679312.575,
+            6626289.153
+          ],
+          [
+            679294.525,
+            6626313.934
+          ],
+          [
+            679302.374,
+            6626319.722
+          ],
+          [
+            679320.524,
+            6626294.946
+          ]
+        ],
+        "centroidLocal": [
+          -107.712,
+          -945.783
+        ],
+        "centroidEPSG3006": [
+          679307.514,
+          6626304.422
+        ],
+        "areaSquareMetres": 300.53,
+        "dimensionsM": {
+          "longAxis": 30.71,
+          "shortAxis": 9.84
+        },
+        "orientationDegGridNorth": 143.77,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-west-wing-native",
+        "captureDate": "2025-06-14",
+        "observation": "Elongated dark pitched roof with repeated roof panels/solar panels, dormers and pale multi-storey walls in official imagery.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165901"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-building-w296165903",
+      "label": "Building 137",
+      "category": "building",
+      "role": "Unknown current role",
+      "roleEvidence": {
+        "kind": "no-verified-role",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[137]",
+      "sourceBuildingId": "w296165903",
+      "modelBuildingIndex": 137,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -31.4,
+            -816.1
+          ],
+          [
+            -7.7,
+            -831.1
+          ],
+          [
+            -2.2,
+            -822.4
+          ],
+          [
+            -25.9,
+            -807.4
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679390.151,
+            6626178.466
+          ],
+          [
+            679413.155,
+            6626194.603
+          ],
+          [
+            679419.08,
+            6626186.172
+          ],
+          [
+            679396.076,
+            6626170.035
+          ]
+        ],
+        "centroidLocal": [
+          -16.8,
+          -819.25
+        ],
+        "centroidEPSG3006": [
+          679404.615,
+          6626182.319
+        ],
+        "areaSquareMetres": 289.56,
+        "dimensionsM": {
+          "longAxis": 28.11,
+          "shortAxis": 10.3
+        },
+        "orientationDegGridNorth": 54.95,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-building-w296165903-native",
+        "captureDate": "2025-06-14",
+        "observation": "Pale elongated pitched-roof block with red end/cross roof; usage unverified.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165903"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-johannesbergsvillan",
+      "label": "Johannesbergs Villan",
+      "category": "building",
+      "role": "Hotel rooms 51–58; spa, gym and pool",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": "Johannesbergsvillan",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[138]",
+      "sourceBuildingId": "w296165904",
+      "modelBuildingIndex": 138,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -76.7,
+            -879.4
+          ],
+          [
+            -84.5,
+            -890.8
+          ],
+          [
+            -73.7,
+            -898.1
+          ],
+          [
+            -65.9,
+            -886.6
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679341.754,
+            6626239.559
+          ],
+          [
+            679333.396,
+            6626250.578
+          ],
+          [
+            679343.857,
+            6626258.396
+          ],
+          [
+            679352.219,
+            6626247.277
+          ]
+        ],
+        "centroidLocal": [
+          -75.197,
+          -888.733
+        ],
+        "centroidEPSG3006": [
+          679342.809,
+          6626248.96
+        ],
+        "areaSquareMetres": 180.76,
+        "dimensionsM": {
+          "longAxis": 13.95,
+          "shortAxis": 13.06
+        },
+        "orientationDegGridNorth": 143.05,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-johannesbergsvillan-native",
+        "captureDate": "2025-06-14",
+        "observation": "Low red-roof section immediately beside the much taller grey-roof Johannesbergs Flygel. Treat as separate source footprint without inventing the internal connection.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165904"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-johannesbergsflygeln",
+      "label": "Johannesbergs Flygel",
+      "category": "building",
+      "role": "Event building / Johannesbergssalen",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": "Johannesbergsflygeln",
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[139]",
+      "sourceBuildingId": "w296165905",
+      "modelBuildingIndex": 139,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -111.7,
+            -901.2
+          ],
+          [
+            -86.3,
+            -916.4
+          ],
+          [
+            -76.8,
+            -900.6
+          ],
+          [
+            -102.2,
+            -885.4
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679305.666,
+            6626259.664
+          ],
+          [
+            679330.362,
+            6626276.082
+          ],
+          [
+            679340.633,
+            6626260.746
+          ],
+          [
+            679315.937,
+            6626244.327
+          ]
+        ],
+        "centroidLocal": [
+          -94.25,
+          -900.9
+        ],
+        "centroidEPSG3006": [
+          679323.149,
+          6626260.205
+        ],
+        "areaSquareMetres": 547.38,
+        "dimensionsM": {
+          "longAxis": 29.72,
+          "shortAxis": 18.46
+        },
+        "orientationDegGridNorth": 56.38,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-johannesbergsflygeln-native",
+        "captureDate": "2025-06-14",
+        "observation": "Large pale complex raised grey roof with smaller dark planes/solar panels. Official map confirms event hall; model footprint is not a roof outline.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165905"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-building-w296165906",
+      "label": "Building 140",
+      "category": "building",
+      "role": "Unknown current role",
+      "roleEvidence": {
+        "kind": "no-verified-role",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[140]",
+      "sourceBuildingId": "w296165906",
+      "modelBuildingIndex": 140,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -78.5,
+            -826.4
+          ],
+          [
+            -92.8,
+            -849
+          ],
+          [
+            -81.2,
+            -856.4
+          ],
+          [
+            -66.8,
+            -833.8
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679342.502,
+            6626186.492
+          ],
+          [
+            679327.099,
+            6626208.394
+          ],
+          [
+            679338.356,
+            6626216.35
+          ],
+          [
+            679353.859,
+            6626194.453
+          ]
+        ],
+        "centroidLocal": [
+          -79.816,
+          -841.39
+        ],
+        "centroidEPSG3006": [
+          679340.464,
+          6626201.412
+        ],
+        "areaSquareMetres": 370.6,
+        "dimensionsM": {
+          "longAxis": 26.83,
+          "shortAxis": 13.87
+        },
+        "orientationDegGridNorth": 144.75,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-building-w296165906-native",
+        "captureDate": "2025-06-14",
+        "observation": "Long red pitched-roof block, shadow on one slope; exact use unverified.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165906"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-building-w296165907",
+      "label": "Building 141",
+      "category": "building",
+      "role": "Unknown current role",
+      "roleEvidence": {
+        "kind": "no-verified-role",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[141]",
+      "sourceBuildingId": "w296165907",
+      "modelBuildingIndex": 141,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            114.9,
+            -756.6
+          ],
+          [
+            117.9,
+            -742.4
+          ],
+          [
+            60.3,
+            -730.2
+          ],
+          [
+            57.3,
+            -744.4
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679539.481,
+            6626126.045
+          ],
+          [
+            679543.168,
+            6626111.995
+          ],
+          [
+            679486.09,
+            6626097.021
+          ],
+          [
+            679482.403,
+            6626111.071
+          ]
+        ],
+        "centroidLocal": [
+          87.6,
+          -743.4
+        ],
+        "centroidEPSG3006": [
+          679512.785,
+          6626111.533
+        ],
+        "areaSquareMetres": 857.16,
+        "dimensionsM": {
+          "longAxis": 59.01,
+          "shortAxis": 14.53
+        },
+        "orientationDegGridNorth": 75.3,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-building-w296165907-native",
+        "captureDate": "2025-06-14",
+        "observation": "Long dark simple pitched-roof service-area block; exact use unverified.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165907"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-building-w296165908",
+      "label": "Building 142",
+      "category": "building",
+      "role": "Unknown current role",
+      "roleEvidence": {
+        "kind": "no-verified-role",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[142]",
+      "sourceBuildingId": "w296165908",
+      "modelBuildingIndex": 142,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -30.5,
+            -932.8
+          ],
+          [
+            -33.4,
+            -937.9
+          ],
+          [
+            -26,
+            -942.1
+          ],
+          [
+            -23.1,
+            -937
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679385.434,
+            6626295.166
+          ],
+          [
+            679382.285,
+            6626300.124
+          ],
+          [
+            679389.491,
+            6626304.679
+          ],
+          [
+            679392.639,
+            6626299.721
+          ]
+        ],
+        "centroidLocal": [
+          -28.25,
+          -937.45
+        ],
+        "centroidEPSG3006": [
+          679387.462,
+          6626299.923
+        ],
+        "areaSquareMetres": 50.07,
+        "dimensionsM": {
+          "longAxis": 8.54,
+          "shortAxis": 5.87
+        },
+        "orientationDegGridNorth": 57.7,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-building-w296165908-native",
+        "captureDate": "2025-06-14",
+        "observation": "Very small roof among dense tree crowns; outline and current function remain uncertain.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165908"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "low"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-private-residence",
+      "label": "Private residence",
+      "category": "building",
+      "role": "Private residence",
+      "roleEvidence": {
+        "kind": "official-labelled-estate-map",
+        "sourceBuildingName": null,
+        "externalReferences": "johannesbergbuild/facilities/web-reference-sources.json"
+      },
+      "sourceModelPath": "infra.buildings[143]",
+      "sourceBuildingId": "w296165909",
+      "modelBuildingIndex": 143,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -21.3,
+            -914.7
+          ],
+          [
+            -28.7,
+            -925.9
+          ],
+          [
+            -20.8,
+            -931.1
+          ],
+          [
+            -13.4,
+            -919.9
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679395.515,
+            6626277.516
+          ],
+          [
+            679387.568,
+            6626288.355
+          ],
+          [
+            679395.226,
+            6626293.934
+          ],
+          [
+            679403.173,
+            6626283.095
+          ]
+        ],
+        "centroidLocal": [
+          -21.05,
+          -922.9
+        ],
+        "centroidEPSG3006": [
+          679395.371,
+          6626285.725
+        ],
+        "areaSquareMetres": 127.34,
+        "dimensionsM": {
+          "longAxis": 13.47,
+          "shortAxis": 9.47
+        },
+        "orientationDegGridNorth": 143.74,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-private-residence-native",
+        "captureDate": "2025-06-14",
+        "observation": "Small red complex roof largely tree-occluded; official estate map identifies private residence.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w296165909"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "high",
+        "footprintWalls": "unverified",
+        "roofAppearance": "low"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-range-hut",
+      "label": "Building beside northern range bays",
+      "category": "building",
+      "role": "Range-side hut; function unverified",
+      "roleEvidence": {
+        "kind": "legacy-dossier-plus-position",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[186]",
+      "sourceBuildingId": "w378922988",
+      "modelBuildingIndex": 186,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -229.5,
+            -950.6
+          ],
+          [
+            -227.7,
+            -942.9
+          ],
+          [
+            -219.9,
+            -944.8
+          ],
+          [
+            -221.8,
+            -952.5
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679185.362,
+            6626303.37
+          ],
+          [
+            679187.534,
+            6626295.76
+          ],
+          [
+            679195.251,
+            6626298.035
+          ],
+          [
+            679192.979,
+            6626305.64
+          ]
+        ],
+        "centroidLocal": [
+          -224.721,
+          -947.693
+        ],
+        "centroidEPSG3006": [
+          679190.286,
+          6626300.694
+        ],
+        "areaSquareMetres": 63.38,
+        "dimensionsM": {
+          "longAxis": 8.05,
+          "shortAxis": 7.94
+        },
+        "orientationDegGridNorth": 73.57,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-range-hut-native",
+        "captureDate": "2025-06-14",
+        "observation": "Small dark detached roof west of estate road at north end of range bays; exact current role uncertain.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w378922988"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-building-w426174582",
+      "label": "Building 270",
+      "category": "building",
+      "role": "Unknown current role",
+      "roleEvidence": {
+        "kind": "no-verified-role",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[270]",
+      "sourceBuildingId": "w426174582",
+      "modelBuildingIndex": 270,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            62.8,
+            -838
+          ],
+          [
+            65.2,
+            -832.5
+          ],
+          [
+            73.4,
+            -836.1
+          ],
+          [
+            71.1,
+            -841.6
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679483.401,
+            6626204.901
+          ],
+          [
+            679486.069,
+            6626199.519
+          ],
+          [
+            679494.104,
+            6626203.513
+          ],
+          [
+            679491.537,
+            6626208.9
+          ]
+        ],
+        "centroidLocal": [
+          68.118,
+          -837.053
+        ],
+        "centroidEPSG3006": [
+          679488.771,
+          6626204.211
+        ],
+        "areaSquareMetres": 54.0,
+        "dimensionsM": {
+          "longAxis": 9.07,
+          "shortAxis": 6.01
+        },
+        "orientationDegGridNorth": 63.82,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-building-w426174582-native",
+        "captureDate": "2025-06-14",
+        "observation": "Tiny detached red roof east of the hotel/golf hub; exact role unknown.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "w426174582"
+        },
+        "modelApproximateHeightMetres": null,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-building-trace-tower",
+      "label": "Building 305",
+      "category": "building",
+      "role": "Unknown current role",
+      "roleEvidence": {
+        "kind": "no-verified-role",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[305]",
+      "sourceBuildingId": "trace-tower",
+      "modelBuildingIndex": 305,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -53,
+            -755
+          ],
+          [
+            -48,
+            -755
+          ],
+          [
+            -48,
+            -749
+          ],
+          [
+            -53,
+            -749
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679371.468,
+            6626116.348
+          ],
+          [
+            679376.473,
+            6626116.589
+          ],
+          [
+            679376.762,
+            6626110.591
+          ],
+          [
+            679371.757,
+            6626110.35
+          ]
+        ],
+        "centroidLocal": [
+          -50.5,
+          -752.0
+        ],
+        "centroidEPSG3006": [
+          679374.115,
+          6626113.469
+        ],
+        "areaSquareMetres": 30.09,
+        "dimensionsM": {
+          "longAxis": 6.01,
+          "shortAxis": 5.01
+        },
+        "orientationDegGridNorth": 177.24,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-model-footprint-not-wall-verified",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-building-trace-tower-native",
+        "captureDate": "2025-06-14",
+        "observation": "Tiny isolated feature in open rough south of courtyard block. Legacy trace calls it tower, but object identity and 10 m height are unverified.",
+        "roofEdgeTrace": null,
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "trace-tower"
+        },
+        "modelApproximateHeightMetres": 10,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "unverified",
+        "footprintWalls": "unverified",
+        "roofAppearance": "low"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    },
+    {
+      "id": "johannesberg-range-shelter",
+      "label": "Range shelter",
+      "category": "building",
+      "role": "Small roof shelter beside southern range bays",
+      "roleEvidence": {
+        "kind": "reviewed-2025-orthophoto",
+        "sourceBuildingName": null,
+        "externalReferences": null
+      },
+      "sourceModelPath": "infra.buildings[306]",
+      "sourceBuildingId": "trace-range-shelter",
+      "modelBuildingIndex": 306,
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -201.29,
+            -890.81
+          ],
+          [
+            -197.17,
+            -889.97
+          ],
+          [
+            -197.49,
+            -886.62
+          ],
+          [
+            -201.61,
+            -887.46
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679216.478,
+            6626244.961
+          ],
+          [
+            679220.643,
+            6626244.32
+          ],
+          [
+            679220.483,
+            6626240.956
+          ],
+          [
+            679216.319,
+            6626241.597
+          ]
+        ],
+        "centroidLocal": [
+          -199.39,
+          -888.715
+        ],
+        "centroidEPSG3006": [
+          679218.481,
+          6626242.959
+        ],
+        "areaSquareMetres": 14.11,
+        "dimensionsM": {
+          "longAxis": 4.57,
+          "shortAxis": 3.35
+        },
+        "orientationDegGridNorth": 98.75,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "reviewed-2025-roof-edge-reference",
+      "footprintPurpose": "Location and selection mask for modelling reference; no new wall geometry established.",
+      "roofEvidence": {
+        "nativePanelId": "johannesberg-range-shelter-native",
+        "captureDate": "2025-06-14",
+        "observation": "Small pale rectangular shelter roof beside range mat path. Footprint was explicitly traced as roof edge in 2025 orthophoto review.",
+        "roofEdgeTrace": {
+          "ledger": {
+            "path": "johannesbergbuild/mapping/lm-review-estate.json",
+            "sha256": "0ae91ca6e8c533a9bfff05d099d595e4afb1ecaef45cf1d9917dda9eb091212e"
+          },
+          "entryId": "estate-range-shelter",
+          "uncertaintyMetres": 1.0,
+          "interpretation": "Visible roof edge, including overhang/parallax uncertainty; not a surveyed wall footprint."
+        },
+        "measuredPitchDegrees": null
+      },
+      "heightEvidence": {
+        "report": "johannesbergbuild/facilities/roof-height-evidence.json",
+        "joinKey": {
+          "sourceBuildingId": "trace-range-shelter"
+        },
+        "modelApproximateHeightMetres": 2.6,
+        "modelHeightVerified": false,
+        "measuredEaveHeightMetres": null,
+        "measuredRidgeHeightMetres": null,
+        "limitation": "2021 unclassified laser surface candidates constrain historical massing; they do not prove current eaves or ridge."
+      },
+      "confidence": {
+        "siteIdentity": "high",
+        "role": "medium",
+        "footprintWalls": "unverified",
+        "roofAppearance": "moderate"
+      },
+      "gaps": [
+        "Wall footprint differs from roof overhang and orthophoto parallax; do not snap walls to roof pixels.",
+        "Current detailed facade dimensions and pitch require further modelling review."
+      ]
+    }
+  ],
+  "contextFeatures": [
+    {
+      "id": "johannesberg-practice-green",
+      "label": "Practice putting green",
+      "category": "site-context",
+      "sourceModelPath": "scenery.practiceGreens[0]",
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -164.12,
+            -816.19
+          ],
+          [
+            -163.53,
+            -818.4
+          ],
+          [
+            -161.08,
+            -819.57
+          ],
+          [
+            -158.38,
+            -819.12
+          ],
+          [
+            -154.79,
+            -817.34
+          ],
+          [
+            -150.35,
+            -813.45
+          ],
+          [
+            -146.76,
+            -808.15
+          ],
+          [
+            -143.37,
+            -802.23
+          ],
+          [
+            -139.97,
+            -796.62
+          ],
+          [
+            -137.2,
+            -791.04
+          ],
+          [
+            -136.56,
+            -787.65
+          ],
+          [
+            -137.8,
+            -785.15
+          ],
+          [
+            -140.28,
+            -783.35
+          ],
+          [
+            -143.98,
+            -783.05
+          ],
+          [
+            -147.25,
+            -784.65
+          ],
+          [
+            -150.5,
+            -787.04
+          ],
+          [
+            -153.36,
+            -790.54
+          ],
+          [
+            -155.58,
+            -794.33
+          ],
+          [
+            -156.85,
+            -797.91
+          ],
+          [
+            -156.99,
+            -801.6
+          ],
+          [
+            -158.44,
+            -804.71
+          ],
+          [
+            -160.83,
+            -808.19
+          ],
+          [
+            -163.06,
+            -811.66
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679257.278,
+            6626172.16
+          ],
+          [
+            679257.763,
+            6626174.397
+          ],
+          [
+            679260.159,
+            6626175.685
+          ],
+          [
+            679262.884,
+            6626175.365
+          ],
+          [
+            679266.563,
+            6626173.759
+          ],
+          [
+            679271.195,
+            6626170.084
+          ],
+          [
+            679275.044,
+            6626164.959
+          ],
+          [
+            679278.723,
+            6626159.205
+          ],
+          [
+            679282.397,
+            6626153.761
+          ],
+          [
+            679285.438,
+            6626148.316
+          ],
+          [
+            679286.242,
+            6626144.958
+          ],
+          [
+            679285.121,
+            6626142.399
+          ],
+          [
+            679282.725,
+            6626140.481
+          ],
+          [
+            679279.035,
+            6626140.002
+          ],
+          [
+            679275.684,
+            6626141.444
+          ],
+          [
+            679272.316,
+            6626143.677
+          ],
+          [
+            679269.284,
+            6626147.038
+          ],
+          [
+            679266.879,
+            6626150.719
+          ],
+          [
+            679265.436,
+            6626154.237
+          ],
+          [
+            679265.118,
+            6626157.919
+          ],
+          [
+            679263.517,
+            6626160.958
+          ],
+          [
+            679260.957,
+            6626164.321
+          ],
+          [
+            679258.557,
+            6626167.682
+          ]
+        ],
+        "centroidLocal": [
+          -150.218,
+          -800.607
+        ],
+        "centroidEPSG3006": [
+          679271.945,
+          6626157.252
+        ],
+        "areaSquareMetres": 488.57,
+        "dimensionsM": {
+          "longAxis": 42.05,
+          "shortAxis": 14.65
+        },
+        "orientationDegGridNorth": 146.71,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "reviewed-2025-mown-surface",
+      "notes": [
+        "Existing September 2026 estate alignment review; mown green perimeter, not a building footprint."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-range-landing-area",
+      "label": "Driving range landing area",
+      "category": "site-context",
+      "sourceModelPath": "scenery.range[0]",
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -409,
+            -995
+          ],
+          [
+            -390,
+            -996
+          ],
+          [
+            -360,
+            -992
+          ],
+          [
+            -330,
+            -990
+          ],
+          [
+            -300,
+            -988
+          ],
+          [
+            -270,
+            -986
+          ],
+          [
+            -250,
+            -983
+          ],
+          [
+            -236,
+            -978
+          ],
+          [
+            -226,
+            -970
+          ],
+          [
+            -217,
+            -960
+          ],
+          [
+            -213.5,
+            -948
+          ],
+          [
+            -210.5,
+            -934
+          ],
+          [
+            -208.5,
+            -920
+          ],
+          [
+            -206,
+            -906
+          ],
+          [
+            -203.5,
+            -893
+          ],
+          [
+            -203,
+            -883
+          ],
+          [
+            -226,
+            -876
+          ],
+          [
+            -246,
+            -868
+          ],
+          [
+            -266,
+            -860
+          ],
+          [
+            -286,
+            -850
+          ],
+          [
+            -305,
+            -843
+          ],
+          [
+            -325,
+            -842
+          ],
+          [
+            -345,
+            -848
+          ],
+          [
+            -365,
+            -853
+          ],
+          [
+            -385,
+            -858
+          ],
+          [
+            -403,
+            -861
+          ],
+          [
+            -420,
+            -872
+          ],
+          [
+            -432,
+            -880
+          ],
+          [
+            -441,
+            -884
+          ],
+          [
+            -450,
+            -891
+          ],
+          [
+            -457,
+            -900
+          ],
+          [
+            -459,
+            -910
+          ],
+          [
+            -462,
+            -922
+          ],
+          [
+            -465,
+            -935
+          ],
+          [
+            -465,
+            -945
+          ],
+          [
+            -459,
+            -953
+          ],
+          [
+            -448,
+            -958
+          ],
+          [
+            -436,
+            -962
+          ],
+          [
+            -424,
+            -965
+          ],
+          [
+            -417,
+            -970
+          ],
+          [
+            -414,
+            -980
+          ],
+          [
+            -411,
+            -988
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679003.534,
+            6626339.114
+          ],
+          [
+            679022.507,
+            6626341.027
+          ],
+          [
+            679052.731,
+            6626338.472
+          ],
+          [
+            679082.859,
+            6626337.917
+          ],
+          [
+            679112.988,
+            6626337.362
+          ],
+          [
+            679143.116,
+            6626336.807
+          ],
+          [
+            679163.282,
+            6626334.771
+          ],
+          [
+            679177.537,
+            6626330.447
+          ],
+          [
+            679187.932,
+            6626322.932
+          ],
+          [
+            679197.423,
+            6626313.369
+          ],
+          [
+            679201.504,
+            6626301.542
+          ],
+          [
+            679205.181,
+            6626287.691
+          ],
+          [
+            679207.856,
+            6626273.793
+          ],
+          [
+            679211.032,
+            6626259.919
+          ],
+          [
+            679214.16,
+            6626247.044
+          ],
+          [
+            679215.142,
+            6626237.072
+          ],
+          [
+            679192.453,
+            6626228.967
+          ],
+          [
+            679172.815,
+            6626220.007
+          ],
+          [
+            679153.178,
+            6626211.046
+          ],
+          [
+            679133.637,
+            6626200.087
+          ],
+          [
+            679114.952,
+            6626192.175
+          ],
+          [
+            679094.978,
+            6626190.213
+          ],
+          [
+            679074.667,
+            6626195.248
+          ],
+          [
+            679054.405,
+            6626199.284
+          ],
+          [
+            679034.142,
+            6626203.319
+          ],
+          [
+            679015.978,
+            6626205.452
+          ],
+          [
+            678998.431,
+            6626215.63
+          ],
+          [
+            678986.034,
+            6626223.05
+          ],
+          [
+            678976.832,
+            6626226.615
+          ],
+          [
+            678967.485,
+            6626233.18
+          ],
+          [
+            678960.046,
+            6626241.84
+          ],
+          [
+            678957.563,
+            6626251.74
+          ],
+          [
+            678953.983,
+            6626263.591
+          ],
+          [
+            678950.356,
+            6626276.442
+          ],
+          [
+            678949.876,
+            6626286.438
+          ],
+          [
+            678955.498,
+            6626294.724
+          ],
+          [
+            678966.27,
+            6626300.251
+          ],
+          [
+            678978.091,
+            6626304.827
+          ],
+          [
+            678989.959,
+            6626308.403
+          ],
+          [
+            678996.727,
+            6626313.738
+          ],
+          [
+            678999.25,
+            6626323.879
+          ],
+          [
+            679001.868,
+            6626332.02
+          ]
+        ],
+        "centroidLocal": [
+          -331.725,
+          -921.433
+        ],
+        "centroidEPSG3006": [
+          679084.428,
+          6626269.292
+        ],
+        "areaSquareMetres": 30335.4,
+        "dimensionsM": {
+          "longAxis": 266.83,
+          "shortAxis": 148.19
+        },
+        "orientationDegGridNorth": 92.0,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-context-not-boundary-verified",
+      "notes": [
+        "Range play is toward the west. Native hub image covers only the east bay edge; separate 0.8 m crop covers the complete context.",
+        "Inherited mown-area polygon, no new boundary survey. Existing net list is empty; do not invent nets."
+      ],
+      "evidencePanelId": "range-full-context-080m"
+    },
+    {
+      "id": "johannesberg-range-mat-line",
+      "label": "Range bay line",
+      "category": "site-context",
+      "sourceModelPath": "scenery.rangeFacilities.bays",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -216.5,
+            -941
+          ],
+          [
+            -205,
+            -893
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679198.837,
+            6626294.4
+          ],
+          [
+            679212.658,
+            6626246.972
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-context-not-boundary-verified",
+      "notes": [
+        "Two inherited endpoints with nominal 5 m pitch; individual mats and bay count have not been measured by this inventory."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-practice-bunker",
+      "label": "Practice bunker beside range access",
+      "category": "site-context",
+      "sourceModelPath": "scenery.bunkers[0]",
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -221,
+            -873
+          ],
+          [
+            -212,
+            -875
+          ],
+          [
+            -208,
+            -868
+          ],
+          [
+            -210,
+            -860
+          ],
+          [
+            -218,
+            -859
+          ],
+          [
+            -222,
+            -866
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679197.603,
+            6626226.209
+          ],
+          [
+            679206.516,
+            6626228.641
+          ],
+          [
+            679210.857,
+            6626221.837
+          ],
+          [
+            679209.24,
+            6626213.743
+          ],
+          [
+            679201.279,
+            6626212.358
+          ],
+          [
+            679196.938,
+            6626219.163
+          ]
+        ],
+        "centroidLocal": [
+          -215.052,
+          -866.925
+        ],
+        "centroidEPSG3006": [
+          679203.849,
+          6626220.422
+        ],
+        "areaSquareMetres": 168.01,
+        "dimensionsM": {
+          "longAxis": 15.09,
+          "shortAxis": 14.13
+        },
+        "orientationDegGridNorth": 164.74,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-context-not-boundary-verified",
+      "notes": [
+        "Retained contextual bunker polygon."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-parking-forecourt",
+      "label": "Hotel roadside parking",
+      "category": "site-context",
+      "sourceModelPath": "infra.parking[0]",
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -174,
+            -968
+          ],
+          [
+            -152,
+            -973
+          ],
+          [
+            -124,
+            -888
+          ],
+          [
+            -149,
+            -884
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679240.085,
+            6626323.437
+          ],
+          [
+            679261.868,
+            6626329.495
+          ],
+          [
+            679293.988,
+            6626245.876
+          ],
+          [
+            679269.153,
+            6626240.673
+          ]
+        ],
+        "centroidLocal": [
+          -149.477,
+          -927.497
+        ],
+        "centroidEPSG3006": [
+          679266.583,
+          6626284.131
+        ],
+        "areaSquareMetres": 2111.37,
+        "dimensionsM": {
+          "longAxis": 91.04,
+          "shortAxis": 25.15
+        },
+        "orientationDegGridNorth": 160.65,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-context-not-boundary-verified",
+      "notes": [
+        "Existing semantic parking area; visible cars confirm activity but this polygon does not establish every physical kerb/road boundary."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-parking-club",
+      "label": "Golf club main parking",
+      "category": "site-context",
+      "sourceModelPath": "infra.parking[1]",
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -156,
+            -878
+          ],
+          [
+            -128,
+            -878
+          ],
+          [
+            -126,
+            -836
+          ],
+          [
+            -156,
+            -836
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679262.434,
+            6626234.338
+          ],
+          [
+            679290.465,
+            6626235.687
+          ],
+          [
+            679294.488,
+            6626193.799
+          ],
+          [
+            679264.454,
+            6626192.354
+          ]
+        ],
+        "centroidLocal": [
+          -141.494,
+          -856.759
+        ],
+        "centroidEPSG3006": [
+          679277.978,
+          6626213.803
+        ],
+        "areaSquareMetres": 1221.73,
+        "dimensionsM": {
+          "longAxis": 42.03,
+          "shortAxis": 30.07
+        },
+        "orientationDegGridNorth": 177.25,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-context-not-boundary-verified",
+      "notes": [
+        "Existing semantic parking area; visible cars confirm activity but this polygon does not establish every physical kerb/road boundary."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-parking-club-apron",
+      "label": "Clubhouse apron",
+      "category": "site-context",
+      "sourceModelPath": "infra.parking[2]",
+      "geometry": {
+        "kind": "ring",
+        "ringLocal": [
+          [
+            -197,
+            -826
+          ],
+          [
+            -173,
+            -826
+          ],
+          [
+            -173,
+            -804
+          ],
+          [
+            -197,
+            -804
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            679223.89,
+            6626180.382
+          ],
+          [
+            679247.916,
+            6626181.538
+          ],
+          [
+            679248.975,
+            6626159.546
+          ],
+          [
+            679224.948,
+            6626158.39
+          ]
+        ],
+        "centroidLocal": [
+          -185.0,
+          -815.0
+        ],
+        "centroidEPSG3006": [
+          679236.432,
+          6626169.964
+        ],
+        "areaSquareMetres": 529.61,
+        "dimensionsM": {
+          "longAxis": 24.05,
+          "shortAxis": 22.02
+        },
+        "orientationDegGridNorth": 87.25,
+        "dimensionMethod": "Minimum-area oriented bounding rectangle of inherited footprint; not measured wall lengths."
+      },
+      "geometryStatus": "inherited-context-not-boundary-verified",
+      "notes": [
+        "Existing semantic parking area; visible cars confirm activity but this polygon does not establish every physical kerb/road boundary."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w70570572",
+      "label": "Access w70570572",
+      "category": "site-context",
+      "sourceModelPath": "infra.paths[0]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -202.2,
+            -832.7
+          ],
+          [
+            -196.5,
+            -851
+          ],
+          [
+            -182.1,
+            -859.8
+          ],
+          [
+            -169.9,
+            -862
+          ],
+          [
+            -139.1,
+            -877.8
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679218.362,
+            6626186.829
+          ],
+          [
+            679223.188,
+            6626205.397
+          ],
+          [
+            679237.18,
+            6626214.887
+          ],
+          [
+            679249.288,
+            6626217.674
+          ],
+          [
+            679279.362,
+            6626234.952
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-trace-path-club-range",
+      "label": "Access trace-path-club-range",
+      "category": "site-context",
+      "sourceModelPath": "infra.paths[8]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -196.5,
+            -851
+          ],
+          [
+            -197.97,
+            -860.08
+          ],
+          [
+            -199.75,
+            -869.61
+          ],
+          [
+            -201.19,
+            -879.6
+          ],
+          [
+            -202.25,
+            -887.33
+          ],
+          [
+            -202.61,
+            -893.27
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679223.188,
+            6626205.397
+          ],
+          [
+            679221.279,
+            6626214.403
+          ],
+          [
+            679219.039,
+            6626223.843
+          ],
+          [
+            679217.117,
+            6626233.76
+          ],
+          [
+            679215.684,
+            6626241.436
+          ],
+          [
+            679215.038,
+            6626247.357
+          ]
+        ]
+      },
+      "geometryStatus": "reviewed-2025-path-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w70570571",
+      "label": "Access w70570571",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[2]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            60.4,
+            -778.6
+          ],
+          [
+            43.1,
+            -781.1
+          ],
+          [
+            24.8,
+            -777.5
+          ],
+          [
+            5,
+            -762.2
+          ],
+          [
+            -4.7,
+            -747.3
+          ],
+          [
+            -27.7,
+            -765.1
+          ],
+          [
+            -37.7,
+            -778.1
+          ],
+          [
+            -95.9,
+            -780
+          ],
+          [
+            -115,
+            -784.2
+          ],
+          [
+            -127.8,
+            -793.3
+          ],
+          [
+            -136.7,
+            -810.1
+          ],
+          [
+            -133.3,
+            -819.7
+          ],
+          [
+            -131,
+            -836.8
+          ],
+          [
+            -124.1,
+            -857.6
+          ],
+          [
+            -178.6,
+            -935
+          ],
+          [
+            -179.3,
+            -942.8
+          ],
+          [
+            -178.2,
+            -953.2
+          ],
+          [
+            -143.2,
+            -1009.7
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679483.859,
+            6626145.407
+          ],
+          [
+            679466.42,
+            6626147.072
+          ],
+          [
+            679448.272,
+            6626142.591
+          ],
+          [
+            679429.187,
+            6626126.342
+          ],
+          [
+            679420.193,
+            6626110.979
+          ],
+          [
+            679396.31,
+            6626127.664
+          ],
+          [
+            679385.673,
+            6626140.177
+          ],
+          [
+            679327.316,
+            6626139.271
+          ],
+          [
+            679307.992,
+            6626142.549
+          ],
+          [
+            679294.74,
+            6626151.028
+          ],
+          [
+            679285.022,
+            6626167.393
+          ],
+          [
+            679287.964,
+            6626177.153
+          ],
+          [
+            679289.444,
+            6626194.358
+          ],
+          [
+            679295.35,
+            6626215.482
+          ],
+          [
+            679237.067,
+            6626290.228
+          ],
+          [
+            679235.991,
+            6626297.991
+          ],
+          [
+            679236.592,
+            6626308.44
+          ],
+          [
+            679268.912,
+            6626366.605
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w296165895",
+      "label": "Access w296165895",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[10]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            105.7,
+            -766.6
+          ],
+          [
+            100.9,
+            -800.2
+          ],
+          [
+            46.4,
+            -920.9
+          ],
+          [
+            -41.2,
+            -1018.7
+          ],
+          [
+            -54.6,
+            -1039.9
+          ],
+          [
+            -56.7,
+            -1051.4
+          ],
+          [
+            -56.3,
+            -1086.3
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679529.788,
+            6626135.597
+          ],
+          [
+            679523.364,
+            6626168.953
+          ],
+          [
+            679462.99,
+            6626286.979
+          ],
+          [
+            679370.587,
+            6626380.518
+          ],
+          [
+            679356.152,
+            6626401.064
+          ],
+          [
+            679353.496,
+            6626412.458
+          ],
+          [
+            679352.217,
+            6626447.364
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804282",
+      "label": "Access w303804282",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[11]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -124.1,
+            -857.6
+          ],
+          [
+            -112,
+            -845.4
+          ],
+          [
+            -96.9,
+            -823.2
+          ],
+          [
+            -87.9,
+            -817.7
+          ],
+          [
+            -81.8,
+            -818.3
+          ],
+          [
+            -70,
+            -824.8
+          ],
+          [
+            -49.8,
+            -839.6
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679295.35,
+            6626215.482
+          ],
+          [
+            679308.051,
+            6626203.87
+          ],
+          [
+            679324.236,
+            6626182.406
+          ],
+          [
+            679333.511,
+            6626177.342
+          ],
+          [
+            679339.589,
+            6626178.236
+          ],
+          [
+            679351.089,
+            6626185.302
+          ],
+          [
+            679370.599,
+            6626201.07
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804283",
+      "label": "Access w303804283",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[12]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -3.8,
+            -838.7
+          ],
+          [
+            -22.8,
+            -827.8
+          ],
+          [
+            -32.5,
+            -826.9
+          ],
+          [
+            -38.6,
+            -828.4
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679416.693,
+            6626202.389
+          ],
+          [
+            679398.197,
+            6626190.576
+          ],
+          [
+            679388.53,
+            6626189.209
+          ],
+          [
+            679382.351,
+            6626190.414
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804284",
+      "label": "Access w303804284",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[13]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            105.7,
+            -766.6
+          ],
+          [
+            60.4,
+            -778.6
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679529.788,
+            6626135.597
+          ],
+          [
+            679483.859,
+            6626145.407
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804285",
+      "label": "Access w303804285",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[14]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -29.6,
+            -878.5
+          ],
+          [
+            28.5,
+            -793.3
+          ],
+          [
+            43.1,
+            -781.1
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679388.949,
+            6626240.93
+          ],
+          [
+            679451.216,
+            6626158.563
+          ],
+          [
+            679466.42,
+            6626147.072
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804286",
+      "label": "Access w303804286",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[15]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -29.6,
+            -878.5
+          ],
+          [
+            -52,
+            -864.6
+          ],
+          [
+            -55.2,
+            -857.4
+          ],
+          [
+            -55.5,
+            -848.8
+          ],
+          [
+            -49.8,
+            -839.6
+          ],
+          [
+            -36.7,
+            -825.8
+          ],
+          [
+            -33.7,
+            -815.7
+          ],
+          [
+            -33.7,
+            -802
+          ],
+          [
+            -37.7,
+            -778.1
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679388.949,
+            6626240.93
+          ],
+          [
+            679367.193,
+            6626225.955
+          ],
+          [
+            679364.336,
+            6626218.603
+          ],
+          [
+            679364.45,
+            6626209.992
+          ],
+          [
+            679370.599,
+            6626201.07
+          ],
+          [
+            679384.378,
+            6626187.907
+          ],
+          [
+            679387.867,
+            6626177.955
+          ],
+          [
+            679388.527,
+            6626164.261
+          ],
+          [
+            679385.673,
+            6626140.177
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804288",
+      "label": "Access w303804288",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[17]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -79.2,
+            -955.1
+          ],
+          [
+            -75.7,
+            -960.3
+          ],
+          [
+            -78,
+            -969
+          ],
+          [
+            -83.7,
+            -971.7
+          ],
+          [
+            -90.3,
+            -969.8
+          ],
+          [
+            -93.6,
+            -964.4
+          ],
+          [
+            -92.3,
+            -957.5
+          ],
+          [
+            -87.2,
+            -953.7
+          ],
+          [
+            -79.2,
+            -955.1
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679335.608,
+            6626315.11
+          ],
+          [
+            679338.861,
+            6626320.477
+          ],
+          [
+            679336.14,
+            6626329.062
+          ],
+          [
+            679330.304,
+            6626331.487
+          ],
+          [
+            679323.788,
+            6626329.269
+          ],
+          [
+            679320.744,
+            6626323.712
+          ],
+          [
+            679322.378,
+            6626316.878
+          ],
+          [
+            679327.666,
+            6626313.325
+          ],
+          [
+            679335.608,
+            6626315.11
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804289",
+      "label": "Access w303804289",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[18]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -144.6,
+            -982.2
+          ],
+          [
+            -157.7,
+            -967.1
+          ],
+          [
+            -161.6,
+            -956
+          ],
+          [
+            -160.7,
+            -950.6
+          ],
+          [
+            -133,
+            -904.7
+          ],
+          [
+            -118.7,
+            -873.1
+          ],
+          [
+            -124.1,
+            -857.6
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679268.833,
+            6626339.048
+          ],
+          [
+            679256.445,
+            6626323.323
+          ],
+          [
+            679253.075,
+            6626312.039
+          ],
+          [
+            679254.236,
+            6626306.684
+          ],
+          [
+            679284.174,
+            6626262.136
+          ],
+          [
+            679300.011,
+            6626231.237
+          ],
+          [
+            679295.35,
+            6626215.482
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804292",
+      "label": "Access w303804292",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[19]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -79.2,
+            -955.1
+          ],
+          [
+            -29.6,
+            -878.5
+          ],
+          [
+            -22.7,
+            -879.7
+          ],
+          [
+            -15,
+            -878.3
+          ],
+          [
+            13.1,
+            -869.1
+          ],
+          [
+            27.1,
+            -866.6
+          ],
+          [
+            38,
+            -872.1
+          ],
+          [
+            44.3,
+            -880
+          ],
+          [
+            49.2,
+            -888
+          ],
+          [
+            53.8,
+            -904.5
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679335.608,
+            6626315.11
+          ],
+          [
+            679388.949,
+            6626240.93
+          ],
+          [
+            679395.799,
+            6626242.462
+          ],
+          [
+            679403.574,
+            6626241.434
+          ],
+          [
+            679432.148,
+            6626233.592
+          ],
+          [
+            679446.284,
+            6626231.768
+          ],
+          [
+            679456.931,
+            6626237.792
+          ],
+          [
+            679462.858,
+            6626245.993
+          ],
+          [
+            679467.378,
+            6626254.226
+          ],
+          [
+            679471.188,
+            6626270.942
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w303804407",
+      "label": "Access w303804407",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[20]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -144.6,
+            -982.2
+          ],
+          [
+            -144.3,
+            -970.3
+          ],
+          [
+            -132.6,
+            -947.1
+          ],
+          [
+            -108.8,
+            -922.1
+          ],
+          [
+            -101.9,
+            -919.1
+          ],
+          [
+            -95.5,
+            -919.8
+          ],
+          [
+            -87.6,
+            -923.6
+          ],
+          [
+            -44.1,
+            -950.6
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679268.833,
+            6626339.048
+          ],
+          [
+            679269.706,
+            6626327.167
+          ],
+          [
+            679282.535,
+            6626304.539
+          ],
+          [
+            679307.564,
+            6626280.696
+          ],
+          [
+            679314.615,
+            6626278.029
+          ],
+          [
+            679320.989,
+            6626279.037
+          ],
+          [
+            679328.714,
+            6626283.217
+          ],
+          [
+            679370.962,
+            6626312.303
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-access-w1138256358",
+      "label": "Access w1138256358",
+      "category": "site-context",
+      "sourceModelPath": "infra.tracks[28]",
+      "geometry": {
+        "kind": "line",
+        "lineLocal": [
+          [
+            -143.2,
+            -1009.7
+          ],
+          [
+            -144.6,
+            -982.2
+          ]
+        ],
+        "lineEPSG3006": [
+          [
+            679268.912,
+            6626366.605
+          ],
+          [
+            679268.833,
+            6626339.048
+          ]
+        ]
+      },
+      "geometryStatus": "inherited-access-centreline",
+      "notes": [
+        "Centreline context only; width and kerbs unverified."
+      ],
+      "evidencePanelId": "facilities-hub-native"
+    },
+    {
+      "id": "johannesberg-clubhouse-terrace",
+      "label": "Clubhouse terrace / seating apron",
+      "category": "site-context",
+      "sourceModelPath": null,
+      "geometry": {
+        "kind": "point",
+        "pointEPSG3006": [
+          679194.88,
+          6626154.56
+        ]
+      },
+      "geometryStatus": "approximate-visible-location-only-boundary-unresolved",
+      "evidencePanelId": "johannesberg-clubhouse-native",
+      "sourcePixel": [
+        405,
+        1534
+      ],
+      "notes": [
+        "Seating/terrace confirmed by official golf clubhouse photographs and visible hardscape at the southwest end in 2025 orthophoto.",
+        "Roof, deck and paved apron edges are adjacent; no terrace boundary or height is asserted here.",
+        "Use historical facade photos only as appearance references; possible changes after 2018 and 2024 images remain unresolved."
+      ]
+    }
+  ]
+}

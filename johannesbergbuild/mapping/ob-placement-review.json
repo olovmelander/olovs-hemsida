@@ -1,0 +1,866 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "course": "johannesberg",
+  "reviewedOn": "2026-09-09",
+  "kind": "club-guide-supported-ob-display-corridors",
+  "frame": {
+    "origin": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "mPerLat": 111320,
+    "mPerLon": 56118.16
+  },
+  "originalMarkingSha256": "7d588aaabb763e4fc181435a89e90ca9262458be9435b15c4c194d50e023f6c9",
+  "originalMarking": [
+    {
+      "color": "w",
+      "hole": 18,
+      "pts": [
+        [
+          -242,
+          -290
+        ],
+        [
+          -242.1,
+          -302
+        ],
+        [
+          -242.3,
+          -314
+        ],
+        [
+          -242.4,
+          -326
+        ],
+        [
+          -242.6,
+          -338
+        ],
+        [
+          -242.7,
+          -350
+        ],
+        [
+          -242.9,
+          -362
+        ],
+        [
+          -243,
+          -374
+        ],
+        [
+          -243.2,
+          -386
+        ],
+        [
+          -243.3,
+          -398
+        ],
+        [
+          -243.5,
+          -410
+        ],
+        [
+          -243.6,
+          -422
+        ],
+        [
+          -243.8,
+          -434
+        ],
+        [
+          -243.9,
+          -446
+        ]
+      ]
+    },
+    {
+      "color": "w",
+      "hole": 2,
+      "pts": [
+        [
+          -38,
+          -500
+        ],
+        [
+          -37,
+          -488
+        ],
+        [
+          -36,
+          -476.1
+        ],
+        [
+          -35,
+          -464.1
+        ],
+        [
+          -34,
+          -452.2
+        ],
+        [
+          -33,
+          -440.2
+        ],
+        [
+          -32,
+          -428.2
+        ],
+        [
+          -31,
+          -416.3
+        ],
+        [
+          -30,
+          -404.3
+        ],
+        [
+          -29,
+          -392.4
+        ],
+        [
+          -28,
+          -380.4
+        ],
+        [
+          -27.5,
+          -368.4
+        ],
+        [
+          -27.1,
+          -356.4
+        ],
+        [
+          -26.6,
+          -344.4
+        ],
+        [
+          -26.1,
+          -332.5
+        ]
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "johannesberg-hole-02-ob-corridor",
+      "hole": 2,
+      "color": "w",
+      "status": "accepted-display-corridor",
+      "action": "replace",
+      "line": [
+        [
+          -24.549,
+          -434.92
+        ],
+        [
+          -21.721,
+          -413.976
+        ],
+        [
+          -17.594,
+          -380.164
+        ],
+        [
+          -11.53,
+          -333.454
+        ],
+        [
+          -5.732,
+          -301.162
+        ],
+        [
+          -1.329,
+          -273.1
+        ]
+      ],
+      "pixelLine": [
+        [
+          354,
+          340
+        ],
+        [
+          366,
+          405
+        ],
+        [
+          384,
+          510
+        ],
+        [
+          410,
+          655
+        ],
+        [
+          433,
+          755
+        ],
+        [
+          451,
+          842
+        ]
+      ],
+      "sourceWindow": "eighteen-02-hole",
+      "evidence": {
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-2.jpg",
+        "officialPlanSha256": "706d3d72bd05c5a3c135d37dcf8a1fb2e3b55ebc68216940540e61ac84086b95",
+        "officialPlanRetrievedOn": "2026-09-09",
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-02-hole.png",
+            "sha256": "2de0af5aa486289400cbda0276ce38d99cd9b4f448b30c0004398f6cf052da0f"
+          },
+          {
+            "path": "johannesbergbuild/cache/ob-review/Bana-2.jpg",
+            "sha256": "706d3d72bd05c5a3c135d37dcf8a1fb2e3b55ebc68216940540e61ac84086b95"
+          }
+        ],
+        "geoTransform": [
+          679302.08,
+          0.32,
+          0.0,
+          6625906.56,
+          0.0,
+          -0.32
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "corridorUncertaintyM": 2.5,
+        "individualPhysicalPostsObserved": false,
+        "note": "Replace the inherited line cutting through the tee approach and landing fairway. The official plan places the run on the course side of the gravel service road, from beyond the tee path junction to just before the pond. Follow the visible western road verge; individual stakes are not resolved."
+      },
+      "boundaryStatus": "guide-supported-landscape-corridor-not-surveyed-stake-line",
+      "postPlacement": {
+        "kind": "illustrative-distance-spacing",
+        "spacingM": 12,
+        "physicalPostPositionsObserved": false,
+        "includeLineCorners": true
+      }
+    },
+    {
+      "id": "johannesberg-hole-04-ob-corridor",
+      "hole": 4,
+      "color": "w",
+      "status": "accepted-display-corridor",
+      "action": "add",
+      "line": [
+        [
+          449.126,
+          -97.042
+        ],
+        [
+          473.938,
+          -101.284
+        ],
+        [
+          491.613,
+          -103.31
+        ],
+        [
+          505.884,
+          -101.019
+        ],
+        [
+          539.296,
+          -91.399
+        ],
+        [
+          576.184,
+          -80.97
+        ],
+        [
+          614.362,
+          -70.799
+        ],
+        [
+          655.364,
+          -59.53
+        ],
+        [
+          690.035,
+          -49.528
+        ]
+      ],
+      "pixelLine": [
+        [
+          520,
+          141
+        ],
+        [
+          597,
+          124
+        ],
+        [
+          652,
+          115
+        ],
+        [
+          697,
+          120
+        ],
+        [
+          803,
+          145
+        ],
+        [
+          920,
+          172
+        ],
+        [
+          1041,
+          198
+        ],
+        [
+          1171,
+          227
+        ],
+        [
+          1281,
+          253
+        ]
+      ],
+      "sourceWindow": "eighteen-04-hole",
+      "evidence": {
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-4.jpg",
+        "officialPlanSha256": "85d77ca8c15de1476ec9de014cc93311050f850287c05de19df8b095aeae9a4c",
+        "officialPlanRetrievedOn": "2026-09-09",
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-04-hole.png",
+            "sha256": "23655feb6f7166649684e54bbcffa01f02f1707b60392f2722fbac9dadad96a6"
+          },
+          {
+            "path": "johannesbergbuild/cache/ob-review/Bana-4.jpg",
+            "sha256": "85d77ca8c15de1476ec9de014cc93311050f850287c05de19df8b095aeae9a4c"
+          }
+        ],
+        "geoTransform": [
+          679739.52,
+          0.32,
+          0.0,
+          6625528.0,
+          0.0,
+          -0.32
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "corridorUncertaintyM": 4,
+        "individualPhysicalPostsObserved": false,
+        "note": "Add the omitted OB corridor confirmed on the club plan, following the field/rough margin left of play from beyond the forward built tee to the wood before the green. The western endpoint and the open rough segment before the cultivated field are approximate; the line is not a cadastral boundary."
+      },
+      "boundaryStatus": "guide-supported-landscape-corridor-not-surveyed-stake-line",
+      "postPlacement": {
+        "kind": "illustrative-distance-spacing",
+        "spacingM": 12,
+        "physicalPostPositionsObserved": false,
+        "includeLineCorners": true
+      }
+    },
+    {
+      "id": "johannesberg-hole-10-ob-corridor",
+      "hole": 10,
+      "color": "w",
+      "status": "accepted-display-corridor",
+      "action": "add",
+      "line": [
+        [
+          -293.566,
+          621.634
+        ],
+        [
+          -306.48,
+          611.088
+        ],
+        [
+          -321.959,
+          600.739
+        ],
+        [
+          -341.022,
+          591.818
+        ],
+        [
+          -356.67,
+          584.982
+        ],
+        [
+          -367.871,
+          578.68
+        ],
+        [
+          -376.947,
+          574.722
+        ],
+        [
+          -389.622,
+          572.511
+        ],
+        [
+          -398.484,
+          564.081
+        ],
+        [
+          -402.987,
+          551.38
+        ],
+        [
+          -403.603,
+          537.585
+        ],
+        [
+          -401.124,
+          525.86
+        ],
+        [
+          -395.64,
+          518.121
+        ],
+        [
+          -389.307,
+          512.664
+        ]
+      ],
+      "pixelLine": [
+        [
+          432,
+          429
+        ],
+        [
+          390,
+          398
+        ],
+        [
+          340,
+          368
+        ],
+        [
+          279,
+          343
+        ],
+        [
+          229,
+          324
+        ],
+        [
+          193,
+          306
+        ],
+        [
+          164,
+          295
+        ],
+        [
+          124,
+          290
+        ],
+        [
+          95,
+          265
+        ],
+        [
+          79,
+          226
+        ],
+        [
+          75,
+          183
+        ],
+        [
+          81,
+          146
+        ],
+        [
+          97,
+          121
+        ],
+        [
+          116,
+          103
+        ]
+      ],
+      "sourceWindow": "eighteen-10-hole",
+      "evidence": {
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-10.jpg",
+        "officialPlanSha256": "b56aee697002e02dcbc895916d5dd8a9be4738c971a227c36382637f0b3b06fa",
+        "officialPlanRetrievedOn": "2026-09-09",
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-10-hole.png",
+            "sha256": "4c83386205405f098d87e41cf1c7f605da1a13bf379f88f36e68c81ee6a8f285"
+          },
+          {
+            "path": "johannesbergbuild/cache/ob-review/Bana-10.jpg",
+            "sha256": "b56aee697002e02dcbc895916d5dd8a9be4738c971a227c36382637f0b3b06fa"
+          }
+        ],
+        "geoTransform": [
+          679058.56,
+          0.32,
+          0.0,
+          6624865.92,
+          0.0,
+          -0.32
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "corridorUncertaintyM": 5,
+        "individualPhysicalPostsObserved": false,
+        "note": "Add the omitted plan-supported left-side corridor on the final approach and around the back-left green surround. Follow the visible course/wood margin and rock outcrop edge. Shadowed segments and the exact start/end stakes are unresolved; this is a display corridor, not a surveyed boundary."
+      },
+      "boundaryStatus": "guide-supported-landscape-corridor-not-surveyed-stake-line",
+      "postPlacement": {
+        "kind": "illustrative-distance-spacing",
+        "spacingM": 12,
+        "physicalPostPositionsObserved": false,
+        "includeLineCorners": true
+      }
+    },
+    {
+      "id": "johannesberg-hole-16-ob-corridor",
+      "hole": 16,
+      "color": "w",
+      "status": "accepted-display-corridor",
+      "action": "add",
+      "line": [
+        [
+          61.956,
+          138.748
+        ],
+        [
+          48.876,
+          124.992
+        ],
+        [
+          33.369,
+          108.558
+        ],
+        [
+          16.905,
+          92.077
+        ],
+        [
+          3.068,
+          74.123
+        ],
+        [
+          -9.01,
+          59.455
+        ],
+        [
+          -20.388,
+          43.541
+        ],
+        [
+          -31.936,
+          31.139
+        ],
+        [
+          -44.804,
+          19.634
+        ]
+      ],
+      "pixelLine": [
+        [
+          948,
+          777
+        ],
+        [
+          905,
+          736
+        ],
+        [
+          854,
+          687
+        ],
+        [
+          800,
+          638
+        ],
+        [
+          754,
+          584
+        ],
+        [
+          714,
+          540
+        ],
+        [
+          676,
+          492
+        ],
+        [
+          638,
+          455
+        ],
+        [
+          596,
+          421
+        ]
+      ],
+      "sourceWindow": "eighteen-16-hole",
+      "evidence": {
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-16.jpg",
+        "officialPlanSha256": "dd8ec1b0948e1b6df395c8fb74bc98dd4e9604aaf1a2bb0ed82ac3ed7a45de63",
+        "officialPlanRetrievedOn": "2026-09-09",
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-16-hole.png",
+            "sha256": "43b6fe1130a295985edcbe179ebb30493a29f2d83fad6450c2908a64dad9f5ab"
+          },
+          {
+            "path": "johannesbergbuild/cache/ob-review/Bana-16.jpg",
+            "sha256": "dd8ec1b0948e1b6df395c8fb74bc98dd4e9604aaf1a2bb0ed82ac3ed7a45de63"
+          }
+        ],
+        "geoTransform": [
+          679226.24,
+          0.32,
+          0.0,
+          6625477.12,
+          0.0,
+          -0.32
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "corridorUncertaintyM": 5,
+        "individualPhysicalPostsObserved": false,
+        "note": "Add the omitted right-side pasture corridor drawn on the club plan. The visible rough/pasture transition lies outside the mown fairway; retain the course-side margin, not arbitrary forest or property polygons. Actual fence/stake positions are not resolved and the guide endpoints are approximate."
+      },
+      "boundaryStatus": "guide-supported-landscape-corridor-not-surveyed-stake-line",
+      "postPlacement": {
+        "kind": "illustrative-distance-spacing",
+        "spacingM": 12,
+        "physicalPostPositionsObserved": false,
+        "includeLineCorners": true
+      }
+    },
+    {
+      "id": "johannesberg-hole-18-ob-corridor",
+      "hole": 18,
+      "color": "w",
+      "status": "accepted-display-corridor",
+      "action": "replace",
+      "line": [
+        [
+          -247.826,
+          -337.803
+        ],
+        [
+          -246.744,
+          -347.034
+        ],
+        [
+          -246.722,
+          -360.799
+        ],
+        [
+          -247.596,
+          -375.886
+        ],
+        [
+          -248.043,
+          -393.194
+        ],
+        [
+          -248.171,
+          -410.487
+        ],
+        [
+          -248.346,
+          -426.821
+        ],
+        [
+          -248.232,
+          -442.502
+        ],
+        [
+          -248.802,
+          -457.255
+        ],
+        [
+          -247.731,
+          -472.889
+        ]
+      ],
+      "pixelLine": [
+        [
+          78,
+          1527
+        ],
+        [
+          80,
+          1498
+        ],
+        [
+          78,
+          1455
+        ],
+        [
+          73,
+          1408
+        ],
+        [
+          69,
+          1354
+        ],
+        [
+          66,
+          1300
+        ],
+        [
+          63,
+          1249
+        ],
+        [
+          61,
+          1200
+        ],
+        [
+          57,
+          1154
+        ],
+        [
+          58,
+          1105
+        ]
+      ],
+      "sourceWindow": "eighteen-18-hole",
+      "evidence": {
+        "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-18.jpg",
+        "officialPlanSha256": "ed924553180f83141fdfc1f3834ee43ce4bc341abaf0cbfa07a4eabc334d5054",
+        "officialPlanRetrievedOn": "2026-09-09",
+        "sourceFiles": [
+          {
+            "path": "johannesbergbuild/cache/lm-ortho/eighteen-18-hole.png",
+            "sha256": "3ebef0d48391d432379fcae48caa3f9194cfa9c8ec7ce24d471e12fa56e7b9f5"
+          },
+          {
+            "path": "johannesbergbuild/cache/ob-review/Bana-18.jpg",
+            "sha256": "ed924553180f83141fdfc1f3834ee43ce4bc341abaf0cbfa07a4eabc334d5054"
+          }
+        ],
+        "geoTransform": [
+          679171.52,
+          0.32,
+          0.0,
+          6626178.56,
+          0.0,
+          -0.32
+        ],
+        "sourceCaptureDates": [
+          "2025-06-14"
+        ],
+        "corridorUncertaintyM": 3,
+        "individualPhysicalPostsObserved": false,
+        "note": "Replace the inherited straight line extending into trees south of the crossing. The club plan confirms OB west of the pond on the opening section; follow the visible pasture ditch west of the pond from the crossing northwards. This does not turn the pond waterline or palisade into OB. The palisade remains part of the penalty area under the official local rules. Follow-up review of the pinned photo confirms that the former northern extension crossed the open water channel joining the western pond. Retain only the confirmed dry-bank corridor through source pixel [58,1105]; omit the two northern authored vertices [64,1058] and [63,1013]. This truncation limits the published review extent and does not claim a surveyed terminal stake or legal boundary endpoint."
+      },
+      "boundaryStatus": "guide-supported-landscape-corridor-not-surveyed-stake-line",
+      "postPlacement": {
+        "kind": "illustrative-distance-spacing",
+        "spacingM": 12,
+        "physicalPostPositionsObserved": false,
+        "includeLineCorners": true
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "course": "johannesberg",
+      "hole": 3,
+      "kind": "ob-corridor",
+      "status": "not-published",
+      "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-3.jpg",
+      "officialPlanSha256": "396e58bf417d700e571c1fafa725157b497cb4b7c6a75cda4df9e999eac330f5",
+      "nativeWindow": "johannesbergbuild/cache/ob-review/eighteen-03-ob.json",
+      "reason": "Official guide confirms OB right of the landing corridor, but its dotted run cannot be registered confidently to a unique physical boundary through the changed/shaded vegetation. The supplemental 0.16 m window resolves the cart path and trees but not an unambiguous sequence of white posts. Leave the omitted run unpublished rather than substitute the property boundary, path centreline or tree canopy edge."
+    },
+    {
+      "course": "johannesberg-9",
+      "kind": "ob-corridor",
+      "status": "no-new-run-published",
+      "reason": "No official nine-hole OB map or field stake survey was available in the reviewed club material. Preserve any inherited eighteen-hole estate display corridors as scenery, without declaring them internal OB for the nine."
+    },
+    {
+      "holes": [
+        2,
+        4,
+        10,
+        16,
+        18
+      ],
+      "kind": "physical-ob-posts",
+      "status": "unverified",
+      "reason": "White post bases, counts and spacing are not resolved from these images. Display posts on the accepted corridors are illustrative, spaced at at most 12 m with each polyline corner retained; they must not be described as measured physical stakes."
+    },
+    {
+      "course": "johannesberg",
+      "hole": 18,
+      "kind": "ob-corridor-northern-continuation",
+      "status": "not-published",
+      "officialPlanUrl": "https://johannesbergsgolf.se/wp-content/uploads/2026/03/Bana-18.jpg",
+      "officialPlanSha256": "ed924553180f83141fdfc1f3834ee43ce4bc341abaf0cbfa07a4eabc334d5054",
+      "sourceFiles": [
+        {
+          "path": "johannesbergbuild/cache/lm-ortho/eighteen-18-hole.png",
+          "sha256": "3ebef0d48391d432379fcae48caa3f9194cfa9c8ec7ce24d471e12fa56e7b9f5"
+        },
+        {
+          "path": "johannesbergbuild/cache/ob-review/Bana-18.jpg",
+          "sha256": "ed924553180f83141fdfc1f3834ee43ce4bc341abaf0cbfa07a4eabc334d5054"
+        }
+      ],
+      "sourceWindow": "eighteen-18-hole",
+      "reason": "The club plan supports the dry-bank OB corridor beside the opening pond, but the previously authored northern extension crosses visibly open water at the west-running channel junction. Two illustrative posts would have stood in water. Preserve the accepted landward segment, leave the continuation unrendered, and require field evidence before identifying further stake positions or a legal terminal boundary.",
+      "reviewedExclusion": {
+        "fromRetainedPixel": [
+          58,
+          1105
+        ],
+        "excludedPixelLine": [
+          [
+            64,
+            1058
+          ],
+          [
+            63,
+            1013
+          ]
+        ],
+        "fromRetainedLocal": [
+          -247.731,
+          -472.889
+        ],
+        "excludedLocalLine": [
+          [
+            -245.097,
+            -487.808
+          ],
+          [
+            -244.726,
+            -502.195
+          ]
+        ]
+      }
+    }
+  ],
+  "sourcePolicy": "Club hole plans establish that an OB run exists and its side of play. Orthophotos constrain visible landscape corridors. Neither source resolves all individual white posts or establishes surveyed legal boundary vertices. Post spacing is illustrative. Do not derive new OB from cadastral/property lines or the boar fence.",
+  "postPlacement": {
+    "kind": "illustrative-distance-spacing",
+    "spacingM": 12,
+    "physicalPostPositionsObserved": false,
+    "includeLineCorners": true
+  },
+  "rules": {
+    "url": "https://johannesbergsgolf.se/spela-golf/lokala-regler-2024/",
+    "retrievedOn": "2026-09-09",
+    "htmlSha256": "c6a934493c7755b6ee9473a0afe44a46cd890b54e66683dc1f71fc8e74a8cfcf",
+    "internalObSpecified": false,
+    "notes": "The currently linked rules page identifies the H1/H18 water palisades as penalty-area features and the H5/7/8/9/10 boar fence as an integral course feature. It supplies no surveyed OB coordinates or hole-specific internal OB rule."
+  }
+}

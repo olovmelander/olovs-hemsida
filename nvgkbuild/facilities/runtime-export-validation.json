@@ -1,0 +1,846 @@
+{
+  "schemaVersion": 1,
+  "sourceBlend": "nvgkbuild/cache/facilities-reference/norrfallsviken-facilities.blend",
+  "sourceBlendSha256": "819cdae09eacd4e38bb56c51dfc2565205e88a20c350d7b92442aef357ac202e",
+  "sourceScene": "Norrfallsviken | Measured facilities",
+  "sourceHeightReferenceSha256": "0779a7ff30a3aff5ce6ee1678669d3b11a21f687f65f4167b747b051b234d5ba",
+  "generator": {
+    "path": "nvgkbuild/facilities/export-runtime-architecture.py",
+    "sha256": "f45b7a38c13aed73519d81df99c4480c6888b88e5e56f71f610293a60d4c310f",
+    "blenderVersion": "4.5.9 LTS"
+  },
+  "output": "apps/golf/src/engine/scenery/norrfallsviken-facilities-meshes.json",
+  "outputSha256": "9959ba2d3159008bd70cef609d9161e5aee8820e47e546de789f37350f008ea3",
+  "outputBytes": 45611,
+  "facilityCount": 4,
+  "partCount": 87,
+  "vertexCount": 628,
+  "triangleCount": 852,
+  "minimumTriangleAreaSquareMetres": 0.002449978646135972,
+  "outwardWindingCorrections": 11,
+  "maximumMeasuredRoofVertexErrorMetres": 4.4703440948978823e-10,
+  "maximumMeasuredRoofTrianglePlaneErrorMetres": 0.0006574341687581864,
+  "excludedObjects": [
+    {
+      "object": "NV | Fascia | clubhouse-cross-roof-native34",
+      "reason": "hidden architectural construction geometry"
+    },
+    {
+      "object": "NV | Fascia | clubhouse-cross-roof-native40",
+      "reason": "hidden architectural construction geometry"
+    },
+    {
+      "object": "NV | Unresolved roof evidence | lm-practice-shed-plane-1",
+      "reason": "practice roof has no verified complete building body"
+    },
+    {
+      "object": "NV | Unresolved roof evidence | lm-practice-shed-plane-2",
+      "reason": "practice roof has no verified complete building body"
+    },
+    {
+      "object": "NV | Unresolved roof evidence | lm-practice-shed-plane-3",
+      "reason": "practice roof has no verified complete building body"
+    }
+  ],
+  "parts": [
+    {
+      "object": "NV | Corner trim | clubhouse-cross-roof-native0",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006049981783344579
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-cross-roof-native1",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050014855888374
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-cross-roof-native2",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050034398670183
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-cross-roof-native3",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050008241394078
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-main-roof-native0",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0060500277841972535
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-main-roof-native1",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050041013135881
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-main-roof-native2",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050034398670183
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-main-roof-native3",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050041013135881
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-north-annex-roof0",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050067170270299
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-north-annex-roof1",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050014855888374
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-north-annex-roof2",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0060500277841972535
+    },
+    {
+      "object": "NV | Corner trim | clubhouse-north-annex-roof3",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050041013135881
+    },
+    {
+      "object": "NV | Corner trim | lm-range-shelter0",
+      "facilityId": "lm-range-shelter",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050067170270299
+    },
+    {
+      "object": "NV | Corner trim | lm-range-shelter1",
+      "facilityId": "lm-range-shelter",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050067170270299
+    },
+    {
+      "object": "NV | Corner trim | lm-range-shelter2",
+      "facilityId": "lm-range-shelter",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050067170270299
+    },
+    {
+      "object": "NV | Corner trim | lm-range-shelter3",
+      "facilityId": "lm-range-shelter",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050067170270299
+    },
+    {
+      "object": "NV | Fascia | clubhouse-cross-roof-native01",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450076560804596
+    },
+    {
+      "object": "NV | Fascia | clubhouse-cross-roof-native15",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449543195161587
+    },
+    {
+      "object": "NV | Fascia | clubhouse-cross-roof-native23",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450100228479036
+    },
+    {
+      "object": "NV | Fascia | clubhouse-cross-roof-native52",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449204342910587
+    },
+    {
+      "object": "NV | Fascia | clubhouse-main-roof-native01",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450386879266882
+    },
+    {
+      "object": "NV | Fascia | clubhouse-main-roof-native15",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.00845002475531835
+    },
+    {
+      "object": "NV | Fascia | clubhouse-main-roof-native23",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450435102454417
+    },
+    {
+      "object": "NV | Fascia | clubhouse-main-roof-native34",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008451000277212555
+    },
+    {
+      "object": "NV | Fascia | clubhouse-main-roof-native40",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449947421233252
+    },
+    {
+      "object": "NV | Fascia | clubhouse-main-roof-native52",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449776928558013
+    },
+    {
+      "object": "NV | Fascia | clubhouse-north-annex-roof01",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450108610245095
+    },
+    {
+      "object": "NV | Fascia | clubhouse-north-annex-roof15",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450099075021316
+    },
+    {
+      "object": "NV | Fascia | clubhouse-north-annex-roof23",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449773444876994
+    },
+    {
+      "object": "NV | Fascia | clubhouse-north-annex-roof34",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450556495441065
+    },
+    {
+      "object": "NV | Fascia | clubhouse-north-annex-roof40",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450201754607228
+    },
+    {
+      "object": "NV | Fascia | clubhouse-north-annex-roof52",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008450516189624722
+    },
+    {
+      "object": "NV | Fascia | lm-range-shelter01",
+      "facilityId": "lm-range-shelter",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449617364576742
+    },
+    {
+      "object": "NV | Fascia | lm-range-shelter15",
+      "facilityId": "lm-range-shelter",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008448940452845926
+    },
+    {
+      "object": "NV | Fascia | lm-range-shelter23",
+      "facilityId": "lm-range-shelter",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449925848779538
+    },
+    {
+      "object": "NV | Fascia | lm-range-shelter34",
+      "facilityId": "lm-range-shelter",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449455523288605
+    },
+    {
+      "object": "NV | Fascia | lm-range-shelter40",
+      "facilityId": "lm-range-shelter",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449636301802317
+    },
+    {
+      "object": "NV | Fascia | lm-range-shelter52",
+      "facilityId": "lm-range-shelter",
+      "role": "fascia",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449232545236452
+    },
+    {
+      "object": "NV | Gable | clubhouse-cross-roof-native4",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "gable",
+      "sourceVertices": 3,
+      "triangles": 1,
+      "outwardWindingCorrections": 1,
+      "minimumTriangleAreaSquareMetres": 10.114198481199772
+    },
+    {
+      "object": "NV | Gable | clubhouse-cross-roof-native5",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "gable",
+      "sourceVertices": 3,
+      "triangles": 1,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 10.114197727074062
+    },
+    {
+      "object": "NV | Gable | clubhouse-main-roof-native4",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "gable",
+      "sourceVertices": 3,
+      "triangles": 1,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 18.359011236441408
+    },
+    {
+      "object": "NV | Gable | clubhouse-main-roof-native5",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "gable",
+      "sourceVertices": 3,
+      "triangles": 1,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 18.35302713898322
+    },
+    {
+      "object": "NV | Gable | clubhouse-north-annex-roof4",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "gable",
+      "sourceVertices": 3,
+      "triangles": 1,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 8.931440031798099
+    },
+    {
+      "object": "NV | Gable | clubhouse-north-annex-roof5",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "gable",
+      "sourceVertices": 3,
+      "triangles": 1,
+      "outwardWindingCorrections": 1,
+      "minimumTriangleAreaSquareMetres": 8.932361009286007
+    },
+    {
+      "object": "NV | Gable | lm-range-shelter4",
+      "facilityId": "lm-range-shelter",
+      "role": "gable",
+      "sourceVertices": 3,
+      "triangles": 1,
+      "outwardWindingCorrections": 1,
+      "minimumTriangleAreaSquareMetres": 11.593429223959397
+    },
+    {
+      "object": "NV | Gable | lm-range-shelter5",
+      "facilityId": "lm-range-shelter",
+      "role": "gable",
+      "sourceVertices": 3,
+      "triangles": 1,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 11.586513915049101
+    },
+    {
+      "object": "NV | Glazed front | clubhouse-cross-roof-native",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "glazing",
+      "sourceVertices": 4,
+      "triangles": 2,
+      "outwardWindingCorrections": 2,
+      "minimumTriangleAreaSquareMetres": 10.772427429252232
+    },
+    {
+      "object": "NV | Glazed front | clubhouse-north-annex-roof",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "glazing",
+      "sourceVertices": 4,
+      "triangles": 2,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 9.532903609116328
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-cross-roof-native0",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.002449978646135972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-cross-roof-native1",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.002449978646135972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-cross-roof-native2",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.002449978646135972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-cross-roof-native3",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.002449978646135972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-cross-roof-native4",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.002449978646135972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-cross-roof-native5",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024499869986968972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-cross-roof-native6",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024499953512293468
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-cross-roof-native7",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024499911749666817
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-north-annex-roof0",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.002449978646135972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-north-annex-roof1",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.002449978646135972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-north-annex-roof2",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024499953512293468
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-north-annex-roof3",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024499953512293468
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-north-annex-roof4",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024500286682699
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-north-annex-roof5",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024500203158510335
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-north-annex-roof6",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024499869986968972
+    },
+    {
+      "object": "NV | Glazing mullion | clubhouse-north-annex-roof7",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0024499869986968972
+    },
+    {
+      "object": "NV | Glazing ridge mullion | clubhouse-cross-roof-native",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.004049995472043474
+    },
+    {
+      "object": "NV | Glazing ridge mullion | clubhouse-north-annex-roof",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0040494681933671145
+    },
+    {
+      "object": "NV | Glazing transom | clubhouse-cross-roof-native",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.005000083674888256
+    },
+    {
+      "object": "NV | Glazing transom | clubhouse-north-annex-roof",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "frame",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0050001483526994584
+    },
+    {
+      "object": "NV | Interpreted walls | clubhouse-cross-roof-native",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "walls",
+      "sourceVertices": 8,
+      "triangles": 6,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 10.297663703315527
+    },
+    {
+      "object": "NV | Interpreted walls | clubhouse-main-roof-native",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "walls",
+      "sourceVertices": 8,
+      "triangles": 8,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 14.728130485781323
+    },
+    {
+      "object": "NV | Interpreted walls | clubhouse-north-annex-roof",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "walls",
+      "sourceVertices": 8,
+      "triangles": 6,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 9.994881750631492
+    },
+    {
+      "object": "NV | Interpreted walls | lm-range-shelter",
+      "facilityId": "lm-range-shelter",
+      "role": "walls",
+      "sourceVertices": 8,
+      "triangles": 6,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 15.033405490428589
+    },
+    {
+      "object": "NV | Measured roof | clubhouse-cross-roof-native",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "measured-roof",
+      "sourceVertices": 6,
+      "triangles": 4,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 20.738401365552033
+    },
+    {
+      "object": "NV | Measured roof | clubhouse-main-roof-native",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "measured-roof",
+      "sourceVertices": 6,
+      "triangles": 4,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 51.59611726687001
+    },
+    {
+      "object": "NV | Measured roof | clubhouse-north-annex-roof",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "measured-roof",
+      "sourceVertices": 6,
+      "triangles": 4,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 20.66176509669517
+    },
+    {
+      "object": "NV | Measured roof | lm-range-shelter",
+      "facilityId": "lm-range-shelter",
+      "role": "measured-roof",
+      "sourceVertices": 6,
+      "triangles": 4,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 35.42546574213069
+    },
+    {
+      "object": "NV | Range closed end",
+      "facilityId": "lm-range-shelter",
+      "role": "walls",
+      "sourceVertices": 4,
+      "triangles": 2,
+      "outwardWindingCorrections": 2,
+      "minimumTriangleAreaSquareMetres": 5.142097980991626
+    },
+    {
+      "object": "NV | Range closed end.001",
+      "facilityId": "lm-range-shelter",
+      "role": "walls",
+      "sourceVertices": 4,
+      "triangles": 2,
+      "outwardWindingCorrections": 2,
+      "minimumTriangleAreaSquareMetres": 4.747833460566504
+    },
+    {
+      "object": "NV | Range front post 0",
+      "facilityId": "lm-range-shelter",
+      "role": "post",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.00845013911375039
+    },
+    {
+      "object": "NV | Range front post 1",
+      "facilityId": "lm-range-shelter",
+      "role": "post",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.008449642706209836
+    },
+    {
+      "object": "NV | Range front post 2",
+      "facilityId": "lm-range-shelter",
+      "role": "post",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.00845063463113559
+    },
+    {
+      "object": "NV | Range front post 3",
+      "facilityId": "lm-range-shelter",
+      "role": "post",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.00845013911375039
+    },
+    {
+      "object": "NV | Range slab - floor estimate",
+      "facilityId": "lm-range-shelter",
+      "role": "slab",
+      "sourceVertices": 4,
+      "triangles": 2,
+      "outwardWindingCorrections": 2,
+      "minimumTriangleAreaSquareMetres": 59.296875
+    },
+    {
+      "object": "NV | Ridge cap | clubhouse-cross-roof-native",
+      "facilityId": "clubhouse-cross-roof-native",
+      "role": "ridge-cap",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006049574647612531
+    },
+    {
+      "object": "NV | Ridge cap | clubhouse-main-roof-native",
+      "facilityId": "clubhouse-main-roof-native",
+      "role": "ridge-cap",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050454802976943
+    },
+    {
+      "object": "NV | Ridge cap | clubhouse-north-annex-roof",
+      "facilityId": "clubhouse-north-annex-roof",
+      "role": "ridge-cap",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.006050191507495148
+    },
+    {
+      "object": "NV | Ridge cap | lm-range-shelter",
+      "facilityId": "lm-range-shelter",
+      "role": "ridge-cap",
+      "sourceVertices": 8,
+      "triangles": 12,
+      "outwardWindingCorrections": 0,
+      "minimumTriangleAreaSquareMetres": 0.0060495516570788395
+    }
+  ],
+  "validation": {
+    "sourceBlendUnchanged": true,
+    "onlyFourApprovedFacilities": true,
+    "noTexturesOrReferenceData": true,
+    "linearMaterialColoursCopiedWithoutConversion": true,
+    "allTrianglesNondegenerate": true,
+    "openFacadesOrientedAwayFromFacilityCentre": true,
+    "roofAndSlabWindingUp": true,
+    "closedBeamWindingOutward": true
+  },
+  "limitations": [
+    "Wall, glazing, foundation and trim dimensions are initial photographic interpretations.",
+    "Measured clubhouse main and cross roofs remain intersecting assemblies; not a Boolean-unioned shell.",
+    "The practice building stays on the existing runtime fallback because its complete roof/body is unresolved.",
+    "No copyright-protected reference photos or raw laser returns are included in the runtime asset."
+  ]
+}

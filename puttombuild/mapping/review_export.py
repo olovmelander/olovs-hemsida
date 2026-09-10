@@ -249,7 +249,7 @@ def main():
                 raise ValueError(f"Source raster dimensions differ from plan: {identifier}")
             detail = {"hole": window.get("hole"),
                       "view": "green" if identifier.endswith("-green") else
-                              "tees" if identifier.endswith("-tees") else "context"}
+                              "tees" if identifier.endswith("-tees") or identifier.startswith("tee-") else "context"}
             records.append(export_image(identifier, dataset.read([1, 2, 3]), dataset.transform,
                                         [source], out, inventory, detail))
             if identifier.startswith("context-"):

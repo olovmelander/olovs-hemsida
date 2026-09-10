@@ -1,0 +1,505 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "reviewedOn": "2026-09-09",
+  "holes": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "featureCount": 33,
+  "counts": {
+    "tee": 13,
+    "green": 7,
+    "bunker": 13,
+    "fairway": 0
+  },
+  "additions": 3,
+  "replacements": 30,
+  "validation": {
+    "allPolygonsValid": true,
+    "exactSourcePixelsValidated": true,
+    "sourceHashesValidated": true,
+    "originalGeometryUnmodified": true,
+    "allFeatureIdsUnique": true,
+    "replacementIdsUnique": true,
+    "noInterFeatureOverlapAboveOneSquareMetre": true,
+    "allGeneratedOverlaysVisuallyReviewed": true,
+    "teeColoursAssigned": false,
+    "surveyAccuracyClaimed": false
+  },
+  "sourceReceipt": {
+    "path": "geo_data/course-v2/tortuna/acquisition/orthophoto-native-crops.json",
+    "sha256LfNormalized": "e0253a03c004e10f37263ed836792997ce75769c9ba2fcbe40b13e486fe8d4a6"
+  },
+  "originalFeatures": {
+    "path": "tortunabuild/mapping/surfaces-back9.geojson",
+    "sha256": "08e008d1d15aaf002ba99132e82c3ee2d5b9c561d7ecbfd283da406699091e97"
+  },
+  "sourceGrids": [
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-10-green.png",
+      "sha256": "3d6bd722dc0f4e1d02550e292a995a4aa8d08d8876bf27bb04f0712a5f28d195",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-10-green.tif",
+      "sourceSha256": "ca65d83d9f78aae9f485ddf5922715fc1cbd96df15a94bb20e07a48258cfe2f5",
+      "sourceIds": [
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597711.52,
+        6615331.84,
+        597839.52,
+        6615459.84
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597711.52,
+        0.16,
+        0.0,
+        6615459.84,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-12-green.png",
+      "sha256": "d0124a32324fb84e2677700649ab301b01c0f3ea27cda21ec6dc8716c1b99cd8",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-12-green.tif",
+      "sourceSha256": "328367c6abdfd146c084b6bf41dd8cef9bdc1df0ef7ebab621569ef92ca3d3bc",
+      "sourceIds": [
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597592.48,
+        6615669.28,
+        597720.48,
+        6615797.28
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597592.48,
+        0.16,
+        0.0,
+        6615797.28,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-13-green.png",
+      "sha256": "7eff95b79f70b4cd255eb0454f663f2beb413c9321e3dd9979a4e19876b0a858",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-13-green.tif",
+      "sourceSha256": "697b116b7a0141368187fbba7180e0e86571819e9cf034f1d383ba15d6affc5a",
+      "sourceIds": [
+        "o66150_5950_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597065.28,
+        6615806.5600000005,
+        597193.28,
+        6615934.5600000005
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597065.28,
+        0.16,
+        0.0,
+        6615934.5600000005,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-14-green.png",
+      "sha256": "6956c850d74632b27a308de776a5350425052a344b90089fce64246d9c3a58ce",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-14-green.tif",
+      "sourceSha256": "59502da0a83f53e63e4cec325ea2c8cdb2f14242a968b3f73016bbee724929ea",
+      "sourceIds": [
+        "o66150_5950_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597064.64,
+        6615608.48,
+        597192.64,
+        6615736.48
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597064.64,
+        0.16,
+        0.0,
+        6615736.48,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-15-green.png",
+      "sha256": "59ca18ff5aa3c01e39309de6d644a43c36e426d1a63847150850768daf2d6631",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-15-green.tif",
+      "sourceSha256": "dd3614d35e8f15c9bd64283489800808ef6c4440847da05498486cdc656cf532",
+      "sourceIds": [
+        "o66150_5950_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597359.68,
+        6615681.76,
+        597487.68,
+        6615809.76
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597359.68,
+        0.16,
+        0.0,
+        6615809.76,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-17-green.png",
+      "sha256": "36463554f722d07d822beb3f960828fbde1fc1d4ab766d314482ac166662a869",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-17-green.tif",
+      "sourceSha256": "6e6923a695c8c37e11b2faf953b5e812ee33b5e5f0501cce9e67dbf28081fbbb",
+      "sourceIds": [
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597522.4,
+        6615570.08,
+        597650.4,
+        6615698.08
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597522.4,
+        0.16,
+        0.0,
+        6615698.08,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-18-green.png",
+      "sha256": "a22a0f773e5b0c44dcd35864abf233186e27fb902cf6806f3dd93373d6381731",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-18-green.tif",
+      "sourceSha256": "1daf0e4bc549ce38620386a40609e9c442bebaaebbcb512781e70effb287341c",
+      "sourceIds": [
+        "o66150_5950_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597371.52,
+        6615264.48,
+        597499.52,
+        6615392.48
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597371.52,
+        0.16,
+        0.0,
+        6615392.48,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-16-green.png",
+      "sha256": "bdaf7cc5b413182887000447f6bc53d3c96af1d3253359f26b4bfd7ed3e83fb3",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-16-green.tif",
+      "sourceSha256": "fcd9af723a7b37cd4a39f56a62d7fb1dd8ff80614fc97ca6735e5c7e9c56609d",
+      "sourceIds": [
+        "o66150_5950_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597150.88,
+        6615518.08,
+        597278.88,
+        6615646.08
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597150.88,
+        0.16,
+        0.0,
+        6615646.08,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-10-tee.png",
+      "sha256": "5478eaa016e076ebeff410db2968c3b10de865bc4eb9fc83ba4ddcdadcd82084",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-10-tee.tif",
+      "sourceSha256": "59ef9517ad503b5606b97ef52dc5bbb18ac3fbe0a7c218ae113083858045f3b7",
+      "sourceIds": [
+        "o66150_5950_25_mr26",
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597448.0,
+        6615279.2,
+        597576.0,
+        6615407.2
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597448.0,
+        0.16,
+        0.0,
+        6615407.2,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-11-tee.png",
+      "sha256": "597085308af6c61794db23092c3fb55bd903ac5c11cf6bcb171dbf51b6ab8092",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-11-tee.tif",
+      "sourceSha256": "a3de92ba9e5832297efa5d68614091fb1fcfa19c8a6d970c7eff088cbb5dcd44",
+      "sourceIds": [
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597679.04,
+        6615361.44,
+        597807.04,
+        6615489.44
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597679.04,
+        0.16,
+        0.0,
+        6615489.44,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-13-tee.png",
+      "sha256": "db71d58288787a5bc15377370b118f31926c8a23916912d5574c8ce21cfb7a72",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-13-tee.tif",
+      "sourceSha256": "8e8dc9836cf70d232a146fba6dc501b38251bce0cc5c184922be32a18f3f6ce2",
+      "sourceIds": [
+        "o66150_5950_25_mr26",
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597499.52,
+        6615684.640000001,
+        597627.52,
+        6615812.640000001
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597499.52,
+        0.16,
+        0.0,
+        6615812.640000001,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-16-tee.png",
+      "sha256": "c20fa5362d5753e85a17a42984b375c1a087fc6c3eb589e60725cbf1e156b499",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-16-tee.tif",
+      "sourceSha256": "ab9f16b21806624d7a2abc7962a16bffc27f4e2f9e02b2b87d4af8cd26af1e1c",
+      "sourceIds": [
+        "o66150_5950_25_mr26",
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597449.12,
+        6615682.24,
+        597577.12,
+        6615810.24
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597449.12,
+        0.16,
+        0.0,
+        6615810.24,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-14-tee.png",
+      "sha256": "82b0f9b858f0c142a047d7594076ea5e4a4db56c5fb6afe9f5e390977662aa58",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-14-tee.tif",
+      "sourceSha256": "21d70a8df8a1d71e3148fc1562e25841e8fe191db8cdb1a53d6b5a3d4b767b5e",
+      "sourceIds": [
+        "o66150_5950_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597023.2000000001,
+        6615753.12,
+        597151.2000000001,
+        6615881.12
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597023.2000000001,
+        0.16,
+        0.0,
+        6615881.12,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-17-tee.png",
+      "sha256": "ca458c6fa0679e391ac1801d55bf66a3540a089ba01bd9a869967a19875e69dc",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-17-tee.tif",
+      "sourceSha256": "5d8b0a5ceeb9e35cc2e7519c5f696dbd4c1896704fa03f5e3466cc3718d98fd3",
+      "sourceIds": [
+        "o66150_5950_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597248.0,
+        6615415.2,
+        597376.0,
+        6615543.2
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597248.0,
+        0.16,
+        0.0,
+        6615543.2,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-18-tee.png",
+      "sha256": "3903505aa5dacc8734b4e93279cdf3a16279b4ab6ac09b12eca9e9da4ee3382d",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-18-tee.tif",
+      "sourceSha256": "6ca76927c656df3ebe59dfaaab21ffd92dd39f996a9d69a93a9f7001c9704f9e",
+      "sourceIds": [
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597598.24,
+        6615543.68,
+        597726.24,
+        6615671.68
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597598.24,
+        0.16,
+        0.0,
+        6615671.68,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    },
+    {
+      "file": "tortunabuild/cache/orthophoto/crops/hole-11-green.png",
+      "sha256": "1247eaaae14fc08b006dfd75c5f887274c182993d6c13acc2687ef0861c1d74a",
+      "sourceFile": "tortunabuild/cache/orthophoto/crops/hole-11-green.tif",
+      "sourceSha256": "2a0d614ff4376c775c527c80c1457b582bd8b24f7eaf88b13237a415d636f490",
+      "sourceIds": [
+        "o66150_5975_25_mr26"
+      ],
+      "boundsEpsg3006": [
+        597529.92,
+        6615318.24,
+        597657.92,
+        6615446.24
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597529.92,
+        0.16,
+        0.0,
+        6615446.24,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "resampling": "none; native RGB pixel copy"
+    }
+  ],
+  "removals": [
+    {
+      "featureId": "tortuna-h18-tee-02",
+      "hole": 18,
+      "kind": "tee",
+      "reason": "Misidentified cart path. Native H18 tee RGB shows continuous pale path to footbridge through entire old narrow polygon; no closed maintained pad exists here.",
+      "sourceCrop": "tortunabuild/cache/orthophoto/crops/hole-18-tee.png",
+      "sourceCropSha256": "3903505aa5dacc8734b4e93279cdf3a16279b4ab6ac09b12eca9e9da4ee3382d"
+    }
+  ],
+  "limitations": [
+    "H12 shadowed back-platform boundary remains unresolved. The added northeast platform is explicitly forward and must not replace the historical back reference.",
+    "H15 apparent road-side strips lack sufficiently clear complete maintained edges in this spring imagery. No H15 pads fabricated; a field or alternate-season check remains necessary.",
+    "A possible additional forward H16 mowing strip cannot be separated confidently from the fairway/rough transition; no new polygon emitted.",
+    "H11 and H16 green closures remain canopy-shadow-limited; the prior provisional green polygons are retained without increased accuracy claims.",
+    "Existing wider fairway outlines were visually checked against retained full-hole context and remain provisional spring interpretations; this pass adds no unsupported full fairway boundaries.",
+    "All tee-colour assignments, current marker locations, independent controls and human source-accuracy approval remain pending.",
+    "0.16m is source sample spacing, not claimed interpretation or survey accuracy."
+  ],
+  "geometry": {
+    "path": "tortunabuild/mapping/improvements-back9.geojson",
+    "sha256": "8a1fdbe76b14ab118e68bdd05a20e978fc8dd140bef501390519a95c01245df7"
+  }
+}

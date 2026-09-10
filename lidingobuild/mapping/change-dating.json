@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "measuredOn": "2026-09-08",
+  "state": "measurement-evidence-only",
+  "generator": "lidingobuild/mapping/date-course-changes.py",
+  "method": "a club document says something was built; three orthophotos spanning 2018-2025 say whether the ground shows it, and between which two captures it appeared. Sand is read against MOWN TURF 12 m away IN THE SAME FRAME, because each capture is exposed differently and \"bright\" means nothing on its own.",
+  "captures": [
+    {
+      "id": "municipal-2018",
+      "season": "leaf-on, full summer",
+      "captureDate": null,
+      "sampleSpacingMetres": 0.16,
+      "licence": "CC0-1.0"
+    },
+    {
+      "id": "municipal-2019",
+      "season": "leaf-off, dormant spring",
+      "captureDate": null,
+      "sampleSpacingMetres": 0.16,
+      "licence": "CC0-1.0"
+    },
+    {
+      "id": "lm-2025-05-31",
+      "season": null,
+      "captureDate": "2025-05-31",
+      "sampleSpacingMetres": 0.16,
+      "licence": "CC-BY-4.0"
+    }
+  ],
+  "sites": [
+    {
+      "id": "hole-13-green-bunker",
+      "clubRecord": "course-council page: a new LEFT GREEN BUNKER on hole 13, among the works reported by 2025",
+      "modelState": "hole 13 carries ZERO bunkers",
+      "easting": 677284.9,
+      "northing": 6586779.9,
+      "captures": {
+        "municipal-2018": {
+          "medianLuminance": 123.5,
+          "medianExcessGreen": 39.0,
+          "medianRedOverGreen": 0.842,
+          "turfReferenceLuminance": 136.1,
+          "luminanceAboveTurf": -12.6,
+          "readsAsSand": false
+        },
+        "municipal-2019": {
+          "medianLuminance": 89.2,
+          "medianExcessGreen": 34.0,
+          "medianRedOverGreen": 0.923,
+          "turfReferenceLuminance": 96.7,
+          "luminanceAboveTurf": -7.5,
+          "readsAsSand": false
+        },
+        "lm-2025-05-31": {
+          "medianLuminance": 164.9,
+          "medianExcessGreen": 13.0,
+          "medianRedOverGreen": 0.989,
+          "turfReferenceLuminance": 81.2,
+          "luminanceAboveTurf": 83.7,
+          "readsAsSand": true
+        }
+      },
+      "verdict": "built between municipal-2019 and lm-2025-05-31"
+    },
+    {
+      "id": "hole-17-green-bunker",
+      "clubRecord": "September 2024 report: a new hole-17 GREEN BUNKER",
+      "modelState": "the model's one ring on this green reads sand in 2025 and turf in 2019",
+      "easting": 678054.11,
+      "northing": 6586589.26,
+      "captures": {
+        "municipal-2018": {
+          "medianLuminance": 150.5,
+          "medianExcessGreen": 56.0,
+          "medianRedOverGreen": 0.899,
+          "turfReferenceLuminance": 144.1,
+          "luminanceAboveTurf": 6.4,
+          "readsAsSand": false
+        },
+        "municipal-2019": {
+          "medianLuminance": 92.2,
+          "medianExcessGreen": 43.0,
+          "medianRedOverGreen": 0.896,
+          "turfReferenceLuminance": 91.5,
+          "luminanceAboveTurf": 0.7,
+          "readsAsSand": false
+        },
+        "lm-2025-05-31": {
+          "medianLuminance": 167.0,
+          "medianExcessGreen": 9.0,
+          "medianRedOverGreen": 1.04,
+          "turfReferenceLuminance": 80.5,
+          "luminanceAboveTurf": 86.5,
+          "readsAsSand": true
+        }
+      },
+      "verdict": "built between municipal-2019 and lm-2025-05-31"
+    }
+  ]
+}

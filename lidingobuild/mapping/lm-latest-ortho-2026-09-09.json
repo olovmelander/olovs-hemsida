@@ -1,0 +1,1246 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "latest-orthophoto-acquisition-evidence",
+  "observedAt": "2026-09-09T20:31:15.451293+00:00",
+  "state": "acquired-for-review",
+  "catalog": {
+    "schemaVersion": 1,
+    "groundId": "lidingo",
+    "kind": "orthophoto-live-catalog-recheck",
+    "observedAt": "2026-09-09T20:28:16.875Z",
+    "endpoint": "https://api.lantmateriet.se/stac-bild/v1/",
+    "aoi": {
+      "groundId": "lidingo",
+      "groundName": "LidingÃƒÂ¶ Golfklubb",
+      "courseSlugs": [
+        "lidingo"
+      ],
+      "bboxWgs84": [
+        18.1093219082564,
+        59.36909583539647,
+        18.147022734124498,
+        59.38833274716611
+      ],
+      "bboxEpsg3006": [
+        676676,
+        6585375,
+        678725,
+        6587424
+      ],
+      "projection": {
+        "authority": "PROJ via pyproj",
+        "axisOrder": "always_xy",
+        "densifyPts": 21
+      }
+    },
+    "collection": "orto-o2-2025",
+    "coverage": {
+      "requiredSquareMetres": 4198401,
+      "coveredSquareMetres": 4198401,
+      "ratio": 1,
+      "complete": true
+    },
+    "campaigns": [
+      {
+        "collection": "orto-o2-2025",
+        "rank": "2025-12-31",
+        "itemCount": 2,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-o2-2023",
+        "rank": "2023-12-31",
+        "itemCount": 2,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-o2-2021",
+        "rank": "2021-12-31",
+        "itemCount": 2,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-o2-2019",
+        "rank": "2019-12-31",
+        "itemCount": 2,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-o2-2017",
+        "rank": "2017-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-o2-2015",
+        "rank": "2015-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-o2-2013",
+        "rank": "2013-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-o2-2011",
+        "rank": "2011-12-31",
+        "itemCount": 2,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-storstockholm-2009",
+        "rank": "2009-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-e-2008",
+        "rank": "2008-12-31",
+        "itemCount": 1,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-e3-2008",
+        "rank": "2008-12-31",
+        "itemCount": 1,
+        "coverage": {
+          "requiredSquareMetres": 4198401,
+          "coveredSquareMetres": 4198401,
+          "ratio": 1,
+          "complete": true
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "o65850_6750_25_mr25",
+        "collection": "orto-o2-2025",
+        "bboxWgs84": [
+          18.079570640519076,
+          59.36625088790875,
+          18.1255528601265,
+          59.389713901893636
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          675000,
+          6585000,
+          677500,
+          6587500
+        ],
+        "capturedAt": "2025-05-31T08:18:43Z",
+        "captureStart": "2025-05-31T08:01:24Z",
+        "captureEnd": "2025-05-31T08:27:23Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o65850_6750_25_mr25",
+            "roles": [
+              "data"
+            ],
+            "bytes": 631294152,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              675000,
+              6585000,
+              677500,
+              6587500
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o65850_6750_25_mr25_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          },
+          "thumbnail": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25_thumbnail.jpg",
+            "type": "image/jpeg",
+            "title": "o65850_6750_25_mr25_thumbnail",
+            "roles": [
+              "overview",
+              "thumbnail"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "o65850_6775_25_mr25",
+        "collection": "orto-o2-2025",
+        "bboxWgs84": [
+          18.123489194838612,
+          59.3651909411038,
+          18.169497113632236,
+          59.388667799900055
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          677500,
+          6585000,
+          680000,
+          6587500
+        ],
+        "capturedAt": "2025-05-31T08:45:47Z",
+        "captureStart": "2025-05-31T08:27:03Z",
+        "captureEnd": "2025-05-31T08:46:03Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o65850_6775_25_mr25",
+            "roles": [
+              "data"
+            ],
+            "bytes": 680391390,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              677500,
+              6585000,
+              680000,
+              6587500
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o65850_6775_25_mr25_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          },
+          "thumbnail": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25_thumbnail.jpg",
+            "type": "image/jpeg",
+            "title": "o65850_6775_25_mr25_thumbnail",
+            "roles": [
+              "overview",
+              "thumbnail"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      }
+    ]
+  },
+  "catalogSha256": "d66f0cd9be41322d96c224ce7df158b79a0e282adcff7a87b0b0661636b84ec2",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o65850_6750_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o65850_6775_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "o65850_6750_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+      "bytes": 631294152,
+      "width": 15625,
+      "height": 15625,
+      "boundsEpsg3006": [
+        675000,
+        6585000,
+        677500,
+        6587500
+      ],
+      "capturedAt": "2025-05-31T08:18:43Z"
+    },
+    {
+      "id": "o65850_6775_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25.tif",
+      "bytes": 680391390,
+      "width": 15625,
+      "height": 15625,
+      "boundsEpsg3006": [
+        677500,
+        6585000,
+        680000,
+        6587500
+      ],
+      "capturedAt": "2025-05-31T08:45:47Z"
+    }
+  ],
+  "windows": [
+    {
+      "id": "ground-overview",
+      "rasterFile": "lidingobuild/cache/lm-ortho/ground-overview.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/ground-overview.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/ground-overview-review.png",
+      "sha256": "ba00a7f00cedc8d863b0135a2b7178b79a7d03602855860217f9ae810b56cd6d",
+      "boundsEpsg3006": [
+        676676.0,
+        6585374.4,
+        678725.6,
+        6587424.0
+      ],
+      "geoTransform": [
+        676676.0,
+        0.8,
+        0.0,
+        6587424.0,
+        0.0,
+        -0.8
+      ],
+      "width": 2562,
+      "height": 2562,
+      "resolutionMetres": 0.8,
+      "validFraction": 1.0,
+      "resampling": "average",
+      "sourceIds": [
+        "o65850_6750_25_mr25",
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:15.458030+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "60a560c0f68149d11e8dec891fd8c45bd68d73aa9e4bf6d27e96e8105e2f598d"
+    },
+    {
+      "id": "hole-01-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-01-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-01-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-01-tees-review.png",
+      "sha256": "0abfb747a9c69d10a6e079b75a1c0a3dd20a8d3cac3cc675f1fb60f74292927c",
+      "boundsEpsg3006": [
+        677618.4,
+        6586208.640000001,
+        677767.2000000001,
+        6586464.32
+      ],
+      "geoTransform": [
+        677618.4,
+        0.16,
+        0.0,
+        6586464.32,
+        0.0,
+        -0.16
+      ],
+      "width": 930,
+      "height": 1598,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:17.086665+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "66bbbf3628d8137504758bf8f6613b3697d4885220ab3da8e07201ab1f6d23c5"
+    },
+    {
+      "id": "hole-02-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-02-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-02-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-02-tees-review.png",
+      "sha256": "a558d89d383d1647c5c499830218fde3d87529aed4b225ad13c096d95d930a15",
+      "boundsEpsg3006": [
+        677742.4,
+        6586081.279999999,
+        677917.92,
+        6586337.6
+      ],
+      "geoTransform": [
+        677742.4,
+        0.16,
+        0.0,
+        6586337.6,
+        0.0,
+        -0.16
+      ],
+      "width": 1097,
+      "height": 1602,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:18.167576+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "96a9ef5b41ef565a0d365af6c1e56f14baa71f45e3256b77663351574df54e2d"
+    },
+    {
+      "id": "hole-03-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-03-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-03-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-03-tees-review.png",
+      "sha256": "e240324ae1f234fb2375c607e03c6e0e775bb63aaa11cd1647d5545036f89360",
+      "boundsEpsg3006": [
+        677930.88,
+        6585838.56,
+        678135.2,
+        6586072.0
+      ],
+      "geoTransform": [
+        677930.88,
+        0.16,
+        0.0,
+        6586072.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1277,
+      "height": 1459,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:18.720416+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "d3cfe211306620ac6fe4e3b6a2f1be4c45d3af3523d867278f5fad4a2f6f0cda"
+    },
+    {
+      "id": "hole-04-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-04-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-04-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-04-tees-review.png",
+      "sha256": "4a86dc9b64bcff68384a985be31cfb9746324eb5b6036858e16d728bd5012926",
+      "boundsEpsg3006": [
+        677789.44,
+        6586104.48,
+        677991.5199999999,
+        6586335.36
+      ],
+      "geoTransform": [
+        677789.44,
+        0.16,
+        0.0,
+        6586335.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1263,
+      "height": 1443,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:18.943377+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "85bcf6596e3ca82a2f8cfb93be05a750e083d0b68fb2ac0e8f9f38fc86d3c93f"
+    },
+    {
+      "id": "hole-05-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-05-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-05-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-05-tees-review.png",
+      "sha256": "cf5c1d44dfdec41e52a473abb17e6a602042341111d235ae15220e2668958c1d",
+      "boundsEpsg3006": [
+        677467.84,
+        6586215.359999999,
+        677644.32,
+        6586462.56
+      ],
+      "geoTransform": [
+        677467.84,
+        0.16,
+        0.0,
+        6586462.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1103,
+      "height": 1545,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25",
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:19.974226+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "56337a5f89cf8fbf8dd58841a7f8175989333efdf5bf114c5418a59c02c3143c"
+    },
+    {
+      "id": "hole-06-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-06-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-06-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-06-tees-review.png",
+      "sha256": "8830fae5636083df5a4a2de9af8fb4b2d9a69e2249d06ec2c7c78a855a34a5d3",
+      "boundsEpsg3006": [
+        677417.28,
+        6586059.840000001,
+        677648.9600000001,
+        6586247.36
+      ],
+      "geoTransform": [
+        677417.28,
+        0.16,
+        0.0,
+        6586247.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1448,
+      "height": 1172,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25",
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:21.152176+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "33c7e07a3ce5d7bec71de03eba817fa9a7575008fe8aee4cf0948b98d879100f"
+    },
+    {
+      "id": "hole-07-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-07-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-07-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-07-tees-review.png",
+      "sha256": "210c0f54364b4bb378d468c1e0575479fddec505244eb415eed740c7ec8605b2",
+      "boundsEpsg3006": [
+        677459.68,
+        6585974.399999999,
+        677705.28,
+        6586159.52
+      ],
+      "geoTransform": [
+        677459.68,
+        0.16,
+        0.0,
+        6586159.52,
+        0.0,
+        -0.16
+      ],
+      "width": 1535,
+      "height": 1157,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25",
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:22.220307+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "fddb08405e4b024ee7f6485ad310236a6800262ed11aa701a5a76a72615de3a9"
+    },
+    {
+      "id": "hole-08-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-08-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-08-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-08-tees-review.png",
+      "sha256": "6d58df91f6c68b9216745db2c213f15dc52d66a36cb7fab3a284b66558ee9f07",
+      "boundsEpsg3006": [
+        677217.76,
+        6586128.32,
+        677442.56,
+        6586322.24
+      ],
+      "geoTransform": [
+        677217.76,
+        0.16,
+        0.0,
+        6586322.24,
+        0.0,
+        -0.16
+      ],
+      "width": 1405,
+      "height": 1212,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:24.639422+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "32bca06e3520189dd374f83d80b7a4f316d1a13d9195a0b48f1ab74bcfa46138"
+    },
+    {
+      "id": "hole-09-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-09-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-09-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-09-tees-review.png",
+      "sha256": "5a7d37d4b56dc7cfaebbb8d6c398cf468abbe58e195962f3470ad8ee96c96e70",
+      "boundsEpsg3006": [
+        677385.6,
+        6586325.12,
+        677620.32,
+        6586497.76
+      ],
+      "geoTransform": [
+        677385.6,
+        0.16,
+        0.0,
+        6586497.76,
+        0.0,
+        -0.16
+      ],
+      "width": 1467,
+      "height": 1079,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25",
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:25.441812+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "cd3cbf96c1c8add119e82313a74780f8b222363edb95b2d7827540c3384c6dac"
+    },
+    {
+      "id": "hole-10-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-10-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-10-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-10-tees-review.png",
+      "sha256": "397d2d98986c9846c734e58eeb8c5e8c985f51b46cb1c2b61c8f7bb90d1f4859",
+      "boundsEpsg3006": [
+        677254.08,
+        6586184.32,
+        677424.7999999999,
+        6586444.32
+      ],
+      "geoTransform": [
+        677254.08,
+        0.16,
+        0.0,
+        6586444.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1067,
+      "height": 1625,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:23.339123+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "e317aa5e042c3dd07039e334cc326b02cb6d90edd360bf36bde0c14562d73b7c"
+    },
+    {
+      "id": "hole-11-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-11-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-11-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-11-tees-review.png",
+      "sha256": "400cfe8a28f4b5915e2c15a34f700b14a48af8988268e7c019472b7503fee7cd",
+      "boundsEpsg3006": [
+        677142.08,
+        6586773.4399999995,
+        677266.24,
+        6586998.88
+      ],
+      "geoTransform": [
+        677142.08,
+        0.16,
+        0.0,
+        6586998.88,
+        0.0,
+        -0.16
+      ],
+      "width": 776,
+      "height": 1409,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:24.064795+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "b6a8cce996e72813c92280fbcb4d0031f7ef523e2658179696acf3f7fe844014"
+    },
+    {
+      "id": "hole-12-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-12-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-12-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-12-tees-review.png",
+      "sha256": "bb54d137aa9a9fd31f712aa8d684f1a80248dac1007ad0d338617562ef3600cf",
+      "boundsEpsg3006": [
+        677116.32,
+        6586841.279999999,
+        677350.08,
+        6587041.76
+      ],
+      "geoTransform": [
+        677116.32,
+        0.16,
+        0.0,
+        6587041.76,
+        0.0,
+        -0.16
+      ],
+      "width": 1461,
+      "height": 1253,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:25.175360+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "491b38fe4a734e5bed9fedb7f633b2821ef3f0a956ef611e1887d33ba1f9819e"
+    },
+    {
+      "id": "hole-13-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-13-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-13-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-13-tees-review.png",
+      "sha256": "afbf11e8049f262e48a9654091590296e6c219ea874a7c93f78aa4a9f597fe9d",
+      "boundsEpsg3006": [
+        677383.2,
+        6586666.88,
+        677644.0,
+        6586802.88
+      ],
+      "geoTransform": [
+        677383.2,
+        0.16,
+        0.0,
+        6586802.88,
+        0.0,
+        -0.16
+      ],
+      "width": 1630,
+      "height": 850,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25",
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:29.573350+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "93b6033ac2cf79c4bbe56c7106892c052f45b0c3022012b5e7a34f5d052ddf19"
+    },
+    {
+      "id": "hole-14-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-14-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-14-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-14-tees-review.png",
+      "sha256": "c60c946a0a67aa0cfa64ba43c99a4cdcd3ce15e9d863f8222e94de331ad360ef",
+      "boundsEpsg3006": [
+        677211.68,
+        6586670.239999999,
+        677465.12,
+        6586807.68
+      ],
+      "geoTransform": [
+        677211.68,
+        0.16,
+        0.0,
+        6586807.68,
+        0.0,
+        -0.16
+      ],
+      "width": 1584,
+      "height": 859,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:26.111101+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "4c324f0a9950d2dd73dfa4933efb3711d0c516054dbfad5849c8dc74f547fdf4"
+    },
+    {
+      "id": "hole-15-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-15-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-15-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-15-tees-review.png",
+      "sha256": "94ca2e612293513be2f2e772edc2f4b84bd76c6fd1e38e60c1daf908c87f520e",
+      "boundsEpsg3006": [
+        677576.48,
+        6586507.840000001,
+        677726.72,
+        6586769.44
+      ],
+      "geoTransform": [
+        677576.48,
+        0.16,
+        0.0,
+        6586769.44,
+        0.0,
+        -0.16
+      ],
+      "width": 939,
+      "height": 1635,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:27.004486+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "cbfcfa94923cdae1639c8f98a38dcc1aff9ff617cb83e731d26b8b729bb65312"
+    },
+    {
+      "id": "hole-16-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-16-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-16-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-16-tees-review.png",
+      "sha256": "eee5779ce4748b2f3957fec9775f07b480cd204249ab33bf25f7243d15ae8fc2",
+      "boundsEpsg3006": [
+        677728.0,
+        6586646.4,
+        677856.48,
+        6586912.96
+      ],
+      "geoTransform": [
+        677728.0,
+        0.16,
+        0.0,
+        6586912.96,
+        0.0,
+        -0.16
+      ],
+      "width": 803,
+      "height": 1666,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:32.080686+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "c592115e2e6a689d8c158a7c176974826556b7bb5db9547be91bafccac495a3a"
+    },
+    {
+      "id": "hole-17-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-17-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-17-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-17-tees-review.png",
+      "sha256": "dbafe7baee7175f0eea54f871b73072877ce3a2e38d0b21777541ccb446ec611",
+      "boundsEpsg3006": [
+        677603.2,
+        6586539.5200000005,
+        677875.0399999999,
+        6586699.36
+      ],
+      "geoTransform": [
+        677603.2,
+        0.16,
+        0.0,
+        6586699.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1699,
+      "height": 999,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:27.893173+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "8286b389f253cf5efbd28116f05d277463e72f7388b640fcd000b03e67370a2a"
+    },
+    {
+      "id": "hole-18-tees",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-18-tees.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-18-tees.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-18-tees-review.png",
+      "sha256": "bd19c54632a9029217cd656f43011b4f2ea2c451f8e2ce1d99e3d33e26b9fadb",
+      "boundsEpsg3006": [
+        677937.28,
+        6586468.48,
+        678193.4400000001,
+        6586622.4
+      ],
+      "geoTransform": [
+        677937.28,
+        0.16,
+        0.0,
+        6586622.4,
+        0.0,
+        -0.16
+      ],
+      "width": 1601,
+      "height": 962,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:28.823085+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "3264821ed74e6456ba297c421c0beade0e9fe78827e15939145617a98a016141"
+    },
+    {
+      "id": "hole-02-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-02-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-02-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-02-boundary-review.png",
+      "sha256": "5e80427ade925375655fe9c315d03dc299c9b0137c26c2b9aa4f89fddc00366a",
+      "boundsEpsg3006": [
+        677978.88,
+        6585779.2,
+        678110.72,
+        6585920.16
+      ],
+      "geoTransform": [
+        677978.88,
+        0.16,
+        0.0,
+        6585920.16,
+        0.0,
+        -0.16
+      ],
+      "width": 824,
+      "height": 881,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:34.336720+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "87a231c65b28d061bd55f1c70e4d490a13afc5105c058a3c9cbd0a6129a1894b"
+    },
+    {
+      "id": "hole-11-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-11-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-11-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-11-boundary-review.png",
+      "sha256": "98ef608094c47eb384c48c47ae29d0575f71814bde6c81f7e489b1a7d3f8afcf",
+      "boundsEpsg3006": [
+        677132.0,
+        6586771.52,
+        677270.56,
+        6587008.96
+      ],
+      "geoTransform": [
+        677132.0,
+        0.16,
+        0.0,
+        6587008.96,
+        0.0,
+        -0.16
+      ],
+      "width": 866,
+      "height": 1484,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:34.868566+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "ed8cd201322546204406c93f735590468ae605b1f8e76ddf541d2592c14a5dd5"
+    },
+    {
+      "id": "hole-12-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-12-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-12-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-12-boundary-review.png",
+      "sha256": "46da9baf754f13942a3b6e50b0865366aa01e039548395e4e7031b37bd49f460",
+      "boundsEpsg3006": [
+        677518.56,
+        6586734.239999999,
+        677646.88,
+        6586868.64
+      ],
+      "geoTransform": [
+        677518.56,
+        0.16,
+        0.0,
+        6586868.64,
+        0.0,
+        -0.16
+      ],
+      "width": 802,
+      "height": 840,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:29.292396+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "3d6f97955dabba15e5ca1e72ed2f81a59270a941d9056d82443aca4b804b5605"
+    },
+    {
+      "id": "hole-14-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-14-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-14-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-14-boundary-review.png",
+      "sha256": "d2deb9309a2f03a3e67037f2a6306fd112a343cfc2c80e8a9f4f173198c354f0",
+      "boundsEpsg3006": [
+        677498.24,
+        6586612.64,
+        677637.44,
+        6586748.0
+      ],
+      "geoTransform": [
+        677498.24,
+        0.16,
+        0.0,
+        6586748.0,
+        0.0,
+        -0.16
+      ],
+      "width": 870,
+      "height": 846,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6750_25_mr25",
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:35.616009+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "263f9c6e63ce86a9c8808fc4ba35851bce2597f7aad180d49a68767f6dea5999"
+    },
+    {
+      "id": "hole-15-boundary",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-15-boundary.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-15-boundary.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-15-boundary-review.png",
+      "sha256": "922304ea5611160fb33aac6d94537a1e6ff9fc5e29e0d84d809b84d6b367d921",
+      "boundsEpsg3006": [
+        677572.64,
+        6586508.0,
+        677834.56,
+        6586954.24
+      ],
+      "geoTransform": [
+        677572.64,
+        0.16,
+        0.0,
+        6586954.24,
+        0.0,
+        -0.16
+      ],
+      "width": 1637,
+      "height": 2789,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:30:37.627483+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "ae185c4a7b7c1f5fdf21464444ef105eae785ff5e905ecf92413ce5e3235ce16"
+    },
+    {
+      "id": "hole-02-boundary-west",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-02-boundary-west.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-02-boundary-west.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-02-boundary-west-review.png",
+      "sha256": "8296f4906392469a539a600ce2c96e60e5dd3a57e4753b6f3650bbec38861356",
+      "boundsEpsg3006": [
+        677920.0,
+        6585789.92,
+        678045.12,
+        6585920.0
+      ],
+      "geoTransform": [
+        677920.0,
+        0.16,
+        0.0,
+        6585920.0,
+        0.0,
+        -0.16
+      ],
+      "width": 782,
+      "height": 813,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:31:59.329387+00:00",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "7c0332fdd985f23e2ffe497e135cea93fd4461aa7d4d2948960b9522c472bf10"
+    },
+    {
+      "id": "hole-04-tees-forward",
+      "rasterFile": "lidingobuild/cache/lm-ortho/hole-04-tees-forward.tif",
+      "rgbFile": "lidingobuild/cache/lm-ortho/hole-04-tees-forward.png",
+      "reviewFile": "lidingobuild/cache/lm-ortho/hole-04-tees-forward-review.png",
+      "sha256": "27653f6eea9ae1aad04b45647e67d45acb1c11a56b839a6131256128c61575ba",
+      "sha256Content": "GeoTIFF file bytes",
+      "rgbSha256": "00be2d3eb5dfa6a4910592ba70b3ca579c0e0a7fecc7986dd06472b6484d02a2",
+      "boundsEpsg3006": [
+        677680.0,
+        6586100.0,
+        678005.12,
+        6586410.08
+      ],
+      "geoTransform": [
+        677680.0,
+        0.16,
+        0.0,
+        6586410.08,
+        0.0,
+        -0.16
+      ],
+      "width": 2032,
+      "height": 1938,
+      "resolutionMetres": 0.16,
+      "validFraction": 1.0,
+      "resampling": "nearest",
+      "sourceIds": [
+        "o65850_6775_25_mr25"
+      ],
+      "acquiredAt": "2026-09-09T20:51:48.900715+00:00"
+    }
+  ],
+  "horizontalCrs": "EPSG:3006",
+  "nativeResolutionMetres": 0.16,
+  "localOriginEpsg3006": [
+    677700.5,
+    6586399.5
+  ],
+  "localConvention": "x=E-677700.5; z=6586399.5-N",
+  "pixelConvention": "Pixel edges at bounds; E=minE+(col+0.5)*res; N=maxN-(row+0.5)*res",
+  "rawImageryRedistributed": false,
+  "attribution": "Ortofoto Nedladdning, Â© LantmÃ¤teriet, processed information, CC BY 4.0.",
+  "limitations": [
+    "Ground sample distance is not absolute positional accuracy.",
+    "Capture on 2025-05-31 does not establish changes after that date.",
+    "Moving tee markers and individual OB stakes may be unresolved or occluded; do not infer surveyed positions from pixels."
+  ],
+  "validation": {
+    "checkedAt": "2026-09-09T21:04:02.073241+00:00",
+    "windows": 26,
+    "state": "passed",
+    "checks": [
+      "All GeoTIFF hashes verified",
+      "Every PNG RGB pixel exactly equals corresponding GeoTIFF RGB bands",
+      "All 26 grids match declared EPSG:3006 affine and dimensions",
+      "All pixels have valid dataset masks; NIR is undefined band, not alpha",
+      "18 native tee crops, one expanded H4 forward tee crop, 6 native boundary crops, one 0.8m overview"
+    ]
+  }
+}

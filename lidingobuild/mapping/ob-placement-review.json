@@ -1,0 +1,922 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "horizontalCrs": "EPSG:3006",
+  "axisOrder": [
+    "easting",
+    "northing"
+  ],
+  "reviewedAt": "2026-09-09T20:35:13.043547+00:00",
+  "state": "reviewed-visible-boundary-segments",
+  "sources": [
+    {
+      "id": "lidingo-local-rules-2026-03-16",
+      "kind": "club-rule",
+      "url": "https://www.lidingogk.se/media/tl1nt1n3/lidingoe-gk-lokala-regler-2026-03-16.pdf",
+      "approvedAt": "2026-03-16",
+      "verifiedAt": "2026-09-09",
+      "sha256": "9b33c6f175931c4261fc80331bc0ed358e635dd74ba7ead1ce4ba5515dc57acf"
+    },
+    {
+      "id": "lidingo-ob-explanation-2024-09-03",
+      "kind": "club-rule",
+      "url": "https://www.lidingogk.se/nyheter/maanadens-regelfraaga-september-2024/",
+      "publishedAt": "2024-09-03",
+      "verifiedAt": "2026-09-09",
+      "note": "Supplementary: stakes mainly on 1,2,5,6; fence behind green 10. The current rules document takes precedence."
+    },
+    {
+      "id": "lidingo-01-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-01-hole.png",
+      "sha256": "9195a394a20a3ec8450539bf0bf8f5d5d1f8a6bce3cfb1b4f6503ef171471a5e",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677603.36,
+        6586178.08,
+        677793.76,
+        6586479.36
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ],
+      "validFraction": 1
+    },
+    {
+      "id": "lidingo-02-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-02-hole.png",
+      "sha256": "226e96268e08d27be89625695a3e526b510abe59ebf2b28b377e82ecbd5cb494",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677727.36,
+        6585773.28,
+        678115.6799999999,
+        6586352.48
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ],
+      "validFraction": 1
+    },
+    {
+      "id": "lidingo-05-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-05-hole.png",
+      "sha256": "d83d4e52e1ba1db26419653aa3166be85f662f56a24d3b21bdd8521b42341140",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677363.36,
+        6586156.64,
+        677659.2,
+        6586477.6
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ],
+      "validFraction": 1
+    },
+    {
+      "id": "lidingo-06-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-06-hole.png",
+      "sha256": "0c4c91f792d12ee7f22bcddb73bb41127e5db8d2afa8972e6b89694e9fb8aa94",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677402.24,
+        6586025.600000001,
+        677686.72,
+        6586262.4
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ],
+      "validFraction": 1
+    },
+    {
+      "id": "lidingo-10-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-10-hole.png",
+      "sha256": "61e3b5427da76efde95bfd6627862906f03f0267b547b74723f1da0f17b55128",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677186.4,
+        6586169.279999999,
+        677469.12,
+        6586746.56
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ],
+      "validFraction": 1
+    },
+    {
+      "id": "lidingo-11-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-11-hole.png",
+      "sha256": "6498fddc0cb1128475e34bbf55aa8308838187db7c9ffc16e141d30ea9c6794e",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677117.12,
+        6586758.399999999,
+        677281.12,
+        6587026.56
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ],
+      "validFraction": 1
+    },
+    {
+      "id": "lidingo-12-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-12-hole.png",
+      "sha256": "76086a9f2141699cdee4d6fa0bf24715159c351f6ed6755800ac66571cf9dd10",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677101.28,
+        6586719.359999999,
+        677651.8400000001,
+        6587056.64
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ],
+      "validFraction": 1
+    },
+    {
+      "id": "lidingo-14-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-14-hole.png",
+      "sha256": "64ae1da73ccf7fc31a420ad17f2172bf2fd05564adcbbb256ae08b5f7a142d25",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677196.64,
+        6586607.68,
+        677648,
+        6586822.56
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ],
+      "validFraction": 1
+    },
+    {
+      "id": "lidingo-15-hole",
+      "kind": "orthophoto",
+      "path": "lidingobuild/cache/lm-ortho/lidingo-15-hole.png",
+      "sha256": "3b11fac955e8ef5f9ca9fa9017f034cb90bd526baaa626adcf3528bba35a9823",
+      "capturedAt": "2025-05-31",
+      "resolutionMetres": 0.16,
+      "boundsEpsg3006": [
+        677561.44,
+        6586492.96,
+        677856.32,
+        6586970.24
+      ],
+      "sourceItems": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ],
+      "validFraction": 1
+    }
+  ],
+  "rules": [
+    {
+      "sourceId": "lidingo-local-rules-2026-03-16",
+      "kind": "white-stakes-plates-lines",
+      "holes": null,
+      "extent": "Club course boundary; actual marker locations require observation."
+    },
+    {
+      "sourceId": "lidingo-local-rules-2026-03-16",
+      "kind": "asphalt-edge",
+      "road": "Kyttingev?gen",
+      "holes": [
+        2
+      ],
+      "extent": "Right of green"
+    },
+    {
+      "sourceId": "lidingo-local-rules-2026-03-16",
+      "kind": "asphalt-edge",
+      "road": "Kyttingev?gen",
+      "holes": [
+        11
+      ],
+      "extent": "Left along entire hole"
+    },
+    {
+      "sourceId": "lidingo-local-rules-2026-03-16",
+      "kind": "asphalt-edge",
+      "road": "Trolldalsv?gen",
+      "holes": [
+        12,
+        14
+      ],
+      "extent": "Behind greens"
+    },
+    {
+      "sourceId": "lidingo-local-rules-2026-03-16",
+      "kind": "asphalt-edge",
+      "road": "Trolldalsv?gen",
+      "holes": [
+        15
+      ],
+      "extent": "Left along entire hole"
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "lidingo-ob-02-kyttinge-green-lm2025",
+      "state": "accepted",
+      "kind": "asphalt-edge",
+      "holes": [
+        2
+      ],
+      "imageSourceId": "lidingo-02-hole",
+      "ruleSourceId": "lidingo-local-rules-2026-03-16",
+      "uncertaintyMetres": 0.8,
+      "completeBoundary": false,
+      "note": "Course-side asphalt edge to the right of green 2.",
+      "sourcePixelLine": [
+        [
+          1547,
+          3140
+        ],
+        [
+          1590,
+          3190
+        ],
+        [
+          1630,
+          3240
+        ],
+        [
+          1666,
+          3290
+        ],
+        [
+          1698,
+          3340
+        ],
+        [
+          1727,
+          3390
+        ],
+        [
+          1750,
+          3440
+        ],
+        [
+          1770,
+          3490
+        ],
+        [
+          1787,
+          3540
+        ],
+        [
+          1801,
+          3590
+        ]
+      ],
+      "lineEpsg3006": [
+        [
+          677974.88,
+          6585850.08
+        ],
+        [
+          677981.76,
+          6585842.08
+        ],
+        [
+          677988.16,
+          6585834.08
+        ],
+        [
+          677993.92,
+          6585826.08
+        ],
+        [
+          677999.04,
+          6585818.08
+        ],
+        [
+          678003.68,
+          6585810.08
+        ],
+        [
+          678007.36,
+          6585802.08
+        ],
+        [
+          678010.56,
+          6585794.08
+        ],
+        [
+          678013.28,
+          6585786.08
+        ],
+        [
+          678015.52,
+          6585778.08
+        ]
+      ]
+    },
+    {
+      "id": "lidingo-ob-11-kyttinge-north-lm2025",
+      "state": "accepted",
+      "kind": "asphalt-edge",
+      "holes": [
+        11
+      ],
+      "imageSourceId": "lidingo-11-hole",
+      "ruleSourceId": "lidingo-local-rules-2026-03-16",
+      "uncertaintyMetres": 1,
+      "completeBoundary": false,
+      "note": "Course-side asphalt edge alongside green and middle of hole 11; shaded tee-side continuation withheld.",
+      "sourcePixelLine": [
+        [
+          125,
+          317
+        ],
+        [
+          151,
+          359
+        ],
+        [
+          167,
+          391
+        ],
+        [
+          188,
+          448
+        ],
+        [
+          211,
+          513
+        ],
+        [
+          227,
+          576
+        ],
+        [
+          238,
+          636
+        ],
+        [
+          245,
+          692
+        ],
+        [
+          248,
+          751
+        ],
+        [
+          252,
+          779
+        ],
+        [
+          265,
+          800
+        ],
+        [
+          298,
+          832
+        ],
+        [
+          326,
+          862
+        ],
+        [
+          350,
+          895
+        ],
+        [
+          372,
+          937
+        ],
+        [
+          384,
+          969
+        ]
+      ],
+      "lineEpsg3006": [
+        [
+          677137.12,
+          6586975.84
+        ],
+        [
+          677141.28,
+          6586969.12
+        ],
+        [
+          677143.84,
+          6586964
+        ],
+        [
+          677147.2,
+          6586954.88
+        ],
+        [
+          677150.88,
+          6586944.48
+        ],
+        [
+          677153.44,
+          6586934.4
+        ],
+        [
+          677155.2,
+          6586924.8
+        ],
+        [
+          677156.32,
+          6586915.84
+        ],
+        [
+          677156.8,
+          6586906.4
+        ],
+        [
+          677157.44,
+          6586901.92
+        ],
+        [
+          677159.52,
+          6586898.56
+        ],
+        [
+          677164.8,
+          6586893.44
+        ],
+        [
+          677169.28,
+          6586888.64
+        ],
+        [
+          677173.12,
+          6586883.36
+        ],
+        [
+          677176.64,
+          6586876.64
+        ],
+        [
+          677178.56,
+          6586871.52
+        ]
+      ]
+    },
+    {
+      "id": "lidingo-ob-12-trolldal-green-lm2025",
+      "state": "accepted",
+      "kind": "asphalt-edge",
+      "holes": [
+        12
+      ],
+      "imageSourceId": "lidingo-12-hole",
+      "ruleSourceId": "lidingo-local-rules-2026-03-16",
+      "uncertaintyMetres": 0.8,
+      "completeBoundary": false,
+      "note": "Western asphalt edge behind green 12; the eastern road edge applies separately to hole 15.",
+      "sourcePixelLine": [
+        [
+          3308,
+          1515
+        ],
+        [
+          3293,
+          1570
+        ],
+        [
+          3276,
+          1620
+        ],
+        [
+          3266,
+          1670
+        ],
+        [
+          3257,
+          1710
+        ],
+        [
+          3246,
+          1770
+        ],
+        [
+          3237,
+          1810
+        ]
+      ],
+      "lineEpsg3006": [
+        [
+          677630.56,
+          6586814.24
+        ],
+        [
+          677628.16,
+          6586805.44
+        ],
+        [
+          677625.44,
+          6586797.44
+        ],
+        [
+          677623.84,
+          6586789.44
+        ],
+        [
+          677622.4,
+          6586783.04
+        ],
+        [
+          677620.64,
+          6586773.44
+        ],
+        [
+          677619.2,
+          6586767.04
+        ]
+      ]
+    },
+    {
+      "id": "lidingo-ob-14-trolldal-green-lm2025",
+      "state": "accepted",
+      "kind": "asphalt-edge",
+      "holes": [
+        14
+      ],
+      "imageSourceId": "lidingo-14-hole",
+      "ruleSourceId": "lidingo-local-rules-2026-03-16",
+      "uncertaintyMetres": 0.8,
+      "completeBoundary": false,
+      "note": "Western asphalt edge behind green 14, bounded between the path connections.",
+      "sourcePixelLine": [
+        [
+          2548,
+          830
+        ],
+        [
+          2545,
+          900
+        ],
+        [
+          2545,
+          980
+        ],
+        [
+          2546,
+          1040
+        ],
+        [
+          2548,
+          1090
+        ]
+      ],
+      "lineEpsg3006": [
+        [
+          677604.32,
+          6586689.76
+        ],
+        [
+          677603.84,
+          6586678.56
+        ],
+        [
+          677603.84,
+          6586665.76
+        ],
+        [
+          677604,
+          6586656.16
+        ],
+        [
+          677604.32,
+          6586648.16
+        ]
+      ]
+    },
+    {
+      "id": "lidingo-ob-15-trolldal-middle-lm2025",
+      "state": "accepted",
+      "kind": "asphalt-edge",
+      "holes": [
+        15
+      ],
+      "imageSourceId": "lidingo-15-hole",
+      "ruleSourceId": "lidingo-local-rules-2026-03-16",
+      "uncertaintyMetres": 0.8,
+      "completeBoundary": false,
+      "note": "Eastern asphalt edge left of hole 15, terminating before trees at the north and a path junction at the south.",
+      "sourcePixelLine": [
+        [
+          485,
+          850
+        ],
+        [
+          475,
+          900
+        ],
+        [
+          464,
+          950
+        ],
+        [
+          451,
+          1050
+        ],
+        [
+          431,
+          1150
+        ],
+        [
+          411,
+          1250
+        ],
+        [
+          393,
+          1350
+        ],
+        [
+          377,
+          1450
+        ],
+        [
+          358,
+          1550
+        ],
+        [
+          344,
+          1650
+        ],
+        [
+          331,
+          1750
+        ],
+        [
+          326,
+          1850
+        ],
+        [
+          326,
+          1950
+        ],
+        [
+          327,
+          1990
+        ]
+      ],
+      "lineEpsg3006": [
+        [
+          677639.04,
+          6586834.24
+        ],
+        [
+          677637.44,
+          6586826.24
+        ],
+        [
+          677635.68,
+          6586818.24
+        ],
+        [
+          677633.6,
+          6586802.24
+        ],
+        [
+          677630.4,
+          6586786.24
+        ],
+        [
+          677627.2,
+          6586770.24
+        ],
+        [
+          677624.32,
+          6586754.24
+        ],
+        [
+          677621.76,
+          6586738.24
+        ],
+        [
+          677618.72,
+          6586722.24
+        ],
+        [
+          677616.48,
+          6586706.24
+        ],
+        [
+          677614.4,
+          6586690.24
+        ],
+        [
+          677613.6,
+          6586674.24
+        ],
+        [
+          677613.6,
+          6586658.24
+        ],
+        [
+          677613.76,
+          6586651.84
+        ]
+      ]
+    },
+    {
+      "id": "lidingo-ob-15-trolldal-south-lm2025",
+      "state": "accepted",
+      "kind": "asphalt-edge",
+      "holes": [
+        15
+      ],
+      "imageSourceId": "lidingo-15-hole",
+      "ruleSourceId": "lidingo-local-rules-2026-03-16",
+      "uncertaintyMetres": 0.8,
+      "completeBoundary": false,
+      "note": "Visible eastern asphalt edge south of the path junction; shaded continuation toward the back tee remains unresolved.",
+      "sourcePixelLine": [
+        [
+          335,
+          2145
+        ],
+        [
+          338,
+          2195
+        ],
+        [
+          341,
+          2245
+        ],
+        [
+          346,
+          2295
+        ],
+        [
+          350,
+          2330
+        ]
+      ],
+      "lineEpsg3006": [
+        [
+          677615.04,
+          6586627.04
+        ],
+        [
+          677615.52,
+          6586619.04
+        ],
+        [
+          677616,
+          6586611.04
+        ],
+        [
+          677616.8,
+          6586603.04
+        ],
+        [
+          677617.44,
+          6586597.44
+        ]
+      ]
+    }
+  ],
+  "stakes": [],
+  "unresolved": [
+    {
+      "holes": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "kind": "white-stakes",
+      "state": "unresolved",
+      "sourceId": "lidingo-ob-explanation-2024-09-03",
+      "imageSourceIds": [
+        "lidingo-01-hole",
+        "lidingo-02-hole",
+        "lidingo-05-hole",
+        "lidingo-06-hole"
+      ],
+      "reason": "Club identifies stake-marked holes, but individual stake positions cannot be established reliably in the native 0.16 m orthophotos. Small bright spots include other course objects. No positions synthesized from parcel outlines, fence poles or equal spacing."
+    },
+    {
+      "holes": [
+        10
+      ],
+      "kind": "fence",
+      "state": "unresolved",
+      "sourceId": "lidingo-ob-explanation-2024-09-03",
+      "imageSourceIds": [
+        "lidingo-10-hole"
+      ],
+      "reason": "Club confirms boundary fence behind green 10. Exact fence alignment and post positions are not sufficiently distinguishable from vegetation and shadows in the native orthophoto."
+    },
+    {
+      "holes": [
+        11,
+        15
+      ],
+      "kind": "asphalt-edge",
+      "state": "partially-observed",
+      "sourceId": "lidingo-local-rules-2026-03-16",
+      "reason": "Trees and shadows obscure road-edge sections; paved path junctions interrupt a directly observable verge edge. Reviewed segments are not a complete boundary survey."
+    }
+  ],
+  "runtime": {
+    "boundaryRendering": "Dashed virtual map annotations only",
+    "physicalStakeRendering": "Only individually observed accepted point records may enter M.marking",
+    "acceptedBoundarySegments": 6,
+    "acceptedPhysicalWhiteStakes": 0,
+    "terrainModified": false,
+    "parcelBoundaryUsedAsOb": false
+  },
+  "limitations": [
+    "Imagery captures 31 May 2025 and does not establish current-day stake placement.",
+    "Image interpretation uncertainty is estimated, not a survey accuracy claim.",
+    "No complete out-of-bounds polygon is inferred from these partial visible edge segments.",
+    "Asphalt edges are taken from source pixels, not generic road widths or OSM centreline offsets."
+  ]
+}

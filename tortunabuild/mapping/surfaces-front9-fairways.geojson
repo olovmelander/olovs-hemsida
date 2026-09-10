@@ -1,0 +1,1238 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "axisOrder": [
+    "easting",
+    "northing"
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "tortuna-h01-fairway-candidate-1",
+      "properties": {
+        "kind": "fairway",
+        "hole": 1,
+        "material": "grass",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          },
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 1,
+          "kind": "hole",
+          "file": "tortunabuild/cache/mapping-review/hole-01.png",
+          "boundsEpsg3006": [
+            597302.7538049337,
+            6614706.160574364,
+            597722.8406063332,
+            6615126.247375762
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south",
+            "north"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "24e394e22aeb697ff5742bd2e77ffdb64cb1263b23c2b621d6f6b041d5b35f6d"
+        },
+        "tracePixels": [
+          [
+            215,
+            234
+          ],
+          [
+            228,
+            245
+          ],
+          [
+            240,
+            262
+          ],
+          [
+            255,
+            282
+          ],
+          [
+            273,
+            306
+          ],
+          [
+            292,
+            327
+          ],
+          [
+            311,
+            347
+          ],
+          [
+            329,
+            368
+          ],
+          [
+            341,
+            385
+          ],
+          [
+            342,
+            396
+          ],
+          [
+            334,
+            402
+          ],
+          [
+            326,
+            394
+          ],
+          [
+            316,
+            381
+          ],
+          [
+            300,
+            368
+          ],
+          [
+            284,
+            349
+          ],
+          [
+            267,
+            334
+          ],
+          [
+            252,
+            316
+          ],
+          [
+            236,
+            297
+          ],
+          [
+            221,
+            278
+          ],
+          [
+            211,
+            260
+          ],
+          [
+            210,
+            245
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 3.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "coverageStatus": "partial-observable-maintained-area-only",
+        "interpretation": "Visible darker maintained landing/approach section only; the early section from the tee has no sufficiently clear mowing boundary.",
+        "terrainModified": false,
+        "areaSquareMetres": 2917.275238999722
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597479.157,
+              6614934.255
+            ],
+            [
+              597489.824,
+              6614925.229
+            ],
+            [
+              597499.669,
+              6614911.281
+            ],
+            [
+              597511.977,
+              6614894.871
+            ],
+            [
+              597526.745,
+              6614875.18
+            ],
+            [
+              597542.335,
+              6614857.95
+            ],
+            [
+              597557.924,
+              6614841.54
+            ],
+            [
+              597572.692,
+              6614824.31
+            ],
+            [
+              597582.538,
+              6614810.362
+            ],
+            [
+              597583.359,
+              6614801.336
+            ],
+            [
+              597576.795,
+              6614796.414
+            ],
+            [
+              597570.231,
+              6614802.977
+            ],
+            [
+              597562.026,
+              6614813.644
+            ],
+            [
+              597548.898,
+              6614824.31
+            ],
+            [
+              597535.771,
+              6614839.899
+            ],
+            [
+              597521.823,
+              6614852.206
+            ],
+            [
+              597509.515,
+              6614866.975
+            ],
+            [
+              597496.388,
+              6614882.564
+            ],
+            [
+              597484.08,
+              6614898.153
+            ],
+            [
+              597475.876,
+              6614912.922
+            ],
+            [
+              597475.055,
+              6614925.229
+            ],
+            [
+              597479.157,
+              6614934.255
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h02-fairway-candidate-1",
+      "properties": {
+        "kind": "fairway",
+        "hole": 2,
+        "material": "grass",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 2,
+          "kind": "hole",
+          "file": "tortunabuild/cache/mapping-review/hole-02.png",
+          "boundsEpsg3006": [
+            597245.2699660324,
+            6614462.136344462,
+            597638.936263802,
+            6614855.802642231
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "93ea89d9b1e693269929a04145c79bacf821138f36907ee5b72f113a880f6926"
+        },
+        "tracePixels": [
+          [
+            376,
+            194
+          ],
+          [
+            380,
+            207
+          ],
+          [
+            361,
+            224
+          ],
+          [
+            343,
+            244
+          ],
+          [
+            323,
+            266
+          ],
+          [
+            304,
+            288
+          ],
+          [
+            293,
+            310
+          ],
+          [
+            282,
+            328
+          ],
+          [
+            262,
+            344
+          ],
+          [
+            242,
+            356
+          ],
+          [
+            216,
+            365
+          ],
+          [
+            192,
+            373
+          ],
+          [
+            167,
+            381
+          ],
+          [
+            144,
+            382
+          ],
+          [
+            131,
+            374
+          ],
+          [
+            136,
+            363
+          ],
+          [
+            150,
+            355
+          ],
+          [
+            172,
+            351
+          ],
+          [
+            195,
+            346
+          ],
+          [
+            223,
+            340
+          ],
+          [
+            244,
+            331
+          ],
+          [
+            264,
+            317
+          ],
+          [
+            276,
+            304
+          ],
+          [
+            299,
+            272
+          ],
+          [
+            323,
+            246
+          ],
+          [
+            346,
+            220
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 3.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "coverageStatus": "partial-observable-maintained-area-only",
+        "interpretation": "Curved darker maintained stripe through the dogleg to the green approach. Winter colour and shadow make the fairway/semi-rough boundary provisional.",
+        "terrainModified": false,
+        "areaSquareMetres": 3436.7333809512743
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597534.369,
+              6614706.64
+            ],
+            [
+              597537.444,
+              6614696.645
+            ],
+            [
+              597522.835,
+              6614683.574
+            ],
+            [
+              597508.996,
+              6614668.196
+            ],
+            [
+              597493.618,
+              6614651.281
+            ],
+            [
+              597479.009,
+              6614634.365
+            ],
+            [
+              597470.552,
+              6614617.45
+            ],
+            [
+              597462.094,
+              6614603.61
+            ],
+            [
+              597446.716,
+              6614591.308
+            ],
+            [
+              597431.339,
+              6614582.082
+            ],
+            [
+              597411.348,
+              6614575.162
+            ],
+            [
+              597392.895,
+              6614569.011
+            ],
+            [
+              597373.673,
+              6614562.86
+            ],
+            [
+              597355.989,
+              6614562.091
+            ],
+            [
+              597345.993,
+              6614568.242
+            ],
+            [
+              597349.838,
+              6614576.699
+            ],
+            [
+              597360.602,
+              6614582.85
+            ],
+            [
+              597377.517,
+              6614585.926
+            ],
+            [
+              597395.201,
+              6614589.77
+            ],
+            [
+              597416.73,
+              6614594.384
+            ],
+            [
+              597432.877,
+              6614601.304
+            ],
+            [
+              597448.254,
+              6614612.068
+            ],
+            [
+              597457.481,
+              6614622.063
+            ],
+            [
+              597475.165,
+              6614646.667
+            ],
+            [
+              597493.618,
+              6614666.658
+            ],
+            [
+              597511.302,
+              6614686.649
+            ],
+            [
+              597534.369,
+              6614706.64
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h04-fairway-candidate-1",
+      "properties": {
+        "kind": "fairway",
+        "hole": 4,
+        "material": "grass",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 4,
+          "kind": "hole",
+          "file": "tortunabuild/cache/mapping-review/hole-04.png",
+          "boundsEpsg3006": [
+            597097.6087615041,
+            6613996.590466616,
+            597648.5593830438,
+            6614547.5410881555
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "33ef8a6bb28ce24a0843333b52e87d5492be890d8572cd86b94249de2f251e73"
+        },
+        "tracePixels": [
+          [
+            333,
+            231
+          ],
+          [
+            343,
+            247
+          ],
+          [
+            335,
+            263
+          ],
+          [
+            321,
+            280
+          ],
+          [
+            303,
+            303
+          ],
+          [
+            283,
+            329
+          ],
+          [
+            267,
+            347
+          ],
+          [
+            246,
+            374
+          ],
+          [
+            226,
+            396
+          ],
+          [
+            205,
+            417
+          ],
+          [
+            190,
+            431
+          ],
+          [
+            181,
+            430
+          ],
+          [
+            179,
+            421
+          ],
+          [
+            189,
+            407
+          ],
+          [
+            205,
+            387
+          ],
+          [
+            226,
+            363
+          ],
+          [
+            245,
+            339
+          ],
+          [
+            265,
+            315
+          ],
+          [
+            283,
+            291
+          ],
+          [
+            302,
+            267
+          ],
+          [
+            316,
+            243
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "coverageStatus": "partial-observable-maintained-area-only",
+        "interpretation": "Observed maintained strip along the west side of the long pond; only the main landing/approach section. Upper tee corridor remains untraced.",
+        "terrainModified": false,
+        "areaSquareMetres": 6239.557250993533
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597455.942,
+              6614298.968
+            ],
+            [
+              597466.703,
+              6614281.75
+            ],
+            [
+              597458.094,
+              6614264.533
+            ],
+            [
+              597443.029,
+              6614246.24
+            ],
+            [
+              597423.66,
+              6614221.49
+            ],
+            [
+              597402.138,
+              6614193.512
+            ],
+            [
+              597384.921,
+              6614174.143
+            ],
+            [
+              597362.323,
+              6614145.089
+            ],
+            [
+              597340.802,
+              6614121.415
+            ],
+            [
+              597318.204,
+              6614098.818
+            ],
+            [
+              597302.063,
+              6614083.753
+            ],
+            [
+              597292.378,
+              6614084.829
+            ],
+            [
+              597290.226,
+              6614094.513
+            ],
+            [
+              597300.987,
+              6614109.578
+            ],
+            [
+              597318.204,
+              6614131.1
+            ],
+            [
+              597340.802,
+              6614156.926
+            ],
+            [
+              597361.247,
+              6614182.752
+            ],
+            [
+              597382.769,
+              6614208.577
+            ],
+            [
+              597402.138,
+              6614234.403
+            ],
+            [
+              597422.584,
+              6614260.229
+            ],
+            [
+              597437.649,
+              6614286.055
+            ],
+            [
+              597455.942,
+              6614298.968
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h07-fairway-candidate-1",
+      "properties": {
+        "kind": "fairway",
+        "hole": 7,
+        "material": "grass",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 7,
+          "kind": "hole",
+          "file": "tortunabuild/cache/mapping-review/hole-07.png",
+          "boundsEpsg3006": [
+            597383.1664630959,
+            6614211.7794111995,
+            597807.24355061,
+            6614635.856498714
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "91ba8863f7eaf9c06d19c9bd5d5a8831e1b6f688af15eba4952c1ef179600c1b"
+        },
+        "tracePixels": [
+          [
+            238,
+            126
+          ],
+          [
+            255,
+            127
+          ],
+          [
+            259,
+            147
+          ],
+          [
+            262,
+            173
+          ],
+          [
+            268,
+            201
+          ],
+          [
+            274,
+            228
+          ],
+          [
+            276,
+            251
+          ],
+          [
+            268,
+            270
+          ],
+          [
+            253,
+            281
+          ],
+          [
+            238,
+            278
+          ],
+          [
+            228,
+            265
+          ],
+          [
+            225,
+            244
+          ],
+          [
+            224,
+            219
+          ],
+          [
+            227,
+            194
+          ],
+          [
+            227,
+            171
+          ],
+          [
+            226,
+            149
+          ],
+          [
+            229,
+            134
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 2.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "coverageStatus": "partial-observable-maintained-area-only",
+        "interpretation": "Distinct long mown oval with visible curved southern edge; tee-to-fairway rough gap remains intact.",
+        "terrainModified": false,
+        "areaSquareMetres": 4115.247820999885
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597580.296,
+              6614531.494
+            ],
+            [
+              597594.377,
+              6614530.666
+            ],
+            [
+              597597.69,
+              6614514.1
+            ],
+            [
+              597600.175,
+              6614492.565
+            ],
+            [
+              597605.144,
+              6614469.373
+            ],
+            [
+              597610.114,
+              6614447.01
+            ],
+            [
+              597611.771,
+              6614427.959
+            ],
+            [
+              597605.144,
+              6614412.222
+            ],
+            [
+              597592.72,
+              6614403.111
+            ],
+            [
+              597580.296,
+              6614405.596
+            ],
+            [
+              597572.013,
+              6614416.363
+            ],
+            [
+              597569.528,
+              6614433.757
+            ],
+            [
+              597568.7,
+              6614454.464
+            ],
+            [
+              597571.185,
+              6614475.171
+            ],
+            [
+              597571.185,
+              6614494.221
+            ],
+            [
+              597570.357,
+              6614512.443
+            ],
+            [
+              597572.842,
+              6614524.868
+            ],
+            [
+              597580.296,
+              6614531.494
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h08-fairway-candidate-1",
+      "properties": {
+        "kind": "fairway",
+        "hole": 8,
+        "material": "grass",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 8,
+          "kind": "hole",
+          "file": "tortunabuild/cache/mapping-review/hole-08.png",
+          "boundsEpsg3006": [
+            597425.5999787664,
+            6614437.431894375,
+            597828.6260410049,
+            6614840.457956614
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "0bb8d6211add2f14278f19ad2c24c998d3d0b07e341aa99aa124072a268f52ab"
+        },
+        "tracePixels": [
+          [
+            157,
+            304
+          ],
+          [
+            163,
+            282
+          ],
+          [
+            180,
+            259
+          ],
+          [
+            203,
+            237
+          ],
+          [
+            230,
+            211
+          ],
+          [
+            253,
+            189
+          ],
+          [
+            278,
+            172
+          ],
+          [
+            305,
+            158
+          ],
+          [
+            327,
+            151
+          ],
+          [
+            347,
+            151
+          ],
+          [
+            365,
+            153
+          ],
+          [
+            383,
+            158
+          ],
+          [
+            393,
+            159
+          ],
+          [
+            394,
+            171
+          ],
+          [
+            380,
+            177
+          ],
+          [
+            360,
+            174
+          ],
+          [
+            341,
+            170
+          ],
+          [
+            323,
+            171
+          ],
+          [
+            303,
+            180
+          ],
+          [
+            283,
+            194
+          ],
+          [
+            266,
+            208
+          ],
+          [
+            247,
+            227
+          ],
+          [
+            228,
+            249
+          ],
+          [
+            211,
+            271
+          ],
+          [
+            197,
+            290
+          ],
+          [
+            185,
+            311
+          ],
+          [
+            168,
+            316
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "coverageStatus": "partial-observable-maintained-area-only",
+        "interpretation": "Visible curving darker maintained area through the dogleg. The tree-lined boundary is partly shaded; source interpretation allowance remains broad.",
+        "terrainModified": false,
+        "areaSquareMetres": 4285.904980471284
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597549.184,
+              6614601.161
+            ],
+            [
+              597553.907,
+              6614618.479
+            ],
+            [
+              597567.289,
+              6614636.583
+            ],
+            [
+              597585.394,
+              6614653.901
+            ],
+            [
+              597606.647,
+              6614674.367
+            ],
+            [
+              597624.752,
+              6614691.685
+            ],
+            [
+              597644.431,
+              6614705.066
+            ],
+            [
+              597665.684,
+              6614716.087
+            ],
+            [
+              597683.001,
+              6614721.597
+            ],
+            [
+              597698.745,
+              6614721.597
+            ],
+            [
+              597712.913,
+              6614720.022
+            ],
+            [
+              597727.082,
+              6614716.087
+            ],
+            [
+              597734.954,
+              6614715.299
+            ],
+            [
+              597735.741,
+              6614705.854
+            ],
+            [
+              597724.721,
+              6614701.131
+            ],
+            [
+              597708.978,
+              6614703.492
+            ],
+            [
+              597694.022,
+              6614706.641
+            ],
+            [
+              597679.853,
+              6614705.854
+            ],
+            [
+              597664.11,
+              6614698.769
+            ],
+            [
+              597648.366,
+              6614687.749
+            ],
+            [
+              597634.985,
+              6614676.729
+            ],
+            [
+              597620.029,
+              6614661.773
+            ],
+            [
+              597605.073,
+              6614644.455
+            ],
+            [
+              597591.691,
+              6614627.138
+            ],
+            [
+              597580.671,
+              6614612.181
+            ],
+            [
+              597571.225,
+              6614595.651
+            ],
+            [
+              597557.843,
+              6614591.715
+            ],
+            [
+              597549.184,
+              6614601.161
+            ]
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Partial provisional visual observations, not complete surveyed maintained surfaces.",
+    "No procedural corridor buffer or GolfTraxx routing line was used to generate these polygons."
+  ],
+  "unmapped": [
+    {
+      "hole": 3,
+      "reason": "Par3; no separately defensible fairway boundary traced."
+    },
+    {
+      "hole": 5,
+      "reason": "Par3; no separately defensible fairway boundary traced."
+    },
+    {
+      "hole": 6,
+      "reason": "Maintained corridor beside pond is visible, but fairway-versus-rough edges in the pale May image are insufficiently distinct; no inferred buffer polygon created."
+    },
+    {
+      "hole": 9,
+      "reason": "Current short-hole tee is independently located; no separate maintained fairway cut confidently distinguishable between tee and green."
+    }
+  ]
+}

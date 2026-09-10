@@ -1,0 +1,987 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "reviewedAt": "2026-09-09",
+  "sourceCaptureDate": "2025-04-24",
+  "method": "Manual comparison of all nine native Lantmateriet tee panels with the current club-linked schematic colour groups, using physical platform sequence, path bends, ponds and fairway entrances. All accepted points are representative game references inside visible turf, not measured daily tee-marker positions.",
+  "coordinateConvention": "Absolute native source image pixel edges [column,row]; apply matching source EPSG:3006 affine. The ignored helper converts manually selected tee-panel pixels through recorded box offsets and scale.",
+  "limitations": [
+    "No fitted translation, rotation, scorecard-length interpolation or nearest-pad colour inference was used.",
+    "Source schematic upload2024 does not establish drawing/layout age.",
+    "H10Blue remains unresolved because the expected intermediate tee is obscured and no separate visible platform perimeter is established.",
+    "Orange anchors represent matching visible fairway/short-grass areas; precise longitudinal marker locations remain unverified.",
+    "H12andH15approach boundaries remain legacy geometry; their selected short-mown turf references do not certify those outlines."
+  ],
+  "holes": [
+    {
+      "n": 10,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-10-hole",
+          "pixel": [
+            407,
+            3635
+          ],
+          "padReviewId": "lm-angso-10-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-10",
+              "angso-10-hole"
+            ],
+            "note": "The rear strip beside the branching clubhouse path matches the white/yellow group; the isolated forward oval matches red. The schematic blue location lies between them under dense trees, without a defensible native mown border.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.659
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-10-hole",
+          "pixel": [
+            443,
+            3533
+          ],
+          "padReviewId": "lm-angso-10-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-10",
+              "angso-10-hole"
+            ],
+            "note": "The rear strip beside the branching clubhouse path matches the white/yellow group; the isolated forward oval matches red. The schematic blue location lies between them under dense trees, without a defensible native mown border.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 3.893
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-10-hole",
+          "pixel": null,
+          "padReviewId": null,
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-10",
+              "angso-10-hole"
+            ],
+            "note": "The guide depicts blue between the rear white/yellow strip and forward red oval. In the native image the corresponding tree-shadowed ground does not establish a separate mown tee or safe reference point. No coordinate is asserted.",
+            "confidence": "unresolved"
+          },
+          "status": "unresolved"
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-10-hole",
+          "pixel": [
+            679,
+            3044
+          ],
+          "padReviewId": "lm-angso-10-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-10",
+              "angso-10-hole"
+            ],
+            "note": "The rear strip beside the branching clubhouse path matches the white/yellow group; the isolated forward oval matches red. The schematic blue location lies between them under dense trees, without a defensible native mown border.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 4.44
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-10-hole",
+          "pixel": [
+            685,
+            2848
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-10",
+              "angso-10-hole"
+            ],
+            "note": "Representative reference in the short mown fairway entrance north of red. Orange is a fairway symbol in the guide; its exact longitudinal position is not established.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h10-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h10-fairway-context.png"
+      ]
+    },
+    {
+      "n": 11,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-11-hole",
+          "pixel": [
+            435,
+            2432
+          ],
+          "padReviewId": "lm-angso-11-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-11",
+              "angso-11-hole"
+            ],
+            "note": "The separate rear oval, long middle strip and forward oval alongside the path match white, yellow/blue and red respectively. The path junction and unmarked intervening turf establish correspondence.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 4.004
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-11-hole",
+          "pixel": [
+            456,
+            2229
+          ],
+          "padReviewId": "lm-angso-11-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-11",
+              "angso-11-hole"
+            ],
+            "note": "The separate rear oval, long middle strip and forward oval alongside the path match white, yellow/blue and red respectively. The path junction and unmarked intervening turf establish correspondence.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.893
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-11-hole",
+          "pixel": [
+            457,
+            2168
+          ],
+          "padReviewId": "lm-angso-11-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-11",
+              "angso-11-hole"
+            ],
+            "note": "The separate rear oval, long middle strip and forward oval alongside the path match white, yellow/blue and red respectively. The path junction and unmarked intervening turf establish correspondence.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.79
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-11-hole",
+          "pixel": [
+            447,
+            1782
+          ],
+          "padReviewId": "lm-angso-11-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-11",
+              "angso-11-hole"
+            ],
+            "note": "The separate rear oval, long middle strip and forward oval alongside the path match white, yellow/blue and red respectively. The path junction and unmarked intervening turf establish correspondence.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 3.326
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-11-hole",
+          "pixel": [
+            442,
+            1502
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-11",
+              "angso-11-hole"
+            ],
+            "note": "Representative reference within the clear short-mown fairway entrance north of the isolated red platform; guide orange is on this mown area rather than a raised pad.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h11-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h11-fairway-context.png"
+      ]
+    },
+    {
+      "n": 12,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-12-hole",
+          "pixel": [
+            1222,
+            1080
+          ],
+          "padReviewId": "lm-angso-12-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-12",
+              "angso-12-hole"
+            ],
+            "note": "The rear platform at the southeast path bend matches white/yellow. The northwest platform beyond it matches blue/red, separated from the green approach by the stream/path crossing.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.121
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-12-hole",
+          "pixel": [
+            1188,
+            1045
+          ],
+          "padReviewId": "lm-angso-12-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-12",
+              "angso-12-hole"
+            ],
+            "note": "The rear platform at the southeast path bend matches white/yellow. The northwest platform beyond it matches blue/red, separated from the green approach by the stream/path crossing.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.082
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-12-hole",
+          "pixel": [
+            1077,
+            904
+          ],
+          "padReviewId": "lm-angso-12-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-12",
+              "angso-12-hole"
+            ],
+            "note": "The rear platform at the southeast path bend matches white/yellow. The northwest platform beyond it matches blue/red, separated from the green approach by the stream/path crossing.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.611
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-12-hole",
+          "pixel": [
+            1060,
+            883
+          ],
+          "padReviewId": "lm-angso-12-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-12",
+              "angso-12-hole"
+            ],
+            "note": "The rear platform at the southeast path bend matches white/yellow. The northwest platform beyond it matches blue/red, separated from the green approach by the stream/path crossing.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.446
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-12-hole",
+          "pixel": [
+            789,
+            595
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-12",
+              "angso-12-hole"
+            ],
+            "note": "Representative reference in the visible short-mown approach corridor northwest of the two tee platforms, before the path curves and stream. The retained fairway cut is not newly certified.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h12-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h12-fairway-context.png"
+      ]
+    },
+    {
+      "n": 13,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-13-hole",
+          "pixel": [
+            1998,
+            2492
+          ],
+          "padReviewId": "lm-angso-13-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-13",
+              "angso-13-hole"
+            ],
+            "note": "The rear southeast platform, long middle strip and northwest forward oval beside the path match white, yellow/blue and red respectively. The nearby hole12green and path bends anchor this sequence.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.707
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-13-hole",
+          "pixel": [
+            1887,
+            2289
+          ],
+          "padReviewId": "lm-angso-13-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-13",
+              "angso-13-hole"
+            ],
+            "note": "The rear southeast platform, long middle strip and northwest forward oval beside the path match white, yellow/blue and red respectively. The nearby hole12green and path bends anchor this sequence.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 3.89
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-13-hole",
+          "pixel": [
+            1841,
+            2201
+          ],
+          "padReviewId": "lm-angso-13-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-13",
+              "angso-13-hole"
+            ],
+            "note": "The rear southeast platform, long middle strip and northwest forward oval beside the path match white, yellow/blue and red respectively. The nearby hole12green and path bends anchor this sequence.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 3.293
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-13-hole",
+          "pixel": [
+            1611,
+            1930
+          ],
+          "padReviewId": "lm-angso-13-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-13",
+              "angso-13-hole"
+            ],
+            "note": "The rear southeast platform, long middle strip and northwest forward oval beside the path match white, yellow/blue and red respectively. The nearby hole12green and path bends anchor this sequence.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.289
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-13-hole",
+          "pixel": [
+            1516,
+            1804
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-13",
+              "angso-13-hole"
+            ],
+            "note": "Representative reference in the visible short-mown fairway entrance northwest of red and west of the path; orange symbol indicates this fairway area.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h13-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h13-fairway-context.png"
+      ]
+    },
+    {
+      "n": 14,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-14-hole",
+          "pixel": [
+            406,
+            379
+          ],
+          "padReviewId": "lm-angso-14-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-14",
+              "angso-14-hole"
+            ],
+            "note": "The long northern platform west of the path is white/yellow, followed southward by the small middle blue pad and isolated red pad. The path, field boundary and southbound fairway establish the orientation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.436
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-14-hole",
+          "pixel": [
+            428,
+            483
+          ],
+          "padReviewId": "lm-angso-14-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-14",
+              "angso-14-hole"
+            ],
+            "note": "The long northern platform west of the path is white/yellow, followed southward by the small middle blue pad and isolated red pad. The path, field boundary and southbound fairway establish the orientation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.234
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-14-hole",
+          "pixel": [
+            446,
+            753
+          ],
+          "padReviewId": "lm-angso-14-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-14",
+              "angso-14-hole"
+            ],
+            "note": "The long northern platform west of the path is white/yellow, followed southward by the small middle blue pad and isolated red pad. The path, field boundary and southbound fairway establish the orientation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.62
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-14-hole",
+          "pixel": [
+            497,
+            946
+          ],
+          "padReviewId": "lm-angso-14-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-14",
+              "angso-14-hole"
+            ],
+            "note": "The long northern platform west of the path is white/yellow, followed southward by the small middle blue pad and isolated red pad. The path, field boundary and southbound fairway establish the orientation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.877
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-14-hole",
+          "pixel": [
+            668,
+            1364
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-14",
+              "angso-14-hole"
+            ],
+            "note": "Representative reference within the clear southern fairway entrance after the three tee platforms; no artificial orange pad is created.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h14-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h14-fairway-context.png"
+      ]
+    },
+    {
+      "n": 15,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-15-hole",
+          "pixel": [
+            1530,
+            426
+          ],
+          "padReviewId": "lm-angso-15-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-15",
+              "angso-15-hole"
+            ],
+            "note": "The rear oval east of the crossing path is white. The long northwest/southeast platform on the opposite side is yellow/blue. The forward oval immediately northeast of the pond is red.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.755
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-15-hole",
+          "pixel": [
+            1349,
+            405
+          ],
+          "padReviewId": "lm-angso-15-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-15",
+              "angso-15-hole"
+            ],
+            "note": "The rear oval east of the crossing path is white. The long northwest/southeast platform on the opposite side is yellow/blue. The forward oval immediately northeast of the pond is red.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 3.544
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-15-hole",
+          "pixel": [
+            1294,
+            446
+          ],
+          "padReviewId": "lm-angso-15-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-15",
+              "angso-15-hole"
+            ],
+            "note": "The rear oval east of the crossing path is white. The long northwest/southeast platform on the opposite side is yellow/blue. The forward oval immediately northeast of the pond is red.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.607
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-15-hole",
+          "pixel": [
+            1022,
+            618
+          ],
+          "padReviewId": "lm-angso-15-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-15",
+              "angso-15-hole"
+            ],
+            "note": "The rear oval east of the crossing path is white. The long northwest/southeast platform on the opposite side is yellow/blue. The forward oval immediately northeast of the pond is red.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.615
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-15-hole",
+          "pixel": [
+            832,
+            587
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-15",
+              "angso-15-hole"
+            ],
+            "note": "Representative reference on visible mown approach turf north of the pond and forward of red. The exact orange location and retained fairway boundary remain less certain.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h15-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h15-fairway-context.png"
+      ]
+    },
+    {
+      "n": 16,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-16-hole",
+          "pixel": [
+            387,
+            389
+          ],
+          "padReviewId": "lm-angso-16-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-16",
+              "angso-16-hole"
+            ],
+            "note": "The western continuous double-lobed platform is white/yellow. The middle narrow platform is blue and the separate eastern strip red. The pond north of the tee path and eastward fairway fix the orientation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.715
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-16-hole",
+          "pixel": [
+            477,
+            381
+          ],
+          "padReviewId": "lm-angso-16-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-16",
+              "angso-16-hole"
+            ],
+            "note": "The western continuous double-lobed platform is white/yellow. The middle narrow platform is blue and the separate eastern strip red. The pond north of the tee path and eastward fairway fix the orientation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 4.206
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-16-hole",
+          "pixel": [
+            701,
+            349
+          ],
+          "padReviewId": "lm-angso-16-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-16",
+              "angso-16-hole"
+            ],
+            "note": "The western continuous double-lobed platform is white/yellow. The middle narrow platform is blue and the separate eastern strip red. The pond north of the tee path and eastward fairway fix the orientation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.36
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-16-hole",
+          "pixel": [
+            829,
+            368
+          ],
+          "padReviewId": "lm-angso-16-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-16",
+              "angso-16-hole"
+            ],
+            "note": "The western continuous double-lobed platform is white/yellow. The middle narrow platform is blue and the separate eastern strip red. The pond north of the tee path and eastward fairway fix the orientation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 1.683
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-16-hole",
+          "pixel": [
+            1334,
+            462
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-16",
+              "angso-16-hole"
+            ],
+            "note": "Representative reference within the western entrance of the eastward fairway, beyond the three physical tee platforms and path junction.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h16-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h16-fairway-context.png"
+      ]
+    },
+    {
+      "n": 17,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-17-hole",
+          "pixel": [
+            636,
+            408
+          ],
+          "padReviewId": "lm-angso-17-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-17",
+              "angso-17-hole"
+            ],
+            "note": "The northern platform west of the path is white. Yellow and blue occupy the two successive platforms east of the path and pond. The southern oval west of the lower pond is red, matching the guide after rotation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.817
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-17-hole",
+          "pixel": [
+            720,
+            532
+          ],
+          "padReviewId": "lm-angso-17-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-17",
+              "angso-17-hole"
+            ],
+            "note": "The northern platform west of the path is white. Yellow and blue occupy the two successive platforms east of the path and pond. The southern oval west of the lower pond is red, matching the guide after rotation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 4.408
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-17-hole",
+          "pixel": [
+            699,
+            732
+          ],
+          "padReviewId": "lm-angso-17-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-17",
+              "angso-17-hole"
+            ],
+            "note": "The northern platform west of the path is white. Yellow and blue occupy the two successive platforms east of the path and pond. The southern oval west of the lower pond is red, matching the guide after rotation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.639
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-17-hole",
+          "pixel": [
+            515,
+            927
+          ],
+          "padReviewId": "lm-angso-17-physical-tee-04",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-17",
+              "angso-17-hole"
+            ],
+            "note": "The northern platform west of the path is white. Yellow and blue occupy the two successive platforms east of the path and pond. The southern oval west of the lower pond is red, matching the guide after rotation.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.484
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-17-hole",
+          "pixel": [
+            504,
+            1094
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-17",
+              "angso-17-hole"
+            ],
+            "note": "Representative reference within the north end of the main fairway beyond red and the tee-area pond.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h17-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h17-fairway-context.png"
+      ]
+    },
+    {
+      "n": 18,
+      "marks": [
+        {
+          "index": 0,
+          "sourceKey": "angso-18-hole",
+          "pixel": [
+            360,
+            428
+          ],
+          "padReviewId": "lm-angso-18-physical-tee-01",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-18",
+              "angso-18-hole"
+            ],
+            "note": "Four sequential separate platforms follow the winding path southward: white on the northwest rear oval, yellow on the second pad beside the path, blue on the third, red on the fourth immediately before the fairway.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.964
+        },
+        {
+          "index": 1,
+          "sourceKey": "angso-18-hole",
+          "pixel": [
+            501,
+            734
+          ],
+          "padReviewId": "lm-angso-18-physical-tee-02",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-18",
+              "angso-18-hole"
+            ],
+            "note": "Four sequential separate platforms follow the winding path southward: white on the northwest rear oval, yellow on the second pad beside the path, blue on the third, red on the fourth immediately before the fairway.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 3.041
+        },
+        {
+          "index": 2,
+          "sourceKey": "angso-18-hole",
+          "pixel": [
+            684,
+            1048
+          ],
+          "padReviewId": "lm-angso-18-physical-tee-03",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-18",
+              "angso-18-hole"
+            ],
+            "note": "Four sequential separate platforms follow the winding path southward: white on the northwest rear oval, yellow on the second pad beside the path, blue on the third, red on the fourth immediately before the fairway.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.523
+        },
+        {
+          "index": 3,
+          "sourceKey": "angso-18-hole",
+          "pixel": [
+            822,
+            1242
+          ],
+          "padReviewId": "lm-angso-18-physical-tee-04",
+          "kind": "platform",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-18",
+              "angso-18-hole"
+            ],
+            "note": "Four sequential separate platforms follow the winding path southward: white on the northwest rear oval, yellow on the second pad beside the path, blue on the third, red on the fourth immediately before the fairway.",
+            "confidence": "high"
+          },
+          "platformInteriorClearanceMetres": 2.639
+        },
+        {
+          "index": 4,
+          "sourceKey": "angso-18-hole",
+          "pixel": [
+            945,
+            1459
+          ],
+          "padReviewId": null,
+          "kind": "fairway",
+          "evidence": {
+            "assetIds": [
+              "club-linked-livecaddie-649",
+              "livecaddie-hole-18",
+              "angso-18-hole"
+            ],
+            "note": "Representative reference within the northwest entrance of the main fairway, southeast of red and the winding path.",
+            "confidence": "medium"
+          }
+        }
+      ],
+      "reviewPanels": [
+        "angsobuild/cache/lm-ortho/back9-tees/h18-tees-accepted.png",
+        "angsobuild/cache/tee-placement/back9-h18-fairway-context.png"
+      ]
+    }
+  ],
+  "pads": []
+}

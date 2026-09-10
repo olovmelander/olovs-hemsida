@@ -1,0 +1,3798 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "kind": "tee-coordinate-and-rendering-report",
+  "passed": true,
+  "frame": {
+    "originWgs84": {
+      "lat": 63.2992,
+      "lon": 18.9413
+    },
+    "metresPerLatitude": 111320,
+    "metresPerLongitude": 50019.58,
+    "runtimeBridge": {
+      "rotationDegrees": 3.5221453703607923,
+      "scaleX": 0.9972520734188742,
+      "scaleZ": 0.9986090304492345
+    }
+  },
+  "summary": {
+    "references": 72,
+    "reviewedReferences": 57,
+    "unreviewedReferences": 15,
+    "decorativeMarkers": 110,
+    "maximumPackPositionErrorMetres": 0,
+    "maximumBootPositionErrorMetres": 0,
+    "maximumTeeViewHelperErrorMetres": 0,
+    "maximumRuntimeBridgeResidualMetres": 0.089864,
+    "maximumRoutingStartErrorMetres": 0.001139
+  },
+  "rows": [
+    {
+      "hole": 1,
+      "tee": "tee-61",
+      "cardMetres": 320,
+      "latitude": 63.3014596895,
+      "longitude": 18.9397277225,
+      "eastingEpsg3006": 697403.84,
+      "northingEpsg3006": 7025244.32,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-01",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:35Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ],
+      "sourceSha256": "6429dcd9bfbc47e866db2d9281ed7bf321754c6ec248fb773db8ea917a44c72d",
+      "numberedSourceAssetId": "livecaddie-658-hole-1-file-711182",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -78.64466227205436,
+      "legacyZ": -251.54863030562723,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.006315,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.656325
+    },
+    {
+      "hole": 1,
+      "tee": "tee-57",
+      "cardMetres": 305,
+      "latitude": 63.3015340737,
+      "longitude": 18.9396899512,
+      "eastingEpsg3006": 697401.44,
+      "northingEpsg3006": 7025252.48,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-01",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:35Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ],
+      "sourceSha256": "6429dcd9bfbc47e866db2d9281ed7bf321754c6ec248fb773db8ea917a44c72d",
+      "numberedSourceAssetId": "livecaddie-658-hole-1-file-711182",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -80.53396627989221,
+      "legacyZ": -259.8290820619681,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.006661,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199891
+    },
+    {
+      "hole": 1,
+      "tee": "tee-48",
+      "cardMetres": 270,
+      "latitude": 63.3018177686,
+      "longitude": 18.9394155126,
+      "eastingEpsg3006": 697385.76,
+      "northingEpsg3006": 7025283.2,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-01",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:35Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ],
+      "sourceSha256": "6429dcd9bfbc47e866db2d9281ed7bf321754c6ec248fb773db8ea917a44c72d",
+      "numberedSourceAssetId": "livecaddie-658-hole-1-file-711182",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -94.26126917162253,
+      "legacyZ": -291.4100048869898,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.008692,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199651
+    },
+    {
+      "hole": 1,
+      "tee": "tee-41",
+      "cardMetres": 235,
+      "latitude": 63.3021564528,
+      "longitude": 18.9391805511,
+      "eastingEpsg3006": 697371.68,
+      "northingEpsg3006": 7025320.16,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "tee-2022-hole-01",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:35Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ],
+      "sourceSha256": "6429dcd9bfbc47e866db2d9281ed7bf321754c6ec248fb773db8ea917a44c72d",
+      "numberedSourceAssetId": "livecaddie-658-hole-1-file-711182",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -106.01394495751873,
+      "legacyZ": -329.1123282215261,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.010977,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 2,
+      "tee": "tee-61",
+      "cardMetres": 326,
+      "latitude": 63.3042201705,
+      "longitude": 18.9388106717,
+      "eastingEpsg3006": 697339.04,
+      "northingEpsg3006": 7025548.64,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-02-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "4d03148a81212a19ab5927a67e342a575bcadc622dd7deccc5a0fc45e8253b08",
+      "numberedSourceAssetId": "livecaddie-658-hole-2-file-711183",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -124.51515523891355,
+      "legacyZ": -558.8453812682073,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.021273,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199987
+    },
+    {
+      "hole": 2,
+      "tee": "tee-57",
+      "cardMetres": 310,
+      "latitude": 63.3042754501,
+      "longitude": 18.9386310438,
+      "eastingEpsg3006": 697329.671,
+      "northingEpsg3006": 7025554.238,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-02-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "4d03148a81212a19ab5927a67e342a575bcadc622dd7deccc5a0fc45e8253b08",
+      "numberedSourceAssetId": "livecaddie-658-hole-2-file-711183",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -133.5000694501196,
+      "legacyZ": -564.9991041323656,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.023117,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.19994
+    },
+    {
+      "hole": 2,
+      "tee": "tee-48",
+      "cardMetres": 280,
+      "latitude": 63.304327553,
+      "longitude": 18.938043276,
+      "eastingEpsg3006": 697299.894,
+      "northingEpsg3006": 7025558.225,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-02-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "4d03148a81212a19ab5927a67e342a575bcadc622dd7deccc5a0fc45e8253b08",
+      "numberedSourceAssetId": "livecaddie-658-hole-2-file-711183",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -162.89996431032534,
+      "legacyZ": -570.7991995282637,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.028741,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.900792
+    },
+    {
+      "hole": 2,
+      "tee": "tee-41",
+      "cardMetres": 225,
+      "latitude": 63.3044236795,
+      "longitude": 18.9369636981,
+      "eastingEpsg3006": 697245.199,
+      "northingEpsg3006": 7025565.598,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -216.9,
+      "legacyZ": -581.5,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.039502,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 3,
+      "tee": "tee-61",
+      "cardMetres": 137,
+      "latitude": 63.304541311,
+      "longitude": 18.9322408735,
+      "eastingEpsg3006": 697008,
+      "northingEpsg3006": 7025564.16,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-03",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:35Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ],
+      "sourceSha256": "f92930497df2e1f76053775bb94bf8c749ae2ced6d2622ddb246a6752789f890",
+      "numberedSourceAssetId": "livecaddie-658-hole-3-file-711184",
+      "platformId": "h03-tee-pad-01-lm2022-followup",
+      "sourcePadId": "h03-tee-pad-01-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -453.13370271242445,
+      "legacyZ": -594.5947455540213,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.089695,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.840044
+    },
+    {
+      "hole": 3,
+      "tee": "tee-57",
+      "cardMetres": 135,
+      "latitude": 63.3045125461,
+      "longitude": 18.9321889983,
+      "eastingEpsg3006": 697005.6,
+      "northingEpsg3006": 7025560.8,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-03",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:35Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ],
+      "sourceSha256": "f92930497df2e1f76053775bb94bf8c749ae2ced6d2622ddb246a6752789f890",
+      "numberedSourceAssetId": "livecaddie-658-hole-3-file-711184",
+      "platformId": "h03-tee-pad-01-lm2022-followup",
+      "sourcePadId": "h03-tee-pad-01-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -455.72847988816653,
+      "legacyZ": -591.3926281273777,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.089864,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 4.850266
+    },
+    {
+      "hole": 3,
+      "tee": "tee-48",
+      "cardMetres": 120,
+      "latitude": 63.3043631785,
+      "longitude": 18.9321302496,
+      "eastingEpsg3006": 697003.68,
+      "northingEpsg3006": 7025544,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-03",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:35Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ],
+      "sourceSha256": "f92930497df2e1f76053775bb94bf8c749ae2ced6d2622ddb246a6752789f890",
+      "numberedSourceAssetId": "livecaddie-658-hole-3-file-711184",
+      "platformId": "h03-tee-pad-00-lm2022-followup",
+      "sourcePadId": "h03-tee-pad-00-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -458.6670660887756,
+      "legacyZ": -574.7650361613972,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.08836,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 2.386043
+    },
+    {
+      "hole": 3,
+      "tee": "tee-41",
+      "cardMetres": 120,
+      "latitude": 63.3043631785,
+      "longitude": 18.9321302496,
+      "eastingEpsg3006": 697003.68,
+      "northingEpsg3006": 7025544,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-03",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:35Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ],
+      "sourceSha256": "f92930497df2e1f76053775bb94bf8c749ae2ced6d2622ddb246a6752789f890",
+      "numberedSourceAssetId": "livecaddie-658-hole-3-file-711184",
+      "platformId": "h03-tee-pad-00-lm2022-followup",
+      "sourcePadId": "h03-tee-pad-00-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -458.6670660887756,
+      "legacyZ": -574.7650361613972,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.08836,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 2.386043
+    },
+    {
+      "hole": 4,
+      "tee": "tee-61",
+      "cardMetres": 465,
+      "latitude": 63.3040630346,
+      "longitude": 18.9324281084,
+      "eastingEpsg3006": 697020.64,
+      "northingEpsg3006": 7025511.52,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-04-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "9d2217d2330a596fde6b95c22b4073fd537387ac1b2caa047ba142715bf8d214",
+      "numberedSourceAssetId": "livecaddie-658-hole-4-file-711185",
+      "platformId": "h04-tee-pad-01-lm2024",
+      "sourcePadId": "h04-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -443.7682904755993,
+      "legacyZ": -541.3530078982075,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.080884,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.161214
+    },
+    {
+      "hole": 4,
+      "tee": "tee-57",
+      "cardMetres": 445,
+      "latitude": 63.304091297,
+      "longitude": 18.9325554226,
+      "eastingEpsg3006": 697026.82,
+      "northingEpsg3006": 7025515.056,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-04-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "9d2217d2330a596fde6b95c22b4073fd537387ac1b2caa047ba142715bf8d214",
+      "numberedSourceAssetId": "livecaddie-658-hole-4-file-711185",
+      "platformId": "h04-tee-pad-01-lm2024",
+      "sourcePadId": "h04-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -437.4000894320045,
+      "legacyZ": -544.4991779649297,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.079939,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.512876
+    },
+    {
+      "hole": 4,
+      "tee": "tee-48",
+      "cardMetres": 380,
+      "latitude": 63.3040209073,
+      "longitude": 18.9340046302,
+      "eastingEpsg3006": 697099.84,
+      "northingEpsg3006": 7025511.68,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "hole-04-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "9d2217d2330a596fde6b95c22b4073fd537387ac1b2caa047ba142715bf8d214",
+      "numberedSourceAssetId": "livecaddie-658-hole-4-file-711185",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -364.9113329001532,
+      "legacyZ": -536.663401504598,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.064322,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199937
+    },
+    {
+      "hole": 4,
+      "tee": "tee-41",
+      "cardMetres": 315,
+      "latitude": 63.3036430471,
+      "longitude": 18.9349544849,
+      "eastingEpsg3006": 697149.968,
+      "northingEpsg3006": 7025472.559,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -317.4,
+      "legacyZ": -494.6,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.051282,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 5,
+      "tee": "tee-61",
+      "cardMetres": 175,
+      "latitude": 63.3017529922,
+      "longitude": 18.942977344,
+      "eastingEpsg3006": 697564.502,
+      "northingEpsg3006": 7025286.967,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-05-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "aea89f860b401c347620bb93a8b9f26fd63c80604aaf48a120af8283fd20da73",
+      "numberedSourceAssetId": "livecaddie-658-hole-5-file-711186",
+      "platformId": "h05-tee-pad-01-lm2024",
+      "sourcePadId": "h05-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 83.90004041775606,
+      "legacyZ": -284.1990971097343,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.007895,
+      "publishedRoutingStartErrorMetres": 0.001114,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.212994
+    },
+    {
+      "hole": 5,
+      "tee": "tee-57",
+      "cardMetres": 160,
+      "latitude": 63.3017635056,
+      "longitude": 18.9431924864,
+      "eastingEpsg3006": 697575.2,
+      "northingEpsg3006": 7025288.8,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-05-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "aea89f860b401c347620bb93a8b9f26fd63c80604aaf48a120af8283fd20da73",
+      "numberedSourceAssetId": "livecaddie-658-hole-5-file-711186",
+      "platformId": "h05-tee-pad-01-lm2024",
+      "sourcePadId": "h05-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 94.66137508709912,
+      "legacyZ": -285.3694486023039,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.008931,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 2.057797
+    },
+    {
+      "hole": 5,
+      "tee": "tee-48",
+      "cardMetres": 130,
+      "latitude": 63.301810129,
+      "longitude": 18.9437933779,
+      "eastingEpsg3006": 697604.96,
+      "northingEpsg3006": 7025295.84,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-05-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "aea89f860b401c347620bb93a8b9f26fd63c80604aaf48a120af8283fd20da73",
+      "numberedSourceAssetId": "livecaddie-658-hole-5-file-711186",
+      "platformId": "h05-tee-pad-00-lm2024",
+      "sourcePadId": "h05-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 124.71771340237564,
+      "legacyZ": -290.5595585339961,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.011992,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.368956
+    },
+    {
+      "hole": 5,
+      "tee": "tee-41",
+      "cardMetres": 130,
+      "latitude": 63.301810129,
+      "longitude": 18.9437933779,
+      "eastingEpsg3006": 697604.96,
+      "northingEpsg3006": 7025295.84,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-05-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "aea89f860b401c347620bb93a8b9f26fd63c80604aaf48a120af8283fd20da73",
+      "numberedSourceAssetId": "livecaddie-658-hole-5-file-711186",
+      "platformId": "h05-tee-pad-00-lm2024",
+      "sourcePadId": "h05-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 124.71771340237564,
+      "legacyZ": -290.5595585339961,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.011992,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.368956
+    },
+    {
+      "hole": 6,
+      "tee": "tee-61",
+      "cardMetres": 350,
+      "latitude": 63.3027558751,
+      "longitude": 18.9454187678,
+      "eastingEpsg3006": 697679.84,
+      "northingEpsg3006": 7025406.08,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-06-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "9868920c04dd5e52277ca4cbf23c6f5c99260f4bd38e0462c5dce5da8daf8b89",
+      "numberedSourceAssetId": "livecaddie-658-hole-6-file-711187",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 206.01903754269074,
+      "legacyZ": -395.8400208309911,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.026942,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.193862
+    },
+    {
+      "hole": 6,
+      "tee": "tee-57",
+      "cardMetres": 320,
+      "latitude": 63.3027267626,
+      "longitude": 18.9457742472,
+      "eastingEpsg3006": 697697.834,
+      "northingEpsg3006": 7025403.937,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-06-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "9868920c04dd5e52277ca4cbf23c6f5c99260f4bd38e0462c5dce5da8daf8b89",
+      "numberedSourceAssetId": "livecaddie-658-hole-6-file-711187",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 223.79996606340808,
+      "legacyZ": -392.59921277397524,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.029171,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.190582
+    },
+    {
+      "hole": 6,
+      "tee": "tee-48",
+      "cardMetres": 285,
+      "latitude": 63.3025406434,
+      "longitude": 18.9463354169,
+      "eastingEpsg3006": 697727.2,
+      "northingEpsg3006": 7025384.96,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-06-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "9868920c04dd5e52277ca4cbf23c6f5c99260f4bd38e0462c5dce5da8daf8b89",
+      "numberedSourceAssetId": "livecaddie-658-hole-6-file-711187",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 251.86943719276118,
+      "legacyZ": -371.88042371686464,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.031522,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.915663
+    },
+    {
+      "hole": 6,
+      "tee": "tee-41",
+      "cardMetres": 245,
+      "latitude": 63.3022461732,
+      "longitude": 18.9468258361,
+      "eastingEpsg3006": 697753.768,
+      "northingEpsg3006": 7025353.709,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": 276.4,
+      "legacyZ": -339.1,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.03224,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 7,
+      "tee": "tee-61",
+      "cardMetres": 360,
+      "latitude": 63.3006858062,
+      "longitude": 18.9510641762,
+      "eastingEpsg3006": 697976.64,
+      "northingEpsg3006": 7025193.181,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-07",
+      "sourceCapturedAt": [
+        "2022-06-24T11:30:54Z",
+        "2022-06-24T11:31:13Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr22",
+        "o70250_6975_25_mr22"
+      ],
+      "sourceSha256": "34c41f4e8499a47707a966ced55a62a659fa14499a57281feacb4115528bde97",
+      "numberedSourceAssetId": "livecaddie-658-hole-7-file-711188",
+      "platformId": "h07-tee-pad-00-lm2022-followup",
+      "sourcePadId": "h07-tee-pad-00-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 488.399994870559,
+      "legacyZ": -165.39994372028787,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.045811,
+      "publishedRoutingStartErrorMetres": 0.00112,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.19983
+    },
+    {
+      "hole": 7,
+      "tee": "tee-57",
+      "cardMetres": 355,
+      "latitude": 63.300672189,
+      "longitude": 18.9510687011,
+      "eastingEpsg3006": 697976.96,
+      "northingEpsg3006": 7025191.68,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-07",
+      "sourceCapturedAt": [
+        "2022-06-24T11:30:54Z",
+        "2022-06-24T11:31:13Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr22",
+        "o70250_6975_25_mr22"
+      ],
+      "sourceSha256": "34c41f4e8499a47707a966ced55a62a659fa14499a57281feacb4115528bde97",
+      "numberedSourceAssetId": "livecaddie-658-hole-7-file-711188",
+      "platformId": "h07-tee-pad-00-lm2022-followup",
+      "sourcePadId": "h07-tee-pad-00-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 488.626325006281,
+      "legacyZ": -163.884080658284,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.045718,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.19983
+    },
+    {
+      "hole": 7,
+      "tee": "tee-48",
+      "cardMetres": 295,
+      "latitude": 63.300100822,
+      "longitude": 18.9508784784,
+      "eastingEpsg3006": 697971.36,
+      "northingEpsg3006": 7025127.52,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-07-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "f6eea44a9e66d35eea723268efe3c6b322de7c4abf6329d3610e9000ef1c0c8f",
+      "numberedSourceAssetId": "livecaddie-658-hole-7-file-711188",
+      "platformId": "h07-tee-pad-01-lm2024",
+      "sourcePadId": "h07-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 479.11146718975533,
+      "legacyZ": -100.27950120991676,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.039729,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 2.022829
+    },
+    {
+      "hole": 7,
+      "tee": "tee-41",
+      "cardMetres": 195,
+      "latitude": 63.2992790514,
+      "longitude": 18.9500265827,
+      "eastingEpsg3006": 697934.354,
+      "northingEpsg3006": 7025033.456,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": 436.5,
+      "legacyZ": -8.8,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.030691,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 8,
+      "tee": "tee-61",
+      "cardMetres": 346,
+      "latitude": 63.2978907357,
+      "longitude": 18.9472453309,
+      "eastingEpsg3006": 697804.64,
+      "northingEpsg3006": 7024870.4,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-08",
+      "sourceCapturedAt": [
+        "2022-06-24T11:30:54Z",
+        "2022-06-24T11:31:13Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr22",
+        "o70250_6975_25_mr22"
+      ],
+      "sourceSha256": "aa194c05212a34fedac9781ba7eceeb8b0a6183b30989bdfabb07d6a33bf88be",
+      "numberedSourceAssetId": "livecaddie-658-hole-8-file-711189",
+      "platformId": "h08-tee-pad-01-lm2022-followup",
+      "sourcePadId": "h08-tee-pad-01-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 297.38295213995,
+      "legacyZ": 145.74729855524737,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.01996,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.198899
+    },
+    {
+      "hole": 8,
+      "tee": "tee-57",
+      "cardMetres": 340,
+      "latitude": 63.2979040018,
+      "longitude": 18.9472854986,
+      "eastingEpsg3006": 697806.56,
+      "northingEpsg3006": 7024872,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "tee-2022-hole-08",
+      "sourceCapturedAt": [
+        "2022-06-24T11:30:54Z",
+        "2022-06-24T11:31:13Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr22",
+        "o70250_6975_25_mr22"
+      ],
+      "sourceSha256": "aa194c05212a34fedac9781ba7eceeb8b0a6183b30989bdfabb07d6a33bf88be",
+      "numberedSourceAssetId": "livecaddie-658-hole-8-file-711189",
+      "platformId": "h08-tee-pad-01-lm2022-followup",
+      "sourcePadId": "h08-tee-pad-01-lm2022-followup",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 299.3921268667107,
+      "legacyZ": 144.27051975449046,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.020068,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.978036
+    },
+    {
+      "hole": 8,
+      "tee": "tee-48",
+      "cardMetres": 275,
+      "latitude": 63.2984169623,
+      "longitude": 18.9476114479,
+      "eastingEpsg3006": 697819.36,
+      "northingEpsg3006": 7024930.08,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-08-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "3b485b0797d0418377954b812bdcec1b55c4aecb58e556db3f27671f87299568",
+      "numberedSourceAssetId": "livecaddie-658-hole-8-file-711189",
+      "platformId": "h08-tee-pad-00-lm2024",
+      "sourcePadId": "h08-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 315.6959710894573,
+      "legacyZ": 87.16776157271369,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.01856,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.972082
+    },
+    {
+      "hole": 8,
+      "tee": "tee-41",
+      "cardMetres": 210,
+      "latitude": 63.2989071506,
+      "longitude": 18.9483912231,
+      "eastingEpsg3006": 697855.035,
+      "northingEpsg3006": 7024987.027,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": 354.7,
+      "legacyZ": 32.6,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.020857,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 9,
+      "tee": "tee-61",
+      "cardMetres": 488,
+      "latitude": 63.3009130786,
+      "longitude": 18.9498106662,
+      "eastingEpsg3006": 697912.33,
+      "northingEpsg3006": 7025214.597,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-09-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "2758250c792f5ec030511ba2ff1d04252a8ac4295c6c5328c778c33b294b427f",
+      "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190",
+      "platformId": "h09-tee-pad-02-lm2024",
+      "sourcePadId": "h09-tee-pad-02-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 425.6999511309175,
+      "legacyZ": -190.69990741841337,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.038754,
+      "publishedRoutingStartErrorMetres": 0.00099,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199174
+    },
+    {
+      "hole": 9,
+      "tee": "tee-57",
+      "cardMetres": 465,
+      "latitude": 63.3009517059,
+      "longitude": 18.9493588437,
+      "eastingEpsg3006": 697889.447,
+      "northingEpsg3006": 7025217.5,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-09-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "2758250c792f5ec030511ba2ff1d04252a8ac4295c6c5328c778c33b294b427f",
+      "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190",
+      "platformId": "h09-tee-pad-01-lm2024",
+      "sourcePadId": "h09-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 403.0999792442732,
+      "legacyZ": -194.99990100772578,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.036042,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.939375
+    },
+    {
+      "hole": 9,
+      "tee": "tee-48",
+      "cardMetres": 405,
+      "latitude": 63.30099237,
+      "longitude": 18.9481848824,
+      "eastingEpsg3006": 697830.4,
+      "northingEpsg3006": 7025218.4,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-09-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "2758250c792f5ec030511ba2ff1d04252a8ac4295c6c5328c778c33b294b427f",
+      "numberedSourceAssetId": "livecaddie-658-hole-9-file-711190",
+      "platformId": "h09-tee-pad-00-lm2024",
+      "sourcePadId": "h09-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 344.37892670858974,
+      "legacyZ": -199.52662383651102,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.029024,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 2.405355
+    },
+    {
+      "hole": 9,
+      "tee": "tee-41",
+      "cardMetres": 325,
+      "latitude": 63.301186166,
+      "longitude": 18.9466099206,
+      "eastingEpsg3006": 697750.229,
+      "northingEpsg3006": 7025235.102,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": 265.6,
+      "legacyZ": -221.1,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.021976,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 10,
+      "tee": "tee-61",
+      "cardMetres": 428,
+      "latitude": 63.3007970843,
+      "longitude": 18.939768153,
+      "eastingEpsg3006": 697410.4,
+      "northingEpsg3006": 7025170.72,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-10-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "276a48225105d5f955ad0370497a3c879f0e1a69bbb27d4fb381b28228c0fb8f",
+      "numberedSourceAssetId": "livecaddie-658-hole-10-file-711191",
+      "platformId": "h10-tee-pad-01-lm2024",
+      "sourcePadId": "h10-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -76.6223429703895,
+      "legacyZ": -177.78741890944247,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.004555,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.634936
+    },
+    {
+      "hole": 10,
+      "tee": "tee-57",
+      "cardMetres": 365,
+      "latitude": 63.3008246706,
+      "longitude": 18.9405896789,
+      "eastingEpsg3006": 697451.337,
+      "northingEpsg3006": 7025176.32,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-10-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "276a48225105d5f955ad0370497a3c879f0e1a69bbb27d4fb381b28228c0fb8f",
+      "numberedSourceAssetId": "livecaddie-658-hole-10-file-711191",
+      "platformId": "h10-tee-pad-00-lm2024",
+      "sourcePadId": "h10-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -35.529962076269854,
+      "legacyZ": -180.85833447079892,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.002212,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.324154
+    },
+    {
+      "hole": 10,
+      "tee": "tee-48",
+      "cardMetres": 330,
+      "latitude": 63.3007981899,
+      "longitude": 18.9412863315,
+      "eastingEpsg3006": 697486.392,
+      "northingEpsg3006": 7025175.52,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-10-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "276a48225105d5f955ad0370497a3c879f0e1a69bbb27d4fb381b28228c0fb8f",
+      "numberedSourceAssetId": "livecaddie-658-hole-10-file-711191",
+      "platformId": "h10-tee-pad-02-lm2024",
+      "sourcePadId": "h10-tee-pad-02-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -0.6836935312382041,
+      "legacyZ": -177.91049698828914,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.00087,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.198974
+    },
+    {
+      "hole": 10,
+      "tee": "tee-41",
+      "cardMetres": 265,
+      "latitude": 63.3007630614,
+      "longitude": 18.9425834974,
+      "eastingEpsg3006": 697551.569,
+      "northingEpsg3006": 7025175.609,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": 64.2,
+      "legacyZ": -174,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.003866,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 11,
+      "tee": "tee-61",
+      "cardMetres": 380,
+      "latitude": 63.299970751,
+      "longitude": 18.9468818142,
+      "eastingEpsg3006": 697772.176,
+      "northingEpsg3006": 7025100.709,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": 279.2,
+      "legacyZ": -85.8,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.015057,
+      "publishedRoutingStartErrorMetres": 0.001139,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 11,
+      "tee": "tee-57",
+      "cardMetres": 305,
+      "latitude": 63.2993033057,
+      "longitude": 18.9466758942,
+      "eastingEpsg3006": 697766.444,
+      "northingEpsg3006": 7025025.811,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-11-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "1bcb33dd53a05d86f611cc6179caf6a1b104049dd39066ede3741d1a4b657046",
+      "numberedSourceAssetId": "livecaddie-658-hole-11-file-711192",
+      "platformId": "h11-tee-pad-00-lm2024",
+      "sourcePadId": "h11-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 268.89997240477044,
+      "legacyZ": -11.49999450119509,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.012207,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.194711
+    },
+    {
+      "hole": 11,
+      "tee": "tee-48",
+      "cardMetres": 265,
+      "latitude": 63.2988061325,
+      "longitude": 18.9468529945,
+      "eastingEpsg3006": 697778.72,
+      "northingEpsg3006": 7024971.04,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-11-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "1bcb33dd53a05d86f611cc6179caf6a1b104049dd39066ede3741d1a4b657046",
+      "numberedSourceAssetId": "livecaddie-658-hole-11-file-711192",
+      "platformId": "h11-tee-pad-01-lm2024",
+      "sourcePadId": "h11-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 277.7584551273004,
+      "legacyZ": 43.84533205466653,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.013477,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.331161
+    },
+    {
+      "hole": 11,
+      "tee": "tee-41",
+      "cardMetres": 265,
+      "latitude": 63.2988061325,
+      "longitude": 18.9468529945,
+      "eastingEpsg3006": 697778.72,
+      "northingEpsg3006": 7024971.04,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-11-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "1bcb33dd53a05d86f611cc6179caf6a1b104049dd39066ede3741d1a4b657046",
+      "numberedSourceAssetId": "livecaddie-658-hole-11-file-711192",
+      "platformId": "h11-tee-pad-01-lm2024",
+      "sourcePadId": "h11-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 277.7584551273004,
+      "legacyZ": 43.84533205466653,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.013477,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.331161
+    },
+    {
+      "hole": 12,
+      "tee": "tee-61",
+      "cardMetres": 122,
+      "latitude": 63.2957200296,
+      "longitude": 18.9451456497,
+      "eastingEpsg3006": 697714.4,
+      "northingEpsg3006": 7024622.4,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-12-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ],
+      "sourceSha256": "5efddb907cae1027bfc05035369d2c8a3c9a14cf1b8aaee8ac7b9b6ef6e1c185",
+      "numberedSourceAssetId": "livecaddie-658-hole-12-file-711193",
+      "platformId": "h12-tee-pad-01-lm2024",
+      "sourcePadId": "h12-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 192.35778385628365,
+      "legacyZ": 387.3903049929501,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.023892,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 1.770056
+    },
+    {
+      "hole": 12,
+      "tee": "tee-57",
+      "cardMetres": 110,
+      "latitude": 63.2957629662,
+      "longitude": 18.9450492683,
+      "eastingEpsg3006": 697709.28,
+      "northingEpsg3006": 7024626.88,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-12-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ],
+      "sourceSha256": "5efddb907cae1027bfc05035369d2c8a3c9a14cf1b8aaee8ac7b9b6ef6e1c185",
+      "numberedSourceAssetId": "livecaddie-658-hole-12-file-711193",
+      "platformId": "h12-tee-pad-01-lm2024",
+      "sourcePadId": "h12-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 187.53682389344874,
+      "legacyZ": 382.61060612131473,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.02299,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 2.342038
+    },
+    {
+      "hole": 12,
+      "tee": "tee-48",
+      "cardMetres": 95,
+      "latitude": 63.2959014444,
+      "longitude": 18.9449819447,
+      "eastingEpsg3006": 697704.96,
+      "northingEpsg3006": 7024642.08,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "hole-12-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ],
+      "sourceSha256": "5efddb907cae1027bfc05035369d2c8a3c9a14cf1b8aaee8ac7b9b6ef6e1c185",
+      "numberedSourceAssetId": "livecaddie-658-hole-12-file-711193",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 184.1693293120745,
+      "legacyZ": 367.19521136674956,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.021723,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 2.131799
+    },
+    {
+      "hole": 12,
+      "tee": "tee-41",
+      "cardMetres": 60,
+      "latitude": 63.2962662705,
+      "longitude": 18.9456198967,
+      "eastingEpsg3006": 697734.4,
+      "northingEpsg3006": 7024684.64,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-12-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24"
+      ],
+      "sourceSha256": "5efddb907cae1027bfc05035369d2c8a3c9a14cf1b8aaee8ac7b9b6ef6e1c185",
+      "numberedSourceAssetId": "livecaddie-658-hole-12-file-711193",
+      "platformId": "h12-tee-pad-02-lm2024",
+      "sourcePadId": "h12-tee-pad-02-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 216.0794193677927,
+      "legacyZ": 326.5827675682948,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.023295,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.172647
+    },
+    {
+      "hole": 13,
+      "tee": "tee-61",
+      "cardMetres": 470,
+      "latitude": 63.2973677263,
+      "longitude": 18.9443773562,
+      "eastingEpsg3006": 697664.64,
+      "northingEpsg3006": 7024803.36,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "hole-13-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "a7352cac72d5d60a64deb6a7ab30f5e4e5f73d729214210c7b30a256a87eb40c",
+      "numberedSourceAssetId": "livecaddie-658-hole-13-file-711194",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 153.92806484665917,
+      "legacyZ": 203.96870574613416,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.010744,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.19989
+    },
+    {
+      "hole": 13,
+      "tee": "tee-57",
+      "cardMetres": 460,
+      "latitude": 63.2974833449,
+      "longitude": 18.9444602956,
+      "eastingEpsg3006": 697668,
+      "northingEpsg3006": 7024816.48,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "hole-13-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "a7352cac72d5d60a64deb6a7ab30f5e4e5f73d729214210c7b30a256a87eb40c",
+      "numberedSourceAssetId": "livecaddie-658-hole-13-file-711194",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 158.07666099126052,
+      "legacyZ": 191.09804042584358,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.01051,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.19989
+    },
+    {
+      "hole": 13,
+      "tee": "tee-48",
+      "cardMetres": 385,
+      "latitude": 63.2980342322,
+      "longitude": 18.9451301441,
+      "eastingEpsg3006": 697697.76,
+      "northingEpsg3006": 7024879.84,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-13-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6975_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "a7352cac72d5d60a64deb6a7ab30f5e4e5f73d729214210c7b30a256a87eb40c",
+      "numberedSourceAssetId": "livecaddie-658-hole-13-file-711194",
+      "platformId": "h13-tee-pad-01-lm2024",
+      "sourcePadId": "h13-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 191.58219693176173,
+      "legacyZ": 129.77327332907436,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.010173,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 1.103419
+    },
+    {
+      "hole": 13,
+      "tee": "tee-41",
+      "cardMetres": 300,
+      "latitude": 63.2988011498,
+      "longitude": 18.9451384968,
+      "eastingEpsg3006": 697692.921,
+      "northingEpsg3006": 7024965.196,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": 192,
+      "legacyZ": 44.4,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.007141,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 14,
+      "tee": "tee-61",
+      "cardMetres": 466,
+      "latitude": 63.3001791567,
+      "longitude": 18.9415878891,
+      "eastingEpsg3006": 697505.728,
+      "northingEpsg3006": 7025107.573,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "tee-2022-hole-14",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:52Z",
+        "2022-06-24T11:30:54Z",
+        "2022-07-03T07:37:35Z",
+        "2022-06-24T11:31:13Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr22",
+        "o70225_6975_25_mr22",
+        "o70250_6950_25_mr22",
+        "o70250_6975_25_mr22"
+      ],
+      "sourceSha256": "e83557561814355b124ed7141d52b096f551a10e727d1db83b8cacc97f2fc8c1",
+      "numberedSourceAssetId": "livecaddie-658-hole-14-file-711195",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 14.400090407246761,
+      "legacyZ": -108.99972114021296,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.001029,
+      "publishedRoutingStartErrorMetres": 0.0008,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.276064
+    },
+    {
+      "hole": 14,
+      "tee": "tee-57",
+      "cardMetres": 465,
+      "latitude": 63.3001710785,
+      "longitude": 18.9415778987,
+      "eastingEpsg3006": 697505.283,
+      "northingEpsg3006": 7025106.643,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "tee-2022-hole-14",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:52Z",
+        "2022-06-24T11:30:54Z",
+        "2022-07-03T07:37:35Z",
+        "2022-06-24T11:31:13Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr22",
+        "o70225_6975_25_mr22",
+        "o70250_6950_25_mr22",
+        "o70250_6975_25_mr22"
+      ],
+      "sourceSha256": "e83557561814355b124ed7141d52b096f551a10e727d1db83b8cacc97f2fc8c1",
+      "numberedSourceAssetId": "livecaddie-658-hole-14-file-711195",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": 13.900376824089355,
+      "legacyZ": -108.10045823806973,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.001017,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 1.296746
+    },
+    {
+      "hole": 14,
+      "tee": "tee-48",
+      "cardMetres": 405,
+      "latitude": 63.2992894515,
+      "longitude": 18.9403609928,
+      "eastingEpsg3006": 697450.4,
+      "northingEpsg3006": 7025004.8,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "hole-14-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:19:09Z",
+        "2024-06-27T15:08:07Z",
+        "2024-06-27T15:18:53Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24",
+        "o70250_6950_25_mr24",
+        "o70250_6975_25_mr24"
+      ],
+      "sourceSha256": "182ab89327a10656fddc03c3b98b65c794da2b2a25e06355770d0b6684a11694",
+      "numberedSourceAssetId": "livecaddie-658-hole-14-file-711195",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -46.96874812158324,
+      "legacyZ": -9.957742748925966,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.001211,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 14,
+      "tee": "tee-41",
+      "cardMetres": 330,
+      "latitude": 63.2991128638,
+      "longitude": 18.9402624063,
+      "eastingEpsg3006": 697446.674,
+      "northingEpsg3006": 7024984.848,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -51.9,
+      "legacyZ": 9.7,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.001287,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 15,
+      "tee": "tee-61",
+      "cardMetres": 180,
+      "latitude": 63.2958955885,
+      "longitude": 18.9385483424,
+      "eastingEpsg3006": 697382.88,
+      "northingEpsg3006": 7024621.6,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "tee-2022-hole-15",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:52Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr22"
+      ],
+      "sourceSha256": "5ff92108463d6f2ff14adafeeac15eba1898916d4725f7015cb10dc9967b80b0",
+      "numberedSourceAssetId": "livecaddie-658-hole-15-file-711196",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -137.63675731857793,
+      "legacyZ": 367.847083253435,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.016601,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 2.54903
+    },
+    {
+      "hole": 15,
+      "tee": "tee-57",
+      "cardMetres": 165,
+      "latitude": 63.2958304288,
+      "longitude": 18.9384991077,
+      "eastingEpsg3006": 697380.861,
+      "northingEpsg3006": 7024614.198,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "tee-2022-hole-15",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:52Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr22"
+      ],
+      "sourceSha256": "5ff92108463d6f2ff14adafeeac15eba1898916d4725f7015cb10dc9967b80b0",
+      "numberedSourceAssetId": "livecaddie-658-hole-15-file-711196",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -140.09945769885093,
+      "legacyZ": 375.1006698198796,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.017223,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.937017
+    },
+    {
+      "hole": 15,
+      "tee": "tee-48",
+      "cardMetres": 135,
+      "latitude": 63.2954881782,
+      "longitude": 18.9380352785,
+      "eastingEpsg3006": 697359.979,
+      "northingEpsg3006": 7024574.69,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -163.3,
+      "legacyZ": 413.2,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.022088,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 15,
+      "tee": "tee-41",
+      "cardMetres": 135,
+      "latitude": 63.2954881782,
+      "longitude": 18.9380352785,
+      "eastingEpsg3006": 697359.979,
+      "northingEpsg3006": 7024574.69,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -163.3,
+      "legacyZ": 413.2,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.022088,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 16,
+      "tee": "tee-61",
+      "cardMetres": 289,
+      "latitude": 63.2943320517,
+      "longitude": 18.9402524102,
+      "eastingEpsg3006": 697478.905,
+      "northingEpsg3006": 7024452.883,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-16-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:19:09Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ],
+      "sourceSha256": "a7d8a6d85ca92053d161a551995e921ec9768e63850653784d55cb0e484f0ff3",
+      "numberedSourceAssetId": "livecaddie-658-hole-16-file-711197",
+      "platformId": "h16-tee-pad-00-lm2024",
+      "sourcePadId": "h16-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -52.39999962234469,
+      "legacyZ": 541.8999994726045,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.009682,
+      "publishedRoutingStartErrorMetres": 0.000738,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199644
+    },
+    {
+      "hole": 16,
+      "tee": "tee-57",
+      "cardMetres": 280,
+      "latitude": 63.2943446281,
+      "longitude": 18.9402604071,
+      "eastingEpsg3006": 697479.219,
+      "northingEpsg3006": 7024454.307,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-16-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:19:09Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ],
+      "sourceSha256": "a7d8a6d85ca92053d161a551995e921ec9768e63850653784d55cb0e484f0ff3",
+      "numberedSourceAssetId": "livecaddie-658-hole-16-file-711197",
+      "platformId": "h16-tee-pad-00-lm2024",
+      "sourcePadId": "h16-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -51.999999691697454,
+      "legacyZ": 540.4999995037821,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.009588,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199644
+    },
+    {
+      "hole": 16,
+      "tee": "tee-48",
+      "cardMetres": 250,
+      "latitude": 63.2939561624,
+      "longitude": 18.9399864322,
+      "eastingEpsg3006": 697468.16,
+      "northingEpsg3006": 7024410.24,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-16-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:19:09Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70225_6975_25_mr24"
+      ],
+      "sourceSha256": "a7d8a6d85ca92053d161a551995e921ec9768e63850653784d55cb0e484f0ff3",
+      "numberedSourceAssetId": "livecaddie-658-hole-16-file-711197",
+      "platformId": "h16-tee-pad-48-followup-lm2024",
+      "sourcePadId": "h16-tee-pad-48-followup-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -65.70411117970991,
+      "legacyZ": 583.7439992873637,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.012915,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 1.006662
+    },
+    {
+      "hole": 16,
+      "tee": "tee-41",
+      "cardMetres": 210,
+      "latitude": 63.2940544736,
+      "longitude": 18.9390188933,
+      "eastingEpsg3006": 697419.041,
+      "northingEpsg3006": 7024418.198,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -114.1,
+      "legacyZ": 572.8,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.021427,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 17,
+      "tee": "tee-61",
+      "cardMetres": 400,
+      "latitude": 63.2940194991,
+      "longitude": 18.9368667822,
+      "eastingEpsg3006": 697311.52,
+      "northingEpsg3006": 7024407.68,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "hole-17-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ],
+      "sourceSha256": "3a17b658252fa7a5300a8bf24b4153dba21e526187b34a337c36e76a0ec6952a",
+      "numberedSourceAssetId": "livecaddie-658-hole-17-file-711198",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -221.74769002234703,
+      "legacyZ": 576.6933604462408,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.041677,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.531721
+    },
+    {
+      "hole": 17,
+      "tee": "tee-57",
+      "cardMetres": 385,
+      "latitude": 63.2941170918,
+      "longitude": 18.9368737237,
+      "eastingEpsg3006": 697311.2,
+      "northingEpsg3006": 7024418.56,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "hole-17-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24"
+      ],
+      "sourceSha256": "3a17b658252fa7a5300a8bf24b4153dba21e526187b34a337c36e76a0ec6952a",
+      "numberedSourceAssetId": "livecaddie-658-hole-17-file-711198",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -221.40048062913232,
+      "legacyZ": 565.8293421269741,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.040846,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.198124
+    },
+    {
+      "hole": 17,
+      "tee": "tee-48",
+      "cardMetres": 335,
+      "latitude": 63.294631852,
+      "longitude": 18.9367714918,
+      "eastingEpsg3006": 697302.56,
+      "northingEpsg3006": 7024475.52,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "visible-interior-anchor",
+      "sourceKey": "tee-2022-hole-17",
+      "sourceCapturedAt": [
+        "2022-07-03T07:37:52Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr22"
+      ],
+      "sourceSha256": "58558401912067643cc41a33d514de5d142ac8e7d8991df18db48c65849ea8dc",
+      "numberedSourceAssetId": "livecaddie-658-hole-17-file-711198",
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -226.51407729374404,
+      "legacyZ": 508.5262366750652,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.037704,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199721
+    },
+    {
+      "hole": 17,
+      "tee": "tee-41",
+      "cardMetres": 275,
+      "latitude": 63.2951054977,
+      "longitude": 18.9371616206,
+      "eastingEpsg3006": 697318.854,
+      "northingEpsg3006": 7024529.421,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -207,
+      "legacyZ": 455.8,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.030939,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    },
+    {
+      "hole": 18,
+      "tee": "tee-61",
+      "cardMetres": 348,
+      "latitude": 63.297726142,
+      "longitude": 18.9369385932,
+      "eastingEpsg3006": 697289.76,
+      "northingEpsg3006": 7024820.32,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-18-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "becf3c40533fb926c44189a55497640be1fcc9c7e5a718c67e8eb772d1b80b0c",
+      "numberedSourceAssetId": "livecaddie-658-hole-18-file-711199",
+      "platformId": "h18-tee-pad-01-lm2024",
+      "sourcePadId": "h18-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -218.1557350510596,
+      "legacyZ": 164.0698743377925,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.013982,
+      "publishedRoutingStartErrorMetres": 0.001,
+      "routeStartErrorMetres": 0,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 1.40389
+    },
+    {
+      "hole": 18,
+      "tee": "tee-57",
+      "cardMetres": 335,
+      "latitude": 63.2977860554,
+      "longitude": 18.9369596907,
+      "eastingEpsg3006": 697290.406,
+      "northingEpsg3006": 7024827.051,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-18-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "becf3c40533fb926c44189a55497640be1fcc9c7e5a718c67e8eb772d1b80b0c",
+      "numberedSourceAssetId": "livecaddie-658-hole-18-file-711199",
+      "platformId": "h18-tee-pad-01-lm2024",
+      "sourcePadId": "h18-tee-pad-01-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -217.10044772467606,
+      "legacyZ": 157.4003091333887,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.01353,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.199426
+    },
+    {
+      "hole": 18,
+      "tee": "tee-48",
+      "cardMetres": 310,
+      "latitude": 63.2978577602,
+      "longitude": 18.9377427528,
+      "eastingEpsg3006": 697329.12,
+      "northingEpsg3006": 7024837.44,
+      "coordinateBasis": "reviewed-orthophoto-pixel",
+      "reviewStatus": "reviewed-platform",
+      "sourceKey": "hole-18-tees",
+      "sourceCapturedAt": [
+        "2024-06-27T15:07:43Z",
+        "2024-06-27T15:08:07Z"
+      ],
+      "sourceIds": [
+        "o70225_6950_25_mr24",
+        "o70250_6950_25_mr24"
+      ],
+      "sourceSha256": "becf3c40533fb926c44189a55497640be1fcc9c7e5a718c67e8eb772d1b80b0c",
+      "numberedSourceAssetId": "livecaddie-658-hole-18-file-711199",
+      "platformId": "h18-tee-pad-00-lm2024",
+      "sourcePadId": "h18-tee-pad-00-lm2024",
+      "platformBoundaryReviewed": true,
+      "insideAnyMappedPlatform": true,
+      "legacyX": -177.93201055772928,
+      "legacyZ": 149.41813582801387,
+      "sourcePixelAgreementMetres": 0,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.010181,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 2,
+      "decorativeMarkerMinimumEdgeClearanceMetres": 0.194216
+    },
+    {
+      "hole": 18,
+      "tee": "tee-41",
+      "cardMetres": 210,
+      "latitude": 63.2987247934,
+      "longitude": 18.9383311626,
+      "eastingEpsg3006": 697352.646,
+      "northingEpsg3006": 7024935.722,
+      "coordinateBasis": "unreviewed-legacy-reference-projected",
+      "reviewStatus": "unreviewed-outside-mapped-platforms",
+      "sourceKey": null,
+      "sourceCapturedAt": [],
+      "sourceIds": [],
+      "sourceSha256": null,
+      "numberedSourceAssetId": null,
+      "platformId": null,
+      "sourcePadId": null,
+      "platformBoundaryReviewed": false,
+      "insideAnyMappedPlatform": false,
+      "legacyX": -148.5,
+      "legacyZ": 52.9,
+      "sourcePixelAgreementMetres": null,
+      "serializedPositionErrorMetres": 0,
+      "bootNormalizationErrorMetres": 0,
+      "teeViewHelperPositionErrorMetres": 0,
+      "legacyToRuntimeBridgeResidualMetres": 0.004957,
+      "publishedRoutingStartErrorMetres": null,
+      "routeStartErrorMetres": null,
+      "decorativeMarkerCount": 0,
+      "decorativeMarkerMinimumEdgeClearanceMetres": null
+    }
+  ],
+  "expectedDecorativeMarkers": [
+    {
+      "hole": 1,
+      "tee": "tee-61",
+      "position": [
+        -81.07970445036625,
+        -250.63727439828799
+      ],
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.6563246908721453
+    },
+    {
+      "hole": 1,
+      "tee": "tee-61",
+      "position": [
+        -76.20962009374247,
+        -252.45998621296647
+      ],
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.6563246908721453
+    },
+    {
+      "hole": 1,
+      "tee": "tee-57",
+      "position": [
+        -82.9690084582041,
+        -258.9177261546289
+      ],
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.1998905237377426
+    },
+    {
+      "hole": 1,
+      "tee": "tee-57",
+      "position": [
+        -78.15137868604587,
+        -260.7208059498518
+      ],
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.1998905237377426
+    },
+    {
+      "hole": 1,
+      "tee": "tee-48",
+      "position": [
+        -95.82900089948535,
+        -290.82325465159903
+      ],
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.19965091021118267
+    },
+    {
+      "hole": 1,
+      "tee": "tee-48",
+      "position": [
+        -91.82622699331064,
+        -292.321360794329
+      ],
+      "sourcePadId": "h01-tee-pad-00-lm2022-followup",
+      "platformId": "h01-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.19965091021118267
+    },
+    {
+      "hole": 2,
+      "tee": "tee-61",
+      "position": [
+        -124.97681853559264,
+        -556.7697701083317
+      ],
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.19998725454613794
+    },
+    {
+      "hole": 2,
+      "tee": "tee-61",
+      "position": [
+        -123.9506508934863,
+        -561.3833597637808
+      ],
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.19998725454613794
+    },
+    {
+      "hole": 2,
+      "tee": "tee-57",
+      "position": [
+        -134.06457379554686,
+        -562.4611256367921
+      ],
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.1999396541404967
+    },
+    {
+      "hole": 2,
+      "tee": "tee-57",
+      "position": [
+        -133.09981660651383,
+        -566.7986174896893
+      ],
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.1999396541404967
+    },
+    {
+      "hole": 2,
+      "tee": "tee-48",
+      "position": [
+        -163.4644686557526,
+        -568.2612210326902
+      ],
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.9007916470306007
+    },
+    {
+      "hole": 2,
+      "tee": "tee-48",
+      "position": [
+        -162.3354599648981,
+        -573.3371780238372
+      ],
+      "sourcePadId": "h02-tee-pad-00-lm2024",
+      "platformId": "h02-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.9007916470306007
+    },
+    {
+      "hole": 3,
+      "tee": "tee-61",
+      "position": [
+        -450.60349514196577,
+        -593.9963730526532
+      ],
+      "sourcePadId": "h03-tee-pad-01-lm2022-followup",
+      "platformId": "h03-tee-pad-01-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.8400437701857936
+    },
+    {
+      "hole": 3,
+      "tee": "tee-61",
+      "position": [
+        -455.66391028288314,
+        -595.1931180553894
+      ],
+      "sourcePadId": "h03-tee-pad-01-lm2022-followup",
+      "platformId": "h03-tee-pad-01-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.8400437701857936
+    },
+    {
+      "hole": 3,
+      "tee": "tee-57",
+      "position": [
+        -453.19827231770785,
+        -590.7942556260097
+      ],
+      "sourcePadId": "h03-tee-pad-01-lm2022-followup",
+      "platformId": "h03-tee-pad-01-lm2022-followup",
+      "minimumEdgeClearanceMetres": 4.850265646554668
+    },
+    {
+      "hole": 3,
+      "tee": "tee-57",
+      "position": [
+        -458.2586874586252,
+        -591.9910006287458
+      ],
+      "sourcePadId": "h03-tee-pad-01-lm2022-followup",
+      "platformId": "h03-tee-pad-01-lm2022-followup",
+      "minimumEdgeClearanceMetres": 4.850265646554668
+    },
+    {
+      "hole": 3,
+      "tee": "tee-48",
+      "position": [
+        -456.1368585183169,
+        -574.1666636600291
+      ],
+      "sourcePadId": "h03-tee-pad-00-lm2022-followup",
+      "platformId": "h03-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 2.386043086493599
+    },
+    {
+      "hole": 3,
+      "tee": "tee-48",
+      "position": [
+        -461.19727365923427,
+        -575.3634086627653
+      ],
+      "sourcePadId": "h03-tee-pad-00-lm2022-followup",
+      "platformId": "h03-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 2.386043086493599
+    },
+    {
+      "hole": 3,
+      "tee": "tee-41",
+      "position": [
+        -456.1368585183169,
+        -574.1666636600291
+      ],
+      "sourcePadId": "h03-tee-pad-00-lm2022-followup",
+      "platformId": "h03-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 2.386043086493599
+    },
+    {
+      "hole": 3,
+      "tee": "tee-41",
+      "position": [
+        -461.19727365923427,
+        -575.3634086627653
+      ],
+      "sourcePadId": "h03-tee-pad-00-lm2022-followup",
+      "platformId": "h03-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 2.386043086493599
+    },
+    {
+      "hole": 4,
+      "tee": "tee-61",
+      "position": [
+        -442.8267226021734,
+        -543.7765280528033
+      ],
+      "sourcePadId": "h04-tee-pad-01-lm2024",
+      "platformId": "h04-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.16121444848565444
+    },
+    {
+      "hole": 4,
+      "tee": "tee-61",
+      "position": [
+        -444.3602746644865,
+        -539.8292880969466
+      ],
+      "sourcePadId": "h04-tee-pad-01-lm2024",
+      "platformId": "h04-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.16121444848565444
+    },
+    {
+      "hole": 4,
+      "tee": "tee-57",
+      "position": [
+        -436.4585215585786,
+        -546.9226981195255
+      ],
+      "sourcePadId": "h04-tee-pad-01-lm2024",
+      "platformId": "h04-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.5128764925272568
+    },
+    {
+      "hole": 4,
+      "tee": "tee-57",
+      "position": [
+        -438.34165730543043,
+        -542.0756578103338
+      ],
+      "sourcePadId": "h04-tee-pad-01-lm2024",
+      "platformId": "h04-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.5128764925272568
+    },
+    {
+      "hole": 4,
+      "tee": "tee-48",
+      "position": [
+        -363.96976502672726,
+        -539.0869216591939
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.1999374596384592
+    },
+    {
+      "hole": 4,
+      "tee": "tee-48",
+      "position": [
+        -365.8393824273822,
+        -534.2746764883983
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.1999374596384592
+    },
+    {
+      "hole": 5,
+      "tee": "tee-61",
+      "position": [
+        82.74547341098759,
+        -286.5286839887499
+      ],
+      "sourcePadId": "h05-tee-pad-01-lm2024",
+      "platformId": "h05-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.21299382554252877
+    },
+    {
+      "hole": 5,
+      "tee": "tee-61",
+      "position": [
+        85.05460742452453,
+        -281.8695102307187
+      ],
+      "sourcePadId": "h05-tee-pad-01-lm2024",
+      "platformId": "h05-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.21299382554252877
+    },
+    {
+      "hole": 5,
+      "tee": "tee-57",
+      "position": [
+        93.50680808033064,
+        -287.6990354813195
+      ],
+      "sourcePadId": "h05-tee-pad-01-lm2024",
+      "platformId": "h05-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 2.0577970561804766
+    },
+    {
+      "hole": 5,
+      "tee": "tee-57",
+      "position": [
+        95.81594209386759,
+        -283.0398617232883
+      ],
+      "sourcePadId": "h05-tee-pad-01-lm2024",
+      "platformId": "h05-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 2.0577970561804766
+    },
+    {
+      "hole": 5,
+      "tee": "tee-48",
+      "position": [
+        123.56314639560716,
+        -292.8891454130117
+      ],
+      "sourcePadId": "h05-tee-pad-00-lm2024",
+      "platformId": "h05-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.36895571115972153
+    },
+    {
+      "hole": 5,
+      "tee": "tee-48",
+      "position": [
+        125.87228040914411,
+        -288.2299716549805
+      ],
+      "sourcePadId": "h05-tee-pad-00-lm2024",
+      "platformId": "h05-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.36895571115972153
+    },
+    {
+      "hole": 5,
+      "tee": "tee-41",
+      "position": [
+        123.56314639560716,
+        -292.8891454130117
+      ],
+      "sourcePadId": "h05-tee-pad-00-lm2024",
+      "platformId": "h05-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.36895571115972153
+    },
+    {
+      "hole": 5,
+      "tee": "tee-41",
+      "position": [
+        125.87228040914411,
+        -288.2299716549805
+      ],
+      "sourcePadId": "h05-tee-pad-00-lm2024",
+      "platformId": "h05-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.36895571115972153
+    },
+    {
+      "hole": 6,
+      "tee": "tee-61",
+      "position": [
+        207.77411842250584,
+        -397.7582729273818
+      ],
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.1938616751294484
+    },
+    {
+      "hole": 6,
+      "tee": "tee-61",
+      "position": [
+        204.39749980043084,
+        -394.0677274801602
+      ],
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.1938616751294484
+    },
+    {
+      "hole": 6,
+      "tee": "tee-57",
+      "position": [
+        223.88078632501552,
+        -392.687546957341
+      ],
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.19058231448074944
+    },
+    {
+      "hole": 6,
+      "tee": "tee-57",
+      "position": [
+        222.04488518359298,
+        -390.6809606775845
+      ],
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.19058231448074944
+    },
+    {
+      "hole": 6,
+      "tee": "tee-48",
+      "position": [
+        253.62451807257628,
+        -373.7986758132554
+      ],
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.9156630339109234
+    },
+    {
+      "hole": 6,
+      "tee": "tee-48",
+      "position": [
+        250.1143563129461,
+        -369.9621716204739
+      ],
+      "sourcePadId": "h06-tee-pad-00-lm2024",
+      "platformId": "h06-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.9156630339109234
+    },
+    {
+      "hole": 7,
+      "tee": "tee-61",
+      "position": [
+        490.868020171229,
+        -164.58211053726524
+      ],
+      "sourcePadId": "h07-tee-pad-00-lm2022-followup",
+      "platformId": "h07-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.1998297237765186
+    },
+    {
+      "hole": 7,
+      "tee": "tee-61",
+      "position": [
+        486.92911288979633,
+        -165.88735205109032
+      ],
+      "sourcePadId": "h07-tee-pad-00-lm2022-followup",
+      "platformId": "h07-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.1998297237765186
+    },
+    {
+      "hole": 7,
+      "tee": "tee-57",
+      "position": [
+        491.09435030695096,
+        -163.06624747526138
+      ],
+      "sourcePadId": "h07-tee-pad-00-lm2022-followup",
+      "platformId": "h07-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.1998297237765186
+    },
+    {
+      "hole": 7,
+      "tee": "tee-57",
+      "position": [
+        486.5525009759814,
+        -164.57128678508843
+      ],
+      "sourcePadId": "h07-tee-pad-00-lm2022-followup",
+      "platformId": "h07-tee-pad-00-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.1998297237765186
+    },
+    {
+      "hole": 7,
+      "tee": "tee-48",
+      "position": [
+        481.5794924904253,
+        -99.46166802689413
+      ],
+      "sourcePadId": "h07-tee-pad-01-lm2024",
+      "platformId": "h07-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 2.0228285105230057
+    },
+    {
+      "hole": 7,
+      "tee": "tee-48",
+      "position": [
+        476.64344188908535,
+        -101.09733439293939
+      ],
+      "sourcePadId": "h07-tee-pad-01-lm2024",
+      "platformId": "h07-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 2.0228285105230057
+    },
+    {
+      "hole": 8,
+      "tee": "tee-61",
+      "position": [
+        295.15316314041655,
+        144.6003181503442
+      ],
+      "sourcePadId": "h08-tee-pad-01-lm2022-followup",
+      "platformId": "h08-tee-pad-01-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.19889906937023977
+    },
+    {
+      "hole": 8,
+      "tee": "tee-61",
+      "position": [
+        299.6950026736904,
+        146.93659344274613
+      ],
+      "sourcePadId": "h08-tee-pad-01-lm2022-followup",
+      "platformId": "h08-tee-pad-01-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.19889906937023977
+    },
+    {
+      "hole": 8,
+      "tee": "tee-57",
+      "position": [
+        297.0800763329703,
+        143.0812248669917
+      ],
+      "sourcePadId": "h08-tee-pad-01-lm2022-followup",
+      "platformId": "h08-tee-pad-01-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.9780360369605047
+    },
+    {
+      "hole": 8,
+      "tee": "tee-57",
+      "position": [
+        301.70417740045116,
+        145.45981464198923
+      ],
+      "sourcePadId": "h08-tee-pad-01-lm2022-followup",
+      "platformId": "h08-tee-pad-01-lm2022-followup",
+      "minimumEdgeClearanceMetres": 0.9780360369605047
+    },
+    {
+      "hole": 8,
+      "tee": "tee-48",
+      "position": [
+        313.38392055571694,
+        85.97846668521491
+      ],
+      "sourcePadId": "h08-tee-pad-00-lm2024",
+      "platformId": "h08-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.9720822007108202
+    },
+    {
+      "hole": 8,
+      "tee": "tee-48",
+      "position": [
+        318.0080216231977,
+        88.35705646021246
+      ],
+      "sourcePadId": "h08-tee-pad-00-lm2024",
+      "platformId": "h08-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.9720822007108202
+    },
+    {
+      "hole": 9,
+      "tee": "tee-61",
+      "position": [
+        425.21423496562596,
+        -188.1456795885645
+      ],
+      "sourcePadId": "h09-tee-pad-02-lm2024",
+      "platformId": "h09-tee-pad-02-lm2024",
+      "minimumEdgeClearanceMetres": 0.19917417316433428
+    },
+    {
+      "hole": 9,
+      "tee": "tee-61",
+      "position": [
+        426.102380824808,
+        -192.81615801319379
+      ],
+      "sourcePadId": "h09-tee-pad-02-lm2024",
+      "platformId": "h09-tee-pad-02-lm2024",
+      "minimumEdgeClearanceMetres": 0.19917417316433428
+    },
+    {
+      "hole": 9,
+      "tee": "tee-57",
+      "position": [
+        402.61426307898165,
+        -192.4456731778769
+      ],
+      "sourcePadId": "h09-tee-pad-01-lm2024",
+      "platformId": "h09-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.9393747010456411
+    },
+    {
+      "hole": 9,
+      "tee": "tee-57",
+      "position": [
+        403.5856954095647,
+        -197.55412883757467
+      ],
+      "sourcePadId": "h09-tee-pad-01-lm2024",
+      "platformId": "h09-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.9393747010456411
+    },
+    {
+      "hole": 9,
+      "tee": "tee-48",
+      "position": [
+        343.8932105432982,
+        -196.97239600666214
+      ],
+      "sourcePadId": "h09-tee-pad-00-lm2024",
+      "platformId": "h09-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 2.4053552809406638
+    },
+    {
+      "hole": 9,
+      "tee": "tee-48",
+      "position": [
+        344.8646428738813,
+        -202.0808516663599
+      ],
+      "sourcePadId": "h09-tee-pad-00-lm2024",
+      "platformId": "h09-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 2.4053552809406638
+    },
+    {
+      "hole": 10,
+      "tee": "tee-61",
+      "position": [
+        -76.49216319534571,
+        -180.38415786940158
+      ],
+      "sourcePadId": "h10-tee-pad-01-lm2024",
+      "platformId": "h10-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.6349359624873081
+    },
+    {
+      "hole": 10,
+      "tee": "tee-61",
+      "position": [
+        -76.75252274543328,
+        -175.19067994948335
+      ],
+      "sourcePadId": "h10-tee-pad-01-lm2024",
+      "platformId": "h10-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.6349359624873081
+    },
+    {
+      "hole": 10,
+      "tee": "tee-57",
+      "position": [
+        -35.39978230122607,
+        -183.45507343075803
+      ],
+      "sourcePadId": "h10-tee-pad-00-lm2024",
+      "platformId": "h10-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.3241537854479546
+    },
+    {
+      "hole": 10,
+      "tee": "tee-57",
+      "position": [
+        -35.66014185131364,
+        -178.2615955108398
+      ],
+      "sourcePadId": "h10-tee-pad-00-lm2024",
+      "platformId": "h10-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.3241537854479546
+    },
+    {
+      "hole": 10,
+      "tee": "tee-48",
+      "position": [
+        -0.5571272653309675,
+        -180.43515608827082
+      ],
+      "sourcePadId": "h10-tee-pad-02-lm2024",
+      "platformId": "h10-tee-pad-02-lm2024",
+      "minimumEdgeClearanceMetres": 0.19897398376187453
+    },
+    {
+      "hole": 10,
+      "tee": "tee-48",
+      "position": [
+        -0.8138733062819914,
+        -175.31375802833003
+      ],
+      "sourcePadId": "h10-tee-pad-02-lm2024",
+      "platformId": "h10-tee-pad-02-lm2024",
+      "minimumEdgeClearanceMetres": 0.19897398376187453
+    },
+    {
+      "hole": 11,
+      "tee": "tee-57",
+      "position": [
+        271.4753741720386,
+        -11.143195205859278
+      ],
+      "sourcePadId": "h11-tee-pad-00-lm2024",
+      "platformId": "h11-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.19471129437072462
+    },
+    {
+      "hole": 11,
+      "tee": "tee-57",
+      "position": [
+        267.4702262208171,
+        -11.698073277651297
+      ],
+      "sourcePadId": "h11-tee-pad-00-lm2024",
+      "platformId": "h11-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.19471129437072462
+    },
+    {
+      "hole": 11,
+      "tee": "tee-48",
+      "position": [
+        280.33385689456856,
+        44.20213135000234
+      ],
+      "sourcePadId": "h11-tee-pad-01-lm2024",
+      "platformId": "h11-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.3311613278877051
+    },
+    {
+      "hole": 11,
+      "tee": "tee-48",
+      "position": [
+        275.18305336003226,
+        43.48853275933072
+      ],
+      "sourcePadId": "h11-tee-pad-01-lm2024",
+      "platformId": "h11-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.3311613278877051
+    },
+    {
+      "hole": 11,
+      "tee": "tee-41",
+      "position": [
+        280.33385689456856,
+        44.20213135000234
+      ],
+      "sourcePadId": "h11-tee-pad-01-lm2024",
+      "platformId": "h11-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.3311613278877051
+    },
+    {
+      "hole": 11,
+      "tee": "tee-41",
+      "position": [
+        275.18305336003226,
+        43.48853275933072
+      ],
+      "sourcePadId": "h11-tee-pad-01-lm2024",
+      "platformId": "h11-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.3311613278877051
+    },
+    {
+      "hole": 12,
+      "tee": "tee-61",
+      "position": [
+        189.80654962369763,
+        387.8915074375584
+      ],
+      "sourcePadId": "h12-tee-pad-01-lm2024",
+      "platformId": "h12-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 1.7700557007726954
+    },
+    {
+      "hole": 12,
+      "tee": "tee-61",
+      "position": [
+        194.90901808886966,
+        386.88910254834184
+      ],
+      "sourcePadId": "h12-tee-pad-01-lm2024",
+      "platformId": "h12-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 1.7700557007726954
+    },
+    {
+      "hole": 12,
+      "tee": "tee-57",
+      "position": [
+        184.98558966086273,
+        383.111808565923
+      ],
+      "sourcePadId": "h12-tee-pad-01-lm2024",
+      "platformId": "h12-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 2.342037982139766
+    },
+    {
+      "hole": 12,
+      "tee": "tee-57",
+      "position": [
+        190.08805812603475,
+        382.10940367670645
+      ],
+      "sourcePadId": "h12-tee-pad-01-lm2024",
+      "platformId": "h12-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 2.342037982139766
+    },
+    {
+      "hole": 12,
+      "tee": "tee-48",
+      "position": [
+        181.61809507948848,
+        367.69641381135784
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 2.131799224957621
+    },
+    {
+      "hole": 12,
+      "tee": "tee-48",
+      "position": [
+        186.7205635446605,
+        366.6940089221413
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 2.131799224957621
+    },
+    {
+      "hole": 12,
+      "tee": "tee-41",
+      "position": [
+        215.12079793134114,
+        326.77109343867807
+      ],
+      "sourcePadId": "h12-tee-pad-02-lm2024",
+      "platformId": "h12-tee-pad-02-lm2024",
+      "minimumEdgeClearanceMetres": 0.17264732819586942
+    },
+    {
+      "hole": 12,
+      "tee": "tee-41",
+      "position": [
+        216.93388089369103,
+        326.4149044218483
+      ],
+      "sourcePadId": "h12-tee-pad-02-lm2024",
+      "platformId": "h12-tee-pad-02-lm2024",
+      "minimumEdgeClearanceMetres": 0.17264732819586942
+    },
+    {
+      "hole": 13,
+      "tee": "tee-61",
+      "position": [
+        151.40126442753788,
+        203.35610502631044
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.1998897183555764
+    },
+    {
+      "hole": 13,
+      "tee": "tee-61",
+      "position": [
+        155.36764457323054,
+        204.31771929309565
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.1998897183555764
+    },
+    {
+      "hole": 13,
+      "tee": "tee-57",
+      "position": [
+        155.54986057213924,
+        190.48543970601986
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.1998897183555764
+    },
+    {
+      "hole": 13,
+      "tee": "tee-57",
+      "position": [
+        158.10968957560812,
+        191.1060479180036
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.1998897183555764
+    },
+    {
+      "hole": 13,
+      "tee": "tee-48",
+      "position": [
+        189.05539651264044,
+        129.16067260925064
+      ],
+      "sourcePadId": "h13-tee-pad-01-lm2024",
+      "platformId": "h13-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 1.1034188509963416
+    },
+    {
+      "hole": 13,
+      "tee": "tee-48",
+      "position": [
+        194.10899735088302,
+        130.38587404889807
+      ],
+      "sourcePadId": "h13-tee-pad-01-lm2024",
+      "platformId": "h13-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 1.1034188509963416
+    },
+    {
+      "hole": 14,
+      "tee": "tee-61",
+      "position": [
+        16.670455511316746,
+        -107.73266064670001
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.2760635936033178
+    },
+    {
+      "hole": 14,
+      "tee": "tee-61",
+      "position": [
+        12.129725303176775,
+        -110.2667816337259
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.2760635936033178
+    },
+    {
+      "hole": 14,
+      "tee": "tee-57",
+      "position": [
+        16.17074192815934,
+        -106.83339774455679
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 1.2967461457797
+    },
+    {
+      "hole": 14,
+      "tee": "tee-57",
+      "position": [
+        11.630011720019368,
+        -109.36751873158268
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 1.2967461457797
+    },
+    {
+      "hole": 15,
+      "tee": "tee-61",
+      "position": [
+        -135.12450610427646,
+        367.1773117728234
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 2.54903022524138
+    },
+    {
+      "hole": 15,
+      "tee": "tee-61",
+      "position": [
+        -140.1490085328794,
+        368.51685473404666
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 2.54903022524138
+    },
+    {
+      "hole": 15,
+      "tee": "tee-57",
+      "position": [
+        -137.58720648454945,
+        374.43089833926797
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.9370167480922656
+    },
+    {
+      "hole": 15,
+      "tee": "tee-57",
+      "position": [
+        -142.6117089131524,
+        375.77044130049126
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.9370167480922656
+    },
+    {
+      "hole": 16,
+      "tee": "tee-61",
+      "position": [
+        -51.21785230777987,
+        544.2157126946307
+      ],
+      "sourcePadId": "h16-tee-pad-00-lm2024",
+      "platformId": "h16-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.1996437684887275
+    },
+    {
+      "hole": 16,
+      "tee": "tee-61",
+      "position": [
+        -53.25889641144452,
+        540.217503030436
+      ],
+      "sourcePadId": "h16-tee-pad-00-lm2024",
+      "platformId": "h16-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.1996437684887275
+    },
+    {
+      "hole": 16,
+      "tee": "tee-57",
+      "position": [
+        -50.81785237713264,
+        542.8157127258083
+      ],
+      "sourcePadId": "h16-tee-pad-00-lm2024",
+      "platformId": "h16-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.19964376848872464
+    },
+    {
+      "hole": 16,
+      "tee": "tee-57",
+      "position": [
+        -52.34766839785394,
+        539.8189498496383
+      ],
+      "sourcePadId": "h16-tee-pad-00-lm2024",
+      "platformId": "h16-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.19964376848872464
+    },
+    {
+      "hole": 16,
+      "tee": "tee-48",
+      "position": [
+        -64.5219638651451,
+        586.05971250939
+      ],
+      "sourcePadId": "h16-tee-pad-48-followup-lm2024",
+      "platformId": "h16-tee-pad-48-followup-lm2024",
+      "minimumEdgeClearanceMetres": 1.0066623146899762
+    },
+    {
+      "hole": 16,
+      "tee": "tee-48",
+      "position": [
+        -66.88625849427473,
+        581.4282860653375
+      ],
+      "sourcePadId": "h16-tee-pad-48-followup-lm2024",
+      "platformId": "h16-tee-pad-48-followup-lm2024",
+      "minimumEdgeClearanceMetres": 1.0066623146899762
+    },
+    {
+      "hole": 17,
+      "tee": "tee-61",
+      "position": [
+        -224.3263122837874,
+        576.3606334818928
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.5317207349700602
+    },
+    {
+      "hole": 17,
+      "tee": "tee-61",
+      "position": [
+        -219.16906776090667,
+        577.0260874105888
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.5317207349700602
+    },
+    {
+      "hole": 17,
+      "tee": "tee-57",
+      "position": [
+        -223.97910289057268,
+        565.4966151626261
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.19812447090651222
+    },
+    {
+      "hole": 17,
+      "tee": "tee-57",
+      "position": [
+        -218.930463420106,
+        566.1480554725215
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.19812447090651222
+    },
+    {
+      "hole": 17,
+      "tee": "tee-48",
+      "position": [
+        -229.0926995551844,
+        508.1935097107172
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.1997208873478104
+    },
+    {
+      "hole": 17,
+      "tee": "tee-48",
+      "position": [
+        -225.22494000371168,
+        508.69257772608086
+      ],
+      "sourcePadId": null,
+      "platformId": null,
+      "minimumEdgeClearanceMetres": 0.1997208873478104
+    },
+    {
+      "hole": 18,
+      "tee": "tee-61",
+      "position": [
+        -220.35021615807716,
+        162.67550972588393
+      ],
+      "sourcePadId": "h18-tee-pad-01-lm2024",
+      "platformId": "h18-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 1.4038901654698863
+    },
+    {
+      "hole": 18,
+      "tee": "tee-61",
+      "position": [
+        -215.96125394404203,
+        165.46423894970107
+      ],
+      "sourcePadId": "h18-tee-pad-01-lm2024",
+      "platformId": "h18-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 1.4038901654698863
+    },
+    {
+      "hole": 18,
+      "tee": "tee-57",
+      "position": [
+        -218.33013569558855,
+        156.61897026250622
+      ],
+      "sourcePadId": "h18-tee-pad-01-lm2024",
+      "platformId": "h18-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.19942616653008854
+    },
+    {
+      "hole": 18,
+      "tee": "tee-57",
+      "position": [
+        -214.9059666176585,
+        158.79467374529727
+      ],
+      "sourcePadId": "h18-tee-pad-01-lm2024",
+      "platformId": "h18-tee-pad-01-lm2024",
+      "minimumEdgeClearanceMetres": 0.19942616653008854
+    },
+    {
+      "hole": 18,
+      "tee": "tee-48",
+      "position": [
+        -179.73542832211214,
+        148.27225131659048
+      ],
+      "sourcePadId": "h18-tee-pad-00-lm2024",
+      "platformId": "h18-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.1942158406490044
+    },
+    {
+      "hole": 18,
+      "tee": "tee-48",
+      "position": [
+        -175.73752945071172,
+        150.81250043992245
+      ],
+      "sourcePadId": "h18-tee-pad-00-lm2024",
+      "platformId": "h18-tee-pad-00-lm2024",
+      "minimumEdgeClearanceMetres": 0.1942158406490044
+    }
+  ],
+  "issues": [],
+  "limitations": [
+    "All references are virtual camera/HUD positions, not surveyed daily tee marker placements.",
+    "Unreviewed coordinates are projections of inherited references, not new orthophoto measurements.",
+    "Coordinate decimals and bridge residuals express numerical conversion, not absolute survey accuracy.",
+    "WGS84 output uses the frozen legacy frame and the repository SWEREF/WGS84 approximation; reference epochs are not transformed.",
+    "The helper checks are deterministic preflight checks; actual browser camera and GPU instance positions require check-runtime.mjs."
+  ],
+  "inputs": {
+    "model": {
+      "path": "puttombuild/course-model.json",
+      "sha256": "8f0dad509aba561875dc80da16aa26a768b95b2b008bf198a961e82ceaf7c496"
+    },
+    "review": {
+      "path": "puttombuild/mapping/orthophoto-review.json",
+      "sha256": "cb19efa7e652e6570de00aa1cdf9e8ec35de9d3cf756d50630a1181f8ac8ad6c"
+    },
+    "pack": {
+      "path": "apps/golf/public/courses/puttom/pack.bin",
+      "sha256": "2e07d11db74efe05ad92959bd6b7acae97cb8f55e8b526ca8058315ee6077475"
+    },
+    "routing": {
+      "path": "apps/golf/public/courses/puttom/routing/e4092299e3a241c8c4c154a8581f51dfa7406869c30e1e1e5c86cbafd4b24cd8.bvch",
+      "sha256": "e4092299e3a241c8c4c154a8581f51dfa7406869c30e1e1e5c86cbafd4b24cd8"
+    }
+  }
+}

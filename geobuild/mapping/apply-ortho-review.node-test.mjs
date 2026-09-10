@@ -292,3 +292,28 @@ test('narrow decks bound the inset and concave decks fall back to a validated in
   assert.deepEqual(reference,out.holes[0].tees.pads[1].c);
   assert.ok(pointInPoly(...reference,teeFeature.pads[1].ring));
 });
+
+test('idless DTM retention pins the original slot and survives a reordered tee inventory', () => {
+  const {model,review,teeFeature}=teeReferenceFixture();model.holes[0].tees.pads[0].prov='dtm';
+  const historical={id:'retained-idless-platform',ring:structuredClone(model.holes[0].tees.pads[0].ring),
+    retainedHistorical:true,sourceOriginalPadIndex:0,prov:'dtm',boundaryInterpretationUncertaintyMetres:3,
+    note:'Original DTM outline retained under shadow; no new perimeter accuracy claim.'};
+  teeFeature.pads.push(historical);
+  const before=structuredClone(model),out=applyOrthoReview(model,review),pad=out.holes[0].tees.pads[2];
+  assert.equal(pad.prov,'dtm');assert.equal(pad.sourceOriginalPadIndex,0);
+  assert.equal(Object.hasOwn(pad,'sourceId'),false);assert.equal(pad.retainedHistorical,true);
+  assert.deepEqual(model,before);assert.deepEqual(applyOrthoReview(out,review),out);
+  for(const changes of [{sourceOriginalPadIndex:1},{sourceOriginalPadIndex:-1},{sourceOriginalPadIndex:'0'},
+    {sourceOriginalPadIndex:null},{sourceOriginalPadIndex:false},{prov:'osm'},{note:''},{boundaryInterpretationUncertaintyMetres:2.9},{ring:square(1,0)}]){
+    const bad=structuredClone(review);Object.assign(bad.features[0].pads[2],changes);
+    assert.throws(()=>applyOrthoReview(model,bad),/historical retention/);
+  }
+  const wrongIndex=structuredClone(review);wrongIndex.features[0].pads[2].sourceOriginalPadIndex=2;
+  assert.throws(()=>applyOrthoReview(out,wrongIndex),/historical retention/,'new inventory index cannot replace the original index during reapplication');
+  const inventedId=structuredClone(review);delete inventedId.features[0].pads[2].sourceOriginalPadIndex;
+  inventedId.features[0].pads[2].sourceId='retained-idless-platform';
+  assert.throws(()=>applyOrthoReview(out,inventedId),/historical retention/,'internal review identity is not an original source identity');
+  const synthetic=structuredClone(model);synthetic.holes[0].tees.pads[0].prov='synth';
+  const syntheticReview=structuredClone(review);syntheticReview.features[0].pads[2].prov='synth';
+  assert.throws(()=>applyOrthoReview(synthetic,syntheticReview),/historical retention/);
+});

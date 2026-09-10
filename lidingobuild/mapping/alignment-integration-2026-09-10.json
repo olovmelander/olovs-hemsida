@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "importedCommit": "40cf4de4d7e1498c59f9f50e85b4d8cca66d8460",
+  "sources": {
+    "lidingobuild/mapping/putting-cuts-2025.json": "23c37274be78a5c4f875677e1e700d0e12a9ea1c8f421fca458517754e766cf2",
+    "lidingobuild/mapping/approaches-2025.geojson": "6054a2f236a48095ff260d97b384cff759d0b60ba3ac23893ed657ee582004e9",
+    "lidingobuild/mapping/bunker-additions-2025.geojson": "76a8a31649dfd3744dab4b3e7f7dea5c0f40e65d6835f9f233780b519af2eb6a"
+  },
+  "preservedModelSha256": "c44832c701a8e57a852c562303c604e50c33a24cc2345ac94f9e6d62ee348d00",
+  "preservedSourceSha256": "aae00fcb0f6a2dcc463414ac09eef9b97dc08fd4ee71dd8eab322c76ee2001d0",
+  "baselineGroundManifest": {
+    "bytes": 235841,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158",
+    "url": "grounds/lidingo/ground-v2-3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158.json"
+  },
+  "changes": {
+    "reviewedGreens": [
+      1,
+      2,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      17
+    ],
+    "approaches": [
+      1,
+      3,
+      6,
+      9,
+      11,
+      16
+    ],
+    "addedBunkers": [
+      "lidingo-bunker-13-green-lm2025"
+    ]
+  },
+  "preserved": [
+    "all tee geometry, references and uncertainty",
+    "source routes and official card",
+    "OB lines and posts",
+    "buildings and courtyard",
+    "water and coast",
+    "277 terrain tiles and original measured vegetation sources",
+    "all existing bunkers and fairways"
+  ],
+  "dependentStandRefresh": "Recompile the current 64 stand layers against adopted surface exclusions; no older branch stands or object records are imported.",
+  "limitations": [
+    "Machine interpretations of May 2025 imagery; independent survey accuracy remains unknown.",
+    "Four shaded greens retain their earlier boundaries."
+  ]
+}

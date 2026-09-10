@@ -1,0 +1,4986 @@
+{
+  "schemaVersion": 1,
+  "groundId": "ribbingsfors",
+  "reviewedAt": "2026-09-10",
+  "sourceManifest": "ribbingsforsbuild/facilities/reference/orthophoto-manifest.json",
+  "frame": {
+    "originEpsg3006": [
+      448975.5,
+      6536024.5
+    ],
+    "terrainTileInternalOriginHeightRH2000": 69.14,
+    "unit": "metre",
+    "blender": "X=easting-448975.5; Y=northing-6536024.5; Z=absolute heightRH2000",
+    "engine": "x=easting-448975.5; z=6536024.5-northing; y=absolute heightRH2000",
+    "note": "Canonical grid frame. Facility heights are absolute RH2000. The renderer restores the terrain tile internal 69.14 m origin before scene composition. No geographic flat-earth conversion or meridian convergence correction."
+  },
+  "method": "Visual tracing of native 0.16 metre RGB source panels. All ringPixels use continuous pixel-edge coordinates.",
+  "features": [
+    {
+      "id": "clubhouse-main",
+      "kind": "roof",
+      "panelId": "clubhouse-close",
+      "ringPixels": [
+        [
+          283,
+          316
+        ],
+        [
+          385,
+          341
+        ],
+        [
+          370,
+          396
+        ],
+        [
+          269,
+          373
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          475.22,
+          464.46
+        ],
+        [
+          491.54,
+          460.46
+        ],
+        [
+          489.14,
+          451.66
+        ],
+        [
+          472.98,
+          455.34
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          475.22,
+          -464.46
+        ],
+        [
+          491.54,
+          -460.46
+        ],
+        [
+          489.14,
+          -451.66
+        ],
+        [
+          472.98,
+          -455.34
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449450.72,
+          6536488.96
+        ],
+        [
+          449467.04,
+          6536484.96
+        ],
+        [
+          449464.64,
+          6536476.16
+        ],
+        [
+          449448.48,
+          6536479.84
+        ]
+      ],
+      "centerBlenderXY": [
+        482.22,
+        457.98
+      ],
+      "confidence": "high",
+      "note": "Single gabled clubhouse roof, with terrace to south/west. Dark north rectangle is a cast shadow, not an annex.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "weathered grey-brown"
+    },
+    {
+      "id": "clubhouse-terrace",
+      "kind": "terrace",
+      "panelId": "clubhouse-close",
+      "ringPixels": [
+        [
+          250,
+          334
+        ],
+        [
+          276,
+          341
+        ],
+        [
+          268,
+          374
+        ],
+        [
+          370,
+          398
+        ],
+        [
+          359,
+          429
+        ],
+        [
+          340,
+          440
+        ],
+        [
+          278,
+          424
+        ],
+        [
+          276,
+          411
+        ],
+        [
+          244,
+          404
+        ],
+        [
+          227,
+          374
+        ],
+        [
+          237,
+          362
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          469.94,
+          461.58
+        ],
+        [
+          474.1,
+          460.46
+        ],
+        [
+          472.82,
+          455.18
+        ],
+        [
+          489.14,
+          451.34
+        ],
+        [
+          487.38,
+          446.38
+        ],
+        [
+          484.34,
+          444.62
+        ],
+        [
+          474.42,
+          447.18
+        ],
+        [
+          474.1,
+          449.26
+        ],
+        [
+          468.98,
+          450.38
+        ],
+        [
+          466.26,
+          455.18
+        ],
+        [
+          467.86,
+          457.1
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          469.94,
+          -461.58
+        ],
+        [
+          474.1,
+          -460.46
+        ],
+        [
+          472.82,
+          -455.18
+        ],
+        [
+          489.14,
+          -451.34
+        ],
+        [
+          487.38,
+          -446.38
+        ],
+        [
+          484.34,
+          -444.62
+        ],
+        [
+          474.42,
+          -447.18
+        ],
+        [
+          474.1,
+          -449.26
+        ],
+        [
+          468.98,
+          -450.38
+        ],
+        [
+          466.26,
+          -455.18
+        ],
+        [
+          467.86,
+          -457.1
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449445.44,
+          6536486.08
+        ],
+        [
+          449449.6,
+          6536484.96
+        ],
+        [
+          449448.32,
+          6536479.68
+        ],
+        [
+          449464.64,
+          6536475.84
+        ],
+        [
+          449462.88,
+          6536470.88
+        ],
+        [
+          449459.84,
+          6536469.12
+        ],
+        [
+          449449.92,
+          6536471.68
+        ],
+        [
+          449449.6,
+          6536473.76
+        ],
+        [
+          449444.48,
+          6536474.88
+        ],
+        [
+          449441.76,
+          6536479.68
+        ],
+        [
+          449443.36,
+          6536481.6
+        ]
+      ],
+      "centerBlenderXY": [
+        475.3945,
+        452.6055
+      ],
+      "confidence": "medium",
+      "note": "Visible hard terrace/deck surrounds west and south sides. Furniture and umbrellas are excluded from building footprint.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5
+    },
+    {
+      "id": "clubhouse-south-timber-platform-west",
+      "kind": "platform",
+      "panelId": "clubhouse-close",
+      "ringPixels": [
+        [
+          316,
+          452
+        ],
+        [
+          378,
+          469
+        ],
+        [
+          374,
+          493
+        ],
+        [
+          310,
+          476
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          480.5,
+          442.7
+        ],
+        [
+          490.42,
+          439.98
+        ],
+        [
+          489.78,
+          436.14
+        ],
+        [
+          479.54,
+          438.86
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          480.5,
+          -442.7
+        ],
+        [
+          490.42,
+          -439.98
+        ],
+        [
+          489.78,
+          -436.14
+        ],
+        [
+          479.54,
+          -438.86
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449456.0,
+          6536467.2
+        ],
+        [
+          449465.92,
+          6536464.48
+        ],
+        [
+          449465.28,
+          6536460.64
+        ],
+        [
+          449455.04,
+          6536463.36
+        ]
+      ],
+      "centerBlenderXY": [
+        485.06,
+        439.42
+      ],
+      "confidence": "medium",
+      "note": "Rectangular timber-looking platform south of access road, separate from clubhouse terrace; functional use unconfirmed.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5
+    },
+    {
+      "id": "clubhouse-south-timber-platform-east",
+      "kind": "platform",
+      "panelId": "clubhouse-close",
+      "ringPixels": [
+        [
+          388,
+          473
+        ],
+        [
+          438,
+          486
+        ],
+        [
+          431,
+          508
+        ],
+        [
+          381,
+          494
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          492.02,
+          439.34
+        ],
+        [
+          500.02,
+          437.26
+        ],
+        [
+          498.9,
+          433.74
+        ],
+        [
+          490.9,
+          435.98
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          492.02,
+          -439.34
+        ],
+        [
+          500.02,
+          -437.26
+        ],
+        [
+          498.9,
+          -433.74
+        ],
+        [
+          490.9,
+          -435.98
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449467.52,
+          6536463.84
+        ],
+        [
+          449475.52,
+          6536461.76
+        ],
+        [
+          449474.4,
+          6536458.24
+        ],
+        [
+          449466.4,
+          6536460.48
+        ]
+      ],
+      "centerBlenderXY": [
+        495.46,
+        436.58
+      ],
+      "confidence": "medium",
+      "note": "Second timber-looking platform south of road. Do not infer a roof.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5
+    },
+    {
+      "id": "clubhouse-practice-green",
+      "kind": "practice-green",
+      "panelId": "clubhouse-close",
+      "ringPixels": [
+        [
+          632.0,
+          384.0
+        ],
+        [
+          628.15,
+          407.55
+        ],
+        [
+          616.86,
+          429.5
+        ],
+        [
+          598.9,
+          448.35
+        ],
+        [
+          575.5,
+          462.81
+        ],
+        [
+          548.25,
+          471.9
+        ],
+        [
+          519.0,
+          475.0
+        ],
+        [
+          489.75,
+          471.9
+        ],
+        [
+          462.5,
+          462.81
+        ],
+        [
+          439.1,
+          448.35
+        ],
+        [
+          421.14,
+          429.5
+        ],
+        [
+          409.85,
+          407.55
+        ],
+        [
+          406.0,
+          384.0
+        ],
+        [
+          409.85,
+          360.45
+        ],
+        [
+          421.14,
+          338.5
+        ],
+        [
+          439.1,
+          319.65
+        ],
+        [
+          462.5,
+          305.19
+        ],
+        [
+          489.75,
+          296.1
+        ],
+        [
+          519.0,
+          293.0
+        ],
+        [
+          548.25,
+          296.1
+        ],
+        [
+          575.5,
+          305.19
+        ],
+        [
+          598.9,
+          319.65
+        ],
+        [
+          616.86,
+          338.5
+        ],
+        [
+          628.15,
+          360.45
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          531.06,
+          453.58
+        ],
+        [
+          530.444,
+          449.812
+        ],
+        [
+          528.6376,
+          446.3
+        ],
+        [
+          525.764,
+          443.284
+        ],
+        [
+          522.02,
+          440.9704
+        ],
+        [
+          517.66,
+          439.516
+        ],
+        [
+          512.98,
+          439.02
+        ],
+        [
+          508.3,
+          439.516
+        ],
+        [
+          503.94,
+          440.9704
+        ],
+        [
+          500.196,
+          443.284
+        ],
+        [
+          497.3224,
+          446.3
+        ],
+        [
+          495.516,
+          449.812
+        ],
+        [
+          494.9,
+          453.58
+        ],
+        [
+          495.516,
+          457.348
+        ],
+        [
+          497.3224,
+          460.86
+        ],
+        [
+          500.196,
+          463.876
+        ],
+        [
+          503.94,
+          466.1896
+        ],
+        [
+          508.3,
+          467.644
+        ],
+        [
+          512.98,
+          468.14
+        ],
+        [
+          517.66,
+          467.644
+        ],
+        [
+          522.02,
+          466.1896
+        ],
+        [
+          525.764,
+          463.876
+        ],
+        [
+          528.6376,
+          460.86
+        ],
+        [
+          530.444,
+          457.348
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          531.06,
+          -453.58
+        ],
+        [
+          530.444,
+          -449.812
+        ],
+        [
+          528.6376,
+          -446.3
+        ],
+        [
+          525.764,
+          -443.284
+        ],
+        [
+          522.02,
+          -440.9704
+        ],
+        [
+          517.66,
+          -439.516
+        ],
+        [
+          512.98,
+          -439.02
+        ],
+        [
+          508.3,
+          -439.516
+        ],
+        [
+          503.94,
+          -440.9704
+        ],
+        [
+          500.196,
+          -443.284
+        ],
+        [
+          497.3224,
+          -446.3
+        ],
+        [
+          495.516,
+          -449.812
+        ],
+        [
+          494.9,
+          -453.58
+        ],
+        [
+          495.516,
+          -457.348
+        ],
+        [
+          497.3224,
+          -460.86
+        ],
+        [
+          500.196,
+          -463.876
+        ],
+        [
+          503.94,
+          -466.1896
+        ],
+        [
+          508.3,
+          -467.644
+        ],
+        [
+          512.98,
+          -468.14
+        ],
+        [
+          517.66,
+          -467.644
+        ],
+        [
+          522.02,
+          -466.1896
+        ],
+        [
+          525.764,
+          -463.876
+        ],
+        [
+          528.6376,
+          -460.86
+        ],
+        [
+          530.444,
+          -457.348
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449506.56,
+          6536478.08
+        ],
+        [
+          449505.944,
+          6536474.312
+        ],
+        [
+          449504.1376,
+          6536470.8
+        ],
+        [
+          449501.264,
+          6536467.784
+        ],
+        [
+          449497.52,
+          6536465.4704
+        ],
+        [
+          449493.16,
+          6536464.016
+        ],
+        [
+          449488.48,
+          6536463.52
+        ],
+        [
+          449483.8,
+          6536464.016
+        ],
+        [
+          449479.44,
+          6536465.4704
+        ],
+        [
+          449475.696,
+          6536467.784
+        ],
+        [
+          449472.8224,
+          6536470.8
+        ],
+        [
+          449471.016,
+          6536474.312
+        ],
+        [
+          449470.4,
+          6536478.08
+        ],
+        [
+          449471.016,
+          6536481.848
+        ],
+        [
+          449472.8224,
+          6536485.36
+        ],
+        [
+          449475.696,
+          6536488.376
+        ],
+        [
+          449479.44,
+          6536490.6896
+        ],
+        [
+          449483.8,
+          6536492.144
+        ],
+        [
+          449488.48,
+          6536492.64
+        ],
+        [
+          449493.16,
+          6536492.144
+        ],
+        [
+          449497.52,
+          6536490.6896
+        ],
+        [
+          449501.264,
+          6536488.376
+        ],
+        [
+          449504.1376,
+          6536485.36
+        ],
+        [
+          449505.944,
+          6536481.848
+        ]
+      ],
+      "centerBlenderXY": [
+        512.98,
+        453.58
+      ],
+      "confidence": "medium",
+      "note": "Clearly visible mown practice putting surface east of clubhouse; ellipse is a review approximation, not a final terrain boundary.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "geometryStatus": "approximate perimeter from visibly mown surface"
+    },
+    {
+      "id": "range-shelter",
+      "kind": "roof",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          256,
+          49
+        ],
+        [
+          362,
+          34
+        ],
+        [
+          367,
+          66
+        ],
+        [
+          262,
+          81
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          655.86,
+          438.22
+        ],
+        [
+          672.82,
+          440.62
+        ],
+        [
+          673.62,
+          435.5
+        ],
+        [
+          656.82,
+          433.1
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          655.86,
+          -438.22
+        ],
+        [
+          672.82,
+          -440.62
+        ],
+        [
+          673.62,
+          -435.5
+        ],
+        [
+          656.82,
+          -433.1
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449631.36,
+          6536462.72
+        ],
+        [
+          449648.32,
+          6536465.12
+        ],
+        [
+          449649.12,
+          6536460.0
+        ],
+        [
+          449632.32,
+          6536457.6
+        ]
+      ],
+      "centerBlenderXY": [
+        664.78,
+        436.86
+      ],
+      "confidence": "high",
+      "note": "Long narrow gable roof over covered driving range bays. North dark band above this ring is cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "weathered grey-brown"
+    },
+    {
+      "id": "range-apron",
+      "kind": "range-apron",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          22,
+          90
+        ],
+        [
+          255,
+          58
+        ],
+        [
+          262,
+          82
+        ],
+        [
+          26,
+          105
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          618.42,
+          431.66
+        ],
+        [
+          655.7,
+          436.78
+        ],
+        [
+          656.82,
+          432.94
+        ],
+        [
+          619.06,
+          429.26
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          618.42,
+          -431.66
+        ],
+        [
+          655.7,
+          -436.78
+        ],
+        [
+          656.82,
+          -432.94
+        ],
+        [
+          619.06,
+          -429.26
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449593.92,
+          6536456.16
+        ],
+        [
+          449631.2,
+          6536461.28
+        ],
+        [
+          449632.32,
+          6536457.44
+        ],
+        [
+          449594.56,
+          6536453.76
+        ]
+      ],
+      "centerBlenderXY": [
+        637.5,
+        432.66
+      ],
+      "confidence": "high",
+      "note": "Concrete-looking open tee apron aligned with the shelter; all nine visible open mats lie on this strip.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5
+    },
+    {
+      "id": "range-mat-01",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          81,
+          87
+        ],
+        [
+          89,
+          87
+        ],
+        [
+          89,
+          95
+        ],
+        [
+          81,
+          95
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          627.86,
+          432.14
+        ],
+        [
+          629.14,
+          432.14
+        ],
+        [
+          629.14,
+          430.86
+        ],
+        [
+          627.86,
+          430.86
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          627.86,
+          -432.14
+        ],
+        [
+          629.14,
+          -432.14
+        ],
+        [
+          629.14,
+          -430.86
+        ],
+        [
+          627.86,
+          -430.86
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449603.36,
+          6536456.64
+        ],
+        [
+          449604.64,
+          6536456.64
+        ],
+        [
+          449604.64,
+          6536455.36
+        ],
+        [
+          449603.36,
+          6536455.36
+        ]
+      ],
+      "centerBlenderXY": [
+        628.5,
+        431.5
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        85,
+        91
+      ],
+      "matShape": "round",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-mat-02",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          102,
+          84
+        ],
+        [
+          110,
+          84
+        ],
+        [
+          110,
+          92
+        ],
+        [
+          102,
+          92
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          631.22,
+          432.62
+        ],
+        [
+          632.5,
+          432.62
+        ],
+        [
+          632.5,
+          431.34
+        ],
+        [
+          631.22,
+          431.34
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          631.22,
+          -432.62
+        ],
+        [
+          632.5,
+          -432.62
+        ],
+        [
+          632.5,
+          -431.34
+        ],
+        [
+          631.22,
+          -431.34
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449606.72,
+          6536457.12
+        ],
+        [
+          449608.0,
+          6536457.12
+        ],
+        [
+          449608.0,
+          6536455.84
+        ],
+        [
+          449606.72,
+          6536455.84
+        ]
+      ],
+      "centerBlenderXY": [
+        631.86,
+        431.98
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        106,
+        88
+      ],
+      "matShape": "round",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-mat-03",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          121,
+          81
+        ],
+        [
+          129,
+          81
+        ],
+        [
+          129,
+          89
+        ],
+        [
+          121,
+          89
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          634.26,
+          433.1
+        ],
+        [
+          635.54,
+          433.1
+        ],
+        [
+          635.54,
+          431.82
+        ],
+        [
+          634.26,
+          431.82
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          634.26,
+          -433.1
+        ],
+        [
+          635.54,
+          -433.1
+        ],
+        [
+          635.54,
+          -431.82
+        ],
+        [
+          634.26,
+          -431.82
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449609.76,
+          6536457.6
+        ],
+        [
+          449611.04,
+          6536457.6
+        ],
+        [
+          449611.04,
+          6536456.32
+        ],
+        [
+          449609.76,
+          6536456.32
+        ]
+      ],
+      "centerBlenderXY": [
+        634.9,
+        432.46
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        125,
+        85
+      ],
+      "matShape": "round",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-mat-04",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          141,
+          78
+        ],
+        [
+          149,
+          78
+        ],
+        [
+          149,
+          86
+        ],
+        [
+          141,
+          86
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          637.46,
+          433.58
+        ],
+        [
+          638.74,
+          433.58
+        ],
+        [
+          638.74,
+          432.3
+        ],
+        [
+          637.46,
+          432.3
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          637.46,
+          -433.58
+        ],
+        [
+          638.74,
+          -433.58
+        ],
+        [
+          638.74,
+          -432.3
+        ],
+        [
+          637.46,
+          -432.3
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449612.96,
+          6536458.08
+        ],
+        [
+          449614.24,
+          6536458.08
+        ],
+        [
+          449614.24,
+          6536456.8
+        ],
+        [
+          449612.96,
+          6536456.8
+        ]
+      ],
+      "centerBlenderXY": [
+        638.1,
+        432.94
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        145,
+        82
+      ],
+      "matShape": "round",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-mat-05",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          161,
+          76
+        ],
+        [
+          169,
+          76
+        ],
+        [
+          169,
+          84
+        ],
+        [
+          161,
+          84
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          640.66,
+          433.9
+        ],
+        [
+          641.94,
+          433.9
+        ],
+        [
+          641.94,
+          432.62
+        ],
+        [
+          640.66,
+          432.62
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          640.66,
+          -433.9
+        ],
+        [
+          641.94,
+          -433.9
+        ],
+        [
+          641.94,
+          -432.62
+        ],
+        [
+          640.66,
+          -432.62
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449616.16,
+          6536458.4
+        ],
+        [
+          449617.44,
+          6536458.4
+        ],
+        [
+          449617.44,
+          6536457.12
+        ],
+        [
+          449616.16,
+          6536457.12
+        ]
+      ],
+      "centerBlenderXY": [
+        641.3,
+        433.26
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        165,
+        80
+      ],
+      "matShape": "round",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-mat-06",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          181,
+          73
+        ],
+        [
+          189,
+          73
+        ],
+        [
+          189,
+          81
+        ],
+        [
+          181,
+          81
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          643.86,
+          434.38
+        ],
+        [
+          645.14,
+          434.38
+        ],
+        [
+          645.14,
+          433.1
+        ],
+        [
+          643.86,
+          433.1
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          643.86,
+          -434.38
+        ],
+        [
+          645.14,
+          -434.38
+        ],
+        [
+          645.14,
+          -433.1
+        ],
+        [
+          643.86,
+          -433.1
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449619.36,
+          6536458.88
+        ],
+        [
+          449620.64,
+          6536458.88
+        ],
+        [
+          449620.64,
+          6536457.6
+        ],
+        [
+          449619.36,
+          6536457.6
+        ]
+      ],
+      "centerBlenderXY": [
+        644.5,
+        433.74
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        185,
+        77
+      ],
+      "matShape": "rectangular",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-mat-07",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          201,
+          71
+        ],
+        [
+          209,
+          71
+        ],
+        [
+          209,
+          79
+        ],
+        [
+          201,
+          79
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          647.06,
+          434.7
+        ],
+        [
+          648.34,
+          434.7
+        ],
+        [
+          648.34,
+          433.42
+        ],
+        [
+          647.06,
+          433.42
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          647.06,
+          -434.7
+        ],
+        [
+          648.34,
+          -434.7
+        ],
+        [
+          648.34,
+          -433.42
+        ],
+        [
+          647.06,
+          -433.42
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449622.56,
+          6536459.2
+        ],
+        [
+          449623.84,
+          6536459.2
+        ],
+        [
+          449623.84,
+          6536457.92
+        ],
+        [
+          449622.56,
+          6536457.92
+        ]
+      ],
+      "centerBlenderXY": [
+        647.7,
+        434.06
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        205,
+        75
+      ],
+      "matShape": "rectangular",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-mat-08",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          221,
+          68
+        ],
+        [
+          229,
+          68
+        ],
+        [
+          229,
+          76
+        ],
+        [
+          221,
+          76
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          650.26,
+          435.18
+        ],
+        [
+          651.54,
+          435.18
+        ],
+        [
+          651.54,
+          433.9
+        ],
+        [
+          650.26,
+          433.9
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          650.26,
+          -435.18
+        ],
+        [
+          651.54,
+          -435.18
+        ],
+        [
+          651.54,
+          -433.9
+        ],
+        [
+          650.26,
+          -433.9
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449625.76,
+          6536459.68
+        ],
+        [
+          449627.04,
+          6536459.68
+        ],
+        [
+          449627.04,
+          6536458.4
+        ],
+        [
+          449625.76,
+          6536458.4
+        ]
+      ],
+      "centerBlenderXY": [
+        650.9,
+        434.54
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        225,
+        72
+      ],
+      "matShape": "rectangular",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-mat-09",
+      "kind": "range-mat",
+      "panelId": "range-mats-detail",
+      "ringPixels": [
+        [
+          241,
+          65
+        ],
+        [
+          249,
+          65
+        ],
+        [
+          249,
+          73
+        ],
+        [
+          241,
+          73
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          653.46,
+          435.66
+        ],
+        [
+          654.74,
+          435.66
+        ],
+        [
+          654.74,
+          434.38
+        ],
+        [
+          653.46,
+          434.38
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          653.46,
+          -435.66
+        ],
+        [
+          654.74,
+          -435.66
+        ],
+        [
+          654.74,
+          -434.38
+        ],
+        [
+          653.46,
+          -434.38
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449628.96,
+          6536460.16
+        ],
+        [
+          449630.24,
+          6536460.16
+        ],
+        [
+          449630.24,
+          6536458.88
+        ],
+        [
+          449628.96,
+          6536458.88
+        ]
+      ],
+      "centerBlenderXY": [
+        654.1,
+        435.02
+      ],
+      "confidence": "high",
+      "note": "Visible open tee mat center. First five appear round, final four rectangular; ring is a position envelope.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "centerPixels": [
+        245,
+        69
+      ],
+      "matShape": "rectangular",
+      "pointPositionPreferred": true
+    },
+    {
+      "id": "range-practice-green",
+      "kind": "practice-green",
+      "panelId": "range-tee-close",
+      "ringPixels": [
+        [
+          1177.0,
+          70.0
+        ],
+        [
+          1172.26,
+          86.82
+        ],
+        [
+          1158.38,
+          102.5
+        ],
+        [
+          1136.29,
+          115.96
+        ],
+        [
+          1107.5,
+          126.29
+        ],
+        [
+          1073.98,
+          132.79
+        ],
+        [
+          1038.0,
+          135.0
+        ],
+        [
+          1002.02,
+          132.79
+        ],
+        [
+          968.5,
+          126.29
+        ],
+        [
+          939.71,
+          115.96
+        ],
+        [
+          917.62,
+          102.5
+        ],
+        [
+          903.74,
+          86.82
+        ],
+        [
+          899.0,
+          70.0
+        ],
+        [
+          903.74,
+          53.18
+        ],
+        [
+          917.62,
+          37.5
+        ],
+        [
+          939.71,
+          24.04
+        ],
+        [
+          968.5,
+          13.71
+        ],
+        [
+          1002.02,
+          7.21
+        ],
+        [
+          1038.0,
+          5.0
+        ],
+        [
+          1073.98,
+          7.21
+        ],
+        [
+          1107.5,
+          13.71
+        ],
+        [
+          1136.29,
+          24.04
+        ],
+        [
+          1158.38,
+          37.5
+        ],
+        [
+          1172.26,
+          53.18
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          668.18,
+          453.9
+        ],
+        [
+          667.4216,
+          451.2088
+        ],
+        [
+          665.2008,
+          448.7
+        ],
+        [
+          661.6664,
+          446.5464
+        ],
+        [
+          657.06,
+          444.8936
+        ],
+        [
+          651.6968,
+          443.8536
+        ],
+        [
+          645.94,
+          443.5
+        ],
+        [
+          640.1832,
+          443.8536
+        ],
+        [
+          634.82,
+          444.8936
+        ],
+        [
+          630.2136,
+          446.5464
+        ],
+        [
+          626.6792,
+          448.7
+        ],
+        [
+          624.4584,
+          451.2088
+        ],
+        [
+          623.7,
+          453.9
+        ],
+        [
+          624.4584,
+          456.5912
+        ],
+        [
+          626.6792,
+          459.1
+        ],
+        [
+          630.2136,
+          461.2536
+        ],
+        [
+          634.82,
+          462.9064
+        ],
+        [
+          640.1832,
+          463.9464
+        ],
+        [
+          645.94,
+          464.3
+        ],
+        [
+          651.6968,
+          463.9464
+        ],
+        [
+          657.06,
+          462.9064
+        ],
+        [
+          661.6664,
+          461.2536
+        ],
+        [
+          665.2008,
+          459.1
+        ],
+        [
+          667.4216,
+          456.5912
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          668.18,
+          -453.9
+        ],
+        [
+          667.4216,
+          -451.2088
+        ],
+        [
+          665.2008,
+          -448.7
+        ],
+        [
+          661.6664,
+          -446.5464
+        ],
+        [
+          657.06,
+          -444.8936
+        ],
+        [
+          651.6968,
+          -443.8536
+        ],
+        [
+          645.94,
+          -443.5
+        ],
+        [
+          640.1832,
+          -443.8536
+        ],
+        [
+          634.82,
+          -444.8936
+        ],
+        [
+          630.2136,
+          -446.5464
+        ],
+        [
+          626.6792,
+          -448.7
+        ],
+        [
+          624.4584,
+          -451.2088
+        ],
+        [
+          623.7,
+          -453.9
+        ],
+        [
+          624.4584,
+          -456.5912
+        ],
+        [
+          626.6792,
+          -459.1
+        ],
+        [
+          630.2136,
+          -461.2536
+        ],
+        [
+          634.82,
+          -462.9064
+        ],
+        [
+          640.1832,
+          -463.9464
+        ],
+        [
+          645.94,
+          -464.3
+        ],
+        [
+          651.6968,
+          -463.9464
+        ],
+        [
+          657.06,
+          -462.9064
+        ],
+        [
+          661.6664,
+          -461.2536
+        ],
+        [
+          665.2008,
+          -459.1
+        ],
+        [
+          667.4216,
+          -456.5912
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449643.68,
+          6536478.4
+        ],
+        [
+          449642.9216,
+          6536475.7088
+        ],
+        [
+          449640.7008,
+          6536473.2
+        ],
+        [
+          449637.1664,
+          6536471.0464
+        ],
+        [
+          449632.56,
+          6536469.3936
+        ],
+        [
+          449627.1968,
+          6536468.3536
+        ],
+        [
+          449621.44,
+          6536468.0
+        ],
+        [
+          449615.6832,
+          6536468.3536
+        ],
+        [
+          449610.32,
+          6536469.3936
+        ],
+        [
+          449605.7136,
+          6536471.0464
+        ],
+        [
+          449602.1792,
+          6536473.2
+        ],
+        [
+          449599.9584,
+          6536475.7088
+        ],
+        [
+          449599.2,
+          6536478.4
+        ],
+        [
+          449599.9584,
+          6536481.0912
+        ],
+        [
+          449602.1792,
+          6536483.6
+        ],
+        [
+          449605.7136,
+          6536485.7536
+        ],
+        [
+          449610.32,
+          6536487.4064
+        ],
+        [
+          449615.6832,
+          6536488.4464
+        ],
+        [
+          449621.44,
+          6536488.8
+        ],
+        [
+          449627.1968,
+          6536488.4464
+        ],
+        [
+          449632.56,
+          6536487.4064
+        ],
+        [
+          449637.1664,
+          6536485.7536
+        ],
+        [
+          449640.7008,
+          6536483.6
+        ],
+        [
+          449642.9216,
+          6536481.0912
+        ]
+      ],
+      "centerBlenderXY": [
+        645.94,
+        453.9
+      ],
+      "confidence": "medium",
+      "note": "Distinct oval mown putting/practice surface north of range shelter. Current terrain role to corroborate with official photos.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "geometryStatus": "approximate perimeter from visibly mown surface"
+    },
+    {
+      "id": "manor-main",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          473,
+          699
+        ],
+        [
+          567,
+          719
+        ],
+        [
+          528,
+          906
+        ],
+        [
+          434,
+          886
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          515.54,
+          548.3
+        ],
+        [
+          530.58,
+          545.1
+        ],
+        [
+          524.34,
+          515.18
+        ],
+        [
+          509.3,
+          518.38
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          515.54,
+          -548.3
+        ],
+        [
+          530.58,
+          -545.1
+        ],
+        [
+          524.34,
+          -515.18
+        ],
+        [
+          509.3,
+          -518.38
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449491.04,
+          6536572.8
+        ],
+        [
+          449506.08,
+          6536569.6
+        ],
+        [
+          449499.84,
+          6536539.68
+        ],
+        [
+          449484.8,
+          6536542.88
+        ]
+      ],
+      "centerBlenderXY": [
+        519.94,
+        531.74
+      ],
+      "confidence": "high",
+      "note": "Main manor roof, elongated north/south; white triangular cross-gable/pediment roof details visible on both long sides.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "complex-gabled",
+      "roofColour": "pale weathered grey"
+    },
+    {
+      "id": "manor-west-conservatory",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          422,
+          748
+        ],
+        [
+          459,
+          756
+        ],
+        [
+          445,
+          823
+        ],
+        [
+          408,
+          815
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          507.38,
+          540.46
+        ],
+        [
+          513.3,
+          539.18
+        ],
+        [
+          511.06,
+          528.46
+        ],
+        [
+          505.14,
+          529.74
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          507.38,
+          -540.46
+        ],
+        [
+          513.3,
+          -539.18
+        ],
+        [
+          511.06,
+          -528.46
+        ],
+        [
+          505.14,
+          -529.74
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449482.88,
+          6536564.96
+        ],
+        [
+          449488.8,
+          6536563.68
+        ],
+        [
+          449486.56,
+          6536552.96
+        ],
+        [
+          449480.64,
+          6536554.24
+        ]
+      ],
+      "centerBlenderXY": [
+        509.22,
+        534.46
+      ],
+      "confidence": "medium",
+      "note": "Glazed or ribbed lean-to roof attached to west side of manor. Partly in shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "lean-to",
+      "roofColour": "grey translucent"
+    },
+    {
+      "id": "manor-wing-north",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          695,
+          647
+        ],
+        [
+          817,
+          675
+        ],
+        [
+          807,
+          727
+        ],
+        [
+          683,
+          700
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          551.06,
+          556.62
+        ],
+        [
+          570.58,
+          552.14
+        ],
+        [
+          568.98,
+          543.82
+        ],
+        [
+          549.14,
+          548.14
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          551.06,
+          -556.62
+        ],
+        [
+          570.58,
+          -552.14
+        ],
+        [
+          568.98,
+          -543.82
+        ],
+        [
+          549.14,
+          -548.14
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449526.56,
+          6536581.12
+        ],
+        [
+          449546.08,
+          6536576.64
+        ],
+        [
+          449544.48,
+          6536568.32
+        ],
+        [
+          449524.64,
+          6536572.64
+        ]
+      ],
+      "centerBlenderXY": [
+        559.94,
+        550.18
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "pale weathered grey"
+    },
+    {
+      "id": "manor-wing-north-west-porch",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          674,
+          660
+        ],
+        [
+          695,
+          665
+        ],
+        [
+          688,
+          694
+        ],
+        [
+          668,
+          690
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          547.7,
+          554.54
+        ],
+        [
+          551.06,
+          553.74
+        ],
+        [
+          549.94,
+          549.1
+        ],
+        [
+          546.74,
+          549.74
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          547.7,
+          -554.54
+        ],
+        [
+          551.06,
+          -553.74
+        ],
+        [
+          549.94,
+          -549.1
+        ],
+        [
+          546.74,
+          -549.74
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449523.2,
+          6536579.04
+        ],
+        [
+          449526.56,
+          6536578.24
+        ],
+        [
+          449525.44,
+          6536573.6
+        ],
+        [
+          449522.24,
+          6536574.24
+        ]
+      ],
+      "centerBlenderXY": [
+        548.86,
+        551.78
+      ],
+      "confidence": "medium",
+      "note": "Small visible roof projection on west side of north wing.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "lean-to",
+      "roofColour": "grey"
+    },
+    {
+      "id": "manor-wing-south",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          611,
+          981
+        ],
+        [
+          732,
+          1006
+        ],
+        [
+          714,
+          1070
+        ],
+        [
+          594,
+          1042
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          537.62,
+          503.18
+        ],
+        [
+          556.98,
+          499.18
+        ],
+        [
+          554.1,
+          488.94
+        ],
+        [
+          534.9,
+          493.42
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          537.62,
+          -503.18
+        ],
+        [
+          556.98,
+          -499.18
+        ],
+        [
+          554.1,
+          -488.94
+        ],
+        [
+          534.9,
+          -493.42
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449513.12,
+          6536527.68
+        ],
+        [
+          449532.48,
+          6536523.68
+        ],
+        [
+          449529.6,
+          6536513.44
+        ],
+        [
+          449510.4,
+          6536517.92
+        ]
+      ],
+      "centerBlenderXY": [
+        545.9,
+        496.18
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "pale weathered grey"
+    },
+    {
+      "id": "manor-wing-south-porch",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          643,
+          1039
+        ],
+        [
+          673,
+          1045
+        ],
+        [
+          668,
+          1063
+        ],
+        [
+          638,
+          1058
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          542.74,
+          493.9
+        ],
+        [
+          547.54,
+          492.94
+        ],
+        [
+          546.74,
+          490.06
+        ],
+        [
+          541.94,
+          490.86
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          542.74,
+          -493.9
+        ],
+        [
+          547.54,
+          -492.94
+        ],
+        [
+          546.74,
+          -490.06
+        ],
+        [
+          541.94,
+          -490.86
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449518.24,
+          6536518.4
+        ],
+        [
+          449523.04,
+          6536517.44
+        ],
+        [
+          449522.24,
+          6536514.56
+        ],
+        [
+          449517.44,
+          6536515.36
+        ]
+      ],
+      "centerBlenderXY": [
+        544.74,
+        491.94
+      ],
+      "confidence": "medium",
+      "note": "Small projecting porch roof at south wing entrance.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "pale grey"
+    },
+    {
+      "id": "manor-garden-hut-west",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          347,
+          578
+        ],
+        [
+          395,
+          589
+        ],
+        [
+          390,
+          616
+        ],
+        [
+          340,
+          606
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          495.38,
+          567.66
+        ],
+        [
+          503.06,
+          565.9
+        ],
+        [
+          502.26,
+          561.58
+        ],
+        [
+          494.26,
+          563.18
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          495.38,
+          -567.66
+        ],
+        [
+          503.06,
+          -565.9
+        ],
+        [
+          502.26,
+          -561.58
+        ],
+        [
+          494.26,
+          -563.18
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449470.88,
+          6536592.16
+        ],
+        [
+          449478.56,
+          6536590.4
+        ],
+        [
+          449477.76,
+          6536586.08
+        ],
+        [
+          449469.76,
+          6536587.68
+        ]
+      ],
+      "centerBlenderXY": [
+        498.74,
+        564.58
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "muted red-brown"
+    },
+    {
+      "id": "manor-small-shed-north",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          609,
+          624
+        ],
+        [
+          644,
+          632
+        ],
+        [
+          637,
+          668
+        ],
+        [
+          603,
+          661
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          537.3,
+          560.3
+        ],
+        [
+          542.9,
+          559.02
+        ],
+        [
+          541.78,
+          553.26
+        ],
+        [
+          536.34,
+          554.38
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          537.3,
+          -560.3
+        ],
+        [
+          542.9,
+          -559.02
+        ],
+        [
+          541.78,
+          -553.26
+        ],
+        [
+          536.34,
+          -554.38
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449512.8,
+          6536584.8
+        ],
+        [
+          449518.4,
+          6536583.52
+        ],
+        [
+          449517.28,
+          6536577.76
+        ],
+        [
+          449511.84,
+          6536578.88
+        ]
+      ],
+      "centerBlenderXY": [
+        539.58,
+        556.74
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "dark grey"
+    },
+    {
+      "id": "manor-outbuilding-east-south",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          951,
+          560
+        ],
+        [
+          1032,
+          580
+        ],
+        [
+          1018,
+          629
+        ],
+        [
+          937,
+          607
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          592.02,
+          570.54
+        ],
+        [
+          604.98,
+          567.34
+        ],
+        [
+          602.74,
+          559.5
+        ],
+        [
+          589.78,
+          563.02
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          592.02,
+          -570.54
+        ],
+        [
+          604.98,
+          -567.34
+        ],
+        [
+          602.74,
+          -559.5
+        ],
+        [
+          589.78,
+          -563.02
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449567.52,
+          6536595.04
+        ],
+        [
+          449580.48,
+          6536591.84
+        ],
+        [
+          449578.24,
+          6536584.0
+        ],
+        [
+          449565.28,
+          6536587.52
+        ]
+      ],
+      "centerBlenderXY": [
+        597.38,
+        565.1
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "muted red-brown"
+    },
+    {
+      "id": "manor-outbuilding-east-north",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          1036,
+          517
+        ],
+        [
+          1063,
+          527
+        ],
+        [
+          1049,
+          572
+        ],
+        [
+          1022,
+          562
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          605.62,
+          577.42
+        ],
+        [
+          609.94,
+          575.82
+        ],
+        [
+          607.7,
+          568.62
+        ],
+        [
+          603.38,
+          570.22
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          605.62,
+          -577.42
+        ],
+        [
+          609.94,
+          -575.82
+        ],
+        [
+          607.7,
+          -568.62
+        ],
+        [
+          603.38,
+          -570.22
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449581.12,
+          6536601.92
+        ],
+        [
+          449585.44,
+          6536600.32
+        ],
+        [
+          449583.2,
+          6536593.12
+        ],
+        [
+          449578.88,
+          6536594.72
+        ]
+      ],
+      "centerBlenderXY": [
+        606.66,
+        573.02
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "muted red-brown"
+    },
+    {
+      "id": "lakeside-boathouse",
+      "kind": "roof",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          210,
+          77
+        ],
+        [
+          297,
+          75
+        ],
+        [
+          304,
+          136
+        ],
+        [
+          214,
+          141
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          473.46,
+          647.82
+        ],
+        [
+          487.38,
+          648.14
+        ],
+        [
+          488.5,
+          638.38
+        ],
+        [
+          474.1,
+          637.58
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          473.46,
+          -647.82
+        ],
+        [
+          487.38,
+          -648.14
+        ],
+        [
+          488.5,
+          -638.38
+        ],
+        [
+          474.1,
+          -637.58
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449448.96,
+          6536672.32
+        ],
+        [
+          449462.88,
+          6536672.64
+        ],
+        [
+          449464.0,
+          6536662.88
+        ],
+        [
+          449449.6,
+          6536662.08
+        ]
+      ],
+      "centerBlenderXY": [
+        480.86,
+        642.98
+      ],
+      "confidence": "medium",
+      "note": "Boathouse roof at shore; west eave/side structure is partly obscured. Functional boathouse label inferred from shoreline placement.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "weathered grey-brown"
+    },
+    {
+      "id": "lakeside-pier",
+      "kind": "pier",
+      "panelId": "manor-close",
+      "ringPixels": [
+        [
+          349,
+          12
+        ],
+        [
+          385,
+          9
+        ],
+        [
+          393,
+          62
+        ],
+        [
+          387,
+          119
+        ],
+        [
+          374,
+          169
+        ],
+        [
+          344,
+          161
+        ],
+        [
+          355,
+          103
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          495.7,
+          658.22
+        ],
+        [
+          501.46,
+          658.7
+        ],
+        [
+          502.74,
+          650.22
+        ],
+        [
+          501.78,
+          641.1
+        ],
+        [
+          499.7,
+          633.1
+        ],
+        [
+          494.9,
+          634.38
+        ],
+        [
+          496.66,
+          643.66
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          495.7,
+          -658.22
+        ],
+        [
+          501.46,
+          -658.7
+        ],
+        [
+          502.74,
+          -650.22
+        ],
+        [
+          501.78,
+          -641.1
+        ],
+        [
+          499.7,
+          -633.1
+        ],
+        [
+          494.9,
+          -634.38
+        ],
+        [
+          496.66,
+          -643.66
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449471.2,
+          6536682.72
+        ],
+        [
+          449476.96,
+          6536683.2
+        ],
+        [
+          449478.24,
+          6536674.72
+        ],
+        [
+          449477.28,
+          6536665.6
+        ],
+        [
+          449475.2,
+          6536657.6
+        ],
+        [
+          449470.4,
+          6536658.88
+        ],
+        [
+          449472.16,
+          6536668.16
+        ]
+      ],
+      "centerBlenderXY": [
+        498.9914,
+        645.6257
+      ],
+      "confidence": "medium",
+      "note": "Visible pier/breakwater outline; use with lake water elevation, not land-ground sample.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5
+    },
+    {
+      "id": "estate-barn-north",
+      "kind": "roof",
+      "panelId": "estate-close",
+      "ringPixels": [
+        [
+          245,
+          304
+        ],
+        [
+          465,
+          355
+        ],
+        [
+          434,
+          459
+        ],
+        [
+          222,
+          406
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          714.1,
+          511.5
+        ],
+        [
+          749.3,
+          503.34
+        ],
+        [
+          744.34,
+          486.7
+        ],
+        [
+          710.42,
+          495.18
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          714.1,
+          -511.5
+        ],
+        [
+          749.3,
+          -503.34
+        ],
+        [
+          744.34,
+          -486.7
+        ],
+        [
+          710.42,
+          -495.18
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449689.6,
+          6536536.0
+        ],
+        [
+          449724.8,
+          6536527.84
+        ],
+        [
+          449719.84,
+          6536511.2
+        ],
+        [
+          449685.92,
+          6536519.68
+        ]
+      ],
+      "centerBlenderXY": [
+        729.54,
+        499.18
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "orange red metal"
+    },
+    {
+      "id": "estate-barn-east",
+      "kind": "roof",
+      "panelId": "estate-close",
+      "ringPixels": [
+        [
+          491,
+          448
+        ],
+        [
+          582,
+          468
+        ],
+        [
+          521,
+          696
+        ],
+        [
+          431,
+          675
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          753.46,
+          488.46
+        ],
+        [
+          768.02,
+          485.26
+        ],
+        [
+          758.26,
+          448.78
+        ],
+        [
+          743.86,
+          452.14
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          753.46,
+          -488.46
+        ],
+        [
+          768.02,
+          -485.26
+        ],
+        [
+          758.26,
+          -448.78
+        ],
+        [
+          743.86,
+          -452.14
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449728.96,
+          6536512.96
+        ],
+        [
+          449743.52,
+          6536509.76
+        ],
+        [
+          449733.76,
+          6536473.28
+        ],
+        [
+          449719.36,
+          6536476.64
+        ]
+      ],
+      "centerBlenderXY": [
+        755.9,
+        468.66
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "weathered grey-brown"
+    },
+    {
+      "id": "estate-barn-south",
+      "kind": "roof",
+      "panelId": "estate-close",
+      "ringPixels": [
+        [
+          181,
+          580
+        ],
+        [
+          391,
+          631
+        ],
+        [
+          365,
+          737
+        ],
+        [
+          155,
+          686
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          703.86,
+          467.34
+        ],
+        [
+          737.46,
+          459.18
+        ],
+        [
+          733.3,
+          442.22
+        ],
+        [
+          699.7,
+          450.38
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          703.86,
+          -467.34
+        ],
+        [
+          737.46,
+          -459.18
+        ],
+        [
+          733.3,
+          -442.22
+        ],
+        [
+          699.7,
+          -450.38
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449679.36,
+          6536491.84
+        ],
+        [
+          449712.96,
+          6536483.68
+        ],
+        [
+          449708.8,
+          6536466.72
+        ],
+        [
+          449675.2,
+          6536474.88
+        ]
+      ],
+      "centerBlenderXY": [
+        718.58,
+        454.78
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "weathered grey-brown"
+    },
+    {
+      "id": "estate-shed-east",
+      "kind": "roof",
+      "panelId": "estate-close",
+      "ringPixels": [
+        [
+          597,
+          589
+        ],
+        [
+          653,
+          603
+        ],
+        [
+          598,
+          811
+        ],
+        [
+          543,
+          797
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          770.42,
+          465.9
+        ],
+        [
+          779.38,
+          463.66
+        ],
+        [
+          770.58,
+          430.38
+        ],
+        [
+          761.78,
+          432.62
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          770.42,
+          -465.9
+        ],
+        [
+          779.38,
+          -463.66
+        ],
+        [
+          770.58,
+          -430.38
+        ],
+        [
+          761.78,
+          -432.62
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449745.92,
+          6536490.4
+        ],
+        [
+          449754.88,
+          6536488.16
+        ],
+        [
+          449746.08,
+          6536454.88
+        ],
+        [
+          449737.28,
+          6536457.12
+        ]
+      ],
+      "centerBlenderXY": [
+        770.54,
+        448.14
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "weathered grey-brown"
+    },
+    {
+      "id": "estate-courtyard",
+      "kind": "yard",
+      "panelId": "estate-close",
+      "ringPixels": [
+        [
+          207,
+          429
+        ],
+        [
+          438,
+          484
+        ],
+        [
+          457,
+          569
+        ],
+        [
+          426,
+          703
+        ],
+        [
+          362,
+          771
+        ],
+        [
+          255,
+          742
+        ],
+        [
+          289,
+          687
+        ],
+        [
+          362,
+          634
+        ],
+        [
+          194,
+          584
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          708.02,
+          491.5
+        ],
+        [
+          744.98,
+          482.7
+        ],
+        [
+          748.02,
+          469.1
+        ],
+        [
+          743.06,
+          447.66
+        ],
+        [
+          732.82,
+          436.78
+        ],
+        [
+          715.7,
+          441.42
+        ],
+        [
+          721.14,
+          450.22
+        ],
+        [
+          732.82,
+          458.7
+        ],
+        [
+          705.94,
+          466.7
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          708.02,
+          -491.5
+        ],
+        [
+          744.98,
+          -482.7
+        ],
+        [
+          748.02,
+          -469.1
+        ],
+        [
+          743.06,
+          -447.66
+        ],
+        [
+          732.82,
+          -436.78
+        ],
+        [
+          715.7,
+          -441.42
+        ],
+        [
+          721.14,
+          -450.22
+        ],
+        [
+          732.82,
+          -458.7
+        ],
+        [
+          705.94,
+          -466.7
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449683.52,
+          6536516.0
+        ],
+        [
+          449720.48,
+          6536507.2
+        ],
+        [
+          449723.52,
+          6536493.6
+        ],
+        [
+          449718.56,
+          6536472.16
+        ],
+        [
+          449708.32,
+          6536461.28
+        ],
+        [
+          449691.2,
+          6536465.92
+        ],
+        [
+          449696.64,
+          6536474.72
+        ],
+        [
+          449708.32,
+          6536483.2
+        ],
+        [
+          449681.44,
+          6536491.2
+        ]
+      ],
+      "centerBlenderXY": [
+        728.0556,
+        460.5311
+      ],
+      "confidence": "medium",
+      "note": "Visible farm courtyard and hardstanding between three large roofs; includes concrete storage pad.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5
+    },
+    {
+      "id": "estate-outbuilding-northwest",
+      "kind": "roof",
+      "panelId": "estate-north-close",
+      "ringPixels": [
+        [
+          404,
+          432
+        ],
+        [
+          466,
+          451
+        ],
+        [
+          414,
+          609
+        ],
+        [
+          353,
+          590
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          739.54,
+          591.02
+        ],
+        [
+          749.46,
+          587.98
+        ],
+        [
+          741.14,
+          562.7
+        ],
+        [
+          731.38,
+          565.74
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          739.54,
+          -591.02
+        ],
+        [
+          749.46,
+          -587.98
+        ],
+        [
+          741.14,
+          -562.7
+        ],
+        [
+          731.38,
+          -565.74
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449715.04,
+          6536615.52
+        ],
+        [
+          449724.96,
+          6536612.48
+        ],
+        [
+          449716.64,
+          6536587.2
+        ],
+        [
+          449706.88,
+          6536590.24
+        ]
+      ],
+      "centerBlenderXY": [
+        740.38,
+        576.86
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "muted red-brown"
+    },
+    {
+      "id": "estate-outbuilding-northeast",
+      "kind": "roof",
+      "panelId": "estate-north-close",
+      "ringPixels": [
+        [
+          703,
+          491
+        ],
+        [
+          777,
+          510
+        ],
+        [
+          745,
+          627
+        ],
+        [
+          669,
+          608
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          787.38,
+          581.58
+        ],
+        [
+          799.22,
+          578.54
+        ],
+        [
+          794.1,
+          559.82
+        ],
+        [
+          781.94,
+          562.86
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          787.38,
+          -581.58
+        ],
+        [
+          799.22,
+          -578.54
+        ],
+        [
+          794.1,
+          -559.82
+        ],
+        [
+          781.94,
+          -562.86
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449762.88,
+          6536606.08
+        ],
+        [
+          449774.72,
+          6536603.04
+        ],
+        [
+          449769.6,
+          6536584.32
+        ],
+        [
+          449757.44,
+          6536587.36
+        ]
+      ],
+      "centerBlenderXY": [
+        790.66,
+        570.7
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "silver metal"
+    },
+    {
+      "id": "estate-small-l-wing-west",
+      "kind": "roof",
+      "panelId": "estate-north-close",
+      "ringPixels": [
+        [
+          264,
+          674
+        ],
+        [
+          302,
+          685
+        ],
+        [
+          287,
+          727
+        ],
+        [
+          250,
+          717
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          717.14,
+          552.3
+        ],
+        [
+          723.22,
+          550.54
+        ],
+        [
+          720.82,
+          543.82
+        ],
+        [
+          714.9,
+          545.42
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          717.14,
+          -552.3
+        ],
+        [
+          723.22,
+          -550.54
+        ],
+        [
+          720.82,
+          -543.82
+        ],
+        [
+          714.9,
+          -545.42
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449692.64,
+          6536576.8
+        ],
+        [
+          449698.72,
+          6536575.04
+        ],
+        [
+          449696.32,
+          6536568.32
+        ],
+        [
+          449690.4,
+          6536569.92
+        ]
+      ],
+      "centerBlenderXY": [
+        719.02,
+        548.02
+      ],
+      "confidence": "medium",
+      "note": "West segment of small L-shaped outbuilding, partially tree obscured.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "muted red-brown"
+    },
+    {
+      "id": "estate-small-l-wing-east",
+      "kind": "roof",
+      "panelId": "estate-north-close",
+      "ringPixels": [
+        [
+          297,
+          699
+        ],
+        [
+          350,
+          715
+        ],
+        [
+          340,
+          745
+        ],
+        [
+          287,
+          729
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          722.42,
+          548.3
+        ],
+        [
+          730.9,
+          545.74
+        ],
+        [
+          729.3,
+          540.94
+        ],
+        [
+          720.82,
+          543.5
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          722.42,
+          -548.3
+        ],
+        [
+          730.9,
+          -545.74
+        ],
+        [
+          729.3,
+          -540.94
+        ],
+        [
+          720.82,
+          -543.5
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          449697.92,
+          6536572.8
+        ],
+        [
+          449706.4,
+          6536570.24
+        ],
+        [
+          449704.8,
+          6536565.44
+        ],
+        [
+          449696.32,
+          6536568.0
+        ]
+      ],
+      "centerBlenderXY": [
+        725.86,
+        544.62
+      ],
+      "confidence": "medium",
+      "note": "East segment of same L-shaped outbuilding, partially tree obscured.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "muted red-brown"
+    },
+    {
+      "id": "maintenance-north-shelter",
+      "kind": "roof",
+      "panelId": "maintenance-close",
+      "ringPixels": [
+        [
+          390,
+          277
+        ],
+        [
+          510,
+          283
+        ],
+        [
+          510,
+          316
+        ],
+        [
+          387,
+          309
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -357.74,
+          -139.22
+        ],
+        [
+          -338.54,
+          -140.18
+        ],
+        [
+          -338.54,
+          -145.46
+        ],
+        [
+          -358.22,
+          -144.34
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          -357.74,
+          139.22
+        ],
+        [
+          -338.54,
+          140.18
+        ],
+        [
+          -338.54,
+          145.46
+        ],
+        [
+          -358.22,
+          144.34
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          448617.76,
+          6535885.28
+        ],
+        [
+          448636.96,
+          6535884.32
+        ],
+        [
+          448636.96,
+          6535879.04
+        ],
+        [
+          448617.28,
+          6535880.16
+        ]
+      ],
+      "centerBlenderXY": [
+        -348.26,
+        -142.3
+      ],
+      "confidence": "high",
+      "note": "Short roof only at north end of fenced open arena; prior tall long building trace confused arena surface with roof.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "dark grey metal"
+    },
+    {
+      "id": "maintenance-east-shed",
+      "kind": "roof",
+      "panelId": "maintenance-close",
+      "ringPixels": [
+        [
+          530,
+          567
+        ],
+        [
+          594,
+          570
+        ],
+        [
+          585,
+          739
+        ],
+        [
+          522,
+          734
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -335.34,
+          -185.62
+        ],
+        [
+          -325.1,
+          -186.1
+        ],
+        [
+          -326.54,
+          -213.14
+        ],
+        [
+          -336.62,
+          -212.34
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          -335.34,
+          185.62
+        ],
+        [
+          -325.1,
+          186.1
+        ],
+        [
+          -326.54,
+          213.14
+        ],
+        [
+          -336.62,
+          212.34
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          448640.16,
+          6535838.88
+        ],
+        [
+          448650.4,
+          6535838.4
+        ],
+        [
+          448648.96,
+          6535811.36
+        ],
+        [
+          448638.88,
+          6535812.16
+        ]
+      ],
+      "centerBlenderXY": [
+        -330.9,
+        -199.3
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "silver corrugated metal"
+    },
+    {
+      "id": "maintenance-south-shed",
+      "kind": "roof",
+      "panelId": "maintenance-close",
+      "ringPixels": [
+        [
+          514,
+          830
+        ],
+        [
+          550,
+          836
+        ],
+        [
+          536,
+          906
+        ],
+        [
+          501,
+          899
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -337.9,
+          -227.7
+        ],
+        [
+          -332.14,
+          -228.66
+        ],
+        [
+          -334.38,
+          -239.86
+        ],
+        [
+          -339.98,
+          -238.74
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          -337.9,
+          227.7
+        ],
+        [
+          -332.14,
+          228.66
+        ],
+        [
+          -334.38,
+          239.86
+        ],
+        [
+          -339.98,
+          238.74
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          448637.6,
+          6535796.8
+        ],
+        [
+          448643.36,
+          6535795.84
+        ],
+        [
+          448641.12,
+          6535784.64
+        ],
+        [
+          448635.52,
+          6535785.76
+        ]
+      ],
+      "centerBlenderXY": [
+        -336.1,
+        -233.74
+      ],
+      "confidence": "high",
+      "note": "Manually reviewed native orthophoto pixels; visible roof edge excludes cast shadow.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "dark grey metal"
+    },
+    {
+      "id": "maintenance-small-green-shed",
+      "kind": "roof",
+      "panelId": "maintenance-close",
+      "ringPixels": [
+        [
+          355,
+          568
+        ],
+        [
+          386,
+          570
+        ],
+        [
+          381,
+          607
+        ],
+        [
+          347,
+          603
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -363.34,
+          -185.78
+        ],
+        [
+          -358.38,
+          -186.1
+        ],
+        [
+          -359.18,
+          -192.02
+        ],
+        [
+          -364.62,
+          -191.38
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          -363.34,
+          185.78
+        ],
+        [
+          -358.38,
+          186.1
+        ],
+        [
+          -359.18,
+          192.02
+        ],
+        [
+          -364.62,
+          191.38
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          448612.16,
+          6535838.72
+        ],
+        [
+          448617.12,
+          6535838.4
+        ],
+        [
+          448616.32,
+          6535832.48
+        ],
+        [
+          448610.88,
+          6535833.12
+        ]
+      ],
+      "centerBlenderXY": [
+        -361.38,
+        -188.82
+      ],
+      "confidence": "medium",
+      "note": "Small green roof west of main silver shed.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "green metal"
+    },
+    {
+      "id": "maintenance-southern-hut",
+      "kind": "roof",
+      "panelId": "maintenance-close",
+      "ringPixels": [
+        [
+          381,
+          1055
+        ],
+        [
+          398,
+          1051
+        ],
+        [
+          403,
+          1077
+        ],
+        [
+          385,
+          1083
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -359.18,
+          -263.7
+        ],
+        [
+          -356.46,
+          -263.06
+        ],
+        [
+          -355.66,
+          -267.22
+        ],
+        [
+          -358.54,
+          -268.18
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          -359.18,
+          263.7
+        ],
+        [
+          -356.46,
+          263.06
+        ],
+        [
+          -355.66,
+          267.22
+        ],
+        [
+          -358.54,
+          268.18
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          448616.32,
+          6535760.8
+        ],
+        [
+          448619.04,
+          6535761.44
+        ],
+        [
+          448619.84,
+          6535757.28
+        ],
+        [
+          448616.96,
+          6535756.32
+        ]
+      ],
+      "centerBlenderXY": [
+        -357.46,
+        -265.54
+      ],
+      "confidence": "medium",
+      "note": "Small freestanding hut at southern yard entrance.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5,
+      "roofForm": "gable",
+      "roofColour": "dark grey"
+    },
+    {
+      "id": "maintenance-open-arena",
+      "kind": "arena",
+      "panelId": "maintenance-close",
+      "ringPixels": [
+        [
+          389,
+          312
+        ],
+        [
+          510,
+          317
+        ],
+        [
+          497,
+          560
+        ],
+        [
+          375,
+          552
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -357.9,
+          -144.82
+        ],
+        [
+          -338.54,
+          -145.62
+        ],
+        [
+          -340.62,
+          -184.5
+        ],
+        [
+          -360.14,
+          -183.22
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          -357.9,
+          144.82
+        ],
+        [
+          -338.54,
+          145.62
+        ],
+        [
+          -340.62,
+          184.5
+        ],
+        [
+          -360.14,
+          183.22
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          448617.6,
+          6535879.68
+        ],
+        [
+          448636.96,
+          6535878.88
+        ],
+        [
+          448634.88,
+          6535840.0
+        ],
+        [
+          448615.36,
+          6535841.28
+        ]
+      ],
+      "centerBlenderXY": [
+        -349.3,
+        -164.54
+      ],
+      "confidence": "high",
+      "note": "Open fenced sand/aggregate arena or paddock. Clearly no enclosing roof. Functional use is an interpretation.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5
+    },
+    {
+      "id": "maintenance-yard",
+      "kind": "yard",
+      "panelId": "maintenance-close",
+      "ringPixels": [
+        [
+          389,
+          246
+        ],
+        [
+          526,
+          255
+        ],
+        [
+          548,
+          382
+        ],
+        [
+          704,
+          408
+        ],
+        [
+          637,
+          659
+        ],
+        [
+          540,
+          927
+        ],
+        [
+          447,
+          1028
+        ],
+        [
+          285,
+          1004
+        ],
+        [
+          198,
+          926
+        ],
+        [
+          210,
+          642
+        ],
+        [
+          257,
+          540
+        ],
+        [
+          359,
+          542
+        ]
+      ],
+      "ringBlenderXY": [
+        [
+          -357.9,
+          -134.26
+        ],
+        [
+          -335.98,
+          -135.7
+        ],
+        [
+          -332.46,
+          -156.02
+        ],
+        [
+          -307.5,
+          -160.18
+        ],
+        [
+          -318.22,
+          -200.34
+        ],
+        [
+          -333.74,
+          -243.22
+        ],
+        [
+          -348.62,
+          -259.38
+        ],
+        [
+          -374.54,
+          -255.54
+        ],
+        [
+          -388.46,
+          -243.06
+        ],
+        [
+          -386.54,
+          -197.62
+        ],
+        [
+          -379.02,
+          -181.3
+        ],
+        [
+          -362.7,
+          -181.62
+        ]
+      ],
+      "ringEngineXZ": [
+        [
+          -357.9,
+          134.26
+        ],
+        [
+          -335.98,
+          135.7
+        ],
+        [
+          -332.46,
+          156.02
+        ],
+        [
+          -307.5,
+          160.18
+        ],
+        [
+          -318.22,
+          200.34
+        ],
+        [
+          -333.74,
+          243.22
+        ],
+        [
+          -348.62,
+          259.38
+        ],
+        [
+          -374.54,
+          255.54
+        ],
+        [
+          -388.46,
+          243.06
+        ],
+        [
+          -386.54,
+          197.62
+        ],
+        [
+          -379.02,
+          181.3
+        ],
+        [
+          -362.7,
+          181.62
+        ]
+      ],
+      "ringEpsg3006": [
+        [
+          448617.6,
+          6535890.24
+        ],
+        [
+          448639.52,
+          6535888.8
+        ],
+        [
+          448643.04,
+          6535868.48
+        ],
+        [
+          448668.0,
+          6535864.32
+        ],
+        [
+          448657.28,
+          6535824.16
+        ],
+        [
+          448641.76,
+          6535781.28
+        ],
+        [
+          448626.88,
+          6535765.12
+        ],
+        [
+          448600.96,
+          6535768.96
+        ],
+        [
+          448587.04,
+          6535781.44
+        ],
+        [
+          448588.96,
+          6535826.88
+        ],
+        [
+          448596.48,
+          6535843.2
+        ],
+        [
+          448612.8,
+          6535842.88
+        ]
+      ],
+      "centerBlenderXY": [
+        -352.14,
+        -195.6867
+      ],
+      "confidence": "medium",
+      "note": "Visible general gravel hardstanding; exclude roof and arena sub-polygons during final surfacing.",
+      "sourceCaptureDate": "2024-05-17",
+      "readingUncertaintyMetres": 0.5
+    }
+  ],
+  "rejectedInheritedFeatures": [
+    {
+      "id": "ribbingsfors-clubhouse-annex",
+      "reason": "Dark rectangle north of single clubhouse roof is cast shadow, not a separate roof."
+    },
+    {
+      "id": "ribbingsfors-yard-0",
+      "reason": "Large footprint covers an open arena; only a narrow roof along its north boundary is supported."
+    },
+    {
+      "id": "ribbingsfors-manor-farm-2",
+      "reason": "Inherited farm trace overlaps concrete storage pad and shadows, not a distinct visible roof."
+    },
+    {
+      "id": "ribbingsfors-manor-farm-3",
+      "reason": "Inherited farm trace overlaps north cast shadow of south barn, not a distinct visible roof."
+    }
+  ],
+  "limitations": [
+    "No roof heights or wall heights measured here.",
+    "Visible roof outline may differ from wall footprint due to overhang and off-nadir relief.",
+    "Confidence refers to image identification, not surveyed positional accuracy.",
+    "Small attached parts can overlap main roof polygons and must not create duplicate full buildings.",
+    "Ground or facade photos may show changes since 2024-05-17."
+  ]
+}

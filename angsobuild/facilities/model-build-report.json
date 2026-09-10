@@ -1,0 +1,2484 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "scene": "Angso | Facility architecture v4",
+  "revision": 4,
+  "blendPath": "angsobuild/cache/facilities-model-2026-09-10/angso-facilities-v4.blend",
+  "blendSha256": "f71cc6e8d768ade51b4d9af452e5c445ffc7e20e95c0b90c6f96dd7c74f54a87",
+  "originEPSG3006": [
+    605530.0,
+    6605140.0
+  ],
+  "originHeightRH2000": 8,
+  "facilities": [
+    {
+      "id": "B01",
+      "kind": "building",
+      "label": "Restaurant main roof envelope",
+      "notes": "Composite roof edge excluding NW narrow canopy and white terrace. Dark NW and terracotta SE slopes with multiple dormers. Southwest junction is complex; inspect photos and laser before deriving walls. Approximate edge-picking uncertainty 0.5–1.0 m; source absolute accuracy not assessed.",
+      "nodeName": "B01",
+      "sourceBuildingIds": [
+        "w516709523"
+      ],
+      "groundAnchorLocal": [
+        -173.051923,
+        291.827049
+      ],
+      "groundAnchorRh2000M": 7.962731,
+      "footprintLocal": [
+        [
+          -192.933209,
+          294.646658
+        ],
+        [
+          -167.998688,
+          276.790993
+        ],
+        [
+          -163.054029,
+          282.689702
+        ],
+        [
+          -158.453455,
+          283.779224
+        ],
+        [
+          -156.527162,
+          289.112949
+        ],
+        [
+          -177.524334,
+          303.239853
+        ],
+        [
+          -180.302336,
+          299.801946
+        ],
+        [
+          -187.621993,
+          304.555243
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "label": "Restaurant and clubhouse",
+        "ridgeRH2000": 15.465,
+        "eaveRH2000": 11.22,
+        "roofCondition": "Dark northwest slope and terracotta courtyard slope from latest ortho",
+        "reconstructedFeatures": [
+          "ten gabled dormers",
+          "two-storey white entrance porch",
+          "long white glazed northwest extension",
+          "southwest service return",
+          "two roof stacks"
+        ],
+        "id": "B01",
+        "details": {
+          "windows": 48,
+          "doors": 2,
+          "dormers": 10,
+          "rooflights": 0,
+          "chimneys": 2
+        },
+        "editableMeshGroups": 50,
+        "sourcePhotos": [
+          "clubhouse-courtyard",
+          "restaurant-entrance",
+          "campus-drone-north",
+          "historic-parking-side-panorama"
+        ],
+        "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+        "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+      },
+      "blenderNodeName": "ANG MODEL 4 | B01"
+    },
+    {
+      "id": "B03",
+      "kind": "building",
+      "label": "Reception and club office wing",
+      "notes": "Detached southwest wing; terracotta gabled roof. Club site map A identifies reception/kansli. Roof edge uncertainty approximately 0.5 m, not wall survey.",
+      "nodeName": "B03",
+      "sourceBuildingIds": [
+        "w516709525"
+      ],
+      "groundAnchorLocal": [
+        -171.225342,
+        314.936105
+      ],
+      "groundAnchorRh2000M": 8.155023,
+      "footprintLocal": [
+        [
+          -178.838738,
+          310.242092
+        ],
+        [
+          -172.494437,
+          306.101269
+        ],
+        [
+          -163.611965,
+          319.630133
+        ],
+        [
+          -169.956252,
+          323.770942
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "label": "Reception and club office",
+        "ridgeRH2000": 14.893,
+        "eaveRH2000": 11.57,
+        "roofPlanMetres": [
+          16.2,
+          7.59
+        ],
+        "reconstructedFeatures": [
+          "red vertical timber",
+          "white gable windows",
+          "two brick chimneys",
+          "courtyard entrance canopy"
+        ],
+        "id": "B03",
+        "details": {
+          "windows": 7,
+          "doors": 1,
+          "dormers": 0,
+          "rooflights": 0,
+          "chimneys": 2
+        },
+        "editableMeshGroups": 28,
+        "sourcePhotos": [
+          "clubhouse-courtyard",
+          "historic-parking-side-panorama"
+        ],
+        "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+        "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+      },
+      "blenderNodeName": "ANG MODEL 4 | B03"
+    },
+    {
+      "id": "B04",
+      "kind": "building",
+      "label": "Changing rooms and lodging annex wing",
+      "notes": "Detached southeast wing; roof envelope includes small east projection. Club map I identifies changing rooms; club 2024 newsletter says rooms share annex with changing rooms. Roof dormers visible; exact wall and projection layout needs photo confirmation.",
+      "nodeName": "B04",
+      "sourceBuildingIds": [
+        "w516709524"
+      ],
+      "groundAnchorLocal": [
+        -145.312009,
+        299.18795
+      ],
+      "groundAnchorRh2000M": 9.460297,
+      "footprintLocal": [
+        [
+          -156.493255,
+          293.593438
+        ],
+        [
+          -149.497163,
+          288.991067
+        ],
+        [
+          -143.516362,
+          297.798701
+        ],
+        [
+          -141.632963,
+          298.971658
+        ],
+        [
+          -139.014564,
+          302.405097
+        ],
+        [
+          -140.832654,
+          304.593629
+        ],
+        [
+          -146.197142,
+          307.962092
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "label": "Changing rooms and lodging annex",
+        "ridgeRH2000": 14.87,
+        "eaveRH2000": 11.77,
+        "roofPlanMetres": [
+          17.7,
+          8.38
+        ],
+        "reconstructedFeatures": [
+          "white lower facade and red timber upper band",
+          "four separate courtyard doors",
+          "gable dormers and flush rooflights",
+          "south gable timber balcony with usable stair geometry",
+          "east shallow roof projection"
+        ],
+        "id": "B04",
+        "details": {
+          "windows": 11,
+          "doors": 5,
+          "dormers": 3,
+          "rooflights": 3,
+          "chimneys": 0
+        },
+        "editableMeshGroups": 43,
+        "sourcePhotos": [
+          "annex-exterior",
+          "clubhouse-courtyard",
+          "campus-drone-north"
+        ],
+        "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+        "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+      },
+      "blenderNodeName": "ANG MODEL 4 | B04"
+    },
+    {
+      "id": "B04a",
+      "kind": "building",
+      "label": "Annex northwest small roof extension",
+      "notes": "Small roof at northwest end of annex; physical connection and function unresolved.",
+      "nodeName": "B04a",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -149.215171,
+        287.479172
+      ],
+      "groundAnchorRh2000M": 8.499757,
+      "footprintLocal": [
+        [
+          -152.333494,
+          287.631279
+        ],
+        [
+          -147.935372,
+          284.555542
+        ],
+        [
+          -146.096848,
+          287.327066
+        ],
+        [
+          -150.494969,
+          290.402801
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "label": "Small northwest annex extension",
+        "roofRH2000": [
+          10.97,
+          11.72
+        ],
+        "interpretation": "Conservative external envelope; connection, function and hidden openings unresolved",
+        "id": "B04a",
+        "details": {
+          "windows": 0,
+          "doors": 1,
+          "dormers": 0,
+          "rooflights": 0,
+          "chimneys": 0
+        },
+        "editableMeshGroups": 16,
+        "sourcePhotos": [
+          "campus-drone-north"
+        ],
+        "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+        "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+      },
+      "blenderNodeName": "ANG MODEL 4 | B04a"
+    },
+    {
+      "id": "S06",
+      "kind": "site",
+      "label": "Restaurant northwest terrace",
+      "notes": "Bright platform around southwest/northwest end of main building, excluding canopy. Extent partially hidden by roof; approximate image boundary, not measured deck elevation.",
+      "nodeName": "S06",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -193.685703,
+        297.434059
+      ],
+      "groundAnchorRh2000M": 7.930696,
+      "footprintLocal": [
+        [
+          -199.58574,
+          292.69947
+        ],
+        [
+          -195.511286,
+          289.774545
+        ],
+        [
+          -194.293058,
+          291.88864
+        ],
+        [
+          -192.937695,
+          294.806515
+        ],
+        [
+          -189.114484,
+          300.833586
+        ],
+        [
+          -188.109671,
+          304.861472
+        ],
+        [
+          -190.804382,
+          304.145636
+        ],
+        [
+          -194.845483,
+          300.192213
+        ],
+        [
+          -197.969556,
+          297.704472
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false,
+      "modelInterpretation": {
+        "label": "Restaurant northwest terrace",
+        "deckRH2000": 8.12,
+        "heightEvidence": "Traced platform; finished deck elevation estimated above measured ground",
+        "reconstructedFeatures": [
+          "traced paved footprint",
+          "white crossed boundary railing",
+          "generic movable patio furniture"
+        ],
+        "id": "S06",
+        "details": {
+          "windows": 0,
+          "doors": 0,
+          "dormers": 0,
+          "rooflights": 0,
+          "chimneys": 0
+        },
+        "editableMeshGroups": 10,
+        "sourcePhotos": [
+          "campus-drone-north",
+          "historic-parking-side-panorama"
+        ],
+        "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+        "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+      },
+      "groundSurfaceRingsBlenderXY": [
+        [
+          [
+            -31.76,
+            8.8
+          ],
+          [
+            -27.76,
+            11.84
+          ],
+          [
+            -26.48,
+            9.76
+          ],
+          [
+            -25.04,
+            6.88
+          ],
+          [
+            -21.04,
+            0.96
+          ],
+          [
+            -19.92,
+            -3.04
+          ],
+          [
+            -22.64,
+            -2.4
+          ],
+          [
+            -26.8,
+            1.44
+          ],
+          [
+            -30.0,
+            3.84
+          ]
+        ]
+      ],
+      "blenderNodeName": "ANG MODEL 4 | S06"
+    },
+    {
+      "id": "B05",
+      "kind": "canopy",
+      "label": "Courtyard southwest canopy",
+      "notes": "Small courtyard roof; keep as open canopy only if photos corroborate. No walls inferred.",
+      "nodeName": "B05",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -164.600935,
+        305.083782
+      ],
+      "groundAnchorRh2000M": 7.833559,
+      "footprintLocal": [
+        [
+          -168.907656,
+          303.482601
+        ],
+        [
+          -165.006221,
+          301.032784
+        ],
+        [
+          -160.371758,
+          306.602792
+        ],
+        [
+          -164.118111,
+          309.216956
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B05",
+        "lengthM": 7.885,
+        "widthM": 4.572,
+        "floorHeightRH2000": 7.993,
+        "details": [
+          "Open canopy construction and picnic tables are conservative interpretations; roof plane follows low laser support."
+        ],
+        "vertices": 504,
+        "triangles": 756,
+        "meshes": 6
+      },
+      "blenderNodeName": "ANG MODEL 4 | B05"
+    },
+    {
+      "id": "B06",
+      "kind": "canopy",
+      "label": "Courtyard northeast canopy",
+      "notes": "Small courtyard roof. Structure and fascia visible from above; wall enclosure not established.",
+      "nodeName": "B06",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -157.51437,
+        301.523838
+      ],
+      "groundAnchorRh2000M": 7.918982,
+      "footprintLocal": [
+        [
+          -161.450843,
+          299.533122
+        ],
+        [
+          -157.708968,
+          297.078817
+        ],
+        [
+          -153.575656,
+          303.43463
+        ],
+        [
+          -157.322016,
+          306.048787
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B06",
+        "lengthM": 7.785,
+        "widthM": 4.572,
+        "floorHeightRH2000": 8.02,
+        "details": [
+          "Open canopy construction and picnic tables are conservative interpretations; roof plane follows low laser support."
+        ],
+        "vertices": 504,
+        "triangles": 756,
+        "meshes": 6
+      },
+      "blenderNodeName": "ANG MODEL 4 | B06"
+    },
+    {
+      "id": "B07",
+      "kind": "building",
+      "label": "Golf cart shelter",
+      "notes": "Long narrow red roof north of restaurant; site map H identifies golf carts. April 2025 shape; do not infer closed long sides.",
+      "nodeName": "B07",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -144.004908,
+        262.588597
+      ],
+      "groundAnchorRh2000M": 8.213421,
+      "footprintLocal": [
+        [
+          -145.194675,
+          255.195836
+        ],
+        [
+          -138.870224,
+          257.453842
+        ],
+        [
+          -142.735361,
+          269.983606
+        ],
+        [
+          -149.219363,
+          267.721111
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B07",
+        "lengthM": 13.328,
+        "widthM": 6.88,
+        "floorHeightRH2000": 8.315,
+        "details": [
+          "Cart use documented by club map; six structural bays and three sample carts are scale reconstructions, not a current fleet inventory."
+        ],
+        "vertices": 1208,
+        "triangles": 1812,
+        "meshes": 10
+      },
+      "blenderNodeName": "ANG MODEL 4 | B07"
+    },
+    {
+      "id": "B08",
+      "kind": "building",
+      "label": "Kiosk and toilets building",
+      "notes": "Dark roof north of cart shelter. Club site map G identifies kiosk/toilets; adjacent terrace is separate. Tree and roof shadow obscure southwest corner; estimated edge-picking uncertainty 0.7 m.",
+      "nodeName": "B08",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -133.946233,
+        237.074743
+      ],
+      "groundAnchorRh2000M": 8.216861,
+      "footprintLocal": [
+        [
+          -135.44829,
+          232.272908
+        ],
+        [
+          -129.451927,
+          234.84165
+        ],
+        [
+          -132.521722,
+          241.794402
+        ],
+        [
+          -138.362994,
+          239.390018
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B08",
+        "lengthM": 7.7,
+        "widthM": 6.536,
+        "floorHeightRH2000": 8.253,
+        "details": [
+          "Kiosk/toilets identity from club diagram; opening spacing and concealed sanitary doors approximate. Roof follows near-flat laser plane."
+        ],
+        "vertices": 672,
+        "triangles": 1008,
+        "meshes": 9
+      },
+      "blenderNodeName": "ANG MODEL 4 | B08"
+    },
+    {
+      "id": "B09",
+      "kind": "building",
+      "label": "South courtyard small outbuilding",
+      "notes": "Small detached pitched roof south of the courtyard. Function and number of doors unresolved.",
+      "nodeName": "B09",
+      "sourceBuildingIds": [
+        "w516709522"
+      ],
+      "groundAnchorLocal": [
+        -146.079286,
+        332.202891
+      ],
+      "groundAnchorRh2000M": 8.349377,
+      "footprintLocal": [
+        [
+          -150.318025,
+          329.603708
+        ],
+        [
+          -147.227906,
+          327.610999
+        ],
+        [
+          -141.67201,
+          334.486863
+        ],
+        [
+          -145.099213,
+          337.110002
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B09",
+        "lengthM": 9.152,
+        "widthM": 4.319,
+        "floorHeightRH2000": 8.426,
+        "details": [
+          "Annex exterior photo corroborates red lower panels and open upper shelter side; function remains unassigned."
+        ],
+        "vertices": 878,
+        "triangles": 1310,
+        "meshes": 6
+      },
+      "blenderNodeName": "ANG MODEL 4 | B09"
+    },
+    {
+      "id": "B10",
+      "kind": "building",
+      "label": "East courtyard long outbuilding",
+      "notes": "Dark elongated roof east of south courtyard. Light wall or equipment row on southwest side; function unconfirmed.",
+      "nodeName": "B10",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -122.198844,
+        330.556141
+      ],
+      "groundAnchorRh2000M": 9.337765,
+      "footprintLocal": [
+        [
+          -129.084607,
+          324.122716
+        ],
+        [
+          -113.010796,
+          331.775023
+        ],
+        [
+          -115.228832,
+          336.83197
+        ],
+        [
+          -131.471171,
+          329.494889
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B10",
+        "lengthM": 17.887,
+        "widthM": 5.883,
+        "floorHeightRH2000": 9.428,
+        "details": [
+          "Long dark roof and light south-side row observed in ortho; six facade panels are approximate. Opposite gable slope and function unconfirmed."
+        ],
+        "vertices": 1662,
+        "triangles": 2486,
+        "meshes": 8
+      },
+      "blenderNodeName": "ANG MODEL 4 | B10"
+    },
+    {
+      "id": "B11",
+      "kind": "building",
+      "label": "Small roof beside putting green east path",
+      "notes": "Tiny red roof next to east practice path; not assigned toilet/utility function without evidence.",
+      "nodeName": "B11",
+      "sourceBuildingIds": [
+        "w516709521"
+      ],
+      "groundAnchorLocal": [
+        -80.353433,
+        361.612715
+      ],
+      "groundAnchorRh2000M": 6.120742,
+      "footprintLocal": [
+        [
+          -81.355276,
+          358.904744
+        ],
+        [
+          -77.87178,
+          359.962869
+        ],
+        [
+          -79.274055,
+          364.402864
+        ],
+        [
+          -82.912622,
+          363.180384
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B11",
+        "lengthM": 4.659,
+        "widthM": 3.846,
+        "floorHeightRH2000": 6.229,
+        "details": [
+          "Tiny shallow roof follows 2021 laser support; facade opening approximate and no facility function assigned."
+        ],
+        "vertices": 432,
+        "triangles": 648,
+        "meshes": 8
+      },
+      "blenderNodeName": "ANG MODEL 4 | B11"
+    },
+    {
+      "id": "B12",
+      "kind": "building",
+      "label": "Driving range covered shelter, April 2025",
+      "notes": "Long rectangular roof south of putting green at east end of range mat strip. April 2025 roof predates studio and covered range plans announced December 2025; current built condition unverified.",
+      "nodeName": "B12",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -121.373247,
+        386.453607
+      ],
+      "groundAnchorRh2000M": 6.308386,
+      "footprintLocal": [
+        [
+          -129.666934,
+          378.980601
+        ],
+        [
+          -110.26495,
+          387.526644
+        ],
+        [
+          -113.16162,
+          394.004309
+        ],
+        [
+          -132.399524,
+          385.302923
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B12",
+        "lengthM": 21.244,
+        "widthM": 7.101,
+        "floorHeightRH2000": 6.408,
+        "details": [
+          "Existing April 2025 roughly 21m shelter, six provisional bays; no proposed 41.430m studio or bag store. Rear enclosure and ball-dispenser silhouette approximate."
+        ],
+        "vertices": 1792,
+        "triangles": 2688,
+        "meshes": 11
+      },
+      "blenderNodeName": "ANG MODEL 4 | B12"
+    },
+    {
+      "id": "B13",
+      "kind": "building",
+      "label": "Northern service-area large roof",
+      "notes": "Large bright southeast roof slope and dark northwest slope. Yard/equipment visible; maintenance use is plausible but not established by orthophoto. Minor roof perspective/orthorectification displacement expected; not wall footprint.",
+      "nodeName": "B13",
+      "sourceBuildingIds": [
+        "w517780252"
+      ],
+      "groundAnchorLocal": [
+        -42.002602,
+        -687.844316
+      ],
+      "groundAnchorRh2000M": 12.571984,
+      "footprintLocal": [
+        [
+          -65.395303,
+          -697.814988
+        ],
+        [
+          -26.326698,
+          -695.433351
+        ],
+        [
+          -24.490006,
+          -686.902432
+        ],
+        [
+          -26.803173,
+          -678.488566
+        ],
+        [
+          -66.997857,
+          -680.581985
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": true,
+      "modelInterpretation": {
+        "id": "B13",
+        "lengthM": 42.209,
+        "widthM": 17.302,
+        "floorHeightRH2000": 13.007,
+        "details": [
+          "Northern service-context roof dimensions and ridge supported by aerial/laser. Neutral cladding represents unseen elevations; use/ownership unconfirmed."
+        ],
+        "vertices": 2494,
+        "triangles": 3734,
+        "meshes": 5
+      },
+      "blenderNodeName": "ANG MODEL 4 | B13"
+    },
+    {
+      "id": "S07",
+      "kind": "site",
+      "label": "Northern service-context eastern yard",
+      "notes": "Hardstanding traced from northern-service-native.png at 0.16m per pixel; separate ground surface from B13, with use and ownership unconfirmed.",
+      "nodeName": "S07",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -24.608175,
+        -673.611157
+      ],
+      "groundAnchorRh2000M": 12.622436,
+      "footprintLocal": [
+        [
+          -26.367154,
+          -693.994642
+        ],
+        [
+          -9.416994,
+          -694.636388
+        ],
+        [
+          -0.517039,
+          -687.34604
+        ],
+        [
+          -3.093277,
+          -675.259994
+        ],
+        [
+          -12.460755,
+          -665.925266
+        ],
+        [
+          -24.642707,
+          -658.749686
+        ],
+        [
+          -49.87656,
+          -653.222021
+        ],
+        [
+          -50.654453,
+          -659.643287
+        ],
+        [
+          -38.382657,
+          -670.016082
+        ],
+        [
+          -30.669763,
+          -677.317759
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false,
+      "groundSurfaceRingsBlenderXY": [
+        [
+          [
+            114.0,
+            1000.48
+          ],
+          [
+            130.96,
+            1001.6
+          ],
+          [
+            140.08,
+            994.56
+          ],
+          [
+            137.84,
+            982.4
+          ],
+          [
+            128.72,
+            972.8
+          ],
+          [
+            116.72,
+            965.28
+          ],
+          [
+            91.6,
+            959.04
+          ],
+          [
+            90.64,
+            965.44
+          ],
+          [
+            102.64,
+            976.16
+          ],
+          [
+            110.16,
+            983.68
+          ]
+        ]
+      ],
+      "blenderNodeName": "ANG MODEL 4 | S07"
+    },
+    {
+      "id": "S01",
+      "kind": "site",
+      "label": "North parking and motorhome hardstanding",
+      "notes": "Visible contiguous hardstanding; plot numbers and present occupancy must come from site map. April 2025 photo visibly has fewer occupied pads; edge under parked cars uncertain by 1–2 m.",
+      "nodeName": "S01",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -215.100207,
+        245.750067
+      ],
+      "groundAnchorRh2000M": 6.966396,
+      "footprintLocal": [
+        [
+          -227.159002,
+          194.013215
+        ],
+        [
+          -221.270849,
+          189.059547
+        ],
+        [
+          -215.009038,
+          193.555423
+        ],
+        [
+          -211.970096,
+          199.080432
+        ],
+        [
+          -211.896345,
+          230.599215
+        ],
+        [
+          -206.762505,
+          241.142707
+        ],
+        [
+          -200.673827,
+          246.113683
+        ],
+        [
+          -196.995434,
+          274.374345
+        ],
+        [
+          -200.256044,
+          282.441659
+        ],
+        [
+          -203.033447,
+          290.362601
+        ],
+        [
+          -201.007771,
+          303.538284
+        ],
+        [
+          -229.642234,
+          305.291655
+        ],
+        [
+          -234.019301,
+          284.850537
+        ],
+        [
+          -232.857764,
+          243.447573
+        ],
+        [
+          -233.950032,
+          208.380484
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false,
+      "sourceParkingIndices": [
+        2
+      ],
+      "sourceParkingRingsLocal": [
+        {
+          "index": 2,
+          "ring": [
+            [
+              -235,
+              196
+            ],
+            [
+              -203,
+              200
+            ],
+            [
+              -202,
+              297
+            ],
+            [
+              -235,
+              305
+            ]
+          ]
+        }
+      ],
+      "groundSurfaceRingsBlenderXY": [
+        [
+          [
+            -62.16,
+            106.72
+          ],
+          [
+            -56.4,
+            111.84
+          ],
+          [
+            -50.0,
+            107.52
+          ],
+          [
+            -46.8,
+            102.08
+          ],
+          [
+            -45.84,
+            70.56
+          ],
+          [
+            -40.4,
+            60.16
+          ],
+          [
+            -34.16,
+            55.36
+          ],
+          [
+            -29.68,
+            27.2
+          ],
+          [
+            -32.72,
+            19.04
+          ],
+          [
+            -35.28,
+            11.04
+          ],
+          [
+            -32.88,
+            -2.08
+          ],
+          [
+            -61.52,
+            -4.64
+          ],
+          [
+            -66.48,
+            15.68
+          ],
+          [
+            -66.48,
+            57.12
+          ],
+          [
+            -68.56,
+            92.16
+          ]
+        ],
+        [
+          [
+            -28.72,
+            99.20000000000002
+          ],
+          [
+            -22.480000000000004,
+            99.68
+          ],
+          [
+            -22.320000000000007,
+            96.80000000000001
+          ],
+          [
+            -28.560000000000002,
+            96.32000000000002
+          ]
+        ],
+        [
+          [
+            -27.760000000000005,
+            92.48000000000002
+          ],
+          [
+            -21.519999999999996,
+            92.96000000000001
+          ],
+          [
+            -21.36,
+            90.08000000000001
+          ],
+          [
+            -27.60000000000001,
+            89.60000000000001
+          ]
+        ],
+        [
+          [
+            -26.799999999999997,
+            85.76
+          ],
+          [
+            -20.560000000000002,
+            86.24000000000001
+          ],
+          [
+            -20.400000000000006,
+            83.36000000000001
+          ],
+          [
+            -26.64,
+            82.88000000000001
+          ]
+        ],
+        [
+          [
+            -26.159999999999997,
+            78.88000000000001
+          ],
+          [
+            -19.92,
+            79.36000000000001
+          ],
+          [
+            -19.760000000000005,
+            76.48
+          ],
+          [
+            -26.0,
+            76.00000000000001
+          ]
+        ],
+        [
+          [
+            -25.519999999999996,
+            72.00000000000001
+          ],
+          [
+            -19.28,
+            72.48
+          ],
+          [
+            -19.120000000000005,
+            69.60000000000001
+          ],
+          [
+            -25.36,
+            69.12
+          ]
+        ],
+        [
+          [
+            -24.88000000000001,
+            64.96000000000001
+          ],
+          [
+            -18.64,
+            65.44000000000001
+          ],
+          [
+            -18.480000000000004,
+            62.56000000000002
+          ],
+          [
+            -24.72,
+            62.08000000000001
+          ]
+        ],
+        [
+          [
+            -23.760000000000005,
+            57.920000000000016
+          ],
+          [
+            -17.519999999999996,
+            58.400000000000006
+          ],
+          [
+            -17.36,
+            55.52000000000001
+          ],
+          [
+            -23.60000000000001,
+            55.040000000000006
+          ]
+        ],
+        [
+          [
+            -22.960000000000008,
+            50.400000000000006
+          ],
+          [
+            -16.72,
+            50.88000000000001
+          ],
+          [
+            -16.560000000000002,
+            48.000000000000014
+          ],
+          [
+            -22.799999999999997,
+            47.52000000000001
+          ]
+        ],
+        [
+          [
+            -46.160000000000004,
+            101.44000000000001
+          ],
+          [
+            -40.24,
+            101.76000000000002
+          ],
+          [
+            -39.92,
+            99.36000000000001
+          ],
+          [
+            -46.0,
+            99.04000000000002
+          ]
+        ],
+        [
+          [
+            -45.2,
+            94.56
+          ],
+          [
+            -39.28,
+            94.88000000000001
+          ],
+          [
+            -38.96,
+            92.48000000000002
+          ],
+          [
+            -45.040000000000006,
+            92.16000000000001
+          ]
+        ],
+        [
+          [
+            -44.24,
+            87.36000000000001
+          ],
+          [
+            -38.32,
+            87.68
+          ],
+          [
+            -38.0,
+            85.28000000000002
+          ],
+          [
+            -44.080000000000005,
+            84.96000000000001
+          ]
+        ],
+        [
+          [
+            -43.440000000000005,
+            80.32000000000001
+          ],
+          [
+            -37.52,
+            80.64000000000001
+          ],
+          [
+            -37.2,
+            78.24000000000001
+          ],
+          [
+            -43.28,
+            77.92000000000002
+          ]
+        ],
+        [
+          [
+            -42.64,
+            73.12
+          ],
+          [
+            -36.720000000000006,
+            73.44000000000001
+          ],
+          [
+            -36.400000000000006,
+            71.04
+          ],
+          [
+            -42.480000000000004,
+            70.72000000000001
+          ]
+        ],
+        [
+          [
+            -41.68000000000001,
+            65.92000000000002
+          ],
+          [
+            -35.760000000000005,
+            66.24000000000001
+          ],
+          [
+            -35.440000000000005,
+            63.84000000000002
+          ],
+          [
+            -41.52,
+            63.52000000000001
+          ]
+        ]
+      ],
+      "blenderNodeName": "ANG MODEL 4 | S01"
+    },
+    {
+      "id": "S02",
+      "kind": "site",
+      "label": "South parking hardstanding",
+      "notes": "Asphalt/gravel parking surface outline, excluding road; internal painted bays and obstructions require separate observation.",
+      "nodeName": "S02",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -218.383937,
+        331.477967
+      ],
+      "groundAnchorRh2000M": 6.489019,
+      "footprintLocal": [
+        [
+          -229.956886,
+          305.122812
+        ],
+        [
+          -201.007771,
+          303.538284
+        ],
+        [
+          -198.036228,
+          311.461159
+        ],
+        [
+          -198.814253,
+          344.875758
+        ],
+        [
+          -202.955932,
+          350.198542
+        ],
+        [
+          -224.205147,
+          350.560038
+        ],
+        [
+          -230.407688,
+          355.344872
+        ],
+        [
+          -236.685314,
+          345.729106
+        ],
+        [
+          -232.735363,
+          330.161956
+        ],
+        [
+          -229.034641,
+          317.787459
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false,
+      "sourceParkingIndices": [
+        3
+      ],
+      "sourceParkingRingsLocal": [
+        {
+          "index": 3,
+          "ring": [
+            [
+              -230,
+              308
+            ],
+            [
+              -200,
+              308
+            ],
+            [
+              -200,
+              349
+            ],
+            [
+              -230,
+              349
+            ]
+          ]
+        }
+      ],
+      "groundSurfaceRingsBlenderXY": [
+        [
+          [
+            -61.84,
+            -4.48
+          ],
+          [
+            -32.88,
+            -2.08
+          ],
+          [
+            -29.68,
+            -9.92
+          ],
+          [
+            -29.52,
+            -43.36
+          ],
+          [
+            -33.52,
+            -48.8
+          ],
+          [
+            -54.8,
+            -49.76
+          ],
+          [
+            -60.88,
+            -54.72
+          ],
+          [
+            -67.44,
+            -45.28
+          ],
+          [
+            -63.92,
+            -29.6
+          ],
+          [
+            -60.56,
+            -17.12
+          ]
+        ],
+        [
+          [
+            -33.57383980970156,
+            -4.615803619063768
+          ],
+          [
+            -34.5523209964488,
+            6.147489435155856
+          ],
+          [
+            -33.151985460458796,
+            13.849334883100854
+          ],
+          [
+            -27.20853872086961,
+            19.792781622690043
+          ],
+          [
+            -17.14680546717932,
+            24.823648249535196
+          ],
+          [
+            -3.953641075864753,
+            33.40715279328202
+          ],
+          [
+            6.733441526365657,
+            40.7445527888432
+          ],
+          [
+            14.39624176382584,
+            46.33201129532457
+          ],
+          [
+            16.163758236174164,
+            43.90798870467544
+          ],
+          [
+            8.466558473634333,
+            38.29544721115682
+          ],
+          [
+            -2.286358924135256,
+            30.912847206718
+          ],
+          [
+            -15.653194532820692,
+            22.216351750464824
+          ],
+          [
+            -25.431461279130406,
+            17.32721837730996
+          ],
+          [
+            -30.368014539541214,
+            12.390665116899156
+          ],
+          [
+            -31.527679003551214,
+            6.012510564844169
+          ],
+          [
+            -30.58616019029845,
+            -4.344196380936212
+          ]
+        ],
+        [
+          [
+            14.203501379436872,
+            45.93464760475048
+          ],
+          [
+            18.513453559823283,
+            51.62994155740397
+          ],
+          [
+            20.43698149514249,
+            59.61998067334523
+          ],
+          [
+            17.92340941984456,
+            67.16069689923904
+          ],
+          [
+            13.10256852756092,
+            72.75909277414905
+          ],
+          [
+            7.7734889004176955,
+            80.02601953843526
+          ],
+          [
+            1.8980558937353549,
+            88.8391690484588
+          ],
+          [
+            -1.9476699946987641,
+            100.21610813507638
+          ],
+          [
+            -7.30241433412116,
+            108.72070208592372
+          ],
+          [
+            -5.017585665878833,
+            110.1592979140763
+          ],
+          [
+            0.5076699946987664,
+            101.38389186492364
+          ],
+          [
+            4.341944106264654,
+            90.04083095154122
+          ],
+          [
+            9.986511099582296,
+            81.57398046156476
+          ],
+          [
+            15.217431472439074,
+            74.44090722585096
+          ],
+          [
+            20.31659058015545,
+            68.519303100761
+          ],
+          [
+            23.243018504857517,
+            59.74001932665478
+          ],
+          [
+            21.0065464401767,
+            50.450058442596045
+          ],
+          [
+            16.35649862056313,
+            44.30535239524953
+          ]
+        ],
+        [
+          [
+            -18.766624005952877,
+            -0.2412373378688626
+          ],
+          [
+            -13.664994060192978,
+            -6.937126641678727
+          ],
+          [
+            -6.6656806773110695,
+            -15.368117761968296
+          ],
+          [
+            -0.3252572497477374,
+            -22.327119084903646
+          ],
+          [
+            8.194543009297691,
+            -26.27147105668394
+          ],
+          [
+            15.960001885500253,
+            -32.21948211079656
+          ],
+          [
+            22.079033707421722,
+            -39.304676851968786
+          ],
+          [
+            28.67543695256966,
+            -45.27285121662646
+          ],
+          [
+            36.0920521706339,
+            -50.6667531934004
+          ],
+          [
+            37.989719800558504,
+            -58.94748466943511
+          ],
+          [
+            38.881610055573766,
+            -66.08260670955713
+          ],
+          [
+            48.16191894888203,
+            -72.92873622101405
+          ],
+          [
+            61.46246882370966,
+            -83.5050770853348
+          ],
+          [
+            59.65753117629034,
+            -85.77492291466517
+          ],
+          [
+            46.39808105111797,
+            -75.23126377898592
+          ],
+          [
+            36.158389944426254,
+            -67.67739329044286
+          ],
+          [
+            35.1302801994415,
+            -59.452515330564864
+          ],
+          [
+            33.507947829366124,
+            -52.37324680659956
+          ],
+          [
+            26.84456304743032,
+            -47.527148783373555
+          ],
+          [
+            20.000966292578262,
+            -41.3353231480312
+          ],
+          [
+            13.959998114499735,
+            -34.34051788920344
+          ],
+          [
+            6.685456990702305,
+            -28.768528943316024
+          ],
+          [
+            -2.0747427502522684,
+            -24.712880915096317
+          ],
+          [
+            -8.85431932268894,
+            -17.27188223803169
+          ],
+          [
+            -15.935005939807017,
+            -8.74287335832128
+          ],
+          [
+            -21.073375994047126,
+            -1.9987626621311465
+          ]
+        ],
+        [
+          [
+            21.675285890691345,
+            -6.104316271928848
+          ],
+          [
+            23.744651984043735,
+            -12.789960573528907
+          ],
+          [
+            26.23941795832234,
+            -19.1827983826178
+          ],
+          [
+            30.511677787423555,
+            -24.720912975897186
+          ],
+          [
+            34.5445071866842,
+            -31.657379542625463
+          ],
+          [
+            32.815492813315814,
+            -32.66262045737453
+          ],
+          [
+            28.84832221257643,
+            -25.839087024102817
+          ],
+          [
+            24.48058204167766,
+            -20.177201617382156
+          ],
+          [
+            21.85534801595626,
+            -13.450039426471102
+          ],
+          [
+            19.764714109308652,
+            -6.695683728071106
+          ]
+        ],
+        [
+          [
+            -22.856005426278553,
+            -14.769621401637355
+          ],
+          [
+            -23.334224291040428,
+            -26.565686732430187
+          ],
+          [
+            -23.016124156265587,
+            -36.744891045225344
+          ],
+          [
+            -22.54968925363418,
+            -44.67428438995914
+          ],
+          [
+            -19.366978196759465,
+            -52.10061018933348
+          ],
+          [
+            -14.140922427803554,
+            -57.32666595828941
+          ],
+          [
+            -6.1802490017865965,
+            -59.92919380910264
+          ],
+          [
+            4.447447135666065,
+            -61.83266177401953
+          ],
+          [
+            17.13552559547177,
+            -63.92057341930402
+          ],
+          [
+            30.05043844715249,
+            -67.3107380428702
+          ],
+          [
+            39.547993500321894,
+            -70.85219924913676
+          ],
+          [
+            38.692006499678115,
+            -73.14780075086324
+          ],
+          [
+            29.309561552847494,
+            -69.64926195712978
+          ],
+          [
+            16.624474404528222,
+            -66.31942658069599
+          ],
+          [
+            4.032552864333924,
+            -64.24733822598046
+          ],
+          [
+            -6.779750998213411,
+            -62.31080619089737
+          ],
+          [
+            -15.45907757219644,
+            -59.4733340417106
+          ],
+          [
+            -21.433021803240546,
+            -53.499389810666486
+          ],
+          [
+            -24.97031074636583,
+            -45.24571561004082
+          ],
+          [
+            -25.46387584373443,
+            -36.85510895477462
+          ],
+          [
+            -25.785775708959576,
+            -26.554313267569817
+          ],
+          [
+            -25.303994573721443,
+            -14.670378598362642
+          ]
+        ],
+        [
+          [
+            34.89495097567963,
+            -50.08524512160179
+          ],
+          [
+            43.70951770051713,
+            -51.84815846656931
+          ],
+          [
+            54.4155581539197,
+            -54.24503319494299
+          ],
+          [
+            67.04699477914664,
+            -56.48351563485664
+          ],
+          [
+            80.01781154023321,
+            -59.20578581928221
+          ],
+          [
+            92.43793830493755,
+            -61.62529103318566
+          ],
+          [
+            103.56073861079001,
+            -65.85508833259433
+          ],
+          [
+            112.64173284279825,
+            -64.16202161137248
+          ],
+          [
+            113.11826715720174,
+            -66.71797838862751
+          ],
+          [
+            103.31926138920998,
+            -68.54491166740564
+          ],
+          [
+            91.72206169506248,
+            -64.13470896681433
+          ],
+          [
+            79.50218845976677,
+            -61.75421418071777
+          ],
+          [
+            66.55300522085338,
+            -59.036484365143345
+          ],
+          [
+            53.904441846080296,
+            -56.79496680505697
+          ],
+          [
+            43.17048229948286,
+            -54.3918415334307
+          ],
+          [
+            34.385049024320345,
+            -52.634754878398184
+          ]
+        ],
+        [
+          [
+            -10.960000000000008,
+            1.6000000000000227
+          ],
+          [
+            6.480000000000004,
+            14.240000000000009
+          ],
+          [
+            16.72,
+            0.0
+          ],
+          [
+            8.399999999999991,
+            -8.319999999999993
+          ],
+          [
+            -0.2400000000000091,
+            -15.199999999999989
+          ]
+        ],
+        [
+          [
+            2.480000000000004,
+            -20.47999999999999
+          ],
+          [
+            16.39999999999999,
+            -9.120000000000005
+          ],
+          [
+            25.840000000000003,
+            -16.95999999999998
+          ],
+          [
+            33.359999999999985,
+            -26.079999999999984
+          ],
+          [
+            32.56,
+            -32.47999999999999
+          ],
+          [
+            19.439999999999998,
+            -29.919999999999987
+          ]
+        ]
+      ],
+      "blenderNodeName": "ANG MODEL 4 | S02"
+    },
+    {
+      "id": "S04",
+      "kind": "site",
+      "label": "Driving range mat strip, April 2025",
+      "notes": "Continuous range hitting strip. Individual rectangular pads are visible; topology and covered studio plan may have changed after December 2025.",
+      "nodeName": "S04",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -161.620303,
+        374.400553
+      ],
+      "groundAnchorRh2000M": 6.567982,
+      "footprintLocal": [
+        [
+          -185.701722,
+          367.00283
+        ],
+        [
+          -174.239934,
+          368.285612
+        ],
+        [
+          -161.542021,
+          371.043108
+        ],
+        [
+          -148.387872,
+          374.61342
+        ],
+        [
+          -135.105604,
+          379.307273
+        ],
+        [
+          -136.831423,
+          383.898153
+        ],
+        [
+          -149.315852,
+          379.226788
+        ],
+        [
+          -162.798091,
+          375.967202
+        ],
+        [
+          -175.970197,
+          373.036368
+        ],
+        [
+          -186.310528,
+          371.625198
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false,
+      "groundSurfaceRingsBlenderXY": [
+        [
+          [
+            -15.76,
+            -65.12
+          ],
+          [
+            -4.24,
+            -66.08
+          ],
+          [
+            8.56,
+            -68.48
+          ],
+          [
+            21.84,
+            -71.68
+          ],
+          [
+            35.28,
+            -76.0
+          ],
+          [
+            33.68,
+            -80.64
+          ],
+          [
+            21.04,
+            -76.32
+          ],
+          [
+            7.44,
+            -73.44
+          ],
+          [
+            -5.84,
+            -70.88
+          ],
+          [
+            -16.24,
+            -69.76
+          ]
+        ]
+      ],
+      "blenderNodeName": "ANG MODEL 4 | S04"
+    },
+    {
+      "id": "S05",
+      "kind": "site",
+      "label": "Kiosk southwest terrace",
+      "notes": "Narrow platform immediately southwest of kiosk roof, partly tree-shadow obscured. Needs ground photograph before modelling supports/railings.",
+      "nodeName": "S05",
+      "sourceBuildingIds": [],
+      "groundAnchorLocal": [
+        -137.539438,
+        235.653618
+      ],
+      "groundAnchorRh2000M": 8.098199,
+      "footprintLocal": [
+        [
+          -136.401227,
+          232.086069
+        ],
+        [
+          -135.138125,
+          232.601615
+        ],
+        [
+          -138.362994,
+          239.390018
+        ],
+        [
+          -140.2554,
+          238.536773
+        ]
+      ],
+      "placement": "absolute-rh2000",
+      "vegetationExclusion": false,
+      "groundSurfaceRingsBlenderXY": [
+        [
+          [
+            29.84,
+            71.2
+          ],
+          [
+            31.12,
+            70.72
+          ],
+          [
+            28.08,
+            63.84
+          ],
+          [
+            26.16,
+            64.64
+          ]
+        ]
+      ],
+      "blenderNodeName": "ANG MODEL 4 | S05"
+    }
+  ],
+  "modeling": {
+    "model_clubhouse.py": {
+      "facilities": [
+        {
+          "label": "Restaurant and clubhouse",
+          "ridgeRH2000": 15.465,
+          "eaveRH2000": 11.22,
+          "roofCondition": "Dark northwest slope and terracotta courtyard slope from latest ortho",
+          "reconstructedFeatures": [
+            "ten gabled dormers",
+            "two-storey white entrance porch",
+            "long white glazed northwest extension",
+            "southwest service return",
+            "two roof stacks"
+          ],
+          "id": "B01",
+          "details": {
+            "windows": 48,
+            "doors": 2,
+            "dormers": 10,
+            "rooflights": 0,
+            "chimneys": 2
+          },
+          "editableMeshGroups": 50,
+          "sourcePhotos": [
+            "clubhouse-courtyard",
+            "restaurant-entrance",
+            "campus-drone-north",
+            "historic-parking-side-panorama"
+          ],
+          "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+          "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+        },
+        {
+          "label": "Reception and club office",
+          "ridgeRH2000": 14.893,
+          "eaveRH2000": 11.57,
+          "roofPlanMetres": [
+            16.2,
+            7.59
+          ],
+          "reconstructedFeatures": [
+            "red vertical timber",
+            "white gable windows",
+            "two brick chimneys",
+            "courtyard entrance canopy"
+          ],
+          "id": "B03",
+          "details": {
+            "windows": 7,
+            "doors": 1,
+            "dormers": 0,
+            "rooflights": 0,
+            "chimneys": 2
+          },
+          "editableMeshGroups": 28,
+          "sourcePhotos": [
+            "clubhouse-courtyard",
+            "historic-parking-side-panorama"
+          ],
+          "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+          "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+        },
+        {
+          "label": "Changing rooms and lodging annex",
+          "ridgeRH2000": 14.87,
+          "eaveRH2000": 11.77,
+          "roofPlanMetres": [
+            17.7,
+            8.38
+          ],
+          "reconstructedFeatures": [
+            "white lower facade and red timber upper band",
+            "four separate courtyard doors",
+            "gable dormers and flush rooflights",
+            "south gable timber balcony with usable stair geometry",
+            "east shallow roof projection"
+          ],
+          "id": "B04",
+          "details": {
+            "windows": 11,
+            "doors": 5,
+            "dormers": 3,
+            "rooflights": 3,
+            "chimneys": 0
+          },
+          "editableMeshGroups": 43,
+          "sourcePhotos": [
+            "annex-exterior",
+            "clubhouse-courtyard",
+            "campus-drone-north"
+          ],
+          "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+          "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+        },
+        {
+          "label": "Small northwest annex extension",
+          "roofRH2000": [
+            10.97,
+            11.72
+          ],
+          "interpretation": "Conservative external envelope; connection, function and hidden openings unresolved",
+          "id": "B04a",
+          "details": {
+            "windows": 0,
+            "doors": 1,
+            "dormers": 0,
+            "rooflights": 0,
+            "chimneys": 0
+          },
+          "editableMeshGroups": 16,
+          "sourcePhotos": [
+            "campus-drone-north"
+          ],
+          "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+          "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+        },
+        {
+          "label": "Restaurant northwest terrace",
+          "deckRH2000": 8.12,
+          "heightEvidence": "Traced platform; finished deck elevation estimated above measured ground",
+          "reconstructedFeatures": [
+            "traced paved footprint",
+            "white crossed boundary railing",
+            "generic movable patio furniture"
+          ],
+          "id": "S06",
+          "details": {
+            "windows": 0,
+            "doors": 0,
+            "dormers": 0,
+            "rooflights": 0,
+            "chimneys": 0
+          },
+          "editableMeshGroups": 10,
+          "sourcePhotos": [
+            "campus-drone-north",
+            "historic-parking-side-panorama"
+          ],
+          "horizontalBasis": "2025 orthophoto roof outline; wall inset estimated",
+          "limitations": "2021/2025 evidence epochs differ; hidden joinery and exact floor/eave elevations inferred"
+        }
+      ],
+      "referenceTextureCount": 0,
+      "omittedReferences": [
+        {
+          "id": "B02",
+          "status": "Unresolved shadow-like orthophoto strip; no generated geometry",
+          "reason": "The strip sits outside the northwest glazed-extension roof. Neither the authentic parking panorama nor drone overview supports an additional freestanding canopy; only 2% of the neighboring low-plane laser support falls within this trace.",
+          "retainedEvidence": "Original B02 trace and height-plane study remain in the reference package; inference is not a confirmed shadow classification"
+        }
+      ],
+      "geometryFrame": "EPSG3006 east/north; origin E605530 N6605140; Z=RH2000-8",
+      "method": "Orthophoto-plan and laser-ridge reconstruction; photo-informed details labeled as inference"
+    },
+    "model_facilities.py": {
+      "scope": "April 2025 observed facilities; no proposed range/studio",
+      "coordinateOrigin": [
+        605530,
+        6605140,
+        8
+      ],
+      "facilities": [
+        {
+          "id": "B05",
+          "lengthM": 7.885,
+          "widthM": 4.572,
+          "floorHeightRH2000": 7.993,
+          "details": [
+            "Open canopy construction and picnic tables are conservative interpretations; roof plane follows low laser support."
+          ],
+          "vertices": 504,
+          "triangles": 756,
+          "meshes": 6
+        },
+        {
+          "id": "B06",
+          "lengthM": 7.785,
+          "widthM": 4.572,
+          "floorHeightRH2000": 8.02,
+          "details": [
+            "Open canopy construction and picnic tables are conservative interpretations; roof plane follows low laser support."
+          ],
+          "vertices": 504,
+          "triangles": 756,
+          "meshes": 6
+        },
+        {
+          "id": "B07",
+          "lengthM": 13.328,
+          "widthM": 6.88,
+          "floorHeightRH2000": 8.315,
+          "details": [
+            "Cart use documented by club map; six structural bays and three sample carts are scale reconstructions, not a current fleet inventory."
+          ],
+          "vertices": 1208,
+          "triangles": 1812,
+          "meshes": 10
+        },
+        {
+          "id": "B08",
+          "lengthM": 7.7,
+          "widthM": 6.536,
+          "floorHeightRH2000": 8.253,
+          "details": [
+            "Kiosk/toilets identity from club diagram; opening spacing and concealed sanitary doors approximate. Roof follows near-flat laser plane."
+          ],
+          "vertices": 672,
+          "triangles": 1008,
+          "meshes": 9
+        },
+        {
+          "id": "B09",
+          "lengthM": 9.152,
+          "widthM": 4.319,
+          "floorHeightRH2000": 8.426,
+          "details": [
+            "Annex exterior photo corroborates red lower panels and open upper shelter side; function remains unassigned."
+          ],
+          "vertices": 878,
+          "triangles": 1310,
+          "meshes": 6
+        },
+        {
+          "id": "B10",
+          "lengthM": 17.887,
+          "widthM": 5.883,
+          "floorHeightRH2000": 9.428,
+          "details": [
+            "Long dark roof and light south-side row observed in ortho; six facade panels are approximate. Opposite gable slope and function unconfirmed."
+          ],
+          "vertices": 1662,
+          "triangles": 2486,
+          "meshes": 8
+        },
+        {
+          "id": "B11",
+          "lengthM": 4.659,
+          "widthM": 3.846,
+          "floorHeightRH2000": 6.229,
+          "details": [
+            "Tiny shallow roof follows 2021 laser support; facade opening approximate and no facility function assigned."
+          ],
+          "vertices": 432,
+          "triangles": 648,
+          "meshes": 8
+        },
+        {
+          "id": "B12",
+          "lengthM": 21.244,
+          "widthM": 7.101,
+          "floorHeightRH2000": 6.408,
+          "details": [
+            "Existing April 2025 roughly 21m shelter, six provisional bays; no proposed 41.430m studio or bag store. Rear enclosure and ball-dispenser silhouette approximate."
+          ],
+          "vertices": 1792,
+          "triangles": 2688,
+          "meshes": 11
+        },
+        {
+          "id": "B13",
+          "lengthM": 42.209,
+          "widthM": 17.302,
+          "floorHeightRH2000": 13.007,
+          "details": [
+            "Northern service-context roof dimensions and ridge supported by aerial/laser. Neutral cladding represents unseen elevations; use/ownership unconfirmed."
+          ],
+          "vertices": 2494,
+          "triangles": 3734,
+          "meshes": 5
+        }
+      ],
+      "site": [
+        {
+          "id": "S07",
+          "evidence": "Eastern and southern service-yard hardstanding traced from northern-service-native orthophoto; use/ownership unconfirmed."
+        },
+        {
+          "id": "S01",
+          "geometry": "orthophoto traced draped hardstanding; no invented painted parking layout"
+        },
+        {
+          "id": "S02",
+          "geometry": "orthophoto traced draped hardstanding; no invented painted parking layout"
+        },
+        {
+          "id": "S01-fittings",
+          "visiblePads": 14,
+          "chargingPosts": 7,
+          "evidence": "Pads traced from ortho. Seven charging posts documented/photo-correlated; exact north-parking positions estimated, not surveyed."
+        },
+        {
+          "id": "S02-paths",
+          "evidence": "Campus orthophoto digitized centerlines and courtyard paving; path furniture representative and approximate."
+        },
+        {
+          "id": "S04",
+          "outdoorMats": 18,
+          "evidence": "Current strip geometry and mat count interpreted from April2025 aerial; pad materials from range-mat-detail photo."
+        },
+        {
+          "id": "S05",
+          "evidence": "Narrow kiosk terrace traced in ortho; low timber platform inferred; no unsupported railings added."
+        }
+      ]
+    }
+  },
+  "existingScenesPreserved": true,
+  "activeScenePreserved": "Tortuna facility | entry-outbuilding",
+  "currentFilePreserved": true,
+  "selectionPreserved": true,
+  "cameras": {
+    "courtyard": "ANG MODEL 4 | Courtyard",
+    "restaurant-rear": "ANG MODEL 4 | Restaurant rear",
+    "campus": "ANG MODEL 4 | Campus",
+    "range": "ANG MODEL 4 | Range",
+    "kiosk-carts": "ANG MODEL 4 | Kiosk and cart shelter",
+    "northern": "ANG MODEL 4 | Northern service context"
+  },
+  "counts": {
+    "facilities": 19,
+    "meshObjects": 255,
+    "vertices": 51807
+  },
+  "sourceInputs": [
+    {
+      "path": "angsobuild/facilities/model-inputs.json",
+      "sha256": "33a7989d64798e766a80f99bf394ad38da5643c3dfce109af792b6d3571fe35c"
+    },
+    {
+      "path": "angsobuild/facilities/model_clubhouse.py",
+      "sha256": "c9f0c262b4d3d7efc37cf161355fc76f127c105505b5c233ac9cf00d8c00c031"
+    },
+    {
+      "path": "angsobuild/facilities/model_facilities.py",
+      "sha256": "c0fed2f2881c29776b6908fff326338f3413e90231c64438f0fad44631c4f447"
+    },
+    {
+      "path": "angsobuild/facilities/build_facility_models.py",
+      "sha256": "51d8d304e79be0f4e1c50b9b6332a33916b986bebdb7a8acffc5e2da6f52cf61"
+    }
+  ],
+  "normalBlendDocument": true,
+  "libraryBackup": "angsobuild/cache/facilities-model-2026-09-10/angso-facilities-v4.library.blend"
+}

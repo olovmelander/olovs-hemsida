@@ -1,0 +1,77 @@
+{
+  "state": "passed",
+  "reviewSha256": "cf9a9ceca7aa36c6da961300d5559c8053ff4d310160a966454138e0b537dd79",
+  "checks": [
+    {
+      "hole": 10,
+      "platforms": 3,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    },
+    {
+      "hole": 11,
+      "platforms": 2,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    },
+    {
+      "hole": 12,
+      "platforms": 2,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    },
+    {
+      "hole": 13,
+      "platforms": 3,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    },
+    {
+      "hole": 14,
+      "platforms": 2,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    },
+    {
+      "hole": 15,
+      "platforms": 3,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    },
+    {
+      "hole": 16,
+      "platforms": 3,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    },
+    {
+      "hole": 17,
+      "platforms": 3,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    },
+    {
+      "hole": 18,
+      "platforms": 3,
+      "resolvedColours": 4,
+      "unresolvedCameraFallbacks": 1,
+      "valid": true
+    }
+  ],
+  "checksPerformed": [
+    "Nondegenerate simple native-pixel polygons",
+    "All vertices inside acquired windows",
+    "Every resolved and unresolved-fallback start strictly inside nominated platform"
+  ],
+  "limitations": [
+    "Containment does not resolve the nine orange colour associations or any daily marker position."
+  ]
+}

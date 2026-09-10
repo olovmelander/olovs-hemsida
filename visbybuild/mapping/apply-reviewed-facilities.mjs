@@ -11,6 +11,7 @@ import { applyReviewedFacilities } from './reviewed-facilities.mjs';
 import { applyReviewedTeePlatforms } from './reviewed-tee-platforms.mjs';
 import { applyReviewedEnvironment } from './reviewed-environment.mjs';
 import { applyReviewedOrthophoto } from './reviewed-orthophoto.mjs';
+import { applyReviewedTeeAlignment } from './reviewed-tee-alignment.mjs';
 import { buildHoles, holeNotes, localRing } from '../build-course.mjs';
 import { VISBY_FRAME } from '../frame.mjs';
 import { openPublishedGround, createPublishedGroundLookup } from '../../packages/course-v2/published-ground-lookup.mjs';
@@ -23,11 +24,9 @@ if (args.some(arg => !['--write', '--geometry-only'].includes(arg))) throw new E
 const teeReview = read('visbybuild/mapping/tee-platform-review.json');
 const environmentReview = read('visbybuild/mapping/environment-surfaces-review.json');
 const orthophotoReview = read('visbybuild/mapping/orthophoto-review-2026.json');
-const geometry = applyReviewedOrthophoto(applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(read('visbybuild/mapping/geometry.json'), read('visbybuild/mapping/facilities-review.json')), teeReview), environmentReview), orthophotoReview);
-assert.deepEqual(applyReviewedFacilities(geometry, read('visbybuild/mapping/facilities-review.json')), geometry);
-assert.deepEqual(applyReviewedTeePlatforms(geometry, teeReview), geometry);
-assert.deepEqual(applyReviewedEnvironment(geometry, environmentReview), geometry);
-assert.deepEqual(applyReviewedOrthophoto(geometry, orthophotoReview), geometry);
+const applyReviews = input => applyReviewedTeeAlignment(applyReviewedOrthophoto(applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(input, read('visbybuild/mapping/facilities-review.json')), teeReview), environmentReview), orthophotoReview));
+const geometry = applyReviews(read('visbybuild/mapping/geometry.json'));
+assert.deepEqual(applyReviews(geometry), geometry, 'the complete dated review chain must be idempotent');
 if (!args.includes('--geometry-only')) {
   const model = read('visbybuild/course-model.json');
   const { ground, readAsset } = openPublishedGround(fs, path, path.join(root, 'apps/golf/public'), 'visby');

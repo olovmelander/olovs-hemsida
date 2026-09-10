@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "outputPath": "tortunabuild/mapping/surfaces-front9-fairways.geojson",
+  "outputSha256": "b27324aa0db3aeb8b55a8f271322be15310078fc4cefad436f197d772cca159a",
+  "features": 5,
+  "holes": [
+    1,
+    2,
+    4,
+    7,
+    8
+  ],
+  "totalAreaSquareMetres": 20994.7186724157,
+  "validPolygons": true,
+  "unmapped": [
+    {
+      "hole": 3,
+      "reason": "Par3; no separately defensible fairway boundary traced."
+    },
+    {
+      "hole": 5,
+      "reason": "Par3; no separately defensible fairway boundary traced."
+    },
+    {
+      "hole": 6,
+      "reason": "Maintained corridor beside pond is visible, but fairway-versus-rough edges in the pale May image are insufficiently distinct; no inferred buffer polygon created."
+    },
+    {
+      "hole": 9,
+      "reason": "Current short-hole tee is independently located; no separate maintained fairway cut confidently distinguishable between tee and green."
+    }
+  ]
+}

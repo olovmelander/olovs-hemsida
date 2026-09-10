@@ -1,0 +1,1342 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "inputs": [
+    {
+      "path": "tortunabuild/reference/scorecard.json",
+      "sha256": "f5622fcec97da87c0ecab186993e063a8881764622d3c0dbade74fde9f048bf9"
+    },
+    {
+      "path": "tortunabuild/reference/routing-golftraxx.json",
+      "sha256": "7e316271242a547d0bbc0cef1a94db8f33f50799c2f6b3bc1d0d60f5a5617411"
+    },
+    {
+      "path": "tortunabuild/mapping/facilities.geojson",
+      "sha256": "bbd584ed3691bc479e075cfc23ada4843322f0795dbbc036781e007f5714b3e5"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/reference/osm-context-epsg3006.geojson",
+      "sha256": "69e9deeb00686fba8d3b86a9734aa6f2dac5ea4fd7baa08c0c72afafe66a1e6a"
+    },
+    {
+      "path": "tortunabuild/mapping/environment-context-extra.geojson",
+      "sha256": "c08dc3c0067a8a36683d20155acf9d6f6efbcd6720c827d864dc0f7e4aaf3425"
+    },
+    {
+      "path": "tortunabuild/mapping/environment-context-extra-review.json",
+      "sha256": "dc9c89e727e88b2c69e0f52959667a6b82ade4879f930d66c112149cba7e6119"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/acquisition/osm-context-extra.json",
+      "sha256": "a734edf50b52b5437e41e46b71a2f8f378460e23bc2c817edf28eba02109746d"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/mapping/water-runtime-epsg3006.geojson",
+      "sha256": "beb7fc057ed858db79578df030aaf9b8c8c0e30299bf60d90106a84533805f06"
+    },
+    {
+      "path": "tortunabuild/reference/clubhouse-review.json",
+      "sha256": "98b6279e2bb3a18c0aea3299764e753242f9dd650e682158b03c277cd17d0862"
+    },
+    {
+      "path": "tortunabuild/mapping/environment.geojson",
+      "sha256": "0eb9d4ccc2bdd24f9ae5c82d053f3aa04ac2e442718a1b490ef01a0d511b44a1"
+    },
+    {
+      "path": "tortunabuild/mapping/environment-review.json",
+      "sha256": "613d4a63320b344265471444f83fa588da4681867f0727c07ef2c744c94041ef"
+    },
+    {
+      "path": "tortunabuild/mapping/building-observations.json",
+      "sha256": "09476c14e7bc95deb3d7276f20cf6938776b153094fdc9c9f2e4f03ab81108a6"
+    },
+    {
+      "path": "tortunabuild/mapping/building-roof-meshes.json",
+      "sha256": "dbcf0bfdd6c71695c84c5f7d403e9999c01b22d26706cac808799f1544d2e34c"
+    },
+    {
+      "path": "tortunabuild/mapping/building-roof-envelopes.geojson",
+      "sha256": "47779c724c677885304c35a1367fe2f65fcc4e25c4f33c10b0132983a6a2c61f"
+    },
+    {
+      "path": "tortunabuild/mapping/playing-surfaces.geojson",
+      "sha256": "70fd5e2225c3a19931f67e28b9f9e7029a271f0b9c0ad8c7b3004f74d06d78a0"
+    }
+  ],
+  "holes": [
+    {
+      "hole": 1,
+      "historicalTeeEpsg3006": [
+        597435.4014942257,
+        6615046.247375763
+      ],
+      "displayStart": [
+        597434.672,
+        6615037.118
+      ],
+      "teeShiftMetres": 9.158,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 2,
+      "historicalTeeEpsg3006": [
+        597558.9362638021,
+        6614753.485888466
+      ],
+      "displayStart": [
+        597553.35,
+        6614744.611
+      ],
+      "teeShiftMetres": 10.487,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 3,
+      "historicalTeeEpsg3006": [
+        597331.6786971705,
+        6614525.361953157
+      ],
+      "displayStart": [
+        597325.18,
+        6614525.273
+      ],
+      "teeShiftMetres": 6.499,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 4,
+      "historicalTeeEpsg3006": [
+        597464.7204092857,
+        6614467.5410881555
+      ],
+      "displayStart": [
+        597464.72,
+        6614467.541
+      ],
+      "teeShiftMetres": 0.0,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": true,
+      "cameraPlatformCandidates": 0,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 5,
+      "historicalTeeEpsg3006": [
+        597259.9077785065,
+        6614024.688907301
+      ],
+      "displayStart": [
+        597258.216,
+        6614020.452
+      ],
+      "teeShiftMetres": 4.562,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 6,
+      "historicalTeeEpsg3006": [
+        597297.509315585,
+        6613868.622339192
+      ],
+      "displayStart": [
+        597297.509,
+        6613868.622
+      ],
+      "teeShiftMetres": 0.0,
+      "platforms": 0,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 0,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 7,
+      "historicalTeeEpsg3006": [
+        597603.401294237,
+        6614291.7794111995
+      ],
+      "displayStart": [
+        597603.655,
+        6614291.069
+      ],
+      "teeShiftMetres": 0.754,
+      "platforms": 2,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 8,
+      "historicalTeeEpsg3006": [
+        597505.5999787664,
+        6614567.462057706
+      ],
+      "displayStart": [
+        597510.414,
+        6614566.051
+      ],
+      "teeShiftMetres": 5.017,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 9,
+      "historicalTeeEpsg3006": [
+        597708.3483920891,
+        6614768.389417985
+      ],
+      "displayStart": [
+        597574.89,
+        6614938.982
+      ],
+      "teeShiftMetres": 216.594,
+      "platforms": 1,
+      "routing": "current-short-par3",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 10,
+      "historicalTeeEpsg3006": [
+        597512.123424892,
+        6615343.327202238
+      ],
+      "displayStart": [
+        597518.886,
+        6615338.37
+      ],
+      "teeShiftMetres": 8.385,
+      "platforms": 2,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 11,
+      "historicalTeeEpsg3006": [
+        597743.176731396,
+        6615425.577488226
+      ],
+      "displayStart": [
+        597731.157,
+        6615422.187
+      ],
+      "teeShiftMetres": 12.489,
+      "platforms": 2,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 12,
+      "historicalTeeEpsg3006": [
+        597530.196436502,
+        6615390.2986883875
+      ],
+      "displayStart": [
+        597530.196,
+        6615390.299
+      ],
+      "teeShiftMetres": 0.001,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": true,
+      "cameraPlatformCandidates": 0,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 13,
+      "historicalTeeEpsg3006": [
+        597563.6479349657,
+        6615748.690307492
+      ],
+      "displayStart": [
+        597547.255,
+        6615729.964
+      ],
+      "teeShiftMetres": 24.888,
+      "platforms": 2,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 14,
+      "historicalTeeEpsg3006": [
+        597087.2647188897,
+        6615817.1752125295
+      ],
+      "displayStart": [
+        597085.844,
+        6615817.4
+      ],
+      "teeShiftMetres": 1.438,
+      "platforms": 2,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 15,
+      "historicalTeeEpsg3006": [
+        597129.6407847852,
+        6615622.249196049
+      ],
+      "displayStart": [
+        597129.641,
+        6615622.249
+      ],
+      "teeShiftMetres": 0.0,
+      "platforms": 0,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 0,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 16,
+      "historicalTeeEpsg3006": [
+        597513.2363100818,
+        6615746.334620461
+      ],
+      "displayStart": [
+        597509.071,
+        6615730.555
+      ],
+      "teeShiftMetres": 16.32,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 17,
+      "historicalTeeEpsg3006": [
+        597312.1497650346,
+        6615479.261432378
+      ],
+      "displayStart": [
+        597305.607,
+        6615475.216
+      ],
+      "teeShiftMetres": 7.692,
+      "platforms": 2,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    },
+    {
+      "hole": 18,
+      "historicalTeeEpsg3006": [
+        597662.3282173765,
+        6615607.770079818
+      ],
+      "displayStart": [
+        597662.374,
+        6615608.183
+      ],
+      "teeShiftMetres": 0.415,
+      "platforms": 1,
+      "routing": "GolfTraxx reference with observed endpoints",
+      "forwardOnlyPlatformsPreserveHistoricalCamera": false,
+      "cameraPlatformCandidates": 1,
+      "pin": "virtual target inside observed green; not daily flag position"
+    }
+  ],
+  "surfaceCounts": {
+    "green": 18,
+    "bunker": 32,
+    "tee": 22,
+    "fairway": 15
+  },
+  "playingChangesets": [
+    {
+      "geometry": {
+        "path": "tortunabuild/mapping/improvements-front9.geojson",
+        "sha256": "fc4e9f72f2041151dd377bcd543a98688d678a2d2b446a1544535172d0aa6faf"
+      },
+      "review": {
+        "path": "tortunabuild/mapping/improvements-front9-review.json",
+        "sha256": "da64dc4224965c8259f4fa320c367da4a657f95dd9fd82933e3874ce0a32c231"
+      },
+      "replacements": 14,
+      "additions": 3,
+      "removals": [],
+      "guardedOriginals": [
+        {
+          "path": "tortunabuild/mapping/surfaces-front9.geojson",
+          "sha256": "6a0560e6d8456545c33e4d8d77a0f33397ed28bfe293ad20149ff2df905d253f"
+        },
+        {
+          "path": "tortunabuild/mapping/surfaces-front9-fairways.geojson",
+          "sha256": "b27324aa0db3aeb8b55a8f271322be15310078fc4cefad436f197d772cca159a"
+        }
+      ]
+    },
+    {
+      "geometry": {
+        "path": "tortunabuild/mapping/improvements-back9.geojson",
+        "sha256": "8a1fdbe76b14ab118e68bdd05a20e978fc8dd140bef501390519a95c01245df7"
+      },
+      "review": {
+        "path": "tortunabuild/mapping/improvements-back9-review.json",
+        "sha256": "210cc7258ebdd6fb81e81e114276c2d775b7cfcae143e939e8ac586b073c6c7d"
+      },
+      "replacements": 30,
+      "additions": 3,
+      "removals": [
+        {
+          "featureId": "tortuna-h18-tee-02",
+          "hole": 18,
+          "kind": "tee",
+          "reason": "Misidentified cart path. Native H18 tee RGB shows continuous pale path to footbridge through entire old narrow polygon; no closed maintained pad exists here.",
+          "sourceCrop": "tortunabuild/cache/orthophoto/crops/hole-18-tee.png",
+          "sourceCropSha256": "3903505aa5dacc8734b4e93279cdf3a16279b4ab6ac09b12eca9e9da4ee3382d"
+        }
+      ],
+      "guardedOriginals": [
+        {
+          "path": "tortunabuild/mapping/surfaces-back9.geojson",
+          "sha256": "08e008d1d15aaf002ba99132e82c3ee2d5b9c561d7ecbfd283da406699091e97"
+        }
+      ]
+    }
+  ],
+  "environment": {
+    "polygonExclusions": [
+      {
+        "sourceFeatureId": "way/153384177",
+        "pieces": 138,
+        "sourceAreaSquareMetres": 165272.01765932675,
+        "excludedAreaSquareMetres": 15285.583641290053,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 8.731149137020111e-11
+      },
+      {
+        "sourceFeatureId": "way/170092505",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 875018.4940511672,
+        "excludedAreaSquareMetres": 4.656612873077393e-10,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1315905781",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 85388.1219893912,
+        "excludedAreaSquareMetres": 1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1315908683",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 70630.40273790188,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1315908774",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 100233.28870100687,
+        "excludedAreaSquareMetres": -1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1315914725",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 79814.08504297379,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1329841127",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 467012.93796013616,
+        "excludedAreaSquareMetres": -5.820766091346741e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1337709821",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 114750.38764000344,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1337715758",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 57203.10149274963,
+        "excludedAreaSquareMetres": -1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1338706246",
+        "pieces": 9,
+        "sourceAreaSquareMetres": 24233.2640074121,
+        "excludedAreaSquareMetres": 3443.44219833432,
+        "symmetricDifferenceSquareMetres": 1.0415575235622754e-08,
+        "overlapSquareMetres": 7.275957614183426e-12
+      },
+      {
+        "sourceFeatureId": "way/1338706249",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 42485.02977255285,
+        "excludedAreaSquareMetres": 19.872095737468044,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1349180282",
+        "pieces": 2,
+        "sourceAreaSquareMetres": 5741.314824776685,
+        "excludedAreaSquareMetres": 241.5240253464417,
+        "symmetricDifferenceSquareMetres": 2.3050848868555462e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1349180287",
+        "pieces": 5,
+        "sourceAreaSquareMetres": 1981.4642754224983,
+        "excludedAreaSquareMetres": 338.1144807199903,
+        "symmetricDifferenceSquareMetres": 1.5917035467438723e-09,
+        "overlapSquareMetres": -2.2737367544323206e-13
+      },
+      {
+        "sourceFeatureId": "way/1349180475",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 230244.82183086584,
+        "excludedAreaSquareMetres": -5.820766091346741e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1349180648",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 198673.11345783228,
+        "excludedAreaSquareMetres": -5.820766091346741e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1369002268",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 45533.77933549005,
+        "excludedAreaSquareMetres": 1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384964024",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 159552.8427369749,
+        "excludedAreaSquareMetres": 8.731149137020111e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384965173",
+        "pieces": 2,
+        "sourceAreaSquareMetres": 3458.426994661832,
+        "excludedAreaSquareMetres": 157.68524371851845,
+        "symmetricDifferenceSquareMetres": 4.501515826760283e-10,
+        "overlapSquareMetres": -4.547473508864641e-13
+      },
+      {
+        "sourceFeatureId": "way/1384965174",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 30823.29435619233,
+        "excludedAreaSquareMetres": -1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384971770",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 71394.75531203453,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384988020",
+        "pieces": 8,
+        "sourceAreaSquareMetres": 13893.671078085461,
+        "excludedAreaSquareMetres": 1867.4952243081643,
+        "symmetricDifferenceSquareMetres": 7.2911621185056674e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384988021",
+        "pieces": 10,
+        "sourceAreaSquareMetres": 15331.401667652275,
+        "excludedAreaSquareMetres": 1902.9209442488373,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 3.637978807091713e-12
+      },
+      {
+        "sourceFeatureId": "way/1384988022",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 8581.985706626485,
+        "excludedAreaSquareMetres": -1.8189894035458565e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384988128",
+        "pieces": 3,
+        "sourceAreaSquareMetres": 2377.9408280307957,
+        "excludedAreaSquareMetres": 227.61500683293843,
+        "symmetricDifferenceSquareMetres": 7.464458939843155e-09,
+        "overlapSquareMetres": 4.547473508864641e-13
+      },
+      {
+        "sourceFeatureId": "way/1384988669",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 43807.17106244416,
+        "excludedAreaSquareMetres": 7.275957614183426e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384988670",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 6757.62297601968,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443645911",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 203086.9919200033,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443645912",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 34766.80149003274,
+        "excludedAreaSquareMetres": -7.275957614183426e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443645913",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 5723.871758370985,
+        "excludedAreaSquareMetres": -9.094947017729282e-13,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443645917",
+        "pieces": 7,
+        "sourceAreaSquareMetres": 9349.486029665586,
+        "excludedAreaSquareMetres": 771.4138241849851,
+        "symmetricDifferenceSquareMetres": 6.620972659021618e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443645919",
+        "pieces": 4,
+        "sourceAreaSquareMetres": 2292.3279068826196,
+        "excludedAreaSquareMetres": 136.64931309538497,
+        "symmetricDifferenceSquareMetres": 2.9669184886671474e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443646003",
+        "pieces": 4,
+        "sourceAreaSquareMetres": 2763.673075545518,
+        "excludedAreaSquareMetres": 288.2102134608367,
+        "symmetricDifferenceSquareMetres": 3.5150320432109083e-09,
+        "overlapSquareMetres": 4.547473508864641e-13
+      },
+      {
+        "sourceFeatureId": "way/1443647129",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 6670.552581353661,
+        "excludedAreaSquareMetres": -1.8189894035458565e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502766447",
+        "pieces": 5,
+        "sourceAreaSquareMetres": 12301.460656560128,
+        "excludedAreaSquareMetres": 1262.1470779524898,
+        "symmetricDifferenceSquareMetres": 5.270987937788796e-09,
+        "overlapSquareMetres": -1.8189894035458565e-12
+      },
+      {
+        "sourceFeatureId": "way/1502766462",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 31007.863898553333,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1526367956",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 436739.38348073134,
+        "excludedAreaSquareMetres": -1.7462298274040222e-10,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1526395619",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 155279.26557962995,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1526402825",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 62918.80773126905,
+        "excludedAreaSquareMetres": 7.275957614183426e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1529985749",
+        "pieces": 2,
+        "sourceAreaSquareMetres": 6990.247102946512,
+        "excludedAreaSquareMetres": 127.66963775718432,
+        "symmetricDifferenceSquareMetres": 1.6886163578533342e-09,
+        "overlapSquareMetres": 9.094947017729282e-13
+      },
+      {
+        "sourceFeatureId": "way/1551138485",
+        "pieces": 4,
+        "sourceAreaSquareMetres": 7311.828922548525,
+        "excludedAreaSquareMetres": 538.9199272009464,
+        "symmetricDifferenceSquareMetres": 5.3515001319226485e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1315905723",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 8821.18226190359,
+        "excludedAreaSquareMetres": -1.8189894035458565e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1315905961",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 26054.671480146302,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1334174323",
+        "pieces": 4,
+        "sourceAreaSquareMetres": 8279.001691489697,
+        "excludedAreaSquareMetres": 1500.6111423439415,
+        "symmetricDifferenceSquareMetres": 3.3290775691696695e-09,
+        "overlapSquareMetres": 1.8189894035458565e-12
+      },
+      {
+        "sourceFeatureId": "way/1334174989",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 11265.775494899948,
+        "excludedAreaSquareMetres": 1.8189894035458565e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1334175190",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 53954.478787523425,
+        "excludedAreaSquareMetres": 4.43396857008338e-08,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1334175276",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 134907.80522722585,
+        "excludedAreaSquareMetres": 5.820766091346741e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1336476815",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 70161.95015627833,
+        "excludedAreaSquareMetres": 1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1336477458",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 106744.03561805839,
+        "excludedAreaSquareMetres": -1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1336477684",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 49548.95068378845,
+        "excludedAreaSquareMetres": -7.275957614183426e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1336491443",
+        "pieces": 3,
+        "sourceAreaSquareMetres": 9768.908147780607,
+        "excludedAreaSquareMetres": 303.0715167831513,
+        "symmetricDifferenceSquareMetres": 2.8497502135849118e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1337719953",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 85651.20833700009,
+        "excludedAreaSquareMetres": 1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1337966548",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 27141.424649506236,
+        "excludedAreaSquareMetres": -7.275957614183426e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1338595432",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 90268.09981041693,
+        "excludedAreaSquareMetres": 1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1338595539",
+        "pieces": 13,
+        "sourceAreaSquareMetres": 35652.036205074706,
+        "excludedAreaSquareMetres": 2951.9794746351836,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1338595711",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 6119.462369495445,
+        "excludedAreaSquareMetres": 9.094947017729282e-13,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1338595933",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 271737.56984789594,
+        "excludedAreaSquareMetres": 5.820766091346741e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384964958",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 115466.69197473489,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1385031279",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 161041.9093176762,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443645910",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 150763.84782328253,
+        "excludedAreaSquareMetres": -2.9103830456733704e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443646877",
+        "pieces": 4,
+        "sourceAreaSquareMetres": 7484.96141350188,
+        "excludedAreaSquareMetres": 303.1709748603771,
+        "symmetricDifferenceSquareMetres": 9.034465175972173e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443646879",
+        "pieces": 2,
+        "sourceAreaSquareMetres": 2791.255309563327,
+        "excludedAreaSquareMetres": 214.65419982932235,
+        "symmetricDifferenceSquareMetres": 1.0166836261760182e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1491097742",
+        "pieces": 4,
+        "sourceAreaSquareMetres": 11273.907706445401,
+        "excludedAreaSquareMetres": 565.630064917681,
+        "symmetricDifferenceSquareMetres": 6.971244914666386e-09,
+        "overlapSquareMetres": -1.8189894035458565e-12
+      },
+      {
+        "sourceFeatureId": "way/1491097743",
+        "pieces": 3,
+        "sourceAreaSquareMetres": 3465.836116057931,
+        "excludedAreaSquareMetres": 233.9261616631843,
+        "symmetricDifferenceSquareMetres": 3.4187572772736985e-09,
+        "overlapSquareMetres": -9.094947017729282e-13
+      },
+      {
+        "sourceFeatureId": "way/1491097744",
+        "pieces": 4,
+        "sourceAreaSquareMetres": 6898.545379895349,
+        "excludedAreaSquareMetres": 208.97680473781475,
+        "symmetricDifferenceSquareMetres": 2.7967502758130536e-09,
+        "overlapSquareMetres": -9.094947017729282e-13
+      },
+      {
+        "sourceFeatureId": "way/1491097746",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 2894.098596449671,
+        "excludedAreaSquareMetres": 4.547473508864641e-13,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1491097747",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 255607.79940985714,
+        "excludedAreaSquareMetres": -5.820766091346741e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1491872454",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 45415.259877044235,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502761727",
+        "pieces": 9,
+        "sourceAreaSquareMetres": 25655.27906024466,
+        "excludedAreaSquareMetres": 724.7893213639072,
+        "symmetricDifferenceSquareMetres": 1.6957999671163293e-08,
+        "overlapSquareMetres": 3.637978807091713e-12
+      },
+      {
+        "sourceFeatureId": "way/1502765431",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 157005.79811451666,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502766476",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 1711.220065826401,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502771005",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 146665.19340837392,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502771060",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 31175.458353759645,
+        "excludedAreaSquareMetres": 3.637978807091713e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502774290",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 11602.879918102622,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502774354",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 73258.56328481885,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502774459",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 63552.29591368872,
+        "excludedAreaSquareMetres": 7.275957614183426e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1502774529",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 122038.52228879883,
+        "excludedAreaSquareMetres": -4.3655745685100555e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1509967065",
+        "pieces": 3,
+        "sourceAreaSquareMetres": 1664.0647903112708,
+        "excludedAreaSquareMetres": 143.3182586268574,
+        "symmetricDifferenceSquareMetres": 3.026135342309999e-09,
+        "overlapSquareMetres": -2.2737367544323206e-13
+      },
+      {
+        "sourceFeatureId": "way/1509967066",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 55406.54644729493,
+        "excludedAreaSquareMetres": -1.4551915228366852e-11,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1510725488",
+        "pieces": 25,
+        "sourceAreaSquareMetres": 45766.232638626665,
+        "excludedAreaSquareMetres": 3150.60249264256,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 2.1827872842550278e-11
+      },
+      {
+        "sourceFeatureId": "way/1510725489",
+        "pieces": 4,
+        "sourceAreaSquareMetres": 11130.472035970937,
+        "excludedAreaSquareMetres": 500.7051235714207,
+        "symmetricDifferenceSquareMetres": 4.50133605389702e-09,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1510725490",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 15719.123889227796,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1510725491",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 22414.157008944676,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1510725492",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 14034.707922363086,
+        "excludedAreaSquareMetres": -1.8189894035458565e-12,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1510725495",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 49183.252714781454,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1513723684",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 106255.9754305361,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1549573825",
+        "pieces": 1,
+        "sourceAreaSquareMetres": 11371.32738716574,
+        "excludedAreaSquareMetres": 0.0,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      }
+    ],
+    "omitted": [],
+    "counts": {
+      "paths": 115,
+      "landuse": 341,
+      "clearfells": 0,
+      "streams": 10,
+      "railways": 13,
+      "powerLines": 2,
+      "powerSupports": 11
+    }
+  },
+  "buildingRoofs": {
+    "attachedBuildingIds": [
+      "way/1163533113",
+      "way/1163533115",
+      "way/1163533123",
+      "way/1163533127",
+      "way/1163607303",
+      "way/1384988127"
+    ],
+    "withheld": [
+      {
+        "id": "tortuna-clubhouse-low-extension",
+        "associatedBuildingId": "way/1163533127",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      {
+        "id": "tortuna-clubhouse-west-outbuilding-roof",
+        "associatedBuildingId": "way/1163533128",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      {
+        "id": "tortuna-clubhouse-southwest-shed-roof",
+        "associatedBuildingId": null,
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      {
+        "id": "tortuna-range-small-outbuilding-roof",
+        "associatedBuildingId": "way/1163533114",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      {
+        "id": "tortuna-house-east-roof",
+        "associatedBuildingId": "way/1384988126",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      },
+      {
+        "id": "tortuna-range-shelter-roof",
+        "associatedBuildingId": "tortuna-range-shelter",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      }
+    ],
+    "vegetationExclusionEnvelopes": 12,
+    "groundFootprintsReplaced": false
+  },
+  "surroundingContext": {
+    "omitted": [],
+    "landCoverTopology": [
+      {
+        "sourceFeatureId": "way/550379221",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/550379222",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384963669",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1384966184",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443645918",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443646881",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443646882",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1526395960",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/490584004",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/490584005",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1336491444",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1336496993",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1337966549",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1337966775",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1385031586",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1443646880",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1491097745",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1526395620",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      },
+      {
+        "sourceFeatureId": "way/1549573826",
+        "pieces": 1,
+        "clippedToMeasuredTerrain": false,
+        "symmetricDifferenceSquareMetres": 0.0,
+        "overlapSquareMetres": 0.0
+      }
+    ],
+    "buildings": 308,
+    "vegetation": {
+      "forest": 12,
+      "wood": 4,
+      "scrub": 3,
+      "wetland": 0,
+      "sand": 0,
+      "rock": 0
+    }
+  },
+  "limits": [
+    "No card-derived polygon generation, terrain flattening, or daily-flag claims.",
+    "Forward tee completeness, shadow-obscured edges, current tree presence and independent controls remain unverified."
+  ]
+}

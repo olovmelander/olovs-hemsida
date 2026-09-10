@@ -1,0 +1,577 @@
+{
+  "passed": true,
+  "sceneName": "Visby | Kronholmen facilities",
+  "blendPath": "visbybuild/facilities/output/visby-facilities.blend",
+  "blendSha256": "2fcd51153ab3fba1ff0ae30e38a27c78a2f24d135a7ebe87479d7b7721ef6a80",
+  "preservedActiveScene": "Tortuna facility | entry-outbuilding",
+  "preservedExistingScenes": true,
+  "facilityCount": 18,
+  "meshObjects": 241,
+  "vertices": 19966,
+  "facilities": [
+    {
+      "id": "way/530655627",
+      "nodeName": "Visby Range practice building",
+      "sourceBuildingId": "way/530655627",
+      "groundAnchorLocal": [
+        -330.52632352962974,
+        84.51115318993106
+      ],
+      "groundAnchorRh2000M": 3.7762155474887753,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "way/530655628",
+      "nodeName": "Visby Eastern service building",
+      "sourceBuildingId": "way/530655628",
+      "groundAnchorLocal": [
+        237.27692620426586,
+        -78.17478327546269
+      ],
+      "groundAnchorRh2000M": 5.290098749962491,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "way/530655629",
+      "nodeName": "Visby Parking auxiliary building",
+      "sourceBuildingId": "way/530655629",
+      "groundAnchorLocal": [
+        -441.94,
+        177.22
+      ],
+      "groundAnchorRh2000M": 2.6642955001498425,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "way/530655630",
+      "nodeName": "Visby Eastern clubhouse auxiliary",
+      "sourceBuildingId": "way/530655630",
+      "groundAnchorLocal": [
+        -476.0849235538626,
+        214.21300490316935
+      ],
+      "groundAnchorRh2000M": 2.201699847153035,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "clubhouse",
+      "nodeName": "Visby Clubhouse and terraces",
+      "sourceBuildingId": "way/530655631",
+      "groundAnchorLocal": [
+        -520.0923035958355,
+        206.15219472307297
+      ],
+      "groundAnchorRh2000M": 2.750605541092852,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "way/530655632",
+      "nodeName": "Visby Red former keeper house",
+      "sourceBuildingId": "way/530655632",
+      "groundAnchorLocal": [
+        -588.42,
+        202.94
+      ],
+      "groundAnchorRh2000M": 4.5645100766942655,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "way/530655633",
+      "nodeName": "Visby Fyrhuset lodging",
+      "sourceBuildingId": "way/530655633",
+      "groundAnchorLocal": [
+        -605.94,
+        196.78
+      ],
+      "groundAnchorRh2000M": 4.848186826702089,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "range-east-shelter-2026",
+      "nodeName": "Visby range-east-shelter-2026",
+      "sourceFeatureId": "range-east-shelter-2026",
+      "footprintLocal": [
+        [
+          -263.7,
+          109.74
+        ],
+        [
+          -248.82,
+          111.34
+        ],
+        [
+          -249.94,
+          120.78
+        ],
+        [
+          -265.14,
+          119.18
+        ],
+        [
+          -263.7,
+          109.74
+        ]
+      ],
+      "groundAnchorLocal": [
+        -256.9,
+        115.26
+      ],
+      "groundAnchorRh2000M": 2.888020194531074,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "range-parking-building-2026",
+      "nodeName": "Visby range-parking-building-2026",
+      "sourceFeatureId": "range-parking-building-2026",
+      "footprintLocal": [
+        [
+          -356.34,
+          125.1
+        ],
+        [
+          -343.54,
+          118.22
+        ],
+        [
+          -339.54,
+          124.94
+        ],
+        [
+          -352.98,
+          132.14
+        ],
+        [
+          -356.34,
+          125.1
+        ]
+      ],
+      "groundAnchorLocal": [
+        -348.1,
+        125.1
+      ],
+      "groundAnchorRh2000M": 3.2424287057201204,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "service-west-north-2026",
+      "nodeName": "Visby service-west-north-2026",
+      "sourceFeatureId": "service-west-north-2026",
+      "footprintLocal": [
+        [
+          193.42,
+          -96.82
+        ],
+        [
+          204.78,
+          -100.5
+        ],
+        [
+          216.78,
+          -70.26
+        ],
+        [
+          205.74,
+          -65.62
+        ],
+        [
+          193.42,
+          -96.82
+        ]
+      ],
+      "groundAnchorLocal": [
+        205.18,
+        -83.3
+      ],
+      "groundAnchorRh2000M": 5.093576292040593,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "service-west-south-2026",
+      "nodeName": "Visby service-west-south-2026",
+      "sourceFeatureId": "service-west-south-2026",
+      "footprintLocal": [
+        [
+          206.54,
+          -65.94
+        ],
+        [
+          218.54,
+          -69.3
+        ],
+        [
+          229.42,
+          -40.66
+        ],
+        [
+          216.94,
+          -35.86
+        ],
+        [
+          206.54,
+          -65.94
+        ]
+      ],
+      "groundAnchorLocal": [
+        217.86,
+        -52.94
+      ],
+      "groundAnchorRh2000M": 5.075035103405031,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "service-north-small-2026",
+      "nodeName": "Visby service-north-small-2026",
+      "sourceFeatureId": "service-north-small-2026",
+      "footprintLocal": [
+        [
+          222.7,
+          -139.06
+        ],
+        [
+          228.14,
+          -141.14
+        ],
+        [
+          230.22,
+          -136.18
+        ],
+        [
+          224.78,
+          -134.1
+        ],
+        [
+          222.7,
+          -139.06
+        ]
+      ],
+      "groundAnchorLocal": [
+        226.45999999999998,
+        -137.62
+      ],
+      "groundAnchorRh2000M": 5.03839950237253,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "range-firing-mats-west-2026",
+      "nodeName": "Visby range-firing-mats-west-2026",
+      "sourceFeatureId": "range-firing-mats-west-2026",
+      "footprintLocal": [
+        [
+          -346.34,
+          76.7
+        ],
+        [
+          -330.18,
+          76.7
+        ],
+        [
+          -330.18,
+          60.54
+        ],
+        [
+          -346.34,
+          60.54
+        ]
+      ],
+      "groundAnchorLocal": [
+        -338.26,
+        68.62
+      ],
+      "groundAnchorRh2000M": 4.111653300664954,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "range-firing-mats-central-2026",
+      "nodeName": "Visby range-firing-mats-central-2026",
+      "sourceFeatureId": "range-firing-mats-central-2026",
+      "footprintLocal": [
+        [
+          -321.86,
+          111.74
+        ],
+        [
+          -267.62,
+          111.74
+        ],
+        [
+          -267.62,
+          90.62
+        ],
+        [
+          -321.86,
+          90.62
+        ]
+      ],
+      "groundAnchorLocal": [
+        -295.12399999999997,
+        102.28400000000002
+      ],
+      "groundAnchorRh2000M": 2.9467020437101343,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "range-firing-mats-east-2026",
+      "nodeName": "Visby range-firing-mats-east-2026",
+      "sourceFeatureId": "range-firing-mats-east-2026",
+      "footprintLocal": [
+        [
+          -250.66,
+          114.78
+        ],
+        [
+          -230.66,
+          114.78
+        ],
+        [
+          -230.66,
+          107.9
+        ],
+        [
+          -250.66,
+          107.9
+        ]
+      ],
+      "groundAnchorLocal": [
+        -240.76666666666665,
+        111.28666666666668
+      ],
+      "groundAnchorRh2000M": 2.8827633752058865,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "range-east-net-base-2026",
+      "nodeName": "Visby range-east-net-base-2026",
+      "sourceFeatureId": "range-east-net-base-2026",
+      "footprintLocal": [
+        [
+          -230.82,
+          107.26
+        ],
+        [
+          -162.82,
+          107.26
+        ],
+        [
+          -162.82,
+          -28.1
+        ],
+        [
+          -230.82,
+          -28.1
+        ]
+      ],
+      "groundAnchorLocal": [
+        -200.14235294117648,
+        35.989411764705885
+      ],
+      "groundAnchorRh2000M": 2.668909885550002,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "skansudde-lighthouse",
+      "nodeName": "Visby Skansudde lighthouse",
+      "sourceLandmarkId": "skansudde-lighthouse",
+      "groundAnchorLocal": [
+        -603.3,
+        190.4
+      ],
+      "groundAnchorRh2000M": 5.022101526248763,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "shoreline-shed",
+      "nodeName": "Visby shoreline shed",
+      "sourceFeatureId": "shoreline-shed",
+      "footprintLocal": [
+        [
+          -548.1799999999581,
+          228.85999999940395
+        ],
+        [
+          -544.9799999999581,
+          228.85999999940395
+        ],
+        [
+          -544.9799999999581,
+          232.85999999940395
+        ],
+        [
+          -548.1799999999581,
+          232.85999999940395
+        ]
+      ],
+      "groundAnchorLocal": [
+        -546.5799999999581,
+        230.85999999940395
+      ],
+      "groundAnchorRh2000M": 2.0639202855826597,
+      "placement": "absolute-rh2000"
+    }
+  ],
+  "cameras": {
+    "clubhouse-seaward": "Visby / Clubhouse seaward.003",
+    "clubhouse-entry": "Visby / Clubhouse entry.003",
+    "lighthouse": "Visby / Lighthouse.003",
+    "campus": "Visby / Campus.003",
+    "roof-plan": "Visby / Roof plan.003",
+    "range": "Visby / Range.001",
+    "service-yard": "Visby / Service yard.001"
+  },
+  "packedPhotoReferences": [
+    "semester--DSC4580.jpg",
+    "semester--DSC4575.jpg",
+    "club-contact--497_VisbyGK_JacobSjoman_16BITS_V1-copy.jpg",
+    "commons-clubhouse-2009.jpg",
+    "fyrhuset--725_Visby_GK_Jacob_Sjomanbild-2026-2-scaled.jpg"
+  ],
+  "modeling": [
+    {
+      "id": "way/530655627",
+      "dimensionsMetres": [
+        11.18,
+        9.53
+      ],
+      "eaveEstimateMetres": 2.9,
+      "ridgeEstimateMetres": 4.25,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "way/530655628",
+      "dimensionsMetres": [
+        65.27,
+        20.76
+      ],
+      "eaveEstimateMetres": 3.8,
+      "ridgeEstimateMetres": 6.6,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "way/530655629",
+      "dimensionsMetres": [
+        11.23,
+        9.32
+      ],
+      "eaveEstimateMetres": 2.45,
+      "ridgeEstimateMetres": 3.25,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "way/530655630",
+      "dimensionsMetres": [
+        15.12,
+        12.04
+      ],
+      "eaveEstimateMetres": 3.15,
+      "ridgeEstimateMetres": 6.25,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "roofSource": "April 10 2026 native 0.16m orthophoto clubhouse-finish",
+      "roofTracePixelSpace": "original 1902x1869, top-left edges",
+      "architecturalHeights": "photo-estimated, approximately +/-1m",
+      "photoEvidence": [
+        "club-contact--497_VisbyGK_JacobSjoman_16BITS_V1-copy.jpg",
+        "semester--DSC4580.jpg",
+        "commons-clubhouse-2009.jpg"
+      ],
+      "components": [
+        "north wing",
+        "northwest wing",
+        "central gable",
+        "restaurant with faceted south bay",
+        "two dormers",
+        "east entry",
+        "west and south terraces"
+      ]
+    },
+    {
+      "id": "way/530655632",
+      "dimensionsMetres": [
+        11.14,
+        9.55
+      ],
+      "eaveEstimateMetres": 2.95,
+      "ridgeEstimateMetres": 6.25,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "way/530655633",
+      "dimensionsMetres": [
+        9.67,
+        6.72
+      ],
+      "eaveEstimateMetres": 2.65,
+      "ridgeEstimateMetres": 5.3,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "range-east-shelter-2026",
+      "dimensionsMetres": [
+        15.39,
+        9.54
+      ],
+      "eaveEstimateMetres": 2.6,
+      "ridgeEstimateMetres": 3.5,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "range-parking-building-2026",
+      "dimensionsMetres": [
+        15.25,
+        7.81
+      ],
+      "eaveEstimateMetres": 2.8,
+      "ridgeEstimateMetres": 4.6,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "service-west-north-2026",
+      "dimensionsMetres": [
+        33.54,
+        11.97
+      ],
+      "eaveEstimateMetres": 3.25,
+      "ridgeEstimateMetres": 4.55,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "service-west-south-2026",
+      "dimensionsMetres": [
+        31.83,
+        13.36
+      ],
+      "eaveEstimateMetres": 4.1,
+      "ridgeEstimateMetres": 6.5,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "service-north-small-2026",
+      "dimensionsMetres": [
+        6.0,
+        5.38
+      ],
+      "eaveEstimateMetres": 2.2,
+      "ridgeEstimateMetres": 3.1,
+      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
+      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "skansudde-lighthouse",
+      "totalHeightMetres": 10.4,
+      "heightSource": "Svenska Fyrsallskapet Skansudde, current 1936 tower",
+      "radiusEstimateMetres": 1.24,
+      "otherDimensions": "photo-estimated from DSC4575 proportions"
+    }
+  ],
+  "groundSourceSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898"
+}

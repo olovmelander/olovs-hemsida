@@ -82,6 +82,20 @@ function reviewedEndpointEvidence(h, original, feature) {
   return Math.abs(polyLen(before) - h.t[0]) / h.t[0] * 100 <= 0.5;
 }
 
+const teePlacement = readJSON(path.join(HERE, 'mapping/tee-placement-review.json'));
+function reviewedTeeStartEvidence(h, original) {
+  const proof = original?.teePlacementReview;
+  const mark = original?.tees.marks[0];
+  const decision = teePlacement.holes.find(q => q.hole === h.n)?.marks.find(m => m.teeIndex === 0);
+  if (!proof?.changedStart || !decision?.displayMarkers || !same(h.line, original.line) ||
+      !same(h.line[0], decision.displayC) || !same(mark.c, decision.displayC) ||
+      proof.sourceReviewSha256 !== geometrySha256(teePlacement) ||
+      proof.lineAfterSha256 !== geometrySha256(h.line)) return false;
+  const before = [mark.orthophotoReference.originalReference.c, ...h.line.slice(1)];
+  return geometrySha256(before) === proof.lineBeforeSha256 &&
+    Math.abs(polyLen(before) - h.t[0]) / h.t[0] * 100 <= .5;
+}
+
 {
   const acceptedGreens = new Map();
   for (const name of ['lm-review-front9.json', 'lm-review-back9.json']) {
@@ -98,11 +112,11 @@ function reviewedEndpointEvidence(h, original, feature) {
     if (dev > worst) { worst = dev; worstN = h.n; }
     if (dev <= 0.5) continue;
     const sourceHole = model.holes.find(q => q.n === h.n);
-    if (reviewedEndpointEvidence(h, sourceHole, acceptedGreens.get(sourceHole?.routingReviewId))) reviewed.push(h.n);
+    if (reviewedTeeStartEvidence(h, sourceHole) || reviewedEndpointEvidence(h, sourceHole, acceptedGreens.get(sourceHole?.routingReviewId))) reviewed.push(h.n);
     else rejected.push(h.n);
   }
   gate(rejected.length === 0, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}); 0.5% gate, ${reviewed.length} evidenced endpoint changes, ${rejected.length} unsupported deviations${rejected.length ? ' on holes ' + rejected.join(', ') : ''}`);
-  if (reviewed.length) console.log(`       holes ${reviewed.join(', ')}: reviewed green targets; original tee and intermediate route vertices unchanged`);
+  if (reviewed.length) console.log(`       holes ${reviewed.join(', ')}: evidenced tee/green endpoint changes; intermediate route vertices retained`);
 }
 
 /* --- 3: greens ---------------------------------------------------------------- */
@@ -168,12 +182,7 @@ gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
     n: h.n, line: h.line, lineLen: h.lineLen, pin: h.pin,
     green: { ring: h.green.ring, c: h.green.c },
     fairway: h.fairway.rings,
-    tees: {
-      ...(h.tees.inferPads === false ? { inferPads: false } : {}),
-      ...(h.tees.status ? { status: h.tees.status } : {}),
-      pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}) })),
-      marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.displayC !== undefined ? { displayC: m.displayC } : {}) })),
-    },
+    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), ...(h.tees.status ? { status: h.tees.status } : {}), ...(h.tees.markerLayout ? { markerLayout: h.tees.markerLayout } : {}), ...(h.tees.markerPlacement ? { markerPlacement: h.tees.markerPlacement } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}), ...(p.reviewId !== undefined && h.tees.marks.some(m => m.sourcePadId === p.reviewId) ? { reviewId: p.reviewId } : {}), ...(p.id !== undefined && h.tees.marks.some(m => m.sourcePadId === p.id) ? { id: p.id } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.referenceSurfaceKind ? { referenceSurfaceKind: m.referenceSurfaceKind } : {}), ...(m.referenceSurfaceRing ? { referenceSurfaceRing: m.referenceSurfaceRing } : {}), ...(m.orthophotoReference ? { orthophotoReference: m.orthophotoReference } : {}), ...(m.displayC !== undefined ? { displayC: m.displayC } : {}), ...(m.sourcePadId !== undefined ? { sourcePadId: m.sourcePadId } : {}) })) },
     bunkers: h.bunkers.map(b => b.ring),
   });
   const stale = model.holes.filter(h => {

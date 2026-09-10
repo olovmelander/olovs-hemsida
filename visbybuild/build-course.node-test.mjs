@@ -70,6 +70,24 @@ test('a missing physical tee, unknown CRS or a camera reference off an observed 
   assert.throws(() => localRing(box(2047, 2047), 'outside'), /leaves acquired terrain/);
 });
 
+test('a reviewed unresolved reference remains fixed when the rear route or card changes', () => {
+  const geometry = fixture(), input = geometry.holes[0];
+  input.tees.references = { 'tee-59': projected([30, -120]) };
+  input.tees.referenceReview = { 'tee-59': { status: 'retained-unresolved', reason: 'Numbered platform is obscured in the source image.' } };
+  const before = buildHoles(card, geometry, () => 3)[0];
+  assert.deepEqual(before.tees.marks[1].c, [30, -120]);
+  assert.match(before.tees.marks[1].placement, /numbered platform unresolved/);
+  input.line[0] = projected([15, -185]);
+  const revised = structuredClone(card);
+  revised.holes[0].lengths['tee-59'] += 10;
+  revised.holes[1].lengths['tee-59'] -= 10;
+  assert.deepEqual(buildHoles(revised, geometry, () => 3)[0].tees.marks[1].c, before.tees.marks[1].c);
+  delete input.tees.referenceReview['tee-59'].reason;
+  assert.throws(() => buildHoles(card, geometry, () => 3), /unresolved reason/);
+  input.tees.referenceReview['tee-59'] = { status: 'source-corroborated' };
+  assert.throws(() => buildHoles(card, geometry, () => 3), /leaves observed tee/);
+});
+
 test('terrain interpolation uses source pixels and refuses invented coverage', () => {
   const fine = new Float32Array(4097 * 4097).fill(2);
   fine[0] = 0; fine[1] = 2; fine[4097] = 4; fine[4098] = 6;

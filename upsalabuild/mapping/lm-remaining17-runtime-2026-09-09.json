@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09T21:10:10.887Z",
+  "passed": true,
+  "scope": "All Uppsala Stora and Mellanbanan tee navigation references after the remaining seventeen site reviews.",
+  "methodology": {
+    "browser": "Installed Chrome through playwright-core; WebGL2 with BANVY_GPU=1.",
+    "app": "Actual tee buttons, instant tee camera and rangefinder, required-v2 and GPK1. Model coordinates and pad rings must match; rangefinder origins match exactly and camera X/Z differs by less than 1 mm. Previously associated references remain inside their designated physical pads on surface 5 (TEE). All newly reviewed references remain inside their source evidence footprints.",
+    "captures": "Camera settled; required-v2 graph ready with no loading or failed tiles.",
+    "isolatedPreview": "Production build frozen under ignored cache to prevent concurrent builds replacing assets during verification.",
+    "limits": [
+      "Six of the seventeen positions are approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Neither exact daily marker coordinates nor absolute survey accuracy is established.",
+      "Visible support footprints are evidence only, not physical tee boundaries. H13/H15 complete platform boundaries remain provisional.",
+      "The review server lacks favicon.svg; this non-course asset was stubbed with an empty 204 response. Course assets were fetched normally."
+    ]
+  },
+  "sources": [
+    {
+      "path": "upsalabuild/course-model.json",
+      "sha256": "3ec429382ac69f986be297c4a1b4c3e7467d558e0e0a8d8f11956818d1c41c2c"
+    },
+    {
+      "path": "upsalamellanbuild/course-model.json",
+      "sha256": "61b2e883cefff22ccc8b5f5a6efa7faa2db989f404ab833dda2fd2a59c20ccff"
+    },
+    {
+      "path": "upsala3d.html",
+      "sha256": "7cf3a0e2838ef41e5420f86e811d7f514afd22c0035881054df6de6898f5e11a"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-site-review-stora-2026-09-09.json",
+      "sha256": "97d6b30abd5308ad8405f4736398c48db3dc10f69069900f0d87f058d01dd679"
+    },
+    {
+      "path": "upsalabuild/mapping/lm-tee-site-review-mellan-2026-09-09.json",
+      "sha256": "fadb355c9c4bf48ec3f52db4afab7167c1e14886d78c68c3535b0134f2107385"
+    },
+    {
+      "path": "upsalabuild/mapping/tee-site-coordinate-contract-2026-09-09.json",
+      "sha256": "3f2ec4a2a8d822916d9e17516ef450733cbb1e7c12ac7246da2e07feee81231b"
+    },
+    {
+      "path": "upsalabuild/cache/lm-remaining17-app-dist/index.html",
+      "sha256": "a36575982afc30ae5b206dff7bf300befa553214bd72be750f9aea0179a232d7"
+    }
+  ],
+  "app": {
+    "rawResults": {
+      "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/report.json",
+      "sha256": "a85a058cbe1713544958d4b70f83209dedccb3baa181aafb0e6e240a4b53c1b1"
+    },
+    "script": {
+      "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09.mjs",
+      "sha256": "5daccabac69a2e6ff73d97c836d01356eefd23343ed945c2e31144258ae575ed"
+    },
+    "totalSelections": 306,
+    "previouslyAssociatedPlatformSelections": 272,
+    "reviewedSiteSelections": 34,
+    "unresolvedSelections": 0,
+    "maximumCameraErrorMetres": 0,
+    "browserErrors": 0,
+    "capturesVisuallyInspected": [
+      {
+        "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-h13-tee4-v2-require.png",
+        "observation": "Camera on visible tee turf beside the lake, looking along the hole."
+      },
+      {
+        "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-mellanbanan-h6-tee5-v2-require.png",
+        "observation": "Camera on mown ground at the fairway entrance, facing down the hole."
+      },
+      {
+        "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-mellanbanan-h8-tee5-v2-require.png",
+        "observation": "Camera on mown ground below the rear tee hill, facing along the fairway."
+      }
+    ],
+    "runs": [
+      {
+        "slug": "upsala",
+        "mode": "require",
+        "packSha256": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd",
+        "selections": 108,
+        "previouslyAssociatedPlatforms": 96,
+        "reviewedSites": 12,
+        "errors": [],
+        "captures": [
+          {
+            "hole": 3,
+            "markIndex": 5,
+            "file": "upsala-h3-tee6-v2-require.png",
+            "sha256": "a8c1cc6818436c571f2d8b67a10b042699d67739e322cf36000ca1eaa54f56dc",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                397.945,
+                23.825209056146818,
+                -3.5520000000000493
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-h3-tee6-v2-require.png"
+          },
+          {
+            "hole": 13,
+            "markIndex": 3,
+            "file": "upsala-h13-tee4-v2-require.png",
+            "sha256": "318d386e8e31d0d71316e652397d0d3d276ea709d8343f967a1e790edb7897fd",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                -340.904,
+                21.11482177964271,
+                -273.744
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-h13-tee4-v2-require.png"
+          },
+          {
+            "hole": 15,
+            "markIndex": 0,
+            "file": "upsala-h15-tee1-v2-require.png",
+            "sha256": "4dabaae954e241ad8b36acfe084208259ded912cef303b1d2c4eceaebeb1fef6",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                -111.4,
+                33.72347889990843,
+                -245.50000000000003
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-h15-tee1-v2-require.png"
+          }
+        ]
+      },
+      {
+        "slug": "upsala",
+        "mode": "0",
+        "packSha256": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd",
+        "selections": 108,
+        "previouslyAssociatedPlatforms": 96,
+        "reviewedSites": 12,
+        "errors": [],
+        "captures": [
+          {
+            "hole": 3,
+            "markIndex": 5,
+            "file": "upsala-h3-tee6-v2-0.png",
+            "sha256": "535923b2bfb55fcc59bd4b4ea7dc17aee70cfebc7c5f96dfab488410e20fe9ae",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                397.94499999999994,
+                23.890919025897986,
+                -3.552000000000305
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-h3-tee6-v2-0.png"
+          },
+          {
+            "hole": 13,
+            "markIndex": 3,
+            "file": "upsala-h13-tee4-v2-0.png",
+            "sha256": "19a37b71209a39275278218a90dcd9210c2698a9be743c0cd8af37bb5f3c612c",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                -340.904,
+                21.035571418762185,
+                -273.744
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-h13-tee4-v2-0.png"
+          },
+          {
+            "hole": 15,
+            "markIndex": 0,
+            "file": "upsala-h15-tee1-v2-0.png",
+            "sha256": "c063ecbf2f0045277e0c8cdd961f7cc060229a2c8468334c14d81e1a5edb0d38",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                -111.39999999999998,
+                33.68649339675903,
+                -245.50000000000006
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-h15-tee1-v2-0.png"
+          }
+        ]
+      },
+      {
+        "slug": "upsala-mellanbanan",
+        "mode": "require",
+        "packSha256": "d76a1c1a76ce9c6758fdb6a3e853fcccaf565441d0ac12f9d9e107a2377f4675",
+        "selections": 45,
+        "previouslyAssociatedPlatforms": 40,
+        "reviewedSites": 5,
+        "errors": [],
+        "captures": [
+          {
+            "hole": 2,
+            "markIndex": 4,
+            "file": "upsala-mellanbanan-h2-tee5-v2-require.png",
+            "sha256": "912c99c2255af474281a0a56f005a214230349ec0aa8d5573d5f280d41e0e5b5",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                553.369,
+                30.440226599403587,
+                -242.78
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-mellanbanan-h2-tee5-v2-require.png"
+          },
+          {
+            "hole": 6,
+            "markIndex": 4,
+            "file": "upsala-mellanbanan-h6-tee5-v2-require.png",
+            "sha256": "c3f54c1f2e0f31413b44a32ed733d4448a1d1cf4c978c4c4f0a64e9f4cc004d8",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                667.766,
+                36.91701595045268,
+                255.50999999999993
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-mellanbanan-h6-tee5-v2-require.png"
+          },
+          {
+            "hole": 8,
+            "markIndex": 4,
+            "file": "upsala-mellanbanan-h8-tee5-v2-require.png",
+            "sha256": "86cb7192975e1e610fdfb82a919618a77fa4e23886af730d5858c4163ee7b576",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                501.266,
+                24.12145169958611,
+                96.38899999999997
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-mellanbanan-h8-tee5-v2-require.png"
+          }
+        ]
+      },
+      {
+        "slug": "upsala-mellanbanan",
+        "mode": "0",
+        "packSha256": "d76a1c1a76ce9c6758fdb6a3e853fcccaf565441d0ac12f9d9e107a2377f4675",
+        "selections": 45,
+        "previouslyAssociatedPlatforms": 40,
+        "reviewedSites": 5,
+        "errors": [],
+        "captures": [
+          {
+            "hole": 2,
+            "markIndex": 4,
+            "file": "upsala-mellanbanan-h2-tee5-v2-0.png",
+            "sha256": "e0249df58bab2cb1dfed633fe1e1fe2173569802f12309646e5931c23c94f2c6",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                553.369,
+                30.494694460391997,
+                -242.77999999999997
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-mellanbanan-h2-tee5-v2-0.png"
+          },
+          {
+            "hole": 6,
+            "markIndex": 4,
+            "file": "upsala-mellanbanan-h6-tee5-v2-0.png",
+            "sha256": "0535d84784fd1bbfba2edf4791a818a0d598f4d36832e1473738c03874387c64",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                667.766,
+                36.81871032333376,
+                255.50999999999993
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-mellanbanan-h6-tee5-v2-0.png"
+          },
+          {
+            "hole": 8,
+            "markIndex": 4,
+            "file": "upsala-mellanbanan-h8-tee5-v2-0.png",
+            "sha256": "6b1f353189124e66d14015867df61d4f5d197c4c181cfc8185f5695ad1e1ed55",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.4222222222222223,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                501.266,
+                24.146727432250977,
+                96.38899999999998
+              ]
+            },
+            "path": "upsalabuild/cache/lm-remaining17-browser-2026-09-09/upsala-mellanbanan-h8-tee5-v2-0.png"
+          }
+        ]
+      }
+    ]
+  },
+  "standalone": {
+    "startedAt": "2026-09-09T21:07:29.710Z",
+    "backend": "webgl2",
+    "source": {
+      "path": "upsalabuild/cache/lm-remaining17-standalone-2026-09-09/report.json",
+      "sha256": "039ed9e49c16e8830b010826ec0ced70a23ad3b0633aa5a6f4bbc22ef16afd53"
+    },
+    "pageSha256": "7cf3a0e2838ef41e5420f86e811d7f514afd22c0035881054df6de6898f5e11a",
+    "referencesChecked": 108,
+    "associatedCamerasInsidePad": 96,
+    "reviewedSiteCamerasInsideEvidence": 12,
+    "maximumRoundedCameraErrorMetres": 0.06579513659839485,
+    "cameraDiagnosticRoundingMetres": 0.1,
+    "browserErrors": 0,
+    "screenshots": [
+      {
+        "hole": 3,
+        "markIndex": 5,
+        "path": "upsalabuild/cache/lm-remaining17-standalone-2026-09-09/stora-h3-reference6.png",
+        "sha256": "33272f17302df9c2aeed6cd76f3888508f7605b6b146acc1b60897dd49f260a6"
+      },
+      {
+        "hole": 13,
+        "markIndex": 3,
+        "path": "upsalabuild/cache/lm-remaining17-standalone-2026-09-09/stora-h13-reference4.png",
+        "sha256": "f0dd77d4a03005f3c9f95b22b75f8f27cfeca39e768f2e7da811703079bdaa15"
+      },
+      {
+        "hole": 13,
+        "markIndex": 5,
+        "path": "upsalabuild/cache/lm-remaining17-standalone-2026-09-09/stora-h13-reference6.png",
+        "sha256": "9c5d496f7a1dcad1536a954d2fa4d55ccee649be5b1b71d76ed324b51ae840c9"
+      },
+      {
+        "hole": 15,
+        "markIndex": 0,
+        "path": "upsalabuild/cache/lm-remaining17-standalone-2026-09-09/stora-h15-reference1.png",
+        "sha256": "ec4dbd85de37f613c76c53962981a27bca260ceae7da5af4900d66dfe21dcc56"
+      },
+      {
+        "hole": 15,
+        "markIndex": 5,
+        "path": "upsalabuild/cache/lm-remaining17-standalone-2026-09-09/stora-h15-reference6.png",
+        "sha256": "34ea9ce7e7dd6a2c63acbfe27c888e66475c70665705b95e454b0f10f65fd912"
+      }
+    ]
+  }
+}

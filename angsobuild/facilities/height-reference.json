@@ -1,0 +1,7588 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "measuredOn": "2026-09-10",
+  "source": {
+    "schemaVersion": 1,
+    "groundId": "angso",
+    "acquiredAt": "2026-09-10T07:45:45.351Z",
+    "sourceId": "21c036-660_60",
+    "capturedAt": "2021-03-20T00:00:00Z",
+    "captureStart": "2021-03-08T00:00:00Z",
+    "captureEnd": "2021-04-01T00:00:00Z",
+    "captureDateMeaning": "STAC campaign nominal timestamp and campaign interval. Individual point GPS times were not retained by this reader.",
+    "declaredPointDensityPerSquareMetre": 1.2,
+    "sourceUrl": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c036/m21c036-660_60.copc.laz",
+    "sourceSha256": "b6828e443c57acafdfb038210cb78c223e24c400749dcf0e1e380111f5300286",
+    "sourceChecksumVerification": "Pinned catalog SHA-256. Focused HTTP range reads do not verify the complete 1.01 GB source checksum.",
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalDatum": "RH2000",
+    "licence": "CC-BY-4.0",
+    "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0",
+    "termsUrl": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf",
+    "windows": [
+      {
+        "id": "campus-range",
+        "bbox": [
+          605400,
+          6604760,
+          605690,
+          6605320
+        ],
+        "pointCount": 268966,
+        "statistics": {
+          "nodes": 53,
+          "decodedPoints": 1187218,
+          "pointsInWindow": 268966,
+          "firstReturns": 244369,
+          "byClass": {
+            "1": 39822,
+            "2": 229114,
+            "7": 30
+          },
+          "nodeCountsExact": true
+        }
+      },
+      {
+        "id": "northern-service-context",
+        "bbox": [
+          605570,
+          6606090,
+          605680,
+          6606200
+        ],
+        "pointCount": 21546,
+        "statistics": {
+          "nodes": 21,
+          "decodedPoints": 439355,
+          "pointsInWindow": 21546,
+          "firstReturns": 17677,
+          "byClass": {
+            "1": 7475,
+            "2": 14054,
+            "7": 17
+          },
+          "nodeCountsExact": true
+        }
+      }
+    ],
+    "pointCount": 290512,
+    "transfer": {
+      "requests": 140,
+      "bytes": 10093403
+    },
+    "localPointsSha256": "7b0ae24b8369149b4c863580c150f39f68987eca1dfbb3f7292e6b47941df07d",
+    "localPointsPath": "angsobuild/cache/facilities-2026-09-10/laser/points.json",
+    "limitations": [
+      "Laser capture interval is March 8-April 1 2021. The June 2026 publication timestamp does not mean a 2026 scan.",
+      "Roof reconstruction is constrained by sparse forestry laser returns; nominal acquisition density is 1.2 points per square metre.",
+      "LAS class 1 means unclassified, not building. Elevated planar returns need orthophoto and photographic interpretation.",
+      "The bare-earth terrain cannot measure roofs. These source returns include nonground heights.",
+      "Five years of possible roof and facility changes separate capture and modelling; current structure requires photographic/orthophoto confirmation."
+    ]
+  },
+  "inventoryPath": "angsobuild/facilities/orthophoto-reference.json",
+  "inventorySha256": "365c1dfb80e1a211af8c2e68a3dfe69e341d9552451b9a3be2be7d2f50cb38f9",
+  "blenderFrame": {
+    "originEpsg3006": [
+      605530.0,
+      6605140.0
+    ],
+    "originHeightRH2000": 8.0,
+    "axes": "X=easting-originE; Y=northing-originN; Z=RH2000-originHeight",
+    "units": "metres"
+  },
+  "method": {
+    "algorithm": "Deterministic RANSAC and least-squares refinement, up to four elevated planes per query envelope.",
+    "inlierVerticalResidualMetres": 0.16,
+    "iterationsPerPlane": 1200,
+    "selection": "First-return LAS class 1, 1.5-14 m above robust surrounding class-2 ground plane.",
+    "spatialSupport": "Largest 2.5 m connected component, at least two neighbours per retained point, at least 12 returns and 0.35 returns per square metre of support hull.",
+    "ridgeGate": "Opposing slopes, convex gable ordering and sampled support on both sides with overlapping longitudinal extent. Candidates remain unverified.",
+    "publication": "Raw points, plots and point subsets stay in ignored cache; aggregate evidence/provenance only in the reference JSON."
+  },
+  "facilities": [
+    {
+      "id": "B01",
+      "name": "Restaurant main roof envelope",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605504.96,
+          6605147.04
+        ],
+        [
+          605529.44,
+          6605165.6
+        ],
+        [
+          605534.56,
+          6605159.84
+        ],
+        [
+          605539.2,
+          6605158.88
+        ],
+        [
+          605541.28,
+          6605153.6
+        ],
+        [
+          605520.64,
+          6605138.88
+        ],
+        [
+          605517.76,
+          6605142.24
+        ],
+        [
+          605510.56,
+          6605137.28
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605523.2074,
+        6605150.936
+      ],
+      "originLocalXZ": [
+        -174.6257,
+        291.2668
+      ],
+      "originBlenderXY": [
+        -6.7926,
+        10.936
+      ],
+      "planes": [
+        {
+          "id": "B01-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 328,
+          "supportHullAreaSquareMetres": 322.16,
+          "supportPointDensityPerSquareMetre": 1.018,
+          "coefficientsLocalEN": [
+            0.0511453,
+            -0.0660581,
+            11.4783773
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.817,
+          "slopeDegrees": 4.78,
+          "residualRmseMetres": 0.045,
+          "residualP95AbsoluteMetres": 0.114,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.74,
+            "p50": 11.005,
+            "p95": 11.65
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.169,
+            "p50": 3.483,
+            "p95": 4.253
+          },
+          "supportHullEpsg3006": [
+            [
+              605509.85,
+              6605136.58
+            ],
+            [
+              605509.16,
+              6605137.49
+            ],
+            [
+              605504.78,
+              6605147.03
+            ],
+            [
+              605504.99,
+              6605148.1
+            ],
+            [
+              605505.94,
+              6605149.09
+            ],
+            [
+              605525.69,
+              6605164.03
+            ],
+            [
+              605528.81,
+              6605166.24
+            ],
+            [
+              605529.18,
+              6605166.48
+            ],
+            [
+              605530.39,
+              6605166.48
+            ],
+            [
+              605531.05,
+              6605165.58
+            ],
+            [
+              605533.45,
+              6605162.21
+            ],
+            [
+              605515.37,
+              6605140.87
+            ],
+            [
+              605514.2,
+              6605139.94
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -188.3497,
+              305.2347
+            ],
+            [
+              -189.0123,
+              304.3061
+            ],
+            [
+              -193.113,
+              294.6516
+            ],
+            [
+              -192.8736,
+              293.5884
+            ],
+            [
+              -191.8984,
+              292.626
+            ],
+            [
+              -171.7826,
+              278.2542
+            ],
+            [
+              -168.609,
+              276.1339
+            ],
+            [
+              -168.2333,
+              275.9045
+            ],
+            [
+              -167.0266,
+              275.9385
+            ],
+            [
+              -166.3936,
+              276.8562
+            ],
+            [
+              -164.0946,
+              280.2906
+            ],
+            [
+              -182.7243,
+              301.1036
+            ],
+            [
+              -183.9172,
+              301.9999
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              -20.15,
+              -3.42
+            ],
+            [
+              -20.84,
+              -2.51
+            ],
+            [
+              -25.22,
+              7.03
+            ],
+            [
+              -25.01,
+              8.1
+            ],
+            [
+              -24.06,
+              9.09
+            ],
+            [
+              -4.31,
+              24.03
+            ],
+            [
+              -1.19,
+              26.24
+            ],
+            [
+              -0.82,
+              26.48
+            ],
+            [
+              0.39,
+              26.48
+            ],
+            [
+              1.05,
+              25.58
+            ],
+            [
+              3.45,
+              22.21
+            ],
+            [
+              -14.63,
+              0.87
+            ],
+            [
+              -15.8,
+              -0.06
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            11.744,
+            11.648,
+            10.794,
+            10.734,
+            10.717,
+            10.74,
+            10.754,
+            10.757,
+            10.819,
+            10.912,
+            11.257,
+            11.742,
+            11.744
+          ]
+        },
+        {
+          "id": "B01-plane-2",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 126,
+          "supportHullAreaSquareMetres": 134.86,
+          "supportPointDensityPerSquareMetre": 0.934,
+          "coefficientsLocalEN": [
+            -0.4633808,
+            0.6123755,
+            17.3303035
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.976,
+          "slopeDegrees": 37.52,
+          "residualRmseMetres": 0.068,
+          "residualP95AbsoluteMetres": 0.136,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.592,
+            "p50": 14.155,
+            "p95": 15.33
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.831,
+            "p50": 6.462,
+            "p95": 7.615
+          },
+          "supportHullEpsg3006": [
+            [
+              605519.17,
+              6605139.95
+            ],
+            [
+              605517.15,
+              6605141.79
+            ],
+            [
+              605517.15,
+              6605142.13
+            ],
+            [
+              605517.57,
+              6605143.02
+            ],
+            [
+              605518.87,
+              6605144.21
+            ],
+            [
+              605521.25,
+              6605146.37
+            ],
+            [
+              605535.53,
+              6605157.21
+            ],
+            [
+              605536.86,
+              6605158.12
+            ],
+            [
+              605537.98,
+              6605157.71
+            ],
+            [
+              605538.67,
+              6605156.77
+            ],
+            [
+              605539.46,
+              6605155.62
+            ],
+            [
+              605539.69,
+              6605154.66
+            ],
+            [
+              605539.44,
+              6605153.67
+            ],
+            [
+              605531.52,
+              6605147.09
+            ],
+            [
+              605522.67,
+              6605140.89
+            ],
+            [
+              605522.32,
+              6605140.65
+            ],
+            [
+              605520.45,
+              6605139.96
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -178.9604,
+              302.1295
+            ],
+            [
+              -180.9233,
+              300.2344
+            ],
+            [
+              -180.9138,
+              299.8947
+            ],
+            [
+              -180.4699,
+              299.0173
+            ],
+            [
+              -179.1401,
+              297.8649
+            ],
+            [
+              -176.7059,
+              295.7737
+            ],
+            [
+              -162.1604,
+              285.3446
+            ],
+            [
+              -160.8085,
+              284.4728
+            ],
+            [
+              -159.703,
+              284.9139
+            ],
+            [
+              -159.0412,
+              285.8724
+            ],
+            [
+              -158.2856,
+              287.0436
+            ],
+            [
+              -158.0831,
+              288.0092
+            ],
+            [
+              -158.3602,
+              288.9913
+            ],
+            [
+              -166.4434,
+              295.3429
+            ],
+            [
+              -175.4434,
+              301.2887
+            ],
+            [
+              -175.7992,
+              301.5186
+            ],
+            [
+              -177.6835,
+              302.1555
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              -10.83,
+              -0.05
+            ],
+            [
+              -12.85,
+              1.79
+            ],
+            [
+              -12.85,
+              2.13
+            ],
+            [
+              -12.43,
+              3.02
+            ],
+            [
+              -11.13,
+              4.21
+            ],
+            [
+              -8.75,
+              6.37
+            ],
+            [
+              5.53,
+              17.21
+            ],
+            [
+              6.86,
+              18.12
+            ],
+            [
+              7.98,
+              17.71
+            ],
+            [
+              8.67,
+              16.77
+            ],
+            [
+              9.46,
+              15.62
+            ],
+            [
+              9.69,
+              14.66
+            ],
+            [
+              9.44,
+              13.67
+            ],
+            [
+              1.52,
+              7.09
+            ],
+            [
+              -7.33,
+              0.89
+            ],
+            [
+              -7.68,
+              0.65
+            ],
+            [
+              -9.55,
+              -0.04
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            12.474,
+            14.536,
+            14.745,
+            15.095,
+            15.221,
+            15.441,
+            15.462,
+            15.403,
+            14.633,
+            13.738,
+            12.668,
+            11.973,
+            11.483,
+            11.123,
+            11.427,
+            11.443,
+            11.887
+          ]
+        },
+        {
+          "id": "B01-plane-3",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 125,
+          "supportHullAreaSquareMetres": 131.66,
+          "supportPointDensityPerSquareMetre": 0.949,
+          "coefficientsLocalEN": [
+            0.4683826,
+            -0.6208557,
+            13.5792674
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.936,
+          "slopeDegrees": 37.87,
+          "residualRmseMetres": 0.072,
+          "residualP95AbsoluteMetres": 0.137,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.522,
+            "p50": 14.2,
+            "p95": 15.298
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.905,
+            "p50": 6.529,
+            "p95": 7.662
+          },
+          "supportHullEpsg3006": [
+            [
+              605516.34,
+              6605143.02
+            ],
+            [
+              605513.92,
+              6605146.35
+            ],
+            [
+              605514.89,
+              6605148.13
+            ],
+            [
+              605517.55,
+              6605150.28
+            ],
+            [
+              605533.56,
+              6605162.15
+            ],
+            [
+              605534.64,
+              6605162.21
+            ],
+            [
+              605536.03,
+              6605160.02
+            ],
+            [
+              605536.42,
+              6605158.86
+            ],
+            [
+              605534.85,
+              6605156.75
+            ],
+            [
+              605517.78,
+              6605143.88
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -181.6966,
+              298.9828
+            ],
+            [
+              -184.0167,
+              295.5877
+            ],
+            [
+              -182.9994,
+              293.8366
+            ],
+            [
+              -180.2863,
+              291.7632
+            ],
+            [
+              -163.9865,
+              280.3537
+            ],
+            [
+              -162.9078,
+              280.3241
+            ],
+            [
+              -161.5829,
+              282.5512
+            ],
+            [
+              -161.2265,
+              283.7211
+            ],
+            [
+              -162.8515,
+              285.7851
+            ],
+            [
+              -180.2364,
+              298.164
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              -13.66,
+              3.02
+            ],
+            [
+              -16.08,
+              6.35
+            ],
+            [
+              -15.11,
+              8.13
+            ],
+            [
+              -12.45,
+              10.28
+            ],
+            [
+              3.56,
+              22.15
+            ],
+            [
+              4.64,
+              22.21
+            ],
+            [
+              6.03,
+              20.02
+            ],
+            [
+              6.42,
+              18.86
+            ],
+            [
+              4.85,
+              16.75
+            ],
+            [
+              -12.22,
+              3.88
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            15.277,
+            12.076,
+            11.426,
+            11.337,
+            11.466,
+            11.935,
+            13.945,
+            14.848,
+            15.423,
+            15.418
+          ]
+        },
+        {
+          "id": "B01-plane-4",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 39,
+          "supportHullAreaSquareMetres": 22.7,
+          "supportPointDensityPerSquareMetre": 1.718,
+          "coefficientsLocalEN": [
+            0.0671965,
+            0.0186365,
+            11.9852619
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.923,
+          "slopeDegrees": 3.99,
+          "residualRmseMetres": 0.041,
+          "residualP95AbsoluteMetres": 0.083,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.71,
+            "p50": 10.93,
+            "p95": 11.214
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.437,
+            "p50": 3.592,
+            "p95": 3.801
+          },
+          "supportHullEpsg3006": [
+            [
+              605508.66,
+              6605141.77
+            ],
+            [
+              605506.99,
+              6605142.74
+            ],
+            [
+              605505.66,
+              6605145.05
+            ],
+            [
+              605505.76,
+              6605146.02
+            ],
+            [
+              605511.72,
+              6605145.06
+            ],
+            [
+              605514.28,
+              6605143.87
+            ],
+            [
+              605513.04,
+              6605142.75
+            ],
+            [
+              605511.08,
+              6605142.11
+            ],
+            [
+              605509.89,
+              6605141.77
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -189.391,
+              300.0159
+            ],
+            [
+              -191.0293,
+              298.9998
+            ],
+            [
+              -192.2909,
+              296.6545
+            ],
+            [
+              -192.164,
+              295.6882
+            ],
+            [
+              -186.247,
+              296.8148
+            ],
+            [
+              -183.7272,
+              298.0756
+            ],
+            [
+              -184.9953,
+              299.1598
+            ],
+            [
+              -186.968,
+              299.7442
+            ],
+            [
+              -188.1643,
+              300.0504
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              -21.34,
+              1.77
+            ],
+            [
+              -23.01,
+              2.74
+            ],
+            [
+              -24.34,
+              5.05
+            ],
+            [
+              -24.24,
+              6.02
+            ],
+            [
+              -18.28,
+              5.06
+            ],
+            [
+              -15.72,
+              3.87
+            ],
+            [
+              -16.96,
+              2.75
+            ],
+            [
+              -18.92,
+              2.11
+            ],
+            [
+              -20.11,
+              1.77
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.837,
+            10.743,
+            10.696,
+            10.721,
+            11.104,
+            11.254,
+            11.149,
+            11.006,
+            10.92
+          ]
+        }
+      ],
+      "candidateGableRidges": [
+        {
+          "planeIds": [
+            "B01-plane-2",
+            "B01-plane-3"
+          ],
+          "status": "candidate convex gable intersection; unverified roof assembly and endpoints",
+          "endpointsEpsg3006": [
+            [
+              605537.054,
+              6605158.356
+            ],
+            [
+              605516.794,
+              6605143.049
+            ]
+          ],
+          "endpointsBlenderXY": [
+            [
+              7.054,
+              18.356
+            ],
+            [
+              -13.206,
+              3.049
+            ]
+          ],
+          "endpointsLocalXZ": [
+            [
+              -160.6086,
+              284.2425
+            ],
+            [
+              -181.2428,
+              298.9666
+            ]
+          ],
+          "heightsRH2000": [
+            15.458,
+            15.472
+          ],
+          "heightAboveNearbyGroundMetres": [
+            7.574,
+            7.983
+          ],
+          "supportedLengthMetres": 25.39,
+          "gridBearingDegrees": 52.93,
+          "uncertainty": "Allow at least 0.3 m vertical and 0.5-1 m horizontal until independent validation; sparse/changed roofs can have substantially larger error."
+        }
+      ],
+      "allCandidateElevatedReturns": 872,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 2737,
+        "fittedSupportCount": 2241,
+        "heightAtOriginRH2000": 7.611,
+        "coefficientsLocalEN": [
+          0.0202101,
+          -0.000941,
+          7.6114548
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.0,
+          "p50": 7.87,
+          "p95": 8.072
+        },
+        "fittedSlopeDegrees": 1.16,
+        "residualP95AbsoluteMetres": 0.235,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B02",
+      "name": "Restaurant northwest narrow roof or canopy",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605502.24,
+          6605149.92
+        ],
+        [
+          605527.2,
+          6605168.8
+        ],
+        [
+          605528.96,
+          6605166.4
+        ],
+        [
+          605504.0,
+          6605147.52
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605515.6,
+        6605158.16
+      ],
+      "originLocalXZ": [
+        -182.0101,
+        283.8355
+      ],
+      "originBlenderXY": [
+        -14.4,
+        18.16
+      ],
+      "planes": [
+        {
+          "id": "B02-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 151,
+          "supportHullAreaSquareMetres": 93.82,
+          "supportPointDensityPerSquareMetre": 1.609,
+          "coefficientsLocalEN": [
+            0.0571071,
+            -0.0744026,
+            10.586938
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.02,
+          "slopeDegrees": 5.36,
+          "residualRmseMetres": 0.027,
+          "residualP95AbsoluteMetres": 0.045,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.73,
+            "p50": 10.88,
+            "p95": 10.99
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.024,
+            "p50": 3.286,
+            "p95": 3.553
+          },
+          "supportHullEpsg3006": [
+            [
+              605505.21,
+              6605146.32
+            ],
+            [
+              605504.78,
+              6605147.03
+            ],
+            [
+              605504.99,
+              6605148.1
+            ],
+            [
+              605505.94,
+              6605149.09
+            ],
+            [
+              605525.69,
+              6605164.03
+            ],
+            [
+              605528.81,
+              6605166.24
+            ],
+            [
+              605529.18,
+              6605166.48
+            ],
+            [
+              605530.39,
+              6605166.48
+            ],
+            [
+              605531.05,
+              6605165.58
+            ],
+            [
+              605530.92,
+              6605164.3
+            ],
+            [
+              605529.5,
+              6605163.16
+            ],
+            [
+              605522.35,
+              6605157.67
+            ],
+            [
+              605513.91,
+              6605151.29
+            ],
+            [
+              605510.2,
+              6605148.51
+            ],
+            [
+              605506.45,
+              6605146.33
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -192.7041,
+              295.373
+            ],
+            [
+              -193.113,
+              294.6516
+            ],
+            [
+              -192.8736,
+              293.5884
+            ],
+            [
+              -191.8984,
+              292.626
+            ],
+            [
+              -171.7826,
+              278.2542
+            ],
+            [
+              -168.609,
+              276.1339
+            ],
+            [
+              -168.2333,
+              275.9045
+            ],
+            [
+              -167.0266,
+              275.9385
+            ],
+            [
+              -166.3936,
+              276.8562
+            ],
+            [
+              -166.5591,
+              278.1314
+            ],
+            [
+              -168.0073,
+              279.2305
+            ],
+            [
+              -175.292,
+              284.5147
+            ],
+            [
+              -183.8882,
+              290.6519
+            ],
+            [
+              -187.6661,
+              293.3252
+            ],
+            [
+              -191.4671,
+              295.3979
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              -24.79,
+              6.32
+            ],
+            [
+              -25.22,
+              7.03
+            ],
+            [
+              -25.01,
+              8.1
+            ],
+            [
+              -24.06,
+              9.09
+            ],
+            [
+              -4.31,
+              24.03
+            ],
+            [
+              -1.19,
+              26.24
+            ],
+            [
+              -0.82,
+              26.48
+            ],
+            [
+              0.39,
+              26.48
+            ],
+            [
+              1.05,
+              25.58
+            ],
+            [
+              0.92,
+              24.3
+            ],
+            [
+              -0.5,
+              23.16
+            ],
+            [
+              -7.65,
+              17.67
+            ],
+            [
+              -16.09,
+              11.29
+            ],
+            [
+              -19.8,
+              8.51
+            ],
+            [
+              -23.55,
+              6.33
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.875,
+            10.797,
+            10.73,
+            10.71,
+            10.726,
+            10.74,
+            10.743,
+            10.813,
+            10.917,
+            11.005,
+            11.009,
+            11.009,
+            11.002,
+            10.997,
+            10.945
+          ]
+        }
+      ],
+      "candidateGableRidges": [],
+      "allCandidateElevatedReturns": 153,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 2008,
+        "fittedSupportCount": 1729,
+        "heightAtOriginRH2000": 7.507,
+        "coefficientsLocalEN": [
+          0.0230939,
+          -0.0033578,
+          7.5074042
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 6.98,
+          "p50": 7.56,
+          "p95": 7.96
+        },
+        "fittedSlopeDegrees": 1.34,
+        "residualP95AbsoluteMetres": 0.199,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B03",
+      "name": "Reception and club office wing",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605519.52,
+          6605131.84
+        ],
+        [
+          605525.76,
+          6605136.16
+        ],
+        [
+          605535.04,
+          6605122.88
+        ],
+        [
+          605528.8,
+          6605118.56
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605527.28,
+        6605127.36
+      ],
+      "originLocalXZ": [
+        -171.2253,
+        314.9361
+      ],
+      "originBlenderXY": [
+        -2.72,
+        -12.64
+      ],
+      "planes": [
+        {
+          "id": "B03-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 99,
+          "supportHullAreaSquareMetres": 62.64,
+          "supportPointDensityPerSquareMetre": 1.58,
+          "coefficientsLocalEN": [
+            0.6652062,
+            0.4935329,
+            15.4613368
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.697,
+          "slopeDegrees": 39.63,
+          "residualRmseMetres": 0.066,
+          "residualP95AbsoluteMetres": 0.116,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.738,
+            "p50": 13.24,
+            "p95": 14.76
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.819,
+            "p50": 5.336,
+            "p95": 6.815
+          },
+          "supportHullEpsg3006": [
+            [
+              605528.06,
+              6605119.21
+            ],
+            [
+              605525.07,
+              6605122.64
+            ],
+            [
+              605524.17,
+              6605123.78
+            ],
+            [
+              605518.62,
+              6605131.12
+            ],
+            [
+              605518.27,
+              6605132.18
+            ],
+            [
+              605519.66,
+              6605133.34
+            ],
+            [
+              605521.18,
+              6605134.31
+            ],
+            [
+              605529.85,
+              6605122.66
+            ],
+            [
+              605530.69,
+              6605120.84
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -170.676,
+              323.1007
+            ],
+            [
+              -173.5617,
+              319.5898
+            ],
+            [
+              -174.4273,
+              318.4255
+            ],
+            [
+              -179.7565,
+              310.9362
+            ],
+            [
+              -180.0758,
+              309.8673
+            ],
+            [
+              -178.6571,
+              308.7474
+            ],
+            [
+              -177.114,
+              307.8209
+            ],
+            [
+              -168.7941,
+              319.7041
+            ],
+            [
+              -168.0074,
+              321.5461
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              -1.94,
+              -20.79
+            ],
+            [
+              -4.93,
+              -17.36
+            ],
+            [
+              -5.83,
+              -16.22
+            ],
+            [
+              -11.38,
+              -8.88
+            ],
+            [
+              -11.73,
+              -7.82
+            ],
+            [
+              -10.34,
+              -6.66
+            ],
+            [
+              -8.82,
+              -5.69
+            ],
+            [
+              -0.15,
+              -17.34
+            ],
+            [
+              0.69,
+              -19.16
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            11.958,
+            11.662,
+            11.626,
+            11.556,
+            11.847,
+            13.344,
+            14.834,
+            14.851,
+            14.512
+          ]
+        },
+        {
+          "id": "B03-plane-2",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 90,
+          "supportHullAreaSquareMetres": 59.96,
+          "supportPointDensityPerSquareMetre": 1.501,
+          "coefficientsLocalEN": [
+            -0.6812901,
+            -0.5085202,
+            14.3134616
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.933,
+          "slopeDegrees": 40.37,
+          "residualRmseMetres": 0.067,
+          "residualP95AbsoluteMetres": 0.128,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.839,
+            "p50": 13.21,
+            "p95": 14.751
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.885,
+            "p50": 5.272,
+            "p95": 6.842
+          },
+          "supportHullEpsg3006": [
+            [
+              605531.03,
+              6605121.43
+            ],
+            [
+              605529.9,
+              6605122.92
+            ],
+            [
+              605522.08,
+              6605133.35
+            ],
+            [
+              605522.04,
+              6605134.47
+            ],
+            [
+              605523.93,
+              6605136.46
+            ],
+            [
+              605525.09,
+              6605135.68
+            ],
+            [
+              605529.16,
+              6605130.06
+            ],
+            [
+              605532.95,
+              6605124.78
+            ],
+            [
+              605533.82,
+              6605122.93
+            ],
+            [
+              605532.29,
+              6605121.43
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -167.6518,
+              320.9662
+            ],
+            [
+              -168.7369,
+              319.4457
+            ],
+            [
+              -176.2433,
+              308.8054
+            ],
+            [
+              -176.2518,
+              307.6852
+            ],
+            [
+              -174.3111,
+              305.7501
+            ],
+            [
+              -173.1761,
+              306.562
+            ],
+            [
+              -169.2747,
+              312.2913
+            ],
+            [
+              -165.643,
+              317.6731
+            ],
+            [
+              -164.8273,
+              319.5459
+            ],
+            [
+              -166.3952,
+              321.0016
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              1.03,
+              -18.57
+            ],
+            [
+              -0.1,
+              -17.08
+            ],
+            [
+              -7.92,
+              -6.65
+            ],
+            [
+              -7.96,
+              -5.53
+            ],
+            [
+              -6.07,
+              -3.54
+            ],
+            [
+              -4.91,
+              -4.32
+            ],
+            [
+              -0.84,
+              -9.94
+            ],
+            [
+              2.95,
+              -15.22
+            ],
+            [
+              3.82,
+              -17.07
+            ],
+            [
+              2.29,
+              -18.57
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            14.774,
+            14.786,
+            14.81,
+            14.268,
+            11.968,
+            11.575,
+            11.66,
+            11.763,
+            12.111,
+            13.916
+          ]
+        }
+      ],
+      "candidateGableRidges": [
+        {
+          "planeIds": [
+            "B03-plane-1",
+            "B03-plane-2"
+          ],
+          "status": "candidate convex gable intersection; unverified roof assembly and endpoints",
+          "endpointsEpsg3006": [
+            [
+              605530.913,
+              6605121.333
+            ],
+            [
+              605521.496,
+              6605133.987
+            ]
+          ],
+          "endpointsBlenderXY": [
+            [
+              0.913,
+              -18.667
+            ],
+            [
+              -8.504,
+              -6.013
+            ]
+          ],
+          "endpointsLocalXZ": [
+            [
+              -167.7714,
+              321.0598
+            ],
+            [
+              -176.8082,
+              308.1524
+            ]
+          ],
+          "heightsRH2000": [
+            14.903,
+            14.884
+          ],
+          "heightAboveNearbyGroundMetres": [
+            6.946,
+            6.981
+          ],
+          "supportedLengthMetres": 15.77,
+          "gridBearingDegrees": 143.34,
+          "uncertainty": "Allow at least 0.3 m vertical and 0.5-1 m horizontal until independent validation; sparse/changed roofs can have substantially larger error."
+        }
+      ],
+      "allCandidateElevatedReturns": 252,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 1412,
+        "fittedSupportCount": 1176,
+        "heightAtOriginRH2000": 7.936,
+        "coefficientsLocalEN": [
+          0.0055767,
+          -0.0001427,
+          7.9363035
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.106,
+          "p50": 7.95,
+          "p95": 8.13
+        },
+        "fittedSlopeDegrees": 0.32,
+        "residualP95AbsoluteMetres": 0.221,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B04",
+      "name": "Changing rooms and lodging annex wing",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605541.44,
+          6605149.12
+        ],
+        [
+          605548.32,
+          6605153.92
+        ],
+        [
+          605554.56,
+          6605145.28
+        ],
+        [
+          605556.48,
+          6605144.16
+        ],
+        [
+          605559.2,
+          6605140.8
+        ],
+        [
+          605557.44,
+          6605138.56
+        ],
+        [
+          605552.16,
+          6605135.04
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605550.3669,
+        6605144.3912
+      ],
+      "originLocalXZ": [
+        -147.7231,
+        298.5689
+      ],
+      "originBlenderXY": [
+        20.3669,
+        4.3912
+      ],
+      "planes": [
+        {
+          "id": "B04-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 98,
+          "supportHullAreaSquareMetres": 68.31,
+          "supportPointDensityPerSquareMetre": 1.435,
+          "coefficientsLocalEN": [
+            -0.5998467,
+            -0.4535383,
+            14.1432445
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.949,
+          "slopeDegrees": 36.94,
+          "residualRmseMetres": 0.062,
+          "residualP95AbsoluteMetres": 0.121,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.836,
+            "p50": 13.49,
+            "p95": 14.752
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.874,
+            "p50": 4.614,
+            "p95": 6.182
+          },
+          "supportHullEpsg3006": [
+            [
+              605554.66,
+              6605138.0
+            ],
+            [
+              605553.81,
+              6605138.59
+            ],
+            [
+              605547.09,
+              6605147.13
+            ],
+            [
+              605544.68,
+              6605150.37
+            ],
+            [
+              605544.1,
+              6605151.36
+            ],
+            [
+              605544.0,
+              6605151.59
+            ],
+            [
+              605546.5,
+              6605153.54
+            ],
+            [
+              605547.88,
+              6605152.86
+            ],
+            [
+              605549.07,
+              6605151.6
+            ],
+            [
+              605553.08,
+              6605146.17
+            ],
+            [
+              605554.27,
+              6605144.32
+            ],
+            [
+              605557.12,
+              6605139.72
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -143.6209,
+              305.075
+            ],
+            [
+              -144.452,
+              304.4616
+            ],
+            [
+              -150.9143,
+              295.7404
+            ],
+            [
+              -153.2269,
+              292.4356
+            ],
+            [
+              -153.7776,
+              291.4302
+            ],
+            [
+              -153.8709,
+              291.1976
+            ],
+            [
+              -151.3229,
+              289.3196
+            ],
+            [
+              -149.9657,
+              290.0378
+            ],
+            [
+              -148.8143,
+              291.3301
+            ],
+            [
+              -144.9674,
+              296.8679
+            ],
+            [
+              -143.8325,
+              298.7497
+            ],
+            [
+              -141.1192,
+              303.4257
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              24.66,
+              -2.0
+            ],
+            [
+              23.81,
+              -1.41
+            ],
+            [
+              17.09,
+              7.13
+            ],
+            [
+              14.68,
+              10.37
+            ],
+            [
+              14.1,
+              11.36
+            ],
+            [
+              14.0,
+              11.59
+            ],
+            [
+              16.5,
+              13.54
+            ],
+            [
+              17.88,
+              12.86
+            ],
+            [
+              19.07,
+              11.6
+            ],
+            [
+              23.08,
+              6.17
+            ],
+            [
+              24.27,
+              4.32
+            ],
+            [
+              27.12,
+              -0.28
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            14.467,
+            14.709,
+            14.867,
+            14.843,
+            14.742,
+            14.697,
+            12.313,
+            11.794,
+            11.652,
+            11.709,
+            11.834,
+            12.211
+          ]
+        },
+        {
+          "id": "B04-plane-2",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 83,
+          "supportHullAreaSquareMetres": 67.02,
+          "supportPointDensityPerSquareMetre": 1.239,
+          "coefficientsLocalEN": [
+            0.6057647,
+            0.4607258,
+            15.6035197
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.759,
+          "slopeDegrees": 37.27,
+          "residualRmseMetres": 0.067,
+          "residualP95AbsoluteMetres": 0.124,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.792,
+            "p50": 13.65,
+            "p95": 14.608
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.342,
+            "p50": 4.882,
+            "p95": 6.036
+          },
+          "supportHullEpsg3006": [
+            [
+              605550.95,
+              6605135.54
+            ],
+            [
+              605546.64,
+              6605140.71
+            ],
+            [
+              605541.57,
+              6605147.32
+            ],
+            [
+              605541.0,
+              6605148.22
+            ],
+            [
+              605541.15,
+              6605149.18
+            ],
+            [
+              605541.49,
+              6605149.49
+            ],
+            [
+              605543.79,
+              6605150.75
+            ],
+            [
+              605545.03,
+              6605149.5
+            ],
+            [
+              605551.66,
+              6605140.96
+            ],
+            [
+              605553.77,
+              6605137.64
+            ],
+            [
+              605552.82,
+              6605136.53
+            ],
+            [
+              605551.44,
+              6605135.77
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -147.3898,
+              307.4285
+            ],
+            [
+              -151.5432,
+              302.142
+            ],
+            [
+              -156.4141,
+              295.3955
+            ],
+            [
+              -156.9573,
+              294.4803
+            ],
+            [
+              -156.7808,
+              293.5253
+            ],
+            [
+              -156.433,
+              293.2252
+            ],
+            [
+              -154.1039,
+              292.0309
+            ],
+            [
+              -152.9023,
+              293.3147
+            ],
+            [
+              -146.5297,
+              302.0333
+            ],
+            [
+              -144.5186,
+              305.4097
+            ],
+            [
+              -145.4971,
+              306.492
+            ],
+            [
+              -146.8947,
+              307.2125
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              20.95,
+              -4.46
+            ],
+            [
+              16.64,
+              0.71
+            ],
+            [
+              11.57,
+              7.32
+            ],
+            [
+              11.0,
+              8.22
+            ],
+            [
+              11.15,
+              9.18
+            ],
+            [
+              11.49,
+              9.49
+            ],
+            [
+              13.79,
+              10.75
+            ],
+            [
+              15.03,
+              9.5
+            ],
+            [
+              21.66,
+              0.96
+            ],
+            [
+              23.77,
+              -2.36
+            ],
+            [
+              22.82,
+              -3.47
+            ],
+            [
+              21.44,
+              -4.23
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            11.879,
+            11.65,
+            11.624,
+            11.693,
+            12.227,
+            12.575,
+            14.549,
+            14.724,
+            14.806,
+            14.555,
+            13.468,
+            12.282
+          ]
+        },
+        {
+          "id": "B04-plane-3",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 46,
+          "supportHullAreaSquareMetres": 26.4,
+          "supportPointDensityPerSquareMetre": 1.743,
+          "coefficientsLocalEN": [
+            0.1015378,
+            -0.1382891,
+            12.6044824
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.043,
+          "slopeDegrees": 9.74,
+          "residualRmseMetres": 0.019,
+          "residualP95AbsoluteMetres": 0.037,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.572,
+            "p50": 10.81,
+            "p95": 11.075
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.061,
+            "p50": 2.373,
+            "p95": 2.711
+          },
+          "supportHullEpsg3006": [
+            [
+              605541.19,
+              6605150.36
+            ],
+            [
+              605540.25,
+              6605150.74
+            ],
+            [
+              605540.59,
+              6605151.58
+            ],
+            [
+              605541.25,
+              6605152.54
+            ],
+            [
+              605545.64,
+              6605155.63
+            ],
+            [
+              605547.55,
+              6605156.8
+            ],
+            [
+              605548.79,
+              6605156.8
+            ],
+            [
+              605550.48,
+              6605155.64
+            ],
+            [
+              605549.68,
+              6605154.7
+            ],
+            [
+              605548.06,
+              6605153.69
+            ],
+            [
+              605542.75,
+              6605150.75
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -156.7078,
+              292.3475
+            ],
+            [
+              -157.6346,
+              291.9414
+            ],
+            [
+              -157.272,
+              291.1118
+            ],
+            [
+              -156.5868,
+              290.1712
+            ],
+            [
+              -152.122,
+              287.2073
+            ],
+            [
+              -150.1843,
+              286.092
+            ],
+            [
+              -148.9476,
+              286.1269
+            ],
+            [
+              -147.2947,
+              287.3333
+            ],
+            [
+              -148.1189,
+              288.25
+            ],
+            [
+              -149.7629,
+              289.2136
+            ],
+            [
+              -155.1411,
+              292.0017
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              11.19,
+              10.36
+            ],
+            [
+              10.25,
+              10.74
+            ],
+            [
+              10.59,
+              11.58
+            ],
+            [
+              11.25,
+              12.54
+            ],
+            [
+              15.64,
+              15.63
+            ],
+            [
+              17.55,
+              16.8
+            ],
+            [
+              18.79,
+              16.8
+            ],
+            [
+              20.48,
+              15.64
+            ],
+            [
+              19.68,
+              14.7
+            ],
+            [
+              18.06,
+              13.69
+            ],
+            [
+              12.75,
+              10.75
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.847,
+            10.699,
+            10.618,
+            10.552,
+            10.57,
+            10.602,
+            10.728,
+            11.06,
+            11.109,
+            11.084,
+            10.952
+          ]
+        },
+        {
+          "id": "B04-plane-4",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 14,
+          "supportHullAreaSquareMetres": 5.63,
+          "supportPointDensityPerSquareMetre": 2.486,
+          "coefficientsLocalEN": [
+            -0.2004933,
+            -0.1610087,
+            12.8358375
+          ],
+          "supportInsideSourceEnvelopeFraction": 1.0,
+          "slopeDegrees": 14.42,
+          "residualRmseMetres": 0.029,
+          "residualP95AbsoluteMetres": 0.053,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.69,
+            "p50": 11.885,
+            "p95": 12.056
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.235,
+            "p50": 2.497,
+            "p95": 2.72
+          },
+          "supportHullEpsg3006": [
+            [
+              605557.58,
+              6605140.73
+            ],
+            [
+              605556.7,
+              6605140.96
+            ],
+            [
+              605555.57,
+              6605142.86
+            ],
+            [
+              605555.19,
+              6605144.0
+            ],
+            [
+              605555.54,
+              6605144.33
+            ],
+            [
+              605556.44,
+              6605144.01
+            ],
+            [
+              605558.25,
+              6605141.93
+            ],
+            [
+              605557.95,
+              6605140.97
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -140.6322,
+              302.4295
+            ],
+            [
+              -141.5033,
+              302.175
+            ],
+            [
+              -142.577,
+              300.2449
+            ],
+            [
+              -142.924,
+              299.0953
+            ],
+            [
+              -142.5657,
+              298.7754
+            ],
+            [
+              -141.6771,
+              299.1204
+            ],
+            [
+              -139.9303,
+              301.2494
+            ],
+            [
+              -140.2564,
+              302.2001
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              27.58,
+              0.73
+            ],
+            [
+              26.7,
+              0.96
+            ],
+            [
+              25.57,
+              2.86
+            ],
+            [
+              25.19,
+              4.0
+            ],
+            [
+              25.54,
+              4.33
+            ],
+            [
+              26.44,
+              4.01
+            ],
+            [
+              28.25,
+              1.93
+            ],
+            [
+              27.95,
+              0.97
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            11.979,
+            12.119,
+            12.039,
+            11.932,
+            11.809,
+            11.68,
+            11.652,
+            11.866
+          ]
+        }
+      ],
+      "candidateGableRidges": [
+        {
+          "planeIds": [
+            "B04-plane-1",
+            "B04-plane-2"
+          ],
+          "status": "candidate convex gable intersection; unverified roof assembly and endpoints",
+          "endpointsEpsg3006": [
+            [
+              605544.06,
+              6605151.11
+            ],
+            [
+              605554.111,
+              6605137.857
+            ]
+          ],
+          "endpointsBlenderXY": [
+            [
+              14.06,
+              11.11
+            ],
+            [
+              24.111,
+              -2.143
+            ]
+          ],
+          "endpointsLocalXZ": [
+            [
+              -153.8243,
+              291.6784
+            ],
+            [
+              -144.1726,
+              305.2025
+            ]
+          ],
+          "heightsRH2000": [
+            14.879,
+            14.861
+          ],
+          "heightAboveNearbyGroundMetres": [
+            6.573,
+            5.714
+          ],
+          "supportedLengthMetres": 16.63,
+          "gridBearingDegrees": 142.83,
+          "uncertainty": "Allow at least 0.3 m vertical and 0.5-1 m horizontal until independent validation; sparse/changed roofs can have substantially larger error."
+        }
+      ],
+      "allCandidateElevatedReturns": 307,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 1601,
+        "fittedSupportCount": 1281,
+        "heightAtOriginRH2000": 8.84,
+        "coefficientsLocalEN": [
+          0.0888195,
+          0.0039493,
+          8.8397802
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.91,
+          "p50": 8.65,
+          "p95": 10.59
+        },
+        "fittedSlopeDegrees": 5.08,
+        "residualP95AbsoluteMetres": 0.608,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B04a",
+      "name": "Annex northwest small roof extension",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605545.44,
+          6605155.2
+        ],
+        [
+          605549.76,
+          6605158.4
+        ],
+        [
+          605551.68,
+          6605155.68
+        ],
+        [
+          605547.36,
+          6605152.48
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605548.56,
+        6605155.44
+      ],
+      "originLocalXZ": [
+        -149.2152,
+        287.4792
+      ],
+      "originBlenderXY": [
+        18.56,
+        15.44
+      ],
+      "planes": [
+        {
+          "id": "B04a-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 43,
+          "supportHullAreaSquareMetres": 23.19,
+          "supportPointDensityPerSquareMetre": 1.854,
+          "coefficientsLocalEN": [
+            0.1029878,
+            -0.1424382,
+            10.8952144
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.558,
+          "slopeDegrees": 9.97,
+          "residualRmseMetres": 0.02,
+          "residualP95AbsoluteMetres": 0.037,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.57,
+            "p50": 10.82,
+            "p95": 11.089
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.165,
+            "p50": 2.359,
+            "p95": 2.526
+          },
+          "supportHullEpsg3006": [
+            [
+              605543.73,
+              6605152.55
+            ],
+            [
+              605543.19,
+              6605153.68
+            ],
+            [
+              605544.71,
+              6605154.97
+            ],
+            [
+              605547.98,
+              6605157.73
+            ],
+            [
+              605549.39,
+              6605158.14
+            ],
+            [
+              605550.39,
+              6605157.74
+            ],
+            [
+              605550.88,
+              6605157.26
+            ],
+            [
+              605551.25,
+              6605156.81
+            ],
+            [
+              605551.24,
+              6605155.91
+            ],
+            [
+              605549.68,
+              6605154.7
+            ],
+            [
+              605548.06,
+              6605153.69
+            ],
+            [
+              605547.8,
+              6605153.55
+            ],
+            [
+              605544.96,
+              6605152.55
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -154.1132,
+              290.2309
+            ],
+            [
+              -154.6201,
+              289.0867
+            ],
+            [
+              -153.068,
+              287.8406
+            ],
+            [
+              -149.7294,
+              285.1749
+            ],
+            [
+              -148.3117,
+              284.8049
+            ],
+            [
+              -147.3256,
+              285.2327
+            ],
+            [
+              -146.8504,
+              285.726
+            ],
+            [
+              -146.494,
+              286.186
+            ],
+            [
+              -146.5292,
+              287.0849
+            ],
+            [
+              -148.1189,
+              288.25
+            ],
+            [
+              -149.7629,
+              289.2136
+            ],
+            [
+              -150.0261,
+              289.3461
+            ],
+            [
+              -152.8865,
+              290.2654
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              13.73,
+              12.55
+            ],
+            [
+              13.19,
+              13.68
+            ],
+            [
+              14.71,
+              14.97
+            ],
+            [
+              17.98,
+              17.73
+            ],
+            [
+              19.39,
+              18.14
+            ],
+            [
+              20.39,
+              17.74
+            ],
+            [
+              20.88,
+              17.26
+            ],
+            [
+              21.25,
+              16.81
+            ],
+            [
+              21.24,
+              15.91
+            ],
+            [
+              19.68,
+              14.7
+            ],
+            [
+              18.06,
+              13.69
+            ],
+            [
+              17.8,
+              13.55
+            ],
+            [
+              14.96,
+              12.55
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.809,
+            10.593,
+            10.566,
+            10.509,
+            10.596,
+            10.756,
+            10.875,
+            10.977,
+            11.104,
+            11.116,
+            11.093,
+            11.086,
+            10.936
+          ]
+        },
+        {
+          "id": "B04a-plane-2",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 20,
+          "supportHullAreaSquareMetres": 9.87,
+          "supportPointDensityPerSquareMetre": 2.027,
+          "coefficientsLocalEN": [
+            -0.6018017,
+            -0.4728653,
+            10.1542053
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.05,
+          "slopeDegrees": 37.43,
+          "residualRmseMetres": 0.061,
+          "residualP95AbsoluteMetres": 0.1,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.866,
+            "p50": 12.94,
+            "p95": 14.16
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.247,
+            "p50": 4.351,
+            "p95": 5.592
+          },
+          "supportHullEpsg3006": [
+            [
+              605547.54,
+              6605149.5
+            ],
+            [
+              605545.05,
+              6605150.75
+            ],
+            [
+              605545.27,
+              6605151.59
+            ],
+            [
+              605546.5,
+              6605153.54
+            ],
+            [
+              605547.88,
+              6605152.86
+            ],
+            [
+              605549.07,
+              6605151.6
+            ],
+            [
+              605548.97,
+              6605150.76
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -150.399,
+              293.3852
+            ],
+            [
+              -152.8473,
+              292.0663
+            ],
+            [
+              -152.6043,
+              291.2333
+            ],
+            [
+              -151.3229,
+              289.3196
+            ],
+            [
+              -149.9657,
+              290.0378
+            ],
+            [
+              -148.8143,
+              291.3301
+            ],
+            [
+              -148.9376,
+              292.1665
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              17.54,
+              9.5
+            ],
+            [
+              15.05,
+              10.75
+            ],
+            [
+              15.27,
+              11.59
+            ],
+            [
+              16.5,
+              13.54
+            ],
+            [
+              17.88,
+              12.86
+            ],
+            [
+              19.07,
+              11.6
+            ],
+            [
+              18.97,
+              10.76
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            13.577,
+            14.484,
+            13.955,
+            12.292,
+            11.783,
+            11.663,
+            12.12
+          ]
+        }
+      ],
+      "candidateGableRidges": [],
+      "allCandidateElevatedReturns": 74,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 734,
+        "fittedSupportCount": 587,
+        "heightAtOriginRH2000": 8.535,
+        "coefficientsLocalEN": [
+          0.0820936,
+          -0.0509199,
+          8.5354078
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.91,
+          "p50": 8.24,
+          "p95": 9.944
+        },
+        "fittedSlopeDegrees": 5.52,
+        "residualP95AbsoluteMetres": 0.376,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B05",
+      "name": "Courtyard southwest canopy",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605529.28,
+          6605138.88
+        ],
+        [
+          605533.12,
+          6605141.44
+        ],
+        [
+          605537.92,
+          6605136.0
+        ],
+        [
+          605534.24,
+          6605133.28
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605533.6292,
+        6605137.3947
+      ],
+      "originLocalXZ": [
+        -164.6118,
+        305.0888
+      ],
+      "originBlenderXY": [
+        3.6292,
+        -2.6053
+      ],
+      "planes": [
+        {
+          "id": "B05-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 54,
+          "supportHullAreaSquareMetres": 30.93,
+          "supportPointDensityPerSquareMetre": 1.746,
+          "coefficientsLocalEN": [
+            0.0643833,
+            0.0424672,
+            10.3938078
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.87,
+          "slopeDegrees": 4.41,
+          "residualRmseMetres": 0.018,
+          "residualP95AbsoluteMetres": 0.031,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.243,
+            "p50": 10.365,
+            "p95": 10.51
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.266,
+            "p50": 2.409,
+            "p95": 2.557
+          },
+          "supportHullEpsg3006": [
+            [
+              605533.56,
+              6605133.38
+            ],
+            [
+              605531.28,
+              6605136.47
+            ],
+            [
+              605529.88,
+              6605139.62
+            ],
+            [
+              605530.92,
+              6605140.67
+            ],
+            [
+              605532.22,
+              6605141.84
+            ],
+            [
+              605533.33,
+              6605140.67
+            ],
+            [
+              605536.76,
+              6605136.64
+            ],
+            [
+              605536.47,
+              6605135.73
+            ],
+            [
+              605535.7,
+              6605134.5
+            ],
+            [
+              605534.47,
+              6605133.65
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -164.7935,
+              309.0979
+            ],
+            [
+              -166.9806,
+              305.9466
+            ],
+            [
+              -168.2885,
+              302.7601
+            ],
+            [
+              -167.2219,
+              301.7403
+            ],
+            [
+              -165.8926,
+              300.6079
+            ],
+            [
+              -164.8184,
+              301.808
+            ],
+            [
+              -161.5107,
+              305.9308
+            ],
+            [
+              -161.8254,
+              306.8318
+            ],
+            [
+              -162.6278,
+              308.0391
+            ],
+            [
+              -163.8784,
+              308.8537
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              3.56,
+              -6.62
+            ],
+            [
+              1.28,
+              -3.53
+            ],
+            [
+              -0.12,
+              -0.38
+            ],
+            [
+              0.92,
+              0.67
+            ],
+            [
+              2.22,
+              1.84
+            ],
+            [
+              3.33,
+              0.67
+            ],
+            [
+              6.76,
+              -3.36
+            ],
+            [
+              6.47,
+              -4.27
+            ],
+            [
+              5.7,
+              -5.5
+            ],
+            [
+              4.47,
+              -6.35
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.219,
+            10.203,
+            10.247,
+            10.358,
+            10.492,
+            10.514,
+            10.563,
+            10.506,
+            10.404,
+            10.289
+          ]
+        }
+      ],
+      "candidateGableRidges": [],
+      "allCandidateElevatedReturns": 73,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 643,
+        "fittedSupportCount": 643,
+        "heightAtOriginRH2000": 7.965,
+        "coefficientsLocalEN": [
+          0.0003651,
+          -0.0043011,
+          7.9645247
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.89,
+          "p50": 7.96,
+          "p95": 8.11
+        },
+        "fittedSlopeDegrees": 0.25,
+        "residualP95AbsoluteMetres": 0.128,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B06",
+      "name": "Courtyard northeast canopy",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605536.64,
+          6605143.04
+        ],
+        [
+          605540.32,
+          6605145.6
+        ],
+        [
+          605544.64,
+          6605139.36
+        ],
+        [
+          605540.96,
+          6605136.64
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605540.642,
+        6605141.1458
+      ],
+      "originLocalXZ": [
+        -157.5128,
+        301.5381
+      ],
+      "originBlenderXY": [
+        10.642,
+        1.1458
+      ],
+      "planes": [
+        {
+          "id": "B06-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 58,
+          "supportHullAreaSquareMetres": 31.98,
+          "supportPointDensityPerSquareMetre": 1.813,
+          "coefficientsLocalEN": [
+            -0.0362497,
+            -0.0224382,
+            10.4297773
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.741,
+          "slopeDegrees": 2.44,
+          "residualRmseMetres": 0.027,
+          "residualP95AbsoluteMetres": 0.06,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.368,
+            "p50": 10.46,
+            "p95": 10.55
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.395,
+            "p50": 2.491,
+            "p95": 2.59
+          },
+          "supportHullEpsg3006": [
+            [
+              605540.31,
+              6605137.6
+            ],
+            [
+              605539.84,
+              6605137.95
+            ],
+            [
+              605538.06,
+              6605140.02
+            ],
+            [
+              605536.19,
+              6605142.82
+            ],
+            [
+              605536.15,
+              6605143.06
+            ],
+            [
+              605536.62,
+              6605143.95
+            ],
+            [
+              605538.15,
+              6605144.97
+            ],
+            [
+              605538.64,
+              6605145.13
+            ],
+            [
+              605539.37,
+              6605144.98
+            ],
+            [
+              605540.36,
+              6605143.96
+            ],
+            [
+              605542.15,
+              6605141.88
+            ],
+            [
+              605543.07,
+              6605140.7
+            ],
+            [
+              605543.54,
+              6605139.68
+            ],
+            [
+              605543.11,
+              6605138.57
+            ],
+            [
+              605541.55,
+              6605137.6
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -157.9433,
+              305.0714
+            ],
+            [
+              -158.4022,
+              304.7085
+            ],
+            [
+              -160.1194,
+              302.5903
+            ],
+            [
+              -161.9058,
+              299.7403
+            ],
+            [
+              -161.939,
+              299.4994
+            ],
+            [
+              -161.4453,
+              298.6234
+            ],
+            [
+              -159.8908,
+              297.6473
+            ],
+            [
+              -159.3976,
+              297.5012
+            ],
+            [
+              -158.6738,
+              297.6716
+            ],
+            [
+              -157.7151,
+              298.7185
+            ],
+            [
+              -155.9882,
+              300.8469
+            ],
+            [
+              -155.1038,
+              302.0517
+            ],
+            [
+              -154.6637,
+              303.084
+            ],
+            [
+              -155.1237,
+              304.1809
+            ],
+            [
+              -156.7067,
+              305.1062
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              10.31,
+              -2.4
+            ],
+            [
+              9.84,
+              -2.05
+            ],
+            [
+              8.06,
+              0.02
+            ],
+            [
+              6.19,
+              2.82
+            ],
+            [
+              6.15,
+              3.06
+            ],
+            [
+              6.62,
+              3.95
+            ],
+            [
+              8.15,
+              4.97
+            ],
+            [
+              8.64,
+              5.13
+            ],
+            [
+              9.37,
+              4.98
+            ],
+            [
+              10.36,
+              3.96
+            ],
+            [
+              12.15,
+              1.88
+            ],
+            [
+              13.07,
+              0.7
+            ],
+            [
+              13.54,
+              -0.32
+            ],
+            [
+              13.11,
+              -1.43
+            ],
+            [
+              11.55,
+              -2.4
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.521,
+            10.531,
+            10.549,
+            10.554,
+            10.55,
+            10.513,
+            10.434,
+            10.413,
+            10.39,
+            10.377,
+            10.359,
+            10.352,
+            10.358,
+            10.398,
+            10.476
+          ]
+        }
+      ],
+      "candidateGableRidges": [],
+      "allCandidateElevatedReturns": 73,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 666,
+        "fittedSupportCount": 602,
+        "heightAtOriginRH2000": 7.973,
+        "coefficientsLocalEN": [
+          0.0055819,
+          -0.002727,
+          7.972509
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.89,
+          "p50": 7.98,
+          "p95": 9.59
+        },
+        "fittedSlopeDegrees": 0.36,
+        "residualP95AbsoluteMetres": 0.124,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B07",
+      "name": "Golf cart shelter",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605551.68,
+          6605187.84
+        ],
+        [
+          605558.08,
+          6605185.76
+        ],
+        [
+          605554.56,
+          6605173.12
+        ],
+        [
+          605548.0,
+          6605175.2
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605553.0712,
+        6605180.4568
+      ],
+      "originLocalXZ": [
+        -144.0143,
+        262.6115
+      ],
+      "originBlenderXY": [
+        23.0712,
+        40.4568
+      ],
+      "planes": [
+        {
+          "id": "B07-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 82,
+          "supportHullAreaSquareMetres": 49.75,
+          "supportPointDensityPerSquareMetre": 1.648,
+          "coefficientsLocalEN": [
+            -0.1368697,
+            0.0439106,
+            10.7348919
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.976,
+          "slopeDegrees": 8.18,
+          "residualRmseMetres": 0.029,
+          "residualP95AbsoluteMetres": 0.051,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.381,
+            "p50": 10.64,
+            "p95": 10.89
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.145,
+            "p50": 2.445,
+            "p95": 2.744
+          },
+          "supportHullEpsg3006": [
+            [
+              605550.95,
+              6605173.88
+            ],
+            [
+              605550.41,
+              6605174.27
+            ],
+            [
+              605550.2,
+              6605174.77
+            ],
+            [
+              605550.03,
+              6605175.92
+            ],
+            [
+              605552.4,
+              6605182.85
+            ],
+            [
+              605553.49,
+              6605185.68
+            ],
+            [
+              605554.08,
+              6605186.78
+            ],
+            [
+              605557.17,
+              6605185.69
+            ],
+            [
+              605557.08,
+              6605184.82
+            ],
+            [
+              605554.11,
+              6605175.16
+            ],
+            [
+              605553.46,
+              6605173.89
+            ],
+            [
+              605552.21,
+              6605173.88
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -146.3143,
+              269.1228
+            ],
+            [
+              -146.8419,
+              268.718
+            ],
+            [
+              -147.0373,
+              268.2126
+            ],
+            [
+              -147.1746,
+              267.0588
+            ],
+            [
+              -144.6166,
+              260.2016
+            ],
+            [
+              -143.4501,
+              257.4048
+            ],
+            [
+              -142.8309,
+              256.3223
+            ],
+            [
+              -139.7797,
+              257.4982
+            ],
+            [
+              -139.8939,
+              258.3649
+            ],
+            [
+              -143.1269,
+              267.9328
+            ],
+            [
+              -143.8108,
+              269.1834
+            ],
+            [
+              -145.0577,
+              269.1582
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              20.95,
+              33.88
+            ],
+            [
+              20.41,
+              34.27
+            ],
+            [
+              20.2,
+              34.77
+            ],
+            [
+              20.03,
+              35.92
+            ],
+            [
+              22.4,
+              42.85
+            ],
+            [
+              23.49,
+              45.68
+            ],
+            [
+              24.08,
+              46.78
+            ],
+            [
+              27.17,
+              45.69
+            ],
+            [
+              27.08,
+              44.82
+            ],
+            [
+              24.11,
+              35.16
+            ],
+            [
+              23.46,
+              33.89
+            ],
+            [
+              22.21,
+              33.88
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.736,
+            10.827,
+            10.878,
+            10.952,
+            10.932,
+            10.907,
+            10.874,
+            10.404,
+            10.378,
+            10.36,
+            10.393,
+            10.564
+          ]
+        }
+      ],
+      "candidateGableRidges": [],
+      "allCandidateElevatedReturns": 82,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 1521,
+        "fittedSupportCount": 1286,
+        "heightAtOriginRH2000": 8.177,
+        "coefficientsLocalEN": [
+          0.026238,
+          -0.0060818,
+          8.17714
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.87,
+          "p50": 8.09,
+          "p95": 9.96
+        },
+        "fittedSlopeDegrees": 1.54,
+        "residualP95AbsoluteMetres": 0.183,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B08",
+      "name": "Kiosk and toilets building",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605560.8,
+          6605211.04
+        ],
+        [
+          605566.88,
+          6605208.64
+        ],
+        [
+          605564.0,
+          6605201.6
+        ],
+        [
+          605558.08,
+          6605203.84
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605562.4415,
+        6605206.3014
+      ],
+      "originLocalXZ": [
+        -133.9441,
+        237.0534
+      ],
+      "originBlenderXY": [
+        32.4415,
+        66.3014
+      ],
+      "planes": [
+        {
+          "id": "B08-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 23,
+          "supportHullAreaSquareMetres": 21.17,
+          "supportPointDensityPerSquareMetre": 1.086,
+          "coefficientsLocalEN": [
+            -0.0141762,
+            0.0081247,
+            10.5310752
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.87,
+          "slopeDegrees": 0.94,
+          "residualRmseMetres": 0.029,
+          "residualP95AbsoluteMetres": 0.052,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.471,
+            "p50": 10.52,
+            "p95": 10.559
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.339,
+            "p50": 2.43,
+            "p95": 2.49
+          },
+          "supportHullEpsg3006": [
+            [
+              605562.49,
+              6605201.76
+            ],
+            [
+              605560.57,
+              6605202.88
+            ],
+            [
+              605561.58,
+              6605204.91
+            ],
+            [
+              605563.21,
+              6605208.13
+            ],
+            [
+              605564.45,
+              6605209.26
+            ],
+            [
+              605565.49,
+              6605209.08
+            ],
+            [
+              605566.54,
+              6605208.49
+            ],
+            [
+              605563.36,
+              6605202.08
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -134.0232,
+              241.5921
+            ],
+            [
+              -135.9066,
+              240.4191
+            ],
+            [
+              -134.8424,
+              238.4193
+            ],
+            [
+              -133.1264,
+              235.248
+            ],
+            [
+              -131.858,
+              234.1539
+            ],
+            [
+              -130.8259,
+              234.363
+            ],
+            [
+              -129.7952,
+              234.982
+            ],
+            [
+              -133.1465,
+              241.2968
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              32.49,
+              61.76
+            ],
+            [
+              30.57,
+              62.88
+            ],
+            [
+              31.58,
+              64.91
+            ],
+            [
+              33.21,
+              68.13
+            ],
+            [
+              34.45,
+              69.26
+            ],
+            [
+              35.49,
+              69.08
+            ],
+            [
+              36.54,
+              68.49
+            ],
+            [
+              33.36,
+              62.08
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.493,
+            10.53,
+            10.532,
+            10.535,
+            10.527,
+            10.51,
+            10.491,
+            10.484
+          ]
+        }
+      ],
+      "candidateGableRidges": [],
+      "allCandidateElevatedReturns": 23,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 1214,
+        "fittedSupportCount": 971,
+        "heightAtOriginRH2000": 8.061,
+        "coefficientsLocalEN": [
+          0.0226639,
+          -0.0179442,
+          8.0608205
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.71,
+          "p50": 7.98,
+          "p95": 9.9
+        },
+        "fittedSlopeDegrees": 1.66,
+        "residualP95AbsoluteMetres": 0.274,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B09",
+      "name": "South courtyard small outbuilding",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605548.64,
+          6605113.28
+        ],
+        [
+          605551.68,
+          6605115.36
+        ],
+        [
+          605557.44,
+          6605108.64
+        ],
+        [
+          605554.08,
+          6605105.92
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605553.0262,
+        6605110.6977
+      ],
+      "originLocalXZ": [
+        -146.0161,
+        332.307
+      ],
+      "originBlenderXY": [
+        23.0262,
+        -29.3023
+      ],
+      "planes": [
+        {
+          "id": "B09-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 42,
+          "supportHullAreaSquareMetres": 22.64,
+          "supportPointDensityPerSquareMetre": 1.855,
+          "coefficientsLocalEN": [
+            0.5184419,
+            0.3846976,
+            12.4746527
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.69,
+          "slopeDegrees": 32.85,
+          "residualRmseMetres": 0.063,
+          "residualP95AbsoluteMetres": 0.112,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.882,
+            "p50": 11.61,
+            "p95": 12.34
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.703,
+            "p50": 3.404,
+            "p95": 4.117
+          },
+          "supportHullEpsg3006": [
+            [
+              605553.81,
+              6605106.39
+            ],
+            [
+              605550.53,
+              6605109.77
+            ],
+            [
+              605550.22,
+              6605110.13
+            ],
+            [
+              605549.64,
+              6605110.98
+            ],
+            [
+              605548.23,
+              6605113.14
+            ],
+            [
+              605547.86,
+              6605114.06
+            ],
+            [
+              605548.25,
+              6605114.34
+            ],
+            [
+              605549.75,
+              6605115.02
+            ],
+            [
+              605555.04,
+              6605108.07
+            ],
+            [
+              605554.84,
+              6605106.74
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -145.3553,
+              336.6328
+            ],
+            [
+              -148.5316,
+              333.1637
+            ],
+            [
+              -148.8307,
+              332.7953
+            ],
+            [
+              -149.3852,
+              331.9298
+            ],
+            [
+              -150.7308,
+              329.7321
+            ],
+            [
+              -151.074,
+              328.8025
+            ],
+            [
+              -150.6772,
+              328.5337
+            ],
+            [
+              -149.1622,
+              327.8965
+            ],
+            [
+              -144.0815,
+              334.9889
+            ],
+            [
+              -144.3183,
+              336.3121
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              23.81,
+              -33.61
+            ],
+            [
+              20.53,
+              -30.23
+            ],
+            [
+              20.22,
+              -29.87
+            ],
+            [
+              19.64,
+              -29.02
+            ],
+            [
+              18.23,
+              -26.86
+            ],
+            [
+              17.86,
+              -25.94
+            ],
+            [
+              18.25,
+              -25.66
+            ],
+            [
+              19.75,
+              -24.98
+            ],
+            [
+              25.04,
+              -31.93
+            ],
+            [
+              24.84,
+              -33.26
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            11.224,
+            10.824,
+            10.801,
+            10.828,
+            10.928,
+            11.09,
+            11.4,
+            12.439,
+            12.508,
+            11.892
+          ]
+        },
+        {
+          "id": "B09-plane-2",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 39,
+          "supportHullAreaSquareMetres": 22.33,
+          "supportPointDensityPerSquareMetre": 1.746,
+          "coefficientsLocalEN": [
+            -0.5400452,
+            -0.4079634,
+            12.384331
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.641,
+          "slopeDegrees": 34.09,
+          "residualRmseMetres": 0.074,
+          "residualP95AbsoluteMetres": 0.136,
+          "supportHeightQuantilesRH2000": {
+            "p05": 10.548,
+            "p50": 11.46,
+            "p95": 12.26
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.253,
+            "p50": 3.196,
+            "p95": 4.016
+          },
+          "supportHullEpsg3006": [
+            [
+              605555.59,
+              6605107.63
+            ],
+            [
+              605551.49,
+              6605112.93
+            ],
+            [
+              605549.87,
+              6605115.22
+            ],
+            [
+              605551.22,
+              6605116.52
+            ],
+            [
+              605555.5,
+              6605112.25
+            ],
+            [
+              605555.73,
+              6605112.0
+            ],
+            [
+              605556.54,
+              6605110.15
+            ],
+            [
+              605556.63,
+              6605108.63
+            ],
+            [
+              605556.33,
+              6605108.07
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -143.5453,
+              335.444
+            ],
+            [
+              -147.4856,
+              330.0335
+            ],
+            [
+              -149.0369,
+              327.7
+            ],
+            [
+              -147.6541,
+              326.4391
+            ],
+            [
+              -143.5055,
+              330.8256
+            ],
+            [
+              -143.2831,
+              331.0818
+            ],
+            [
+              -142.5272,
+              332.9529
+            ],
+            [
+              -142.4801,
+              334.4741
+            ],
+            [
+              -142.795,
+              335.0252
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              25.59,
+              -32.37
+            ],
+            [
+              21.49,
+              -27.07
+            ],
+            [
+              19.87,
+              -24.78
+            ],
+            [
+              21.22,
+              -23.48
+            ],
+            [
+              25.5,
+              -27.75
+            ],
+            [
+              25.73,
+              -28.0
+            ],
+            [
+              26.54,
+              -29.85
+            ],
+            [
+              26.63,
+              -31.37
+            ],
+            [
+              26.33,
+              -31.93
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            12.251,
+            12.303,
+            12.244,
+            10.984,
+            10.415,
+            10.393,
+            10.71,
+            11.282,
+            11.672
+          ]
+        }
+      ],
+      "candidateGableRidges": [
+        {
+          "planeIds": [
+            "B09-plane-1",
+            "B09-plane-2"
+          ],
+          "status": "candidate convex gable intersection; unverified roof assembly and endpoints",
+          "endpointsEpsg3006": [
+            [
+              605555.356,
+              6605107.472
+            ],
+            [
+              605549.634,
+              6605115.113
+            ]
+          ],
+          "endpointsBlenderXY": [
+            [
+              25.356,
+              -32.528
+            ],
+            [
+              19.634,
+              -24.887
+            ]
+          ],
+          "endpointsLocalXZ": [
+            [
+              -143.7828,
+              335.5951
+            ],
+            [
+              -149.2748,
+              327.8003
+            ]
+          ],
+          "heightsRH2000": [
+            12.442,
+            12.415
+          ],
+          "heightAboveNearbyGroundMetres": [
+            4.201,
+            4.193
+          ],
+          "supportedLengthMetres": 9.55,
+          "gridBearingDegrees": 143.17,
+          "uncertainty": "Allow at least 0.3 m vertical and 0.5-1 m horizontal until independent validation; sparse/changed roofs can have substantially larger error."
+        }
+      ],
+      "allCandidateElevatedReturns": 86,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 1080,
+        "fittedSupportCount": 1008,
+        "heightAtOriginRH2000": 8.234,
+        "coefficientsLocalEN": [
+          0.0179982,
+          0.0110295,
+          8.2340746
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.88,
+          "p50": 8.22,
+          "p95": 8.881
+        },
+        "fittedSlopeDegrees": 1.21,
+        "residualP95AbsoluteMetres": 0.181,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B10",
+      "name": "East courtyard long outbuilding",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605569.76,
+          6605119.36
+        ],
+        [
+          605586.08,
+          6605112.16
+        ],
+        [
+          605584.0,
+          6605107.04
+        ],
+        [
+          605567.52,
+          6605113.92
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605576.7542,
+        6605113.1561
+      ],
+      "originLocalXZ": [
+        -122.2834,
+        330.5177
+      ],
+      "originBlenderXY": [
+        46.7542,
+        -26.8439
+      ],
+      "planes": [
+        {
+          "id": "B10-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 49,
+          "supportHullAreaSquareMetres": 43.8,
+          "supportPointDensityPerSquareMetre": 1.119,
+          "coefficientsLocalEN": [
+            -0.3336472,
+            -0.7213356,
+            14.4489816
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.816,
+          "slopeDegrees": 38.48,
+          "residualRmseMetres": 0.057,
+          "residualP95AbsoluteMetres": 0.098,
+          "supportHeightQuantilesRH2000": {
+            "p05": 11.978,
+            "p50": 12.84,
+            "p95": 13.782
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.267,
+            "p50": 3.409,
+            "p95": 4.565
+          },
+          "supportHullEpsg3006": [
+            [
+              605584.07,
+              6605110.23
+            ],
+            [
+              605568.98,
+              6605117.45
+            ],
+            [
+              605569.41,
+              6605119.3
+            ],
+            [
+              605570.55,
+              6605119.71
+            ],
+            [
+              605572.42,
+              6605118.86
+            ],
+            [
+              605583.84,
+              6605113.21
+            ],
+            [
+              605584.33,
+              6605112.34
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -115.0695,
+              333.6468
+            ],
+            [
+              -129.9161,
+              326.0091
+            ],
+            [
+              -129.4353,
+              324.1728
+            ],
+            [
+              -128.2869,
+              323.7952
+            ],
+            [
+              -126.4458,
+              324.697
+            ],
+            [
+              -115.2153,
+              330.663
+            ],
+            [
+              -114.751,
+              331.546
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              54.07,
+              -29.77
+            ],
+            [
+              38.98,
+              -22.55
+            ],
+            [
+              39.41,
+              -20.7
+            ],
+            [
+              40.55,
+              -20.29
+            ],
+            [
+              42.42,
+              -21.14
+            ],
+            [
+              53.84,
+              -26.79
+            ],
+            [
+              54.33,
+              -27.66
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            14.119,
+            13.945,
+            12.468,
+            11.791,
+            11.781,
+            12.046,
+            12.51
+          ]
+        }
+      ],
+      "candidateGableRidges": [],
+      "allCandidateElevatedReturns": 164,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 1561,
+        "fittedSupportCount": 1249,
+        "heightAtOriginRH2000": 9.078,
+        "coefficientsLocalEN": [
+          0.0154302,
+          0.1266952,
+          9.0780018
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 7.32,
+          "p50": 8.88,
+          "p95": 11.02
+        },
+        "fittedSlopeDegrees": 7.27,
+        "residualP95AbsoluteMetres": 0.539,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B11",
+      "name": "Small roof beside putting green east path",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605618.56,
+          6605085.92
+        ],
+        [
+          605622.08,
+          6605084.96
+        ],
+        [
+          605620.8,
+          6605080.48
+        ],
+        [
+          605617.12,
+          6605081.6
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605619.6411,
+        6605083.2184
+      ],
+      "originLocalXZ": [
+        -80.353,
+        361.6344
+      ],
+      "originBlenderXY": [
+        89.6411,
+        -56.7816
+      ],
+      "planes": [
+        {
+          "id": "B11-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 22,
+          "supportHullAreaSquareMetres": 9.95,
+          "supportPointDensityPerSquareMetre": 2.212,
+          "coefficientsLocalEN": [
+            -0.1052719,
+            0.0368258,
+            8.4436882
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.955,
+          "slopeDegrees": 6.36,
+          "residualRmseMetres": 0.069,
+          "residualP95AbsoluteMetres": 0.118,
+          "supportHeightQuantilesRH2000": {
+            "p05": 8.252,
+            "p50": 8.47,
+            "p95": 8.609
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 2.03,
+            "p50": 2.22,
+            "p95": 2.375
+          },
+          "supportHullEpsg3006": [
+            [
+              605620.11,
+              6605080.99
+            ],
+            [
+              605618.75,
+              6605082.1
+            ],
+            [
+              605618.53,
+              6605082.57
+            ],
+            [
+              605618.21,
+              6605083.34
+            ],
+            [
+              605618.48,
+              6605084.71
+            ],
+            [
+              605618.78,
+              6605085.32
+            ],
+            [
+              605619.51,
+              6605085.52
+            ],
+            [
+              605621.24,
+              6605085.33
+            ],
+            [
+              605621.37,
+              6605084.34
+            ],
+            [
+              605621.05,
+              6605083.01
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -79.9479,
+              363.8739
+            ],
+            [
+              -81.273,
+              362.7267
+            ],
+            [
+              -81.4792,
+              362.2509
+            ],
+            [
+              -81.7767,
+              361.4726
+            ],
+            [
+              -81.469,
+              360.1114
+            ],
+            [
+              -81.1527,
+              359.5104
+            ],
+            [
+              -80.4191,
+              359.3311
+            ],
+            [
+              -78.6991,
+              359.5696
+            ],
+            [
+              -78.5973,
+              360.5623
+            ],
+            [
+              -78.9537,
+              361.8822
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              90.11,
+              -59.01
+            ],
+            [
+              88.75,
+              -57.9
+            ],
+            [
+              88.53,
+              -57.43
+            ],
+            [
+              88.21,
+              -56.66
+            ],
+            [
+              88.48,
+              -55.29
+            ],
+            [
+              88.78,
+              -54.68
+            ],
+            [
+              89.51,
+              -54.48
+            ],
+            [
+              91.24,
+              -54.67
+            ],
+            [
+              91.37,
+              -55.66
+            ],
+            [
+              91.05,
+              -56.99
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            8.312,
+            8.496,
+            8.537,
+            8.599,
+            8.621,
+            8.612,
+            8.542,
+            8.353,
+            8.303,
+            8.288
+          ]
+        }
+      ],
+      "candidateGableRidges": [],
+      "allCandidateElevatedReturns": 43,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 863,
+        "fittedSupportCount": 774,
+        "heightAtOriginRH2000": 6.229,
+        "coefficientsLocalEN": [
+          -0.0031414,
+          0.0151855,
+          6.2290489
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 6.0,
+          "p50": 6.21,
+          "p95": 7.12
+        },
+        "fittedSlopeDegrees": 0.89,
+        "residualP95AbsoluteMetres": 0.208,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B12",
+      "name": "Driving range covered shelter, April 2025",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605570.72,
+          6605064.48
+        ],
+        [
+          605590.4,
+          6605056.48
+        ],
+        [
+          605587.68,
+          6605049.92
+        ],
+        [
+          605568.16,
+          6605058.08
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605579.2897,
+        6605057.2221
+      ],
+      "originLocalXZ": [
+        -121.3242,
+        386.4729
+      ],
+      "originBlenderXY": [
+        49.2897,
+        -82.7779
+      ],
+      "planes": [
+        {
+          "id": "B12-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 140,
+          "supportHullAreaSquareMetres": 90.63,
+          "supportPointDensityPerSquareMetre": 1.545,
+          "coefficientsLocalEN": [
+            -0.0960742,
+            -0.2016806,
+            10.5797422
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.9,
+          "slopeDegrees": 12.59,
+          "residualRmseMetres": 0.046,
+          "residualP95AbsoluteMetres": 0.091,
+          "supportHeightQuantilesRH2000": {
+            "p05": 9.738,
+            "p50": 10.245,
+            "p95": 10.62
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.379,
+            "p50": 3.925,
+            "p95": 4.331
+          },
+          "supportHullEpsg3006": [
+            [
+              605587.37,
+              6605052.81
+            ],
+            [
+              605586.72,
+              6605052.98
+            ],
+            [
+              605584.52,
+              6605054.0
+            ],
+            [
+              605573.13,
+              6605059.52
+            ],
+            [
+              605569.62,
+              6605061.47
+            ],
+            [
+              605569.88,
+              6605062.98
+            ],
+            [
+              605570.26,
+              6605063.56
+            ],
+            [
+              605571.26,
+              6605064.71
+            ],
+            [
+              605584.23,
+              6605059.54
+            ],
+            [
+              605588.63,
+              6605057.46
+            ],
+            [
+              605589.43,
+              6605056.59
+            ],
+            [
+              605588.57,
+              6605054.29
+            ],
+            [
+              605587.95,
+              6605052.98
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -113.3897,
+              391.1082
+            ],
+            [
+              -114.0331,
+              390.9201
+            ],
+            [
+              -116.1985,
+              389.8391
+            ],
+            [
+              -127.4026,
+              384.0039
+            ],
+            [
+              -130.8484,
+              381.957
+            ],
+            [
+              -130.5467,
+              380.4556
+            ],
+            [
+              -130.1515,
+              379.8868
+            ],
+            [
+              -129.1219,
+              378.766
+            ],
+            [
+              -116.3323,
+              384.2959
+            ],
+            [
+              -112.0026,
+              386.4978
+            ],
+            [
+              -111.2292,
+              387.3895
+            ],
+            [
+              -112.1514,
+              389.6632
+            ],
+            [
+              -112.8065,
+              390.9546
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              57.37,
+              -87.19
+            ],
+            [
+              56.72,
+              -87.02
+            ],
+            [
+              54.52,
+              -86.0
+            ],
+            [
+              43.13,
+              -80.48
+            ],
+            [
+              39.62,
+              -78.53
+            ],
+            [
+              39.88,
+              -77.02
+            ],
+            [
+              40.26,
+              -76.44
+            ],
+            [
+              41.26,
+              -75.29
+            ],
+            [
+              54.23,
+              -80.46
+            ],
+            [
+              58.63,
+              -82.54
+            ],
+            [
+              59.43,
+              -83.41
+            ],
+            [
+              58.57,
+              -85.71
+            ],
+            [
+              57.95,
+              -87.02
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            10.693,
+            10.721,
+            10.727,
+            10.708,
+            10.652,
+            10.323,
+            10.169,
+            9.841,
+            9.638,
+            9.634,
+            9.733,
+            10.279,
+            10.603
+          ]
+        },
+        {
+          "id": "B12-plane-2",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 95,
+          "supportHullAreaSquareMetres": 57.7,
+          "supportPointDensityPerSquareMetre": 1.646,
+          "coefficientsLocalEN": [
+            0.1087132,
+            0.2250029,
+            10.6982073
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.916,
+          "slopeDegrees": 14.03,
+          "residualRmseMetres": 0.023,
+          "residualP95AbsoluteMetres": 0.047,
+          "supportHeightQuantilesRH2000": {
+            "p05": 9.797,
+            "p50": 10.15,
+            "p95": 10.49
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 3.567,
+            "p50": 3.898,
+            "p95": 4.208
+          },
+          "supportHullEpsg3006": [
+            [
+              605585.91,
+              6605050.06
+            ],
+            [
+              605582.16,
+              6605051.81
+            ],
+            [
+              605575.14,
+              6605055.12
+            ],
+            [
+              605568.76,
+              6605058.16
+            ],
+            [
+              605567.86,
+              6605059.16
+            ],
+            [
+              605569.92,
+              6605060.78
+            ],
+            [
+              605570.86,
+              6605060.46
+            ],
+            [
+              605573.86,
+              6605059.18
+            ],
+            [
+              605583.57,
+              6605054.27
+            ],
+            [
+              605586.18,
+              6605052.81
+            ],
+            [
+              605586.82,
+              6605052.18
+            ],
+            [
+              605587.09,
+              6605051.82
+            ],
+            [
+              605586.59,
+              6605050.89
+            ],
+            [
+              605586.41,
+              6605050.57
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -114.9229,
+              393.8147
+            ],
+            [
+              -118.6136,
+              391.9608
+            ],
+            [
+              -125.5216,
+              388.4565
+            ],
+            [
+              -131.7989,
+              385.2399
+            ],
+            [
+              -132.6684,
+              384.2155
+            ],
+            [
+              -130.5686,
+              382.6548
+            ],
+            [
+              -129.6401,
+              383.0009
+            ],
+            [
+              -126.6842,
+              384.3641
+            ],
+            [
+              -117.1384,
+              389.5427
+            ],
+            [
+              -114.5764,
+              391.0747
+            ],
+            [
+              -113.9559,
+              391.7222
+            ],
+            [
+              -113.6967,
+              392.0894
+            ],
+            [
+              -114.2214,
+              393.0045
+            ],
+            [
+              -114.4099,
+              393.3192
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              55.91,
+              -89.94
+            ],
+            [
+              52.16,
+              -88.19
+            ],
+            [
+              45.14,
+              -84.88
+            ],
+            [
+              38.76,
+              -81.84
+            ],
+            [
+              37.86,
+              -80.84
+            ],
+            [
+              39.92,
+              -79.22
+            ],
+            [
+              40.86,
+              -79.54
+            ],
+            [
+              43.86,
+              -80.82
+            ],
+            [
+              53.57,
+              -85.73
+            ],
+            [
+              56.18,
+              -87.19
+            ],
+            [
+              56.82,
+              -87.82
+            ],
+            [
+              57.09,
+              -88.18
+            ],
+            [
+              56.59,
+              -89.11
+            ],
+            [
+              56.41,
+              -89.43
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            9.806,
+            9.793,
+            9.774,
+            9.765,
+            9.892,
+            10.48,
+            10.51,
+            10.548,
+            10.499,
+            10.455,
+            10.382,
+            10.331,
+            10.067,
+            9.976
+          ]
+        }
+      ],
+      "candidateGableRidges": [
+        {
+          "planeIds": [
+            "B12-plane-1",
+            "B12-plane-2"
+          ],
+          "status": "candidate convex gable intersection; unverified roof assembly and endpoints",
+          "endpointsEpsg3006": [
+            [
+              605570.102,
+              6605061.354
+            ],
+            [
+              605587.566,
+              6605052.972
+            ]
+          ],
+          "endpointsBlenderXY": [
+            [
+              40.102,
+              -78.646
+            ],
+            [
+              57.566,
+              -87.028
+            ]
+          ],
+          "endpointsLocalXZ": [
+            [
+              -130.3706,
+              382.0865
+            ],
+            [
+              -113.1896,
+              390.9516
+            ]
+          ],
+          "heightsRH2000": [
+            10.629,
+            10.642
+          ],
+          "heightAboveNearbyGroundMetres": [
+            4.336,
+            4.356
+          ],
+          "supportedLengthMetres": 19.37,
+          "gridBearingDegrees": 115.64,
+          "uncertainty": "Allow at least 0.3 m vertical and 0.5-1 m horizontal until independent validation; sparse/changed roofs can have substantially larger error."
+        }
+      ],
+      "allCandidateElevatedReturns": 245,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 1976,
+        "fittedSupportCount": 1961,
+        "heightAtOriginRH2000": 6.294,
+        "coefficientsLocalEN": [
+          0.0074924,
+          0.016499,
+          6.2940584
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 5.89,
+          "p50": 6.3,
+          "p95": 6.64
+        },
+        "fittedSlopeDegrees": 1.04,
+        "residualP95AbsoluteMetres": 0.202,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    },
+    {
+      "id": "B13",
+      "name": "Northern service-area large roof",
+      "sourceGeometry": "orthophoto-observation",
+      "geometryStatus": "image-interpreted-roof-edge",
+      "queryEnvelopeEpsg3006": [
+        [
+          605604.8,
+          6606143.2
+        ],
+        [
+          605644.0,
+          6606141.92
+        ],
+        [
+          605646.08,
+          6606133.44
+        ],
+        [
+          605644.0,
+          6606124.96
+        ],
+        [
+          605603.68,
+          6606125.92
+        ]
+      ],
+      "queryBufferMetres": 3.0,
+      "sourceGeometryWarning": "Search envelope is not a surveyed wall/eave boundary and can include adjacent structures or vegetation.",
+      "planeEquation": "RH2000 height = a*(E-originE)+b*(N-originN)+c",
+      "originEpsg3006": [
+        605624.5716,
+        6606133.949
+      ],
+      "originLocalXZ": [
+        -45.9316,
+        -688.0161
+      ],
+      "originBlenderXY": [
+        94.5716,
+        993.949
+      ],
+      "planes": [
+        {
+          "id": "B13-plane-1",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 526,
+          "supportHullAreaSquareMetres": 346.85,
+          "supportPointDensityPerSquareMetre": 1.517,
+          "coefficientsLocalEN": [
+            0.0194421,
+            0.5875854,
+            23.1143905
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.951,
+          "slopeDegrees": 30.45,
+          "residualRmseMetres": 0.057,
+          "residualP95AbsoluteMetres": 0.106,
+          "supportHeightQuantilesRH2000": {
+            "p05": 18.41,
+            "p50": 20.74,
+            "p95": 23.18
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 5.528,
+            "p50": 7.806,
+            "p95": 10.189
+          },
+          "supportHullEpsg3006": [
+            [
+              605640.48,
+              6606125.06
+            ],
+            [
+              605607.9,
+              6606125.98
+            ],
+            [
+              605602.54,
+              6606127.2
+            ],
+            [
+              605602.25,
+              6606128.25
+            ],
+            [
+              605602.03,
+              6606130.56
+            ],
+            [
+              605602.16,
+              6606134.74
+            ],
+            [
+              605604.64,
+              6606134.75
+            ],
+            [
+              605609.66,
+              6606134.76
+            ],
+            [
+              605612.18,
+              6606134.76
+            ],
+            [
+              605633.01,
+              6606134.05
+            ],
+            [
+              605642.13,
+              6606133.72
+            ],
+            [
+              605641.96,
+              6606126.17
+            ],
+            [
+              605641.23,
+              6606125.41
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -30.3118,
+              -678.6875
+            ],
+            [
+              -62.7865,
+              -680.5232
+            ],
+            [
+              -68.0991,
+              -681.8929
+            ],
+            [
+              -68.3589,
+              -682.9501
+            ],
+            [
+              -68.5135,
+              -685.2642
+            ],
+            [
+              -68.2665,
+              -689.4368
+            ],
+            [
+              -65.7922,
+              -689.3771
+            ],
+            [
+              -60.7842,
+              -689.2459
+            ],
+            [
+              -58.2703,
+              -689.175
+            ],
+            [
+              -37.511,
+              -687.8796
+            ],
+            [
+              -28.4225,
+              -687.2933
+            ],
+            [
+              -28.8042,
+              -679.7549
+            ],
+            [
+              -29.5538,
+              -679.0161
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              110.48,
+              985.06
+            ],
+            [
+              77.9,
+              985.98
+            ],
+            [
+              72.54,
+              987.2
+            ],
+            [
+              72.25,
+              988.25
+            ],
+            [
+              72.03,
+              990.56
+            ],
+            [
+              72.16,
+              994.74
+            ],
+            [
+              74.64,
+              994.75
+            ],
+            [
+              79.66,
+              994.76
+            ],
+            [
+              82.18,
+              994.76
+            ],
+            [
+              103.01,
+              994.05
+            ],
+            [
+              112.13,
+              993.72
+            ],
+            [
+              111.96,
+              986.17
+            ],
+            [
+              111.23,
+              985.41
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            18.201,
+            18.108,
+            18.72,
+            19.332,
+            20.685,
+            23.143,
+            23.198,
+            23.301,
+            23.35,
+            23.338,
+            23.321,
+            18.882,
+            18.421
+          ]
+        },
+        {
+          "id": "B13-plane-2",
+          "interpretation": "elevated planar returns, roof identity requires image review",
+          "supportCount": 438,
+          "supportHullAreaSquareMetres": 307.64,
+          "supportPointDensityPerSquareMetre": 1.424,
+          "coefficientsLocalEN": [
+            -0.019857,
+            -0.5983517,
+            23.3968875
+          ],
+          "supportInsideSourceEnvelopeFraction": 0.954,
+          "slopeDegrees": 30.91,
+          "residualRmseMetres": 0.058,
+          "residualP95AbsoluteMetres": 0.106,
+          "supportHeightQuantilesRH2000": {
+            "p05": 18.787,
+            "p50": 20.905,
+            "p95": 22.966
+          },
+          "heightAboveNearbyGroundQuantilesMetres": {
+            "p05": 5.838,
+            "p50": 7.964,
+            "p95": 10.054
+          },
+          "supportHullEpsg3006": [
+            [
+              605634.28,
+              6606134.05
+            ],
+            [
+              605615.8,
+              6606134.63
+            ],
+            [
+              605613.42,
+              6606134.76
+            ],
+            [
+              605602.08,
+              6606135.75
+            ],
+            [
+              605602.74,
+              6606139.17
+            ],
+            [
+              605604.26,
+              6606142.19
+            ],
+            [
+              605605.5,
+              6606142.6
+            ],
+            [
+              605619.19,
+              6606143.45
+            ],
+            [
+              605630.8,
+              6606142.28
+            ],
+            [
+              605637.55,
+              6606141.38
+            ],
+            [
+              605641.82,
+              6606139.25
+            ],
+            [
+              605642.21,
+              6606136.68
+            ],
+            [
+              605641.92,
+              6606134.08
+            ],
+            [
+              605640.65,
+              6606134.07
+            ]
+          ],
+          "supportHullLocalXZ": [
+            [
+              -36.2441,
+              -687.8439
+            ],
+            [
+              -54.6628,
+              -688.9433
+            ],
+            [
+              -57.0333,
+              -689.1401
+            ],
+            [
+              -68.3179,
+              -690.4482
+            ],
+            [
+              -67.5635,
+              -693.8465
+            ],
+            [
+              -65.9624,
+              -696.8211
+            ],
+            [
+              -64.7139,
+              -697.1958
+            ],
+            [
+              -51.0333,
+              -697.66
+            ],
+            [
+              -39.4844,
+              -696.1644
+            ],
+            [
+              -32.7762,
+              -695.0753
+            ],
+            [
+              -28.5764,
+              -692.8271
+            ],
+            [
+              -28.2595,
+              -690.2484
+            ],
+            [
+              -28.6219,
+              -687.6589
+            ],
+            [
+              -29.8891,
+              -687.6847
+            ]
+          ],
+          "supportHullBlenderXY": [
+            [
+              104.28,
+              994.05
+            ],
+            [
+              85.8,
+              994.63
+            ],
+            [
+              83.42,
+              994.76
+            ],
+            [
+              72.08,
+              995.75
+            ],
+            [
+              72.74,
+              999.17
+            ],
+            [
+              74.26,
+              1002.19
+            ],
+            [
+              75.5,
+              1002.6
+            ],
+            [
+              89.19,
+              1003.45
+            ],
+            [
+              100.8,
+              1002.28
+            ],
+            [
+              107.55,
+              1001.38
+            ],
+            [
+              111.82,
+              999.25
+            ],
+            [
+              112.21,
+              996.68
+            ],
+            [
+              111.92,
+              994.08
+            ],
+            [
+              110.65,
+              994.07
+            ]
+          ],
+          "supportHullHeightsRH2000": [
+            23.144,
+            23.164,
+            23.133,
+            22.766,
+            20.706,
+            18.869,
+            18.599,
+            17.819,
+            18.288,
+            18.693,
+            19.883,
+            21.413,
+            22.974,
+            23.005
+          ]
+        }
+      ],
+      "candidateGableRidges": [
+        {
+          "planeIds": [
+            "B13-plane-1",
+            "B13-plane-2"
+          ],
+          "status": "candidate convex gable intersection; unverified roof assembly and endpoints",
+          "endpointsEpsg3006": [
+            [
+              605641.089,
+              6606133.64
+            ],
+            [
+              605603.388,
+              6606134.889
+            ]
+          ],
+          "endpointsBlenderXY": [
+            [
+              111.089,
+              993.64
+            ],
+            [
+              73.388,
+              994.889
+            ]
+          ],
+          "endpointsLocalXZ": [
+            [
+              -29.4629,
+              -687.2425
+            ],
+            [
+              -67.0377,
+              -689.5513
+            ]
+          ],
+          "heightsRH2000": [
+            23.254,
+            23.255
+          ],
+          "heightAboveNearbyGroundMetres": [
+            10.447,
+            10.195
+          ],
+          "supportedLengthMetres": 37.72,
+          "gridBearingDegrees": 91.9,
+          "uncertainty": "Allow at least 0.3 m vertical and 0.5-1 m horizontal until independent validation; sparse/changed roofs can have substantially larger error."
+        }
+      ],
+      "allCandidateElevatedReturns": 1047,
+      "nearbyGround": {
+        "classifiedGroundPointCount": 2282,
+        "fittedSupportCount": 1825,
+        "heightAtOriginRH2000": 12.917,
+        "coefficientsLocalEN": [
+          -0.0066039,
+          0.003336,
+          12.917038
+        ],
+        "heightQuantilesRH2000": {
+          "p05": 12.51,
+          "p50": 12.9,
+          "p95": 15.1
+        },
+        "fittedSlopeDegrees": 0.42,
+        "residualP95AbsoluteMetres": 0.72,
+        "meaning": "Surrounding classified ground plane, not entrance threshold or floor elevation."
+      },
+      "roofEvidenceStatus": "planar-subsets-require-image-review",
+      "limitations": [
+        "Support hulls are inner sampled envelopes, not surveyed walls or eaves.",
+        "Class 1 returns are unclassified and can include vegetation or adjacent roofs.",
+        "Plane scatter measures internal agreement, not total absolute survey accuracy.",
+        "2021 laser can predate roofs visible in the newer orthophoto/photos.",
+        "Buffered adjacent envelopes can share the same returns. These are candidate studies, not separate established roof components."
+      ]
+    }
+  ],
+  "excludedEnvelopes": [
+    {
+      "id": "N01",
+      "name": "Northern neighbouring building, west of road-side group",
+      "reason": "Outside bounded laser acquisition; no height evidence claimed."
+    },
+    {
+      "id": "N02",
+      "name": "Northern neighbouring building, north",
+      "reason": "Outside bounded laser acquisition; no height evidence claimed."
+    },
+    {
+      "id": "N03",
+      "name": "Northern neighbouring building, east",
+      "reason": "Outside bounded laser acquisition; no height evidence claimed."
+    },
+    {
+      "id": "N04",
+      "name": "Northern neighbouring building, south",
+      "reason": "Outside bounded laser acquisition; no height evidence claimed."
+    }
+  ],
+  "roofSupport": [
+    {
+      "id": "B01-plane-1",
+      "facilityId": "B01",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 328,
+      "residualRmseMetres": 0.045,
+      "supportInsideSourceEnvelopeFraction": 0.817,
+      "verticesEPSG3006Rh2000": [
+        [
+          605509.85,
+          6605136.58,
+          11.744
+        ],
+        [
+          605509.16,
+          6605137.49,
+          11.648
+        ],
+        [
+          605504.78,
+          6605147.03,
+          10.794
+        ],
+        [
+          605504.99,
+          6605148.1,
+          10.734
+        ],
+        [
+          605505.94,
+          6605149.09,
+          10.717
+        ],
+        [
+          605525.69,
+          6605164.03,
+          10.74
+        ],
+        [
+          605528.81,
+          6605166.24,
+          10.754
+        ],
+        [
+          605529.18,
+          6605166.48,
+          10.757
+        ],
+        [
+          605530.39,
+          6605166.48,
+          10.819
+        ],
+        [
+          605531.05,
+          6605165.58,
+          10.912
+        ],
+        [
+          605533.45,
+          6605162.21,
+          11.257
+        ],
+        [
+          605515.37,
+          6605140.87,
+          11.742
+        ],
+        [
+          605514.2,
+          6605139.94,
+          11.744
+        ]
+      ]
+    },
+    {
+      "id": "B01-plane-2",
+      "facilityId": "B01",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 126,
+      "residualRmseMetres": 0.068,
+      "supportInsideSourceEnvelopeFraction": 0.976,
+      "verticesEPSG3006Rh2000": [
+        [
+          605519.17,
+          6605139.95,
+          12.474
+        ],
+        [
+          605517.15,
+          6605141.79,
+          14.536
+        ],
+        [
+          605517.15,
+          6605142.13,
+          14.745
+        ],
+        [
+          605517.57,
+          6605143.02,
+          15.095
+        ],
+        [
+          605518.87,
+          6605144.21,
+          15.221
+        ],
+        [
+          605521.25,
+          6605146.37,
+          15.441
+        ],
+        [
+          605535.53,
+          6605157.21,
+          15.462
+        ],
+        [
+          605536.86,
+          6605158.12,
+          15.403
+        ],
+        [
+          605537.98,
+          6605157.71,
+          14.633
+        ],
+        [
+          605538.67,
+          6605156.77,
+          13.738
+        ],
+        [
+          605539.46,
+          6605155.62,
+          12.668
+        ],
+        [
+          605539.69,
+          6605154.66,
+          11.973
+        ],
+        [
+          605539.44,
+          6605153.67,
+          11.483
+        ],
+        [
+          605531.52,
+          6605147.09,
+          11.123
+        ],
+        [
+          605522.67,
+          6605140.89,
+          11.427
+        ],
+        [
+          605522.32,
+          6605140.65,
+          11.443
+        ],
+        [
+          605520.45,
+          6605139.96,
+          11.887
+        ]
+      ]
+    },
+    {
+      "id": "B01-plane-3",
+      "facilityId": "B01",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 125,
+      "residualRmseMetres": 0.072,
+      "supportInsideSourceEnvelopeFraction": 0.936,
+      "verticesEPSG3006Rh2000": [
+        [
+          605516.34,
+          6605143.02,
+          15.277
+        ],
+        [
+          605513.92,
+          6605146.35,
+          12.076
+        ],
+        [
+          605514.89,
+          6605148.13,
+          11.426
+        ],
+        [
+          605517.55,
+          6605150.28,
+          11.337
+        ],
+        [
+          605533.56,
+          6605162.15,
+          11.466
+        ],
+        [
+          605534.64,
+          6605162.21,
+          11.935
+        ],
+        [
+          605536.03,
+          6605160.02,
+          13.945
+        ],
+        [
+          605536.42,
+          6605158.86,
+          14.848
+        ],
+        [
+          605534.85,
+          6605156.75,
+          15.423
+        ],
+        [
+          605517.78,
+          6605143.88,
+          15.418
+        ]
+      ]
+    },
+    {
+      "id": "B01-plane-4",
+      "facilityId": "B01",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 39,
+      "residualRmseMetres": 0.041,
+      "supportInsideSourceEnvelopeFraction": 0.923,
+      "verticesEPSG3006Rh2000": [
+        [
+          605508.66,
+          6605141.77,
+          10.837
+        ],
+        [
+          605506.99,
+          6605142.74,
+          10.743
+        ],
+        [
+          605505.66,
+          6605145.05,
+          10.696
+        ],
+        [
+          605505.76,
+          6605146.02,
+          10.721
+        ],
+        [
+          605511.72,
+          6605145.06,
+          11.104
+        ],
+        [
+          605514.28,
+          6605143.87,
+          11.254
+        ],
+        [
+          605513.04,
+          6605142.75,
+          11.149
+        ],
+        [
+          605511.08,
+          6605142.11,
+          11.006
+        ],
+        [
+          605509.89,
+          6605141.77,
+          10.92
+        ]
+      ]
+    },
+    {
+      "id": "B02-plane-1",
+      "facilityId": "B02",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 151,
+      "residualRmseMetres": 0.027,
+      "supportInsideSourceEnvelopeFraction": 0.02,
+      "verticesEPSG3006Rh2000": [
+        [
+          605505.21,
+          6605146.32,
+          10.875
+        ],
+        [
+          605504.78,
+          6605147.03,
+          10.797
+        ],
+        [
+          605504.99,
+          6605148.1,
+          10.73
+        ],
+        [
+          605505.94,
+          6605149.09,
+          10.71
+        ],
+        [
+          605525.69,
+          6605164.03,
+          10.726
+        ],
+        [
+          605528.81,
+          6605166.24,
+          10.74
+        ],
+        [
+          605529.18,
+          6605166.48,
+          10.743
+        ],
+        [
+          605530.39,
+          6605166.48,
+          10.813
+        ],
+        [
+          605531.05,
+          6605165.58,
+          10.917
+        ],
+        [
+          605530.92,
+          6605164.3,
+          11.005
+        ],
+        [
+          605529.5,
+          6605163.16,
+          11.009
+        ],
+        [
+          605522.35,
+          6605157.67,
+          11.009
+        ],
+        [
+          605513.91,
+          6605151.29,
+          11.002
+        ],
+        [
+          605510.2,
+          6605148.51,
+          10.997
+        ],
+        [
+          605506.45,
+          6605146.33,
+          10.945
+        ]
+      ]
+    },
+    {
+      "id": "B03-plane-1",
+      "facilityId": "B03",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 99,
+      "residualRmseMetres": 0.066,
+      "supportInsideSourceEnvelopeFraction": 0.697,
+      "verticesEPSG3006Rh2000": [
+        [
+          605528.06,
+          6605119.21,
+          11.958
+        ],
+        [
+          605525.07,
+          6605122.64,
+          11.662
+        ],
+        [
+          605524.17,
+          6605123.78,
+          11.626
+        ],
+        [
+          605518.62,
+          6605131.12,
+          11.556
+        ],
+        [
+          605518.27,
+          6605132.18,
+          11.847
+        ],
+        [
+          605519.66,
+          6605133.34,
+          13.344
+        ],
+        [
+          605521.18,
+          6605134.31,
+          14.834
+        ],
+        [
+          605529.85,
+          6605122.66,
+          14.851
+        ],
+        [
+          605530.69,
+          6605120.84,
+          14.512
+        ]
+      ]
+    },
+    {
+      "id": "B03-plane-2",
+      "facilityId": "B03",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 90,
+      "residualRmseMetres": 0.067,
+      "supportInsideSourceEnvelopeFraction": 0.933,
+      "verticesEPSG3006Rh2000": [
+        [
+          605531.03,
+          6605121.43,
+          14.774
+        ],
+        [
+          605529.9,
+          6605122.92,
+          14.786
+        ],
+        [
+          605522.08,
+          6605133.35,
+          14.81
+        ],
+        [
+          605522.04,
+          6605134.47,
+          14.268
+        ],
+        [
+          605523.93,
+          6605136.46,
+          11.968
+        ],
+        [
+          605525.09,
+          6605135.68,
+          11.575
+        ],
+        [
+          605529.16,
+          6605130.06,
+          11.66
+        ],
+        [
+          605532.95,
+          6605124.78,
+          11.763
+        ],
+        [
+          605533.82,
+          6605122.93,
+          12.111
+        ],
+        [
+          605532.29,
+          6605121.43,
+          13.916
+        ]
+      ]
+    },
+    {
+      "id": "B04-plane-1",
+      "facilityId": "B04",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 98,
+      "residualRmseMetres": 0.062,
+      "supportInsideSourceEnvelopeFraction": 0.949,
+      "verticesEPSG3006Rh2000": [
+        [
+          605554.66,
+          6605138.0,
+          14.467
+        ],
+        [
+          605553.81,
+          6605138.59,
+          14.709
+        ],
+        [
+          605547.09,
+          6605147.13,
+          14.867
+        ],
+        [
+          605544.68,
+          6605150.37,
+          14.843
+        ],
+        [
+          605544.1,
+          6605151.36,
+          14.742
+        ],
+        [
+          605544.0,
+          6605151.59,
+          14.697
+        ],
+        [
+          605546.5,
+          6605153.54,
+          12.313
+        ],
+        [
+          605547.88,
+          6605152.86,
+          11.794
+        ],
+        [
+          605549.07,
+          6605151.6,
+          11.652
+        ],
+        [
+          605553.08,
+          6605146.17,
+          11.709
+        ],
+        [
+          605554.27,
+          6605144.32,
+          11.834
+        ],
+        [
+          605557.12,
+          6605139.72,
+          12.211
+        ]
+      ]
+    },
+    {
+      "id": "B04-plane-2",
+      "facilityId": "B04",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 83,
+      "residualRmseMetres": 0.067,
+      "supportInsideSourceEnvelopeFraction": 0.759,
+      "verticesEPSG3006Rh2000": [
+        [
+          605550.95,
+          6605135.54,
+          11.879
+        ],
+        [
+          605546.64,
+          6605140.71,
+          11.65
+        ],
+        [
+          605541.57,
+          6605147.32,
+          11.624
+        ],
+        [
+          605541.0,
+          6605148.22,
+          11.693
+        ],
+        [
+          605541.15,
+          6605149.18,
+          12.227
+        ],
+        [
+          605541.49,
+          6605149.49,
+          12.575
+        ],
+        [
+          605543.79,
+          6605150.75,
+          14.549
+        ],
+        [
+          605545.03,
+          6605149.5,
+          14.724
+        ],
+        [
+          605551.66,
+          6605140.96,
+          14.806
+        ],
+        [
+          605553.77,
+          6605137.64,
+          14.555
+        ],
+        [
+          605552.82,
+          6605136.53,
+          13.468
+        ],
+        [
+          605551.44,
+          6605135.77,
+          12.282
+        ]
+      ]
+    },
+    {
+      "id": "B04-plane-3",
+      "facilityId": "B04",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 46,
+      "residualRmseMetres": 0.019,
+      "supportInsideSourceEnvelopeFraction": 0.043,
+      "verticesEPSG3006Rh2000": [
+        [
+          605541.19,
+          6605150.36,
+          10.847
+        ],
+        [
+          605540.25,
+          6605150.74,
+          10.699
+        ],
+        [
+          605540.59,
+          6605151.58,
+          10.618
+        ],
+        [
+          605541.25,
+          6605152.54,
+          10.552
+        ],
+        [
+          605545.64,
+          6605155.63,
+          10.57
+        ],
+        [
+          605547.55,
+          6605156.8,
+          10.602
+        ],
+        [
+          605548.79,
+          6605156.8,
+          10.728
+        ],
+        [
+          605550.48,
+          6605155.64,
+          11.06
+        ],
+        [
+          605549.68,
+          6605154.7,
+          11.109
+        ],
+        [
+          605548.06,
+          6605153.69,
+          11.084
+        ],
+        [
+          605542.75,
+          6605150.75,
+          10.952
+        ]
+      ]
+    },
+    {
+      "id": "B04-plane-4",
+      "facilityId": "B04",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 14,
+      "residualRmseMetres": 0.029,
+      "supportInsideSourceEnvelopeFraction": 1.0,
+      "verticesEPSG3006Rh2000": [
+        [
+          605557.58,
+          6605140.73,
+          11.979
+        ],
+        [
+          605556.7,
+          6605140.96,
+          12.119
+        ],
+        [
+          605555.57,
+          6605142.86,
+          12.039
+        ],
+        [
+          605555.19,
+          6605144.0,
+          11.932
+        ],
+        [
+          605555.54,
+          6605144.33,
+          11.809
+        ],
+        [
+          605556.44,
+          6605144.01,
+          11.68
+        ],
+        [
+          605558.25,
+          6605141.93,
+          11.652
+        ],
+        [
+          605557.95,
+          6605140.97,
+          11.866
+        ]
+      ]
+    },
+    {
+      "id": "B04a-plane-1",
+      "facilityId": "B04a",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 43,
+      "residualRmseMetres": 0.02,
+      "supportInsideSourceEnvelopeFraction": 0.558,
+      "verticesEPSG3006Rh2000": [
+        [
+          605543.73,
+          6605152.55,
+          10.809
+        ],
+        [
+          605543.19,
+          6605153.68,
+          10.593
+        ],
+        [
+          605544.71,
+          6605154.97,
+          10.566
+        ],
+        [
+          605547.98,
+          6605157.73,
+          10.509
+        ],
+        [
+          605549.39,
+          6605158.14,
+          10.596
+        ],
+        [
+          605550.39,
+          6605157.74,
+          10.756
+        ],
+        [
+          605550.88,
+          6605157.26,
+          10.875
+        ],
+        [
+          605551.25,
+          6605156.81,
+          10.977
+        ],
+        [
+          605551.24,
+          6605155.91,
+          11.104
+        ],
+        [
+          605549.68,
+          6605154.7,
+          11.116
+        ],
+        [
+          605548.06,
+          6605153.69,
+          11.093
+        ],
+        [
+          605547.8,
+          6605153.55,
+          11.086
+        ],
+        [
+          605544.96,
+          6605152.55,
+          10.936
+        ]
+      ]
+    },
+    {
+      "id": "B04a-plane-2",
+      "facilityId": "B04a",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 20,
+      "residualRmseMetres": 0.061,
+      "supportInsideSourceEnvelopeFraction": 0.05,
+      "verticesEPSG3006Rh2000": [
+        [
+          605547.54,
+          6605149.5,
+          13.577
+        ],
+        [
+          605545.05,
+          6605150.75,
+          14.484
+        ],
+        [
+          605545.27,
+          6605151.59,
+          13.955
+        ],
+        [
+          605546.5,
+          6605153.54,
+          12.292
+        ],
+        [
+          605547.88,
+          6605152.86,
+          11.783
+        ],
+        [
+          605549.07,
+          6605151.6,
+          11.663
+        ],
+        [
+          605548.97,
+          6605150.76,
+          12.12
+        ]
+      ]
+    },
+    {
+      "id": "B05-plane-1",
+      "facilityId": "B05",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 54,
+      "residualRmseMetres": 0.018,
+      "supportInsideSourceEnvelopeFraction": 0.87,
+      "verticesEPSG3006Rh2000": [
+        [
+          605533.56,
+          6605133.38,
+          10.219
+        ],
+        [
+          605531.28,
+          6605136.47,
+          10.203
+        ],
+        [
+          605529.88,
+          6605139.62,
+          10.247
+        ],
+        [
+          605530.92,
+          6605140.67,
+          10.358
+        ],
+        [
+          605532.22,
+          6605141.84,
+          10.492
+        ],
+        [
+          605533.33,
+          6605140.67,
+          10.514
+        ],
+        [
+          605536.76,
+          6605136.64,
+          10.563
+        ],
+        [
+          605536.47,
+          6605135.73,
+          10.506
+        ],
+        [
+          605535.7,
+          6605134.5,
+          10.404
+        ],
+        [
+          605534.47,
+          6605133.65,
+          10.289
+        ]
+      ]
+    },
+    {
+      "id": "B06-plane-1",
+      "facilityId": "B06",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 58,
+      "residualRmseMetres": 0.027,
+      "supportInsideSourceEnvelopeFraction": 0.741,
+      "verticesEPSG3006Rh2000": [
+        [
+          605540.31,
+          6605137.6,
+          10.521
+        ],
+        [
+          605539.84,
+          6605137.95,
+          10.531
+        ],
+        [
+          605538.06,
+          6605140.02,
+          10.549
+        ],
+        [
+          605536.19,
+          6605142.82,
+          10.554
+        ],
+        [
+          605536.15,
+          6605143.06,
+          10.55
+        ],
+        [
+          605536.62,
+          6605143.95,
+          10.513
+        ],
+        [
+          605538.15,
+          6605144.97,
+          10.434
+        ],
+        [
+          605538.64,
+          6605145.13,
+          10.413
+        ],
+        [
+          605539.37,
+          6605144.98,
+          10.39
+        ],
+        [
+          605540.36,
+          6605143.96,
+          10.377
+        ],
+        [
+          605542.15,
+          6605141.88,
+          10.359
+        ],
+        [
+          605543.07,
+          6605140.7,
+          10.352
+        ],
+        [
+          605543.54,
+          6605139.68,
+          10.358
+        ],
+        [
+          605543.11,
+          6605138.57,
+          10.398
+        ],
+        [
+          605541.55,
+          6605137.6,
+          10.476
+        ]
+      ]
+    },
+    {
+      "id": "B07-plane-1",
+      "facilityId": "B07",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 82,
+      "residualRmseMetres": 0.029,
+      "supportInsideSourceEnvelopeFraction": 0.976,
+      "verticesEPSG3006Rh2000": [
+        [
+          605550.95,
+          6605173.88,
+          10.736
+        ],
+        [
+          605550.41,
+          6605174.27,
+          10.827
+        ],
+        [
+          605550.2,
+          6605174.77,
+          10.878
+        ],
+        [
+          605550.03,
+          6605175.92,
+          10.952
+        ],
+        [
+          605552.4,
+          6605182.85,
+          10.932
+        ],
+        [
+          605553.49,
+          6605185.68,
+          10.907
+        ],
+        [
+          605554.08,
+          6605186.78,
+          10.874
+        ],
+        [
+          605557.17,
+          6605185.69,
+          10.404
+        ],
+        [
+          605557.08,
+          6605184.82,
+          10.378
+        ],
+        [
+          605554.11,
+          6605175.16,
+          10.36
+        ],
+        [
+          605553.46,
+          6605173.89,
+          10.393
+        ],
+        [
+          605552.21,
+          6605173.88,
+          10.564
+        ]
+      ]
+    },
+    {
+      "id": "B08-plane-1",
+      "facilityId": "B08",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 23,
+      "residualRmseMetres": 0.029,
+      "supportInsideSourceEnvelopeFraction": 0.87,
+      "verticesEPSG3006Rh2000": [
+        [
+          605562.49,
+          6605201.76,
+          10.493
+        ],
+        [
+          605560.57,
+          6605202.88,
+          10.53
+        ],
+        [
+          605561.58,
+          6605204.91,
+          10.532
+        ],
+        [
+          605563.21,
+          6605208.13,
+          10.535
+        ],
+        [
+          605564.45,
+          6605209.26,
+          10.527
+        ],
+        [
+          605565.49,
+          6605209.08,
+          10.51
+        ],
+        [
+          605566.54,
+          6605208.49,
+          10.491
+        ],
+        [
+          605563.36,
+          6605202.08,
+          10.484
+        ]
+      ]
+    },
+    {
+      "id": "B09-plane-1",
+      "facilityId": "B09",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 42,
+      "residualRmseMetres": 0.063,
+      "supportInsideSourceEnvelopeFraction": 0.69,
+      "verticesEPSG3006Rh2000": [
+        [
+          605553.81,
+          6605106.39,
+          11.224
+        ],
+        [
+          605550.53,
+          6605109.77,
+          10.824
+        ],
+        [
+          605550.22,
+          6605110.13,
+          10.801
+        ],
+        [
+          605549.64,
+          6605110.98,
+          10.828
+        ],
+        [
+          605548.23,
+          6605113.14,
+          10.928
+        ],
+        [
+          605547.86,
+          6605114.06,
+          11.09
+        ],
+        [
+          605548.25,
+          6605114.34,
+          11.4
+        ],
+        [
+          605549.75,
+          6605115.02,
+          12.439
+        ],
+        [
+          605555.04,
+          6605108.07,
+          12.508
+        ],
+        [
+          605554.84,
+          6605106.74,
+          11.892
+        ]
+      ]
+    },
+    {
+      "id": "B09-plane-2",
+      "facilityId": "B09",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 39,
+      "residualRmseMetres": 0.074,
+      "supportInsideSourceEnvelopeFraction": 0.641,
+      "verticesEPSG3006Rh2000": [
+        [
+          605555.59,
+          6605107.63,
+          12.251
+        ],
+        [
+          605551.49,
+          6605112.93,
+          12.303
+        ],
+        [
+          605549.87,
+          6605115.22,
+          12.244
+        ],
+        [
+          605551.22,
+          6605116.52,
+          10.984
+        ],
+        [
+          605555.5,
+          6605112.25,
+          10.415
+        ],
+        [
+          605555.73,
+          6605112.0,
+          10.393
+        ],
+        [
+          605556.54,
+          6605110.15,
+          10.71
+        ],
+        [
+          605556.63,
+          6605108.63,
+          11.282
+        ],
+        [
+          605556.33,
+          6605108.07,
+          11.672
+        ]
+      ]
+    },
+    {
+      "id": "B10-plane-1",
+      "facilityId": "B10",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 49,
+      "residualRmseMetres": 0.057,
+      "supportInsideSourceEnvelopeFraction": 0.816,
+      "verticesEPSG3006Rh2000": [
+        [
+          605584.07,
+          6605110.23,
+          14.119
+        ],
+        [
+          605568.98,
+          6605117.45,
+          13.945
+        ],
+        [
+          605569.41,
+          6605119.3,
+          12.468
+        ],
+        [
+          605570.55,
+          6605119.71,
+          11.791
+        ],
+        [
+          605572.42,
+          6605118.86,
+          11.781
+        ],
+        [
+          605583.84,
+          6605113.21,
+          12.046
+        ],
+        [
+          605584.33,
+          6605112.34,
+          12.51
+        ]
+      ]
+    },
+    {
+      "id": "B11-plane-1",
+      "facilityId": "B11",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 22,
+      "residualRmseMetres": 0.069,
+      "supportInsideSourceEnvelopeFraction": 0.955,
+      "verticesEPSG3006Rh2000": [
+        [
+          605620.11,
+          6605080.99,
+          8.312
+        ],
+        [
+          605618.75,
+          6605082.1,
+          8.496
+        ],
+        [
+          605618.53,
+          6605082.57,
+          8.537
+        ],
+        [
+          605618.21,
+          6605083.34,
+          8.599
+        ],
+        [
+          605618.48,
+          6605084.71,
+          8.621
+        ],
+        [
+          605618.78,
+          6605085.32,
+          8.612
+        ],
+        [
+          605619.51,
+          6605085.52,
+          8.542
+        ],
+        [
+          605621.24,
+          6605085.33,
+          8.353
+        ],
+        [
+          605621.37,
+          6605084.34,
+          8.303
+        ],
+        [
+          605621.05,
+          6605083.01,
+          8.288
+        ]
+      ]
+    },
+    {
+      "id": "B12-plane-1",
+      "facilityId": "B12",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 140,
+      "residualRmseMetres": 0.046,
+      "supportInsideSourceEnvelopeFraction": 0.9,
+      "verticesEPSG3006Rh2000": [
+        [
+          605587.37,
+          6605052.81,
+          10.693
+        ],
+        [
+          605586.72,
+          6605052.98,
+          10.721
+        ],
+        [
+          605584.52,
+          6605054.0,
+          10.727
+        ],
+        [
+          605573.13,
+          6605059.52,
+          10.708
+        ],
+        [
+          605569.62,
+          6605061.47,
+          10.652
+        ],
+        [
+          605569.88,
+          6605062.98,
+          10.323
+        ],
+        [
+          605570.26,
+          6605063.56,
+          10.169
+        ],
+        [
+          605571.26,
+          6605064.71,
+          9.841
+        ],
+        [
+          605584.23,
+          6605059.54,
+          9.638
+        ],
+        [
+          605588.63,
+          6605057.46,
+          9.634
+        ],
+        [
+          605589.43,
+          6605056.59,
+          9.733
+        ],
+        [
+          605588.57,
+          6605054.29,
+          10.279
+        ],
+        [
+          605587.95,
+          6605052.98,
+          10.603
+        ]
+      ]
+    },
+    {
+      "id": "B12-plane-2",
+      "facilityId": "B12",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 95,
+      "residualRmseMetres": 0.023,
+      "supportInsideSourceEnvelopeFraction": 0.916,
+      "verticesEPSG3006Rh2000": [
+        [
+          605585.91,
+          6605050.06,
+          9.806
+        ],
+        [
+          605582.16,
+          6605051.81,
+          9.793
+        ],
+        [
+          605575.14,
+          6605055.12,
+          9.774
+        ],
+        [
+          605568.76,
+          6605058.16,
+          9.765
+        ],
+        [
+          605567.86,
+          6605059.16,
+          9.892
+        ],
+        [
+          605569.92,
+          6605060.78,
+          10.48
+        ],
+        [
+          605570.86,
+          6605060.46,
+          10.51
+        ],
+        [
+          605573.86,
+          6605059.18,
+          10.548
+        ],
+        [
+          605583.57,
+          6605054.27,
+          10.499
+        ],
+        [
+          605586.18,
+          6605052.81,
+          10.455
+        ],
+        [
+          605586.82,
+          6605052.18,
+          10.382
+        ],
+        [
+          605587.09,
+          6605051.82,
+          10.331
+        ],
+        [
+          605586.59,
+          6605050.89,
+          10.067
+        ],
+        [
+          605586.41,
+          6605050.57,
+          9.976
+        ]
+      ]
+    },
+    {
+      "id": "B13-plane-1",
+      "facilityId": "B13",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 526,
+      "residualRmseMetres": 0.057,
+      "supportInsideSourceEnvelopeFraction": 0.951,
+      "verticesEPSG3006Rh2000": [
+        [
+          605640.48,
+          6606125.06,
+          18.201
+        ],
+        [
+          605607.9,
+          6606125.98,
+          18.108
+        ],
+        [
+          605602.54,
+          6606127.2,
+          18.72
+        ],
+        [
+          605602.25,
+          6606128.25,
+          19.332
+        ],
+        [
+          605602.03,
+          6606130.56,
+          20.685
+        ],
+        [
+          605602.16,
+          6606134.74,
+          23.143
+        ],
+        [
+          605604.64,
+          6606134.75,
+          23.198
+        ],
+        [
+          605609.66,
+          6606134.76,
+          23.301
+        ],
+        [
+          605612.18,
+          6606134.76,
+          23.35
+        ],
+        [
+          605633.01,
+          6606134.05,
+          23.338
+        ],
+        [
+          605642.13,
+          6606133.72,
+          23.321
+        ],
+        [
+          605641.96,
+          6606126.17,
+          18.882
+        ],
+        [
+          605641.23,
+          6606125.41,
+          18.421
+        ]
+      ]
+    },
+    {
+      "id": "B13-plane-2",
+      "facilityId": "B13",
+      "evidenceStatus": "2021-planar-support-candidate-requires-image-review",
+      "supportCount": 438,
+      "residualRmseMetres": 0.058,
+      "supportInsideSourceEnvelopeFraction": 0.954,
+      "verticesEPSG3006Rh2000": [
+        [
+          605634.28,
+          6606134.05,
+          23.144
+        ],
+        [
+          605615.8,
+          6606134.63,
+          23.164
+        ],
+        [
+          605613.42,
+          6606134.76,
+          23.133
+        ],
+        [
+          605602.08,
+          6606135.75,
+          22.766
+        ],
+        [
+          605602.74,
+          6606139.17,
+          20.706
+        ],
+        [
+          605604.26,
+          6606142.19,
+          18.869
+        ],
+        [
+          605605.5,
+          6606142.6,
+          18.599
+        ],
+        [
+          605619.19,
+          6606143.45,
+          17.819
+        ],
+        [
+          605630.8,
+          6606142.28,
+          18.288
+        ],
+        [
+          605637.55,
+          6606141.38,
+          18.693
+        ],
+        [
+          605641.82,
+          6606139.25,
+          19.883
+        ],
+        [
+          605642.21,
+          6606136.68,
+          21.413
+        ],
+        [
+          605641.92,
+          6606134.08,
+          22.974
+        ],
+        [
+          605640.65,
+          6606134.07,
+          23.005
+        ]
+      ]
+    }
+  ],
+  "limitations": [
+    "Laser capture interval is March 8-April 1 2021, not the 2026 publication date.",
+    "No class-6 building labels occur in these windows; roof interpretation requires images.",
+    "These are modelling references, not an architectural or building survey.",
+    "Newer roofs, eaves, walls, doors, windows, use, materials and terrace thresholds need current photographic evidence.",
+    "Do not shift measured laser planes to match relief-displaced aerial roofs or infer roof height from bare-earth DTM."
+  ]
+}

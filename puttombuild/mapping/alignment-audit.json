@@ -11,12 +11,12 @@
   },
   "adopted": {
     "greens": 16,
-    "teePlatforms": 21,
+    "teePlatforms": 27,
     "fairwayRings": 18,
     "bunkers": 34,
-    "cameraReferences": 28,
-    "cameraReferencesWithReviewedPlatform": 22,
-    "standaloneCameraReferences": 6,
+    "cameraReferences": 57,
+    "cameraReferencesWithReviewedPlatform": 44,
+    "standaloneCameraReferences": 13,
     "waterRings": 0,
     "paths": 0,
     "removedBunkers": 3
@@ -26,11 +26,11 @@
       {
         "hole": 1,
         "greens": 1,
-        "teePlatforms": 0,
+        "teePlatforms": 1,
         "fairwayRings": 1,
         "bunkers": 1,
-        "correctedCameras": 0,
-        "unresolvedCameras": 4
+        "correctedCameras": 4,
+        "unresolvedCameras": 0
       },
       {
         "hole": 2,
@@ -38,17 +38,17 @@
         "teePlatforms": 1,
         "fairwayRings": 1,
         "bunkers": 1,
-        "correctedCameras": 1,
-        "unresolvedCameras": 3
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
       },
       {
         "hole": 3,
         "greens": 0,
-        "teePlatforms": 0,
+        "teePlatforms": 2,
         "fairwayRings": 0,
         "bunkers": 2,
-        "correctedCameras": 0,
-        "unresolvedCameras": 4
+        "correctedCameras": 4,
+        "unresolvedCameras": 0
       },
       {
         "hole": 4,
@@ -56,8 +56,8 @@
         "teePlatforms": 1,
         "fairwayRings": 1,
         "bunkers": 3,
-        "correctedCameras": 1,
-        "unresolvedCameras": 3
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
       },
       {
         "hole": 5,
@@ -65,8 +65,8 @@
         "teePlatforms": 2,
         "fairwayRings": 1,
         "bunkers": 3,
-        "correctedCameras": 3,
-        "unresolvedCameras": 1
+        "correctedCameras": 4,
+        "unresolvedCameras": 0
       },
       {
         "hole": 6,
@@ -74,13 +74,13 @@
         "teePlatforms": 1,
         "fairwayRings": 1,
         "bunkers": 2,
-        "correctedCameras": 1,
-        "unresolvedCameras": 3
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
       },
       {
         "hole": 7,
         "greens": 1,
-        "teePlatforms": 1,
+        "teePlatforms": 2,
         "fairwayRings": 0,
         "bunkers": 2,
         "correctedCameras": 3,
@@ -89,7 +89,7 @@
       {
         "hole": 8,
         "greens": 1,
-        "teePlatforms": 1,
+        "teePlatforms": 2,
         "fairwayRings": 0,
         "bunkers": 0,
         "correctedCameras": 3,
@@ -137,8 +137,8 @@
         "teePlatforms": 1,
         "fairwayRings": 2,
         "bunkers": 3,
-        "correctedCameras": 1,
-        "unresolvedCameras": 3
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
       },
       {
         "hole": 14,
@@ -146,8 +146,8 @@
         "teePlatforms": 0,
         "fairwayRings": 1,
         "bunkers": 2,
-        "correctedCameras": 0,
-        "unresolvedCameras": 4
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
       },
       {
         "hole": 15,
@@ -155,17 +155,17 @@
         "teePlatforms": 0,
         "fairwayRings": 0,
         "bunkers": 0,
-        "correctedCameras": 0,
-        "unresolvedCameras": 4
+        "correctedCameras": 2,
+        "unresolvedCameras": 2
       },
       {
         "hole": 16,
         "greens": 1,
-        "teePlatforms": 1,
+        "teePlatforms": 2,
         "fairwayRings": 2,
         "bunkers": 2,
-        "correctedCameras": 0,
-        "unresolvedCameras": 4
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
       },
       {
         "hole": 17,
@@ -173,8 +173,8 @@
         "teePlatforms": 0,
         "fairwayRings": 1,
         "bunkers": 4,
-        "correctedCameras": 0,
-        "unresolvedCameras": 4
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
       },
       {
         "hole": 18,
@@ -182,45 +182,43 @@
         "teePlatforms": 2,
         "fairwayRings": 2,
         "bunkers": 1,
-        "correctedCameras": 2,
-        "unresolvedCameras": 2
+        "correctedCameras": 3,
+        "unresolvedCameras": 1
       }
     ],
     "greensRemainingUnreviewed": 2,
     "cameraReferences": 72,
-    "explicitlyReviewedCameras": 28,
-    "referencesWithoutReviewedNumberedIdentity": 44,
+    "explicitlyReviewedCameras": 57,
+    "referencesWithoutReviewedNumberedIdentity": 15,
     "markerStatuses": {
-      "outside-all-mapped-platforms": 26,
-      "inside-unreviewed-mapped-platform": 10,
-      "corrected-inside-reviewed-platform": 22,
-      "inside-reviewed-platform-numbered-identity-unverified": 8,
-      "reviewed-visible-interior-anchor-boundary-unreviewed": 6
+      "corrected-inside-reviewed-platform": 44,
+      "reviewed-visible-interior-anchor-boundary-unreviewed": 13,
+      "outside-all-mapped-platforms": 15
     }
   },
   "sourcePixelAgreement": {
-    "count": 1855,
+    "count": 1954,
     "maximumMetres": 0,
     "medianMetres": 0,
     "p95Metres": 0
   },
   "runtimeBridgeAgreement": {
-    "count": 1855,
-    "maximumMetres": 0.090946,
-    "medianMetres": 0.016079,
-    "p95Metres": 0.066472
+    "count": 1954,
+    "maximumMetres": 0.092043,
+    "medianMetres": 0.016256,
+    "p95Metres": 0.079004
   },
   "correctedCameraMovement": {
-    "count": 28,
-    "maximumMetres": 28.556903,
-    "medianMetres": 6.127752,
-    "p95Metres": 25.205724
+    "count": 57,
+    "maximumMetres": 58.522932,
+    "medianMetres": 5.512515,
+    "p95Metres": 28.556903
   },
   "cameraReferenceDisposition": {
-    "movedAtLeastOneNativePixel": 24,
-    "retainedWithinOneNativePixel": 4,
-    "outsideAnyMappedPlatform": 27,
-    "unreviewedAndOutsideAnyMappedPlatform": 26
+    "movedAtLeastOneNativePixel": 42,
+    "retainedWithinOneNativePixel": 15,
+    "outsideAnyMappedPlatform": 17,
+    "unreviewedAndOutsideAnyMappedPlatform": 15
   },
   "scorecard": {
     "checkedDisplayValues": 108,
@@ -238,6 +236,17 @@
       "areaSquareMetres": 307.206324,
       "previousAreaSquareMetres": 340.975,
       "centroidMovementMetres": 2.980584
+    },
+    {
+      "id": "h01-tee-pad-00-lm2022-followup",
+      "kind": "tee",
+      "hole": 1,
+      "sourceKey": "tee-2022-hole-01",
+      "vertexCount": 18,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 490.256236,
+      "previousAreaSquareMetres": 404.425,
+      "centroidMovementMetres": 3.981121
     },
     {
       "id": "lm-2024-hole-01-fairway-0",
@@ -304,6 +313,28 @@
       "areaSquareMetres": 43.09339,
       "previousAreaSquareMetres": 60.49,
       "centroidMovementMetres": 3.008857
+    },
+    {
+      "id": "h03-tee-pad-01-lm2022-followup",
+      "kind": "tee",
+      "hole": 3,
+      "sourceKey": "tee-2022-hole-03",
+      "vertexCount": 13,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 190.120076,
+      "previousAreaSquareMetres": 169.935,
+      "centroidMovementMetres": 3.400153
+    },
+    {
+      "id": "h03-tee-pad-00-lm2022-followup",
+      "kind": "tee",
+      "hole": 3,
+      "sourceKey": "tee-2022-hole-03",
+      "vertexCount": 12,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 81.659954,
+      "previousAreaSquareMetres": 93.785,
+      "centroidMovementMetres": 3.500521
     },
     {
       "id": "lm-2024-hole-03-bunker-0",
@@ -548,6 +579,17 @@
       "centroidMovementMetres": 3.210363
     },
     {
+      "id": "h07-tee-pad-00-lm2022-followup",
+      "kind": "tee",
+      "hole": 7,
+      "sourceKey": "tee-2022-hole-07",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 123.524705,
+      "previousAreaSquareMetres": 136.295,
+      "centroidMovementMetres": 2.550989
+    },
+    {
       "id": "h07-bunker-01-lm2024",
       "kind": "bunker",
       "hole": 7,
@@ -590,6 +632,17 @@
       "areaSquareMetres": 81.170958,
       "previousAreaSquareMetres": 88.1,
       "centroidMovementMetres": 2.686494
+    },
+    {
+      "id": "h08-tee-pad-01-lm2022-followup",
+      "kind": "tee",
+      "hole": 8,
+      "sourceKey": "tee-2022-hole-08",
+      "vertexCount": 7,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 110.078318,
+      "previousAreaSquareMetres": 88.08,
+      "centroidMovementMetres": 3.12955
     },
     {
       "id": "h09-green-lm2024",
@@ -1032,6 +1085,17 @@
       "centroidMovementMetres": 2.999799
     },
     {
+      "id": "h16-tee-pad-48-followup-lm2024",
+      "kind": "tee",
+      "hole": 16,
+      "sourceKey": "hole-16-tees",
+      "vertexCount": 5,
+      "maximumSourcePixelErrorMetres": 0,
+      "areaSquareMetres": 53.566266,
+      "previousAreaSquareMetres": null,
+      "centroidMovementMetres": null
+    },
+    {
       "id": "h16-fairway-01-lm2024",
       "kind": "fairway",
       "hole": 16,
@@ -1225,6 +1289,66 @@
       "movementMetres": 2.955588
     },
     {
+      "id": "h01-tee-pad-00-lm2022-followup",
+      "key": "1:tee-61",
+      "sourceKey": "tee-2022-hole-01",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -79.7,
+        -250.4
+      ],
+      "coordinate": [
+        -78.64466227205436,
+        -251.54863030562723
+      ],
+      "movementMetres": 1.559836
+    },
+    {
+      "id": "h01-tee-pad-00-lm2022-followup",
+      "key": "1:tee-57",
+      "sourceKey": "tee-2022-hole-01",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -85,
+        -264.5
+      ],
+      "coordinate": [
+        -80.53396627989221,
+        -259.8290820619681
+      ],
+      "movementMetres": 6.462425
+    },
+    {
+      "id": "h01-tee-pad-00-lm2022-followup",
+      "key": "1:tee-48",
+      "sourceKey": "tee-2022-hole-01",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -97.3,
+        -297.2
+      ],
+      "coordinate": [
+        -94.26126917162253,
+        -291.4100048869898
+      ],
+      "movementMetres": 6.538955
+    },
+    {
+      "id": "h01-tee-41-lm2022-visible-anchor",
+      "key": "1:tee-41",
+      "sourceKey": "tee-2022-hole-01",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -109.6,
+        -330
+      ],
+      "coordinate": [
+        -106.01394495751873,
+        -329.1123282215261
+      ],
+      "movementMetres": 3.694286
+    },
+    {
       "id": "lm-2024-hole-02-green",
       "key": "green-2",
       "sourceKey": "hole-02-green",
@@ -1255,6 +1379,96 @@
       "movementMetres": 7.377263
     },
     {
+      "id": "h02-tee-pad-00-lm2024",
+      "key": "2:tee-57",
+      "sourceKey": "hole-02-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -133.5,
+        -565
+      ],
+      "coordinate": [
+        -133.5000694501196,
+        -564.9991041323656
+      ],
+      "movementMetres": 0.000899
+    },
+    {
+      "id": "h02-tee-pad-00-lm2024",
+      "key": "2:tee-48",
+      "sourceKey": "hole-02-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -162.9,
+        -570.8
+      ],
+      "coordinate": [
+        -162.89996431032534,
+        -570.7991995282637
+      ],
+      "movementMetres": 0.000801
+    },
+    {
+      "id": "h03-tee-pad-01-lm2022-followup",
+      "key": "3:tee-61",
+      "sourceKey": "tee-2022-hole-03",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -456.4,
+        -598.7
+      ],
+      "coordinate": [
+        -453.13370271242445,
+        -594.5947455540213
+      ],
+      "movementMetres": 5.246124
+    },
+    {
+      "id": "h03-tee-pad-01-lm2022-followup",
+      "key": "3:tee-57",
+      "sourceKey": "tee-2022-hole-03",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -456.8,
+        -596.8
+      ],
+      "coordinate": [
+        -455.72847988816653,
+        -591.3926281273777
+      ],
+      "movementMetres": 5.512515
+    },
+    {
+      "id": "h03-tee-pad-00-lm2022-followup",
+      "key": "3:tee-48",
+      "sourceKey": "tee-2022-hole-03",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -459.8,
+        -582.1
+      ],
+      "coordinate": [
+        -458.6670660887756,
+        -574.7650361613972
+      ],
+      "movementMetres": 7.421943
+    },
+    {
+      "id": "h03-tee-pad-00-lm2022-followup",
+      "key": "3:tee-41",
+      "sourceKey": "tee-2022-hole-03",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -459.8,
+        -582.1
+      ],
+      "coordinate": [
+        -458.6670660887756,
+        -574.7650361613972
+      ],
+      "movementMetres": 7.421943
+    },
+    {
       "id": "lm-2024-hole-04-green",
       "key": "green-4",
       "sourceKey": "hole-04-green",
@@ -1268,6 +1482,36 @@
         -257.334536042994
       ],
       "movementMetres": 1.323515
+    },
+    {
+      "id": "h04-tee-pad-01-lm2024",
+      "key": "4:tee-61",
+      "sourceKey": "hole-04-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -455.9,
+        -552.2
+      ],
+      "coordinate": [
+        -443.7682904755993,
+        -541.3530078982075
+      ],
+      "movementMetres": 16.273771
+    },
+    {
+      "id": "h04-tee-pad-01-lm2024",
+      "key": "4:tee-57",
+      "sourceKey": "hole-04-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -437.4,
+        -544.5
+      ],
+      "coordinate": [
+        -437.4000894320045,
+        -544.4991779649297
+      ],
+      "movementMetres": 0.000827
     },
     {
       "id": "h04-tee-48-lm2024-visible-anchor",
@@ -1345,6 +1589,21 @@
       "movementMetres": 6.127752
     },
     {
+      "id": "h05-tee-pad-01-lm2024",
+      "key": "5:tee-61",
+      "sourceKey": "hole-05-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        83.9,
+        -284.2
+      ],
+      "coordinate": [
+        83.90004041775606,
+        -284.1990971097343
+      ],
+      "movementMetres": 0.000904
+    },
+    {
       "id": "lm-2024-hole-06-green",
       "key": "green-6",
       "sourceKey": "hole-06-green",
@@ -1373,6 +1632,36 @@
         -371.88042371686464
       ],
       "movementMetres": 5.496983
+    },
+    {
+      "id": "h06-tee-pad-00-lm2024",
+      "key": "6:tee-61",
+      "sourceKey": "hole-06-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        202.8,
+        -414
+      ],
+      "coordinate": [
+        206.01903754269074,
+        -395.8400208309911
+      ],
+      "movementMetres": 18.443076
+    },
+    {
+      "id": "h06-tee-pad-00-lm2024",
+      "key": "6:tee-57",
+      "sourceKey": "hole-06-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        223.8,
+        -392.6
+      ],
+      "coordinate": [
+        223.79996606340808,
+        -392.59921277397524
+      ],
+      "movementMetres": 0.000788
     },
     {
       "id": "h07-green-lm2024",
@@ -1405,9 +1694,9 @@
       "movementMetres": 11.626027
     },
     {
-      "id": "h07-tee-61-lm2024-visible-anchor",
+      "id": "h07-tee-pad-00-lm2022-followup",
       "key": "7:tee-61",
-      "sourceKey": "hole-07-tees",
+      "sourceKey": "tee-2022-hole-07",
       "sourcePixelErrorMetres": 0,
       "previousCoordinate": [
         488.4,
@@ -1420,9 +1709,9 @@
       "movementMetres": 0.000057
     },
     {
-      "id": "h07-tee-57-lm2024-visible-anchor",
+      "id": "h07-tee-pad-00-lm2022-followup",
       "key": "7:tee-57",
-      "sourceKey": "hole-07-tees",
+      "sourceKey": "tee-2022-hole-07",
       "sourcePixelErrorMetres": 0,
       "previousCoordinate": [
         486.8,
@@ -1465,9 +1754,9 @@
       "movementMetres": 9.406179
     },
     {
-      "id": "h08-tee-61-lm2024-visible-anchor",
+      "id": "h08-tee-pad-01-lm2022-followup",
       "key": "8:tee-61",
-      "sourceKey": "hole-08-tees",
+      "sourceKey": "tee-2022-hole-08",
       "sourcePixelErrorMetres": 0,
       "previousCoordinate": [
         291.7,
@@ -1480,9 +1769,9 @@
       "movementMetres": 9.292909
     },
     {
-      "id": "h08-tee-57-lm2024-visible-anchor",
+      "id": "h08-tee-pad-01-lm2022-followup",
       "key": "8:tee-57",
-      "sourceKey": "hole-08-tees",
+      "sourceKey": "tee-2022-hole-08",
       "sourcePixelErrorMetres": 0,
       "previousCoordinate": [
         294.5,
@@ -1780,6 +2069,36 @@
       "movementMetres": 20.59792
     },
     {
+      "id": "h13-61-followup-lm2024",
+      "key": "13:tee-61",
+      "sourceKey": "hole-13-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        150.4,
+        209.2
+      ],
+      "coordinate": [
+        153.92806484665917,
+        203.96870574613416
+      ],
+      "movementMetres": 6.309808
+    },
+    {
+      "id": "h13-57-followup-lm2024",
+      "key": "13:tee-57",
+      "sourceKey": "hole-13-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        152.8,
+        199.5
+      ],
+      "coordinate": [
+        158.07666099126052,
+        191.09804042584358
+      ],
+      "movementMetres": 9.921496
+    },
+    {
       "id": "lm-2024-h14-green",
       "key": "green-14",
       "sourceKey": "hole-14-green",
@@ -1793,6 +2112,81 @@
         329.0256613877466
       ],
       "movementMetres": 2.281055
+    },
+    {
+      "id": "h14-61-followup-lm2022",
+      "key": "14:tee-61",
+      "sourceKey": "tee-2022-hole-14",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        14.4,
+        -109
+      ],
+      "coordinate": [
+        14.400090407246761,
+        -108.99972114021296
+      ],
+      "movementMetres": 0.000293
+    },
+    {
+      "id": "h14-57-followup-lm2022",
+      "key": "14:tee-57",
+      "sourceKey": "tee-2022-hole-14",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        13.9,
+        -108.1
+      ],
+      "coordinate": [
+        13.900376824089355,
+        -108.10045823806973
+      ],
+      "movementMetres": 0.000593
+    },
+    {
+      "id": "h14-48-followup-lm2024",
+      "key": "14:tee-48",
+      "sourceKey": "hole-14-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -36.3,
+        -67.5
+      ],
+      "coordinate": [
+        -46.96874812158324,
+        -9.957742748925966
+      ],
+      "movementMetres": 58.522932
+    },
+    {
+      "id": "h15-61-followup-lm2022",
+      "key": "15:tee-61",
+      "sourceKey": "tee-2022-hole-15",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -144.3,
+        360.7
+      ],
+      "coordinate": [
+        -137.63675731857793,
+        367.847083253435
+      ],
+      "movementMetres": 9.771366
+    },
+    {
+      "id": "h15-57-followup-lm2022",
+      "key": "15:tee-57",
+      "sourceKey": "tee-2022-hole-15",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -140.1,
+        375.1
+      ],
+      "coordinate": [
+        -140.09945769885093,
+        375.1006698198796
+      ],
+      "movementMetres": 0.000862
     },
     {
       "id": "lm-2024-h16-green",
@@ -1810,6 +2204,51 @@
       "movementMetres": 3.556979
     },
     {
+      "id": "h16-tee-pad-00-lm2024",
+      "key": "16:tee-61",
+      "sourceKey": "hole-16-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -52.4,
+        541.9
+      ],
+      "coordinate": [
+        -52.39999962234469,
+        541.8999994726045
+      ],
+      "movementMetres": 0.000001
+    },
+    {
+      "id": "h16-tee-pad-00-lm2024",
+      "key": "16:tee-57",
+      "sourceKey": "hole-16-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -52,
+        540.5
+      ],
+      "coordinate": [
+        -51.999999691697454,
+        540.4999995037821
+      ],
+      "movementMetres": 0.000001
+    },
+    {
+      "id": "h16-tee-pad-48-followup-lm2024",
+      "key": "16:tee-48",
+      "sourceKey": "hole-16-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -78.6,
+        554.4
+      ],
+      "coordinate": [
+        -65.70411117970991,
+        583.7439992873637
+      ],
+      "movementMetres": 32.052679
+    },
+    {
       "id": "lm-2024-h17-green",
       "key": "green-17",
       "sourceKey": "hole-17-green",
@@ -1823,6 +2262,51 @@
         187.42594414364618
       ],
       "movementMetres": 4.457006
+    },
+    {
+      "id": "h17-61-followup-lm2024",
+      "key": "17:tee-61",
+      "sourceKey": "hole-17-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -223.7,
+        579.7
+      ],
+      "coordinate": [
+        -221.74769002234703,
+        576.6933604462408
+      ],
+      "movementMetres": 3.584884
+    },
+    {
+      "id": "h17-57-followup-lm2024",
+      "key": "17:tee-57",
+      "sourceKey": "hole-17-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -221.7,
+        564.8
+      ],
+      "coordinate": [
+        -221.40048062913232,
+        565.8293421269741
+      ],
+      "movementMetres": 1.072034
+    },
+    {
+      "id": "h17-48-followup-lm2022",
+      "key": "17:tee-48",
+      "sourceKey": "tee-2022-hole-17",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -215,
+        515.3
+      ],
+      "coordinate": [
+        -226.51407729374404,
+        508.5262366750652
+      ],
+      "movementMetres": 13.358812
     },
     {
       "id": "lm-2024-h18-green",
@@ -1868,6 +2352,21 @@
         164.0698743377925
       ],
       "movementMetres": 7.377473
+    },
+    {
+      "id": "h18-tee-pad-01-lm2024",
+      "key": "18:tee-57",
+      "sourceKey": "hole-18-tees",
+      "sourcePixelErrorMetres": 0,
+      "previousCoordinate": [
+        -217.1,
+        157.4
+      ],
+      "coordinate": [
+        -217.10044772467606,
+        157.4003091333887
+      ],
+      "movementMetres": 0.000544
     }
   ],
   "marks": [
@@ -1875,61 +2374,63 @@
       "hole": 1,
       "tee": "tee-61",
       "coordinate": [
-        -79.7,
-        -250.4
+        -78.64466227205436,
+        -251.54863030562723
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h01-tee-pad-00-lm2022-followup"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 1.559836
     },
     {
       "hole": 1,
       "tee": "tee-57",
       "coordinate": [
-        -85,
-        -264.5
+        -80.53396627989221,
+        -259.8290820619681
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
-        null
+        "h01-tee-pad-00-lm2022-followup"
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 6.462425
     },
     {
       "hole": 1,
       "tee": "tee-48",
       "coordinate": [
-        -97.3,
-        -297.2
+        -94.26126917162253,
+        -291.4100048869898
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
-        null
+        "h01-tee-pad-00-lm2022-followup"
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 6.538955
     },
     {
       "hole": 1,
       "tee": "tee-41",
       "coordinate": [
-        -109.6,
-        -330
+        -106.01394495751873,
+        -329.1123282215261
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
       "insideAnyMappedPlatform": false,
       "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 3.694286
     },
     {
       "hole": 2,
@@ -1951,33 +2452,33 @@
       "hole": 2,
       "tee": "tee-57",
       "coordinate": [
-        -133.5,
-        -565
+        -133.5000694501196,
+        -564.9991041323656
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         "h02-tee-pad-00-lm2024"
       ],
-      "status": "inside-reviewed-platform-numbered-identity-unverified",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000899
     },
     {
       "hole": 2,
       "tee": "tee-48",
       "coordinate": [
-        -162.9,
-        -570.8
+        -162.89996431032534,
+        -570.7991995282637
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         "h02-tee-pad-00-lm2024"
       ],
-      "status": "inside-reviewed-platform-numbered-identity-unverified",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000801
     },
     {
       "hole": 2,
@@ -1997,91 +2498,97 @@
       "hole": 3,
       "tee": "tee-61",
       "coordinate": [
-        -456.4,
-        -598.7
+        -453.13370271242445,
+        -594.5947455540213
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
-        null
+        "h03-tee-pad-01-lm2022-followup"
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 5.246124
     },
     {
       "hole": 3,
       "tee": "tee-57",
       "coordinate": [
-        -456.8,
-        -596.8
+        -455.72847988816653,
+        -591.3926281273777
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
-        null
+        "h03-tee-pad-01-lm2022-followup"
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 5.512515
     },
     {
       "hole": 3,
       "tee": "tee-48",
       "coordinate": [
-        -459.8,
-        -582.1
+        -458.6670660887756,
+        -574.7650361613972
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h03-tee-pad-00-lm2022-followup"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 7.421943
     },
     {
       "hole": 3,
       "tee": "tee-41",
       "coordinate": [
-        -459.8,
-        -582.1
+        -458.6670660887756,
+        -574.7650361613972
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h03-tee-pad-00-lm2022-followup"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 7.421943
     },
     {
       "hole": 4,
       "tee": "tee-61",
       "coordinate": [
-        -455.9,
-        -552.2
+        -443.7682904755993,
+        -541.3530078982075
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h04-tee-pad-01-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 16.273771
     },
     {
       "hole": 4,
       "tee": "tee-57",
       "coordinate": [
-        -437.4,
-        -544.5
+        -437.4000894320045,
+        -544.4991779649297
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         "h04-tee-pad-01-lm2024"
       ],
-      "status": "inside-reviewed-platform-numbered-identity-unverified",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000827
     },
     {
       "hole": 4,
@@ -2117,17 +2624,17 @@
       "hole": 5,
       "tee": "tee-61",
       "coordinate": [
-        83.9,
-        -284.2
+        83.90004041775606,
+        -284.1990971097343
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         "h05-tee-pad-01-lm2024"
       ],
-      "status": "inside-reviewed-platform-numbered-identity-unverified",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000904
     },
     {
       "hole": 5,
@@ -2181,31 +2688,33 @@
       "hole": 6,
       "tee": "tee-61",
       "coordinate": [
-        202.8,
-        -414
+        206.01903754269074,
+        -395.8400208309911
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h06-tee-pad-00-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 18.443076
     },
     {
       "hole": 6,
       "tee": "tee-57",
       "coordinate": [
-        223.8,
-        -392.6
+        223.79996606340808,
+        -392.59921277397524
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         "h06-tee-pad-00-lm2024"
       ],
-      "status": "inside-reviewed-platform-numbered-identity-unverified",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000788
     },
     {
       "hole": 6,
@@ -2245,12 +2754,12 @@
         -165.39994372028787
       ],
       "corrected": true,
-      "geometryBasis": "visible-interior-anchor",
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
-        null
+        "h07-tee-pad-00-lm2022-followup"
       ],
-      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "status": "corrected-inside-reviewed-platform",
       "movementMetres": 0.000057
     },
     {
@@ -2261,12 +2770,12 @@
         -163.884080658284
       ],
       "corrected": true,
-      "geometryBasis": "visible-interior-anchor",
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
-        null
+        "h07-tee-pad-00-lm2022-followup"
       ],
-      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "status": "corrected-inside-reviewed-platform",
       "movementMetres": 3.757745
     },
     {
@@ -2307,12 +2816,12 @@
         145.74729855524737
       ],
       "corrected": true,
-      "geometryBasis": "visible-interior-anchor",
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
-        null
+        "h08-tee-pad-01-lm2022-followup"
       ],
-      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "status": "corrected-inside-reviewed-platform",
       "movementMetres": 9.292909
     },
     {
@@ -2323,10 +2832,12 @@
         144.27051975449046
       ],
       "corrected": true,
-      "geometryBasis": "visible-interior-anchor",
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h08-tee-pad-01-lm2022-followup"
+      ],
+      "status": "corrected-inside-reviewed-platform",
       "movementMetres": 6.032424
     },
     {
@@ -2613,31 +3124,33 @@
       "hole": 13,
       "tee": "tee-61",
       "coordinate": [
-        150.4,
-        209.2
+        153.92806484665917,
+        203.96870574613416
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 6.309808
     },
     {
       "hole": 13,
       "tee": "tee-57",
       "coordinate": [
-        152.8,
-        199.5
+        158.07666099126052,
+        191.09804042584358
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         null
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 9.921496
     },
     {
       "hole": 13,
@@ -2673,47 +3186,47 @@
       "hole": 14,
       "tee": "tee-61",
       "coordinate": [
-        14.4,
-        -109
+        14.400090407246761,
+        -108.99972114021296
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         null
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 0.000293
     },
     {
       "hole": 14,
       "tee": "tee-57",
       "coordinate": [
-        13.9,
-        -108.1
+        13.900376824089355,
+        -108.10045823806973
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         null
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 0.000593
     },
     {
       "hole": 14,
       "tee": "tee-48",
       "coordinate": [
-        -36.3,
-        -67.5
+        -46.96874812158324,
+        -9.957742748925966
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
       "insideAnyMappedPlatform": false,
       "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 58.522932
     },
     {
       "hole": 14,
@@ -2733,31 +3246,33 @@
       "hole": 15,
       "tee": "tee-61",
       "coordinate": [
-        -144.3,
-        360.7
+        -137.63675731857793,
+        367.847083253435
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 9.771366
     },
     {
       "hole": 15,
       "tee": "tee-57",
       "coordinate": [
-        -140.1,
-        375.1
+        -140.09945769885093,
+        375.1006698198796
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         null
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 0.000862
     },
     {
       "hole": 15,
@@ -2791,47 +3306,49 @@
       "hole": 16,
       "tee": "tee-61",
       "coordinate": [
-        -52.4,
-        541.9
+        -52.39999962234469,
+        541.8999994726045
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         "h16-tee-pad-00-lm2024"
       ],
-      "status": "inside-reviewed-platform-numbered-identity-unverified",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000001
     },
     {
       "hole": 16,
       "tee": "tee-57",
       "coordinate": [
-        -52,
-        540.5
+        -51.999999691697454,
+        540.4999995037821
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         "h16-tee-pad-00-lm2024"
       ],
-      "status": "inside-reviewed-platform-numbered-identity-unverified",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000001
     },
     {
       "hole": 16,
       "tee": "tee-48",
       "coordinate": [
-        -78.6,
-        554.4
+        -65.70411117970991,
+        583.7439992873637
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        "h16-tee-pad-48-followup-lm2024"
+      ],
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 32.052679
     },
     {
       "hole": 16,
@@ -2851,47 +3368,49 @@
       "hole": 17,
       "tee": "tee-61",
       "coordinate": [
-        -223.7,
-        579.7
+        -221.74769002234703,
+        576.6933604462408
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         null
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 3.584884
     },
     {
       "hole": 17,
       "tee": "tee-57",
       "coordinate": [
-        -221.7,
-        564.8
+        -221.40048062913232,
+        565.8293421269741
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         null
       ],
-      "status": "inside-unreviewed-mapped-platform",
-      "movementMetres": 0
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 1.072034
     },
     {
       "hole": 17,
       "tee": "tee-48",
       "coordinate": [
-        -215,
-        515.3
+        -226.51407729374404,
+        508.5262366750652
       ],
-      "corrected": false,
-      "geometryBasis": null,
-      "insideAnyMappedPlatform": false,
-      "containingPlatformReviewIds": [],
-      "status": "outside-all-mapped-platforms",
-      "movementMetres": 0
+      "corrected": true,
+      "geometryBasis": "visible-interior-anchor",
+      "insideAnyMappedPlatform": true,
+      "containingPlatformReviewIds": [
+        null
+      ],
+      "status": "reviewed-visible-interior-anchor-boundary-unreviewed",
+      "movementMetres": 13.358812
     },
     {
       "hole": 17,
@@ -2927,17 +3446,17 @@
       "hole": 18,
       "tee": "tee-57",
       "coordinate": [
-        -217.1,
-        157.4
+        -217.10044772467606,
+        157.4003091333887
       ],
-      "corrected": false,
-      "geometryBasis": null,
+      "corrected": true,
+      "geometryBasis": "reviewed-platform",
       "insideAnyMappedPlatform": true,
       "containingPlatformReviewIds": [
         "h18-tee-pad-01-lm2024"
       ],
-      "status": "inside-reviewed-platform-numbered-identity-unverified",
-      "movementMetres": 0
+      "status": "corrected-inside-reviewed-platform",
+      "movementMetres": 0.000544
     },
     {
       "hole": 18,
@@ -2981,11 +3500,11 @@
   "inputs": {
     "model": {
       "path": "puttombuild/course-model.json",
-      "sha256": "8714ffeed308b7459bc992a4efaa4b7087dd090aa60dc0100f86fdc09b3801a3"
+      "sha256": "8f0dad509aba561875dc80da16aa26a768b95b2b008bf198a961e82ceaf7c496"
     },
     "review": {
       "path": "puttombuild/mapping/orthophoto-review.json",
-      "sha256": "b996729bea1fc9035114efbc9a506da96eb47f2fe89f5ab9e778492cde470b52"
+      "sha256": "cb19efa7e652e6570de00aa1cdf9e8ec35de9d3cf756d50630a1181f8ac8ad6c"
     },
     "card": {
       "path": "puttombuild/card.json",

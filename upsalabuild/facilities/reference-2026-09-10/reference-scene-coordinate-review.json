@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "state": "passed-before-Blender-execution",
+  "observedAt": "2026-09-10T07:05:23.516323+00:00",
+  "auditedFiles": [
+    {
+      "path": "upsalabuild/facilities/build_reference_scene.py",
+      "sha256": "3fe5ac5b2a4c07cd00ef0f2e3c5b05b0bc7e6fce93e683bfec9d0c507fc9e3a0"
+    },
+    {
+      "path": "upsalabuild/facilities/prepare_reference_scene.py",
+      "sha256": "e718044a69d2c9ebcedd5037750a3e37b2eb4b86eed711c72f138db13010d897"
+    },
+    {
+      "path": "upsalabuild/facilities/reference-2026-09-10/orthophoto-manifest.json",
+      "sha256": "6feeaf7b39fdcbfdc1298039393334d1ad9e9cc01a11a9dee2c0d5313bd609e9"
+    },
+    {
+      "path": "upsalabuild/facilities/reference-2026-09-10/building-reference-inventory.json",
+      "sha256": "fa1beb5a1ab40367d51c9e28330a23966fb568961dc85a523b3eea5c0bb56a1b"
+    },
+    {
+      "path": "upsalabuild/facilities/reference-2026-09-10/lidar-roof-evidence.json",
+      "sha256": "5ad6c1168fc7583cb958cf903b9f05ae63d662604e5d4d880dd429706e24cb66"
+    }
+  ],
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "anchorLocalXZ": [
+    17.78293267410761,
+    -279.14314741547946
+  ],
+  "axisContract": "Blender(X,Y,Z)=(courseX-anchorX,anchorZ-courseZ,RH2000-34.968). Flat orthophoto uses display datum Z=0, not ground.",
+  "imageReview": {
+    "cornerOrder": [
+      "northwest",
+      "northeast",
+      "southeast",
+      "southwest"
+    ],
+    "uvByVertex": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "faceVertexOrder": [
+      0,
+      3,
+      2,
+      1
+    ],
+    "orientation": "North points toward Blender +Y and east toward +X; face normal +Z; image UVs are upright.",
+    "exactCornerResidualMetres": 0,
+    "sampling": "51 by 51 UV samples; both possible quad triangulation diagonals checked against exact pyproj per-point projection.",
+    "images": [
+      {
+        "id": "facilities-campus-native",
+        "imageSha256": "b88aeeb5ef9a0fa93fa09eb42a5265642c9eef83c9f4fc24d98dc752ae5b1d89",
+        "displayPlaneZ": 0,
+        "maximumBilinearProjectionErrorMetres": 0.004889052856447004,
+        "maximumTriangulatedProjectionErrorMetres": 0.012064821275451516,
+        "diagonal02ErrorMetres": 0.01144482324930771,
+        "diagonal13ErrorMetres": 0.012064821275451516
+      },
+      {
+        "id": "facilities-range-native",
+        "imageSha256": "2d2cfc74845d1225fca36d69255d3d9f22852274d833d1fb1ffb9d744b5a55db",
+        "displayPlaneZ": -0.1,
+        "maximumBilinearProjectionErrorMetres": 0.00228098800675469,
+        "maximumTriangulatedProjectionErrorMetres": 0.003549344390515796,
+        "diagonal02ErrorMetres": 0.003549344390515796,
+        "diagonal13ErrorMetres": 0.003528039949891035
+      },
+      {
+        "id": "facilities-range-overview",
+        "imageSha256": "f9136010dbb681dd0b783ad4b7eb36d049cc75791c128907699ed19e84c84f68",
+        "displayPlaneZ": -0.2,
+        "maximumBilinearProjectionErrorMetres": 0.015649732529919334,
+        "maximumTriangulatedProjectionErrorMetres": 0.0363460856783797,
+        "diagonal02ErrorMetres": 0.034781095109334074,
+        "diagonal13ErrorMetres": 0.0363460856783797
+      }
+    ],
+    "scope": "Projection interpolation errors describe display approximation, not source absolute accuracy."
+  },
+  "cameraReview": {
+    "boundsMethod": "Union of primary campus raster corners, additional native range corners, and every source footprint vertex.",
+    "viewMinimumXY": [
+      -274.5692406404994,
+      -358.4113687309902
+    ],
+    "viewMaximumXY": [
+      307.0845335144527,
+      223.24240542396188
+    ],
+    "orthographicScaleMetres": 581.6537741549521,
+    "all19SourcePartsVisible": true,
+    "bothNativeRastersVisible": true,
+    "minimumBuildingVertexClearanceMetres": 99.45418161339728,
+    "minimumNativeRasterCornerClearanceMetres": 20.0,
+    "resolvedFinding": "Original camera clipped approximately10 metres from the west side of B08; expanded bounds include the whole shelter."
+  },
+  "planeStackReview": {
+    "state": "passed",
+    "resolvedFinding": "Original extra images shared Z=-0.1; native range now lies above overview on distinct planes, eliminating their coplanar overlap."
+  },
+  "laserReview": {
+    "path": "upsalabuild/cache/facilities-reference-2026-09-10/lidar/clubhouse-central-2021-course-frame.ply",
+    "sha256": "ea8fc73d85ec9c093fe07cf41e04d5b363028e79c348d7eae33328acd098dad0",
+    "points": 99607,
+    "finite": true,
+    "allOriginalCsvCoordinatesIndependentlyChecked": true,
+    "originalCsvSha256": "e33c4c3ad63300ef1f6cc7cec5877d55ab194e87a49e47a7c86e56becdce917c",
+    "maximumPlyAxisErrorsMetres": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "maximumBlenderTransformErrorMetres": 0.0,
+    "byClass": {
+      "1": 18383,
+      "2": 81213,
+      "7": 11
+    },
+    "heightAnchorRH2000": 34.968,
+    "transformedMinimumXYZ": [
+      -111.7592536593316,
+      -128.81598912693426,
+      -13.228000000000005
+    ],
+    "transformedMaximumXYZ": [
+      146.50226032125576,
+      129.37510403299706,
+      16.691999999999993
+    ],
+    "classificationChanges": false,
+    "heightMeaning": "Scene datum only; class1 remains unclassified and no roof/eave/floor height is adopted."
+  },
+  "scenePreservationReview": {
+    "method": "Static source review only; actual runtime preservation belongs to the builder execution report.",
+    "createsSeparateScene": true,
+    "changesActiveScene": false,
+    "editsExistingSceneObjects": false,
+    "reusesExistingImageDatablocks": false,
+    "savingMethod": "bpy.data.libraries.write of new scene and new README text; current Blender filepath is not replaced.",
+    "runtimeGuards": [
+      "Reject existing scene name and output file",
+      "Assert active scene unchanged",
+      "Assert every existing scene object count unchanged"
+    ]
+  },
+  "limitations": [
+    "This report does not assert successful execution or image rendering in Blender.",
+    "The four-corner ortho planes are display approximations; exact tracing uses source EPSG3006 per-point conversion.",
+    "No physical building heights or ground-footprint interpretation are established."
+  ]
+}

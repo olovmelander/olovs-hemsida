@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "facilities": 22,
+  "gridGlbSha256": "6dd136ae1fb43a4439e18235144be6fb54e34d9da64a5b35de4491eb4d46d1f0",
+  "publishedAsset": {
+    "url": "models/johannesberg/facilities-ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf.glb",
+    "bytes": 3668672,
+    "sha256": "ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf"
+  },
+  "manifestPath": "apps/golf/public/models/johannesberg/facilities-v1.json",
+  "maximumFloatStorageErrorMetres": 3.051745329685218e-05,
+  "positionConversion": "Exact EPSG3006 to WGS84 to legacy frame per vertex",
+  "normalJacobian": [
+    [
+      0.9965791598026996,
+      0.0,
+      -0.04799755609659684
+    ],
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.04806891767941579,
+      0.0,
+      0.9980608354590004
+    ]
+  ],
+  "noPhotographicTextures": true,
+  "absoluteRh2000Facilities": 19,
+  "terrainAnchoredFacilities": 3,
+  "modelBuildReportSha256": "404836933a2ac766e073bf0e21af8a517bf23ec443057d62f82180bda53a554e"
+}

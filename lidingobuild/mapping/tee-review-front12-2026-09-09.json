@@ -1,0 +1,2495 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "horizontalCrs": "EPSG:3006",
+  "capturedAt": "2025-05-31",
+  "holes": [
+    {
+      "hole": 1,
+      "image": {
+        "geoTransform": [
+          677623.36,
+          0.16,
+          0.0,
+          6586459.36,
+          0.0,
+          -0.16
+        ],
+        "width": 629,
+        "height": 794,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-01-tees.png",
+        "sha256": "82faab0f62e33b0200a2836b8851cd0424ff72236b8c574d64de4984b192079f",
+        "sourceIds": [
+          "o65850_6775_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-01-a-lm2025",
+          "pixels": [
+            [
+              226,
+              311
+            ],
+            [
+              246,
+              291
+            ],
+            [
+              290,
+              274
+            ],
+            [
+              327,
+              266
+            ],
+            [
+              345,
+              275
+            ],
+            [
+              355,
+              307
+            ],
+            [
+              355,
+              331
+            ],
+            [
+              342,
+              347
+            ],
+            [
+              293,
+              366
+            ],
+            [
+              260,
+              375
+            ],
+            [
+              243,
+              366
+            ],
+            [
+              231,
+              344
+            ],
+            [
+              226,
+              311
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Broad rear deck and separate forward deck south of the looping path. Guide associates white/yellow/blue with rear and red/orange with forward deck."
+        },
+        {
+          "id": "lidingo-tee-01-b-lm2025",
+          "pixels": [
+            [
+              291,
+              525
+            ],
+            [
+              310,
+              519
+            ],
+            [
+              327,
+              526
+            ],
+            [
+              338,
+              548
+            ],
+            [
+              347,
+              577
+            ],
+            [
+              342,
+              593
+            ],
+            [
+              322,
+              600
+            ],
+            [
+              307,
+              593
+            ],
+            [
+              298,
+              569
+            ],
+            [
+              291,
+              525
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Broad rear deck and separate forward deck south of the looping path. Guide associates white/yellow/blue with rear and red/orange with forward deck."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-01-a-lm2025",
+          "pixel": [
+            270,
+            310
+          ],
+          "note": "Broad rear deck and separate forward deck south of the looping path. Guide associates white/yellow/blue with rear and red/orange with forward deck."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-01-a-lm2025",
+          "pixel": [
+            281,
+            318
+          ],
+          "note": "Broad rear deck and separate forward deck south of the looping path. Guide associates white/yellow/blue with rear and red/orange with forward deck."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-01-a-lm2025",
+          "pixel": [
+            311,
+            333
+          ],
+          "note": "Broad rear deck and separate forward deck south of the looping path. Guide associates white/yellow/blue with rear and red/orange with forward deck."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-01-b-lm2025",
+          "pixel": [
+            310,
+            547
+          ],
+          "note": "Broad rear deck and separate forward deck south of the looping path. Guide associates white/yellow/blue with rear and red/orange with forward deck."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-01-b-lm2025",
+          "pixel": [
+            326,
+            578
+          ],
+          "note": "Broad rear deck and separate forward deck south of the looping path. Guide associates white/yellow/blue with rear and red/orange with forward deck."
+        }
+      ],
+      "note": "Broad rear deck and separate forward deck south of the looping path. Guide associates white/yellow/blue with rear and red/orange with forward deck."
+    },
+    {
+      "hole": 2,
+      "image": {
+        "geoTransform": [
+          677747.36,
+          0.16,
+          0.0,
+          6586332.48,
+          0.0,
+          -0.16
+        ],
+        "width": 940,
+        "height": 1362,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-02-tees.png",
+        "sha256": "df1eb07ec33b2f4314749f7f29be026c3b03741caafdc8b431b2da76ac7908d5",
+        "sourceIds": [
+          "o65850_6775_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-02-a-lm2025",
+          "pixels": [
+            [
+              243,
+              337
+            ],
+            [
+              260,
+              333
+            ],
+            [
+              276,
+              341
+            ],
+            [
+              292,
+              358
+            ],
+            [
+              303,
+              378
+            ],
+            [
+              301,
+              389
+            ],
+            [
+              286,
+              398
+            ],
+            [
+              267,
+              390
+            ],
+            [
+              252,
+              374
+            ],
+            [
+              242,
+              354
+            ],
+            [
+              243,
+              337
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved."
+        },
+        {
+          "id": "lidingo-tee-02-b-lm2025",
+          "pixels": [
+            [
+              306,
+              607
+            ],
+            [
+              324,
+              603
+            ],
+            [
+              338,
+              612
+            ],
+            [
+              352,
+              638
+            ],
+            [
+              366,
+              667
+            ],
+            [
+              362,
+              681
+            ],
+            [
+              348,
+              690
+            ],
+            [
+              333,
+              686
+            ],
+            [
+              320,
+              668
+            ],
+            [
+              308,
+              640
+            ],
+            [
+              306,
+              607
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved."
+        },
+        {
+          "id": "lidingo-tee-02-c-lm2025",
+          "pixels": [
+            [
+              584,
+              774
+            ],
+            [
+              604,
+              764
+            ],
+            [
+              626,
+              766
+            ],
+            [
+              642,
+              779
+            ],
+            [
+              654,
+              805
+            ],
+            [
+              653,
+              820
+            ],
+            [
+              639,
+              830
+            ],
+            [
+              614,
+              835
+            ],
+            [
+              601,
+              825
+            ],
+            [
+              590,
+              803
+            ],
+            [
+              584,
+              774
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-02-a-lm2025",
+          "pixel": [
+            266,
+            358
+          ],
+          "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-02-b-lm2025",
+          "pixel": [
+            326,
+            630
+          ],
+          "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-02-c-lm2025",
+          "pixel": [
+            611,
+            788
+          ],
+          "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-02-c-lm2025",
+          "pixel": [
+            630,
+            812
+          ],
+          "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved."
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "note": "Guide forward start has no confidently resolved distinct platform in the reviewed 2025 image; no marker pair asserted."
+        }
+      ],
+      "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved."
+    },
+    {
+      "hole": 3,
+      "image": {
+        "geoTransform": [
+          677999.04,
+          0.16,
+          0.0,
+          6585993.28,
+          0.0,
+          -0.16
+        ],
+        "width": 820,
+        "height": 936,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-03-tees.png",
+        "sha256": "f343b4c4788d99c7fdc22fa7258b3f8286f20a8089b80faa3f0e4901eaeb48b7",
+        "sourceIds": [
+          "o65850_6775_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-03-a-lm2025",
+          "pixels": [
+            [
+              467,
+              623
+            ],
+            [
+              484,
+              613
+            ],
+            [
+              503,
+              617
+            ],
+            [
+              522,
+              630
+            ],
+            [
+              536,
+              648
+            ],
+            [
+              537,
+              660
+            ],
+            [
+              523,
+              676
+            ],
+            [
+              504,
+              684
+            ],
+            [
+              490,
+              678
+            ],
+            [
+              477,
+              659
+            ],
+            [
+              467,
+              623
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+        },
+        {
+          "id": "lidingo-tee-03-b-lm2025",
+          "pixels": [
+            [
+              461,
+              414
+            ],
+            [
+              483,
+              395
+            ],
+            [
+              501,
+              391
+            ],
+            [
+              519,
+              400
+            ],
+            [
+              547,
+              423
+            ],
+            [
+              559,
+              442
+            ],
+            [
+              551,
+              461
+            ],
+            [
+              527,
+              486
+            ],
+            [
+              512,
+              490
+            ],
+            [
+              492,
+              479
+            ],
+            [
+              468,
+              456
+            ],
+            [
+              456,
+              435
+            ],
+            [
+              461,
+              414
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+        },
+        {
+          "id": "lidingo-tee-03-c-lm2025",
+          "pixels": [
+            [
+              337,
+              290
+            ],
+            [
+              350,
+              268
+            ],
+            [
+              365,
+              260
+            ],
+            [
+              382,
+              266
+            ],
+            [
+              401,
+              282
+            ],
+            [
+              426,
+              314
+            ],
+            [
+              430,
+              332
+            ],
+            [
+              417,
+              349
+            ],
+            [
+              404,
+              358
+            ],
+            [
+              387,
+              353
+            ],
+            [
+              364,
+              333
+            ],
+            [
+              343,
+              310
+            ],
+            [
+              337,
+              290
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-03-a-lm2025",
+          "pixel": [
+            512,
+            654
+          ],
+          "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-03-b-lm2025",
+          "pixel": [
+            516,
+            447
+          ],
+          "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-03-c-lm2025",
+          "pixel": [
+            405,
+            329
+          ],
+          "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-03-c-lm2025",
+          "pixel": [
+            378,
+            301
+          ],
+          "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-03-c-lm2025",
+          "pixel": [
+            364,
+            283
+          ],
+          "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+        }
+      ],
+      "note": "Three isolated maintained decks east of the pond; rear white, middle yellow, forward blue/red/orange corroborated by the club guide."
+    },
+    {
+      "hole": 4,
+      "image": {
+        "geoTransform": [
+          677785.12,
+          0.16,
+          0.0,
+          6586342.08,
+          0.0,
+          -0.16
+        ],
+        "width": 1259,
+        "height": 1453,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-04-tees.png",
+        "sha256": "3ac5891e9a4b772eb21fa296c8b4765ec3bba2895371290112094af94a6deae6",
+        "sourceIds": [
+          "o65850_6775_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-04-a-lm2025",
+          "pixels": [
+            [
+              580,
+              1123
+            ],
+            [
+              594,
+              1115
+            ],
+            [
+              605,
+              1121
+            ],
+            [
+              615,
+              1136
+            ],
+            [
+              619,
+              1154
+            ],
+            [
+              613,
+              1167
+            ],
+            [
+              600,
+              1176
+            ],
+            [
+              589,
+              1170
+            ],
+            [
+              579,
+              1152
+            ],
+            [
+              580,
+              1123
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window."
+        },
+        {
+          "id": "lidingo-tee-04-b-lm2025",
+          "pixels": [
+            [
+              768,
+              864
+            ],
+            [
+              782,
+              857
+            ],
+            [
+              795,
+              870
+            ],
+            [
+              810,
+              901
+            ],
+            [
+              826,
+              937
+            ],
+            [
+              848,
+              967
+            ],
+            [
+              854,
+              985
+            ],
+            [
+              843,
+              1001
+            ],
+            [
+              828,
+              1006
+            ],
+            [
+              813,
+              996
+            ],
+            [
+              796,
+              970
+            ],
+            [
+              782,
+              940
+            ],
+            [
+              774,
+              909
+            ],
+            [
+              768,
+              864
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window."
+        },
+        {
+          "id": "lidingo-tee-04-c-lm2025",
+          "pixels": [
+            [
+              585,
+              661
+            ],
+            [
+              596,
+              652
+            ],
+            [
+              609,
+              655
+            ],
+            [
+              620,
+              668
+            ],
+            [
+              632,
+              687
+            ],
+            [
+              634,
+              702
+            ],
+            [
+              624,
+              711
+            ],
+            [
+              610,
+              710
+            ],
+            [
+              596,
+              696
+            ],
+            [
+              586,
+              679
+            ],
+            [
+              585,
+              661
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-04-a-lm2025",
+          "pixel": [
+            598,
+            1153
+          ],
+          "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-04-b-lm2025",
+          "pixel": [
+            827,
+            976
+          ],
+          "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-04-b-lm2025",
+          "pixel": [
+            790,
+            898
+          ],
+          "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-04-c-lm2025",
+          "pixel": [
+            609,
+            684
+          ],
+          "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window."
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "note": "Guide forward start has no confidently resolved distinct platform in the reviewed 2025 image; no marker pair asserted."
+        }
+      ],
+      "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window."
+    },
+    {
+      "hole": 5,
+      "image": {
+        "geoTransform": [
+          677536.96,
+          0.16,
+          0.0,
+          6586457.6,
+          0.0,
+          -0.16
+        ],
+        "width": 639,
+        "height": 720,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-05-tees.png",
+        "sha256": "e37759450dc54728608b7c52711eb61324ff4eef291b8f999e860196590c00a3",
+        "sourceIds": [
+          "o65850_6775_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-05-a-lm2025",
+          "pixels": [
+            [
+              297,
+              280
+            ],
+            [
+              315,
+              266
+            ],
+            [
+              336,
+              269
+            ],
+            [
+              352,
+              284
+            ],
+            [
+              361,
+              305
+            ],
+            [
+              356,
+              329
+            ],
+            [
+              340,
+              345
+            ],
+            [
+              319,
+              344
+            ],
+            [
+              300,
+              333
+            ],
+            [
+              291,
+              311
+            ],
+            [
+              297,
+              280
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Rear deck under partial tree shadow and a distinct forward oval west of the path. Guide associates white/yellow/blue and red/orange respectively; shade limits rear boundary interpretation to about one metre."
+        },
+        {
+          "id": "lidingo-tee-05-b-lm2025",
+          "pixels": [
+            [
+              207,
+              415
+            ],
+            [
+              220,
+              402
+            ],
+            [
+              237,
+              402
+            ],
+            [
+              248,
+              411
+            ],
+            [
+              253,
+              428
+            ],
+            [
+              247,
+              446
+            ],
+            [
+              234,
+              458
+            ],
+            [
+              219,
+              460
+            ],
+            [
+              206,
+              451
+            ],
+            [
+              201,
+              434
+            ],
+            [
+              207,
+              415
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Rear deck under partial tree shadow and a distinct forward oval west of the path. Guide associates white/yellow/blue and red/orange respectively; shade limits rear boundary interpretation to about one metre."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-05-a-lm2025",
+          "pixel": [
+            324,
+            294
+          ],
+          "note": "Rear deck under partial tree shadow and a distinct forward oval west of the path. Guide associates white/yellow/blue and red/orange respectively; shade limits rear boundary interpretation to about one metre."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-05-a-lm2025",
+          "pixel": [
+            331,
+            302
+          ],
+          "note": "Rear deck under partial tree shadow and a distinct forward oval west of the path. Guide associates white/yellow/blue and red/orange respectively; shade limits rear boundary interpretation to about one metre."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-05-a-lm2025",
+          "pixel": [
+            325,
+            327
+          ],
+          "note": "Rear deck under partial tree shadow and a distinct forward oval west of the path. Guide associates white/yellow/blue and red/orange respectively; shade limits rear boundary interpretation to about one metre."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-05-b-lm2025",
+          "pixel": [
+            231,
+            426
+          ],
+          "note": "Rear deck under partial tree shadow and a distinct forward oval west of the path. Guide associates white/yellow/blue and red/orange respectively; shade limits rear boundary interpretation to about one metre."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-05-b-lm2025",
+          "pixel": [
+            217,
+            444
+          ],
+          "note": "Rear deck under partial tree shadow and a distinct forward oval west of the path. Guide associates white/yellow/blue and red/orange respectively; shade limits rear boundary interpretation to about one metre."
+        }
+      ],
+      "note": "Rear deck under partial tree shadow and a distinct forward oval west of the path. Guide associates white/yellow/blue and red/orange respectively; shade limits rear boundary interpretation to about one metre."
+    },
+    {
+      "hole": 6,
+      "image": {
+        "geoTransform": [
+          677422.24,
+          0.16,
+          0.0,
+          6586242.4,
+          0.0,
+          -0.16
+        ],
+        "width": 837,
+        "height": 727,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-06-tees.png",
+        "sha256": "02d9119a43ddc0cd696c389d3ef036db255ce40fdb8194096becdf0b63736983",
+        "sourceIds": [
+          "o65850_6750_25_mr25",
+          "o65850_6775_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-06-a-lm2025",
+          "pixels": [
+            [
+              228,
+              230
+            ],
+            [
+              242,
+              221
+            ],
+            [
+              256,
+              225
+            ],
+            [
+              270,
+              243
+            ],
+            [
+              283,
+              267
+            ],
+            [
+              289,
+              282
+            ],
+            [
+              281,
+              294
+            ],
+            [
+              265,
+              297
+            ],
+            [
+              252,
+              286
+            ],
+            [
+              238,
+              263
+            ],
+            [
+              228,
+              230
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        },
+        {
+          "id": "lidingo-tee-06-b-lm2025",
+          "pixels": [
+            [
+              301,
+              329
+            ],
+            [
+              317,
+              310
+            ],
+            [
+              334,
+              286
+            ],
+            [
+              349,
+              273
+            ],
+            [
+              362,
+              271
+            ],
+            [
+              377,
+              284
+            ],
+            [
+              380,
+              301
+            ],
+            [
+              372,
+              322
+            ],
+            [
+              352,
+              349
+            ],
+            [
+              335,
+              367
+            ],
+            [
+              322,
+              369
+            ],
+            [
+              304,
+              353
+            ],
+            [
+              296,
+              344
+            ],
+            [
+              301,
+              329
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        },
+        {
+          "id": "lidingo-tee-06-c-lm2025",
+          "pixels": [
+            [
+              388,
+              404
+            ],
+            [
+              402,
+              388
+            ],
+            [
+              423,
+              383
+            ],
+            [
+              443,
+              387
+            ],
+            [
+              460,
+              402
+            ],
+            [
+              466,
+              422
+            ],
+            [
+              459,
+              440
+            ],
+            [
+              443,
+              453
+            ],
+            [
+              423,
+              457
+            ],
+            [
+              404,
+              449
+            ],
+            [
+              390,
+              435
+            ],
+            [
+              384,
+              419
+            ],
+            [
+              388,
+              404
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        },
+        {
+          "id": "lidingo-tee-06-d-lm2025",
+          "pixels": [
+            [
+              564,
+              445
+            ],
+            [
+              580,
+              426
+            ],
+            [
+              602,
+              446
+            ],
+            [
+              585,
+              467
+            ],
+            [
+              564,
+              445
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-06-a-lm2025",
+          "pixel": [
+            248,
+            243
+          ],
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-06-b-lm2025",
+          "pixel": [
+            355,
+            300
+          ],
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-06-c-lm2025",
+          "pixel": [
+            414,
+            408
+          ],
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-06-c-lm2025",
+          "pixel": [
+            437,
+            436
+          ],
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-06-d-lm2025",
+          "pixel": [
+            583,
+            446
+          ],
+          "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+        }
+      ],
+      "note": "Four progressively forward decks southeast of the fifth green. Guide establishes white, yellow, shared blue/red, and small orange deck beside the path and pond."
+    },
+    {
+      "hole": 7,
+      "image": {
+        "geoTransform": [
+          677532.32,
+          0.16,
+          0.0,
+          6586113.76,
+          0.0,
+          -0.16
+        ],
+        "width": 1049,
+        "height": 840,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-07-tees.png",
+        "sha256": "a7e43ff7f08e54356f65c3845670628eb9735925e961251d0395c73907256e87",
+        "sourceIds": [
+          "o65850_6775_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-07-a-lm2025",
+          "pixels": [
+            [
+              608,
+              477
+            ],
+            [
+              629,
+              481
+            ],
+            [
+              657,
+              494
+            ],
+            [
+              691,
+              504
+            ],
+            [
+              714,
+              520
+            ],
+            [
+              728,
+              537
+            ],
+            [
+              728,
+              551
+            ],
+            [
+              714,
+              565
+            ],
+            [
+              696,
+              563
+            ],
+            [
+              668,
+              549
+            ],
+            [
+              641,
+              539
+            ],
+            [
+              614,
+              525
+            ],
+            [
+              603,
+              508
+            ],
+            [
+              608,
+              477
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+        },
+        {
+          "id": "lidingo-tee-07-b-lm2025",
+          "pixels": [
+            [
+              413,
+              387
+            ],
+            [
+              425,
+              375
+            ],
+            [
+              440,
+              375
+            ],
+            [
+              462,
+              385
+            ],
+            [
+              488,
+              399
+            ],
+            [
+              501,
+              414
+            ],
+            [
+              500,
+              427
+            ],
+            [
+              488,
+              434
+            ],
+            [
+              471,
+              433
+            ],
+            [
+              447,
+              421
+            ],
+            [
+              424,
+              410
+            ],
+            [
+              413,
+              400
+            ],
+            [
+              413,
+              387
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+        },
+        {
+          "id": "lidingo-tee-07-c-lm2025",
+          "pixels": [
+            [
+              251,
+              321
+            ],
+            [
+              300,
+              337
+            ],
+            [
+              286,
+              366
+            ],
+            [
+              243,
+              350
+            ],
+            [
+              251,
+              321
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-07-a-lm2025",
+          "pixel": [
+            695,
+            540
+          ],
+          "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-07-a-lm2025",
+          "pixel": [
+            667,
+            521
+          ],
+          "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-07-a-lm2025",
+          "pixel": [
+            630,
+            507
+          ],
+          "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-07-b-lm2025",
+          "pixel": [
+            453,
+            402
+          ],
+          "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-07-c-lm2025",
+          "pixel": [
+            271,
+            344
+          ],
+          "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+        }
+      ],
+      "note": "Rear elongated east-west deck shared by white/yellow/blue, middle red oval south of the paved path, and small square orange deck farther west. Guide order corroborated against the green and path network."
+    },
+    {
+      "hole": 9,
+      "image": {
+        "geoTransform": [
+          677471.04,
+          0.16,
+          0.0,
+          6586492.8,
+          0.0,
+          -0.16
+        ],
+        "width": 902,
+        "height": 806,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-09-tees.png",
+        "sha256": "ae70166d4cae8f3d8074dd281fce1e2cc03b0741100b00801703032f393df31c",
+        "sourceIds": [
+          "o65850_6750_25_mr25",
+          "o65850_6775_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-09-a-lm2025",
+          "pixels": [
+            [
+              615,
+              412
+            ],
+            [
+              636,
+              402
+            ],
+            [
+              670,
+              393
+            ],
+            [
+              684,
+              397
+            ],
+            [
+              696,
+              410
+            ],
+            [
+              696,
+              424
+            ],
+            [
+              684,
+              434
+            ],
+            [
+              652,
+              446
+            ],
+            [
+              630,
+              450
+            ],
+            [
+              620,
+              440
+            ],
+            [
+              615,
+              412
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+        },
+        {
+          "id": "lidingo-tee-09-b-lm2025",
+          "pixels": [
+            [
+              356,
+              270
+            ],
+            [
+              367,
+              255
+            ],
+            [
+              381,
+              258
+            ],
+            [
+              403,
+              273
+            ],
+            [
+              424,
+              285
+            ],
+            [
+              448,
+              289
+            ],
+            [
+              458,
+              300
+            ],
+            [
+              450,
+              318
+            ],
+            [
+              438,
+              327
+            ],
+            [
+              414,
+              326
+            ],
+            [
+              390,
+              313
+            ],
+            [
+              369,
+              294
+            ],
+            [
+              356,
+              284
+            ],
+            [
+              356,
+              270
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+        },
+        {
+          "id": "lidingo-tee-09-c-lm2025",
+          "pixels": [
+            [
+              244,
+              411
+            ],
+            [
+              258,
+              394
+            ],
+            [
+              282,
+              384
+            ],
+            [
+              304,
+              388
+            ],
+            [
+              322,
+              401
+            ],
+            [
+              328,
+              418
+            ],
+            [
+              318,
+              432
+            ],
+            [
+              295,
+              444
+            ],
+            [
+              270,
+              451
+            ],
+            [
+              251,
+              442
+            ],
+            [
+              242,
+              428
+            ],
+            [
+              244,
+              411
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-09-a-lm2025",
+          "pixel": [
+            667,
+            416
+          ],
+          "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-09-b-lm2025",
+          "pixel": [
+            428,
+            305
+          ],
+          "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-09-b-lm2025",
+          "pixel": [
+            387,
+            285
+          ],
+          "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-09-c-lm2025",
+          "pixel": [
+            299,
+            412
+          ],
+          "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-09-c-lm2025",
+          "pixel": [
+            265,
+            430
+          ],
+          "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+        }
+      ],
+      "note": "Three decks beside the road: eastern rear white, long middle yellow/blue and southwest forward red/orange. All were cross-identified with the guide; the separate H5 decks south of the road are excluded."
+    },
+    {
+      "hole": 10,
+      "image": {
+        "geoTransform": [
+          677259.04,
+          0.16,
+          0.0,
+          6586436.48,
+          0.0,
+          -0.16
+        ],
+        "width": 1005,
+        "height": 1545,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-10-tees.png",
+        "sha256": "733b30e6b7bbbe08f61a2cc0f1446754977bf78d621b2cc2bc9b1c8cf97cfb1e",
+        "sourceIds": [
+          "o65850_6750_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-10-a-ortho2019",
+          "pixels": [
+            [
+              265.6979727667931,
+              1217.1736643707845
+            ],
+            [
+              293.9347773499321,
+              1219.028299371712
+            ],
+            [
+              310.6700224794622,
+              1243.2985628431197
+            ],
+            [
+              305.97519496805035,
+              1277.9197197058238
+            ],
+            [
+              291.07026801721076,
+              1294.232582981931
+            ],
+            [
+              265.6736552824441,
+              1285.9935950371437
+            ],
+            [
+              251.9193965876184,
+              1258.460759196896
+            ],
+            [
+              250.79304688042612,
+              1233.4865278215148
+            ],
+            [
+              265.6979727667931,
+              1217.1736643707845
+            ]
+          ],
+          "baselineFeature": {
+            "type": "Feature",
+            "id": "lidingo-tee-10-a-ortho2019",
+            "properties": {
+              "kind": "tee",
+              "hole": 10,
+              "sourceId": "imagery-municipal-2019",
+              "observedYear": 2019,
+              "captureDate": null,
+              "reviewStatus": "machine-visual-review",
+              "notSurveyed": true,
+              "method": "manual-image-boundary-digitization",
+              "sourcePixelTrace": "lidingo-tee-10-a-ortho2019",
+              "interpretationUncertaintyMetres": 3,
+              "registrationAccuracy": "not independently checked",
+              "note": "2019 rear platform partly bounded by tree shadows. The newer undated municipal image shows substantial changes here; current tee10 geometry requires review.",
+              "licence": "CC0-1.0",
+              "areaSquareMetres": 89.37
+            },
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    677301.5516756427,
+                    6586241.732213701
+                  ],
+                  [
+                    677306.069564376,
+                    6586241.435472101
+                  ],
+                  [
+                    677308.7472035968,
+                    6586237.552229946
+                  ],
+                  [
+                    677307.9960311949,
+                    6586232.0128448475
+                  ],
+                  [
+                    677305.6112428828,
+                    6586229.402786723
+                  ],
+                  [
+                    677301.5477848452,
+                    6586230.7210247945
+                  ],
+                  [
+                    677299.347103454,
+                    6586235.126278529
+                  ],
+                  [
+                    677299.1668875009,
+                    6586239.122155549
+                  ],
+                  [
+                    677301.5516756427,
+                    6586241.732213701
+                  ]
+                ]
+              ]
+            }
+          },
+          "status": "retained-unresolved",
+          "uncertaintyMetres": 3,
+          "note": "Long yellow/blue deck and forward red oval visibly follow the current 2025 mowing. Rear white platform is obscured by canopy and its historical footprint is retained as unresolved. Orange is not located by a resolved guide/image platform association."
+        },
+        {
+          "id": "lidingo-tee-10-b-lm2025",
+          "pixels": [
+            [
+              488,
+              1005
+            ],
+            [
+              501,
+              958
+            ],
+            [
+              516,
+              914
+            ],
+            [
+              531,
+              873
+            ],
+            [
+              549,
+              854
+            ],
+            [
+              569,
+              850
+            ],
+            [
+              593,
+              858
+            ],
+            [
+              610,
+              876
+            ],
+            [
+              615,
+              893
+            ],
+            [
+              604,
+              924
+            ],
+            [
+              584,
+              955
+            ],
+            [
+              564,
+              994
+            ],
+            [
+              548,
+              1024
+            ],
+            [
+              528,
+              1038
+            ],
+            [
+              507,
+              1035
+            ],
+            [
+              491,
+              1023
+            ],
+            [
+              488,
+              1005
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Long yellow/blue deck and forward red oval visibly follow the current 2025 mowing. Rear white platform is obscured by canopy and its historical footprint is retained as unresolved. Orange is not located by a resolved guide/image platform association."
+        },
+        {
+          "id": "lidingo-tee-10-c-lm2025",
+          "pixels": [
+            [
+              656,
+              590
+            ],
+            [
+              673,
+              574
+            ],
+            [
+              695,
+              574
+            ],
+            [
+              717,
+              585
+            ],
+            [
+              733,
+              603
+            ],
+            [
+              739,
+              624
+            ],
+            [
+              730,
+              642
+            ],
+            [
+              713,
+              651
+            ],
+            [
+              691,
+              648
+            ],
+            [
+              675,
+              636
+            ],
+            [
+              660,
+              614
+            ],
+            [
+              656,
+              590
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Long yellow/blue deck and forward red oval visibly follow the current 2025 mowing. Rear white platform is obscured by canopy and its historical footprint is retained as unresolved. Orange is not located by a resolved guide/image platform association."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "unresolved",
+          "note": "Guide forward start has no confidently resolved distinct platform in the reviewed 2025 image; no marker pair asserted."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-10-b-lm2025",
+          "pixel": [
+            534,
+            985
+          ],
+          "note": "Long yellow/blue deck and forward red oval visibly follow the current 2025 mowing. Rear white platform is obscured by canopy and its historical footprint is retained as unresolved. Orange is not located by a resolved guide/image platform association."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-10-b-lm2025",
+          "pixel": [
+            563,
+            907
+          ],
+          "note": "Long yellow/blue deck and forward red oval visibly follow the current 2025 mowing. Rear white platform is obscured by canopy and its historical footprint is retained as unresolved. Orange is not located by a resolved guide/image platform association."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-10-c-lm2025",
+          "pixel": [
+            700,
+            610
+          ],
+          "note": "Long yellow/blue deck and forward red oval visibly follow the current 2025 mowing. Rear white platform is obscured by canopy and its historical footprint is retained as unresolved. Orange is not located by a resolved guide/image platform association."
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "note": "Guide forward start has no confidently resolved distinct platform in the reviewed 2025 image; no marker pair asserted."
+        }
+      ],
+      "note": "Long yellow/blue deck and forward red oval visibly follow the current 2025 mowing. Rear white platform is obscured by canopy and its historical footprint is retained as unresolved. Orange is not located by a resolved guide/image platform association."
+    },
+    {
+      "hole": 11,
+      "image": {
+        "geoTransform": [
+          677169.12,
+          0.16,
+          0.0,
+          6586894.88,
+          0.0,
+          -0.16
+        ],
+        "width": 575,
+        "height": 728,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-11-tees.png",
+        "sha256": "8d47b6e3277735ff896bf209c5e96129b533e8700ca4eb6256222d8dae5ee4c0",
+        "sourceIds": [
+          "o65850_6750_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-11-a-lm2025",
+          "pixels": [
+            [
+              238,
+              379
+            ],
+            [
+              257,
+              366
+            ],
+            [
+              286,
+              360
+            ],
+            [
+              307,
+              365
+            ],
+            [
+              317,
+              383
+            ],
+            [
+              326,
+              415
+            ],
+            [
+              327,
+              447
+            ],
+            [
+              317,
+              467
+            ],
+            [
+              291,
+              482
+            ],
+            [
+              266,
+              481
+            ],
+            [
+              253,
+              468
+            ],
+            [
+              246,
+              438
+            ],
+            [
+              238,
+              379
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Broad rear white/yellow/blue deck and separate short forward red/orange deck east of Kyttingevagen; the previous single tee omitted the forward deck."
+        },
+        {
+          "id": "lidingo-tee-11-b-lm2025",
+          "pixels": [
+            [
+              231,
+              289
+            ],
+            [
+              248,
+              279
+            ],
+            [
+              276,
+              277
+            ],
+            [
+              295,
+              283
+            ],
+            [
+              310,
+              297
+            ],
+            [
+              314,
+              310
+            ],
+            [
+              303,
+              322
+            ],
+            [
+              279,
+              331
+            ],
+            [
+              252,
+              332
+            ],
+            [
+              235,
+              324
+            ],
+            [
+              225,
+              309
+            ],
+            [
+              231,
+              289
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Broad rear white/yellow/blue deck and separate short forward red/orange deck east of Kyttingevagen; the previous single tee omitted the forward deck."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-11-a-lm2025",
+          "pixel": [
+            284,
+            452
+          ],
+          "note": "Broad rear white/yellow/blue deck and separate short forward red/orange deck east of Kyttingevagen; the previous single tee omitted the forward deck."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-11-a-lm2025",
+          "pixel": [
+            276,
+            407
+          ],
+          "note": "Broad rear white/yellow/blue deck and separate short forward red/orange deck east of Kyttingevagen; the previous single tee omitted the forward deck."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-11-a-lm2025",
+          "pixel": [
+            284,
+            398
+          ],
+          "note": "Broad rear white/yellow/blue deck and separate short forward red/orange deck east of Kyttingevagen; the previous single tee omitted the forward deck."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-11-b-lm2025",
+          "pixel": [
+            276,
+            311
+          ],
+          "note": "Broad rear white/yellow/blue deck and separate short forward red/orange deck east of Kyttingevagen; the previous single tee omitted the forward deck."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-11-b-lm2025",
+          "pixel": [
+            261,
+            296
+          ],
+          "note": "Broad rear white/yellow/blue deck and separate short forward red/orange deck east of Kyttingevagen; the previous single tee omitted the forward deck."
+        }
+      ],
+      "note": "Broad rear white/yellow/blue deck and separate short forward red/orange deck east of Kyttingevagen; the previous single tee omitted the forward deck."
+    },
+    {
+      "hole": 12,
+      "image": {
+        "geoTransform": [
+          677121.28,
+          0.16,
+          0.0,
+          6587036.64,
+          0.0,
+          -0.16
+        ],
+        "width": 1128,
+        "height": 979,
+        "path": "lidingobuild/cache/lm-ortho/lidingo-12-tees.png",
+        "sha256": "e5842f88c34c624e5f055f0255cbd0ef9b6c3fa8a909ad35dc9b10feadcfa0fa",
+        "sourceIds": [
+          "o65850_6750_25_mr25"
+        ],
+        "resolutionMetres": 0.16
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-12-a-lm2025",
+          "pixels": [
+            [
+              242,
+              308
+            ],
+            [
+              256,
+              272
+            ],
+            [
+              275,
+              249
+            ],
+            [
+              288,
+              245
+            ],
+            [
+              308,
+              252
+            ],
+            [
+              327,
+              273
+            ],
+            [
+              346,
+              302
+            ],
+            [
+              350,
+              319
+            ],
+            [
+              334,
+              333
+            ],
+            [
+              303,
+              344
+            ],
+            [
+              274,
+              351
+            ],
+            [
+              254,
+              345
+            ],
+            [
+              242,
+              332
+            ],
+            [
+              242,
+              308
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Rear triangular white/yellow/blue deck north of hole 11 green and separate circular red deck southeast beyond that green; orange omitted by this guide edition and not independently located."
+        },
+        {
+          "id": "lidingo-tee-12-b-lm2025",
+          "pixels": [
+            [
+              619,
+              612
+            ],
+            [
+              632,
+              601
+            ],
+            [
+              648,
+              602
+            ],
+            [
+              667,
+              613
+            ],
+            [
+              679,
+              629
+            ],
+            [
+              675,
+              645
+            ],
+            [
+              660,
+              657
+            ],
+            [
+              643,
+              657
+            ],
+            [
+              626,
+              647
+            ],
+            [
+              616,
+              631
+            ],
+            [
+              619,
+              612
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Rear triangular white/yellow/blue deck north of hole 11 green and separate circular red deck southeast beyond that green; orange omitted by this guide edition and not independently located."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-12-a-lm2025",
+          "pixel": [
+            278,
+            282
+          ],
+          "note": "Rear triangular white/yellow/blue deck north of hole 11 green and separate circular red deck southeast beyond that green; orange omitted by this guide edition and not independently located."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-12-a-lm2025",
+          "pixel": [
+            283,
+            287
+          ],
+          "note": "Rear triangular white/yellow/blue deck north of hole 11 green and separate circular red deck southeast beyond that green; orange omitted by this guide edition and not independently located."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-12-a-lm2025",
+          "pixel": [
+            324,
+            315
+          ],
+          "note": "Rear triangular white/yellow/blue deck north of hole 11 green and separate circular red deck southeast beyond that green; orange omitted by this guide edition and not independently located."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-12-b-lm2025",
+          "pixel": [
+            648,
+            629
+          ],
+          "note": "Rear triangular white/yellow/blue deck north of hole 11 green and separate circular red deck southeast beyond that green; orange omitted by this guide edition and not independently located."
+        },
+        {
+          "colour": "orange",
+          "status": "unresolved",
+          "note": "Guide forward start has no confidently resolved distinct platform in the reviewed 2025 image; no marker pair asserted."
+        }
+      ],
+      "note": "Rear triangular white/yellow/blue deck north of hole 11 green and separate circular red deck southeast beyond that green; orange omitted by this guide edition and not independently located."
+    }
+  ]
+}

@@ -1,12 +1,13 @@
 # Visby GK / Kronholmen — provisional 3D handoff
 
-**2026-09-09 continuation:** authenticated orthophoto access is verified and
-22 bounded review windows are acquired. The new `lm-download` tracing layer
-checks crop hashes and exact georeferencing. Read
-[lantmateriet-2026.md](lantmateriet-2026.md) for the live evidence and commands,
-and [improvements-2026-09-08.md](improvements-2026-09-08.md) for the latest
-accepted tee geometry. The 2026 imagery has not yet changed runtime geometry;
-H12, H3, H9 and the remaining numbered tee associations still require review.
+**2026-09-09 current checkpoint:** read the
+[tee alignment review](tee-alignment-review-2026-09-09.md) and
+[2026 orthophoto pass](ORTHOPHOTO-2026.md) first. Native imagery now drives
+accepted H3/H9 playing boundaries and the expanded 59-platform tee inventory.
+Twenty-eight numbered starts were corrected; 75 associations are corroborated
+and 33 remain unresolved. The app now projects GPS fixes into the declared
+SWEREF grid. Terrain and vegetation were preserved during this tee pass.
+The earlier intake figures below are historical except where updated.
 
 Checkpoint: 2026-09-08 (see "What changed on 2026-09-08" below; the 2026-09-07
 intake this describes is otherwise unchanged). Follow the
@@ -33,7 +34,7 @@ another eighteen physical holes.
 | Official card | 18 holes, par 72; 18 pars, 18 stroke indexes and 108 lengths agree between SGF and club-linked Caddee. |
 | Numbered tees | 63 / 59 / 55 / 51 / 46 / 41; totals 6230 / 5819 / 5490 / 4926 / 4609 / 4216 m. Display default is 59. |
 | Greens and routes | 18 source-derived green outlines and 18 main-course routes, with canonical EPSG:3006 coordinates in [geometry.json](geometry.json). |
-| Physical tees | 17 observed representative platforms. Hole 12 has no identified physical platform; its explicit fairway camera is only a virtual flyover start. All six numbered-tee camera references remain approximate, and daily markers are unknown. |
+| Physical tees | 59 observed platforms; 75 of 108 numbered associations corroborated. Hole 12 remains an explicit approximate fairway start with no physical platform. The other unresolved associations retain their prior positions. Daily markers remain unknown. |
 | Fairways | 16 rings: 14 on 13 main holes and two unassigned shared-property corridors on the separate nine. The five par threes receive no invented fairway strips. |
 | Bunkers | 65 observed outlines in shared-ground scenery. Completeness and hole ownership remain unverified. |
 | Practice | A separately traced driving-range field is maintained in [practice-surfaces.geojson](practice-surfaces.geojson); detailed bays, targets and other practice facilities remain incomplete. |

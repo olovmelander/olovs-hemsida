@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "groundId": "johannesberg",
   "validatedOn": "2026-09-09",
-  "validationScope": "Mechanical source-to-authored-pixel registration, actual generated playing models, geometry validity, green endpoint containment, provisional display anchors and shared scenery. This is not an independent survey or a measured absolute positional accuracy claim.",
+  "validationScope": "Mechanical source-to-authored-pixel registration, actual generated playing models, geometry validity, green endpoint containment, explicit tee references, unresolved-marker policy and shared scenery. This is not an independent survey or a measured absolute positional accuracy claim. OB review also verifies source bytes, pixel-affine registration, illustrative post spacing and explicit unsurveyed-boundary policy.",
   "sourceCaptureDate": "2025-06-14",
-  "sourceFilesVerified": 124,
+  "sourceFilesVerified": 168,
   "sourceHashesVerified": true,
   "reviews": [
     {
@@ -38,13 +38,37 @@
       "verifiedPixelVertices": 763,
       "maxPixelRoundtripMetres": 0.006895,
       "unresolvedRecords": 7
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-tee-platforms.json",
+      "sha256": "e1d1bc56184fc472269a4c1e0cf4ff0e098c08d32d3aaa10e5d67ab113dffd09",
+      "acceptedFeatureRecords": 4,
+      "verifiedPixelVertices": 57,
+      "maxPixelRoundtripMetres": 0.000667,
+      "unresolvedRecords": 3
+    }
+  ],
+  "teePlacementReviews": [
+    {
+      "course": "johannesberg",
+      "path": "johannesbergbuild/mapping/tee-placement-review.json",
+      "sha256": "127fc3a44da9e9d74621aab1f26ce0c86b984b97cac4edd15446e7a2b195af5e",
+      "acceptedReferences": 83,
+      "unresolvedReferences": 7
+    },
+    {
+      "course": "johannesberg-9",
+      "path": "johannesbergbuild/mapping/tee-placement-nine-review.json",
+      "sha256": "8938d9f2283e56650d5e2c609ae71b4a1f5f02dbf880a9de3bc3e7afe7e48ef7",
+      "acceptedReferences": 15,
+      "unresolvedReferences": 3
     }
   ],
   "pixelRoundtrip": {
     "method": "pyproj EPSG:4326 to EPSG:3006 from declared legacy origin/metres-per-degree; compared with retained source-panel pixel-edge affine. Residual measures coordinate quantization/reprojection only.",
     "passThresholdMetres": 0.01,
     "thresholdMeaning": "Centimetre bound covers retained0.01m coordinate rounding and forward/inverse projection; it is not source positional accuracy.",
-    "vertexCount": 2999,
+    "vertexCount": 3056,
     "maximumMetres": 0.006895,
     "byPanelPixelResolution": [
       {
@@ -54,7 +78,7 @@
       },
       {
         "resolutionM": 0.16,
-        "vertexCount": 830,
+        "vertexCount": 887,
         "maximumMetres": 0.006895
       },
       {
@@ -69,7 +93,7 @@
       "course": "johannesberg",
       "model": {
         "path": "johannesbergbuild/course-model.json",
-        "sha256": "edc5b8dd6be0b0e3c7a91e7bb3fd4acf0d680f0f361af13f755a3cff1c7032a0"
+        "sha256": "d8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed"
       },
       "countsBefore": {
         "greens": 18,
@@ -82,7 +106,7 @@
       "countsAfter": {
         "greens": 18,
         "fairwayRings": 21,
-        "teePlatforms": 46,
+        "teePlatforms": 50,
         "bunkers": 26,
         "waterBodies": 12,
         "streams": 5
@@ -124,7 +148,7 @@
           "countsAfter": {
             "greens": 1,
             "fairwayRings": 2,
-            "teePlatforms": 2,
+            "teePlatforms": 3,
             "bunkers": 1
           }
         },
@@ -164,7 +188,7 @@
           "countsAfter": {
             "greens": 1,
             "fairwayRings": 1,
-            "teePlatforms": 3,
+            "teePlatforms": 4,
             "bunkers": 4
           }
         },
@@ -204,7 +228,7 @@
           "countsAfter": {
             "greens": 1,
             "fairwayRings": 1,
-            "teePlatforms": 2,
+            "teePlatforms": 3,
             "bunkers": 2
           }
         },
@@ -224,7 +248,7 @@
           "countsAfter": {
             "greens": 1,
             "fairwayRings": 1,
-            "teePlatforms": 2,
+            "teePlatforms": 3,
             "bunkers": 1
           }
         },
@@ -454,7 +478,7 @@
       "course": "johannesberg-9",
       "model": {
         "path": "johannesberg9build/course-model.json",
-        "sha256": "4d8f51cbecfd14843e4e91a7af02199a34403de24aa816688318bc7f55359f76"
+        "sha256": "6d8af299e4a3a2f69b8304dcc0c123d2b26f3f77bd1ea44c29603a784d6b0cc3"
       },
       "countsBefore": {
         "greens": 9,
@@ -730,7 +754,7 @@
       "course": "johannesberg-9",
       "sharedCourse": "johannesberg",
       "kind": "tees",
-      "expectedSharedRings": 46,
+      "expectedSharedRings": 50,
       "missingSharedRings": 0,
       "ownPlayingRingsDuplicatedAsScenery": 0
     },
@@ -743,11 +767,24 @@
       "ownPlayingRingsDuplicatedAsScenery": 0
     }
   ],
-  "markerDisplayValidation": {
+  "markerPlacementValidation": {
     "sourceMarks": 108,
-    "originalCoordinatesRetained": 108,
-    "displayAnchorsInsideDeclaredPad": 108,
-    "meaning": "displayC is a provisional visual anchor on a photographed physical pad; original c is retained. Official tee-colour ownership and daily marker placement remain unverified."
+    "originalCoordinatesRetainedInProvenance": 108,
+    "acceptedReferencesInsideDeclaredPad": 88,
+    "acceptedReferencesInsideReviewedFairway": 8,
+    "acceptedReferencesInsideBoundedMownArea": 2,
+    "unresolvedReferencesWithoutPhysicalMarkerClaim": 10,
+    "meaning": "Accepted c values match explicit placement ledgers; inherited references remain in orthophotoReference.originalReference.c. Unresolved c values remain inherited and cannot establish a physical marker. Nine-hole colour ownership and all daily marker positions remain unverified."
+  },
+  "markerRenderingValidation": {
+    "acceptedReferencesRenderedAsPairs": 98,
+    "renderedBalls": 196,
+    "unresolvedReferencesSuppressed": 10,
+    "minimumBallCentreSurfaceClearanceM": 0.15,
+    "minimumDifferentColourBallSeparationM": 0.6,
+    "surfaceClearanceThresholdM": 0.15,
+    "colourSeparationThresholdM": 0.35,
+    "renderer": "reviewedTeeMarkerPositions"
   },
   "baselineReference": {
     "gitCommit": "7aac4d4495e78d9321889273b34ad6d1bb12290a",
@@ -781,9 +818,91 @@
       "path": "johannesbergbuild/mapping/lm-review-nine.json",
       "section": "unresolved",
       "count": 7
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-tee-platforms.json",
+      "section": "unresolved",
+      "count": 3
     }
   ],
   "failureCount": 0,
   "failures": [],
-  "status": "passed-mechanical-checks-with-reviewed-shared-turf"
+  "status": "passed-mechanical-checks-with-reviewed-shared-turf",
+  "obPlacementValidation": {
+    "review": {
+      "path": "johannesbergbuild/mapping/ob-placement-review.json",
+      "sha256": "be33101220f0a5696d11384cb6f64df94ea1e96706a84ec4093a3b57caa40c34"
+    },
+    "acceptedCorridors": 5,
+    "displayPosts": 101,
+    "verifiedSourceWindows": 6,
+    "registeredPixelVertices": 48,
+    "maximumPixelRoundtripM": 0.000583,
+    "maximumPostToCorridorDistanceM": 0.000638,
+    "maximumPostSpacingM": 11.984201,
+    "pixelRoundtripThresholdM": 0.01,
+    "postToCorridorThresholdM": 0.001,
+    "spacingRoundingToleranceM": 0.002,
+    "individualPhysicalPostPositionsObserved": false,
+    "boundaryStatus": "guide-supported-landscape-corridor-not-surveyed-stake-line",
+    "corridors": [
+      {
+        "feature": "johannesberg-hole-02-ob-corridor",
+        "hole": 2,
+        "sourceWindow": "eighteen-02-hole",
+        "corridorVertices": 6,
+        "corridorLengthM": 163.512681,
+        "displayPosts": 16,
+        "maximumPostSpacingM": 11.77599,
+        "maximumPixelRoundtripM": 0.000548,
+        "corridorUncertaintyM": 2.5
+      },
+      {
+        "feature": "johannesberg-hole-04-ob-corridor",
+        "hole": 4,
+        "sourceWindow": "eighteen-04-hole",
+        "corridorVertices": 9,
+        "corridorLengthM": 248.636582,
+        "displayPosts": 27,
+        "maximumPostSpacingM": 11.590232,
+        "maximumPixelRoundtripM": 0.000475,
+        "corridorUncertaintyM": 4
+      },
+      {
+        "feature": "johannesberg-hole-10-ob-corridor",
+        "hole": 10,
+        "sourceWindow": "eighteen-10-hole",
+        "corridorVertices": 14,
+        "corridorLengthM": 178.380642,
+        "displayPosts": 23,
+        "maximumPostSpacingM": 11.984201,
+        "maximumPixelRoundtripM": 0.000558,
+        "corridorUncertaintyM": 5
+      },
+      {
+        "feature": "johannesberg-hole-16-ob-corridor",
+        "hole": 16,
+        "sourceWindow": "eighteen-16-hole",
+        "corridorVertices": 9,
+        "corridorLengthM": 160.31117,
+        "displayPosts": 17,
+        "maximumPostSpacingM": 11.648172,
+        "maximumPixelRoundtripM": 0.000583,
+        "corridorUncertaintyM": 5
+      },
+      {
+        "feature": "johannesberg-hole-18-ob-corridor",
+        "hole": 18,
+        "sourceWindow": "eighteen-18-hole",
+        "corridorVertices": 10,
+        "corridorLengthM": 135.229754,
+        "displayPosts": 18,
+        "maximumPostSpacingM": 9.294196,
+        "maximumPixelRoundtripM": 0.000535,
+        "corridorUncertaintyM": 3
+      }
+    ],
+    "failureCount": 0,
+    "meaning": "Verifies source bytes, authored image-to-local registration and illustrative polyline spacing. It does not establish surveyed OB boundary vertices or observed individual stake positions."
+  }
 }

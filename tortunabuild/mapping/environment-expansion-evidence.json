@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "data-build-tests-and-browser-passed",
+  "checkedAt": "2026-09-09T20:56:37.080Z",
+  "before": {
+    "model": {
+      "path": "tortunabuild/cache/environment-expansion-baseline/course-model.json",
+      "bytes": 1839450,
+      "sha256": "0c8c249c5f782465278613508fd7d988fba55810f2f57c4946118826c69d809f"
+    },
+    "counts": {
+      "buildings": 148,
+      "paths": 15,
+      "tracks": 21,
+      "roads": 27,
+      "fields": 161,
+      "woodland": 7,
+      "streams": 5,
+      "railways": 11,
+      "powerLines": 2,
+      "powerSupports": 11
+    },
+    "standTiles": 60,
+    "canopyWidthMetres": 1536,
+    "canopyHeightMetres": 2560
+  },
+  "after": {
+    "model": {
+      "path": "tortunabuild/course-model.json",
+      "bytes": 2442064,
+      "sha256": "aba02b65fc4c9e8e5b50fca73c1052a38e02b67b60fa1e8f6a730318ec0599b9"
+    },
+    "counts": {
+      "buildings": 309,
+      "paths": 26,
+      "tracks": 48,
+      "roads": 41,
+      "fields": 341,
+      "woodland": 16,
+      "streams": 10,
+      "railways": 13,
+      "powerLines": 2,
+      "powerSupports": 11
+    },
+    "standTiles": 120,
+    "canopyWidthMetres": 2560,
+    "canopyHeightMetres": 3072,
+    "canopyExtent": {
+      "minEasting": 596120.5,
+      "maxEasting": 598680.5,
+      "minNorthing": 6613363.5,
+      "maxNorthing": 6616435.5
+    },
+    "groundManifest": {
+      "bytes": 305155,
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "sha256": "6d433ed80fd7ce00f975dfcb8d8af75f0b7d3e89783c083e586647bfaae804f7",
+      "url": "grounds/tortuna/ground-v2-6d433ed80fd7ce00f975dfcb8d8af75f0b7d3e89783c083e586647bfaae804f7.json"
+    },
+    "courseManifest": {
+      "bytes": 3902,
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "sha256": "23e28266ed2359f7f23e96744aa29234350edaadfb53624072b5cb0e2808be83",
+      "url": "courses/tortuna/course-v2-23e28266ed2359f7f23e96744aa29234350edaadfb53624072b5cb0e2808be83.json"
+    },
+    "sourceManifest": {
+      "path": "geo_data/course-v2/tortuna/source-manifest.json",
+      "bytes": 43987,
+      "sha256": "4dd9b72848052797276786928187ccedcfc5190a6a8c6f87fe63e03caf8d24db"
+    },
+    "pack": {
+      "path": "apps/golf/public/courses/tortuna/pack.bin",
+      "bytes": 628463,
+      "sha256": "746d8475e7aff2be389963331d5a9cef80cb7b056a7c6b8ca5d775b11b6c9931"
+    }
+  },
+  "preservation": {
+    "nativeTerrainTiles": 341,
+    "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+    "terrainBoundsAndSamples": true,
+    "shell": true,
+    "parentLinks": true,
+    "holes": true,
+    "greensTeesFairwaysBunkers": true,
+    "waterLevelsAndGeometry": true,
+    "facilities": true,
+    "measuredRoofs": true,
+    "existingBuildings": true,
+    "existingPaths": true,
+    "originalCanopySourceBytes": {
+      "chm": {
+        "columnOffset": 512,
+        "rowOffset": 256,
+        "retainedSamples": 3932160,
+        "exactBytes": true
+      },
+      "ground": {
+        "columnOffset": 512,
+        "rowOffset": 256,
+        "retainedSamples": 3932160,
+        "exactBytes": true
+      }
+    }
+  },
+  "limitations": [
+    "Counts describe source-derived display geometry, not independent survey approval. Land-cover holes can require multiple exact partitions per source feature."
+  ],
+  "validation": {
+    "recordedAt": "2026-09-09T21:03:02.292Z",
+    "fullTestLog": {
+      "path": "tortunabuild/cache/environment-expansion-tests.log",
+      "bytes": 42686,
+      "sha256": "f5a03544590dc97eb181183307c0814f9355b32a2c9469eca83d36dcdcaa1683"
+    },
+    "vitest": {
+      "files": 87,
+      "passed": 591,
+      "failed": 0
+    },
+    "node": {
+      "total": 426,
+      "passed": 423,
+      "skipped": 3,
+      "failed": 0
+    },
+    "pythonAssembly": {
+      "passed": 11,
+      "failed": 0
+    },
+    "productionBuild": {
+      "passed": true,
+      "indexHtml": {
+        "path": "apps/golf/dist/index.html",
+        "bytes": 46435,
+        "sha256": "3005c54ccb908a9f745b3fae4e3de73d6f40247b7a10d1563d53f254233dda90"
+      },
+      "appIsolation": true,
+      "rendererProof": true
+    },
+    "sourceManifests": {
+      "physicalGrounds": 10,
+      "tortunaSources": 9,
+      "tortunaArtifacts": 55,
+      "passed": true
+    },
+    "holeSourcePlanner": {
+      "courses": 13,
+      "holes": 198,
+      "controlWindows": 279,
+      "passed": true
+    },
+    "nativeTerrain": {
+      "report": {
+        "path": "tortunabuild/mapping/native-terrain-validation.json",
+        "bytes": 11851,
+        "sha256": "9be881b1fd207e695b4bbc6b3e45da39dceceeb1bc662d0b34bdceaee234f599"
+      },
+      "controls": 36,
+      "maximumEncodingDifferenceMetres": 0.002851405324864942
+    },
+    "browser": {
+      "report": {
+        "path": "tortunabuild/mapping/browser/environment-expansion/report.json",
+        "bytes": 349023,
+        "sha256": "137325ae54e5ea142f205bcf302d219e77490f21ca527e92dbab97c30b90f7cb"
+      },
+      "url": "http://localhost:5174/?bana=tortuna&v2=require&det=1&q=lo&qualitylock=1&ren=1&gl=1&lodmode=zone",
+      "passed": true,
+      "errors": 0,
+      "warnings": 0,
+      "verifiedChunks": 462,
+      "measuredStandInstances": 24278,
+      "outsideOriginalCanopy": 11322,
+      "outsideExpandedCanopy": 0,
+      "generatedVistaInstances": 0,
+      "views": [
+        {
+          "id": "northwest-surroundings",
+          "image": "northwest-surroundings.png",
+          "sha256": "037ea179f46f1d9862c10a482026a60b28103314b46de8f09a9fd1f411f62201"
+        },
+        {
+          "id": "southeast-surroundings",
+          "image": "southeast-surroundings.png",
+          "sha256": "8770b05e6e2db868f57cd1ab75656c527fba3c4b0d24e0e1d98c58b61843e085"
+        }
+      ],
+      "visualReview": "Both elevated images inspected; added fields/buildings/routes/woodland visible and no terrain gaps. Finite terrain edge and strong fog visible at these high camera altitudes.",
+      "performanceEvidence": false
+    }
+  }
+}

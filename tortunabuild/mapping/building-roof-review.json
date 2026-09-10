@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "source-correspondence-and-geometry-reviewed",
+  "reviewedOn": "2026-09-09",
+  "humanAccepted": false,
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "inputs": [
+    {
+      "path": "tortunabuild/mapping/building-roof-meshes.json",
+      "bytes": 611821,
+      "sha256": "dbcf0bfdd6c71695c84c5f7d403e9999c01b22d26706cac808799f1544d2e34c"
+    },
+    {
+      "path": "tortunabuild/mapping/building-height-evidence.json",
+      "bytes": 56609,
+      "sha256": "145dd1e3b7f424519d6244029ba1380b2801e9573a0510b7c674567b1706a292"
+    },
+    {
+      "path": "tortunabuild/mapping/building-observations.json",
+      "bytes": 42302,
+      "sha256": "09476c14e7bc95deb3d7276f20cf6938776b153094fdc9c9f2e4f03ab81108a6"
+    },
+    {
+      "path": "tortunabuild/mapping/building-laser-acquisition.json",
+      "bytes": 1793,
+      "sha256": "629da064e2274d7c6004c6b4537a1c1e3f39f735b52c54615b4ff5a633503959"
+    },
+    {
+      "path": "tortunabuild/mapping/building-orthophoto-acquisition.json",
+      "bytes": 4528,
+      "sha256": "1d82dd55c0f270569be3ee1fdb6e0215485a46f032e06a53ce09554c6735d726"
+    }
+  ],
+  "measuredRoofs": 6,
+  "triangles": 4737,
+  "buildings": [
+    {
+      "id": "way/1163533127",
+      "observationId": "tortuna-clubhouse-main-roof",
+      "state": "assistant-source-correspondence-reviewed",
+      "humanAccepted": false,
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "geometryChecks": "finite vertices, valid indices, non-overlapping contained triangles, retained exact gaps, bounded edges and positive DTM clearance",
+      "roofAreaSquareMetres": 396.449,
+      "observedEnvelopeAreaSquareMetres": 398.554,
+      "footprintCoverageFraction": 0.99472,
+      "triangles": 1157,
+      "vertices": 645,
+      "sourceFirstReturns": 502,
+      "planarSupportFraction": 0.9602,
+      "roofHeightRH2000": {
+        "count": 645,
+        "minimum": 29.7,
+        "p05": 30.994,
+        "median": 34.47,
+        "p95": 35.34,
+        "maximum": 36.59
+      },
+      "roofClearanceAboveDtmMetres": {
+        "count": 645,
+        "minimum": 2.471,
+        "p05": 3.742,
+        "median": 7.349,
+        "p95": 8.235,
+        "maximum": 9.418
+      },
+      "imageSourceReview": "2026 image shows intersecting brown roof sections; elevated 2021 points follow those roof planes and the observed envelope. Orange OSM outline is offset and remains independent. Chimneys/dormers are not separately authored.",
+      "sourcePanel": "tortunabuild/cache/buildings/tortuna-clubhouse-main-roof-source-panel.png"
+    },
+    {
+      "id": "way/1163533113",
+      "observationId": "tortuna-range-service-barn-roof",
+      "state": "assistant-source-correspondence-reviewed",
+      "humanAccepted": false,
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "geometryChecks": "finite vertices, valid indices, non-overlapping contained triangles, retained exact gaps, bounded edges and positive DTM clearance",
+      "roofAreaSquareMetres": 381.476,
+      "observedEnvelopeAreaSquareMetres": 381.85,
+      "footprintCoverageFraction": 0.999022,
+      "triangles": 1161,
+      "vertices": 657,
+      "sourceFirstReturns": 462,
+      "planarSupportFraction": 0.9827,
+      "roofHeightRH2000": {
+        "count": 657,
+        "minimum": 30.663,
+        "p05": 30.705,
+        "median": 32.74,
+        "p95": 34.784,
+        "maximum": 35.042
+      },
+      "roofClearanceAboveDtmMetres": {
+        "count": 657,
+        "minimum": 3.967,
+        "p05": 4.214,
+        "median": 6.246,
+        "p95": 8.299,
+        "maximum": 8.984
+      },
+      "imageSourceReview": "Clear long red roof with two principal pitches; first-return heights align with the image roof, including the southwest end. Retain epoch difference.",
+      "sourcePanel": "tortunabuild/cache/buildings/tortuna-range-service-barn-roof-source-panel.png"
+    },
+    {
+      "id": "way/1163533115",
+      "observationId": "tortuna-range-west-barn-roof",
+      "state": "assistant-source-correspondence-reviewed",
+      "humanAccepted": false,
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "geometryChecks": "finite vertices, valid indices, non-overlapping contained triangles, retained exact gaps, bounded edges and positive DTM clearance",
+      "roofAreaSquareMetres": 138.086,
+      "observedEnvelopeAreaSquareMetres": 138.086,
+      "footprintCoverageFraction": 1.0,
+      "triangles": 423,
+      "vertices": 246,
+      "sourceFirstReturns": 151,
+      "planarSupportFraction": 0.9934,
+      "roofHeightRH2000": {
+        "count": 246,
+        "minimum": 29.062,
+        "p05": 29.876,
+        "median": 31.703,
+        "p95": 33.309,
+        "maximum": 33.654
+      },
+      "roofClearanceAboveDtmMetres": {
+        "count": 246,
+        "minimum": 4.388,
+        "p05": 4.66,
+        "median": 6.742,
+        "p95": 8.349,
+        "maximum": 9.082
+      },
+      "imageSourceReview": "Unobscured red pitched roof; elevated return distribution follows both roof slopes. No facade material inferred.",
+      "sourcePanel": "tortunabuild/cache/buildings/tortuna-range-west-barn-roof-source-panel.png"
+    },
+    {
+      "id": "way/1163533123",
+      "observationId": "tortuna-carpark-west-north-barn-roof",
+      "state": "assistant-source-correspondence-reviewed",
+      "humanAccepted": false,
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "geometryChecks": "finite vertices, valid indices, non-overlapping contained triangles, retained exact gaps, bounded edges and positive DTM clearance",
+      "roofAreaSquareMetres": 238.157,
+      "observedEnvelopeAreaSquareMetres": 238.157,
+      "footprintCoverageFraction": 1.0,
+      "triangles": 766,
+      "vertices": 442,
+      "sourceFirstReturns": 278,
+      "planarSupportFraction": 0.964,
+      "roofHeightRH2000": {
+        "count": 442,
+        "minimum": 33.084,
+        "p05": 33.208,
+        "median": 34.315,
+        "p95": 35.928,
+        "maximum": 38.7
+      },
+      "roofClearanceAboveDtmMetres": {
+        "count": 442,
+        "minimum": 4.07,
+        "p05": 4.134,
+        "median": 5.476,
+        "p95": 7.085,
+        "maximum": 9.632
+      },
+      "imageSourceReview": "Long dark roof and small bright southwest section are visible. The measured southwest height feature is dated 2021 and is not interpreted as a current architectural detail.",
+      "sourcePanel": "tortunabuild/cache/buildings/tortuna-carpark-west-north-barn-roof-source-panel.png"
+    },
+    {
+      "id": "way/1163607303",
+      "observationId": "tortuna-house-near-hole9-roof",
+      "state": "assistant-source-correspondence-reviewed",
+      "humanAccepted": false,
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "geometryChecks": "finite vertices, valid indices, non-overlapping contained triangles, retained exact gaps, bounded edges and positive DTM clearance",
+      "roofAreaSquareMetres": 160.188,
+      "observedEnvelopeAreaSquareMetres": 160.256,
+      "footprintCoverageFraction": 0.999577,
+      "triangles": 953,
+      "vertices": 516,
+      "sourceFirstReturns": 395,
+      "planarSupportFraction": 0.9544,
+      "roofHeightRH2000": {
+        "count": 516,
+        "minimum": 34.205,
+        "p05": 35.047,
+        "median": 36.975,
+        "p95": 37.69,
+        "maximum": 37.79
+      },
+      "roofClearanceAboveDtmMetres": {
+        "count": 516,
+        "minimum": 1.863,
+        "p05": 2.954,
+        "median": 4.869,
+        "p95": 5.592,
+        "maximum": 5.842
+      },
+      "imageSourceReview": "Red intersecting roof with dormers east of hole 9; elevated returns follow the roof. Image roof and OSM ground hypothesis differ; no ground translation applied.",
+      "sourcePanel": "tortunabuild/cache/buildings/tortuna-house-near-hole9-roof-source-panel.png"
+    },
+    {
+      "id": "way/1384988127",
+      "observationId": "tortuna-house-east-garage-roof",
+      "state": "assistant-source-correspondence-reviewed",
+      "humanAccepted": false,
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "geometryChecks": "finite vertices, valid indices, non-overlapping contained triangles, retained exact gaps, bounded edges and positive DTM clearance",
+      "roofAreaSquareMetres": 64.538,
+      "observedEnvelopeAreaSquareMetres": 64.538,
+      "footprintCoverageFraction": 1.0,
+      "triangles": 277,
+      "vertices": 167,
+      "sourceFirstReturns": 84,
+      "planarSupportFraction": 0.9762,
+      "roofHeightRH2000": {
+        "count": 167,
+        "minimum": 30.508,
+        "p05": 30.647,
+        "median": 31.44,
+        "p95": 32.687,
+        "maximum": 32.861
+      },
+      "roofClearanceAboveDtmMetres": {
+        "count": 167,
+        "minimum": 2.293,
+        "p05": 2.557,
+        "median": 3.3,
+        "p95": 4.456,
+        "maximum": 4.625
+      },
+      "imageSourceReview": "Dark detached roof corresponds with measured edge/interior returns; sparse central source rows retain the maximum 5 m triangle-edge check.",
+      "sourcePanel": "tortunabuild/cache/buildings/tortuna-house-east-garage-roof-source-panel.png"
+    }
+  ],
+  "withheld": [
+    {
+      "id": "tortuna-clubhouse-low-extension",
+      "associatedBuildingId": "way/1163533127",
+      "reasons": [
+        "insufficient planar-supported returns"
+      ]
+    },
+    {
+      "id": "tortuna-clubhouse-west-outbuilding-roof",
+      "associatedBuildingId": "way/1163533128",
+      "reasons": [
+        "insufficient planar-supported returns"
+      ]
+    },
+    {
+      "id": "tortuna-clubhouse-southwest-shed-roof",
+      "associatedBuildingId": null,
+      "reasons": [
+        "insufficient planar-supported returns"
+      ]
+    },
+    {
+      "id": "tortuna-range-small-outbuilding-roof",
+      "associatedBuildingId": "way/1163533114",
+      "reasons": [
+        "insufficient planar-supported returns"
+      ]
+    },
+    {
+      "id": "tortuna-house-east-roof",
+      "associatedBuildingId": "way/1384988126",
+      "reasons": [
+        "insufficient planar-supported returns"
+      ]
+    },
+    {
+      "id": "tortuna-range-shelter-roof",
+      "associatedBuildingId": "tortuna-range-shelter",
+      "reasons": [
+        "insufficient planar-supported returns"
+      ]
+    }
+  ],
+  "groundFootprintReplacements": 0,
+  "terrainEdits": 0,
+  "visualEvidence": "tortunabuild/cache/buildings/measured-roof-review.png",
+  "limitations": [
+    "The dated measured roof is not a complete current architectural model.",
+    "Low clubhouse extension, tiny sheds and other unsupported candidates retain estimates/unknowns; no invented roof measurements.",
+    "Observed image roof boundaries do not replace ground footprints or independently establish surveyed eaves.",
+    "Wall descent from supported roof boundary to native DTM is a visualization convention."
+  ]
+}

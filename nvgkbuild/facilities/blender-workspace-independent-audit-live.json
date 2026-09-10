@@ -1,0 +1,1112 @@
+{
+  "schemaVersion": 1,
+  "mode": "live",
+  "scene": "Norrfallsviken | Measured facilities",
+  "blenderVersion": "4.5.9 LTS",
+  "blenderBinary": "C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe",
+  "blendFile": "nvgkbuild/cache/facilities-reference/norrfallsviken-facilities.blend",
+  "blendSha256": "819cdae09eacd4e38bb56c51dfc2565205e88a20c350d7b92442aef357ac202e",
+  "auditScriptSha256": "932d57cca1cc6798bfd3ef67615f471757ea9f4cf62f722a8dda9146f59f1923",
+  "sourceHashes": {
+    "heightReference": "0779a7ff30a3aff5ce6ee1678669d3b11a21f687f65f4167b747b051b234d5ba",
+    "preparedSourceData": "13118b642126127dffd965e87aa10eb1b69ba3f39ded5e39748f2455e67a2e35",
+    "rawLaserExtract": "490eb8c7edf9bfcbb2e9589b6daff2bcdae80c499f3f8a8f08d2321b9e486d26"
+  },
+  "roofResults": [
+    {
+      "id": "clubhouse-main-roof-native",
+      "maximumVertexCoordinateErrorMetres": 2.598389983177185e-07,
+      "maximumFacePlaneResidualMetres": 0.0005495752085735717,
+      "lengthMetres": 15.39034,
+      "widthMetres": 11.97603,
+      "ridgeHeightsRH2000": [
+        38.414,
+        38.404
+      ],
+      "eaveHeightsRH2000": [
+        35.314,
+        35.305,
+        35.373,
+        35.382
+      ],
+      "allFacesUp": true
+    },
+    {
+      "id": "clubhouse-cross-roof-native",
+      "maximumVertexCoordinateErrorMetres": 4.3492764234542847e-07,
+      "maximumFacePlaneResidualMetres": 0.0003586111164466388,
+      "lengthMetres": 8.36315,
+      "widthMetres": 8.92756,
+      "ridgeHeightsRH2000": [
+        37.616,
+        37.619
+      ],
+      "eaveHeightsRH2000": [
+        35.374,
+        35.377,
+        35.33,
+        35.327
+      ],
+      "allFacesUp": true
+    },
+    {
+      "id": "clubhouse-north-annex-roof",
+      "maximumVertexCoordinateErrorMetres": 6.100162863731384e-07,
+      "maximumFacePlaneResidualMetres": 0.0006576185055493511,
+      "lengthMetres": 8.82423,
+      "widthMetres": 8.39185,
+      "ridgeHeightsRH2000": [
+        37.322,
+        37.336
+      ],
+      "eaveHeightsRH2000": [
+        35.226,
+        35.24,
+        35.175,
+        35.161
+      ],
+      "allFacesUp": true
+    },
+    {
+      "id": "lm-range-shelter",
+      "maximumVertexCoordinateErrorMetres": 3.783963620662689e-06,
+      "maximumFacePlaneResidualMetres": 0.0005409844502892724,
+      "lengthMetres": 12.59553,
+      "widthMetres": 10.72252,
+      "ridgeHeightsRH2000": [
+        35.848,
+        35.823
+      ],
+      "eaveHeightsRH2000": [
+        33.636,
+        33.612,
+        33.709,
+        33.733
+      ],
+      "allFacesUp": true
+    }
+  ],
+  "sourcePointCount": 190926,
+  "pointCoordinateErrorMetres": 7.323920726776123e-06,
+  "classificationCounts": {
+    "1": 70822,
+    "2": 120104
+  },
+  "ground": {
+    "verticesPerMesh": 11262,
+    "trianglesAcrossCoverageMeshes": 22082,
+    "meshCoordinateErrorMetres": 2.2888183615066282e-07,
+    "independentMedianMaximumErrorMetres": 0.00999999999999801,
+    "independentSupportCountMismatches": 16,
+    "maximumNearestGroundDistanceMetres": 4.946048736572266,
+    "omittedGridVertices": 4,
+    "geographicUvMaximumError": 2.9197051998330892e-08,
+    "meshWinding": [
+      {
+        "object": "NV | Campus ground - 2m median laser sampling",
+        "faces": 20382,
+        "downwardFaces": 0
+      },
+      {
+        "object": "NV | Ground outside orthophoto coverage - untextured",
+        "faces": 1700,
+        "downwardFaces": 0
+      }
+    ]
+  },
+  "images": [
+    {
+      "name": "facilities-range.png",
+      "packed": true,
+      "packedBytes": 5749035,
+      "packedSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc"
+    },
+    {
+      "name": "campus-overview.png",
+      "packed": true,
+      "packedBytes": 5749035,
+      "packedSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "dc2c0996a6f9f2cd32d56c2b25d7e2d9b70133199edd20f0622f33d5dd8f06bc"
+    },
+    {
+      "name": "clubhouse-campus.png",
+      "packed": true,
+      "packedBytes": 307769,
+      "packedSha256": "66e39b3a3c50c227f3683d6d7c17ec7bb1002846869064488c18a754bcd96e4d",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "66e39b3a3c50c227f3683d6d7c17ec7bb1002846869064488c18a754bcd96e4d"
+    },
+    {
+      "name": "clubhouse-detail.png",
+      "packed": true,
+      "packedBytes": 77948,
+      "packedSha256": "87b39cc8a13d0c34362cdc6764bcfec7f3aca24899d159566baab7aba5a91f36",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "87b39cc8a13d0c34362cdc6764bcfec7f3aca24899d159566baab7aba5a91f36"
+    },
+    {
+      "name": "north-annex-detail.png",
+      "packed": true,
+      "packedBytes": 43839,
+      "packedSha256": "ab5cd8c4ba415c3486d1cd96ab4a8b0553af419aacb14990aad349d95be054fb",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "ab5cd8c4ba415c3486d1cd96ab4a8b0553af419aacb14990aad349d95be054fb"
+    },
+    {
+      "name": "practice-shed-detail.png",
+      "packed": true,
+      "packedBytes": 36342,
+      "packedSha256": "7bb8604602feb1be1568144309660adc59aeab384d3d526c0f40a9cbe5992b9f",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "7bb8604602feb1be1568144309660adc59aeab384d3d526c0f40a9cbe5992b9f"
+    },
+    {
+      "name": "range-shelter-detail.png",
+      "packed": true,
+      "packedBytes": 60871,
+      "packedSha256": "0fbd3e1bdc80150a3a2ba6a25063d394cf6b2723131c187f5325404a293fda44",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "0fbd3e1bdc80150a3a2ba6a25063d394cf6b2723131c187f5325404a293fda44"
+    },
+    {
+      "name": "range-pads.png",
+      "packed": true,
+      "packedBytes": 88588,
+      "packedSha256": "ff9175d16e4106c51c64993fdf1f4dea5467b2b0701ac93e73954d742c730d2c",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "ff9175d16e4106c51c64993fdf1f4dea5467b2b0701ac93e73954d742c730d2c"
+    },
+    {
+      "name": "padel-court.png",
+      "packed": true,
+      "packedBytes": 42528,
+      "packedSha256": "ad139a635f528a00bc08c5eaae6c6d95980c4efea68a7efe9c8faf615d15b99c",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "ad139a635f528a00bc08c5eaae6c6d95980c4efea68a7efe9c8faf615d15b99c"
+    },
+    {
+      "name": "parking-and-range-entrance.png",
+      "packed": true,
+      "packedBytes": 603590,
+      "packedSha256": "5d2cf85446b33b71e810e7f2a480303d56d3b2e4995b7e7c76b29c3fef8d6399",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "5d2cf85446b33b71e810e7f2a480303d56d3b2e4995b7e7c76b29c3fef8d6399"
+    },
+    {
+      "name": "southern-maintenance-context.png",
+      "packed": true,
+      "packedBytes": 746266,
+      "packedSha256": "fbd05fea83d5bad3e7345b149833b5d9d79e82e61cc0541be78133a1d4d71dc1",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "fbd05fea83d5bad3e7345b149833b5d9d79e82e61cc0541be78133a1d4d71dc1"
+    },
+    {
+      "name": "official-clubhouse-east-20200819.jpg",
+      "packed": true,
+      "packedBytes": 681831,
+      "packedSha256": "64529d03294c48191a0e64003c03fae6f17245f5d7e8981e03a96a3c4ac7b3cd",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "64529d03294c48191a0e64003c03fae6f17245f5d7e8981e03a96a3c4ac7b3cd"
+    },
+    {
+      "name": "official-range-20250528.jpg",
+      "packed": true,
+      "packedBytes": 1300455,
+      "packedSha256": "a1067221da38ce60620a5a3d042def34cd73bc4781f1c62d1341eadfc302052f",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "a1067221da38ce60620a5a3d042def34cd73bc4781f1c62d1341eadfc302052f"
+    },
+    {
+      "name": "official-entrance-practice-20160825.jpg",
+      "packed": true,
+      "packedBytes": 1025697,
+      "packedSha256": "9f27671523d72b1adb08f60bee57408a59f449203cfb94dfeaeecfe7a9b901b5",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "9f27671523d72b1adb08f60bee57408a59f449203cfb94dfeaeecfe7a9b901b5"
+    },
+    {
+      "name": "padel-court22.webp",
+      "packed": true,
+      "packedBytes": 62696,
+      "packedSha256": "5835540ee616b9b7d785c7da3c6a944ab18ab64fb5e11f23db37582d8a1d2453",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "5835540ee616b9b7d785c7da3c6a944ab18ab64fb5e11f23db37582d8a1d2453"
+    },
+    {
+      "name": "official-cafe.jpg",
+      "packed": true,
+      "packedBytes": 604242,
+      "packedSha256": "4078e96ad90a325a07491c8d9a1bdaf072321df9ccf4884c425084b53e45a39a",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "4078e96ad90a325a07491c8d9a1bdaf072321df9ccf4884c425084b53e45a39a"
+    },
+    {
+      "name": "official-camper-map.png",
+      "packed": true,
+      "packedBytes": 683322,
+      "packedSha256": "954be6337299c35f6d7063c06aad6a05f39e7f3429c155ea7bd26c57b62cbd8e",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "954be6337299c35f6d7063c06aad6a05f39e7f3429c155ea7bd26c57b62cbd8e"
+    },
+    {
+      "name": "camping-6692275.webp",
+      "packed": true,
+      "packedBytes": 127476,
+      "packedSha256": "e3fc31851b6de50a5d892bb1f2a67bf8fe5d94d1302dc4eee0b052d25a373175",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "e3fc31851b6de50a5d892bb1f2a67bf8fe5d94d1302dc4eee0b052d25a373175"
+    },
+    {
+      "name": "camping-6692281.webp",
+      "packed": true,
+      "packedBytes": 274004,
+      "packedSha256": "569dd2c36e2d79fb8614ec6286f28bee4216a5be6951facb1cdad64de0407d6e",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "569dd2c36e2d79fb8614ec6286f28bee4216a5be6951facb1cdad64de0407d6e"
+    },
+    {
+      "name": "camping-6692273.webp",
+      "packed": true,
+      "packedBytes": 180032,
+      "packedSha256": "91419c4bf70732810e991851e97b56fd7e5386bf41383dad09a56db0693c87fb",
+      "sourceFileAvailable": true,
+      "sourceFileSha256": "91419c4bf70732810e991851e97b56fd7e5386bf41383dad09a56db0693c87fb"
+    }
+  ],
+  "embeddedSourceCatalogues": [
+    {
+      "kind": "ortho",
+      "textName": "NV | ortho source catalogue.json",
+      "sourceSha256": "16b9bef1798cdb38fc748e3d415aecb4571cbaf7fc564903e8818228b755915b"
+    },
+    {
+      "kind": "height",
+      "textName": "NV | height source catalogue.json",
+      "sourceSha256": "0779a7ff30a3aff5ce6ee1678669d3b11a21f687f65f4167b747b051b234d5ba"
+    },
+    {
+      "kind": "web",
+      "textName": "NV | web source catalogue.json",
+      "sourceSha256": "4440d9a2db402e5fe0b230571b115c4eba276856f749d4a04a124d8eb838f79e"
+    }
+  ],
+  "otherScenes": [
+    {
+      "name": "Johannesberg | Facilities reference 2026-09-10",
+      "objectCount": 131,
+      "membershipSha256": "6a71e47e6866aa6c227de712fe9aaf916beaf379634906c21190305ece96cd60"
+    },
+    {
+      "name": "Scene",
+      "objectCount": 3,
+      "membershipSha256": "4392cffff5e114f86a9773798fcdce0e3049d9605c04f9894bfdfcddeff396c9"
+    },
+    {
+      "name": "Tortuna facility | carpark-west-barn",
+      "objectCount": 10,
+      "membershipSha256": "69b73b1f46e9ecf5027bc8d2c69f916f550da52865826570dcb452c7651a3c8a"
+    },
+    {
+      "name": "Tortuna facility | entry-outbuilding",
+      "objectCount": 13,
+      "membershipSha256": "99bf937ba0291391610361c9fef6c26bea615a64931562f4978c3b9cbcb59d1c"
+    },
+    {
+      "name": "Tortuna facility | Geographic assembly",
+      "objectCount": 7,
+      "membershipSha256": "35343c2e33d20bfdb84d89ae214821c61d2c3440f98570eb1a1f0bf21a9097ec"
+    },
+    {
+      "name": "Tortuna facility | nearby-house",
+      "objectCount": 10,
+      "membershipSha256": "28bbe5b2a773982d29365daa800ff936af2d4090243893c5481a331adb01d09f"
+    },
+    {
+      "name": "Tortuna facility | range-shelter",
+      "objectCount": 10,
+      "membershipSha256": "44aea6fd5b85c123c6c87cacc81877d79c8eaf2efa9883b1f4a0410aefef71de"
+    },
+    {
+      "name": "Tortuna facility | service-yard-long-barn",
+      "objectCount": 11,
+      "membershipSha256": "a21c8ece1102e248a44ccd17f130cfec0cf38d0a4529cd5e96f6f752e8e8f780"
+    },
+    {
+      "name": "Tortuna facility | service-yard-small-outbuilding",
+      "objectCount": 10,
+      "membershipSha256": "a6de0dbd50cff0152cf769867600f207724c4d7ba913d9f3ec5a3f8cf2b2228d"
+    },
+    {
+      "name": "Tortuna facility | service-yard-west-barn",
+      "objectCount": 10,
+      "membershipSha256": "ad5fc6f89f11fd308c5cb927ebcda84ccf05ddeb6e45edfbc331eaa0a44ac47a"
+    },
+    {
+      "name": "Tortuna | Clubhouse architecture",
+      "objectCount": 15,
+      "membershipSha256": "3edd9ccfccf055db9671395dab48bcd14e1bd862891e95d0b2b508305fe5e681"
+    },
+    {
+      "name": "Upsala GK | Facility references 2026-09-10",
+      "objectCount": 142,
+      "membershipSha256": "62fb4960a250d7df1ca48b52f4e9263bec1e95227ab1800b82f5d843bd915d74"
+    },
+    {
+      "name": "Veckefjarden | Facility architecture 2026-09-10",
+      "objectCount": 2082,
+      "membershipSha256": "5de2d6c4852633016206d839989a4771a62933fad157ac9187adb9bde77b598a"
+    },
+    {
+      "name": "Veckefjarden | Facility architecture 2026-09-10 v2",
+      "objectCount": 866,
+      "membershipSha256": "b529b502383fcb82ff6083f29a78ee844478cb79bc5f1cbc5daa1d18832548d5"
+    },
+    {
+      "name": "Veckefjarden | Facility references 2026-09-10",
+      "objectCount": 124,
+      "membershipSha256": "273a9363063e291a44dadf4618898c7fb2e3a5260f0108d09246e2ff44865a47"
+    }
+  ],
+  "activeScene": "Tortuna facility | entry-outbuilding",
+  "historicalPreservationEvidence": {
+    "builderReportedOtherScenesPreserved": true,
+    "activeSceneAtBuild": "Tortuna | Clubhouse architecture",
+    "activeSceneAtAuditEntry": "Tortuna facility | entry-outbuilding",
+    "activeSceneChangedSinceBuild": true,
+    "limitation": "No pre-build object snapshot was persisted. This audit directly verifies present isolation and no changes during audit; historical membership preservation is the builder assertion, not independently reconstructed."
+  },
+  "interpretationReview": [
+    "Measured roof meshes are inner sampled envelopes; wall inset and floors remain explicitly interpreted.",
+    "Cross-wing roof and main roof remain separate intersecting measured surfaces, not a Boolean-unioned final architectural shell.",
+    "Practice roof has measured planar patches only; no unsupported complete gable is introduced.",
+    "The 2 m reference terrain is context geometry and must not replace the application 1 m ground."
+  ],
+  "geometryFingerprints": {
+    "NV | Measured roof | clubhouse-main-roof-native": "fb9cb226f1d3b01e6e6db5138cacbab0cc6f74729013844846aa665f5bab0af8",
+    "NV | Measured roof | clubhouse-cross-roof-native": "7b9ed67437eac0377a939da4bcdc3818ecfd01787a640a924329823b29d02d73",
+    "NV | Measured roof | clubhouse-north-annex-roof": "1cdc6b9ac085ef625e07ece9ec576dffbf1e49282166473062ef1d7392a96fb1",
+    "NV | Measured roof | lm-range-shelter": "4e7bb8909d1309ead7febce24000d40c6627ca9c659e89574929ed958b3e9db6",
+    "NV | Laser source returns - enable collection to inspect": "8ccd0c7e251f74c99e7c6e1b5db8f710636dc6a5187813e23fb2af939a7c8210",
+    "NV | Campus ground - 2m median laser sampling": "b3e9f77c2e6b8636b99c450af8c35a2f6c789dfd175ad1ff641aa9477edbfc96",
+    "NV | Ground outside orthophoto coverage - untextured": "1ab55de40ed2d7b8340d06e496bb6861bcdceb0045358487a54da7f846ad7e0a"
+  },
+  "checks": [
+    {
+      "check": "saved blend hash matches builder output",
+      "passed": true
+    },
+    {
+      "check": "raw laser hash matches pinned extract",
+      "passed": true
+    },
+    {
+      "check": "prepared source JSON hash matches sidecar",
+      "passed": true
+    },
+    {
+      "check": "scene uses documented metric origin",
+      "passed": true
+    },
+    {
+      "check": "scene units are metres",
+      "passed": true
+    },
+    {
+      "check": "scene object count matches saved build",
+      "passed": true
+    },
+    {
+      "check": "builder source hash: nvgkbuild/mapping/facilities-ortho-reference.json",
+      "passed": true
+    },
+    {
+      "check": "builder source hash: nvgkbuild/mapping/facilities-height-reference.json",
+      "passed": true
+    },
+    {
+      "check": "builder source hash: nvgkbuild/cache/facilities-reference/blender-source-data.json",
+      "passed": true
+    },
+    {
+      "check": "builder source hash: nvgkbuild/mapping/facilities-web-reference.json",
+      "passed": true
+    },
+    {
+      "check": "actual transformed roof coordinates: clubhouse-main-roof-native",
+      "passed": true,
+      "detail": 2.598389983177185e-07
+    },
+    {
+      "check": "two measured roof faces: clubhouse-main-roof-native",
+      "passed": true
+    },
+    {
+      "check": "roof identity property: clubhouse-main-roof-native",
+      "passed": true
+    },
+    {
+      "check": "measured roofs isolated from interpreted walls: clubhouse-main-roof-native",
+      "passed": true
+    },
+    {
+      "check": "faces follow fitted roof equations: clubhouse-main-roof-native",
+      "passed": true,
+      "detail": [
+        0.0004514061120914903,
+        0.0005495752085735717
+      ]
+    },
+    {
+      "check": "measured roof faces wind upward: clubhouse-main-roof-native",
+      "passed": true,
+      "detail": [
+        92.26850107133873,
+        92.0466665580825
+      ]
+    },
+    {
+      "check": "ridge is above both eaves: clubhouse-main-roof-native",
+      "passed": true
+    },
+    {
+      "check": "roof support dimensions preserved: clubhouse-main-roof-native",
+      "passed": true
+    },
+    {
+      "check": "actual transformed roof coordinates: clubhouse-cross-roof-native",
+      "passed": true,
+      "detail": 4.3492764234542847e-07
+    },
+    {
+      "check": "two measured roof faces: clubhouse-cross-roof-native",
+      "passed": true
+    },
+    {
+      "check": "roof identity property: clubhouse-cross-roof-native",
+      "passed": true
+    },
+    {
+      "check": "measured roofs isolated from interpreted walls: clubhouse-cross-roof-native",
+      "passed": true
+    },
+    {
+      "check": "faces follow fitted roof equations: clubhouse-cross-roof-native",
+      "passed": true,
+      "detail": [
+        0.00023425915608754622,
+        0.0003586111164466388
+      ]
+    },
+    {
+      "check": "measured roof faces wind upward: clubhouse-cross-roof-native",
+      "passed": true,
+      "detail": [
+        37.86767707686221,
+        36.7948458824186
+      ]
+    },
+    {
+      "check": "ridge is above both eaves: clubhouse-cross-roof-native",
+      "passed": true
+    },
+    {
+      "check": "roof support dimensions preserved: clubhouse-cross-roof-native",
+      "passed": true
+    },
+    {
+      "check": "actual transformed roof coordinates: clubhouse-north-annex-roof",
+      "passed": true,
+      "detail": 6.100162863731384e-07
+    },
+    {
+      "check": "two measured roof faces: clubhouse-north-annex-roof",
+      "passed": true
+    },
+    {
+      "check": "roof identity property: clubhouse-north-annex-roof",
+      "passed": true
+    },
+    {
+      "check": "measured roofs isolated from interpreted walls: clubhouse-north-annex-roof",
+      "passed": true
+    },
+    {
+      "check": "faces follow fitted roof equations: clubhouse-north-annex-roof",
+      "passed": true,
+      "detail": [
+        0.00046006714790536307,
+        0.0006576185055493511
+      ]
+    },
+    {
+      "check": "measured roof faces wind upward: clubhouse-north-annex-roof",
+      "passed": true,
+      "detail": [
+        37.386055400489795,
+        36.661165764604675
+      ]
+    },
+    {
+      "check": "ridge is above both eaves: clubhouse-north-annex-roof",
+      "passed": true
+    },
+    {
+      "check": "roof support dimensions preserved: clubhouse-north-annex-roof",
+      "passed": true
+    },
+    {
+      "check": "actual transformed roof coordinates: lm-range-shelter",
+      "passed": true,
+      "detail": 3.783963620662689e-06
+    },
+    {
+      "check": "two measured roof faces: lm-range-shelter",
+      "passed": true
+    },
+    {
+      "check": "roof identity property: lm-range-shelter",
+      "passed": true
+    },
+    {
+      "check": "measured roofs isolated from interpreted walls: lm-range-shelter",
+      "passed": true
+    },
+    {
+      "check": "faces follow fitted roof equations: lm-range-shelter",
+      "passed": true,
+      "detail": [
+        0.0005409844502892724,
+        0.00020216761506475223
+      ]
+    },
+    {
+      "check": "measured roof faces wind upward: lm-range-shelter",
+      "passed": true,
+      "detail": [
+        69.39959696598817,
+        65.67382362265198
+      ]
+    },
+    {
+      "check": "ridge is above both eaves: lm-range-shelter",
+      "passed": true
+    },
+    {
+      "check": "roof support dimensions preserved: lm-range-shelter",
+      "passed": true
+    },
+    {
+      "check": "unresolved practice roof has no fabricated gable",
+      "passed": true
+    },
+    {
+      "check": "unresolved roof patch follows measured plane: lm-practice-shed-plane-1",
+      "passed": true,
+      "detail": 3.4191235442904144e-07
+    },
+    {
+      "check": "unresolved roof patch follows measured plane: lm-practice-shed-plane-2",
+      "passed": true,
+      "detail": 1.8224666575861193e-07
+    },
+    {
+      "check": "unresolved roof patch follows measured plane: lm-practice-shed-plane-3",
+      "passed": true,
+      "detail": 2.5682786031211435e-07
+    },
+    {
+      "check": "all 190926 raw source returns retained",
+      "passed": true
+    },
+    {
+      "check": "every transformed point matches original laser coordinate",
+      "passed": true,
+      "detail": 7.323920726776123e-06
+    },
+    {
+      "check": "point cloud classification attribute exists",
+      "passed": true
+    },
+    {
+      "check": "every point retains original classification",
+      "passed": true
+    },
+    {
+      "check": "source point cloud has no invented surface faces",
+      "passed": true
+    },
+    {
+      "check": "ground mesh vertex coordinates: NV | Campus ground - 2m median laser sampling",
+      "passed": true,
+      "detail": 2.2888183615066282e-07
+    },
+    {
+      "check": "ground mesh vertex coordinates: NV | Ground outside orthophoto coverage - untextured",
+      "passed": true,
+      "detail": 2.2888183615066282e-07
+    },
+    {
+      "check": "ground topology retains all holes and creates no extra triangles",
+      "passed": true
+    },
+    {
+      "check": "ground triangle count is 22082",
+      "passed": true
+    },
+    {
+      "check": "all reference ground triangles wind upward",
+      "passed": true,
+      "detail": [
+        {
+          "object": "NV | Campus ground - 2m median laser sampling",
+          "faces": 20382,
+          "downwardFaces": 0
+        },
+        {
+          "object": "NV | Ground outside orthophoto coverage - untextured",
+          "faces": 1700,
+          "downwardFaces": 0
+        }
+      ]
+    },
+    {
+      "check": "unsupported grid vertices remain absent",
+      "passed": true
+    },
+    {
+      "check": "every retained ground vertex is within 5 m of measured ground",
+      "passed": true,
+      "detail": {
+        "maxMetres": 4.946048736572266
+      }
+    },
+    {
+      "check": "independent raw-ground median reconstruction",
+      "passed": true,
+      "detail": {
+        "maximumHeightErrorMetres": 0.00999999999999801,
+        "supportCountMismatches": 16
+      }
+    },
+    {
+      "check": "omitted ground vertex lacks support: 8802",
+      "passed": true,
+      "detail": 5.517100811004639
+    },
+    {
+      "check": "omitted ground vertex lacks support: 8803",
+      "passed": true,
+      "detail": 5.282471179962158
+    },
+    {
+      "check": "omitted ground vertex lacks support: 8888",
+      "passed": true,
+      "detail": 6.185418128967285
+    },
+    {
+      "check": "omitted ground vertex lacks support: 8889",
+      "passed": true,
+      "detail": 5.612575531005859
+    },
+    {
+      "check": "ground geographic UV layer exists",
+      "passed": true
+    },
+    {
+      "check": "actual terrain UV matches geographic source mapping",
+      "passed": true,
+      "detail": 2.9197051998330892e-08
+    },
+    {
+      "check": "reference image is packed: facilities-range.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: facilities-range.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: campus-overview.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: campus-overview.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: clubhouse-campus.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: clubhouse-campus.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: clubhouse-detail.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: clubhouse-detail.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: north-annex-detail.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: north-annex-detail.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: practice-shed-detail.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: practice-shed-detail.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: range-shelter-detail.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: range-shelter-detail.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: range-pads.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: range-pads.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: padel-court.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: padel-court.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: parking-and-range-entrance.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: parking-and-range-entrance.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: southern-maintenance-context.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: southern-maintenance-context.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: official-clubhouse-east-20200819.jpg",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: official-clubhouse-east-20200819.jpg",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: official-range-20250528.jpg",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: official-range-20250528.jpg",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: official-entrance-practice-20160825.jpg",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: official-entrance-practice-20160825.jpg",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: padel-court22.webp",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: padel-court22.webp",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: official-cafe.jpg",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: official-cafe.jpg",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: official-camper-map.png",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: official-camper-map.png",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: camping-6692275.webp",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: camping-6692275.webp",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: camping-6692281.webp",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: camping-6692281.webp",
+      "passed": true
+    },
+    {
+      "check": "reference image is packed: camping-6692273.webp",
+      "passed": true
+    },
+    {
+      "check": "packed image matches source file: camping-6692273.webp",
+      "passed": true
+    },
+    {
+      "check": "all source planes, photo boards and terrain image are referenced and packed",
+      "passed": true,
+      "detail": {
+        "actual": 20,
+        "expected": 20
+      }
+    },
+    {
+      "check": "source catalogue embedded: ortho",
+      "passed": true
+    },
+    {
+      "check": "embedded source catalogue matches recorded file: ortho",
+      "passed": true
+    },
+    {
+      "check": "source catalogue embedded: height",
+      "passed": true
+    },
+    {
+      "check": "embedded source catalogue matches recorded file: height",
+      "passed": true
+    },
+    {
+      "check": "source catalogue embedded: web",
+      "passed": true
+    },
+    {
+      "check": "embedded source catalogue matches recorded file: web",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: official-clubhouse-east-20200819",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: official-clubhouse-east-20200819",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: official-clubhouse-east-20200819",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: official-range-20250528",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: official-range-20250528",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: official-range-20250528",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: official-entrance-practice-20160825",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: official-entrance-practice-20160825",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: official-entrance-practice-20160825",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: official-cafe",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: official-cafe",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: official-cafe",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: padel-court22",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: padel-court22",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: padel-court22",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: official-camper-map",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: official-camper-map",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: official-camper-map",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: camping-6692275",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: camping-6692275",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: camping-6692275",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: camping-6692281",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: camping-6692281",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: camping-6692281",
+      "passed": true
+    },
+    {
+      "check": "curated source board exists: camping-6692273",
+      "passed": true
+    },
+    {
+      "check": "photo board retains exact source URL/date confidence: camping-6692273",
+      "passed": true
+    },
+    {
+      "check": "photo stays labelled as local reference: camping-6692273",
+      "passed": true
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Johannesberg | Facilities reference 2026-09-10",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Scene",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna facility | carpark-west-barn",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna facility | entry-outbuilding",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna facility | Geographic assembly",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna facility | nearby-house",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna facility | range-shelter",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna facility | service-yard-long-barn",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna facility | service-yard-small-outbuilding",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna facility | service-yard-west-barn",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Tortuna | Clubhouse architecture",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Upsala GK | Facility references 2026-09-10",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Veckefjarden | Facility architecture 2026-09-10",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Veckefjarden | Facility architecture 2026-09-10 v2",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "Norrfallsviken objects do not leak into other scene: Veckefjarden | Facility references 2026-09-10",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "audit leaves scenes, object matrices, active scene, current file and selection unchanged",
+      "passed": true
+    },
+    {
+      "check": "pre-build scene remains available",
+      "passed": true
+    },
+    {
+      "check": "live active scene and file remain exactly as found at audit entry",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

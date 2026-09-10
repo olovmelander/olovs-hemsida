@@ -1,0 +1,573 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09T21:10:50.552349+00:00",
+  "passed": true,
+  "method": "Independent Python/pyproj/Shapely validation without JavaScript placement helpers.",
+  "models": [
+    {
+      "course": "stora",
+      "path": "upsalabuild/course-model.json",
+      "sha256": "3ec429382ac69f986be297c4a1b4c3e7467d558e0e0a8d8f11956818d1c41c2c",
+      "baseline": {
+        "path": "upsalabuild/cache/lm-remaining17-2026-09-09/stora-baseline.json",
+        "sha256": "934e80e2a69110971a48096899886a4c7bc644346634e04c8733b1d702c15b6d"
+      },
+      "ledger": {
+        "path": "upsalabuild/mapping/lm-tee-site-review-stora-2026-09-09.json",
+        "sha256": "97d6b30abd5308ad8405f4736398c48db3dc10f69069900f0d87f058d01dd679"
+      }
+    },
+    {
+      "course": "mellan",
+      "path": "upsalamellanbuild/course-model.json",
+      "sha256": "61b2e883cefff22ccc8b5f5a6efa7faa2db989f404ab833dda2fd2a59c20ccff",
+      "baseline": {
+        "path": "upsalabuild/cache/lm-remaining17-2026-09-09/mellan-baseline.json",
+        "sha256": "fadeb7e11dc994946a3fdd61dedf8fe01161d794e8bbbe16dccdbae3fb2deabc"
+      },
+      "ledger": {
+        "path": "upsalabuild/mapping/lm-tee-site-review-mellan-2026-09-09.json",
+        "sha256": "fadb355c9c4bf48ec3f52db4afab7167c1e14886d78c68c3535b0134f2107385"
+      }
+    }
+  ],
+  "sourceFilesVerified": [
+    {
+      "path": "upsalabuild/cache/lm-fairway-tee-points-2026-09-09/18birdies.html",
+      "sha256": "11627a0104d5cc5ee1e20fbee7ea9668ccb6ff4b257c38ffa33c6389eb105945"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-03-tees.tif",
+      "sha256": "6d2a69a7a763f9d8bfdfa131f79273e15a8c2db8c7b9d989ec3be07b742c7835"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h03.png",
+      "sha256": "b88810f34d4f0a550539cd2b3ed7fc5aa6b50fc01ad8cfb051c24d99aa5f7c38"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-04-tees.tif",
+      "sha256": "97585457c52998676060f4472e56903293fed0ee5f673d4912620bf60b628ab8"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h04.png",
+      "sha256": "09c9c3babb3090ecd080a3aeb7fb440637068082a89916832a37596e4301ae5b"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-05-tees.tif",
+      "sha256": "3d30c35a436794b76d445b09cd3e04301385a092824103869cc3055a7ddc3b5c"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h05.png",
+      "sha256": "3fae4a2147bc29ea97d52494bf7cbdeaeddaf01e3696f270162fa51944f768db"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-07-tees.tif",
+      "sha256": "6c048d856076ce339d737e1631d6f7dca5acc7f55810e40db0e71efd7e3a764f"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h07.png",
+      "sha256": "fbba07de0cc131c62b8c961b23120aa60aec0b390cab13252f9a40d77b697e80"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-08-tees.tif",
+      "sha256": "803d1915ffeef6ae5cce6e56ef9c9a11846b29f0b424620dd0b16b532f98f8b0"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h08.png",
+      "sha256": "a80cd896dd8ce92e62f8874beb826b521ab16895eb7fd43ee91f593b6d11f498"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-11-tees.tif",
+      "sha256": "ea7cd06c4f1af1f7a77d4842fa604962b668ef78ad86ddeef01db0bfef6e8015"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h11.png",
+      "sha256": "7c6af4b8d3345698188fe29aa3b48c2b74a4a8411c185d364375c9cd89e33452"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-12-tees.tif",
+      "sha256": "ceeaf99a553019989cdc605910328d0eb17909fb46c8d4934da5acefe6321360"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h12.png",
+      "sha256": "85b9a498e895c6b0a65f88818f4c4cd0ab7e825de5b9076a6f401999788ed4d9"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-13-tees.tif",
+      "sha256": "a8ac7712ce6d28db925c8811d9c501c5bfcf12ac669cfe6716b5abc5e5616bf5"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h13.png",
+      "sha256": "ba3d09aeb0259ab8a22d7ea6a2d9200af0dac18a0a7050bfb993ebb50f3a7f10"
+    },
+    {
+      "path": "upsalabuild/cache/lm-tees/stora-15-tees.tif",
+      "sha256": "1d944f6bdee6e04a75201baa44220229dcae576fa07aa2e8713f5c928670dd60"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h15.png",
+      "sha256": "a765c4701ac561d58be12d9a08915176fffe18909f01f66754a6f90cc23e3ec5"
+    },
+    {
+      "path": "upsalabuild/cache/tee-review-2026-09-07/source-2017/stora-h13.png",
+      "sha256": "e4a2a71031b1d8a6f572d81dde3bf3466b36d7fdf3c86e654a12f3544845c404"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h13.png",
+      "sha256": "ba3d09aeb0259ab8a22d7ea6a2d9200af0dac18a0a7050bfb993ebb50f3a7f10"
+    },
+    {
+      "path": "upsalabuild/cache/tee-review-2026-09-07/source-2020/stora-h15.png",
+      "sha256": "6b38f087d34546c7a1c0ed44a1935b9280a1237e7d2dec6bb8a0ee21a20366b3"
+    },
+    {
+      "path": "upsalabuild/cache/lm-forward-tee-2026-09-09/guide-h15.png",
+      "sha256": "a765c4701ac561d58be12d9a08915176fffe18909f01f66754a6f90cc23e3ec5"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-02-orange.tif",
+      "sha256": "4f4aeb3149a7f6438d94ffb6f72470b516807d4baf994b9bb62ea8656a13d811"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h02.webp",
+      "sha256": "95fe141837c7dbc44d7c372d742ebe53abe990e6b47c67537b168b3b5cb6605f"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-03-orange.tif",
+      "sha256": "6e6120aba5e1e650635b9fc18f07d9b030d46962f6c8141a4de8b6f31cf1a5f0"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h03.webp",
+      "sha256": "e2418ab6106351e8dbfe36ad83a23d7616719b2b8de98100cc4ad477a40e0a6a"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-04-orange.tif",
+      "sha256": "137768502faf7b730561f4ddb463270f0a905e7c68f67ff90ac0161fb5a1a934"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h04.webp",
+      "sha256": "a8640add468a77ea1ed1d7a5914404b54dbb45db4bb0be3620cbf3f5cf863d45"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-06-orange.tif",
+      "sha256": "1c5d8904be4dd5823ccf11f3196e679989290ace106e7bed375f511b1b27c219"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h06.webp",
+      "sha256": "ea8f56868a212c17c42ea64c20d9407dc412d2e67a21158c1fafb0f5ed9c2e19"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/mellan-08-orange.tif",
+      "sha256": "b630641922598d2d06cdd3c853ec6bb49583c57ba3cd984224e17234f8e93e2c"
+    },
+    {
+      "path": "upsalabuild/cache/lm-mellan-orange-2026-09-09/club-h08.webp",
+      "sha256": "ee795dd48f106f147fbbc359812d7337c8362b600ef0679de18da80301444d56"
+    }
+  ],
+  "referencesReviewed": 17,
+  "moved": 16,
+  "confirmedWithoutMovement": 1,
+  "physicalPadGeometryUnchanged": true,
+  "routesAndCardsUnchanged": true,
+  "earlier136ReferencesUnchanged": true,
+  "protectedTerrainFilesUnchanged": 302,
+  "checks": [
+    {
+      "course": "stora",
+      "hole": 3,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 10.89746433809259,
+      "visibleSupportClearanceMetres": 2.0283612811619713,
+      "local": [
+        397.945,
+        -3.552
+      ],
+      "epsg3006": [
+        640228.7313030339,
+        6636132.982942099
+      ],
+      "wgs84LongitudeLatitude": [
+        17.502314962127205,
+        59.839031911403254
+      ],
+      "coordinateBasis": "guide-identified-fairway-entry",
+      "positionInterpretationUncertaintyMetres": 15
+    },
+    {
+      "course": "stora",
+      "hole": 4,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 14.498535822627057,
+      "visibleSupportClearanceMetres": 2.1820412785267407,
+      "local": [
+        237.73,
+        126.879
+      ],
+      "epsg3006": [
+        640073.1775130855,
+        6635996.499783757
+      ],
+      "wgs84LongitudeLatitude": [
+        17.499450441151552,
+        59.83786022788475
+      ],
+      "coordinateBasis": "published-coordinate-corroborated-by-native-imagery",
+      "positionInterpretationUncertaintyMetres": 5
+    },
+    {
+      "course": "stora",
+      "hole": 5,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 10.881253604249837,
+      "visibleSupportClearanceMetres": 1.5000544458490992,
+      "local": [
+        115.764,
+        192.728
+      ],
+      "epsg3006": [
+        639953.4910943012,
+        6635926.0467776805
+      ],
+      "wgs84LongitudeLatitude": [
+        17.497269781680988,
+        59.837268702757825
+      ],
+      "coordinateBasis": "published-coordinate-corroborated-by-native-imagery",
+      "positionInterpretationUncertaintyMetres": 5
+    },
+    {
+      "course": "stora",
+      "hole": 7,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 11.33451807533078,
+      "visibleSupportClearanceMetres": 2.1815228948004557,
+      "local": [
+        -350.342,
+        288.456
+      ],
+      "epsg3006": [
+        639490.1955837866,
+        6635812.74828377
+      ],
+      "wgs84LongitudeLatitude": [
+        17.488936145130552,
+        59.83640876430881
+      ],
+      "coordinateBasis": "published-coordinate-corroborated-by-native-imagery",
+      "positionInterpretationUncertaintyMetres": 5
+    },
+    {
+      "course": "stora",
+      "hole": 8,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 7.952019240419414,
+      "visibleSupportClearanceMetres": 2.182540945205273,
+      "local": [
+        -407.347,
+        -121.101
+      ],
+      "epsg3006": [
+        639417.7075981428,
+        6636220.134156911
+      ],
+      "wgs84LongitudeLatitude": [
+        17.48791693218903,
+        59.8400878628306
+      ],
+      "coordinateBasis": "published-coordinate-corroborated-by-native-imagery",
+      "positionInterpretationUncertaintyMetres": 5
+    },
+    {
+      "course": "stora",
+      "hole": 11,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 8.884656999569557,
+      "visibleSupportClearanceMetres": 3.055449186343024,
+      "local": [
+        158.819,
+        -568.113
+      ],
+      "epsg3006": [
+        639967.920955949,
+        6636688.463979549
+      ],
+      "wgs84LongitudeLatitude": [
+        17.498039574730775,
+        59.844103424718774
+      ],
+      "coordinateBasis": "published-coordinate-corroborated-by-native-imagery",
+      "positionInterpretationUncertaintyMetres": 5
+    },
+    {
+      "course": "stora",
+      "hole": 12,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 9.279047634321142,
+      "visibleSupportClearanceMetres": 2.182559701799681,
+      "local": [
+        -164.771,
+        -546.522
+      ],
+      "epsg3006": [
+        639644.6631117199,
+        6636654.663635375
+      ],
+      "wgs84LongitudeLatitude": [
+        17.49225400667126,
+        59.84390946850488
+      ],
+      "coordinateBasis": "published-coordinate-corroborated-by-native-imagery",
+      "positionInterpretationUncertaintyMetres": 5
+    },
+    {
+      "course": "stora",
+      "hole": 13,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 7.853713771204102,
+      "visibleSupportClearanceMetres": 2.1825221910236197,
+      "local": [
+        -296.032,
+        -287.614
+      ],
+      "epsg3006": [
+        639522.9409525939,
+        6636390.827286966
+      ],
+      "wgs84LongitudeLatitude": [
+        17.48990716124307,
+        59.84158367169128
+      ],
+      "coordinateBasis": "published-coordinate-corroborated-by-native-imagery",
+      "positionInterpretationUncertaintyMetres": 5
+    },
+    {
+      "course": "stora",
+      "hole": 13,
+      "markIndex": 3,
+      "teeName": "51",
+      "siteClass": "tee",
+      "shiftMetres": 3.5035913003659775,
+      "visibleSupportClearanceMetres": 1.034253752552563,
+      "local": [
+        -340.904,
+        -273.744
+      ],
+      "epsg3006": [
+        639478.5203219836,
+        6636375.268355082
+      ],
+      "wgs84LongitudeLatitude": [
+        17.489104883688167,
+        59.84145907294287
+      ],
+      "coordinateBasis": "native-visible-tee-interior",
+      "positionInterpretationUncertaintyMetres": 1
+    },
+    {
+      "course": "stora",
+      "hole": 13,
+      "markIndex": 4,
+      "teeName": "47",
+      "siteClass": "tee",
+      "shiftMetres": 3.5035913003659775,
+      "visibleSupportClearanceMetres": 1.034253752552563,
+      "local": [
+        -340.904,
+        -273.744
+      ],
+      "epsg3006": [
+        639478.5203219836,
+        6636375.268355082
+      ],
+      "wgs84LongitudeLatitude": [
+        17.489104883688167,
+        59.84145907294287
+      ],
+      "coordinateBasis": "native-visible-tee-interior",
+      "positionInterpretationUncertaintyMetres": 1
+    },
+    {
+      "course": "stora",
+      "hole": 15,
+      "markIndex": 5,
+      "teeName": "42",
+      "siteClass": "fairway",
+      "shiftMetres": 13.572446573849533,
+      "visibleSupportClearanceMetres": 1.3119153615547023,
+      "local": [
+        -210.595,
+        -195.959
+      ],
+      "epsg3006": [
+        639611.9592541022,
+        6636302.396606216
+      ],
+      "wgs84LongitudeLatitude": [
+        17.49143471453101,
+        59.84076032606421
+      ],
+      "coordinateBasis": "published-coordinate-corroborated-by-native-imagery",
+      "positionInterpretationUncertaintyMetres": 5
+    },
+    {
+      "course": "stora",
+      "hole": 15,
+      "markIndex": 0,
+      "teeName": "62",
+      "siteClass": "tee",
+      "shiftMetres": 0.0,
+      "visibleSupportClearanceMetres": 1.983888862280395,
+      "local": [
+        -111.4,
+        -245.5
+      ],
+      "epsg3006": [
+        639709.4463449538,
+        6636355.672984698
+      ],
+      "wgs84LongitudeLatitude": [
+        17.493208248782242,
+        59.84120535393462
+      ],
+      "coordinateBasis": "native-visible-tee-interior",
+      "positionInterpretationUncertaintyMetres": 1
+    },
+    {
+      "course": "mellan",
+      "hole": 2,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "siteClass": "fairway",
+      "shiftMetres": 18.476665310601923,
+      "visibleSupportClearanceMetres": 3.8238436656567347,
+      "local": [
+        553.369,
+        -242.78
+      ],
+      "epsg3006": [
+        640375.3604443545,
+        6636378.079577958
+      ],
+      "wgs84LongitudeLatitude": [
+        17.505093836441823,
+        59.84118091987065
+      ],
+      "coordinateBasis": "guide-identified-fairway-entry",
+      "positionInterpretationUncertaintyMetres": 12
+    },
+    {
+      "course": "mellan",
+      "hole": 3,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "siteClass": "fairway",
+      "shiftMetres": 22.57647060547776,
+      "visibleSupportClearanceMetres": 4.492994888567178,
+      "local": [
+        893.988,
+        -264.741
+      ],
+      "epsg3006": [
+        640715.6798510631,
+        6636412.959777217
+      ],
+      "wgs84LongitudeLatitude": [
+        17.51118385716033,
+        59.841378197987794
+      ],
+      "coordinateBasis": "guide-identified-fairway-entry",
+      "positionInterpretationUncertaintyMetres": 12
+    },
+    {
+      "course": "mellan",
+      "hole": 4,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "siteClass": "fairway",
+      "shiftMetres": 11.657789327312525,
+      "visibleSupportClearanceMetres": 2.978402506886197,
+      "local": [
+        1024.926,
+        -124.076
+      ],
+      "epsg3006": [
+        640852.1603781702,
+        6636277.280175681
+      ],
+      "wgs84LongitudeLatitude": [
+        17.51352493365001,
+        59.84011458857347
+      ],
+      "coordinateBasis": "guide-identified-fairway-entry",
+      "positionInterpretationUncertaintyMetres": 12
+    },
+    {
+      "course": "mellan",
+      "hole": 6,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "siteClass": "fairway",
+      "shiftMetres": 54.91001052631478,
+      "visibleSupportClearanceMetres": 4.47014551488145,
+      "local": [
+        667.766,
+        255.51
+      ],
+      "epsg3006": [
+        640508.7994878665,
+        6635884.160455039
+      ],
+      "wgs84LongitudeLatitude": [
+        17.507139171846294,
+        59.83670472511679
+      ],
+      "coordinateBasis": "guide-identified-fairway-entry",
+      "positionInterpretationUncertaintyMetres": 15
+    },
+    {
+      "course": "mellan",
+      "hole": 8,
+      "markIndex": 4,
+      "teeName": "Orange",
+      "siteClass": "fairway",
+      "shiftMetres": 52.84351120998678,
+      "visibleSupportClearanceMetres": 3.6452789959226672,
+      "local": [
+        501.266,
+        96.389
+      ],
+      "epsg3006": [
+        640336.0000117633,
+        6636036.960278383
+      ],
+      "wgs84LongitudeLatitude": [
+        17.504162272584566,
+        59.838134126841545
+      ],
+      "coordinateBasis": "guide-identified-fairway-entry",
+      "positionInterpretationUncertaintyMetres": 12
+    }
+  ],
+  "limitations": [
+    "Navigation sites are reviewed; daily marker positions and absolute survey accuracy are not established.",
+    "Support polygons describe visible interior evidence only and are not physical pad outlines.",
+    "Mellan Orange points are approximate guide-identified fairway entries, not independently published GPS points."
+  ]
+}

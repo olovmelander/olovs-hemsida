@@ -1,10 +1,9 @@
 /* Bake the reconciled Puttom course into the page.
 
-   Same discipline as geobuild/embed.mjs: only the block between the GEODATA
-   anchors is rewritten, and the patcher refuses unless each anchor matches
-   exactly once.
+   Rewrites the GEODATA block and the shared tee-marker placement helper.
+   Each replacement must match exactly once.
 
-   Usage: node nvgkbuild/embed.mjs [in.html] [out.html]                        */
+   Usage: node puttombuild/embed.mjs [in.html] [out.html]                        */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,7 +24,9 @@ const vec = {
     line: h.line, lineLen: h.lineLen, pin: h.pin,
     green: { ring: h.green.ring, c: h.green.c },
     fairway: { rings: h.fairway.rings },
-    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })) },
+    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}),
+      pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.id !== undefined && h.tees.marks.some(m => m.sourcePadId === p.id) ? { id: p.id } : {}) })),
+      marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.sourcePadId !== undefined ? { sourcePadId: m.sourcePadId } : {}) })) },
     bunkers: h.bunkers.map(b => ({ ring: b.ring })),
     elev: h.elev, tiers: h.tiers,
     name: h.name, note: h.note, shape: h.shape,
@@ -56,6 +57,27 @@ const i = src.indexOf(A), j = src.indexOf(B);
 if (i < 0 || j < 0) throw new Error('embed: GEODATA anchors not found');
 const old = src.slice(i + A.length, j);
 const p = patcher(src).sub('geodata', A + old + B, A + block + B);
+const helperSource = fs.readFileSync(path.join(ROOT, 'apps/golf/src/engine/tee-marker-placement.mjs'), 'utf8');
+const helper = helperSource.replace(/^import[^\n]+\r?\n/gm, '').replace(/^export (?=function|const|let|class)/gm, '').trim();
+if (!helper.includes('function teeMarkerPositions(') || /^import |^export /m.test(helper)) throw new Error('embed: unsupported shared tee marker placement module');
+const MA = '/*@TEE_MARKER_PLACEMENT*/', MB = '/*@/TEE_MARKER_PLACEMENT*/';
+const markerBlock = `${MA}\n${helper}\n${MB}`;
+if (p.src.includes(MA)) {
+  const start = p.src.indexOf(MA), end = p.src.indexOf(MB, start);
+  if (end < 0) throw new Error('embed: incomplete tee marker placement anchors');
+  p.sub('shared tee marker helper', p.src.slice(start, end + MB.length), markerBlock);
+} else {
+  const anchor = '/* ------------------------------------------------------------- furniture */';
+  p.sub('shared tee marker helper', anchor, markerBlock + '\n\n' + anchor);
+}
+const oldMarkerStart = 'const m = mk[k], b = m.b * Math.PI / 180, R = rightOf(b);';
+const oldPair = `for (const s of [-2.6, 2.6]) {\n      const mx = m.c[0] + R[0] * s, mz = m.c[1] + R[1] * s;`;
+const newPair = 'for (const [mx, mz] of teeMarkerPositions(h, m)) {';
+if (p.src.includes(oldMarkerStart)) {
+  p.sub('tee marker reference', oldMarkerStart, 'const m = mk[k];');
+  const actualPair = p.src.includes(oldPair) ? oldPair : oldPair.replaceAll('\n', '\r\n');
+  p.sub('tee marker pair placement', actualPair, newPair);
+} else if (!p.src.includes(newPair)) throw new Error('embed: unsupported tee marker placement loop');
 fs.writeFileSync(outFile, p.src);
 
 const size = fs.statSync(outFile).size;

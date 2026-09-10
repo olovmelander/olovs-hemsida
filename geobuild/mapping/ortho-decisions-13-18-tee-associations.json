@@ -1,0 +1,1122 @@
+{
+  "schemaVersion": 1,
+  "report": "geobuild/cache/lm-ortho-review/panels.json",
+  "baseline": "7aac4d4495e78d9321889273b34ad6d1bb12290a:geobuild/course-model.json",
+  "suppressInferredTeeHoles": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "reviewedTeeHoles": [
+    16
+  ],
+  "reviewPolicy": "Manual visible-platform inventory and provisional reference associations; image acquisition resolution is separate from interpretation uncertainty and unknown absolute source accuracy.",
+  "features": [
+    {
+      "id": "lm-2024-h13-tee-associations",
+      "hole": 13,
+      "kind": "tee-set",
+      "pads": [
+        {
+          "id": "lm-2024-h13-rear-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-13",
+          "pixels": [
+            [
+              135,
+              219
+            ],
+            [
+              207,
+              266
+            ],
+            [
+              187,
+              291
+            ],
+            [
+              115,
+              246
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h13-middle-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-13",
+          "pixels": [
+            [
+              274,
+              303
+            ],
+            [
+              287,
+              304
+            ],
+            [
+              341,
+              343
+            ],
+            [
+              321,
+              374
+            ],
+            [
+              268,
+              340
+            ],
+            [
+              258,
+              327
+            ],
+            [
+              263,
+              314
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h13-forward-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-13",
+          "pixels": [
+            [
+              420,
+              414
+            ],
+            [
+              451,
+              433
+            ],
+            [
+              437,
+              454
+            ],
+            [
+              407,
+              434
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        }
+      ],
+      "referencePads": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        null
+      ],
+      "uncertaintyM": 0.7,
+      "note": "Three clearly visible platforms form the photographed H 13 tee sequence. The two longest references provisionally use the long rear deck, the next two the middle deck, and 48 the small forward deck. The old DTM forward footprint lies on continuous fairway and is omitted as an unverified deck. Reference 40 remains unresolved. No daily marker positions or survey accuracy are inferred.",
+      "referenceAssessments": [
+        {
+          "referenceIndex": 0,
+          "courseTee": 65,
+          "scorecardMetres": 424,
+          "originalReferenceLocalXZ": [
+            -740.3,
+            -1179.7
+          ],
+          "platformIndex": 0,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 0 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 1,
+          "courseTee": 61,
+          "scorecardMetres": 414,
+          "originalReferenceLocalXZ": [
+            -732.7,
+            -1173.2
+          ],
+          "platformIndex": 0,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 0 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 2,
+          "courseTee": 58,
+          "scorecardMetres": 375,
+          "originalReferenceLocalXZ": [
+            -703.1,
+            -1147.8
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 3,
+          "courseTee": 55,
+          "scorecardMetres": 365,
+          "originalReferenceLocalXZ": [
+            -695.5,
+            -1141.3
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 4,
+          "courseTee": 48,
+          "scorecardMetres": 324,
+          "originalReferenceLocalXZ": [
+            -664.4,
+            -1114.6
+          ],
+          "platformIndex": 2,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 2 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 5,
+          "courseTee": 40,
+          "scorecardMetres": 250,
+          "originalReferenceLocalXZ": [
+            -608.2,
+            -1066.4
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Reference 40 lies on continuous fairway; the focused image does not resolve a separate physical tee platform there."
+        }
+      ],
+      "associationCorroboration": {
+        "path": "banguide/maps/hole_13.jpg",
+        "sha256": "e982cad1a43aeb6ed2e5c259042762ae6e8835fcbd280d231ab57367e851dc6d",
+        "role": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto.",
+        "sourceAbsoluteAccuracyMetres": null,
+        "dailyMarkerObservation": false
+      },
+      "corroboratingDocuments": [
+        {
+          "path": "banguide/maps/hole_13.jpg",
+          "sha256": "e982cad1a43aeb6ed2e5c259042762ae6e8835fcbd280d231ab57367e851dc6d",
+          "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h14-tee-associations",
+      "hole": 14,
+      "kind": "tee-set",
+      "pads": [
+        {
+          "id": "lm-2024-h14-historical-1",
+          "sourceOriginalPadIndex": 0,
+          "report": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
+          "panel": "h14-west",
+          "uncertaintyM": 3,
+          "note": "Unchanged non-synthetic historical OSM boundary retained because deep tree shadow prevents a defensible perimeter or tee-reference association. Retention is not orthophoto validation."
+        },
+        {
+          "id": "lm-2024-h14-historical-2",
+          "sourceOriginalPadIndex": 1,
+          "report": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
+          "panel": "h14-west",
+          "uncertaintyM": 3,
+          "note": "Unchanged non-synthetic historical DTM boundary retained because deep tree shadow prevents a defensible perimeter or tee-reference association. Retention is not orthophoto validation."
+        }
+      ],
+      "referencePads": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "uncertaintyM": 3,
+      "note": "Both non-synthetic historical H 14 pads are retained unchanged with explicitly unresolved boundaries. Dense tree shadow hides the western tee strip, including its northern end. The synthetic forward rectangle is omitted: the shoreline clearing does not resolve a distinct tee platform. All six reference associations remain unresolved; no new source accuracy claim or marker displacement is made.",
+      "referenceAssessments": [
+        {
+          "referenceIndex": 0,
+          "courseTee": 65,
+          "scorecardMetres": 163,
+          "originalReferenceLocalXZ": [
+            -580.6,
+            -894.1
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Tree shadow or undifferentiated shoreline turf prevents a reliable photographed platform association; historical reference retained unresolved."
+        },
+        {
+          "referenceIndex": 1,
+          "courseTee": 61,
+          "scorecardMetres": 150,
+          "originalReferenceLocalXZ": [
+            -584.4,
+            -881.6
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Tree shadow or undifferentiated shoreline turf prevents a reliable photographed platform association; historical reference retained unresolved."
+        },
+        {
+          "referenceIndex": 2,
+          "courseTee": 58,
+          "scorecardMetres": 136,
+          "originalReferenceLocalXZ": [
+            -588.4,
+            -868.2
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Tree shadow or undifferentiated shoreline turf prevents a reliable photographed platform association; historical reference retained unresolved."
+        },
+        {
+          "referenceIndex": 3,
+          "courseTee": 55,
+          "scorecardMetres": 128,
+          "originalReferenceLocalXZ": [
+            -590.7,
+            -860.6
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Tree shadow or undifferentiated shoreline turf prevents a reliable photographed platform association; historical reference retained unresolved."
+        },
+        {
+          "referenceIndex": 4,
+          "courseTee": 48,
+          "scorecardMetres": 115,
+          "originalReferenceLocalXZ": [
+            -594.4,
+            -848.1
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Tree shadow or undifferentiated shoreline turf prevents a reliable photographed platform association; historical reference retained unresolved."
+        },
+        {
+          "referenceIndex": 5,
+          "courseTee": 40,
+          "scorecardMetres": 71,
+          "originalReferenceLocalXZ": [
+            -607.1,
+            -806
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Tree shadow or undifferentiated shoreline turf prevents a reliable photographed platform association; historical reference retained unresolved."
+        }
+      ],
+      "associationCorroboration": {
+        "path": "banguide/maps/hole_14.jpg",
+        "sha256": "7541f2fb15a5bffcc5f717efab67fe66e1c1583b6d0ac1dc84444f77e9301e79",
+        "role": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto.",
+        "sourceAbsoluteAccuracyMetres": null,
+        "dailyMarkerObservation": false
+      },
+      "corroboratingDocuments": [
+        {
+          "path": "banguide/maps/hole_14.jpg",
+          "sha256": "7541f2fb15a5bffcc5f717efab67fe66e1c1583b6d0ac1dc84444f77e9301e79",
+          "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h15-tee-associations",
+      "hole": 15,
+      "kind": "tee-set",
+      "pads": [
+        {
+          "id": "lm-2024-h15-peninsula-long-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-15",
+          "pixels": [
+            [
+              349,
+              381
+            ],
+            [
+              479,
+              518
+            ],
+            [
+              459,
+              541
+            ],
+            [
+              328,
+              408
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h15-peninsula-forward-deck",
+          "report": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
+          "panel": "h15-peninsula",
+          "pixels": [
+            [
+              792,
+              484
+            ],
+            [
+              901,
+              580
+            ],
+            [
+              836,
+              641
+            ],
+            [
+              735,
+              544
+            ]
+          ],
+          "note": "Clearly bounded short rectangular platform east of the long peninsula deck, including worn turf within its perimeter; surrounding rough and bank are excluded."
+        }
+      ],
+      "referencePads": [
+        null,
+        0,
+        0,
+        1,
+        1,
+        1
+      ],
+      "uncertaintyM": 1.2,
+      "note": "The peninsula has a long maintained deck and a separate shorter eastern deck. References 61/58 provisionally associate with the long deck;55/48/40 associate with the short deck, whose location agrees with their existing forward routing order. The former synthetic 65 rectangle intersects the shoreline and has no confidently separated physical deck in the image; it is omitted and 65 remains unresolved. These are platform references, not daily tee markers.",
+      "referenceAssessments": [
+        {
+          "referenceIndex": 0,
+          "courseTee": 65,
+          "scorecardMetres": 266,
+          "originalReferenceLocalXZ": [
+            -593.5,
+            -714.9
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Rear 65 reference lies in a narrow shoreline strip without a clearly separated visible platform; the synthetic footprint is omitted and the reference is unresolved."
+        },
+        {
+          "referenceIndex": 1,
+          "courseTee": 61,
+          "scorecardMetres": 232,
+          "originalReferenceLocalXZ": [
+            -567.1,
+            -693.4
+          ],
+          "platformIndex": 0,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 0 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 2,
+          "courseTee": 58,
+          "scorecardMetres": 223,
+          "originalReferenceLocalXZ": [
+            -560.1,
+            -687.8
+          ],
+          "platformIndex": 0,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 0 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 3,
+          "courseTee": 55,
+          "scorecardMetres": 212,
+          "originalReferenceLocalXZ": [
+            -551.6,
+            -680.8
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 4,
+          "courseTee": 48,
+          "scorecardMetres": 204,
+          "originalReferenceLocalXZ": [
+            -545.4,
+            -675.8
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 5,
+          "courseTee": 40,
+          "scorecardMetres": 204,
+          "originalReferenceLocalXZ": [
+            -545.4,
+            -675.8
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        }
+      ],
+      "associationCorroboration": {
+        "path": "banguide/maps/hole_15.jpg",
+        "sha256": "84511b9947609dd767fd86ab429871bbb42dc13361ec72c9689d9badd906f17e",
+        "role": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto.",
+        "sourceAbsoluteAccuracyMetres": null,
+        "dailyMarkerObservation": false
+      },
+      "corroboratingDocuments": [
+        {
+          "path": "banguide/maps/hole_15.jpg",
+          "sha256": "84511b9947609dd767fd86ab429871bbb42dc13361ec72c9689d9badd906f17e",
+          "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h16-tee-associations",
+      "hole": 16,
+      "kind": "tee-set",
+      "pads": [
+        {
+          "panel": "tees-h06-back",
+          "pixels": [
+            [
+              449,
+              432
+            ],
+            [
+              506,
+              429
+            ],
+            [
+              519,
+              481
+            ],
+            [
+              451,
+              488
+            ]
+          ],
+          "id": "lm-2024-h16-rear-roadside-deck",
+          "report": "geobuild/cache/lm-tee-focus-review/panels.json",
+          "note": "Exact previously traced roadside rectangle east of the shaded H 6 rear platform. Independent review of hole 06 and hole 16 illustrated guides places this eastern roadside deck on H 16, across the junction from its four main tees. The former H 6 association is superseded; no separate conflicting perimeter was traced."
+        },
+        {
+          "id": "lm-2024-h16-main-rear-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-16",
+          "pixels": [
+            [
+              325,
+              430
+            ],
+            [
+              369,
+              424
+            ],
+            [
+              375,
+              460
+            ],
+            [
+              330,
+              469
+            ],
+            [
+              321,
+              459
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h16-main-second-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-16",
+          "pixels": [
+            [
+              416,
+              388
+            ],
+            [
+              451,
+              384
+            ],
+            [
+              459,
+              419
+            ],
+            [
+              423,
+              427
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h16-main-third-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-16",
+          "pixels": [
+            [
+              493,
+              354
+            ],
+            [
+              536,
+              351
+            ],
+            [
+              544,
+              389
+            ],
+            [
+              498,
+              397
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h16-main-forward-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-16",
+          "pixels": [
+            [
+              585,
+              330
+            ],
+            [
+              631,
+              327
+            ],
+            [
+              636,
+              366
+            ],
+            [
+              589,
+              373
+            ],
+            [
+              583,
+              364
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        }
+      ],
+      "referencePads": [
+        0,
+        1,
+        1,
+        2,
+        4,
+        4
+      ],
+      "uncertaintyM": 1.5,
+      "note": "Five photographed H 16 platforms: a separate back deck southwest of the crossing and four main decks east of it. Guide 16 corroborates the roadside back deck as H 16; the adjacent forest-side deck belongs to H 6. The exact pre-existing roadside-deck trace is reused. Reference 65 is moved from the road junction onto that observed back deck;61/58 use the western main deck,55 the next deck,48/40 the eastern main deck. The third main deck is retained without forcing an additional marker association. Every association is a provisional platform reference, not a daily marker observation.",
+      "referenceAssessments": [
+        {
+          "referenceIndex": 0,
+          "courseTee": 65,
+          "scorecardMetres": 309,
+          "originalReferenceLocalXZ": [
+            -275.4,
+            -429.1
+          ],
+          "platformIndex": 0,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 0 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 1,
+          "courseTee": 61,
+          "scorecardMetres": 273,
+          "originalReferenceLocalXZ": [
+            -239.6,
+            -432.6
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 2,
+          "courseTee": 58,
+          "scorecardMetres": 273,
+          "originalReferenceLocalXZ": [
+            -239.6,
+            -432.6
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 3,
+          "courseTee": 55,
+          "scorecardMetres": 254,
+          "originalReferenceLocalXZ": [
+            -220.7,
+            -434.5
+          ],
+          "platformIndex": 2,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 2 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 4,
+          "courseTee": 48,
+          "scorecardMetres": 216,
+          "originalReferenceLocalXZ": [
+            -182.9,
+            -438.2
+          ],
+          "platformIndex": 4,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 4 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 5,
+          "courseTee": 40,
+          "scorecardMetres": 216,
+          "originalReferenceLocalXZ": [
+            -182.9,
+            -438.2
+          ],
+          "platformIndex": 4,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 4 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        }
+      ],
+      "associationCorroboration": {
+        "path": "banguide/maps/hole_16.jpg",
+        "sha256": "cb2c9b54c78629f379c36c2d75481769b3ac0639b15aba6b124ede53f686652d",
+        "role": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto.",
+        "sourceAbsoluteAccuracyMetres": null,
+        "dailyMarkerObservation": false
+      },
+      "corroboratingDocuments": [
+        {
+          "path": "banguide/maps/hole_06.jpg",
+          "sha256": "39f9d282b2ceae109d4145dc7ee6b0d17c6a95d1b8be3fbbb9bed10a4c74b92e",
+          "note": "Club guide starts hole6 on the forest-side platform beside the road crossing, aiming toward the pond corridor. The diagram corroborates hole identity, not a coordinate fit or daily marker position."
+        },
+        {
+          "path": "banguide/maps/hole_16.jpg",
+          "sha256": "cb2c9b54c78629f379c36c2d75481769b3ac0639b15aba6b124ede53f686652d",
+          "note": "Club guide starts hole16 on the exposed roadside deck across the junction from its row of four main platforms. This distinguishes it from the adjacent forest-side hole6 tee."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h17-tee-associations",
+      "hole": 17,
+      "kind": "tee-set",
+      "pads": [
+        {
+          "id": "lm-2024-h17-rear-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-17",
+          "pixels": [
+            [
+              638,
+              535
+            ],
+            [
+              669,
+              553
+            ],
+            [
+              651,
+              578
+            ],
+            [
+              620,
+              558
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h17-opposite-path-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-17",
+          "pixels": [
+            [
+              611,
+              462
+            ],
+            [
+              639,
+              478
+            ],
+            [
+              626,
+              499
+            ],
+            [
+              598,
+              483
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h17-long-middle-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-17",
+          "pixels": [
+            [
+              496,
+              499
+            ],
+            [
+              560,
+              542
+            ],
+            [
+              543,
+              563
+            ],
+            [
+              479,
+              520
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h17-forward-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-17",
+          "pixels": [
+            [
+              339,
+              374
+            ],
+            [
+              374,
+              398
+            ],
+            [
+              355,
+              423
+            ],
+            [
+              323,
+              398
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        }
+      ],
+      "referencePads": [
+        0,
+        1,
+        2,
+        2,
+        3,
+        null
+      ],
+      "uncertaintyM": 0.7,
+      "note": "Four photographed H 17 decks are ordered by progress toward the fairway: eastern rear, opposite-path rear, long middle, and forward near the path bend. Guide 17 and the card length progression corroborate this sequence. Reference 65 uses the rearmost deck;61 the opposite-path deck;58/55 the long middle deck;48 the forward deck. This corrects the previous interpolated references that crossed between platforms. The synthetic 40 footprint on fairway is omitted, with 40 unresolved. Associations are provisional physical-platform references, not daily markers.",
+      "referenceAssessments": [
+        {
+          "referenceIndex": 0,
+          "courseTee": 65,
+          "scorecardMetres": 422,
+          "originalReferenceLocalXZ": [
+            -96,
+            -521.9
+          ],
+          "platformIndex": 0,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 0 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 1,
+          "courseTee": 61,
+          "scorecardMetres": 406,
+          "originalReferenceLocalXZ": [
+            -108.8,
+            -531.5
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 2,
+          "courseTee": 58,
+          "scorecardMetres": 395,
+          "originalReferenceLocalXZ": [
+            -117.6,
+            -538.1
+          ],
+          "platformIndex": 2,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 2 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 3,
+          "courseTee": 55,
+          "scorecardMetres": 386,
+          "originalReferenceLocalXZ": [
+            -124.8,
+            -543.5
+          ],
+          "platformIndex": 2,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 2 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 4,
+          "courseTee": 48,
+          "scorecardMetres": 333,
+          "originalReferenceLocalXZ": [
+            -167.1,
+            -575.4
+          ],
+          "platformIndex": 3,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 3 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 5,
+          "courseTee": 40,
+          "scorecardMetres": 281,
+          "originalReferenceLocalXZ": [
+            -208.7,
+            -606.7
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Forward 40 lies on continuous fairway with no distinct photographed tee platform; synthetic footprint omitted and reference unresolved."
+        }
+      ],
+      "associationCorroboration": {
+        "path": "banguide/maps/hole_17.jpg",
+        "sha256": "2567c6a057557fae586d1df18f2e5e5fa7ce40b69006b83525323ccc27d2f39a",
+        "role": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto.",
+        "sourceAbsoluteAccuracyMetres": null,
+        "dailyMarkerObservation": false
+      },
+      "corroboratingDocuments": [
+        {
+          "path": "banguide/maps/hole_17.jpg",
+          "sha256": "2567c6a057557fae586d1df18f2e5e5fa7ce40b69006b83525323ccc27d2f39a",
+          "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+        }
+      ]
+    },
+    {
+      "id": "lm-2024-h18-tee-associations",
+      "hole": 18,
+      "kind": "tee-set",
+      "pads": [
+        {
+          "id": "lm-2024-h18-rear-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-18",
+          "pixels": [
+            [
+              103,
+              221
+            ],
+            [
+              141,
+              246
+            ],
+            [
+              116,
+              277
+            ],
+            [
+              81,
+              250
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h18-second-deck",
+          "report": "geobuild/cache/lm-ortho-review/panels.json",
+          "panel": "tees-hole-18",
+          "pixels": [
+            [
+              187,
+              240
+            ],
+            [
+              229,
+              270
+            ],
+            [
+              211,
+              291
+            ],
+            [
+              174,
+              264
+            ]
+          ],
+          "note": "Visible maintained platform perimeter reused exactly from the earlier orthophoto review; existing source-platform identity is retained."
+        },
+        {
+          "id": "lm-2024-h18-middle-deck",
+          "report": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
+          "panel": "h18-middle",
+          "pixels": [
+            [
+              463,
+              468
+            ],
+            [
+              570,
+              553
+            ],
+            [
+              507,
+              622
+            ],
+            [
+              412,
+              547
+            ]
+          ],
+          "note": "Visible maintained middle rectangle next to the path. The western side is shadow-softened but its turf perimeter remains discernible; boundary interpretation uncertainty is 1.2 m."
+        },
+        {
+          "id": "lm-2024-h18-forward-deck",
+          "report": "geobuild/cache/lm-tee-associations-13-18-review/panels.json",
+          "panel": "h18-front",
+          "pixels": [
+            [
+              460,
+              463
+            ],
+            [
+              578,
+              546
+            ],
+            [
+              519,
+              630
+            ],
+            [
+              407,
+              551
+            ]
+          ],
+          "note": "Visible rectangular forward deck south of the path junction, with its lower surrounding berm excluded; one side is softened by tree shadow."
+        }
+      ],
+      "referencePads": [
+        0,
+        1,
+        1,
+        2,
+        3,
+        null
+      ],
+      "uncertaintyM": 1.2,
+      "note": "Four H 18 platform perimeters are resolved, including the middle and forward rectangles in focused orthophoto panels. References 65,61/58,55,48 follow those four decks in order. Reference 40 is on continuous fairway and remains unresolved; its synthetic pad is omitted. Previously off-platform references now use the observed decks provisionally. No daily marker location or sensor survey accuracy is claimed.",
+      "referenceAssessments": [
+        {
+          "referenceIndex": 0,
+          "courseTee": 65,
+          "scorecardMetres": 553,
+          "originalReferenceLocalXZ": [
+            -327.8,
+            -819.7
+          ],
+          "platformIndex": 0,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 0 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 1,
+          "courseTee": 61,
+          "scorecardMetres": 528,
+          "originalReferenceLocalXZ": [
+            -308.6,
+            -803.7
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 2,
+          "courseTee": 58,
+          "scorecardMetres": 519,
+          "originalReferenceLocalXZ": [
+            -301.7,
+            -797.9
+          ],
+          "platformIndex": 1,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 1 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 3,
+          "courseTee": 55,
+          "scorecardMetres": 486,
+          "originalReferenceLocalXZ": [
+            -276.4,
+            -776.7
+          ],
+          "platformIndex": 2,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 2 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 4,
+          "courseTee": 48,
+          "scorecardMetres": 419,
+          "originalReferenceLocalXZ": [
+            -225,
+            -733.7
+          ],
+          "platformIndex": 3,
+          "status": "provisional-platform-reference",
+          "reason": "Physical platform 3 is supported by the photographed inventory and hole routing order; this is a provisional platform association, not an observed daily marker."
+        },
+        {
+          "referenceIndex": 5,
+          "courseTee": 40,
+          "scorecardMetres": 320,
+          "originalReferenceLocalXZ": [
+            -149,
+            -670.3
+          ],
+          "platformIndex": null,
+          "status": "unresolved",
+          "reason": "Forward 40 lies on continuous fairway with no distinct visible tee platform; synthetic footprint omitted and reference unresolved."
+        }
+      ],
+      "associationCorroboration": {
+        "path": "banguide/maps/hole_18.jpg",
+        "sha256": "fee0eb77e6663a8e03f49f37dd4977bff65e5a181f36a2f07f4478c322db6099",
+        "role": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto.",
+        "sourceAbsoluteAccuracyMetres": null,
+        "dailyMarkerObservation": false
+      },
+      "corroboratingDocuments": [
+        {
+          "path": "banguide/maps/hole_18.jpg",
+          "sha256": "fee0eb77e6663a8e03f49f37dd4977bff65e5a181f36a2f07f4478c322db6099",
+          "note": "Illustrated course guide corroborates hole identity and platform sequence only; coordinates and perimeters come exclusively from the georeferenced orthophoto."
+        }
+      ]
+    }
+  ]
+}

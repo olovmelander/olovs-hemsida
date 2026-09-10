@@ -2,16 +2,34 @@
 
 ## Current update — 9 September 2026
 
-The [tee follow-up](lm-tee-alignment-review-2026-09-09.md) is the newest change:
-83 navigation references moved, nine corresponding Stora route starts updated,
-all 78 physical pads retained. Do not restore scorecard-interpolated positions
-over these explicit platform associations. Twenty-seven reference decisions
-remain uncertain; do not snap these generically to the nearest platform.
+Read [the remaining seventeen tee review](remaining17-tee-review-2026-09-09.md)
+first. All previously unresolved navigation references have explicit reviews:
+**16 positions moved; Stora H15 tee 62 was confirmed unchanged**. The current
+total is **136 platform-associated references plus 17 reviewed tee/fairway-site
+references**, with 56 Stora and 24 Mellan physical platforms. Six fairway entries
+are approximate, with 12–15 m interpretation allowances. Full H13 forward and
+H15 upper platform boundaries remain provisional; daily markers are unverified.
 
-Read [the authenticated orthophoto alignment review](lm-alignment-review-2026-09-09.md)
-first. It supersedes the playing-surface status in the September 7 checkpoint
-below: all 27 greens reviewed, four greens and eight bunker footprints corrected,
-including Mellan H6 and the connected Stora H3 sand surface. Both routings share
+Final main-app proof passes all 306 selections across required-v2 and GPK1 modes
+(272 earlier platform checks and 34 site checks). The standalone passes all
+108 Stora selections. Both browser proofs have no errors; all 64 focused tests
+pass. Run `tools/check-upsala-tee-coordinates.mjs` after changes; the refresh
+command already includes it. Guarded platform phases precede the site ledgers.
+Preserve the accepted associations and evidence-only support footprints.
+
+**Historical coordinate follow-up:** the standalone camera's 7 m setback was
+fixed, H6/H18 platforms were added, and eleven additional references corrected.
+See the [earlier coordinate follow-up](lm-tee-coordinate-followup-2026-09-09.md).
+
+**Historical initial tee pass:** [the first tee review](lm-tee-alignment-review-2026-09-09.md)
+moved 83 references and nine corresponding Stora route starts, retaining the
+then-current 78 platforms. Its 27 unresolved decisions describe that older stage.
+Do not restore scorecard-interpolated positions over accepted source decisions.
+
+The [authenticated orthophoto alignment review](lm-alignment-review-2026-09-09.md)
+records the earlier playing-surface pass: all 27 greens reviewed, four greens
+and eight bunker footprints corrected, including Mellan H6 and the connected
+Stora H3 sand surface. Both routings share
 the rebuilt physical geometry. Acquisition is reproducible through
 [the runbook](lm-ortho-2026-09-09.md); source rasters are in ignored
 `upsalabuild/cache/lm-ortho/`.
@@ -22,6 +40,9 @@ through `tools/refresh-upsala-mapping.mjs`, then refresh new evidence hashes wit
 `node upsalabuild/mapping/update-lm-manifest.mjs` if review ledgers changed.
 Preserve other ongoing work in this shared checkout. The current working branch
 may differ from the historical branch named below.
+
+The September 7 checkpoint below is historical; its counts and then-current
+status statements are superseded by the September 9 reviews linked above.
 
 Saved 2026-09-07. Repository: `C:\Users\olov_\repos\olovs-hemsida`.
 Branch: `codex/upsala-ground-mapping`.

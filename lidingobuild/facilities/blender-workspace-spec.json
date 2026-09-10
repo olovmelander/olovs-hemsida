@@ -1,0 +1,1687 @@
+{
+  "schemaVersion": 1,
+  "sceneNames": {
+    "model": "Lidingö | Facilities model reference",
+    "plan": "Lidingö | Orthophoto plan",
+    "photos": "Lidingö | Photo references"
+  },
+  "modelPath": "lidingobuild/cache/facilities-reference-2026-09-10/model-reference.json",
+  "libraryPath": "lidingobuild/cache/facilities-reference-2026-09-10/lidingo-facilities.library.blend",
+  "blendPath": "lidingobuild/cache/facilities-reference-2026-09-10/lidingo-facilities.blend",
+  "reportPath": "lidingobuild/facilities/blender-workspace-validation.json",
+  "previews": {
+    "model": "lidingobuild/cache/facilities-reference-2026-09-10/model-preview.png",
+    "plan": "lidingobuild/cache/facilities-reference-2026-09-10/plan-preview.png",
+    "photos": "lidingobuild/cache/facilities-reference-2026-09-10/photos-preview.png"
+  },
+  "inputs": [
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/model-reference.json",
+      "sha256": "e5c13386bf057b72f83248e987980fcbd4b4f038ed197d8472de0934019f6ea5"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.png",
+      "sha256": "f385e390cccfe24be8e4f08b53a8ce63dcae22930e6d6db1f2b024d5e398c9e1"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.png",
+      "sha256": "8e5f943aba837c72b3cfd5ddf0d0a6f875b5537acdbb05f296ef6b2a4fbdc263"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.png",
+      "sha256": "87ae40e2e2fff7d1bad40c811f517a8e80ac1f4019a89b5815c992e6654146a7"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.png",
+      "sha256": "9ff82b854d3a3b7e004eba403acd926e8c223e86ed71736010058422fa424dd5"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.png",
+      "sha256": "e76a23c023101119859a59c49577e330e73b27f82f78cb3590b4a381e49dfca2"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.png",
+      "sha256": "af930e10617ed8ad14cc5ea3cdc8e008857a5b82a2627cf9f3a6148cb2f4d14b"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.png",
+      "sha256": "08e885b531df8f1ba126e4400b51b285c4ff360fe43caebc3b70a2eb4c5cab9d"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.png",
+      "sha256": "09f3a87203294b49120486dd2578d542a9e01587baa6aceb47b06b4df159ebb4"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.png",
+      "sha256": "f60e63ca68d8b4c137c9b40095556f785efc35a8c7801f387af9b6051b374022"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.png",
+      "sha256": "134059d5449e18a660e157e6f6fd9bbfcace49b9b4d6d2332c28f8423f1ee911"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.png",
+      "sha256": "ee5f7902bca2909e6bfa3b631e4c20b772ec24cd565b6609dc6d8f3ef943aeb3"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.png",
+      "sha256": "0334b0ea1b4c741fedf85f8f08ff8e5eef080a227fa43e60a2adbd6f4e82ceb9"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/commons-Liding-Golfklubb-febr-2020-1-jpg.jpg",
+      "sha256": "57fe83076fb50e57c016395d2de40b49eacfefdc63978b460bb8c935234b85d2"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/commons-Liding-Golfklubb-febr-2020-2-jpg.jpg",
+      "sha256": "be45decbd983849a517c486860c66e0ca773af5f044d9e9cae5eda1d58593856"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/commons-Liding-Golfklubb-febr-2020-3-jpg.jpg",
+      "sha256": "40b41dbdb7efcb61160fb42efeea9835cca92365702fb4a92df39ff2a2c8c5d5"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/commons-Sticklinge-g-rds-lada-2020a-jpg.jpg",
+      "sha256": "6436e365d3058a7cc9bce2e993edc6630a3211a50e78be57dddbd48dcff9f14f"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/course-council-vy-28-augu.jpg",
+      "sha256": "52e9381229d8f6540e3b67879ee5731a693365766d5f0a4cf85d5daad1876007"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-015_lidingo_gk_16bits-copy.jpg",
+      "sha256": "d408c48e0476401234025acf869b8329c31b5a4337b73d9702af0a10a6361945"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-2026-gfx28381.jpg",
+      "sha256": "fdb83f481d9d6a127929ce0d7b74a632fe263eb80143071c4c9871b38f81a6b0"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-2026-gfx28396.jpg",
+      "sha256": "8849cbc1457d2400e5e2df47737f282e7af4fe615a247d289eb76c9b7c1daec3"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-2026-gfx28462.jpg",
+      "sha256": "9afa15e693191f418eee5d035792f05bbdf4814e35f64ba5b083ec445f65f6f6"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-2026-gfx28464.jpg",
+      "sha256": "1f7bdd805acba4bc9a6ab69b0c15cff6c299361128e9dd6acf4bcb4a70cf0afc"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-img_5103.jpg",
+      "sha256": "ae2d7c7fd3acc416b895db7994cc38c51de59683cdb390d0d5ed9b6eeb3f38e2"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-olle-bild-oevningsomraadet.jpg",
+      "sha256": "f3d55acba362a3a3d82bc1bcf1d0aa01e4d08091a2c7f305cb194487af5c90f1"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/practice-areas-img_5684-2.jpg",
+      "sha256": "f7853561972da86c42fa1f6afb7246790d809b05834b49f8168d789f60215608"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/venuu-134.jpg",
+      "sha256": "8a3aa36fc6033fd634f8bcdd58d793ac5d05a4415f6dc728d4d869178cb16657"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/venuu-136.jpg",
+      "sha256": "a7c21ec50bc742f3fbc452c83c6205828cee102dab63cb28802c4de916adb2c2"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/venuu-137.jpg",
+      "sha256": "82d59fe5a9f1bdca53b44dfaf8b36b23ad23e8e2c38771463b2756e1dc5d7d11"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/vikingaskeppet-2024-20240706_171448717_ios.jpg",
+      "sha256": "83b96741862b5d7ec4b0c83f0b1c8247044ca47968c90c081af41ab3358110a6"
+    },
+    {
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/vikingaskeppet-2024-20240706_171448721_ios.jpg",
+      "sha256": "3916a509a95f1d508de958c9d292535790a0fc963e0a803e6b98d45fc97ad3a0"
+    },
+    {
+      "path": "lidingobuild/facilities/facility-inventory.json",
+      "sha256": "fb9b04af954f20947e927dc8284dbcee1fd5c4938b850ff9f695ce6dbdef3887"
+    },
+    {
+      "path": "lidingobuild/facilities/orthophoto-reference.json",
+      "sha256": "5b28d6fb86183cb7f44ddd7e0ae4090d9223992dc61d008282819d39e3685da8"
+    },
+    {
+      "path": "lidingobuild/facilities/web-reference.json",
+      "sha256": "21b683a25d87d1df1eb88c62f6611aa5288b9f73ad37a121a55891e21c534e34"
+    }
+  ],
+  "orthophotos": [
+    {
+      "id": "facilities-overview-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677500.0,
+        6586029.92,
+        677730.08,
+        6586570.08
+      ],
+      "resolutionMetres": 0.16,
+      "width": 1438,
+      "height": 3376,
+      "geoTransform": [
+        677500.0,
+        0.16,
+        0.0,
+        6586570.08,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "87ae40e2e2fff7d1bad40c811f517a8e80ac1f4019a89b5815c992e6654146a7",
+      "rasterSha256": "84b089d954913eb77497aee0d72eadc4691210434b712d371c0b79697731c1a9",
+      "worldFileSha256": "a6c56186011060ed0f6fb543b170cca3abb226364fc92862e16f8b0810430a15",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "Complete clubhouse, parking, range and south-practice corridor",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "windowFraction": 0.198600213
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 0.801399787
+        }
+      ],
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-lm-2025.png"
+    },
+    {
+      "id": "facilities-overview-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677500.0,
+        6586029.58,
+        677730.5,
+        6586570.08
+      ],
+      "resolutionMetres": 0.5,
+      "width": 461,
+      "height": 1081,
+      "geoTransform": [
+        677500.0,
+        0.5,
+        0.0,
+        6586570.08,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "9ff82b854d3a3b7e004eba403acd926e8c223e86ed71736010058422fa424dd5",
+      "rasterSha256": "e318bbe3bd2517291ab418243978aeffa48f83aa896172f776223520d2c059ea",
+      "worldFileSha256": "90b7cddad0ccf0ad7faf599a48fcef1f1845263dd9a9abded0be676d7bb443df",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "Complete clubhouse, parking, range and south-practice corridor; historical comparator",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-overview-municipal-2019.png"
+    },
+    {
+      "id": "clubhouse-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677600.0,
+        6586409.92,
+        677705.12,
+        6586550.08
+      ],
+      "resolutionMetres": 0.16,
+      "width": 657,
+      "height": 876,
+      "geoTransform": [
+        677600.0,
+        0.16,
+        0.0,
+        6586550.08,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "f385e390cccfe24be8e4f08b53a8ce63dcae22930e6d6db1f2b024d5e398c9e1",
+      "rasterSha256": "3ffe4d5f5ebe71f6c18618f9ae74cd069d21471925ac72d65a420ed7ae73d06c",
+      "worldFileSha256": "14324b645c99e9058f03df893d67ac10f4514b056bb3d4de1322a23345c50b2b",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "Clubhouse, south annex, north facility, courtyard and putting greens",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "windowFraction": 0.497323349
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 0.502676651
+        }
+      ],
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-lm-2025.png"
+    },
+    {
+      "id": "clubhouse-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677600.0,
+        6586409.58,
+        677705.5,
+        6586550.08
+      ],
+      "resolutionMetres": 0.5,
+      "width": 211,
+      "height": 281,
+      "geoTransform": [
+        677600.0,
+        0.5,
+        0.0,
+        6586550.08,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "8e5f943aba837c72b3cfd5ddf0d0a6f875b5537acdbb05f296ef6b2a4fbdc263",
+      "rasterSha256": "3c30e27255888c062110da1a0120ad88dc73c91ed693e0915ba44ff4b22ce92e",
+      "worldFileSha256": "3beb6ef7434187453f6152dcd7bafcdf9b2247cd12e335218359aae9e2e44104",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "Clubhouse, south annex, north facility, courtyard and putting greens; historical comparator",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/clubhouse-detail-municipal-2019.png"
+    },
+    {
+      "id": "upper-parking-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677500.0,
+        6586429.92,
+        677625.12,
+        6586545.12
+      ],
+      "resolutionMetres": 0.16,
+      "width": 782,
+      "height": 720,
+      "geoTransform": [
+        677500.0,
+        0.16,
+        0.0,
+        6586545.12,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "ee5f7902bca2909e6bfa3b631e4c20b772ec24cd565b6609dc6d8f3ef943aeb3",
+      "rasterSha256": "c717dc8a6a6e1d6c514b2daf8636717fffd2e69b3bcc5dd9c4ea890485e3f717",
+      "worldFileSha256": "b855ef46d9e4b5e9fb42fdac950deb0401815a625dcde7a635b8b69c0f61e905",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "Both upper parking zones and practice-area change search",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:11Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082711_2141",
+          "capturedAt": "2025-05-31T08:27:11Z",
+          "windowFraction": 0.85183585
+        },
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 0.14816415
+        }
+      ],
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.png"
+    },
+    {
+      "id": "upper-parking-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677500.0,
+        6586429.62,
+        677625.5,
+        6586545.12
+      ],
+      "resolutionMetres": 0.5,
+      "width": 251,
+      "height": 231,
+      "geoTransform": [
+        677500.0,
+        0.5,
+        0.0,
+        6586545.12,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "0334b0ea1b4c741fedf85f8f08ff8e5eef080a227fa43e60a2adbd6f4e82ceb9",
+      "rasterSha256": "4d4dc64ea0eb72c46f02f4b996d46f121373bc903e99b4d957d7875d7eb9b6e3",
+      "worldFileSha256": "7165c71864a27abf4a85a3dbc41e167e225ee0d2b3e0bdfac7955ac2e3233bb0",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "Both upper parking zones and practice-area change search; historical comparator",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-municipal-2019.png"
+    },
+    {
+      "id": "range-north-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677564.96,
+        6586344.96,
+        677655.0399999999,
+        6586410.08
+      ],
+      "resolutionMetres": 0.16,
+      "width": 563,
+      "height": 407,
+      "geoTransform": [
+        677564.96,
+        0.16,
+        0.0,
+        6586410.08,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "08e885b531df8f1ba126e4400b51b285c4ff360fe43caebc3b70a2eb4c5cab9d",
+      "rasterSha256": "bca9f695669d9550bfc12e94022ad64e6f76a00a17f76906184f171eb240428d",
+      "worldFileSha256": "756a841d24c1abba45b47171e1e93e325e39727a43707909a076397eb0f09454",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "North range teeing apron, hardstanding and nearby paths",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 1.0
+        }
+      ],
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.png"
+    },
+    {
+      "id": "range-north-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677564.96,
+        6586344.58,
+        677655.46,
+        6586410.08
+      ],
+      "resolutionMetres": 0.5,
+      "width": 181,
+      "height": 131,
+      "geoTransform": [
+        677564.96,
+        0.5,
+        0.0,
+        6586410.08,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "09f3a87203294b49120486dd2578d542a9e01587baa6aceb47b06b4df159ebb4",
+      "rasterSha256": "06734acd742540cbb35e067b50b1371663be7b2ea78b67728f76122d9d7246e4",
+      "worldFileSha256": "3dac26a5106108e21c732ee787bf5fcb9636e31138451c3dd18460f326537a5b",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "North range teeing apron, hardstanding and nearby paths; historical comparator",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-municipal-2019.png"
+    },
+    {
+      "id": "range-buildings-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677609.92,
+        6586180.0,
+        677710.0800000001,
+        6586320.0
+      ],
+      "resolutionMetres": 0.16,
+      "width": 626,
+      "height": 875,
+      "geoTransform": [
+        677609.92,
+        0.16,
+        0.0,
+        6586320.0,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "e76a23c023101119859a59c49577e330e73b27f82f78cb3590b4a381e49dfca2",
+      "rasterSha256": "ffe57882f025dc0f1c0ea67030ab3b38745b53b6a4769a8a6f65a60a1cb65201",
+      "worldFileSha256": "64a69cdce682207459bbf3b436889b78d8c9f496bf969336da3b4074f32c4540",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "West and east range buildings, small shed, strips and southern parking",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 1.0
+        }
+      ],
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-lm-2025.png"
+    },
+    {
+      "id": "range-buildings-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677609.92,
+        6586180.0,
+        677710.42,
+        6586320.0
+      ],
+      "resolutionMetres": 0.5,
+      "width": 201,
+      "height": 280,
+      "geoTransform": [
+        677609.92,
+        0.5,
+        0.0,
+        6586320.0,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "af930e10617ed8ad14cc5ea3cdc8e008857a5b82a2627cf9f3a6148cb2f4d14b",
+      "rasterSha256": "94ac8447fde4530d2fe1d70bba2ad3ad46c92d1cb7b7c8a90ea13f76fc7a92ab",
+      "worldFileSha256": "1029cc9a117ce0da3ce0608e3fa7fa41df0619286b86e8ff9ca676a72c5c71ae",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "West and east range buildings, small shed, strips and southern parking; historical comparator",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-buildings-detail-municipal-2019.png"
+    },
+    {
+      "id": "range-south-detail-lm-2025",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677524.96,
+        6586034.88,
+        677710.08,
+        6586200.0
+      ],
+      "resolutionMetres": 0.16,
+      "width": 1157,
+      "height": 1032,
+      "geoTransform": [
+        677524.96,
+        0.16,
+        0.0,
+        6586200.0,
+        0.0,
+        -0.16
+      ],
+      "imageSha256": "f60e63ca68d8b4c137c9b40095556f785efc35a8c7801f387af9b6051b374022",
+      "rasterSha256": "845d8e13f8c2a7e97578cd526b85e99dd5c7b692aea821b804d7a850cb4de268",
+      "worldFileSha256": "809b71d0234b7afae32db181e7032dd41a179a8b0184526d54600279f6b74fbb",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "lm-orto-o2-2025",
+      "sourceRasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/facilities-native-source-lm-2025.tif",
+      "sourceRasterSha256": "63a4e53781b444036f8bc78a7dc6e59da5897546ca865ba98e6db65715946182",
+      "resampling": "none; exact native RGB pixel crop",
+      "purpose": "South range shelter/apron, support building and south practice green",
+      "captureDate": "2025-05-31",
+      "captureRange": {
+        "first": "2025-05-31T08:27:15Z",
+        "last": "2025-05-31T08:27:15Z"
+      },
+      "contributingImages": [
+        {
+          "sourceId": "o65850_6775_25_mr25",
+          "imageId": "25o215ss97_33~2025-05-31_082715_2142",
+          "capturedAt": "2025-05-31T08:27:15Z",
+          "windowFraction": 1.0
+        }
+      ],
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.png"
+    },
+    {
+      "id": "range-south-detail-municipal-2019",
+      "imagePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.png",
+      "rasterPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.tif",
+      "worldFilePath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.pgw",
+      "projectionPath": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.prj",
+      "horizontalCrs": "EPSG:3006",
+      "boundsEpsg3006": [
+        677524.96,
+        6586034.5,
+        677710.46,
+        6586200.0
+      ],
+      "resolutionMetres": 0.5,
+      "width": 371,
+      "height": 331,
+      "geoTransform": [
+        677524.96,
+        0.5,
+        0.0,
+        6586200.0,
+        0.0,
+        -0.5
+      ],
+      "imageSha256": "134059d5449e18a660e157e6f6fd9bbfcace49b9b4d6d2332c28f8423f1ee911",
+      "rasterSha256": "1de910fc07452a10ffe476acb339e902377ecdd4e32d5334f0f8c352b4c28e5d",
+      "worldFileSha256": "3f95c813578e8cfd37402f217fe36caa820de00470d8fa29084521100086dfda",
+      "projectionSha256": "4ddf92bec64b999c2049830d1a702571e5037c81006dc52bff53ef2f0b6057f7",
+      "validFraction": 1.0,
+      "sourceId": "imagery-municipal-2019",
+      "sourceImagePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "sourceWorldFilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sourceHorizontalCrs": "EPSG:3011",
+      "resampling": "nearest; reprojected EPSG:3011 to EPSG:3006",
+      "campaignYear": 2019,
+      "captureDate": null,
+      "sourceProductGsdMetres": null,
+      "purpose": "South range shelter/apron, support building and south practice green; historical comparator",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-municipal-2019.png"
+    }
+  ],
+  "photos": [
+    {
+      "id": "vikingaskeppet-2024-20240706_171448717_ios",
+      "title": "Three clubhouse buildings and terrace aerial",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/vikingaskeppet-2024-20240706_171448717_ios.jpg",
+      "width": 7729,
+      "height": 4348,
+      "sourceUrl": "https://www.lidingogk.se/media/2vqbtz4k/20240706_171448717_ios.jpg",
+      "pageUrl": "https://www.lidingogk.se/nyheter/vikingaskeppet-6-7-juli/",
+      "retrievedAt": "2026-09-10T07:35:41.475530+00:00",
+      "sha256": "83b96741862b5d7ec4b0c83f0b1c8247044ca47968c90c081af41ab3358110a6",
+      "byteLength": 12327041,
+      "captureDate": "2024-07-06",
+      "captureDateBasis": "Filename plus enclosing July 2024 event report; not independently verified capture time.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "dated-2024-condition",
+      "visibleFeatures": [
+        "Restaurant east side includes circular window and covered terrace connection.",
+        "Lower pavilion has white vertical siding, ordinary rectangular windows, glazed veranda and broad exterior stair toward course.",
+        "Separate south annex has shallow dark roof, white walls, dark doors and small projecting multiwindow porch.",
+        "Three practice greens, nearby parking, upper parking, connecting paths and terrace retaining edge visible together."
+      ],
+      "limitations": [
+        "Cannot infer exact current building use from the image; 2024 predates upper practice-area completion."
+      ],
+      "sourceWidth": 7729,
+      "sourceHeight": 4348,
+      "exifOrientation": 1
+    },
+    {
+      "id": "vikingaskeppet-2024-20240706_171448721_ios",
+      "title": "Courtyard and restaurant roof aerial",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/vikingaskeppet-2024-20240706_171448721_ios.jpg",
+      "width": 7472,
+      "height": 4203,
+      "sourceUrl": "https://www.lidingogk.se/media/vrqnk3a0/20240706_171448721_ios.jpg",
+      "pageUrl": "https://www.lidingogk.se/nyheter/vikingaskeppet-6-7-juli/",
+      "retrievedAt": "2026-09-10T07:35:49.124622+00:00",
+      "sha256": "3916a509a95f1d508de958c9d292535790a0fc963e0a803e6b98d45fc97ad3a0",
+      "byteLength": 10300266,
+      "captureDate": "2024-07-06",
+      "captureDateBasis": "Filename plus enclosing July 2024 event report; not independently verified capture time.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "dated-2024-condition",
+      "visibleFeatures": [
+        "Stepped shallow dark roof plates, service room, chimney and smaller mechanical equipment.",
+        "Two blue awning banks on recessed upper balcony, ground-floor reception glazing, white plaster walls, pale base strip.",
+        "Courtyard putting green with stone curb; asphalt circulation, entrance wall/pillars, zebra crossing, planted road island.",
+        "Three stepped timber terrace levels with stairs and black frames/glass balustrades; separate green below terrace."
+      ],
+      "limitations": [
+        "Oblique photo; no camera calibration or dimensions. Event crowd masks some edges."
+      ],
+      "sourceWidth": 7472,
+      "sourceHeight": 4203,
+      "exifOrientation": 1
+    },
+    {
+      "id": "venuu-136",
+      "title": "Timber terrace detail",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/venuu-136.jpg",
+      "width": 1280,
+      "height": 960,
+      "sourceUrl": "https://files.venuu.se/attachments/000/291/136/fbe1b4294cda3103f2f0e499b45ad68e7a7d8e90.jpg",
+      "pageUrl": "https://venuu.se/lokaler/lidingo-golfrestaurang",
+      "retrievedAt": "2026-09-10T07:35:46.552611+00:00",
+      "sha256": "a7c21ec50bc742f3fbc452c83c6205828cee102dab63cb28802c4de916adb2c2",
+      "byteLength": 226687,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "undated-condition",
+      "visibleFeatures": [
+        "Weathered timber deck, slim black framing and transparent glass balustrade panels.",
+        "Loose dining tables/chairs and umbrellas show scale context."
+      ],
+      "limitations": [
+        "Undated; movable furniture is not fixed geometry evidence."
+      ],
+      "sourceWidth": 1280,
+      "sourceHeight": 960,
+      "exifOrientation": 1
+    },
+    {
+      "id": "venuu-137",
+      "title": "Covered restaurant balcony",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/venuu-137.jpg",
+      "width": 1280,
+      "height": 960,
+      "sourceUrl": "https://files.venuu.se/attachments/000/291/137/a60c0a8ba50cafdd6320c3ab61df988338a713ca.jpg",
+      "pageUrl": "https://venuu.se/lokaler/lidingo-golfrestaurang",
+      "retrievedAt": "2026-09-10T07:35:46.744601+00:00",
+      "sha256": "82d59fe5a9f1bdca53b44dfaf8b36b23ad23e8e2c38771463b2756e1dc5d7d11",
+      "byteLength": 271160,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "undated-condition",
+      "visibleFeatures": [
+        "Grey timber soffit and decking, dark glazed facade, wall-mounted lanterns and heaters.",
+        "Retractable awning arms and roller visible, narrow balcony, opaque vertical-panel lower balustrade and dark rail."
+      ],
+      "limitations": [
+        "Undated photo; useful for balcony section/materials, not surveyed depth."
+      ],
+      "sourceWidth": 1280,
+      "sourceHeight": 960,
+      "exifOrientation": 1
+    },
+    {
+      "id": "venuu-134",
+      "title": "Reception facade",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/venuu-134.jpg",
+      "width": 1280,
+      "height": 960,
+      "sourceUrl": "https://files.venuu.se/attachments/000/291/134/2f526f278c527ef5bb274675d36b779719b663ae.jpg",
+      "pageUrl": "https://venuu.se/lokaler/lidingo-golfrestaurang",
+      "retrievedAt": "2026-09-10T07:35:46.799900+00:00",
+      "sha256": "8a3aa36fc6033fd634f8bcdd58d793ac5d05a4415f6dc728d4d869178cb16657",
+      "byteLength": 220799,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "undated-condition",
+      "visibleFeatures": [
+        "Off-white textured render, shallow projecting dark eave, two blue retractable awnings.",
+        "White vertical-panel balcony apron with rounded end, dark horizontal rail and round white columns.",
+        "Reception entrance and dark framed floor-to-ceiling glazing below balcony; round white clock to right.",
+        "Low dark stakes and light rope border to courtyard green; stone curb and asphalt apron."
+      ],
+      "limitations": [
+        "Undated listing photograph; furniture and seasonal fittings may change."
+      ],
+      "sourceWidth": 1280,
+      "sourceHeight": 960,
+      "exifOrientation": 1
+    },
+    {
+      "id": "commons-Liding-Golfklubb-febr-2020-1-jpg",
+      "title": "Entrance pillars 2020",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/commons-Liding-Golfklubb-febr-2020-1-jpg.jpg",
+      "width": 3950,
+      "height": 2820,
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/7/71/Liding%C3%B6_Golfklubb_febr_2020_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Liding%C3%B6_Golfklubb_febr_2020_(1).jpg",
+      "retrievedAt": "2026-09-10T07:35:47.218551+00:00",
+      "sha256": "57fe83076fb50e57c016395d2de40b49eacfefdc63978b460bb8c935234b85d2",
+      "byteLength": 2706669,
+      "captureDate": "2020-02-23",
+      "captureDateBasis": "Photographer source page and EXIF-era metadata; not independent camera-clock verification.",
+      "rights": {
+        "status": "CC BY-SA 4.0",
+        "artist": "Holger.Ellgaard",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "dated-2020-condition",
+      "visibleFeatures": [
+        "Two white rendered square entrance pillars with dark base and shallow dark caps; round club emblems.",
+        "White perimeter wall and asphalt gateway."
+      ],
+      "limitations": [
+        "Temporary net across opening shown in winter; not a permanent closed gate."
+      ],
+      "sourceWidth": 3950,
+      "sourceHeight": 2820,
+      "exifOrientation": 1
+    },
+    {
+      "id": "commons-Liding-Golfklubb-febr-2020-2-jpg",
+      "title": "Dated reception facade 2020",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/commons-Liding-Golfklubb-febr-2020-2-jpg.jpg",
+      "width": 4470,
+      "height": 3185,
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Liding%C3%B6_Golfklubb_febr_2020_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Liding%C3%B6_Golfklubb_febr_2020_%282%29.jpg",
+      "retrievedAt": "2026-09-10T07:37:14.470541+00:00",
+      "sha256": "be45decbd983849a517c486860c66e0ca773af5f044d9e9cae5eda1d58593856",
+      "byteLength": 3370066,
+      "captureDate": "2020-02-23",
+      "captureDateBasis": "Photographer source page and EXIF-era metadata; not independent camera-clock verification.",
+      "rights": {
+        "status": "CC BY-SA 4.0",
+        "artist": "Holger.Ellgaard",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "dated-2020-condition",
+      "visibleFeatures": [
+        "Complete reception facade with white textured render, blue awnings, white balcony apron, round columns, glazing and clock.",
+        "Terrace access stair to photo right."
+      ],
+      "limitations": [
+        "Captured 2020-02-23; use 2024 aerial and undated current listing to check changes."
+      ],
+      "sourceWidth": 4470,
+      "sourceHeight": 3185,
+      "exifOrientation": 1
+    },
+    {
+      "id": "commons-Liding-Golfklubb-febr-2020-3-jpg",
+      "title": "Range shelter and hut 2020",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/commons-Liding-Golfklubb-febr-2020-3-jpg.jpg",
+      "width": 4715,
+      "height": 3250,
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/5/52/Liding%C3%B6_Golfklubb_febr_2020_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Liding%C3%B6_Golfklubb_febr_2020_%283%29.jpg",
+      "retrievedAt": "2026-09-10T07:37:16.546167+00:00",
+      "sha256": "40b41dbdb7efcb61160fb42efeea9835cca92365702fb4a92df39ff2a2c8c5d5",
+      "byteLength": 4148199,
+      "captureDate": "2020-02-23",
+      "captureDateBasis": "Photographer source page and EXIF-era metadata; not independent camera-clock verification.",
+      "rights": {
+        "status": "CC BY-SA 4.0",
+        "artist": "Holger.Ellgaard",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "dated-2020-condition",
+      "visibleFeatures": [
+        "Long open dark framed range canopy adjoining red utility hut.",
+        "Grass outfield with range distance sign; practice activity confirms range use."
+      ],
+      "limitations": [
+        "Distant view and 2020 condition; net structures later changed."
+      ],
+      "sourceWidth": 4715,
+      "sourceHeight": 3250,
+      "exifOrientation": 1
+    },
+    {
+      "id": "commons-Sticklinge-g-rds-lada-2020a-jpg",
+      "title": "Red range-side barn 2020",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/commons-Sticklinge-g-rds-lada-2020a-jpg.jpg",
+      "width": 4084,
+      "height": 2924,
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Sticklinge_g%C3%A5rds_lada_2020a.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Sticklinge_g%C3%A5rds_lada_2020a.jpg",
+      "retrievedAt": "2026-09-10T07:37:22.823736+00:00",
+      "sha256": "6436e365d3058a7cc9bce2e993edc6630a3211a50e78be57dddbd48dcff9f14f",
+      "byteLength": 2116301,
+      "captureDate": "2020-03-14",
+      "captureDateBasis": "Photographer source page and EXIF-era metadata; not independent camera-clock verification.",
+      "rights": {
+        "status": "CC BY-SA 4.0",
+        "artist": "Holger.Ellgaard",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "dated-2020-condition",
+      "visibleFeatures": [
+        "Red vertically boarded upper facade, horizontal lower boarding, dark corrugated pitched roof, dark gutters/downpipe.",
+        "Few small white-trimmed windows, red doors and gable sign; adjacent hardstanding parking.",
+        "Range safety net rises above roof ridge."
+      ],
+      "limitations": [
+        "Image identifies Sticklinge barn but footprint ID and present tenant require geospatial corroboration. 2020 net alignment predates 2026 works."
+      ],
+      "sourceWidth": 4084,
+      "sourceHeight": 2924,
+      "exifOrientation": 1
+    },
+    {
+      "id": "gallery-015_lidingo_gk_16bits-copy",
+      "title": "Lower pavilion exterior",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-015_lidingo_gk_16bits-copy.jpg",
+      "width": 2000,
+      "height": 1333,
+      "sourceUrl": "https://www.lidingogk.se/media/qphnaghw/015_lidingo_gk_16bits-copy.jpg",
+      "pageUrl": "https://www.lidingogk.se/banan/bildgalleri/",
+      "retrievedAt": "2026-09-07T19:19:00.990Z",
+      "sha256": "d408c48e0476401234025acf869b8329c31b5a4337b73d9702af0a10a6361945",
+      "byteLength": 940400,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "undated-condition",
+      "visibleFeatures": [
+        "White vertical boarded walls; dark shallow eaves; framed rectangular windows.",
+        "Glazed veranda with white mullions, low outer railing, exterior stair and planted edge."
+      ],
+      "limitations": [
+        "Gallery mixes years; capture date not established. Pavilion orientation must be matched to aerial."
+      ],
+      "sourceWidth": 2000,
+      "sourceHeight": 1333,
+      "exifOrientation": 1
+    },
+    {
+      "id": "gallery-img_5103",
+      "title": "Pavilion courtyard face",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-img_5103.jpg",
+      "width": 4032,
+      "height": 3024,
+      "sourceUrl": "https://www.lidingogk.se/media/wbzgmxhg/img_5103.jpg",
+      "pageUrl": "https://www.lidingogk.se/banan/bildgalleri/",
+      "retrievedAt": "2026-09-07T19:18:59.225Z",
+      "sha256": "ae2d7c7fd3acc416b895db7994cc38c51de59683cdb390d0d5ed9b6eeb3f38e2",
+      "byteLength": 3639796,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "undated-condition",
+      "visibleFeatures": [
+        "Pavilion courtyard facade has plain rectangular windows, large dark doorway, round wall clock and dark shallow roof.",
+        "Courtyard green, asphalt surround, flagpoles and visible terrace edge provide spatial context."
+      ],
+      "limitations": [
+        "Crowd obscures base facade and entrances; date not established."
+      ],
+      "sourceWidth": 4032,
+      "sourceHeight": 3024,
+      "exifOrientation": 1
+    },
+    {
+      "id": "practice-areas-img_5684-2",
+      "title": "Range mats, hut and covered bays",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/practice-areas-img_5684-2.jpg",
+      "width": 4284,
+      "height": 5712,
+      "sourceUrl": "https://www.lidingogk.se/media/odih45yo/img_5684-2.jpg",
+      "pageUrl": "https://www.lidingogk.se/trana/rangen-ovningsomraden/",
+      "retrievedAt": "2026-09-07T19:21:30.305Z",
+      "sha256": "f7853561972da86c42fa1f6afb7246790d809b05834b49f8168d789f60215608",
+      "byteLength": 9224684,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "undated-condition",
+      "visibleFeatures": [
+        "Green rectangular mats on asphalt with ball trays, low timber front curb and rectangular sponsor dividers.",
+        "Separate small red vertically boarded hut with dark door and shallow dark roof.",
+        "Dark steel posts, beams and braces form open canopy at far end; protective mesh fence and path uphill behind."
+      ],
+      "limitations": [
+        "Photo does not prove total bay count; exact capture date not established."
+      ],
+      "sourceWidth": 5712,
+      "sourceHeight": 4284,
+      "exifOrientation": 6
+    },
+    {
+      "id": "gallery-2026-gfx28464",
+      "title": "Range barn and netting from practice green",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-2026-gfx28464.jpg",
+      "width": 1000,
+      "height": 563,
+      "sourceUrl": "https://www.lidingogk.se/media/biqf3ivu/gfx28464.jpg",
+      "pageUrl": "https://www.lidingogk.se/banan/bildgalleri/bildgalleri-2026/",
+      "retrievedAt": "2026-09-07T19:19:06.437Z",
+      "sha256": "1f7bdd805acba4bc9a6ab69b0c15cff6c299361128e9dd6acf4bcb4a70cf0afc",
+      "byteLength": 527549,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "published-2026-capture-unverified",
+      "visibleFeatures": [
+        "Large red timber wall with few red doors and dark corrugated pitched roof.",
+        "Tall silver truss net posts plus many thinner dark posts; nets behind the practice green/bunker."
+      ],
+      "limitations": [
+        "Published in 2026 gallery; precise capture date unverified; backlight limits facade detail."
+      ],
+      "sourceWidth": 1000,
+      "sourceHeight": 563,
+      "exifOrientation": 1
+    },
+    {
+      "id": "gallery-2026-gfx28462",
+      "title": "Clubhouse course-facing approach 2026",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-2026-gfx28462.jpg",
+      "width": 1000,
+      "height": 563,
+      "sourceUrl": "https://www.lidingogk.se/media/d1xpzcdy/gfx28462.jpg",
+      "pageUrl": "https://www.lidingogk.se/banan/bildgalleri/bildgalleri-2026/",
+      "retrievedAt": "2026-09-07T19:19:06.578Z",
+      "sha256": "9afa15e693191f418eee5d035792f05bbdf4814e35f64ba5b083ec445f65f6f6",
+      "byteLength": 520700,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "published-2026-capture-unverified",
+      "visibleFeatures": [
+        "Low white clubhouse group on ridge and curving path up from green/bunker.",
+        "Spatial relationship of pavilion, restaurant and terrace."
+      ],
+      "limitations": [
+        "Distant architecture; 2026 gallery label is not a verified capture timestamp."
+      ],
+      "sourceWidth": 1000,
+      "sourceHeight": 563,
+      "exifOrientation": 1
+    },
+    {
+      "id": "gallery-2026-gfx28381",
+      "title": "Pavilion approach 2026",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-2026-gfx28381.jpg",
+      "width": 2000,
+      "height": 1500,
+      "sourceUrl": "https://www.lidingogk.se/media/zdumg3u0/gfx28381.jpg",
+      "pageUrl": "https://www.lidingogk.se/banan/bildgalleri/bildgalleri-2026/",
+      "retrievedAt": "2026-09-07T19:19:12.262Z",
+      "sha256": "fdb83f481d9d6a127929ce0d7b74a632fe263eb80143071c4c9871b38f81a6b0",
+      "byteLength": 2555695,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "published-2026-capture-unverified",
+      "visibleFeatures": [
+        "Pavilion course-facing white facade with framed windows, veranda area, flagpoles and serpentine asphalt path."
+      ],
+      "limitations": [
+        "Distant and partially tree-occluded."
+      ],
+      "sourceWidth": 2000,
+      "sourceHeight": 1500,
+      "exifOrientation": 1
+    },
+    {
+      "id": "gallery-2026-gfx28396",
+      "title": "Restaurant terrace elevation 2026",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-2026-gfx28396.jpg",
+      "width": 2000,
+      "height": 1500,
+      "sourceUrl": "https://www.lidingogk.se/media/0vnlrnd0/gfx28396.jpg",
+      "pageUrl": "https://www.lidingogk.se/banan/bildgalleri/bildgalleri-2026/",
+      "retrievedAt": "2026-09-07T19:19:13.323Z",
+      "sha256": "8849cbc1457d2400e5e2df47737f282e7af4fe615a247d289eb76c9b7c1daec3",
+      "byteLength": 2794684,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "published-2026-capture-unverified",
+      "visibleFeatures": [
+        "Restaurant and terraces sit above substantial dark retaining edge on course slope.",
+        "White facade, shallow eaves and lower terrace massing visible between trees."
+      ],
+      "limitations": [
+        "Dark distant view; not suitable for counting windows or stairs."
+      ],
+      "sourceWidth": 2000,
+      "sourceHeight": 1500,
+      "exifOrientation": 1
+    },
+    {
+      "id": "gallery-olle-bild-oevningsomraadet",
+      "title": "New practice-area appearance",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/gallery-olle-bild-oevningsomraadet.jpg",
+      "width": 1280,
+      "height": 850,
+      "sourceUrl": "https://www.lidingogk.se/media/uk3bf43e/olle-bild-oevningsomraadet.jpg",
+      "pageUrl": "https://www.lidingogk.se/banan/bildgalleri/",
+      "retrievedAt": "2026-09-07T19:19:02.220Z",
+      "sha256": "f3d55acba362a3a3d82bc1bcf1d0aa01e4d08091a2c7f305cb194487af5c90f1",
+      "byteLength": 448764,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "undated-condition",
+      "visibleFeatures": [
+        "Practice putting/chipping surface, raised banks, bunker edge and pine woodland setting."
+      ],
+      "limitations": [
+        "Filename identifies practice area; exact location and acquisition year need corroboration."
+      ],
+      "sourceWidth": 1280,
+      "sourceHeight": 850,
+      "exifOrientation": 1
+    },
+    {
+      "id": "course-council-vy-28-augu",
+      "title": "Range buildings context",
+      "path": "lidingobuild/cache/facilities-reference-2026-09-10/photos/course-council-vy-28-augu.jpg",
+      "width": 1280,
+      "height": 960,
+      "sourceUrl": "https://www.lidingogk.se/media/zjelmck4/vy-28-augu.jpg",
+      "pageUrl": "https://www.lidingogk.se/klubben/kommitteer-sektioner/banraadet/",
+      "retrievedAt": "2026-09-07T19:21:29.152Z",
+      "sha256": "52e9381229d8f6540e3b67879ee5731a693365766d5f0a4cf85d5daad1876007",
+      "byteLength": 426479,
+      "captureDate": null,
+      "captureDateBasis": "Unknown; publication context is not capture-date proof.",
+      "rights": {
+        "status": "Public reference; no redistribution grant found",
+        "artist": null,
+        "licenseUrl": null,
+        "usage": "Local modelling reference. Raw source pixels are kept in ignored cache; not included in application assets."
+      },
+      "preferredForBlender": true,
+      "reviewed": true,
+      "reviewMethod": "Contact-sheet triage; selected facade/aerial/range images inspected individually.",
+      "evidenceClass": "undated-condition",
+      "visibleFeatures": [
+        "Two separate red pitched-roof range buildings visible across grass, alongside winding asphalt paths."
+      ],
+      "limitations": [
+        "Distant; publication/capture year not established from filename; use only with footprint alignment."
+      ],
+      "sourceWidth": 1280,
+      "sourceHeight": 960,
+      "exifOrientation": 1
+    }
+  ],
+  "readme": "LIDINGÖ GOLFKLUBB / FACILITY MODELLING WORKSPACE\n\nStage: gathered reference material plus the EXISTING app display geometry imported\nas editable parts. This is the starting point for detailed remodelling, not a new\ncompleted replica. No production app assets were replaced by this task.\n\nSCENES\n1. Model reference: five existing building models and courtyard terrace, split by\n   architectural part/material. Neutral terrain uses the published 1m DTM sampled\n   at 2m for display. Six primary footprints, 14 facility boundaries and additional\n   mapped context sit at terrain heights. Toggle the 2021 roof TIN collection to\n   inspect measured roofs, preserving unsupported regions.\n2. Orthophoto plan: 2025-05-31 native 0.16m orthophoto, at exact EPSG:3006 pixel\n   bounds. Detail crops and 2019 historical comparators are packed but hidden;\n   select their objects in the Outliner and enable viewport/render visibility.\n   Hide the other photo planes when comparing a historical layer. This scene is\n   a flat plan reference at Z=0, not measured ground or roof heights.\n3. Photo references: curated actual aerial and exterior photographs, with source\n   URLs, capture-date evidence, rights and visible features on object properties.\n   All source images are packed into this local file.\n\nCOORDINATES\nOne Blender unit=one metre. X=E-677700.5, Y=N-6586399.5, Z=RH2000-25.\nHorizontal EPSG:3006; vertical RH2000/EPSG:5613. For app placement after Blender\nglTF axis conversion, add 25m to vertical Y. Source fixture elevations already\ninclude the terrain bridge; do not add an extra -0.05m offset.\n\nPRIORITY MODELLING WORK\n- Match the clubhouse roof steps, white facade, blue awnings, recessed reception,\n  balcony/columns, pavilion and timber terrace to the reviewed exterior/aerials.\n- The existing pale range buildings are a known appearance mismatch: reviewed\n  photos show red timber structures. Confirm each photo-to-footprint association\n  before replacing facade materials and openings.\n- Model both north/south range shelters, tee mats and dividers, ball-machine huts,\n  range fence/net supports, entrance pillars and pedestrian access where evidence\n  supports their placement. Exact pole heights and hidden facades remain gaps.\n- Keep the small shed and southern support building as outline references until\n  enough height and exterior evidence is available; unknown use stays unknown.\n- The 2025 orthophoto predates 2026 range-net work. Compare the current club photos\n  and statements; historical imagery and conceptual drawings are not as-built plans.\n\nSee lidingobuild/facilities/README.md, facility-inventory.md, web-reference.md and\northophoto-reference.md for sources, conflicts and remaining capture needs.\nRaw/reference pixels and this packed project stay in the local ignored cache.\n",
+  "unresolvedFacilities": [
+    {
+      "id": "north-range-covered-tee-structure",
+      "kind": "untraced_building",
+      "name": "North range covered tee structure",
+      "group": "range",
+      "sourceEvidence": [
+        "range-north-detail-lm-2025"
+      ],
+      "observationBoundsEpsg3006": [
+        677582,
+        6586378,
+        677605,
+        6586396
+      ],
+      "observation": "A narrow roof-like structure is visible at the west end of the north tee apron.",
+      "gaps": [
+        "Wall/roof footprint not traced",
+        "Eaves/ridge heights",
+        "Mat and bay count",
+        "Side elevations"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "south-range-covered-tee-structure",
+      "kind": "untraced_building",
+      "name": "South range covered tee structure",
+      "group": "range",
+      "sourceEvidence": [
+        "range-south-detail-lm-2025"
+      ],
+      "observationBoundsEpsg3006": [
+        677550,
+        6586140,
+        677591,
+        6586162
+      ],
+      "observation": "Elongated dark roof is visible beside the south tee platform; absent from the retained OSM building footprints.",
+      "gaps": [
+        "Wall/roof footprint not traced",
+        "Eaves/ridge heights",
+        "Supports and net connections",
+        "Facade photos"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "restaurant-terrace-putting-green",
+      "kind": "untraced_practice_green",
+      "name": "Putting green northeast of restaurant terrace",
+      "group": "clubhouse",
+      "sourceEvidence": [
+        "clubhouse-detail-lm-2025"
+      ],
+      "observationBoundsEpsg3006": [
+        677670,
+        6586478,
+        677706,
+        6586530
+      ],
+      "observation": "Distinct green east/northeast of north restaurant, additional to the courtyard and southeast pavilion greens already in facilities.geojson.",
+      "gaps": [
+        "Current ring not traced",
+        "Reconcile with generic playing greens to prevent duplicate geometry"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "range-south-target-green",
+      "kind": "untraced_practice_green",
+      "name": "South target green within range field",
+      "group": "range",
+      "sourceEvidence": [
+        "range-south-detail-lm-2025"
+      ],
+      "observationBoundsEpsg3006": [
+        677577,
+        6586181,
+        677605,
+        6586212
+      ],
+      "observation": "Separate small green target is visible in the southern range field, additional to retained central target green.",
+      "gaps": [
+        "Exact ring",
+        "Target equipment and distances"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "clubhouse-terrace-stairs-entrance",
+      "kind": "architecture_details",
+      "name": "Tiered timber terrace, stairs, rails, entry wall/pillars",
+      "group": "clubhouse",
+      "sourceEvidence": [
+        "clubhouse-detail-lm-2025",
+        "docs/courses/lidingo-clubhouse-appearance.md",
+        "https://www.lidingogk.se/nyheter/vikingaskeppet-6-7-juli/"
+      ],
+      "observation": "Photographs corroborate these details; existing app contains an approximate terrace display model.",
+      "gaps": [
+        "Precise deck outlines and elevations",
+        "Rail spacing",
+        "Stair rise/run",
+        "Entrance details and facade dimensions"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "range-east-net-and-equipment",
+      "kind": "range_equipment",
+      "name": "East range netting, masts, mats and equipment",
+      "group": "range",
+      "sourceEvidence": [
+        "facilities-overview-lm-2025",
+        "https://www.lidingogk.se/trana/rangen-ovningsomraden/"
+      ],
+      "observation": "Eastern pole shadows, tee rows and equipment are visible. A separate red utility hut and open canopy are present in a club range photograph.",
+      "gaps": [
+        "Current mast base coordinates and heights",
+        "Net runs and cable connections",
+        "Exact mat count",
+        "Locate photographed red hut before joining to way/221846983 or another structure"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "upper-parking-practice-works",
+      "kind": "untraced_practice_area",
+      "name": "New practice area by upper parking",
+      "group": "practice",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/trana/rangen-ovningsomraden/",
+        "upper-parking-detail-lm-2025"
+      ],
+      "observation": "Club identifies a practice area by upper parking. The May 2025 image shows greens/bunkers northeast of parking, but current intended boundary and any later works remain unconfirmed.",
+      "gaps": [
+        "Current as-built extent",
+        "Construction/completion date relative to 2025-05-31",
+        "Detailed bunker/green rings"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "south-range-short-game-area",
+      "kind": "practice_area",
+      "name": "Chipping and bunker practice south of range",
+      "group": "practice",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/trana/rangen-ovningsomraden/",
+        "range-south-detail-lm-2025"
+      ],
+      "observation": "Club confirms south range short-game practice; the retained south putting green covers only part of the visible green/bunker/approach complex.",
+      "gaps": [
+        "Full group boundary",
+        "Practice bunker and apron joins to generic golf-surface data",
+        "Current markers and equipment"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "old-17-practice-green",
+      "kind": "unlocated_practice_area",
+      "name": "Practice green at old hole 17",
+      "group": "practice",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/trana/rangen-ovningsomraden/"
+      ],
+      "observation": "Official page identifies old 17 green as a practice area.",
+      "gaps": [
+        "Geolocate historical hole 17; do not assume current hole 17 coordinates",
+        "Dedicated ortho crop and current dimensions"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "halfway-kiosk",
+      "kind": "unlocated_building",
+      "name": "Kiosk between holes 9 and 10",
+      "group": "course-support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/gaster/"
+      ],
+      "observation": "Official guest page identifies kiosk between 9 and 10.",
+      "gaps": [
+        "Exact footprint and coordinate",
+        "Exterior photos",
+        "Roof/wall dimensions",
+        "Current associated seating/paths"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "maintenance-carts-equipment-conference",
+      "kind": "unlocated_building_uses",
+      "name": "Maintenance, golf-cart/equipment and conference premises",
+      "group": "support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Club anniversary history pp8–9 identifies west barn maintenance staff (2016), B4 garage for 14 electric carts, B3 bag store/tournament office and B2 conference/junior space (2017). Counts and uses are historical report facts, not a current inspection.",
+      "gaps": [
+        "Join historical B2/B3/B4 and Västra Ladan labels to exact current footprints",
+        "Current room uses and exterior alterations"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "starter-hut",
+      "kind": "unlocated_building",
+      "name": "Starter hut outside B4",
+      "group": "course-support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history pp8–9 reports starter hut built outside B4 in 2018.",
+      "gaps": [
+        "Identify B4 footprint",
+        "Hut coordinates and roof/wall footprint",
+        "Current exterior photos and height"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "clubhouse-range-sanitary-water",
+      "kind": "unlocated_building_details",
+      "name": "B4/east-barn toilets, club washing and water points",
+      "group": "course-support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history pp8–9 reports two B4-gable toilets facing starter hut in 2021, east-barn toilets in 2021, B3-gable club-wash sinks and water tap/sink toward the path to tee 5.",
+      "gaps": [
+        "Exact B3/B4 and east-barn facade joins",
+        "Door positions, sinks, water point dimensions",
+        "Current condition; potable-water status not established"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "tee-15-toilet",
+      "kind": "unlocated_building",
+      "name": "Toilet by tee 15",
+      "group": "course-support",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history records a toilet at tee 15 added in 2023.",
+      "gaps": [
+        "Exact coordinate and footprint",
+        "Exterior and roof height",
+        "Dedicated orthophoto crop"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "bag-store-ev-charging",
+      "kind": "unlocated_equipment",
+      "name": "Electric vehicle charging bays by bag store",
+      "group": "parking",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history reports six EV charging spaces by the bag store long side in 2022.",
+      "gaps": [
+        "Join bag store to exact footprint and side",
+        "Charger positions, models and markings",
+        "Current capacity"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    },
+    {
+      "id": "east-barn-indoor-range",
+      "kind": "unlocated_building_use",
+      "name": "Indoor hitting bays in east barn upper floor",
+      "group": "range",
+      "sourceEvidence": [
+        "https://www.lidingogk.se/media/xiogpfrw/lgk-90-%C3%A5r-2023-05-23.pdf"
+      ],
+      "observation": "Anniversary history reports east-barn upper floor conversion in 2018–2019 for six indoor hitting bays.",
+      "gaps": [
+        "Confirm east barn footprint-ID association",
+        "Current exterior openings and bay arrangement",
+        "Current use and number of bays"
+      ],
+      "sourceFeatureId": null,
+      "sourceFootprintId": null,
+      "geometryEpsg3006": null,
+      "geometryStatus": "not mapped; observation bounds are search windows, not footprints",
+      "heightStatus": "unverified"
+    }
+  ]
+}

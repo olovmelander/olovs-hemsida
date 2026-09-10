@@ -1,0 +1,1400 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-10T08:12:52.580381+00:00",
+  "passed": true,
+  "auditScope": "Current source, architecture, export and public asset consistency; browser validation is separate.",
+  "currentReceipts": [
+    {
+      "path": "johannesbergbuild/facilities/model-build-report.json",
+      "sha256": "404836933a2ac766e073bf0e21af8a517bf23ec443057d62f82180bda53a554e"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-export-validation.json",
+      "sha256": "bf3d041f1ad2240a1fd11e33978ec63fb9bea84336ead7bfd0cc87cafdd51dee"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-publish-validation.json",
+      "sha256": "5776b47d4fca1b73661d126f75da9772658ec2d755d556f5577df640cfaee128"
+    },
+    {
+      "path": "apps/golf/public/models/johannesberg/facilities-v1.json",
+      "sha256": "5ffd3d5d3d28179c7cb4e25209e79bee9a857a4fc9495cd871a84e5025e860d0"
+    }
+  ],
+  "scene": "Johannesberg | Facilities architecture 2026-09-10 v5",
+  "architectureSources": 7,
+  "roots": 22,
+  "sourceIdsMatch": true,
+  "facilities": [
+    {
+      "id": "johannesberg-building-w296165889",
+      "sourceBuildingId": "w296165889",
+      "nodeName": "johannesberg-building-w296165889"
+    },
+    {
+      "id": "johannesberg-manor",
+      "sourceBuildingId": "w296165891",
+      "nodeName": "johannesberg-manor"
+    },
+    {
+      "id": "johannesberg-old-stable",
+      "sourceBuildingId": "w296165892",
+      "nodeName": "johannesberg-old-stable"
+    },
+    {
+      "id": "johannesberg-east-slottsvilla",
+      "sourceBuildingId": "w296165893",
+      "nodeName": "johannesberg-east-slottsvilla"
+    },
+    {
+      "id": "johannesberg-east-wing",
+      "sourceBuildingId": "w296165894",
+      "nodeName": "johannesberg-east-wing"
+    },
+    {
+      "id": "johannesberg-clubhouse",
+      "sourceBuildingId": "w296165896",
+      "nodeName": "johannesberg-clubhouse"
+    },
+    {
+      "id": "johannesberg-clubhouse-shed",
+      "sourceBuildingId": "w296165897",
+      "nodeName": "johannesberg-clubhouse-shed"
+    },
+    {
+      "id": "johannesberg-west-slottsvilla",
+      "sourceBuildingId": "w296165898",
+      "nodeName": "johannesberg-west-slottsvilla"
+    },
+    {
+      "id": "johannesberg-karolinerhuset",
+      "sourceBuildingId": "w296165899",
+      "nodeName": "johannesberg-karolinerhuset"
+    },
+    {
+      "id": "johannesberg-building-w296165900",
+      "sourceBuildingId": "w296165900",
+      "nodeName": "johannesberg-building-w296165900"
+    },
+    {
+      "id": "johannesberg-west-wing",
+      "sourceBuildingId": "w296165901",
+      "nodeName": "johannesberg-west-wing"
+    },
+    {
+      "id": "johannesberg-building-w296165903",
+      "sourceBuildingId": "w296165903",
+      "nodeName": "johannesberg-building-w296165903"
+    },
+    {
+      "id": "johannesberg-johannesbergsvillan",
+      "sourceBuildingId": "w296165904",
+      "nodeName": "johannesberg-johannesbergsvillan"
+    },
+    {
+      "id": "johannesberg-johannesbergsflygeln",
+      "sourceBuildingId": "w296165905",
+      "nodeName": "johannesberg-johannesbergsflygeln"
+    },
+    {
+      "id": "johannesberg-building-w296165906",
+      "sourceBuildingId": "w296165906",
+      "nodeName": "johannesberg-building-w296165906"
+    },
+    {
+      "id": "johannesberg-building-w296165907",
+      "sourceBuildingId": "w296165907",
+      "nodeName": "johannesberg-building-w296165907"
+    },
+    {
+      "id": "johannesberg-building-w296165908",
+      "sourceBuildingId": "w296165908",
+      "nodeName": "johannesberg-building-w296165908"
+    },
+    {
+      "id": "johannesberg-private-residence",
+      "sourceBuildingId": "w296165909",
+      "nodeName": "johannesberg-private-residence"
+    },
+    {
+      "id": "johannesberg-range-hut",
+      "sourceBuildingId": "w378922988",
+      "nodeName": "johannesberg-range-hut"
+    },
+    {
+      "id": "johannesberg-building-w426174582",
+      "sourceBuildingId": "w426174582",
+      "nodeName": "johannesberg-building-w426174582"
+    },
+    {
+      "id": "johannesberg-building-trace-tower",
+      "sourceBuildingId": "trace-tower",
+      "nodeName": "johannesberg-building-trace-tower"
+    },
+    {
+      "id": "johannesberg-range-shelter",
+      "sourceBuildingId": "trace-range-shelter",
+      "nodeName": "johannesberg-range-shelter"
+    }
+  ],
+  "triangles": 56637,
+  "finiteAccessorCount": 543,
+  "images": 0,
+  "textures": 0,
+  "exactPositionTransformMaximumErrorMetres": 3.051745329685218e-05,
+  "publicAsset": {
+    "url": "models/johannesberg/facilities-ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf.glb",
+    "bytes": 3668672,
+    "sha256": "ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf"
+  },
+  "whitespace": {
+    "passed": true,
+    "trackedCommand": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      "johannesbergbuild/facilities",
+      "apps/golf/public/models/johannesberg",
+      "apps/golf/src/engine/scenery/johannesberg-facilities.mjs",
+      "apps/golf/src/engine/scenery/johannesberg-facilities.test.mjs",
+      "apps/golf/src/engine/scenery/johannesberg.js",
+      "apps/golf/src/engine/scenery/index.js",
+      "apps/golf/public/_headers",
+      "apps/golf/vite.config.js",
+      "tools/check-johannesberg-facilities.mjs",
+      ".gitignore",
+      ".gitattributes"
+    ],
+    "untrackedTextFilesChecked": [
+      "apps/golf/public/models/johannesberg/facilities-v1.json",
+      "apps/golf/src/engine/scenery/johannesberg-facilities.mjs",
+      "apps/golf/src/engine/scenery/johannesberg-facilities.test.mjs",
+      "johannesbergbuild/facilities/README.md",
+      "johannesbergbuild/facilities/acquire-roof-height-window.mjs",
+      "johannesbergbuild/facilities/analyse-roof-heights.py",
+      "johannesbergbuild/facilities/architecture-spec.json",
+      "johannesbergbuild/facilities/blender-reference-spec.json",
+      "johannesbergbuild/facilities/blender-reference-validation.json",
+      "johannesbergbuild/facilities/blender-reopen-validation.json",
+      "johannesbergbuild/facilities/blender_mcp_client.py",
+      "johannesbergbuild/facilities/build-estate-model-profiles.py",
+      "johannesbergbuild/facilities/build-site-inventory.py",
+      "johannesbergbuild/facilities/build_architecture.py",
+      "johannesbergbuild/facilities/build_blender_reference.py",
+      "johannesbergbuild/facilities/clubhouse-model-profile.json",
+      "johannesbergbuild/facilities/clubhouse-model-profile.md",
+      "johannesbergbuild/facilities/compile-model-spec.py",
+      "johannesbergbuild/facilities/deck-clearance-review.json",
+      "johannesbergbuild/facilities/estate-model-profiles.json",
+      "johannesbergbuild/facilities/gallery-validation.json",
+      "johannesbergbuild/facilities/model-build-report.json",
+      "johannesbergbuild/facilities/model-export-validation.json",
+      "johannesbergbuild/facilities/model-ground.json",
+      "johannesbergbuild/facilities/model-publish-validation.json",
+      "johannesbergbuild/facilities/model-source-validation.json",
+      "johannesbergbuild/facilities/model_geometry.py",
+      "johannesbergbuild/facilities/orthophoto-panels.json",
+      "johannesbergbuild/facilities/prepare-model-ground.py",
+      "johannesbergbuild/facilities/prepare-reference-pack.py",
+      "johannesbergbuild/facilities/probe_blender.py",
+      "johannesbergbuild/facilities/publish-model-assets.py",
+      "johannesbergbuild/facilities/reference-pack-validation.json",
+      "johannesbergbuild/facilities/render-export-architecture.py",
+      "johannesbergbuild/facilities/roof-height-evidence.json",
+      "johannesbergbuild/facilities/roof-height-evidence.md",
+      "johannesbergbuild/facilities/roof-height-service-hall-evidence.json",
+      "johannesbergbuild/facilities/roof_clip.py",
+      "johannesbergbuild/facilities/site-inventory.json",
+      "johannesbergbuild/facilities/site-inventory.md",
+      "johannesbergbuild/facilities/test-roof-clip.py",
+      "johannesbergbuild/facilities/verify-blender-reference.py",
+      "johannesbergbuild/facilities/verify-model-sources.py",
+      "johannesbergbuild/facilities/verify-reference-gallery.mjs",
+      "johannesbergbuild/facilities/web-reference-sources.json",
+      "johannesbergbuild/facilities/web-reference-sources.md",
+      "tools/check-johannesberg-facilities.mjs"
+    ],
+    "errors": [],
+    "warnings": [
+      "warning: in the working copy of '.gitattributes', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'apps/golf/public/_headers', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'apps/golf/public/models/johannesberg/facilities-v1.json', CRLF will be replaced by LF the next time Git touches it",
+      "warning: in the working copy of 'apps/golf/src/engine/scenery/index.js', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'apps/golf/src/engine/scenery/johannesberg-facilities.mjs', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'apps/golf/src/engine/scenery/johannesberg-facilities.test.mjs', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'apps/golf/src/engine/scenery/johannesberg.js', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'apps/golf/vite.config.js', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'johannesbergbuild/facilities/README.md', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'johannesbergbuild/facilities/clubhouse-model-profile.md', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'johannesbergbuild/facilities/roof-height-evidence.md', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'johannesbergbuild/facilities/site-inventory.md', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'johannesbergbuild/facilities/web-reference-sources.md', LF will be replaced by CRLF the next time Git touches it",
+      "warning: in the working copy of 'tools/check-johannesberg-facilities.mjs', LF will be replaced by CRLF the next time Git touches it"
+    ]
+  },
+  "privateCacheIgnored": true,
+  "sourcePins": [
+    {
+      "path": "johannesbergbuild/facilities/clubhouse-model-profile.json",
+      "expectedSha256": "988d7c77ec3df7ac2f8390da370cb2a729244ae201c7207c4df7cf8be8f0e9cc",
+      "actualSha256": "988d7c77ec3df7ac2f8390da370cb2a729244ae201c7207c4df7cf8be8f0e9cc",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/estate-model-profiles.json",
+      "expectedSha256": "b9739ba681ab30218c66b031b6671a6cc6bb40a0404c9fcdcb43f12f7c801bb8",
+      "actualSha256": "b9739ba681ab30218c66b031b6671a6cc6bb40a0404c9fcdcb43f12f7c801bb8",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-ground.json",
+      "expectedSha256": "f76475d08db1c3a9daf72b4281f232edfccffe673ac81ddd1c0977bdcb7e0252",
+      "actualSha256": "f76475d08db1c3a9daf72b4281f232edfccffe673ac81ddd1c0977bdcb7e0252",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/site-inventory.json",
+      "expectedSha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae",
+      "actualSha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/ground-grid.json",
+      "expectedSha256": "4f91a7e2a6e7fbc72b480d31fc0e040bbde942e1554a1d671053d816c50aae38",
+      "actualSha256": "4f91a7e2a6e7fbc72b480d31fc0e040bbde942e1554a1d671053d816c50aae38",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model_geometry.py",
+      "expectedSha256": "5e593cced37b50d9dea6ae464dbd0d3ed5f8c1856f23f9da7f7ae6aea26d913b",
+      "actualSha256": "5e593cced37b50d9dea6ae464dbd0d3ed5f8c1856f23f9da7f7ae6aea26d913b",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof_clip.py",
+      "expectedSha256": "da0deabfd8ea54e275bb7f1fbd31d1fd9d79298b7f690af4bee6da60ea2ed9b6",
+      "actualSha256": "da0deabfd8ea54e275bb7f1fbd31d1fd9d79298b7f690af4bee6da60ea2ed9b6",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-4558-original.jpg",
+      "expectedSha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132",
+      "actualSha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3970-original.jpg",
+      "expectedSha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879",
+      "actualSha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6642-original.jpg",
+      "expectedSha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95",
+      "actualSha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+      "expectedSha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+      "actualSha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-native.png",
+      "expectedSha256": "80b452d6aed2d9e31d19ee9257591a20309bd92cfc4632af5a0059fe1f9ef147",
+      "actualSha256": "80b452d6aed2d9e31d19ee9257591a20309bd92cfc4632af5a0059fe1f9ef147",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/orthophoto-panels.json",
+      "expectedSha256": "69c2d61474605e1428f912f3d5aaeb77439a80639eb9f7cba78a323215a7f236",
+      "actualSha256": "69c2d61474605e1428f912f3d5aaeb77439a80639eb9f7cba78a323215a7f236",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/site-inventory.json",
+      "expectedSha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae",
+      "actualSha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-ground.json",
+      "expectedSha256": "f76475d08db1c3a9daf72b4281f232edfccffe673ac81ddd1c0977bdcb7e0252",
+      "actualSha256": "f76475d08db1c3a9daf72b4281f232edfccffe673ac81ddd1c0977bdcb7e0252",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-axis-plane-fit.json",
+      "expectedSha256": "7cb13d261de13ec67bf9ad3642dea309f2ce5d1f6077ce703ba88ec6d6d63d3b",
+      "actualSha256": "7cb13d261de13ec67bf9ad3642dea309f2ce5d1f6077ce703ba88ec6d6d63d3b",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-full-window-sections.png",
+      "expectedSha256": "78f1e588508513754434c32003a1de56824bbb183544635e3ef3059978a37f87",
+      "actualSha256": "78f1e588508513754434c32003a1de56824bbb183544635e3ef3059978a37f87",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-proposed-roof-envelope.png",
+      "expectedSha256": "248734c9c764a06f8c69cd8756eab62ac86b404b1280f1c2e5cdad66fcc0fa58",
+      "actualSha256": "248734c9c764a06f8c69cd8756eab62ac86b404b1280f1c2e5cdad66fcc0fa58",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/deck-clearance-review.json",
+      "expectedSha256": "fdd9963333959ad6cdbdf63a881a104d796bd7be7fb1b4eba52c191b26b41a53",
+      "actualSha256": "fdd9963333959ad6cdbdf63a881a104d796bd7be7fb1b4eba52c191b26b41a53",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/site-inventory.json",
+      "expectedSha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae",
+      "actualSha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/orthophoto-panels.json",
+      "expectedSha256": "69c2d61474605e1428f912f3d5aaeb77439a80639eb9f7cba78a323215a7f236",
+      "actualSha256": "69c2d61474605e1428f912f3d5aaeb77439a80639eb9f7cba78a323215a7f236",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/web-reference-sources.json",
+      "expectedSha256": "2dfc197ba85b24c4244b44fc04c6199b79a68947998d907e27a0fef86c8e794c",
+      "actualSha256": "2dfc197ba85b24c4244b44fc04c6199b79a68947998d907e27a0fef86c8e794c",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-service-hall-evidence.json",
+      "expectedSha256": "1bc7b034fe56f42cae1e36ed84827ce27b1a48f59128079a416eb3e4bbec1c8a",
+      "actualSha256": "1bc7b034fe56f42cae1e36ed84827ce27b1a48f59128079a416eb3e4bbec1c8a",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165889-native.png",
+      "expectedSha256": "1889c9c392815b037f411da46bd07b4243e9a7593387b2d1677cce89ea4884da",
+      "actualSha256": "1889c9c392815b037f411da46bd07b4243e9a7593387b2d1677cce89ea4884da",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-manor-native.png",
+      "expectedSha256": "8cdfa10e7c9cb899677ccfbc8b615d035f7e7769ea41a168f492c0173163c2ee",
+      "actualSha256": "8cdfa10e7c9cb899677ccfbc8b615d035f7e7769ea41a168f492c0173163c2ee",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "expectedSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "actualSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0011.jpg",
+      "expectedSha256": "1dddf3a8e307bb20b939138ad38e8416c230af9560e1104dbc3898669cea9a79",
+      "actualSha256": "1dddf3a8e307bb20b939138ad38e8416c230af9560e1104dbc3898669cea9a79",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/20210617-p1022081-hdr-enhanced.jpg",
+      "expectedSha256": "9f5c99f242f1343362f3d0705e15ef4ae37f10e40877d848bef4549fcc7c346e",
+      "actualSha256": "9f5c99f242f1343362f3d0705e15ef4ae37f10e40877d848bef4549fcc7c346e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-old-stable-native.png",
+      "expectedSha256": "5341621c11e419607d559dbcd7b85a135798547a0e5cbe5f230e397b90f6ea1d",
+      "actualSha256": "5341621c11e419607d559dbcd7b85a135798547a0e5cbe5f230e397b90f6ea1d",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-slottsvilla-native.png",
+      "expectedSha256": "4d25066d55684aa1163bb8d016deda948c91b1a97c54a0a96c652631b87a59c2",
+      "actualSha256": "4d25066d55684aa1163bb8d016deda948c91b1a97c54a0a96c652631b87a59c2",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "expectedSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "actualSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/img-3042.jpg",
+      "expectedSha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158",
+      "actualSha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-wing-native.png",
+      "expectedSha256": "5300a5f25aacccdbeebc1e43a964de712bf50a9ab40ac4652b054e8a67e45c04",
+      "actualSha256": "5300a5f25aacccdbeebc1e43a964de712bf50a9ab40ac4652b054e8a67e45c04",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/stra-flygeln-1.jpg",
+      "expectedSha256": "d7a0e30ec5ef2f3955538757f1f19e42fa736d1d2b2d4ef70251aed62f22bd46",
+      "actualSha256": "d7a0e30ec5ef2f3955538757f1f19e42fa736d1d2b2d4ef70251aed62f22bd46",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-shed-native.png",
+      "expectedSha256": "0a7ee4888e422c4b8aff29f14821e0cc001854eb0c288e6d956f0541c0d0a9ca",
+      "actualSha256": "0a7ee4888e422c4b8aff29f14821e0cc001854eb0c288e6d956f0541c0d0a9ca",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-4558-original.jpg",
+      "expectedSha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132",
+      "actualSha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3970-original.jpg",
+      "expectedSha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879",
+      "actualSha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6642-original.jpg",
+      "expectedSha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95",
+      "actualSha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-slottsvilla-native.png",
+      "expectedSha256": "876c4e903e83371ca591bac052237306aec6b2291fccc4f60fc0f752229b6314",
+      "actualSha256": "876c4e903e83371ca591bac052237306aec6b2291fccc4f60fc0f752229b6314",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "expectedSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "actualSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/img-3042.jpg",
+      "expectedSha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158",
+      "actualSha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-karolinerhuset-native.png",
+      "expectedSha256": "fd19d7d1914cf9a4bb14b5ca7cc98f263f9fb43a53fe1760f40d60e1e37de1c4",
+      "actualSha256": "fd19d7d1914cf9a4bb14b5ca7cc98f263f9fb43a53fe1760f40d60e1e37de1c4",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-54_orig.jpg",
+      "expectedSha256": "1dac5b87af2bf4a97d8b8d5c539d98c7dfeef46784e514548ba8064365969498",
+      "actualSha256": "1dac5b87af2bf4a97d8b8d5c539d98c7dfeef46784e514548ba8064365969498",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "expectedSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "actualSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165900-native.png",
+      "expectedSha256": "68fcba561b3937aaf43668d743ddcb3e024c506365a239789394a185512fe327",
+      "actualSha256": "68fcba561b3937aaf43668d743ddcb3e024c506365a239789394a185512fe327",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-wing-native.png",
+      "expectedSha256": "b09ba60c6e7f9d97a504e8544b195b763678dca3967147fb1f6b09fd8f823826",
+      "actualSha256": "b09ba60c6e7f9d97a504e8544b195b763678dca3967147fb1f6b09fd8f823826",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/v-stra-flygeln-2.jpg",
+      "expectedSha256": "7840c811b352a94f5cf0883a1609ecbf8bfcc72bc5b23e327186020b13ca5d2c",
+      "actualSha256": "7840c811b352a94f5cf0883a1609ecbf8bfcc72bc5b23e327186020b13ca5d2c",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165903-native.png",
+      "expectedSha256": "fb0e50322484bc17e5ba37d60b2985672e37a5e7d30902e44f99dae371311c1c",
+      "actualSha256": "fb0e50322484bc17e5ba37d60b2985672e37a5e7d30902e44f99dae371311c1c",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsvillan-native.png",
+      "expectedSha256": "52b9cd32b1015c318fced756034560e4e0a4cb2846273f054b9a8c622769a1de",
+      "actualSha256": "52b9cd32b1015c318fced756034560e4e0a4cb2846273f054b9a8c622769a1de",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-flygbild-spa-1080.jpg",
+      "expectedSha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7",
+      "actualSha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "expectedSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "actualSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsflygeln-native.png",
+      "expectedSha256": "c6ef3119c98e01e3dff9fc686e254dcf769e4327324de9afe6ee9627295333c2",
+      "actualSha256": "c6ef3119c98e01e3dff9fc686e254dcf769e4327324de9afe6ee9627295333c2",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-flygbild-spa-1080.jpg",
+      "expectedSha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7",
+      "actualSha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165906-native.png",
+      "expectedSha256": "2ad17fb0ebbd0c8aa21ba305bd41f73c1cef9513a2bf7c359471e3b2250cbd9a",
+      "actualSha256": "2ad17fb0ebbd0c8aa21ba305bd41f73c1cef9513a2bf7c359471e3b2250cbd9a",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165907-native.png",
+      "expectedSha256": "97c0d82e03857cfacca825f44255018201612e5500da410088a0686e58df32ba",
+      "actualSha256": "97c0d82e03857cfacca825f44255018201612e5500da410088a0686e58df32ba",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165908-native.png",
+      "expectedSha256": "f21f3e60088b843a52ae40723e9316a425072e4270af1091c8ef480a8a4fb5ce",
+      "actualSha256": "f21f3e60088b843a52ae40723e9316a425072e4270af1091c8ef480a8a4fb5ce",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-private-residence-native.png",
+      "expectedSha256": "7ede293e5a8af0a1e6729fd516907814a4c655bb9877d60ca872214773a17702",
+      "actualSha256": "7ede293e5a8af0a1e6729fd516907814a4c655bb9877d60ca872214773a17702",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "expectedSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "actualSha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "expectedSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "actualSha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-hut-native.png",
+      "expectedSha256": "dbaa4ed6ac679c694013835b021c3db1ca04d736b58e04159041a8af6ec6f933",
+      "actualSha256": "dbaa4ed6ac679c694013835b021c3db1ca04d736b58e04159041a8af6ec6f933",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+      "expectedSha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+      "actualSha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w426174582-native.png",
+      "expectedSha256": "a639ade5c6172b6ee192a7bb0e2fb7c90526b3fa270bb9fa7b517111b542b714",
+      "actualSha256": "a639ade5c6172b6ee192a7bb0e2fb7c90526b3fa270bb9fa7b517111b542b714",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-trace-tower-native.png",
+      "expectedSha256": "775bfe00dbf75212ba45b8c920bd9d44aa92b1435dc667326f3fc5e6248f3a91",
+      "actualSha256": "775bfe00dbf75212ba45b8c920bd9d44aa92b1435dc667326f3fc5e6248f3a91",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/trace-tower-height-check.png",
+      "expectedSha256": "74f667ff668843ee2429b59eb598884de9e69b5897915619b95753e136119ab6",
+      "actualSha256": "74f667ff668843ee2429b59eb598884de9e69b5897915619b95753e136119ab6",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/trace-tower-candidate-points.csv",
+      "expectedSha256": "3f1bd7d57c6caa1eebe393d261c434a79a585c6d42de92da41b9a49d9900543d",
+      "actualSha256": "3f1bd7d57c6caa1eebe393d261c434a79a585c6d42de92da41b9a49d9900543d",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "expectedSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "actualSha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-shelter-native.png",
+      "expectedSha256": "12d24be0e884e2ddc11c4decb2a6fa81b7b6cf2383d091c54a57f4319c4137e9",
+      "actualSha256": "12d24be0e884e2ddc11c4decb2a6fa81b7b6cf2383d091c54a57f4319c4137e9",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+      "expectedSha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+      "actualSha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-5983-original.jpeg",
+      "expectedSha256": "846151cf05fbff789b688f7c7472792ade0be7f650ea77eff656dbc16b7e58d0",
+      "actualSha256": "846151cf05fbff789b688f7c7472792ade0be7f650ea77eff656dbc16b7e58d0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/easting.f64",
+      "expectedSha256": "e3b77ceeefee89f3d94ced6d5b5aeff0772b1cc99806aef6992bd6af382ef80d",
+      "actualSha256": "e3b77ceeefee89f3d94ced6d5b5aeff0772b1cc99806aef6992bd6af382ef80d",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/northing.f64",
+      "expectedSha256": "0ab915ec1019b71b65d96f7f1e8bd8759a02c9ac5230f9913af9c26b82d8704f",
+      "actualSha256": "0ab915ec1019b71b65d96f7f1e8bd8759a02c9ac5230f9913af9c26b82d8704f",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/height-rh2000.f32",
+      "expectedSha256": "6f999758f79b541e0fcf38ad76a298218288656e9eda396ce2ede61589fc0449",
+      "actualSha256": "6f999758f79b541e0fcf38ad76a298218288656e9eda396ce2ede61589fc0449",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/classification.u8",
+      "expectedSha256": "9a71fa3480e9730d4645da331320dbba6fd972f6021435deba425b43cdd7ccd0",
+      "actualSha256": "9a71fa3480e9730d4645da331320dbba6fd972f6021435deba425b43cdd7ccd0",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/return-number.u8",
+      "expectedSha256": "6225f54b1859b20a98c3fa5833dccb1355946e0c69ddb78959634d7be364cd5d",
+      "actualSha256": "6225f54b1859b20a98c3fa5833dccb1355946e0c69ddb78959634d7be364cd5d",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/number-of-returns.u8",
+      "expectedSha256": "ca954f9ddda61d1db04c88d9120afc00a3a140686efa87370709bdbf181e624f",
+      "actualSha256": "ca954f9ddda61d1db04c88d9120afc00a3a140686efa87370709bdbf181e624f",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/easting.f64",
+      "expectedSha256": "cb7abda1bfe591db33976b844b827fbf2988431dd41797af3ac9e28c0f0dc4d1",
+      "actualSha256": "cb7abda1bfe591db33976b844b827fbf2988431dd41797af3ac9e28c0f0dc4d1",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/northing.f64",
+      "expectedSha256": "db0cd19e8f00dcd867a3d227e26da906038543c845ff40efa693553c07345d73",
+      "actualSha256": "db0cd19e8f00dcd867a3d227e26da906038543c845ff40efa693553c07345d73",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/height-rh2000.f32",
+      "expectedSha256": "8dabb0f838d6622201a128fccd1cccb93c7c82b546acb3fc60de149cf0a28791",
+      "actualSha256": "8dabb0f838d6622201a128fccd1cccb93c7c82b546acb3fc60de149cf0a28791",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/classification.u8",
+      "expectedSha256": "6d6118c00ffdcee12a09fde43e2202ca3a8d20e97b9e56afa42fe5ed9b4a33e6",
+      "actualSha256": "6d6118c00ffdcee12a09fde43e2202ca3a8d20e97b9e56afa42fe5ed9b4a33e6",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/return-number.u8",
+      "expectedSha256": "7588fde82c7ff9d54d9589c724542ebcb3385e7c1e5c3460551d9f6f792a6f5c",
+      "actualSha256": "7588fde82c7ff9d54d9589c724542ebcb3385e7c1e5c3460551d9f6f792a6f5c",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/number-of-returns.u8",
+      "expectedSha256": "7f5b0e18a575751dd0432ebd01ef4b23c6276e131213f464719373b062870933",
+      "actualSha256": "7f5b0e18a575751dd0432ebd01ef4b23c6276e131213f464719373b062870933",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/site-inventory.json",
+      "expectedSha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae",
+      "actualSha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/course-model.json",
+      "expectedSha256": "d8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed",
+      "actualSha256": "d8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/estate-map-pdf.pdf",
+      "expectedSha256": "60250d0e97d8e41d15ae939aeec4f1648e4eb6226334e1d6803592f0d9b17756",
+      "actualSha256": "60250d0e97d8e41d15ae939aeec4f1648e4eb6226334e1d6803592f0d9b17756",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-estate.json",
+      "expectedSha256": "0ae91ca6e8c533a9bfff05d099d595e4afb1ecaef45cf1d9917dda9eb091212e",
+      "actualSha256": "0ae91ca6e8c533a9bfff05d099d595e4afb1ecaef45cf1d9917dda9eb091212e",
+      "passed": true,
+      "kind": "retained-source"
+    },
+    {
+      "path": "johannesbergbuild/facilities/architecture-spec.json",
+      "expectedSha256": "b9b00b086214ce443e54d33ef514db006b658037b003978dced8e57cc856099d",
+      "actualSha256": "b9b00b086214ce443e54d33ef514db006b658037b003978dced8e57cc856099d",
+      "passed": true,
+      "kind": "build-export-receipt"
+    },
+    {
+      "path": "johannesbergbuild/facilities/build_architecture.py",
+      "expectedSha256": "e8c5ca083344bdeace2763ace119703dbfcf1a8edd9a5f505903d45a40287029",
+      "actualSha256": "e8c5ca083344bdeace2763ace119703dbfcf1a8edd9a5f505903d45a40287029",
+      "passed": true,
+      "kind": "build-export-receipt"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/johannesberg-facilities-v5-library.blend",
+      "expectedSha256": "380ca304df0d365359d7c38e7ce4991111ee60edba6bdfbbc71980c87198e9c4",
+      "actualSha256": "380ca304df0d365359d7c38e7ce4991111ee60edba6bdfbbc71980c87198e9c4",
+      "passed": true,
+      "kind": "build-export-receipt"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/johannesberg-facilities-grid.glb",
+      "expectedSha256": "6dd136ae1fb43a4439e18235144be6fb54e34d9da64a5b35de4491eb4d46d1f0",
+      "actualSha256": "6dd136ae1fb43a4439e18235144be6fb54e34d9da64a5b35de4491eb4d46d1f0",
+      "passed": true,
+      "kind": "build-export-receipt"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/johannesberg-facilities-v1.blend",
+      "expectedSha256": "1465c095b6fbc36286e113958420de553dd3eda4f0e120a904690333c71ec75c",
+      "actualSha256": "1465c095b6fbc36286e113958420de553dd3eda4f0e120a904690333c71ec75c",
+      "passed": true,
+      "kind": "build-export-receipt"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-build-report.json",
+      "expectedSha256": "404836933a2ac766e073bf0e21af8a517bf23ec443057d62f82180bda53a554e",
+      "actualSha256": "404836933a2ac766e073bf0e21af8a517bf23ec443057d62f82180bda53a554e",
+      "passed": true,
+      "kind": "build-export-receipt"
+    },
+    {
+      "path": "apps/golf/public/models/johannesberg/facilities-ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf.glb",
+      "expectedSha256": "ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf",
+      "actualSha256": "ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf",
+      "passed": true,
+      "kind": "published-asset"
+    }
+  ],
+  "filesHashed": [
+    {
+      "path": "apps/golf/public/models/johannesberg/facilities-ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf.glb",
+      "sha256": "ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf"
+    },
+    {
+      "path": "apps/golf/public/models/johannesberg/facilities-v1.json",
+      "sha256": "5ffd3d5d3d28179c7cb4e25209e79bee9a857a4fc9495cd871a84e5025e860d0"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/ground-grid.json",
+      "sha256": "4f91a7e2a6e7fbc72b480d31fc0e040bbde942e1554a1d671053d816c50aae38"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/johannesberg-facilities-grid.glb",
+      "sha256": "6dd136ae1fb43a4439e18235144be6fb54e34d9da64a5b35de4491eb4d46d1f0"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/johannesberg-facilities-v1.blend",
+      "sha256": "1465c095b6fbc36286e113958420de553dd3eda4f0e120a904690333c71ec75c"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-model/johannesberg-facilities-v5-library.blend",
+      "sha256": "380ca304df0d365359d7c38e7ce4991111ee60edba6bdfbbc71980c87198e9c4"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-axis-plane-fit.json",
+      "sha256": "7cb13d261de13ec67bf9ad3642dea309f2ce5d1f6077ce703ba88ec6d6d63d3b"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-full-window-sections.png",
+      "sha256": "78f1e588508513754434c32003a1de56824bbb183544635e3ef3059978a37f87"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/clubhouse-proposed-roof-envelope.png",
+      "sha256": "248734c9c764a06f8c69cd8756eab62ac86b404b1280f1c2e5cdad66fcc0fa58"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/classification.u8",
+      "sha256": "9a71fa3480e9730d4645da331320dbba6fd972f6021435deba425b43cdd7ccd0"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/easting.f64",
+      "sha256": "e3b77ceeefee89f3d94ced6d5b5aeff0772b1cc99806aef6992bd6af382ef80d"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/height-rh2000.f32",
+      "sha256": "6f999758f79b541e0fcf38ad76a298218288656e9eda396ce2ede61589fc0449"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/northing.f64",
+      "sha256": "0ab915ec1019b71b65d96f7f1e8bd8759a02c9ac5230f9913af9c26b82d8704f"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/number-of-returns.u8",
+      "sha256": "ca954f9ddda61d1db04c88d9120afc00a3a140686efa87370709bdbf181e624f"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/return-number.u8",
+      "sha256": "6225f54b1859b20a98c3fa5833dccb1355946e0c69ddb78959634d7be364cd5d"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/classification.u8",
+      "sha256": "6d6118c00ffdcee12a09fde43e2202ca3a8d20e97b9e56afa42fe5ed9b4a33e6"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/easting.f64",
+      "sha256": "cb7abda1bfe591db33976b844b827fbf2988431dd41797af3ac9e28c0f0dc4d1"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/height-rh2000.f32",
+      "sha256": "8dabb0f838d6622201a128fccd1cccb93c7c82b546acb3fc60de149cf0a28791"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/northing.f64",
+      "sha256": "db0cd19e8f00dcd867a3d227e26da906038543c845ff40efa693553c07345d73"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/number-of-returns.u8",
+      "sha256": "7f5b0e18a575751dd0432ebd01ef4b23c6276e131213f464719373b062870933"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/service-hall/return-number.u8",
+      "sha256": "7588fde82c7ff9d54d9589c724542ebcb3385e7c1e5c3460551d9f6f792a6f5c"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/laser/trace-tower-candidate-points.csv",
+      "sha256": "3f1bd7d57c6caa1eebe393d261c434a79a585c6d42de92da41b9a49d9900543d"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-trace-tower-native.png",
+      "sha256": "775bfe00dbf75212ba45b8c920bd9d44aa92b1435dc667326f3fc5e6248f3a91"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165889-native.png",
+      "sha256": "1889c9c392815b037f411da46bd07b4243e9a7593387b2d1677cce89ea4884da"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165900-native.png",
+      "sha256": "68fcba561b3937aaf43668d743ddcb3e024c506365a239789394a185512fe327"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165903-native.png",
+      "sha256": "fb0e50322484bc17e5ba37d60b2985672e37a5e7d30902e44f99dae371311c1c"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165906-native.png",
+      "sha256": "2ad17fb0ebbd0c8aa21ba305bd41f73c1cef9513a2bf7c359471e3b2250cbd9a"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165907-native.png",
+      "sha256": "97c0d82e03857cfacca825f44255018201612e5500da410088a0686e58df32ba"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w296165908-native.png",
+      "sha256": "f21f3e60088b843a52ae40723e9316a425072e4270af1091c8ef480a8a4fb5ce"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-building-w426174582-native.png",
+      "sha256": "a639ade5c6172b6ee192a7bb0e2fb7c90526b3fa270bb9fa7b517111b542b714"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-native.png",
+      "sha256": "80b452d6aed2d9e31d19ee9257591a20309bd92cfc4632af5a0059fe1f9ef147"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-clubhouse-shed-native.png",
+      "sha256": "0a7ee4888e422c4b8aff29f14821e0cc001854eb0c288e6d956f0541c0d0a9ca"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-slottsvilla-native.png",
+      "sha256": "4d25066d55684aa1163bb8d016deda948c91b1a97c54a0a96c652631b87a59c2"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-east-wing-native.png",
+      "sha256": "5300a5f25aacccdbeebc1e43a964de712bf50a9ab40ac4652b054e8a67e45c04"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsflygeln-native.png",
+      "sha256": "c6ef3119c98e01e3dff9fc686e254dcf769e4327324de9afe6ee9627295333c2"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-johannesbergsvillan-native.png",
+      "sha256": "52b9cd32b1015c318fced756034560e4e0a4cb2846273f054b9a8c622769a1de"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-karolinerhuset-native.png",
+      "sha256": "fd19d7d1914cf9a4bb14b5ca7cc98f263f9fb43a53fe1760f40d60e1e37de1c4"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-manor-native.png",
+      "sha256": "8cdfa10e7c9cb899677ccfbc8b615d035f7e7769ea41a168f492c0173163c2ee"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-old-stable-native.png",
+      "sha256": "5341621c11e419607d559dbcd7b85a135798547a0e5cbe5f230e397b90f6ea1d"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-private-residence-native.png",
+      "sha256": "7ede293e5a8af0a1e6729fd516907814a4c655bb9877d60ca872214773a17702"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-hut-native.png",
+      "sha256": "dbaa4ed6ac679c694013835b021c3db1ca04d736b58e04159041a8af6ec6f933"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-range-shelter-native.png",
+      "sha256": "12d24be0e884e2ddc11c4decb2a6fa81b7b6cf2383d091c54a57f4319c4137e9"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-slottsvilla-native.png",
+      "sha256": "876c4e903e83371ca591bac052237306aec6b2291fccc4f60fc0f752229b6314"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/johannesberg-west-wing-native.png",
+      "sha256": "b09ba60c6e7f9d97a504e8544b195b763678dca3967147fb1f6b09fd8f823826"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/orthophoto/trace-tower-height-check.png",
+      "sha256": "74f667ff668843ee2429b59eb598884de9e69b5897915619b95753e136119ab6"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/20210617-p1022081-hdr-enhanced.jpg",
+      "sha256": "9f5c99f242f1343362f3d0705e15ef4ae37f10e40877d848bef4549fcc7c346e"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-3970-original.jpg",
+      "sha256": "a271f2b1c430f0571f618aeb51c00889ad7bf0e598026d6b5b72be5ca8abc879"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-4558-original.jpg",
+      "sha256": "d85922b91925c7c37bdf34cc64abab11409540da5ad4038d475f705c0fff3132"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-5983-original.jpeg",
+      "sha256": "846151cf05fbff789b688f7c7472792ade0be7f650ea77eff656dbc16b7e58d0"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6642-original.jpg",
+      "sha256": "59466d7e933602d82c92516147f1e4c3328b0426ec876f0bc510c3021f1d9d95"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/club-media-6713-original.jpg",
+      "sha256": "67ecc8599afd24779fc76ef18dfdb8c6df45c018aa668d26c1b77a28aebaf133"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0003.jpg",
+      "sha256": "036313efe72235563a73a0b40f03fa19be0c4c64b2aa3e5cdee3ad30a911c35e"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0004.jpg",
+      "sha256": "a0c8028568405e67401dea4fe950acddb99742d747ddcac6f369153ffb269625"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/dji-0011.jpg",
+      "sha256": "1dddf3a8e307bb20b939138ad38e8416c230af9560e1104dbc3898669cea9a79"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/estate-map-pdf.pdf",
+      "sha256": "60250d0e97d8e41d15ae939aeec4f1648e4eb6226334e1d6803592f0d9b17756"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/img-3042.jpg",
+      "sha256": "157ad529c59e81d80e90a59ccad97e5ee87a6267776fb33af0956e779c849158"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-54_orig.jpg",
+      "sha256": "1dac5b87af2bf4a97d8b8d5c539d98c7dfeef46784e514548ba8064365969498"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/jbs-flygbild-spa-1080.jpg",
+      "sha256": "bb6d28ffec94615f471831539e9a03d41310e37c4710670987b6c5cea0a689c7"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/stra-flygeln-1.jpg",
+      "sha256": "d7a0e30ec5ef2f3955538757f1f19e42fa736d1d2b2d4ef70251aed62f22bd46"
+    },
+    {
+      "path": "johannesbergbuild/cache/facilities-reference/web/v-stra-flygeln-2.jpg",
+      "sha256": "7840c811b352a94f5cf0883a1609ecbf8bfcc72bc5b23e327186020b13ca5d2c"
+    },
+    {
+      "path": "johannesbergbuild/course-model.json",
+      "sha256": "d8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed"
+    },
+    {
+      "path": "johannesbergbuild/facilities/architecture-spec.json",
+      "sha256": "b9b00b086214ce443e54d33ef514db006b658037b003978dced8e57cc856099d"
+    },
+    {
+      "path": "johannesbergbuild/facilities/build_architecture.py",
+      "sha256": "e8c5ca083344bdeace2763ace119703dbfcf1a8edd9a5f505903d45a40287029"
+    },
+    {
+      "path": "johannesbergbuild/facilities/clubhouse-model-profile.json",
+      "sha256": "988d7c77ec3df7ac2f8390da370cb2a729244ae201c7207c4df7cf8be8f0e9cc"
+    },
+    {
+      "path": "johannesbergbuild/facilities/deck-clearance-review.json",
+      "sha256": "fdd9963333959ad6cdbdf63a881a104d796bd7be7fb1b4eba52c191b26b41a53"
+    },
+    {
+      "path": "johannesbergbuild/facilities/estate-model-profiles.json",
+      "sha256": "b9739ba681ab30218c66b031b6671a6cc6bb40a0404c9fcdcb43f12f7c801bb8"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-build-report.json",
+      "sha256": "404836933a2ac766e073bf0e21af8a517bf23ec443057d62f82180bda53a554e"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-export-validation.json",
+      "sha256": "bf3d041f1ad2240a1fd11e33978ec63fb9bea84336ead7bfd0cc87cafdd51dee"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-ground.json",
+      "sha256": "f76475d08db1c3a9daf72b4281f232edfccffe673ac81ddd1c0977bdcb7e0252"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model-publish-validation.json",
+      "sha256": "5776b47d4fca1b73661d126f75da9772658ec2d755d556f5577df640cfaee128"
+    },
+    {
+      "path": "johannesbergbuild/facilities/model_geometry.py",
+      "sha256": "5e593cced37b50d9dea6ae464dbd0d3ed5f8c1856f23f9da7f7ae6aea26d913b"
+    },
+    {
+      "path": "johannesbergbuild/facilities/orthophoto-panels.json",
+      "sha256": "69c2d61474605e1428f912f3d5aaeb77439a80639eb9f7cba78a323215a7f236"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-evidence.json",
+      "sha256": "fc0da3f3d01426d43508defd47addc269f6a0aac8ac8bd4d55cc8222dd24f3f0"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof-height-service-hall-evidence.json",
+      "sha256": "1bc7b034fe56f42cae1e36ed84827ce27b1a48f59128079a416eb3e4bbec1c8a"
+    },
+    {
+      "path": "johannesbergbuild/facilities/roof_clip.py",
+      "sha256": "da0deabfd8ea54e275bb7f1fbd31d1fd9d79298b7f690af4bee6da60ea2ed9b6"
+    },
+    {
+      "path": "johannesbergbuild/facilities/site-inventory.json",
+      "sha256": "0c71d9fda0e9cde92066a79df593ad03be5a4a43e89432e6235a5f0e616a7aae"
+    },
+    {
+      "path": "johannesbergbuild/facilities/web-reference-sources.json",
+      "sha256": "2dfc197ba85b24c4244b44fc04c6199b79a68947998d907e27a0fef86c8e794c"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-estate.json",
+      "sha256": "0ae91ca6e8c533a9bfff05d099d595e4afb1ecaef45cf1d9917dda9eb091212e"
+    }
+  ],
+  "sourceAndReceiptFilesHashed": 78,
+  "failures": [],
+  "auditImplementation": {
+    "path": "johannesbergbuild/facilities/verify-model-sources.py",
+    "sha256": "1f61f8118acc9745a28a0600f61272a70948d0173737ee1b374abd5ebc45a990"
+  },
+  "roofClipTestCommand": "blender --background --factory-startup --python-exit-code 1 --python johannesbergbuild/facilities/test-roof-clip.py"
+}

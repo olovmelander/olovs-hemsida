@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "status": "passed",
+  "output": {
+    "path": "lidingobuild/cache/facilities-reference-2026-09-10/model-reference.json",
+    "bytes": 5030762,
+    "sha256": "e5c13386bf057b72f83248e987980fcbd4b4f038ed197d8472de0934019f6ea5"
+  },
+  "frame": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613 / RH2000",
+    "units": "metres",
+    "eastingOrigin": 677700.5,
+    "northingOrigin": 6586399.5,
+    "heightOriginRH2000": 25,
+    "axes": {
+      "X": "east",
+      "Y": "north",
+      "Z": "up"
+    },
+    "transform": "X=E-677700.5; Y=N-6586399.5; Z=heightRH2000-25",
+    "appTransform": "X=app.x; Y=-app.z; Z=app.y-25",
+    "appTerrainBridgeOriginHeightRH2000": -0.05,
+    "note": "The -0.05 m v2 bridge origin is metadata only; fixture heights already use RH2000. No extra -0.05 m shift."
+  },
+  "mappedBoundsEpsg3006": {
+    "minEasting": 677539.745345276,
+    "maxEasting": 677695.5023330441,
+    "minNorthing": 6586069.29775689,
+    "maxNorthing": 6586531.7982188845
+  },
+  "terrain": {
+    "boundsEpsg3006": {
+      "minEasting": 677390,
+      "maxEasting": 677820,
+      "minNorthing": 6586060,
+      "maxNorthing": 6586620
+    },
+    "sourceSpacingMetres": 1,
+    "exportedSpacingMetres": 2,
+    "vertices": 60696,
+    "triangles": 120400,
+    "chunkCount": 9,
+    "chunkSha256": [
+      "bddbb588f780b7d68e4b1497c44e6eda0e34f26ad6f2d0b647093fed34394dd5",
+      "55e5f0cf32c85bf3e1d8fbabaa11a6765b7278fd5ce89beda71fc69b54b3f425",
+      "8ecb70933fcfc5fd1cc8d678a49fec33db4c078c09d75e265f644569c1b2fc92",
+      "44a3535888b55d784289880c865970272345de9fc9e775e28837baa927b7ca2f",
+      "48fb517f97cca589cf9676f91da033ed31240916961f68c560ab90939f6363a4",
+      "a41d1b971f594b71f36a8ab8d4462b62a7e8abcc6249b6920e13b3c6a7d4cbc5",
+      "29ead2a4b588c12da584a7137c3ed0ba10a3d55ee3725e578fa864c3552741ab",
+      "08bc0bec9c1e930e121ff1b6e776329fa6d8c1e093d72bf57117c6ba519196eb",
+      "15845e71324baee51348c923ad901aa24be33800ce8e67f285ec34a656283883"
+    ],
+    "fixtureTerrainChunkSha256": [
+      "bddbb588f780b7d68e4b1497c44e6eda0e34f26ad6f2d0b647093fed34394dd5",
+      "55e5f0cf32c85bf3e1d8fbabaa11a6765b7278fd5ce89beda71fc69b54b3f425",
+      "8ecb70933fcfc5fd1cc8d678a49fec33db4c078c09d75e265f644569c1b2fc92",
+      "44a3535888b55d784289880c865970272345de9fc9e775e28837baa927b7ca2f",
+      "48fb517f97cca589cf9676f91da033ed31240916961f68c560ab90939f6363a4",
+      "a41d1b971f594b71f36a8ab8d4462b62a7e8abcc6249b6920e13b3c6a7d4cbc5"
+    ],
+    "maximumFixtureDifferenceMetres": 0
+  },
+  "architecture": [
+    {
+      "buildingId": "way/32262183",
+      "meshes": 32,
+      "triangles": 2101,
+      "parts": [
+        "roof-plane",
+        "closed-wall",
+        "fascia",
+        "soffit",
+        "entrance-apron",
+        "upper-glazing",
+        "reception-glazing",
+        "door-handle",
+        "balcony-deck",
+        "balcony-apron",
+        "balcony-panels",
+        "balcony-rail",
+        "balcony-columns",
+        "blue-awnings",
+        "awning-valance",
+        "clock",
+        "clock-hands",
+        "roof-service-room",
+        "service-room-roof",
+        "chimney",
+        "chimney-cap",
+        "roof-vent",
+        "facade-glazing"
+      ]
+    },
+    {
+      "buildingId": "way/32262176",
+      "meshes": 10,
+      "triangles": 818,
+      "parts": [
+        "roof-plane",
+        "closed-wall",
+        "fascia",
+        "soffit",
+        "facade-glazing",
+        "veranda-posts",
+        "veranda-rail"
+      ]
+    },
+    {
+      "buildingId": "way/32262169",
+      "meshes": 8,
+      "triangles": 366,
+      "parts": [
+        "roof-plane",
+        "closed-wall",
+        "fascia",
+        "soffit",
+        "facade-glazing"
+      ]
+    },
+    {
+      "buildingId": "way/26408210",
+      "meshes": 8,
+      "triangles": 627,
+      "parts": [
+        "roof-plane",
+        "closed-wall",
+        "fascia",
+        "soffit",
+        "facade-glazing"
+      ]
+    },
+    {
+      "buildingId": "way/26408211",
+      "meshes": 8,
+      "triangles": 554,
+      "parts": [
+        "roof-plane",
+        "closed-wall",
+        "fascia",
+        "soffit",
+        "facade-glazing"
+      ]
+    },
+    {
+      "buildingId": "courtyard",
+      "meshes": 10,
+      "triangles": 1936,
+      "parts": [
+        "putting-green-kerb",
+        "terrace-deck",
+        "terrace-skirt",
+        "terrace-planks",
+        "terrace-handrail",
+        "terrace-posts",
+        "terrace-supports",
+        "terrace-stairs",
+        "courtyard-access-stairs"
+      ]
+    }
+  ],
+  "sourceRoofBuildings": 5,
+  "sourceRoofTriangles": 7069,
+  "retainedBuildingFootprints": 6,
+  "facilityOutlines": 14,
+  "supplementaryReferences": [
+    {
+      "id": "way/40895787",
+      "geometryType": "Polygon",
+      "closed": true
+    },
+    {
+      "id": "way/32428950",
+      "geometryType": "Polygon",
+      "closed": true
+    },
+    {
+      "id": "way/52583105",
+      "geometryType": "Polygon",
+      "closed": true
+    },
+    {
+      "id": "way/52583080",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/32428969",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/32428972",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/41197227",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/221846977",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/79550926",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/427426698",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/427426716",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/427429857",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/836722128",
+      "geometryType": "LineString",
+      "closed": false
+    },
+    {
+      "id": "way/221846979",
+      "geometryType": "LineString",
+      "closed": false
+    }
+  ],
+  "facilityInteriorRings": 1,
+  "horizontalRoundTripMaximumMetres": 0,
+  "checks": [
+    "Every existing display triangle reconstructed exactly after material/part grouping and coordinate transformation.",
+    "Source roof vertex arrays and triangle indices match all five shipping roof meshes exactly.",
+    "All 14 facility geometries retain every original polygon, ring and interior hole.",
+    "All six retained building footprints have terrain heights; the sixth roof remains withheld.",
+    "Every terrain and outline height is finite and covered by checksummed published 1 m terrain.",
+    "Extended terrain sampler agrees exactly with the architecture fixture at every building footprint vertex.",
+    "Ground manifest hash and every selected encoded/decoded terrain chunk verified.",
+    "Supplementary OSM context retains one building footprint, two parking polygons, one fence line and ten access lines within terrain coverage."
+  ],
+  "sourceFiles": [
+    {
+      "path": "lidingobuild/architecture-fixture.mjs",
+      "bytes": 2400,
+      "sha256": "77a90875c8457c078e837fa68e740ec5aa1ebcdc2aa685d14e032a0d46d16cd4"
+    },
+    {
+      "path": "apps/golf/src/engine/scenery/lidingo-architecture.js",
+      "bytes": 15318,
+      "sha256": "c06f5db203aee0d185ca2585bd6c6fe0966fdf2c22a9070b5ba322678bf48542"
+    },
+    {
+      "path": "apps/golf/public/courses/lidingo/pack.bin",
+      "bytes": 486299,
+      "sha256": "d25dfe74f48cb6584221c727735d0604d21729524b6d1d2b6e52796910f527c9"
+    },
+    {
+      "path": "lidingobuild/mapping/facilities.geojson",
+      "bytes": 32010,
+      "sha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a"
+    },
+    {
+      "path": "lidingobuild/mapping/building-roof-meshes.json",
+      "bytes": 869572,
+      "sha256": "4f25c1495768b4defe359c0b068a0df76667363e6fa67128f8602b34b3402934"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "bytes": 1697495,
+      "sha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7"
+    },
+    {
+      "path": "lidingobuild/mapping/infrastructure.geojson",
+      "bytes": 57112,
+      "sha256": "27d80d50dc24f8f3910e79a7366f40a8c883c8cd132d4ea96cb0133e105b115d"
+    },
+    {
+      "path": "apps/golf/public/lidingo-ground-graph-report.json",
+      "bytes": 4779,
+      "sha256": "1f905c532582a419985c49a5fd59b8fbb72ddd00c685fa3495a2ab418f101b89"
+    },
+    {
+      "path": "apps/golf/public/grounds/lidingo/ground-v2-3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158.json",
+      "bytes": 235841,
+      "sha256": "3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158"
+    }
+  ],
+  "limitations": [
+    "Architectural details and courtyard terraces are the existing display estimates; importing them does not verify them as measurements.",
+    "Facility outlines retain their dated source metadata, including 2019 orthophoto interpretation and its uncertainty.",
+    "Source roof TIN is dated 2021-03-23; its unsupported regions and withheld sixth roof remain unknown.",
+    "No new range poles, nets, mats, equipment, doors or windows are inferred by this export.",
+    "Terrain preview is sampled at 2 m; outline and architecture heights use the published 1 m grid.",
+    "Supplementary OSM context contains one nearby building, two parking areas, one fence and ten access lines; club ownership, current use, widths and heights are not inferred."
+  ]
+}

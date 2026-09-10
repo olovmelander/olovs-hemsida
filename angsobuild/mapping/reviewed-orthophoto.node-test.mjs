@@ -58,6 +58,50 @@ test('native pixel coordinates round-trip through the stored frame without an im
   assert.ok(unrotatedWorst > 10, 'a translation-only authoring frame visibly misaligns Angso');
 });
 
+function guideFixture() {
+  const f = fixture(), { review } = f;
+  review.teeEvidenceAssets = { 'guide-1': { hole: 1, role: 'club-linked-schematic', sha256: 'c'.repeat(64) } };
+  review.holes = [{ n: 1, tees: set(trace('physical-tee')), fairways: set(trace('fairway', square(800, 100, 400))),
+    teeReferences: [null, [125, 130], [145, 140], [160, 150], [1010, 240]].map((pixel, index) => ({ index,
+      sourceKey: 'test-window', pixel, padReviewId: index === 0 || index === 4 ? null : 'physical-tee',
+      kind: index === 4 ? 'fairway' : 'platform', ...(pixel ? {} : { status: 'unresolved', candidatePixel: [150, 150] }),
+      evidence: { assetIds: ['guide-1', 'test-window'], note: 'Synthetic correspondence test.', confidence: pixel ? 'high' : 'unresolved' } })) }];
+  return f;
+}
+
+test('guide references use explicit native pixels, keep fairway tees and retain unresolved originals', () => {
+  const { model, review, pixel } = guideFixture(), result = applyReviewedOrthophoto(model, review);
+  const hole = result.holes[0];
+  assert.deepEqual(applyReviewedOrthophoto(result, review), result);
+  assert.deepEqual(hole.tees.marks[0].c, model.holes[0].tees.marks[0].c);
+  assert.equal(hole.tees.marks[0].orthophotoReference.kind, 'unresolved-guide-tee-reference');
+  assert.deepEqual(hole.tees.marks[4].c, pixel([1010, 240]));
+  assert.equal(hole.tees.marks[4].referenceSurfaceKind, 'fairway');
+  assert.equal(hole.tees.pads.length, 1, 'fairway reference creates no synthetic deck');
+  assert.notDeepEqual(hole.tees.marks[1].c, hole.tees.marks[2].c);
+  assert.deepEqual(hole.t, model.holes[0].t);
+  assert.equal(result.orthophotoReview.summary.guideTeeReferences, 4);
+  assert.equal(result.orthophotoReview.summary.unresolvedTeeReferences, 1);
+  assert.equal(result.orthophotoReview.summary.provisionalTeeReferences, 0);
+  assert.ok(!JSON.stringify(hole.tees.marks).includes('candidatePixel'), 'diagnostic source pixels never enter model geometry');
+});
+
+test('guide reference validation rejects wrong evidence, guessed surfaces and duplicate colour anchors', () => {
+  for (const corrupt of [
+    r => { r.teeEvidenceAssets['guide-1'].hole = 2; },
+    r => { r.teeEvidenceAssets['guide-1'].sha256 = 'invalid'; },
+    r => { r.holes[0].teeReferences[1].evidence.assetIds = ['test-window']; },
+    r => { r.holes[0].teeReferences[4].pixel = [700, 700]; },
+    r => { r.holes[0].teeReferences[1].padReviewId = 'wrong-pad'; },
+    r => { r.holes[0].teeReferences[2].pixel = [125, 130]; },
+    r => { r.holes[0].teeReferences[0].pixel = [150, 150]; },
+    r => { r.holes[0].teeReferences[1].index = 2; },
+  ]) {
+    const { model, review } = guideFixture(); corrupt(review);
+    assert.throws(() => applyReviewedOrthophoto(model, review));
+  }
+});
+
 test('complete replacements preserve card/levels and remain idempotent while documenting uncertain tee identities', () => {
   const { model, review, pixel } = fixture(), original = structuredClone(model);
   review.holes = [{ n: 1, green: trace('green', square(450, 450)),

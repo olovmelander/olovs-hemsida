@@ -266,12 +266,12 @@
         "marks": [
           {
             "c": [
-              -580.0277727558587,
-              173.17129188559844
+              -580.0277727558278,
+              173.17129188589752
             ],
             "b": 0,
             "m": 159,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -280,7 +280,7 @@
             ],
             "b": 0,
             "m": 146,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -289,7 +289,7 @@
             ],
             "b": 0,
             "m": 120,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -298,7 +298,7 @@
             ],
             "b": 0,
             "m": 120,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -307,7 +307,7 @@
             ],
             "b": 0,
             "m": 95,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -316,7 +316,7 @@
             ],
             "b": 0,
             "m": 95,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -618,8 +618,8 @@
       ],
       "line": [
         [
-          -534.185999999987,
-          57.17200000025332
+          -535.2199999999721,
+          81.09999999962747
         ],
         [
           -423.25,
@@ -634,7 +634,7 @@
           -288.679999999702
         ]
       ],
-      "lineLen": 387.8448186297167,
+      "lineLen": 407.9584768398904,
       "pin": [
         -380.50399999995716,
         -288.6820000000298
@@ -986,26 +986,58 @@
             "sourceIds": [
               "visby-municipal-ortho-2022"
             ]
+          },
+          {
+            "ring": [
+              [
+                -538.7399999999907,
+                75.33999999985099
+              ],
+              [
+                -528.6599999999162,
+                80.45999999996275
+              ],
+              [
+                -533.140000000014,
+                86.86000000033528
+              ],
+              [
+                -541.7799999999115,
+                82.70000000018626
+              ],
+              [
+                -541.140000000014,
+                79.17999999970198
+              ],
+              [
+                -538.7399999999907,
+                75.33999999985099
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26"
+            ]
           }
         ],
         "marks": [
           {
             "c": [
-              -534.1861118253186,
-              57.172292841502234
+              -535.2199999999721,
+              81.09999999962747
             ],
             "b": 0,
             "m": 411,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -520.8265822499525,
-              35.997990750707686
+              -534.0999999999767,
+              56.94000000040978
             ],
             "b": 0,
             "m": 390,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -1014,16 +1046,16 @@
             ],
             "b": 0,
             "m": 360,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -466.95180874993093,
-              -24.548788749612868
+              -496.0200000000186,
+              -2.419999999925494
             ],
             "b": 0,
             "m": 319,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -1032,7 +1064,7 @@
             ],
             "b": 0,
             "m": 275,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -1041,7 +1073,7 @@
             ],
             "b": 0,
             "m": 275,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -1608,9 +1640,9 @@
         }
       ],
       "elev": {
-        "tee": 3.3,
+        "tee": 4,
         "green": 4.1,
-        "rise": 0.8
+        "rise": 0.1
       },
       "tiers": 1,
       "name": null,
@@ -2226,7 +2258,7 @@
             ],
             "b": 0,
             "m": 525,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -2235,7 +2267,7 @@
             ],
             "b": 0,
             "m": 490,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -2244,7 +2276,7 @@
             ],
             "b": 0,
             "m": 490,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -2253,25 +2285,25 @@
             ],
             "b": 0,
             "m": 448,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -339.89875502140075,
-              -477.8848293134729
+              -339.8987550213933,
+              -477.88482931349427
             ],
             "b": 0,
             "m": 400,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              -333.32834252257527,
-              -496.77476524759606
+              -333.3283425226109,
+              -496.7747652474791
             ],
             "b": 0,
             "m": 380,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           }
         ]
       },
@@ -3287,30 +3319,30 @@
         "marks": [
           {
             "c": [
-              -58.31182514803204,
-              -792.3670323928944
+              -58.31182514806278,
+              -792.3670323928818
             ],
             "b": 0,
             "m": 310,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -77.49959940047732,
-              -805.0491145412934
+              -77.4995994004421,
+              -805.0491145411506
             ],
             "b": 0,
             "m": 287,
-            "placement": "card-offset from the back tee along the observed route; still on the observed platform"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -77.49959940047732,
-              -805.0491145412934
+              -77.4995994004421,
+              -805.0491145411506
             ],
             "b": 0,
             "m": 287,
-            "placement": "card-offset from the back tee along the observed route; still on the observed platform"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -3319,7 +3351,7 @@
             ],
             "b": 0,
             "m": 250,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -3328,16 +3360,16 @@
             ],
             "b": 0,
             "m": 250,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -136.73088450619224,
-              -844.1982507351549
+              -136.73088450613432,
+              -844.1982507351786
             ],
             "b": 0,
             "m": 216,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           }
         ]
       },
@@ -4057,17 +4089,45 @@
             "sourceIds": [
               "visby-municipal-ortho-2022"
             ]
+          },
+          {
+            "ring": [
+              [
+                -391.0600000000559,
+                -893.6200000001118
+              ],
+              [
+                -380.1800000000512,
+                -892.179999999702
+              ],
+              [
+                -381.78000000002794,
+                -878.7400000002235
+              ],
+              [
+                -391.2200000000885,
+                -879.7000000001863
+              ],
+              [
+                -391.0600000000559,
+                -893.6200000001118
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26"
+            ]
           }
         ],
         "marks": [
           {
             "c": [
-              -400.14508632138114,
-              -905.7519920318725
+              -400.1450863213977,
+              -905.7519920319319
             ],
             "b": 0,
             "m": 170,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -4076,25 +4136,25 @@
             ],
             "b": 0,
             "m": 157,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -402.2063716472992,
-              -877.8279682743181
+              -386.5799999999581,
+              -886.0999999996275
             ],
             "b": 0,
             "m": 142,
-            "placement": "card-offset from the back tee along the observed route; still on the observed platform"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -402.7953346742631,
-              -869.8496775706103
+              -402.0999999999767,
+              -880.980000000447
             ],
             "b": 0,
             "m": 134,
-            "placement": "card-offset from the back tee along the observed route; still on the observed platform"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -4103,7 +4163,7 @@
             ],
             "b": 0,
             "m": 121,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -4112,7 +4172,7 @@
             ],
             "b": 0,
             "m": 97,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -4399,8 +4459,8 @@
       ],
       "line": [
         [
-          -364.8410000000149,
-          -704.0300000002608
+          -347.85999999998603,
+          -733.6200000001118
         ],
         [
           -398.25,
@@ -4411,7 +4471,7 @@
           -330.0650000004098
         ]
       ],
-      "lineLen": 378.23052911647306,
+      "lineLen": 411.1371347909122,
       "pin": [
         -413.15500000002794,
         -330.0659999996424
@@ -4775,26 +4835,54 @@
             "sourceIds": [
               "visby-municipal-ortho-2022"
             ]
+          },
+          {
+            "ring": [
+              [
+                -349.78000000002794,
+                -741.4599999999627
+              ],
+              [
+                -340.0200000000186,
+                -736.3400000007823
+              ],
+              [
+                -346.2600000000093,
+                -725.9400000004098
+              ],
+              [
+                -355.38000000000466,
+                -729.6200000001118
+              ],
+              [
+                -349.78000000002794,
+                -741.4599999999627
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26"
+            ]
           }
         ],
         "marks": [
           {
             "c": [
-              -364.84103641456585,
-              -704.0297118847539
+              -347.85999999998603,
+              -733.6200000001118
             ],
             "b": 0,
             "m": 447,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -371.44002400001045,
-              -677.7480587502941
+              -364.9799999999814,
+              -704.019999999553
             ],
             "b": 0,
             "m": 423,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -4803,7 +4891,7 @@
             ],
             "b": 0,
             "m": 403,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -4812,7 +4900,7 @@
             ],
             "b": 0,
             "m": 358,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -4821,16 +4909,16 @@
             ],
             "b": 0,
             "m": 358,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -390.08334789017533,
-              -593.885144559038
+              -390.0833478901768,
+              -593.8851445587352
             ],
             "b": 0,
             "m": 334,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           }
         ]
       },
@@ -5590,12 +5678,12 @@
         "marks": [
           {
             "c": [
-              -356.0972498343274,
-              -327.00049701789266
+              -356.0972498343326,
+              -327.0004970179871
             ],
             "b": 0,
             "m": 200,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
@@ -5604,7 +5692,7 @@
             ],
             "b": 0,
             "m": 171,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
@@ -5613,7 +5701,7 @@
             ],
             "b": 0,
             "m": 141,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -5622,7 +5710,7 @@
             ],
             "b": 0,
             "m": 141,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -5631,16 +5719,16 @@
             ],
             "b": 0,
             "m": 141,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -272.98503723914314,
-              -355.9206093650558
+              -272.985037239152,
+              -355.9206093652174
             ],
             "b": 0,
             "m": 112,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           }
         ]
       },
@@ -6356,12 +6444,12 @@
         "marks": [
           {
             "c": [
-              -152.6072854291417,
-              -397.6911177644711
+              -152.60728542914148,
+              -397.6911177644506
             ],
             "b": 0,
             "m": 414,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6370,16 +6458,16 @@
             ],
             "b": 0,
             "m": 388,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              -185.25786526551357,
-              -336.90510262576447
+              -185.25786526547745,
+              -336.90510262548923
             ],
             "b": 0,
             "m": 345,
-            "placement": "card-offset from the back tee along the observed route; still on the observed platform"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6388,7 +6476,7 @@
             ],
             "b": 0,
             "m": 288,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6397,7 +6485,7 @@
             ],
             "b": 0,
             "m": 288,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6406,7 +6494,7 @@
             ],
             "b": 0,
             "m": 242,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -6871,7 +6959,7 @@
             ],
             "b": 0,
             "m": 334,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6880,7 +6968,7 @@
             ],
             "b": 0,
             "m": 292,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6889,7 +6977,7 @@
             ],
             "b": 0,
             "m": 292,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6898,7 +6986,7 @@
             ],
             "b": 0,
             "m": 251,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6907,7 +6995,7 @@
             ],
             "b": 0,
             "m": 251,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -6916,7 +7004,7 @@
             ],
             "b": 0,
             "m": 201,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -7488,8 +7576,8 @@
       ],
       "line": [
         [
-          -383.8079999999609,
-          180.95600000023842
+          -449.14000000001397,
+          194.86000000033528
         ],
         [
           -223.25,
@@ -7504,7 +7592,7 @@
           269.9900000002235
         ]
       ],
-      "lineLen": 403.9080484048047,
+      "lineLen": 470.61785289623816,
       "pin": [
         -12.898000000044703,
         269.9890000000596
@@ -7864,62 +7952,128 @@
             "sourceIds": [
               "visby-municipal-ortho-2022"
             ]
+          },
+          {
+            "ring": [
+              [
+                -456.0200000000186,
+                191.5
+              ],
+              [
+                -454.2600000000093,
+                189.4199999999255
+              ],
+              [
+                -429.61999999999534,
+                186.54000000003725
+              ],
+              [
+                -427.2200000000885,
+                197.74000000022352
+              ],
+              [
+                -453.46000000007916,
+                201.74000000022352
+              ],
+              [
+                -456.0200000000186,
+                199.5
+              ],
+              [
+                -456.0200000000186,
+                191.5
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26",
+              "imagery-lm-o63700-6875-25-mr26"
+            ]
+          },
+          {
+            "ring": [
+              [
+                -355.38000000000466,
+                163.9799999995157
+              ],
+              [
+                -342.10000000009313,
+                161.09999999962747
+              ],
+              [
+                -339.54000000003725,
+                170.54000000003725
+              ],
+              [
+                -352.9800000000978,
+                173.8999999994412
+              ],
+              [
+                -355.38000000000466,
+                163.9799999995157
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6850-25-mr26",
+              "imagery-lm-o63700-6875-25-mr26"
+            ]
           }
         ],
         "marks": [
           {
             "c": [
-              -383.8077047066409,
-              180.95567375886526
+              -449.14000000001397,
+              194.86000000033528
             ],
             "b": 0,
             "m": 476,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -371.94175617389817,
-              179.16702468878353
+              -436.1800000000512,
+              193.25999999977648
             ],
             "b": 0,
             "m": 464,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -320.5228258245298,
-              171.41501838545778
+              -383.85999999998603,
+              181.09999999962747
             ],
             "b": 0,
             "m": 412,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -320.5228258245298,
-              171.41501838545778
+              -383.85999999998603,
+              181.09999999962747
             ],
             "b": 0,
             "m": 412,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -280.96980247886177,
-              165.45193661366878
+              -347.21999999997206,
+              167.339999999851
             ],
             "b": 0,
             "m": 372,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -280.96980247886177,
-              165.45193661366878
+              -347.21999999997206,
+              167.339999999851
             ],
             "b": 0,
             "m": 372,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -8362,9 +8516,9 @@
         }
       ],
       "elev": {
-        "tee": 2.4,
+        "tee": 2.6,
         "green": 1.9,
-        "rise": -0.5
+        "rise": -0.8
       },
       "tiers": 1,
       "name": null,
@@ -8391,8 +8545,8 @@
       ],
       "line": [
         [
-          77.61300000001211,
-          379.67499999981374
+          45.09999999997672,
+          383.820000000298
         ],
         [
           191.75,
@@ -8407,7 +8561,7 @@
           301.070000000298
         ]
       ],
-      "lineLen": 303.5472291367836,
+      "lineLen": 333.3987623059524,
       "pin": [
         351.02800000004936,
         301.070000000298
@@ -8707,62 +8861,118 @@
             "sourceIds": [
               "visby-municipal-ortho-2022"
             ]
+          },
+          {
+            "ring": [
+              [
+                35.17999999993481,
+                377.09999999962747
+              ],
+              [
+                42.059999999939464,
+                373.2599999997765
+              ],
+              [
+                55.02000000001863,
+                388.93999999947846
+              ],
+              [
+                46.699999999953434,
+                392.62000000011176
+              ],
+              [
+                35.17999999993481,
+                377.09999999962747
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ]
+          },
+          {
+            "ring": [
+              [
+                149.2600000000093,
+                330.21999999973923
+              ],
+              [
+                158.21999999997206,
+                326.70000000018626
+              ],
+              [
+                162.53999999992084,
+                335.01999999955297
+              ],
+              [
+                152.93999999994412,
+                338.54000000003725
+              ],
+              [
+                149.2600000000093,
+                330.21999999973923
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ]
           }
         ],
         "marks": [
           {
             "c": [
-              77.61345381526104,
-              379.6745553643144
+              45.09999999997672,
+              383.820000000298
             ],
             "b": 0,
             "m": 329,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              81.99611049995292,
-              372.65028974972665
+              77.90000000002328,
+              380.62000000011176
             ],
             "b": 0,
             "m": 297,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              81.99611049995292,
-              372.65028974972665
+              77.90000000002328,
+              380.62000000011176
             ],
             "b": 0,
             "m": 297,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              147.81296396468562,
-              331.7472273061676
+              134.21999999997206,
+              368.62000000011176
             ],
             "b": 0,
             "m": 244,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              147.81296396468562,
-              331.7472273061676
+              134.21999999997206,
+              368.62000000011176
             ],
             "b": 0,
             "m": 244,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              177.5444946181761,
-              311.44855530525683
+              155.97999999998137,
+              332.9400000004098
             ],
             "b": 0,
             "m": 208,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -9091,9 +9301,9 @@
         }
       ],
       "elev": {
-        "tee": 1.4,
+        "tee": 1.5,
         "green": 1.7,
-        "rise": 0.4
+        "rise": 0.2
       },
       "tiers": 1,
       "name": null,
@@ -9934,57 +10144,57 @@
         "marks": [
           {
             "c": [
-              262.06534772182255,
-              25.50179856115108
+              262.0653477218002,
+              25.50179856084287
             ],
             "b": 0,
             "m": 376,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              269.63481292193933,
-              30.370391449454466
+              269.6348129219841,
+              30.37039144989103
             ],
             "b": 0,
             "m": 367,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              269.63481292193933,
-              30.370391449454466
+              269.6348129219841,
+              30.37039144989103
             ],
             "b": 0,
             "m": 367,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              318.41705715420346,
-              61.7438300187878
+              318.4170571542345,
+              61.74383001867682
             ],
             "b": 0,
             "m": 309,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              351.905030452153,
-              78.20071863602186
+              351.90503045218065,
+              78.20071863569319
             ],
             "b": 0,
             "m": 271,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              351.905030452153,
-              78.20071863602186
+              351.90503045218065,
+              78.20071863569319
             ],
             "b": 0,
             "m": 271,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           }
         ]
       },
@@ -10475,86 +10685,210 @@
           {
             "ring": [
               [
-                425.75,
-                -60.25
+                414.05999999993946,
+                -76.01999999955297
               ],
               [
-                434.25,
-                -55.75
+                416.45999999996275,
+                -80.17999999970198
               ],
               [
-                438.25,
-                -64.75
+                420.9399999999441,
+                -84.5
               ],
               [
-                429.25,
-                -69.25
+                425.5799999999581,
+                -81.78000000026077
               ],
               [
-                425.75,
-                -60.25
+                427.8199999999488,
+                -78.4199999999255
+              ],
+              [
+                426.69999999995343,
+                -74.74000000022352
+              ],
+              [
+                425.2600000000093,
+                -68.82000000029802
+              ],
+              [
+                427.6599999999162,
+                -65.45999999996275
+              ],
+              [
+                435.9799999999814,
+                -59.37999999988824
+              ],
+              [
+                432.78000000002794,
+                -53.45999999996275
+              ],
+              [
+                429.0999999999767,
+                -54.89999999944121
+              ],
+              [
+                420.45999999996275,
+                -61.299999999813735
+              ],
+              [
+                414.53999999992084,
+                -65.62000000011176
+              ],
+              [
+                412.78000000002794,
+                -68.17999999970198
+              ],
+              [
+                414.05999999993946,
+                -76.01999999955297
               ]
             ],
             "preserveTerrain": true,
             "sourceIds": [
-              "visby-municipal-ortho-2022"
+              "imagery-lm-o63700-6875-25-mr26"
+            ]
+          },
+          {
+            "ring": [
+              [
+                441.0999999999767,
+                -21.62000000011176
+              ],
+              [
+                446.85999999998603,
+                -25.299999999813735
+              ],
+              [
+                452.29999999993015,
+                -15.700000000186265
+              ],
+              [
+                446.69999999995343,
+                -12.179999999701977
+              ],
+              [
+                441.0999999999767,
+                -21.62000000011176
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ]
+          },
+          {
+            "ring": [
+              [
+                428.78000000002794,
+                -36.17999999970198
+              ],
+              [
+                433.9000000000233,
+                -40.33999999985099
+              ],
+              [
+                439.8199999999488,
+                -33.62000000011176
+              ],
+              [
+                434.69999999995343,
+                -29.139999999664724
+              ],
+              [
+                428.78000000002794,
+                -36.17999999970198
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ]
+          },
+          {
+            "ring": [
+              [
+                408.45999999996275,
+                -118.25999999977648
+              ],
+              [
+                411.9799999999814,
+                -119.54000000003725
+              ],
+              [
+                416.61999999999534,
+                -107.70000000018626
+              ],
+              [
+                413.0999999999767,
+                -106.25999999977648
+              ],
+              [
+                408.45999999996275,
+                -118.25999999977648
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
             ]
           }
         ],
         "marks": [
           {
             "c": [
-              431.90686274509807,
-              -62.52647058823529
+              431.9068627450615,
+              -62.52647058852017
             ],
             "b": 0,
             "m": 155,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              416.7507064677015,
-              -73.98469588627995
+              416.7507064676611,
+              -73.98469588626176
             ],
             "b": 0,
             "m": 136,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              416.7507064677015,
-              -73.98469588627995
+              431.0200000000186,
+              -59.700000000186265
             ],
             "b": 0,
             "m": 136,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              403.9877760981079,
-              -83.63392426894895
+              420.78000000002794,
+              -75.54000000003725
             ],
             "b": 0,
             "m": 120,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              403.9877760981079,
-              -83.63392426894895
+              420.78000000002794,
+              -75.54000000003725
             ],
             "b": 0,
             "m": 120,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              383.2480142475182,
-              -99.31392039078605
+              412.45999999996275,
+              -112.82000000029802
             ],
             "b": 0,
             "m": 94,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -11292,12 +11626,12 @@
         "marks": [
           {
             "c": [
-              305.5316317626527,
-              -235.91884816753927
+              305.5316317626275,
+              -235.91884816717356
             ],
             "b": 0,
             "m": 413,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
@@ -11306,43 +11640,43 @@
             ],
             "b": 0,
             "m": 385,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              244.6569275242882,
-              -252.1444570605822
+              244.65692752425093,
+              -252.1444570608437
             ],
             "b": 0,
             "m": 350,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              213.22418419466115,
-              -264.01746363302334
+              213.22418419469614,
+              -264.0174636328593
             ],
             "b": 0,
             "m": 316,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              213.22418419466115,
-              -264.01746363302334
+              213.22418419469614,
+              -264.0174636328593
             ],
             "b": 0,
             "m": 316,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              191.68881545333412,
-              -278.58550719333283
+              191.6888154533226,
+              -278.58550719358027
             ],
             "b": 0,
             "m": 290,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           }
         ]
       },
@@ -11953,12 +12287,12 @@
         "marks": [
           {
             "c": [
-              15.580211817168339,
-              -271.0547937569677
+              15.580211817170493,
+              -271.0547937573865
             ],
             "b": 0,
             "m": 482,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -11967,7 +12301,7 @@
             ],
             "b": 0,
             "m": 464,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -11976,7 +12310,7 @@
             ],
             "b": 0,
             "m": 443,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -11985,7 +12319,7 @@
             ],
             "b": 0,
             "m": 408,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
@@ -11994,7 +12328,7 @@
             ],
             "b": 0,
             "m": 367,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -12003,7 +12337,7 @@
             ],
             "b": 0,
             "m": 367,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -12732,6 +13066,34 @@
             "sourceIds": [
               "visby-municipal-ortho-2022"
             ]
+          },
+          {
+            "ring": [
+              [
+                124.61999999999534,
+                246.54000000003725
+              ],
+              [
+                132.14000000001397,
+                251.01999999955297
+              ],
+              [
+                127.6600000000326,
+                260.1399999996647
+              ],
+              [
+                120.30000000004657,
+                255.8199999993667
+              ],
+              [
+                124.61999999999534,
+                246.54000000003725
+              ]
+            ],
+            "preserveTerrain": true,
+            "sourceIds": [
+              "imagery-lm-o63700-6875-25-mr26"
+            ]
           }
         ],
         "marks": [
@@ -12742,52 +13104,52 @@
             ],
             "b": 0,
             "m": 192,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              148.4358182499418,
-              205.47396400012076
+              158.38000000000466,
+              186.37999999988824
             ],
             "b": 0,
             "m": 174,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              140.17064248411987,
-              219.25689769637808
+              145.5799999999581,
+              208.78000000026077
             ],
             "b": 0,
             "m": 154,
-            "placement": "card-offset from the back tee along the observed route; still on the observed platform"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              134.07282250002027,
-              233.2100432496518
+              138.85999999998603,
+              222.21999999973923
             ],
             "b": 0,
             "m": 139,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              133.4277452499373,
-              234.14182174950838
+              136.30000000004657,
+              232.94000000040978
             ],
             "b": 0,
             "m": 123,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              113.41313443523754,
-              266.16143652807324
+              126.21999999997206,
+              253.4199999999255
             ],
             "b": 0,
             "m": 100,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           }
         ]
       },
@@ -13165,7 +13527,7 @@
       "elev": {
         "tee": 3,
         "green": 2,
-        "rise": -0.9
+        "rise": -1
       },
       "tiers": 1,
       "name": null,
@@ -13618,16 +13980,16 @@
             ],
             "b": 0,
             "m": 516,
-            "placement": "observed-tee-platform; the card back tee, whose platform this is"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -12.45022341999864,
-              327.11793992177115
+              -12.450223420048133,
+              327.1179399220273
             ],
             "b": 0,
             "m": 477,
-            "placement": "card-offset from the back tee along the observed route; still on the observed platform"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
@@ -13636,34 +13998,34 @@
             ],
             "b": 0,
             "m": 440,
-            "placement": "source-declared-camera-reference; daily marker location unverified"
+            "placement": "source-corroborated-numbered-platform-camera-reference; daily marker location unverified"
           },
           {
             "c": [
-              -74.98696855142431,
-              275.62717190809593
+              -74.98696855141316,
+              275.62717190850526
             ],
             "b": 0,
             "m": 395,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              -74.98696855142431,
-              275.62717190809593
+              -74.98696855141316,
+              275.62717190850526
             ],
             "b": 0,
             "m": 395,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           },
           {
             "c": [
-              -129.23863436219222,
-              266.5852276063013
+              -129.23863436223473,
+              266.58522760588676
             ],
             "b": 0,
             "m": 340,
-            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
+            "placement": "retained-provisional-camera-reference; numbered platform unresolved; daily marker location unverified"
           }
         ]
       },

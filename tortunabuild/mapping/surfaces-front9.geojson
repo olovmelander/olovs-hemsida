@@ -1,0 +1,3973 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "axisOrder": [
+    "easting",
+    "northing"
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "tortuna-h01-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 1,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 1,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-01.png",
+          "boundsEpsg3006": [
+            597526.1929170411,
+            6614722.160574364,
+            597654.1929170411,
+            6614850.160574364
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "20474ec33fe1877a4532bb92f213fc5b0256077b9540e396b6c9a5a16f7c69f3"
+        },
+        "tracePixels": [
+          [
+            205,
+            223
+          ],
+          [
+            219,
+            214
+          ],
+          [
+            237,
+            214
+          ],
+          [
+            256,
+            222
+          ],
+          [
+            272,
+            237
+          ],
+          [
+            283,
+            255
+          ],
+          [
+            288,
+            275
+          ],
+          [
+            281,
+            291
+          ],
+          [
+            268,
+            301
+          ],
+          [
+            249,
+            306
+          ],
+          [
+            231,
+            301
+          ],
+          [
+            217,
+            288
+          ],
+          [
+            207,
+            270
+          ],
+          [
+            201,
+            249
+          ],
+          [
+            200,
+            235
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597577.443,
+              6614794.411
+            ],
+            [
+              597580.943,
+              6614796.661
+            ],
+            [
+              597585.443,
+              6614796.661
+            ],
+            [
+              597590.193,
+              6614794.661
+            ],
+            [
+              597594.193,
+              6614790.911
+            ],
+            [
+              597596.943,
+              6614786.411
+            ],
+            [
+              597598.193,
+              6614781.411
+            ],
+            [
+              597596.443,
+              6614777.411
+            ],
+            [
+              597593.193,
+              6614774.911
+            ],
+            [
+              597588.443,
+              6614773.661
+            ],
+            [
+              597583.943,
+              6614774.911
+            ],
+            [
+              597580.443,
+              6614778.161
+            ],
+            [
+              597577.943,
+              6614782.661
+            ],
+            [
+              597576.443,
+              6614787.911
+            ],
+            [
+              597576.193,
+              6614791.411
+            ],
+            [
+              597577.443,
+              6614794.411
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h01-bunker-1",
+      "properties": {
+        "kind": "bunker",
+        "hole": 1,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 1,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-01.png",
+          "boundsEpsg3006": [
+            597526.1929170411,
+            6614722.160574364,
+            597654.1929170411,
+            6614850.160574364
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "20474ec33fe1877a4532bb92f213fc5b0256077b9540e396b6c9a5a16f7c69f3"
+        },
+        "tracePixels": [
+          [
+            229,
+            190
+          ],
+          [
+            235,
+            183
+          ],
+          [
+            249,
+            175
+          ],
+          [
+            260,
+            174
+          ],
+          [
+            276,
+            179
+          ],
+          [
+            291,
+            188
+          ],
+          [
+            301,
+            198
+          ],
+          [
+            302,
+            205
+          ],
+          [
+            297,
+            210
+          ],
+          [
+            286,
+            212
+          ],
+          [
+            272,
+            207
+          ],
+          [
+            257,
+            204
+          ],
+          [
+            240,
+            203
+          ],
+          [
+            231,
+            200
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597583.443,
+              6614802.661
+            ],
+            [
+              597584.943,
+              6614804.411
+            ],
+            [
+              597588.443,
+              6614806.411
+            ],
+            [
+              597591.193,
+              6614806.661
+            ],
+            [
+              597595.193,
+              6614805.411
+            ],
+            [
+              597598.943,
+              6614803.161
+            ],
+            [
+              597601.443,
+              6614800.661
+            ],
+            [
+              597601.693,
+              6614798.911
+            ],
+            [
+              597600.443,
+              6614797.661
+            ],
+            [
+              597597.693,
+              6614797.161
+            ],
+            [
+              597594.193,
+              6614798.411
+            ],
+            [
+              597590.443,
+              6614799.161
+            ],
+            [
+              597586.193,
+              6614799.411
+            ],
+            [
+              597583.943,
+              6614800.161
+            ],
+            [
+              597583.443,
+              6614802.661
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h02-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 2,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 2,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-02.png",
+          "boundsEpsg3006": [
+            597261.2699660324,
+            6614500.453098226,
+            597389.2699660324,
+            6614628.453098226
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "181bc2ec3bfb8bef92a3add7d513989df005204062b67e58798fea99f20ae570"
+        },
+        "tracePixels": [
+          [
+            216,
+            239
+          ],
+          [
+            228,
+            230
+          ],
+          [
+            248,
+            225
+          ],
+          [
+            267,
+            229
+          ],
+          [
+            288,
+            239
+          ],
+          [
+            300,
+            252
+          ],
+          [
+            304,
+            268
+          ],
+          [
+            295,
+            283
+          ],
+          [
+            276,
+            292
+          ],
+          [
+            252,
+            297
+          ],
+          [
+            234,
+            292
+          ],
+          [
+            218,
+            282
+          ],
+          [
+            211,
+            265
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": "northwest edge partly shadowed",
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597315.27,
+              6614568.703
+            ],
+            [
+              597318.27,
+              6614570.953
+            ],
+            [
+              597323.27,
+              6614572.203
+            ],
+            [
+              597328.02,
+              6614571.203
+            ],
+            [
+              597333.27,
+              6614568.703
+            ],
+            [
+              597336.27,
+              6614565.453
+            ],
+            [
+              597337.27,
+              6614561.453
+            ],
+            [
+              597335.02,
+              6614557.703
+            ],
+            [
+              597330.27,
+              6614555.453
+            ],
+            [
+              597324.27,
+              6614554.203
+            ],
+            [
+              597319.77,
+              6614555.453
+            ],
+            [
+              597315.77,
+              6614557.953
+            ],
+            [
+              597314.02,
+              6614562.203
+            ],
+            [
+              597315.27,
+              6614568.703
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h02-bunker-1",
+      "properties": {
+        "kind": "bunker",
+        "hole": 2,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 2,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-02.png",
+          "boundsEpsg3006": [
+            597261.2699660324,
+            6614500.453098226,
+            597389.2699660324,
+            6614628.453098226
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "181bc2ec3bfb8bef92a3add7d513989df005204062b67e58798fea99f20ae570"
+        },
+        "tracePixels": [
+          [
+            261,
+            200
+          ],
+          [
+            269,
+            194
+          ],
+          [
+            280,
+            193
+          ],
+          [
+            296,
+            199
+          ],
+          [
+            312,
+            210
+          ],
+          [
+            315,
+            217
+          ],
+          [
+            312,
+            223
+          ],
+          [
+            302,
+            224
+          ],
+          [
+            288,
+            219
+          ],
+          [
+            279,
+            215
+          ],
+          [
+            264,
+            210
+          ],
+          [
+            260,
+            206
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597326.52,
+              6614578.453
+            ],
+            [
+              597328.52,
+              6614579.953
+            ],
+            [
+              597331.27,
+              6614580.203
+            ],
+            [
+              597335.27,
+              6614578.703
+            ],
+            [
+              597339.27,
+              6614575.953
+            ],
+            [
+              597340.02,
+              6614574.203
+            ],
+            [
+              597339.27,
+              6614572.703
+            ],
+            [
+              597336.77,
+              6614572.453
+            ],
+            [
+              597333.27,
+              6614573.703
+            ],
+            [
+              597331.02,
+              6614574.703
+            ],
+            [
+              597327.27,
+              6614575.953
+            ],
+            [
+              597326.27,
+              6614576.953
+            ],
+            [
+              597326.52,
+              6614578.453
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h02-bunker-2",
+      "properties": {
+        "kind": "bunker",
+        "hole": 2,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 2,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-02.png",
+          "boundsEpsg3006": [
+            597261.2699660324,
+            6614500.453098226,
+            597389.2699660324,
+            6614628.453098226
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "181bc2ec3bfb8bef92a3add7d513989df005204062b67e58798fea99f20ae570"
+        },
+        "tracePixels": [
+          [
+            290,
+            304
+          ],
+          [
+            300,
+            298
+          ],
+          [
+            312,
+            290
+          ],
+          [
+            320,
+            287
+          ],
+          [
+            327,
+            290
+          ],
+          [
+            329,
+            299
+          ],
+          [
+            322,
+            309
+          ],
+          [
+            314,
+            316
+          ],
+          [
+            304,
+            318
+          ],
+          [
+            294,
+            315
+          ],
+          [
+            288,
+            311
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597333.77,
+              6614552.453
+            ],
+            [
+              597336.27,
+              6614553.953
+            ],
+            [
+              597339.27,
+              6614555.953
+            ],
+            [
+              597341.27,
+              6614556.703
+            ],
+            [
+              597343.02,
+              6614555.953
+            ],
+            [
+              597343.52,
+              6614553.703
+            ],
+            [
+              597341.77,
+              6614551.203
+            ],
+            [
+              597339.77,
+              6614549.453
+            ],
+            [
+              597337.27,
+              6614548.953
+            ],
+            [
+              597334.77,
+              6614549.703
+            ],
+            [
+              597333.27,
+              6614550.703
+            ],
+            [
+              597333.77,
+              6614552.453
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h03-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 3,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 3,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-03.png",
+          "boundsEpsg3006": [
+            597331.8204656201,
+            6614322.045176347,
+            597459.8204656201,
+            6614450.045176347
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "78cb5e644d0e9b2810982ecc8d45e3b938d09bcbad4310ec601010c488cd48de"
+        },
+        "tracePixels": [
+          [
+            241,
+            219
+          ],
+          [
+            252,
+            214
+          ],
+          [
+            264,
+            219
+          ],
+          [
+            277,
+            230
+          ],
+          [
+            287,
+            249
+          ],
+          [
+            291,
+            270
+          ],
+          [
+            283,
+            288
+          ],
+          [
+            270,
+            299
+          ],
+          [
+            250,
+            302
+          ],
+          [
+            232,
+            296
+          ],
+          [
+            220,
+            283
+          ],
+          [
+            215,
+            265
+          ],
+          [
+            221,
+            247
+          ],
+          [
+            229,
+            231
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": "west and south boundary under tree shadows; connecting visible boundary segments is interpreted",
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597392.07,
+              6614395.295
+            ],
+            [
+              597394.82,
+              6614396.545
+            ],
+            [
+              597397.82,
+              6614395.295
+            ],
+            [
+              597401.07,
+              6614392.545
+            ],
+            [
+              597403.57,
+              6614387.795
+            ],
+            [
+              597404.57,
+              6614382.545
+            ],
+            [
+              597402.57,
+              6614378.045
+            ],
+            [
+              597399.32,
+              6614375.295
+            ],
+            [
+              597394.32,
+              6614374.545
+            ],
+            [
+              597389.82,
+              6614376.045
+            ],
+            [
+              597386.82,
+              6614379.295
+            ],
+            [
+              597385.57,
+              6614383.795
+            ],
+            [
+              597387.07,
+              6614388.295
+            ],
+            [
+              597389.07,
+              6614392.295
+            ],
+            [
+              597392.07,
+              6614395.295
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h03-bunker-1",
+      "properties": {
+        "kind": "bunker",
+        "hole": 3,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 3,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-03.png",
+          "boundsEpsg3006": [
+            597331.8204656201,
+            6614322.045176347,
+            597459.8204656201,
+            6614450.045176347
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "78cb5e644d0e9b2810982ecc8d45e3b938d09bcbad4310ec601010c488cd48de"
+        },
+        "tracePixels": [
+          [
+            269,
+            157
+          ],
+          [
+            279,
+            151
+          ],
+          [
+            287,
+            155
+          ],
+          [
+            296,
+            166
+          ],
+          [
+            304,
+            183
+          ],
+          [
+            308,
+            197
+          ],
+          [
+            307,
+            209
+          ],
+          [
+            301,
+            216
+          ],
+          [
+            294,
+            217
+          ],
+          [
+            285,
+            209
+          ],
+          [
+            276,
+            202
+          ],
+          [
+            265,
+            193
+          ],
+          [
+            261,
+            183
+          ],
+          [
+            262,
+            171
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597399.07,
+              6614410.795
+            ],
+            [
+              597401.57,
+              6614412.295
+            ],
+            [
+              597403.57,
+              6614411.295
+            ],
+            [
+              597405.82,
+              6614408.545
+            ],
+            [
+              597407.82,
+              6614404.295
+            ],
+            [
+              597408.82,
+              6614400.795
+            ],
+            [
+              597408.57,
+              6614397.795
+            ],
+            [
+              597407.07,
+              6614396.045
+            ],
+            [
+              597405.32,
+              6614395.795
+            ],
+            [
+              597403.07,
+              6614397.795
+            ],
+            [
+              597400.82,
+              6614399.545
+            ],
+            [
+              597398.07,
+              6614401.795
+            ],
+            [
+              597397.07,
+              6614404.295
+            ],
+            [
+              597397.32,
+              6614407.295
+            ],
+            [
+              597399.07,
+              6614410.795
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h04-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 4,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 4,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-04.png",
+          "boundsEpsg3006": [
+            597217.4477352622,
+            6614012.590466616,
+            597345.4477352622,
+            6614140.590466616
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "8840f16848a04e651182c79a07e3c16fe30d7b77fb0691ad5a83732d78bced27"
+        },
+        "tracePixels": [
+          [
+            248,
+            223
+          ],
+          [
+            260,
+            218
+          ],
+          [
+            274,
+            222
+          ],
+          [
+            285,
+            235
+          ],
+          [
+            289,
+            251
+          ],
+          [
+            282,
+            269
+          ],
+          [
+            269,
+            287
+          ],
+          [
+            253,
+            298
+          ],
+          [
+            237,
+            302
+          ],
+          [
+            225,
+            295
+          ],
+          [
+            220,
+            281
+          ],
+          [
+            226,
+            265
+          ],
+          [
+            235,
+            250
+          ],
+          [
+            240,
+            236
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": "west and south edges shadowed; boundary partly interpreted",
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597279.448,
+              6614084.84
+            ],
+            [
+              597282.448,
+              6614086.09
+            ],
+            [
+              597285.948,
+              6614085.09
+            ],
+            [
+              597288.698,
+              6614081.84
+            ],
+            [
+              597289.698,
+              6614077.84
+            ],
+            [
+              597287.948,
+              6614073.34
+            ],
+            [
+              597284.698,
+              6614068.84
+            ],
+            [
+              597280.698,
+              6614066.09
+            ],
+            [
+              597276.698,
+              6614065.09
+            ],
+            [
+              597273.698,
+              6614066.84
+            ],
+            [
+              597272.448,
+              6614070.34
+            ],
+            [
+              597273.948,
+              6614074.34
+            ],
+            [
+              597276.198,
+              6614078.09
+            ],
+            [
+              597277.448,
+              6614081.59
+            ],
+            [
+              597279.448,
+              6614084.84
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h04-bunker-1",
+      "properties": {
+        "kind": "bunker",
+        "hole": 4,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 4,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-04.png",
+          "boundsEpsg3006": [
+            597217.4477352622,
+            6614012.590466616,
+            597345.4477352622,
+            6614140.590466616
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "8840f16848a04e651182c79a07e3c16fe30d7b77fb0691ad5a83732d78bced27"
+        },
+        "tracePixels": [
+          [
+            310,
+            207
+          ],
+          [
+            319,
+            196
+          ],
+          [
+            329,
+            191
+          ],
+          [
+            345,
+            193
+          ],
+          [
+            358,
+            199
+          ],
+          [
+            364,
+            208
+          ],
+          [
+            360,
+            219
+          ],
+          [
+            349,
+            230
+          ],
+          [
+            336,
+            240
+          ],
+          [
+            321,
+            250
+          ],
+          [
+            313,
+            251
+          ],
+          [
+            308,
+            244
+          ],
+          [
+            307,
+            227
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597294.948,
+              6614088.84
+            ],
+            [
+              597297.198,
+              6614091.59
+            ],
+            [
+              597299.698,
+              6614092.84
+            ],
+            [
+              597303.698,
+              6614092.34
+            ],
+            [
+              597306.948,
+              6614090.84
+            ],
+            [
+              597308.448,
+              6614088.59
+            ],
+            [
+              597307.448,
+              6614085.84
+            ],
+            [
+              597304.698,
+              6614083.09
+            ],
+            [
+              597301.448,
+              6614080.59
+            ],
+            [
+              597297.698,
+              6614078.09
+            ],
+            [
+              597295.698,
+              6614077.84
+            ],
+            [
+              597294.448,
+              6614079.59
+            ],
+            [
+              597294.198,
+              6614083.84
+            ],
+            [
+              597294.948,
+              6614088.84
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h05-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 5,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 5,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-05.png",
+          "boundsEpsg3006": [
+            597193.6695928512,
+            6613820.656179876,
+            597321.6695928512,
+            6613948.656179876
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "6c58c12dbbee84ff0c70a7338a2c44163518122a141db5455dee238f38934e89"
+        },
+        "tracePixels": [
+          [
+            239,
+            227
+          ],
+          [
+            250,
+            219
+          ],
+          [
+            265,
+            220
+          ],
+          [
+            281,
+            228
+          ],
+          [
+            294,
+            242
+          ],
+          [
+            302,
+            258
+          ],
+          [
+            304,
+            278
+          ],
+          [
+            295,
+            294
+          ],
+          [
+            280,
+            302
+          ],
+          [
+            263,
+            301
+          ],
+          [
+            249,
+            292
+          ],
+          [
+            239,
+            277
+          ],
+          [
+            232,
+            261
+          ],
+          [
+            232,
+            241
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": "southwest edge partly covered by tree shadow",
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597253.42,
+              6613891.906
+            ],
+            [
+              597256.17,
+              6613893.906
+            ],
+            [
+              597259.92,
+              6613893.656
+            ],
+            [
+              597263.92,
+              6613891.656
+            ],
+            [
+              597267.17,
+              6613888.156
+            ],
+            [
+              597269.17,
+              6613884.156
+            ],
+            [
+              597269.67,
+              6613879.156
+            ],
+            [
+              597267.42,
+              6613875.156
+            ],
+            [
+              597263.67,
+              6613873.156
+            ],
+            [
+              597259.42,
+              6613873.406
+            ],
+            [
+              597255.92,
+              6613875.656
+            ],
+            [
+              597253.42,
+              6613879.406
+            ],
+            [
+              597251.67,
+              6613883.406
+            ],
+            [
+              597251.67,
+              6613888.406
+            ],
+            [
+              597253.42,
+              6613891.906
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h05-bunker-1",
+      "properties": {
+        "kind": "bunker",
+        "hole": 5,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 5,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-05.png",
+          "boundsEpsg3006": [
+            597193.6695928512,
+            6613820.656179876,
+            597321.6695928512,
+            6613948.656179876
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "6c58c12dbbee84ff0c70a7338a2c44163518122a141db5455dee238f38934e89"
+        },
+        "tracePixels": [
+          [
+            301,
+            298
+          ],
+          [
+            310,
+            287
+          ],
+          [
+            317,
+            286
+          ],
+          [
+            324,
+            291
+          ],
+          [
+            321,
+            300
+          ],
+          [
+            312,
+            314
+          ],
+          [
+            301,
+            330
+          ],
+          [
+            295,
+            333
+          ],
+          [
+            290,
+            329
+          ],
+          [
+            292,
+            319
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597268.92,
+              6613874.156
+            ],
+            [
+              597271.17,
+              6613876.906
+            ],
+            [
+              597272.92,
+              6613877.156
+            ],
+            [
+              597274.67,
+              6613875.906
+            ],
+            [
+              597273.92,
+              6613873.656
+            ],
+            [
+              597271.67,
+              6613870.156
+            ],
+            [
+              597268.92,
+              6613866.156
+            ],
+            [
+              597267.42,
+              6613865.406
+            ],
+            [
+              597266.17,
+              6613866.406
+            ],
+            [
+              597266.67,
+              6613868.906
+            ],
+            [
+              597268.92,
+              6613874.156
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h06-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 6,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 6,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-06.png",
+          "boundsEpsg3006": [
+            597471.8954038848,
+            6614197.191314249,
+            597599.8954038848,
+            6614325.191314249
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "4f143a2b15e203cc951d54a1360d0bc52bf9687ae66cb133fdd7a95f59484d06"
+        },
+        "tracePixels": [
+          [
+            211,
+            244
+          ],
+          [
+            224,
+            232
+          ],
+          [
+            237,
+            220
+          ],
+          [
+            249,
+            211
+          ],
+          [
+            262,
+            207
+          ],
+          [
+            277,
+            211
+          ],
+          [
+            290,
+            220
+          ],
+          [
+            299,
+            234
+          ],
+          [
+            303,
+            249
+          ],
+          [
+            296,
+            266
+          ],
+          [
+            281,
+            280
+          ],
+          [
+            261,
+            290
+          ],
+          [
+            240,
+            294
+          ],
+          [
+            224,
+            291
+          ],
+          [
+            212,
+            283
+          ],
+          [
+            205,
+            269
+          ],
+          [
+            205,
+            256
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597524.645,
+              6614264.191
+            ],
+            [
+              597527.895,
+              6614267.191
+            ],
+            [
+              597531.145,
+              6614270.191
+            ],
+            [
+              597534.145,
+              6614272.441
+            ],
+            [
+              597537.395,
+              6614273.441
+            ],
+            [
+              597541.145,
+              6614272.441
+            ],
+            [
+              597544.395,
+              6614270.191
+            ],
+            [
+              597546.645,
+              6614266.691
+            ],
+            [
+              597547.645,
+              6614262.941
+            ],
+            [
+              597545.895,
+              6614258.691
+            ],
+            [
+              597542.145,
+              6614255.191
+            ],
+            [
+              597537.145,
+              6614252.691
+            ],
+            [
+              597531.895,
+              6614251.691
+            ],
+            [
+              597527.895,
+              6614252.441
+            ],
+            [
+              597524.895,
+              6614254.441
+            ],
+            [
+              597523.145,
+              6614257.941
+            ],
+            [
+              597523.145,
+              6614261.191
+            ],
+            [
+              597524.645,
+              6614264.191
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h07-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 7,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 7,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-07.png",
+          "boundsEpsg3006": [
+            597523.0087194688,
+            6614491.856498714,
+            597651.0087194688,
+            6614619.856498714
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "4e8699db7d4ed4c12c53fa08548cf3523ccd3f82fab980d4d1ad7b8ecab42d4c"
+        },
+        "tracePixels": [
+          [
+            216,
+            238
+          ],
+          [
+            227,
+            224
+          ],
+          [
+            245,
+            217
+          ],
+          [
+            260,
+            218
+          ],
+          [
+            275,
+            225
+          ],
+          [
+            287,
+            239
+          ],
+          [
+            291,
+            256
+          ],
+          [
+            288,
+            274
+          ],
+          [
+            279,
+            290
+          ],
+          [
+            265,
+            301
+          ],
+          [
+            247,
+            305
+          ],
+          [
+            231,
+            300
+          ],
+          [
+            219,
+            287
+          ],
+          [
+            211,
+            271
+          ],
+          [
+            210,
+            253
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597577.009,
+              6614560.356
+            ],
+            [
+              597579.759,
+              6614563.856
+            ],
+            [
+              597584.259,
+              6614565.606
+            ],
+            [
+              597588.009,
+              6614565.356
+            ],
+            [
+              597591.759,
+              6614563.606
+            ],
+            [
+              597594.759,
+              6614560.106
+            ],
+            [
+              597595.759,
+              6614555.856
+            ],
+            [
+              597595.009,
+              6614551.356
+            ],
+            [
+              597592.759,
+              6614547.356
+            ],
+            [
+              597589.259,
+              6614544.606
+            ],
+            [
+              597584.759,
+              6614543.606
+            ],
+            [
+              597580.759,
+              6614544.856
+            ],
+            [
+              597577.759,
+              6614548.106
+            ],
+            [
+              597575.759,
+              6614552.106
+            ],
+            [
+              597575.509,
+              6614556.606
+            ],
+            [
+              597577.009,
+              6614560.356
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h07-bunker-1",
+      "properties": {
+        "kind": "bunker",
+        "hole": 7,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 7,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-07.png",
+          "boundsEpsg3006": [
+            597523.0087194688,
+            6614491.856498714,
+            597651.0087194688,
+            6614619.856498714
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "4e8699db7d4ed4c12c53fa08548cf3523ccd3f82fab980d4d1ad7b8ecab42d4c"
+        },
+        "tracePixels": [
+          [
+            187,
+            284
+          ],
+          [
+            192,
+            278
+          ],
+          [
+            200,
+            278
+          ],
+          [
+            207,
+            285
+          ],
+          [
+            210,
+            295
+          ],
+          [
+            219,
+            307
+          ],
+          [
+            221,
+            315
+          ],
+          [
+            217,
+            321
+          ],
+          [
+            210,
+            321
+          ],
+          [
+            203,
+            315
+          ],
+          [
+            197,
+            305
+          ],
+          [
+            190,
+            296
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597569.759,
+              6614548.856
+            ],
+            [
+              597571.009,
+              6614550.356
+            ],
+            [
+              597573.009,
+              6614550.356
+            ],
+            [
+              597574.759,
+              6614548.606
+            ],
+            [
+              597575.509,
+              6614546.106
+            ],
+            [
+              597577.759,
+              6614543.106
+            ],
+            [
+              597578.259,
+              6614541.106
+            ],
+            [
+              597577.259,
+              6614539.606
+            ],
+            [
+              597575.509,
+              6614539.606
+            ],
+            [
+              597573.759,
+              6614541.106
+            ],
+            [
+              597572.259,
+              6614543.606
+            ],
+            [
+              597570.509,
+              6614545.856
+            ],
+            [
+              597569.759,
+              6614548.856
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h08-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 8,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 8,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-08.png",
+          "boundsEpsg3006": [
+            597684.6260410049,
+            6614646.427793284,
+            597812.6260410049,
+            6614774.427793284
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "c052dc008aafafa9e16347e6153150809572d1f771fa47205168527025f6d25a"
+        },
+        "tracePixels": [
+          [
+            220,
+            229
+          ],
+          [
+            236,
+            220
+          ],
+          [
+            254,
+            218
+          ],
+          [
+            273,
+            223
+          ],
+          [
+            288,
+            232
+          ],
+          [
+            296,
+            246
+          ],
+          [
+            296,
+            265
+          ],
+          [
+            291,
+            282
+          ],
+          [
+            279,
+            294
+          ],
+          [
+            259,
+            298
+          ],
+          [
+            239,
+            295
+          ],
+          [
+            222,
+            288
+          ],
+          [
+            209,
+            277
+          ],
+          [
+            207,
+            260
+          ],
+          [
+            213,
+            243
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": "western edge partly shadowed",
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597739.626,
+              6614717.178
+            ],
+            [
+              597743.626,
+              6614719.428
+            ],
+            [
+              597748.126,
+              6614719.928
+            ],
+            [
+              597752.876,
+              6614718.678
+            ],
+            [
+              597756.626,
+              6614716.428
+            ],
+            [
+              597758.626,
+              6614712.928
+            ],
+            [
+              597758.626,
+              6614708.178
+            ],
+            [
+              597757.376,
+              6614703.928
+            ],
+            [
+              597754.376,
+              6614700.928
+            ],
+            [
+              597749.376,
+              6614699.928
+            ],
+            [
+              597744.376,
+              6614700.678
+            ],
+            [
+              597740.126,
+              6614702.428
+            ],
+            [
+              597736.876,
+              6614705.178
+            ],
+            [
+              597736.376,
+              6614709.428
+            ],
+            [
+              597737.876,
+              6614713.678
+            ],
+            [
+              597739.626,
+              6614717.178
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h09-green-1",
+      "properties": {
+        "kind": "green",
+        "hole": 9,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 9,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-09.png",
+          "boundsEpsg3006": [
+            597452.2531797672,
+            6614960.66946349,
+            597580.2531797672,
+            6615088.66946349
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "be1ddcfe0010948fe4e058ea9f4de5121cc8e7aca674910ef1d174f0910c0cbf"
+        },
+        "tracePixels": [
+          [
+            211,
+            227
+          ],
+          [
+            224,
+            217
+          ],
+          [
+            241,
+            211
+          ],
+          [
+            258,
+            211
+          ],
+          [
+            275,
+            218
+          ],
+          [
+            288,
+            229
+          ],
+          [
+            297,
+            245
+          ],
+          [
+            299,
+            265
+          ],
+          [
+            289,
+            283
+          ],
+          [
+            273,
+            296
+          ],
+          [
+            255,
+            301
+          ],
+          [
+            239,
+            299
+          ],
+          [
+            224,
+            291
+          ],
+          [
+            213,
+            276
+          ],
+          [
+            204,
+            260
+          ],
+          [
+            204,
+            243
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597505.003,
+              6615031.919
+            ],
+            [
+              597508.253,
+              6615034.419
+            ],
+            [
+              597512.503,
+              6615035.919
+            ],
+            [
+              597516.753,
+              6615035.919
+            ],
+            [
+              597521.003,
+              6615034.169
+            ],
+            [
+              597524.253,
+              6615031.419
+            ],
+            [
+              597526.503,
+              6615027.419
+            ],
+            [
+              597527.003,
+              6615022.419
+            ],
+            [
+              597524.503,
+              6615017.919
+            ],
+            [
+              597520.503,
+              6615014.669
+            ],
+            [
+              597516.003,
+              6615013.419
+            ],
+            [
+              597512.003,
+              6615013.919
+            ],
+            [
+              597508.253,
+              6615015.919
+            ],
+            [
+              597505.503,
+              6615019.669
+            ],
+            [
+              597503.253,
+              6615023.669
+            ],
+            [
+              597503.253,
+              6615027.919
+            ],
+            [
+              597505.003,
+              6615031.919
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h09-bunker-1",
+      "properties": {
+        "kind": "bunker",
+        "hole": 9,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 9,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-09.png",
+          "boundsEpsg3006": [
+            597452.2531797672,
+            6614960.66946349,
+            597580.2531797672,
+            6615088.66946349
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "be1ddcfe0010948fe4e058ea9f4de5121cc8e7aca674910ef1d174f0910c0cbf"
+        },
+        "tracePixels": [
+          [
+            278,
+            163
+          ],
+          [
+            286,
+            160
+          ],
+          [
+            299,
+            162
+          ],
+          [
+            305,
+            165
+          ],
+          [
+            302,
+            180
+          ],
+          [
+            304,
+            193
+          ],
+          [
+            308,
+            204
+          ],
+          [
+            305,
+            211
+          ],
+          [
+            299,
+            212
+          ],
+          [
+            289,
+            206
+          ],
+          [
+            282,
+            199
+          ],
+          [
+            274,
+            188
+          ],
+          [
+            272,
+            178
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597521.753,
+              6615047.919
+            ],
+            [
+              597523.753,
+              6615048.669
+            ],
+            [
+              597527.003,
+              6615048.169
+            ],
+            [
+              597528.503,
+              6615047.419
+            ],
+            [
+              597527.753,
+              6615043.669
+            ],
+            [
+              597528.253,
+              6615040.419
+            ],
+            [
+              597529.253,
+              6615037.669
+            ],
+            [
+              597528.503,
+              6615035.919
+            ],
+            [
+              597527.003,
+              6615035.669
+            ],
+            [
+              597524.503,
+              6615037.169
+            ],
+            [
+              597522.753,
+              6615038.919
+            ],
+            [
+              597520.753,
+              6615041.669
+            ],
+            [
+              597520.253,
+              6615044.169
+            ],
+            [
+              597521.753,
+              6615047.919
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h09-bunker-2",
+      "properties": {
+        "kind": "bunker",
+        "hole": 9,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 9,
+          "kind": "green",
+          "file": "tortunabuild/cache/mapping-review/green-09.png",
+          "boundsEpsg3006": [
+            597452.2531797672,
+            6614960.66946349,
+            597580.2531797672,
+            6615088.66946349
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "be1ddcfe0010948fe4e058ea9f4de5121cc8e7aca674910ef1d174f0910c0cbf"
+        },
+        "tracePixels": [
+          [
+            320,
+            252
+          ],
+          [
+            327,
+            247
+          ],
+          [
+            342,
+            247
+          ],
+          [
+            352,
+            245
+          ],
+          [
+            360,
+            249
+          ],
+          [
+            364,
+            259
+          ],
+          [
+            361,
+            272
+          ],
+          [
+            364,
+            284
+          ],
+          [
+            360,
+            292
+          ],
+          [
+            354,
+            295
+          ],
+          [
+            347,
+            291
+          ],
+          [
+            341,
+            285
+          ],
+          [
+            328,
+            281
+          ],
+          [
+            320,
+            272
+          ],
+          [
+            317,
+            262
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597532.253,
+              6615025.669
+            ],
+            [
+              597534.003,
+              6615026.919
+            ],
+            [
+              597537.753,
+              6615026.919
+            ],
+            [
+              597540.253,
+              6615027.419
+            ],
+            [
+              597542.253,
+              6615026.419
+            ],
+            [
+              597543.253,
+              6615023.919
+            ],
+            [
+              597542.503,
+              6615020.669
+            ],
+            [
+              597543.253,
+              6615017.669
+            ],
+            [
+              597542.253,
+              6615015.669
+            ],
+            [
+              597540.753,
+              6615014.919
+            ],
+            [
+              597539.003,
+              6615015.919
+            ],
+            [
+              597537.503,
+              6615017.419
+            ],
+            [
+              597534.253,
+              6615018.419
+            ],
+            [
+              597532.253,
+              6615020.669
+            ],
+            [
+              597531.503,
+              6615023.169
+            ],
+            [
+              597532.253,
+              6615025.669
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h01-tee-1",
+      "properties": {
+        "kind": "tee",
+        "hole": 1,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 1,
+          "kind": "tee",
+          "file": "tortunabuild/cache/mapping-review/tee-01.png",
+          "boundsEpsg3006": [
+            597371.4014942257,
+            6614982.247375763,
+            597499.4014942257,
+            6615110.247375763
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "adb6bf00cca071201fd1b967478994823e7f030076f81a571a2cd9605e48543a"
+        },
+        "tracePixels": [
+          [
+            229,
+            249
+          ],
+          [
+            244,
+            247
+          ],
+          [
+            252,
+            254
+          ],
+          [
+            258,
+            271
+          ],
+          [
+            264,
+            291
+          ],
+          [
+            274,
+            312
+          ],
+          [
+            280,
+            330
+          ],
+          [
+            276,
+            337
+          ],
+          [
+            265,
+            338
+          ],
+          [
+            257,
+            333
+          ],
+          [
+            249,
+            316
+          ],
+          [
+            241,
+            297
+          ],
+          [
+            234,
+            276
+          ],
+          [
+            228,
+            261
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597428.651,
+              6615047.997
+            ],
+            [
+              597432.401,
+              6615048.497
+            ],
+            [
+              597434.401,
+              6615046.747
+            ],
+            [
+              597435.901,
+              6615042.497
+            ],
+            [
+              597437.401,
+              6615037.497
+            ],
+            [
+              597439.901,
+              6615032.247
+            ],
+            [
+              597441.401,
+              6615027.747
+            ],
+            [
+              597440.401,
+              6615025.997
+            ],
+            [
+              597437.651,
+              6615025.747
+            ],
+            [
+              597435.651,
+              6615026.997
+            ],
+            [
+              597433.651,
+              6615031.247
+            ],
+            [
+              597431.651,
+              6615035.997
+            ],
+            [
+              597429.901,
+              6615041.247
+            ],
+            [
+              597428.401,
+              6615044.997
+            ],
+            [
+              597428.651,
+              6615047.997
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h02-tee-1",
+      "properties": {
+        "kind": "tee",
+        "hole": 2,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 2,
+          "kind": "tee",
+          "file": "tortunabuild/cache/mapping-review/tee-02.png",
+          "boundsEpsg3006": [
+            597494.9362638021,
+            6614689.485888466,
+            597622.9362638021,
+            6614817.485888466
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "6ebe942c27dbd4b1e546b1efb14aec0572bf2df80a4c8275ca4ac660461f8880"
+        },
+        "tracePixels": [
+          [
+            230,
+            260
+          ],
+          [
+            242,
+            259
+          ],
+          [
+            253,
+            265
+          ],
+          [
+            260,
+            275
+          ],
+          [
+            260,
+            286
+          ],
+          [
+            250,
+            303
+          ],
+          [
+            236,
+            320
+          ],
+          [
+            225,
+            325
+          ],
+          [
+            216,
+            320
+          ],
+          [
+            206,
+            311
+          ],
+          [
+            208,
+            299
+          ],
+          [
+            218,
+            282
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597552.436,
+              6614752.486
+            ],
+            [
+              597555.436,
+              6614752.736
+            ],
+            [
+              597558.186,
+              6614751.236
+            ],
+            [
+              597559.936,
+              6614748.736
+            ],
+            [
+              597559.936,
+              6614745.986
+            ],
+            [
+              597557.436,
+              6614741.736
+            ],
+            [
+              597553.936,
+              6614737.486
+            ],
+            [
+              597551.186,
+              6614736.236
+            ],
+            [
+              597548.936,
+              6614737.486
+            ],
+            [
+              597546.436,
+              6614739.736
+            ],
+            [
+              597546.936,
+              6614742.736
+            ],
+            [
+              597549.436,
+              6614746.986
+            ],
+            [
+              597552.436,
+              6614752.486
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h03-tee-1",
+      "properties": {
+        "kind": "tee",
+        "hole": 3,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 3,
+          "kind": "tee",
+          "file": "tortunabuild/cache/mapping-review/tee-03.png",
+          "boundsEpsg3006": [
+            597267.6786971705,
+            6614461.361953157,
+            597395.6786971705,
+            6614589.361953157
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "6959c4a4805c27b22466f49c9def9692ff16cb9932adfe8064bce5583e6f5fed"
+        },
+        "tracePixels": [
+          [
+            213,
+            223
+          ],
+          [
+            222,
+            219
+          ],
+          [
+            231,
+            223
+          ],
+          [
+            237,
+            234
+          ],
+          [
+            244,
+            258
+          ],
+          [
+            250,
+            277
+          ],
+          [
+            248,
+            288
+          ],
+          [
+            240,
+            294
+          ],
+          [
+            229,
+            290
+          ],
+          [
+            222,
+            275
+          ],
+          [
+            216,
+            256
+          ],
+          [
+            210,
+            235
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597320.929,
+              6614533.612
+            ],
+            [
+              597323.179,
+              6614534.612
+            ],
+            [
+              597325.429,
+              6614533.612
+            ],
+            [
+              597326.929,
+              6614530.862
+            ],
+            [
+              597328.679,
+              6614524.862
+            ],
+            [
+              597330.179,
+              6614520.112
+            ],
+            [
+              597329.679,
+              6614517.362
+            ],
+            [
+              597327.679,
+              6614515.862
+            ],
+            [
+              597324.929,
+              6614516.862
+            ],
+            [
+              597323.179,
+              6614520.612
+            ],
+            [
+              597321.679,
+              6614525.362
+            ],
+            [
+              597320.179,
+              6614530.612
+            ],
+            [
+              597320.929,
+              6614533.612
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h05-tee-1",
+      "properties": {
+        "kind": "tee",
+        "hole": 5,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 5,
+          "kind": "tee",
+          "file": "tortunabuild/cache/mapping-review/tee-05.png",
+          "boundsEpsg3006": [
+            597195.9077785065,
+            6613960.688907301,
+            597323.9077785065,
+            6614088.688907301
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "79ebce99292251b3a5e636fcb5d2405de8bbe0c5f33bae0fe4f230b401f0e58d"
+        },
+        "tracePixels": [
+          [
+            262,
+            211
+          ],
+          [
+            270,
+            212
+          ],
+          [
+            275,
+            219
+          ],
+          [
+            271,
+            239
+          ],
+          [
+            263,
+            267
+          ],
+          [
+            252,
+            299
+          ],
+          [
+            243,
+            329
+          ],
+          [
+            235,
+            338
+          ],
+          [
+            227,
+            336
+          ],
+          [
+            224,
+            327
+          ],
+          [
+            229,
+            303
+          ],
+          [
+            238,
+            274
+          ],
+          [
+            245,
+            247
+          ],
+          [
+            253,
+            221
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597261.408,
+              6614035.939
+            ],
+            [
+              597263.408,
+              6614035.689
+            ],
+            [
+              597264.658,
+              6614033.939
+            ],
+            [
+              597263.658,
+              6614028.939
+            ],
+            [
+              597261.658,
+              6614021.939
+            ],
+            [
+              597258.908,
+              6614013.939
+            ],
+            [
+              597256.658,
+              6614006.439
+            ],
+            [
+              597254.658,
+              6614004.189
+            ],
+            [
+              597252.658,
+              6614004.689
+            ],
+            [
+              597251.908,
+              6614006.939
+            ],
+            [
+              597253.158,
+              6614012.939
+            ],
+            [
+              597255.408,
+              6614020.189
+            ],
+            [
+              597257.158,
+              6614026.939
+            ],
+            [
+              597259.158,
+              6614033.439
+            ],
+            [
+              597261.408,
+              6614035.939
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h07-tee-1",
+      "properties": {
+        "kind": "tee",
+        "hole": 7,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 7,
+          "kind": "tee",
+          "file": "tortunabuild/cache/mapping-review/tee-07.png",
+          "boundsEpsg3006": [
+            597539.401294237,
+            6614227.7794111995,
+            597667.401294237,
+            6614355.7794111995
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "805e8daba5cc7d0928c9de6b05c31bcd772a2fddf4cc61e517c46fb28e77db87"
+        },
+        "tracePixels": [
+          [
+            250,
+            224
+          ],
+          [
+            262,
+            224
+          ],
+          [
+            271,
+            233
+          ],
+          [
+            276,
+            251
+          ],
+          [
+            274,
+            266
+          ],
+          [
+            266,
+            283
+          ],
+          [
+            255,
+            295
+          ],
+          [
+            245,
+            293
+          ],
+          [
+            240,
+            284
+          ],
+          [
+            241,
+            266
+          ],
+          [
+            244,
+            242
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": "eastern platform edge partly shadowed",
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597601.901,
+              6614299.779
+            ],
+            [
+              597604.901,
+              6614299.779
+            ],
+            [
+              597607.151,
+              6614297.529
+            ],
+            [
+              597608.401,
+              6614293.029
+            ],
+            [
+              597607.901,
+              6614289.279
+            ],
+            [
+              597605.901,
+              6614285.029
+            ],
+            [
+              597603.151,
+              6614282.029
+            ],
+            [
+              597600.651,
+              6614282.529
+            ],
+            [
+              597599.401,
+              6614284.779
+            ],
+            [
+              597599.651,
+              6614289.279
+            ],
+            [
+              597600.401,
+              6614295.279
+            ],
+            [
+              597601.901,
+              6614299.779
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-h08-tee-1",
+      "properties": {
+        "kind": "tee",
+        "hole": 8,
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "sourceWindows": [
+          {
+            "id": "south",
+            "sha256": "7a8e08ac34ab3a192eb4c298e47cdee73828e48122e4235bb29e498c02a1d02f"
+          }
+        ],
+        "reviewGrid": {
+          "hole": 8,
+          "kind": "tee",
+          "file": "tortunabuild/cache/mapping-review/tee-08.png",
+          "boundsEpsg3006": [
+            597441.5999787664,
+            6614503.462057706,
+            597569.5999787664,
+            6614631.462057706
+          ],
+          "width": 512,
+          "height": 512,
+          "pixelMeaning": "edge; E=west+x*span/width, N=north-y*span/height",
+          "sourceWindows": [
+            "south"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "b349002418242c72ff9c740b5a02330588cca390b2d8d52482ce303deaf3c256"
+        },
+        "tracePixels": [
+          [
+            242,
+            257
+          ],
+          [
+            258,
+            252
+          ],
+          [
+            277,
+            247
+          ],
+          [
+            293,
+            245
+          ],
+          [
+            310,
+            245
+          ],
+          [
+            317,
+            250
+          ],
+          [
+            316,
+            257
+          ],
+          [
+            307,
+            267
+          ],
+          [
+            289,
+            272
+          ],
+          [
+            270,
+            276
+          ],
+          [
+            251,
+            280
+          ],
+          [
+            238,
+            278
+          ],
+          [
+            234,
+            270
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "occlusion": null,
+        "terrainModified": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597502.1,
+              6614567.212
+            ],
+            [
+              597506.1,
+              6614568.462
+            ],
+            [
+              597510.85,
+              6614569.712
+            ],
+            [
+              597514.85,
+              6614570.212
+            ],
+            [
+              597519.1,
+              6614570.212
+            ],
+            [
+              597520.85,
+              6614568.962
+            ],
+            [
+              597520.6,
+              6614567.212
+            ],
+            [
+              597518.35,
+              6614564.712
+            ],
+            [
+              597513.85,
+              6614563.462
+            ],
+            [
+              597509.1,
+              6614562.462
+            ],
+            [
+              597504.35,
+              6614561.462
+            ],
+            [
+              597501.1,
+              6614561.962
+            ],
+            [
+              597500.1,
+              6614563.962
+            ],
+            [
+              597502.1,
+              6614567.212
+            ]
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Front-nine forward platform census incomplete; colour associations and daily markers unverified.",
+    "Tees4 and6 are shadow-obscured and remain source camera references without fabricated platform rings.",
+    "Hole9 new short-hole tee is recorded separately after current-guide and orthophoto comparison.",
+    "Dormant-season fairway/rough separation is not sufficiently clear in these crops; no route-buffer fairways generated."
+  ]
+}

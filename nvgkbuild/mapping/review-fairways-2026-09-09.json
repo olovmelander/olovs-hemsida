@@ -1,0 +1,6242 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "reviewedOn": "2026-09-09",
+  "captureDate": "2024-06-27",
+  "sources": [
+    {
+      "id": "norrfallsviken-01-hole",
+      "rasterFile": "norrfallsviken-01-hole.tif",
+      "rgbFile": "norrfallsviken-01-hole.png",
+      "sha256": "c5988b63faeb69c976944c7eb90b604e81201a504f3e17c8940c6f9f3eb5935c",
+      "rgbSha256": "54ab88a7912c2c4cd0b4a847f6bdc94236407b1c59897c985648d3604ea30546",
+      "requestSha256": "317bf9e848bc0dabb36cb62318711d225a585309fd1671395fa3abd05463daec",
+      "bytes": 10244331,
+      "boundsEpsg3006": [
+        678604.32,
+        6988339.2,
+        679039.84,
+        6988532.16
+      ],
+      "geoTransform": [
+        678604.32,
+        0.16,
+        0.0,
+        6988532.16,
+        0.0,
+        -0.16
+      ],
+      "width": 2722,
+      "height": 1206,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:30.541511+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-02-hole",
+      "rasterFile": "norrfallsviken-02-hole.tif",
+      "rgbFile": "norrfallsviken-02-hole.png",
+      "sha256": "8e7d88a50bf5ea339604101b5811e1056210965de4a2c9fdada439acf24358e8",
+      "rgbSha256": "f0aaca1a632f739dca2b3ac14e2fc74dec2db4a79a9f6e88a53eb01df0eb45dd",
+      "requestSha256": "703a0841b267022514da3538a9314fa2b8cb5c88645fd8bea629313a68f85056",
+      "bytes": 6061163,
+      "boundsEpsg3006": [
+        678817.92,
+        6988196.0,
+        678999.8400000001,
+        6988464.16
+      ],
+      "geoTransform": [
+        678817.92,
+        0.16,
+        0.0,
+        6988464.16,
+        0.0,
+        -0.16
+      ],
+      "width": 1137,
+      "height": 1676,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:31.861444+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-03-hole",
+      "rasterFile": "norrfallsviken-03-hole.tif",
+      "rgbFile": "norrfallsviken-03-hole.png",
+      "sha256": "5b321b8d07920329f33a4c8f89f58892fab480efbc3a37a37bc6a8bbadd8ffcc",
+      "rgbSha256": "fa307bf16f1f91c60bf981a185fc833be04ab995b61878a5da40474ab23457c5",
+      "requestSha256": "15dd64a0b9a05775c91fd07e9544dae7055a686428d78e9aec50db0b2d093e7f",
+      "bytes": 11294019,
+      "boundsEpsg3006": [
+        678828.96,
+        6987885.44,
+        679089.6,
+        6988232.32
+      ],
+      "geoTransform": [
+        678828.96,
+        0.16,
+        0.0,
+        6988232.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1629,
+      "height": 2168,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:36.654704+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-04-hole",
+      "rasterFile": "norrfallsviken-04-hole.tif",
+      "rgbFile": "norrfallsviken-04-hole.png",
+      "sha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f",
+      "rgbSha256": "6d6504318ccf239659312f523f3073957745d171621dcf9934f9a8b8aa3c3c49",
+      "requestSha256": "ec281465364f8a2d9cfad42d692bf2eb5f7c345f9fbc32fc5509b1686a2841c0",
+      "bytes": 15590295,
+      "boundsEpsg3006": [
+        678914.24,
+        6987905.92,
+        679145.6,
+        6988454.72
+      ],
+      "geoTransform": [
+        678914.24,
+        0.16,
+        0.0,
+        6988454.72,
+        0.0,
+        -0.16
+      ],
+      "width": 1446,
+      "height": 3430,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:40.448543+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-05-hole",
+      "rasterFile": "norrfallsviken-05-hole.tif",
+      "rgbFile": "norrfallsviken-05-hole.png",
+      "sha256": "7d2fb9cefbcf3c621f7229dd43e1eb038c14c38048b839b25e9af75593624260",
+      "rgbSha256": "d5aa2214fe3732edb2d06f69e0dead9387b6cf3327aa06a1f5c388461e0dd3d8",
+      "requestSha256": "5991d6dd58a799d40734c75c1b72769ff786b0c04d15ec29c4e94b1c90f4da29",
+      "bytes": 11141111,
+      "boundsEpsg3006": [
+        678988.48,
+        6988260.48,
+        679406.08,
+        6988477.12
+      ],
+      "geoTransform": [
+        678988.48,
+        0.16,
+        0.0,
+        6988477.12,
+        0.0,
+        -0.16
+      ],
+      "width": 2610,
+      "height": 1354,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:42.685542+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-06-hole",
+      "rasterFile": "norrfallsviken-06-hole.tif",
+      "rgbFile": "norrfallsviken-06-hole.png",
+      "sha256": "827db256765d89d8376d92aa8172286d244aeb35501a6aacff350df2e7c2a228",
+      "rgbSha256": "05ba47d7646de3f930a2a610dd9f9b9a39ed6903cb2a1175027321f044664565",
+      "requestSha256": "16837c7d745cfd3a3d56f0f42cbb52c1dfa4cde33e0379ea4c4dbf82b5ab2c08",
+      "bytes": 10898445,
+      "boundsEpsg3006": [
+        679218.88,
+        6987919.04,
+        679401.12,
+        6988408.32
+      ],
+      "geoTransform": [
+        679218.88,
+        0.16,
+        0.0,
+        6988408.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1139,
+      "height": 3058,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:44.731202+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-07-hole",
+      "rasterFile": "norrfallsviken-07-hole.tif",
+      "rgbFile": "norrfallsviken-07-hole.png",
+      "sha256": "edcb3c3d0143c95d17f4217ea9bae8237e4493a35ceb6882479edad3c26adf9c",
+      "rgbSha256": "c55388e4ddfdf4ab50d4ff578451a10b0a903e8607950ec9b973e66b86623aa7",
+      "requestSha256": "3bec9eca050b479b100d0420b0676d28b306a88e9b50a333cd0d9fc29bad2eb1",
+      "bytes": 4994327,
+      "boundsEpsg3006": [
+        679049.12,
+        6987871.5200000005,
+        679317.12,
+        6988022.08
+      ],
+      "geoTransform": [
+        679049.12,
+        0.16,
+        0.0,
+        6988022.08,
+        0.0,
+        -0.16
+      ],
+      "width": 1675,
+      "height": 941,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:45.543593+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-08-hole",
+      "rasterFile": "norrfallsviken-08-hole.tif",
+      "rgbFile": "norrfallsviken-08-hole.png",
+      "sha256": "26d4d5295f19cf075949c894547bf59b81cdee52650d33bc32fedd57ab0f1ddb",
+      "rgbSha256": "189b977de97fd27a55003be0097a81271720a9c4525d24ff48b9aad70d0692a9",
+      "requestSha256": "d57d27aaccaff90305e1cb50521864e07a76bdf37fc37c48bb746f9a6f8d447f",
+      "bytes": 11685873,
+      "boundsEpsg3006": [
+        678988.0,
+        6987966.72,
+        679177.12,
+        6988470.56
+      ],
+      "geoTransform": [
+        678988.0,
+        0.16,
+        0.0,
+        6988470.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1182,
+      "height": 3149,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:47.386234+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-09-hole",
+      "rasterFile": "norrfallsviken-09-hole.tif",
+      "rgbFile": "norrfallsviken-09-hole.png",
+      "sha256": "49726480abd6880f215fffacccb66f2017184abbeb93dcbc0418bf733999cfbf",
+      "rgbSha256": "3d79f5d936648be4f18ba7b867bd437b23ade7b0aeed9f042e4c538c60267524",
+      "requestSha256": "89c57efdee9168278b86a66e991f1ac97ffba981852ee1c68f63195653452068",
+      "bytes": 15099847,
+      "boundsEpsg3006": [
+        678552.0,
+        6988347.36,
+        679022.88,
+        6988608.0
+      ],
+      "geoTransform": [
+        678552.0,
+        0.16,
+        0.0,
+        6988608.0,
+        0.0,
+        -0.16
+      ],
+      "width": 2943,
+      "height": 1629,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:50.316532+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-10-hole",
+      "rasterFile": "norrfallsviken-10-hole.tif",
+      "rgbFile": "norrfallsviken-10-hole.png",
+      "sha256": "5f113cbfd8316473cfa16d9152f94c04feb028858857caf42d6f9360cdfc95fc",
+      "rgbSha256": "8b6a8cd54cb5eddf024e582b4f2c41f4db3dfbb4f0cf56b776f1bc4f7e58f93b",
+      "requestSha256": "9781f3534802f20693385e619121758a72b9b21d5e0f2d4b2d8292977e378a4a",
+      "bytes": 23321151,
+      "boundsEpsg3006": [
+        678521.76,
+        6988422.56,
+        678937.12,
+        6988877.76
+      ],
+      "geoTransform": [
+        678521.76,
+        0.16,
+        0.0,
+        6988877.76,
+        0.0,
+        -0.16
+      ],
+      "width": 2596,
+      "height": 2845,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:54.645676+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-11-hole",
+      "rasterFile": "norrfallsviken-11-hole.tif",
+      "rgbFile": "norrfallsviken-11-hole.png",
+      "sha256": "a7f9f22d442305cff9e40b433fbf610653d8a4cd5c3c8b27d80897db9cc25b9d",
+      "rgbSha256": "1c1fbb6f2dc51b61e0310c64c0c31b60e25e91f9aa959ab676f1ffa0338ac197",
+      "requestSha256": "b8353d5b2f4de9ef9c1e09b98d103a8d4c704c188defcff486904fc85cfc82a0",
+      "bytes": 5128003,
+      "boundsEpsg3006": [
+        678592.48,
+        6988708.800000001,
+        678829.12,
+        6988883.36
+      ],
+      "geoTransform": [
+        678592.48,
+        0.16,
+        0.0,
+        6988883.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1479,
+      "height": 1091,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:55.621624+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-12-hole",
+      "rasterFile": "norrfallsviken-12-hole.tif",
+      "rgbFile": "norrfallsviken-12-hole.png",
+      "sha256": "9c4f89a01dd096b184ed946013dd22d0dfcd7143f30f186dd61de3590233429d",
+      "rgbSha256": "f97f471b7735fa6030480996eb02cf43f4acca72be848665f2ebb83267054339",
+      "requestSha256": "3887ddf80c9236252c0889cd63c1c83abe80fa25259ce5586f11109b9e2a708b",
+      "bytes": 15609043,
+      "boundsEpsg3006": [
+        678566.08,
+        6988808.64,
+        678896.1599999999,
+        6989199.04
+      ],
+      "geoTransform": [
+        678566.08,
+        0.16,
+        0.0,
+        6989199.04,
+        0.0,
+        -0.16
+      ],
+      "width": 2063,
+      "height": 2440,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:57:59.736697+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-13-hole",
+      "rasterFile": "norrfallsviken-13-hole.tif",
+      "rgbFile": "norrfallsviken-13-hole.png",
+      "sha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d",
+      "rgbSha256": "0acdc990d00a010c88a83699a7eb4ed828d04427850804fd6e0207aa1b3236bc",
+      "requestSha256": "82f462480a6e0d400abda9d863c1e6da0e9b6632ac56ee89a663bcb451e14f19",
+      "bytes": 13219935,
+      "boundsEpsg3006": [
+        678771.2,
+        6988790.4,
+        679008.7999999999,
+        6989257.28
+      ],
+      "geoTransform": [
+        678771.2,
+        0.16,
+        0.0,
+        6989257.28,
+        0.0,
+        -0.16
+      ],
+      "width": 1485,
+      "height": 2918,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:03.003188+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-15-hole",
+      "rasterFile": "norrfallsviken-15-hole.tif",
+      "rgbFile": "norrfallsviken-15-hole.png",
+      "sha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7",
+      "rgbSha256": "d6a9d0d848bedf3e929a8a007538263204a67f5989a6f0903030a57ea8b7dd59",
+      "requestSha256": "f4af990bb2631ed08fc60100935c971bc4ae7c14b3157a5b8679c324518b44e5",
+      "bytes": 13957151,
+      "boundsEpsg3006": [
+        678956.8,
+        6988796.64,
+        679289.76,
+        6989135.84
+      ],
+      "geoTransform": [
+        678956.8,
+        0.16,
+        0.0,
+        6989135.84,
+        0.0,
+        -0.16
+      ],
+      "width": 2081,
+      "height": 2120,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:07.221704+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-16-hole",
+      "rasterFile": "norrfallsviken-16-hole.tif",
+      "rgbFile": "norrfallsviken-16-hole.png",
+      "sha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+      "rgbSha256": "0b67bc4b2f1a77d94317666bd008cd9383137c86b9cae3e741da7ce9f3c2c659",
+      "requestSha256": "cce5661b560f59e00ac1281af4e6b3cf42f2f61367a3c949f122abe795039617",
+      "bytes": 8892917,
+      "boundsEpsg3006": [
+        679188.16,
+        6988425.4399999995,
+        679356.8,
+        6988850.72
+      ],
+      "geoTransform": [
+        679188.16,
+        0.16,
+        0.0,
+        6988850.72,
+        0.0,
+        -0.16
+      ],
+      "width": 1054,
+      "height": 2658,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:09.300884+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-17-hole",
+      "rasterFile": "norrfallsviken-17-hole.tif",
+      "rgbFile": "norrfallsviken-17-hole.png",
+      "sha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+      "rgbSha256": "2984edb028bc8280d33b5e5415c3a0da0cd32943721344e5b2a9788cfea05c2d",
+      "requestSha256": "29ec155b7c0f9621a8a6ab06a04db2cd541892ec8b6c3f0fd72ded91c856aa35",
+      "bytes": 17352243,
+      "boundsEpsg3006": [
+        678909.12,
+        6988393.92,
+        679277.92,
+        6988774.08
+      ],
+      "geoTransform": [
+        678909.12,
+        0.16,
+        0.0,
+        6988774.08,
+        0.0,
+        -0.16
+      ],
+      "width": 2305,
+      "height": 2376,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:12.437714+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    },
+    {
+      "id": "norrfallsviken-18-hole",
+      "rasterFile": "norrfallsviken-18-hole.tif",
+      "rgbFile": "norrfallsviken-18-hole.png",
+      "sha256": "7a56f9aa451e3132aa1968aaa2b38ade2cbb654b7f2dd45f3ffc728b47f79b61",
+      "rgbSha256": "f2b4764b34676f424ed1979e6c70f017fa5bfcfcc7323bcf317ede4fb43a815a",
+      "requestSha256": "e88d55dc122f49b5f9318b72620af859e4188bc5338a38d44ffb2ffc783f3ca2",
+      "bytes": 18354383,
+      "boundsEpsg3006": [
+        678545.76,
+        6988387.84,
+        678964.0,
+        6988745.76
+      ],
+      "geoTransform": [
+        678545.76,
+        0.16,
+        0.0,
+        6988745.76,
+        0.0,
+        -0.16
+      ],
+      "width": 2614,
+      "height": 2237,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:58:15.462460+00:00",
+      "sources": [
+        {
+          "id": "o69875_6775_25_mr24",
+          "capturedAt": "2024-06-27T13:42:21Z",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z"
+        }
+      ]
+    }
+  ],
+  "holes": [
+    {
+      "hole": 1,
+      "fairways": [
+        {
+          "id": "lm-h01-fairway",
+          "sourceId": "norrfallsviken-01-hole",
+          "panel": {
+            "id": "01-hole",
+            "sourceId": "norrfallsviken-01-hole",
+            "sourceSha256": "c5988b63faeb69c976944c7eb90b604e81201a504f3e17c8940c6f9f3eb5935c",
+            "geoTransform": [
+              678604.32,
+              0.2722,
+              0.0,
+              6988532.16,
+              0.0,
+              -0.2721579689703808
+            ],
+            "width": 1600,
+            "height": 709,
+            "sourcePixelWindow": [
+              0,
+              0,
+              2722,
+              1206
+            ]
+          },
+          "ringPixels": [
+            [
+              632,
+              351
+            ],
+            [
+              663,
+              324
+            ],
+            [
+              716,
+              309
+            ],
+            [
+              769,
+              296
+            ],
+            [
+              831,
+              287
+            ],
+            [
+              886,
+              279
+            ],
+            [
+              944,
+              272
+            ],
+            [
+              1010,
+              269
+            ],
+            [
+              1080,
+              269
+            ],
+            [
+              1145,
+              263
+            ],
+            [
+              1210,
+              251
+            ],
+            [
+              1269,
+              231
+            ],
+            [
+              1329,
+              201
+            ],
+            [
+              1352,
+              205
+            ],
+            [
+              1342,
+              234
+            ],
+            [
+              1310,
+              250
+            ],
+            [
+              1305,
+              281
+            ],
+            [
+              1270,
+              294
+            ],
+            [
+              1200,
+              304
+            ],
+            [
+              1130,
+              316
+            ],
+            [
+              1061,
+              322
+            ],
+            [
+              1000,
+              331
+            ],
+            [
+              943,
+              336
+            ],
+            [
+              889,
+              327
+            ],
+            [
+              848,
+              330
+            ],
+            [
+              799,
+              347
+            ],
+            [
+              747,
+              365
+            ],
+            [
+              699,
+              382
+            ],
+            [
+              654,
+              396
+            ],
+            [
+              638,
+              386
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678776.3504,
+              6988436.632553
+            ],
+            [
+              678784.7886,
+              6988443.980818
+            ],
+            [
+              678799.2152,
+              6988448.063188
+            ],
+            [
+              678813.6418,
+              6988451.601241
+            ],
+            [
+              678830.5182,
+              6988454.050663
+            ],
+            [
+              678845.4892,
+              6988456.227927
+            ],
+            [
+              678861.2768,
+              6988458.133032
+            ],
+            [
+              678879.242,
+              6988458.949506
+            ],
+            [
+              678898.296,
+              6988458.949506
+            ],
+            [
+              678915.989,
+              6988460.582454
+            ],
+            [
+              678933.682,
+              6988463.84835
+            ],
+            [
+              678949.7418,
+              6988469.291509
+            ],
+            [
+              678966.0738,
+              6988477.456248
+            ],
+            [
+              678972.3344,
+              6988476.367616
+            ],
+            [
+              678969.6124,
+              6988468.475035
+            ],
+            [
+              678960.902,
+              6988464.120508
+            ],
+            [
+              678959.541,
+              6988455.683611
+            ],
+            [
+              678950.014,
+              6988452.145557
+            ],
+            [
+              678930.96,
+              6988449.423977
+            ],
+            [
+              678911.906,
+              6988446.158082
+            ],
+            [
+              678893.1242,
+              6988444.525134
+            ],
+            [
+              678876.52,
+              6988442.075712
+            ],
+            [
+              678861.0046,
+              6988440.714922
+            ],
+            [
+              678846.3058,
+              6988443.164344
+            ],
+            [
+              678835.1456,
+              6988442.34787
+            ],
+            [
+              678821.8078,
+              6988437.721185
+            ],
+            [
+              678807.6534,
+              6988432.822341
+            ],
+            [
+              678794.5878,
+              6988428.195656
+            ],
+            [
+              678782.3388,
+              6988424.385444
+            ],
+            [
+              678777.9836,
+              6988427.107024
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 2,
+      "fairways": [
+        {
+          "id": "lm-h02-fairway",
+          "sourceId": "norrfallsviken-02-hole",
+          "panel": {
+            "id": "02-hole",
+            "sourceId": "norrfallsviken-02-hole",
+            "sourceSha256": "8e7d88a50bf5ea339604101b5811e1056210965de4a2c9fdada439acf24358e8",
+            "geoTransform": [
+              678817.92,
+              0.16766820276497696,
+              0.0,
+              6988464.16,
+              0.0,
+              -0.16760000000000003
+            ],
+            "width": 1085,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1137,
+              1676
+            ]
+          },
+          "ringPixels": [
+            [
+              454,
+              836
+            ],
+            [
+              479,
+              821
+            ],
+            [
+              506,
+              825
+            ],
+            [
+              527,
+              842
+            ],
+            [
+              543,
+              871
+            ],
+            [
+              540,
+              911
+            ],
+            [
+              528,
+              953
+            ],
+            [
+              511,
+              1003
+            ],
+            [
+              486,
+              1053
+            ],
+            [
+              457,
+              1096
+            ],
+            [
+              433,
+              1135
+            ],
+            [
+              425,
+              1180
+            ],
+            [
+              388,
+              1183
+            ],
+            [
+              382,
+              1145
+            ],
+            [
+              389,
+              1101
+            ],
+            [
+              379,
+              1070
+            ],
+            [
+              374,
+              1034
+            ],
+            [
+              382,
+              989
+            ],
+            [
+              398,
+              942
+            ],
+            [
+              417,
+              892
+            ],
+            [
+              438,
+              856
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678894.041364,
+              6988324.0464
+            ],
+            [
+              678898.233069,
+              6988326.5604
+            ],
+            [
+              678902.760111,
+              6988325.89
+            ],
+            [
+              678906.281143,
+              6988323.0408
+            ],
+            [
+              678908.963834,
+              6988318.1804
+            ],
+            [
+              678908.460829,
+              6988311.4764
+            ],
+            [
+              678906.448811,
+              6988304.4372
+            ],
+            [
+              678903.598452,
+              6988296.0572
+            ],
+            [
+              678899.406747,
+              6988287.6772
+            ],
+            [
+              678894.544369,
+              6988280.4704
+            ],
+            [
+              678890.520332,
+              6988273.934
+            ],
+            [
+              678889.178986,
+              6988266.392
+            ],
+            [
+              678882.975263,
+              6988265.8892
+            ],
+            [
+              678881.969253,
+              6988272.258
+            ],
+            [
+              678883.142931,
+              6988279.6324
+            ],
+            [
+              678881.466249,
+              6988284.828
+            ],
+            [
+              678880.627908,
+              6988290.8616
+            ],
+            [
+              678881.969253,
+              6988298.4036
+            ],
+            [
+              678884.651945,
+              6988306.2808
+            ],
+            [
+              678887.837641,
+              6988314.6608
+            ],
+            [
+              678891.358673,
+              6988320.6944
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 3,
+      "fairways": [
+        {
+          "id": "lm-h03-fairway",
+          "sourceId": "norrfallsviken-03-hole",
+          "panel": {
+            "id": "03-hole",
+            "sourceId": "norrfallsviken-03-hole",
+            "sourceSha256": "5b321b8d07920329f33a4c8f89f58892fab480efbc3a37a37bc6a8bbadd8ffcc",
+            "geoTransform": [
+              678828.96,
+              0.2168386023294509,
+              0.0,
+              6988232.32,
+              0.0,
+              -0.2168
+            ],
+            "width": 1202,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1629,
+              2168
+            ]
+          },
+          "ringPixels": [
+            [
+              434,
+              617
+            ],
+            [
+              455,
+              599
+            ],
+            [
+              476,
+              604
+            ],
+            [
+              500,
+              628
+            ],
+            [
+              518,
+              662
+            ],
+            [
+              537,
+              704
+            ],
+            [
+              558,
+              749
+            ],
+            [
+              584,
+              791
+            ],
+            [
+              625,
+              840
+            ],
+            [
+              664,
+              888
+            ],
+            [
+              710,
+              945
+            ],
+            [
+              747,
+              1005
+            ],
+            [
+              765,
+              1054
+            ],
+            [
+              778,
+              1116
+            ],
+            [
+              786,
+              1188
+            ],
+            [
+              796,
+              1254
+            ],
+            [
+              790,
+              1305
+            ],
+            [
+              739,
+              1305
+            ],
+            [
+              718,
+              1269
+            ],
+            [
+              710,
+              1207
+            ],
+            [
+              701,
+              1143
+            ],
+            [
+              690,
+              1086
+            ],
+            [
+              674,
+              1038
+            ],
+            [
+              649,
+              990
+            ],
+            [
+              615,
+              947
+            ],
+            [
+              579,
+              905
+            ],
+            [
+              542,
+              862
+            ],
+            [
+              510,
+              817
+            ],
+            [
+              483,
+              771
+            ],
+            [
+              464,
+              721
+            ],
+            [
+              444,
+              679
+            ],
+            [
+              432,
+              645
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678923.067953,
+              6988098.5544
+            ],
+            [
+              678927.621564,
+              6988102.4568
+            ],
+            [
+              678932.175175,
+              6988101.3728
+            ],
+            [
+              678937.379301,
+              6988096.1696
+            ],
+            [
+              678941.282396,
+              6988088.7984
+            ],
+            [
+              678945.402329,
+              6988079.6928
+            ],
+            [
+              678949.95594,
+              6988069.9368
+            ],
+            [
+              678955.593744,
+              6988060.8312
+            ],
+            [
+              678964.484126,
+              6988050.208
+            ],
+            [
+              678972.940832,
+              6988039.8016
+            ],
+            [
+              678982.915408,
+              6988027.444
+            ],
+            [
+              678990.938436,
+              6988014.436
+            ],
+            [
+              678994.841531,
+              6988003.8128
+            ],
+            [
+              678997.660433,
+              6987990.3712
+            ],
+            [
+              678999.395141,
+              6987974.7616
+            ],
+            [
+              679001.563527,
+              6987960.4528
+            ],
+            [
+              679000.262496,
+              6987949.396
+            ],
+            [
+              678989.203727,
+              6987949.396
+            ],
+            [
+              678984.650116,
+              6987957.2008
+            ],
+            [
+              678982.915408,
+              6987970.6424
+            ],
+            [
+              678980.96386,
+              6987984.5176
+            ],
+            [
+              678978.578636,
+              6987996.8752
+            ],
+            [
+              678975.109218,
+              6988007.2816
+            ],
+            [
+              678969.688253,
+              6988017.688
+            ],
+            [
+              678962.31574,
+              6988027.0104
+            ],
+            [
+              678954.509551,
+              6988036.116
+            ],
+            [
+              678946.486522,
+              6988045.4384
+            ],
+            [
+              678939.547687,
+              6988055.1944
+            ],
+            [
+              678933.693045,
+              6988065.1672
+            ],
+            [
+              678929.573111,
+              6988076.0072
+            ],
+            [
+              678925.236339,
+              6988085.1128
+            ],
+            [
+              678922.634276,
+              6988092.484
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 4,
+      "fairways": [
+        {
+          "id": "lm-h04-fairway",
+          "sourceId": "norrfallsviken-04-hole",
+          "panel": {
+            "id": "04-hole",
+            "sourceId": "norrfallsviken-04-hole",
+            "sourceSha256": "f5c27691e0d04973726f16b468bc8eb0952f9d6755237d57800cea2c3ee99f8f",
+            "geoTransform": [
+              678914.24,
+              0.3427555555555556,
+              0.0,
+              6988454.72,
+              0.0,
+              -0.34299999999999997
+            ],
+            "width": 675,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1446,
+              3430
+            ]
+          },
+          "ringPixels": [
+            [
+              289,
+              194
+            ],
+            [
+              315,
+              204
+            ],
+            [
+              303,
+              244
+            ],
+            [
+              278,
+              283
+            ],
+            [
+              253,
+              324
+            ],
+            [
+              232,
+              375
+            ],
+            [
+              218,
+              427
+            ],
+            [
+              204,
+              486
+            ],
+            [
+              189,
+              550
+            ],
+            [
+              179,
+              610
+            ],
+            [
+              181,
+              665
+            ],
+            [
+              194,
+              720
+            ],
+            [
+              213,
+              773
+            ],
+            [
+              238,
+              827
+            ],
+            [
+              268,
+              881
+            ],
+            [
+              294,
+              937
+            ],
+            [
+              312,
+              989
+            ],
+            [
+              318,
+              1034
+            ],
+            [
+              294,
+              1050
+            ],
+            [
+              270,
+              1025
+            ],
+            [
+              249,
+              981
+            ],
+            [
+              230,
+              935
+            ],
+            [
+              208,
+              895
+            ],
+            [
+              186,
+              848
+            ],
+            [
+              165,
+              796
+            ],
+            [
+              147,
+              741
+            ],
+            [
+              133,
+              681
+            ],
+            [
+              131,
+              625
+            ],
+            [
+              139,
+              569
+            ],
+            [
+              148,
+              512
+            ],
+            [
+              158,
+              456
+            ],
+            [
+              165,
+              404
+            ],
+            [
+              183,
+              346
+            ],
+            [
+              209,
+              295
+            ],
+            [
+              233,
+              253
+            ],
+            [
+              263,
+              214
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679013.296356,
+              6988388.178
+            ],
+            [
+              679022.208,
+              6988384.748
+            ],
+            [
+              679018.094933,
+              6988371.028
+            ],
+            [
+              679009.526044,
+              6988357.651
+            ],
+            [
+              679000.957156,
+              6988343.588
+            ],
+            [
+              678993.759289,
+              6988326.095
+            ],
+            [
+              678988.960711,
+              6988308.259
+            ],
+            [
+              678984.162133,
+              6988288.022
+            ],
+            [
+              678979.0208,
+              6988266.07
+            ],
+            [
+              678975.593244,
+              6988245.49
+            ],
+            [
+              678976.278756,
+              6988226.625
+            ],
+            [
+              678980.734578,
+              6988207.76
+            ],
+            [
+              678987.246933,
+              6988189.581
+            ],
+            [
+              678995.815822,
+              6988171.059
+            ],
+            [
+              679006.098489,
+              6988152.537
+            ],
+            [
+              679015.010133,
+              6988133.329
+            ],
+            [
+              679021.179733,
+              6988115.493
+            ],
+            [
+              679023.236267,
+              6988100.058
+            ],
+            [
+              679015.010133,
+              6988094.57
+            ],
+            [
+              679006.784,
+              6988103.145
+            ],
+            [
+              678999.586133,
+              6988118.237
+            ],
+            [
+              678993.073778,
+              6988134.015
+            ],
+            [
+              678985.533156,
+              6988147.735
+            ],
+            [
+              678977.992533,
+              6988163.856
+            ],
+            [
+              678970.794667,
+              6988181.692
+            ],
+            [
+              678964.625067,
+              6988200.557
+            ],
+            [
+              678959.826489,
+              6988221.137
+            ],
+            [
+              678959.140978,
+              6988240.345
+            ],
+            [
+              678961.883022,
+              6988259.553
+            ],
+            [
+              678964.967822,
+              6988279.104
+            ],
+            [
+              678968.395378,
+              6988298.312
+            ],
+            [
+              678970.794667,
+              6988316.148
+            ],
+            [
+              678976.964267,
+              6988336.042
+            ],
+            [
+              678985.875911,
+              6988353.535
+            ],
+            [
+              678994.102044,
+              6988367.941
+            ],
+            [
+              679004.384711,
+              6988381.318
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 5,
+      "fairways": [
+        {
+          "id": "lm-h05-fairway",
+          "sourceId": "norrfallsviken-05-hole",
+          "panel": {
+            "id": "05-hole",
+            "sourceId": "norrfallsviken-05-hole",
+            "sourceSha256": "7d2fb9cefbcf3c621f7229dd43e1eb038c14c38048b839b25e9af75593624260",
+            "geoTransform": [
+              678988.48,
+              0.261,
+              0.0,
+              6988477.12,
+              0.0,
+              -0.2610120481927711
+            ],
+            "width": 1600,
+            "height": 830,
+            "sourcePixelWindow": [
+              0,
+              0,
+              2610,
+              1354
+            ]
+          },
+          "ringPixels": [
+            [
+              748,
+              581
+            ],
+            [
+              772,
+              565
+            ],
+            [
+              803,
+              564
+            ],
+            [
+              839,
+              553
+            ],
+            [
+              880,
+              532
+            ],
+            [
+              920,
+              504
+            ],
+            [
+              963,
+              470
+            ],
+            [
+              1002,
+              435
+            ],
+            [
+              1044,
+              402
+            ],
+            [
+              1087,
+              373
+            ],
+            [
+              1130,
+              345
+            ],
+            [
+              1173,
+              318
+            ],
+            [
+              1219,
+              291
+            ],
+            [
+              1258,
+              280
+            ],
+            [
+              1280,
+              291
+            ],
+            [
+              1257,
+              318
+            ],
+            [
+              1225,
+              340
+            ],
+            [
+              1189,
+              369
+            ],
+            [
+              1157,
+              401
+            ],
+            [
+              1124,
+              435
+            ],
+            [
+              1090,
+              471
+            ],
+            [
+              1050,
+              508
+            ],
+            [
+              1010,
+              545
+            ],
+            [
+              965,
+              581
+            ],
+            [
+              923,
+              610
+            ],
+            [
+              881,
+              637
+            ],
+            [
+              840,
+              649
+            ],
+            [
+              809,
+              641
+            ],
+            [
+              776,
+              622
+            ],
+            [
+              750,
+              605
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679183.708,
+              6988325.472
+            ],
+            [
+              679189.972,
+              6988329.648193
+            ],
+            [
+              679198.063,
+              6988329.909205
+            ],
+            [
+              679207.459,
+              6988332.780337
+            ],
+            [
+              679218.16,
+              6988338.26159
+            ],
+            [
+              679228.6,
+              6988345.569928
+            ],
+            [
+              679239.823,
+              6988354.444337
+            ],
+            [
+              679250.002,
+              6988363.579759
+            ],
+            [
+              679260.964,
+              6988372.193157
+            ],
+            [
+              679272.187,
+              6988379.762506
+            ],
+            [
+              679283.41,
+              6988387.070843
+            ],
+            [
+              679294.633,
+              6988394.118169
+            ],
+            [
+              679306.639,
+              6988401.165494
+            ],
+            [
+              679316.818,
+              6988404.036627
+            ],
+            [
+              679322.56,
+              6988401.165494
+            ],
+            [
+              679316.557,
+              6988394.118169
+            ],
+            [
+              679308.205,
+              6988388.375904
+            ],
+            [
+              679298.809,
+              6988380.806554
+            ],
+            [
+              679290.457,
+              6988372.454169
+            ],
+            [
+              679281.844,
+              6988363.579759
+            ],
+            [
+              679272.97,
+              6988354.183325
+            ],
+            [
+              679262.53,
+              6988344.52588
+            ],
+            [
+              679252.09,
+              6988334.868434
+            ],
+            [
+              679240.345,
+              6988325.472
+            ],
+            [
+              679229.383,
+              6988317.902651
+            ],
+            [
+              679218.421,
+              6988310.855325
+            ],
+            [
+              679207.72,
+              6988307.723181
+            ],
+            [
+              679199.629,
+              6988309.811277
+            ],
+            [
+              679191.016,
+              6988314.770506
+            ],
+            [
+              679184.23,
+              6988319.207711
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 6,
+      "fairways": [
+        {
+          "id": "lm-h06-fairway",
+          "sourceId": "norrfallsviken-06-hole",
+          "panel": {
+            "id": "06-hole",
+            "sourceId": "norrfallsviken-06-hole",
+            "sourceSha256": "827db256765d89d8376d92aa8172286d244aeb35501a6aacff350df2e7c2a228",
+            "geoTransform": [
+              679218.88,
+              0.30577181208053694,
+              0.0,
+              6988408.32,
+              0.0,
+              -0.3058
+            ],
+            "width": 596,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1139,
+              3058
+            ]
+          },
+          "ringPixels": [
+            [
+              248,
+              549
+            ],
+            [
+              265,
+              535
+            ],
+            [
+              287,
+              543
+            ],
+            [
+              302,
+              568
+            ],
+            [
+              305,
+              610
+            ],
+            [
+              295,
+              660
+            ],
+            [
+              283,
+              722
+            ],
+            [
+              266,
+              784
+            ],
+            [
+              251,
+              843
+            ],
+            [
+              242,
+              902
+            ],
+            [
+              237,
+              961
+            ],
+            [
+              237,
+              1018
+            ],
+            [
+              242,
+              1077
+            ],
+            [
+              256,
+              1133
+            ],
+            [
+              272,
+              1196
+            ],
+            [
+              285,
+              1261
+            ],
+            [
+              294,
+              1327
+            ],
+            [
+              292,
+              1380
+            ],
+            [
+              256,
+              1386
+            ],
+            [
+              232,
+              1340
+            ],
+            [
+              218,
+              1281
+            ],
+            [
+              204,
+              1228
+            ],
+            [
+              192,
+              1176
+            ],
+            [
+              188,
+              1125
+            ],
+            [
+              190,
+              1068
+            ],
+            [
+              190,
+              1006
+            ],
+            [
+              195,
+              944
+            ],
+            [
+              204,
+              882
+            ],
+            [
+              210,
+              820
+            ],
+            [
+              220,
+              758
+            ],
+            [
+              230,
+              699
+            ],
+            [
+              237,
+              638
+            ],
+            [
+              242,
+              581
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679294.711409,
+              6988240.4358
+            ],
+            [
+              679299.90953,
+              6988244.717
+            ],
+            [
+              679306.63651,
+              6988242.2706
+            ],
+            [
+              679311.223087,
+              6988234.6256
+            ],
+            [
+              679312.140403,
+              6988221.782
+            ],
+            [
+              679309.082685,
+              6988206.492
+            ],
+            [
+              679305.413423,
+              6988187.5324
+            ],
+            [
+              679300.215302,
+              6988168.5728
+            ],
+            [
+              679295.628725,
+              6988150.5306
+            ],
+            [
+              679292.876779,
+              6988132.4884
+            ],
+            [
+              679291.347919,
+              6988114.4462
+            ],
+            [
+              679291.347919,
+              6988097.0156
+            ],
+            [
+              679292.876779,
+              6988078.9734
+            ],
+            [
+              679297.157584,
+              6988061.8486
+            ],
+            [
+              679302.049933,
+              6988042.5832
+            ],
+            [
+              679306.024966,
+              6988022.7062
+            ],
+            [
+              679308.776913,
+              6988002.5234
+            ],
+            [
+              679308.165369,
+              6987986.316
+            ],
+            [
+              679297.157584,
+              6987984.4812
+            ],
+            [
+              679289.81906,
+              6987998.548
+            ],
+            [
+              679285.538255,
+              6988016.5902
+            ],
+            [
+              679281.25745,
+              6988032.7976
+            ],
+            [
+              679277.588188,
+              6988048.6992
+            ],
+            [
+              679276.365101,
+              6988064.295
+            ],
+            [
+              679276.976644,
+              6988081.7256
+            ],
+            [
+              679276.976644,
+              6988100.6852
+            ],
+            [
+              679278.505503,
+              6988119.6448
+            ],
+            [
+              679281.25745,
+              6988138.6044
+            ],
+            [
+              679283.092081,
+              6988157.564
+            ],
+            [
+              679286.149799,
+              6988176.5236
+            ],
+            [
+              679289.207517,
+              6988194.5658
+            ],
+            [
+              679291.347919,
+              6988213.2196
+            ],
+            [
+              679292.876779,
+              6988230.6502
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 7,
+      "fairways": [
+        {
+          "id": "lm-h07-fairway",
+          "sourceId": "norrfallsviken-07-hole",
+          "panel": {
+            "id": "07-hole",
+            "sourceId": "norrfallsviken-07-hole",
+            "sourceSha256": "edcb3c3d0143c95d17f4217ea9bae8237e4493a35ceb6882479edad3c26adf9c",
+            "geoTransform": [
+              679049.12,
+              0.1675,
+              0.0,
+              6988022.08,
+              0.0,
+              -0.1674749721913237
+            ],
+            "width": 1600,
+            "height": 899,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1675,
+              941
+            ]
+          },
+          "ringPixels": [
+            [
+              652,
+              432
+            ],
+            [
+              691,
+              421
+            ],
+            [
+              738,
+              411
+            ],
+            [
+              787,
+              407
+            ],
+            [
+              834,
+              405
+            ],
+            [
+              880,
+              397
+            ],
+            [
+              926,
+              388
+            ],
+            [
+              976,
+              375
+            ],
+            [
+              1020,
+              362
+            ],
+            [
+              1066,
+              348
+            ],
+            [
+              1085,
+              354
+            ],
+            [
+              1068,
+              370
+            ],
+            [
+              1027,
+              387
+            ],
+            [
+              981,
+              405
+            ],
+            [
+              933,
+              424
+            ],
+            [
+              884,
+              442
+            ],
+            [
+              834,
+              452
+            ],
+            [
+              783,
+              459
+            ],
+            [
+              735,
+              472
+            ],
+            [
+              691,
+              489
+            ],
+            [
+              651,
+              503
+            ],
+            [
+              630,
+              487
+            ],
+            [
+              628,
+              461
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679158.33,
+              6987949.730812
+            ],
+            [
+              679164.8625,
+              6987951.573037
+            ],
+            [
+              679172.735,
+              6987953.247786
+            ],
+            [
+              679180.9425,
+              6987953.917686
+            ],
+            [
+              679188.815,
+              6987954.252636
+            ],
+            [
+              679196.52,
+              6987955.592436
+            ],
+            [
+              679204.225,
+              6987957.099711
+            ],
+            [
+              679212.6,
+              6987959.276885
+            ],
+            [
+              679219.97,
+              6987961.45406
+            ],
+            [
+              679227.675,
+              6987963.79871
+            ],
+            [
+              679230.8575,
+              6987962.79386
+            ],
+            [
+              679228.01,
+              6987960.11426
+            ],
+            [
+              679221.1425,
+              6987957.267186
+            ],
+            [
+              679213.4375,
+              6987954.252636
+            ],
+            [
+              679205.3975,
+              6987951.070612
+            ],
+            [
+              679197.19,
+              6987948.056062
+            ],
+            [
+              679188.815,
+              6987946.381313
+            ],
+            [
+              679180.2725,
+              6987945.208988
+            ],
+            [
+              679172.2325,
+              6987943.031813
+            ],
+            [
+              679164.8625,
+              6987940.184739
+            ],
+            [
+              679158.1625,
+              6987937.840089
+            ],
+            [
+              679154.645,
+              6987940.519689
+            ],
+            [
+              679154.31,
+              6987944.874038
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 8,
+      "fairways": [
+        {
+          "id": "lm-h08-fairway",
+          "sourceId": "norrfallsviken-08-hole",
+          "panel": {
+            "id": "08-hole",
+            "sourceId": "norrfallsviken-08-hole",
+            "sourceSha256": "26d4d5295f19cf075949c894547bf59b81cdee52650d33bc32fedd57ab0f1ddb",
+            "geoTransform": [
+              678988.0,
+              0.314675540765391,
+              0.0,
+              6988470.56,
+              0.0,
+              -0.3149
+            ],
+            "width": 601,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1182,
+              3149
+            ]
+          },
+          "ringPixels": [
+            [
+              146,
+              278
+            ],
+            [
+              175,
+              283
+            ],
+            [
+              190,
+              317
+            ],
+            [
+              207,
+              358
+            ],
+            [
+              225,
+              411
+            ],
+            [
+              243,
+              468
+            ],
+            [
+              263,
+              529
+            ],
+            [
+              280,
+              590
+            ],
+            [
+              297,
+              650
+            ],
+            [
+              315,
+              709
+            ],
+            [
+              329,
+              769
+            ],
+            [
+              347,
+              824
+            ],
+            [
+              361,
+              883
+            ],
+            [
+              378,
+              945
+            ],
+            [
+              391,
+              1000
+            ],
+            [
+              392,
+              1032
+            ],
+            [
+              375,
+              1049
+            ],
+            [
+              356,
+              1046
+            ],
+            [
+              341,
+              1026
+            ],
+            [
+              331,
+              981
+            ],
+            [
+              318,
+              927
+            ],
+            [
+              306,
+              875
+            ],
+            [
+              292,
+              823
+            ],
+            [
+              277,
+              769
+            ],
+            [
+              265,
+              716
+            ],
+            [
+              250,
+              661
+            ],
+            [
+              236,
+              608
+            ],
+            [
+              219,
+              552
+            ],
+            [
+              204,
+              500
+            ],
+            [
+              188,
+              450
+            ],
+            [
+              172,
+              407
+            ],
+            [
+              159,
+              367
+            ],
+            [
+              147,
+              325
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679033.942629,
+              6988383.0178
+            ],
+            [
+              679043.06822,
+              6988381.4433
+            ],
+            [
+              679047.788353,
+              6988370.7367
+            ],
+            [
+              679053.137837,
+              6988357.8258
+            ],
+            [
+              679058.801997,
+              6988341.1361
+            ],
+            [
+              679064.466156,
+              6988323.1868
+            ],
+            [
+              679070.759667,
+              6988303.9779
+            ],
+            [
+              679076.109151,
+              6988284.769
+            ],
+            [
+              679081.458636,
+              6988265.875
+            ],
+            [
+              679087.122795,
+              6988247.2959
+            ],
+            [
+              679091.528253,
+              6988228.4019
+            ],
+            [
+              679097.192413,
+              6988211.0824
+            ],
+            [
+              679101.59787,
+              6988192.5033
+            ],
+            [
+              679106.947354,
+              6988172.9795
+            ],
+            [
+              679111.038136,
+              6988155.66
+            ],
+            [
+              679111.352812,
+              6988145.5832
+            ],
+            [
+              679106.003328,
+              6988140.2299
+            ],
+            [
+              679100.024493,
+              6988141.1746
+            ],
+            [
+              679095.304359,
+              6988147.4726
+            ],
+            [
+              679092.157604,
+              6988161.6431
+            ],
+            [
+              679088.066822,
+              6988178.6477
+            ],
+            [
+              679084.290715,
+              6988195.0225
+            ],
+            [
+              679079.885258,
+              6988211.3973
+            ],
+            [
+              679075.165125,
+              6988228.4019
+            ],
+            [
+              679071.389018,
+              6988245.0916
+            ],
+            [
+              679066.668885,
+              6988262.4111
+            ],
+            [
+              679062.263428,
+              6988279.1008
+            ],
+            [
+              679056.913943,
+              6988296.7352
+            ],
+            [
+              679052.19381,
+              6988313.11
+            ],
+            [
+              679047.159002,
+              6988328.855
+            ],
+            [
+              679042.124193,
+              6988342.3957
+            ],
+            [
+              679038.033411,
+              6988354.9917
+            ],
+            [
+              679034.257304,
+              6988368.2175
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 9,
+      "fairways": [
+        {
+          "id": "lm-h09-fairway",
+          "sourceId": "norrfallsviken-09-hole",
+          "panel": {
+            "id": "09-hole",
+            "sourceId": "norrfallsviken-09-hole",
+            "sourceSha256": "49726480abd6880f215fffacccb66f2017184abbeb93dcbc0418bf733999cfbf",
+            "geoTransform": [
+              678552.0,
+              0.2943,
+              0.0,
+              6988608.0,
+              0.0,
+              -0.294176072234763
+            ],
+            "width": 1600,
+            "height": 886,
+            "sourcePixelWindow": [
+              0,
+              0,
+              2943,
+              1629
+            ]
+          },
+          "ringPixels": [
+            [
+              191,
+              647
+            ],
+            [
+              218,
+              623
+            ],
+            [
+              247,
+              591
+            ],
+            [
+              278,
+              552
+            ],
+            [
+              308,
+              509
+            ],
+            [
+              344,
+              463
+            ],
+            [
+              380,
+              419
+            ],
+            [
+              418,
+              376
+            ],
+            [
+              460,
+              333
+            ],
+            [
+              504,
+              293
+            ],
+            [
+              551,
+              255
+            ],
+            [
+              599,
+              225
+            ],
+            [
+              651,
+              199
+            ],
+            [
+              709,
+              177
+            ],
+            [
+              768,
+              163
+            ],
+            [
+              826,
+              155
+            ],
+            [
+              884,
+              153
+            ],
+            [
+              943,
+              158
+            ],
+            [
+              981,
+              173
+            ],
+            [
+              990,
+              188
+            ],
+            [
+              983,
+              202
+            ],
+            [
+              958,
+              210
+            ],
+            [
+              911,
+              210
+            ],
+            [
+              858,
+              215
+            ],
+            [
+              802,
+              223
+            ],
+            [
+              745,
+              238
+            ],
+            [
+              692,
+              259
+            ],
+            [
+              642,
+              285
+            ],
+            [
+              594,
+              316
+            ],
+            [
+              551,
+              349
+            ],
+            [
+              510,
+              388
+            ],
+            [
+              473,
+              428
+            ],
+            [
+              435,
+              470
+            ],
+            [
+              397,
+              514
+            ],
+            [
+              361,
+              557
+            ],
+            [
+              327,
+              598
+            ],
+            [
+              295,
+              641
+            ],
+            [
+              270,
+              677
+            ],
+            [
+              245,
+              688
+            ],
+            [
+              215,
+              676
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678608.2113,
+              6988417.668081
+            ],
+            [
+              678616.1574,
+              6988424.728307
+            ],
+            [
+              678624.6921,
+              6988434.141941
+            ],
+            [
+              678633.8154,
+              6988445.614808
+            ],
+            [
+              678642.6444,
+              6988458.264379
+            ],
+            [
+              678653.2392,
+              6988471.796479
+            ],
+            [
+              678663.834,
+              6988484.740226
+            ],
+            [
+              678675.0174,
+              6988497.389797
+            ],
+            [
+              678687.378,
+              6988510.039368
+            ],
+            [
+              678700.3272,
+              6988521.806411
+            ],
+            [
+              678714.1593,
+              6988532.985102
+            ],
+            [
+              678728.2857,
+              6988541.810384
+            ],
+            [
+              678743.5893,
+              6988549.458962
+            ],
+            [
+              678760.6587,
+              6988555.930835
+            ],
+            [
+              678778.0224,
+              6988560.0493
+            ],
+            [
+              678795.0918,
+              6988562.402709
+            ],
+            [
+              678812.1612,
+              6988562.991061
+            ],
+            [
+              678829.5249,
+              6988561.520181
+            ],
+            [
+              678840.7083,
+              6988557.10754
+            ],
+            [
+              678843.357,
+              6988552.694898
+            ],
+            [
+              678841.2969,
+              6988548.576433
+            ],
+            [
+              678833.9394,
+              6988546.223025
+            ],
+            [
+              678820.1073,
+              6988546.223025
+            ],
+            [
+              678804.5094,
+              6988544.752144
+            ],
+            [
+              678788.0286,
+              6988542.398736
+            ],
+            [
+              678771.2535,
+              6988537.986095
+            ],
+            [
+              678755.6556,
+              6988531.808397
+            ],
+            [
+              678740.9406,
+              6988524.159819
+            ],
+            [
+              678726.8142,
+              6988515.040361
+            ],
+            [
+              678714.1593,
+              6988505.332551
+            ],
+            [
+              678702.093,
+              6988493.859684
+            ],
+            [
+              678691.2039,
+              6988482.092641
+            ],
+            [
+              678680.0205,
+              6988469.737246
+            ],
+            [
+              678668.8371,
+              6988456.793499
+            ],
+            [
+              678658.2423,
+              6988444.143928
+            ],
+            [
+              678648.2361,
+              6988432.082709
+            ],
+            [
+              678638.8185,
+              6988419.433138
+            ],
+            [
+              678631.461,
+              6988408.842799
+            ],
+            [
+              678624.1035,
+              6988405.606862
+            ],
+            [
+              678615.2745,
+              6988409.136975
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 10,
+      "fairways": [
+        {
+          "id": "lm-h10-fairway",
+          "sourceId": "norrfallsviken-10-hole",
+          "panel": {
+            "id": "10-hole",
+            "sourceId": "norrfallsviken-10-hole",
+            "sourceSha256": "5f113cbfd8316473cfa16d9152f94c04feb028858857caf42d6f9360cdfc95fc",
+            "geoTransform": [
+              678521.76,
+              0.2844931506849315,
+              0.0,
+              6988877.76,
+              0.0,
+              -0.2845
+            ],
+            "width": 1460,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              2596,
+              2845
+            ]
+          },
+          "ringPixels": [
+            [
+              273,
+              938
+            ],
+            [
+              268,
+              893
+            ],
+            [
+              279,
+              839
+            ],
+            [
+              300,
+              790
+            ],
+            [
+              335,
+              749
+            ],
+            [
+              382,
+              716
+            ],
+            [
+              437,
+              690
+            ],
+            [
+              494,
+              663
+            ],
+            [
+              553,
+              639
+            ],
+            [
+              614,
+              617
+            ],
+            [
+              676,
+              595
+            ],
+            [
+              736,
+              574
+            ],
+            [
+              792,
+              555
+            ],
+            [
+              851,
+              533
+            ],
+            [
+              908,
+              511
+            ],
+            [
+              960,
+              485
+            ],
+            [
+              1006,
+              457
+            ],
+            [
+              1049,
+              419
+            ],
+            [
+              1094,
+              376
+            ],
+            [
+              1133,
+              331
+            ],
+            [
+              1168,
+              286
+            ],
+            [
+              1200,
+              250
+            ],
+            [
+              1230,
+              259
+            ],
+            [
+              1217,
+              300
+            ],
+            [
+              1187,
+              346
+            ],
+            [
+              1152,
+              393
+            ],
+            [
+              1112,
+              441
+            ],
+            [
+              1069,
+              484
+            ],
+            [
+              1025,
+              519
+            ],
+            [
+              976,
+              551
+            ],
+            [
+              920,
+              578
+            ],
+            [
+              862,
+              600
+            ],
+            [
+              802,
+              620
+            ],
+            [
+              744,
+              639
+            ],
+            [
+              684,
+              658
+            ],
+            [
+              627,
+              679
+            ],
+            [
+              572,
+              701
+            ],
+            [
+              514,
+              724
+            ],
+            [
+              459,
+              749
+            ],
+            [
+              414,
+              775
+            ],
+            [
+              374,
+              806
+            ],
+            [
+              345,
+              843
+            ],
+            [
+              330,
+              885
+            ],
+            [
+              324,
+              932
+            ],
+            [
+              311,
+              965
+            ],
+            [
+              289,
+              971
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678599.42663,
+              6988610.899
+            ],
+            [
+              678598.004164,
+              6988623.7015
+            ],
+            [
+              678601.133589,
+              6988639.0645
+            ],
+            [
+              678607.107945,
+              6988653.005
+            ],
+            [
+              678617.065205,
+              6988664.6695
+            ],
+            [
+              678630.436384,
+              6988674.058
+            ],
+            [
+              678646.083507,
+              6988681.455
+            ],
+            [
+              678662.299616,
+              6988689.1365
+            ],
+            [
+              678679.084712,
+              6988695.9645
+            ],
+            [
+              678696.438795,
+              6988702.2235
+            ],
+            [
+              678714.07737,
+              6988708.4825
+            ],
+            [
+              678731.146959,
+              6988714.457
+            ],
+            [
+              678747.078575,
+              6988719.8625
+            ],
+            [
+              678763.863671,
+              6988726.1215
+            ],
+            [
+              678780.079781,
+              6988732.3805
+            ],
+            [
+              678794.873425,
+              6988739.7775
+            ],
+            [
+              678807.96011,
+              6988747.7435
+            ],
+            [
+              678820.193315,
+              6988758.5545
+            ],
+            [
+              678832.995507,
+              6988770.788
+            ],
+            [
+              678844.09074,
+              6988783.5905
+            ],
+            [
+              678854.048,
+              6988796.393
+            ],
+            [
+              678863.151781,
+              6988806.635
+            ],
+            [
+              678871.686575,
+              6988804.0745
+            ],
+            [
+              678867.988164,
+              6988792.41
+            ],
+            [
+              678859.45337,
+              6988779.323
+            ],
+            [
+              678849.49611,
+              6988765.9515
+            ],
+            [
+              678838.116384,
+              6988752.2955
+            ],
+            [
+              678825.883178,
+              6988740.062
+            ],
+            [
+              678813.365479,
+              6988730.1045
+            ],
+            [
+              678799.425315,
+              6988721.0005
+            ],
+            [
+              678783.493699,
+              6988713.319
+            ],
+            [
+              678766.993096,
+              6988707.06
+            ],
+            [
+              678749.923507,
+              6988701.37
+            ],
+            [
+              678733.422904,
+              6988695.9645
+            ],
+            [
+              678716.353315,
+              6988690.559
+            ],
+            [
+              678700.137205,
+              6988684.5845
+            ],
+            [
+              678684.490082,
+              6988678.3255
+            ],
+            [
+              678667.989479,
+              6988671.782
+            ],
+            [
+              678652.342356,
+              6988664.6695
+            ],
+            [
+              678639.540164,
+              6988657.2725
+            ],
+            [
+              678628.160438,
+              6988648.453
+            ],
+            [
+              678619.910137,
+              6988637.9265
+            ],
+            [
+              678615.64274,
+              6988625.9775
+            ],
+            [
+              678613.935781,
+              6988612.606
+            ],
+            [
+              678610.23737,
+              6988603.2175
+            ],
+            [
+              678603.978521,
+              6988601.5105
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 11,
+      "fairways": [
+        {
+          "id": "lm-h11-fairway",
+          "sourceId": "norrfallsviken-11-hole",
+          "panel": {
+            "id": "11-hole",
+            "sourceId": "norrfallsviken-11-hole",
+            "sourceSha256": "a7f9f22d442305cff9e40b433fbf610653d8a4cd5c3c8b27d80897db9cc25b9d",
+            "geoTransform": [
+              678592.48,
+              0.16,
+              0.0,
+              6988883.36,
+              0.0,
+              -0.16
+            ],
+            "width": 1479,
+            "height": 1091,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1479,
+              1091
+            ]
+          },
+          "ringPixels": [
+            [
+              716,
+              549
+            ],
+            [
+              748,
+              543
+            ],
+            [
+              779,
+              547
+            ],
+            [
+              783,
+              563
+            ],
+            [
+              761,
+              583
+            ],
+            [
+              730,
+              599
+            ],
+            [
+              700,
+              615
+            ],
+            [
+              669,
+              636
+            ],
+            [
+              639,
+              655
+            ],
+            [
+              606,
+              668
+            ],
+            [
+              571,
+              681
+            ],
+            [
+              539,
+              692
+            ],
+            [
+              518,
+              688
+            ],
+            [
+              510,
+              674
+            ],
+            [
+              521,
+              656
+            ],
+            [
+              552,
+              645
+            ],
+            [
+              584,
+              628
+            ],
+            [
+              615,
+              607
+            ],
+            [
+              646,
+              582
+            ],
+            [
+              680,
+              560
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678707.04,
+              6988795.52
+            ],
+            [
+              678712.16,
+              6988796.48
+            ],
+            [
+              678717.12,
+              6988795.84
+            ],
+            [
+              678717.76,
+              6988793.28
+            ],
+            [
+              678714.24,
+              6988790.08
+            ],
+            [
+              678709.28,
+              6988787.52
+            ],
+            [
+              678704.48,
+              6988784.96
+            ],
+            [
+              678699.52,
+              6988781.6
+            ],
+            [
+              678694.72,
+              6988778.56
+            ],
+            [
+              678689.44,
+              6988776.48
+            ],
+            [
+              678683.84,
+              6988774.4
+            ],
+            [
+              678678.72,
+              6988772.64
+            ],
+            [
+              678675.36,
+              6988773.28
+            ],
+            [
+              678674.08,
+              6988775.52
+            ],
+            [
+              678675.84,
+              6988778.4
+            ],
+            [
+              678680.8,
+              6988780.16
+            ],
+            [
+              678685.92,
+              6988782.88
+            ],
+            [
+              678690.88,
+              6988786.24
+            ],
+            [
+              678695.84,
+              6988790.24
+            ],
+            [
+              678701.28,
+              6988793.76
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 12,
+      "fairways": [
+        {
+          "id": "lm-h12-fairway",
+          "sourceId": "norrfallsviken-12-hole",
+          "panel": {
+            "id": "12-hole",
+            "sourceId": "norrfallsviken-12-hole",
+            "sourceSha256": "9c4f89a01dd096b184ed946013dd22d0dfcd7143f30f186dd61de3590233429d",
+            "geoTransform": [
+              678566.08,
+              0.24396156688839615,
+              0.0,
+              6989199.04,
+              0.0,
+              -0.244
+            ],
+            "width": 1353,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              2063,
+              2440
+            ]
+          },
+          "ringPixels": [
+            [
+              466,
+              791
+            ],
+            [
+              476,
+              754
+            ],
+            [
+              488,
+              714
+            ],
+            [
+              504,
+              674
+            ],
+            [
+              514,
+              634
+            ],
+            [
+              516,
+              593
+            ],
+            [
+              526,
+              552
+            ],
+            [
+              549,
+              517
+            ],
+            [
+              579,
+              490
+            ],
+            [
+              615,
+              470
+            ],
+            [
+              656,
+              451
+            ],
+            [
+              699,
+              430
+            ],
+            [
+              743,
+              409
+            ],
+            [
+              785,
+              387
+            ],
+            [
+              827,
+              365
+            ],
+            [
+              870,
+              344
+            ],
+            [
+              912,
+              325
+            ],
+            [
+              951,
+              300
+            ],
+            [
+              988,
+              273
+            ],
+            [
+              1014,
+              269
+            ],
+            [
+              1028,
+              287
+            ],
+            [
+              1003,
+              310
+            ],
+            [
+              974,
+              338
+            ],
+            [
+              951,
+              363
+            ],
+            [
+              929,
+              386
+            ],
+            [
+              906,
+              409
+            ],
+            [
+              882,
+              431
+            ],
+            [
+              856,
+              451
+            ],
+            [
+              827,
+              466
+            ],
+            [
+              793,
+              470
+            ],
+            [
+              760,
+              475
+            ],
+            [
+              728,
+              484
+            ],
+            [
+              698,
+              496
+            ],
+            [
+              667,
+              516
+            ],
+            [
+              644,
+              542
+            ],
+            [
+              626,
+              577
+            ],
+            [
+              609,
+              616
+            ],
+            [
+              588,
+              656
+            ],
+            [
+              570,
+              697
+            ],
+            [
+              550,
+              740
+            ],
+            [
+              530,
+              782
+            ],
+            [
+              509,
+              820
+            ],
+            [
+              486,
+              833
+            ],
+            [
+              470,
+              819
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678679.76609,
+              6989006.036
+            ],
+            [
+              678682.205706,
+              6989015.064
+            ],
+            [
+              678685.133245,
+              6989024.824
+            ],
+            [
+              678689.03663,
+              6989034.584
+            ],
+            [
+              678691.476245,
+              6989044.344
+            ],
+            [
+              678691.964169,
+              6989054.348
+            ],
+            [
+              678694.403784,
+              6989064.352
+            ],
+            [
+              678700.0149,
+              6989072.892
+            ],
+            [
+              678707.333747,
+              6989079.48
+            ],
+            [
+              678716.116364,
+              6989084.36
+            ],
+            [
+              678726.118788,
+              6989088.996
+            ],
+            [
+              678736.609135,
+              6989094.12
+            ],
+            [
+              678747.343444,
+              6989099.244
+            ],
+            [
+              678757.58983,
+              6989104.612
+            ],
+            [
+              678767.836216,
+              6989109.98
+            ],
+            [
+              678778.326563,
+              6989115.104
+            ],
+            [
+              678788.572949,
+              6989119.74
+            ],
+            [
+              678798.08745,
+              6989125.84
+            ],
+            [
+              678807.114028,
+              6989132.428
+            ],
+            [
+              678813.457029,
+              6989133.404
+            ],
+            [
+              678816.872491,
+              6989129.012
+            ],
+            [
+              678810.773452,
+              6989123.4
+            ],
+            [
+              678803.698566,
+              6989116.568
+            ],
+            [
+              678798.08745,
+              6989110.468
+            ],
+            [
+              678792.720296,
+              6989104.856
+            ],
+            [
+              678787.10918,
+              6989099.244
+            ],
+            [
+              678781.254102,
+              6989093.876
+            ],
+            [
+              678774.911101,
+              6989088.996
+            ],
+            [
+              678767.836216,
+              6989085.336
+            ],
+            [
+              678759.541523,
+              6989084.36
+            ],
+            [
+              678751.490791,
+              6989083.14
+            ],
+            [
+              678743.684021,
+              6989080.944
+            ],
+            [
+              678736.365174,
+              6989078.016
+            ],
+            [
+              678728.802365,
+              6989073.136
+            ],
+            [
+              678723.191249,
+              6989066.792
+            ],
+            [
+              678718.799941,
+              6989058.252
+            ],
+            [
+              678714.652594,
+              6989048.736
+            ],
+            [
+              678709.529401,
+              6989038.976
+            ],
+            [
+              678705.138093,
+              6989028.972
+            ],
+            [
+              678700.258862,
+              6989018.48
+            ],
+            [
+              678695.37963,
+              6989008.232
+            ],
+            [
+              678690.256438,
+              6988998.96
+            ],
+            [
+              678684.645322,
+              6988995.788
+            ],
+            [
+              678680.741936,
+              6988999.204
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 13,
+      "fairways": [
+        {
+          "id": "lm-h13-fairway",
+          "sourceId": "norrfallsviken-13-hole",
+          "panel": {
+            "id": "13-hole",
+            "sourceId": "norrfallsviken-13-hole",
+            "sourceSha256": "dce8ac57e5d7256329286122876b087893cf0a89761e31afc1df2decff54c45d",
+            "geoTransform": [
+              678771.2,
+              0.2918918918918919,
+              0.0,
+              6989257.28,
+              0.0,
+              -0.2918
+            ],
+            "width": 814,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1485,
+              2918
+            ]
+          },
+          "ringPixels": [
+            [
+              414,
+              575
+            ],
+            [
+              435,
+              555
+            ],
+            [
+              455,
+              567
+            ],
+            [
+              456,
+              595
+            ],
+            [
+              442,
+              635
+            ],
+            [
+              424,
+              679
+            ],
+            [
+              407,
+              723
+            ],
+            [
+              389,
+              768
+            ],
+            [
+              369,
+              812
+            ],
+            [
+              348,
+              856
+            ],
+            [
+              324,
+              902
+            ],
+            [
+              300,
+              947
+            ],
+            [
+              278,
+              995
+            ],
+            [
+              265,
+              1044
+            ],
+            [
+              265,
+              1092
+            ],
+            [
+              277,
+              1141
+            ],
+            [
+              299,
+              1188
+            ],
+            [
+              323,
+              1235
+            ],
+            [
+              343,
+              1286
+            ],
+            [
+              358,
+              1332
+            ],
+            [
+              363,
+              1365
+            ],
+            [
+              336,
+              1380
+            ],
+            [
+              311,
+              1358
+            ],
+            [
+              296,
+              1319
+            ],
+            [
+              279,
+              1275
+            ],
+            [
+              256,
+              1232
+            ],
+            [
+              231,
+              1187
+            ],
+            [
+              207,
+              1141
+            ],
+            [
+              190,
+              1094
+            ],
+            [
+              187,
+              1049
+            ],
+            [
+              194,
+              1005
+            ],
+            [
+              209,
+              961
+            ],
+            [
+              229,
+              919
+            ],
+            [
+              252,
+              876
+            ],
+            [
+              275,
+              833
+            ],
+            [
+              299,
+              789
+            ],
+            [
+              322,
+              744
+            ],
+            [
+              344,
+              702
+            ],
+            [
+              367,
+              659
+            ],
+            [
+              391,
+              618
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678892.043243,
+              6989089.495
+            ],
+            [
+              678898.172973,
+              6989095.331
+            ],
+            [
+              678904.010811,
+              6989091.8294
+            ],
+            [
+              678904.302703,
+              6989083.659
+            ],
+            [
+              678900.216216,
+              6989071.987
+            ],
+            [
+              678894.962162,
+              6989059.1478
+            ],
+            [
+              678890.0,
+              6989046.3086
+            ],
+            [
+              678884.745946,
+              6989033.1776
+            ],
+            [
+              678878.908108,
+              6989020.3384
+            ],
+            [
+              678872.778378,
+              6989007.4992
+            ],
+            [
+              678865.772973,
+              6988994.0764
+            ],
+            [
+              678858.767568,
+              6988980.9454
+            ],
+            [
+              678852.345946,
+              6988966.939
+            ],
+            [
+              678848.551351,
+              6988952.6408
+            ],
+            [
+              678848.551351,
+              6988938.6344
+            ],
+            [
+              678852.054054,
+              6988924.3362
+            ],
+            [
+              678858.475676,
+              6988910.6216
+            ],
+            [
+              678865.481081,
+              6988896.907
+            ],
+            [
+              678871.318919,
+              6988882.0252
+            ],
+            [
+              678875.697297,
+              6988868.6024
+            ],
+            [
+              678877.156757,
+              6988858.973
+            ],
+            [
+              678869.275676,
+              6988854.596
+            ],
+            [
+              678861.978378,
+              6988861.0156
+            ],
+            [
+              678857.6,
+              6988872.3958
+            ],
+            [
+              678852.637838,
+              6988885.235
+            ],
+            [
+              678845.924324,
+              6988897.7824
+            ],
+            [
+              678838.627027,
+              6988910.9134
+            ],
+            [
+              678831.621622,
+              6988924.3362
+            ],
+            [
+              678826.659459,
+              6988938.0508
+            ],
+            [
+              678825.783784,
+              6988951.1818
+            ],
+            [
+              678827.827027,
+              6988964.021
+            ],
+            [
+              678832.205405,
+              6988976.8602
+            ],
+            [
+              678838.043243,
+              6988989.1158
+            ],
+            [
+              678844.756757,
+              6989001.6632
+            ],
+            [
+              678851.47027,
+              6989014.2106
+            ],
+            [
+              678858.475676,
+              6989027.0498
+            ],
+            [
+              678865.189189,
+              6989040.1808
+            ],
+            [
+              678871.610811,
+              6989052.4364
+            ],
+            [
+              678878.324324,
+              6989064.9838
+            ],
+            [
+              678885.32973,
+              6989076.9476
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 15,
+      "fairways": [
+        {
+          "id": "lm-h15-fairway",
+          "sourceId": "norrfallsviken-15-hole",
+          "panel": {
+            "id": "15-hole",
+            "sourceId": "norrfallsviken-15-hole",
+            "sourceSha256": "88ef3c2cf6da0ba239d5e279dc178c75d6db44c2fc4c2b3535b96692aaa458e7",
+            "geoTransform": [
+              678956.8,
+              0.21194143857415657,
+              0.0,
+              6989135.84,
+              0.0,
+              -0.212
+            ],
+            "width": 1571,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              2081,
+              2120
+            ]
+          },
+          "ringPixels": [
+            [
+              680,
+              370
+            ],
+            [
+              713,
+              367
+            ],
+            [
+              752,
+              380
+            ],
+            [
+              791,
+              403
+            ],
+            [
+              824,
+              433
+            ],
+            [
+              854,
+              470
+            ],
+            [
+              881,
+              512
+            ],
+            [
+              908,
+              559
+            ],
+            [
+              932,
+              607
+            ],
+            [
+              955,
+              655
+            ],
+            [
+              977,
+              706
+            ],
+            [
+              994,
+              758
+            ],
+            [
+              1012,
+              813
+            ],
+            [
+              1029,
+              869
+            ],
+            [
+              1048,
+              925
+            ],
+            [
+              1067,
+              980
+            ],
+            [
+              1086,
+              1037
+            ],
+            [
+              1107,
+              1092
+            ],
+            [
+              1131,
+              1145
+            ],
+            [
+              1156,
+              1195
+            ],
+            [
+              1184,
+              1234
+            ],
+            [
+              1212,
+              1258
+            ],
+            [
+              1230,
+              1254
+            ],
+            [
+              1235,
+              1233
+            ],
+            [
+              1210,
+              1193
+            ],
+            [
+              1190,
+              1143
+            ],
+            [
+              1172,
+              1091
+            ],
+            [
+              1153,
+              1036
+            ],
+            [
+              1136,
+              980
+            ],
+            [
+              1118,
+              924
+            ],
+            [
+              1101,
+              868
+            ],
+            [
+              1083,
+              811
+            ],
+            [
+              1063,
+              755
+            ],
+            [
+              1041,
+              700
+            ],
+            [
+              1017,
+              647
+            ],
+            [
+              991,
+              594
+            ],
+            [
+              962,
+              542
+            ],
+            [
+              930,
+              491
+            ],
+            [
+              893,
+              446
+            ],
+            [
+              851,
+              408
+            ],
+            [
+              807,
+              379
+            ],
+            [
+              762,
+              355
+            ],
+            [
+              717,
+              346
+            ],
+            [
+              687,
+              351
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679100.920178,
+              6989057.4
+            ],
+            [
+              679107.914246,
+              6989058.036
+            ],
+            [
+              679116.179962,
+              6989055.28
+            ],
+            [
+              679124.445678,
+              6989050.404
+            ],
+            [
+              679131.439745,
+              6989044.044
+            ],
+            [
+              679137.797989,
+              6989036.2
+            ],
+            [
+              679143.520407,
+              6989027.296
+            ],
+            [
+              679149.242826,
+              6989017.332
+            ],
+            [
+              679154.329421,
+              6989007.156
+            ],
+            [
+              679159.204074,
+              6988996.98
+            ],
+            [
+              679163.866785,
+              6988986.168
+            ],
+            [
+              679167.46979,
+              6988975.144
+            ],
+            [
+              679171.284736,
+              6988963.484
+            ],
+            [
+              679174.88774,
+              6988951.612
+            ],
+            [
+              679178.914628,
+              6988939.74
+            ],
+            [
+              679182.941515,
+              6988928.08
+            ],
+            [
+              679186.968402,
+              6988915.996
+            ],
+            [
+              679191.419173,
+              6988904.336
+            ],
+            [
+              679196.505767,
+              6988893.1
+            ],
+            [
+              679201.804303,
+              6988882.5
+            ],
+            [
+              679207.738663,
+              6988874.232
+            ],
+            [
+              679213.673024,
+              6988869.144
+            ],
+            [
+              679217.487969,
+              6988869.992
+            ],
+            [
+              679218.547677,
+              6988874.444
+            ],
+            [
+              679213.249141,
+              6988882.924
+            ],
+            [
+              679209.010312,
+              6988893.524
+            ],
+            [
+              679205.195366,
+              6988904.548
+            ],
+            [
+              679201.168479,
+              6988916.208
+            ],
+            [
+              679197.565474,
+              6988928.08
+            ],
+            [
+              679193.750528,
+              6988939.952
+            ],
+            [
+              679190.147524,
+              6988951.824
+            ],
+            [
+              679186.332578,
+              6988963.908
+            ],
+            [
+              679182.093749,
+              6988975.78
+            ],
+            [
+              679177.431038,
+              6988987.44
+            ],
+            [
+              679172.344443,
+              6988998.676
+            ],
+            [
+              679166.833966,
+              6989009.912
+            ],
+            [
+              679160.687664,
+              6989020.936
+            ],
+            [
+              679153.905538,
+              6989031.748
+            ],
+            [
+              679146.063705,
+              6989041.288
+            ],
+            [
+              679137.162164,
+              6989049.344
+            ],
+            [
+              679127.836741,
+              6989055.492
+            ],
+            [
+              679118.299376,
+              6989060.58
+            ],
+            [
+              679108.762011,
+              6989062.488
+            ],
+            [
+              679102.403768,
+              6989061.428
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 16,
+      "fairways": [
+        {
+          "id": "lm-h16-fairway",
+          "sourceId": "norrfallsviken-16-hole",
+          "panel": {
+            "id": "16-hole",
+            "sourceId": "norrfallsviken-16-hole",
+            "sourceSha256": "0874dd78bc0c3ab894ec47d0f9e5544767d026dd48415bb3b6ed1e868506f483",
+            "geoTransform": [
+              679188.16,
+              0.265993690851735,
+              0.0,
+              6988850.72,
+              0.0,
+              -0.2658
+            ],
+            "width": 634,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              1054,
+              2658
+            ]
+          },
+          "ringPixels": [
+            [
+              350,
+              589
+            ],
+            [
+              371,
+              573
+            ],
+            [
+              391,
+              580
+            ],
+            [
+              407,
+              607
+            ],
+            [
+              414,
+              652
+            ],
+            [
+              418,
+              702
+            ],
+            [
+              421,
+              755
+            ],
+            [
+              423,
+              809
+            ],
+            [
+              420,
+              864
+            ],
+            [
+              414,
+              918
+            ],
+            [
+              406,
+              971
+            ],
+            [
+              395,
+              1027
+            ],
+            [
+              383,
+              1080
+            ],
+            [
+              369,
+              1130
+            ],
+            [
+              348,
+              1180
+            ],
+            [
+              325,
+              1227
+            ],
+            [
+              299,
+              1270
+            ],
+            [
+              271,
+              1302
+            ],
+            [
+              249,
+              1320
+            ],
+            [
+              225,
+              1318
+            ],
+            [
+              222,
+              1299
+            ],
+            [
+              246,
+              1270
+            ],
+            [
+              270,
+              1230
+            ],
+            [
+              291,
+              1187
+            ],
+            [
+              309,
+              1141
+            ],
+            [
+              323,
+              1092
+            ],
+            [
+              335,
+              1044
+            ],
+            [
+              343,
+              991
+            ],
+            [
+              349,
+              938
+            ],
+            [
+              353,
+              884
+            ],
+            [
+              354,
+              829
+            ],
+            [
+              353,
+              775
+            ],
+            [
+              350,
+              721
+            ],
+            [
+              347,
+              668
+            ],
+            [
+              346,
+              621
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679281.257792,
+              6988694.1638
+            ],
+            [
+              679286.843659,
+              6988698.4166
+            ],
+            [
+              679292.163533,
+              6988696.556
+            ],
+            [
+              679296.419432,
+              6988689.3794
+            ],
+            [
+              679298.281388,
+              6988677.4184
+            ],
+            [
+              679299.345363,
+              6988664.1284
+            ],
+            [
+              679300.143344,
+              6988650.041
+            ],
+            [
+              679300.675331,
+              6988635.6878
+            ],
+            [
+              679299.87735,
+              6988621.0688
+            ],
+            [
+              679298.281388,
+              6988606.7156
+            ],
+            [
+              679296.153438,
+              6988592.6282
+            ],
+            [
+              679293.227508,
+              6988577.7434
+            ],
+            [
+              679290.035584,
+              6988563.656
+            ],
+            [
+              679286.311672,
+              6988550.366
+            ],
+            [
+              679280.725804,
+              6988537.076
+            ],
+            [
+              679274.60795,
+              6988524.5834
+            ],
+            [
+              679267.692114,
+              6988513.154
+            ],
+            [
+              679260.24429,
+              6988504.6484
+            ],
+            [
+              679254.392429,
+              6988499.864
+            ],
+            [
+              679248.00858,
+              6988500.3956
+            ],
+            [
+              679247.210599,
+              6988505.4458
+            ],
+            [
+              679253.594448,
+              6988513.154
+            ],
+            [
+              679259.978297,
+              6988523.786
+            ],
+            [
+              679265.564164,
+              6988535.2154
+            ],
+            [
+              679270.35205,
+              6988547.4422
+            ],
+            [
+              679274.075962,
+              6988560.4664
+            ],
+            [
+              679277.267886,
+              6988573.2248
+            ],
+            [
+              679279.395836,
+              6988587.3122
+            ],
+            [
+              679280.991798,
+              6988601.3996
+            ],
+            [
+              679282.055773,
+              6988615.7528
+            ],
+            [
+              679282.321767,
+              6988630.3718
+            ],
+            [
+              679282.055773,
+              6988644.725
+            ],
+            [
+              679281.257792,
+              6988659.0782
+            ],
+            [
+              679280.459811,
+              6988673.1656
+            ],
+            [
+              679280.193817,
+              6988685.6582
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 17,
+      "fairways": [
+        {
+          "id": "lm-h17-fairway",
+          "sourceId": "norrfallsviken-17-hole",
+          "panel": {
+            "id": "17-hole",
+            "sourceId": "norrfallsviken-17-hole",
+            "sourceSha256": "5b2207d9e7fd87de9dbee8e80757fb5510c6e77976e57de0921205f0c0e6249d",
+            "geoTransform": [
+              678909.12,
+              0.23762886597938146,
+              0.0,
+              6988774.08,
+              0.0,
+              -0.23760000000000003
+            ],
+            "width": 1552,
+            "height": 1600,
+            "sourcePixelWindow": [
+              0,
+              0,
+              2305,
+              2376
+            ]
+          },
+          "ringPixels": [
+            [
+              869,
+              1027
+            ],
+            [
+              881,
+              1006
+            ],
+            [
+              879,
+              977
+            ],
+            [
+              866,
+              945
+            ],
+            [
+              849,
+              914
+            ],
+            [
+              830,
+              879
+            ],
+            [
+              816,
+              842
+            ],
+            [
+              804,
+              802
+            ],
+            [
+              794,
+              761
+            ],
+            [
+              782,
+              721
+            ],
+            [
+              765,
+              680
+            ],
+            [
+              746,
+              641
+            ],
+            [
+              726,
+              602
+            ],
+            [
+              706,
+              563
+            ],
+            [
+              687,
+              525
+            ],
+            [
+              668,
+              487
+            ],
+            [
+              650,
+              450
+            ],
+            [
+              632,
+              413
+            ],
+            [
+              611,
+              379
+            ],
+            [
+              587,
+              350
+            ],
+            [
+              558,
+              327
+            ],
+            [
+              523,
+              310
+            ],
+            [
+              485,
+              299
+            ],
+            [
+              445,
+              292
+            ],
+            [
+              403,
+              285
+            ],
+            [
+              363,
+              277
+            ],
+            [
+              328,
+              265
+            ],
+            [
+              304,
+              251
+            ],
+            [
+              289,
+              258
+            ],
+            [
+              291,
+              276
+            ],
+            [
+              318,
+              290
+            ],
+            [
+              355,
+              300
+            ],
+            [
+              393,
+              309
+            ],
+            [
+              431,
+              319
+            ],
+            [
+              470,
+              331
+            ],
+            [
+              505,
+              346
+            ],
+            [
+              535,
+              366
+            ],
+            [
+              559,
+              392
+            ],
+            [
+              579,
+              424
+            ],
+            [
+              597,
+              459
+            ],
+            [
+              614,
+              497
+            ],
+            [
+              631,
+              535
+            ],
+            [
+              648,
+              575
+            ],
+            [
+              663,
+              614
+            ],
+            [
+              678,
+              655
+            ],
+            [
+              691,
+              695
+            ],
+            [
+              704,
+              736
+            ],
+            [
+              716,
+              779
+            ],
+            [
+              729,
+              821
+            ],
+            [
+              744,
+              863
+            ],
+            [
+              761,
+              904
+            ],
+            [
+              780,
+              944
+            ],
+            [
+              802,
+              982
+            ],
+            [
+              829,
+              1016
+            ],
+            [
+              851,
+              1030
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              679115.619485,
+              6988530.0648
+            ],
+            [
+              679118.471031,
+              6988535.0544
+            ],
+            [
+              679117.995773,
+              6988541.9448
+            ],
+            [
+              679114.906598,
+              6988549.548
+            ],
+            [
+              679110.866907,
+              6988556.9136
+            ],
+            [
+              679106.351959,
+              6988565.2296
+            ],
+            [
+              679103.025155,
+              6988574.0208
+            ],
+            [
+              679100.173608,
+              6988583.5248
+            ],
+            [
+              679097.79732,
+              6988593.2664
+            ],
+            [
+              679094.945773,
+              6988602.7704
+            ],
+            [
+              679090.906082,
+              6988612.512
+            ],
+            [
+              679086.391134,
+              6988621.7784
+            ],
+            [
+              679081.638557,
+              6988631.0448
+            ],
+            [
+              679076.885979,
+              6988640.3112
+            ],
+            [
+              679072.371031,
+              6988649.34
+            ],
+            [
+              679067.856082,
+              6988658.3688
+            ],
+            [
+              679063.578763,
+              6988667.16
+            ],
+            [
+              679059.301443,
+              6988675.9512
+            ],
+            [
+              679054.311237,
+              6988684.0296
+            ],
+            [
+              679048.608144,
+              6988690.92
+            ],
+            [
+              679041.716907,
+              6988696.3848
+            ],
+            [
+              679033.399897,
+              6988700.424
+            ],
+            [
+              679024.37,
+              6988703.0376
+            ],
+            [
+              679014.864845,
+              6988704.7008
+            ],
+            [
+              679004.884433,
+              6988706.364
+            ],
+            [
+              678995.379278,
+              6988708.2648
+            ],
+            [
+              678987.062268,
+              6988711.116
+            ],
+            [
+              678981.359175,
+              6988714.4424
+            ],
+            [
+              678977.794742,
+              6988712.7792
+            ],
+            [
+              678978.27,
+              6988708.5024
+            ],
+            [
+              678984.685979,
+              6988705.176
+            ],
+            [
+              678993.478247,
+              6988702.8
+            ],
+            [
+              679002.508144,
+              6988700.6616
+            ],
+            [
+              679011.538041,
+              6988698.2856
+            ],
+            [
+              679020.805567,
+              6988695.4344
+            ],
+            [
+              679029.122577,
+              6988691.8704
+            ],
+            [
+              679036.251443,
+              6988687.1184
+            ],
+            [
+              679041.954536,
+              6988680.9408
+            ],
+            [
+              679046.707113,
+              6988673.3376
+            ],
+            [
+              679050.984433,
+              6988665.0216
+            ],
+            [
+              679055.024124,
+              6988655.9928
+            ],
+            [
+              679059.063814,
+              6988646.964
+            ],
+            [
+              679063.103505,
+              6988637.46
+            ],
+            [
+              679066.667938,
+              6988628.1936
+            ],
+            [
+              679070.232371,
+              6988618.452
+            ],
+            [
+              679073.321546,
+              6988608.948
+            ],
+            [
+              679076.410722,
+              6988599.2064
+            ],
+            [
+              679079.262268,
+              6988588.9896
+            ],
+            [
+              679082.351443,
+              6988579.0104
+            ],
+            [
+              679085.915876,
+              6988569.0312
+            ],
+            [
+              679089.955567,
+              6988559.2896
+            ],
+            [
+              679094.470515,
+              6988549.7856
+            ],
+            [
+              679099.698351,
+              6988540.7568
+            ],
+            [
+              679106.11433,
+              6988532.6784
+            ],
+            [
+              679111.342165,
+              6988529.352
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    },
+    {
+      "hole": 18,
+      "fairways": [
+        {
+          "id": "lm-h18-fairway",
+          "sourceId": "norrfallsviken-18-hole",
+          "panel": {
+            "id": "18-hole",
+            "sourceId": "norrfallsviken-18-hole",
+            "sourceSha256": "7a56f9aa451e3132aa1968aaa2b38ade2cbb654b7f2dd45f3ffc728b47f79b61",
+            "geoTransform": [
+              678545.76,
+              0.2614,
+              0.0,
+              6988745.76,
+              0.0,
+              -0.26144631117604095
+            ],
+            "width": 1600,
+            "height": 1369,
+            "sourcePixelWindow": [
+              0,
+              0,
+              2614,
+              2237
+            ]
+          },
+          "ringPixels": [
+            [
+              239,
+              1084
+            ],
+            [
+              254,
+              1049
+            ],
+            [
+              278,
+              1011
+            ],
+            [
+              303,
+              971
+            ],
+            [
+              330,
+              930
+            ],
+            [
+              359,
+              888
+            ],
+            [
+              391,
+              846
+            ],
+            [
+              424,
+              804
+            ],
+            [
+              459,
+              763
+            ],
+            [
+              493,
+              720
+            ],
+            [
+              527,
+              677
+            ],
+            [
+              561,
+              635
+            ],
+            [
+              596,
+              594
+            ],
+            [
+              633,
+              555
+            ],
+            [
+              672,
+              520
+            ],
+            [
+              713,
+              488
+            ],
+            [
+              758,
+              462
+            ],
+            [
+              805,
+              442
+            ],
+            [
+              854,
+              426
+            ],
+            [
+              903,
+              417
+            ],
+            [
+              950,
+              414
+            ],
+            [
+              986,
+              419
+            ],
+            [
+              1006,
+              409
+            ],
+            [
+              1008,
+              391
+            ],
+            [
+              989,
+              380
+            ],
+            [
+              953,
+              376
+            ],
+            [
+              908,
+              379
+            ],
+            [
+              860,
+              389
+            ],
+            [
+              813,
+              404
+            ],
+            [
+              768,
+              422
+            ],
+            [
+              724,
+              445
+            ],
+            [
+              680,
+              473
+            ],
+            [
+              639,
+              506
+            ],
+            [
+              600,
+              543
+            ],
+            [
+              563,
+              582
+            ],
+            [
+              526,
+              623
+            ],
+            [
+              491,
+              665
+            ],
+            [
+              457,
+              708
+            ],
+            [
+              423,
+              751
+            ],
+            [
+              390,
+              795
+            ],
+            [
+              357,
+              839
+            ],
+            [
+              324,
+              884
+            ],
+            [
+              291,
+              930
+            ],
+            [
+              260,
+              978
+            ],
+            [
+              235,
+              1024
+            ],
+            [
+              222,
+              1061
+            ],
+            [
+              224,
+              1081
+            ]
+          ],
+          "ringEpsg3006": [
+            [
+              678608.2346,
+              6988462.352199
+            ],
+            [
+              678612.1556,
+              6988471.50282
+            ],
+            [
+              678618.4292,
+              6988481.437779
+            ],
+            [
+              678624.9642,
+              6988491.895632
+            ],
+            [
+              678632.022,
+              6988502.614931
+            ],
+            [
+              678639.6026,
+              6988513.595676
+            ],
+            [
+              678647.9674,
+              6988524.576421
+            ],
+            [
+              678656.5936,
+              6988535.557166
+            ],
+            [
+              678665.7426,
+              6988546.276465
+            ],
+            [
+              678674.6302,
+              6988557.518656
+            ],
+            [
+              678683.5178,
+              6988568.760847
+            ],
+            [
+              678692.4054,
+              6988579.741592
+            ],
+            [
+              678701.5544,
+              6988590.460891
+            ],
+            [
+              678711.2262,
+              6988600.657297
+            ],
+            [
+              678721.4208,
+              6988609.807918
+            ],
+            [
+              678732.1382,
+              6988618.1742
+            ],
+            [
+              678743.9012,
+              6988624.971804
+            ],
+            [
+              678756.187,
+              6988630.20073
+            ],
+            [
+              678768.9956,
+              6988634.383871
+            ],
+            [
+              678781.8042,
+              6988636.736888
+            ],
+            [
+              678794.09,
+              6988637.521227
+            ],
+            [
+              678803.5004,
+              6988636.213996
+            ],
+            [
+              678808.7284,
+              6988638.828459
+            ],
+            [
+              678809.2512,
+              6988643.534492
+            ],
+            [
+              678804.2846,
+              6988646.410402
+            ],
+            [
+              678794.8742,
+              6988647.456187
+            ],
+            [
+              678783.1112,
+              6988646.671848
+            ],
+            [
+              678770.564,
+              6988644.057385
+            ],
+            [
+              678758.2782,
+              6988640.13569
+            ],
+            [
+              678746.5152,
+              6988635.429657
+            ],
+            [
+              678735.0136,
+              6988629.416392
+            ],
+            [
+              678723.512,
+              6988622.095895
+            ],
+            [
+              678712.7946,
+              6988613.468167
+            ],
+            [
+              678702.6,
+              6988603.794653
+            ],
+            [
+              678692.9282,
+              6988593.598247
+            ],
+            [
+              678683.2564,
+              6988582.878948
+            ],
+            [
+              678674.1074,
+              6988571.898203
+            ],
+            [
+              678665.2198,
+              6988560.656012
+            ],
+            [
+              678656.3322,
+              6988549.41382
+            ],
+            [
+              678647.706,
+              6988537.910183
+            ],
+            [
+              678639.0798,
+              6988526.406545
+            ],
+            [
+              678630.4536,
+              6988514.641461
+            ],
+            [
+              678621.8274,
+              6988502.614931
+            ],
+            [
+              678613.724,
+              6988490.065508
+            ],
+            [
+              678607.189,
+              6988478.038977
+            ],
+            [
+              678603.7908,
+              6988468.365464
+            ],
+            [
+              678604.3136,
+              6988463.136538
+            ]
+          ],
+          "evidence": "Manual whole-hole review follows the visibly mown corridor and connected approach. Drought and tree shadows soften some boundaries; 1\u20133 m interpretation uncertainty is retained."
+        }
+      ],
+      "notes": "Fairway/rough transition reviewed separately from putting surfaces. No card-length fitting."
+    }
+  ]
+}

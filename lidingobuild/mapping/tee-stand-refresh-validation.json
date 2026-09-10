@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "kind": "lidingo-reviewed-tee-stand-refresh",
+  "groundId": "lidingo",
+  "sourceManifestSha256": "6c65aae4233e6f89495487291e8e4dc8e12982fe27c945cc630b54647907f24e",
+  "sourceLayerIndexSha256": "6c93b7ffbc939af525f3ff341bbeba7fcb3242edf46ebe2abc1013e80b34553e",
+  "sourceReviewSha256": "a100a96e2ec0b9ffcde8513dd8c831151bce4150b14e51a54e43ff00b52b4307",
+  "previousGroundManifest": {
+    "bytes": 235841,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "c24558c1aa6fac2c99eb45be7f6ab8d5e28f554de2316d9518bb2bb82369a81e",
+    "url": "grounds/lidingo/ground-v2-c24558c1aa6fac2c99eb45be7f6ab8d5e28f554de2316d9518bb2bb82369a81e.json"
+  },
+  "groundManifest": {
+    "bytes": 235841,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "0fdc6678ab2e27c61950f950bcdfd77723a5b559c299072a5e99b202dfeaa62a",
+    "url": "grounds/lidingo/ground-v2-0fdc6678ab2e27c61950f950bcdfd77723a5b559c299072a5e99b202dfeaa62a.json"
+  },
+  "courseManifest": {
+    "bytes": 3850,
+    "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+    "sha256": "6ce72e5f458c665fcecbc60248ec2abe68978854dd396d57dd0affa7f66d9cff",
+    "url": "courses/lidingo/course-v2-6ce72e5f458c665fcecbc60248ec2abe68978854dd396d57dd0affa7f66d9cff.json"
+  },
+  "unchangedRouting": {
+    "bytes": 1678,
+    "decodedBytes": 2712,
+    "decodedSha256": "9704e09ca4457fc7010fdf6bfb3d3fad7697f57a9657eb741b16b71234dd976f",
+    "kind": "routing",
+    "mediaType": "application/vnd.banvy.chunk-v2",
+    "requiredFeatures": [
+      "chunk-envelope-v2",
+      "course-routing-json-v1"
+    ],
+    "sha256": "e499268b0ab1f381f6420038af92b0e4ea656a29402809e962055eeb96d3eeea",
+    "url": "courses/lidingo/routing/e499268b0ab1f381f6420038af92b0e4ea656a29402809e962055eeb96d3eeea.bvch"
+  },
+  "unchangedFrameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+  "unchangedTerrainTiles": 277,
+  "unchangedParentLinks": 276,
+  "replacedStandLayers": 64,
+  "changedStandLayers": 0,
+  "unchangedSurfaceLayers": 0,
+  "unchangedObjectLayers": 0,
+  "unchangedHoleStreamingPriorities": true,
+  "teeExclusions": {
+    "eligibleCells": 163292,
+    "checkedTeePolygons": 55,
+    "teeCentreHits": 0,
+    "examples": [],
+    "method": "Independently test every eligible emitted stand-cell centre against current source tee polygons, retaining polygon holes."
+  },
+  "graphVerification": {
+    "courses": 1,
+    "grounds": 1,
+    "chunks": 343,
+    "encodedChunkBytes": 18104190,
+    "decodedChunkBytes": 37774532,
+    "v1Fallbacks": 1
+  },
+  "state": "published",
+  "createdImmutableFiles": 2
+}

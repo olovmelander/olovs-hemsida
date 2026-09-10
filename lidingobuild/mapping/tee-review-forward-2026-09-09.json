@@ -1,0 +1,689 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "horizontalCrs": "EPSG:3006",
+  "capturedAt": "2025-05-31",
+  "reviewedAt": "2026-09-09T21:03:09.887810+00:00",
+  "baseline": {
+    "path": "lidingobuild/mapping/tee-review-front12-2026-09-09.json",
+    "sha256": "716e7d5cecca891408adece3cd853054092c328ab04d20b964d631d4d39cdfd3"
+  },
+  "method": "Full club guides provide tee colour/physical-pad relationships; 2025 LM imagery provides boundaries. Existing front12 pixel coordinates are reprojected without geometry change except corrections explicitly described below. No scorecard-distance fitting.",
+  "changes": [
+    "H2 orange is the small southeast deck west of the east path; it was mistakenly assigned to H4 white in the baseline.",
+    "H4 white is the separate easternmost path-side oval.",
+    "H2 yellow is the small partly shaded deck immediately behind the uncoloured long deck in its guide; the long deck remains a physical unassigned platform.",
+    "H4 orange shares the physical forward round platform with H2 white. Both associations appear consistently in the full club guides."
+  ],
+  "limitations": [
+    "All marker pixels are guide-associated representative positions on their pads; individual movable marker pairs are not surveyed.",
+    "H2 yellow northern edge is partly canopy-obscured and has 2.5m interpretation uncertainty."
+  ],
+  "holes": [
+    {
+      "hole": 2,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/hole-02-tees.png",
+        "sha256": "96a9ef5b41ef565a0d365af6c1e56f14baa71f45e3256b77663351574df54e2d",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677742.4,
+          0.16,
+          0.0,
+          6586337.6,
+          0.0,
+          -0.16
+        ],
+        "width": 1097,
+        "height": 1602,
+        "resolutionMetres": 0.16,
+        "sourceIds": [
+          "o65850_6775_25_mr25"
+        ]
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-02-a-lm2025",
+          "pixels": [
+            [
+              274.0,
+              369.0
+            ],
+            [
+              291.0,
+              365.0
+            ],
+            [
+              307.0,
+              373.0
+            ],
+            [
+              323.0,
+              390.0
+            ],
+            [
+              334.0,
+              410.0
+            ],
+            [
+              332.0,
+              421.0
+            ],
+            [
+              317.0,
+              430.0
+            ],
+            [
+              298.0,
+              422.0
+            ],
+            [
+              283.0,
+              406.0
+            ],
+            [
+              273.0,
+              386.0
+            ],
+            [
+              274.0,
+              369.0
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Round rear H2 white platform, shared physically with H4 orange at the southwest corner of the H4 fairway tip.",
+          "sharedPhysicalPlatformId": "lidingo-shared-tee-02-white-04-orange-lm2025"
+        },
+        {
+          "id": "lidingo-tee-02-b-lm2025",
+          "pixels": [
+            [
+              337.0,
+              639.0
+            ],
+            [
+              355.0,
+              635.0
+            ],
+            [
+              369.0,
+              644.0
+            ],
+            [
+              383.0,
+              670.0
+            ],
+            [
+              397.0,
+              699.0
+            ],
+            [
+              393.0,
+              713.0
+            ],
+            [
+              379.0,
+              722.0
+            ],
+            [
+              364.0,
+              718.0
+            ],
+            [
+              351.0,
+              700.0
+            ],
+            [
+              339.0,
+              672.0
+            ],
+            [
+              337.0,
+              639.0
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Long maintained platform in front of the small yellow platform. The full H2 guide depicts it without a tee-colour dot; retain its observed physical footprint without assigning yellow to it."
+        },
+        {
+          "id": "lidingo-tee-02-c-lm2025",
+          "pixels": [
+            [
+              615.0,
+              806.0
+            ],
+            [
+              635.0,
+              796.0
+            ],
+            [
+              657.0,
+              798.0
+            ],
+            [
+              673.0,
+              811.0
+            ],
+            [
+              685.0,
+              837.0
+            ],
+            [
+              684.0,
+              852.0
+            ],
+            [
+              670.0,
+              862.0
+            ],
+            [
+              645.0,
+              867.0
+            ],
+            [
+              632.0,
+              857.0
+            ],
+            [
+              621.0,
+              835.0
+            ],
+            [
+              615.0,
+              806.0
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Retained front12 manual LM outline, reprojected into the larger image grid; colour association reviewed against the full guide."
+        },
+        {
+          "id": "lidingo-tee-02-d-lm2025",
+          "pixels": [
+            [
+              300,
+              567
+            ],
+            [
+              311,
+              570
+            ],
+            [
+              323,
+              579
+            ],
+            [
+              332,
+              591
+            ],
+            [
+              336,
+              603
+            ],
+            [
+              332,
+              615
+            ],
+            [
+              323,
+              621
+            ],
+            [
+              312,
+              620
+            ],
+            [
+              302,
+              614
+            ],
+            [
+              294,
+              604
+            ],
+            [
+              289,
+              591
+            ],
+            [
+              291,
+              577
+            ]
+          ],
+          "uncertaintyMetres": 2.5,
+          "note": "Small partly tree-shaded yellow platform immediately north of the long uncoloured deck beside the diagonal path. Guide establishes the small-circle yellow association; visible south mowing edge constrains the outline."
+        },
+        {
+          "id": "lidingo-tee-02-e-lm2025",
+          "pixels": [
+            [
+              847.0,
+              1095.0
+            ],
+            [
+              861.0,
+              1087.0
+            ],
+            [
+              872.0,
+              1093.0
+            ],
+            [
+              882.0,
+              1108.0
+            ],
+            [
+              886.0,
+              1126.0
+            ],
+            [
+              880.0,
+              1139.0
+            ],
+            [
+              867.0,
+              1148.0
+            ],
+            [
+              856.0,
+              1142.0
+            ],
+            [
+              846.0,
+              1124.0
+            ],
+            [
+              847.0,
+              1095.0
+            ]
+          ],
+          "uncertaintyMetres": 2,
+          "note": "Small separate orange deck beside the east-side path, southeast of the blue/red oval, matched to the explicitly orange circle in the full H2 guide. Reuses the visible outline formerly misassociated with H4 white."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-02-a-lm2025",
+          "pixel": [
+            297.0,
+            390.0
+          ],
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified."
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-02-d-lm2025",
+          "pixel": [
+            313,
+            598
+          ],
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified.",
+          "uncertaintyMetres": 2.5
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-02-c-lm2025",
+          "pixel": [
+            642.0,
+            820.0
+          ],
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-02-c-lm2025",
+          "pixel": [
+            661.0,
+            844.0
+          ],
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified.",
+          "padId": "lidingo-tee-02-e-lm2025",
+          "pixel": [
+            860,
+            1115
+          ],
+          "uncertaintyMetres": 2
+        }
+      ],
+      "note": "Three tee decks progress southeast. The old northernmost adopted tee overlaps the neighbouring fairway tip; guide and photo instead identify the small deck beside the trees as white, the long deck by the diagonal path as yellow, and the southeast oval as blue/red. Orange start remains unresolved.",
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924725_Lidingo_2.webp",
+        "url": "https://banguider.se/lidingo-golfklubb/18-halsbanan",
+        "sha256": "c0e3f7c96e2303031a5e37022f0fd12e85cd659f8f629b55460a9c10f964ee64"
+      },
+      "overlayReview": {
+        "path": "lidingobuild/cache/lm-ortho/hole-02-forward-review-overlay.png",
+        "sha256": "82e31b5a483a5df0e9d99817f23283670079d3ff9ea61ad67aa57eaae5a3bf87",
+        "completed": true,
+        "checkedAt": "2026-09-09T21:04:01.586266+00:00",
+        "method": "Manual inspection of full rendered overlay against 2025 LM image and full club guide."
+      }
+    },
+    {
+      "hole": 4,
+      "image": {
+        "path": "lidingobuild/cache/lm-ortho/hole-04-tees-forward.png",
+        "sha256": "00be2d3eb5dfa6a4910592ba70b3ca579c0e0a7fecc7986dd06472b6484d02a2",
+        "sha256Content": "PNG file bytes",
+        "geoTransform": [
+          677680.0,
+          0.16,
+          0.0,
+          6586410.08,
+          0.0,
+          -0.16
+        ],
+        "width": 2032,
+        "height": 1938,
+        "resolutionMetres": 0.16,
+        "sourceIds": [
+          "o65850_6775_25_mr25"
+        ]
+      },
+      "pads": [
+        {
+          "id": "lidingo-tee-04-a-lm2025",
+          "pixels": [
+            [
+              1612.0,
+              1541.0
+            ],
+            [
+              1624.0,
+              1542.0
+            ],
+            [
+              1638.0,
+              1552.0
+            ],
+            [
+              1650.0,
+              1567.0
+            ],
+            [
+              1658.0,
+              1586.0
+            ],
+            [
+              1654.0,
+              1598.0
+            ],
+            [
+              1640.0,
+              1604.0
+            ],
+            [
+              1627.0,
+              1601.0
+            ],
+            [
+              1616.0,
+              1591.0
+            ],
+            [
+              1606.0,
+              1575.0
+            ],
+            [
+              1600.0,
+              1557.0
+            ],
+            [
+              1603.0,
+              1545.0
+            ]
+          ],
+          "uncertaintyMetres": 1.5,
+          "note": "True rear white H4 platform: separate oval immediately west of the eastern path. This replaces the baseline misassociation with the H2 orange deck across the wooded strip."
+        },
+        {
+          "id": "lidingo-tee-04-b-lm2025",
+          "pixels": [
+            [
+              1425.0,
+              1289.0
+            ],
+            [
+              1439.0,
+              1282.0
+            ],
+            [
+              1452.0,
+              1295.0
+            ],
+            [
+              1467.0,
+              1326.0
+            ],
+            [
+              1483.0,
+              1362.0
+            ],
+            [
+              1505.0,
+              1392.0
+            ],
+            [
+              1511.0,
+              1410.0
+            ],
+            [
+              1500.0,
+              1426.0
+            ],
+            [
+              1485.0,
+              1431.0
+            ],
+            [
+              1470.0,
+              1421.0
+            ],
+            [
+              1453.0,
+              1395.0
+            ],
+            [
+              1439.0,
+              1365.0
+            ],
+            [
+              1431.0,
+              1334.0
+            ],
+            [
+              1425.0,
+              1289.0
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Retained front12 manual LM outline, reprojected into the larger image grid; colour association reviewed against the full guide."
+        },
+        {
+          "id": "lidingo-tee-04-c-lm2025",
+          "pixels": [
+            [
+              1242.0,
+              1086.0
+            ],
+            [
+              1253.0,
+              1077.0
+            ],
+            [
+              1266.0,
+              1080.0
+            ],
+            [
+              1277.0,
+              1093.0
+            ],
+            [
+              1289.0,
+              1112.0
+            ],
+            [
+              1291.0,
+              1127.0
+            ],
+            [
+              1281.0,
+              1136.0
+            ],
+            [
+              1267.0,
+              1135.0
+            ],
+            [
+              1253.0,
+              1121.0
+            ],
+            [
+              1243.0,
+              1104.0
+            ],
+            [
+              1242.0,
+              1086.0
+            ]
+          ],
+          "uncertaintyMetres": 1,
+          "note": "Retained front12 manual LM outline, reprojected into the larger image grid; colour association reviewed against the full guide."
+        },
+        {
+          "id": "lidingo-tee-04-d-lm2025",
+          "pixels": [
+            [
+              664.0,
+              822.0
+            ],
+            [
+              681.0,
+              818.0
+            ],
+            [
+              697.0,
+              826.0
+            ],
+            [
+              713.0,
+              843.0
+            ],
+            [
+              724.0,
+              863.0
+            ],
+            [
+              722.0,
+              874.0
+            ],
+            [
+              707.0,
+              883.0
+            ],
+            [
+              688.0,
+              875.0
+            ],
+            [
+              673.0,
+              859.0
+            ],
+            [
+              663.0,
+              839.0
+            ],
+            [
+              664.0,
+              822.0
+            ]
+          ],
+          "uncertaintyMetres": 2,
+          "sharedPhysicalPlatformId": "lidingo-shared-tee-02-white-04-orange-lm2025",
+          "note": "Shared physical H2-white/H4-orange round platform at the southwest side of the H4 fairway tip. Full H4 guide shows the orange dot on this platform; full H2 guide shows white at the same platform relative to the adjacent yellow and spare deck."
+        }
+      ],
+      "marks": [
+        {
+          "colour": "white",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-04-a-lm2025",
+          "pixel": [
+            1632.0,
+            1581.0
+          ],
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified.",
+          "uncertaintyMetres": 2
+        },
+        {
+          "colour": "yellow",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-04-b-lm2025",
+          "pixel": [
+            1484.0,
+            1401.0
+          ],
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified."
+        },
+        {
+          "colour": "blue",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-04-b-lm2025",
+          "pixel": [
+            1447.0,
+            1323.0
+          ],
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified."
+        },
+        {
+          "colour": "red",
+          "status": "guide-and-orthophoto-associated",
+          "padId": "lidingo-tee-04-c-lm2025",
+          "pixel": [
+            1266.0,
+            1109.0
+          ],
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified."
+        },
+        {
+          "colour": "orange",
+          "status": "guide-and-orthophoto-associated",
+          "note": "Guide-associated representative position inside the physical platform; movable marker-pair location is unverified.",
+          "padId": "lidingo-tee-04-d-lm2025",
+          "pixel": [
+            687.0,
+            843.0
+          ],
+          "uncertaintyMetres": 2
+        }
+      ],
+      "note": "Three decks inside the eastern path: small rear white, elongated yellow/blue, northern red. The guide orange start lies farther ahead and is separately unresolved in this window.",
+      "guide": {
+        "path": "lidingobuild/reference/cache/club-2026-09-07/banguide-1777924725_Lidingo_4.webp",
+        "url": "https://banguider.se/lidingo-golfklubb/18-halsbanan",
+        "sha256": "afc1ef67db1b8e80b98a5b8221016ea91719844834fd53c180d3d057bc323c83"
+      },
+      "overlayReview": {
+        "path": "lidingobuild/cache/lm-ortho/hole-04-forward-review-overlay.png",
+        "sha256": "6c4ab09e749e7791cb4cea4f0c3ee3cdb0e3212d8119f4a9965c41273f6abc03",
+        "completed": true,
+        "checkedAt": "2026-09-09T21:04:01.586266+00:00",
+        "method": "Manual inspection of full rendered overlay against 2025 LM image and full club guide."
+      }
+    }
+  ],
+  "validation": {
+    "state": "passed",
+    "validSimplePolygons": 9,
+    "allMarksInsideAssociatedPads": 10,
+    "manuallyInspectedOverlays": 2
+  }
+}

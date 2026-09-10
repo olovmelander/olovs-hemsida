@@ -1,0 +1,4405 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "axisOrder": [
+    "easting",
+    "northing"
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "tortuna-practice-putting-green",
+      "properties": {
+        "kind": "practice_green",
+        "material": "grass",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "clubhouse-native",
+            "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98"
+          }
+        ],
+        "reviewGrid": {
+          "id": "clubhouse-native",
+          "file": "tortunabuild/cache/orthophoto/crops/clubhouse.png",
+          "boundsEpsg3006": [
+            597406.72,
+            6615011.5200000005,
+            597534.72,
+            6615139.5200000005
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*0.16,N=north-y*0.16",
+          "sourceWindows": [
+            "clubhouse-native"
+          ],
+          "displayResampling": "none; native0.16m",
+          "sha256": "f8d0c59fdef1ce532dd0696ed7608d20b0ac437730017e2eb4e7d9c8d07c6ebf"
+        },
+        "tracePixels": [
+          [
+            358,
+            103
+          ],
+          [
+            369,
+            92
+          ],
+          [
+            383,
+            90
+          ],
+          [
+            397,
+            96
+          ],
+          [
+            413,
+            110
+          ],
+          [
+            431,
+            129
+          ],
+          [
+            450,
+            148
+          ],
+          [
+            471,
+            173
+          ],
+          [
+            494,
+            199
+          ],
+          [
+            515,
+            224
+          ],
+          [
+            538,
+            252
+          ],
+          [
+            555,
+            276
+          ],
+          [
+            566,
+            299
+          ],
+          [
+            565,
+            317
+          ],
+          [
+            554,
+            331
+          ],
+          [
+            540,
+            338
+          ],
+          [
+            524,
+            338
+          ],
+          [
+            509,
+            330
+          ],
+          [
+            493,
+            317
+          ],
+          [
+            477,
+            299
+          ],
+          [
+            460,
+            280
+          ],
+          [
+            441,
+            260
+          ],
+          [
+            419,
+            240
+          ],
+          [
+            397,
+            219
+          ],
+          [
+            376,
+            201
+          ],
+          [
+            359,
+            183
+          ],
+          [
+            347,
+            169
+          ],
+          [
+            348,
+            152
+          ],
+          [
+            357,
+            137
+          ],
+          [
+            361,
+            121
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 2.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Long putting surface beside clubhouse, bounded by road and pedestrian path; northwestern edge partly shaded, so interpretation remains provisional.",
+        "areaSquareMetres": 576.7423999957949,
+        "roleEvidence": [
+          "club-photo-17",
+          "club-photo-65"
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597464.0,
+              6615123.04
+            ],
+            [
+              597465.76,
+              6615124.8
+            ],
+            [
+              597468.0,
+              6615125.12
+            ],
+            [
+              597470.24,
+              6615124.16
+            ],
+            [
+              597472.8,
+              6615121.92
+            ],
+            [
+              597475.68,
+              6615118.88
+            ],
+            [
+              597478.72,
+              6615115.84
+            ],
+            [
+              597482.08,
+              6615111.84
+            ],
+            [
+              597485.76,
+              6615107.68
+            ],
+            [
+              597489.12,
+              6615103.68
+            ],
+            [
+              597492.8,
+              6615099.2
+            ],
+            [
+              597495.52,
+              6615095.36
+            ],
+            [
+              597497.28,
+              6615091.68
+            ],
+            [
+              597497.12,
+              6615088.8
+            ],
+            [
+              597495.36,
+              6615086.56
+            ],
+            [
+              597493.12,
+              6615085.44
+            ],
+            [
+              597490.56,
+              6615085.44
+            ],
+            [
+              597488.16,
+              6615086.72
+            ],
+            [
+              597485.6,
+              6615088.8
+            ],
+            [
+              597483.04,
+              6615091.68
+            ],
+            [
+              597480.32,
+              6615094.72
+            ],
+            [
+              597477.28,
+              6615097.92
+            ],
+            [
+              597473.76,
+              6615101.12
+            ],
+            [
+              597470.24,
+              6615104.48
+            ],
+            [
+              597466.88,
+              6615107.36
+            ],
+            [
+              597464.16,
+              6615110.24
+            ],
+            [
+              597462.24,
+              6615112.48
+            ],
+            [
+              597462.4,
+              6615115.2
+            ],
+            [
+              597463.84,
+              6615117.6
+            ],
+            [
+              597464.48,
+              6615120.16
+            ],
+            [
+              597464.0,
+              6615123.04
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-grassed-front",
+      "properties": {
+        "kind": "range_field",
+        "material": "grass",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "facilities-main",
+          "file": "tortunabuild/cache/mapping-review/facilities-main.png",
+          "boundsEpsg3006": [
+            597280,
+            6614930,
+            597760,
+            6615410
+          ],
+          "width": 1200,
+          "height": 1200,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "fe95faaeb07b69832fe867dc906bd56bd3370c31a7ed3e297c100a5357545804"
+        },
+        "tracePixels": [
+          [
+            368,
+            396
+          ],
+          [
+            397,
+            385
+          ],
+          [
+            430,
+            390
+          ],
+          [
+            463,
+            403
+          ],
+          [
+            491,
+            419
+          ],
+          [
+            523,
+            430
+          ],
+          [
+            558,
+            437
+          ],
+          [
+            586,
+            438
+          ],
+          [
+            616,
+            437
+          ],
+          [
+            643,
+            445
+          ],
+          [
+            674,
+            449
+          ],
+          [
+            662,
+            461
+          ],
+          [
+            636,
+            480
+          ],
+          [
+            610,
+            501
+          ],
+          [
+            583,
+            521
+          ],
+          [
+            553,
+            548
+          ],
+          [
+            530,
+            568
+          ],
+          [
+            500,
+            579
+          ],
+          [
+            477,
+            568
+          ],
+          [
+            451,
+            542
+          ],
+          [
+            428,
+            513
+          ],
+          [
+            407,
+            482
+          ],
+          [
+            389,
+            452
+          ],
+          [
+            378,
+            425
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 4,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Visibly grassed southern portion of the current range only. Northern pale worn/earth-like area is excluded; no full-range mowing boundary claim.",
+        "areaSquareMetres": 4680.320000014194,
+        "roleEvidence": [
+          "caddee-overview"
+        ],
+        "coverageStatus": "partial-visible-grass-only"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597427.2,
+              6615251.6
+            ],
+            [
+              597438.8,
+              6615256.0
+            ],
+            [
+              597452.0,
+              6615254.0
+            ],
+            [
+              597465.2,
+              6615248.8
+            ],
+            [
+              597476.4,
+              6615242.4
+            ],
+            [
+              597489.2,
+              6615238.0
+            ],
+            [
+              597503.2,
+              6615235.2
+            ],
+            [
+              597514.4,
+              6615234.8
+            ],
+            [
+              597526.4,
+              6615235.2
+            ],
+            [
+              597537.2,
+              6615232.0
+            ],
+            [
+              597549.6,
+              6615230.4
+            ],
+            [
+              597544.8,
+              6615225.6
+            ],
+            [
+              597534.4,
+              6615218.0
+            ],
+            [
+              597524.0,
+              6615209.6
+            ],
+            [
+              597513.2,
+              6615201.6
+            ],
+            [
+              597501.2,
+              6615190.8
+            ],
+            [
+              597492.0,
+              6615182.8
+            ],
+            [
+              597480.0,
+              6615178.4
+            ],
+            [
+              597470.8,
+              6615182.8
+            ],
+            [
+              597460.4,
+              6615193.2
+            ],
+            [
+              597451.2,
+              6615204.8
+            ],
+            [
+              597442.8,
+              6615217.2
+            ],
+            [
+              597435.6,
+              6615229.2
+            ],
+            [
+              597431.2,
+              6615240.0
+            ],
+            [
+              597427.2,
+              6615251.6
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-target-middle",
+      "properties": {
+        "kind": "range_target",
+        "material": "turf",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            425,
+            298
+          ],
+          [
+            444,
+            300
+          ],
+          [
+            459,
+            312
+          ],
+          [
+            468,
+            329
+          ],
+          [
+            474,
+            345
+          ],
+          [
+            467,
+            358
+          ],
+          [
+            451,
+            363
+          ],
+          [
+            434,
+            359
+          ],
+          [
+            420,
+            348
+          ],
+          [
+            410,
+            333
+          ],
+          [
+            407,
+            318
+          ],
+          [
+            414,
+            305
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Distinct oval green range target; natural versus synthetic turf unresolved.",
+        "areaSquareMetres": 120.8599999966775
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597485.0,
+              6615230.4
+            ],
+            [
+              597488.8,
+              6615230.0
+            ],
+            [
+              597491.8,
+              6615227.6
+            ],
+            [
+              597493.6,
+              6615224.2
+            ],
+            [
+              597494.8,
+              6615221.0
+            ],
+            [
+              597493.4,
+              6615218.4
+            ],
+            [
+              597490.2,
+              6615217.4
+            ],
+            [
+              597486.8,
+              6615218.2
+            ],
+            [
+              597484.0,
+              6615220.4
+            ],
+            [
+              597482.0,
+              6615223.4
+            ],
+            [
+              597481.4,
+              6615226.4
+            ],
+            [
+              597482.8,
+              6615229.0
+            ],
+            [
+              597485.0,
+              6615230.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-target-front",
+      "properties": {
+        "kind": "range_target",
+        "material": "turf",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            401,
+            441
+          ],
+          [
+            414,
+            437
+          ],
+          [
+            428,
+            443
+          ],
+          [
+            438,
+            455
+          ],
+          [
+            445,
+            473
+          ],
+          [
+            440,
+            485
+          ],
+          [
+            431,
+            491
+          ],
+          [
+            417,
+            490
+          ],
+          [
+            405,
+            482
+          ],
+          [
+            397,
+            470
+          ],
+          [
+            392,
+            458
+          ],
+          [
+            394,
+            448
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Distinct smaller oval green range target; natural versus synthetic turf unresolved.",
+        "areaSquareMetres": 79.66000000070548
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597480.2,
+              6615201.8
+            ],
+            [
+              597482.8,
+              6615202.6
+            ],
+            [
+              597485.6,
+              6615201.4
+            ],
+            [
+              597487.6,
+              6615199.0
+            ],
+            [
+              597489.0,
+              6615195.4
+            ],
+            [
+              597488.0,
+              6615193.0
+            ],
+            [
+              597486.2,
+              6615191.8
+            ],
+            [
+              597483.4,
+              6615192.0
+            ],
+            [
+              597481.0,
+              6615193.6
+            ],
+            [
+              597479.4,
+              6615196.0
+            ],
+            [
+              597478.4,
+              6615198.4
+            ],
+            [
+              597478.8,
+              6615200.4
+            ],
+            [
+              597480.2,
+              6615201.8
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-target-back",
+      "properties": {
+        "kind": "range_target",
+        "material": "turf",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            647,
+            149
+          ],
+          [
+            660,
+            141
+          ],
+          [
+            677,
+            145
+          ],
+          [
+            688,
+            160
+          ],
+          [
+            702,
+            182
+          ],
+          [
+            717,
+            204
+          ],
+          [
+            728,
+            218
+          ],
+          [
+            725,
+            230
+          ],
+          [
+            712,
+            235
+          ],
+          [
+            698,
+            230
+          ],
+          [
+            684,
+            214
+          ],
+          [
+            671,
+            193
+          ],
+          [
+            658,
+            177
+          ],
+          [
+            649,
+            167
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Rectangular/rounded green target inset in a broad grey margin; natural versus synthetic turf unresolved.",
+        "areaSquareMetres": 134.73999999910825
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597529.4,
+              6615260.2
+            ],
+            [
+              597532.0,
+              6615261.8
+            ],
+            [
+              597535.4,
+              6615261.0
+            ],
+            [
+              597537.6,
+              6615258.0
+            ],
+            [
+              597540.4,
+              6615253.6
+            ],
+            [
+              597543.4,
+              6615249.2
+            ],
+            [
+              597545.6,
+              6615246.4
+            ],
+            [
+              597545.0,
+              6615244.0
+            ],
+            [
+              597542.4,
+              6615243.0
+            ],
+            [
+              597539.6,
+              6615244.0
+            ],
+            [
+              597536.8,
+              6615247.2
+            ],
+            [
+              597534.2,
+              6615251.4
+            ],
+            [
+              597531.6,
+              6615254.6
+            ],
+            [
+              597529.8,
+              6615256.6
+            ],
+            [
+              597529.4,
+              6615260.2
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-01",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            114,
+            347
+          ],
+          [
+            120,
+            342
+          ],
+          [
+            129,
+            351
+          ],
+          [
+            123,
+            357
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.260000000065193
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597422.8,
+              6615220.6
+            ],
+            [
+              597424.0,
+              6615221.6
+            ],
+            [
+              597425.8,
+              6615219.8
+            ],
+            [
+              597424.6,
+              6615218.6
+            ],
+            [
+              597422.8,
+              6615220.6
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-02",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            126,
+            360
+          ],
+          [
+            132,
+            355
+          ],
+          [
+            141,
+            364
+          ],
+          [
+            135,
+            371
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.56000000034459
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597425.2,
+              6615218.0
+            ],
+            [
+              597426.4,
+              6615219.0
+            ],
+            [
+              597428.2,
+              6615217.2
+            ],
+            [
+              597427.0,
+              6615215.8
+            ],
+            [
+              597425.2,
+              6615218.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-03",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            137,
+            373
+          ],
+          [
+            144,
+            368
+          ],
+          [
+            152,
+            377
+          ],
+          [
+            146,
+            384
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.640000000167638
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597427.4,
+              6615215.4
+            ],
+            [
+              597428.8,
+              6615216.4
+            ],
+            [
+              597430.4,
+              6615214.6
+            ],
+            [
+              597429.2,
+              6615213.2
+            ],
+            [
+              597427.4,
+              6615215.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-04",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            148,
+            387
+          ],
+          [
+            154,
+            381
+          ],
+          [
+            163,
+            391
+          ],
+          [
+            157,
+            398
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.859999999227003
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597429.6,
+              6615212.6
+            ],
+            [
+              597430.8,
+              6615213.8
+            ],
+            [
+              597432.6,
+              6615211.8
+            ],
+            [
+              597431.4,
+              6615210.4
+            ],
+            [
+              597429.6,
+              6615212.6
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-05",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            160,
+            399
+          ],
+          [
+            166,
+            394
+          ],
+          [
+            174,
+            403
+          ],
+          [
+            168,
+            410
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.3200000003632155
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597432.0,
+              6615210.2
+            ],
+            [
+              597433.2,
+              6615211.2
+            ],
+            [
+              597434.8,
+              6615209.4
+            ],
+            [
+              597433.6,
+              6615208.0
+            ],
+            [
+              597432.0,
+              6615210.2
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-06",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            171,
+            413
+          ],
+          [
+            177,
+            408
+          ],
+          [
+            186,
+            417
+          ],
+          [
+            180,
+            425
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.86000000034459
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597434.2,
+              6615207.4
+            ],
+            [
+              597435.4,
+              6615208.4
+            ],
+            [
+              597437.2,
+              6615206.6
+            ],
+            [
+              597436.0,
+              6615205.0
+            ],
+            [
+              597434.2,
+              6615207.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-07",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            183,
+            426
+          ],
+          [
+            190,
+            422
+          ],
+          [
+            197,
+            431
+          ],
+          [
+            191,
+            438
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.379999999054707
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597436.6,
+              6615204.8
+            ],
+            [
+              597438.0,
+              6615205.6
+            ],
+            [
+              597439.4,
+              6615203.8
+            ],
+            [
+              597438.2,
+              6615202.4
+            ],
+            [
+              597436.6,
+              6615204.8
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-08",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            195,
+            440
+          ],
+          [
+            201,
+            435
+          ],
+          [
+            210,
+            445
+          ],
+          [
+            204,
+            452
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.800000000512227
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597439.0,
+              6615202.0
+            ],
+            [
+              597440.2,
+              6615203.0
+            ],
+            [
+              597442.0,
+              6615201.0
+            ],
+            [
+              597440.8,
+              6615199.6
+            ],
+            [
+              597439.0,
+              6615202.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-09",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            207,
+            453
+          ],
+          [
+            213,
+            448
+          ],
+          [
+            221,
+            458
+          ],
+          [
+            215,
+            465
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.560000000391155
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597441.4,
+              6615199.4
+            ],
+            [
+              597442.6,
+              6615200.4
+            ],
+            [
+              597444.2,
+              6615198.4
+            ],
+            [
+              597443.0,
+              6615197.0
+            ],
+            [
+              597441.4,
+              6615199.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-10",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            218,
+            467
+          ],
+          [
+            224,
+            462
+          ],
+          [
+            233,
+            471
+          ],
+          [
+            227,
+            479
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 4.859999999227003
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597443.6,
+              6615196.6
+            ],
+            [
+              597444.8,
+              6615197.6
+            ],
+            [
+              597446.6,
+              6615195.8
+            ],
+            [
+              597445.4,
+              6615194.2
+            ],
+            [
+              597443.6,
+              6615196.6
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-11",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            230,
+            481
+          ],
+          [
+            236,
+            475
+          ],
+          [
+            245,
+            486
+          ],
+          [
+            239,
+            493
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 5.09999999939464
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597446.0,
+              6615193.8
+            ],
+            [
+              597447.2,
+              6615195.0
+            ],
+            [
+              597449.0,
+              6615192.8
+            ],
+            [
+              597447.8,
+              6615191.4
+            ],
+            [
+              597446.0,
+              6615193.8
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-12",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            241,
+            494
+          ],
+          [
+            247,
+            489
+          ],
+          [
+            257,
+            499
+          ],
+          [
+            250,
+            506
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 5.140000000726432
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597448.2,
+              6615191.2
+            ],
+            [
+              597449.4,
+              6615192.2
+            ],
+            [
+              597451.4,
+              6615190.2
+            ],
+            [
+              597450.0,
+              6615188.8
+            ],
+            [
+              597448.2,
+              6615191.2
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-13",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            253,
+            508
+          ],
+          [
+            259,
+            502
+          ],
+          [
+            269,
+            512
+          ],
+          [
+            262,
+            519
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 5.199999999010469
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597450.6,
+              6615188.4
+            ],
+            [
+              597451.8,
+              6615189.6
+            ],
+            [
+              597453.8,
+              6615187.6
+            ],
+            [
+              597452.4,
+              6615186.2
+            ],
+            [
+              597450.6,
+              6615188.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-14",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            265,
+            521
+          ],
+          [
+            271,
+            516
+          ],
+          [
+            281,
+            526
+          ],
+          [
+            274,
+            533
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 5.139999998980202
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597453.0,
+              6615185.8
+            ],
+            [
+              597454.2,
+              6615186.8
+            ],
+            [
+              597456.2,
+              6615184.8
+            ],
+            [
+              597454.8,
+              6615183.4
+            ],
+            [
+              597453.0,
+              6615185.8
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-15",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            277,
+            535
+          ],
+          [
+            284,
+            530
+          ],
+          [
+            293,
+            540
+          ],
+          [
+            286,
+            547
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 5.24000000056345
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597455.4,
+              6615183.0
+            ],
+            [
+              597456.8,
+              6615184.0
+            ],
+            [
+              597458.6,
+              6615182.0
+            ],
+            [
+              597457.2,
+              6615180.6
+            ],
+            [
+              597455.4,
+              6615183.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-16",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            289,
+            548
+          ],
+          [
+            296,
+            543
+          ],
+          [
+            306,
+            553
+          ],
+          [
+            299,
+            560
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 5.480000000428408
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597457.8,
+              6615180.4
+            ],
+            [
+              597459.2,
+              6615181.4
+            ],
+            [
+              597461.2,
+              6615179.4
+            ],
+            [
+              597459.8,
+              6615178.0
+            ],
+            [
+              597457.8,
+              6615180.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-hitting-mat-17",
+      "properties": {
+        "kind": "range_tee_pad",
+        "material": "unverified-turf-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            301,
+            562
+          ],
+          [
+            308,
+            556
+          ],
+          [
+            317,
+            567
+          ],
+          [
+            310,
+            574
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 0.6,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Individually visible green hitting mat; approximate pixel boundary. Equipment type, precise dimensions and material specification remain unverified.",
+        "areaSquareMetres": 5.55999999951804
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597460.2,
+              6615177.6
+            ],
+            [
+              597461.6,
+              6615178.8
+            ],
+            [
+              597463.4,
+              6615176.6
+            ],
+            [
+              597462.0,
+              6615175.2
+            ],
+            [
+              597460.2,
+              6615177.6
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-access-strip",
+      "properties": {
+        "kind": "paved_path",
+        "material": "unverified-hard-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            104,
+            315
+          ],
+          [
+            114,
+            326
+          ],
+          [
+            142,
+            362
+          ],
+          [
+            175,
+            403
+          ],
+          [
+            214,
+            450
+          ],
+          [
+            247,
+            489
+          ],
+          [
+            286,
+            531
+          ],
+          [
+            327,
+            571
+          ],
+          [
+            351,
+            583
+          ],
+          [
+            359,
+            597
+          ],
+          [
+            346,
+            607
+          ],
+          [
+            323,
+            593
+          ],
+          [
+            280,
+            553
+          ],
+          [
+            239,
+            508
+          ],
+          [
+            198,
+            461
+          ],
+          [
+            160,
+            414
+          ],
+          [
+            127,
+            372
+          ],
+          [
+            107,
+            342
+          ],
+          [
+            98,
+            326
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Light aggregate-looking range access and hitting strip. Surface specification unverified. Observed mats remain excluded from the hard material.",
+        "areaSquareMetres": 200.4705415152288,
+        "excludedMatIds": [
+          "tortuna-range-hitting-mat-01",
+          "tortuna-range-hitting-mat-02",
+          "tortuna-range-hitting-mat-03",
+          "tortuna-range-hitting-mat-04",
+          "tortuna-range-hitting-mat-05",
+          "tortuna-range-hitting-mat-06",
+          "tortuna-range-hitting-mat-07",
+          "tortuna-range-hitting-mat-08",
+          "tortuna-range-hitting-mat-09",
+          "tortuna-range-hitting-mat-10",
+          "tortuna-range-hitting-mat-11",
+          "tortuna-range-hitting-mat-12",
+          "tortuna-range-hitting-mat-13",
+          "tortuna-range-hitting-mat-14",
+          "tortuna-range-hitting-mat-15",
+          "tortuna-range-hitting-mat-16",
+          "tortuna-range-hitting-mat-17"
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597422.8,
+              6615224.8
+            ],
+            [
+              597428.4,
+              6615217.6
+            ],
+            [
+              597435.0,
+              6615209.4
+            ],
+            [
+              597441.6181818194,
+              6615201.424242423
+            ],
+            [
+              597440.2,
+              6615203.0
+            ],
+            [
+              597439.0,
+              6615202.0
+            ],
+            [
+              597440.8,
+              6615199.6
+            ],
+            [
+              597441.9848648648,
+              6615200.982342343
+            ],
+            [
+              597442.5220125784,
+              6615200.335010482
+            ],
+            [
+              597441.4,
+              6615199.4
+            ],
+            [
+              597443.0,
+              6615197.0
+            ],
+            [
+              597444.1767741934,
+              6615198.372903226
+            ],
+            [
+              597445.0000000023,
+              6615197.399999998
+            ],
+            [
+              597444.8,
+              6615197.6
+            ],
+            [
+              597443.6,
+              6615196.6
+            ],
+            [
+              597445.4,
+              6615194.2
+            ],
+            [
+              597446.4843373495,
+              6615195.645783133
+            ],
+            [
+              597447.1083333334,
+              6615194.908333333
+            ],
+            [
+              597446.0,
+              6615193.8
+            ],
+            [
+              597447.8,
+              6615191.4
+            ],
+            [
+              597448.9458064517,
+              6615192.736774193
+            ],
+            [
+              597449.4,
+              6615192.2
+            ],
+            [
+              597448.2,
+              6615191.2
+            ],
+            [
+              597450.0,
+              6615188.8
+            ],
+            [
+              597451.3259259259,
+              6615190.1259259265
+            ],
+            [
+              597452.000000005,
+              6615189.399999995
+            ],
+            [
+              597451.8,
+              6615189.6
+            ],
+            [
+              597450.6,
+              6615188.4
+            ],
+            [
+              597452.4,
+              6615186.2
+            ],
+            [
+              597453.7333333335,
+              6615187.533333333
+            ],
+            [
+              597457.2,
+              6615183.8
+            ],
+            [
+              597465.4,
+              6615175.8
+            ],
+            [
+              597470.2,
+              6615173.4
+            ],
+            [
+              597471.8,
+              6615170.6
+            ],
+            [
+              597469.2,
+              6615168.6
+            ],
+            [
+              597464.6,
+              6615171.4
+            ],
+            [
+              597456.0,
+              6615179.4
+            ],
+            [
+              597447.8,
+              6615188.4
+            ],
+            [
+              597439.6,
+              6615197.8
+            ],
+            [
+              597432.0,
+              6615207.2
+            ],
+            [
+              597425.4,
+              6615215.6
+            ],
+            [
+              597421.4,
+              6615221.6
+            ],
+            [
+              597419.6,
+              6615224.8
+            ],
+            [
+              597420.8,
+              6615227.0
+            ],
+            [
+              597422.8,
+              6615224.8
+            ]
+          ],
+          [
+            [
+              597438.2,
+              6615202.4
+            ],
+            [
+              597439.4,
+              6615203.8
+            ],
+            [
+              597438.0,
+              6615205.6
+            ],
+            [
+              597436.6,
+              6615204.8
+            ],
+            [
+              597438.2,
+              6615202.4
+            ]
+          ],
+          [
+            [
+              597436.0,
+              6615205.0
+            ],
+            [
+              597437.2,
+              6615206.6
+            ],
+            [
+              597435.4,
+              6615208.4
+            ],
+            [
+              597434.2,
+              6615207.4
+            ],
+            [
+              597436.0,
+              6615205.0
+            ]
+          ],
+          [
+            [
+              597433.6,
+              6615208.0
+            ],
+            [
+              597434.8,
+              6615209.4
+            ],
+            [
+              597433.2,
+              6615211.2
+            ],
+            [
+              597432.0,
+              6615210.2
+            ],
+            [
+              597433.6,
+              6615208.0
+            ]
+          ],
+          [
+            [
+              597431.4,
+              6615210.4
+            ],
+            [
+              597432.6,
+              6615211.8
+            ],
+            [
+              597430.8,
+              6615213.8
+            ],
+            [
+              597429.6,
+              6615212.6
+            ],
+            [
+              597431.4,
+              6615210.4
+            ]
+          ],
+          [
+            [
+              597429.2,
+              6615213.2
+            ],
+            [
+              597430.4,
+              6615214.6
+            ],
+            [
+              597428.8,
+              6615216.4
+            ],
+            [
+              597427.4,
+              6615215.4
+            ],
+            [
+              597429.2,
+              6615213.2
+            ]
+          ],
+          [
+            [
+              597427.0,
+              6615215.8
+            ],
+            [
+              597428.2,
+              6615217.2
+            ],
+            [
+              597426.4,
+              6615219.0
+            ],
+            [
+              597425.2,
+              6615218.0
+            ],
+            [
+              597427.0,
+              6615215.8
+            ]
+          ],
+          [
+            [
+              597424.6,
+              6615218.6
+            ],
+            [
+              597425.8,
+              6615219.8
+            ],
+            [
+              597424.0,
+              6615221.6
+            ],
+            [
+              597422.8,
+              6615220.6
+            ],
+            [
+              597424.6,
+              6615218.6
+            ]
+          ],
+          [
+            [
+              597462.0,
+              6615175.2
+            ],
+            [
+              597463.4,
+              6615176.6
+            ],
+            [
+              597461.6,
+              6615178.8
+            ],
+            [
+              597460.2,
+              6615177.6
+            ],
+            [
+              597462.0,
+              6615175.2
+            ]
+          ],
+          [
+            [
+              597459.8,
+              6615178.0
+            ],
+            [
+              597461.2,
+              6615179.4
+            ],
+            [
+              597459.2,
+              6615181.4
+            ],
+            [
+              597457.8,
+              6615180.4
+            ],
+            [
+              597459.8,
+              6615178.0
+            ]
+          ],
+          [
+            [
+              597457.2,
+              6615180.6
+            ],
+            [
+              597458.6,
+              6615182.0
+            ],
+            [
+              597456.8,
+              6615184.0
+            ],
+            [
+              597455.4,
+              6615183.0
+            ],
+            [
+              597457.2,
+              6615180.6
+            ]
+          ],
+          [
+            [
+              597454.8,
+              6615183.4
+            ],
+            [
+              597456.2,
+              6615184.8
+            ],
+            [
+              597454.2,
+              6615186.8
+            ],
+            [
+              597453.0,
+              6615185.8
+            ],
+            [
+              597454.8,
+              6615183.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-shelter",
+      "properties": {
+        "kind": "range_shelter",
+        "material": "unverified-roof-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            369,
+            578
+          ],
+          [
+            395,
+            599
+          ],
+          [
+            374,
+            625
+          ],
+          [
+            348,
+            602
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "White roof of the small range shelter directly beside the front practice bunker. Roof footprint is observed; height and supporting structure are unmeasured.",
+        "areaSquareMetres": 44.48000000213972,
+        "displayHeightMetres": 2.8,
+        "heightStatus": "display-estimate-not-measured",
+        "roofColour": "white",
+        "buildingKind": "roof"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597473.8,
+              6615174.4
+            ],
+            [
+              597479.0,
+              6615170.2
+            ],
+            [
+              597474.8,
+              6615165.0
+            ],
+            [
+              597469.6,
+              6615169.6
+            ],
+            [
+              597473.8,
+              6615174.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-practice-bunker",
+      "properties": {
+        "kind": "practice_bunker",
+        "material": "sand",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "range-front",
+          "file": "tortunabuild/cache/mapping-review/range-front.png",
+          "boundsEpsg3006": [
+            597400,
+            6615130,
+            597560,
+            6615290
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "4a819ed001fd8547d4186769a1e0d96a60ccbfa9c36176a749198f4ab4678d3f"
+        },
+        "tracePixels": [
+          [
+            416,
+            586
+          ],
+          [
+            438,
+            580
+          ],
+          [
+            456,
+            582
+          ],
+          [
+            470,
+            596
+          ],
+          [
+            479,
+            614
+          ],
+          [
+            482,
+            634
+          ],
+          [
+            476,
+            647
+          ],
+          [
+            461,
+            652
+          ],
+          [
+            437,
+            655
+          ],
+          [
+            414,
+            660
+          ],
+          [
+            396,
+            657
+          ],
+          [
+            389,
+            648
+          ],
+          [
+            391,
+            627
+          ],
+          [
+            400,
+            605
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Clearly visible sand training bunker beside the range shelter; preserved as a separate training surface.",
+        "areaSquareMetres": 224.74000000073804
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597483.2,
+              6615172.8
+            ],
+            [
+              597487.6,
+              6615174.0
+            ],
+            [
+              597491.2,
+              6615173.6
+            ],
+            [
+              597494.0,
+              6615170.8
+            ],
+            [
+              597495.8,
+              6615167.2
+            ],
+            [
+              597496.4,
+              6615163.2
+            ],
+            [
+              597495.2,
+              6615160.6
+            ],
+            [
+              597492.2,
+              6615159.6
+            ],
+            [
+              597487.4,
+              6615159.0
+            ],
+            [
+              597482.8,
+              6615158.0
+            ],
+            [
+              597479.2,
+              6615158.6
+            ],
+            [
+              597477.8,
+              6615160.4
+            ],
+            [
+              597478.2,
+              6615164.6
+            ],
+            [
+              597480.0,
+              6615169.0
+            ],
+            [
+              597483.2,
+              6615172.8
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-main-carpark",
+      "properties": {
+        "kind": "parking",
+        "material": "asphalt",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "carpark",
+          "file": "tortunabuild/cache/mapping-review/carpark.png",
+          "boundsEpsg3006": [
+            597360,
+            6615060,
+            597520,
+            6615220
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "nearest from0.32m",
+          "sha256": "22c7dedd1a45cfb762e09cdcb5ae7e393921028e524b1b8b86c142da6e2a5321"
+        },
+        "tracePixels": [
+          [
+            270,
+            170
+          ],
+          [
+            300,
+            186
+          ],
+          [
+            330,
+            208
+          ],
+          [
+            359,
+            231
+          ],
+          [
+            388,
+            252
+          ],
+          [
+            412,
+            270
+          ],
+          [
+            437,
+            284
+          ],
+          [
+            445,
+            294
+          ],
+          [
+            442,
+            308
+          ],
+          [
+            446,
+            323
+          ],
+          [
+            456,
+            334
+          ],
+          [
+            469,
+            337
+          ],
+          [
+            479,
+            334
+          ],
+          [
+            488,
+            327
+          ],
+          [
+            487,
+            312
+          ],
+          [
+            505,
+            324
+          ],
+          [
+            526,
+            342
+          ],
+          [
+            545,
+            350
+          ],
+          [
+            559,
+            363
+          ],
+          [
+            540,
+            382
+          ],
+          [
+            510,
+            410
+          ],
+          [
+            479,
+            445
+          ],
+          [
+            445,
+            480
+          ],
+          [
+            420,
+            512
+          ],
+          [
+            394,
+            537
+          ],
+          [
+            375,
+            565
+          ],
+          [
+            361,
+            584
+          ],
+          [
+            342,
+            576
+          ],
+          [
+            337,
+            554
+          ],
+          [
+            307,
+            534
+          ],
+          [
+            277,
+            516
+          ],
+          [
+            247,
+            497
+          ],
+          [
+            220,
+            480
+          ],
+          [
+            190,
+            462
+          ],
+          [
+            159,
+            438
+          ],
+          [
+            134,
+            417
+          ],
+          [
+            119,
+            397
+          ],
+          [
+            100,
+            383
+          ],
+          [
+            88,
+            368
+          ],
+          [
+            90,
+            350
+          ],
+          [
+            104,
+            335
+          ],
+          [
+            131,
+            307
+          ],
+          [
+            162,
+            275
+          ],
+          [
+            191,
+            244
+          ],
+          [
+            221,
+            214
+          ],
+          [
+            247,
+            188
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Continuous dark carpark surface with visible bay markings; asphalt is a visual material interpretation. Eastern landscaped indentation remains outside the surface.",
+        "areaSquareMetres": 3928.6000000074037
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597414.0,
+              6615186.0
+            ],
+            [
+              597420.0,
+              6615182.8
+            ],
+            [
+              597426.0,
+              6615178.4
+            ],
+            [
+              597431.8,
+              6615173.8
+            ],
+            [
+              597437.6,
+              6615169.6
+            ],
+            [
+              597442.4,
+              6615166.0
+            ],
+            [
+              597447.4,
+              6615163.2
+            ],
+            [
+              597449.0,
+              6615161.2
+            ],
+            [
+              597448.4,
+              6615158.4
+            ],
+            [
+              597449.2,
+              6615155.4
+            ],
+            [
+              597451.2,
+              6615153.2
+            ],
+            [
+              597453.8,
+              6615152.6
+            ],
+            [
+              597455.8,
+              6615153.2
+            ],
+            [
+              597457.6,
+              6615154.6
+            ],
+            [
+              597457.4,
+              6615157.6
+            ],
+            [
+              597461.0,
+              6615155.2
+            ],
+            [
+              597465.2,
+              6615151.6
+            ],
+            [
+              597469.0,
+              6615150.0
+            ],
+            [
+              597471.8,
+              6615147.4
+            ],
+            [
+              597468.0,
+              6615143.6
+            ],
+            [
+              597462.0,
+              6615138.0
+            ],
+            [
+              597455.8,
+              6615131.0
+            ],
+            [
+              597449.0,
+              6615124.0
+            ],
+            [
+              597444.0,
+              6615117.6
+            ],
+            [
+              597438.8,
+              6615112.6
+            ],
+            [
+              597435.0,
+              6615107.0
+            ],
+            [
+              597432.2,
+              6615103.2
+            ],
+            [
+              597428.4,
+              6615104.8
+            ],
+            [
+              597427.4,
+              6615109.2
+            ],
+            [
+              597421.4,
+              6615113.2
+            ],
+            [
+              597415.4,
+              6615116.8
+            ],
+            [
+              597409.4,
+              6615120.6
+            ],
+            [
+              597404.0,
+              6615124.0
+            ],
+            [
+              597398.0,
+              6615127.6
+            ],
+            [
+              597391.8,
+              6615132.4
+            ],
+            [
+              597386.8,
+              6615136.6
+            ],
+            [
+              597383.8,
+              6615140.6
+            ],
+            [
+              597380.0,
+              6615143.4
+            ],
+            [
+              597377.6,
+              6615146.4
+            ],
+            [
+              597378.0,
+              6615150.0
+            ],
+            [
+              597380.8,
+              6615153.0
+            ],
+            [
+              597386.2,
+              6615158.6
+            ],
+            [
+              597392.4,
+              6615165.0
+            ],
+            [
+              597398.2,
+              6615171.2
+            ],
+            [
+              597404.2,
+              6615177.2
+            ],
+            [
+              597409.4,
+              6615182.4
+            ],
+            [
+              597414.0,
+              6615186.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-clubhouse-to-practice-path",
+      "properties": {
+        "kind": "paved_path",
+        "material": "unverified-hard-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "clubhouse-native",
+            "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98"
+          }
+        ],
+        "reviewGrid": {
+          "id": "clubhouse-native",
+          "file": "tortunabuild/cache/orthophoto/crops/clubhouse.png",
+          "boundsEpsg3006": [
+            597406.72,
+            6615011.5200000005,
+            597534.72,
+            6615139.5200000005
+          ],
+          "width": 800,
+          "height": 800,
+          "pixelMeaning": "edge; E=west+x*0.16,N=north-y*0.16",
+          "sourceWindows": [
+            "clubhouse-native"
+          ],
+          "displayResampling": "none; native0.16m",
+          "sha256": "f8d0c59fdef1ce532dd0696ed7608d20b0ac437730017e2eb4e7d9c8d07c6ebf"
+        },
+        "tracePixels": [
+          [
+            235,
+            172
+          ],
+          [
+            247,
+            170
+          ],
+          [
+            257,
+            192
+          ],
+          [
+            265,
+            223
+          ],
+          [
+            272,
+            263
+          ],
+          [
+            277,
+            308
+          ],
+          [
+            279,
+            338
+          ],
+          [
+            269,
+            343
+          ],
+          [
+            268,
+            313
+          ],
+          [
+            263,
+            273
+          ],
+          [
+            255,
+            233
+          ],
+          [
+            246,
+            200
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Curved light path between parking and clubhouse beside the flag lawn, traced by both visible margins.",
+        "areaSquareMetres": 49.152000000972315
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597444.32,
+              6615112.0
+            ],
+            [
+              597446.24,
+              6615112.32
+            ],
+            [
+              597447.84,
+              6615108.8
+            ],
+            [
+              597449.12,
+              6615103.84
+            ],
+            [
+              597450.24,
+              6615097.44
+            ],
+            [
+              597451.04,
+              6615090.24
+            ],
+            [
+              597451.36,
+              6615085.44
+            ],
+            [
+              597449.76,
+              6615084.64
+            ],
+            [
+              597449.6,
+              6615089.44
+            ],
+            [
+              597448.8,
+              6615095.84
+            ],
+            [
+              597447.52,
+              6615102.24
+            ],
+            [
+              597446.08,
+              6615107.52
+            ],
+            [
+              597444.32,
+              6615112.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-clubhouse-pond-path",
+      "properties": {
+        "kind": "paved_path",
+        "material": "unverified-hard-surface",
+        "sourceId": "imagery-lm-ortho",
+        "sourceCollection": "orto-n2-2026",
+        "observedYear": 2026,
+        "captureDate": "2026-05-02",
+        "reviewedOn": "2026-09-09",
+        "reviewer": "assistant-visual-interpretation",
+        "reviewStatus": "provisional-not-human-accepted",
+        "notSurveyed": true,
+        "terrainModified": false,
+        "sourceWindows": [
+          {
+            "id": "north",
+            "sha256": "a1802caa336ea8b483593d9ce5b54f3f9f7acd21e3e4f0bfa881750b8eab68db"
+          }
+        ],
+        "reviewGrid": {
+          "id": "facilities-main",
+          "file": "tortunabuild/cache/mapping-review/facilities-main.png",
+          "boundsEpsg3006": [
+            597280,
+            6614930,
+            597760,
+            6615410
+          ],
+          "width": 1200,
+          "height": 1200,
+          "pixelMeaning": "edge; E=west+x*span/width,N=north-y*span/height",
+          "sourceWindows": [
+            "north"
+          ],
+          "displayResampling": "bilinear",
+          "sha256": "fe95faaeb07b69832fe867dc906bd56bd3370c31a7ed3e297c100a5357545804"
+        },
+        "tracePixels": [
+          [
+            506,
+            856
+          ],
+          [
+            538,
+            856
+          ],
+          [
+            563,
+            860
+          ],
+          [
+            588,
+            868
+          ],
+          [
+            610,
+            880
+          ],
+          [
+            631,
+            895
+          ],
+          [
+            649,
+            913
+          ],
+          [
+            662,
+            934
+          ],
+          [
+            668,
+            956
+          ],
+          [
+            669,
+            978
+          ],
+          [
+            668,
+            995
+          ],
+          [
+            674,
+            1017
+          ],
+          [
+            686,
+            1037
+          ],
+          [
+            704,
+            1057
+          ],
+          [
+            728,
+            1077
+          ],
+          [
+            742,
+            1095
+          ],
+          [
+            750,
+            1116
+          ],
+          [
+            760,
+            1141
+          ],
+          [
+            771,
+            1169
+          ],
+          [
+            777,
+            1198
+          ],
+          [
+            770,
+            1199
+          ],
+          [
+            764,
+            1171
+          ],
+          [
+            753,
+            1143
+          ],
+          [
+            744,
+            1118
+          ],
+          [
+            736,
+            1099
+          ],
+          [
+            722,
+            1081
+          ],
+          [
+            699,
+            1062
+          ],
+          [
+            681,
+            1043
+          ],
+          [
+            668,
+            1022
+          ],
+          [
+            661,
+            1000
+          ],
+          [
+            662,
+            979
+          ],
+          [
+            661,
+            958
+          ],
+          [
+            655,
+            938
+          ],
+          [
+            642,
+            918
+          ],
+          [
+            625,
+            901
+          ],
+          [
+            605,
+            886
+          ],
+          [
+            584,
+            875
+          ],
+          [
+            560,
+            868
+          ],
+          [
+            536,
+            864
+          ],
+          [
+            506,
+            864
+          ]
+        ],
+        "boundaryInterpretationUncertaintyMetres": 1.5,
+        "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+        "materialStatus": "visual interpretation; no maintenance specification",
+        "interpretation": "Continuous pale course path from clubhouse around east side of hole9green toward current tee; no extrapolation past retained image edge.",
+        "areaSquareMetres": 576.3999999987667
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597482.4,
+              6615067.6
+            ],
+            [
+              597495.2,
+              6615067.6
+            ],
+            [
+              597505.2,
+              6615066.0
+            ],
+            [
+              597515.2,
+              6615062.8
+            ],
+            [
+              597524.0,
+              6615058.0
+            ],
+            [
+              597532.4,
+              6615052.0
+            ],
+            [
+              597539.6,
+              6615044.8
+            ],
+            [
+              597544.8,
+              6615036.4
+            ],
+            [
+              597547.2,
+              6615027.6
+            ],
+            [
+              597547.6,
+              6615018.8
+            ],
+            [
+              597547.2,
+              6615012.0
+            ],
+            [
+              597549.6,
+              6615003.2
+            ],
+            [
+              597554.4,
+              6614995.2
+            ],
+            [
+              597561.6,
+              6614987.2
+            ],
+            [
+              597571.2,
+              6614979.2
+            ],
+            [
+              597576.8,
+              6614972.0
+            ],
+            [
+              597580.0,
+              6614963.6
+            ],
+            [
+              597584.0,
+              6614953.6
+            ],
+            [
+              597588.4,
+              6614942.4
+            ],
+            [
+              597590.8,
+              6614930.8
+            ],
+            [
+              597588.0,
+              6614930.4
+            ],
+            [
+              597585.6,
+              6614941.6
+            ],
+            [
+              597581.2,
+              6614952.8
+            ],
+            [
+              597577.6,
+              6614962.8
+            ],
+            [
+              597574.4,
+              6614970.4
+            ],
+            [
+              597568.8,
+              6614977.6
+            ],
+            [
+              597559.6,
+              6614985.2
+            ],
+            [
+              597552.4,
+              6614992.8
+            ],
+            [
+              597547.2,
+              6615001.2
+            ],
+            [
+              597544.4,
+              6615010.0
+            ],
+            [
+              597544.8,
+              6615018.4
+            ],
+            [
+              597544.4,
+              6615026.8
+            ],
+            [
+              597542.0,
+              6615034.8
+            ],
+            [
+              597536.8,
+              6615042.8
+            ],
+            [
+              597530.0,
+              6615049.6
+            ],
+            [
+              597522.0,
+              6615055.6
+            ],
+            [
+              597513.6,
+              6615060.0
+            ],
+            [
+              597504.0,
+              6615062.8
+            ],
+            [
+              597494.4,
+              6615064.4
+            ],
+            [
+              597482.4,
+              6615064.4
+            ],
+            [
+              597482.4,
+              6615067.6
+            ]
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "All edges are source-derived visual interpretations pending human acceptance; no survey authority is claimed.",
+    "The range field polygon covers only the visibly grassed southern portion; the large pale northern area has unresolved current ground material.",
+    "No range netting,ball machines,posts or other small equipment were inferred from repetition."
+  ]
+}

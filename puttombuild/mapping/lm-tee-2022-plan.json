@@ -1,0 +1,456 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "kind": "tee-shadow-corroboration-plan",
+  "collection": "orto-u2-2022",
+  "horizontalCrs": "EPSG:3006",
+  "resolutionMetres": 0.16,
+  "captureRange": {
+    "first": "2022-06-24T11:30:54Z",
+    "last": "2022-07-03T07:37:52Z"
+  },
+  "frame": {
+    "source": "local metres about ORIGIN; north -z, east +x",
+    "origin": {
+      "lat": 63.2992,
+      "lon": 18.9413
+    },
+    "mPerLat": 111320,
+    "mPerLon": 50019.58,
+    "transformation": "declared legacy local frame inverse to WGS84 then repository GRS80 SWEREF99TM projection; no fitted translation or rotation"
+  },
+  "pixelConvention": "bounds are pixel edges; centre E=minE+(column+0.5)*resolution, N=maxN-(row+0.5)*resolution",
+  "modelSha256": "db966f06373c1986c90fdec0fe5387e036457257638f973d94bda5ee20ba7645",
+  "discoverySha256": "7f3a7c786143e24e7ce8a86a5a2a72bd2224c419f1541de27e28518e343da172",
+  "courseBoundsEpsg3006": [
+    696843.84,
+    7024233.76,
+    698101.76,
+    7025730.08
+  ],
+  "sources": [
+    {
+      "id": "o70225_6950_25_mr22",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70225_6950_25_mr22.tif",
+      "boundsEpsg3006": [
+        695000,
+        7022500,
+        697500,
+        7025000
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2022-07-03T07:37:52Z",
+      "bytes": 691522682
+    },
+    {
+      "id": "o70225_6975_25_mr22",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70225_6975_25_mr22.tif",
+      "boundsEpsg3006": [
+        697500,
+        7022500,
+        700000,
+        7025000
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2022-06-24T11:30:54Z",
+      "bytes": 688551639
+    },
+    {
+      "id": "o70250_6950_25_mr22",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70250_6950_25_mr22.tif",
+      "boundsEpsg3006": [
+        695000,
+        7025000,
+        697500,
+        7027500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2022-07-03T07:37:35Z",
+      "bytes": 675077408
+    },
+    {
+      "id": "o70250_6975_25_mr22",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70250_6975_25_mr22.tif",
+      "boundsEpsg3006": [
+        697500,
+        7025000,
+        700000,
+        7027500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2022-06-24T11:31:13Z",
+      "bytes": 682222150
+    }
+  ],
+  "windows": [
+    {
+      "id": "tee-2022-hole-01",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 1,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697302.88,
+        7025176.96,
+        697470.72,
+        7025385.92
+      ],
+      "width": 1049,
+      "height": 1306,
+      "megapixels": 1.37,
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-02",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 2,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697180.16,
+        7025482.88,
+        697410.72,
+        7025630.72
+      ],
+      "width": 1441,
+      "height": 924,
+      "megapixels": 1.331,
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-03",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 3,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        696928.16,
+        7025477.28,
+        697074.24,
+        7025635.2
+      ],
+      "width": 913,
+      "height": 987,
+      "megapixels": 0.901,
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-04",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 4,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        696942.72,
+        7025407.52,
+        697215.04,
+        7025592
+      ],
+      "width": 1702,
+      "height": 1153,
+      "megapixels": 1.962,
+      "sourceIds": [
+        "o70250_6950_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-05",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 5,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697495.2,
+        7025216.8,
+        697675.2,
+        7025374.56
+      ],
+      "width": 1125,
+      "height": 986,
+      "megapixels": 1.109,
+      "sourceIds": [
+        "o70250_6950_25_mr22",
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-06",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 6,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697610.4,
+        7025288.64,
+        697818.88,
+        7025489.12
+      ],
+      "width": 1303,
+      "height": 1253,
+      "megapixels": 1.633,
+      "sourceIds": [
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-07",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 7,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697869.28,
+        7024968.32,
+        698046.72,
+        7025262.88
+      ],
+      "width": 1109,
+      "height": 1841,
+      "megapixels": 2.042,
+      "sourceIds": [
+        "o70225_6975_25_mr22",
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-08",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 8,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697730.56,
+        7024794.72,
+        697920.16,
+        7025052.16
+      ],
+      "width": 1185,
+      "height": 1609,
+      "megapixels": 1.907,
+      "sourceIds": [
+        "o70225_6975_25_mr22",
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-09",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 9,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697685.12,
+        7025147.2,
+        697977.44,
+        7025300.16
+      ],
+      "width": 1827,
+      "height": 956,
+      "megapixels": 1.747,
+      "sourceIds": [
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-10",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 10,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697323.2,
+        7025094.88,
+        697616.64,
+        7025248.32
+      ],
+      "width": 1834,
+      "height": 959,
+      "megapixels": 1.759,
+      "sourceIds": [
+        "o70250_6950_25_mr22",
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-11",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 11,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697696.64,
+        7024920.8,
+        697837.44,
+        7025165.76
+      ],
+      "width": 880,
+      "height": 1531,
+      "megapixels": 1.347,
+      "sourceIds": [
+        "o70225_6975_25_mr22",
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-12",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 12,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697632.8,
+        7024554.24,
+        697800.96,
+        7024754.24
+      ],
+      "width": 1051,
+      "height": 1250,
+      "megapixels": 1.314,
+      "sourceIds": [
+        "o70225_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-13",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 13,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697592.16,
+        7024732.8,
+        697764.96,
+        7025030.24
+      ],
+      "width": 1080,
+      "height": 1859,
+      "megapixels": 2.008,
+      "sourceIds": [
+        "o70225_6975_25_mr22",
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-14",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 14,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697381.6,
+        7024919.84,
+        697577.6,
+        7025176
+      ],
+      "width": 1225,
+      "height": 1601,
+      "megapixels": 1.961,
+      "sourceIds": [
+        "o70225_6950_25_mr22",
+        "o70225_6975_25_mr22",
+        "o70250_6950_25_mr22",
+        "o70250_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-15",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 15,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697294.88,
+        7024509.6,
+        697458.4,
+        7024693.44
+      ],
+      "width": 1022,
+      "height": 1149,
+      "megapixels": 1.174,
+      "sourceIds": [
+        "o70225_6950_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-16",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 16,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697353.92,
+        7024353.12,
+        697552,
+        7024524
+      ],
+      "width": 1238,
+      "height": 1068,
+      "megapixels": 1.322,
+      "sourceIds": [
+        "o70225_6950_25_mr22",
+        "o70225_6975_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-17",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 17,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697232.96,
+        7024337.6,
+        697384,
+        7024594.56
+      ],
+      "width": 944,
+      "height": 1606,
+      "megapixels": 1.516,
+      "sourceIds": [
+        "o70225_6950_25_mr22"
+      ]
+    },
+    {
+      "id": "tee-2022-hole-18",
+      "purpose": "Earlier 2022 morning/midday image corroboration of tee platforms obscured in 2024; individual source timestamps retained; not evidence of current daily marker locations",
+      "hole": 18,
+      "priority": "detail",
+      "boundsEpsg3006": [
+        697217.76,
+        7024750.72,
+        697417.76,
+        7025000.8
+      ],
+      "width": 1250,
+      "height": 1563,
+      "megapixels": 1.954,
+      "sourceIds": [
+        "o70225_6950_25_mr22",
+        "o70250_6950_25_mr22"
+      ]
+    }
+  ],
+  "summary": {
+    "windows": 18,
+    "contextWindows": 0,
+    "coveredHoles": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "totalMegapixels": 28.357
+  },
+  "limitations": [
+    "Older 2022 imagery is corroborating evidence. Confirm platform continuity against 2024 imagery and the current club plan before adoption.",
+    "Pixel spacing and agreement are not survey accuracy."
+  ],
+  "basedOnPlan": "puttombuild/mapping/lm-ortho-plan.json"
+}

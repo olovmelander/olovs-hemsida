@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-09",
+  "method": "Independent GEOS polygon validity, accepted-ring matching and full polygon intersection; source water interior rings retained.",
+  "shapelyVersion": "2.1.2",
+  "geosVersion": "3.13.1",
+  "inputs": {
+    "visbybuild/mapping/lm-tee-review-front9-2026-09-09.json": "9a79db7bf9890d404939a046498fb46a61b189d9bcb77b0dc728838a1c85f669",
+    "visbybuild/mapping/lm-tee-review-back9-2026-09-09.json": "99e2f705042c0f2df7b63676d7a33de7c36859281460a28b259b0434252592e2",
+    "visbybuild/mapping/geometry.json": "6e2b02245777c3d18432bd5a2a88cc33d6bb47753144faae8a045a3195c6ca0b",
+    "geo_data/course-v2/visby/mapping/water-breakgeometry-epsg3006.geojson": "b18499faae4354ef2ce95ef1910d7a5c2172457014087adcf9b622ea957e06af"
+  },
+  "passed": true,
+  "polygons": [
+    {
+      "hole": 2,
+      "id": "lm-2026-09-09-h02-rear-63",
+      "valid": true,
+      "areaSquareMetres": 84.8384,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 5,
+      "id": "lm-2026-09-09-h05-cross-path-55",
+      "valid": true,
+      "areaSquareMetres": 140.0448,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 6,
+      "id": "lm-2026-09-09-h06-rear-63",
+      "valid": true,
+      "areaSquareMetres": 131.0208,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 10,
+      "id": "h10-rear-2026",
+      "valid": true,
+      "areaSquareMetres": 326.592,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 10,
+      "id": "h10-front-2026",
+      "valid": true,
+      "areaSquareMetres": 137.0624,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 11,
+      "id": "h11-rear-2026",
+      "valid": true,
+      "areaSquareMetres": 164.5824,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 11,
+      "id": "h11-front-2026",
+      "valid": true,
+      "areaSquareMetres": 91.2896,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 14,
+      "id": "h14-main-2026",
+      "valid": true,
+      "areaSquareMetres": 329.8048,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 14,
+      "id": "h14-rear-2026",
+      "valid": true,
+      "areaSquareMetres": 73.9456,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 14,
+      "id": "h14-second-2026",
+      "valid": true,
+      "areaSquareMetres": 60.8,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 14,
+      "id": "h14-front-2026",
+      "valid": true,
+      "areaSquareMetres": 48.2688,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    },
+    {
+      "hole": 17,
+      "id": "h17-front-2026",
+      "valid": true,
+      "areaSquareMetres": 87.808,
+      "adoptedMatches": 1,
+      "overlapSquareMetres": {
+        "water": 0.0,
+        "greens": 0.0,
+        "bunkers": 0.0
+      },
+      "passed": true
+    }
+  ],
+  "limitation": "Geometry consistency and feature separation do not establish surveyed horizontal accuracy."
+}

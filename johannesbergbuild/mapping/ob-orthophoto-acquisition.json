@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "state": "acquired-for-review",
+  "observedAt": "2026-09-09T19:50:51.492370+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-o2-2025",
+  "nativeResolutionMetres": 0.16,
+  "planSha256": "361042afb0ed7157983c6b4128a96b126bd3043802fddeb9e8590c5a817d03b0",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o66250_6775_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "eighteen-03-ob",
+      "rasterFile": "eighteen-03-ob.tif",
+      "rgbFile": "eighteen-03-ob.png",
+      "sha256": "13ca44ddce91615b571668ddeb6aa5141fc693f93dd1543a64bfade58931238a",
+      "rgbSha256": "008246b456979a3c68d4a4fc440949ab685bf18512b12e377afb7772dd84099b",
+      "requestSha256": "6a742765a061714f826f6be155ae305ddb8002ae9dc1cf187adf7788d25bfce7",
+      "bytes": 5790991,
+      "boundsEpsg3006": [
+        679520.0,
+        6625360.0,
+        679760.0,
+        6625600.0
+      ],
+      "geoTransform": [
+        679520.0,
+        0.16,
+        0.0,
+        6625600.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1500,
+      "height": 1500,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T19:50:53.675583+00:00",
+      "sources": [
+        {
+          "id": "o66250_6775_25_mr25",
+          "capturedAt": "2025-06-14T06:54:29Z",
+          "captureStart": "2025-06-14T06:44:38Z",
+          "captureEnd": "2025-06-14T06:54:45Z"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "o66250_6775_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o66250_6775_25_mr25.tif",
+      "bytes": 658077729,
+      "boundsEpsg3006": [
+        677500,
+        6625000,
+        680000,
+        6627500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-06-14T06:54:29Z",
+      "captureStart": "2025-06-14T06:44:38Z",
+      "captureEnd": "2025-06-14T06:54:45Z"
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false,
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0.",
+  "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf"
+}

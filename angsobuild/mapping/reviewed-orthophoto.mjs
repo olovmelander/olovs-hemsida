@@ -142,6 +142,63 @@ function markBearing(mark, line) {
   return Math.round(Math.atan2(target[0] - mark.c[0], mark.c[1] - target[1]) * 1800 / Math.PI) / 10;
 }
 
+function applyGuideReferences(hole, entry, review) {
+  if (!Array.isArray(entry.teeReferences) || entry.teeReferences.length !== hole.tees.marks.length) {
+    throw new Error('Guide tee review requires an explicit decision for every colour');
+  }
+  const seen = new Set();
+  for (const ref of entry.teeReferences) {
+    if (!Number.isInteger(ref.index) || !hole.tees.marks[ref.index] || seen.has(ref.index) ||
+        ref.sourceKey !== entry.tees.sourceKey || !['platform', 'fairway'].includes(ref.kind)) {
+      throw new Error('Invalid or duplicate guide tee reference');
+    }
+    seen.add(ref.index);
+    const source = checkedSource(review, ref.sourceKey), evidence = ref.evidence;
+    const assets = evidence?.assetIds?.map(id => id === ref.sourceKey ? source : review.teeEvidenceAssets?.[id]);
+    if (!assets?.length || !assets.every(a => a && SHA256.test(a.sha256)) ||
+        !assets.some(a => a.hole === hole.n && a.role === 'club-linked-schematic') ||
+        !evidence.assetIds.includes(ref.sourceKey) || !evidence.note ||
+        !['high', 'medium', 'low', 'unresolved'].includes(evidence.confidence)) {
+      throw new Error('Guide tee reference requires registered hole-specific evidence and native imagery');
+    }
+    const mark = hole.tees.marks[ref.index], original = mark.orthophotoReference.originalPosition;
+    delete mark.sourcePadId; delete mark.referenceSurfaceKind;
+    // A diagnostic candidate is deliberately never adopted. Retain the old
+    // camera reference with explicit uncertainty rather than a guessed pad.
+    if (ref.pixel === null) {
+      if (ref.status !== 'unresolved' || evidence.confidence !== 'unresolved' || ref.padReviewId !== null) {
+        throw new Error('Unresolved tee decision must be explicit');
+      }
+      mark.c = [...original];
+      mark.orthophotoReference = { kind: 'unresolved-guide-tee-reference', originalPosition: [...original],
+        selectedPadReviewId: null, distanceMetres: 0, identityStatus: 'unresolved',
+        positionStatus: 'retained-unverified-virtual-reference', ambiguous: true, evidence: structuredClone(evidence) };
+      continue;
+    }
+    if (ref.status === 'unresolved' || evidence.confidence === 'unresolved') throw new Error('Cannot adopt an unresolved candidate');
+    const c = orthophotoPoint(review, ref.sourceKey, ref.pixel);
+    const pad = hole.tees.pads.find(p => p.reviewId === ref.padReviewId);
+    if (ref.kind === 'platform' ? !pad || !pointInPoly(...c, pad.ring)
+        : ref.padReviewId !== null || !hole.fairway.rings.some(r => pointInPoly(...c, r))) {
+      throw new Error(`H${hole.n} tee ${ref.index} guide reference leaves its reviewed ${ref.kind}`);
+    }
+    if (hole.tees.marks.some((m, i) => i !== ref.index && seen.has(i) &&
+        m.orthophotoReference.kind === 'guide-orthophoto-reference' && distance(c, m.c) < 0.3)) {
+      throw new Error('Distinct colour references must not collapse to one coordinate');
+    }
+    mark.c = c;
+    mark.referenceSurfaceKind = ref.kind;
+    if (pad) mark.sourcePadId = pad.reviewId;
+    mark.orthophotoReference = { kind: 'guide-orthophoto-reference', originalPosition: [...original],
+      selectedPadReviewId: pad?.reviewId ?? null, distanceMetres: rounded(distance(original, c)),
+      identityStatus: 'guide-orthophoto-correspondence', positionStatus: 'representative-reference-on-mown-turf',
+      ambiguous: evidence.confidence === 'low', sourceKey: ref.sourceKey, sourceSha256: source.sha256,
+      evidence: structuredClone(evidence) };
+  }
+  hole.tees.status = entry.teeReferences.some(r => r.pixel === null)
+    ? 'guide-orthophoto-reviewed-with-unresolved-references' : 'guide-orthophoto-representative-references';
+}
+
 export function applyReviewedOrthophoto(input, review) {
   if (review?.schemaVersion !== 1 || review.groundId !== 'angso' ||
       input?.origin?.lat !== ORIGIN.lat || input?.origin?.lon !== ORIGIN.lon ||
@@ -241,6 +298,7 @@ export function applyReviewedOrthophoto(input, review) {
       });
       hole.tees.pads = pads; hole.tees.inferPads = false;
       hole.tees.status = 'orthophoto-platforms-colour-associations-unverified';
+      if (entry.teeReferences !== undefined) applyGuideReferences(hole, entry, review);
       hole.line[0] = [...hole.tees.marks[0].c]; routeChanged = true; summary.teePads += pads.length;
     }
     if (routeChanged) {
@@ -266,5 +324,9 @@ export function applyReviewedOrthophoto(input, review) {
   }
   model.orthophotoReview = { schemaVersion: 1, groundId: 'angso', reviewedAt: review.reviewedAt ?? null,
     sources: structuredClone(review.sources), featureIds: [...ids], summary };
+  const references = model.holes.flatMap(h => h.tees.marks).map(m => m.orthophotoReference).filter(Boolean);
+  summary.provisionalTeeReferences = references.filter(r => r.kind === 'provisional-virtual-tee-reference').length;
+  summary.unresolvedTeeReferences = references.filter(r => r.kind.startsWith('unresolved-')).length;
+  summary.guideTeeReferences = references.filter(r => r.kind === 'guide-orthophoto-reference').length;
   return model;
 }

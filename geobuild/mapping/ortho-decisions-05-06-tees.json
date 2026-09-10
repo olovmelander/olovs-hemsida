@@ -75,38 +75,15 @@
       "kind": "tee-set",
       "uncertaintyM": 3,
       "referencePads": [
-        0,
-        0,
-        1,
-        1,
         2,
+        2,
+        0,
+        0,
+        1,
         null
       ],
-      "note": "Three clearly visible physical decks plus one unchanged historical OSM deck obscured by shadow. Traces cover the large rear deck south of the crossing path, elongated middle deck north of it, and the forward deck east of the pond. The old forward reference4 lay in the pond and provisionally associates with the observed forward deck. References0–1 provisionally use the visible rear deck and2–3 the visible middle deck; reference5 remains an unresolved virtual fairway start. Shadow prevents a complete-source-accuracy claim. Synthetic phantom footprints are removed; runtime footprint inference is suppressed separately.",
+      "note": "Two photographed H6 decks plus the forest-side historical OSM rear platform. Joint review of club guides for holes6 and16 identifies the exposed eastern roadside deck as H16 back tee, so it is removed from H6. H6 references65/61 provisionally use the adjacent forest-side historical platform;58/55 use the photographed elongated deck north of the crossing road;48 uses the photographed deck east of the pond. The historical rear perimeter remains shadow-obscured with3m uncertainty. These are provisional platform references, not verified daily marker positions.",
       "pads": [
-        {
-          "id": "lm-2024-h06-rear-deck",
-          "panel": "tees-h06-back",
-          "pixels": [
-            [
-              449,
-              432
-            ],
-            [
-              506,
-              429
-            ],
-            [
-              519,
-              481
-            ],
-            [
-              451,
-              488
-            ]
-          ],
-          "note": "Clearly visible rectangular short-mown rear physical deck east of the smaller historic shaded deck. Provisional deck reference, not daily tee markers."
-        },
         {
           "id": "lm-2024-h06-middle-deck",
           "panel": "tees-h06-back",
@@ -190,7 +167,19 @@
           "panel": "tees-h06-back",
           "retainedOriginalPadIndex": 0,
           "uncertaintyM": 3,
-          "note": "Historical OSM w1527513658 boundary retained exactly from the baseline. Tree shadow prevents independent tracing of its complete perimeter in the2024 orthophoto; this outline is not claimed to be newly traced or source-accurate. No virtual reference is newly assigned to this uncertain deck."
+          "note": "Historical OSM w1527513658 retained exactly from the pre-review baseline. Joint H6/H16 club-guide review identifies this forest-side platform as H6 rear tee, distinct from the exposed roadside H16 back tee. Shadow prevents tracing the complete 2024 perimeter. References65/61 provisionally use this historical footprint; its boundary is not promoted to an orthophoto trace."
+        }
+      ],
+      "corroboratingDocuments": [
+        {
+          "path": "banguide/maps/hole_06.jpg",
+          "sha256": "39f9d282b2ceae109d4145dc7ee6b0d17c6a95d1b8be3fbbb9bed10a4c74b92e",
+          "note": "Club guide starts hole6 on the forest-side platform beside the road crossing, aiming toward the pond corridor. The diagram corroborates hole identity, not a coordinate fit or daily marker position."
+        },
+        {
+          "path": "banguide/maps/hole_16.jpg",
+          "sha256": "cb2c9b54c78629f379c36c2d75481769b3ac0639b15aba6b124ede53f686652d",
+          "note": "Club guide starts hole16 on the exposed roadside deck across the junction from its row of four main platforms. This distinguishes it from the adjacent forest-side hole6 tee."
         }
       ]
     }
@@ -206,7 +195,7 @@
       "hole": 6,
       "inventoryCompleteness": "visible-decks-plus-historical-shadow-retention",
       "referenceConfidence": "provisional, with5 unresolved",
-      "note": "Focus back/front panels inspected. One uncertain historic OSM footprint is retained as historic; inferred rear and pond footprints are not accepted as physical decks."
+      "note": "The exposed eastern rear deck belongs to H16 by joint guide and native-image review. H6 retains its adjacent forest-side historical OSM deck with3m boundary uncertainty. Middle/forward H6 decks are source traced;40 remains unresolved."
     }
   ]
 }

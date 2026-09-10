@@ -1,0 +1,203 @@
+{
+  "type": "FeatureCollection",
+  "groundId": "lidingo",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "sourceCommit": "origin/claude/lidingo-golf-course-v2-x6bjk7",
+  "sourceReview": "lidingobuild/mapping/surface-additions-2025.json",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "lidingo-bunker-13-green-lm2025",
+      "properties": {
+        "kind": "bunker",
+        "hole": 13,
+        "sourceId": "lm-ortofoto-0p16",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "reviewStatus": "machine-measured; no independent human survey",
+        "notSurveyed": true,
+        "method": "measured sand component on the 2025-05-31 capture, grown from the dated site",
+        "datingVerdict": "built between municipal-2019 and lm-2025-05-31",
+        "clubRecord": "course-council page: a new LEFT GREEN BUNKER on hole 13, among the works reported by 2025",
+        "note": "the left green bunker the club reports building; the hole carried no bunker at all",
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0",
+        "areaSquareMetres": 31.33
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677279.7,
+              6586779.5
+            ],
+            [
+              677279.6,
+              6586779
+            ],
+            [
+              677279.7,
+              6586778.5
+            ],
+            [
+              677279.7,
+              6586778
+            ],
+            [
+              677279.7,
+              6586777.5
+            ],
+            [
+              677280.1,
+              6586777.1
+            ],
+            [
+              677280.5,
+              6586776.7
+            ],
+            [
+              677281,
+              6586776.5
+            ],
+            [
+              677281.5,
+              6586776.5
+            ],
+            [
+              677282,
+              6586776.5
+            ],
+            [
+              677282.5,
+              6586776.2
+            ],
+            [
+              677283,
+              6586775.9
+            ],
+            [
+              677283.5,
+              6586775.9
+            ],
+            [
+              677284,
+              6586776
+            ],
+            [
+              677284.3,
+              6586776.4
+            ],
+            [
+              677284.4,
+              6586776.9
+            ],
+            [
+              677284.6,
+              6586777.4
+            ],
+            [
+              677284.8,
+              6586777.9
+            ],
+            [
+              677285.2,
+              6586778.3
+            ],
+            [
+              677285.4,
+              6586778.8
+            ],
+            [
+              677285.7,
+              6586779.2
+            ],
+            [
+              677285.7,
+              6586779.7
+            ],
+            [
+              677285.6,
+              6586780.2
+            ],
+            [
+              677285.4,
+              6586780.7
+            ],
+            [
+              677285.1,
+              6586781.2
+            ],
+            [
+              677284.9,
+              6586781.7
+            ],
+            [
+              677284.4,
+              6586782
+            ],
+            [
+              677284,
+              6586782.4
+            ],
+            [
+              677283.6,
+              6586782.8
+            ],
+            [
+              677283.1,
+              6586783.1
+            ],
+            [
+              677282.6,
+              6586783.3
+            ],
+            [
+              677282.1,
+              6586783.1
+            ],
+            [
+              677281.6,
+              6586782.8
+            ],
+            [
+              677281.3,
+              6586782.3
+            ],
+            [
+              677281,
+              6586781.8
+            ],
+            [
+              677280.7,
+              6586781.3
+            ],
+            [
+              677280.4,
+              6586780.8
+            ],
+            [
+              677280.1,
+              6586780.3
+            ],
+            [
+              677279.7,
+              6586779.9
+            ],
+            [
+              677279.7,
+              6586779.5
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

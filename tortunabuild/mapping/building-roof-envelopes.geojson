@@ -1,0 +1,595 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "axisOrder": [
+    "easting",
+    "northing"
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "tortuna-clubhouse-main-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1163533127",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "clubhouse",
+        "sourceRasterSha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597457.76,
+              6615089.92
+            ],
+            [
+              597479.04,
+              6615072.0
+            ],
+            [
+              597470.72,
+              6615062.4
+            ],
+            [
+              597468.0,
+              6615062.72
+            ],
+            [
+              597466.4,
+              6615064.64
+            ],
+            [
+              597464.8,
+              6615065.76
+            ],
+            [
+              597461.6,
+              6615066.4
+            ],
+            [
+              597455.2,
+              6615071.68
+            ],
+            [
+              597455.04,
+              6615073.12
+            ],
+            [
+              597455.84,
+              6615074.08
+            ],
+            [
+              597452.8,
+              6615076.64
+            ],
+            [
+              597452.32,
+              6615076.0
+            ],
+            [
+              597449.92,
+              6615078.4
+            ],
+            [
+              597449.44,
+              6615079.84
+            ],
+            [
+              597457.76,
+              6615089.92
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-clubhouse-low-extension",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1163533127",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "clubhouse",
+        "sourceRasterSha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597477.6,
+              6615069.28
+            ],
+            [
+              597483.04,
+              6615064.32
+            ],
+            [
+              597472.8,
+              6615053.92
+            ],
+            [
+              597464.32,
+              6615059.36
+            ],
+            [
+              597465.44,
+              6615061.12
+            ],
+            [
+              597470.08,
+              6615058.4
+            ],
+            [
+              597477.6,
+              6615069.28
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-clubhouse-west-outbuilding-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1163533128",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "clubhouse",
+        "sourceRasterSha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597440.16,
+              6615078.72
+            ],
+            [
+              597445.92,
+              6615074.08
+            ],
+            [
+              597438.24,
+              6615066.72
+            ],
+            [
+              597433.6,
+              6615071.2
+            ],
+            [
+              597440.16,
+              6615078.72
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-clubhouse-southwest-shed-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": null,
+        "captureDate": "2026-05-02",
+        "sourceWindow": "clubhouse",
+        "sourceRasterSha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597442.88,
+              6615064.96
+            ],
+            [
+              597447.84,
+              6615064.64
+            ],
+            [
+              597447.68,
+              6615060.96
+            ],
+            [
+              597442.88,
+              6615061.12
+            ],
+            [
+              597442.88,
+              6615064.96
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-service-barn-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1163533113",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "service-yard",
+        "sourceRasterSha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597434.72,
+              6615260.32
+            ],
+            [
+              597462.72,
+              6615278.72
+            ],
+            [
+              597469.28,
+              6615269.44
+            ],
+            [
+              597440.96,
+              6615250.88
+            ],
+            [
+              597434.72,
+              6615260.32
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-small-outbuilding-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1163533114",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "service-yard",
+        "sourceRasterSha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597435.04,
+              6615275.68
+            ],
+            [
+              597440.48,
+              6615279.36
+            ],
+            [
+              597445.12,
+              6615273.6
+            ],
+            [
+              597439.36,
+              6615269.76
+            ],
+            [
+              597435.04,
+              6615275.68
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-west-barn-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1163533115",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "service-yard",
+        "sourceRasterSha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597398.88,
+              6615286.08
+            ],
+            [
+              597406.88,
+              6615291.2
+            ],
+            [
+              597415.36,
+              6615279.04
+            ],
+            [
+              597409.6,
+              6615273.28
+            ],
+            [
+              597398.88,
+              6615286.08
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-carpark-west-north-barn-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1163533123",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "service-yard",
+        "sourceRasterSha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597287.68,
+              6615157.6
+            ],
+            [
+              597309.44,
+              6615172.96
+            ],
+            [
+              597315.68,
+              6615166.56
+            ],
+            [
+              597293.6,
+              6615150.88
+            ],
+            [
+              597287.68,
+              6615157.6
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-house-near-hole9-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1163607303",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "nearby-houses",
+        "sourceRasterSha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597609.92,
+              6614925.12
+            ],
+            [
+              597616.48,
+              6614929.12
+            ],
+            [
+              597616.16,
+              6614931.68
+            ],
+            [
+              597621.76,
+              6614934.88
+            ],
+            [
+              597628.64,
+              6614924.96
+            ],
+            [
+              597621.92,
+              6614920.64
+            ],
+            [
+              597613.44,
+              6614919.2
+            ],
+            [
+              597609.92,
+              6614925.12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-house-east-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1384988126",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "nearby-houses",
+        "sourceRasterSha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597677.12,
+              6614975.36
+            ],
+            [
+              597687.04,
+              6614984.16
+            ],
+            [
+              597693.92,
+              6614978.88
+            ],
+            [
+              597692.8,
+              6614977.44
+            ],
+            [
+              597696.32,
+              6614972.48
+            ],
+            [
+              597691.2,
+              6614968.0
+            ],
+            [
+              597688.32,
+              6614968.96
+            ],
+            [
+              597687.04,
+              6614967.52
+            ],
+            [
+              597677.12,
+              6614975.36
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-house-east-garage-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "way/1384988127",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "nearby-houses",
+        "sourceRasterSha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597689.28,
+              6614961.12
+            ],
+            [
+              597695.36,
+              6614966.88
+            ],
+            [
+              597700.8,
+              6614961.44
+            ],
+            [
+              597695.52,
+              6614955.68
+            ],
+            [
+              597689.28,
+              6614961.12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tortuna-range-shelter-roof",
+      "properties": {
+        "kind": "building_roof_envelope",
+        "sourceId": "imagery-lm-ortho",
+        "associatedBuildingId": "tortuna-range-shelter",
+        "captureDate": "2026-05-02",
+        "sourceWindow": "service-yard",
+        "sourceRasterSha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "geometryRole": "observed roof/extension envelope for vegetation exclusions; not a replacement ground footprint",
+        "interpretationUncertaintyMetres": 1.2,
+        "humanAccepted": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597472.64,
+              6615173.76
+            ],
+            [
+              597478.08,
+              6615168.8
+            ],
+            [
+              597472.96,
+              6615163.2
+            ],
+            [
+              597467.52,
+              6615168.32
+            ],
+            [
+              597472.64,
+              6615173.76
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

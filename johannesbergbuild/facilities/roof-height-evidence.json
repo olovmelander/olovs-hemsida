@@ -1,0 +1,3309 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "reviewedOn": "2026-09-10",
+  "state": "bounded-laser-height-reference-ready-not-surveyed-building-model",
+  "source": {
+    "itemId": "21c039-662_67",
+    "url": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/m21c039-662_67.copc.laz",
+    "captureStart": "2021-04-17T00:00:00Z",
+    "captureEnd": "2021-04-17T00:00:00Z",
+    "fullAssetSha256FromPinnedStac": "bafd8ff1effbc5a4d033e9fc3ce56231410c40433acab8c6817fd7e1fb690aaa",
+    "fullAssetHashVerified": false,
+    "fullAssetDownloaded": false,
+    "declaredPointDensityPerSquareMetre": 1.2,
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "verticalDatum": "RH 2000"
+  },
+  "sourceCampaignInventory": {
+    "path": "geo_data/course-v2/johannesberg/acquisition/laser-campaigns.json",
+    "sha256": "c7401cc7f4372329b10c66a1b2672e889f22d78aa101444d35e1d3e02d1a6f65"
+  },
+  "sourceModel": {
+    "path": "johannesbergbuild/course-model.json",
+    "sha256": "d8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed"
+  },
+  "sourceMigration": {
+    "path": "geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json",
+    "sha256": "1fbfc8dac4b330ef5181a2ab72e786ba9a32e8bd7b3683b5d7a42ca1eb7eea7b"
+  },
+  "privateWindowEvidence": {
+    "path": "johannesbergbuild/cache/facilities-reference/laser/window.json",
+    "sha256": "7712b3e6a712ea0bfaedd612fa0eb2ed0504dc2944e724debe25c2e615059056",
+    "bytes": 19289
+  },
+  "privatePlanViews": {
+    "path": "johannesbergbuild/cache/facilities-reference/laser/roof-candidate-plan-views.png",
+    "sha256": "0c164489a242b241de129c11a8b9f64647550aff1f0498e2504fc674cfb9bab5",
+    "bytes": 2830489
+  },
+  "privateBlenderPointReference": {
+    "path": "johannesbergbuild/cache/facilities-reference/laser/blender-facility-reference-points.json",
+    "sha256": "4e715063fad1c0eade5f73b395ad8cc9b22e422322b4d6fdac03e1c57da7be1d",
+    "bytes": 1132515,
+    "columns": [
+      "eastingM",
+      "northingM",
+      "heightRh2000M",
+      "classification"
+    ],
+    "captureDate": "2021-04-17",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "count": 36877,
+    "sourceSelectionCount": 73753,
+    "thinningStride": 2,
+    "selection": "Class 1 within 2 m of inherited building footprints; class 2 within 12 m. Class 1 does not identify a roof.",
+    "renderPolicy": "Vertex evidence only, hidden by default; no inferred roof faces. Use explicit scene RH2000 height-origin offset."
+  },
+  "bboxEpsg3006": [
+    679167,
+    6626079,
+    679657,
+    6626385
+  ],
+  "statistics": {
+    "nodes": 74,
+    "decodedPoints": 869917,
+    "pointsInWindow": 426305,
+    "firstReturns": 381063,
+    "byClass": {
+      "1": 119138,
+      "2": 307097,
+      "7": 70
+    },
+    "nodeCountsExact": true
+  },
+  "transfer": {
+    "requests": 103,
+    "bytes": 4520272
+  },
+  "classification": {
+    "1": "Unclassified surface: roofs and vegetation not separated",
+    "2": "Ground",
+    "7": "Low noise; excluded"
+  },
+  "method": {
+    "footprintInsetMetres": 1,
+    "minimumCandidateHeightAboveGroundMedianMetres": 1.5,
+    "groundAnnulusMetres": [
+      2,
+      12
+    ],
+    "planeFit": "Deterministic RANSAC descriptive support, up to three planes, 0.25 m vertical residual threshold, minimum 16 points each; slope capped 61 degrees. No roof-type inference or current-geometry mutation.",
+    "groundHeight": "Median of local class-2 annulus; terrain variation reported in quantiles, not fitted away.",
+    "rawBytes": "Private ignored cache only",
+    "currentElevationFrame": "RH2000 absolute height, not legacy Terrarium world y"
+  },
+  "limitations": [
+    "Laser capture 2021-04-17 predates the 2025 orthophoto by four years.",
+    "No class-6 building label exists in the bounded cloud: all candidates remain class-1 surface returns.",
+    "Tree branches, roof overhang, footprint misregistration, chimneys and sparse returns can affect quantiles.",
+    "Adjacent ground is sloping in parts of the estate; a median is not a survey floor level.",
+    "No measured eave or ridge heights are claimed; use planar support and current facade photos together.",
+    "No course runtime geometry or height data has been changed."
+  ],
+  "officialDocumentation": [
+    {
+      "title": "Laserdata Nedladdning, skog product description",
+      "url": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/pb_laserdata_nedladdning_skog.pdf"
+    },
+    {
+      "title": "Laserdata quality description",
+      "url": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/kvalitetsbeskrivning_laserdata.pdf"
+    }
+  ],
+  "facilities": [
+    {
+      "facilityId": "johannesberg-manor",
+      "sourceBuildingId": "w296165891",
+      "sourceBuildingIndex": 127,
+      "sourceName": "Johannesbergs slott",
+      "sourceKind": "hotel",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -106.5,
+          -966.9
+        ],
+        [
+          -120.4,
+          -987.5
+        ],
+        [
+          -100.3,
+          -1000.9
+        ],
+        [
+          -94.7,
+          -992.6
+        ],
+        [
+          -89,
+          -996.4
+        ],
+        [
+          -92.7,
+          -1002
+        ],
+        [
+          -86.1,
+          -1006.5
+        ],
+        [
+          -78,
+          -994.4
+        ],
+        [
+          -87.5,
+          -988
+        ],
+        [
+          -83.7,
+          -982.2
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679307.71,
+          6626325.59
+        ],
+        [
+          679292.804,
+          6626345.512
+        ],
+        [
+          679312.281,
+          6626359.876
+        ],
+        [
+          679318.286,
+          6626351.849
+        ],
+        [
+          679323.809,
+          6626355.922
+        ],
+        [
+          679319.836,
+          6626361.342
+        ],
+        [
+          679326.226,
+          6626366.158
+        ],
+        [
+          679334.917,
+          6626354.453
+        ],
+        [
+          679325.715,
+          6626347.597
+        ],
+        [
+          679329.798,
+          6626341.983
+        ]
+      ],
+      "footprintAreaSquareMetres": 795.06,
+      "insideFootprint": {
+        "points": 914,
+        "classes": {
+          "1": 770,
+          "2": 140,
+          "7": 4
+        },
+        "heightRH2000": {
+          "min": 25.22,
+          "p05": 28.507,
+          "p25": 30.56,
+          "median": 32.81,
+          "p75": 33.867,
+          "p95": 40.237,
+          "max": 42.22
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 3797,
+        "heightRH2000": {
+          "min": 16.35,
+          "p05": 19.812,
+          "p25": 26.17,
+          "median": 26.76,
+          "p75": 28.44,
+          "p95": 28.59,
+          "max": 29.36
+        },
+        "referenceMedianRH2000": 26.76
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 565,
+        "occupied1mCells": 226,
+        "heightRH2000": {
+          "min": 28.52,
+          "p05": 30.062,
+          "p25": 32.58,
+          "median": 32.96,
+          "p75": 36.26,
+          "p95": 40.398,
+          "max": 42.22
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.76,
+          "p05": 3.302,
+          "p25": 5.82,
+          "median": 6.2,
+          "p75": 9.5,
+          "p95": 13.638,
+          "max": 15.46
+        },
+        "planes": [
+          {
+            "points": 204,
+            "fractionOfAllCandidates": 0.361,
+            "slopeDegrees": 7.12,
+            "verticalResidualRmseMetres": 0.101,
+            "heightRH2000": {
+              "min": 32.3,
+              "p05": 32.421,
+              "p25": 32.53,
+              "median": 32.695,
+              "p75": 32.91,
+              "p95": 33.115,
+              "max": 35.01
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 69,
+            "fractionOfAllCandidates": 0.122,
+            "slopeDegrees": 14.74,
+            "verticalResidualRmseMetres": 0.134,
+            "heightRH2000": {
+              "min": 29.63,
+              "p05": 29.986,
+              "p25": 32.71,
+              "median": 32.93,
+              "p75": 33.1,
+              "p95": 33.206,
+              "max": 33.29
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 54,
+            "fractionOfAllCandidates": 0.096,
+            "slopeDegrees": 11.54,
+            "verticalResidualRmseMetres": 0.096,
+            "heightRH2000": {
+              "min": 39.39,
+              "p05": 39.6,
+              "p25": 39.903,
+              "median": 40.275,
+              "p75": 40.398,
+              "p95": 40.48,
+              "max": 40.5
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165891-candidate-points.csv",
+          "sha256": "e485511298601f979936f9c8fbc5a8d440e7f15fe8342ee4ee5dd2ef12e841c7",
+          "bytes": 14600
+        }
+      },
+      "confidence": "low-unclassified-returns-or-sparse-planar-support",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-old-stable",
+      "sourceBuildingId": "w296165892",
+      "sourceBuildingIndex": 128,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -66.3,
+          -806.5
+        ],
+        [
+          -58.5,
+          -797.2
+        ],
+        [
+          -84.1,
+          -781.6
+        ],
+        [
+          -98.1,
+          -782.8
+        ],
+        [
+          -121.2,
+          -817.4
+        ],
+        [
+          -112.4,
+          -823.1
+        ],
+        [
+          -92.5,
+          -792.7
+        ],
+        [
+          -87.1,
+          -791.5
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679355.674,
+          6626167.187
+        ],
+        [
+          679363.93,
+          6626158.267
+        ],
+        [
+          679339.052,
+          6626141.439
+        ],
+        [
+          679324.979,
+          6626141.964
+        ],
+        [
+          679300.188,
+          6626175.437
+        ],
+        [
+          679308.723,
+          6626181.559
+        ],
+        [
+          679330.109,
+          6626152.13
+        ],
+        [
+          679335.572,
+          6626151.19
+        ]
+      ],
+      "footprintAreaSquareMetres": 807.06,
+      "insideFootprint": {
+        "points": 2681,
+        "classes": {
+          "1": 1749,
+          "2": 932
+        },
+        "heightRH2000": {
+          "min": 18.56,
+          "p05": 18.69,
+          "p25": 20.53,
+          "median": 23.78,
+          "p75": 25.42,
+          "p95": 26.49,
+          "max": 29.23
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 6414,
+        "heightRH2000": {
+          "min": 17.87,
+          "p05": 18.63,
+          "p25": 19.34,
+          "median": 20.26,
+          "p75": 21.36,
+          "p95": 22.354,
+          "max": 23.23
+        },
+        "referenceMedianRH2000": 20.26
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 1416,
+        "occupied1mCells": 466,
+        "heightRH2000": {
+          "min": 22.05,
+          "p05": 22.92,
+          "p25": 24.03,
+          "median": 25.23,
+          "p75": 25.97,
+          "p95": 26.66,
+          "max": 26.82
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.79,
+          "p05": 2.66,
+          "p25": 3.77,
+          "median": 4.97,
+          "p75": 5.71,
+          "p95": 6.4,
+          "max": 6.56
+        },
+        "planes": [
+          {
+            "points": 502,
+            "fractionOfAllCandidates": 0.355,
+            "slopeDegrees": 34.23,
+            "verticalResidualRmseMetres": 0.082,
+            "heightRH2000": {
+              "min": 23.33,
+              "p05": 23.49,
+              "p25": 24.142,
+              "median": 25.075,
+              "p75": 25.967,
+              "p95": 26.71,
+              "max": 26.82
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 386,
+            "fractionOfAllCandidates": 0.273,
+            "slopeDegrees": 35.14,
+            "verticalResidualRmseMetres": 0.099,
+            "heightRH2000": {
+              "min": 22.25,
+              "p05": 22.683,
+              "p25": 23.465,
+              "median": 24.44,
+              "p75": 25.377,
+              "p95": 26.088,
+              "max": 26.67
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 177,
+            "fractionOfAllCandidates": 0.125,
+            "slopeDegrees": 28.88,
+            "verticalResidualRmseMetres": 0.106,
+            "heightRH2000": {
+              "min": 23.57,
+              "p05": 25.346,
+              "p25": 25.86,
+              "median": 26.19,
+              "p75": 26.51,
+              "p95": 26.73,
+              "max": 26.79
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165892-candidate-points.csv",
+          "sha256": "a5333ac285a4bbc5caff1b138eed9ed58976f3068fed914608c8484844a24ca2",
+          "bytes": 35823
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-east-slottsvilla",
+      "sourceBuildingId": "w296165893",
+      "sourceBuildingIndex": 129,
+      "sourceName": "Östra slottsvillan",
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -28.7,
+          -889
+        ],
+        [
+          -36.2,
+          -902.2
+        ],
+        [
+          -25.3,
+          -908.3
+        ],
+        [
+          -17.8,
+          -895.1
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679389.344,
+          6626251.469
+        ],
+        [
+          679381.201,
+          6626264.302
+        ],
+        [
+          679391.819,
+          6626270.926
+        ],
+        [
+          679399.962,
+          6626258.092
+        ]
+      ],
+      "footprintAreaSquareMetres": 190.2,
+      "insideFootprint": {
+        "points": 675,
+        "classes": {
+          "1": 638,
+          "2": 37
+        },
+        "heightRH2000": {
+          "min": 21.45,
+          "p05": 24.16,
+          "p25": 33.38,
+          "median": 34.15,
+          "p75": 34.7,
+          "p95": 35.143,
+          "max": 35.76
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 2232,
+        "heightRH2000": {
+          "min": 21.19,
+          "p05": 21.6,
+          "p25": 22.31,
+          "median": 23.46,
+          "p75": 24.15,
+          "p95": 24.6,
+          "max": 24.78
+        },
+        "referenceMedianRH2000": 23.46
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 477,
+        "occupied1mCells": 130,
+        "heightRH2000": {
+          "min": 24.97,
+          "p05": 29.956,
+          "p25": 33.78,
+          "median": 34.4,
+          "p75": 34.86,
+          "p95": 35.182,
+          "max": 35.76
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.51,
+          "p05": 6.496,
+          "p25": 10.32,
+          "median": 10.94,
+          "p75": 11.4,
+          "p95": 11.722,
+          "max": 12.3
+        },
+        "planes": [
+          {
+            "points": 228,
+            "fractionOfAllCandidates": 0.478,
+            "slopeDegrees": 15.93,
+            "verticalResidualRmseMetres": 0.098,
+            "heightRH2000": {
+              "min": 33.05,
+              "p05": 33.32,
+              "p25": 33.77,
+              "median": 34.35,
+              "p75": 34.89,
+              "p95": 35.21,
+              "max": 35.31
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 94,
+            "fractionOfAllCandidates": 0.197,
+            "slopeDegrees": 11.21,
+            "verticalResidualRmseMetres": 0.15,
+            "heightRH2000": {
+              "min": 33.59,
+              "p05": 33.633,
+              "p25": 34.075,
+              "median": 34.605,
+              "p75": 34.895,
+              "p95": 35.117,
+              "max": 35.76
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 67,
+            "fractionOfAllCandidates": 0.14,
+            "slopeDegrees": 6.4,
+            "verticalResidualRmseMetres": 0.124,
+            "heightRH2000": {
+              "min": 33.55,
+              "p05": 33.648,
+              "p25": 34.025,
+              "median": 34.65,
+              "p75": 34.765,
+              "p95": 34.887,
+              "max": 34.95
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165893-candidate-points.csv",
+          "sha256": "3f56734cd9493ad208b7fd171280812a31cbc1a6ed831f5950c1f5f8c4871ce8",
+          "bytes": 11975
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-east-wing",
+      "sourceBuildingId": "w296165894",
+      "sourceBuildingIndex": 130,
+      "sourceName": "Östra flygeln",
+      "sourceKind": "hotel",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -61.7,
+          -960.4
+        ],
+        [
+          -78.8,
+          -984
+        ],
+        [
+          -70.7,
+          -989.9
+        ],
+        [
+          -53.5,
+          -966.3
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679352.871,
+          6626321.251
+        ],
+        [
+          679334.617,
+          6626344.018
+        ],
+        [
+          679342.442,
+          6626350.306
+        ],
+        [
+          679360.796,
+          6626327.544
+        ]
+      ],
+      "footprintAreaSquareMetres": 294.41,
+      "insideFootprint": {
+        "points": 646,
+        "classes": {
+          "1": 572,
+          "2": 74
+        },
+        "heightRH2000": {
+          "min": 28.02,
+          "p05": 28.37,
+          "p25": 34.74,
+          "median": 35.295,
+          "p75": 35.7,
+          "p95": 35.99,
+          "max": 36.09
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 2630,
+        "heightRH2000": {
+          "min": 23.8,
+          "p05": 24.99,
+          "p25": 26.06,
+          "median": 27.07,
+          "p75": 28.4,
+          "p95": 28.61,
+          "max": 28.81
+        },
+        "referenceMedianRH2000": 27.07
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 497,
+        "occupied1mCells": 172,
+        "heightRH2000": {
+          "min": 32.75,
+          "p05": 34.63,
+          "p25": 34.97,
+          "median": 35.44,
+          "p75": 35.78,
+          "p95": 36.0,
+          "max": 36.09
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 5.68,
+          "p05": 7.56,
+          "p25": 7.9,
+          "median": 8.37,
+          "p75": 8.71,
+          "p95": 8.93,
+          "max": 9.02
+        },
+        "planes": [
+          {
+            "points": 451,
+            "fractionOfAllCandidates": 0.907,
+            "slopeDegrees": 16.91,
+            "verticalResidualRmseMetres": 0.072,
+            "heightRH2000": {
+              "min": 34.37,
+              "p05": 34.635,
+              "p25": 34.95,
+              "median": 35.34,
+              "p75": 35.77,
+              "p95": 36.005,
+              "max": 36.09
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 42,
+            "fractionOfAllCandidates": 0.085,
+            "slopeDegrees": 17.79,
+            "verticalResidualRmseMetres": 0.023,
+            "heightRH2000": {
+              "min": 35.55,
+              "p05": 35.57,
+              "p25": 35.662,
+              "median": 35.745,
+              "p75": 35.838,
+              "p95": 35.88,
+              "max": 35.92
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165894-candidate-points.csv",
+          "sha256": "958d59df9d47d1e25af5ded07a864bb10c84d66738f861ba0bbc05becb66e038",
+          "bytes": 12475
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-clubhouse",
+      "sourceBuildingId": "w296165896",
+      "sourceBuildingIndex": 131,
+      "sourceName": "klubbhus",
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -219.9,
+          -805.5
+        ],
+        [
+          -221.7,
+          -808.3
+        ],
+        [
+          -230.4,
+          -802.7
+        ],
+        [
+          -234.7,
+          -809.4
+        ],
+        [
+          -206.2,
+          -827.6
+        ],
+        [
+          -200.2,
+          -818.2
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679201.95,
+          6626158.787
+        ],
+        [
+          679200.013,
+          6626161.499
+        ],
+        [
+          679191.573,
+          6626155.482
+        ],
+        [
+          679186.946,
+          6626161.973
+        ],
+        [
+          679214.602,
+          6626181.538
+        ],
+        [
+          679221.061,
+          6626172.431
+        ]
+      ],
+      "footprintAreaSquareMetres": 345.97,
+      "insideFootprint": {
+        "points": 542,
+        "classes": {
+          "1": 453,
+          "2": 89
+        },
+        "heightRH2000": {
+          "min": 15.58,
+          "p05": 18.191,
+          "p25": 20.817,
+          "median": 23.985,
+          "p75": 25.428,
+          "p95": 26.51,
+          "max": 27.53
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 1675,
+        "heightRH2000": {
+          "min": 15.22,
+          "p05": 15.35,
+          "p25": 15.48,
+          "median": 16.28,
+          "p75": 18.01,
+          "p95": 18.19,
+          "max": 18.71
+        },
+        "referenceMedianRH2000": 16.28
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 372,
+        "occupied1mCells": 176,
+        "heightRH2000": {
+          "min": 18.57,
+          "p05": 19.351,
+          "p25": 22.71,
+          "median": 24.78,
+          "p75": 25.86,
+          "p95": 26.57,
+          "max": 27.53
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 2.29,
+          "p05": 3.071,
+          "p25": 6.43,
+          "median": 8.5,
+          "p75": 9.58,
+          "p95": 10.29,
+          "max": 11.25
+        },
+        "planes": [
+          {
+            "points": 128,
+            "fractionOfAllCandidates": 0.344,
+            "slopeDegrees": 39.52,
+            "verticalResidualRmseMetres": 0.089,
+            "heightRH2000": {
+              "min": 21.53,
+              "p05": 21.91,
+              "p25": 23.003,
+              "median": 24.995,
+              "p75": 25.99,
+              "p95": 26.646,
+              "max": 26.71
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 63,
+            "fractionOfAllCandidates": 0.169,
+            "slopeDegrees": 39.88,
+            "verticalResidualRmseMetres": 0.101,
+            "heightRH2000": {
+              "min": 19.36,
+              "p05": 21.393,
+              "p25": 21.98,
+              "median": 22.93,
+              "p75": 23.95,
+              "p95": 24.698,
+              "max": 24.88
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 73,
+            "fractionOfAllCandidates": 0.196,
+            "slopeDegrees": 38.51,
+            "verticalResidualRmseMetres": 0.069,
+            "heightRH2000": {
+              "min": 24.77,
+              "p05": 24.882,
+              "p25": 25.35,
+              "median": 25.86,
+              "p75": 26.32,
+              "p95": 26.596,
+              "max": 26.68
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165896-candidate-points.csv",
+          "sha256": "a0cc2e727050a62a4a428270a1645bb67527d215cff0048913168d83ecd39eec",
+          "bytes": 9722
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-clubhouse-shed",
+      "sourceBuildingId": "w296165897",
+      "sourceBuildingIndex": 132,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -214.7,
+          -792.5
+        ],
+        [
+          -217.6,
+          -796.6
+        ],
+        [
+          -208.9,
+          -802.8
+        ],
+        [
+          -206,
+          -798.8
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679207.781,
+          6626146.042
+        ],
+        [
+          679204.681,
+          6626150.001
+        ],
+        [
+          679213.092,
+          6626156.618
+        ],
+        [
+          679216.188,
+          6626152.759
+        ]
+      ],
+      "footprintAreaSquareMetres": 53.53,
+      "insideFootprint": {
+        "points": 79,
+        "classes": {
+          "1": 65,
+          "2": 14
+        },
+        "heightRH2000": {
+          "min": 18.07,
+          "p05": 18.089,
+          "p25": 20.89,
+          "median": 21.22,
+          "p75": 21.515,
+          "p95": 21.843,
+          "max": 21.9
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 920,
+        "heightRH2000": {
+          "min": 16.9,
+          "p05": 17.26,
+          "p25": 18.03,
+          "median": 18.16,
+          "p75": 18.38,
+          "p95": 18.76,
+          "max": 19.52
+        },
+        "referenceMedianRH2000": 18.16
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 34,
+        "occupied1mCells": 18,
+        "heightRH2000": {
+          "min": 20.74,
+          "p05": 20.906,
+          "p25": 21.235,
+          "median": 21.555,
+          "p75": 21.673,
+          "p95": 21.87,
+          "max": 21.9
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 2.58,
+          "p05": 2.746,
+          "p25": 3.075,
+          "median": 3.395,
+          "p75": 3.513,
+          "p95": 3.71,
+          "max": 3.74
+        },
+        "planes": [
+          {
+            "points": 30,
+            "fractionOfAllCandidates": 0.882,
+            "slopeDegrees": 9.74,
+            "verticalResidualRmseMetres": 0.14,
+            "heightRH2000": {
+              "min": 20.74,
+              "p05": 20.892,
+              "p25": 21.222,
+              "median": 21.485,
+              "p75": 21.62,
+              "p95": 21.857,
+              "max": 21.87
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165897-candidate-points.csv",
+          "sha256": "9990986a45bd6149a8e9cf9097c5577e948d9c67127f03672b3d0dc6fd5b4f72",
+          "bytes": 934
+        }
+      },
+      "confidence": "low-unclassified-returns-or-sparse-planar-support",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-west-slottsvilla",
+      "sourceBuildingId": "w296165898",
+      "sourceBuildingIndex": 133,
+      "sourceName": "Västra slottsvillan",
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -39.6,
+          -880.1
+        ],
+        [
+          -51.5,
+          -872.9
+        ],
+        [
+          -59,
+          -885.3
+        ],
+        [
+          -47.1,
+          -892.5
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679378.861,
+          6626242.047
+        ],
+        [
+          679367.294,
+          6626234.276
+        ],
+        [
+          679359.189,
+          6626246.31
+        ],
+        [
+          679370.756,
+          6626254.081
+        ]
+      ],
+      "footprintAreaSquareMetres": 202.18,
+      "insideFootprint": {
+        "points": 713,
+        "classes": {
+          "1": 663,
+          "2": 50
+        },
+        "heightRH2000": {
+          "min": 21.51,
+          "p05": 22.936,
+          "p25": 33.22,
+          "median": 34.07,
+          "p75": 34.69,
+          "p95": 35.13,
+          "max": 35.57
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 2322,
+        "heightRH2000": {
+          "min": 21.46,
+          "p05": 21.81,
+          "p25": 22.2,
+          "median": 23.0,
+          "p75": 23.717,
+          "p95": 24.09,
+          "max": 24.35
+        },
+        "referenceMedianRH2000": 23.0
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 522,
+        "occupied1mCells": 111,
+        "heightRH2000": {
+          "min": 24.58,
+          "p05": 27.084,
+          "p25": 33.583,
+          "median": 34.305,
+          "p75": 34.78,
+          "p95": 35.15,
+          "max": 35.57
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.58,
+          "p05": 4.084,
+          "p25": 10.583,
+          "median": 11.305,
+          "p75": 11.78,
+          "p95": 12.15,
+          "max": 12.57
+        },
+        "planes": [
+          {
+            "points": 195,
+            "fractionOfAllCandidates": 0.374,
+            "slopeDegrees": 16.98,
+            "verticalResidualRmseMetres": 0.1,
+            "heightRH2000": {
+              "min": 33.01,
+              "p05": 33.317,
+              "p25": 33.79,
+              "median": 34.3,
+              "p75": 34.825,
+              "p95": 35.22,
+              "max": 35.3
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 129,
+            "fractionOfAllCandidates": 0.247,
+            "slopeDegrees": 10.85,
+            "verticalResidualRmseMetres": 0.136,
+            "heightRH2000": {
+              "min": 33.14,
+              "p05": 33.29,
+              "p25": 33.7,
+              "median": 34.62,
+              "p75": 34.89,
+              "p95": 35.08,
+              "max": 35.15
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 70,
+            "fractionOfAllCandidates": 0.134,
+            "slopeDegrees": 16.13,
+            "verticalResidualRmseMetres": 0.069,
+            "heightRH2000": {
+              "min": 33.86,
+              "p05": 34.045,
+              "p25": 34.3,
+              "median": 34.545,
+              "p75": 34.823,
+              "p95": 35.035,
+              "max": 35.14
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165898-candidate-points.csv",
+          "sha256": "853982af3e6399e3aa4c1fe24d792eb2d3cf100825f1c4c0f9caa9814816ee34",
+          "bytes": 13100
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-karolinerhuset",
+      "sourceBuildingId": "w296165899",
+      "sourceBuildingIndex": 134,
+      "sourceName": "Karolinerhuset",
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -29.8,
+          -948.6
+        ],
+        [
+          -46.1,
+          -971.3
+        ],
+        [
+          -34.1,
+          -979.9
+        ],
+        [
+          -17.8,
+          -957.2
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679385.374,
+          6626310.994
+        ],
+        [
+          679367.963,
+          6626332.899
+        ],
+        [
+          679379.562,
+          6626342.075
+        ],
+        [
+          679396.973,
+          6626320.169
+        ]
+      ],
+      "footprintAreaSquareMetres": 413.84,
+      "insideFootprint": {
+        "points": 815,
+        "classes": {
+          "1": 733,
+          "2": 82
+        },
+        "heightRH2000": {
+          "min": 26.49,
+          "p05": 26.78,
+          "p25": 33.01,
+          "median": 35.27,
+          "p75": 35.63,
+          "p95": 36.1,
+          "max": 36.76
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 2226,
+        "heightRH2000": {
+          "min": 14.68,
+          "p05": 17.36,
+          "p25": 19.19,
+          "median": 22.29,
+          "p75": 26.08,
+          "p95": 26.33,
+          "max": 27.47
+        },
+        "referenceMedianRH2000": 22.29
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 607,
+        "occupied1mCells": 231,
+        "heightRH2000": {
+          "min": 26.82,
+          "p05": 29.153,
+          "p25": 35.035,
+          "median": 35.45,
+          "p75": 35.78,
+          "p95": 36.137,
+          "max": 36.76
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 4.53,
+          "p05": 6.863,
+          "p25": 12.745,
+          "median": 13.16,
+          "p75": 13.49,
+          "p95": 13.847,
+          "max": 14.47
+        },
+        "planes": [
+          {
+            "points": 312,
+            "fractionOfAllCandidates": 0.514,
+            "slopeDegrees": 12.28,
+            "verticalResidualRmseMetres": 0.101,
+            "heightRH2000": {
+              "min": 34.58,
+              "p05": 34.816,
+              "p25": 35.15,
+              "median": 35.515,
+              "p75": 35.89,
+              "p95": 36.11,
+              "max": 36.22
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 125,
+            "fractionOfAllCandidates": 0.206,
+            "slopeDegrees": 0.8,
+            "verticalResidualRmseMetres": 0.12,
+            "heightRH2000": {
+              "min": 35.13,
+              "p05": 35.26,
+              "p25": 35.44,
+              "median": 35.56,
+              "p75": 35.61,
+              "p95": 35.768,
+              "max": 35.86
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 46,
+            "fractionOfAllCandidates": 0.076,
+            "slopeDegrees": 9.4,
+            "verticalResidualRmseMetres": 0.114,
+            "heightRH2000": {
+              "min": 34.87,
+              "p05": 34.893,
+              "p25": 35.172,
+              "median": 35.535,
+              "p75": 36.21,
+              "p95": 36.557,
+              "max": 36.76
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165899-candidate-points.csv",
+          "sha256": "531c66763b78dd19e51e489692ef7bec82641a519d6c8f432e2e5af7a2663cf9",
+          "bytes": 15225
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-building-w296165900",
+      "sourceBuildingId": "w296165900",
+      "sourceBuildingIndex": 135,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          168.2,
+          -839.6
+        ],
+        [
+          192.3,
+          -846.1
+        ],
+        [
+          213.9,
+          -766.2
+        ],
+        [
+          176.1,
+          -756
+        ],
+        [
+          172,
+          -771.3
+        ],
+        [
+          185.7,
+          -775
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679588.841,
+          6626211.586
+        ],
+        [
+          679612.654,
+          6626219.247
+        ],
+        [
+          679638.13,
+          6626140.42
+        ],
+        [
+          679600.779,
+          6626128.399
+        ],
+        [
+          679595.937,
+          6626143.495
+        ],
+        [
+          679609.474,
+          6626147.855
+        ]
+      ],
+      "footprintAreaSquareMetres": 2296.4,
+      "insideFootprint": {
+        "points": 1737,
+        "classes": {
+          "1": 1537,
+          "2": 200
+        },
+        "heightRH2000": {
+          "min": 21.84,
+          "p05": 22.17,
+          "p25": 29.47,
+          "median": 30.14,
+          "p75": 30.84,
+          "p95": 31.38,
+          "max": 34.59
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 3324,
+        "heightRH2000": {
+          "min": 21.39,
+          "p05": 21.55,
+          "p25": 21.94,
+          "median": 22.75,
+          "p75": 24.16,
+          "p95": 25.58,
+          "max": 26.11
+        },
+        "referenceMedianRH2000": 22.75
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 1341,
+        "occupied1mCells": 752,
+        "heightRH2000": {
+          "min": 28.91,
+          "p05": 29.43,
+          "p25": 29.88,
+          "median": 30.4,
+          "p75": 30.96,
+          "p95": 31.39,
+          "max": 33.71
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 6.16,
+          "p05": 6.68,
+          "p25": 7.13,
+          "median": 7.65,
+          "p75": 8.21,
+          "p95": 8.64,
+          "max": 10.96
+        },
+        "planes": [
+          {
+            "points": 1041,
+            "fractionOfAllCandidates": 0.776,
+            "slopeDegrees": 10.97,
+            "verticalResidualRmseMetres": 0.041,
+            "heightRH2000": {
+              "min": 29.44,
+              "p05": 29.57,
+              "p25": 29.99,
+              "median": 30.5,
+              "p75": 31.02,
+              "p95": 31.41,
+              "max": 33.71
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 284,
+            "fractionOfAllCandidates": 0.212,
+            "slopeDegrees": 11.08,
+            "verticalResidualRmseMetres": 0.042,
+            "heightRH2000": {
+              "min": 28.91,
+              "p05": 29.051,
+              "p25": 29.46,
+              "median": 29.99,
+              "p75": 30.61,
+              "p95": 31.158,
+              "max": 31.24
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165900-candidate-points.csv",
+          "sha256": "2565458f4d43c87e71adcb8514bc4d5c6719c3f75edbd7801db072443be08f12",
+          "bytes": 33575
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-west-wing",
+      "sourceBuildingId": "w296165901",
+      "sourceBuildingIndex": 136,
+      "sourceName": "Västra flygeln",
+      "sourceKind": "hotel",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -103.4,
+          -930.3
+        ],
+        [
+          -120.2,
+          -955.9
+        ],
+        [
+          -112.1,
+          -961.3
+        ],
+        [
+          -95.2,
+          -935.7
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679312.575,
+          6626289.153
+        ],
+        [
+          679294.525,
+          6626313.934
+        ],
+        [
+          679302.374,
+          6626319.722
+        ],
+        [
+          679320.524,
+          6626294.946
+        ]
+      ],
+      "footprintAreaSquareMetres": 300.53,
+      "insideFootprint": {
+        "points": 755,
+        "classes": {
+          "1": 545,
+          "2": 210
+        },
+        "heightRH2000": {
+          "min": 25.21,
+          "p05": 25.66,
+          "p25": 25.975,
+          "median": 34.8,
+          "p75": 35.46,
+          "p95": 35.96,
+          "max": 36.07
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 3479,
+        "heightRH2000": {
+          "min": 18.5,
+          "p05": 19.62,
+          "p25": 21.78,
+          "median": 24.09,
+          "p75": 26.74,
+          "p95": 28.42,
+          "max": 28.58
+        },
+        "referenceMedianRH2000": 24.09
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 461,
+        "occupied1mCells": 161,
+        "heightRH2000": {
+          "min": 25.75,
+          "p05": 27.35,
+          "p25": 34.76,
+          "median": 35.18,
+          "p75": 35.58,
+          "p95": 35.96,
+          "max": 36.06
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.66,
+          "p05": 3.26,
+          "p25": 10.67,
+          "median": 11.09,
+          "p75": 11.49,
+          "p95": 11.87,
+          "max": 11.97
+        },
+        "planes": [
+          {
+            "points": 412,
+            "fractionOfAllCandidates": 0.894,
+            "slopeDegrees": 17.69,
+            "verticalResidualRmseMetres": 0.055,
+            "heightRH2000": {
+              "min": 34.44,
+              "p05": 34.63,
+              "p25": 34.9,
+              "median": 35.26,
+              "p75": 35.622,
+              "p95": 35.96,
+              "max": 36.06
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 18,
+            "fractionOfAllCandidates": 0.039,
+            "slopeDegrees": 30.67,
+            "verticalResidualRmseMetres": 0.069,
+            "heightRH2000": {
+              "min": 26.91,
+              "p05": 27.522,
+              "p25": 27.785,
+              "median": 27.865,
+              "p75": 27.928,
+              "p95": 29.816,
+              "max": 29.96
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 17,
+            "fractionOfAllCandidates": 0.037,
+            "slopeDegrees": 32.74,
+            "verticalResidualRmseMetres": 0.116,
+            "heightRH2000": {
+              "min": 25.75,
+              "p05": 25.958,
+              "p25": 27.06,
+              "median": 27.18,
+              "p75": 27.26,
+              "p95": 27.846,
+              "max": 29.83
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165901-candidate-points.csv",
+          "sha256": "30f3f20d994c1d441872c4b73ab90579a14eb8d260745409187288f9b304ced3",
+          "bytes": 12003
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-building-w296165903",
+      "sourceBuildingId": "w296165903",
+      "sourceBuildingIndex": 137,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -31.4,
+          -816.1
+        ],
+        [
+          -7.7,
+          -831.1
+        ],
+        [
+          -2.2,
+          -822.4
+        ],
+        [
+          -25.9,
+          -807.4
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679390.151,
+          6626178.466
+        ],
+        [
+          679413.155,
+          6626194.603
+        ],
+        [
+          679419.08,
+          6626186.172
+        ],
+        [
+          679396.076,
+          6626170.035
+        ]
+      ],
+      "footprintAreaSquareMetres": 289.56,
+      "insideFootprint": {
+        "points": 1038,
+        "classes": {
+          "1": 950,
+          "2": 88
+        },
+        "heightRH2000": {
+          "min": 23.06,
+          "p05": 23.748,
+          "p25": 31.08,
+          "median": 32.37,
+          "p75": 33.318,
+          "p95": 34.05,
+          "max": 34.82
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 3670,
+        "heightRH2000": {
+          "min": 22.05,
+          "p05": 22.42,
+          "p25": 23.24,
+          "median": 23.92,
+          "p75": 24.48,
+          "p95": 26.27,
+          "max": 27.42
+        },
+        "referenceMedianRH2000": 23.92
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 737,
+        "occupied1mCells": 225,
+        "heightRH2000": {
+          "min": 25.64,
+          "p05": 30.81,
+          "p25": 31.88,
+          "median": 32.84,
+          "p75": 33.57,
+          "p95": 34.09,
+          "max": 34.82
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.72,
+          "p05": 6.89,
+          "p25": 7.96,
+          "median": 8.92,
+          "p75": 9.65,
+          "p95": 10.17,
+          "max": 10.9
+        },
+        "planes": [
+          {
+            "points": 479,
+            "fractionOfAllCandidates": 0.65,
+            "slopeDegrees": 32.23,
+            "verticalResidualRmseMetres": 0.08,
+            "heightRH2000": {
+              "min": 30.56,
+              "p05": 30.869,
+              "p25": 31.56,
+              "median": 32.47,
+              "p75": 33.395,
+              "p95": 34.08,
+              "max": 34.6
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 210,
+            "fractionOfAllCandidates": 0.285,
+            "slopeDegrees": 34.11,
+            "verticalResidualRmseMetres": 0.087,
+            "heightRH2000": {
+              "min": 32.17,
+              "p05": 32.434,
+              "p25": 32.8,
+              "median": 33.245,
+              "p75": 33.63,
+              "p95": 34.0,
+              "max": 34.75
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 20,
+            "fractionOfAllCandidates": 0.027,
+            "slopeDegrees": 27.49,
+            "verticalResidualRmseMetres": 0.119,
+            "heightRH2000": {
+              "min": 28.17,
+              "p05": 29.481,
+              "p25": 33.655,
+              "median": 34.235,
+              "p75": 34.722,
+              "p95": 34.801,
+              "max": 34.82
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165903-candidate-points.csv",
+          "sha256": "6913fd3dec8475454b4d06185e0351bb1e9edb4f2453ec35e82211b695055beb",
+          "bytes": 18334
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-johannesbergsvillan",
+      "sourceBuildingId": "w296165904",
+      "sourceBuildingIndex": 138,
+      "sourceName": "Johannesbergsvillan",
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -76.7,
+          -879.4
+        ],
+        [
+          -84.5,
+          -890.8
+        ],
+        [
+          -73.7,
+          -898.1
+        ],
+        [
+          -65.9,
+          -886.6
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679341.754,
+          6626239.559
+        ],
+        [
+          679333.396,
+          6626250.578
+        ],
+        [
+          679343.857,
+          6626258.396
+        ],
+        [
+          679352.219,
+          6626247.277
+        ]
+      ],
+      "footprintAreaSquareMetres": 180.76,
+      "insideFootprint": {
+        "points": 659,
+        "classes": {
+          "1": 591,
+          "2": 63,
+          "7": 5
+        },
+        "heightRH2000": {
+          "min": 19.6,
+          "p05": 20.58,
+          "p25": 24.125,
+          "median": 29.61,
+          "p75": 30.085,
+          "p95": 30.481,
+          "max": 30.68
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 1444,
+        "heightRH2000": {
+          "min": 20.09,
+          "p05": 20.51,
+          "p25": 22.557,
+          "median": 23.32,
+          "p75": 23.67,
+          "p95": 23.93,
+          "max": 24.46
+        },
+        "referenceMedianRH2000": 23.32
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 367,
+        "occupied1mCells": 87,
+        "heightRH2000": {
+          "min": 27.11,
+          "p05": 27.276,
+          "p25": 29.6,
+          "median": 30.0,
+          "p75": 30.3,
+          "p95": 30.587,
+          "max": 30.68
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 3.79,
+          "p05": 3.956,
+          "p25": 6.28,
+          "median": 6.68,
+          "p75": 6.98,
+          "p95": 7.267,
+          "max": 7.36
+        },
+        "planes": [
+          {
+            "points": 185,
+            "fractionOfAllCandidates": 0.504,
+            "slopeDegrees": 10.59,
+            "verticalResidualRmseMetres": 0.109,
+            "heightRH2000": {
+              "min": 29.34,
+              "p05": 29.53,
+              "p25": 29.84,
+              "median": 30.13,
+              "p75": 30.4,
+              "p95": 30.62,
+              "max": 30.68
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 90,
+            "fractionOfAllCandidates": 0.245,
+            "slopeDegrees": 3.26,
+            "verticalResidualRmseMetres": 0.136,
+            "heightRH2000": {
+              "min": 29.58,
+              "p05": 29.7,
+              "p25": 29.91,
+              "median": 30.025,
+              "p75": 30.157,
+              "p95": 30.375,
+              "max": 30.57
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 49,
+            "fractionOfAllCandidates": 0.134,
+            "slopeDegrees": 22.45,
+            "verticalResidualRmseMetres": 0.134,
+            "heightRH2000": {
+              "min": 27.11,
+              "p05": 27.124,
+              "p25": 27.26,
+              "median": 27.46,
+              "p75": 28.62,
+              "p95": 30.382,
+              "max": 30.4
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165904-candidate-points.csv",
+          "sha256": "78bca2afcfa2bd177e88a007a356bde7562cc9c619c512bd1d8aa8fb7b4c6f0b",
+          "bytes": 9225
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-johannesbergsflygeln",
+      "sourceBuildingId": "w296165905",
+      "sourceBuildingIndex": 139,
+      "sourceName": "Johannesbergsflygeln",
+      "sourceKind": "hotel",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -111.7,
+          -901.2
+        ],
+        [
+          -86.3,
+          -916.4
+        ],
+        [
+          -76.8,
+          -900.6
+        ],
+        [
+          -102.2,
+          -885.4
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679305.666,
+          6626259.664
+        ],
+        [
+          679330.362,
+          6626276.082
+        ],
+        [
+          679340.633,
+          6626260.746
+        ],
+        [
+          679315.937,
+          6626244.327
+        ]
+      ],
+      "footprintAreaSquareMetres": 547.38,
+      "insideFootprint": {
+        "points": 1747,
+        "classes": {
+          "1": 1664,
+          "2": 83
+        },
+        "heightRH2000": {
+          "min": 18.84,
+          "p05": 20.693,
+          "p25": 34.86,
+          "median": 37.66,
+          "p75": 38.16,
+          "p95": 38.64,
+          "max": 41.12
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 2619,
+        "heightRH2000": {
+          "min": 16.84,
+          "p05": 17.43,
+          "p25": 19.02,
+          "median": 21.39,
+          "p75": 23.82,
+          "p95": 25.04,
+          "max": 25.76
+        },
+        "referenceMedianRH2000": 21.39
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 1424,
+        "occupied1mCells": 371,
+        "heightRH2000": {
+          "min": 23.73,
+          "p05": 30.306,
+          "p25": 37.267,
+          "median": 37.8,
+          "p75": 38.25,
+          "p95": 38.638,
+          "max": 41.12
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 2.34,
+          "p05": 8.916,
+          "p25": 15.878,
+          "median": 16.41,
+          "p75": 16.86,
+          "p95": 17.249,
+          "max": 19.73
+        },
+        "planes": [
+          {
+            "points": 564,
+            "fractionOfAllCandidates": 0.396,
+            "slopeDegrees": 9.16,
+            "verticalResidualRmseMetres": 0.098,
+            "heightRH2000": {
+              "min": 37.07,
+              "p05": 37.272,
+              "p25": 37.7,
+              "median": 38.07,
+              "p75": 38.42,
+              "p95": 38.699,
+              "max": 40.15
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 361,
+            "fractionOfAllCandidates": 0.254,
+            "slopeDegrees": 5.07,
+            "verticalResidualRmseMetres": 0.133,
+            "heightRH2000": {
+              "min": 37.24,
+              "p05": 37.41,
+              "p25": 37.67,
+              "median": 37.94,
+              "p75": 38.24,
+              "p95": 38.54,
+              "max": 38.62
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 194,
+            "fractionOfAllCandidates": 0.136,
+            "slopeDegrees": 10.17,
+            "verticalResidualRmseMetres": 0.133,
+            "heightRH2000": {
+              "min": 34.0,
+              "p05": 34.106,
+              "p25": 34.3,
+              "median": 34.555,
+              "p75": 34.78,
+              "p95": 37.503,
+              "max": 38.48
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165905-candidate-points.csv",
+          "sha256": "8917b1d47475b880639cb8e1fae7d3cbce6829399f5cc8bb70f06eb019fea104",
+          "bytes": 36018
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-building-w296165906",
+      "sourceBuildingId": "w296165906",
+      "sourceBuildingIndex": 140,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -78.5,
+          -826.4
+        ],
+        [
+          -92.8,
+          -849
+        ],
+        [
+          -81.2,
+          -856.4
+        ],
+        [
+          -66.8,
+          -833.8
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679342.502,
+          6626186.492
+        ],
+        [
+          679327.099,
+          6626208.394
+        ],
+        [
+          679338.356,
+          6626216.35
+        ],
+        [
+          679353.859,
+          6626194.453
+        ]
+      ],
+      "footprintAreaSquareMetres": 370.6,
+      "insideFootprint": {
+        "points": 1260,
+        "classes": {
+          "1": 1042,
+          "2": 218
+        },
+        "heightRH2000": {
+          "min": 19.56,
+          "p05": 19.899,
+          "p25": 27.457,
+          "median": 29.66,
+          "p75": 30.78,
+          "p95": 31.71,
+          "max": 31.91
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 3360,
+        "heightRH2000": {
+          "min": 18.22,
+          "p05": 18.84,
+          "p25": 19.86,
+          "median": 21.01,
+          "p75": 21.42,
+          "p95": 21.64,
+          "max": 22.26
+        },
+        "referenceMedianRH2000": 21.01
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 832,
+        "occupied1mCells": 224,
+        "heightRH2000": {
+          "min": 22.52,
+          "p05": 27.45,
+          "p25": 28.69,
+          "median": 30.305,
+          "p75": 31.12,
+          "p95": 31.75,
+          "max": 31.91
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.51,
+          "p05": 6.44,
+          "p25": 7.68,
+          "median": 9.295,
+          "p75": 10.11,
+          "p95": 10.74,
+          "max": 10.9
+        },
+        "planes": [
+          {
+            "points": 630,
+            "fractionOfAllCandidates": 0.757,
+            "slopeDegrees": 31.49,
+            "verticalResidualRmseMetres": 0.097,
+            "heightRH2000": {
+              "min": 27.2,
+              "p05": 27.474,
+              "p25": 28.43,
+              "median": 29.66,
+              "p75": 30.83,
+              "p95": 31.77,
+              "max": 31.91
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 188,
+            "fractionOfAllCandidates": 0.226,
+            "slopeDegrees": 32.32,
+            "verticalResidualRmseMetres": 0.084,
+            "heightRH2000": {
+              "min": 30.19,
+              "p05": 30.43,
+              "p25": 30.698,
+              "median": 31.085,
+              "p75": 31.392,
+              "p95": 31.71,
+              "max": 31.83
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165906-candidate-points.csv",
+          "sha256": "0951e4893e3134ccac54e1580b93b34feeb682355c665208ad6463351c570d96",
+          "bytes": 20850
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-building-w296165907",
+      "sourceBuildingId": "w296165907",
+      "sourceBuildingIndex": 141,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          114.9,
+          -756.6
+        ],
+        [
+          117.9,
+          -742.4
+        ],
+        [
+          60.3,
+          -730.2
+        ],
+        [
+          57.3,
+          -744.4
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679539.481,
+          6626126.045
+        ],
+        [
+          679543.168,
+          6626111.995
+        ],
+        [
+          679486.09,
+          6626097.021
+        ],
+        [
+          679482.403,
+          6626111.071
+        ]
+      ],
+      "footprintAreaSquareMetres": 857.16,
+      "insideFootprint": {
+        "points": 338,
+        "classes": {
+          "1": 124,
+          "2": 214
+        },
+        "heightRH2000": {
+          "min": 20.88,
+          "p05": 21.02,
+          "p25": 21.14,
+          "median": 21.285,
+          "p75": 21.448,
+          "p95": 34.034,
+          "max": 34.86
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 3814,
+        "heightRH2000": {
+          "min": 19.98,
+          "p05": 20.28,
+          "p25": 21.19,
+          "median": 21.85,
+          "p75": 22.32,
+          "p95": 23.094,
+          "max": 23.69
+        },
+        "referenceMedianRH2000": 21.85
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 27,
+        "occupied1mCells": 12,
+        "heightRH2000": {
+          "min": 31.58,
+          "p05": 33.863,
+          "p25": 33.915,
+          "median": 34.26,
+          "p75": 34.635,
+          "p95": 34.758,
+          "max": 34.86
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 9.73,
+          "p05": 12.013,
+          "p25": 12.065,
+          "median": 12.41,
+          "p75": 12.785,
+          "p95": 12.908,
+          "max": 13.01
+        },
+        "planes": [
+          {
+            "points": 22,
+            "fractionOfAllCandidates": 0.815,
+            "slopeDegrees": 14.35,
+            "verticalResidualRmseMetres": 0.13,
+            "heightRH2000": {
+              "min": 33.87,
+              "p05": 33.901,
+              "p25": 33.977,
+              "median": 34.415,
+              "p75": 34.637,
+              "p95": 34.768,
+              "max": 34.86
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165907-candidate-points.csv",
+          "sha256": "d98b8df6d74da91567d69694800313bc160beb7ce18574609df11def17415d6b",
+          "bytes": 698
+        }
+      },
+      "confidence": "low-unclassified-returns-or-sparse-planar-support",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-building-w296165908",
+      "sourceBuildingId": "w296165908",
+      "sourceBuildingIndex": 142,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -30.5,
+          -932.8
+        ],
+        [
+          -33.4,
+          -937.9
+        ],
+        [
+          -26,
+          -942.1
+        ],
+        [
+          -23.1,
+          -937
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679385.434,
+          6626295.166
+        ],
+        [
+          679382.285,
+          6626300.124
+        ],
+        [
+          679389.491,
+          6626304.679
+        ],
+        [
+          679392.639,
+          6626299.721
+        ]
+      ],
+      "footprintAreaSquareMetres": 50.07,
+      "insideFootprint": {
+        "points": 184,
+        "classes": {
+          "1": 149,
+          "2": 35
+        },
+        "heightRH2000": {
+          "min": 24.24,
+          "p05": 24.342,
+          "p25": 27.247,
+          "median": 27.455,
+          "p75": 27.793,
+          "p95": 28.039,
+          "max": 28.15
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 1266,
+        "heightRH2000": {
+          "min": 21.1,
+          "p05": 22.052,
+          "p25": 24.06,
+          "median": 24.43,
+          "p75": 25.04,
+          "p95": 26.2,
+          "max": 27.5
+        },
+        "referenceMedianRH2000": 24.43
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 83,
+        "occupied1mCells": 32,
+        "heightRH2000": {
+          "min": 27.27,
+          "p05": 27.331,
+          "p25": 27.435,
+          "median": 27.63,
+          "p75": 27.86,
+          "p95": 28.069,
+          "max": 28.15
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 2.84,
+          "p05": 2.901,
+          "p25": 3.005,
+          "median": 3.2,
+          "p75": 3.43,
+          "p95": 3.639,
+          "max": 3.72
+        },
+        "planes": [
+          {
+            "points": 80,
+            "fractionOfAllCandidates": 0.964,
+            "slopeDegrees": 10.57,
+            "verticalResidualRmseMetres": 0.109,
+            "heightRH2000": {
+              "min": 27.27,
+              "p05": 27.339,
+              "p25": 27.47,
+              "median": 27.63,
+              "p75": 27.873,
+              "p95": 28.071,
+              "max": 28.15
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165908-candidate-points.csv",
+          "sha256": "4a82fe2731af366dc31fdb1acf96c9daba451cb8a60cb3601f597e7e9b823073",
+          "bytes": 2125
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-building-w296165909",
+      "sourceBuildingId": "w296165909",
+      "sourceBuildingIndex": 143,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -21.3,
+          -914.7
+        ],
+        [
+          -28.7,
+          -925.9
+        ],
+        [
+          -20.8,
+          -931.1
+        ],
+        [
+          -13.4,
+          -919.9
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679395.515,
+          6626277.516
+        ],
+        [
+          679387.568,
+          6626288.355
+        ],
+        [
+          679395.226,
+          6626293.934
+        ],
+        [
+          679403.173,
+          6626283.095
+        ]
+      ],
+      "footprintAreaSquareMetres": 127.34,
+      "insideFootprint": {
+        "points": 415,
+        "classes": {
+          "1": 365,
+          "2": 50
+        },
+        "heightRH2000": {
+          "min": 24.12,
+          "p05": 24.24,
+          "p25": 27.645,
+          "median": 29.84,
+          "p75": 30.75,
+          "p95": 31.15,
+          "max": 31.29
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 1989,
+        "heightRH2000": {
+          "min": 22.13,
+          "p05": 23.09,
+          "p25": 24.01,
+          "median": 24.21,
+          "p75": 24.38,
+          "p95": 24.99,
+          "max": 25.44
+        },
+        "referenceMedianRH2000": 24.21
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 266,
+        "occupied1mCells": 90,
+        "heightRH2000": {
+          "min": 27.31,
+          "p05": 27.64,
+          "p25": 28.472,
+          "median": 30.325,
+          "p75": 30.81,
+          "p95": 31.17,
+          "max": 31.25
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 3.1,
+          "p05": 3.43,
+          "p25": 4.263,
+          "median": 6.115,
+          "p75": 6.6,
+          "p95": 6.96,
+          "max": 7.04
+        },
+        "planes": [
+          {
+            "points": 129,
+            "fractionOfAllCandidates": 0.485,
+            "slopeDegrees": 11.92,
+            "verticalResidualRmseMetres": 0.084,
+            "heightRH2000": {
+              "min": 29.98,
+              "p05": 30.128,
+              "p25": 30.49,
+              "median": 30.76,
+              "p75": 31.06,
+              "p95": 31.2,
+              "max": 31.25
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 68,
+            "fractionOfAllCandidates": 0.256,
+            "slopeDegrees": 25.63,
+            "verticalResidualRmseMetres": 0.106,
+            "heightRH2000": {
+              "min": 27.47,
+              "p05": 27.62,
+              "p25": 27.7,
+              "median": 28.085,
+              "p75": 30.322,
+              "p95": 31.01,
+              "max": 31.08
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          },
+          {
+            "points": 34,
+            "fractionOfAllCandidates": 0.128,
+            "slopeDegrees": 45.57,
+            "verticalResidualRmseMetres": 0.121,
+            "heightRH2000": {
+              "min": 27.31,
+              "p05": 27.566,
+              "p25": 27.693,
+              "median": 28.0,
+              "p75": 28.99,
+              "p95": 30.262,
+              "max": 30.52
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w296165909-candidate-points.csv",
+          "sha256": "885dca3c4eee9caa6b880e18697d1a0379d25967a4772ec2ff8feb65c4281d45",
+          "bytes": 6700
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-range-hut",
+      "sourceBuildingId": "w378922988",
+      "sourceBuildingIndex": 186,
+      "sourceName": null,
+      "sourceKind": "residential",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -229.5,
+          -950.6
+        ],
+        [
+          -227.7,
+          -942.9
+        ],
+        [
+          -219.9,
+          -944.8
+        ],
+        [
+          -221.8,
+          -952.5
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679185.362,
+          6626303.37
+        ],
+        [
+          679187.534,
+          6626295.76
+        ],
+        [
+          679195.251,
+          6626298.035
+        ],
+        [
+          679192.979,
+          6626305.64
+        ]
+      ],
+      "footprintAreaSquareMetres": 63.38,
+      "insideFootprint": {
+        "points": 46,
+        "classes": {
+          "1": 12,
+          "2": 34
+        },
+        "heightRH2000": {
+          "min": 11.25,
+          "p05": 11.273,
+          "p25": 11.29,
+          "median": 11.34,
+          "p75": 11.407,
+          "p95": 14.995,
+          "max": 15.07
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 1054,
+        "heightRH2000": {
+          "min": 10.8,
+          "p05": 11.18,
+          "p25": 11.28,
+          "median": 11.33,
+          "p75": 11.39,
+          "p95": 11.644,
+          "max": 12.05
+        },
+        "referenceMedianRH2000": 11.33
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 9,
+        "occupied1mCells": 6,
+        "heightRH2000": {
+          "min": 14.79,
+          "p05": 14.814,
+          "p25": 14.89,
+          "median": 14.92,
+          "p75": 15.01,
+          "p95": 15.05,
+          "max": 15.07
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 3.46,
+          "p05": 3.484,
+          "p25": 3.56,
+          "median": 3.59,
+          "p75": 3.68,
+          "p95": 3.72,
+          "max": 3.74
+        },
+        "planes": [],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w378922988-candidate-points.csv",
+          "sha256": "f92446c9d113edc6d84d07a43504408f78572badae4bca8dff73fa9653246c86",
+          "bytes": 284
+        }
+      },
+      "confidence": "low-unclassified-returns-or-sparse-planar-support",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-building-w426174582",
+      "sourceBuildingId": "w426174582",
+      "sourceBuildingIndex": 270,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          62.8,
+          -838
+        ],
+        [
+          65.2,
+          -832.5
+        ],
+        [
+          73.4,
+          -836.1
+        ],
+        [
+          71.1,
+          -841.6
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679483.401,
+          6626204.901
+        ],
+        [
+          679486.069,
+          6626199.519
+        ],
+        [
+          679494.104,
+          6626203.513
+        ],
+        [
+          679491.537,
+          6626208.9
+        ]
+      ],
+      "footprintAreaSquareMetres": 54.0,
+      "insideFootprint": {
+        "points": 455,
+        "classes": {
+          "1": 329,
+          "2": 126
+        },
+        "heightRH2000": {
+          "min": 16.78,
+          "p05": 16.87,
+          "p25": 16.94,
+          "median": 19.4,
+          "p75": 19.63,
+          "p95": 19.833,
+          "max": 19.94
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 2497,
+        "heightRH2000": {
+          "min": 16.23,
+          "p05": 16.53,
+          "p25": 16.72,
+          "median": 17.12,
+          "p75": 19.21,
+          "p95": 21.46,
+          "max": 21.78
+        },
+        "referenceMedianRH2000": 17.12
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 186,
+        "occupied1mCells": 22,
+        "heightRH2000": {
+          "min": 18.68,
+          "p05": 19.47,
+          "p25": 19.513,
+          "median": 19.59,
+          "p75": 19.73,
+          "p95": 19.85,
+          "max": 19.94
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.56,
+          "p05": 2.35,
+          "p25": 2.392,
+          "median": 2.47,
+          "p75": 2.61,
+          "p95": 2.73,
+          "max": 2.82
+        },
+        "planes": [
+          {
+            "points": 182,
+            "fractionOfAllCandidates": 0.978,
+            "slopeDegrees": 3.86,
+            "verticalResidualRmseMetres": 0.057,
+            "heightRH2000": {
+              "min": 19.4,
+              "p05": 19.48,
+              "p25": 19.52,
+              "median": 19.59,
+              "p75": 19.73,
+              "p95": 19.85,
+              "max": 19.94
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/w426174582-candidate-points.csv",
+          "sha256": "5fa11639442807b79221f87b794c1b0d10f350160f2c6bc9a7367ba22580e273",
+          "bytes": 4514
+        }
+      },
+      "confidence": "moderate-for-2021-roof-envelope-pending-image-crosscheck",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-building-trace-tower",
+      "sourceBuildingId": "trace-tower",
+      "sourceBuildingIndex": 305,
+      "sourceName": null,
+      "sourceKind": "yes",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -53,
+          -755
+        ],
+        [
+          -48,
+          -755
+        ],
+        [
+          -48,
+          -749
+        ],
+        [
+          -53,
+          -749
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679371.468,
+          6626116.348
+        ],
+        [
+          679376.473,
+          6626116.589
+        ],
+        [
+          679376.762,
+          6626110.591
+        ],
+        [
+          679371.757,
+          6626110.35
+        ]
+      ],
+      "footprintAreaSquareMetres": 30.09,
+      "insideFootprint": {
+        "points": 127,
+        "classes": {
+          "1": 63,
+          "2": 64
+        },
+        "heightRH2000": {
+          "min": 23.39,
+          "p05": 23.463,
+          "p25": 23.53,
+          "median": 23.66,
+          "p75": 29.675,
+          "p95": 30.851,
+          "max": 30.98
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 1907,
+        "heightRH2000": {
+          "min": 22.03,
+          "p05": 22.403,
+          "p25": 22.97,
+          "median": 23.15,
+          "p75": 23.38,
+          "p95": 23.66,
+          "max": 23.86
+        },
+        "referenceMedianRH2000": 23.15
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 29,
+        "occupied1mCells": 7,
+        "heightRH2000": {
+          "min": 25.12,
+          "p05": 25.464,
+          "p25": 28.73,
+          "median": 29.85,
+          "p75": 30.38,
+          "p95": 30.906,
+          "max": 30.98
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 1.97,
+          "p05": 2.314,
+          "p25": 5.58,
+          "median": 6.7,
+          "p75": 7.23,
+          "p95": 7.756,
+          "max": 7.83
+        },
+        "planes": [
+          {
+            "points": 16,
+            "fractionOfAllCandidates": 0.552,
+            "slopeDegrees": 35.82,
+            "verticalResidualRmseMetres": 0.128,
+            "heightRH2000": {
+              "min": 29.39,
+              "p05": 29.503,
+              "p25": 29.695,
+              "median": 30.14,
+              "p75": 30.422,
+              "p95": 30.92,
+              "max": 30.98
+            },
+            "interpretation": "Planar return support only; roof, terrace, branch and wall assignment requires imagery inspection."
+          }
+        ],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/trace-tower-candidate-points.csv",
+          "sha256": "3f1bd7d57c6caa1eebe393d261c434a79a585c6d42de92da41b9a49d9900543d",
+          "bytes": 775
+        }
+      },
+      "confidence": "low-unclassified-returns-or-sparse-planar-support",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    },
+    {
+      "facilityId": "johannesberg-range-shelter",
+      "sourceBuildingId": "trace-range-shelter",
+      "sourceBuildingIndex": 306,
+      "sourceName": null,
+      "sourceKind": "roof",
+      "footprintStatus": "Inherited model footprint used as selection mask; orthophoto roof displacement and overhang may differ from walls.",
+      "footprintLegacyMetres": [
+        [
+          -201.29,
+          -890.81
+        ],
+        [
+          -197.17,
+          -889.97
+        ],
+        [
+          -197.49,
+          -886.62
+        ],
+        [
+          -201.61,
+          -887.46
+        ]
+      ],
+      "footprintEpsg3006": [
+        [
+          679216.478,
+          6626244.961
+        ],
+        [
+          679220.643,
+          6626244.32
+        ],
+        [
+          679220.483,
+          6626240.956
+        ],
+        [
+          679216.319,
+          6626241.597
+        ]
+      ],
+      "footprintAreaSquareMetres": 14.11,
+      "insideFootprint": {
+        "points": 29,
+        "classes": {
+          "1": 19,
+          "2": 10
+        },
+        "heightRH2000": {
+          "min": 12.65,
+          "p05": 12.704,
+          "p25": 12.75,
+          "median": 15.26,
+          "p75": 18.87,
+          "p95": 19.864,
+          "max": 20.14
+        }
+      },
+      "adjacentGround": {
+        "class": 2,
+        "mask": "2 to 12 m outside footprint, excluding 1 m buffers of all selected buildings",
+        "points": 819,
+        "heightRH2000": {
+          "min": 12.02,
+          "p05": 12.219,
+          "p25": 12.49,
+          "median": 12.67,
+          "p75": 12.87,
+          "p95": 13.06,
+          "max": 13.17
+        },
+        "referenceMedianRH2000": 12.67
+      },
+      "roofCandidates": {
+        "class": 1,
+        "classificationMeaning": "unclassified; includes roofs and vegetation",
+        "mask": "1 m inside inherited footprint and >1.5 m above adjacent-ground median",
+        "points": 6,
+        "occupied1mCells": 2,
+        "heightRH2000": {
+          "min": 15.05,
+          "p05": 15.66,
+          "p25": 17.757,
+          "median": 18.845,
+          "p75": 19.287,
+          "p95": 19.415,
+          "max": 19.44
+        },
+        "heightAboveAdjacentGroundMedianMetres": {
+          "min": 2.38,
+          "p05": 2.99,
+          "p25": 5.087,
+          "median": 6.175,
+          "p75": 6.617,
+          "p95": 6.745,
+          "max": 6.77
+        },
+        "planes": [],
+        "privatePoints": {
+          "path": "johannesbergbuild/cache/facilities-reference/laser/trace-range-shelter-candidate-points.csv",
+          "sha256": "48bf2a9cc49b02c7490df1c46e8ac90d85d91930ca78f29873ff65b0a2dde940",
+          "bytes": 206
+        }
+      },
+      "confidence": "low-unclassified-returns-or-sparse-planar-support",
+      "measuredEaveHeightMetres": null,
+      "measuredRidgeHeightMetres": null,
+      "currentBuildingAgreement": "Requires cross-check against 2025 orthophoto and current dated facade photographs; 2021 capture cannot establish current extensions.",
+      "use": "Constrain historical massing envelope; do not set eaves, ridge, walls or roof shape from a height percentile alone."
+    }
+  ]
+}

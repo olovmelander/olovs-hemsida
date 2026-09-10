@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "createdAt": "2026-09-10",
+  "status": "photo-and-orthophoto-informed-display-layout-not-survey",
+  "horizontalCrs": "EPSG:3006",
+  "blenderOriginEpsg3006RH2000": [677700.5, 6586399.5, 25],
+  "pixelConvention": "Traced pixel positions use the image pixel-edge grid: E=minE+x*resolution; N=maxN-y*resolution. Manual boundary interpretation uncertainty approximately 0.3–0.7m. Roof edges are not proven wall footprints.",
+  "images": {
+    "north": {"id":"range-north-detail-lm-2025","path":"lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-north-detail-lm-2025.png","sha256":"08e885b531df8f1ba126e4400b51b285c4ff360fe43caebc3b70a2eb4c5cab9d","boundsEpsg3006":[677564.96,6586344.96,677655.04,6586410.08],"resolutionMetres":0.16,"captureDate":"2025-05-31"},
+    "south": {"id":"range-south-detail-lm-2025","path":"lidingobuild/cache/facilities-reference-2026-09-10/ortho/range-south-detail-lm-2025.png","sha256":"f60e63ca68d8b4c137c9b40095556f785efc35a8c7801f387af9b6051b374022","boundsEpsg3006":[677524.96,6586034.88,677710.08,6586200],"resolutionMetres":0.16,"captureDate":"2025-05-31"},
+    "parking": {"id":"upper-parking-detail-lm-2025","path":"lidingobuild/cache/facilities-reference-2026-09-10/ortho/upper-parking-detail-lm-2025.png","sha256":"ee5f7902bca2909e6bfa3b631e4c20b772ec24cd565b6609dc6d8f3ef943aeb3","boundsEpsg3006":[677500,6586429.92,677625.12,6586545.12],"resolutionMetres":0.16,"captureDate":"2025-05-31"}
+  },
+  "roofTraces": [
+    {"id":"range-north-covered-bays","image":"north","pixelVertices":[[121,139],[198,142],[199,165],[116,162]],"frontEdge":[3,2],"displayEaveHeightMetres":3.05,"displayBackRiseMetres":0.42,"postBays":4,"appearance":"open dark steel canopy with light corrugated panels","evidence":"Exact 2025 image visibly shows the narrow roof; club range photograph shows open steel posts, beams and braces. Height and support spacing are photo-informed estimates."},
+    {"id":"range-south-covered-bays","image":"south","pixelVertices":[[202,235],[380,267],[377,300],[198,267]],"frontEdge":[0,1],"displayEaveHeightMetres":3.10,"displayBackRiseMetres":0.35,"postBays":10,"appearance":"open dark timber/steel shelter with dark sheet roof","evidence":"Dark elongated roof traced directly from the May2025 south-range image. Hidden support count and height are authored display estimates, not measured bay count."},
+    {"id":"range-north-ball-hut","image":"north","pixelVertices":[[292,98],[309,101],[307,116],[291,113]],"displayEaveHeightMetres":2.50,"displayRoofRiseMetres":0.30,"appearance":"small red vertically boarded utility hut with dark shallow roof","evidence":"Small square roof visible north of north tee apron; matching club range photo shows a separate red hut with dark doorway. Position and roof ring are traced, facade/height are approximate."},
+    {"id":"range-south-shelter-end-hut","image":"south","pixelVertices":[[384,265],[404,266],[406,296],[382,294]],"displayEaveHeightMetres":2.75,"displayRoofRiseMetres":0.20,"appearance":"compact dark red end enclosure","evidence":"Small projecting roof at east end of south shelter is traced separately. Its function and facade details are unverified; restrained red service enclosure is an appearance approximation."}
+  ],
+  "matRows": [
+    {"id":"range-north-open-mats","image":"north","pixelCentres":[[208,162],[229,164],[251,167],[273,169],[295,172],[317,175],[339,178],[362,181]],"shotDirection":"south","matSizeMetres":[1.70,1.50],"evidence":"Individually resolved exposed mats traced from2025 image. Additional positions hidden by tree shadow are omitted. Trays and low sponsor dividers use club range photo proportions, no copied advertisements."},
+    {"id":"range-south-open-mats","image":"south","pixelCentres":[[416,298],[436,299],[457,299],[479,298],[501,297],[523,296],[547,293],[569,289],[592,286],[616,281]],"shotDirection":"north","matSizeMetres":[1.70,1.50],"evidence":"Resolved exposed green mats along the curved south apron traced individually from2025 image. Small equipment details and divider proportions are photo-informed display estimates."}
+  ],
+  "netAlignments": [
+    {"id":"range-west-safety-net","sourceIds":["way/52583080"],"pointsEpsg3006":[[677583.5,6586390.0],[677576.5021499258,6586370.040271685],[677534.9883301402,6586203.414590378],[677553.668710043,6586169.675552521],[677551.8957103286,6586155.4511252735]],"displayHeightMetres":11.5,"maximumPolePitchMetres":13.5,"evidence":"Retained OSM barrier=fence alignment except north endpoint moved to visible west edge of the traced canopy (E677583.5,N6586390), avoiding the older source line intersecting its roof. Height and intermediate pole pitch are display estimates; not inferred as surveyed from shadows."},
+    {"id":"range-road-safety-net","sourceIds":[],"pointsEpsg3006":[[677627.5,6586384.0],[677635.0,6586340.0],[677631.5,6586284.0],[677629.7,6586263.0],[677636.2,6586228.0],[677646.2,6586198.0],[677638.8,6586160.5]],"displayHeightMetres":15.0,"maximumPolePitchMetres":15.0,"evidence":"Approximate visible range-side road/net alignment interpreted from2025 orthophoto pole bases/shadows and2020/2026 range-barn photos. Posts around the west barn follow its range-facing side. No solid translucent net panels: model uses sparse wire geometry."}
+  ],
+  "parkingMarkings": [
+    {"id":"upper-parking-central-markings","image":"parking","pixelVertices":[[331,308],[529,400],[506,450],[306,365]],"stallsAlongLength":14,"rows":2,"paintWidthMetres":0.09,"evidence":"Visible central double parking bank traced from May 2025 imagery. Repeated divider spacing is regularized between visible endpoints as an appearance estimate; existing paving geometry remains untouched, no parked vehicles inserted."}
+  ],
+  "sourceBuildings": [
+    {"id":"way/26408210","role":"west range barn","envelope":"preserve existing measured-envelope display roof and closed walls","materials":"red timber siding, dark corrugated metal roof","openings":"restrained red service doors on road-facing east wall; current room-use mapping unverified"},
+    {"id":"way/26408211","role":"east range-road barn","envelope":"preserve existing measured-envelope display roof and closed walls","materials":"red vertical upper and horizontal lower timber boarding, dark metal roof, sparse white-trimmed upper windows","openings":"road-facing west side red doors and few upper windows, red south gable door and pale welcome plaque, restrained east-side service/sliding doors; positions approximate from2020/2026 photos"},
+    {"id":"way/221846983","role":"small range-side source footprint shed","displayEaveHeightMetres":2.60,"displayRoofRiseMetres":0.40,"materials":"restrained charcoal timber and dark roof from aerial appearance","limitation":"No measured roof or confirmed function; keep exact source footprint and cautious appearance estimate"},
+    {"id":"way/40895787","role":"small south-practice source footprint building","displayEaveHeightMetres":2.80,"displayRoofRiseMetres":1.00,"materials":"restrained muted timber walls and dark pitched roof from aerial appearance","limitation":"Nearby structure has unverified ownership/use; exact source footprint retained, no toilet/kiosk label"}
+  ],
+  "outOfScopeUnlocated": ["Kiosk between9and10","Toilet at15tee","B2/B3/B4 interior functions and EV-bay identity beyond referenced appearance"]
+}
