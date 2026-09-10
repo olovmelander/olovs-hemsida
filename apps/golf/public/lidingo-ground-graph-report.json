@@ -74,18 +74,63 @@
     "slug": "lidingo",
     "groundId": "lidingo",
     "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
-    "rootBytes": 605,
-    "rootSha256": "99626b9456fcb34683e394d4710893ef66b89a1c8b15d6945a3ae543098f4a97",
-    "courseManifestSha256": "7f15acd0c2a8c3d667413ce9084a7e35be24648f789ca24c793c727b48eca6d1",
-    "groundManifestSha256": "6732ca39f30b00dbce720225d42149da5d0f9d9fd0753d0f871fc67f4184877a",
-    "routingSha256": "dbf998c8ded3596445d274d247b47aa53d83e489bde3bcc55523b0a80095387e",
+    "rootBytes": 5935,
+    "rootSha256": "e98739be8c4a548607128a70d96382f01c2c2fe7bcfe1909948bb13711118967",
+    "courseManifestSha256": "d84ce1db16eed5be3a10d2f4a3f64af842efbafd558c7985b3ec2471ba124f7b",
+    "groundManifestSha256": "3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158",
+    "routingSha256": "e499268b0ab1f381f6420038af92b0e4ea656a29402809e962055eeb96d3eeea",
     "holes": 18,
-    "tiles": 85,
+    "tiles": 277,
     "finestTiles": 64,
-    "shellBytes": 109686,
-    "chunks": 151,
-    "encodedChunkBytes": 8386360,
-    "decodedChunkBytes": 12411686,
-    "holeTileBufferMetres": 90
-  }
+    "shellBytes": 66346,
+    "chunks": 343,
+    "encodedChunkBytes": 18104196,
+    "decodedChunkBytes": 37774532,
+    "holeTileBufferMetres": 80
+  },
+  "teeAlignmentPublication": {
+    "schemaVersion": 1,
+    "kind": "lidingo-reviewed-tee-stand-publication",
+    "groundId": "lidingo",
+    "sourceManifestSha256": "80a85a4e4d606c2018fa6f5e2682eabd95c2b1cdd9eebc19c64ed6e87267a8d5",
+    "previousGroundManifest": {
+      "bytes": 235841,
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "sha256": "3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158",
+      "url": "grounds/lidingo/ground-v2-3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158.json"
+    },
+    "groundManifest": {
+      "url": "grounds/lidingo/ground-v2-3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 235841,
+      "sha256": "3550a88542f134abc85efae2fd435dc6ca239ba9fd9cbfb751b6d4f47d7e8158"
+    },
+    "courseManifest": {
+      "url": "courses/lidingo/course-v2-d84ce1db16eed5be3a10d2f4a3f64af842efbafd558c7985b3ec2471ba124f7b.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 3850,
+      "sha256": "d84ce1db16eed5be3a10d2f4a3f64af842efbafd558c7985b3ec2471ba124f7b"
+    },
+    "routingSha256": "e499268b0ab1f381f6420038af92b0e4ea656a29402809e962055eeb96d3eeea",
+    "fallbackV1": {
+      "bytes": 474333,
+      "format": 1,
+      "packUrl": "courses/lidingo/pack.bin",
+      "sha256": "580243354d3fb9f1ba6ff0cc2b2eb202ac82c5de8bd7d95cd21fb4d49a3ffac5"
+    },
+    "preservedTerrainTiles": 277,
+    "preservedTerrainBounds": {
+      "maxEasting": 685892.5,
+      "maxHeightRH2000": 72.72464752197266,
+      "maxNorthing": 6594591.5,
+      "minEasting": 669508.5,
+      "minHeightRH2000": -10.156801223754883,
+      "minNorthing": 6578207.5
+    },
+    "preservedFrameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+    "preservedRoutingCoordinates": true,
+    "changedStandTiles": [],
+    "standLayers": 64
+  },
+  "terrainScope": "Historical initial-pyramid compilation statistics above; current graph retains the complete published 277-tile terrain ring hierarchy."
 }

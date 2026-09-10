@@ -31,8 +31,8 @@
    },
    "photos": 4,
    "packUrl": "courses/angso/pack.bin",
-   "bytes": 471069,
-   "sha256": "80564b8314801e5bd3014f4dc8cb63bb6af5cd7fad9c1a7409d34946ebc444f5"
+   "bytes": 481863,
+   "sha256": "778f8b2933599fbf9145f57d8ab2608c222ce501b275a39c913aadbe1e504c09"
   },
   {
    "slug": "norrfallsviken",
@@ -60,8 +60,8 @@
    },
    "photos": 4,
    "packUrl": "courses/norrfallsviken/pack.bin",
-   "bytes": 437108,
-   "sha256": "f206eb351a434ff446a9295f01c49a3fc0ab050adca913c0e0443ba53dbf7550"
+   "bytes": 450448,
+   "sha256": "783b0169550a652a6e54e4e981ab706d929634806bf2e552c1cae4e94fba1b6b"
   },
   {
    "slug": "puttom",
@@ -91,8 +91,8 @@
    },
    "photos": 4,
    "packUrl": "courses/puttom/pack.bin",
-   "bytes": 494954,
-   "sha256": "683d1fc8721b54aa069290e43763e77761e38feba9fe8aa09a0cfcbe73df1022"
+   "bytes": 496840,
+   "sha256": "2e07d11db74efe05ad92959bd6b7acae97cb8f55e8b526ca8058315ee6077475"
   },
   {
    "slug": "upsala",
@@ -126,8 +126,8 @@
    },
    "photos": 4,
    "packUrl": "courses/upsala/pack.bin",
-   "bytes": 746910,
-   "sha256": "4702d46890d7d80c4dfcc49228fe26f941a539e087ec6f353b21b228381597ea"
+   "bytes": 747374,
+   "sha256": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd"
   },
   {
    "slug": "upsala-mellanbanan",
@@ -159,8 +159,8 @@
    },
    "photos": 3,
    "packUrl": "courses/upsala-mellanbanan/pack.bin",
-   "bytes": 743390,
-   "sha256": "1f536e5dd4e3a69edc77fff2c0149f23721046b93c20bf0258539cb4816c3470"
+   "bytes": 743791,
+   "sha256": "d76a1c1a76ce9c6758fdb6a3e853fcccaf565441d0ac12f9d9e107a2377f4675"
   },
   {
    "slug": "johannesberg",
@@ -192,8 +192,8 @@
    },
    "photos": 4,
    "packUrl": "courses/johannesberg/pack.bin",
-   "bytes": 375304,
-   "sha256": "036ecce0224ceb23587bb5971021b927e277050b250b5ace89ce2d1386e03621"
+   "bytes": 379019,
+   "sha256": "2295c1340c6e1b98c8374464df257facfc76739b26739322eece6c9bfec9d12b"
   },
   {
    "slug": "johannesberg-9",
@@ -219,8 +219,8 @@
    },
    "photos": 3,
    "packUrl": "courses/johannesberg-9/pack.bin",
-   "bytes": 370010,
-   "sha256": "b7c2810ff9a7de2c178d3f85b1fd37c4e352f00c34438241dd8efbc856f89ec0"
+   "bytes": 371856,
+   "sha256": "3bb71cc0f11f5c41705ed64bf2ea0cd32c890434e5e249b2e166a3f628c0f300"
   },
   {
    "slug": "veckefjarden",
@@ -254,8 +254,8 @@
    },
    "photos": 4,
    "packUrl": "courses/veckefjarden/pack.bin",
-   "bytes": 366294,
-   "sha256": "72280df9ca052be3913d465defc7c5f5ad4bc3500fac497ca0c9d34bd7b13493"
+   "bytes": 368039,
+   "sha256": "77e76fc8e4e77e537d6b0d6c8ad17b0ebefe4bc2bfa54b5e6916f699ec8fdd0d"
   },
   {
    "slug": "veckefjarden-korthalsbanan",
@@ -281,8 +281,8 @@
    },
    "photos": 3,
    "packUrl": "courses/veckefjarden-korthalsbanan/pack.bin",
-   "bytes": 363125,
-   "sha256": "5643d9cbfc076226cc0806f30ad3f9d01d6432d33166d42a655a9d8a8381254e"
+   "bytes": 362836,
+   "sha256": "ea508183ed4dd208316a17c2940462aedc46ac17f4594dec60600aaf77d4e4ab"
   },
   {
    "slug": "ribbingsfors",
@@ -348,8 +348,41 @@
    "overviewUrl": "courses/visby/overview.svg",
    "status": "provisional",
    "packUrl": "courses/visby/pack.bin",
-   "bytes": 540063,
-   "sha256": "446862c8aa0ef6c587b1a15109504b8977a6d3da805044e7a9ad504d2559466a"
+   "bytes": 540360,
+   "sha256": "a533c99c1b8d2503439dbc42dbfd391846175bae82d69de8f9981a504517c297"
+  },
+  {
+   "slug": "tortuna",
+   "name": "Tortuna GK",
+   "club": "Tortuna Golfklubb",
+   "title": "Tortuna Golfklubb — Banan i 3D",
+   "tag": "Tortuna · Västerås",
+   "boot": "Tortuna · Västmanland",
+   "build": "tortunabuild",
+   "par": 71,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "Gul",
+     "Blå",
+     "Röd",
+     "Orange"
+    ],
+    "cols": [
+     15780154,
+     4886496,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 4,
+    "def": 0
+   },
+   "photos": 0,
+   "overviewUrl": "courses/tortuna/overview.svg",
+   "status": "provisional",
+   "packUrl": "courses/tortuna/pack.bin",
+   "bytes": 628463,
+   "sha256": "746d8475e7aff2be389963331d5a9cef80cb7b056a7c6b8ca5d775b11b6c9931"
   },
   {
    "slug": "lidingo",
@@ -383,8 +416,8 @@
    "overviewUrl": "courses/lidingo/overview.svg",
    "status": "provisional",
    "packUrl": "courses/lidingo/pack.bin",
-   "bytes": 470574,
-   "sha256": "846e291417f7dcf44a906400c1b505c07b2cb338ab2173fd2f80bed79ec60873"
+   "bytes": 486299,
+   "sha256": "d25dfe74f48cb6584221c727735d0604d21729524b6d1d2b6e52796910f527c9"
   }
  ]
 }
