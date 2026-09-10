@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "checked": "2026-09-10",
+  "sources": [
+    {
+      "file": "apps/golf/public/courses/tortuna/pack.bin",
+      "bytes": 628463,
+      "sha256": "746d8475e7aff2be389963331d5a9cef80cb7b056a7c6b8ca5d775b11b6c9931"
+    },
+    {
+      "file": "geo_data/course-v2/tortuna/source-manifest.json",
+      "bytes": 43987,
+      "sha256": "4dd9b72848052797276786928187ccedcfc5190a6a8c6f87fe63e03caf8d24db"
+    },
+    {
+      "file": "tortunabuild/cache/terrain/terrain-1m.f32",
+      "bytes": 67141636,
+      "sha256": "86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1"
+    },
+    {
+      "file": "tortunabuild/mapping/building-observations.json",
+      "bytes": 42302,
+      "sha256": "09476c14e7bc95deb3d7276f20cf6938776b153094fdc9c9f2e4f03ab81108a6"
+    },
+    {
+      "file": "tortunabuild/mapping/building-roof-meshes.json",
+      "bytes": 611821,
+      "sha256": "dbcf0bfdd6c71695c84c5f7d403e9999c01b22d26706cac808799f1544d2e34c"
+    }
+  ]
+}

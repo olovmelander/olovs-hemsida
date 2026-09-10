@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "referenceReview": "tortunabuild/facilities/reference-review.md",
+  "referenceReviewSha256": "e925206944a1f59f5fd600a18ee3ef4fc194d4743fbbb68c505e961a33788c85",
+  "allColoursAndOpeningDimensionsAreDisplayEstimates": true,
+  "buildings": {
+    "way/1163533128": {
+      "status": "photo-informed-display-model",
+      "wallHex": "cba548",
+      "roofHex": "a7725f",
+      "openings": [
+        {
+          "type": "barn-door",
+          "u": -3.3133,
+          "v": -3.13,
+          "axis": "v",
+          "sign": -1,
+          "width": 3.3,
+          "height": 2.1,
+          "sill": 0.12,
+          "double": true
+        },
+        {
+          "type": "barn-door",
+          "u": 0.28,
+          "v": -3.13,
+          "axis": "v",
+          "sign": -1,
+          "width": 3.3,
+          "height": 2.1,
+          "sill": 0.12,
+          "double": true
+        },
+        {
+          "type": "open-bay",
+          "u": 3.8733,
+          "v": -3.13,
+          "axis": "v",
+          "sign": -1,
+          "width": 3.3,
+          "height": 2.16,
+          "sill": 0.06,
+          "depth": 1.6
+        }
+      ],
+      "uncertainty": "Photo-confirmed yellow cladding, white trim, tiled gable and three roughly equal SE facade sections: two yellow panels and NE recessed bay. Exact dimensions and recess depth estimated; function unknown.",
+      "battenHex": "c29b40",
+      "doorHex": "c29b40",
+      "reviewCameraUV": [
+        1,
+        -1
+      ]
+    },
+    "way/1163533113": {
+      "status": "photo-informed-display-model",
+      "wallHex": "943e35",
+      "roofHex": "ad7160",
+      "openings": [
+        {
+          "type": "window",
+          "u": -12.5,
+          "v": -6.32,
+          "axis": "v",
+          "sign": -1,
+          "width": 0.85,
+          "height": 0.75,
+          "sill": 1.5
+        },
+        {
+          "type": "window",
+          "u": -10.4,
+          "v": -6.32,
+          "axis": "v",
+          "sign": -1,
+          "width": 0.7,
+          "height": 0.75,
+          "sill": 1.5
+        }
+      ],
+      "uncertainty": "Red walls/roof and small white-framed openings near SW end observed. Two representative openings are display estimates, not a claimed surveyed count."
+    },
+    "way/1163533114": {
+      "status": "source-informed-display-model",
+      "wallHex": "c5c0b4",
+      "roofHex": "995f52",
+      "openings": [],
+      "uncertainty": "Wall colour, board spacing and trim are display defaults; no verified facade or opening pattern."
+    },
+    "way/1163533115": {
+      "status": "source-informed-display-model",
+      "wallHex": "c5c0b4",
+      "roofHex": "a97360",
+      "openings": [],
+      "uncertainty": "Wall colour, board spacing and trim are display defaults; no verified facade or opening pattern."
+    },
+    "way/1163533123": {
+      "status": "photo-informed-display-model",
+      "wallHex": "894337",
+      "roofHex": "77716b",
+      "openings": [],
+      "uncertainty": "Red wall sections, grey/brown roof and large pale raised roof structure observed. Structure dimensions estimated from 26 elevated laser returns; purpose and facade openings unresolved.",
+      "roofStructures": [
+        {
+          "uMin": -12.6,
+          "uMax": -8.8,
+          "vMin": -2.2,
+          "vMax": 2.3,
+          "planes": [
+            [
+              -0.01775,
+              0.51882,
+              38.58685
+            ],
+            [
+              -0.007905,
+              -0.54878,
+              38.79927
+            ]
+          ],
+          "evidence": "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+          "function": "unverified"
+        }
+      ]
+    },
+    "way/1163607303": {
+      "status": "source-informed-display-model",
+      "wallHex": "c5c0b4",
+      "roofHex": "ab715a",
+      "openings": [],
+      "uncertainty": "Wall colour, board spacing and trim are display defaults; no verified facade or opening pattern."
+    },
+    "tortuna-range-shelter": {
+      "status": "photo-informed-display-model",
+      "wallHex": "8b3934",
+      "roofHex": "e1dfd6",
+      "openings": [
+        {
+          "type": "white-panel",
+          "u": -0.74,
+          "v": -2.2,
+          "axis": "u",
+          "sign": -1,
+          "width": 1.1,
+          "height": 2.25,
+          "sill": 0.12
+        },
+        {
+          "type": "white-panel",
+          "u": -0.74,
+          "v": -0.05,
+          "axis": "u",
+          "sign": -1,
+          "width": 1.1,
+          "height": 2.25,
+          "sill": 0.12
+        },
+        {
+          "type": "white-panel",
+          "u": -0.74,
+          "v": 2.1,
+          "axis": "u",
+          "sign": -1,
+          "width": 1.1,
+          "height": 2.25,
+          "sill": 0.12
+        }
+      ],
+      "uncertainty": "Enclosed red hut, light mono-pitch roof and three white panels observed on SW face. Panel interpretation and dimensions estimated; no open hitting bays.",
+      "flashingHex": "d4d2c9",
+      "trimHex": "e8e6dc"
+    }
+  }
+}

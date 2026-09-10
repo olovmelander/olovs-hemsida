@@ -6455,6 +6455,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
      net on its poles along the sides the trace names. The net is its own
      mesh because it is see-through; everything else joins the batch. */
   const RF = M.scenery.rangeFacilities;
+  stats.rangeFacilities = RF ? { bays: (RF.bays || []).length, nets: (RF.nets || []).length,
+    netHeight: RF.netHeight ?? null, netPostPitch: RF.netPostPitch ?? null } : null;
   stats.authoredRangeFacilities = !!(SCENERY?.replacesRangeFacilities && facilityArchitecture?.report.status === 'loaded');
   if (RF && RF.bays && RF.bays.length >= 2 && !stats.authoredRangeFacilities) {
     const MAT = L(0x2c5a2b), DIV = L(0xe8e6df), DIVCAP = L(0x2f6f3a), KERB = L(0x8d8a82), STEEL = L(0x4a4d50);
@@ -6500,9 +6502,21 @@ if (M.infra.objectPlacement === 'mapped-only') {
         quad(D(1.3, y + 1.05), D(-0.4, y + 1.05), D(-0.4, y + 1.15), D(1.3, y + 1.15), DIVCAP);
       }
     }
+  }
+  /* The ball-stop net is drawn whether or not the course also has a mapped BAY
+     LINE, because a range can have one without the other. Tortuna's tee line is
+     a row of separate mats on grass with no continuous strip to trace, while
+     its net stands at the field's far boundary regardless. Measured: only
+     Puttom carries nets at all, and it has bays too, so this is inert there;
+     a course with no nets draws nothing here. */
+  if (RF && !stats.authoredRangeFacilities) {
+    const STEEL = L(0x4a4d50);
     for (const net of (RF.nets || [])) {
       const H = RF.netHeight || 10;
-      const { P: NP } = resamp(net, 12);
+      /* Post pitch is a measurement where a course has one -- Tortuna's ten
+         posts were read off their own shadows -- and 12 m is the inherited
+         default for a net that is traced only as a line. */
+      const { P: NP } = resamp(net, RF.netPostPitch || 12);
       const pos = [], idx = [];
       for (let i = 0; i < NP.length; i++) {
         const p = NP[i], y0 = terrainH(p[0], p[1]);
@@ -10064,6 +10078,8 @@ window.V3D = {
            sourceParkingBatchIds: stats.sourceParkingBatchIds || [],
            sourceParkingBatchIndices: stats.sourceParkingBatchIndices || [],
            authoredRangeFacilities: stats.authoredRangeFacilities || false,
+           rangeNets: stats.rangeNets | 0,
+           rangeFacilities: stats.rangeFacilities || null,
            facilityExcludedTrees: stats.facilityExcludedTrees || 0,
            facilityExcludedClutter: stats.facilityExcludedClutter || 0,
            genericRoofBuildings: stats.genericRoofBuildings | 0,

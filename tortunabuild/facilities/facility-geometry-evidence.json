@@ -1,0 +1,1738 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "source-panel-reviewed-architectural-estimates",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "inputs": [
+    {
+      "path": "tortunabuild/cache/buildings/laser-2021-points.json",
+      "sha256": "ff07c4e622e8c5ddfb26472d0407f67e7c6c14687e9af93c916df51f9c79ea00",
+      "bytes": 31151685
+    },
+    {
+      "path": "tortunabuild/cache/terrain/terrain-1m.f32",
+      "sha256": "86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1",
+      "bytes": 67141636
+    },
+    {
+      "path": "tortunabuild/mapping/building-observations.json",
+      "sha256": "09476c14e7bc95deb3d7276f20cf6938776b153094fdc9c9f2e4f03ab81108a6",
+      "bytes": 42302
+    },
+    {
+      "path": "tortunabuild/mapping/building-height-evidence.json",
+      "sha256": "145dd1e3b7f424519d6244029ba1380b2801e9573a0510b7c674567b1706a292",
+      "bytes": 56609
+    },
+    {
+      "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+      "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+      "bytes": 1857744
+    },
+    {
+      "path": "tortunabuild/cache/buildings/service-yard.tif",
+      "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+      "bytes": 7227885
+    },
+    {
+      "path": "tortunabuild/cache/buildings/nearby-houses.tif",
+      "sha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+      "bytes": 1776376
+    },
+    {
+      "path": "tortunabuild/cache/clubhouse-model/references/official-wp-2827.png",
+      "sha256": "f99a0c91b9fc9880b316996f732a288717583004e19f1172e7e4208dfb853ce0",
+      "bytes": 6394124
+    },
+    {
+      "path": "tortunabuild/cache/clubhouse-model/references/official-wp-2657.png",
+      "sha256": "1d18195bafad1c25a360f7fa700fb0e31a5395a7237d02b859d98106cb866b3e",
+      "bytes": 5366279
+    }
+  ],
+  "script": {
+    "path": "tortunabuild/facilities/derive-facilities.py",
+    "sha256LfNormalized": "d112874dd5fbe5a7e849c4fff1ace99b016bb1cb56e5c3676b4d7aa7ff26bce4"
+  },
+  "buildings": [
+    {
+      "buildingId": "way/1163533128",
+      "observationId": "tortuna-clubhouse-west-outbuilding-roof",
+      "label": "entry-outbuilding",
+      "roofType": "gable",
+      "localFrame": {
+        "originEpsg3006": [
+          597439.5850188882,
+          6615072.739701385
+        ],
+        "uAxis": [
+          0.6884896361046433,
+          0.725246179566977
+        ],
+        "vAxis": [
+          -0.725246179566977,
+          0.6884896361046433
+        ],
+        "anchorEpsg3006RH2000": [
+          597439.5850188882,
+          6615072.739701385,
+          27.33
+        ],
+        "uBearingDegrees": 43.51066907744801
+      },
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "sourceImage": {
+        "id": "clubhouse",
+        "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+        "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "west": 597406.72,
+        "north": 6615139.52,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "measuredPlanes": [
+        {
+          "sourcePlaneIndex": 0,
+          "coefficients": [
+            -0.005712246176374142,
+            0.3869334733479227,
+            30.92913193920201
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 41,
+          "sourceResidualMetres": {
+            "count": 41,
+            "minimum": 0.0,
+            "p05": 0.009,
+            "median": 0.041,
+            "p95": 0.119,
+            "maximum": 0.158
+          },
+          "slopeDegrees": 21.16
+        },
+        {
+          "sourcePlaneIndex": 1,
+          "coefficients": [
+            -0.005712246176374114,
+            -0.4562500871142149,
+            31.19813514855146
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 30,
+          "sourceResidualMetres": {
+            "count": 30,
+            "minimum": 0.0,
+            "p05": 0.001,
+            "median": 0.013,
+            "p95": 0.026,
+            "maximum": 0.027
+          },
+          "slopeDegrees": 24.53
+        }
+      ],
+      "expandedPlaneSupport": {
+        "count": 110,
+        "residualMetres": {
+          "count": 110,
+          "minimum": 4.003550748876705e-05,
+          "p05": 0.0024083930772501815,
+          "median": 0.028792797787534852,
+          "p95": 0.12207601236979321,
+          "maximum": 0.14537283720857275
+        },
+        "boundsUV": {
+          "uMin": -5.20052654112134,
+          "uMax": 6.164649290249568,
+          "vMin": -3.2013625838126876,
+          "vMax": 3.3627267422054596
+        },
+        "heightRH2000": {
+          "count": 110,
+          "minimum": 29.670000076293945,
+          "p05": 29.809999465942383,
+          "median": 30.289999961853027,
+          "p95": 31.015500354766846,
+          "maximum": 31.059999465942383
+        }
+      },
+      "observedImageRoofBoundsUV": {
+        "uMin": -5.2917969964805724,
+        "uMax": 5.333615290694463,
+        "vMin": -3.671639142983316,
+        "vMax": 3.700370762623937
+      },
+      "observedImageRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597440.16,
+              6615078.72
+            ],
+            [
+              597445.92,
+              6615074.08
+            ],
+            [
+              597438.24,
+              6615066.72
+            ],
+            [
+              597433.6,
+              6615071.2
+            ],
+            [
+              597440.16,
+              6615078.72
+            ]
+          ]
+        ]
+      },
+      "sourceGroundFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597438.1671592292,
+              6615071.406005093
+            ],
+            [
+              597445.0378344741,
+              6615078.147264689
+            ],
+            [
+              597449.2297628733,
+              6615073.900273672
+            ],
+            [
+              597442.3650100573,
+              6615067.1480195
+            ],
+            [
+              597438.1671592292,
+              6615071.406005093
+            ]
+          ]
+        ]
+      },
+      "groundFootprintRetained": true,
+      "displayGeometry": {
+        "bodyBoundsUV": {
+          "uMin": -5.11,
+          "uMax": 5.67,
+          "vMin": -3.13,
+          "vMax": 3.29
+        },
+        "eaveBoundsUV": {
+          "uMin": -5.41,
+          "uMax": 5.97,
+          "vMin": -3.43,
+          "vMax": 3.59
+        },
+        "baseRH2000": 27.33,
+        "eaveRH2000": 29.58,
+        "ridgeRH2000": 31.05,
+        "ridgeV": 0.3190327966095733,
+        "method": "Laser-plane compatible returns in a bounded image buffer; robust support bounds plus 0.3m sampling allowance. Wall rectangle is inset 0.3m from the roof estimate.",
+        "status": "Source-panel reviewed display estimates; dimensions are not surveyed wall measurements",
+        "horizontalUncertaintyMetres": 0.8,
+        "eaveHeightUncertaintyMetres": 0.35
+      },
+      "groundSupport": {
+        "count": 220,
+        "heightRH2000": {
+          "count": 220,
+          "minimum": 27.010000228881836,
+          "p05": 27.1200008392334,
+          "median": 27.329999923706055,
+          "p95": 28.049999237060547,
+          "maximum": 28.290000915527344
+        },
+        "nativeTerrainHeightAtAnchorRH2000": 27.242146166719618,
+        "anchorMinusNativeTerrainMetres": 0.08785383328038066,
+        "interpretation": "Surrounding classified-ground median supplies a display datum. It is not a surveyed floor; nearby native terrain varies and foundations must tolerate that ground variation without shifting the measured roof."
+      },
+      "observedAppearance": "Detached red/brown roof immediately west of the clubhouse; official club photos show a low outbuilding in this location.",
+      "roofColourDisplayEstimateHex": "a7725f",
+      "facadeColourDisplayEstimateHex": null,
+      "limitations": [
+        "2021 laser and 2026 image have different epochs; roof/image relief displacement can move the apparent outline.",
+        "Roof edge estimates include a sampling allowance; facade position and floor elevation are not directly surveyed."
+      ]
+    },
+    {
+      "buildingId": "way/1163533113",
+      "observationId": "tortuna-range-service-barn-roof",
+      "label": "service-yard-long-barn",
+      "roofType": "gable",
+      "localFrame": {
+        "originEpsg3006": [
+          597451.9342665592,
+          6615264.83746849
+        ],
+        "uAxis": [
+          0.8303977632044403,
+          0.5571710283791347
+        ],
+        "vAxis": [
+          -0.5571710283791347,
+          0.8303977632044403
+        ],
+        "anchorEpsg3006RH2000": [
+          597451.9342665592,
+          6615264.83746849,
+          26.39
+        ],
+        "uBearingDegrees": 56.13961960388663
+      },
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "sourceImage": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "measuredPlanes": [
+        {
+          "sourcePlaneIndex": 0,
+          "coefficients": [
+            -0.0041261844732550235,
+            -0.6634538085317354,
+            34.46810542414654
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 285,
+          "sourceResidualMetres": {
+            "count": 285,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.051,
+            "p95": 0.134,
+            "maximum": 0.189
+          },
+          "slopeDegrees": 33.56
+        },
+        {
+          "sourcePlaneIndex": 1,
+          "coefficients": [
+            -0.004126184473255079,
+            0.6684934097339034,
+            35.50047085827824
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 169,
+          "sourceResidualMetres": {
+            "count": 169,
+            "minimum": 0.0,
+            "p05": 0.004,
+            "median": 0.039,
+            "p95": 0.118,
+            "maximum": 0.166
+          },
+          "slopeDegrees": 33.76
+        }
+      ],
+      "expandedPlaneSupport": {
+        "count": 565,
+        "residualMetres": {
+          "count": 565,
+          "minimum": 6.268234528761241e-06,
+          "p05": 0.0037229342224378574,
+          "median": 0.04891604441645825,
+          "p95": 0.1327752076838891,
+          "maximum": 0.1798548817812886
+        },
+        "boundsUV": {
+          "uMin": -15.792182305121628,
+          "uMax": 18.545322384852007,
+          "vMin": -6.6244153950305,
+          "vMax": 8.41528265102477
+        },
+        "heightRH2000": {
+          "count": 565,
+          "minimum": 28.860000610351562,
+          "p05": 31.280000686645508,
+          "median": 32.970001220703125,
+          "p95": 34.810001373291016,
+          "maximum": 34.9900016784668
+        }
+      },
+      "observedImageRoofBoundsUV": {
+        "uMin": -16.88970347580535,
+        "uMax": 16.96825546520586,
+        "vMin": -5.842608267899337,
+        "vMax": 5.8399948723973925
+      },
+      "observedImageRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597434.72,
+              6615260.32
+            ],
+            [
+              597462.72,
+              6615278.72
+            ],
+            [
+              597469.28,
+              6615269.44
+            ],
+            [
+              597440.96,
+              6615250.88
+            ],
+            [
+              597434.72,
+              6615260.32
+            ]
+          ]
+        ]
+      },
+      "sourceGroundFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597440.858285969,
+              6615259.719130327
+            ],
+            [
+              597468.1509374862,
+              6615277.911184541
+            ],
+            [
+              597474.2391463643,
+              6615268.811497658
+            ],
+            [
+              597446.940820849,
+              6615250.619252719
+            ],
+            [
+              597440.858285969,
+              6615259.719130327
+            ]
+          ]
+        ]
+      },
+      "groundFootprintRetained": true,
+      "displayGeometry": {
+        "bodyBoundsUV": {
+          "uMin": -15.13,
+          "uMax": 17.81,
+          "vMin": -6.32,
+          "vMax": 5.16
+        },
+        "eaveBoundsUV": {
+          "uMin": -15.43,
+          "uMax": 18.11,
+          "vMin": -6.62,
+          "vMax": 5.46
+        },
+        "baseRH2000": 26.39,
+        "eaveRH2000": 30.96,
+        "ridgeRH2000": 34.98,
+        "ridgeV": -0.7750798379803416,
+        "method": "Laser-plane compatible returns in a bounded image buffer; robust support bounds plus 0.3m sampling allowance. Wall rectangle is inset 0.3m from the roof estimate.",
+        "status": "Source-panel reviewed display estimates; dimensions are not surveyed wall measurements",
+        "horizontalUncertaintyMetres": 0.8,
+        "eaveHeightUncertaintyMetres": 0.35
+      },
+      "groundSupport": {
+        "count": 382,
+        "heightRH2000": {
+          "count": 382,
+          "minimum": 25.6299991607666,
+          "p05": 25.790500831604003,
+          "median": 26.389999389648438,
+          "p95": 26.7194993019104,
+          "maximum": 26.969999313354492
+        },
+        "nativeTerrainHeightAtAnchorRH2000": 26.71209171287437,
+        "anchorMinusNativeTerrainMetres": -0.3220917128743679,
+        "interpretation": "Surrounding classified-ground median supplies a display datum. It is not a surveyed floor; nearby native terrain varies and foundations must tolerate that ground variation without shifting the measured roof."
+      },
+      "observedAppearance": "Long unobscured red roof north of the range; two pitched planes visible.",
+      "roofColourDisplayEstimateHex": "ad7160",
+      "facadeColourDisplayEstimateHex": null,
+      "limitations": [
+        "2021 laser and 2026 image have different epochs; roof/image relief displacement can move the apparent outline.",
+        "Roof edge estimates include a sampling allowance; facade position and floor elevation are not directly surveyed."
+      ]
+    },
+    {
+      "buildingId": "way/1163533114",
+      "observationId": "tortuna-range-small-outbuilding-roof",
+      "label": "service-yard-small-outbuilding",
+      "roofType": "gable",
+      "localFrame": {
+        "originEpsg3006": [
+          597440.0223749249,
+          6615274.5765469745
+        ],
+        "uAxis": [
+          0.8191089034550779,
+          0.5736380429161055
+        ],
+        "vAxis": [
+          -0.5736380429161055,
+          0.8191089034550779
+        ],
+        "anchorEpsg3006RH2000": [
+          597440.0223749249,
+          6615274.5765469745,
+          26.54
+        ],
+        "uBearingDegrees": 54.9956908010639
+      },
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "sourceImage": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "measuredPlanes": [
+        {
+          "sourcePlaneIndex": 0,
+          "coefficients": [
+            -0.0021031466349216155,
+            -0.7103166216543987,
+            33.1412945717503
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 33,
+          "sourceResidualMetres": {
+            "count": 33,
+            "minimum": 0.011,
+            "p05": 0.013,
+            "median": 0.053,
+            "p95": 0.165,
+            "maximum": 0.173
+          },
+          "slopeDegrees": 35.39
+        },
+        {
+          "sourcePlaneIndex": 1,
+          "coefficients": [
+            -0.0021031466349216155,
+            0.6352430338656889,
+            33.96277781586259
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 15,
+          "sourceResidualMetres": {
+            "count": 15,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.017,
+            "p95": 0.054,
+            "maximum": 0.064
+          },
+          "slopeDegrees": 32.43
+        }
+      ],
+      "expandedPlaneSupport": {
+        "count": 78,
+        "residualMetres": {
+          "count": 78,
+          "minimum": 0.00013299057970073136,
+          "p05": 0.00864597479676057,
+          "median": 0.04234207232535958,
+          "p95": 0.15722135436942355,
+          "maximum": 0.1734382532590999
+        },
+        "boundsUV": {
+          "uMin": -2.4763637615481797,
+          "uMax": 4.855378642595104,
+          "vMin": -4.439551333169781,
+          "vMax": 2.9852605502586482
+        },
+        "heightRH2000": {
+          "count": 78,
+          "minimum": 31.09000015258789,
+          "p05": 31.172500133514404,
+          "median": 32.25,
+          "p95": 33.43000030517578,
+          "maximum": 33.470001220703125
+        }
+      },
+      "observedImageRoofBoundsUV": {
+        "uMin": -3.4481250274309256,
+        "uMax": 3.615325590053692,
+        "vMin": -3.7240899933678833,
+        "vMax": 3.7619279984500102
+      },
+      "observedImageRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597435.04,
+              6615275.68
+            ],
+            [
+              597440.48,
+              6615279.36
+            ],
+            [
+              597445.12,
+              6615273.6
+            ],
+            [
+              597439.36,
+              6615269.76
+            ],
+            [
+              597435.04,
+              6615275.68
+            ]
+          ]
+        ]
+      },
+      "sourceGroundFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597440.9833500367,
+              6615274.818820926
+            ],
+            [
+              597446.3203706024,
+              6615278.534266398
+            ],
+            [
+              597450.0558043123,
+              6615273.194681058
+            ],
+            [
+              597444.7187793319,
+              6615269.479230318
+            ],
+            [
+              597440.9833500367,
+              6615274.818820926
+            ]
+          ]
+        ]
+      },
+      "groundFootprintRetained": true,
+      "displayGeometry": {
+        "bodyBoundsUV": {
+          "uMin": -2.34,
+          "uMax": 4.84,
+          "vMin": -4.31,
+          "vMax": 2.91
+        },
+        "eaveBoundsUV": {
+          "uMin": -2.64,
+          "uMax": 5.14,
+          "vMin": -4.61,
+          "vMax": 3.21
+        },
+        "baseRH2000": 26.54,
+        "eaveRH2000": 30.95,
+        "ridgeRH2000": 33.57,
+        "ridgeV": -0.6105141758243083,
+        "method": "Laser-plane compatible returns in a bounded image buffer; robust support bounds plus 0.3m sampling allowance. Wall rectangle is inset 0.3m from the roof estimate.",
+        "status": "Source-panel reviewed display estimates; dimensions are not surveyed wall measurements",
+        "horizontalUncertaintyMetres": 0.8,
+        "eaveHeightUncertaintyMetres": 0.35
+      },
+      "groundSupport": {
+        "count": 188,
+        "heightRH2000": {
+          "count": 188,
+          "minimum": 25.6299991607666,
+          "p05": 25.903499698638917,
+          "median": 26.540000915527344,
+          "p95": 27.013000297546387,
+          "maximum": 27.15999984741211
+        },
+        "nativeTerrainHeightAtAnchorRH2000": 27.104803393342664,
+        "anchorMinusNativeTerrainMetres": -0.5648033933426646,
+        "interpretation": "Surrounding classified-ground median supplies a display datum. It is not a surveyed floor; nearby native terrain varies and foundations must tolerate that ground variation without shifting the measured roof."
+      },
+      "observedAppearance": "Detached small red pitched roof northwest of the long service barn.",
+      "roofColourDisplayEstimateHex": "995f52",
+      "facadeColourDisplayEstimateHex": null,
+      "limitations": [
+        "2021 laser and 2026 image have different epochs; roof/image relief displacement can move the apparent outline.",
+        "Roof edge estimates include a sampling allowance; facade position and floor elevation are not directly surveyed."
+      ]
+    },
+    {
+      "buildingId": "way/1163533115",
+      "observationId": "tortuna-range-west-barn-roof",
+      "label": "service-yard-west-barn",
+      "roofType": "gable",
+      "localFrame": {
+        "originEpsg3006": [
+          597407.4847608453,
+          6615282.509810901
+        ],
+        "uAxis": [
+          0.5257990369496108,
+          -0.8506088247501679
+        ],
+        "vAxis": [
+          0.8506088247501679,
+          0.5257990369496108
+        ],
+        "anchorEpsg3006RH2000": [
+          597407.4847608453,
+          6615282.509810901,
+          24.86
+        ],
+        "uBearingDegrees": 148.27795038316447
+      },
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "sourceImage": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "measuredPlanes": [
+        {
+          "sourcePlaneIndex": 0,
+          "coefficients": [
+            -0.002773426084565378,
+            0.6907224142321504,
+            32.799797000435284
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 105,
+          "sourceResidualMetres": {
+            "count": 105,
+            "minimum": 0.001,
+            "p05": 0.002,
+            "median": 0.032,
+            "p95": 0.112,
+            "maximum": 0.171
+          },
+          "slopeDegrees": 34.63
+        },
+        {
+          "sourcePlaneIndex": 1,
+          "coefficients": [
+            -0.002773426084565267,
+            -0.7097567423891046,
+            34.28619694771642
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 45,
+          "sourceResidualMetres": {
+            "count": 45,
+            "minimum": 0.001,
+            "p05": 0.004,
+            "median": 0.042,
+            "p95": 0.102,
+            "maximum": 0.118
+          },
+          "slopeDegrees": 35.37
+        }
+      ],
+      "expandedPlaneSupport": {
+        "count": 231,
+        "residualMetres": {
+          "count": 231,
+          "minimum": 0.0006982651534030992,
+          "p05": 0.0027069104777588393,
+          "median": 0.03438295047260098,
+          "p95": 0.11641848316197212,
+          "maximum": 0.17407967675314495
+        },
+        "boundsUV": {
+          "uMin": -8.89479552206229,
+          "uMax": 9.168498576833192,
+          "vMin": -4.288900014269136,
+          "vMax": 6.334018591685575
+        },
+        "heightRH2000": {
+          "count": 231,
+          "minimum": 29.920000076293945,
+          "p05": 30.030000686645508,
+          "median": 31.670000076293945,
+          "p95": 33.35000038146973,
+          "maximum": 33.47999954223633
+        }
+      },
+      "observedImageRoofBoundsUV": {
+        "uMin": -7.709934206353358,
+        "uMax": 8.963149313594526,
+        "vMin": -5.442083519992342,
+        "vMax": 4.874324691729733
+      },
+      "observedImageRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597398.88,
+              6615286.08
+            ],
+            [
+              597406.88,
+              6615291.2
+            ],
+            [
+              597415.36,
+              6615279.04
+            ],
+            [
+              597409.6,
+              6615273.28
+            ],
+            [
+              597398.88,
+              6615286.08
+            ]
+          ]
+        ]
+      },
+      "sourceGroundFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597405.0819214887,
+              6615284.801793473
+            ],
+            [
+              597412.869313894,
+              6615289.661732454
+            ],
+            [
+              597420.6971724451,
+              6615277.175776189
+            ],
+            [
+              597412.9100527498,
+              6615272.304687407
+            ],
+            [
+              597405.0819214887,
+              6615284.801793473
+            ]
+          ]
+        ]
+      },
+      "groundFootprintRetained": true,
+      "displayGeometry": {
+        "bodyBoundsUV": {
+          "uMin": -6.38,
+          "uMax": 8.82,
+          "vMin": -4.11,
+          "vMax": 6.14
+        },
+        "eaveBoundsUV": {
+          "uMin": -6.68,
+          "uMax": 9.12,
+          "vMin": -4.41,
+          "vMax": 6.44
+        },
+        "baseRH2000": 24.86,
+        "eaveRH2000": 29.73,
+        "ridgeRH2000": 33.53,
+        "ridgeV": 1.0613509956600642,
+        "method": "Laser-plane compatible returns in a bounded image buffer; robust support bounds plus 0.3m sampling allowance. Wall rectangle is inset 0.3m from the roof estimate.",
+        "status": "Source-panel reviewed display estimates; dimensions are not surveyed wall measurements",
+        "horizontalUncertaintyMetres": 0.8,
+        "eaveHeightUncertaintyMetres": 0.35
+      },
+      "groundSupport": {
+        "count": 227,
+        "heightRH2000": {
+          "count": 227,
+          "minimum": 24.209999084472656,
+          "p05": 24.353000450134278,
+          "median": 24.860000610351562,
+          "p95": 25.200000762939453,
+          "maximum": 25.40999984741211
+        },
+        "nativeTerrainHeightAtAnchorRH2000": 24.99764169457943,
+        "anchorMinusNativeTerrainMetres": -0.13764169457942899,
+        "interpretation": "Surrounding classified-ground median supplies a display datum. It is not a surveyed floor; nearby native terrain varies and foundations must tolerate that ground variation without shifting the measured roof."
+      },
+      "observedAppearance": "Red pitched roof beside the service-yard access; northeast slope is shaded.",
+      "roofColourDisplayEstimateHex": "a97360",
+      "facadeColourDisplayEstimateHex": null,
+      "limitations": [
+        "2021 laser and 2026 image have different epochs; roof/image relief displacement can move the apparent outline.",
+        "Roof edge estimates include a sampling allowance; facade position and floor elevation are not directly surveyed."
+      ]
+    },
+    {
+      "buildingId": "way/1163533123",
+      "observationId": "tortuna-carpark-west-north-barn-roof",
+      "label": "carpark-west-barn",
+      "roofType": "gable",
+      "localFrame": {
+        "originEpsg3006": [
+          597301.5928969152,
+          6615161.979593678
+        ],
+        "uAxis": [
+          0.8017136310736825,
+          0.5977083350185534
+        ],
+        "vAxis": [
+          -0.5977083350185534,
+          0.8017136310736825
+        ],
+        "anchorEpsg3006RH2000": [
+          597301.5928969152,
+          6615161.979593678,
+          28.98
+        ],
+        "uBearingDegrees": 53.29405505999848
+      },
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "sourceImage": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "measuredPlanes": [
+        {
+          "sourcePlaneIndex": 0,
+          "coefficients": [
+            0.0013060896819802048,
+            -0.5914596988874732,
+            36.0254575678022
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 137,
+          "sourceResidualMetres": {
+            "count": 137,
+            "minimum": 0.0,
+            "p05": 0.006,
+            "median": 0.042,
+            "p95": 0.121,
+            "maximum": 0.207
+          },
+          "slopeDegrees": 30.6
+        },
+        {
+          "sourcePlaneIndex": 1,
+          "coefficients": [
+            0.0013060896819801493,
+            0.607849348169359,
+            35.95182507684706
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 115,
+          "sourceResidualMetres": {
+            "count": 115,
+            "minimum": 0.002,
+            "p05": 0.005,
+            "median": 0.036,
+            "p95": 0.087,
+            "maximum": 0.12
+          },
+          "slopeDegrees": 31.29
+        },
+        {
+          "sourcePlaneIndex": 2,
+          "coefficients": [
+            0.006296942956224044,
+            -0.4842595994747373,
+            38.85286396931666
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 16,
+          "sourceResidualMetres": {
+            "count": 16,
+            "minimum": 0.002,
+            "p05": 0.003,
+            "median": 0.041,
+            "p95": 0.125,
+            "maximum": 0.151
+          },
+          "slopeDegrees": 25.84
+        }
+      ],
+      "expandedPlaneSupport": {
+        "count": 397,
+        "residualMetres": {
+          "count": 397,
+          "minimum": 0.0003125209942993479,
+          "p05": 0.004831248541887589,
+          "median": 0.038261486267252565,
+          "p95": 0.11368760278306524,
+          "maximum": 0.17168236075026044
+        },
+        "boundsUV": {
+          "uMin": -13.08567348905139,
+          "uMax": 16.527733322724504,
+          "vMin": -4.9907881149607025,
+          "vMax": 5.266634380717098
+        },
+        "heightRH2000": {
+          "count": 397,
+          "minimum": 32.9900016784668,
+          "p05": 33.167998504638675,
+          "median": 34.380001068115234,
+          "p95": 35.83000183105469,
+          "maximum": 35.959999084472656
+        }
+      },
+      "observedImageRoofBoundsUV": {
+        "uMin": -13.771878750347053,
+        "uMax": 14.03156960146003,
+        "vMin": -4.747804746534418,
+        "vMax": 4.804674499594748
+      },
+      "observedImageRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597287.68,
+              6615157.6
+            ],
+            [
+              597309.44,
+              6615172.96
+            ],
+            [
+              597315.68,
+              6615166.56
+            ],
+            [
+              597293.6,
+              6615150.88
+            ],
+            [
+              597287.68,
+              6615157.6
+            ]
+          ]
+        ]
+      },
+      "sourceGroundFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597294.613129284,
+              6615157.199059606
+            ],
+            [
+              597298.8783226163,
+              6615150.992953237
+            ],
+            [
+              597321.7682804526,
+              6615166.651663968
+            ],
+            [
+              597317.5027747377,
+              6615172.868878246
+            ],
+            [
+              597294.613129284,
+              6615157.199059606
+            ]
+          ]
+        ]
+      },
+      "groundFootprintRetained": true,
+      "displayGeometry": {
+        "bodyBoundsUV": {
+          "uMin": -12.68,
+          "uMax": 15.65,
+          "vMin": -4.83,
+          "vMax": 5.07
+        },
+        "eaveBoundsUV": {
+          "uMin": -12.98,
+          "uMax": 15.95,
+          "vMin": -5.13,
+          "vMax": 5.37
+        },
+        "baseRH2000": 28.98,
+        "eaveRH2000": 32.84,
+        "ridgeRH2000": 35.99,
+        "ridgeV": 0.06139576044710025,
+        "method": "Laser-plane compatible returns in a bounded image buffer; robust support bounds plus 0.3m sampling allowance. Wall rectangle is inset 0.3m from the roof estimate.",
+        "status": "Source-panel reviewed display estimates; dimensions are not surveyed wall measurements",
+        "horizontalUncertaintyMetres": 0.8,
+        "eaveHeightUncertaintyMetres": 0.35
+      },
+      "groundSupport": {
+        "count": 374,
+        "heightRH2000": {
+          "count": 374,
+          "minimum": 28.139999389648438,
+          "p05": 28.216499233245848,
+          "median": 28.979999542236328,
+          "p95": 29.399999618530273,
+          "maximum": 29.520000457763672
+        },
+        "nativeTerrainHeightAtAnchorRH2000": 28.843262493290517,
+        "anchorMinusNativeTerrainMetres": 0.13673750670948337,
+        "interpretation": "Surrounding classified-ground median supplies a display datum. It is not a surveyed floor; nearby native terrain varies and foundations must tolerate that ground variation without shifting the measured roof."
+      },
+      "observedAppearance": "Long dark roof northwest of the car park; small light roof section at southwest end is retained in selection.",
+      "roofColourDisplayEstimateHex": "77716b",
+      "facadeColourDisplayEstimateHex": null,
+      "limitations": [
+        "2021 laser and 2026 image have different epochs; roof/image relief displacement can move the apparent outline.",
+        "Roof edge estimates include a sampling allowance; facade position and floor elevation are not directly surveyed."
+      ]
+    },
+    {
+      "buildingId": "way/1163607303",
+      "observationId": "tortuna-house-near-hole9-roof",
+      "label": "nearby-house",
+      "roofType": "cross_gable",
+      "localFrame": {
+        "originEpsg3006": [
+          597619.3719744409,
+          6614926.055931843
+        ],
+        "uAxis": [
+          0.8523999384950844,
+          0.5228903755602855
+        ],
+        "vAxis": [
+          -0.5228903755602855,
+          0.8523999384950844
+        ],
+        "anchorEpsg3006RH2000": [
+          597619.3719744409,
+          6614926.055931843,
+          31.89
+        ],
+        "uBearingDegrees": 58.47366735560615
+      },
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "sourceImage": {
+        "id": "nearby-houses",
+        "path": "tortunabuild/cache/buildings/nearby-houses.tif",
+        "sha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+        "west": 597584,
+        "north": 6615024,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "measuredPlanes": [
+        {
+          "sourcePlaneIndex": 0,
+          "coefficients": [
+            -0.005163292253501317,
+            0.4566085018970628,
+            37.48743269614029
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 149,
+          "sourceResidualMetres": {
+            "count": 149,
+            "minimum": 0.001,
+            "p05": 0.006,
+            "median": 0.046,
+            "p95": 0.14,
+            "maximum": 0.215
+          },
+          "slopeDegrees": 24.54
+        },
+        {
+          "sourcePlaneIndex": 1,
+          "coefficients": [
+            0.46868350674996184,
+            0.005362261391634121,
+            35.48757250478748
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 90,
+          "sourceResidualMetres": {
+            "count": 90,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.036,
+            "p95": 0.144,
+            "maximum": 0.179
+          },
+          "slopeDegrees": 25.11
+        },
+        {
+          "sourcePlaneIndex": 2,
+          "coefficients": [
+            -0.005163292253501206,
+            -0.467672217656306,
+            38.089613426638664
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 78,
+          "sourceResidualMetres": {
+            "count": 78,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.064,
+            "p95": 0.141,
+            "maximum": 0.184
+          },
+          "slopeDegrees": 25.07
+        },
+        {
+          "sourcePlaneIndex": 3,
+          "coefficients": [
+            -0.48903915289754285,
+            -0.004195634041173929,
+            40.0829032173597
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 37,
+          "sourceResidualMetres": {
+            "count": 37,
+            "minimum": 0.001,
+            "p05": 0.005,
+            "median": 0.024,
+            "p95": 0.075,
+            "maximum": 0.088
+          },
+          "slopeDegrees": 26.06
+        },
+        {
+          "sourcePlaneIndex": 4,
+          "coefficients": [
+            0.08066978247393077,
+            0.38559869553813186,
+            36.743547315561216
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 23,
+          "sourceResidualMetres": {
+            "count": 23,
+            "minimum": 0.003,
+            "p05": 0.014,
+            "median": 0.092,
+            "p95": 0.177,
+            "maximum": 0.198
+          },
+          "slopeDegrees": 21.5
+        }
+      ],
+      "expandedPlaneSupport": {
+        "count": 454,
+        "residualMetres": {
+          "count": 454,
+          "minimum": 0.00012021004760498499,
+          "p05": 0.0033873260900744396,
+          "median": 0.0384383328035085,
+          "p95": 0.11657803098558718,
+          "maximum": 0.1747132227223105
+        },
+        "boundsUV": {
+          "uMin": -9.375891326747935,
+          "uMax": 8.308597965017999,
+          "vMin": -6.544083238104663,
+          "vMax": 9.16007839635162
+        },
+        "heightRH2000": {
+          "count": 454,
+          "minimum": 34.880001068115234,
+          "p05": 36.01649971008301,
+          "median": 37.02499961853027,
+          "p95": 37.70000076293945,
+          "maximum": 37.790000915527344
+        }
+      },
+      "observedImageRoofBoundsUV": {
+        "uMin": -8.64131542464764,
+        "uMax": 7.327012203647552,
+        "vMin": -5.948878011626033,
+        "vMax": 6.473465872623568
+      },
+      "observedImageRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597609.92,
+              6614925.12
+            ],
+            [
+              597616.48,
+              6614929.12
+            ],
+            [
+              597616.16,
+              6614931.68
+            ],
+            [
+              597621.76,
+              6614934.88
+            ],
+            [
+              597628.64,
+              6614924.96
+            ],
+            [
+              597621.92,
+              6614920.64
+            ],
+            [
+              597613.44,
+              6614919.2
+            ],
+            [
+              597609.92,
+              6614925.12
+            ]
+          ]
+        ]
+      },
+      "sourceGroundFootprintGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597621.1113193831,
+              6614930.271460164
+            ],
+            [
+              597619.5898685977,
+              6614932.838802562
+            ],
+            [
+              597624.8863001335,
+              6614935.962941706
+            ],
+            [
+              597631.1382931299,
+              6614925.374825321
+            ],
+            [
+              597626.4578664739,
+              6614922.623281566
+            ],
+            [
+              597624.8596857982,
+              6614925.322314255
+            ],
+            [
+              597616.6427491963,
+              6614920.484164442
+            ],
+            [
+              597613.510986918,
+              6614925.783653083
+            ],
+            [
+              597621.1113193831,
+              6614930.271460164
+            ]
+          ]
+        ]
+      },
+      "groundFootprintRetained": true,
+      "displayGeometry": {
+        "bodyBoundsUV": {
+          "uMin": -7.05,
+          "uMax": 7.9,
+          "vMin": -6.21,
+          "vMax": 6.22
+        },
+        "eaveBoundsUV": {
+          "uMin": -7.35,
+          "uMax": 8.2,
+          "vMin": -6.51,
+          "vMax": 6.52
+        },
+        "baseRH2000": 31.89,
+        "eaveRH2000": 36.07,
+        "ridgeRH2000": 37.78,
+        "ridgeV": 0.6515128118104219,
+        "method": "Laser-plane compatible returns in a bounded image buffer; robust support bounds plus 0.3m sampling allowance. Wall rectangle is inset 0.3m from the roof estimate.",
+        "status": "Source-panel reviewed display estimates; dimensions are not surveyed wall measurements",
+        "horizontalUncertaintyMetres": 0.8,
+        "eaveHeightUncertaintyMetres": 0.35,
+        "crossGableU": 4.7981852222892565,
+        "components": [
+          {
+            "id": "main-wing",
+            "bodyBoundsUV": {
+              "uMin": -7.05,
+              "uMax": 4.8,
+              "vMin": -2.8,
+              "vMax": 4.05
+            },
+            "roofBoundsUV": {
+              "uMin": -7.35,
+              "uMax": 4.8,
+              "vMin": -3.1,
+              "vMax": 4.35
+            },
+            "roofPlaneIndices": [
+              0,
+              2
+            ],
+            "ridgeAxis": "u",
+            "ridgeCoordinate": 0.6515128118104219,
+            "baseRH2000": 31.89,
+            "roofCornerCoordinatesUVRH2000": [
+              [
+                -7.35,
+                -3.1,
+                36.10989653832263
+              ],
+              [
+                4.8,
+                -3.1,
+                36.04716253744259
+              ],
+              [
+                4.8,
+                4.35,
+                36.03045547701693
+              ],
+              [
+                -7.35,
+                4.35,
+                36.09318947789696
+              ]
+            ],
+            "eaveRH2000": 36.07,
+            "ridgeRH2000": 37.78,
+            "status": "Observed T topology; laser-supported plane domains with estimated wall inset and edge allowance"
+          },
+          {
+            "id": "cross-wing",
+            "bodyBoundsUV": {
+              "uMin": 1.8,
+              "uMax": 7.9,
+              "vMin": -6.21,
+              "vMax": 6.22
+            },
+            "roofBoundsUV": {
+              "uMin": 1.5,
+              "uMax": 8.2,
+              "vMin": -6.51,
+              "vMax": 6.52
+            },
+            "roofPlaneIndices": [
+              1,
+              3
+            ],
+            "ridgeAxis": "v",
+            "ridgeCoordinate": 4.7981852222892565,
+            "baseRH2000": 31.89,
+            "roofCornerCoordinatesUVRH2000": [
+              [
+                1.5,
+                -6.51,
+                36.15568944325288
+              ],
+              [
+                8.2,
+                -6.51,
+                36.100095741207895
+              ],
+              [
+                8.2,
+                6.52,
+                36.045426629651395
+              ],
+              [
+                1.5,
+                6.52,
+                36.22555970918587
+              ]
+            ],
+            "eaveRH2000": 36.13,
+            "ridgeRH2000": 37.74,
+            "status": "Observed T topology; laser-supported plane domains with estimated wall inset and edge allowance"
+          }
+        ],
+        "overallBoundsMeaning": "Envelope of all roof returns, not an enclosed rectangular wall body",
+        "excludedLowerSouthwestArea": {
+          "boundsUV": {
+            "uMin": -7.1,
+            "uMax": 1.5,
+            "vMin": -6.0,
+            "vMax": -3.1
+          },
+          "status": "A lower grey covered veranda/canopy is visible; wall enclosure, ground attachment and detailed material remain uncertain. Do not fill this area as the main house.",
+          "sourceReturnHeightRH2000": {
+            "count": 67,
+            "minimum": 34.880001068115234,
+            "p05": 34.93000030517578,
+            "median": 35.04999923706055,
+            "p95": 35.157000350952146,
+            "maximum": 35.2400016784668
+          }
+        }
+      },
+      "groundSupport": {
+        "count": 586,
+        "heightRH2000": {
+          "count": 586,
+          "minimum": 31.489999771118164,
+          "p05": 31.712499141693115,
+          "median": 31.889999389648438,
+          "p95": 32.029998779296875,
+          "maximum": 32.40999984741211
+        },
+        "nativeTerrainHeightAtAnchorRH2000": 32.239580937642955,
+        "anchorMinusNativeTerrainMetres": -0.34958093764295484,
+        "interpretation": "Surrounding classified-ground median supplies a display datum. It is not a surveyed floor; nearby native terrain varies and foundations must tolerate that ground variation without shifting the measured roof."
+      },
+      "observedAppearance": "Red/brown intersecting house roof east of the current hole 9 tee; use beyond mapped building remains unverified.",
+      "roofColourDisplayEstimateHex": "ab715a",
+      "facadeColourDisplayEstimateHex": null,
+      "limitations": [
+        "2021 laser and 2026 image have different epochs; roof/image relief displacement can move the apparent outline.",
+        "Roof edge estimates include a sampling allowance; facade position and floor elevation are not directly surveyed.",
+        "The house is T-shaped. The two component wall rectangles form the building body; its overall bounding rectangle must not fill the two western setbacks. The lower southwest canopy is excluded from enclosed volumes."
+      ]
+    },
+    {
+      "buildingId": "tortuna-range-shelter",
+      "observationId": "tortuna-range-shelter-roof",
+      "label": "range-shelter",
+      "roofType": "shed",
+      "localFrame": {
+        "originEpsg3006": [
+          597472.8008069693,
+          6615168.506703346
+        ],
+        "uAxis": [
+          0.674769199569051,
+          0.738028811980225
+        ],
+        "vAxis": [
+          -0.738028811980225,
+          0.674769199569051
+        ],
+        "anchorEpsg3006RH2000": [
+          597472.8008069693,
+          6615168.506703346,
+          27.31
+        ],
+        "uBearingDegrees": 42.43622979040716
+      },
+      "sourceEpoch": "2021-04-05T12:00:00Z",
+      "imageEpoch": "2026-05-02",
+      "sourceImage": {
+        "id": "service-yard",
+        "path": "tortunabuild/cache/buildings/service-yard.tif",
+        "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+        "west": 597280,
+        "north": 6615360,
+        "width": 1600,
+        "height": 1600,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "measuredPlanes": [
+        {
+          "sourcePlaneIndex": 0,
+          "coefficients": [
+            0.15301634440987916,
+            0.004710022211222312,
+            30.647332629616912
+          ],
+          "equation": "RH2000=a*u+b*v+c",
+          "sourceInlierReturns": 34,
+          "sourceResidualMetres": {
+            "count": 34,
+            "minimum": 0.001,
+            "p05": 0.002,
+            "median": 0.015,
+            "p95": 0.026,
+            "maximum": 0.042
+          },
+          "slopeDegrees": 8.7
+        }
+      ],
+      "expandedPlaneSupport": {
+        "count": 73,
+        "residualMetres": {
+          "count": 73,
+          "minimum": 0.0004100495679217886,
+          "p05": 0.001565480255358409,
+          "median": 0.016921881987958187,
+          "p95": 0.07177406778530852,
+          "maximum": 0.10562380753519562
+        },
+        "boundsUV": {
+          "uMin": -0.8308188575225274,
+          "uMax": 5.839274679704561,
+          "vMin": -3.7307622798644244,
+          "vMax": 3.8232789086988177
+        },
+        "heightRH2000": {
+          "count": 73,
+          "minimum": 30.479999542236328,
+          "p05": 30.57599983215332,
+          "median": 31.020000457763672,
+          "p95": 31.520000457763672,
+          "maximum": 31.59000015258789
+        }
+      },
+      "observedImageRoofBoundsUV": {
+        "uMin": -3.8090814119837395,
+        "uMax": 3.778698236620982,
+        "vMin": -3.698289012334243,
+        "vMax": 3.7714060266658933
+      },
+      "observedImageRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597472.64,
+              6615173.76
+            ],
+            [
+              597478.08,
+              6615168.8
+            ],
+            [
+              597472.96,
+              6615163.2
+            ],
+            [
+              597467.52,
+              6615168.32
+            ],
+            [
+              597472.64,
+              6615173.76
+            ]
+          ]
+        ]
+      },
+      "sourceGroundFootprintGeometryEpsg3006": null,
+      "groundFootprintRetained": true,
+      "displayGeometry": {
+        "bodyBoundsUV": {
+          "uMin": -0.74,
+          "uMax": 5.75,
+          "vMin": -3.54,
+          "vMax": 3.41
+        },
+        "eaveBoundsUV": {
+          "uMin": -1.04,
+          "uMax": 6.05,
+          "vMin": -3.84,
+          "vMax": 3.71
+        },
+        "baseRH2000": 27.31,
+        "eaveRH2000": 30.51,
+        "ridgeRH2000": 31.53,
+        "ridgeV": 0,
+        "method": "Laser-plane compatible returns in a bounded image buffer; robust support bounds plus 0.3m sampling allowance. Wall rectangle is inset 0.3m from the roof estimate.",
+        "status": "Source-panel reviewed display estimates; dimensions are not surveyed wall measurements",
+        "horizontalUncertaintyMetres": 0.8,
+        "eaveHeightUncertaintyMetres": 0.35
+      },
+      "groundSupport": {
+        "count": 186,
+        "heightRH2000": {
+          "count": 186,
+          "minimum": 26.84000015258789,
+          "p05": 26.93000030517578,
+          "median": 27.309999465942383,
+          "p95": 27.707499504089355,
+          "maximum": 27.760000228881836
+        },
+        "nativeTerrainHeightAtAnchorRH2000": 27.515257040668118,
+        "anchorMinusNativeTerrainMetres": -0.20525704066811912,
+        "interpretation": "Surrounding classified-ground median supplies a display datum. It is not a surveyed floor; nearby native terrain varies and foundations must tolerate that ground variation without shifting the measured roof."
+      },
+      "observedAppearance": "Official photo 2827 confirms the same mapped light roof hut beside the practice bunker: red vertical walls, three tall light panels/doors on the SW facade, broad red solid SE side. Existing range-shelter ID retained; exact function unknown.",
+      "roofColourDisplayEstimateHex": "deded6",
+      "facadeColourDisplayEstimateHex": null,
+      "limitations": [
+        "2021 laser and 2026 image have different epochs; roof/image relief displacement can move the apparent outline.",
+        "Roof edge estimates include a sampling allowance; facade position and floor elevation are not directly surveyed.",
+        "The legacy range-shelter label must not be interpreted as an open driving-range hitting shelter. The source photo shows enclosed walls and panels."
+      ]
+    }
+  ],
+  "backlog": [
+    {
+      "observationId": "tortuna-clubhouse-southwest-shed-roof",
+      "reason": "Observed small hut has no retained runtime source building ID; no model may be hidden inside a neighboring building asset.",
+      "observedRoofGeometryEpsg3006": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              597442.88,
+              6615064.96
+            ],
+            [
+              597447.84,
+              6615064.64
+            ],
+            [
+              597447.68,
+              6615060.96
+            ],
+            [
+              597442.88,
+              6615061.12
+            ],
+            [
+              597442.88,
+              6615064.96
+            ]
+          ]
+        ]
+      },
+      "sourceGrid": {
+        "id": "clubhouse",
+        "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+        "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+        "west": 597406.72,
+        "north": 6615139.52,
+        "width": 800,
+        "height": 800,
+        "resolutionMetres": 0.16,
+        "pixelMeaning": "edge coordinates; E=west+0.16*x, N=north-0.16*y"
+      },
+      "observedAppearance": "Small detached roof beside the west path, omitted from retained OSM buildings; use remains unknown."
+    }
+  ],
+  "immutableSourcePolicy": "These observations never replace the retained OSM/observed source footprints or measured TINs. Display-only Blender assets must be keyed to existing building IDs; the unmapped small hut remains separate backlog."
+}

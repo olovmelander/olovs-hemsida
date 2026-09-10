@@ -1,6 +1,26 @@
 import { authoredBuildings as clubhouseBuildings } from './tortuna-architecture.js';
 import { facilityBuildings } from './tortuna-facilities.js';
 export const authoredBuildings = [...clubhouseBuildings, ...facilityBuildings];
+import { isReviewedRangeFeature, prepareRangeScenery, renderRangeDetails } from './tortuna-range.mjs';
+
+/* THE DRIVING RANGE, measured off the retained 2026 native orthophoto
+   (apps/golf/src/engine/scenery/tortuna-range-site.json): twenty-two hitting
+   mats on the strip above the road, and the ball-stop net standing at the
+   landing field's north-east boundary, its ten posts read off their own
+   shadows. The pack still carries the earlier seventeen-ring reading of the
+   same mats; this is a DISPLAY revision of those outlines, so source
+   inspection (?buildingGeometry=source) returns the scenery itself, untouched
+   and by identity, and applying it twice re-derives rather than accumulates. */
+export function applySurfaceAppearance(scenery, { sourceView = false } = {}) {
+  return sourceView ? scenery : prepareRangeScenery(scenery);
+}
+
+/* The range module owns its mats, so the generic surface renderer must not
+   draw them a second time from the same features. The net is not drawn here:
+   it is see-through, so it goes through the engine's own range-net mesh. */
+export const renderCourtyard = ctx => renderRangeDetails(ctx);
+export const customMappedKinds = ['range_mat'];
+export { isReviewedRangeFeature };
 
 /* Tortuna's clubhouse fallback appearance, reviewed against the club's own photographs
  * club-photo-17 (Klubben.jpeg) and club-photo-65 (DJI_0063-scaled.jpg), plus the
